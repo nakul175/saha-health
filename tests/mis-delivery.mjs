@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';
+import {join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+const dir=mkdtempSync(join(process.cwd(),'.mis-delivery-'));let passed=0;
+try{
+ for(const f of ['types','programmes','core','mis','mis-execution']){const code=ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,f+'.js'),code);}
+ // Injectable persistence models the same compare-and-swap boundary; the API
+ // suite separately executes the real D1 persistence and membership checks.
+ writeFileSync(join(dir,'store.js'),`import {AppError} from './core.js'; export let saved;export let failFinish=false;export function setup(s,f=false){saved=structuredClone(s);failFinish=f}export async function readState(){return structuredClone(saved)}export function scope(s,id){return s.members.find(m=>m.userId===id)}export async function persist(db,before,after,u,c){if(failFinish&&c.type==='misReceipt')throw new AppError(409,'Injected final-write conflict');if(before.organisation.revision!==saved.organisation.revision)throw new AppError(409,'CAS conflict');saved=structuredClone(after);saved.organisation.revision++;}`);
+ const store=await import(pathToFileURL(join(dir,'store.js'))),{executeMis}=await import(pathToFileURL(join(dir,'mis-execution.js')));
+ const actor={userId:'worker',displayName:'Synthetic worker'},member={userId:'worker',role:'clinician',status:'active'},i={id:'mis1',kind:'mis',mode:'http',status:'active',version:1,endpoint:'https://programme.example/api',credentialBinding:'SAHA_MIS_TEST'};
+ const env={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_MIS_TEST:'test',SAHA_MIS_CONNECTIONS:JSON.stringify([{organisationId:'org',integrationId:'mis1',origin:'https://programme.example',credentialBinding:'SAHA_MIS_TEST'}])};
+ const sub={id:'sub',visitId:'v',personId:'p',connectorId:'mis1',state:'queued',attempts:0,payloadHash:'a'.repeat(64),delivery:{endpoint:i.endpoint,credentialBinding:i.credentialBinding,key:'sub',actorId:'worker',connectorVersion:1,personVersion:1,consentVersion:1,visitVersion:1,expiresAt:new Date(Date.now()+60000).toISOString(),payload:{operation:'submit',fields:{weight:'55'}},events:[]}};
+ const state={organisation:{id:'org',revision:1},members:[member],workspace:{role:'clinician',people:[{id:'p',assigned:true,exchangeConsent:true,version:1,consentVersion:1}],visits:[{id:'v',personId:'p',state:'confirmed',version:1}],integrations:[i],submissions:[sub],audit:[]}};
+ const command={type:'sendSubmission',submissionId:'sub'},receipt={contract:'saha-mis-v1',key:'sub',payloadHash:sub.payloadHash,status:'accepted',receipt:'PARTNER-1'};
+ let calls=0;const transport=async()=>{calls++;assert.equal(store.saved.workspace.submissions[0].state,'sending');assert.equal(store.saved.workspace.submissions[0].attempts,1);return receipt};
+ store.setup(state);await executeMis({},structuredClone(state),command,actor,member,'first-key','hash',env,transport);assert.equal(store.saved.workspace.submissions[0].state,'accepted');assert.equal(calls,1);passed++;
+ await executeMis({},await store.readState(),command,actor,member,'different-key','hash',env,transport);assert.equal(calls,1);passed++;
+ calls=0;store.setup(state);const outcomes=await Promise.allSettled([executeMis({},structuredClone(state),command,actor,member,'one','hash',env,transport),executeMis({},structuredClone(state),command,actor,member,'two','hash',env,transport)]);assert.equal(calls,1);assert.equal(outcomes.filter(x=>x.status==='rejected').length,1);passed++;
+ store.setup(state);await executeMis({},structuredClone(state),command,actor,member,'timeout','hash',env,async()=>{throw Error('lost response')});assert.equal(store.saved.workspace.submissions[0].state,'uncertain');passed++;
+ await executeMis({},await store.readState(),command,actor,member,'no-resend','hash',env,()=>{throw Error('Must not call')});assert.equal(store.saved.workspace.submissions[0].attempts,1);passed++;
+ await executeMis({},await store.readState(),{type:'lookupSubmission',submissionId:'sub'},actor,member,'lookup','hash',env,async(a,b,c,body)=>{assert.equal(body.operation,'lookup');assert.equal(body.fields,undefined);return {...receipt,status:'not_found',receipt:undefined}});assert.equal(store.saved.workspace.submissions[0].state,'retryable');passed++;
+ await executeMis({},await store.readState(),command,actor,member,'retry','hash',env,async(a,b,c,body,key)=>{assert.equal(key,'sub');assert.equal(body.payloadHash,sub.payloadHash);return receipt});assert.equal(store.saved.workspace.submissions[0].attempts,2);assert.equal(store.saved.workspace.submissions[0].state,'accepted');passed++;
+ store.setup(state,true);calls=0;await assert.rejects(()=>executeMis({},structuredClone(state),command,actor,member,'interrupted','hash',env,transport),/conflict/);assert.equal(calls,1);assert.equal(store.saved.workspace.submissions[0].state,'sending');passed++;
+ await executeMis({},await store.readState(),command,actor,member,'after-interruption','hash',env,transport);assert.equal(calls,1);passed++;
+ store.setup(state);await executeMis({},structuredClone(state),command,actor,member,'withdraw-flight','hash',env,async()=>{store.saved.workspace.people[0].exchangeConsent=false;return receipt});assert.equal(store.saved.workspace.submissions[0].state,'accepted');assert.equal(store.saved.workspace.people[0].exchangeConsent,false);passed++;
+ const result={passed,suite:'delivery checkpoints with injected transport and CAS store',completedAt:new Date().toISOString()};writeFileSync('tests/mis-delivery-result.json',JSON.stringify(result,null,2)+'\n');console.log(result);
+}finally{rmSync(dir,{recursive:true,force:true})}

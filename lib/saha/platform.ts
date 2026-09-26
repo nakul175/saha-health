@@ -1,3 +1,4 @@
+import { misSchema } from './mis';
 import { agentSchema } from './agent';
 import { programmeSchema, programmeApply } from './programme-commands';
 import { z } from 'zod';
@@ -9,6 +10,7 @@ const role=z.enum(['asha','clinician','supervisor','admin']);
 const teamIds=z.array(str).max(20).refine(x=>new Set(x).size===x.length,'Choose each team once.');
 export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
+ ...misSchema.options,
  ...agentSchema.options,
  ...programmeSchema.options,
  z.object({type:z.literal('createOrganisation'),name:str}),

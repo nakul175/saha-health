@@ -8,7 +8,7 @@ import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.agent-contract-'));
 let passed=0;
 try{
- for(const file of ['types','programmes','core','agent','agent-provider']){let code=ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;code=code.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,file+'.js'),code);}
+ for(const file of ['types','programmes','mis','core','agent','agent-provider']){let code=ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;code=code.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,file+'.js'),code);}
  const {validateOutput,localExtract}=await import(pathToFileURL(join(dir,'agent.js')));const {invokeAgent,readOpenAI}=await import(pathToFileURL(join(dir,'agent-provider.js')));
  const check=fn=>{fn();passed++};const rejects=async(fn,pattern)=>{await assert.rejects(fn,pattern);passed++};
  const input='weight 58 kg';const output={proposals:[{field:'weight',value:'58',quote:input,start:0,end:input.length}],highlights:[]};

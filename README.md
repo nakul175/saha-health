@@ -1,4 +1,8 @@
-# Current release: 3 / v0.4
+# Current release: 4 / v0.5
+
+Programme integration engineering build: mapping, durable outbox, reviewed delivery, receipts, safe retries and linked corrections. **Live acceptance with two actual programme systems remains blocked by partner access.** See [Release 4](RELEASE-4.md) and [MIS contract and setup](MIS-API.md).
+
+# Release 3 baseline
 
 Bounded record assistant delivered; live model activation pending credentials. See [Release 3](RELEASE-3.md) and [provider contract](AGENT-API.md).
 
