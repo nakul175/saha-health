@@ -1,0 +1,23 @@
+{
+  "release": "saha-agent-1.0.0",
+  "softwareRelease": "3 / v0.4",
+  "environment": "synthetic",
+  "tasks": ["extract", "summary", "review"],
+  "policy": "saha-evidence-only-v1",
+  "providerContract": "saha-agent-v1",
+  "builtinModel": "gpt-4.1-mini-2025-04-14",
+  "liveModelActivated": false,
+  "limits": {
+    "maxInvocationsPerRun": 1,
+    "automaticRetries": 0,
+    "maxOutputTokens": 1400,
+    "timeoutMs": 20000,
+    "maxResponseBytes": 64000,
+    "maxNarrativeCharacters": 3000,
+    "maxRunsPerVisit": 30,
+    "maxRunsPerActorOrgUtcDay": 60,
+    "approvalLifetimeMinutes": 15
+  },
+  "checks": ["tests/agent-smoke.mjs", "tests/agent-contract.mjs", "tests/api-smoke.mjs"],
+  "rollback": "Previous Site version retained. Older builds ignore optional visit.agentRuns; do not erase retained source/evidence. Cancel or quarantine unfinished runs before resuming on a changed policy."
+}
