@@ -1,3 +1,4 @@
+import { operationsSchema } from './operations';
 import { fieldSchema } from './field';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
@@ -12,6 +13,7 @@ const role=z.enum(['asha','clinician','supervisor','admin']);
 const teamIds=z.array(str).max(20).refine(x=>new Set(x).size===x.length,'Choose each team once.');
 export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
+ ...operationsSchema.options,
  ...fieldSchema.options,
  ...misSchema.options,
  ...ehrSchema.options,
