@@ -1,4 +1,8 @@
-# Current: Release 8 / v1.0-readiness — Pilot preparation
+# Current: Release 9 / v1.1-readiness — Outreach and expansion
+
+Human-selected outreach plans, contact preferences, independently reviewed reminder simulation and configuration-only expansion proposals. See [RELEASE-9.md](RELEASE-9.md), [OUTREACH-EXPANSION.md](OUTREACH-EXPANSION.md) and [VALIDATION.md](VALIDATION.md). Private synthetic use only; real pilot exit, live messaging and expansion acceptance remain outstanding.
+
+# Prior: Release 8 / v1.0-readiness — Pilot preparation
 
 Bounded synthetic rehearsal configuration, training assessments and personal acknowledgements, baseline/outcome measurements, four-account review, evidence records and incident-linked stage controls. See [RELEASE-8.md](RELEASE-8.md), [PILOT-RUNBOOK.md](PILOT-RUNBOOK.md) and [VALIDATION.md](VALIDATION.md). Full live-pilot acceptance remains outstanding; the workspace is private and synthetic.
 

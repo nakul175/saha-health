@@ -1,9 +1,9 @@
 {
-  "passed": 15,
-  "release": "8 / v1.0-readiness",
+  "passed": 17,
+  "release": "9 / v1.1-readiness",
   "source": "isolated synthetic local D1",
-  "tables": 22,
-  "byteCount": 11849728,
+  "tables": 24,
+  "byteCount": 13021184,
   "checks": [
     "consistent SQLite snapshot",
     "encrypted manifest and database",
@@ -15,8 +15,9 @@
     "built Worker opens restored database",
     "restored records and receipts accessible",
     "pilot training, decisions and version survive restore",
+    "outreach receipt history and expansion evidence survive restore",
     "reading restored workspace does not resend actions"
   ],
   "limitations": "No hosted backup, scheduled retention, infrastructure cutover or production RPO/RTO claim. Device-only drafts excluded.",
-  "completedAt": "2026-09-27T06:00:48.110Z"
+  "completedAt": "2026-09-27T20:27:09.682Z"
 }

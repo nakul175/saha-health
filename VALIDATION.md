@@ -1,3 +1,22 @@
+# Current validation — Release 9 / v1.1-readiness
+
+27 September 2026 (UTC). **1,007 automated checks passed** against synthetic data:
+
+| Suite | Checks |
+| --- | ---: |
+| Built Worker HTTP/database regression, including outreach and expansion | 687 |
+| Outreach/expansion contracts: time zones, stale authority, identity/contact changes, retry limit and maintenance | 55 |
+| Retained agent, MIS, EHR, field, operations and pilot contract suites | 248 |
+| Encrypted local backup and restored Worker, including new records and receipts | 17 |
+
+Strict TypeScript, production build and whitespace validation pass. The append-only migration adds outreach and expansion tables; prior migrations remain unchanged. Recovery validates all 24 local SQLite tables (23 application tables plus metadata). Test reports are tracked under `tests/`.
+
+Browser preview: created a one-person synthetic outreach plan with a named care worker and selection rationale; scheduled it with a reason; recorded an attempted outcome with a source reference; confirmed that plan closure remains blocked while unresolved. Contact preferences showed no automated-contact permission by default. The expansion workspace and proposal form expose local differences, six evidence categories and the explicit live-activation boundary. No additional real account, patient or destination was created or contacted.
+
+API coverage includes team/direct-worker scope and admin PHI denial; independent template/message reviews; shared/unknown/private-contact blocking; preference-change cancellation; due time and duplicate suppression; failed-message replay/retry/follow-up; revoked receipt access; visit-backed completion and reopening after void; strict configuration-only imports; six-category review; changed-spec evidence invalidation and withdrawal. Contract checks additionally exercise approval expiry, current author/reviewer/worker authority, identity changes and daylight-saving-aware local contact windows.
+
+These are local engineering checks. Live messaging/IVR and inbound opt-outs, installed expansion protocols/providers, full 176-requirement traceability and accepted real pilot/G7 evidence remain outstanding. No hosted disaster recovery, production capacity, physical-device, clinical, legal, security or accessibility acceptance is claimed. Earlier sections record historical release evidence.
+
 # Validation — Release 1 / Saha v0.2
 
 26 September 2026 (UTC).
