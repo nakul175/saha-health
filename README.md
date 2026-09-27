@@ -1,3 +1,7 @@
+# Current: Release 6 / v0.7 — Field continuity
+
+Encrypted browser field notebook, signed visit grants, conflict-aware sync, Hindi/English capture, gated on-device dictation and evidence-backed referral ownership. Synthetic use only. Real disconnected-device acceptance, native Android protection, speech accuracy and independent facility outcomes remain outstanding. See [RELEASE-6.md](RELEASE-6.md) and [FIELD-CONTINUITY.md](FIELD-CONTINUITY.md).
+
 # Current release: 5 / v0.6
 
 EHR exchange foundation: explicit patient links, scoped local permissions, FHIR document import/export, reviewed external history and a native FHIR adapter. **Live partner acceptance and ABHA/HIP/HIU implementation remain outstanding.** See [Release 5](RELEASE-5.md) and [EHR/ABDM implementation boundary](EHR-ABDM.md).

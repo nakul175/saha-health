@@ -1,3 +1,4 @@
+import { applyField } from './field';
 import { applyEhr, ehrReadiness } from './ehr';
 import { executeEhr } from './ehr-execution';
 import { configureMis, misReadiness } from './mis';
@@ -55,7 +56,8 @@ async function dispatchCommand(request:Request){
   const agent=await agentApply(state,c,u,m,providers(state.workspace.integrations,runtime()));
   const mis=['configureMis','activateMis','cancelSubmission'].includes(c.type)?await configureMis(state,c as any,u,m,runtime()):null;
   const ehr=c.type.includes('Ehr')?await applyEhr(state,c as any,u,m,runtime()):null;
-  const platform=ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
+  const field=await applyField(state,c,u,m);
+  const platform=field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
   if(platform.handled)result=platform.result;
   else {const oldRole=state.workspace.role;
    if(['toggleIntegration','registerIntegration'].includes(c.type)&&m.isOwner)state.workspace.role='admin';
