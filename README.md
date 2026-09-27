@@ -1,4 +1,8 @@
-# Current: Release 7 / v0.8 — Operations and recovery
+# Current: Release 8 / v1.0-readiness — Pilot preparation
+
+Bounded synthetic rehearsal configuration, training assessments and personal acknowledgements, baseline/outcome measurements, four-account review, evidence records and incident-linked stage controls. See [RELEASE-8.md](RELEASE-8.md), [PILOT-RUNBOOK.md](PILOT-RUNBOOK.md) and [VALIDATION.md](VALIDATION.md). Full live-pilot acceptance remains outstanding; the workspace is private and synthetic.
+
+# Prior: Release 7 / v0.8 — Operations and recovery
 
 Scoped supervisor reporting, aggregate exports, request monitoring, incident ownership, maintenance controls and encrypted local backup/restore. See [RELEASE-7.md](RELEASE-7.md), [OPERATIONS.md](OPERATIONS.md) and [VALIDATION.md](VALIDATION.md). This remains a private synthetic engineering workspace; full pilot acceptance is outstanding. Earlier release notes below are historical and do not supersede the current implementation boundary.
 

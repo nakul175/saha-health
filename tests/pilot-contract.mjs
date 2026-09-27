@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';import ts from 'typescript';import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';import {join} from 'node:path';import {pathToFileURL} from 'node:url';
+const dir=mkdtempSync(join(process.cwd(),'.pilot-contract-'));let passed=0;const check=fn=>{fn();passed++};
+try{
+ for(const f of ['types','programmes','core','mis','operations','access','pilot'])writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ const {defaultPilot,validateConfiguration,pilotContext,pilotReadiness,applyPilot,canMeasure,pilotSchema,authorizePilotCommand}=await import(pathToFileURL(join(dir,'pilot.js')));
+ const members=[['owner','clinician',true],['clinical','clinician',false],['programme','supervisor',false],['security','admin',false],['worker','asha',false],['outside','supervisor',false]].map(([userId,role,isOwner])=>({userId,displayName:userId,role,isOwner,status:'active',version:1,teamIds:userId==='outside'?['b']:role==='admin'?[]:['a']}));
+ const cfg={name:'Synthetic test',location:'Test site',teamIds:['a'],participantIds:['worker'],packIds:['maternal'],connectionIds:['demo'],reviewers:{programme:'programme',clinical:'clinical',security:'security',deployment:'owner'},start:'2026-09-27',end:'2026-09-28',recordLimit:1,stopRule:'Pause on a safety or identity issue.'};
+ const s={organisation:{id:'org'},members,teams:[{id:'a',name:'A'},{id:'b',name:'B'}],pilot:{...defaultPilot(),configuration:cfg,configRevision:1},workspace:{integrations:[{id:'demo',version:1,status:'active',mode:'demo',kind:'ai'}],people:[{id:'p',teamId:'a',assignedTo:'worker',enrolments:[{packId:'maternal',state:'active'}]}],visits:[],submissions:[],referrals:[],audit:[]}};
+ check(()=>assert.doesNotThrow(()=>validateConfiguration(s,cfg)));
+ for(const patch of [{end:'2026-11-01'},{end:'2026-09-26'},{participantIds:['outside']},{connectionIds:['missing']},{reviewers:{...cfg.reviewers,clinical:'worker'}}])check(()=>assert.throws(()=>validateConfiguration(s,{...cfg,...patch})));
+ check(()=>assert.equal(pilotSchema.safeParse({type:'pilotConfigure',version:0,configuration:{...cfg,unexpected:'value'}}).success,false));
+ check(()=>assert.equal(pilotSchema.safeParse({type:'pilotConfigure',version:0,configuration:{...cfg,participantIds:['worker','worker']}}).success,false));
+ check(()=>assert.equal(canMeasure(members[3],cfg),false));check(()=>assert.equal(canMeasure(members[2],cfg),true));check(()=>assert.equal(canMeasure(members[5],cfg),false));
+ const hash=await pilotContext(s);for(const mutate of [copy=>copy.workspace.integrations[0].version++,copy=>copy.members[4].status='suspended',copy=>copy.members[1].teamIds=['b'],copy=>copy.pilot.configuration.recordLimit=2,copy=>copy.teams[0].name='Renamed']){const copy=structuredClone(s);mutate(copy);const changed=await pilotContext(copy);check(()=>assert.notEqual(changed,hash));}
+ const before=await pilotReadiness(s,new Date('2026-09-26T00:00:00Z'));check(()=>assert.ok(before.blockers.some(x=>x.includes('dates'))));
+ const exceeded=structuredClone(s);exceeded.workspace.people.push({...exceeded.workspace.people[0],id:'p2'});const limit=await pilotReadiness(exceeded,new Date('2026-09-27T00:00:00Z'));check(()=>assert.ok(limit.blockers.some(x=>x.includes('record limit'))));
+ const empty=structuredClone(s);empty.workspace.people=[];const none=await pilotReadiness(empty,new Date('2026-09-27T00:00:00Z'));check(()=>assert.ok(none.blockers.some(x=>x.includes('at least one'))));
+ check(()=>assert.throws(()=>authorizePilotCommand(s,members[5],{type:'pilotEvidence'}),/access required/));
+ const command={type:'pilotAssessTraining',version:0,userId:'worker',module:'privacy',result:'passed',reference:'SYNTHETIC-1',note:'Synthetic controlled training exercise.'};
+ await assert.rejects(()=>applyPilot(structuredClone(s),command,{userId:'outside',displayName:'Outside'},members[5]),/team scope/);passed++;
+ const needs=structuredClone(s);await applyPilot(needs,{...command,result:'needs_practice'},{userId:'owner',displayName:'Owner'},members[0]);await assert.rejects(()=>applyPilot(needs,{type:'pilotAcknowledgeTraining',version:1,id:needs.pilot.training[0].id},{userId:'worker',displayName:'Worker'},members[4]),/more practice/);passed++;
+ const live={...s,workspace:{...s.workspace,integrations:[{...s.workspace.integrations[0],mode:'http'}]}};check(()=>assert.throws(()=>validateConfiguration(live,cfg),/demonstration/));
+ const revoked=structuredClone(s);revoked.pilot.configuration.reviewers.clinical='owner';check(()=>assert.throws(()=>authorizePilotCommand(revoked,members[1],{type:'pilotDecision',role:'clinical'}),/named reviewer/));
+ writeFileSync('tests/pilot-contract-result.json',JSON.stringify({passed,suite:'pilot scope, temporal bounds, separation, fingerprint invalidation and authority',completedAt:new Date().toISOString()},null,2)+'\n');console.log(`${passed} pilot contract checks passed`);
+}finally{rmSync(dir,{recursive:true,force:true})}

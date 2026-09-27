@@ -1,3 +1,4 @@
+import { applyPilot, authorizePilotCommand } from './pilot';
 import { boundedJsonBody } from './request-body';
 import { applyOperations, ensureOperating, operator } from './operations';
 import { applyField } from './field';
@@ -30,7 +31,7 @@ async function parseRequest(request:Request){const origin=request.headers.get('o
 async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof parseRequest>>){
  const u=await identity(),{key,c}=parsed,hash=await digest(c);await ensureAccount(db(),u);
  const old=await db().prepare('SELECT org_id,hash,result,person_id FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;hash:string;result:string;person_id:string|null}>();
- if(old){if(old.hash!==hash)fail(409,'This operation key was already used for different input.');if(!['switchOrganisation','joinOrganisation','createOrganisation'].includes(c.type)&&request.headers.get('x-saha-organisation')&&old.org_id!==request.headers.get('x-saha-organisation'))fail(409,'This operation key belongs to a different organisation.');const state=await loadFor(u,old.org_id);const m=scope(state,u.userId);if(old.person_id)person(state.workspace,old.person_id);if(c.type.startsWith('ops')&&!operator(m))fail(403,'Operations access required.');if(['opsMaintenance','opsRates'].includes(c.type)&&!m.isOwner)fail(403,'Owner access required.');if(['createInvite','revokeInvite','updateMember','createTeam','renameOrganisation','enableAgentContract','configureMis','activateMis','testMis','configureEhr','activateEhr','probeEhr'].includes(c.type)&&!m.isOwner)fail(403,'Your current membership cannot access this action.');return {result:JSON.parse(old.result),snapshot:await snapshotFor(state,u),replayed:true};}
+ if(old){if(old.hash!==hash)fail(409,'This operation key was already used for different input.');if(!['switchOrganisation','joinOrganisation','createOrganisation'].includes(c.type)&&request.headers.get('x-saha-organisation')&&old.org_id!==request.headers.get('x-saha-organisation'))fail(409,'This operation key belongs to a different organisation.');const state=await loadFor(u,old.org_id);const m=scope(state,u.userId);if(old.person_id)person(state.workspace,old.person_id);authorizePilotCommand(state,m,c);if(c.type.startsWith('ops')&&!operator(m))fail(403,'Operations access required.');if(['opsMaintenance','opsRates'].includes(c.type)&&!m.isOwner)fail(403,'Owner access required.');if(['createInvite','revokeInvite','updateMember','createTeam','renameOrganisation','enableAgentContract','configureMis','activateMis','testMis','configureEhr','activateEhr','probeEhr'].includes(c.type)&&!m.isOwner)fail(403,'Your current membership cannot access this action.');return {result:JSON.parse(old.result),snapshot:await snapshotFor(state,u),replayed:true};}
  if(c.type==='createOrganisation'){
   const count=await db().prepare('SELECT count(*) AS n FROM memberships WHERE user_id=? AND is_owner=1 AND status=?').bind(u.userId,'active').first<{n:number}>();if((count?.n??0)>=10)fail(422,'This release supports up to 10 organisations owned by one account.');
   const now=new Date().toISOString(),orgId=`org_${(await digest(`${u.userId}:${key}`)).slice(0,32)}`,w=seedWorkspace(now);w.people=[];
@@ -59,8 +60,9 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const mis=['configureMis','activateMis','cancelSubmission'].includes(c.type)?await configureMis(state,c as any,u,m,runtime()):null;
   const ehr=c.type.includes('Ehr')?await applyEhr(state,c as any,u,m,runtime()):null;
   const field=await applyField(state,c,u,m);
+  const pilot=await applyPilot(state,c,u,m);
   const ops=applyOperations(state,c,u,m);
-  const platform=ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
+  const platform=pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
   if(platform.handled)result=platform.result;
   else {const oldRole=state.workspace.role;
    if(['toggleIntegration','registerIntegration'].includes(c.type)&&m.isOwner)state.workspace.role='admin';

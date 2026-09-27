@@ -71,3 +71,8 @@ export const requestMetrics = sqliteTable('request_metrics', {
  orgId:text('org_id').notNull().references(()=>organisations.id), bucket:text('bucket').notNull(), route:text('route').notNull(), status:integer('status').notNull(),
  count:integer('count').notNull(), totalMs:integer('total_ms').notNull(), maxMs:integer('max_ms').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.bucket,t.route,t.status]})]);
+
+// Bounded rehearsal configuration and evidence. No clinical records or credentials.
+export const pilot = sqliteTable('pilot', {
+ orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
+});
