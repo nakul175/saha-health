@@ -82,3 +82,8 @@ export const outreach = sqliteTable('outreach', {
 export const expansions = sqliteTable('expansions', {
  orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
 });
+
+// Versioned review packages, synthetic evaluations and scoped safety cases.
+export const governance = sqliteTable('governance', {
+ orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
+});

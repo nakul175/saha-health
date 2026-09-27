@@ -8,7 +8,7 @@ import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.agent-contract-'));
 let passed=0;
 try{
- for(const file of ['types','programmes','mis','core','agent','agent-provider']){let code=ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;code=code.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,file+'.js'),code);}
+ for(const file of ['types','programmes','mis','core','agent','governance','access','agent-provider']){let code=ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;code=code.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,file+'.js'),code);}
  const {validateOutput,localExtract}=await import(pathToFileURL(join(dir,'agent.js')));const {invokeAgent,readOpenAI}=await import(pathToFileURL(join(dir,'agent-provider.js')));
  const check=fn=>{fn();passed++};const rejects=async(fn,pattern)=>{await assert.rejects(fn,pattern);passed++};
  const input='weight 58 kg';const output={proposals:[{field:'weight',value:'58',quote:input,start:0,end:input.length}],highlights:[]};
@@ -19,6 +19,8 @@ try{
  check(()=>assert.throws(()=>validateOutput(output,input,'summary'),/cannot propose/));
  const bad='temperature 58 C';check(()=>assert.throws(()=>validateOutput({proposals:[{...output.proposals[0],quote:bad,end:bad.length}],highlights:[]},bad,'extract'),/units/));
  check(()=>assert.equal(localExtract('yesterday weight 58 kg; mother weight 55 kg; no cough for 3 days').proposals.length,0));
+ const negative='No weight 58 kg';check(()=>assert.throws(()=>validateOutput({proposals:[{field:'weight',value:'58',quote:'weight 58 kg',start:3,end:15}],highlights:[]},negative,'extract'),/context/));
+ const pressure='BP 120/80 mmHg';check(()=>assert.throws(()=>validateOutput({proposals:[{field:'systolic',value:'80',quote:pressure,start:0,end:pressure.length}],highlights:[]},pressure,'extract'),/field/));
  const run={id:'contract-run',task:'extract',input,provider:{id:'openai',mode:'openai',model:'gpt-4.1-mini-2025-04-14'}};const runtime={OPENAI_API_KEY:'test-not-a-real-key',SAHA_EXTERNAL_APIS_ENABLED:'true'};
  let calls=0;const send=async(url,init)=>{calls++;check(()=>{assert.equal(url,'https://api.openai.com/v1/responses');assert.equal(init.redirect,'error');assert.equal(init.headers['Idempotency-Key'],run.id);const body=JSON.parse(init.body);assert.equal(body.store,false);assert.equal(body.max_output_tokens,1400);assert.equal(body.text.format.strict,true);assert.equal(body.tools,undefined);assert.equal(body.previous_response_id,undefined);assert.deepEqual(JSON.parse(body.input),{task:'extract',source:input})});return Response.json({status:'completed',model:run.provider.model,output:[{type:'message',content:[{type:'output_text',text:JSON.stringify(output)}]}],usage:{input_tokens:100,output_tokens:60}})};
  const result=await invokeAgent(run,{},runtime,[],send);check(()=>{assert.equal(calls,1);assert.equal(result.output.proposals[0].value,'58');assert.equal(result.usage.outputTokens,60)});

@@ -1,3 +1,5 @@
+import { governanceSchema } from './governance';
+import { evaluationSchema } from './evaluation';
 import { continuitySchema, transferPatientWork } from './continuity';
 import { pilotSchema } from './pilot';
 import { outreachSchema } from './outreach';
@@ -18,6 +20,8 @@ const teamIds=z.array(str).max(20).refine(x=>new Set(x).size===x.length,'Choose 
 export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
  ...continuitySchema.options,
+ ...governanceSchema.options,
+ ...evaluationSchema.options,
  ...operationsSchema.options,
  ...pilotSchema.options,
  ...outreachSchema.options,

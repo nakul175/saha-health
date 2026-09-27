@@ -1,4 +1,8 @@
-# Current: Release 10 / v1.2-readiness — Requirements and continuity
+# Current: Release 11 / v1.3-readiness — AI and clinical governance
+
+Versioned source/service/protocol/capability reviews, scoped synthetic evaluation, model-independent clinical review, governed referral drafts and encounter-linked safety cases. See [RELEASE-11.md](RELEASE-11.md), [AI-GOVERNANCE.md](AI-GOVERNANCE.md) and [requirements traceability](REQUIREMENTS-TRACEABILITY.md). Five future batches remain planned, plus open R11 live-provider and clinical-validation work. All 176 formal acceptance criteria remain pending. Private synthetic use only.
+
+# Prior: Release 10 / v1.2-readiness — Requirements and continuity
 
 All 176 BRD requirements audited; scoped duplicate review, provisional identity, positive patient confirmation and atomic open-work handover added. See [RELEASE-10.md](RELEASE-10.md), [REQUIREMENTS-TRACEABILITY.md](REQUIREMENTS-TRACEABILITY.md), [CORE-CONTINUITY.md](CORE-CONTINUITY.md) and [REMAINING-RELEASES.md](REMAINING-RELEASES.md). Six further delivery batches are planned; all formal acceptance criteria remain pending. Private synthetic use only.
 

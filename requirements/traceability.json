@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-27",
-  "engineeringRelease": "R10",
+  "engineeringRelease": "R11",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 129,
-    "not-built": 24,
+    "partial": 134,
+    "not-built": 19,
     "unverified": 9
   },
   "acceptance": {
@@ -426,7 +426,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -447,7 +451,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -461,14 +469,18 @@
       "sourceTextLine": 204,
       "implementation": "partial",
       "target": "R11",
-      "current": "Grounded draft extraction with source quotes and user-selected field application.",
-      "remaining": "Mixed-language/noisy-speaker clinical corpus and validated ambiguity handling.",
+      "current": "Grounded field extraction checks exact quotes, full-clause ambiguity and field/value alignment; synthetic language-specific scoring.",
+      "remaining": "Representative mixed-language/noisy-speaker corpus, broad ambiguity handling and correction-burden acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -482,14 +494,18 @@
       "sourceTextLine": 207,
       "implementation": "partial",
       "target": "R11",
-      "current": "New visits do not inherit old measurements; EHR history remains separate.",
-      "remaining": "Configurable concept-specific reuse age and quality policies for each programme/model.",
+      "current": "New visits do not inherit old measurements; bounded protocol rules reject stale/future observations using reviewed freshness limits.",
+      "remaining": "Concept-specific reuse and quality policies across every programme/model, including clinical acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -510,7 +526,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -531,7 +551,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -552,7 +576,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -591,7 +619,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -612,7 +644,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -633,7 +669,11 @@
         "lib/saha/core.ts",
         "lib/saha/platform.ts",
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -665,13 +705,17 @@
       "sourceTextLine": 236,
       "implementation": "partial",
       "target": "R11",
-      "current": "Three illustrative version-pinned programme packs and episode state.",
-      "remaining": "Full manifests, approved protocols, independent activation and governed indicators.",
+      "current": "Version-pinned illustrative packs plus immutable, independently reviewed source/service/protocol packages.",
+      "remaining": "Integrate complete governed manifests with programme questions, indicators and approved clinical protocols.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -685,13 +729,17 @@
       "sourceTextLine": 239,
       "implementation": "partial",
       "target": "R11",
-      "current": "Maternal episodes, unknown start dates, questions, follow-ups and closure.",
-      "remaining": "Approved symptoms, escalation, missed-visit/outcome logic and clinical scenario evidence.",
+      "current": "Maternal episodes and follow-ups plus a programme-scoped source-backed rule-review framework.",
+      "remaining": "Approved maternal symptoms, escalation, missed-visit/outcome logic and clinical scenario evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -705,13 +753,17 @@
       "sourceTextLine": 242,
       "implementation": "partial",
       "target": "R11",
-      "current": "TB local episode, symptom questions and testing follow-up without diagnosis claims.",
-      "remaining": "Approved symptom protocol, AI eligibility and non-suppressible referral/escalation logic.",
+      "current": "TB episodes and testing follow-up plus bounded protocol/worker-concern review without model dependency.",
+      "remaining": "Approved TB protocol, tested urgent referral paths and non-suppressible clinical escalation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -725,13 +777,17 @@
       "sourceTextLine": 245,
       "implementation": "partial",
       "target": "R11",
-      "current": "BP and reported medicine-access capture; no prescribing path.",
-      "remaining": "Approved measurement context, adherence, schedules, escalation and clinical review.",
+      "current": "BP and medicine-access capture plus bounded, reviewed observation rules; no prescribing path.",
+      "remaining": "Approved measurement/adherence context, schedules, escalation and independent clinical evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -751,7 +807,11 @@
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -771,7 +831,11 @@
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -785,13 +849,17 @@
       "sourceTextLine": 254,
       "implementation": "partial",
       "target": "R11",
-      "current": "Historical visits pin pack versions.",
-      "remaining": "Effective dates, affected-case analysis, transition rules and reviewed open-case migration.",
+      "current": "Immutable protocol revisions, effective/review dates, dependency invalidation, scoped related records and new-review-only transition.",
+      "remaining": "Reviewed open-episode migration and coordinated version changes across the full programme-pack engine.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -811,7 +879,11 @@
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/programme-commands.ts",
-        "tests/programme-smoke.mjs"
+        "tests/programme-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -832,7 +904,11 @@
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -846,14 +922,18 @@
       "sourceTextLine": 265,
       "implementation": "partial",
       "target": "R11",
-      "current": "Patient/visit-scoped agent input and no unrestricted conversation memory.",
-      "remaining": "Sensitive identifiers inside narratives and broader purpose-specific minimisation review.",
+      "current": "Patient/task-scoped input, exact-source approval and rejection of common identifiers in external narratives.",
+      "remaining": "Comprehensive sensitive-data minimisation, representative leak testing and purpose-specific review.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -867,14 +947,18 @@
       "sourceTextLine": 268,
       "implementation": "partial",
       "target": "R11",
-      "current": "Role, assignment, permission, provider status and current versions are checked.",
-      "remaining": "Machine-enforced jurisdiction, population, intended-use, language, device and quality eligibility.",
+      "current": "Use-time checks for reviewed capability, model/agent, age, care team/role, task, language, setting and browser device.",
+      "remaining": "Jurisdiction, broader population/clinical scope, professional verification and quality eligibility acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -895,7 +979,11 @@
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -916,7 +1004,11 @@
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -937,7 +1029,11 @@
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -951,14 +1047,18 @@
       "sourceTextLine": 280,
       "implementation": "partial",
       "target": "R11",
-      "current": "Timeout, one-call runs, bounded request counts and cancellation.",
-      "remaining": "Monetary budgets and provider-billing-aware fallback/alerts.",
+      "current": "One-call checkpointing, timeout/cancellation, per-capability daily call and reserved-token quotas; no automatic provider substitution.",
+      "remaining": "Monetary budgets, billing-aware alerts and validated provider outage operation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -979,7 +1079,11 @@
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -993,14 +1097,18 @@
       "sourceTextLine": 286,
       "implementation": "partial",
       "target": "R11",
-      "current": "Extracted fields carry exact source evidence; no diagnosis is generated.",
-      "remaining": "Approved clinical rule/source attribution and consequential recommendation validation.",
+      "current": "Exact field evidence plus saved protocol findings with source edition/link and service-version attribution.",
+      "remaining": "Verified clinical source content and consequential recommendation acceptance on representative scenarios.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1014,14 +1122,18 @@
       "sourceTextLine": 289,
       "implementation": "partial",
       "target": "R11",
-      "current": "Structured capture remains available when live AI is unavailable.",
-      "remaining": "Valid cached clinical protocols, draft referral/escalation availability during outages.",
+      "current": "Structured capture and current source-backed rule/referral review operate without a model.",
+      "remaining": "Approved outage pathways, offline cached protocols and device-level escalation acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1053,14 +1165,18 @@
       "sourceTextLine": 295,
       "implementation": "partial",
       "target": "R11",
-      "current": "Agent release and model identifiers are pinned; source and regression history retained.",
-      "remaining": "Independent prompt/routing approval, impact analysis and operational configuration rollback.",
+      "current": "Pinned agent/model and immutable capability revisions; independent review, retirement/hold and scoped related-encounter list.",
+      "remaining": "Formal prompt/routing change approval, complete impact analysis and operational rollback validation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
         "lib/saha/agent-execution.ts",
         "tests/agent-contract.mjs",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1074,14 +1190,20 @@
       "sourceTextLine": 300,
       "implementation": "partial",
       "target": "R11",
-      "current": "Provider IDs, endpoints, model contract and version exist.",
-      "remaining": "Complete accountable manifest, evidence, support contacts and scope-gated activation.",
+      "current": "Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required.",
+      "remaining": "Live provider onboarding, evidence ownership and verification of the full accountable manifest.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1095,14 +1217,20 @@
       "sourceTextLine": 303,
       "implementation": "partial",
       "target": "R11",
-      "current": "Administrative tasks are bounded and clinical outputs are disclaimed.",
-      "remaining": "Machine-checkable approved ages, populations, settings, languages, devices and excluded uses.",
+      "current": "Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable.",
+      "remaining": "Verified intended use, jurisdiction and broader population criteria with representative clinical evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1114,10 +1242,10 @@
       "requirement": "Evidence records shall identify model version, evaluation context, limitations and review decisions. Regulatory status and local deployment authorisation shall be recorded separately from technical integration and sandbox evaluation.",
       "acceptance": "Acceptance: A technically successful API test cannot activate a clinical capability without the required documented evidence and deployment approvals.",
       "sourceTextLine": 306,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R11",
-      "current": "Technical activation gates do not represent a clinical evidence authorisation registry.",
-      "remaining": "Version-specific evaluation, regulatory status and independent deployment approvals.",
+      "current": "Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use.",
+      "remaining": "Regulatory status, representative clinical evidence and signed deployment authorisation; no real approval recorded.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -1134,14 +1262,20 @@
       "sourceTextLine": 309,
       "implementation": "partial",
       "target": "R11",
-      "current": "Profiles can be configured, activated or suspended.",
-      "remaining": "Full registered/verified/reviewed/scoped/shadow/retired/replaced lifecycle and affected-work review.",
+      "current": "Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views.",
+      "remaining": "Verified registration, scoped shadow operation, complete impact queues and live lifecycle acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1155,14 +1289,20 @@
       "sourceTextLine": 312,
       "implementation": "partial",
       "target": "R11",
-      "current": "Strict structured-provider and basic legacy response validation.",
-      "remaining": "Capability-specific semantics, media/asynchronous contracts and rejected-response quarantine.",
+      "current": "Strict documentary output contracts, exact evidence/field checks and checkpointed failed results.",
+      "remaining": "Capability-specific clinical semantics, media/asynchronous contracts and governed rejected-response quarantine.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1176,14 +1316,20 @@
       "sourceTextLine": 315,
       "implementation": "partial",
       "target": "R11",
-      "current": "Unable-to-assess and invalid/failed results stay distinct from success.",
-      "remaining": "Signal/media quality checks and unsupported-population failure taxonomy.",
+      "current": "Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently.",
+      "remaining": "Signal/media quality checks, complete unsupported-population taxonomy and representative validation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1197,14 +1343,20 @@
       "sourceTextLine": 318,
       "implementation": "partial",
       "target": "R11",
-      "current": "Agent provider/model versions are pinned and changed versions rejected.",
-      "remaining": "Equivalent version enforcement for legacy AI and formal provider contract change review.",
+      "current": "Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled.",
+      "remaining": "Formal provider change review, live contract compatibility and historical legacy provenance limitations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1218,14 +1370,20 @@
       "sourceTextLine": 321,
       "implementation": "partial",
       "target": "R11",
-      "current": "Structured identity is excluded from agent payload; mapped facts are bounded.",
-      "remaining": "Free-text minimisation and enforceable retention, training, subprocessors and region terms.",
+      "current": "Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference.",
+      "remaining": "Complete minimisation and enforceable provider retention, training, subprocessor and region compliance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1239,14 +1397,20 @@
       "sourceTextLine": 324,
       "implementation": "partial",
       "target": "R11",
-      "current": "Original AI and agent results retain provider attribution and review state.",
-      "remaining": "Complete model/version/input-time provenance for legacy result paths.",
+      "current": "Original outputs, model/provider, versioned source and reasoned human decisions are retained.",
+      "remaining": "Complete legacy provenance, end-to-end input-time semantics and external-provider acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1260,14 +1424,20 @@
       "sourceTextLine": 327,
       "implementation": "partial",
       "target": "R11",
-      "current": "Manual suspension and basic request/usage metrics.",
-      "remaining": "Capability-specific quality monitoring, affected-case queues and ground-truth review.",
+      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold.",
+      "remaining": "Representative quality/drift monitoring, ground-truth annotation, alerting and clinical response operations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1299,14 +1469,20 @@
       "sourceTextLine": 333,
       "implementation": "partial",
       "target": "R11",
-      "current": "Known token usage, cost assumptions and request ceilings.",
+      "current": "Per-capability daily call and reserved-token limits with reported usage and bounded synthetic evaluations.",
       "remaining": "Provider/tenant/task monetary budgets, alerts and invoice reconciliation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
         "lib/saha/agent.ts",
         "tests/agent-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1318,10 +1494,10 @@
       "requirement": "Clinical content shall come from approved, versioned sources with publisher, effective date, local applicability and reviewer. Retrieval shall favour content approved for the current programme and user role.",
       "acceptance": "Acceptance: Superseded or unapproved guidance cannot be offered as current advice, and each displayed recommendation links to its source.",
       "sourceTextLine": 340,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R11",
-      "current": "No approved clinical source library or retrieval system.",
-      "remaining": "Versioned publisher/effective-date/applicability/reviewer records and source-linked retrieval.",
+      "current": "Immutable source metadata retains publisher/edition/link, applicability, owner, effective dates and independent review; protocols cite it.",
+      "remaining": "Approved source acquisition/content verification, document retrieval and clinical authorisation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -1336,10 +1512,10 @@
       "requirement": "Eligibility, warning signs, thresholds, contraindications and referral logic shall be represented through approved rules or explicitly approved clinical capabilities. The language model may explain them but may not rewrite them during a visit.",
       "acceptance": "Acceptance: Rephrasing a prompt does not change a protocol's decision for the same confirmed facts.",
       "sourceTextLine": 343,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R11",
-      "current": "Illustrative capture questions do not implement approved clinical decision logic.",
-      "remaining": "Approved rules for eligibility, warning signs, contraindications and referrals.",
+      "current": "Bounded declarative observation/worker-concern rules with age/programme scope, freshness, sources and verified service dependencies.",
+      "remaining": "Clinically approved eligibility/red-flag logic, contraindications/interactions and scenario acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -1354,10 +1530,10 @@
       "requirement": "When an approved protocol identifies a need for urgent escalation, the application shall show the locally approved action and contacts immediately. A pending AI call shall not delay that action.",
       "acceptance": "Acceptance: An urgent synthetic scenario follows the configured escalation path when cloud AI and external MIS services are unavailable.",
       "sourceTextLine": 346,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R11",
-      "current": "No approved local urgent escalation directory or offline clinical rule path.",
-      "remaining": "Immediate model-independent escalation with verified local contacts.",
+      "current": "Model-independent urgent-review findings cite current sources and service contacts; unknowns remain explicit.",
+      "remaining": "Approved escalation pathways, response operations and verified offline clinical availability.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -1380,7 +1556,11 @@
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/agent.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1394,13 +1574,17 @@
       "sourceTextLine": 352,
       "implementation": "partial",
       "target": "R11",
-      "current": "Outputs can be marked reviewed and extracted fields selected.",
-      "remaining": "Accept/reject/override decisions with reason and preserved clinical evidence.",
+      "current": "Reasoned accept/reject/override decisions retain original assistant and protocol evidence; clinician-only protocol decisions.",
+      "remaining": "Verified clinical authority and acceptance across all consequential task types and corrections.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/agent.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1450,13 +1634,17 @@
       "sourceTextLine": 361,
       "implementation": "partial",
       "target": "R11",
-      "current": "Generic operational incidents retain owner and resolution evidence.",
-      "remaining": "Encounter-linked harm reporting, clinical owner, version preservation and capability hold.",
+      "current": "Encounter-linked safety cases bind original versions, named clinical ownership, resolution evidence and optional capability/protocol hold.",
+      "remaining": "Real incident response operations, independent review and harm reporting acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
         "lib/saha/agent.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2147,7 +2335,11 @@
         "lib/saha/outreach.ts",
         "lib/saha/field.ts",
         "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs"
+        "tests/outreach-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2159,10 +2351,10 @@
       "requirement": "Referral destinations shall come from an approved directory containing service capability, location, contact route, operating constraints and verification date. The agent shall not invent a facility or claim unverified availability.",
       "acceptance": "Acceptance: A stale or unavailable service listing is labelled and routes the worker to an approved alternative or supervisor.",
       "sourceTextLine": 476,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R11",
-      "current": "Referral facility is free text, not an approved service directory.",
-      "remaining": "Verified services, contacts, constraints, freshness and approved alternatives.",
+      "current": "Versioned service metadata, contacts, constraints, verification and expiry gate source-backed referral drafts; legacy free text is labelled.",
+      "remaining": "Real local-directory verification, urgent alternatives, availability updates and independent facility acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -2187,7 +2379,11 @@
         "lib/saha/outreach.ts",
         "lib/saha/field.ts",
         "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs"
+        "tests/outreach-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2209,7 +2405,11 @@
         "lib/saha/outreach.ts",
         "lib/saha/field.ts",
         "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs"
+        "tests/outreach-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2231,7 +2431,11 @@
         "lib/saha/outreach.ts",
         "lib/saha/field.ts",
         "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs"
+        "tests/outreach-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2253,7 +2457,11 @@
         "lib/saha/outreach.ts",
         "lib/saha/field.ts",
         "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs"
+        "tests/outreach-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2275,7 +2483,11 @@
         "lib/saha/outreach.ts",
         "lib/saha/field.ts",
         "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs"
+        "tests/outreach-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2297,7 +2509,11 @@
         "lib/saha/outreach.ts",
         "lib/saha/field.ts",
         "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs"
+        "tests/outreach-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2901,14 +3117,18 @@
       "sourceTextLine": 595,
       "implementation": "partial",
       "target": "R11",
-      "current": "Blank facts stay blank; programme absence values and grounded extraction.",
-      "remaining": "Complete distinct missing/refused/uncertain semantics across every downstream resource.",
+      "current": "Unknown facts remain unknown; stale or absent rule inputs surface missing evidence and cannot silently become normal.",
+      "remaining": "Distinct missing/refused/uncertain semantics across every downstream resource.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2929,7 +3149,11 @@
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2950,7 +3174,11 @@
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2971,7 +3199,11 @@
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2992,7 +3224,11 @@
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3013,7 +3249,11 @@
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3034,7 +3274,11 @@
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3055,7 +3299,11 @@
         "lib/saha/core.ts",
         "lib/saha/agent.ts",
         "lib/saha/programmes.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3105,12 +3353,16 @@
       "sourceTextLine": 696,
       "implementation": "partial",
       "target": "R11",
-      "current": "Agent checkpoint, pending status and provider deadlines.",
+      "current": "Durable agent/evaluation checkpoints, visible case progress and provider deadlines; no automatic resend.",
       "remaining": "Two-second acknowledgement and task-specific completion evidence under representative load.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
-        "tests/agent-smoke.mjs"
+        "tests/agent-smoke.mjs",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3349,11 +3601,17 @@
       "sourceTextLine": 735,
       "implementation": "unverified",
       "target": "R11",
-      "current": "Synthetic parser/provider contract fixtures only.",
-      "remaining": "Representative annotated extraction corpus, field-level precision/recall and subgroup correction burden.",
+      "current": "Fixed 18-case corpus with field/language/group precision, recall, false positives/misses; English parser fixture pass and Hindi failure recorded.",
+      "remaining": "Representative independently annotated corpus, clinical subgroups, correction burden and accuracy acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3367,13 +3625,19 @@
       "sourceTextLine": 738,
       "implementation": "partial",
       "target": "R11",
-      "current": "Wrong-person, role, stale-approval and bounded-agent negative tests.",
+      "current": "Synthetic adversarial/source-context, stale governance, scope, lifecycle, safety-hold and referral-dependency tests.",
       "remaining": "Approved clinical escalation/adversarial corpus, independent named reviewer sign-off and issue disposition.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
         "lib/saha/pilot.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
