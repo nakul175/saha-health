@@ -3,7 +3,7 @@ import { fail, uuid } from './core';
 import { allowed } from './access';
 import type { Actor } from './store';
 import type { OrgState, Member } from './types';
-export const RELEASE='9 / v1.1-readiness';
+export const RELEASE='10 / v1.2-readiness';
 export type Incident={id:string;title:string;severity:'critical'|'high'|'normal';state:'open'|'investigating'|'resolved';ownerId:string;createdAt:string;updatedAt:string;resolution?:string;evidence?:string};
 export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null};
 export const defaultOperations=():Operations=>({version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null});

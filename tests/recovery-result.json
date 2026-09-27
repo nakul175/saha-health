@@ -1,9 +1,9 @@
 {
-  "passed": 17,
-  "release": "9 / v1.1-readiness",
+  "passed": 19,
+  "release": "10 / v1.2-readiness",
   "source": "isolated synthetic local D1",
   "tables": 24,
-  "byteCount": 13021184,
+  "byteCount": 16691200,
   "checks": [
     "consistent SQLite snapshot",
     "encrypted manifest and database",
@@ -16,8 +16,9 @@
     "restored records and receipts accessible",
     "pilot training, decisions and version survive restore",
     "outreach receipt history and expansion evidence survive restore",
+    "resolved identities, handover acknowledgements and positive patient checks survive restore",
     "reading restored workspace does not resend actions"
   ],
   "limitations": "No hosted backup, scheduled retention, infrastructure cutover or production RPO/RTO claim. Device-only drafts excluded.",
-  "completedAt": "2026-09-27T20:27:09.682Z"
+  "completedAt": "2026-09-27T21:04:15.245Z"
 }

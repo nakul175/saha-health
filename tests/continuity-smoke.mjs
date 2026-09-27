@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+export async function continuitySmoke({get,post,check,accounts,org,sql,base}){
+ const {owner:o,worker:w,clinician:c,supervisor:s,admin:a,stranger:x}=accounts;
+ const query=async(who,body,status=200,extras={})=>{const r=await fetch(base+'/api/patient-matches',{method:'POST',headers:{...(who?.headers??{}),'Content-Type':'application/json','x-saha-organisation':org,...extras},body:JSON.stringify(body)}),raw=await r.text(),j=(()=>{try{return JSON.parse(raw)}catch{throw Error('Patient search '+r.status+': '+raw)}})();check(()=>assert.equal(r.status,status,JSON.stringify(j)));return j;};
+ await get(o,'/api/workspace',200,org);const original={name:'Synthetic Identity Alpha',age:31,sex:'Unknown',village:'Synthetic identity locality',teamId:'default'},create={type:'createPerson',...original,programme:'General care'};
+ const first=(await post(o,create)).result.personId;
+ await query(null,original,401);await query(a,original,403);await query(x,original,403);await query(o,original,403,{Origin:'https://evil.example'});await query(o,{...original,unexpected:true},422);
+ let matches=await query(o,original);check(()=>{assert.equal(matches.candidates.length,1);assert.equal(matches.candidates[0].id,first)});
+ const near=await query(o,{...original,name:'Synthetic Identity Alpa'});check(()=>assert.equal(near.candidates[0].id,first));
+ const hidden=await query(w,original);check(()=>assert.equal(hidden.candidates.length,0));
+ await post(o,create,409);await post(o,{...create,registrationReview:{hash:'a'.repeat(64),decision:'distinct',reason:'Synthetic separate person after review.'}},409);
+ const provisionalId=(await post(o,{...create,registrationReview:{hash:matches.hash,decision:'provisional',reason:'Synthetic uncertain identity retained for clinician review.'}})).result.personId;
+ check(()=>assert.equal(o.state.people.find(p=>p.id===provisionalId).identityReview.state,'provisional'));
+ await post(o,{...create,registrationReview:{hash:matches.hash,decision:'distinct',reason:'This old candidate set must now be stale.'}},409);
+ matches=await query(o,original);const twin=(await post(o,{...create,registrationReview:{hash:matches.hash,decision:'distinct',reason:'Synthetic twin is a distinct person with reviewed local evidence.'}})).result.personId;check(()=>{assert.notEqual(twin,first);assert.equal(o.state.people.filter(p=>p.name===original.name).length,3)});
+ const visitId=(await post(o,{type:'startVisit',personId:provisionalId})).result.visitId;let visit=o.state.visits.find(v=>v.id===visitId);await post(o,{type:'saveVisit',visitId,version:visit.version,facts:{...visit.facts,notes:'Synthetic provisional draft; identity remains unresolved.'}});visit=o.state.visits.find(v=>v.id===visitId);
+ await post(o,{type:'confirmVisit',visitId,version:visit.version},409);await post(o,{type:'prepareAgent',visitId,version:visit.version,providerId:'local',task:'extract',input:'Synthetic draft'},409);
+ let p=o.state.people.find(p=>p.id===provisionalId);await post(o,{type:'assignPatient',personId:p.id,version:p.version,teamId:'default',assignedTo:w.id,reason:'Assign provisional synthetic record to worker for draft capture.'});
+ await get(w,'/api/workspace',200,org);p=w.state.people.find(p=>p.id===provisionalId);await post(w,{type:'resolvePatientIdentity',personId:p.id,version:p.version,reason:'The worker cannot act as a clinician identity reviewer.',reference:'SYNTHETIC'},403);
+ await get(c,'/api/workspace',200,org);p=c.state.people.find(p=>p.id===provisionalId);await post(c,{type:'resolvePatientIdentity',personId:p.id,version:p.version,reason:'Clinician verified this separate synthetic person against local evidence.',reference:'SYNTHETIC-ID-REVIEW'});
+ await get(w,'/api/workspace',200,org);visit=w.state.visits.find(v=>v.id===visitId);p=w.state.people.find(p=>p.id===provisionalId);
+ await post(w,{type:'confirmVisit',visitId,version:visit.version,patientCheck:null},422);
+ await post(w,{type:'confirmVisit',visitId,version:visit.version,patientCheck:{personId:first,personVersion:p.version,confirmed:true}},409);
+ await post(w,{type:'confirmVisit',visitId,version:visit.version,patientCheck:{personId:p.id,personVersion:p.version-1,confirmed:true}},409);
+ await post(w,{type:'confirmVisit',visitId,version:visit.version});check(()=>{const v=w.state.visits.find(v=>v.id===visitId);assert.equal(v.patientCheck.by,w.id);assert.equal(v.patientCheck.personId,provisionalId)});
+ // Build several types of open work and transfer them as one atomic change.
+ p=w.state.people.find(p=>p.id===provisionalId);const episode=(await post(w,{type:'enrolProgramme',personId:p.id,version:p.version,packId:'tb',episodeLabel:'Synthetic continuity episode',startDate:null})).result.enrolmentId;
+ p=w.state.people.find(p=>p.id===provisionalId);await post(w,{type:'scheduleFollowUp',personId:p.id,version:p.version,enrolmentId:episode,title:'Synthetic continuity follow-up',due:new Date().toISOString().slice(0,10),ownerId:w.id});
+ const referralId=(await post(w,{type:'createReferral',visitId,facility:'Synthetic continuity facility',reason:'Synthetic care handover exercise.'})).result.referralId;
+ await post(w,{type:'assignReferral',referralId,version:1,ownerId:w.id,due:new Date().toISOString().slice(0,10),reason:'Set synthetic referral responsibility.'});
+ const planId=(await post(w,{type:'outreachCreate',title:'Synthetic continuity outreach',date:new Date().toISOString().slice(0,10),teamId:'default',ownerId:w.id,personIds:[p.id],criteria:'Synthetic open work to transfer with patient assignment.'})).result.planId;
+ await get(w,'/api/workspace',200,org);p=w.state.people.find(p=>p.id===provisionalId);await post(w,{type:'prepareFieldVisit',personId:p.id,version:p.version});
+ await get(o,'/api/workspace',200,org);p=o.state.people.find(p=>p.id===provisionalId);await post(o,{type:'assignPatient',personId:p.id,version:p.version,teamId:'default',assignedTo:null,reason:'Open work cannot lose its responsible care worker.'},409);
+ const transferKey=crypto.randomUUID(),transfer={type:'assignPatient',personId:p.id,version:p.version,teamId:'default',assignedTo:c.id,reason:'Transfer all synthetic open tasks to the receiving clinician.'};await post(o,transfer,200,transferKey);const replay=await post(o,transfer,200,transferKey);check(()=>assert.equal(replay.replayed,true));
+ await get(c,'/api/workspace',200,org);p=c.state.people.find(p=>p.id===provisionalId);check(()=>{assert.equal(p.followUps.find(t=>t.state==='open').ownerId,c.id);assert.equal(c.state.referrals.find(r=>r.id===referralId).ownerId,c.id);assert.ok(p.fieldLeases.every(l=>l.status!=='active'));assert.equal(p.assignmentHistory.at(-1).openWork,3)});
+ const outreach=await get(c,'/api/outreach',200,org);check(()=>assert.equal(outreach.plans.find(p=>p.id===planId).items[0].ownerId,c.id));
+ let queue=await get(c,'/api/continuity',200,org);check(()=>assert.ok(queue.people.some(p=>p.id===provisionalId&&!p.handover.acknowledgement)));await get(a,'/api/continuity',403,org);await get(x,'/api/continuity',403,org);
+ await post(w,{type:'acknowledgeAssignment',personId:p.id,version:p.version,assignmentId:p.assignmentHistory.at(-1).id,reference:'SYNTHETIC-ACK'},403);
+ await post(o,{type:'acknowledgeAssignment',personId:p.id,version:p.version,assignmentId:p.assignmentHistory.at(-1).id,reference:'SYNTHETIC-ACK'},403);
+ const ackKey=crypto.randomUUID(),ack={type:'acknowledgeAssignment',personId:p.id,version:p.version,assignmentId:p.assignmentHistory.at(-1).id,reference:'SYNTHETIC-RECEIVING-WORKER'};await post(c,ack,200,ackKey);await post(c,ack,200,ackKey);queue=await get(c,'/api/continuity',200,org);check(()=>assert.ok(!queue.people.some(p=>p.id===provisionalId)));
+ await get(o,'/api/workspace',200,org);let member=o.state.members.find(m=>m.userId===c.id);await post(o,{type:'updateMember',userId:c.id,version:member.version,role:member.role,teamIds:member.teamIds,isOwner:false,status:'suspended',reason:'Synthetic suspended owner must appear in care exception queue.'});queue=await get(s,'/api/continuity',200,org);check(()=>assert.equal(queue.people.find(p=>p.id===provisionalId).unavailableOwners,3));
+ member=o.state.members.find(m=>m.userId===c.id);await post(o,{type:'updateMember',userId:c.id,version:member.version,role:member.role,teamIds:member.teamIds,isOwner:false,status:'active',reason:'Restore synthetic clinician after exception queue verification.'});
+ check(()=>{const saved=JSON.parse(sql.prepare('SELECT data FROM patients WHERE org_id=? AND id=?').get(org,provisionalId).data);assert.equal(saved.identityReview.state,'resolved');assert.equal(saved.assignmentHistory.at(-1).acknowledgement.by,c.id);assert.ok(sql.prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=? AND action=?').get(org,'acknowledgeAssignment').n>0)});
+}

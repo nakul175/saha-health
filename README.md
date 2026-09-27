@@ -1,4 +1,8 @@
-# Current: Release 9 / v1.1-readiness — Outreach and expansion
+# Current: Release 10 / v1.2-readiness — Requirements and continuity
+
+All 176 BRD requirements audited; scoped duplicate review, provisional identity, positive patient confirmation and atomic open-work handover added. See [RELEASE-10.md](RELEASE-10.md), [REQUIREMENTS-TRACEABILITY.md](REQUIREMENTS-TRACEABILITY.md), [CORE-CONTINUITY.md](CORE-CONTINUITY.md) and [REMAINING-RELEASES.md](REMAINING-RELEASES.md). Six further delivery batches are planned; all formal acceptance criteria remain pending. Private synthetic use only.
+
+# Prior: Release 9 / v1.1-readiness — Outreach and expansion
 
 Human-selected outreach plans, contact preferences, independently reviewed reminder simulation and configuration-only expansion proposals. See [RELEASE-9.md](RELEASE-9.md), [OUTREACH-EXPANSION.md](OUTREACH-EXPANSION.md) and [VALIDATION.md](VALIDATION.md). Private synthetic use only; real pilot exit, live messaging and expansion acceptance remain outstanding.
 
