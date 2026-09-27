@@ -62,3 +62,13 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - TypeScript no-emit and Worker production build pass.
 - Browser: existing workspace loaded; registered a suspended synthetic MIS profile; opened mapping controls; edited notes destination to visit_notes; enabled linked corrections; saved and refreshed; reviewed persisted fields. Test and activation controls correctly disabled without server grants/credentials.
 - No actual programme endpoint, credential, callback ingress or real patient data used. Real two-destination acceptance is blocked, not simulated as passed. Callback route code and HMAC contract exist; full hosted callback E2E is not claimed. Autonomous background dispatch is deferred; sending is explicitly worker-driven after durable queue creation.
+
+## Release 5 / v0.6 — 27 September 2026
+
+- 340 API/database assertions pass against the local Worker and D1, retaining earlier release checks and adding EHR configuration, patient linking, scoped permissions, document review and persistence gates.
+- 46 FHIR/EHR contract assertions and 8 exchange checkpoint assertions pass with injected HTTP transport and CAS persistence: structural document checks, reference resolution, patient identity, time windows, capabilities, receipts, checkpoint-before-send, concurrent approvals, interrupted saves and receipt-only recovery.
+- Existing 43 MIS contract, 10 MIS checkpoint and 21 AI contract assertions pass. Total: 468 automated checks. Mock transport checks are not live partner acceptance or hosted concurrency tests.
+- TypeScript no-emit and Worker production build pass.
+- Browser preview: inspected ABDM readiness gates; added a suspended synthetic FHIR partner; saved read capabilities; confirmed testing/activation are unavailable without server credentials. Opened an existing synthetic patient, explicitly confirmed an external patient reference, and verified its active link is displayed while external sharing remains off. Existing confirmed visit and programme evidence remain visible.
+- No real EHR, ABDM gateway, live credential or real patient data used. ABHA/HIP/HIU workflows are not implemented. Official ABDM profile validation and live partner acceptance remain outstanding; full Release 5 acceptance is not claimed.
+- Desktop preview only; mobile, accessibility, clinical validation and production backup/restore acceptance are not claimed.

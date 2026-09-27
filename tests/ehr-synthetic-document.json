@@ -1,0 +1,322 @@
+{
+  "resourceType": "Bundle",
+  "id": "document-test",
+  "meta": {
+    "versionId": "1",
+    "tag": [
+      {
+        "system": "urn:saha:environment",
+        "code": "synthetic-unvalidated"
+      }
+    ]
+  },
+  "identifier": {
+    "system": "urn:saha:documents",
+    "value": "document-test"
+  },
+  "type": "document",
+  "timestamp": "2026-09-27T03:23:57.384Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:98173198-b260-4666-91cc-151b77156ec9",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "document-test",
+        "status": "final",
+        "type": {
+          "text": "Community visit record"
+        },
+        "subject": {
+          "reference": "urn:uuid:00f719b3-674d-42a1-96d2-c0eb9fba09ed"
+        },
+        "encounter": {
+          "reference": "urn:uuid:256e4e64-8fcc-4696-8433-7bb68ce84a95"
+        },
+        "date": "2026-09-01T10:00:00.000Z",
+        "author": [
+          {
+            "reference": "urn:uuid:a917510f-ddd3-4404-a1a2-2357cad3d678"
+          }
+        ],
+        "title": "Synthetic community visit record",
+        "custodian": {
+          "reference": "urn:uuid:506768a6-e16f-46a3-b8cb-dae5760df1f5"
+        },
+        "section": [
+          {
+            "title": "Recorded observations",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Synthetic &lt;script&gt;alert(1)&lt;/script&gt; &amp; notes</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:531267a6-168f-4b1c-8f58-15fcb4566ebc"
+              },
+              {
+                "reference": "urn:uuid:eb2e25cc-d6bd-4e8d-8e44-67904d257f1a"
+              },
+              {
+                "reference": "urn:uuid:47c7c913-b4f4-46c0-aaca-b30923fa5ddc"
+              },
+              {
+                "reference": "urn:uuid:693cb2fb-1652-41bf-89e6-47580a8c837a"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:531267a6-168f-4b1c-8f58-15fcb4566ebc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5317efda-07b9-46fe-92df-306adddc958e",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "29463-7",
+              "display": "Body weight"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:00f719b3-674d-42a1-96d2-c0eb9fba09ed"
+        },
+        "encounter": {
+          "reference": "urn:uuid:256e4e64-8fcc-4696-8433-7bb68ce84a95"
+        },
+        "effectiveDateTime": "2026-09-01T10:00:00.000Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:a917510f-ddd3-4404-a1a2-2357cad3d678"
+          }
+        ],
+        "valueQuantity": {
+          "value": 55,
+          "unit": "kg",
+          "system": "http://unitsofmeasure.org",
+          "code": "kg"
+        },
+        "note": [
+          {
+            "text": "Recorded source: reported. Synthetic record."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:eb2e25cc-d6bd-4e8d-8e44-67904d257f1a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1329bc8c-a5e5-475a-bca0-8b57b13499ee",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8310-5",
+              "display": "Body temperature"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:00f719b3-674d-42a1-96d2-c0eb9fba09ed"
+        },
+        "encounter": {
+          "reference": "urn:uuid:256e4e64-8fcc-4696-8433-7bb68ce84a95"
+        },
+        "effectiveDateTime": "2026-09-01T10:00:00.000Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:a917510f-ddd3-4404-a1a2-2357cad3d678"
+          }
+        ],
+        "valueQuantity": {
+          "value": 37,
+          "unit": "°C",
+          "system": "http://unitsofmeasure.org",
+          "code": "Cel"
+        },
+        "note": [
+          {
+            "text": "Recorded source: reported. Synthetic record."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:47c7c913-b4f4-46c0-aaca-b30923fa5ddc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "06bf56a5-6de4-4ef7-8b11-08aaf36313ce",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8480-6",
+              "display": "Systolic blood pressure"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:00f719b3-674d-42a1-96d2-c0eb9fba09ed"
+        },
+        "encounter": {
+          "reference": "urn:uuid:256e4e64-8fcc-4696-8433-7bb68ce84a95"
+        },
+        "effectiveDateTime": "2026-09-01T10:00:00.000Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:a917510f-ddd3-4404-a1a2-2357cad3d678"
+          }
+        ],
+        "valueQuantity": {
+          "value": 120,
+          "unit": "mmHg",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        },
+        "note": [
+          {
+            "text": "Recorded source: reported. Synthetic record."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:693cb2fb-1652-41bf-89e6-47580a8c837a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a32437a5-5cff-4ca6-9b58-4908868af10d",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8462-4",
+              "display": "Diastolic blood pressure"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:00f719b3-674d-42a1-96d2-c0eb9fba09ed"
+        },
+        "encounter": {
+          "reference": "urn:uuid:256e4e64-8fcc-4696-8433-7bb68ce84a95"
+        },
+        "effectiveDateTime": "2026-09-01T10:00:00.000Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:a917510f-ddd3-4404-a1a2-2357cad3d678"
+          }
+        ],
+        "valueQuantity": {
+          "value": 80,
+          "unit": "mmHg",
+          "system": "http://unitsofmeasure.org",
+          "code": "mm[Hg]"
+        },
+        "note": [
+          {
+            "text": "Recorded source: reported. Synthetic record."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00f719b3-674d-42a1-96d2-c0eb9fba09ed",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "external-1",
+        "name": [
+          {
+            "text": "Test Person"
+          }
+        ],
+        "gender": "other"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:256e4e64-8fcc-4696-8433-7bb68ce84a95",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "77426d0a-2916-4526-80dd-59764482df9b",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "HH"
+        },
+        "subject": {
+          "reference": "urn:uuid:00f719b3-674d-42a1-96d2-c0eb9fba09ed"
+        },
+        "period": {
+          "start": "2026-09-01T10:00:00.000Z"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:506768a6-e16f-46a3-b8cb-dae5760df1f5",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "c56a312d-7081-4371-8ad6-95ff8e8a0875",
+        "name": "Test organisation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a917510f-ddd3-4404-a1a2-2357cad3d678",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "5cd872ad-e87c-4489-a15f-e7148a0c1eab",
+        "name": [
+          {
+            "text": "Test worker"
+          }
+        ]
+      }
+    }
+  ]
+}

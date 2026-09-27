@@ -1,4 +1,8 @@
-# Current release: 4 / v0.5
+# Current release: 5 / v0.6
+
+EHR exchange foundation: explicit patient links, scoped local permissions, FHIR document import/export, reviewed external history and a native FHIR adapter. **Live partner acceptance and ABHA/HIP/HIU implementation remain outstanding.** See [Release 5](RELEASE-5.md) and [EHR/ABDM implementation boundary](EHR-ABDM.md).
+
+# Release 4 baseline
 
 Programme integration engineering build: mapping, durable outbox, reviewed delivery, receipts, safe retries and linked corrections. **Live acceptance with two actual programme systems remains blocked by partner access.** See [Release 4](RELEASE-4.md) and [MIS contract and setup](MIS-API.md).
 

@@ -1,3 +1,4 @@
+import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { agentSchema } from './agent';
 import { programmeSchema, programmeApply } from './programme-commands';
@@ -11,6 +12,7 @@ const teamIds=z.array(str).max(20).refine(x=>new Set(x).size===x.length,'Choose 
 export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
  ...misSchema.options,
+ ...ehrSchema.options,
  ...agentSchema.options,
  ...programmeSchema.options,
  z.object({type:z.literal('createOrganisation'),name:str}),
