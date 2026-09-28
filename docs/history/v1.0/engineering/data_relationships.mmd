@@ -1,0 +1,13 @@
+erDiagram
+  PERSON ||--o{ ENCOUNTER : has
+  PERSON ||--o{ IDENTIFIER_LINK : maps
+  ENCOUNTER ||--o{ OBSERVATION : records
+  ENCOUNTER ||--o{ AGENT_PLAN : plans
+  AGENT_PLAN ||--o{ ACTION_APPROVAL : binds
+  ENCOUNTER ||--o{ SUBMISSION : sends
+  CONNECTOR ||--o{ SUBMISSION : handles
+  ENCOUNTER ||--o{ AI_REQUEST : requests
+  PROVIDER_CAPABILITY ||--o{ AI_REQUEST : serves
+  AI_REQUEST ||--o{ AI_RESULT : produces
+  PERSON ||--o{ AUTHORITY_RECORD : scopes
+  ENCOUNTER ||--o{ REFERRAL : initiates

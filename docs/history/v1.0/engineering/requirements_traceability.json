@@ -1,0 +1,3346 @@
+[
+  {
+    "id": "BR-UX-01",
+    "title": "One task entry point",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The worker shall start a visit, follow-up or screening from one workspace. Eligible programme activities and AI functions shall appear within that task without requiring the worker to select a vendor application.",
+    "acceptance": "The approved multi-programme journey completes through one authenticated workspace with no separate AI login or manual transfer of patient details.",
+    "design_id": "FR-UX-01",
+    "design": "The home screen groups tasks by person and encounter. Provider selection remains behind an eligible capability action.",
+    "negative": "Disable one programme destination while another remains available; the visit remains usable and displays the missing route.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-01-A",
+      "TC-BR-UX-01-B"
+    ]
+  },
+  {
+    "id": "BR-UX-02",
+    "title": "Clear patient and visit context",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The interface shall show the active person and visit throughout capture, model use and action review. Changing patients shall explicitly close or suspend the current context and clear uncommitted cross-person inputs.",
+    "acceptance": "Patient-switch tests cannot attach the prior person's recording, answer or AI result to the next person.",
+    "design_id": "FR-UX-02",
+    "design": "Every patient-specific request carries person and encounter IDs validated against the active session context.",
+    "negative": "Switch patients with an unsaved voice draft; the old draft must not appear in the new encounter.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-02-A",
+      "TC-BR-UX-02-B"
+    ]
+  },
+  {
+    "id": "BR-UX-03",
+    "title": "Voice text and guided entry",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Workers shall be able to speak, type or use structured questions for the same core workflow. Voice shall be optional; background listening shall be disabled. Users shall control recording, playback and deletion before submission.",
+    "acceptance": "A user completes each pilot journey without using a microphone and can review or correct a voice-derived value before confirmation.",
+    "design_id": "FR-UX-03",
+    "design": "Voice capture has visible start, stop, playback and discard actions; the same fields accept typed or guided input.",
+    "negative": "Deny microphone permission and complete the encounter with guided input.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-03-A",
+      "TC-BR-UX-03-B"
+    ]
+  },
+  {
+    "id": "BR-UX-04",
+    "title": "Structured encounter summary",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The workspace shall display confirmed facts, uncertain facts, missing information and proposed actions as separate readable elements. A conversational answer shall not be the only way to discover task status.",
+    "acceptance": "Usability participants can identify the next required step and each unresolved field without searching a transcript.",
+    "design_id": "FR-UX-04",
+    "design": "The summary has confirmed facts, unresolved facts, recommendations and external actions as four distinct groups.",
+    "negative": "Supply an uncertain date and an AI suggestion; neither may render as a confirmed observation.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-04-A",
+      "TC-BR-UX-04-B"
+    ]
+  },
+  {
+    "id": "BR-UX-05",
+    "title": "Language and accessibility",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The pilot shall support approved interface, speech and content languages, initially Hindi and English if suitable for the selected site. Critical content shall have reviewed translations. Numeric values, units and names shall survive language changes.",
+    "acceptance": "The same encounter retains meaning across supported languages and passes the defined accessibility and language-specific task tests.",
+    "design_id": "FR-UX-05",
+    "design": "Language is a user preference; concepts and numeric values are language-neutral. Reviewed clinical strings have version IDs.",
+    "negative": "Switch language after entering a decimal measurement; the value and unit remain identical.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-05-A",
+      "TC-BR-UX-05-B"
+    ]
+  },
+  {
+    "id": "BR-UX-06",
+    "title": "Status that reflects reality",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The application shall distinguish saved on device, saved on server, awaiting review, submitted, accepted, rejected and unresolved. A general completion tick shall never imply that every destination accepted a record.",
+    "acceptance": "Simultaneous success in one programme and failure in another produces separate visible statuses and a specific recovery action.",
+    "design_id": "FR-UX-06",
+    "design": "Show one state per destination plus a separate encounter-save state. Completion derives from required actions.",
+    "negative": "Accept destination A and reject B; no overall all-submitted status may appear.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-06-A",
+      "TC-BR-UX-06-B"
+    ]
+  },
+  {
+    "id": "BR-UX-07",
+    "title": "Resume interrupted work",
+    "priority": "Must",
+    "release": "R1",
+    "body": "An interrupted visit shall reopen at its last durable state with captured data, outstanding questions and pending actions. Users shall not repeat a successfully recorded measurement solely because a screen or connection was lost.",
+    "acceptance": "App restart, incoming call and network-loss scenarios retain every field previously shown as durably saved.",
+    "design_id": "FR-UX-07",
+    "design": "Persist a draft revision after each committed field change and store the last completed workflow step.",
+    "negative": "Terminate the application after a successful local save and before sync; reopen the same draft revision.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-07-A",
+      "TC-BR-UX-07-B"
+    ]
+  },
+  {
+    "id": "BR-UX-08",
+    "title": "Low literacy and field use",
+    "priority": "Should",
+    "release": "R1",
+    "body": "Common actions shall use short labels, clear touch targets and a small number of steps. Audio guidance shall be available only on demand to avoid disclosure in a shared setting. Progress shall not rely on colour alone.",
+    "acceptance": "Representative workers complete the principal tasks under the defined field usability protocol, including noisy and private-entry conditions.",
+    "design_id": "FR-UX-08",
+    "design": "Critical actions use short labels and text plus icon status. Optional audio guidance stops before private playback.",
+    "negative": "Use the flow with colour perception disabled and a shared-device privacy setting; status remains understandable.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-08-A",
+      "TC-BR-UX-08-B"
+    ]
+  },
+  {
+    "id": "BR-UX-09",
+    "title": "Explainable action review",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Before committing consequential actions, users shall see what will happen, the receiving organisation and the information involved in language suited to their role. Safe routine actions may be grouped by encounter under configured policy.",
+    "acceptance": "A worker can exclude one proposed destination or edit one fact before confirming the remaining permitted action bundle.",
+    "design_id": "FR-UX-09",
+    "design": "Approval review lists purpose, recipient and exact record revisions. The worker can exclude an optional action.",
+    "negative": "Change the recipient after approval; execution must require a fresh review.",
+    "package": "WP03",
+    "screens": "SCR01 SCR02 SCR03 SCR04 SCR05 SCR06 SCR07",
+    "components": "C01 C03",
+    "apis": "API004 API006 API038 API039",
+    "tests": [
+      "TC-BR-UX-09-A",
+      "TC-BR-UX-09-B"
+    ]
+  },
+  {
+    "id": "BR-ID-01",
+    "title": "Workforce lifecycle",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall support invitation or approved import, identity verification, role assignment, activation, suspension, reassignment and removal. Every account shall belong to an accountable organisation; shared credentials shall not be the operating model.",
+    "acceptance": "A suspended user's online access and pending privileged actions are revoked within the NFR limit, with offline limits disclosed.",
+    "design_id": "FR-ID-01",
+    "design": "Membership activation follows institutional verification; suspension increments a revocation version consumed by all services.",
+    "negative": "Suspend a user with an active browser session and queued work; new online actions stop within the BRD limit.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-01-A",
+      "TC-BR-ID-01-B"
+    ]
+  },
+  {
+    "id": "BR-ID-02",
+    "title": "Scoped permissions",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Access shall be constrained by tenant, role, assignment, programme, facility or geography, purpose and action. The server shall enforce the effective permission set for reads, writes, searches, exports and tool calls.",
+    "acceptance": "Negative tests cover each boundary and prove that hidden screens or manipulated requests cannot expand access.",
+    "design_id": "FR-ID-02",
+    "design": "Policy input includes tenant, active role, assignment, programme, facility, purpose, action and resource sensitivity.",
+    "negative": "Guess a valid record ID outside the assigned caseload; deny access without revealing record content.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-02-A",
+      "TC-BR-ID-02-B"
+    ]
+  },
+  {
+    "id": "BR-ID-03",
+    "title": "Authentication and recovery",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Workers shall use an approved authentication method appropriate to devices and connectivity. Privileged roles require a second factor. Recovery and device replacement shall verify identity and revoke superseded credentials.",
+    "acceptance": "Recovery cannot be completed using patient data or a shared phone number alone; privileged access remains blocked without the required factor.",
+    "design_id": "FR-ID-03",
+    "design": "Use verified institutional authentication. Privileged users require MFA and recovery invalidates old sessions and devices.",
+    "negative": "Attempt recovery using only a known patient number; the request must fail.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-03-A",
+      "TC-BR-ID-03-B"
+    ]
+  },
+  {
+    "id": "BR-ID-04",
+    "title": "Caseload assignment and transfer",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Households, patients and tasks shall have effective assignment dates and responsible teams. Transfer shall preserve open work, restrict former access and identify unresolved responsibility gaps.",
+    "acceptance": "Transferring a worker's caseload moves eligible open tasks, records acknowledgement and prevents duplicate ownership or orphaned urgent tasks.",
+    "design_id": "FR-ID-04",
+    "design": "Assignment changes carry effective dates and an explicit list of transferred open tasks with receiving ownership.",
+    "negative": "Transfer a caseload with an unresolved urgent task; the task cannot become unassigned.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-04-A",
+      "TC-BR-ID-04-B"
+    ]
+  },
+  {
+    "id": "BR-ID-05",
+    "title": "Patient matching with human resolution",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall search permitted records using identifiers and selected demographics, present possible matches and support uncertain identities. A name or phone number alone shall not trigger an automatic merge.",
+    "acceptance": "Same-name, shared-phone, spelling-variant and twin cases remain distinct unless an authorised reviewer resolves the identity link.",
+    "design_id": "FR-ID-05",
+    "design": "Matching returns candidates with evidence and score only as assistance; a verified link needs an authorised person decision.",
+    "negative": "Create twins with the same address and shared phone; no automatic merge may occur.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-05-A",
+      "TC-BR-ID-05-B"
+    ]
+  },
+  {
+    "id": "BR-ID-06",
+    "title": "Local registration without national identifier",
+    "priority": "Must",
+    "release": "R1",
+    "body": "A person shall be able to receive a local record and permitted workflow without an ABHA number, personal phone or biometric identifier. External identity linking shall be a separate authorised process.",
+    "acceptance": "A person lacking all three completes an eligible pilot encounter without a fabricated external identifier.",
+    "design_id": "FR-ID-06",
+    "design": "Create a local UUID before external linking. Required local demographics permit explicit unknown where programme rules allow.",
+    "negative": "Register a person with no ABHA or phone; allow local care capture without invented identifiers.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-06-A",
+      "TC-BR-ID-06-B"
+    ]
+  },
+  {
+    "id": "BR-ID-07",
+    "title": "Household and proxy boundaries",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Household relationships, caregivers and authorised representatives shall be recorded separately from account access. A family contact number shall not grant access to a member's private history or authorise disclosure.",
+    "acceptance": "A caregiver and household head can receive only the information permitted by the relevant relationship and authorisation rules.",
+    "design_id": "FR-ID-07",
+    "design": "Proxy relationship includes relationship type, authority scope and evidence; household membership does not populate access grants.",
+    "negative": "A household head requests another adult member private visit; deny without valid proxy authority.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-07-A",
+      "TC-BR-ID-07-B"
+    ]
+  },
+  {
+    "id": "BR-ID-08",
+    "title": "Correctable identity links",
+    "priority": "Must",
+    "release": "R1",
+    "body": "External programme identifiers shall retain issuer, verification state and link history. Wrong matches, merges and transfers require a controlled correction process that preserves original references and downstream impact.",
+    "acceptance": "An authorised correction unlinks the wrong identity, flags affected submissions and records which external changes remain unresolved.",
+    "design_id": "FR-ID-08",
+    "design": "Link correction appends a superseding relationship and generates a downstream repair list from lineage records.",
+    "negative": "Correct an external link after accepted submissions; preserve original receipts and create repair tasks.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-08-A",
+      "TC-BR-ID-08-B"
+    ]
+  },
+  {
+    "id": "BR-ID-09",
+    "title": "Service accounts and delegation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Connectors and automated tasks shall use individually managed service identities with limited scope, expiry and an accountable owner. A worker's session shall not become a reusable unrestricted credential for an agent.",
+    "acceptance": "Revoking a connector credential stops its new calls without disabling unrelated connectors; audit identifies both initiating user and executing service.",
+    "design_id": "FR-ID-09",
+    "design": "Service identities have specific audiences and tools, rotated credentials and expiry; user tokens never become provider credentials.",
+    "negative": "Use a revoked connector credential for another connector; both delegation and audience checks deny it.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-09-A",
+      "TC-BR-ID-09-B"
+    ]
+  },
+  {
+    "id": "BR-ID-10",
+    "title": "Organisational federation",
+    "priority": "Should",
+    "release": "R2",
+    "body": "Where approved by the buyer, enterprise sign-in and authoritative workforce registries shall supply identity and role updates. Local emergency administration shall remain controlled and auditable.",
+    "acceptance": "An upstream removal or scope change is reflected within the approved synchronisation window, including termination of incompatible sessions.",
+    "design_id": "FR-ID-10",
+    "design": "Federated groups map through reviewed local role mappings; an external group cannot grant an unmapped clinical privilege.",
+    "negative": "Change an upstream group to an unrecognised role; local privileged access must not expand.",
+    "package": "WP01",
+    "screens": "SCR01 SCR02 SCR16 SCR17",
+    "components": "C02 C03",
+    "apis": "API001 API002 API003 API036 API037 API072",
+    "tests": [
+      "TC-BR-ID-10-A",
+      "TC-BR-ID-10-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-01",
+    "title": "Shared question assembly",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall combine required questions from applicable programme packs and avoid asking an identical eligible fact twice in one encounter. It shall preserve separate questions where programme meanings differ.",
+    "acceptance": "The approved three-programme fixture asks each shared concept once and retains every distinct mandatory programme-specific question.",
+    "design_id": "FR-DATA-01",
+    "design": "Question equivalence requires the same semantic concept, person, episode, time window, unit and permitted purpose.",
+    "negative": "Give two similarly named fields with different reporting periods; they remain separate questions.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-01-A",
+      "TC-BR-DATA-01-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-02",
+    "title": "Source and timing for every fact",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Reusable observations shall retain person, concept, value, unit, time, source, author and verification state. Unknown, not asked, refused and not applicable shall be separate responses.",
+    "acceptance": "Each destination field can be traced to the confirmed source fact or a documented transformation; missing data is never converted to a negative finding.",
+    "design_id": "FR-DATA-02",
+    "design": "Each observation includes effective_at, recorded_at, source_type, verification, author and either value or absent_reason.",
+    "negative": "Send both a value and a refusal code; reject the contradictory observation.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-02-A",
+      "TC-BR-DATA-02-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-03",
+    "title": "Speech extraction as a draft",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Speech and free text may populate draft fields, but uncertain negations, numbers, medicines, dates and identities shall be surfaced for correction. Derived values shall not be presented as direct measurements.",
+    "acceptance": "A test set containing negation, mixed language, background speakers and ambiguous quantities produces reviewable fields and no unconfirmed authoritative write.",
+    "design_id": "FR-DATA-03",
+    "design": "Extraction stores original segment references and draft confidence markers; confirmation is an explicit separate command.",
+    "negative": "Transcribe a negated symptom and an ambiguous number; neither can silently become a confirmed positive fact.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-03-A",
+      "TC-BR-DATA-03-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-04",
+    "title": "Freshness and relevance",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each programme or capability shall specify which prior inputs can be reused and their allowed age. The workspace shall distinguish a historical value from a new observation and request remeasurement where the approved rule requires it.",
+    "acceptance": "An expired measurement is excluded from a time-sensitive model call even if it is the latest value available.",
+    "design_id": "FR-DATA-04",
+    "design": "Freshness is evaluated from effective time against the active pack requirement, not server receipt time.",
+    "negative": "Upload an old measurement today; it must remain historical and cannot satisfy a new-measurement requirement.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-04-A",
+      "TC-BR-DATA-04-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-05",
+    "title": "Validation without fabrication",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Range, unit, logical and cross-field checks shall flag implausible or incomplete inputs. A worker may record an unusual confirmed measurement with a reason where policy permits, but cannot silently bypass a mandatory validation.",
+    "acceptance": "Invalid units block submission; a permitted override retains the original value, reason and reviewer identity.",
+    "design_id": "FR-DATA-05",
+    "design": "Validation returns field paths and reason codes. Permitted outlier overrides require a scoped reviewer and reason.",
+    "negative": "Submit an unsupported unit or impossible date; block submission without coercing the value.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-05-A",
+      "TC-BR-DATA-05-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-06",
+    "title": "Traceable amendments",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Confirmed records shall be corrected by amendment with actor, time and reason. Existing accepted submissions shall be identified for downstream correction; prior versions remain available under the retention policy.",
+    "acceptance": "Correcting a key fact reveals all dependent AI results and submissions, marks invalidated outputs and creates the necessary reconciliation tasks.",
+    "design_id": "FR-DATA-06",
+    "design": "Amendment records supersedes_id and reason. Lineage locates dependent plans, model results and submissions.",
+    "negative": "Amend a fact used in a pending order; invalidate approval and require re-evaluation.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-06-A",
+      "TC-BR-DATA-06-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-07",
+    "title": "Concurrent edits",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Conflicting edits from workers, devices or external sources shall be detectable. Clinically meaningful conflicts shall require authorised resolution rather than silent overwrite.",
+    "acceptance": "Two offline edits to the same observation produce a visible conflict with both versions, and no unsafe destination update is committed before resolution.",
+    "design_id": "FR-DATA-07",
+    "design": "Compare expected record version before commit. Store both candidate revisions and a conflict object on collision.",
+    "negative": "Sync two devices with contradictory edits; no silent overwrite may occur.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-07-A",
+      "TC-BR-DATA-07-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-08",
+    "title": "Documents and media",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Attachments shall be linked to a person and encounter, checked for supported type and quality, and governed by purpose and retention. Extraction from an image or document shall remain distinguishable from a verified clinical entry.",
+    "acceptance": "A low-quality image cannot silently generate confirmed values; deleting an unsubmitted recording removes the associated draft references.",
+    "design_id": "FR-DATA-08",
+    "design": "Media progresses through uploaded, scanned, quality_checked and available. Extracted fields preserve source offsets.",
+    "negative": "Attach a wrong-person or unscanned document; prevent provider invocation and authoritative write.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-08-A",
+      "TC-BR-DATA-08-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-09",
+    "title": "Authoritative field mapping",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each connector shall use a reviewed mapping from common facts to destination definitions, codes and units. Mapping versions shall be recorded with submissions and effective dates.",
+    "acceptance": "A mapping change passes owner-approved fixtures and does not reinterpret earlier accepted records without a documented migration.",
+    "design_id": "FR-DATA-09",
+    "design": "Mapping packages contain source field, target field, transformation, unit and null semantics plus conformance fixtures.",
+    "negative": "Remove a target mandatory field in a new mapping; activation must fail and queued work stay on a compatible version.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-09-A",
+      "TC-BR-DATA-09-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-10",
+    "title": "Selective permitted reuse",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Data reuse shall be evaluated per destination and purpose. One valid use shall not authorise sharing with every connected programme or vendor.",
+    "acceptance": "A fact approved for one task is excluded from another provider's payload when that second use lacks the required permission.",
+    "design_id": "FR-DATA-10",
+    "design": "Each action creates a field allowlist from the approved destination and purpose; a source fact can have several permitted uses.",
+    "negative": "Reuse a permitted clinical fact for an unapproved provider purpose; omit it and block an invalid payload.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-10-A",
+      "TC-BR-DATA-10-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-11",
+    "title": "Controlled migration",
+    "priority": "Should",
+    "release": "R2",
+    "body": "Legacy imports shall support dry runs, data-quality reports, duplicate review and source lineage. A bulk import shall not automatically create programme enrolment or change a clinician's recorded decision.",
+    "acceptance": "A migration sample reconciles source counts, rejects, merges and accepted records, with a reversible process for failed batches.",
+    "design_id": "FR-DATA-11",
+    "design": "Migration runs produce source totals, parsed totals, rejected rows, duplicate candidates and reversible import batch IDs.",
+    "negative": "Repeat a batch containing duplicate people; report candidates without creating duplicate official enrolments.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-11-A",
+      "TC-BR-DATA-11-B"
+    ]
+  },
+  {
+    "id": "BR-DATA-12",
+    "title": "Measurement of actual reuse",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall count opportunities for reuse, successful reuse, repeated questions and reasons reuse was blocked. Metrics shall exclude facts that are genuinely different in meaning or time.",
+    "acceptance": "Auditors can reproduce a sample reuse calculation from event records and separate avoidable re-entry from clinically required recapture.",
+    "design_id": "FR-DATA-12",
+    "design": "Reuse opportunities are logged before question display, with reasons for reuse, recapture or blocked reuse.",
+    "negative": "Count clinically new measurements as duplicate-entry savings; the metric must exclude them.",
+    "package": "WP03",
+    "screens": "SCR03 SCR04 SCR05 SCR15",
+    "components": "C03 C04",
+    "apis": "API005 API007 API008 API029 API030 API040 API041 API042 API043",
+    "tests": [
+      "TC-BR-DATA-12-A",
+      "TC-BR-DATA-12-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-01",
+    "title": "Versioned programme packs",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each pack shall define population, eligibility, questions, mandatory evidence, authorised roles, workflow states, escalation, destination mappings and indicators. Activation requires named business and clinical approvals where applicable.",
+    "acceptance": "An incomplete or unapproved pack cannot be activated, and each completed encounter records the pack version used.",
+    "design_id": "FR-PROG-01",
+    "design": "Activation requires valid schemas, approved mappings, effective dates and named programme and clinical approvals.",
+    "negative": "Activate a pack with an unsigned escalation rule; it must remain unavailable.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-01-A",
+      "TC-BR-PROG-01-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-02",
+    "title": "Maternal health workflow",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The maternal pack shall support pregnancy episode confirmation, permitted visit history, due activities, approved symptom questions, missed visits, counselling and referral or supervisor review. It shall handle unknown dates and pregnancy outcomes without assuming an ongoing pregnancy.",
+    "acceptance": "Approved normal, uncertain, overdue, escalated and closed-episode scenarios follow the correct workflow and preserve episode identity.",
+    "design_id": "FR-PROG-02",
+    "design": "Maternal records use an episode identifier and outcome state; unknown dates are stored as unknown with task follow-up.",
+    "negative": "Record a completed pregnancy outcome; suppress future tasks for the closed episode without erasing history.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-02-A",
+      "TC-BR-PROG-02-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-03",
+    "title": "TB screening workflow",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The TB pack shall support authorised symptom screening, relevant history, optional eligible AI assistance, referral preparation and follow-up of testing or care milestones. Screening output shall remain separate from confirmed diagnosis and official programme registration.",
+    "acceptance": "A low-risk AI output cannot suppress a referral required by the approved symptom protocol, and an unresolved result remains visible for follow-up.",
+    "design_id": "FR-PROG-03",
+    "design": "TB screening and programme registration are separate workflows with separate confirmation and receipt states.",
+    "negative": "Return a low-risk model output while the approved symptom rule escalates; retain the escalation.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-03-A",
+      "TC-BR-PROG-03-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-04",
+    "title": "Hypertension follow-up workflow",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The hypertension pack shall support protocol-authorised measurements, medication history as reported, adherence discussion, scheduled review and escalation. Prescription changes and clinical orders require a qualified authorised user.",
+    "acceptance": "Worker tests cannot issue or amend a prescription, and measurements retain unit, time, context and source.",
+    "design_id": "FR-PROG-04",
+    "design": "Measurements include device or observer, time, unit and context. Reported medicines are not signed prescriptions.",
+    "negative": "A frontline worker attempts a medication order; reject the command and retain the report as history.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-04-A",
+      "TC-BR-PROG-04-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-05",
+    "title": "Cross-programme scheduling",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall combine due activities into a person or household visit plan where timing and privacy permit, while retaining each programme's completion criteria and owner.",
+    "acceptance": "One visit completes eligible shared tasks, leaves incomplete activities open and does not duplicate a referral merely because two packs identify it.",
+    "design_id": "FR-PROG-05",
+    "design": "Scheduling joins compatible tasks into a visit plan while preserving programme due dates and completion conditions.",
+    "negative": "Combine two tasks with incompatible timing or privacy constraints; they must not be silently treated as one.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-05-A",
+      "TC-BR-PROG-05-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-06",
+    "title": "Eligibility and enrolment distinction",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform may identify eligibility and prepare enrolment, but official enrolment shall require the destination's acceptance and any programme-specific authorisation.",
+    "acceptance": "A person whose external enrolment is rejected remains locally visible with a clear rejection reason and no false enrolled status.",
+    "design_id": "FR-PROG-06",
+    "design": "Enrolment stores eligibility_assessment and external_registration independently; only a verified receipt confirms the latter.",
+    "negative": "Reject external enrolment; the local record remains visible as not externally enrolled.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-06-A",
+      "TC-BR-PROG-06-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-07",
+    "title": "Protocol change and case continuity",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Pack changes shall have an effective date, affected population, change summary and transition rule for open cases. Historical actions shall retain the rules in force when they occurred.",
+    "acceptance": "Updating a referral rule identifies affected open work and requires reviewed migration rather than silently rewriting past decisions.",
+    "design_id": "FR-PROG-07",
+    "design": "Pack migration computes affected open cases and applies an approved transition plan at an effective timestamp.",
+    "negative": "Load a new rule version during an open visit; do not silently reinterpret already approved actions.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-07-A",
+      "TC-BR-PROG-07-B"
+    ]
+  },
+  {
+    "id": "BR-PROG-08",
+    "title": "Additional programme packs",
+    "priority": "Should",
+    "release": "R2",
+    "body": "The platform shall support later packs for immunisation, child health, diabetes or other buyer-approved needs using the same configuration and review process. Their adoption is subject to workflow and integration readiness.",
+    "acceptance": "A new pack can reuse common identity and observations while defining independent schedules, role boundaries and destination rules.",
+    "design_id": "FR-PROG-08",
+    "design": "Additional packs use the same schema with their own definitions and reviewed value sets; pack IDs remain stable across versions.",
+    "negative": "Install a new pack with a conflicting concept definition; validation requires explicit separation or reviewed mapping.",
+    "package": "WP04",
+    "screens": "SCR03 SCR05 SCR08 SCR18",
+    "components": "C04 C05",
+    "apis": "API034 API066 API067",
+    "tests": [
+      "TC-BR-PROG-08-A",
+      "TC-BR-PROG-08-B"
+    ]
+  },
+  {
+    "id": "BR-AG-01",
+    "title": "Bounded task planning",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The agent shall plan within an approved task catalogue and the user's current authority. It shall state what it can complete, what information is missing and which steps require human action.",
+    "acceptance": "An out-of-scope request receives a clear limitation or referral to the correct role and does not trigger an improvised external action.",
+    "design_id": "FR-AG-01",
+    "design": "Plan nodes are typed tool calls with dependencies, limits and authority class. Free text cannot create a new action type.",
+    "negative": "Ask the agent to pay benefits or issue an out-of-scope prescription; no tool action is created.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-01-A",
+      "TC-BR-AG-01-B"
+    ]
+  },
+  {
+    "id": "BR-AG-02",
+    "title": "Context restricted to the task",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The agent shall retrieve only the records and fields needed for the current purpose. Session memory shall be separated by tenant, person and encounter; patient details shall not become unrestricted global memory.",
+    "acceptance": "A cross-patient prompt cannot retrieve another person's information without a separately authorised task and permission check.",
+    "design_id": "FR-AG-02",
+    "design": "Retrieve only authorised fields referenced by the current task; cache keys include tenant, person, purpose and policy version.",
+    "negative": "Inject another patient ID through a prompt; retrieval is denied before a model receives content.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-02-A",
+      "TC-BR-AG-02-B"
+    ]
+  },
+  {
+    "id": "BR-AG-03",
+    "title": "Eligibility before tool selection",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Tool selection shall first apply jurisdiction, role, intended use, population, input quality, evidence status, consent or other authorisation, language and connectivity constraints. Cost and speed can rank only eligible tools.",
+    "acceptance": "A cheaper or available tool with an incompatible approved use is never substituted into the workflow.",
+    "design_id": "FR-AG-03",
+    "design": "The eligibility filter precedes cost or latency ranking and records excluded tools with machine-readable reasons.",
+    "negative": "Choose a cheaper model outside its approved age or language scope; the router must exclude it.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-03-A",
+      "TC-BR-AG-03-B"
+    ]
+  },
+  {
+    "id": "BR-AG-04",
+    "title": "Approved execution paths",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The agent shall use a defined tool catalogue with validated inputs and outputs. Retrieved text, documents and model responses shall be treated as content, not as authority to grant access or change execution policy.",
+    "acceptance": "Instructions embedded in a patient note or provider output cannot activate a new tool, reveal credentials or bypass a confirmation.",
+    "design_id": "FR-AG-04",
+    "design": "Tool arguments validate against closed schemas; executable action names are resolved only from the trusted registry.",
+    "negative": "Embed a tool instruction inside an EHR note; it cannot alter the tool catalogue or permissions.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-04-A",
+      "TC-BR-AG-04-B"
+    ]
+  },
+  {
+    "id": "BR-AG-05",
+    "title": "Human authority at action boundaries",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall distinguish draft preparation, routine authorised recording and consequential clinical or external actions. Actions shall require the confirmation and professional authority defined in Section 21.",
+    "acceptance": "The agent cannot make itself the approving actor, and expired approvals cannot be reused for changed data or a different destination.",
+    "design_id": "FR-AG-05",
+    "design": "Approval hashes bind actor, resource versions, action, recipient, purpose and capability versions; the executor checks them.",
+    "negative": "Replay an approval after changing a clinical fact; reject as stale.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-05-A",
+      "TC-BR-AG-05-B"
+    ]
+  },
+  {
+    "id": "BR-AG-06",
+    "title": "Durable progress and recovery",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The agent shall retain the state of each step, its outcome and dependencies so an interrupted task can resume without duplicating completed external actions.",
+    "acceptance": "A failure after one destination accepts a record does not repeat that submission; the user sees and can recover only unfinished steps.",
+    "design_id": "FR-AG-06",
+    "design": "Persist a checkpoint and action identity for each step. Resume reads receipts before selecting pending steps.",
+    "negative": "Crash after destination acceptance but before UI update; recovery must reconcile rather than submit twice.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-06-A",
+      "TC-BR-AG-06-B"
+    ]
+  },
+  {
+    "id": "BR-AG-07",
+    "title": "Limits and cancellation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every task shall have limits on time, tool calls, retries and spend. Users shall be able to stop pending activity. Cancelling cannot falsely reverse an action already accepted elsewhere.",
+    "acceptance": "A looping provider interaction stops at the configured limit and reports which actions completed, were cancelled or remain unresolved.",
+    "design_id": "FR-AG-07",
+    "design": "Enforce max_steps, deadline and budget in the executor independently of model output; cancellation records residual work.",
+    "negative": "Force a recursive tool loop; stop at the configured bound with a visible incomplete state.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-07-A",
+      "TC-BR-AG-07-B"
+    ]
+  },
+  {
+    "id": "BR-AG-08",
+    "title": "Conflicting outputs",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Contradictory or incomparable model outputs shall be shown as such and routed according to approved policy. The agent shall not average risk scores, invent a consensus or suppress a qualifying warning unless a validated composition explicitly permits it.",
+    "acceptance": "A designed model-disagreement case produces a review task with both original outputs and no fabricated combined diagnosis.",
+    "design_id": "FR-AG-08",
+    "design": "Store each model result separately. A conflict policy creates a human review task for incompatible outputs.",
+    "negative": "Return opposite risk outputs; no fabricated average or consensus diagnosis may appear.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-08-A",
+      "TC-BR-AG-08-B"
+    ]
+  },
+  {
+    "id": "BR-AG-09",
+    "title": "Evidence behind explanations",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Explanations shall identify the relevant recorded facts, protocol or model and any material uncertainty. They shall not claim certainty from model confidence or supply unsupported clinical advice.",
+    "acceptance": "Reviewers can trace each consequential recommendation to its underlying rule or approved output; unsupported answers are withheld or escalated.",
+    "design_id": "FR-AG-09",
+    "design": "Recommendation records contain source fact IDs and rule or model version references; unsupported text is excluded.",
+    "negative": "Request an explanation that is unsupported by the record; show uncertainty or route for review.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-09-A",
+      "TC-BR-AG-09-B"
+    ]
+  },
+  {
+    "id": "BR-AG-10",
+    "title": "Clinical workflow continuity without an LLM",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Loss of the language model shall not prevent structured capture, access to valid cached protocols, a local draft referral or visibility of urgent tasks. The interface shall make unavailable functions explicit.",
+    "acceptance": "A simulated LLM outage leaves the core non-generative encounter workflow usable without substituting invented AI results.",
+    "design_id": "FR-AG-10",
+    "design": "Structured capture, cached approved guidance and draft referrals operate without a model dependency.",
+    "negative": "Disable the LLM service during a visit; approved non-generative functions remain available.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-10-A",
+      "TC-BR-AG-10-B"
+    ]
+  },
+  {
+    "id": "BR-AG-11",
+    "title": "Programme manager analysis",
+    "priority": "Should",
+    "release": "R2",
+    "body": "Authorised managers may request questions over approved datasets and metric definitions. The agent shall disclose the cohort, time period, data freshness, filters and method, and enforce the same restrictions as standard reporting.",
+    "acceptance": "A natural-language count matches the governed report and cannot expose restricted patient lists through a reformulated query.",
+    "design_id": "FR-AG-11",
+    "design": "Natural language reporting resolves to approved metric IDs and filters, then applies the same report policy checks.",
+    "negative": "Ask for a hidden patient list through an aggregate question; reject the disclosure.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-11-A",
+      "TC-BR-AG-11-B"
+    ]
+  },
+  {
+    "id": "BR-AG-12",
+    "title": "Change control for the agent",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Material changes to prompts, tool descriptions, routing rules, model versions and knowledge sources shall be versioned and tested against the release suite. Production learning from user interactions shall not silently change behaviour.",
+    "acceptance": "Operators can identify the exact configuration behind an encounter and restore a previously approved configuration after a regression.",
+    "design_id": "FR-AG-12",
+    "design": "Agent release manifests pin prompts, tools, safety tests, model release IDs and rollback compatibility.",
+    "negative": "Change a prompt or model alias without release review; production activation must fail.",
+    "package": "WP05",
+    "screens": "SCR04 SCR05 SCR06 SCR07 SCR12",
+    "components": "C05 C06",
+    "apis": "API011 API012 API013 API014 API046 API047",
+    "tests": [
+      "TC-BR-AG-12-A",
+      "TC-BR-AG-12-B"
+    ]
+  },
+  {
+    "id": "BR-AI-01",
+    "title": "Capability registration",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every capability shall have an accountable provider, a stable identity, version, purpose, input and output definitions, deployment scope, evidence, operating limits and a support contact. Clinical and administrative capabilities shall be clearly distinguished.",
+    "acceptance": "Registration cannot reach an active state while mandatory manifest fields or accountable ownership are missing.",
+    "design_id": "FR-AI-01",
+    "design": "A manifest version is immutable and owned by one verified provider; missing evidence keeps its activation state incomplete.",
+    "negative": "Register a capability without input schema or accountable owner; reject activation.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-01-A",
+      "TC-BR-AI-01-B"
+    ]
+  },
+  {
+    "id": "BR-AI-02",
+    "title": "Intended use and excluded use",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each capability shall specify authorised users, populations, age range where relevant, settings, languages, devices, required input quality and excluded uses. Eligibility shall be machine-checkable where possible and explicitly reviewable elsewhere.",
+    "acceptance": "A capability approved for adults cannot run on a child case unless that use has separate approval.",
+    "design_id": "FR-AI-02",
+    "design": "Eligibility predicates cover role, age basis, population, language, device, geography, quality and required history.",
+    "negative": "Invoke an adult-only model for a child or unknown age when age is required; return unsupported-case.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-02-A",
+      "TC-BR-AI-02-B"
+    ]
+  },
+  {
+    "id": "BR-AI-03",
+    "title": "Evidence and deployment authorisation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Evidence records shall identify model version, evaluation context, limitations and review decisions. Regulatory status and local deployment authorisation shall be recorded separately from technical integration and sandbox evaluation.",
+    "acceptance": "A technically successful API test cannot activate a clinical capability without the required documented evidence and deployment approvals.",
+    "design_id": "FR-AI-03",
+    "design": "Evidence and approval are distinct records tied to provider version, population, study setting and deployment scope.",
+    "negative": "Provide only an API success log as evidence; clinical activation remains blocked.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-03-A",
+      "TC-BR-AI-03-B"
+    ]
+  },
+  {
+    "id": "BR-AI-04",
+    "title": "Capability lifecycle",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The lifecycle shall cover registered, technically verified, under review, approved for a scope, active, suspended, retired and replaced. Activation shall be deployment-specific and allow trial or shadow status without exposing unapproved results to care.",
+    "acceptance": "A provider cannot self-activate; suspension blocks new invocations and identifies in-progress work requiring cancellation or review.",
+    "design_id": "FR-AI-04",
+    "design": "Lifecycle transitions require scoped roles; registration and deployment approval are independent permissions.",
+    "negative": "Provider owner tries to activate their own version in a live tenant; deny the transition.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-04-A",
+      "TC-BR-AI-04-B"
+    ]
+  },
+  {
+    "id": "BR-AI-05",
+    "title": "Contract validation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Adapters shall validate required inputs, accepted types, ranges, units, response states and result semantics. Binary media requirements and large or asynchronous responses shall be documented.",
+    "acceptance": "Malformed or unsupported responses are quarantined with an actionable error and cannot be presented as a valid clinical result.",
+    "design_id": "FR-AI-05",
+    "design": "Validate request and response against pinned schemas, request correlation, media format and result semantics.",
+    "negative": "Return a success response missing mandatory result fields; quarantine it as invalid response.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-05-A",
+      "TC-BR-AI-05-B"
+    ]
+  },
+  {
+    "id": "BR-AI-06",
+    "title": "Input quality and inability to assess",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The workflow shall check signal quality and record insufficient-input, unsupported-case, unavailable and unable-to-assess states separately from a low-risk or negative result.",
+    "acceptance": "A noisy cough recording produces a quality failure or valid retry instruction, never an implied negative screen.",
+    "design_id": "FR-AI-06",
+    "design": "Capture quality failures carry retry guidance from approved provider instructions and do not yield clinical risk values.",
+    "negative": "Send unusable cough audio; no negative screening label may be generated.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-06-A",
+      "TC-BR-AI-06-B"
+    ]
+  },
+  {
+    "id": "BR-AI-07",
+    "title": "Version pinning",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Production invocations shall bind to an approved provider and model version or an equivalently controlled provider release identifier. Undisclosed provider updates shall be treated as contract violations requiring review.",
+    "acceptance": "A provider version change triggers quarantine or controlled reapproval and cannot silently replace a validated version.",
+    "design_id": "FR-AI-07",
+    "design": "Each invocation stores manifest version, provider release ID, input hash and adapter version; mutable aliases are not accepted alone.",
+    "negative": "Provider changes its reported version mid-session; hold affected results for review.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-07-A",
+      "TC-BR-AI-07-B"
+    ]
+  },
+  {
+    "id": "BR-AI-08",
+    "title": "Least-data provider invocation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each call shall include only the fields and media needed for the approved purpose. Provider retention, training use, subprocessors and hosting region shall be recorded and compatible with the deployment agreement.",
+    "acceptance": "Payload inspection confirms excluded identifiers are absent and a provider with incompatible retention terms is blocked.",
+    "design_id": "FR-AI-08",
+    "design": "Build payloads from manifest-required fields intersected with purpose permissions; log references rather than raw payloads.",
+    "negative": "Inspect a call whose model needs audio only; unnecessary name or ABHA fields must be absent.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-08-A",
+      "TC-BR-AI-08-B"
+    ]
+  },
+  {
+    "id": "BR-AI-09",
+    "title": "Multi-provider result history",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall retain provider attribution and original output for each invocation. Replacing a provider shall not overwrite historical results or obscure the version used for an earlier decision.",
+    "acceptance": "An encounter spanning a provider change shows both results independently with their input timestamps and review states.",
+    "design_id": "FR-AI-09",
+    "design": "Results are immutable references with provider attribution. Switching a provider creates a new invocation, never rewrites history.",
+    "negative": "Replace an active model and view an old encounter; the original provider and output remain visible.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-09-A",
+      "TC-BR-AI-09-B"
+    ]
+  },
+  {
+    "id": "BR-AI-10",
+    "title": "Monitoring and safety suspension",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Monitoring shall cover availability, latency, input-quality failures, unsupported cases, usage, incidents and reviewed outcome measures where suitable ground truth exists. Clinical degradation shall trigger the approved investigation and suspension process.",
+    "acceptance": "Operators can suspend a named version, identify affected encounters and assign follow-up without disabling unrelated safe capabilities.",
+    "design_id": "FR-AI-10",
+    "design": "Suspension sets an effective timestamp, prevents new admissions and emits tasks for affected pending or recent encounters.",
+    "negative": "Suspend a provider while requests are queued; no new provider call may leave the broker.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-10-A",
+      "TC-BR-AI-10-B"
+    ]
+  },
+  {
+    "id": "BR-AI-11",
+    "title": "Provider self-service in a controlled environment",
+    "priority": "Should",
+    "release": "R2",
+    "body": "Providers may maintain documentation, credentials for testing and proposed versions in an isolated environment using approved synthetic data. They shall not publish directly to production or inspect unrestricted patient payloads.",
+    "acceptance": "Provider test access remains limited to its own capability and synthetic environment; production activation follows the standard review path.",
+    "design_id": "FR-AI-11",
+    "design": "Provider workspaces allow manifest drafts and synthetic fixtures only; live activation stays in deployment governance.",
+    "negative": "A provider account attempts to read a real encounter or another vendor manifest draft; deny access.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-11-A",
+      "TC-BR-AI-11-B"
+    ]
+  },
+  {
+    "id": "BR-AI-12",
+    "title": "Cost and contractual limits",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Usage shall be metered by provider, capability, deployment and task, with budget limits and alerts. Financial incentives shall not override clinical eligibility or conceal a recommended provider substitution.",
+    "acceptance": "Reaching a cost limit results in a visible controlled fallback and does not silently select an unapproved model.",
+    "design_id": "FR-AI-12",
+    "design": "Budget admission reserves the maximum approved call cost and settles actual charges or releases unused reservation.",
+    "negative": "Submit simultaneous calls beyond the remaining budget; only admissible calls reserve funds.",
+    "package": "WP05",
+    "screens": "SCR06 SCR19 SCR20",
+    "components": "C06 C07",
+    "apis": "API015 API016 API017 API018 API048 API049 API050 API051",
+    "tests": [
+      "TC-BR-AI-12-A",
+      "TC-BR-AI-12-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-01",
+    "title": "Approved source library",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Clinical content shall come from approved, versioned sources with publisher, effective date, local applicability and reviewer. Retrieval shall favour content approved for the current programme and user role.",
+    "acceptance": "Superseded or unapproved guidance cannot be offered as current advice, and each displayed recommendation links to its source.",
+    "design_id": "FR-CLIN-01",
+    "design": "Knowledge entries require source, version, applicability, reviewer and expiry. Retrieval filters by active local approval.",
+    "negative": "Request an expired protocol entry; it cannot be presented as current care guidance.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-01-A",
+      "TC-BR-CLIN-01-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-02",
+    "title": "Controlled clinical logic",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Eligibility, warning signs, thresholds, contraindications and referral logic shall be represented through approved rules or explicitly approved clinical capabilities. The language model may explain them but may not rewrite them during a visit.",
+    "acceptance": "Rephrasing a prompt does not change a protocol's decision for the same confirmed facts.",
+    "design_id": "FR-CLIN-02",
+    "design": "The protocol engine evaluates reviewed decision tables; the LLM receives the decision and evidence for explanation only.",
+    "negative": "Paraphrase identical confirmed facts; deterministic pathway action must remain unchanged.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-02-A",
+      "TC-BR-CLIN-02-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-03",
+    "title": "Escalation without model dependence",
+    "priority": "Must",
+    "release": "R1",
+    "body": "When an approved protocol identifies a need for urgent escalation, the application shall show the locally approved action and contacts immediately. A pending AI call shall not delay that action.",
+    "acceptance": "An urgent synthetic scenario follows the configured escalation path when cloud AI and external MIS services are unavailable.",
+    "design_id": "FR-CLIN-03",
+    "design": "Urgent protocol actions have a local route and contact record; provider waits cannot delay their display.",
+    "negative": "Drop network and AI access during an urgent fixture; the approved escalation still appears.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-03-A",
+      "TC-BR-CLIN-03-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-04",
+    "title": "Scope of practice",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Advice and available actions shall reflect the user's verified authority. A worker may record observations and prepare referrals only within the approved scope; medical decisions requiring a clinician shall be routed accordingly.",
+    "acceptance": "User role changes modify available clinical actions, and server-side tests reject unauthorised orders.",
+    "design_id": "FR-CLIN-04",
+    "design": "Clinical command policy uses verified credentials and locally approved scope, not role label alone.",
+    "negative": "Give a generic supervisor role to an unqualified person; clinical order permissions remain absent.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-04-A",
+      "TC-BR-CLIN-04-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-05",
+    "title": "Review and override",
+    "priority": "Must",
+    "release": "R1",
+    "body": "An authorised reviewer shall be able to accept, reject or override a suggestion with a reason. Overrides shall preserve the original evidence and shall feed quality review without automatically retraining a model.",
+    "acceptance": "The record distinguishes the model recommendation from the human decision and identifies the responsible professional.",
+    "design_id": "FR-CLIN-05",
+    "design": "Reviews capture accepted or rejected recommendation, reason, clinician identity and exact evidence snapshot.",
+    "negative": "Record an override without a reason when policy requires one; block sign-off.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-05-A",
+      "TC-BR-CLIN-05-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-06",
+    "title": "Model-specific quality requirements",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each clinical capability shall have a separate acceptance plan appropriate to its task, population and intended use, including relevant subgroup performance and uncertainty. There shall be no generic platform-wide clinical accuracy percentage.",
+    "acceptance": "Clinical activation requires a signed capability-specific evidence review; administrative usability results cannot substitute for clinical validation.",
+    "design_id": "FR-CLIN-06",
+    "design": "Every capability has its own performance thresholds and evaluation population; administrative extraction scores are separate.",
+    "negative": "Use speech transcription accuracy as approval for a diagnostic model; reject the evidence linkage.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-06-A",
+      "TC-BR-CLIN-06-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-07",
+    "title": "Composition safety",
+    "priority": "Must",
+    "release": "R1",
+    "body": "When several tools feed a single recommendation, the combined workflow shall be evaluated for interactions, missing inputs and disagreement. Individual model approvals shall not be treated as approval of every possible combination.",
+    "acceptance": "The activated workflow has a reviewed composition and tested conflict scenarios; unapproved combinations are unavailable.",
+    "design_id": "FR-CLIN-07",
+    "design": "Composition review evaluates joint workflow hazards, missing input handling and disagreement rules.",
+    "negative": "Combine two individually approved models without approved composition; no joint recommendation may activate.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-07-A",
+      "TC-BR-CLIN-07-B"
+    ]
+  },
+  {
+    "id": "BR-CLIN-08",
+    "title": "Harm reporting and review",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Users shall be able to flag misleading advice, wrong-patient results, missed escalation and potential harm from the current encounter. Reports shall reach a named clinical owner with evidence and action tracking.",
+    "acceptance": "A safety report creates a visible case, preserves relevant versions and can initiate a capability hold and affected-case review.",
+    "design_id": "FR-CLIN-08",
+    "design": "Safety case intake is available from the encounter and creates containment and follow-up assignments.",
+    "negative": "File a harm report while the provider is down; preserve the report and show an accountable owner.",
+    "package": "WP06",
+    "screens": "SCR05 SCR06 SCR08 SCR21",
+    "components": "C04 C06 C08",
+    "apis": "API031 API062 API063",
+    "tests": [
+      "TC-BR-CLIN-08-A",
+      "TC-BR-CLIN-08-B"
+    ]
+  },
+  {
+    "id": "BR-INT-01",
+    "title": "Integration readiness contract",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each connector shall record the system owner, permitted read and write operations, identity method, data contract, authorisation, test environment, support contact and operational limits. Unknown capabilities shall remain explicitly unverified.",
+    "acceptance": "A connector cannot be labelled live until the receiving owner has accepted its tested scope and production access is enabled.",
+    "design_id": "FR-INT-01",
+    "design": "Connector activation requires owner agreement, allowed operations, exact environment, receipt examples and support contact.",
+    "negative": "Label a connector live using only a test endpoint; readiness status must remain test-only.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-01-A",
+      "TC-BR-INT-01-B"
+    ]
+  },
+  {
+    "id": "BR-INT-02",
+    "title": "Independent read and write permissions",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Read access, creation, update, deletion, status lookup and aggregation shall be separately configurable. Permission to retrieve a record shall not imply permission to modify it or register a patient.",
+    "acceptance": "A read-only connector exposes no active write path and clearly states when programme updates require a separate process.",
+    "design_id": "FR-INT-02",
+    "design": "The operation allowlist independently grants search, read, create, amend, delete, export and status lookup.",
+    "negative": "Use a read-only connector to submit an encounter; block before network dispatch.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-02-A",
+      "TC-BR-INT-02-B"
+    ]
+  },
+  {
+    "id": "BR-INT-03",
+    "title": "Confirmed submission receipts",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every attempted external write shall retain destination, submitted version, time, initiating authority, status and receipt or error. Acceptance shall require the destination's meaningful acknowledgement, not merely a successful HTTP transport response.",
+    "acceptance": "A response containing a business rejection is shown as rejected even when the network request technically succeeded.",
+    "design_id": "FR-INT-03",
+    "design": "Acceptance requires a verified destination business receipt linked to payload revision and action ID.",
+    "negative": "Return HTTP 200 with a business rejection; record rejected rather than accepted.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-03-A",
+      "TC-BR-INT-03-B"
+    ]
+  },
+  {
+    "id": "BR-INT-04",
+    "title": "Duplicate prevention and uncertain outcomes",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Retries shall use stable submission identity and destination-supported duplicate controls. Where acceptance is uncertain, the platform shall reconcile before resubmitting or route the case for review.",
+    "acceptance": "A timeout after external acceptance does not create a second patient or activity; an unverifiable outcome remains visibly unresolved.",
+    "design_id": "FR-INT-04",
+    "design": "Use a persistent logical action ID and destination idempotency mechanism; uncertain outcomes enter reconciliation.",
+    "negative": "Simulate acceptance followed by a network timeout; retry cannot create a duplicate event.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-04-A",
+      "TC-BR-INT-04-B"
+    ]
+  },
+  {
+    "id": "BR-INT-05",
+    "title": "Partial completion across systems",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall track each destination independently and support recovery from partial success. It shall not promise an atomic transaction across unrelated MIS systems or automatically delete valid records to simulate rollback.",
+    "acceptance": "If one of two writes succeeds, the success receipt is preserved and only the failed or uncertain destination is retried.",
+    "design_id": "FR-INT-05",
+    "design": "Each external action has its own receipt and retry policy; successful actions remain accepted during another failure.",
+    "negative": "Destination A succeeds and B fails; recovery must not undo or resend A.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-05-A",
+      "TC-BR-INT-05-B"
+    ]
+  },
+  {
+    "id": "BR-INT-06",
+    "title": "Inbound changes and reconciliation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Approved inbound updates shall identify source, version and effective time. Conflicts with local work shall enter a review process, and outstanding receipts shall be reconciled on a schedule appropriate to the connector.",
+    "acceptance": "An external status change does not silently discard an unsynchronised local correction, and the responsible reviewer sees both.",
+    "design_id": "FR-INT-06",
+    "design": "Inbound updates retain source version and effective time; conflicts produce a review record against local pending changes.",
+    "negative": "Receive an older external update after a local correction; do not overwrite the new revision.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-06-A",
+      "TC-BR-INT-06-B"
+    ]
+  },
+  {
+    "id": "BR-INT-07",
+    "title": "Schema and mapping change control",
+    "priority": "Must",
+    "release": "R1",
+    "body": "External form, code or API changes shall trigger compatibility checks and owner review. Failed validation shall pause affected submissions while preserving queued data and unaffected workflows.",
+    "acceptance": "A removed mandatory destination field causes a controlled connector exception, not silent data loss or guessed replacement values.",
+    "design_id": "FR-INT-07",
+    "design": "Schema upgrades validate fixtures and pending payload compatibility before activation; incompatible work pauses visibly.",
+    "negative": "Remove a required field upstream; never invent its value to keep submissions flowing.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-07-A",
+      "TC-BR-INT-07-B"
+    ]
+  },
+  {
+    "id": "BR-INT-08",
+    "title": "Limited integration alternatives",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Where approved APIs are unavailable, owner-authorised file exchange or assisted submission may be supported and labelled as such. Credentials, access controls or usage restrictions shall not be bypassed to simulate connectivity.",
+    "acceptance": "Exported files carry reconciliation identifiers; a prepared export is never reported as accepted until acceptance evidence is recorded.",
+    "design_id": "FR-INT-08",
+    "design": "File exports and assisted hand-offs retain a local action ID and prepared state until external acceptance evidence exists.",
+    "negative": "Generate a CSV successfully; it cannot be reported as accepted by the programme.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-08-A",
+      "TC-BR-INT-08-B"
+    ]
+  },
+  {
+    "id": "BR-INT-09",
+    "title": "Per-destination data minimisation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each connector shall send only authorised fields needed by its contract. Person-level operational data shall not be sent to an aggregate-reporting system merely because both are labelled health MIS.",
+    "acceptance": "Payload fixtures and production audits verify field allowlists and distinguish person records from aggregate measures.",
+    "design_id": "FR-INT-09",
+    "design": "Per-destination allowlists distinguish aggregate measures from person-level transactions and remove unrelated fields.",
+    "negative": "Send person identifiers to an aggregate-only endpoint; validation must reject the payload.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-09-A",
+      "TC-BR-INT-09-B"
+    ]
+  },
+  {
+    "id": "BR-INT-10",
+    "title": "Standards-based exchange",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Where an ecosystem requires a published standard or implementation guide, the connector shall use a pinned agreed version and pass its conformance checks. ABDM exchange shall follow the applicable onboarding flows and the current agreed ABDM FHIR profiles [S1, S2, S8, S9].",
+    "acceptance": "Standards validation and owner acceptance are recorded separately; valid FHIR content alone does not mark the connector production-ready.",
+    "design_id": "FR-INT-10",
+    "design": "Connector manifests pin the receiving system profile, terminology release and validator configuration.",
+    "negative": "Validate generic FHIR against a destination requiring a local profile; generic success cannot pass the connector gate.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-10-A",
+      "TC-BR-INT-10-B"
+    ]
+  },
+  {
+    "id": "BR-INT-11",
+    "title": "Canonical exchange representation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall maintain a canonical representation for person, encounter, observation, condition, service request, care plan, medication, diagnostic result, document and provenance. Source payloads and destination payloads shall remain traceable to this representation without erasing material differences.",
+    "acceptance": "A single confirmed blood-pressure observation can be mapped to two approved destinations, and the audit shows the original source, canonical value, units, mapping version and each destination payload.",
+    "design_id": "FR-INT-11",
+    "design": "Canonical entities map to destination records through explicit versioned transformations with provenance links.",
+    "negative": "Map one observation into two destinations; values, units and lineage must reconcile to the same source revision.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-11-A",
+      "TC-BR-INT-11-B"
+    ]
+  },
+  {
+    "id": "BR-INT-12",
+    "title": "Source and destination provenance",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every imported or exported clinical element shall retain source system, source identifier, author or device where known, effective time, receipt time, transformation version and confidence or verification state. A transformed record shall not be represented as if the platform originally measured it.",
+    "acceptance": "An imported laboratory result and an ASHA-recorded observation remain distinguishable after display, export and reconciliation.",
+    "design_id": "FR-INT-12",
+    "design": "Source identifiers, author, effective time, original status and transformation versions survive import and export.",
+    "negative": "Import a laboratory result; it must not appear as a measurement originally taken by the ASHA.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-12-A",
+      "TC-BR-INT-12-B"
+    ]
+  },
+  {
+    "id": "BR-INT-13",
+    "title": "ABDM participation scope",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each deployment shall explicitly approve the ABDM modules and roles it uses, including any ABHA, Scan and Share, HIP, HIU, consented exchange or NHCX capability. Permission for one module or role shall not imply another.",
+    "acceptance": "Administration and test evidence identify the enabled ABDM role, environment, facility, client credentials, approved operations and responsible owner; all other operations are unavailable.",
+    "design_id": "FR-INT-13",
+    "design": "ABDM module roles are flags on a verified connector deployment; enabling ABHA does not enable HIP or HIU.",
+    "negative": "Attempt HIU retrieval using an ABHA-only configuration; deny the operation.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-13-A",
+      "TC-BR-INT-13-B"
+    ]
+  },
+  {
+    "id": "BR-INT-14",
+    "title": "ABHA identity and record linking",
+    "priority": "Must",
+    "release": "R1",
+    "body": "ABHA creation, verification, demographic matching and record linking shall use authorised flows and explicit user confirmation where required. The platform shall support care for a person without ABHA when the approved workflow permits and shall not merge people solely because names, phones or demographic fields are similar.",
+    "acceptance": "Tests cover verified ABHA linkage, declined linkage, absent ABHA, duplicate candidates, demographic mismatch and later correction without wrong-person disclosure.",
+    "design_id": "FR-INT-14",
+    "design": "ABHA verification and record-linking follow the onboarded flow with explicit user confirmation where required.",
+    "negative": "Present a mismatched ABHA or duplicate demographic candidate; retain local care and block wrong-person linkage.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-14-A",
+      "TC-BR-INT-14-B"
+    ]
+  },
+  {
+    "id": "BR-INT-15",
+    "title": "ABDM consent enforcement",
+    "priority": "Must",
+    "release": "R1",
+    "body": "For ABDM exchanges that require a consent artefact, the platform shall enforce the named HIU and HIP, purpose, health information types, date range, expiry and status. Revocation, expiry or mismatch shall stop new retrieval or disclosure and create an auditable outcome.",
+    "acceptance": "Requests outside the approved purpose, date range, data type or validity period are blocked even when the calling user can otherwise view the local patient record.",
+    "design_id": "FR-INT-15",
+    "design": "Validate consent requester, provider, purpose, data types, period, frequency, expiry and current status before retrieval.",
+    "negative": "Revoke consent after preparing an exchange and before dispatch; no new disclosure may occur.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-15-A",
+      "TC-BR-INT-15-B"
+    ]
+  },
+  {
+    "id": "BR-INT-16",
+    "title": "Facility and professional attribution",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Where the ABDM or EHR workflow requires organisation, facility or practitioner attribution, the platform shall use verified HFR, HPR or destination identifiers and the active role. It shall not invent identifiers or reuse a professional identity across an unapproved facility context.",
+    "acceptance": "A consultation bundle fails validation or enters review when the configured facility or practitioner attribution is absent, expired or inconsistent with the encounter.",
+    "design_id": "FR-INT-16",
+    "design": "Facility and professional identifiers include registry source, verification state and deployment association.",
+    "negative": "Build a document with an expired or unrelated practitioner identity; reject or route for correction.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-16-A",
+      "TC-BR-INT-16-B"
+    ]
+  },
+  {
+    "id": "BR-INT-17",
+    "title": "ABDM FHIR conformance and version control",
+    "priority": "Must",
+    "release": "R1",
+    "body": "ABDM clinical artefacts shall conform to the pinned NRCeS FHIR implementation package agreed for the deployment. The validator, profile set, terminology content and mapping shall be versioned together; upgrades require regression testing and owner approval [S2].",
+    "acceptance": "Every outbound test bundle passes the pinned validator; a deliberate profile violation is rejected with a specific error and no external submission.",
+    "design_id": "FR-INT-17",
+    "design": "FHIR package hash, profile URL, terminology and validator version are retained with each validation result.",
+    "negative": "Send an invalid cardinality or code fixture; outbound exchange remains blocked.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-17-A",
+      "TC-BR-INT-17-B"
+    ]
+  },
+  {
+    "id": "BR-INT-18",
+    "title": "Health Information Provider operation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "When operating as or through a HIP, the platform shall create eligible records, preserve care-context linkage, respond only through authorised exchange, encrypt and transmit the required payload, and retain the ABDM acknowledgement and failure state.",
+    "acceptance": "A consented request retrieves only the authorised records and produces traceable request, encryption, transfer, acknowledgement and error evidence without exposing unrelated records.",
+    "design_id": "FR-INT-18",
+    "design": "HIP publication registers eligible local records and care contexts, then fulfils only verified authorised requests.",
+    "negative": "Request an unrelated care context; HIP adapter must return no unauthorised record.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-18-A",
+      "TC-BR-INT-18-B"
+    ]
+  },
+  {
+    "id": "BR-INT-19",
+    "title": "Health Information User operation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "When operating as or through an HIU, the platform shall request the minimum health information needed for the approved purpose, track consent and data-flow states, validate received bundles, preserve external provenance and prevent silent overwriting of local records.",
+    "acceptance": "A received record is shown with its source and effective date, while invalid, duplicate or conflicting content enters the configured reconciliation path.",
+    "design_id": "FR-INT-19",
+    "design": "HIU retrieval tracks consent and data-flow transactions, decrypts through the authorised boundary and validates each bundle.",
+    "negative": "Receive an invalid or wrong-person bundle; quarantine it and preserve local records unchanged.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-19-A",
+      "TC-BR-INT-19-B"
+    ]
+  },
+  {
+    "id": "BR-INT-20",
+    "title": "EHR connector capability profile",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every EHR or HMIS connector shall publish a capability profile covering supported resources or documents, search keys, read and write operations, authentication, patient matching, terminology, versioning, latency, idempotency, receipts, amendments, deletion restrictions and support ownership.",
+    "acceptance": "The platform enables only operations declared in the active profile and blocks configuration that assumes unsupported search, update or acknowledgement behaviour.",
+    "design_id": "FR-INT-20",
+    "design": "Connector profiles declare resource types, search keys, operations, amendments, pagination, limits and receipt semantics.",
+    "negative": "Configure an EHR search or write absent from the profile; no action should be exposed.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-20-A",
+      "TC-BR-INT-20-B"
+    ]
+  },
+  {
+    "id": "BR-INT-21",
+    "title": "EHR writeback and conflict handling",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall preserve the EHR as authority for its accepted records and shall use destination-supported identifiers, conditional updates, versions or reconciliation before writeback. Conflicting updates shall not be resolved through last-write-wins unless the destination owner explicitly approves that rule for the record type.",
+    "acceptance": "Concurrent-update tests preserve both versions, prevent silent loss and route unresolved conflicts to the named operational owner.",
+    "design_id": "FR-INT-21",
+    "design": "External version checks or reconciliation protect EHR writes; conflicts never default to last-write-wins.",
+    "negative": "Change an EHR record concurrently; retain both versions and require resolution before writeback.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-21-A",
+      "TC-BR-INT-21-B"
+    ]
+  },
+  {
+    "id": "BR-INT-22",
+    "title": "Legacy and document exchange",
+    "priority": "Should",
+    "release": "R1",
+    "body": "Where FHIR is unavailable, the platform may use authorised HL7 v2, CDA, REST, SOAP, file or document exchange. The connector shall label the resulting limitations, preserve the original artefact and avoid presenting batch preparation or document extraction as real-time structured acceptance.",
+    "acceptance": "A batch or document connector identifies its delay, source document, extracted fields, reviewer and destination receipt; unsupported writeback remains unavailable.",
+    "design_id": "FR-INT-22",
+    "design": "Legacy adapters declare batch latency, source artefacts, acknowledgements and manual review obligations.",
+    "negative": "Import an unreviewed PDF extraction; it cannot become an authoritative structured record automatically.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-22-A",
+      "TC-BR-INT-22-B"
+    ]
+  },
+  {
+    "id": "BR-INT-23",
+    "title": "Terminology and mapping governance",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Clinical codes, local programme values, units and mapping tables shall be versioned, reviewed and tested for the specific source and destination. Unmapped, deprecated or ambiguous concepts shall not be silently replaced with the nearest available code.",
+    "acceptance": "A terminology change produces an impact report and blocks affected submissions until the mapping is approved or the value is explicitly represented as unmapped.",
+    "design_id": "FR-INT-23",
+    "design": "Unmapped terminology has an explicit state and blocks destinations requiring a code until reviewed mapping exists.",
+    "negative": "Use a deprecated or ambiguous code; do not silently substitute a nearest code.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-23-A",
+      "TC-BR-INT-23-B"
+    ]
+  },
+  {
+    "id": "BR-INT-24",
+    "title": "Conformance and production claims",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall distinguish syntactic validation, sandbox success, security review, partner certification, production onboarding and live operational acceptance. Marketing, administration and status screens shall not collapse these states into a single compliant label.",
+    "acceptance": "A sandbox-passing connector cannot be labelled production-live until credentials, owner approval, end-to-end transaction evidence and support responsibility are recorded.",
+    "design_id": "FR-INT-24",
+    "design": "Expose conformance, sandbox, security review, onboarding and live acceptance as separate evidence fields.",
+    "negative": "Pass all local schema tests with no production credentials; the interface must still show production unavailable.",
+    "package": "WP07",
+    "screens": "SCR07 SCR10 SCR11 SCR14 SCR20",
+    "components": "C07 C09",
+    "apis": "API019 API020 API021 API026 API052 API053 API054 API055 API060 API061",
+    "tests": [
+      "TC-BR-INT-24-A",
+      "TC-BR-INT-24-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-01",
+    "title": "Defined offline capability",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Previously authorised users shall be able to access a limited encrypted caseload, capture encounters, review valid cached guidance and prepare tasks during outages. Functions needing remote information or models shall show their unavailable or pending state.",
+    "acceptance": "The core offline visit test completes without network access; no cloud model is falsely shown as having run.",
+    "design_id": "FR-OFF-01",
+    "design": "Offline availability is a manifest of cached records, protocols and commands under a signed device lease.",
+    "negative": "Invoke a cloud-only AI tool offline; display unavailable or pending, never a fabricated result.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-01-A",
+      "TC-BR-OFF-01-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-02",
+    "title": "Durable local capture",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The application shall acknowledge a save only after local persistence succeeds. Insufficient storage, database failure or encryption failure shall be shown before the worker believes a record has been saved.",
+    "acceptance": "Forced restart and low-storage tests preserve acknowledged data or clearly report that saving did not complete.",
+    "design_id": "FR-OFF-02",
+    "design": "Draft and queue mutations commit atomically to encrypted storage before the saved indicator appears.",
+    "negative": "Crash the app during commit; either the full mutation survives or no save acknowledgement is shown.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-02-A",
+      "TC-BR-OFF-02-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-03",
+    "title": "Controlled offline authority",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Offline access shall use a time-bounded grant with scoped data and actions. Default proposal: a 24-hour grant after online verification; extending it up to 72 hours requires deployment approval. New privileged grants and remote disclosures remain online-only.",
+    "acceptance": "Expired grants lock cached patient records. Operators understand that revocation cannot reach a disconnected device before reconnection or local expiry.",
+    "design_id": "FR-OFF-03",
+    "design": "Lease checks use signed server time plus monotonic elapsed time; clock rollback or untrusted reboot requires online verification.",
+    "negative": "Move the device clock backwards after lease expiry; private records remain locked.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-03-A",
+      "TC-BR-OFF-03-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-04",
+    "title": "Pending media and AI work",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Recordings and images shall be queued with purpose, quality state and retention rules. On reconnection the platform shall recheck eligibility and authorisation before sending media to a provider.",
+    "acceptance": "An offline request is cancelled or routed for review when its permission expires or its capability is suspended before upload.",
+    "design_id": "FR-OFF-04",
+    "design": "Pending media carries its purpose, consent reference, capability version and expiry; all are rechecked before upload.",
+    "negative": "Withdraw optional media permission while offline; reconnect must cancel the upload.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-04-A",
+      "TC-BR-OFF-04-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-05",
+    "title": "Safe synchronisation ordering",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Dependent records shall synchronise in a valid order, preserving identities and stable submission identifiers. The application shall recover from intermittent connectivity without replaying successful actions.",
+    "acceptance": "A new local person, encounter and referral synchronise without orphan records across repeated connection loss and restoration.",
+    "design_id": "FR-OFF-05",
+    "design": "Sync envelopes include command ID, dependencies, base version and local sequence; per-item results return independently.",
+    "negative": "Send a referral before its new person dependency; server returns dependency pending without orphan records.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-05-A",
+      "TC-BR-OFF-05-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-06",
+    "title": "Revalidation of delayed actions",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Queued actions shall be revalidated against current assignment, permissions, patient linkage, protocol and input freshness before execution. A delayed clinical action shall not proceed solely because it was once drafted.",
+    "acceptance": "A material rule or data change places the action into review with an explanation instead of silently executing the old plan.",
+    "design_id": "FR-OFF-06",
+    "design": "Delayed commands recheck active assignment, patient link, clinical freshness, pack version and recipient permission.",
+    "negative": "Queue an action then transfer the worker or retire the pack; require review or deny execution.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-06-A",
+      "TC-BR-OFF-06-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-07",
+    "title": "Shared and lost devices",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The application shall isolate local user data, hide sensitive notifications, support quick locking and allow remote revocation when connectivity returns. Local encryption and grant expiry shall protect offline data where remote wiping cannot be guaranteed.",
+    "acceptance": "A second user cannot view the first user's cached records, and a reported lost device loses server access on its next contact.",
+    "design_id": "FR-OFF-07",
+    "design": "Device switching clears decrypted memory and locks the cache. Remote revocation is enforced on next contact or lease expiry.",
+    "negative": "Sign in as another user on the same phone; no prior user records or notification content may leak.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-07-A",
+      "TC-BR-OFF-07-B"
+    ]
+  },
+  {
+    "id": "BR-OFF-08",
+    "title": "Offline workflow capacity",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The approved device profile shall support at least 200 structured encounters and the media allowance defined in Section 23 without silent eviction of unsynchronised work. Users shall see storage and pending upload status.",
+    "acceptance": "A capacity test reaches the agreed limit, warns before exhaustion and preserves every acknowledged record.",
+    "design_id": "FR-OFF-08",
+    "design": "Capacity reserves space for structured records before new media. Pending work is never evicted for cache refresh.",
+    "negative": "Reach the media quota during a 200-encounter queue; preserve existing acknowledged work and show actionable capacity status.",
+    "package": "WP08",
+    "screens": "SCR01 SCR03 SCR07 SCR09",
+    "components": "C01 C03 C10",
+    "apis": "API027 API028",
+    "tests": [
+      "TC-BR-OFF-08-A",
+      "TC-BR-OFF-08-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-01",
+    "title": "Action ownership",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every referral, follow-up and exception shall have an accountable person or team, a due time where appropriate, a reason and a current state. Unassigned work shall enter a monitored queue.",
+    "acceptance": "No active urgent task can exist without a visible responsible queue or assignee.",
+    "design_id": "FR-CARE-01",
+    "design": "Task creation requires an owner or a monitored assignment queue with a service-level escalation rule.",
+    "negative": "Remove a task owner during transfer; the task must enter a visible responsible queue.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-01-A",
+      "TC-BR-CARE-01-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-02",
+    "title": "Service directory",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Referral destinations shall come from an approved directory containing service capability, location, contact route, operating constraints and verification date. The agent shall not invent a facility or claim unverified availability.",
+    "acceptance": "A stale or unavailable service listing is labelled and routes the worker to an approved alternative or supervisor.",
+    "design_id": "FR-CARE-02",
+    "design": "Directory entries require last_verified_at and supported services; expired availability is labelled and escalated.",
+    "negative": "Select a stale or unavailable referral facility; the agent cannot invent a replacement service.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-02-A",
+      "TC-BR-CARE-02-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-03",
+    "title": "Referral lifecycle",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall distinguish proposed, authorised, sent, received, scheduled, attended, completed, declined, cancelled and unknown outcomes where supported. A booked appointment or sent message shall not equal completed care.",
+    "acceptance": "Completion requires a defined evidence source and actor; unsupported closure attempts are rejected.",
+    "design_id": "FR-CARE-03",
+    "design": "Referral transitions attach evidence_type, evidence_ref and verifying actor; closure needs outcome or coded unresolved disposition.",
+    "negative": "Mark a sent message as completed care; reject the transition.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-03-A",
+      "TC-BR-CARE-03-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-04",
+    "title": "Due work and escalation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Workers and supervisors shall receive prioritised task lists based on approved urgency and due dates. Missed tasks shall escalate under programme rules while retaining the reason for delay and service constraints.",
+    "acceptance": "An overdue case enters the correct supervisor queue and remains visible until completion or a documented resolution.",
+    "design_id": "FR-CARE-04",
+    "design": "Due-work calculations record schedule version and timezone; escalation retains prior owner and reason for delay.",
+    "negative": "A late incoming result resolves a task after escalation; reconcile ownership without duplicate follow-up.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-04-A",
+      "TC-BR-CARE-04-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-05",
+    "title": "Unified action plan",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Actions arising from multiple programmes shall be consolidated where clinically and operationally appropriate, retaining individual reasons and dependencies. Duplicate reminders shall be suppressed without hiding genuinely different work.",
+    "acceptance": "Two packs generating the same approved referral create one referral with both source links and appropriate programme completion states.",
+    "design_id": "FR-CARE-05",
+    "design": "Deduplication joins only equivalent person, purpose, destination and time-window tasks and retains both programme links.",
+    "negative": "Two programmes need genuinely different follow-ups; do not collapse them into one task.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-05-A",
+      "TC-BR-CARE-05-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-06",
+    "title": "Safe communication preferences",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Contact method, language, timing and disclosure preferences shall be recorded. Shared phone ownership shall be treated explicitly; sensitive content shall not be placed in notifications or message previews by default.",
+    "acceptance": "A patient requesting private contact receives no revealing automated message through a household contact number.",
+    "design_id": "FR-CARE-06",
+    "design": "Communication preferences are per person, purpose and channel, with shared-phone disclosure limits.",
+    "negative": "Request private follow-up on a shared household number; prevent revealing notifications.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-06-A",
+      "TC-BR-CARE-06-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-07",
+    "title": "External messaging and scheduling",
+    "priority": "Should",
+    "release": "R2",
+    "body": "Approved SMS, IVR, messaging or appointment services may be integrated with authorisation, delivery evidence, opt-out handling and escalation. Channels require separate readiness checks and shall not expose provider credentials to the agent.",
+    "acceptance": "Delivery failure creates a retry or follow-up task and is not reported as patient acknowledgement.",
+    "design_id": "FR-CARE-07",
+    "design": "Channel adapters record delivery and opt-out status separately from patient acknowledgement or service completion.",
+    "negative": "A messaging provider reports failure; leave follow-up unresolved and create recovery work.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-07-A",
+      "TC-BR-CARE-07-B"
+    ]
+  },
+  {
+    "id": "BR-CARE-08",
+    "title": "Worker activity evidence",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The system shall generate a reviewable record of verified worker activities for programme reporting or incentive support. It shall distinguish performed, claimed, verified and submitted activity and avoid promising payment.",
+    "acceptance": "Correcting or cancelling an activity updates derived claims and leaves the original evidence and review history traceable.",
+    "design_id": "FR-CARE-08",
+    "design": "Activity evidence distinguishes performed, verified, claimed and submitted; corrections invalidate derived claims.",
+    "negative": "Cancel an activity after incentive evidence is prepared; retain history and mark the evidence stale.",
+    "package": "WP09",
+    "screens": "SCR05 SCR08 SCR10 SCR13",
+    "components": "C08 C11",
+    "apis": "API022 API023 API024 API025 API056 API057 API058 API059",
+    "tests": [
+      "TC-BR-CARE-08-A",
+      "TC-BR-CARE-08-B"
+    ]
+  },
+  {
+    "id": "BR-REP-01",
+    "title": "Operational exception queues",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Supervisors shall see overdue work, identity conflicts, rejected submissions, unresolved clinical reviews and synchronisation problems within their scope. Queues shall identify owner, age and recovery action.",
+    "acceptance": "Each seeded failure is discoverable and assignable without searching individual worker transcripts.",
+    "design_id": "FR-REP-01",
+    "design": "Exceptions are indexed by owner, type, age, state and permitted person reference with direct recovery actions.",
+    "negative": "Create a failed submission with no assigned handler; it must appear in the monitored integration queue.",
+    "package": "WP10",
+    "screens": "SCR12 SCR13 SCR15",
+    "components": "C11 C12",
+    "apis": "API032 API070 API071 API073 API074",
+    "tests": [
+      "TC-BR-REP-01-A",
+      "TC-BR-REP-01-B"
+    ]
+  },
+  {
+    "id": "BR-REP-02",
+    "title": "Governed indicator definitions",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Each indicator shall define numerator, denominator, exclusions, period, source, update cadence and owner. Changes shall be versioned; historical reports shall remain reproducible.",
+    "acceptance": "A reviewer can recalculate sample indicators from authorised records and distinguish visits, unique people and accepted programme submissions.",
+    "design_id": "FR-REP-02",
+    "design": "Metric definitions version numerator, denominator, exclusions, source grain, cutoff and suppression.",
+    "negative": "Recalculate a past report after a metric change; the original version must remain reproducible.",
+    "package": "WP10",
+    "screens": "SCR12 SCR13 SCR15",
+    "components": "C11 C12",
+    "apis": "API032 API070 API071 API073 API074",
+    "tests": [
+      "TC-BR-REP-02-A",
+      "TC-BR-REP-02-B"
+    ]
+  },
+  {
+    "id": "BR-REP-03",
+    "title": "Data freshness and completeness",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Reports shall disclose late arrivals, missing sources, external outages and refresh times. A partially synchronised period shall not look equivalent to a complete reporting period.",
+    "acceptance": "Disconnecting one source produces a visible completeness warning and an explicit affected denominator.",
+    "design_id": "FR-REP-03",
+    "design": "Each report shows source refresh time and incomplete feeds; delayed records revise a new report version.",
+    "negative": "Disconnect one feed; the dashboard must not display a falsely complete period.",
+    "package": "WP10",
+    "screens": "SCR12 SCR13 SCR15",
+    "components": "C11 C12",
+    "apis": "API032 API070 API071 API073 API074",
+    "tests": [
+      "TC-BR-REP-03-A",
+      "TC-BR-REP-03-B"
+    ]
+  },
+  {
+    "id": "BR-REP-04",
+    "title": "Privacy-preserving aggregation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Reports shall enforce audience-specific aggregation and small-cell controls. Patient-level drilldown and exports shall require an approved purpose and separate access.",
+    "acceptance": "Combining filters cannot reveal a suppressed small group or bypass person-level access restrictions.",
+    "design_id": "FR-REP-04",
+    "design": "Aggregate policy combines minimum cohort rules, protected dimensions and query-history controls against differencing.",
+    "negative": "Vary filters to reconstruct a suppressed patient; the system must deny the revealing query sequence.",
+    "package": "WP10",
+    "screens": "SCR12 SCR13 SCR15",
+    "components": "C11 C12",
+    "apis": "API032 API070 API071 API073 API074",
+    "tests": [
+      "TC-BR-REP-04-A",
+      "TC-BR-REP-04-B"
+    ]
+  },
+  {
+    "id": "BR-REP-05",
+    "title": "Reconciled exports",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Exports shall identify report definition, period, filters, generation time and user, with protected access and expiry where appropriate. Official reporting shall pass a review and submission state distinct from a draft export.",
+    "acceptance": "An exported report reconciles to the displayed governed measure and cannot be downloaded by an unauthorised role.",
+    "design_id": "FR-REP-05",
+    "design": "Exports contain metric definition version, scope, date window and row count, with expiring authorised download.",
+    "negative": "Alter a filter after export approval; require new review and block the old download request.",
+    "package": "WP10",
+    "screens": "SCR12 SCR13 SCR15",
+    "components": "C11 C12",
+    "apis": "API032 API070 API071 API073 API074",
+    "tests": [
+      "TC-BR-REP-05-A",
+      "TC-BR-REP-05-B"
+    ]
+  },
+  {
+    "id": "BR-REP-06",
+    "title": "Population prioritisation",
+    "priority": "Should",
+    "release": "R2",
+    "body": "Approved risk or gap-analysis tools may identify populations needing review. Such results shall identify data limitations and support human planning rather than automatically denying service or ranking worker pay.",
+    "acceptance": "Supervisors can inspect selection criteria and override an allocation with a reason; uncertainty remains visible.",
+    "design_id": "FR-REP-06",
+    "design": "Prioritisation returns reasons and uncertainty for human allocation; neither payment nor eligibility is automatically changed.",
+    "negative": "Request worker penalties from an AI ranking; no sanction action is available.",
+    "package": "WP10",
+    "screens": "SCR12 SCR13 SCR15",
+    "components": "C11 C12",
+    "apis": "API032 API070 API071 API073 API074",
+    "tests": [
+      "TC-BR-REP-06-A",
+      "TC-BR-REP-06-B"
+    ]
+  },
+  {
+    "id": "BR-REP-07",
+    "title": "Product performance metrics",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall measure reuse, task completion, corrections, provider usage, sync failures and support burden without storing raw sensitive content in general analytics.",
+    "acceptance": "Product dashboards can support the Section 6 evaluation and contain no unnecessary patient identifiers or recording content.",
+    "design_id": "FR-REP-07",
+    "design": "Operational metrics use event references and redacted counters; patient content never becomes general product telemetry.",
+    "negative": "Inspect crash and usage events after a sensitive encounter; no raw transcript or clinical payload may be present.",
+    "package": "WP10",
+    "screens": "SCR12 SCR13 SCR15",
+    "components": "C11 C12",
+    "apis": "API032 API070 API071 API073 API074",
+    "tests": [
+      "TC-BR-REP-07-A",
+      "TC-BR-REP-07-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-01",
+    "title": "Deployment configuration",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Administrators shall configure organisation, geography, facilities, roles, programmes, languages, provider eligibility and operational limits. Changes shall be scoped to the deployment and validated before activation.",
+    "acceptance": "Updating one tenant's configuration cannot change another tenant's behaviour or data visibility.",
+    "design_id": "FR-OPS-01",
+    "design": "Configuration is tenant-scoped and versioned; validate referenced roles, packs, capabilities and connector profiles before publish.",
+    "negative": "Change tenant A configuration and inspect tenant B; no state or access change may occur.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-01-A",
+      "TC-BR-OPS-01-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-02",
+    "title": "Separation of environments",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Development, demonstration, training and production environments shall have separate identities, data and credentials. Synthetic data shall be clearly identifiable and blocked from production programme submissions.",
+    "acceptance": "A demonstration record cannot reach a live MIS, and a training account cannot access real patient records.",
+    "design_id": "FR-OPS-02",
+    "design": "Production credentials and routes are unavailable in test environments; fixtures carry synthetic mode on every record.",
+    "negative": "Submit a training identity through a live connector; block at policy and adapter boundaries.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-02-A",
+      "TC-BR-OPS-02-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-03",
+    "title": "Controlled publishing and rollback",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Programme packs, language content, knowledge sources, model versions and mappings shall use review, approval, publication and rollback states. Sensitive changes require independent approval and an impact summary.",
+    "acceptance": "A failed change is reversible to an approved version while preserving the history of work completed under the changed version.",
+    "design_id": "FR-OPS-03",
+    "design": "Publish creates an immutable manifest and independent approval for sensitive changes; rollback checks schema compatibility.",
+    "negative": "Rollback after a schema change that makes old config incompatible; require an explicit compatible migration.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-03-A",
+      "TC-BR-OPS-03-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-04",
+    "title": "Operational monitoring",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Operators shall monitor platform health, connector failures, pending queues, model availability, permission anomalies and costs. Alerts shall identify severity, affected scope, accountable owner and required response.",
+    "acceptance": "An induced provider outage and a stalled writeback queue reach the correct support owner within the agreed alert target.",
+    "design_id": "FR-OPS-04",
+    "design": "Alert rules cover service, queue, provider, policy and cost failures and route to an accountable team.",
+    "negative": "Stall an outbound queue without process failure; a queue-age alert must still fire.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-04-A",
+      "TC-BR-OPS-04-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-05",
+    "title": "Support without unnecessary disclosure",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Users shall raise a support case from a failed task using redacted diagnostics. Access to additional patient content shall be limited to authorised support personnel, purpose and duration.",
+    "acceptance": "A routine support agent can diagnose a sync failure without unrestricted patient access; exceptional access is logged and expires.",
+    "design_id": "FR-OPS-05",
+    "design": "Support tickets expose redacted diagnostics first. Clinical content requires a separate scoped expiring grant.",
+    "negative": "Open a ticket as general support staff; no patient record is visible by default.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-05-A",
+      "TC-BR-OPS-05-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-06",
+    "title": "Training and competency",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Training shall cover patient matching, correction, offline states, model limits, escalation and real submission status. Users shall practise in a safe environment and demonstrate core competencies before live activation.",
+    "acceptance": "Activation records show training completion and role-specific competency evidence for the pilot cohort.",
+    "design_id": "FR-OPS-06",
+    "design": "Activation records completed role-specific training and a competency assessment in the synthetic environment.",
+    "negative": "A worker fails patient-matching competency; live account activation remains restricted.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-06-A",
+      "TC-BR-OPS-06-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-07",
+    "title": "Data exit and continuity",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The buyer shall be able to export its authorised operational records, configuration and audit evidence in documented formats under the agreement. Provider or platform termination shall include queue disposition and care-task handover.",
+    "acceptance": "An exit rehearsal produces a usable export, a list of unresolved external actions and a named owner for open patient tasks.",
+    "design_id": "FR-OPS-07",
+    "design": "Exit exports preserve IDs, provenance, record versions and open tasks; verify counts with the receiving operator.",
+    "negative": "Terminate a provider while work is queued; no accepted local records or outstanding care tasks are lost.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-07-A",
+      "TC-BR-OPS-07-B"
+    ]
+  },
+  {
+    "id": "BR-OPS-08",
+    "title": "Repeatable deployment packaging",
+    "priority": "Should",
+    "release": "R2",
+    "body": "A deployment pack shall record approved settings, dependencies, training, tests and operating responsibilities. Country-specific rules shall be configurable without duplicating the entire product.",
+    "acceptance": "A second deployment can be assembled from the pack with explicit local differences and no copied production patient data.",
+    "design_id": "FR-OPS-08",
+    "design": "A deployment manifest packages reviewed config and references secrets by name rather than embedding them.",
+    "negative": "Copy a deployment pack; it must contain no live patient data or reusable production secret.",
+    "package": "WP11",
+    "screens": "SCR16 SCR18 SCR20 SCR22",
+    "components": "C12 C13",
+    "apis": "API033 API035 API064 API065 API068 API069",
+    "tests": [
+      "TC-BR-OPS-08-A",
+      "TC-BR-OPS-08-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-01",
+    "title": "Purpose and lawful authority",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every material data flow shall record its purpose, responsible organisation, applicable authority or processing basis, recipient and retention rule. Consent-based flows shall carry the required consent; other authorised flows shall record their distinct basis.",
+    "acceptance": "A new provider or connector cannot activate without an approved data-flow record, and a user clicking confirm cannot override an absent processing basis.",
+    "design_id": "FR-SEC-01",
+    "design": "Authority records distinguish consent-based flows from other approved processing bases and specify allowed purpose and recipients.",
+    "negative": "Activate a new data flow with no documented basis; policy must block it.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-01-A",
+      "TC-BR-SEC-01-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-02",
+    "title": "Understandable notice and consent",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Where consent is required, the workflow shall present a reviewed notice in an appropriate language and record scope, notice version, person or authorised representative, decision, time and expiry. Optional use shall be distinguishable from essential service steps.",
+    "acceptance": "Declining an optional AI recording leaves the approved non-AI care workflow available and prevents that media from being sent.",
+    "design_id": "FR-SEC-02",
+    "design": "Notices have language and version, and record the actor, relationship, decision, time and purpose.",
+    "negative": "Decline optional AI consent; the approved ordinary care workflow remains available.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-02-A",
+      "TC-BR-SEC-02-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-03",
+    "title": "Withdrawal and downstream effects",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Withdrawal, expiry or change of authorisation shall stop future affected processing and identify queued, cached and externally held data requiring action. Retention obligations and completed lawful transactions shall be handled under the approved policy.",
+    "acceptance": "Revocation blocks a queued provider upload and produces a traceable disposition record; the system does not claim to erase an external record without evidence.",
+    "design_id": "FR-SEC-03",
+    "design": "Revocation invalidates pending disclosures immediately online and schedules device and recipient disposition actions.",
+    "negative": "Withdraw after a provider already received data; show downstream action pending rather than claiming instantaneous erasure.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-03-A",
+      "TC-BR-SEC-03-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-04",
+    "title": "Sensitive data and proxy handling",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The system shall support additional restrictions for sensitive programme information, children, adolescents and proxy relationships as defined for the jurisdiction and care context. Relationship, authority and expiry shall be recorded separately.",
+    "acceptance": "A household member cannot infer restricted information through summaries, notifications, shared schedules or access to another member's encounter.",
+    "design_id": "FR-SEC-04",
+    "design": "Sensitive data classes and proxy rules are evaluated before views, exports, notifications and model payload construction.",
+    "negative": "A proxy for one purpose attempts unrelated confidential history; deny access.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-04-A",
+      "TC-BR-SEC-04-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-05",
+    "title": "Encryption and secrets",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Sensitive data shall be protected in transit and at rest, including local caches, backups and media. Secrets shall be managed outside client code, prompts, logs and configuration exports, with ownership and rotation procedures.",
+    "acceptance": "Security review finds no usable provider keys in the client bundle or agent context, and local data is unreadable outside the authorised application.",
+    "design_id": "FR-SEC-05",
+    "design": "TLS, envelope encryption and secret references protect data; key rotation and access are audited separately.",
+    "negative": "Inspect mobile bundle, logs and model context; no provider secret or plaintext database key may exist.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-05-A",
+      "TC-BR-SEC-05-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-06",
+    "title": "Tenant and record isolation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Isolation shall apply to transactional records, searches, indexes, retrieval stores, reports, file links, backups and asynchronous tasks. High-privilege operations shall require explicit scoped authority.",
+    "acceptance": "Cross-tenant adversarial tests and wrong-record reference tests result in denial with no content disclosure.",
+    "design_id": "FR-SEC-06",
+    "design": "Every object query and attachment token enforces tenant and record policy; database RLS supplies a second tenant boundary.",
+    "negative": "Reuse another tenant object key or export URL; deny with no content disclosure.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-06-A",
+      "TC-BR-SEC-06-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-07",
+    "title": "Safe logs and analytics",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Application logs, crash reports, support exports and usage analytics shall minimise or redact identifiers and clinical content. Necessary sensitive diagnostic records shall have separate access and retention.",
+    "acceptance": "A representative end-to-end test leaves no raw recording, credential or complete patient narrative in general operational telemetry.",
+    "design_id": "FR-SEC-07",
+    "design": "A structured logging allowlist excludes clinical values, credentials, raw prompts and recording bytes.",
+    "negative": "Trigger validation errors with sensitive input; logs show reason and correlation only.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-07-A",
+      "TC-BR-SEC-07-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-08",
+    "title": "Audit evidence",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall record material reads, writes, approvals, AI calls, exports, configuration changes and privileged access with actor, authority, affected object, time, outcome and version. Ordinary users shall not be able to alter audit history.",
+    "acceptance": "An auditor reconstructs a selected encounter and submission from evidence without relying on the chat transcript or provider recollection.",
+    "design_id": "FR-SEC-08",
+    "design": "A material command commits its audit record atomically; durable read-access audit precedes sensitive data return.",
+    "negative": "Make audit storage unavailable for a sensitive action; deny or retain a durable queued record per approved policy.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-08-A",
+      "TC-BR-SEC-08-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-09",
+    "title": "Controlled retention and disposal",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Retention shall be specified by record class, purpose, location and jurisdiction, including transcripts, raw audio, model outputs, local caches, audit and backups. Legal holds and clinical record duties shall override routine disposal only through recorded policy.",
+    "acceptance": "Test data expires according to its configured schedule, while held records remain protected and identifiable; backup restoration does not silently revive deleted operational data.",
+    "design_id": "FR-SEC-09",
+    "design": "Retention jobs require record class, schedule, legal-hold checks and evidence of actual disposal at each storage tier.",
+    "negative": "Restore a backup containing expired records; reapply tombstones before records become available.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-09-A",
+      "TC-BR-SEC-09-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-10",
+    "title": "Rights and correction workflow",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The deployment shall provide a route for access, correction, grievances and applicable deletion or restriction requests. Identity verification shall be proportionate, and downstream dependencies shall be tracked.",
+    "acceptance": "A test request reaches the responsible organisation, has a due date under its approved policy and closes only with an evidence-backed outcome.",
+    "design_id": "FR-SEC-10",
+    "design": "Rights cases verify requester identity, track affected custodians and deadlines, and record evidence-backed resolution.",
+    "negative": "Submit a deletion request for another adult without authority; no record deletion is permitted.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-10-A",
+      "TC-BR-SEC-10-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-11",
+    "title": "Emergency and support access",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Any exceptional access shall have a defined eligible role, reason, time limit, minimum scope and retrospective review. It shall not create permanent access or bypass clinical authority.",
+    "acceptance": "A break-glass event is visible to the designated reviewer and automatically expires; an ordinary worker cannot invoke it unless specifically authorised.",
+    "design_id": "FR-SEC-11",
+    "design": "Exceptional access requires an approved role, purpose, scope, expiry and independent retrospective review.",
+    "negative": "Attempt break-glass as an ordinary worker; deny without granting persistent privilege.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-11-A",
+      "TC-BR-SEC-11-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-12",
+    "title": "Provider and supply-chain assurance",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Providers and critical dependencies shall disclose security controls, subprocessors, incident contacts and material changes. The product shall maintain a dependency inventory and a process for vulnerable or unsupported components.",
+    "acceptance": "An unresolved critical vulnerability affecting the deployment blocks release or disables the affected component until the approved remedy is implemented.",
+    "design_id": "FR-SEC-12",
+    "design": "Provider onboarding records dependencies, subprocessors, update obligations and vulnerability response ownership.",
+    "negative": "A critical exploitable dependency finding remains unresolved; block affected live release.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-12-A",
+      "TC-BR-SEC-12-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-13",
+    "title": "Incident response",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Security and privacy incidents shall have triage, containment, evidence preservation, impact assessment and notification responsibilities. The relevant legal and contractual notification windows shall be maintained per deployment rather than hard-coded as a universal rule.",
+    "acceptance": "A tabletop exercise demonstrates who acts, what access is revoked, how affected records are found and how notification decisions are documented.",
+    "design_id": "FR-SEC-13",
+    "design": "Incident records retain timeline, containment, affected scope and jurisdiction-specific notification decisions.",
+    "negative": "Run an incident exercise with partial evidence; closure cannot claim notification or recovery without evidence.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-13-A",
+      "TC-BR-SEC-13-B"
+    ]
+  },
+  {
+    "id": "BR-SEC-14",
+    "title": "Hosting and cross-border controls",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Approved data locations and transfer restrictions shall apply to primary storage, AI providers, backups, analytics and support access. Region selection shall be enforced across the processing chain.",
+    "acceptance": "A model endpoint or support route outside the deployment's permitted locations is rejected before personal data is transferred.",
+    "design_id": "FR-SEC-14",
+    "design": "Routing policy constrains provider, storage, backup and support regions before any transfer.",
+    "negative": "Point an otherwise approved adapter to an unapproved region; reject the transfer.",
+    "package": "WP02",
+    "screens": "SCR11 SCR16 SCR17 SCR21 SCR22",
+    "components": "C02 C13 C14",
+    "apis": "API009 API010 API044 API045",
+    "tests": [
+      "TC-BR-SEC-14-A",
+      "TC-BR-SEC-14-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-01",
+    "title": "No invented facts",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The platform shall never fill an unanswered clinical or programme field with an assumed answer. It may calculate a derived value only where the formula and required inputs are approved and the result is labelled as derived.",
+    "acceptance": "Missing, refused and uncertain inputs remain distinguishable across local records, model calls and outgoing submissions.",
+    "design_id": "FR-RULE-01",
+    "design": "Observation validation requires a real captured value or explicit missingness; model-derived values carry derivation references.",
+    "negative": "Complete a mandatory form by inventing a missing answer; the platform must refuse the fabricated value.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-01-A",
+      "TC-BR-RULE-01-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-02",
+    "title": "Patient confirmation before commitment",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The workflow shall require a positive person-context check before confirming an encounter or sending a patient-specific external action. Ambiguous identity shall restrict action to the allowed provisional workflow.",
+    "acceptance": "A deliberately ambiguous match cannot create an authoritative programme update until the identity requirement is resolved.",
+    "design_id": "FR-RULE-02",
+    "design": "Consequential commands require a recently confirmed patient context tied to the encounter revision.",
+    "negative": "Submit from a stale patient tab after a switch; reject the context mismatch.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-02-A",
+      "TC-BR-RULE-02-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-03",
+    "title": "Review depends on unchanged evidence",
+    "priority": "Must",
+    "release": "R1",
+    "body": "An approval shall be bound to the material facts, intended action, destination and relevant versions reviewed. Material changes shall invalidate it and require an appropriate new review.",
+    "acceptance": "Editing a measurement after referral approval prevents silent use of the previous approval for a changed recommendation.",
+    "design_id": "FR-RULE-03",
+    "design": "Approval includes hashes of facts, action, recipient, purpose, rules and model versions.",
+    "negative": "Reuse approval after changing one bound input; reject and return to review.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-03-A",
+      "TC-BR-RULE-03-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-04",
+    "title": "Honest completion and cancellation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Local completion, external acceptance and service completion shall be distinct. Cancelling a local task shall not falsely cancel an accepted external transaction; a separate authorised correction or cancellation request is required.",
+    "acceptance": "Cancellation after submission reports the actual destination state and generates any remaining reversal task.",
+    "design_id": "FR-RULE-04",
+    "design": "Local task cancellation records remaining external obligations; it never rewrites destination receipts.",
+    "negative": "Cancel after external acceptance; the accepted receipt remains and a correction task is created.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-04-A",
+      "TC-BR-RULE-04-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-05",
+    "title": "No false model equivalence",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Provider outputs shall retain their meaning and intended use. Confidence scores from different models shall not be treated as directly comparable without an approved interpretation and evaluation.",
+    "acceptance": "A multi-model result screen avoids a fabricated common score and presents the required review path for disagreement.",
+    "design_id": "FR-RULE-05",
+    "design": "Result displays preserve provider-specific scales and calibration notes; unsupported score comparisons are disallowed.",
+    "negative": "Average two unrelated risk scores in a plan; validation rejects the invented combined metric.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-05-A",
+      "TC-BR-RULE-05-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-06",
+    "title": "Rechecks at execution time",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Permission, person linkage, capability status and relevant authorisation shall be checked immediately before an external action, even if planning occurred earlier.",
+    "acceptance": "Revoking a worker's role between drafting and execution blocks the pending action and preserves it for authorised reassignment.",
+    "design_id": "FR-RULE-06",
+    "design": "Execution performs current policy and authority checks even when the planning-stage checks passed.",
+    "negative": "Revoke access between plan approval and worker dispatch; the side effect must not occur.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-06-A",
+      "TC-BR-RULE-06-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-07",
+    "title": "No experimental output in care",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Training, synthetic, shadow or unapproved model results shall be segregated from the operational care record and shall not influence user-visible clinical action lists.",
+    "acceptance": "An experimental high-risk result cannot trigger a live referral or patient notification outside an explicitly authorised evaluation protocol.",
+    "design_id": "FR-RULE-07",
+    "design": "Environment and output-use labels travel with every model result; live action builders reject test or shadow results.",
+    "negative": "Attach a shadow result to a real care order; reject the source association.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-07-A",
+      "TC-BR-RULE-07-B"
+    ]
+  },
+  {
+    "id": "BR-RULE-08",
+    "title": "No silent adverse allocation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The agent shall not independently deny services, sanction benefits, determine worker incentives or impose employment consequences. Any later support for such decisions requires a separately approved scope and review process.",
+    "acceptance": "Requests for an automatic denial or sanction produce no operational transaction and identify the required authority.",
+    "design_id": "FR-RULE-08",
+    "design": "The action catalogue excludes autonomous benefits, sanctions and employment decisions.",
+    "negative": "Ask the agent to deny a service based on attendance history; no such command can execute.",
+    "package": "WP02",
+    "screens": "SCR02 SCR05 SCR06 SCR07 SCR11",
+    "components": "C03 C05 C13",
+    "apis": "",
+    "tests": [
+      "TC-BR-RULE-08-A",
+      "TC-BR-RULE-08-B"
+    ]
+  },
+  {
+    "id": "NFR-01",
+    "title": "Core availability",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The central platform shall target 99.5 percent monthly availability for core authenticated record and workflow services. Report planned maintenance and upstream outages separately; publish a second end-to-end measure including dependencies.",
+    "acceptance": "Synthetic probes, error logs and incident records reconcile to a monthly report with transparent exclusions.",
+    "design_id": "QR-01",
+    "design": "Measure successful authenticated core probes and real requests over a calendar month; publish planned maintenance and dependency failures separately.",
+    "negative": "Inject an upstream outage; do not omit it from the end-to-end availability view.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-01-A",
+      "TC-NFR-01-B"
+    ]
+  },
+  {
+    "id": "NFR-02",
+    "title": "Responsive field interface",
+    "priority": "Must",
+    "release": "R1",
+    "body": "On the reference device, local field saves shall complete within 500 ms at the 95th percentile and cached patient or task screens within 2 seconds. Connected core screens shall target 3 seconds at the 95th percentile under the reference network.",
+    "acceptance": "Instrument representative tasks under R1 load and report failed requests and slow outliers, not just averages.",
+    "design_id": "QR-02",
+    "design": "Run the BRD reference device and network profile; collect at least 1000 timings per tested path and report median p95 p99 and errors.",
+    "negative": "Repeat at degraded bandwidth and latency; do not apply reference-network targets to a different test silently.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-02-A",
+      "TC-NFR-02-B"
+    ]
+  },
+  {
+    "id": "NFR-03",
+    "title": "Visible AI progress",
+    "priority": "Must",
+    "release": "R1",
+    "body": "An online AI task shall acknowledge its state within 2 seconds and display progress or an honest pending state. Each capability shall have an approved completion deadline; a default interactive deadline of 30 seconds is proposed, with longer asynchronous tasks clearly identified.",
+    "acceptance": "Timeout and delayed-provider tests show usable status and preserve the underlying encounter workflow.",
+    "design_id": "QR-03",
+    "design": "Time acknowledgement and progress updates for synchronous and long-running AI calls; measure provider latency separately.",
+    "negative": "Delay a provider beyond its deadline; show timeout or pending state without fabricated completion.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-03-A",
+      "TC-NFR-03-B"
+    ]
+  },
+  {
+    "id": "NFR-04",
+    "title": "No loss of acknowledged local work",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Acknowledged local saves shall survive application crash, routine restart and temporary power loss on supported devices. No record may be marked saved before durable persistence. Device destruction remains outside this guarantee until synchronisation.",
+    "acceptance": "Fault injection recovers all acknowledged records and identifies any unacknowledged inputs as unsaved.",
+    "design_id": "QR-04",
+    "design": "Inject process kills router restart storage-full and power-loss simulations around acknowledged local commits.",
+    "negative": "Destroy unsynchronised device storage; report the excluded failure and recovery limit explicitly.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-04-A",
+      "TC-NFR-04-B"
+    ]
+  },
+  {
+    "id": "NFR-05",
+    "title": "Duplicate-safe execution",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Repeated delivery, retries and replay of the same logical action shall not create duplicate business events where the connector contract supports idempotency or reconciliation. Unsupported cases shall remain unresolved instead of being blindly retried.",
+    "acceptance": "At least 10000 replay and timeout test events produce no duplicate accepted activity in the supported connector fixtures.",
+    "design_id": "QR-05",
+    "design": "Replay at least 10000 action deliveries with timeouts before and after external acceptance and compare destination counts.",
+    "negative": "Use a destination without deduplication or status lookup; require unresolved review rather than blind retry.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-05-A",
+      "TC-NFR-05-B"
+    ]
+  },
+  {
+    "id": "NFR-06",
+    "title": "Server recovery",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The proposed server recovery point objective is at most 15 minutes and recovery time objective at most 4 hours. The accepted architecture may improve these limits. Locally queued work shall reconcile after recovery rather than being discarded.",
+    "acceptance": "A documented restore exercise measures actual recovery, integrity and replay of affected outstanding work.",
+    "design_id": "QR-06",
+    "design": "Restore database and object references from a timed backup checkpoint; measure actual data loss and recovery elapsed time.",
+    "negative": "Lose the newest backup and repeat; disclose any RPO or RTO breach.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-06-A",
+      "TC-NFR-06-B"
+    ]
+  },
+  {
+    "id": "NFR-07",
+    "title": "Data integrity",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Confirmed records shall retain referential integrity, valid units and complete version history through capture, sync, amendment and export. Checks shall detect orphan identities, missing receipts and invalid state transitions.",
+    "acceptance": "Release reconciliation covers every generated record in the migration and failure test corpus, with zero unexplained loss.",
+    "design_id": "QR-07",
+    "design": "Run referential, version and receipt reconciliation across migration and failure fixtures and count orphaned records.",
+    "negative": "Inject a missing person dependency and orphan media key; quarantine without silent data loss.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-07-A",
+      "TC-NFR-07-B"
+    ]
+  },
+  {
+    "id": "NFR-08",
+    "title": "Security release posture",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Production shall have no unresolved critical or high-severity exploitable findings within the agreed security assessment scope. Findings must be remediated or the affected capability removed before launch.",
+    "acceptance": "Independent review covers access control, mobile storage, APIs, secrets, file access, agent tool abuse and tenant isolation.",
+    "design_id": "QR-08",
+    "design": "Run independent security assessment and verify all applicable critical or high exploitable findings closed or feature removed.",
+    "negative": "Leave one release-blocking finding open; the release gate must fail.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-08-A",
+      "TC-NFR-08-B"
+    ]
+  },
+  {
+    "id": "NFR-09",
+    "title": "Online revocation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Role removal or account suspension shall stop new online access and actions within 5 minutes. A disconnected device is constrained by its offline grant and local lock policy; it cannot be promised immediate remote revocation.",
+    "acceptance": "Session, background job and reconnect tests enforce the limit and record the residual offline window.",
+    "design_id": "QR-09",
+    "design": "Suspend sessions and service accounts during active requests and queues; timestamp last allowed action and first denial.",
+    "negative": "Keep an offline device disconnected; report residual access until lease expiry rather than claiming immediate revocation.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-09-A",
+      "TC-NFR-09-B"
+    ]
+  },
+  {
+    "id": "NFR-10",
+    "title": "Audit completeness and timing",
+    "priority": "Must",
+    "release": "R1",
+    "body": "All mandatory audit events shall be durable before or atomically with the consequential action where feasible. If durable audit cannot be established, external writes and privileged changes shall stop. Local capture may continue with its local audit queue.",
+    "acceptance": "Audit-store failure blocks the designated actions, while recovery preserves event order and detects clock skew.",
+    "design_id": "QR-10",
+    "design": "Correlate all tested material commands with durable audit records and verify a crash cannot commit only one side.",
+    "negative": "Force audit write failure at commit; block the consequential action.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-10-A",
+      "TC-NFR-10-B"
+    ]
+  },
+  {
+    "id": "NFR-11",
+    "title": "Offline capacity and controlled storage",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The reference device shall retain 200 structured unsynchronised encounters plus 100 media items of up to 4 MB each within a proposed 500 MB data allowance. Capability-approved media formats take precedence; larger media require a separately accepted profile.",
+    "acceptance": "Capacity, low-storage and restart tests show warnings and no silent deletion of unsynchronised data.",
+    "design_id": "QR-11",
+    "design": "Store 200 unsynced structured encounters and 100 media items up to 4 MB each within the 500 MB reference allowance.",
+    "negative": "Approach capacity with oversized media; prevent new capture and preserve pending work.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-11-A",
+      "TC-NFR-11-B"
+    ]
+  },
+  {
+    "id": "NFR-12",
+    "title": "Synchronisation recovery",
+    "priority": "Must",
+    "release": "R1",
+    "body": "On stable reconnection, 95 percent of eligible structured records in a 200-record queue shall reach the platform within 5 minutes under reference network conditions. Media and external destination acceptance have separate measures.",
+    "acceptance": "Queue tests measure completion, rejected records, permission rechecks and remaining unresolved items.",
+    "design_id": "QR-12",
+    "design": "Sync a 200-record structured queue under the BRD reference network and time the 95th percentile eligible arrival.",
+    "negative": "Add an authorisation rejection; report it separately rather than miscount it as successful sync.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-12-A",
+      "TC-NFR-12-B"
+    ]
+  },
+  {
+    "id": "NFR-13",
+    "title": "Accessibility",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Web workflows shall target WCAG 2.2 AA; mobile workflows shall implement corresponding applicable principles and native accessibility support [S6]. Essential tasks shall support readable scaling, labelled controls, focus navigation and non-colour status cues.",
+    "acceptance": "Automated assessment plus manual assistive-technology and representative-user testing covers all core journeys.",
+    "design_id": "QR-13",
+    "design": "Combine automated accessibility scans with keyboard screen-reader scaling and non-colour task testing.",
+    "negative": "Complete a core flow with no pointer and large text; any blocked action fails accessibility acceptance.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-13-A",
+      "TC-NFR-13-B"
+    ]
+  },
+  {
+    "id": "NFR-14",
+    "title": "Usability and training burden",
+    "priority": "Must",
+    "release": "R1",
+    "body": "At least 90 percent of representative participants shall complete core tasks without facilitator intervention after standard training. Record errors, recovery time and programme understanding, not only task speed.",
+    "acceptance": "Proposed evaluation includes at least 20 representative frontline users and 5 supervisors, with results disaggregated by language and device familiarity.",
+    "design_id": "QR-14",
+    "design": "Evaluate at least 20 representative frontline workers and 5 supervisors on unassisted core tasks after standard training.",
+    "negative": "Include error recovery and device-unfamiliar participants; disclose subgroup failure rather than aggregate it away.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-14-A",
+      "TC-NFR-14-B"
+    ]
+  },
+  {
+    "id": "NFR-15",
+    "title": "Language quality",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Critical UI, counselling and escalation content shall receive qualified human review in each supported language. Numeric extraction, negation and clinical terms require task-specific evaluation; aggregate speech word error rate alone is insufficient.",
+    "acceptance": "Reviewers accept the language corpus, and all safety-critical benchmark cases meet the approved pass criteria.",
+    "design_id": "QR-15",
+    "design": "Use reviewed language fixtures for clinical negation units dates names and mixed-language speech.",
+    "negative": "Translate a safety-critical string incorrectly; block that language workflow until corrected.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-15-A",
+      "TC-NFR-15-B"
+    ]
+  },
+  {
+    "id": "NFR-16",
+    "title": "AI extraction quality",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The proposed administrative extraction target is at least 95 percent precision and recall for required nonclinical fields on a representative annotated corpus. Critical clinical fields require confirmation regardless of extraction score; clinical model targets remain capability-specific.",
+    "acceptance": "Report field-level errors, language and noise subgroups, missingness and correction burden against a versioned test set.",
+    "design_id": "QR-16",
+    "design": "Measure precision and recall on an independently annotated representative administrative extraction set; report missingness and corrections.",
+    "negative": "Run ambiguous clinical fields; require confirmation regardless of extraction confidence.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-16-A",
+      "TC-NFR-16-B"
+    ]
+  },
+  {
+    "id": "NFR-17",
+    "title": "Clinical and agent safety evaluation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "The release suite shall include all approved critical scenarios for escalation, role boundaries, wrong-patient context, unsupported use and adversarial instructions. All release-blocking cases must pass; passing the suite is not proof of zero clinical risk.",
+    "acceptance": "Named reviewers sign the results and link every unresolved lower-severity issue to an owner and disposition.",
+    "design_id": "QR-17",
+    "design": "Execute approved wrong-patient, role-boundary, emergency, unsupported-use and prompt-injection scenarios.",
+    "negative": "Retain one release-blocking safety failure; production gate remains closed.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-17-A",
+      "TC-NFR-17-B"
+    ]
+  },
+  {
+    "id": "NFR-18",
+    "title": "Operational observability",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Major platform, queue or connector failures shall generate an actionable alert within 5 minutes of detection criteria being met. Traces shall link a user task to provider calls and destination receipts without exposing unnecessary clinical content.",
+    "acceptance": "Induced failures reach the correct queue and permit reconstruction using redacted diagnostic data.",
+    "design_id": "QR-18",
+    "design": "Seed provider failure queue stall and permission error events and time delivery to the correct accountable alert queue.",
+    "negative": "Disable one telemetry collector; surface the observability gap rather than report healthy service.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-18-A",
+      "TC-NFR-18-B"
+    ]
+  },
+  {
+    "id": "NFR-19",
+    "title": "Maintainable configuration",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Common content, language, indicator and workflow changes shall follow versioned configuration paths where possible. They shall not require ad hoc database edits or undocumented production scripts.",
+    "acceptance": "A programme change is reviewed, tested, deployed and rolled back through the documented operating process.",
+    "design_id": "QR-19",
+    "design": "Publish and roll back a real versioned configuration change through the release workflow.",
+    "negative": "Apply an undocumented direct database change; flag drift and block release attestation.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-19-A",
+      "TC-NFR-19-B"
+    ]
+  },
+  {
+    "id": "NFR-20",
+    "title": "Integration conformance",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every live connector and provider adapter shall pass the agreed contract suite, including invalid data, permissions, timeout, duplicate requests and incompatible versions. External conformance requirements shall be version-pinned where applicable.",
+    "acceptance": "Test results are linked to the exact deployed connector, mapping and provider versions.",
+    "design_id": "QR-20",
+    "design": "Run owner-agreed positive and negative connector contracts with pinned schemas and exact external environment evidence.",
+    "negative": "Pass local mocks only; live integration conformance remains unverified.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-20-A",
+      "TC-NFR-20-B"
+    ]
+  },
+  {
+    "id": "NFR-21",
+    "title": "Cost transparency",
+    "priority": "Must",
+    "release": "R1",
+    "body": "At least 99 percent of billable AI and communication events shall be attributable to a tenant, capability and task or explicit system activity. Budget alerts and hard limits shall use the defined safety-aware fallback.",
+    "acceptance": "Usage records reconcile with provider invoices or test billing evidence; unexplained variance is investigated.",
+    "design_id": "QR-21",
+    "design": "Reconcile usage events against provider invoices or test billing records by tenant capability and task.",
+    "negative": "Introduce a duplicate charge or missing attribution; report the discrepancy.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-21-A",
+      "TC-NFR-21-B"
+    ]
+  },
+  {
+    "id": "NFR-22",
+    "title": "Data portability and export integrity",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Authorised structured records shall be exportable with identifiers, relationships, units, provenance and version metadata. Export format documentation shall enable an independent party to interpret the data.",
+    "acceptance": "A 1000-person test export is re-imported into a validation environment with complete record counts and relationships.",
+    "design_id": "QR-22",
+    "design": "Export and reimport 1000 synthetic persons with relationships units provenance and revision history; reconcile counts and references.",
+    "negative": "Omit one relationship or unit code; fail integrity acceptance.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-22-A",
+      "TC-NFR-22-B"
+    ]
+  },
+  {
+    "id": "NFR-23",
+    "title": "Disaster and downtime readiness",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Operations shall have tested procedures for platform outage, lost device, unavailable model, destination failure and clinical service disruption. Emergency care guidance shall remain available through the approved local contingency process.",
+    "acceptance": "Tabletop and technical exercises record actual recovery actions, communication ownership and unresolved gaps.",
+    "design_id": "QR-23",
+    "design": "Run a tabletop plus technical outage exercise including lost device failed provider and clinical downtime path.",
+    "negative": "Simulate an unavailable referral service; preserve the local approved escalation route and unresolved owner.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-23-A",
+      "TC-NFR-23-B"
+    ]
+  },
+  {
+    "id": "NFR-24",
+    "title": "Scale readiness",
+    "priority": "Should",
+    "release": "R2",
+    "body": "Before expanding to a proposed 10000 workers and 5 million person records, the product shall pass a separate capacity and operating-cost review. R1 performance evidence shall not be presented as proof of national-scale readiness.",
+    "acceptance": "R2 load, isolation, storage, support and cost tests are run against the agreed production-like topology and volume.",
+    "design_id": "QR-24",
+    "design": "Run a separately provisioned R2 load test for proposed 10000 workers and 5 million persons; report infrastructure and costs.",
+    "negative": "Extrapolate R1 latency without an R2 run; do not mark scale readiness passed.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-24-A",
+      "TC-NFR-24-B"
+    ]
+  },
+  {
+    "id": "NFR-25",
+    "title": "Clinical exchange validation",
+    "priority": "Must",
+    "release": "R1",
+    "body": "One hundred percent of outbound structured clinical exchange payloads shall pass the pinned schema, profile, terminology and business-rule checks before submission. Validation warnings that are accepted by policy shall remain visible and versioned.",
+    "acceptance": "Verification: The release corpus covers every supported artefact and includes invalid cardinality, code, reference, unit, signature and bundle cases.",
+    "design_id": "QR-25",
+    "design": "Validate every supported outbound artefact against the pinned profile terminology and business-rule suite.",
+    "negative": "Inject invalid code reference cardinality signature and bundle structure cases; all must be blocked.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-25-A",
+      "TC-NFR-25-B"
+    ]
+  },
+  {
+    "id": "NFR-26",
+    "title": "Consent and exchange traceability",
+    "priority": "Must",
+    "release": "R1",
+    "body": "Every ABDM or direct EHR exchange shall be traceable from user purpose and authority through request, transformation, disclosure or receipt, acknowledgement and final state without placing raw clinical payloads in general application logs.",
+    "acceptance": "Verification: Audit reconstruction succeeds for all release exchanges, while log inspection confirms that secrets, tokens and unnecessary clinical content are absent.",
+    "design_id": "QR-26",
+    "design": "Reconstruct each release-test exchange from purpose and authority through request validation receipt and final status.",
+    "negative": "Remove a consent or source reference; fail traceability without logging raw payloads to repair the gap.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-26-A",
+      "TC-NFR-26-B"
+    ]
+  },
+  {
+    "id": "NFR-27",
+    "title": "Connector upgrade compatibility",
+    "priority": "Must",
+    "release": "R1",
+    "body": "A connector or FHIR package upgrade shall pass regression tests for existing mappings, queued actions, receipts, amendments and historical display before activation. In-flight work shall finish on its compatible version or enter controlled review.",
+    "acceptance": "Verification: A simulated breaking version change does not corrupt queued work or silently reinterpret historical records.",
+    "design_id": "QR-27",
+    "design": "Upgrade adapter and FHIR packages with old queued actions historical results and amendment fixtures present.",
+    "negative": "Introduce a breaking schema change; incompatible work pauses without reinterpretation.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-27-A",
+      "TC-NFR-27-B"
+    ]
+  },
+  {
+    "id": "NFR-28",
+    "title": "Interoperability performance",
+    "priority": "Should",
+    "release": "R1",
+    "body": "Under the R1 workload, canonical transformation and local validation shall add no more than 500 ms at the 95th percentile for structured records, excluding external network and destination processing time. Batch and document workflows shall have separately declared targets.",
+    "acceptance": "Verification: Instrumented tests report transformation, validation, queue and external latency separately for each connector type.",
+    "design_id": "QR-28",
+    "design": "Measure local canonical transformation and validation p95 under the R1 workload, excluding network and destination processing.",
+    "negative": "Add external latency to the local measurement or hide a slow adapter; fail the measurement-method review.",
+    "package": "WP11",
+    "screens": "Cross platform",
+    "components": "C01 C02 C03 C13 C14",
+    "apis": "",
+    "tests": [
+      "TC-NFR-28-A",
+      "TC-NFR-28-B"
+    ]
+  }
+]

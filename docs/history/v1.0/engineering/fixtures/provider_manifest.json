@@ -1,0 +1,32 @@
+{
+  "environment": "synthetic",
+  "provider_id": "SYN-PROVIDER-A",
+  "capability_key": "workflow-demonstration",
+  "manifest_version": "1.0",
+  "provider_release_id": "synthetic-1.0",
+  "state": "registered",
+  "intended_use": "Technical workflow rehearsal only",
+  "excluded_use": [
+    "clinical decision",
+    "diagnosis",
+    "patient triage"
+  ],
+  "input_fields": [
+    "synthetic_signal_ref"
+  ],
+  "output_states": [
+    "unable_to_assess"
+  ],
+  "populations": [
+    "synthetic"
+  ],
+  "processing_region": "local demonstration",
+  "clinical_evidence": [],
+  "activation_approvals": [],
+  "training_use_permitted": false,
+  "retention": "in-memory reference model only",
+  "deadline_seconds": 10,
+  "max_retries": 0,
+  "currency": "INR",
+  "maximum_charge_minor": 0
+}

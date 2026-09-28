@@ -1,0 +1,35 @@
+# Current documentation index
+
+Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMPLEMENTATION.md), [Next delivery](../NEXT-DELIVERY.md) and [Qualification](../QUALIFICATION.md) first. All current documents describe synthetic engineering scope; formal acceptance remains pending.
+
+| Document | Purpose |
+| --- | --- |
+| [BRD implementation record](BRD-IMPLEMENTATION-RECORD.md) | Exact source requirements, status semantics and acceptance boundary |
+| [Functional specification](01_Functional-Specification_v1.1.md) | Implemented journeys, guards and missing target behavior |
+| [High level design](02_High-Level-Design_v1.1.md) | Current components, trust boundaries and architecture differences |
+| [Low level design](03_Low-Level-Design_v1.1.md) | Commands, state, persistence and recovery |
+| [API and integrations](04_API-and-Integration-Specification_v1.1.md) | Current endpoint/command contract and external gates |
+| [Data model](05_Data-Model-Specification_v1.1.md) | Physical storage, versioned JSON and migration rules |
+| [Security privacy and clinical safety](06_Security-Privacy-and-Clinical-Safety_v1.1.md) | Current controls, threats, hazards and unresolved decisions |
+| [Test strategy](07_Test-Strategy_v1.1.md) | Evidence layers, catalogue handling and acceptance rules |
+| [Engineering implementation plan](08_Engineering-Implementation-Plan_v1.1.md) | R11 baseline, R12 slice and R12–R16 plan |
+| [Operational runbooks](09_Operational-Runbooks_v1.1.md) | Current safe recovery procedures and target-only steps |
+| [Pilot and release acceptance](10_Pilot-and-Release-Acceptance_v1.1.md) | Rehearsal boundary and all eight open gates |
+| [Development and CI](DEVELOPMENT-AND-CI.md) | Setup, test execution and maintenance workflow |
+| [Architecture decisions](ARCHITECTURE-DECISIONS.md) | Reconciliation of all twelve original ADRs |
+| [User guide](USER-GUIDE.md) | Safe care-record workflow in the current interface |
+| [Administrator guide](ADMINISTRATOR-GUIDE.md) | Membership, teams, connections and governance |
+| [Support guide](SUPPORT-GUIDE.md) | Diagnostics, triage and escalation |
+| [Data governance](DATA-GOVERNANCE.md) | Custody, access, provenance, retention and export limits |
+| [Delivery control](DELIVERY-CONTROL.md) | Current registers and all original workbook sheets |
+| [UI and wireframe coverage](UI-COVERAGE.md) | Original 22 screens mapped to current modules and gaps |
+| [Documentation QA](DOCUMENTATION-QA.md) | Exact integrity checks and their limits |
+| [Change record](CHANGELOG.md) | What this edition changes |
+
+Machine-readable registers: [API commands](COMMAND-CATALOGUE.csv), [HTTP routes](HTTP-ROUTES.csv), [data dictionary](DATA-DICTIONARY.csv), [test cases](TEST-CATALOGUE.csv), [executions](EXECUTION-REGISTER.csv), [screens](SCREEN-COVERAGE.csv), and [requirements](../../requirements/traceability.csv). Human-readable inventories: [API](CURRENT-API-INVENTORY.md), [data](CURRENT-DATA-DICTIONARY.md).
+
+## Detailed implemented contracts
+
+The existing release-owned documents remain authoritative for their detailed modules: [agent API](../../AGENT-API.md), [clinical governance](../../AI-GOVERNANCE.md), [MIS](../../MIS-API.md), [EHR/ABDM](../../EHR-ABDM.md), [field notebook](../../FIELD-CONTINUITY.md), [patient continuity](../../CORE-CONTINUITY.md), [operations](../../OPERATIONS.md), [pilot](../../PILOT-RUNBOOK.md) and [outreach/expansion](../../OUTREACH-EXPANSION.md).
+
+The original ten specifications are fully transcribed in [reference](../reference/README.md); unchanged DOCX/XLSX/HTML/ZIP files and engineering assets are in [history](../history/README.md). Current Markdown is the maintained edition; archived editable documents are explicitly historical.

@@ -1,0 +1,25 @@
+Access Matrix,,,,,,,,,,,
+Health AI Orchestration · v1.0 · source BRD v1.1 · proposed baseline · 26 September 2026,,,,,,,,,,,
+Controlled design catalogue. Update through the versioned specification review process.,,,,,,,,,,,
+,,,,,,,,,,,
+Action,Frontline worker,Supervisor,Clinician,Programme owner,AI governance,Integration operator,Deployment admin,Auditor,Support,Privacy lead,Condition
+View clinical record,Conditional,Conditional,Conditional,Denied,Denied,Denied,Denied,Conditional,Conditional,Conditional,"Requires permitted person relationship, purpose and minimum field scope"
+Record observation,Conditional,Conditional,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Denied,Within assigned encounter; measured and reported sources remain distinct
+Confirm encounter,Conditional,Conditional,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Denied,Verified patient context and reviewed exact fact revisions
+Prepare referral,Conditional,Conditional,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Denied,Approved protocol and scope; qualified review for consequential decisions
+Issue clinical order,Denied,Conditional,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Denied,Verified clinical credential and local scope required; title alone is insufficient
+Invoke health AI,Conditional,Conditional,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Denied,"Eligible approved model, authority, quality, budget and current patient context"
+Approve AI deployment,Denied,Denied,Conditional,Conditional,Conditional,Denied,Denied,Denied,Denied,Conditional,Independent evidence review; required clinical and privacy approvals before activation
+Activate connector,Denied,Denied,Denied,Denied,Denied,Conditional,Conditional,Denied,Denied,Denied,"Owner authority, exact operation profile and production evidence"
+Retrieve ABDM records,Conditional,Conditional,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Denied,"Enabled HIU role, verified requester and valid scoped authority or consent"
+Publish programme pack,Denied,Denied,Conditional,Conditional,Denied,Denied,Conditional,Denied,Denied,Denied,Programme review plus clinical approval for clinical content; no self-elevation
+Assign follow up,Conditional,Conditional,Conditional,Conditional,Denied,Denied,Conditional,Denied,Denied,Denied,Within organisational assignment scope and role authority
+View aggregate report,Denied,Conditional,Conditional,Conditional,Denied,Denied,Conditional,Conditional,Denied,Conditional,Approved measures and suppression rules within tenant scope
+Export person records,Denied,Conditional,Conditional,Conditional,Denied,Denied,Denied,Conditional,Denied,Conditional,Separate export purpose and record-level authority; expiring download
+Inspect audit evidence,Denied,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Each role limited to its allowed evidence; raw patient content excluded by default
+Grant support access,Denied,Denied,Denied,Denied,Denied,Denied,Conditional,Denied,Denied,Conditional,"Independent approval, purpose, scope, expiry and case reference"
+Publish configuration,Denied,Denied,Denied,Conditional,Conditional,Conditional,Conditional,Denied,Denied,Denied,Controlled release and independent review for sensitive changes
+Authorise disposal,Denied,Denied,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Conditional,"Approved retention schedule, legal holds and record custody checked"
+Run synthetic scenarios,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Conditional,Synthetic environment with non-production credentials and no external side effects
+Manage memberships,Denied,Denied,Denied,Denied,Denied,Denied,Conditional,Denied,Denied,Denied,Institutional verification and allowed role subset
+Correct identity link,Denied,Conditional,Conditional,Denied,Denied,Denied,Denied,Denied,Denied,Conditional,Explicit identity-steward assignment and evidence; external changes require owner authority

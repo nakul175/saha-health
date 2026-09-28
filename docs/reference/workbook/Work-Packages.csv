@@ -1,0 +1,16 @@
+Work Packages,,,,,
+Health AI Orchestration · v1.0 · source BRD v1.1 · proposed baseline · 26 September 2026,,,,,
+Controlled design catalogue. Update through the versioned specification review process.,,,,,
+,,,,,
+ID,Work package,Release,Owner role,Dependencies,Outcome
+WP01,Identity and assignments,R1,Platform lead,None,"Verified workforce login, role context, caseload and identity correction"
+WP02,Policy audit and invariants,R1,Security lead,WP01,"Purpose-bound policy, audit atomicity, approval binding and environment isolation"
+WP03,Encounter and shared data,R1,Workflow lead,WP01 WP02,"Local person and encounter model, draft capture, typed observations and revisions"
+WP04,Programme configuration,R1,Programme lead,WP03,"Versioned questions, schedules, approved clinical rule interface and mappings"
+WP05,Agent and AI broker,R1,AI engineering lead,WP02 WP03 WP04,"Typed bounded plans, model manifests, request lifecycle and budget accounting"
+WP06,Clinical oversight,R1,Clinical safety lead,WP02 WP04,"Review, escalation, composition controls and safety case handling"
+WP07,External exchange,R1,Integration lead,WP02 WP03 WP04,"MIS and EHR adapters, ABDM role paths, receipts and reconciliation"
+WP08,Offline client and sync,R1,Mobile lead,WP01 WP02 WP03,"Encrypted storage, signed lease, durable queue and ordered sync recovery"
+WP09,Care coordination,R1,Care workflow lead,WP03 WP04 WP06 WP07,"Referrals, directory, tasks, assignment and evidence-backed outcomes"
+WP10,Operational measures,R1 and R2,Data lead,WP03 WP07 WP09,"Versioned report definitions, projections, privacy controls and exports"
+WP11,Release and support,R1 and R2,Operations lead,WP02 WP05 WP07 WP08 WP09 WP10,"Release configuration, training, monitoring, backup, incident and exit processes"
