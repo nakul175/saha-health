@@ -47,7 +47,7 @@ async function read(org) {
 async function command(org, body) {
   const t = performance.now();
   try {
-    const r = await fetch(base + '/api/commands', { method: 'POST', headers: { ...owner, 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID(), 'x-saha-organisation': org }, body: JSON.stringify(body), signal: AbortSignal.timeout(120000) });
+    const r = await fetch(base + '/api/commands', { method: 'POST', headers: { ...owner, 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID(), 'x-saha-organisation': org, ...(process.env.SAHA_LOAD_DELTA === '1' ? { 'x-saha-response': 'delta' } : {}) }, body: JSON.stringify(body), signal: AbortSignal.timeout(120000) });
     const text = await r.text();
     return { status: r.status, ms: ms(t), bytes: text.length };
   } catch (e) { return { status: 'error', ms: ms(t), bytes: 0, error: String(e.message ?? e) }; }

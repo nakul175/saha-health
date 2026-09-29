@@ -87,6 +87,8 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   }
  }
  await persist(db(),before,state,u,c,key,hash,result,[],c.type==='switchOrganisation');
+ // Slice 0b: a partitioned command may answer with the partition snapshot for the client to merge.
+ if(request.headers.get('x-saha-response')==='delta'&&state.partition){const partition=state.partition;return {result,delta:await snapshotFor(await loadFor(u,state.organisation.id,async()=>partition),u),partition};}
  return {result,snapshot:await snapshotFor(await loadFor(u,state.organisation.id),u)};
 }
 export async function command(request:Request){await identity();const parsed=await parseRequest(request);try{return await dispatchCommand(request,parsed);}catch(e){

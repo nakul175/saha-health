@@ -1,0 +1,70 @@
+{
+  "probe": "BRD R1 envelope load probe (tests/load-envelope.mjs, SAHA_LOAD_DELTA=1)",
+  "storageModel": "Slice 0b: partitioned commands answer with partition deltas; workspace reads (70% of the sustained mix) still return the whole permitted organisation",
+  "steps": [
+    {
+      "people": 1006,
+      "visits": 1001,
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 75,
+        "maxMs": 76,
+        "responseKB": 773,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 71,
+        "responseKB": 5
+      },
+      "burst10": {
+        "concurrency": 10,
+        "accepted": 10,
+        "conflicts": 0,
+        "otherErrors": 0,
+        "p50Ms": 426,
+        "p95Ms": 428,
+        "maxMs": 428,
+        "sampleError": null
+      },
+      "burst50": {
+        "concurrency": 50,
+        "accepted": 50,
+        "conflicts": 0,
+        "otherErrors": 0,
+        "p50Ms": 1661,
+        "p95Ms": 1662,
+        "maxMs": 1663,
+        "sampleError": null
+      },
+      "sustained": {
+        "targetRps": 50,
+        "seconds": 15,
+        "writeShare": 0.3,
+        "requests": 750,
+        "achievedRps": 5.6,
+        "ok": 656,
+        "conflicts": 0,
+        "errors": 94,
+        "p50Ms": 12361,
+        "p95Ms": 120001,
+        "maxMs": 120003,
+        "wallSeconds": 135
+      }
+    }
+  ],
+  "comparedWithSlice0aAtSameSize": {
+    "singleWriteResponseKB": "774 -> 5",
+    "singleWriteMs": "86 -> 71",
+    "burst10P50Ms": "945 -> 426",
+    "burst50P50Ms": "3574 -> 1661",
+    "sustainedAchievedRps": "5.9 -> 5.6 (bounded by full workspace reads)"
+  },
+  "limits": "1,006-person step only; local probe; hosted limits untested.",
+  "completedAt": "2026-09-29"
+}

@@ -6,7 +6,7 @@ The running application exposes the [current HTTP routes](HTTP-ROUTES.csv) and a
 
 `POST /api/commands` requires trusted Sites identity, `Content-Type: application/json`, an `Idempotency-Key` of 8–100 letters/digits/underscores/hyphens and same-origin changes. `x-saha-organisation` selects an organisation context; current membership still grants authority. Identity headers cannot safely be accepted from arbitrary public callers outside the Sites dispatcher boundary.
 
-The JSON body is a schema-validated object with a `type` discriminator and command-specific fields. Expected versions are body fields. Request bodies stop at 20,000 bytes. The server returns `{result, snapshot}` and marks an exact receipt replay with `replayed: true`. The snapshot is scoped to current membership and omits the internal receipt map.
+The JSON body is a schema-validated object with a `type` discriminator and command-specific fields. Expected versions are body fields. Request bodies stop at 20,000 bytes. The server returns `{result, snapshot}` and marks an exact receipt replay with `replayed: true`. The snapshot is scoped to current membership and omits the internal receipt map. Since slice 0b a client may send `x-saha-response: delta`. For the 39 certified patient commands (`lib/saha/partition.ts`) the server then returns `{result, delta, partition}`: `delta` has complete organisation-level fields and only the named patients' people, visits, submissions and referrals, and the client merges it with `mergeDelta` in `lib/saha/delta.ts`. Every other command, and every receipt replay, still returns the full `snapshot`, so clients must accept either shape.
 
 Illustrative local command shape, with identifiers obtained from the authenticated snapshot:
 

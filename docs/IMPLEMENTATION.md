@@ -23,7 +23,7 @@ The React/Vinext UI calls thirteen HTTP route handlers. Mutations normally enter
 
 There are 24 application schema tables and seven immutable SQL migrations, 0000–0006. The local restore report counts 25 SQLite tables because it includes D1 metadata. Several tables contain versioned JSON aggregates; the original PostgreSQL foundation schema and 26 proposed entities are a design reference. D1 has no implementation of the proposed PostgreSQL RLS model.
 
-Since slice 0a, certified patient commands load only the named patient plus organisation-level state, and concurrent writes on different patients no longer conflict. Workspace reads and command responses still build the whole permitted organisation snapshot, which a local probe measured at 77 MB and 3.5 s for 100,000 people; slice 0b addresses that. See [slice 0a](current/SLICE-0A-STORAGE.md). The local load probe is engineering evidence, not a production throughput or latency qualification.
+Since slice 0a, certified patient commands load only the named patient plus organisation-level state, and concurrent writes on different patients no longer conflict. Since slice 0b, those commands can answer with a partition delta that the workspace merges, so a write returns kilobytes rather than the whole organisation. The initial workspace read still returns every permitted patient, which a local probe measured at 77 MB and 3.5 s for 100,000 people; paged lists are planned. See [slice 0a](current/SLICE-0A-STORAGE.md) and [slice 0b](current/SLICE-0B-DELTAS.md). The local load probe is engineering evidence, not a production throughput or latency qualification.
 
 ## R11 evidence and authority
 
