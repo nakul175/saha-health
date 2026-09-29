@@ -1,0 +1,71 @@
+{
+  "probe": "BRD R1 envelope load probe (tests/load-envelope.mjs)",
+  "storageModel": "Slice 0a: certified patient commands load one patient and commit under a per-patient guard; workspace reads and command responses still build the whole permitted organisation snapshot",
+  "environment": "local Worker and local D1/SQLite; synthetic people each with one confirmed visit; one owner account issuing concurrent commands",
+  "steps": [
+    {
+      "people": 1006,
+      "visits": 1001,
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 61,
+        "maxMs": 70,
+        "responseKB": 773,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 86,
+        "responseKB": 774
+      },
+      "burst10": {
+        "concurrency": 10,
+        "accepted": 10,
+        "conflicts": 0,
+        "otherErrors": 0,
+        "p50Ms": 945,
+        "p95Ms": 956,
+        "maxMs": 956,
+        "sampleError": null
+      },
+      "burst50": {
+        "concurrency": 50,
+        "accepted": 50,
+        "conflicts": 0,
+        "otherErrors": 0,
+        "p50Ms": 3574,
+        "p95Ms": 3612,
+        "maxMs": 3615,
+        "sampleError": null
+      },
+      "sustained": {
+        "targetRps": 50,
+        "seconds": 15,
+        "writeShare": 0.3,
+        "requests": 750,
+        "achievedRps": 5.9,
+        "ok": 688,
+        "conflicts": 0,
+        "errors": 62,
+        "p50Ms": 32091,
+        "p95Ms": 39123,
+        "maxMs": 120002,
+        "wallSeconds": 127
+      }
+    }
+  ],
+  "comparedWithR11AtSameSize": {
+    "burst10Accepted": "2 of 10 -> 10 of 10",
+    "burst50Accepted": "3 of 50 -> 50 of 50",
+    "sustainedConflicts": "208 -> 0",
+    "sustainedAchievedRps": "5.9 -> 5.9 (unchanged: bounded by full snapshots)",
+    "singleWriteMs": "138 -> 86"
+  },
+  "limits": "Only the 1,006-person step was run for slice 0a; the 5,000-person step was stopped to free the machine. Local probe; hosted limits not tested.",
+  "completedAt": "2026-09-29"
+}

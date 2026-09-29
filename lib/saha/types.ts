@@ -24,8 +24,11 @@ export type Workspace = {schemaVersion:1;revision:number;role:Role;people:Person
 export type Member = {userId:string;displayName:string;accountCode:string;role:Role;isOwner:boolean;status:'active'|'suspended';version:number;teamIds:string[];createdAt:string};
 export type Team = {id:string;name:string;createdAt:string};
 export type Invitation = {id:string;accountCode:string;label:string;role:Role;teamIds:string[];status:'pending'|'accepted'|'revoked';expiresAt:string;createdBy:string;createdAt:string;tokenHash?:string;acceptedBy?:string};
-export type Organisation = {id:string;name:string;revision:number;createdAt:string};
-export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Expansion[];pilot?:Pilot;operations?:Operations;organisation:Organisation;members:Member[];teams:Team[];invitations:Invitation[];workspace:Workspace};
+export type Organisation = {id:string;name:string;revision:number;createdAt:string;patientRevision?:number};
+export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Expansion[];pilot?:Pilot;operations?:Operations;organisation:Organisation;members:Member[];teams:Team[];invitations:Invitation[];workspace:Workspace;
+ // Slice 0a: per-patient concurrency counters as loaded, and the patient ids loaded when the
+ // state is a patient partition rather than the whole organisation.
+ patientRevs?:Record<string,number>;partition?:string[]};
 export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic';externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
 export type RecordRevision = {id:string;personId:string;entityType:'person'|'visit';entityId:string;version:number;actorId:string;actorName:string;action:string;reason:string;data:Person|Visit;changes:{field:string;before:string;after:string}[];createdAt:string};
 export const PROGRAMMES:Programme[]=['Maternal care','Chronic care','TB screening','Child health','General care'];

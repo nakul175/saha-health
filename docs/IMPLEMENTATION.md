@@ -19,11 +19,11 @@ R11 / v1.3-readiness is a private synthetic engineering application. It supports
 
 ## Runtime and persistence
 
-The React/Vinext UI calls thirteen HTTP route handlers. Mutations normally enter `POST /api/commands` through a composed Zod discriminated union. `lib/saha/server.ts` authenticates and dispatches; domain modules validate state and authority; `lib/saha/store.ts` commits through an organisation revision guard and D1 batches. Provider execution modules checkpoint before external calls and preserve uncertainty afterward.
+The React/Vinext UI calls thirteen HTTP route handlers. Mutations normally enter `POST /api/commands` through a composed Zod discriminated union. `lib/saha/server.ts` authenticates and dispatches; domain modules validate state and authority; `lib/saha/store.ts` commits through D1 batches under one of two guards: a per-patient guard for the 39 certified patient commands in `lib/saha/partition.ts`, or the organisation-wide guard for everything else (development slice 0a). Provider execution modules checkpoint before external calls and preserve uncertainty afterward.
 
-There are 24 application schema tables and six immutable SQL migrations, 0000–0005. The local restore report counts 25 SQLite tables because it includes D1 metadata. Several tables contain versioned JSON aggregates; the original PostgreSQL foundation schema and 26 proposed entities are a design reference. D1 has no implementation of the proposed PostgreSQL RLS model.
+There are 24 application schema tables and seven immutable SQL migrations, 0000–0006. The local restore report counts 25 SQLite tables because it includes D1 metadata. Several tables contain versioned JSON aggregates; the original PostgreSQL foundation schema and 26 proposed entities are a design reference. D1 has no implementation of the proposed PostgreSQL RLS model.
 
-The service loads an organisation's state and serializes changes through one organisation revision. This protects the tested local invariants but creates a scale limit. Twenty local report requests at concurrency five are a smoke check, not a production throughput or latency qualification.
+Since slice 0a, certified patient commands load only the named patient plus organisation-level state, and concurrent writes on different patients no longer conflict. Workspace reads and command responses still build the whole permitted organisation snapshot, which a local probe measured at 77 MB and 3.5 s for 100,000 people; slice 0b addresses that. See [slice 0a](current/SLICE-0A-STORAGE.md). The local load probe is engineering evidence, not a production throughput or latency qualification.
 
 ## R11 evidence and authority
 

@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 0a](SLICE-0A-STORAGE.md) | Patient-partitioned storage, commit guards, load-probe evidence and limits |
 | [BRD implementation record](BRD-IMPLEMENTATION-RECORD.md) | Exact source requirements, status semantics and acceptance boundary |
 | [Functional specification](01_Functional-Specification_v1.1.md) | Implemented journeys, guards and missing target behavior |
 | [High level design](02_High-Level-Design_v1.1.md) | Current components, trust boundaries and architecture differences |
