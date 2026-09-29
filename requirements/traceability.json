@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1b",
+  "engineeringRelease": "R11 + development slices 0a-1c",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -299,7 +299,7 @@
       "sourceTextLine": 178,
       "implementation": "partial",
       "target": "R12",
-      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution.",
+      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches.",
       "remaining": "Issuer-identifier search, validated matching performance and approved wider identity resolution.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -359,8 +359,8 @@
       "sourceTextLine": 187,
       "implementation": "partial",
       "target": "R12",
-      "current": "Identity revisions, EHR link revocation and changed-link rejection retain history.",
-      "remaining": "Controlled merges/unmerges, programme identity crosswalks and downstream impact queue.",
+      "current": "Identity revisions, EHR link revocation and changed-link rejection retain history. Slice 1c: two-steward link-based merge that preserves original records and receipts, invalidates pending approvals, queues downstream corrections and supports unmerge with review of work created while merged.",
+      "remaining": "Programme identity crosswalks, issuer identifiers and destination-specific correction automation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -544,7 +544,7 @@
       "sourceTextLine": 213,
       "implementation": "partial",
       "target": "R12",
-      "current": "Append-only revisions, linked amendments, voids and blocked stale plans.",
+      "current": "Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies.",
       "remaining": "Complete dependency invalidation and explicit correction/reconciliation tasks for every downstream output.",
       "acceptanceStatus": "pending",
       "evidenceContext": [

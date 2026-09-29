@@ -1,5 +1,6 @@
 import { householdSchema } from './household';
 import { caseloadSchema } from './caseload';
+import { mergeSchema } from './merge';
 import { governanceSchema } from './governance';
 import { evaluationSchema } from './evaluation';
 import { continuitySchema, transferPatientWork } from './continuity';
@@ -24,6 +25,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...continuitySchema.options,
  ...householdSchema.options,
  ...caseloadSchema.options,
+ ...mergeSchema.options,
  ...governanceSchema.options,
  ...evaluationSchema.options,
  ...operationsSchema.options,

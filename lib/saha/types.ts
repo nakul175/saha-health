@@ -7,13 +7,14 @@ import type { Operations } from './operations';
 import type { FieldLease } from './field';
 import type { Household, ProxyGrant } from './household';
 import type { CaseloadTransfer } from './caseload';
+import type { MergeCase, MergeLink } from './merge';
 import type { EhrConfig, EhrState } from './ehr';
 import type { MisConfig, Delivery } from './mis';
 import type { AgentRun, AgentProvider } from './agent';
 import type { Enrolment, FollowUp, ProgrammeCapture } from './programmes';
 export type Role = 'asha' | 'clinician' | 'supervisor' | 'admin';
 export type Programme = 'Maternal care' | 'Chronic care' | 'TB screening' | 'Child health' | 'General care';
-export type Person = {householdId?:string;proxies?:ProxyGrant[];identityReview?:IdentityReview;assignmentHistory?:AssignmentEvent[];contactPreferences?:ContactPreferences;fieldLeases?:FieldLease[];ehr?:EhrState;enrolments?:Enrolment[]; followUps?:FollowUp[]; id:string; name:string; age:number; sex:string; village:string; programmes:Programme[]; task:string; due:string; status:'due'|'in_progress'|'completed'; aiConsent:boolean; exchangeConsent:boolean; consentVersion:number; assigned:boolean; createdAt:string; version:number; teamId:string; assignedTo:string|null};
+export type Person = {mergedInto?:MergeLink;mergedFrom?:MergeLink[];householdId?:string;proxies?:ProxyGrant[];identityReview?:IdentityReview;assignmentHistory?:AssignmentEvent[];contactPreferences?:ContactPreferences;fieldLeases?:FieldLease[];ehr?:EhrState;enrolments?:Enrolment[]; followUps?:FollowUp[]; id:string; name:string; age:number; sex:string; village:string; programmes:Programme[]; task:string; due:string; status:'due'|'in_progress'|'completed'; aiConsent:boolean; exchangeConsent:boolean; consentVersion:number; assigned:boolean; createdAt:string; version:number; teamId:string; assignedTo:string|null};
 export type Facts = {date:string; systolic:string; diastolic:string; weight:string; temperature:string; weeks:string; coughDays:string; notes:string; source:'measured'|'reported';};
 export type Visit = {clinicalConcern?:{value:'yes'|'no'|'unknown';reference:string;by:string;at:string};protocolChecks?:ProtocolCheck[];patientCheck?:{personId:string;personVersion:number;by:string;at:string};agentRuns?:AgentRun[]; programmeCapture?:ProgrammeCapture; id:string; personId:string; version:number; state:'draft'|'confirmed'; facts:Facts; createdAt:string; confirmedAt?:string; plan?:Plan; aiResults:AIResult[]; recordVersion:number; amendsVisitId?:string; supersededBy?:string; voidedAt?:string; voidReason?:string};
 export type Plan = {payloads?:Record<string,Record<string,unknown>>;id:string; personVersion?:number; approvedById?:string; visitVersion:number; consentVersion:number; connectorVersions:Record<string,number>; recipients:string[]; payloadHash:string; state:'proposed'|'approved'|'completed'|'blocked'; purpose:string; createdAt:string; approvedAt?:string; approvedBy?:string; expiresAt?:string};
@@ -34,7 +35,9 @@ export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Ex
  // Slice 1: households, loaded in full for organisation-wide reads and for the partition's households otherwise.
  households?:Household[];
  // Slice 1b: caseload transfers, loaded for organisation-wide reads only.
- caseloads?:CaseloadTransfer[]};
+ caseloads?:CaseloadTransfer[];
+ // Slice 1c: identity merge cases; organisation-wide reads load all, patient partitions load those naming a loaded patient.
+ identityCases?:MergeCase[]};
 export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic';externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
 export type RecordRevision = {id:string;personId:string;entityType:'person'|'visit';entityId:string;version:number;actorId:string;actorName:string;action:string;reason:string;data:Person|Visit;changes:{field:string;before:string;after:string}[];createdAt:string};
 export const PROGRAMMES:Programme[]=['Maternal care','Chronic care','TB screening','Child health','General care'];

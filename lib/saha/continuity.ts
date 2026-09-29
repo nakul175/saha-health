@@ -18,7 +18,7 @@ function near(a:string,b:string){if(a.length<5||b.length<5||Math.abs(a.length-b.
 export async function patientMatches(s:OrgState,m:Member,input:z.infer<typeof matchInput>){
  if(!['asha','clinician','supervisor'].includes(m.role)||!m.teamIds.includes(input.teamId))fail(403,'Choose a team within your patient access.');
  const name=normal(input.name),village=normal(input.village);
- const candidates=s.workspace.people.filter(p=>allowed(m,p)).flatMap(p=>{const exact=normal(p.name)===name,similar=normal(p.village)===village&&Math.abs(p.age-input.age)<=2&&(p.sex===input.sex||p.sex==='Unknown'||input.sex==='Unknown')&&near(normal(p.name),name);return exact||similar?[{id:p.id,name:p.name,age:p.age,sex:p.sex,village:p.village,version:p.version,match:exact?'Same normalised name':'Similar name, locality and age'}]:[]}).sort((a,b)=>a.id.localeCompare(b.id));
+ const candidates=s.workspace.people.filter(p=>allowed(m,p)&&!p.mergedInto).flatMap(p=>{const exact=normal(p.name)===name,similar=normal(p.village)===village&&Math.abs(p.age-input.age)<=2&&(p.sex===input.sex||p.sex==='Unknown'||input.sex==='Unknown')&&near(normal(p.name),name);return exact||similar?[{id:p.id,name:p.name,age:p.age,sex:p.sex,village:p.village,version:p.version,match:exact?'Same normalised name':'Similar name, locality and age'}]:[]}).sort((a,b)=>a.id.localeCompare(b.id));
  return {hash:await digest({input,candidates}),candidates:candidates.slice(0,20),overflow:candidates.length>20,scope:'Only records permitted to your current account are searched. Candidates are not identity decisions.'};
 }
 export async function reviewRegistration(s:OrgState,m:Member,c:any,now=new Date().toISOString()):Promise<IdentityReview>{
