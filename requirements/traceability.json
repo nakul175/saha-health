@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-0c",
+  "engineeringRelease": "R11 + development slices 0a-1",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 134,
-    "not-built": 19,
+    "partial": 136,
+    "not-built": 17,
     "unverified": 9
   },
   "acceptance": {
@@ -339,9 +339,9 @@
       "requirement": "Household relationships, caregivers and authorised representatives shall be recorded separately from account access. A family contact number shall not grant access to a member's private history or authorise disclosure.",
       "acceptance": "Acceptance: A caregiver and household head can receive only the information permitted by the relevant relationship and authorisation rules.",
       "sourceTextLine": 184,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R14",
-      "current": "Household and representative models are absent; no patient-facing account access is granted.",
+      "current": "Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant.",
       "remaining": "Household relationships and purpose-limited, expiring proxy authority.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -801,7 +801,7 @@
       "sourceTextLine": 248,
       "implementation": "partial",
       "target": "R14",
-      "current": "Person-level outreach combines selected work with separate programme tasks.",
+      "current": "Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview; combined household visit plans and cross-pack referral consolidation remain.",
       "remaining": "Household scheduling, approved privacy/timing rules and cross-pack referral consolidation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2896,9 +2896,9 @@
       "requirement": "The system shall support additional restrictions for sensitive programme information, children, adolescents and proxy relationships as defined for the jurisdiction and care context. Relationship, authority and expiry shall be recorded separately.",
       "acceptance": "Acceptance: A household member cannot infer restricted information through summaries, notifications, shared schedules or access to another member's encounter.",
       "sourceTextLine": 557,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R14",
-      "current": "No sensitive-programme, adolescent or proxy policy model.",
+      "current": "Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads.",
       "remaining": "Jurisdiction-specific sensitivity restrictions and relationship/authority/expiry enforcement.",
       "acceptanceStatus": "pending",
       "evidenceContext": [

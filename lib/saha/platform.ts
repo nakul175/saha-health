@@ -1,3 +1,4 @@
+import { householdSchema } from './household';
 import { governanceSchema } from './governance';
 import { evaluationSchema } from './evaluation';
 import { continuitySchema, transferPatientWork } from './continuity';
@@ -20,6 +21,7 @@ const teamIds=z.array(str).max(20).refine(x=>new Set(x).size===x.length,'Choose 
 export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
  ...continuitySchema.options,
+ ...householdSchema.options,
  ...governanceSchema.options,
  ...evaluationSchema.options,
  ...operationsSchema.options,
