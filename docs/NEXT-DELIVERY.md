@@ -18,7 +18,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 4 | Full referral lifecycle, escalation, unified action plan, pack migration and installation | Planned |
 | 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
-| 6 | Retention and disposal, rights requests, small-cell suppression, indicator registry, alerts, full Hindi UI, accessibility | Planned |
+| 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |
+| 6 | Retention and disposal, small-cell suppression, indicator registry, alerts, full Hindi UI, accessibility | Planned |
 | 7 | ABDM ABHA/HIP/HIU to the published specification against a mock gateway | Planned |
 | 8 | Programme and EHR adapters once partner specifications arrive | Blocked on partners |
 
