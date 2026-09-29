@@ -6,6 +6,7 @@ import type { Expansion } from './expansion';
 import type { Operations } from './operations';
 import type { FieldLease } from './field';
 import type { Household, ProxyGrant } from './household';
+import type { CaseloadTransfer } from './caseload';
 import type { EhrConfig, EhrState } from './ehr';
 import type { MisConfig, Delivery } from './mis';
 import type { AgentRun, AgentProvider } from './agent';
@@ -22,7 +23,7 @@ export type Submission = {delivery?:Delivery;id:string;visitId:string;personId:s
 export type Referral = {directory?:{entryId:string;manifestHash:string;revision:number;contactRoute:string;location:string;verifiedOn:string;reviewBy:string};version?:number;ownerId?:string;due?:string;events?:{id:string;state:string;note:string;source:string;evidenceReference:string;occurredAt:string;recordedAt:string;actorId:string}[];id:string;personId:string;visitId:string;facility:string;reason:string;state:'draft'|'sent'|'received'|'completed';createdAt:string;};
 export type Audit = {id:string;at:string;actor:string;role:Role;action:string;subject:string;detail:string;actorId?:string;personId?:string|null;};
 export type Workspace = {schemaVersion:1;revision:number;role:Role;people:Person[];visits:Visit[];integrations:Integration[];submissions:Submission[];referrals:Referral[];audit:Audit[];receipts:Record<string,{hash:string;result:any}>};
-export type Member = {userId:string;displayName:string;accountCode:string;role:Role;isOwner:boolean;status:'active'|'suspended';version:number;teamIds:string[];createdAt:string};
+export type Member = {userId:string;displayName:string;accountCode:string;role:Role;isOwner:boolean;status:'active'|'suspended'|'removed';version:number;teamIds:string[];createdAt:string};
 export type Team = {id:string;name:string;createdAt:string};
 export type Invitation = {id:string;accountCode:string;label:string;role:Role;teamIds:string[];status:'pending'|'accepted'|'revoked';expiresAt:string;createdBy:string;createdAt:string;tokenHash?:string;acceptedBy?:string};
 export type Organisation = {id:string;name:string;revision:number;createdAt:string;patientRevision?:number};
@@ -31,7 +32,9 @@ export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Ex
  // state is a patient partition rather than the whole organisation.
  patientRevs?:Record<string,number>;partition?:string[];
  // Slice 1: households, loaded in full for organisation-wide reads and for the partition's households otherwise.
- households?:Household[]};
+ households?:Household[];
+ // Slice 1b: caseload transfers, loaded for organisation-wide reads only.
+ caseloads?:CaseloadTransfer[]};
 export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic';externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
 export type RecordRevision = {id:string;personId:string;entityType:'person'|'visit';entityId:string;version:number;actorId:string;actorName:string;action:string;reason:string;data:Person|Visit;changes:{field:string;before:string;after:string}[];createdAt:string};
 export const PROGRAMMES:Programme[]=['Maternal care','Chronic care','TB screening','Child health','General care'];

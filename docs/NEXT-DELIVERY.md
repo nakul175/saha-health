@@ -11,7 +11,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 0b-2 | Paged patient lists and on-demand patient detail for large team scopes | Planned |
 | 0c | Swappable identity layer, SBOM and audit gate, CI workflow, local test stability | Delivered (see [slice 0c](current/SLICE-0C-IDENTITY.md)) |
 | 1 | Households and proxy authority with sensitive-class disclosure | Delivered (see [slice 1](current/SLICE-1-HOUSEHOLDS.md)) |
-| 1b | Workforce lifecycle, bulk caseload transfer, merge/unmerge | Planned |
+| 1b | Workforce lifecycle, bulk caseload transfer with effective dates and acknowledgement, responsibility gaps, member removal | Delivered (see [slice 1b](current/SLICE-1B-CASELOAD.md)) |
+| 1c | Controlled identity merge and unmerge with a downstream impact queue | Planned |
 | 2 | Per-fact provenance, media, measured reuse, import dry runs | Planned |
 | 3 | Offline media queue, offline registration and referral creation, ordered sync, storage warnings | Planned |
 | 4 | Full referral lifecycle, escalation, unified action plan, pack migration and installation | Planned |

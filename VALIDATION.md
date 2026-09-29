@@ -179,3 +179,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The household suite passed on its first full run and the full suite showed no local Worker restarts.
 - Browser check with headless Chromium against the built Worker: household created, member added, proxy grant recorded for Appointments without the maternal class, sharing preview showed only the general home visit for the pregnant member. No console errors.
 - Assessment changes: BR-ID-07 and BR-SEC-04 moved from not-built to partial; BR-PROG-05 text updated. Counts are now 14 implemented-local, 136 partial, 17 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 1b — workforce lifecycle and caseload transfer — 30 September 2026 IST (29 September UTC)
+
+- **1,545 automated assertions passed:** 1,084 HTTP/D1 (1,001 plus 83 caseload checks), 440 contract/checkpoint (410 plus 30 caseload contract checks) and 21 encrypted restore checks over 27 SQLite tables including caseload transfers. Reports: `tests/evidence/slice-1b/`.
+- The caseload suite passed on its first full run; the full suite showed no local Worker restarts.
+- Browser check with headless Chromium against the built Worker and two synthetic accounts: a partial caseload transfer from the Care handover page, then acknowledgement by the receiving ASHA from her own page. No console errors; every command and caseload read returned 200.
+- CI now also runs the household and caseload contract suites, which slice 1 had omitted from the workflow.
+- Assessment changes: BR-ID-01 and BR-ID-04 texts updated; both remain partial. Counts are unchanged at 14 implemented-local, 136 partial, 17 not-built and 9 unverified; all 176 formal acceptances remain pending.
