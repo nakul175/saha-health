@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { digest, fail, person, uuid, visit } from './core';
-import { allowed } from './access';
+import { allowed, normallyAllowed } from './access';
 import type { OrgState, Member, Visit, Person } from './types';
 import type { Actor } from './store';
 import type { AgentProvider, AgentRun } from './agent';
@@ -81,7 +81,7 @@ export function authorizeGovernance(s:OrgState,m:Member,c:any){
  if(c.visitId){const v=visit(s.workspace,c.visitId);if(m.role==='admin')fail(403,'Patient access is required.');if(['saveClinicalConcern','checkProtocol','createDirectoryReferral','reviewAgentResult'].includes(c.type)&&!['asha','clinician'].includes(m.role))fail(403,'A care role is required.');if(c.type==='reviewProtocol'||c.type==='reportSafety'&&c.hold)clinical(s,m,person(s.workspace,v.personId));}
  if(c.caseId){const sc=governanceState(s).safety.find(x=>x.id===c.caseId);if(!sc)fail(404,'Safety case not found.');const p=person(s.workspace,sc.personId);clinical(s,m,p);if(c.type==='resolveSafety'&&sc.ownerId!==m.userId)fail(403,'Only the current clinical case owner may resolve it.');}
 }
-function ownPatient(s:OrgState,id:string,p:Person){const m=member(s,id);if(!m||m.role!=='clinician'||!allowed(m,p))fail(422,'Choose an active clinician with patient access.');return m;}
+function ownPatient(s:OrgState,id:string,p:Person){const m=member(s,id);if(!m||m.role!=='clinician'||!normallyAllowed(m,p))fail(422,'Choose an active clinician with patient access.');return m;}
 export async function protocolPreview(s:OrgState,m:Member,v:Visit,now=new Date().toISOString()){
  const p=person(s.workspace,v.personId),findings:ProtocolCheck['findings']=[],unknowns:string[]=[],protocols:ProtocolCheck['protocols']=[];
  for(const e of governanceState(s).entries){const c=e.spec;if(c.kind!=='protocol'||!activeEntry(s,e,now)||!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||!p.programmes.includes(c.programme)||p.age<c.ageMin||p.age>c.ageMax)continue;

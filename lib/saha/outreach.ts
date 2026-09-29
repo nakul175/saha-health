@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { digest, fail, person, uuid } from './core';
-import { allowed } from './access';
+import { allowed, normallyAllowed } from './access';
 import { operator } from './operations';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
@@ -37,7 +37,7 @@ export const outreachSchema=z.discriminatedUnion('type',[
 ]);
 function care(m:Member){if(!['asha','clinician','supervisor'].includes(m.role))fail(403,'Care-team access is required.');}
 function member(s:OrgState,userId:string){return s.members.find(m=>m.userId===userId&&m.status==='active');}
-function owner(s:OrgState,p:Person,userId:string){const m=member(s,userId);if(!m||!['asha','clinician'].includes(m.role)||!allowed(m,p))fail(422,'Choose an active care worker with access to every selected patient.');return m;}
+function owner(s:OrgState,p:Person,userId:string){const m=member(s,userId);if(!m||!['asha','clinician'].includes(m.role)||!normallyAllowed(m,p))fail(422,'Choose an active care worker with access to every selected patient.');return m;}
 function current(n:number,expected:number){if(n!==expected)fail(409,'This outreach record changed. Refresh and review before retrying.');}
 function planFor(s:OrgState,id:string){const p=s.outreach?.plans.find(p=>p.id===id);if(!p)fail(404,'Outreach plan not found.');return p;}
 function messageFor(s:OrgState,id:string){const v=s.outreach?.messages.find(v=>v.id===id);if(!v)fail(404,'Message not found.');return v;}
