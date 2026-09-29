@@ -1,0 +1,49 @@
+# Slice 0c: engineering CI on synthetic data only. It never uses secrets, live providers,
+# hosted databases or real patient records, and it does not deploy the Site.
+name: engineering-checks
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Runs before install and tests, which rewrite checkout-local files and result reports.
+      - name: Documentation and requirements integrity
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Type check
+        run: node node_modules/typescript/bin/tsc --noEmit
+      - name: Build
+        run: npm run build
+      - name: Supply-chain gate (SBOM and audit)
+        run: node scripts/security-gate.mjs
+      - name: Disposable local database
+        run: |
+          for m in drizzle/[0-9][0-9][0-9][0-9]_*.sql; do
+            node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/test-state --file "$m"
+          done
+      - name: HTTP and database suite
+        run: node tests/run-api-smoke.mjs
+      - name: Contract suites
+        run: for t in agent-contract continuity-contract ehr-contract ehr-execution field-client field-contract field-shell governance-contract mis-contract mis-delivery operations-contract outreach-contract pilot-contract storage-contract identity-contract; do node tests/$t.mjs; done
+      - name: Encrypted restore drill
+        run: node tests/recovery-drill.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: engineering-evidence
+          path: |
+            tests/*-result.json
+            dist/sbom.cdx.json
+            dist/security-gate.json

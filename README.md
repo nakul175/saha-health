@@ -23,7 +23,7 @@ The current pack contains reconciled BRD/FSD/HLD/LLD, API/data/security/test/del
 | Saved R11 qualification | 902 HTTP/D1 + 361 contract/checkpoint + 21 restore assertions = 1,284 |
 | Original acceptance catalogue | 364 preserved cases; no formal case passes inferred from engineering tests |
 | Planned future batches | R12–R16, plus open R11 live-provider and clinical follow-through |
-| Development slices since R11 | 0a patient-partitioned storage and 0b delta responses delivered on stacked branches; see [slice 0a](docs/current/SLICE-0A-STORAGE.md), [slice 0b](docs/current/SLICE-0B-DELTAS.md) and [development order](docs/NEXT-DELIVERY.md) |
+| Development slices since R11 | 0a patient-partitioned storage, 0b delta responses and 0c identity layer with supply-chain gate delivered on stacked branches; see [slice 0a](docs/current/SLICE-0A-STORAGE.md), [slice 0b](docs/current/SLICE-0B-DELTAS.md), [slice 0c](docs/current/SLICE-0C-IDENTITY.md) and [development order](docs/NEXT-DELIVERY.md) |
 
 The runtime uses React/Vinext, a Cloudflare Worker and D1. The original PostgreSQL/RLS, native Android and broader REST design remains a target, not installed functionality. Live AI/MIS/EHR/ABDM, physical-device/offline, independent clinical/security/accessibility, representative scale, hosted recovery and field acceptance remain open.
 

@@ -10,7 +10,7 @@ BR-UX-08	partial	R14	Guided forms and textual status cues exist.	On-demand audio
 BR-UX-09	implemented-local	R12	Destination selection and exact payload review precede approval.	Partner-specific payload comprehension and recipient exclusion acceptance.
 BR-ID-01	partial	R15	Account-bound invitations, role/team changes, suspension and immediate online access checks.	Formal verification, removal lifecycle, workforce import and production identity governance.
 BR-ID-02	partial	R15	Organisation, team, role and direct-worker scope enforced on reads/writes/exports.	Programme, facility, purpose and geography policy dimensions across every channel.
-BR-ID-03	partial	R15	ChatGPT identity is used; shared application passwords are absent.	Verified privileged MFA, workforce recovery/device replacement and session revocation acceptance.
+BR-ID-03	partial	R15	Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains the default and a verified Cloudflare Access JWT provider allows an institutional identity provider. Shared application passwords are absent.	Verified privileged MFA, workforce recovery/device replacement and session revocation acceptance.
 BR-ID-04	partial	R14	R10 transfers open patient work atomically, records effective time and receiving-worker acknowledgement.	Household/bulk caseload transfer, scheduled effective dates and field acceptance.
 BR-ID-05	partial	R12	R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution.	Issuer-identifier search, validated matching performance and approved wider identity resolution.
 BR-ID-06	implemented-local	R16	Local registration and visits do not require ABHA, phone or biometrics.	Pilot acceptance with the approved local identity process.
@@ -136,7 +136,7 @@ BR-SEC-08	partial	R15	Writes/approvals/exports have append-only audit and revisi
 BR-SEC-09	not-built	R15	Telemetry pruning and local cache expiry do not implement clinical retention.	Record-class disposal schedules, holds, tombstones and restore-safe deletion policy.
 BR-SEC-10	not-built	R15	Record corrections exist; no rights/grievance case workflow.	Verified access/correction/restriction/deletion requests with due dates and downstream evidence.
 BR-SEC-11	not-built	R15	No exceptional access path exists.	Eligible break-glass/support roles, time/scoped grants and retrospective review.
-BR-SEC-12	partial	R15	Dependency lockfile and provider configuration inventory.	SBOM/vulnerability gates, supplier controls/subprocessors and material-change assurance.
+BR-SEC-12	partial	R15	Dependency lockfile and provider configuration inventory. Slice 0c: production SBOM (CycloneDX) and an audit gate failing on critical advisories or high advisories present in the built bundle.	SBOM/vulnerability gates, supplier controls/subprocessors and material-change assurance.
 BR-SEC-13	partial	R15	Incident owner/triage/evidence and maintenance/suspension controls.	Impact discovery, notification policy and recorded security/privacy tabletop exercise.
 BR-SEC-14	partial	R15	Explicit HTTPS origin allowlist limits outbound destinations.	Enforced legal data-location policy across storage, providers, backups, analytics and support.
 BR-RULE-01	partial	R11	Unknown facts remain unknown; stale or absent rule inputs surface missing evidence and cannot silently become normal.	Distinct missing/refused/uncertain semantics across every downstream resource.
