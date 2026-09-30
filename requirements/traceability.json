@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2d, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -673,8 +673,8 @@
       "sourceTextLine": 228,
       "implementation": "partial",
       "target": "R15",
-      "current": "Legacy workspace migration validates counts, source hash and rollback.",
-      "remaining": "General import dry runs, duplicate review, rejection reports and approved batch reversal.",
+      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch.",
+      "remaining": "General import dry runs, duplicate review across sources, rejection reports and data-quality reports for imported batches.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -684,7 +684,13 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/fixture-migration.ts",
+        "lib/saha/fixture-migration-server.ts",
+        "app/fixture-migration-panel.tsx",
+        "tests/fixture-migration-contract.mjs",
+        "tests/fixture-migration-smoke.mjs",
+        "docs/current/SLICE-2D-FIXTURE-MIGRATION.md"
       ],
       "automatedAcceptanceClaim": false
     },

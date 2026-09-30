@@ -9,7 +9,9 @@ import type { AlertAck } from './alerts';
 export type Incident={id:string;title:string;severity:'critical'|'high'|'normal';state:'open'|'investigating'|'resolved';ownerId:string;createdAt:string;updatedAt:string;resolution?:string;evidence?:string};
 // Slice 5a: monthly cost budgets per capability key (estimates from `rates`, not invoices).
 export type CapabilityBudget={capabilityKey:string;monthlyUsd:number;setBy:string;setAt:string;reason:string};
-export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[]};
+// Slice 2d: controlled migration batches (counts and plan hash only; marked records carry the batch id).
+export type FixtureBatch={id:string;migration:string;planHash:string;at:string;by:string;reason:string;examined:number;marked:number;rejected:number;alreadyMarked:number;outOfScope:number;revertedAt?:string;revertedBy?:string;revertReason?:string;reverted?:number};
+export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[];fixtureBatches?:FixtureBatch[]};
 export const defaultOperations=():Operations=>({version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null});
 export const GATES=[
  {id:'clinical',label:'Clinical and programme approval',state:'external',detail:'Named clinical owners, approved programme content and deployment-specific safety evidence required.'},

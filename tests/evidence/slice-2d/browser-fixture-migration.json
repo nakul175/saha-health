@@ -1,0 +1,13 @@
+{
+ "dryRun": "6 to mark \u00b7 0 rejected for review \u00b7 0 already marked \u00b7 0 outside your care teams \u00b7 6 records examined | Plan a61160787c9f0522\u2026",
+ "axeAfterApply": [],
+ "afterApply": "Data migration: mark seeded fixtures | Owners only \u00b7 dry run first | Records seeded before environment separation are not marked as synthetic fixtures, so the barrier that keeps fixtures away from destinations does not cover them. The dry run counts what would change; applying marks exactly the records it listed and can be reversed as a batch. Each marked record gets a revision with your reason. | Run dry run | 0 to mark \u00b7 0 rejected for review \u00b7 6 already marked \u00b7 0 outside your care teams \u00b7 6 records examined | Plan 08264b2f9ee4b27e\u2026 | Batch 7795209f \u00b7 9/30/2026, 12:44:03 PM \u00b7 6 marked, 0 rejectedReverse batch | Reason for reversing",
+ "markedAfterApply": 6,
+ "afterRevert": "Data migration: mark seeded fixtures | Owners only \u00b7 dry run first | Records seeded before environment separation are not marked as synthetic fixtures, so the barrier that keeps fixtures away from destinations does not cover them. The dry run counts what would change; applying marks exactly the records it listed and can be reversed as a batch. Each marked record gets a revision with your reason. | Run dry run | 6 to mark \u00b7 0 rejected for review \u00b7 0 already marked \u00b7 0 outside your care teams \u00b7 6 records examined | Plan 2c2a05e0cecacc8f\u2026 | Reason for applying | Apply this dry run | Batch 7795209f \u00b7 9/30/2026, 12:44:03 PM \u00b7 6 marked, 0 rejected \u00b7 reversed 9/30/2026, 12:44:06 PM (6 marks removed)",
+ "markedAfterRevert": 0,
+ "axeViolations": [],
+ "errors": [],
+ "completedAt": "2026-09-30T07:14:06.826Z",
+ "passed": true,
+ "note": "A first run captured one colour-contrast finding while the panel was still updating after the reversal (the wait matched the static text too early); after fixing the wait, two runs found no violations in the dry-run, applied and reversed states."
+}
