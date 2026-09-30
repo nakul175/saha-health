@@ -1,3 +1,4 @@
+import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';
 import { applyPilot, authorizePilotCommand } from './pilot';
 import { applyOutreach, authorizeOutreach } from './outreach';
 import { applyExpansion, authorizeExpansion } from './expansion';
@@ -33,7 +34,7 @@ async function parseRequest(request:Request){const origin=request.headers.get('o
 async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof parseRequest>>){
  const u=await identity(),{key,c}=parsed,hash=await digest(c);await ensureAccount(db(),u);
  const old=await db().prepare('SELECT org_id,hash,result,person_id FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;hash:string;result:string;person_id:string|null}>();
- if(old){if(old.hash!==hash)fail(409,'This operation key was already used for different input.');if(!['switchOrganisation','joinOrganisation','createOrganisation'].includes(c.type)&&request.headers.get('x-saha-organisation')&&old.org_id!==request.headers.get('x-saha-organisation'))fail(409,'This operation key belongs to a different organisation.');const state=await loadFor(u,old.org_id);const m=scope(state,u.userId);if(old.person_id)person(state.workspace,old.person_id);authorizePilotCommand(state,m,c);authorizeOutreach(state,m,c);authorizeExpansion(state,m,c);if(c.type.startsWith('ops')&&!operator(m))fail(403,'Operations access required.');if(['opsMaintenance','opsRates'].includes(c.type)&&!m.isOwner)fail(403,'Owner access required.');if(['createInvite','revokeInvite','updateMember','createTeam','renameOrganisation','enableAgentContract','configureMis','activateMis','testMis','configureEhr','activateEhr','probeEhr'].includes(c.type)&&!m.isOwner)fail(403,'Your current membership cannot access this action.');return {result:JSON.parse(old.result),snapshot:await snapshotFor(state,u),replayed:true};}
+ if(old){if(old.hash!==hash)fail(409,'This operation key was already used for different input.');if(!['switchOrganisation','joinOrganisation','createOrganisation'].includes(c.type)&&request.headers.get('x-saha-organisation')&&old.org_id!==request.headers.get('x-saha-organisation'))fail(409,'This operation key belongs to a different organisation.');const state=await loadFor(u,old.org_id);const m=scope(state,u.userId);if(old.person_id)person(state.workspace,old.person_id);authorizePilotCommand(state,m,c);authorizeOutreach(state,m,c);authorizeExpansion(state,m,c);authorizeContinuity(state,m,c);if(c.type.startsWith('ops')&&!operator(m))fail(403,'Operations access required.');if(['opsMaintenance','opsRates'].includes(c.type)&&!m.isOwner)fail(403,'Owner access required.');if(['createInvite','revokeInvite','updateMember','createTeam','renameOrganisation','enableAgentContract','configureMis','activateMis','testMis','configureEhr','activateEhr','probeEhr'].includes(c.type)&&!m.isOwner)fail(403,'Your current membership cannot access this action.');return {result:JSON.parse(old.result),snapshot:await snapshotFor(state,u),replayed:true};}
  if(c.type==='createOrganisation'){
   const count=await db().prepare('SELECT count(*) AS n FROM memberships WHERE user_id=? AND is_owner=1 AND status=?').bind(u.userId,'active').first<{n:number}>();if((count?.n??0)>=10)fail(422,'This release supports up to 10 organisations owned by one account.');
   const now=new Date().toISOString(),orgId=`org_${(await digest(`${u.userId}:${key}`)).slice(0,32)}`,w=seedWorkspace(now);w.people=[];
@@ -51,7 +52,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   await persist(db(),before,state,u,c,key,hash,{organisationId:invite.org_id},[],true);return {result:{organisationId:invite.org_id},snapshot:await snapshotFor(await loadFor(u,invite.org_id),u)};
  }
  const requested=c.type==='switchOrganisation'?c.organisationId:request.headers.get('x-saha-organisation');
- const state=await loadFor(u,requested),before=structuredClone(state),m=scope(state,u.userId);ensureOperating(state,c);let result:any;
+ const state=await loadFor(u,requested),before=structuredClone(state),m=scope(state,u.userId);ensureOperating(state,c);ensurePatientIdentity(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;
  if(c.type==='probeEhr'||c.type==='retrieveEhrDocument'||c.type==='executeEhrPublish'||c.type==='lookupEhrPublish'){const result=await executeEhr(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await snapshotFor(await loadFor(u,state.organisation.id),u)};}
  if(c.type==='testMis'||c.type==='sendSubmission'||c.type==='lookupSubmission'){const result=await executeMis(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await snapshotFor(await loadFor(u,state.organisation.id),u)};}
  if(c.type==='executeAgent'){const result=await executeAgent(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await snapshotFor(await loadFor(u,state.organisation.id),u)};}
@@ -65,14 +66,15 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const pilot=await applyPilot(state,c,u,m);
   const outreach=await applyOutreach(state,c,u,m);
   const expansion=await applyExpansion(state,c,u,m);
+  const continuity=applyContinuity(state,c,u,m);
   const ops=applyOperations(state,c,u,m);
-  const platform=expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
+  const platform=continuity?{handled:true,result:continuity}:expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
   if(platform.handled)result=platform.result;
   else {const oldRole=state.workspace.role;
    if(['toggleIntegration','registerIntegration'].includes(c.type)&&m.isOwner)state.workspace.role='admin';
    result=await apply(state.workspace,c as Command,u.userId,{call:(i,p)=>externalCall(i,p,key)});
    state.workspace.role=oldRole;const a=state.workspace.audit.at(-1);if(a&&!before.workspace.audit.some(x=>x.id===a.id)){a.actorId=u.userId;a.actor=u.displayName;a.role=m.role;}
-   if(c.type==='createPerson'){const p=state.workspace.people.find(x=>x.id===result.personId)!;p.assignedTo=u.userId;}
+   if(c.type==='createPerson'){const p=state.workspace.people.find(x=>x.id===result.personId)!;p.assignedTo=u.userId;if(registration)p.identityReview=registration;}
   }
  }
  await persist(db(),before,state,u,c,key,hash,result,[],c.type==='switchOrganisation');

@@ -1,0 +1,1594 @@
+{
+  "source": {
+    "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
+    "version": "1.1",
+    "sha256": "8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8",
+    "extraction": "Requirement and acceptance text extracted from the supplied BRD; sourceTextLine refers to the temporary paragraph extraction, not a Word page number."
+  },
+  "requirements": [
+    {
+      "id": "BR-UX-01",
+      "title": "One task entry point",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The worker shall start a visit, follow-up or screening from one workspace. Eligible programme activities and AI functions shall appear within that task without requiring the worker to select a vendor application.",
+      "acceptance": "Acceptance: The approved multi-programme journey completes through one authenticated workspace with no separate AI login or manual transfer of patient details.",
+      "sourceTextLine": 137
+    },
+    {
+      "id": "BR-UX-02",
+      "title": "Clear patient and visit context",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The interface shall show the active person and visit throughout capture, model use and action review. Changing patients shall explicitly close or suspend the current context and clear uncommitted cross-person inputs.",
+      "acceptance": "Acceptance: Patient-switch tests cannot attach the prior person's recording, answer or AI result to the next person.",
+      "sourceTextLine": 140
+    },
+    {
+      "id": "BR-UX-03",
+      "title": "Voice text and guided entry",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Workers shall be able to speak, type or use structured questions for the same core workflow. Voice shall be optional; background listening shall be disabled. Users shall control recording, playback and deletion before submission.",
+      "acceptance": "Acceptance: A user completes each pilot journey without using a microphone and can review or correct a voice-derived value before confirmation.",
+      "sourceTextLine": 143
+    },
+    {
+      "id": "BR-UX-04",
+      "title": "Structured encounter summary",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The workspace shall display confirmed facts, uncertain facts, missing information and proposed actions as separate readable elements. A conversational answer shall not be the only way to discover task status.",
+      "acceptance": "Acceptance: Usability participants can identify the next required step and each unresolved field without searching a transcript.",
+      "sourceTextLine": 146
+    },
+    {
+      "id": "BR-UX-05",
+      "title": "Language and accessibility",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The pilot shall support approved interface, speech and content languages, initially Hindi and English if suitable for the selected site. Critical content shall have reviewed translations. Numeric values, units and names shall survive language changes.",
+      "acceptance": "Acceptance: The same encounter retains meaning across supported languages and passes the defined accessibility and language-specific task tests.",
+      "sourceTextLine": 149
+    },
+    {
+      "id": "BR-UX-06",
+      "title": "Status that reflects reality",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The application shall distinguish saved on device, saved on server, awaiting review, submitted, accepted, rejected and unresolved. A general completion tick shall never imply that every destination accepted a record.",
+      "acceptance": "Acceptance: Simultaneous success in one programme and failure in another produces separate visible statuses and a specific recovery action.",
+      "sourceTextLine": 152
+    },
+    {
+      "id": "BR-UX-07",
+      "title": "Resume interrupted work",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "An interrupted visit shall reopen at its last durable state with captured data, outstanding questions and pending actions. Users shall not repeat a successfully recorded measurement solely because a screen or connection was lost.",
+      "acceptance": "Acceptance: App restart, incoming call and network-loss scenarios retain every field previously shown as durably saved.",
+      "sourceTextLine": 155
+    },
+    {
+      "id": "BR-UX-08",
+      "title": "Low literacy and field use",
+      "priority": "Should",
+      "brdRelease": "R1",
+      "requirement": "Common actions shall use short labels, clear touch targets and a small number of steps. Audio guidance shall be available only on demand to avoid disclosure in a shared setting. Progress shall not rely on colour alone.",
+      "acceptance": "Acceptance: Representative workers complete the principal tasks under the defined field usability protocol, including noisy and private-entry conditions.",
+      "sourceTextLine": 158
+    },
+    {
+      "id": "BR-UX-09",
+      "title": "Explainable action review",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Before committing consequential actions, users shall see what will happen, the receiving organisation and the information involved in language suited to their role. Safe routine actions may be grouped by encounter under configured policy.",
+      "acceptance": "Acceptance: A worker can exclude one proposed destination or edit one fact before confirming the remaining permitted action bundle.",
+      "sourceTextLine": 161
+    },
+    {
+      "id": "BR-ID-01",
+      "title": "Workforce lifecycle",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall support invitation or approved import, identity verification, role assignment, activation, suspension, reassignment and removal. Every account shall belong to an accountable organisation; shared credentials shall not be the operating model.",
+      "acceptance": "Acceptance: A suspended user's online access and pending privileged actions are revoked within the NFR limit, with offline limits disclosed.",
+      "sourceTextLine": 166
+    },
+    {
+      "id": "BR-ID-02",
+      "title": "Scoped permissions",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Access shall be constrained by tenant, role, assignment, programme, facility or geography, purpose and action. The server shall enforce the effective permission set for reads, writes, searches, exports and tool calls.",
+      "acceptance": "Acceptance: Negative tests cover each boundary and prove that hidden screens or manipulated requests cannot expand access.",
+      "sourceTextLine": 169
+    },
+    {
+      "id": "BR-ID-03",
+      "title": "Authentication and recovery",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Workers shall use an approved authentication method appropriate to devices and connectivity. Privileged roles require a second factor. Recovery and device replacement shall verify identity and revoke superseded credentials.",
+      "acceptance": "Acceptance: Recovery cannot be completed using patient data or a shared phone number alone; privileged access remains blocked without the required factor.",
+      "sourceTextLine": 172
+    },
+    {
+      "id": "BR-ID-04",
+      "title": "Caseload assignment and transfer",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Households, patients and tasks shall have effective assignment dates and responsible teams. Transfer shall preserve open work, restrict former access and identify unresolved responsibility gaps.",
+      "acceptance": "Acceptance: Transferring a worker's caseload moves eligible open tasks, records acknowledgement and prevents duplicate ownership or orphaned urgent tasks.",
+      "sourceTextLine": 175
+    },
+    {
+      "id": "BR-ID-05",
+      "title": "Patient matching with human resolution",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall search permitted records using identifiers and selected demographics, present possible matches and support uncertain identities. A name or phone number alone shall not trigger an automatic merge.",
+      "acceptance": "Acceptance: Same-name, shared-phone, spelling-variant and twin cases remain distinct unless an authorised reviewer resolves the identity link.",
+      "sourceTextLine": 178
+    },
+    {
+      "id": "BR-ID-06",
+      "title": "Local registration without national identifier",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "A person shall be able to receive a local record and permitted workflow without an ABHA number, personal phone or biometric identifier. External identity linking shall be a separate authorised process.",
+      "acceptance": "Acceptance: A person lacking all three completes an eligible pilot encounter without a fabricated external identifier.",
+      "sourceTextLine": 181
+    },
+    {
+      "id": "BR-ID-07",
+      "title": "Household and proxy boundaries",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Household relationships, caregivers and authorised representatives shall be recorded separately from account access. A family contact number shall not grant access to a member's private history or authorise disclosure.",
+      "acceptance": "Acceptance: A caregiver and household head can receive only the information permitted by the relevant relationship and authorisation rules.",
+      "sourceTextLine": 184
+    },
+    {
+      "id": "BR-ID-08",
+      "title": "Correctable identity links",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "External programme identifiers shall retain issuer, verification state and link history. Wrong matches, merges and transfers require a controlled correction process that preserves original references and downstream impact.",
+      "acceptance": "Acceptance: An authorised correction unlinks the wrong identity, flags affected submissions and records which external changes remain unresolved.",
+      "sourceTextLine": 187
+    },
+    {
+      "id": "BR-ID-09",
+      "title": "Service accounts and delegation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Connectors and automated tasks shall use individually managed service identities with limited scope, expiry and an accountable owner. A worker's session shall not become a reusable unrestricted credential for an agent.",
+      "acceptance": "Acceptance: Revoking a connector credential stops its new calls without disabling unrelated connectors; audit identifies both initiating user and executing service.",
+      "sourceTextLine": 190
+    },
+    {
+      "id": "BR-ID-10",
+      "title": "Organisational federation",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "Where approved by the buyer, enterprise sign-in and authoritative workforce registries shall supply identity and role updates. Local emergency administration shall remain controlled and auditable.",
+      "acceptance": "Acceptance: An upstream removal or scope change is reflected within the approved synchronisation window, including termination of incompatible sessions.",
+      "sourceTextLine": 193
+    },
+    {
+      "id": "BR-DATA-01",
+      "title": "Shared question assembly",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall combine required questions from applicable programme packs and avoid asking an identical eligible fact twice in one encounter. It shall preserve separate questions where programme meanings differ.",
+      "acceptance": "Acceptance: The approved three-programme fixture asks each shared concept once and retains every distinct mandatory programme-specific question.",
+      "sourceTextLine": 198
+    },
+    {
+      "id": "BR-DATA-02",
+      "title": "Source and timing for every fact",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Reusable observations shall retain person, concept, value, unit, time, source, author and verification state. Unknown, not asked, refused and not applicable shall be separate responses.",
+      "acceptance": "Acceptance: Each destination field can be traced to the confirmed source fact or a documented transformation; missing data is never converted to a negative finding.",
+      "sourceTextLine": 201
+    },
+    {
+      "id": "BR-DATA-03",
+      "title": "Speech extraction as a draft",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Speech and free text may populate draft fields, but uncertain negations, numbers, medicines, dates and identities shall be surfaced for correction. Derived values shall not be presented as direct measurements.",
+      "acceptance": "Acceptance: A test set containing negation, mixed language, background speakers and ambiguous quantities produces reviewable fields and no unconfirmed authoritative write.",
+      "sourceTextLine": 204
+    },
+    {
+      "id": "BR-DATA-04",
+      "title": "Freshness and relevance",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each programme or capability shall specify which prior inputs can be reused and their allowed age. The workspace shall distinguish a historical value from a new observation and request remeasurement where the approved rule requires it.",
+      "acceptance": "Acceptance: An expired measurement is excluded from a time-sensitive model call even if it is the latest value available.",
+      "sourceTextLine": 207
+    },
+    {
+      "id": "BR-DATA-05",
+      "title": "Validation without fabrication",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Range, unit, logical and cross-field checks shall flag implausible or incomplete inputs. A worker may record an unusual confirmed measurement with a reason where policy permits, but cannot silently bypass a mandatory validation.",
+      "acceptance": "Acceptance: Invalid units block submission; a permitted override retains the original value, reason and reviewer identity.",
+      "sourceTextLine": 210
+    },
+    {
+      "id": "BR-DATA-06",
+      "title": "Traceable amendments",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Confirmed records shall be corrected by amendment with actor, time and reason. Existing accepted submissions shall be identified for downstream correction; prior versions remain available under the retention policy.",
+      "acceptance": "Acceptance: Correcting a key fact reveals all dependent AI results and submissions, marks invalidated outputs and creates the necessary reconciliation tasks.",
+      "sourceTextLine": 213
+    },
+    {
+      "id": "BR-DATA-07",
+      "title": "Concurrent edits",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Conflicting edits from workers, devices or external sources shall be detectable. Clinically meaningful conflicts shall require authorised resolution rather than silent overwrite.",
+      "acceptance": "Acceptance: Two offline edits to the same observation produce a visible conflict with both versions, and no unsafe destination update is committed before resolution.",
+      "sourceTextLine": 216
+    },
+    {
+      "id": "BR-DATA-08",
+      "title": "Documents and media",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Attachments shall be linked to a person and encounter, checked for supported type and quality, and governed by purpose and retention. Extraction from an image or document shall remain distinguishable from a verified clinical entry.",
+      "acceptance": "Acceptance: A low-quality image cannot silently generate confirmed values; deleting an unsubmitted recording removes the associated draft references.",
+      "sourceTextLine": 219
+    },
+    {
+      "id": "BR-DATA-09",
+      "title": "Authoritative field mapping",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each connector shall use a reviewed mapping from common facts to destination definitions, codes and units. Mapping versions shall be recorded with submissions and effective dates.",
+      "acceptance": "Acceptance: A mapping change passes owner-approved fixtures and does not reinterpret earlier accepted records without a documented migration.",
+      "sourceTextLine": 222
+    },
+    {
+      "id": "BR-DATA-10",
+      "title": "Selective permitted reuse",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Data reuse shall be evaluated per destination and purpose. One valid use shall not authorise sharing with every connected programme or vendor.",
+      "acceptance": "Acceptance: A fact approved for one task is excluded from another provider's payload when that second use lacks the required permission.",
+      "sourceTextLine": 225
+    },
+    {
+      "id": "BR-DATA-11",
+      "title": "Controlled migration",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "Legacy imports shall support dry runs, data-quality reports, duplicate review and source lineage. A bulk import shall not automatically create programme enrolment or change a clinician's recorded decision.",
+      "acceptance": "Acceptance: A migration sample reconciles source counts, rejects, merges and accepted records, with a reversible process for failed batches.",
+      "sourceTextLine": 228
+    },
+    {
+      "id": "BR-DATA-12",
+      "title": "Measurement of actual reuse",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall count opportunities for reuse, successful reuse, repeated questions and reasons reuse was blocked. Metrics shall exclude facts that are genuinely different in meaning or time.",
+      "acceptance": "Acceptance: Auditors can reproduce a sample reuse calculation from event records and separate avoidable re-entry from clinically required recapture.",
+      "sourceTextLine": 231
+    },
+    {
+      "id": "BR-PROG-01",
+      "title": "Versioned programme packs",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each pack shall define population, eligibility, questions, mandatory evidence, authorised roles, workflow states, escalation, destination mappings and indicators. Activation requires named business and clinical approvals where applicable.",
+      "acceptance": "Acceptance: An incomplete or unapproved pack cannot be activated, and each completed encounter records the pack version used.",
+      "sourceTextLine": 236
+    },
+    {
+      "id": "BR-PROG-02",
+      "title": "Maternal health workflow",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The maternal pack shall support pregnancy episode confirmation, permitted visit history, due activities, approved symptom questions, missed visits, counselling and referral or supervisor review. It shall handle unknown dates and pregnancy outcomes without assuming an ongoing pregnancy.",
+      "acceptance": "Acceptance: Approved normal, uncertain, overdue, escalated and closed-episode scenarios follow the correct workflow and preserve episode identity.",
+      "sourceTextLine": 239
+    },
+    {
+      "id": "BR-PROG-03",
+      "title": "TB screening workflow",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The TB pack shall support authorised symptom screening, relevant history, optional eligible AI assistance, referral preparation and follow-up of testing or care milestones. Screening output shall remain separate from confirmed diagnosis and official programme registration.",
+      "acceptance": "Acceptance: A low-risk AI output cannot suppress a referral required by the approved symptom protocol, and an unresolved result remains visible for follow-up.",
+      "sourceTextLine": 242
+    },
+    {
+      "id": "BR-PROG-04",
+      "title": "Hypertension follow-up workflow",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The hypertension pack shall support protocol-authorised measurements, medication history as reported, adherence discussion, scheduled review and escalation. Prescription changes and clinical orders require a qualified authorised user.",
+      "acceptance": "Acceptance: Worker tests cannot issue or amend a prescription, and measurements retain unit, time, context and source.",
+      "sourceTextLine": 245
+    },
+    {
+      "id": "BR-PROG-05",
+      "title": "Cross-programme scheduling",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall combine due activities into a person or household visit plan where timing and privacy permit, while retaining each programme's completion criteria and owner.",
+      "acceptance": "Acceptance: One visit completes eligible shared tasks, leaves incomplete activities open and does not duplicate a referral merely because two packs identify it.",
+      "sourceTextLine": 248
+    },
+    {
+      "id": "BR-PROG-06",
+      "title": "Eligibility and enrolment distinction",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform may identify eligibility and prepare enrolment, but official enrolment shall require the destination's acceptance and any programme-specific authorisation.",
+      "acceptance": "Acceptance: A person whose external enrolment is rejected remains locally visible with a clear rejection reason and no false enrolled status.",
+      "sourceTextLine": 251
+    },
+    {
+      "id": "BR-PROG-07",
+      "title": "Protocol change and case continuity",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Pack changes shall have an effective date, affected population, change summary and transition rule for open cases. Historical actions shall retain the rules in force when they occurred.",
+      "acceptance": "Acceptance: Updating a referral rule identifies affected open work and requires reviewed migration rather than silently rewriting past decisions.",
+      "sourceTextLine": 254
+    },
+    {
+      "id": "BR-PROG-08",
+      "title": "Additional programme packs",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "The platform shall support later packs for immunisation, child health, diabetes or other buyer-approved needs using the same configuration and review process. Their adoption is subject to workflow and integration readiness.",
+      "acceptance": "Acceptance: A new pack can reuse common identity and observations while defining independent schedules, role boundaries and destination rules.",
+      "sourceTextLine": 257
+    },
+    {
+      "id": "BR-AG-01",
+      "title": "Bounded task planning",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The agent shall plan within an approved task catalogue and the user's current authority. It shall state what it can complete, what information is missing and which steps require human action.",
+      "acceptance": "Acceptance: An out-of-scope request receives a clear limitation or referral to the correct role and does not trigger an improvised external action.",
+      "sourceTextLine": 262
+    },
+    {
+      "id": "BR-AG-02",
+      "title": "Context restricted to the task",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The agent shall retrieve only the records and fields needed for the current purpose. Session memory shall be separated by tenant, person and encounter; patient details shall not become unrestricted global memory.",
+      "acceptance": "Acceptance: A cross-patient prompt cannot retrieve another person's information without a separately authorised task and permission check.",
+      "sourceTextLine": 265
+    },
+    {
+      "id": "BR-AG-03",
+      "title": "Eligibility before tool selection",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Tool selection shall first apply jurisdiction, role, intended use, population, input quality, evidence status, consent or other authorisation, language and connectivity constraints. Cost and speed can rank only eligible tools.",
+      "acceptance": "Acceptance: A cheaper or available tool with an incompatible approved use is never substituted into the workflow.",
+      "sourceTextLine": 268
+    },
+    {
+      "id": "BR-AG-04",
+      "title": "Approved execution paths",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The agent shall use a defined tool catalogue with validated inputs and outputs. Retrieved text, documents and model responses shall be treated as content, not as authority to grant access or change execution policy.",
+      "acceptance": "Acceptance: Instructions embedded in a patient note or provider output cannot activate a new tool, reveal credentials or bypass a confirmation.",
+      "sourceTextLine": 271
+    },
+    {
+      "id": "BR-AG-05",
+      "title": "Human authority at action boundaries",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall distinguish draft preparation, routine authorised recording and consequential clinical or external actions. Actions shall require the confirmation and professional authority defined in Section 21.",
+      "acceptance": "Acceptance: The agent cannot make itself the approving actor, and expired approvals cannot be reused for changed data or a different destination.",
+      "sourceTextLine": 274
+    },
+    {
+      "id": "BR-AG-06",
+      "title": "Durable progress and recovery",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The agent shall retain the state of each step, its outcome and dependencies so an interrupted task can resume without duplicating completed external actions.",
+      "acceptance": "Acceptance: A failure after one destination accepts a record does not repeat that submission; the user sees and can recover only unfinished steps.",
+      "sourceTextLine": 277
+    },
+    {
+      "id": "BR-AG-07",
+      "title": "Limits and cancellation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every task shall have limits on time, tool calls, retries and spend. Users shall be able to stop pending activity. Cancelling cannot falsely reverse an action already accepted elsewhere.",
+      "acceptance": "Acceptance: A looping provider interaction stops at the configured limit and reports which actions completed, were cancelled or remain unresolved.",
+      "sourceTextLine": 280
+    },
+    {
+      "id": "BR-AG-08",
+      "title": "Conflicting outputs",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Contradictory or incomparable model outputs shall be shown as such and routed according to approved policy. The agent shall not average risk scores, invent a consensus or suppress a qualifying warning unless a validated composition explicitly permits it.",
+      "acceptance": "Acceptance: A designed model-disagreement case produces a review task with both original outputs and no fabricated combined diagnosis.",
+      "sourceTextLine": 283
+    },
+    {
+      "id": "BR-AG-09",
+      "title": "Evidence behind explanations",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Explanations shall identify the relevant recorded facts, protocol or model and any material uncertainty. They shall not claim certainty from model confidence or supply unsupported clinical advice.",
+      "acceptance": "Acceptance: Reviewers can trace each consequential recommendation to its underlying rule or approved output; unsupported answers are withheld or escalated.",
+      "sourceTextLine": 286
+    },
+    {
+      "id": "BR-AG-10",
+      "title": "Clinical workflow continuity without an LLM",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Loss of the language model shall not prevent structured capture, access to valid cached protocols, a local draft referral or visibility of urgent tasks. The interface shall make unavailable functions explicit.",
+      "acceptance": "Acceptance: A simulated LLM outage leaves the core non-generative encounter workflow usable without substituting invented AI results.",
+      "sourceTextLine": 289
+    },
+    {
+      "id": "BR-AG-11",
+      "title": "Programme manager analysis",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "Authorised managers may request questions over approved datasets and metric definitions. The agent shall disclose the cohort, time period, data freshness, filters and method, and enforce the same restrictions as standard reporting.",
+      "acceptance": "Acceptance: A natural-language count matches the governed report and cannot expose restricted patient lists through a reformulated query.",
+      "sourceTextLine": 292
+    },
+    {
+      "id": "BR-AG-12",
+      "title": "Change control for the agent",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Material changes to prompts, tool descriptions, routing rules, model versions and knowledge sources shall be versioned and tested against the release suite. Production learning from user interactions shall not silently change behaviour.",
+      "acceptance": "Acceptance: Operators can identify the exact configuration behind an encounter and restore a previously approved configuration after a regression.",
+      "sourceTextLine": 295
+    },
+    {
+      "id": "BR-AI-01",
+      "title": "Capability registration",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every capability shall have an accountable provider, a stable identity, version, purpose, input and output definitions, deployment scope, evidence, operating limits and a support contact. Clinical and administrative capabilities shall be clearly distinguished.",
+      "acceptance": "Acceptance: Registration cannot reach an active state while mandatory manifest fields or accountable ownership are missing.",
+      "sourceTextLine": 300
+    },
+    {
+      "id": "BR-AI-02",
+      "title": "Intended use and excluded use",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each capability shall specify authorised users, populations, age range where relevant, settings, languages, devices, required input quality and excluded uses. Eligibility shall be machine-checkable where possible and explicitly reviewable elsewhere.",
+      "acceptance": "Acceptance: A capability approved for adults cannot run on a child case unless that use has separate approval.",
+      "sourceTextLine": 303
+    },
+    {
+      "id": "BR-AI-03",
+      "title": "Evidence and deployment authorisation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Evidence records shall identify model version, evaluation context, limitations and review decisions. Regulatory status and local deployment authorisation shall be recorded separately from technical integration and sandbox evaluation.",
+      "acceptance": "Acceptance: A technically successful API test cannot activate a clinical capability without the required documented evidence and deployment approvals.",
+      "sourceTextLine": 306
+    },
+    {
+      "id": "BR-AI-04",
+      "title": "Capability lifecycle",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The lifecycle shall cover registered, technically verified, under review, approved for a scope, active, suspended, retired and replaced. Activation shall be deployment-specific and allow trial or shadow status without exposing unapproved results to care.",
+      "acceptance": "Acceptance: A provider cannot self-activate; suspension blocks new invocations and identifies in-progress work requiring cancellation or review.",
+      "sourceTextLine": 309
+    },
+    {
+      "id": "BR-AI-05",
+      "title": "Contract validation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Adapters shall validate required inputs, accepted types, ranges, units, response states and result semantics. Binary media requirements and large or asynchronous responses shall be documented.",
+      "acceptance": "Acceptance: Malformed or unsupported responses are quarantined with an actionable error and cannot be presented as a valid clinical result.",
+      "sourceTextLine": 312
+    },
+    {
+      "id": "BR-AI-06",
+      "title": "Input quality and inability to assess",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The workflow shall check signal quality and record insufficient-input, unsupported-case, unavailable and unable-to-assess states separately from a low-risk or negative result.",
+      "acceptance": "Acceptance: A noisy cough recording produces a quality failure or valid retry instruction, never an implied negative screen.",
+      "sourceTextLine": 315
+    },
+    {
+      "id": "BR-AI-07",
+      "title": "Version pinning",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Production invocations shall bind to an approved provider and model version or an equivalently controlled provider release identifier. Undisclosed provider updates shall be treated as contract violations requiring review.",
+      "acceptance": "Acceptance: A provider version change triggers quarantine or controlled reapproval and cannot silently replace a validated version.",
+      "sourceTextLine": 318
+    },
+    {
+      "id": "BR-AI-08",
+      "title": "Least-data provider invocation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each call shall include only the fields and media needed for the approved purpose. Provider retention, training use, subprocessors and hosting region shall be recorded and compatible with the deployment agreement.",
+      "acceptance": "Acceptance: Payload inspection confirms excluded identifiers are absent and a provider with incompatible retention terms is blocked.",
+      "sourceTextLine": 321
+    },
+    {
+      "id": "BR-AI-09",
+      "title": "Multi-provider result history",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall retain provider attribution and original output for each invocation. Replacing a provider shall not overwrite historical results or obscure the version used for an earlier decision.",
+      "acceptance": "Acceptance: An encounter spanning a provider change shows both results independently with their input timestamps and review states.",
+      "sourceTextLine": 324
+    },
+    {
+      "id": "BR-AI-10",
+      "title": "Monitoring and safety suspension",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Monitoring shall cover availability, latency, input-quality failures, unsupported cases, usage, incidents and reviewed outcome measures where suitable ground truth exists. Clinical degradation shall trigger the approved investigation and suspension process.",
+      "acceptance": "Acceptance: Operators can suspend a named version, identify affected encounters and assign follow-up without disabling unrelated safe capabilities.",
+      "sourceTextLine": 327
+    },
+    {
+      "id": "BR-AI-11",
+      "title": "Provider self-service in a controlled environment",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "Providers may maintain documentation, credentials for testing and proposed versions in an isolated environment using approved synthetic data. They shall not publish directly to production or inspect unrestricted patient payloads.",
+      "acceptance": "Acceptance: Provider test access remains limited to its own capability and synthetic environment; production activation follows the standard review path.",
+      "sourceTextLine": 330
+    },
+    {
+      "id": "BR-AI-12",
+      "title": "Cost and contractual limits",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Usage shall be metered by provider, capability, deployment and task, with budget limits and alerts. Financial incentives shall not override clinical eligibility or conceal a recommended provider substitution.",
+      "acceptance": "Acceptance: Reaching a cost limit results in a visible controlled fallback and does not silently select an unapproved model.",
+      "sourceTextLine": 333
+    },
+    {
+      "id": "BR-CLIN-01",
+      "title": "Approved source library",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Clinical content shall come from approved, versioned sources with publisher, effective date, local applicability and reviewer. Retrieval shall favour content approved for the current programme and user role.",
+      "acceptance": "Acceptance: Superseded or unapproved guidance cannot be offered as current advice, and each displayed recommendation links to its source.",
+      "sourceTextLine": 340
+    },
+    {
+      "id": "BR-CLIN-02",
+      "title": "Controlled clinical logic",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Eligibility, warning signs, thresholds, contraindications and referral logic shall be represented through approved rules or explicitly approved clinical capabilities. The language model may explain them but may not rewrite them during a visit.",
+      "acceptance": "Acceptance: Rephrasing a prompt does not change a protocol's decision for the same confirmed facts.",
+      "sourceTextLine": 343
+    },
+    {
+      "id": "BR-CLIN-03",
+      "title": "Escalation without model dependence",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "When an approved protocol identifies a need for urgent escalation, the application shall show the locally approved action and contacts immediately. A pending AI call shall not delay that action.",
+      "acceptance": "Acceptance: An urgent synthetic scenario follows the configured escalation path when cloud AI and external MIS services are unavailable.",
+      "sourceTextLine": 346
+    },
+    {
+      "id": "BR-CLIN-04",
+      "title": "Scope of practice",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Advice and available actions shall reflect the user's verified authority. A worker may record observations and prepare referrals only within the approved scope; medical decisions requiring a clinician shall be routed accordingly.",
+      "acceptance": "Acceptance: User role changes modify available clinical actions, and server-side tests reject unauthorised orders.",
+      "sourceTextLine": 349
+    },
+    {
+      "id": "BR-CLIN-05",
+      "title": "Review and override",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "An authorised reviewer shall be able to accept, reject or override a suggestion with a reason. Overrides shall preserve the original evidence and shall feed quality review without automatically retraining a model.",
+      "acceptance": "Acceptance: The record distinguishes the model recommendation from the human decision and identifies the responsible professional.",
+      "sourceTextLine": 352
+    },
+    {
+      "id": "BR-CLIN-06",
+      "title": "Model-specific quality requirements",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each clinical capability shall have a separate acceptance plan appropriate to its task, population and intended use, including relevant subgroup performance and uncertainty. There shall be no generic platform-wide clinical accuracy percentage.",
+      "acceptance": "Acceptance: Clinical activation requires a signed capability-specific evidence review; administrative usability results cannot substitute for clinical validation.",
+      "sourceTextLine": 355
+    },
+    {
+      "id": "BR-CLIN-07",
+      "title": "Composition safety",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "When several tools feed a single recommendation, the combined workflow shall be evaluated for interactions, missing inputs and disagreement. Individual model approvals shall not be treated as approval of every possible combination.",
+      "acceptance": "Acceptance: The activated workflow has a reviewed composition and tested conflict scenarios; unapproved combinations are unavailable.",
+      "sourceTextLine": 358
+    },
+    {
+      "id": "BR-CLIN-08",
+      "title": "Harm reporting and review",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Users shall be able to flag misleading advice, wrong-patient results, missed escalation and potential harm from the current encounter. Reports shall reach a named clinical owner with evidence and action tracking.",
+      "acceptance": "Acceptance: A safety report creates a visible case, preserves relevant versions and can initiate a capability hold and affected-case review.",
+      "sourceTextLine": 361
+    },
+    {
+      "id": "BR-INT-01",
+      "title": "Integration readiness contract",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each connector shall record the system owner, permitted read and write operations, identity method, data contract, authorisation, test environment, support contact and operational limits. Unknown capabilities shall remain explicitly unverified.",
+      "acceptance": "Acceptance: A connector cannot be labelled live until the receiving owner has accepted its tested scope and production access is enabled.",
+      "sourceTextLine": 366
+    },
+    {
+      "id": "BR-INT-02",
+      "title": "Independent read and write permissions",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Read access, creation, update, deletion, status lookup and aggregation shall be separately configurable. Permission to retrieve a record shall not imply permission to modify it or register a patient.",
+      "acceptance": "Acceptance: A read-only connector exposes no active write path and clearly states when programme updates require a separate process.",
+      "sourceTextLine": 369
+    },
+    {
+      "id": "BR-INT-03",
+      "title": "Confirmed submission receipts",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every attempted external write shall retain destination, submitted version, time, initiating authority, status and receipt or error. Acceptance shall require the destination's meaningful acknowledgement, not merely a successful HTTP transport response.",
+      "acceptance": "Acceptance: A response containing a business rejection is shown as rejected even when the network request technically succeeded.",
+      "sourceTextLine": 372
+    },
+    {
+      "id": "BR-INT-04",
+      "title": "Duplicate prevention and uncertain outcomes",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Retries shall use stable submission identity and destination-supported duplicate controls. Where acceptance is uncertain, the platform shall reconcile before resubmitting or route the case for review.",
+      "acceptance": "Acceptance: A timeout after external acceptance does not create a second patient or activity; an unverifiable outcome remains visibly unresolved.",
+      "sourceTextLine": 375
+    },
+    {
+      "id": "BR-INT-05",
+      "title": "Partial completion across systems",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall track each destination independently and support recovery from partial success. It shall not promise an atomic transaction across unrelated MIS systems or automatically delete valid records to simulate rollback.",
+      "acceptance": "Acceptance: If one of two writes succeeds, the success receipt is preserved and only the failed or uncertain destination is retried.",
+      "sourceTextLine": 378
+    },
+    {
+      "id": "BR-INT-06",
+      "title": "Inbound changes and reconciliation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Approved inbound updates shall identify source, version and effective time. Conflicts with local work shall enter a review process, and outstanding receipts shall be reconciled on a schedule appropriate to the connector.",
+      "acceptance": "Acceptance: An external status change does not silently discard an unsynchronised local correction, and the responsible reviewer sees both.",
+      "sourceTextLine": 381
+    },
+    {
+      "id": "BR-INT-07",
+      "title": "Schema and mapping change control",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "External form, code or API changes shall trigger compatibility checks and owner review. Failed validation shall pause affected submissions while preserving queued data and unaffected workflows.",
+      "acceptance": "Acceptance: A removed mandatory destination field causes a controlled connector exception, not silent data loss or guessed replacement values.",
+      "sourceTextLine": 384
+    },
+    {
+      "id": "BR-INT-08",
+      "title": "Limited integration alternatives",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Where approved APIs are unavailable, owner-authorised file exchange or assisted submission may be supported and labelled as such. Credentials, access controls or usage restrictions shall not be bypassed to simulate connectivity.",
+      "acceptance": "Acceptance: Exported files carry reconciliation identifiers; a prepared export is never reported as accepted until acceptance evidence is recorded.",
+      "sourceTextLine": 387
+    },
+    {
+      "id": "BR-INT-09",
+      "title": "Per-destination data minimisation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each connector shall send only authorised fields needed by its contract. Person-level operational data shall not be sent to an aggregate-reporting system merely because both are labelled health MIS.",
+      "acceptance": "Acceptance: Payload fixtures and production audits verify field allowlists and distinguish person records from aggregate measures.",
+      "sourceTextLine": 390
+    },
+    {
+      "id": "BR-INT-10",
+      "title": "Standards-based exchange",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Where an ecosystem requires a published standard or implementation guide, the connector shall use a pinned agreed version and pass its conformance checks. ABDM exchange shall follow the applicable onboarding flows and the current agreed ABDM FHIR profiles [S1, S2, S8, S9].",
+      "acceptance": "Acceptance: Standards validation and owner acceptance are recorded separately; valid FHIR content alone does not mark the connector production-ready.",
+      "sourceTextLine": 393
+    },
+    {
+      "id": "BR-INT-11",
+      "title": "Canonical exchange representation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall maintain a canonical representation for person, encounter, observation, condition, service request, care plan, medication, diagnostic result, document and provenance. Source payloads and destination payloads shall remain traceable to this representation without erasing material differences.",
+      "acceptance": "Acceptance: A single confirmed blood-pressure observation can be mapped to two approved destinations, and the audit shows the original source, canonical value, units, mapping version and each destination payload.",
+      "sourceTextLine": 401
+    },
+    {
+      "id": "BR-INT-12",
+      "title": "Source and destination provenance",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every imported or exported clinical element shall retain source system, source identifier, author or device where known, effective time, receipt time, transformation version and confidence or verification state. A transformed record shall not be represented as if the platform originally measured it.",
+      "acceptance": "Acceptance: An imported laboratory result and an ASHA-recorded observation remain distinguishable after display, export and reconciliation.",
+      "sourceTextLine": 404
+    },
+    {
+      "id": "BR-INT-13",
+      "title": "ABDM participation scope",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each deployment shall explicitly approve the ABDM modules and roles it uses, including any ABHA, Scan and Share, HIP, HIU, consented exchange or NHCX capability. Permission for one module or role shall not imply another.",
+      "acceptance": "Acceptance: Administration and test evidence identify the enabled ABDM role, environment, facility, client credentials, approved operations and responsible owner; all other operations are unavailable.",
+      "sourceTextLine": 407
+    },
+    {
+      "id": "BR-INT-14",
+      "title": "ABHA identity and record linking",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "ABHA creation, verification, demographic matching and record linking shall use authorised flows and explicit user confirmation where required. The platform shall support care for a person without ABHA when the approved workflow permits and shall not merge people solely because names, phones or demographic fields are similar.",
+      "acceptance": "Acceptance: Tests cover verified ABHA linkage, declined linkage, absent ABHA, duplicate candidates, demographic mismatch and later correction without wrong-person disclosure.",
+      "sourceTextLine": 410
+    },
+    {
+      "id": "BR-INT-15",
+      "title": "ABDM consent enforcement",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "For ABDM exchanges that require a consent artefact, the platform shall enforce the named HIU and HIP, purpose, health information types, date range, expiry and status. Revocation, expiry or mismatch shall stop new retrieval or disclosure and create an auditable outcome.",
+      "acceptance": "Acceptance: Requests outside the approved purpose, date range, data type or validity period are blocked even when the calling user can otherwise view the local patient record.",
+      "sourceTextLine": 413
+    },
+    {
+      "id": "BR-INT-16",
+      "title": "Facility and professional attribution",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Where the ABDM or EHR workflow requires organisation, facility or practitioner attribution, the platform shall use verified HFR, HPR or destination identifiers and the active role. It shall not invent identifiers or reuse a professional identity across an unapproved facility context.",
+      "acceptance": "Acceptance: A consultation bundle fails validation or enters review when the configured facility or practitioner attribution is absent, expired or inconsistent with the encounter.",
+      "sourceTextLine": 416
+    },
+    {
+      "id": "BR-INT-17",
+      "title": "ABDM FHIR conformance and version control",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "ABDM clinical artefacts shall conform to the pinned NRCeS FHIR implementation package agreed for the deployment. The validator, profile set, terminology content and mapping shall be versioned together; upgrades require regression testing and owner approval [S2].",
+      "acceptance": "Acceptance: Every outbound test bundle passes the pinned validator; a deliberate profile violation is rejected with a specific error and no external submission.",
+      "sourceTextLine": 419
+    },
+    {
+      "id": "BR-INT-18",
+      "title": "Health Information Provider operation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "When operating as or through a HIP, the platform shall create eligible records, preserve care-context linkage, respond only through authorised exchange, encrypt and transmit the required payload, and retain the ABDM acknowledgement and failure state.",
+      "acceptance": "Acceptance: A consented request retrieves only the authorised records and produces traceable request, encryption, transfer, acknowledgement and error evidence without exposing unrelated records.",
+      "sourceTextLine": 422
+    },
+    {
+      "id": "BR-INT-19",
+      "title": "Health Information User operation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "When operating as or through an HIU, the platform shall request the minimum health information needed for the approved purpose, track consent and data-flow states, validate received bundles, preserve external provenance and prevent silent overwriting of local records.",
+      "acceptance": "Acceptance: A received record is shown with its source and effective date, while invalid, duplicate or conflicting content enters the configured reconciliation path.",
+      "sourceTextLine": 425
+    },
+    {
+      "id": "BR-INT-20",
+      "title": "EHR connector capability profile",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every EHR or HMIS connector shall publish a capability profile covering supported resources or documents, search keys, read and write operations, authentication, patient matching, terminology, versioning, latency, idempotency, receipts, amendments, deletion restrictions and support ownership.",
+      "acceptance": "Acceptance: The platform enables only operations declared in the active profile and blocks configuration that assumes unsupported search, update or acknowledgement behaviour.",
+      "sourceTextLine": 428
+    },
+    {
+      "id": "BR-INT-21",
+      "title": "EHR writeback and conflict handling",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall preserve the EHR as authority for its accepted records and shall use destination-supported identifiers, conditional updates, versions or reconciliation before writeback. Conflicting updates shall not be resolved through last-write-wins unless the destination owner explicitly approves that rule for the record type.",
+      "acceptance": "Acceptance: Concurrent-update tests preserve both versions, prevent silent loss and route unresolved conflicts to the named operational owner.",
+      "sourceTextLine": 431
+    },
+    {
+      "id": "BR-INT-22",
+      "title": "Legacy and document exchange",
+      "priority": "Should",
+      "brdRelease": "R1",
+      "requirement": "Where FHIR is unavailable, the platform may use authorised HL7 v2, CDA, REST, SOAP, file or document exchange. The connector shall label the resulting limitations, preserve the original artefact and avoid presenting batch preparation or document extraction as real-time structured acceptance.",
+      "acceptance": "Acceptance: A batch or document connector identifies its delay, source document, extracted fields, reviewer and destination receipt; unsupported writeback remains unavailable.",
+      "sourceTextLine": 434
+    },
+    {
+      "id": "BR-INT-23",
+      "title": "Terminology and mapping governance",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Clinical codes, local programme values, units and mapping tables shall be versioned, reviewed and tested for the specific source and destination. Unmapped, deprecated or ambiguous concepts shall not be silently replaced with the nearest available code.",
+      "acceptance": "Acceptance: A terminology change produces an impact report and blocks affected submissions until the mapping is approved or the value is explicitly represented as unmapped.",
+      "sourceTextLine": 437
+    },
+    {
+      "id": "BR-INT-24",
+      "title": "Conformance and production claims",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall distinguish syntactic validation, sandbox success, security review, partner certification, production onboarding and live operational acceptance. Marketing, administration and status screens shall not collapse these states into a single compliant label.",
+      "acceptance": "Acceptance: A sandbox-passing connector cannot be labelled production-live until credentials, owner approval, end-to-end transaction evidence and support responsibility are recorded.",
+      "sourceTextLine": 440
+    },
+    {
+      "id": "BR-OFF-01",
+      "title": "Defined offline capability",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Previously authorised users shall be able to access a limited encrypted caseload, capture encounters, review valid cached guidance and prepare tasks during outages. Functions needing remote information or models shall show their unavailable or pending state.",
+      "acceptance": "Acceptance: The core offline visit test completes without network access; no cloud model is falsely shown as having run.",
+      "sourceTextLine": 447
+    },
+    {
+      "id": "BR-OFF-02",
+      "title": "Durable local capture",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The application shall acknowledge a save only after local persistence succeeds. Insufficient storage, database failure or encryption failure shall be shown before the worker believes a record has been saved.",
+      "acceptance": "Acceptance: Forced restart and low-storage tests preserve acknowledged data or clearly report that saving did not complete.",
+      "sourceTextLine": 450
+    },
+    {
+      "id": "BR-OFF-03",
+      "title": "Controlled offline authority",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Offline access shall use a time-bounded grant with scoped data and actions. Default proposal: a 24-hour grant after online verification; extending it up to 72 hours requires deployment approval. New privileged grants and remote disclosures remain online-only.",
+      "acceptance": "Acceptance: Expired grants lock cached patient records. Operators understand that revocation cannot reach a disconnected device before reconnection or local expiry.",
+      "sourceTextLine": 453
+    },
+    {
+      "id": "BR-OFF-04",
+      "title": "Pending media and AI work",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Recordings and images shall be queued with purpose, quality state and retention rules. On reconnection the platform shall recheck eligibility and authorisation before sending media to a provider.",
+      "acceptance": "Acceptance: An offline request is cancelled or routed for review when its permission expires or its capability is suspended before upload.",
+      "sourceTextLine": 456
+    },
+    {
+      "id": "BR-OFF-05",
+      "title": "Safe synchronisation ordering",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Dependent records shall synchronise in a valid order, preserving identities and stable submission identifiers. The application shall recover from intermittent connectivity without replaying successful actions.",
+      "acceptance": "Acceptance: A new local person, encounter and referral synchronise without orphan records across repeated connection loss and restoration.",
+      "sourceTextLine": 459
+    },
+    {
+      "id": "BR-OFF-06",
+      "title": "Revalidation of delayed actions",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Queued actions shall be revalidated against current assignment, permissions, patient linkage, protocol and input freshness before execution. A delayed clinical action shall not proceed solely because it was once drafted.",
+      "acceptance": "Acceptance: A material rule or data change places the action into review with an explanation instead of silently executing the old plan.",
+      "sourceTextLine": 462
+    },
+    {
+      "id": "BR-OFF-07",
+      "title": "Shared and lost devices",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The application shall isolate local user data, hide sensitive notifications, support quick locking and allow remote revocation when connectivity returns. Local encryption and grant expiry shall protect offline data where remote wiping cannot be guaranteed.",
+      "acceptance": "Acceptance: A second user cannot view the first user's cached records, and a reported lost device loses server access on its next contact.",
+      "sourceTextLine": 465
+    },
+    {
+      "id": "BR-OFF-08",
+      "title": "Offline workflow capacity",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The approved device profile shall support at least 200 structured encounters and the media allowance defined in Section 23 without silent eviction of unsynchronised work. Users shall see storage and pending upload status.",
+      "acceptance": "Acceptance: A capacity test reaches the agreed limit, warns before exhaustion and preserves every acknowledged record.",
+      "sourceTextLine": 468
+    },
+    {
+      "id": "BR-CARE-01",
+      "title": "Action ownership",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every referral, follow-up and exception shall have an accountable person or team, a due time where appropriate, a reason and a current state. Unassigned work shall enter a monitored queue.",
+      "acceptance": "Acceptance: No active urgent task can exist without a visible responsible queue or assignee.",
+      "sourceTextLine": 473
+    },
+    {
+      "id": "BR-CARE-02",
+      "title": "Service directory",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Referral destinations shall come from an approved directory containing service capability, location, contact route, operating constraints and verification date. The agent shall not invent a facility or claim unverified availability.",
+      "acceptance": "Acceptance: A stale or unavailable service listing is labelled and routes the worker to an approved alternative or supervisor.",
+      "sourceTextLine": 476
+    },
+    {
+      "id": "BR-CARE-03",
+      "title": "Referral lifecycle",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall distinguish proposed, authorised, sent, received, scheduled, attended, completed, declined, cancelled and unknown outcomes where supported. A booked appointment or sent message shall not equal completed care.",
+      "acceptance": "Acceptance: Completion requires a defined evidence source and actor; unsupported closure attempts are rejected.",
+      "sourceTextLine": 479
+    },
+    {
+      "id": "BR-CARE-04",
+      "title": "Due work and escalation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Workers and supervisors shall receive prioritised task lists based on approved urgency and due dates. Missed tasks shall escalate under programme rules while retaining the reason for delay and service constraints.",
+      "acceptance": "Acceptance: An overdue case enters the correct supervisor queue and remains visible until completion or a documented resolution.",
+      "sourceTextLine": 482
+    },
+    {
+      "id": "BR-CARE-05",
+      "title": "Unified action plan",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Actions arising from multiple programmes shall be consolidated where clinically and operationally appropriate, retaining individual reasons and dependencies. Duplicate reminders shall be suppressed without hiding genuinely different work.",
+      "acceptance": "Acceptance: Two packs generating the same approved referral create one referral with both source links and appropriate programme completion states.",
+      "sourceTextLine": 485
+    },
+    {
+      "id": "BR-CARE-06",
+      "title": "Safe communication preferences",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Contact method, language, timing and disclosure preferences shall be recorded. Shared phone ownership shall be treated explicitly; sensitive content shall not be placed in notifications or message previews by default.",
+      "acceptance": "Acceptance: A patient requesting private contact receives no revealing automated message through a household contact number.",
+      "sourceTextLine": 488
+    },
+    {
+      "id": "BR-CARE-07",
+      "title": "External messaging and scheduling",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "Approved SMS, IVR, messaging or appointment services may be integrated with authorisation, delivery evidence, opt-out handling and escalation. Channels require separate readiness checks and shall not expose provider credentials to the agent.",
+      "acceptance": "Acceptance: Delivery failure creates a retry or follow-up task and is not reported as patient acknowledgement.",
+      "sourceTextLine": 491
+    },
+    {
+      "id": "BR-CARE-08",
+      "title": "Worker activity evidence",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The system shall generate a reviewable record of verified worker activities for programme reporting or incentive support. It shall distinguish performed, claimed, verified and submitted activity and avoid promising payment.",
+      "acceptance": "Acceptance: Correcting or cancelling an activity updates derived claims and leaves the original evidence and review history traceable.",
+      "sourceTextLine": 494
+    },
+    {
+      "id": "BR-REP-01",
+      "title": "Operational exception queues",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Supervisors shall see overdue work, identity conflicts, rejected submissions, unresolved clinical reviews and synchronisation problems within their scope. Queues shall identify owner, age and recovery action.",
+      "acceptance": "Acceptance: Each seeded failure is discoverable and assignable without searching individual worker transcripts.",
+      "sourceTextLine": 499
+    },
+    {
+      "id": "BR-REP-02",
+      "title": "Governed indicator definitions",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Each indicator shall define numerator, denominator, exclusions, period, source, update cadence and owner. Changes shall be versioned; historical reports shall remain reproducible.",
+      "acceptance": "Acceptance: A reviewer can recalculate sample indicators from authorised records and distinguish visits, unique people and accepted programme submissions.",
+      "sourceTextLine": 502
+    },
+    {
+      "id": "BR-REP-03",
+      "title": "Data freshness and completeness",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Reports shall disclose late arrivals, missing sources, external outages and refresh times. A partially synchronised period shall not look equivalent to a complete reporting period.",
+      "acceptance": "Acceptance: Disconnecting one source produces a visible completeness warning and an explicit affected denominator.",
+      "sourceTextLine": 505
+    },
+    {
+      "id": "BR-REP-04",
+      "title": "Privacy-preserving aggregation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Reports shall enforce audience-specific aggregation and small-cell controls. Patient-level drilldown and exports shall require an approved purpose and separate access.",
+      "acceptance": "Acceptance: Combining filters cannot reveal a suppressed small group or bypass person-level access restrictions.",
+      "sourceTextLine": 508
+    },
+    {
+      "id": "BR-REP-05",
+      "title": "Reconciled exports",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Exports shall identify report definition, period, filters, generation time and user, with protected access and expiry where appropriate. Official reporting shall pass a review and submission state distinct from a draft export.",
+      "acceptance": "Acceptance: An exported report reconciles to the displayed governed measure and cannot be downloaded by an unauthorised role.",
+      "sourceTextLine": 511
+    },
+    {
+      "id": "BR-REP-06",
+      "title": "Population prioritisation",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "Approved risk or gap-analysis tools may identify populations needing review. Such results shall identify data limitations and support human planning rather than automatically denying service or ranking worker pay.",
+      "acceptance": "Acceptance: Supervisors can inspect selection criteria and override an allocation with a reason; uncertainty remains visible.",
+      "sourceTextLine": 514
+    },
+    {
+      "id": "BR-REP-07",
+      "title": "Product performance metrics",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall measure reuse, task completion, corrections, provider usage, sync failures and support burden without storing raw sensitive content in general analytics.",
+      "acceptance": "Acceptance: Product dashboards can support the Section 6 evaluation and contain no unnecessary patient identifiers or recording content.",
+      "sourceTextLine": 517
+    },
+    {
+      "id": "BR-OPS-01",
+      "title": "Deployment configuration",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Administrators shall configure organisation, geography, facilities, roles, programmes, languages, provider eligibility and operational limits. Changes shall be scoped to the deployment and validated before activation.",
+      "acceptance": "Acceptance: Updating one tenant's configuration cannot change another tenant's behaviour or data visibility.",
+      "sourceTextLine": 522
+    },
+    {
+      "id": "BR-OPS-02",
+      "title": "Separation of environments",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Development, demonstration, training and production environments shall have separate identities, data and credentials. Synthetic data shall be clearly identifiable and blocked from production programme submissions.",
+      "acceptance": "Acceptance: A demonstration record cannot reach a live MIS, and a training account cannot access real patient records.",
+      "sourceTextLine": 525
+    },
+    {
+      "id": "BR-OPS-03",
+      "title": "Controlled publishing and rollback",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Programme packs, language content, knowledge sources, model versions and mappings shall use review, approval, publication and rollback states. Sensitive changes require independent approval and an impact summary.",
+      "acceptance": "Acceptance: A failed change is reversible to an approved version while preserving the history of work completed under the changed version.",
+      "sourceTextLine": 528
+    },
+    {
+      "id": "BR-OPS-04",
+      "title": "Operational monitoring",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Operators shall monitor platform health, connector failures, pending queues, model availability, permission anomalies and costs. Alerts shall identify severity, affected scope, accountable owner and required response.",
+      "acceptance": "Acceptance: An induced provider outage and a stalled writeback queue reach the correct support owner within the agreed alert target.",
+      "sourceTextLine": 531
+    },
+    {
+      "id": "BR-OPS-05",
+      "title": "Support without unnecessary disclosure",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Users shall raise a support case from a failed task using redacted diagnostics. Access to additional patient content shall be limited to authorised support personnel, purpose and duration.",
+      "acceptance": "Acceptance: A routine support agent can diagnose a sync failure without unrestricted patient access; exceptional access is logged and expires.",
+      "sourceTextLine": 534
+    },
+    {
+      "id": "BR-OPS-06",
+      "title": "Training and competency",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Training shall cover patient matching, correction, offline states, model limits, escalation and real submission status. Users shall practise in a safe environment and demonstrate core competencies before live activation.",
+      "acceptance": "Acceptance: Activation records show training completion and role-specific competency evidence for the pilot cohort.",
+      "sourceTextLine": 537
+    },
+    {
+      "id": "BR-OPS-07",
+      "title": "Data exit and continuity",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The buyer shall be able to export its authorised operational records, configuration and audit evidence in documented formats under the agreement. Provider or platform termination shall include queue disposition and care-task handover.",
+      "acceptance": "Acceptance: An exit rehearsal produces a usable export, a list of unresolved external actions and a named owner for open patient tasks.",
+      "sourceTextLine": 540
+    },
+    {
+      "id": "BR-OPS-08",
+      "title": "Repeatable deployment packaging",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "A deployment pack shall record approved settings, dependencies, training, tests and operating responsibilities. Country-specific rules shall be configurable without duplicating the entire product.",
+      "acceptance": "Acceptance: A second deployment can be assembled from the pack with explicit local differences and no copied production patient data.",
+      "sourceTextLine": 543
+    },
+    {
+      "id": "BR-SEC-01",
+      "title": "Purpose and lawful authority",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every material data flow shall record its purpose, responsible organisation, applicable authority or processing basis, recipient and retention rule. Consent-based flows shall carry the required consent; other authorised flows shall record their distinct basis.",
+      "acceptance": "Acceptance: A new provider or connector cannot activate without an approved data-flow record, and a user clicking confirm cannot override an absent processing basis.",
+      "sourceTextLine": 548
+    },
+    {
+      "id": "BR-SEC-02",
+      "title": "Understandable notice and consent",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Where consent is required, the workflow shall present a reviewed notice in an appropriate language and record scope, notice version, person or authorised representative, decision, time and expiry. Optional use shall be distinguishable from essential service steps.",
+      "acceptance": "Acceptance: Declining an optional AI recording leaves the approved non-AI care workflow available and prevents that media from being sent.",
+      "sourceTextLine": 551
+    },
+    {
+      "id": "BR-SEC-03",
+      "title": "Withdrawal and downstream effects",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Withdrawal, expiry or change of authorisation shall stop future affected processing and identify queued, cached and externally held data requiring action. Retention obligations and completed lawful transactions shall be handled under the approved policy.",
+      "acceptance": "Acceptance: Revocation blocks a queued provider upload and produces a traceable disposition record; the system does not claim to erase an external record without evidence.",
+      "sourceTextLine": 554
+    },
+    {
+      "id": "BR-SEC-04",
+      "title": "Sensitive data and proxy handling",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The system shall support additional restrictions for sensitive programme information, children, adolescents and proxy relationships as defined for the jurisdiction and care context. Relationship, authority and expiry shall be recorded separately.",
+      "acceptance": "Acceptance: A household member cannot infer restricted information through summaries, notifications, shared schedules or access to another member's encounter.",
+      "sourceTextLine": 557
+    },
+    {
+      "id": "BR-SEC-05",
+      "title": "Encryption and secrets",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Sensitive data shall be protected in transit and at rest, including local caches, backups and media. Secrets shall be managed outside client code, prompts, logs and configuration exports, with ownership and rotation procedures.",
+      "acceptance": "Acceptance: Security review finds no usable provider keys in the client bundle or agent context, and local data is unreadable outside the authorised application.",
+      "sourceTextLine": 560
+    },
+    {
+      "id": "BR-SEC-06",
+      "title": "Tenant and record isolation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Isolation shall apply to transactional records, searches, indexes, retrieval stores, reports, file links, backups and asynchronous tasks. High-privilege operations shall require explicit scoped authority.",
+      "acceptance": "Acceptance: Cross-tenant adversarial tests and wrong-record reference tests result in denial with no content disclosure.",
+      "sourceTextLine": 563
+    },
+    {
+      "id": "BR-SEC-07",
+      "title": "Safe logs and analytics",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Application logs, crash reports, support exports and usage analytics shall minimise or redact identifiers and clinical content. Necessary sensitive diagnostic records shall have separate access and retention.",
+      "acceptance": "Acceptance: A representative end-to-end test leaves no raw recording, credential or complete patient narrative in general operational telemetry.",
+      "sourceTextLine": 566
+    },
+    {
+      "id": "BR-SEC-08",
+      "title": "Audit evidence",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall record material reads, writes, approvals, AI calls, exports, configuration changes and privileged access with actor, authority, affected object, time, outcome and version. Ordinary users shall not be able to alter audit history.",
+      "acceptance": "Acceptance: An auditor reconstructs a selected encounter and submission from evidence without relying on the chat transcript or provider recollection.",
+      "sourceTextLine": 569
+    },
+    {
+      "id": "BR-SEC-09",
+      "title": "Controlled retention and disposal",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Retention shall be specified by record class, purpose, location and jurisdiction, including transcripts, raw audio, model outputs, local caches, audit and backups. Legal holds and clinical record duties shall override routine disposal only through recorded policy.",
+      "acceptance": "Acceptance: Test data expires according to its configured schedule, while held records remain protected and identifiable; backup restoration does not silently revive deleted operational data.",
+      "sourceTextLine": 572
+    },
+    {
+      "id": "BR-SEC-10",
+      "title": "Rights and correction workflow",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The deployment shall provide a route for access, correction, grievances and applicable deletion or restriction requests. Identity verification shall be proportionate, and downstream dependencies shall be tracked.",
+      "acceptance": "Acceptance: A test request reaches the responsible organisation, has a due date under its approved policy and closes only with an evidence-backed outcome.",
+      "sourceTextLine": 575
+    },
+    {
+      "id": "BR-SEC-11",
+      "title": "Emergency and support access",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Any exceptional access shall have a defined eligible role, reason, time limit, minimum scope and retrospective review. It shall not create permanent access or bypass clinical authority.",
+      "acceptance": "Acceptance: A break-glass event is visible to the designated reviewer and automatically expires; an ordinary worker cannot invoke it unless specifically authorised.",
+      "sourceTextLine": 578
+    },
+    {
+      "id": "BR-SEC-12",
+      "title": "Provider and supply-chain assurance",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Providers and critical dependencies shall disclose security controls, subprocessors, incident contacts and material changes. The product shall maintain a dependency inventory and a process for vulnerable or unsupported components.",
+      "acceptance": "Acceptance: An unresolved critical vulnerability affecting the deployment blocks release or disables the affected component until the approved remedy is implemented.",
+      "sourceTextLine": 581
+    },
+    {
+      "id": "BR-SEC-13",
+      "title": "Incident response",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Security and privacy incidents shall have triage, containment, evidence preservation, impact assessment and notification responsibilities. The relevant legal and contractual notification windows shall be maintained per deployment rather than hard-coded as a universal rule.",
+      "acceptance": "Acceptance: A tabletop exercise demonstrates who acts, what access is revoked, how affected records are found and how notification decisions are documented.",
+      "sourceTextLine": 584
+    },
+    {
+      "id": "BR-SEC-14",
+      "title": "Hosting and cross-border controls",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Approved data locations and transfer restrictions shall apply to primary storage, AI providers, backups, analytics and support access. Region selection shall be enforced across the processing chain.",
+      "acceptance": "Acceptance: A model endpoint or support route outside the deployment's permitted locations is rejected before personal data is transferred.",
+      "sourceTextLine": 587
+    },
+    {
+      "id": "BR-RULE-01",
+      "title": "No invented facts",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The platform shall never fill an unanswered clinical or programme field with an assumed answer. It may calculate a derived value only where the formula and required inputs are approved and the result is labelled as derived.",
+      "acceptance": "Acceptance: Missing, refused and uncertain inputs remain distinguishable across local records, model calls and outgoing submissions.",
+      "sourceTextLine": 595
+    },
+    {
+      "id": "BR-RULE-02",
+      "title": "Patient confirmation before commitment",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The workflow shall require a positive person-context check before confirming an encounter or sending a patient-specific external action. Ambiguous identity shall restrict action to the allowed provisional workflow.",
+      "acceptance": "Acceptance: A deliberately ambiguous match cannot create an authoritative programme update until the identity requirement is resolved.",
+      "sourceTextLine": 598
+    },
+    {
+      "id": "BR-RULE-03",
+      "title": "Review depends on unchanged evidence",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "An approval shall be bound to the material facts, intended action, destination and relevant versions reviewed. Material changes shall invalidate it and require an appropriate new review.",
+      "acceptance": "Acceptance: Editing a measurement after referral approval prevents silent use of the previous approval for a changed recommendation.",
+      "sourceTextLine": 601
+    },
+    {
+      "id": "BR-RULE-04",
+      "title": "Honest completion and cancellation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Local completion, external acceptance and service completion shall be distinct. Cancelling a local task shall not falsely cancel an accepted external transaction; a separate authorised correction or cancellation request is required.",
+      "acceptance": "Acceptance: Cancellation after submission reports the actual destination state and generates any remaining reversal task.",
+      "sourceTextLine": 604
+    },
+    {
+      "id": "BR-RULE-05",
+      "title": "No false model equivalence",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Provider outputs shall retain their meaning and intended use. Confidence scores from different models shall not be treated as directly comparable without an approved interpretation and evaluation.",
+      "acceptance": "Acceptance: A multi-model result screen avoids a fabricated common score and presents the required review path for disagreement.",
+      "sourceTextLine": 607
+    },
+    {
+      "id": "BR-RULE-06",
+      "title": "Rechecks at execution time",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Permission, person linkage, capability status and relevant authorisation shall be checked immediately before an external action, even if planning occurred earlier.",
+      "acceptance": "Acceptance: Revoking a worker's role between drafting and execution blocks the pending action and preserves it for authorised reassignment.",
+      "sourceTextLine": 610
+    },
+    {
+      "id": "BR-RULE-07",
+      "title": "No experimental output in care",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Training, synthetic, shadow or unapproved model results shall be segregated from the operational care record and shall not influence user-visible clinical action lists.",
+      "acceptance": "Acceptance: An experimental high-risk result cannot trigger a live referral or patient notification outside an explicitly authorised evaluation protocol.",
+      "sourceTextLine": 613
+    },
+    {
+      "id": "BR-RULE-08",
+      "title": "No silent adverse allocation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The agent shall not independently deny services, sanction benefits, determine worker incentives or impose employment consequences. Any later support for such decisions requires a separately approved scope and review process.",
+      "acceptance": "Acceptance: Requests for an automatic denial or sanction produce no operational transaction and identify the required authority.",
+      "sourceTextLine": 616
+    },
+    {
+      "id": "NFR-01",
+      "title": "Core availability",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The central platform shall target 99.5 percent monthly availability for core authenticated record and workflow services. Report planned maintenance and upstream outages separately; publish a second end-to-end measure including dependencies.",
+      "acceptance": "Verification: Synthetic probes, error logs and incident records reconcile to a monthly report with transparent exclusions.",
+      "sourceTextLine": 690
+    },
+    {
+      "id": "NFR-02",
+      "title": "Responsive field interface",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "On the reference device, local field saves shall complete within 500 ms at the 95th percentile and cached patient or task screens within 2 seconds. Connected core screens shall target 3 seconds at the 95th percentile under the reference network.",
+      "acceptance": "Verification: Instrument representative tasks under R1 load and report failed requests and slow outliers, not just averages.",
+      "sourceTextLine": 693
+    },
+    {
+      "id": "NFR-03",
+      "title": "Visible AI progress",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "An online AI task shall acknowledge its state within 2 seconds and display progress or an honest pending state. Each capability shall have an approved completion deadline; a default interactive deadline of 30 seconds is proposed, with longer asynchronous tasks clearly identified.",
+      "acceptance": "Verification: Timeout and delayed-provider tests show usable status and preserve the underlying encounter workflow.",
+      "sourceTextLine": 696
+    },
+    {
+      "id": "NFR-04",
+      "title": "No loss of acknowledged local work",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Acknowledged local saves shall survive application crash, routine restart and temporary power loss on supported devices. No record may be marked saved before durable persistence. Device destruction remains outside this guarantee until synchronisation.",
+      "acceptance": "Verification: Fault injection recovers all acknowledged records and identifies any unacknowledged inputs as unsaved.",
+      "sourceTextLine": 699
+    },
+    {
+      "id": "NFR-05",
+      "title": "Duplicate-safe execution",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Repeated delivery, retries and replay of the same logical action shall not create duplicate business events where the connector contract supports idempotency or reconciliation. Unsupported cases shall remain unresolved instead of being blindly retried.",
+      "acceptance": "Verification: At least 10000 replay and timeout test events produce no duplicate accepted activity in the supported connector fixtures.",
+      "sourceTextLine": 702
+    },
+    {
+      "id": "NFR-06",
+      "title": "Server recovery",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The proposed server recovery point objective is at most 15 minutes and recovery time objective at most 4 hours. The accepted architecture may improve these limits. Locally queued work shall reconcile after recovery rather than being discarded.",
+      "acceptance": "Verification: A documented restore exercise measures actual recovery, integrity and replay of affected outstanding work.",
+      "sourceTextLine": 705
+    },
+    {
+      "id": "NFR-07",
+      "title": "Data integrity",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Confirmed records shall retain referential integrity, valid units and complete version history through capture, sync, amendment and export. Checks shall detect orphan identities, missing receipts and invalid state transitions.",
+      "acceptance": "Verification: Release reconciliation covers every generated record in the migration and failure test corpus, with zero unexplained loss.",
+      "sourceTextLine": 708
+    },
+    {
+      "id": "NFR-08",
+      "title": "Security release posture",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Production shall have no unresolved critical or high-severity exploitable findings within the agreed security assessment scope. Findings must be remediated or the affected capability removed before launch.",
+      "acceptance": "Verification: Independent review covers access control, mobile storage, APIs, secrets, file access, agent tool abuse and tenant isolation.",
+      "sourceTextLine": 711
+    },
+    {
+      "id": "NFR-09",
+      "title": "Online revocation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Role removal or account suspension shall stop new online access and actions within 5 minutes. A disconnected device is constrained by its offline grant and local lock policy; it cannot be promised immediate remote revocation.",
+      "acceptance": "Verification: Session, background job and reconnect tests enforce the limit and record the residual offline window.",
+      "sourceTextLine": 714
+    },
+    {
+      "id": "NFR-10",
+      "title": "Audit completeness and timing",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "All mandatory audit events shall be durable before or atomically with the consequential action where feasible. If durable audit cannot be established, external writes and privileged changes shall stop. Local capture may continue with its local audit queue.",
+      "acceptance": "Verification: Audit-store failure blocks the designated actions, while recovery preserves event order and detects clock skew.",
+      "sourceTextLine": 717
+    },
+    {
+      "id": "NFR-11",
+      "title": "Offline capacity and controlled storage",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The reference device shall retain 200 structured unsynchronised encounters plus 100 media items of up to 4 MB each within a proposed 500 MB data allowance. Capability-approved media formats take precedence; larger media require a separately accepted profile.",
+      "acceptance": "Verification: Capacity, low-storage and restart tests show warnings and no silent deletion of unsynchronised data.",
+      "sourceTextLine": 720
+    },
+    {
+      "id": "NFR-12",
+      "title": "Synchronisation recovery",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "On stable reconnection, 95 percent of eligible structured records in a 200-record queue shall reach the platform within 5 minutes under reference network conditions. Media and external destination acceptance have separate measures.",
+      "acceptance": "Verification: Queue tests measure completion, rejected records, permission rechecks and remaining unresolved items.",
+      "sourceTextLine": 723
+    },
+    {
+      "id": "NFR-13",
+      "title": "Accessibility",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Web workflows shall target WCAG 2.2 AA; mobile workflows shall implement corresponding applicable principles and native accessibility support [S6]. Essential tasks shall support readable scaling, labelled controls, focus navigation and non-colour status cues.",
+      "acceptance": "Verification: Automated assessment plus manual assistive-technology and representative-user testing covers all core journeys.",
+      "sourceTextLine": 726
+    },
+    {
+      "id": "NFR-14",
+      "title": "Usability and training burden",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "At least 90 percent of representative participants shall complete core tasks without facilitator intervention after standard training. Record errors, recovery time and programme understanding, not only task speed.",
+      "acceptance": "Verification: Proposed evaluation includes at least 20 representative frontline users and 5 supervisors, with results disaggregated by language and device familiarity.",
+      "sourceTextLine": 729
+    },
+    {
+      "id": "NFR-15",
+      "title": "Language quality",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Critical UI, counselling and escalation content shall receive qualified human review in each supported language. Numeric extraction, negation and clinical terms require task-specific evaluation; aggregate speech word error rate alone is insufficient.",
+      "acceptance": "Verification: Reviewers accept the language corpus, and all safety-critical benchmark cases meet the approved pass criteria.",
+      "sourceTextLine": 732
+    },
+    {
+      "id": "NFR-16",
+      "title": "AI extraction quality",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The proposed administrative extraction target is at least 95 percent precision and recall for required nonclinical fields on a representative annotated corpus. Critical clinical fields require confirmation regardless of extraction score; clinical model targets remain capability-specific.",
+      "acceptance": "Verification: Report field-level errors, language and noise subgroups, missingness and correction burden against a versioned test set.",
+      "sourceTextLine": 735
+    },
+    {
+      "id": "NFR-17",
+      "title": "Clinical and agent safety evaluation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "The release suite shall include all approved critical scenarios for escalation, role boundaries, wrong-patient context, unsupported use and adversarial instructions. All release-blocking cases must pass; passing the suite is not proof of zero clinical risk.",
+      "acceptance": "Verification: Named reviewers sign the results and link every unresolved lower-severity issue to an owner and disposition.",
+      "sourceTextLine": 738
+    },
+    {
+      "id": "NFR-18",
+      "title": "Operational observability",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Major platform, queue or connector failures shall generate an actionable alert within 5 minutes of detection criteria being met. Traces shall link a user task to provider calls and destination receipts without exposing unnecessary clinical content.",
+      "acceptance": "Verification: Induced failures reach the correct queue and permit reconstruction using redacted diagnostic data.",
+      "sourceTextLine": 741
+    },
+    {
+      "id": "NFR-19",
+      "title": "Maintainable configuration",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Common content, language, indicator and workflow changes shall follow versioned configuration paths where possible. They shall not require ad hoc database edits or undocumented production scripts.",
+      "acceptance": "Verification: A programme change is reviewed, tested, deployed and rolled back through the documented operating process.",
+      "sourceTextLine": 744
+    },
+    {
+      "id": "NFR-20",
+      "title": "Integration conformance",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every live connector and provider adapter shall pass the agreed contract suite, including invalid data, permissions, timeout, duplicate requests and incompatible versions. External conformance requirements shall be version-pinned where applicable.",
+      "acceptance": "Verification: Test results are linked to the exact deployed connector, mapping and provider versions.",
+      "sourceTextLine": 747
+    },
+    {
+      "id": "NFR-21",
+      "title": "Cost transparency",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "At least 99 percent of billable AI and communication events shall be attributable to a tenant, capability and task or explicit system activity. Budget alerts and hard limits shall use the defined safety-aware fallback.",
+      "acceptance": "Verification: Usage records reconcile with provider invoices or test billing evidence; unexplained variance is investigated.",
+      "sourceTextLine": 750
+    },
+    {
+      "id": "NFR-22",
+      "title": "Data portability and export integrity",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Authorised structured records shall be exportable with identifiers, relationships, units, provenance and version metadata. Export format documentation shall enable an independent party to interpret the data.",
+      "acceptance": "Verification: A 1000-person test export is re-imported into a validation environment with complete record counts and relationships.",
+      "sourceTextLine": 753
+    },
+    {
+      "id": "NFR-23",
+      "title": "Disaster and downtime readiness",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Operations shall have tested procedures for platform outage, lost device, unavailable model, destination failure and clinical service disruption. Emergency care guidance shall remain available through the approved local contingency process.",
+      "acceptance": "Verification: Tabletop and technical exercises record actual recovery actions, communication ownership and unresolved gaps.",
+      "sourceTextLine": 756
+    },
+    {
+      "id": "NFR-24",
+      "title": "Scale readiness",
+      "priority": "Should",
+      "brdRelease": "R2",
+      "requirement": "Before expanding to a proposed 10000 workers and 5 million person records, the product shall pass a separate capacity and operating-cost review. R1 performance evidence shall not be presented as proof of national-scale readiness.",
+      "acceptance": "Verification: R2 load, isolation, storage, support and cost tests are run against the agreed production-like topology and volume.",
+      "sourceTextLine": 759
+    },
+    {
+      "id": "NFR-25",
+      "title": "Clinical exchange validation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "One hundred percent of outbound structured clinical exchange payloads shall pass the pinned schema, profile, terminology and business-rule checks before submission. Validation warnings that are accepted by policy shall remain visible and versioned.",
+      "acceptance": "Acceptance: Verification: The release corpus covers every supported artefact and includes invalid cardinality, code, reference, unit, signature and bundle cases.",
+      "sourceTextLine": 762
+    },
+    {
+      "id": "NFR-26",
+      "title": "Consent and exchange traceability",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Every ABDM or direct EHR exchange shall be traceable from user purpose and authority through request, transformation, disclosure or receipt, acknowledgement and final state without placing raw clinical payloads in general application logs.",
+      "acceptance": "Acceptance: Verification: Audit reconstruction succeeds for all release exchanges, while log inspection confirms that secrets, tokens and unnecessary clinical content are absent.",
+      "sourceTextLine": 765
+    },
+    {
+      "id": "NFR-27",
+      "title": "Connector upgrade compatibility",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "A connector or FHIR package upgrade shall pass regression tests for existing mappings, queued actions, receipts, amendments and historical display before activation. In-flight work shall finish on its compatible version or enter controlled review.",
+      "acceptance": "Acceptance: Verification: A simulated breaking version change does not corrupt queued work or silently reinterpret historical records.",
+      "sourceTextLine": 768
+    },
+    {
+      "id": "NFR-28",
+      "title": "Interoperability performance",
+      "priority": "Should",
+      "brdRelease": "R1",
+      "requirement": "Under the R1 workload, canonical transformation and local validation shall add no more than 500 ms at the 95th percentile for structured records, excluding external network and destination processing time. Batch and document workflows shall have separately declared targets.",
+      "acceptance": "Acceptance: Verification: Instrumented tests report transformation, validation, queue and external latency separately for each connector type.",
+      "sourceTextLine": 771
+    }
+  ]
+}
