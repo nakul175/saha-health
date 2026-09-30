@@ -41,5 +41,7 @@ export async function aiBudgetSmoke({get,post,check,accounts,org}){
  await post(o,{type:'executeAgent',visitId:vid,runId:second,inputHash:v().agentRuns.find(x=>x.id===second).inputHash},200,undefined,mine);
  await post(sv,{type:'cancelAgent',visitId:vid,runId:second},409,undefined,mine);
  await post(o,{type:'cancelAgent',visitId:vid,runId:second},200,undefined,mine);check(()=>assert.equal(v().agentRuns.find(x=>x.id===second).status,'cancelled'));
+ // Slice 5e: only a sent request past its time limit takes the timed-out decision; this one is closed.
+ await post(sv,{type:'closeTimedOutAgent',visitId:vid,runId:second,reason:'Checking an uncertain synthetic request.'},409,undefined,mine);
  await post(sv,{type:'switchOrganisation',organisationId:org});await post(o,{type:'switchOrganisation',organisationId:org});
 }

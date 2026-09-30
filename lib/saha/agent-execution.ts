@@ -1,4 +1,5 @@
 import { checkCapabilityBudget, entryFor } from './governance';
+import { checkTaskAttempts } from './task-limits';
 import { AppError, fail, visit } from './core';
 import { auditAgent, current, describeConflicts, markConflicts, providers, type AgentCommand, type AgentOutput } from './agent';
 import { invokeAgent } from './agent-provider';
@@ -8,7 +9,7 @@ import type { OrgState, Member } from './types';
 export async function executeAgent(db:D1Database,s:OrgState,c:Extract<AgentCommand,{type:'executeAgent'}>,u:Actor,m:Member,key:string,hash:string,runtime:Record<string,string|undefined>){
  const before=structuredClone(s),v=visit(s.workspace,c.visitId),r=v.agentRuns?.find(r=>r.id===c.runId);if(!r)fail(404,'Assistant request not found.');if(r.actorId!==u.userId)fail(403,'Only the requesting worker can approve this task.');if(r.inputHash!==c.inputHash)fail(409,'Review the exact current request before approval.');
  if(r.status!=='pending')return {runId:r.id,status:r.status};
- current(s,v,r,m,u,providers(s.workspace.integrations,runtime));if(r.governance)checkCapabilityBudget(s,entryFor(s,r.governance.id),r.id);
+ current(s,v,r,m,u,providers(s.workspace.integrations,runtime));if(r.governance){const e=entryFor(s,r.governance.id);checkCapabilityBudget(s,e,r.id);checkTaskAttempts(s,e,v,r.task,r.id);}
  r.status='running';r.startedAt=new Date().toISOString();r.approvedAt=r.startedAt;r.callCount=1;r.message='Request checkpoint saved. One invocation allowed; automatic retries are disabled.';auditAgent(s,u,m,v,'executeAgent','Worker approved the exact input hash and provider. Invocation reserved before sending.');
  // Commit the receipt BEFORE the provider call. Concurrent retries replay this
  // checkpoint. Interrupted calls remain visible as running/unknown, never resent.
