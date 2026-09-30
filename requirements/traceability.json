@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1c, 2a, 4a, 6a-6d, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a, 4a, 6a-6d, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 141,
-    "not-built": 12,
+    "partial": 142,
+    "not-built": 11,
     "unverified": 9
   },
   "acceptance": {
@@ -215,7 +215,7 @@
       "sourceTextLine": 166,
       "implementation": "partial",
       "target": "R15",
-      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return.",
+      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return. Slice 1d adds roster-based bulk invitation, update and suspension.",
       "remaining": "Formal verification, workforce import, upstream de-provisioning and production identity governance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -399,10 +399,10 @@
       "requirement": "Where approved by the buyer, enterprise sign-in and authoritative workforce registries shall supply identity and role updates. Local emergency administration shall remain controlled and auditable.",
       "acceptance": "Acceptance: An upstream removal or scope change is reflected within the approved synchronisation window, including termination of incompatible sessions.",
       "sourceTextLine": 193,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R15",
-      "current": "No enterprise federation or authoritative workforce sync.",
-      "remaining": "Buyer-approved federation, upstream removal synchronisation and controlled emergency administration.",
+      "current": "Slice 1d: owners reconcile membership with an institution roster (up to 100 rows per batch): preview, then apply exactly that preview to invite, update roles and teams, and suspend leavers; never removes, never reactivates a local suspension, never suspends an owner.",
+      "remaining": "Buyer-approved federation or identity-provider sync, automatic upstream removal feed and controlled emergency administration.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
