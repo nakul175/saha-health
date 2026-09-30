@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 2a](SLICE-2A-REUSE.md) | Reproducible reuse, blocked reuse, repeated-entry and correction metering |
 | [Development slice 4a](SLICE-4A-REFERRALS.md) | Referral lifecycle, urgency, reasoned delay and escalation queue |
 | [Development slice 6d](SLICE-6D-INDICATORS.md) | Indicator catalogue, small-cell suppression and governed questions |
 | [Development slice 6c](SLICE-6C-RETENTION.md) | Retention schedules, legal holds and eligibility review without deletion |

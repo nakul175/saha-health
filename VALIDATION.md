@@ -238,3 +238,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The first full run's open-work check read the continuity view, which lists only patients with exceptions and so could pass vacuously; it now reads the caseload preview and requires the patient to be listed with no open work. Only the second run is saved.
 - Browser check with headless Chromium: escalation list and a "Sent" event recorded from the referral card. No console errors.
 - Assessment changes: BR-CARE-03 and BR-CARE-04 texts updated; both remain partial. Counts are unchanged at 14 implemented-local, 140 partial, 13 not-built and 9 unverified.
+
+## Development slice 2a — reuse metering — 30 September 2026 IST (30 September UTC)
+
+- **1,952 automated assertions passed:** 1,364 HTTP/D1 (1,338 plus 26 across the new reuse suite and the extended indicator suite), 567 contract/checkpoint (560 plus 7 reuse contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-2a/`.
+- The first full run failed in the new reuse suite: its synthetic visit entered systolic without diastolic, which visit validation correctly refuses. The fixture now leaves both blank and records them as not measured; the rerun passed.
+- No user-interface code changed, so no browser check was run for this slice.
+- Assessment changes: BR-DATA-12 moved from not-built to partial; BR-REP-07 text updated. Counts are now 14 implemented-local, 141 partial, 12 not-built and 9 unverified; all 176 formal acceptances remain pending.
