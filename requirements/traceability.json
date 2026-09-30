@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 6m, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2886,14 +2886,20 @@
       "sourceTextLine": 540,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local encrypted backup, configuration export and limited report/FHIR exports.",
-      "remaining": "Buyer-scoped operational exit archive, independent re-import and named queue/task handover.",
+      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier.",
+      "remaining": "Buyer-authorised export beyond the owner's care scope, independent re-import tooling, staged exports for large tenants and queue disposition on provider termination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
         "tests/operations-smoke.mjs",
-        "tests/pilot-smoke.mjs"
+        "tests/pilot-smoke.mjs",
+        "lib/saha/data-exit.ts",
+        "lib/saha/data-exit-server.ts",
+        "scripts/verify-export.mjs",
+        "tests/data-exit-contract.mjs",
+        "tests/data-exit-smoke.mjs",
+        "docs/current/SLICE-6M-DATA-EXIT.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3841,13 +3847,19 @@
       "sourceTextLine": 753,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local full-database restore and limited structured exports.",
-      "remaining": "Buyer-authorised 1000-person portable export/re-import with complete relationships and provenance.",
+      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain.",
+      "remaining": "Independent re-import by a third party, units and provenance documentation for every JSON field, and buyer sign-off of the format.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/fhir-document.ts",
         "lib/saha/operations.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/data-exit.ts",
+        "lib/saha/data-exit-server.ts",
+        "scripts/verify-export.mjs",
+        "tests/data-exit-contract.mjs",
+        "tests/data-exit-smoke.mjs",
+        "docs/current/SLICE-6M-DATA-EXIT.md"
       ],
       "automatedAcceptanceClaim": false
     },
