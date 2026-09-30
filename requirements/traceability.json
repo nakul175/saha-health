@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5g, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5h, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1098,8 +1098,8 @@
       "sourceTextLine": 280,
       "implementation": "partial",
       "target": "R11",
-      "current": "One-call checkpointing, timeout/cancellation, per-capability daily call and reserved-token quotas; no automatic provider substitution. Slice 5a: monthly USD budgets per capability (estimates from recorded rates) checked before preparing and before sending; clinicians and supervisors with care scope can stop another worker's unsent request; sent requests are never reported as recalled. Slice 5e: per-capability task time and attempt limits in the reviewed manifest; unsent requests expire at the limit; a sent request without a result past the limit is shown as timed out with an uncertain outcome, never retried, and closed only by a recorded human decision; attempts beyond the limit refused before preparing and before sending; owner-owned budget alerts at 80% and 100% of estimated use.",
-      "remaining": "A looping-provider stop reporting completed/cancelled/unresolved actions across multi-step tasks, background detection and delivery of timed-out requests, billing-reconciled alerts and validated provider outage operation.",
+      "current": "One-call checkpointing, timeout/cancellation, per-capability daily call and reserved-token quotas; no automatic provider substitution. Slice 5a: monthly USD budgets per capability (estimates from recorded rates) checked before preparing and before sending; clinicians and supervisors with care scope can stop another worker's unsent request; sent requests are never reported as recalled. Slice 5e: per-capability task time and attempt limits in the reviewed manifest; unsent requests expire at the limit; a sent request without a result past the limit is shown as timed out with an uncertain outcome, never retried, and closed only by a recorded human decision; attempts beyond the limit refused before preparing and before sending; owner-owned budget alerts at 80% and 100% of estimated use. Slice 5h: owners record a provider invoice summary per provider and month and reconcile it against Saha's recorded estimates per model, with an owner-set threshold flag; records are append-only and audited, later ones supersede earlier ones, and budgets and rates are never changed automatically; owner-owned alerts for flagged variance and providers used without a reconciliation in the previous month.",
+      "remaining": "A looping-provider stop reporting completed/cancelled/unresolved actions across multi-step tasks, background detection and delivery of timed-out requests, provider billing API reconciliation, delivered alerts and validated provider outage operation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
@@ -1116,7 +1116,12 @@
         "docs/current/SLICE-5A-AI-BUDGETS.md",
         "lib/saha/task-limits.ts",
         "tests/task-limits-contract.mjs",
-        "docs/current/SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md"
+        "docs/current/SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md",
+        "lib/saha/ai-invoice.ts",
+        "tests/ai-invoice-contract.mjs",
+        "tests/ai-invoice-smoke.mjs",
+        "app/ai-invoice-panel.tsx",
+        "docs/current/SLICE-5H-INVOICE-RECONCILIATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1578,8 +1583,8 @@
       "sourceTextLine": 333,
       "implementation": "partial",
       "target": "R11",
-      "current": "Per-capability daily call and reserved-token limits with reported usage and bounded synthetic evaluations. Slice 5a: owner-set monthly USD budget per capability, estimated from recorded rates and reservations, refusal with a visible message and no provider substitution, and budget use on the Operations page. Slice 5e: computed alerts at 80% and 100% of a capability's estimated monthly budget, owned and acknowledged by organisation owners, labelled as estimates; per-capability task attempt limits.",
-      "remaining": "Provider and deployment budgets, delivered (pushed) budget alerts, evaluation and other AI cost coverage, and invoice reconciliation.",
+      "current": "Per-capability daily call and reserved-token limits with reported usage and bounded synthetic evaluations. Slice 5a: owner-set monthly USD budget per capability, estimated from recorded rates and reservations, refusal with a visible message and no provider substitution, and budget use on the Operations page. Slice 5e: computed alerts at 80% and 100% of a capability's estimated monthly budget, owned and acknowledged by organisation owners, labelled as estimates; per-capability task attempt limits. Slice 5h: invoice reconciliation per provider, model and month (Saha's estimated tokens and USD against owner-recorded invoiced tokens and USD, with differences and an owner-set threshold flag), append-only and audited with supersession, shown to owners and administrators on Operations, and owner-owned variance and unreconciled-month alerts.",
+      "remaining": "Provider and deployment budgets, delivered (pushed) budget alerts, evaluation and other AI cost coverage, reconciliation by provider billing API rather than an owner-entered summary, and per-provider or historical cost rates.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1598,7 +1603,12 @@
         "docs/current/SLICE-5A-AI-BUDGETS.md",
         "lib/saha/task-limits.ts",
         "tests/task-limits-contract.mjs",
-        "docs/current/SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md"
+        "docs/current/SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md",
+        "lib/saha/ai-invoice.ts",
+        "tests/ai-invoice-contract.mjs",
+        "tests/ai-invoice-smoke.mjs",
+        "app/ai-invoice-panel.tsx",
+        "docs/current/SLICE-5H-INVOICE-RECONCILIATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2913,7 +2923,7 @@
       "sourceTextLine": 531,
       "implementation": "partial",
       "target": "R15",
-      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer. Slice 6h: the owning role acknowledges an alert with a note; the acknowledgement lapses when the count changes or after 24 hours. Slice 5e: owner-owned AI budget alerts (80% and 100% of estimated monthly use) in alert rules 1.1.0.",
+      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer. Slice 6h: the owning role acknowledges an alert with a note; the acknowledgement lapses when the count changes or after 24 hours. Slice 5e: owner-owned AI budget alerts (80% and 100% of estimated monthly use) in alert rules 1.1.0. Slice 5h: alert rules 1.2.0 add owner-owned alerts for AI invoices of the previous month that differ from Saha's estimates beyond the owner's threshold, and for providers used that month without a recorded reconciliation.",
       "remaining": "Alert delivery, escalation of acknowledged alerts, and approved detection/response targets.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2926,7 +2936,11 @@
         "docs/current/SLICE-6G-ALERTS.md",
         "docs/current/SLICE-6H-ALERT-ACKNOWLEDGEMENT.md",
         "tests/task-limits-contract.mjs",
-        "docs/current/SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md"
+        "docs/current/SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md",
+        "lib/saha/ai-invoice.ts",
+        "tests/ai-invoice-contract.mjs",
+        "tests/ai-invoice-smoke.mjs",
+        "docs/current/SLICE-5H-INVOICE-RECONCILIATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
