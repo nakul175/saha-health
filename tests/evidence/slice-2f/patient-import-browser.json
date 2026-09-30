@@ -1,0 +1,25 @@
+{
+ "dryText": "Import people from a CSV file | Owners and supervisors · dry run first | Columns: name, age, sex, village, programme, team (a team you belong to and supervise). Up to 100 rows and 16,000 characters. The dry run checks each row and looks for possible duplicates among the records you can see and earlier rows; only accepted rows are created, each with a revision, and the batch is audited with its counts. | CSV file | Or paste the CSV | Run dry run | 2 to create · 1 rejected · 1 possible duplicates · 4 rows · will be marked synthetic in this environment | Plan 41a1b2ee4c07dc89… | Row\tResult\tTeam\tDetails | 1\tAccepted\tRampur care team\tWill be created. | 2\tAccepted\tRampur care team\tWill be created. | 3\tPossible duplicate\tRampur care team\tPossible match with 1 existing record you can see. Register after review, not by import. Existing: p_meena. | 4\tRejected\t\tAge must be a whole number from 0 to 120. | Reason for this import | Create 2 people",
+ "tableText": "Row\tResult\tTeam\tDetails | 1\tAccepted\tRampur care team\tWill be created. | 2\tAccepted\tRampur care team\tWill be created. | 3\tPossible duplicate\tRampur care team\tPossible match with 1 existing record you can see. Register after review, not by import. Existing: p_meena. | 4\tRejected\t\tAge must be a whole number from 0 to 120.",
+ "doneText": "Import people from a CSV file | Owners and supervisors · dry run first | Columns: name, age, sex, village, programme, team (a team you belong to and supervise). Up to 100 rows and 16,000 characters. The dry run checks each row and looks for possible duplicates among the records you can see and earlier rows; only accepted rows are created, each with a revision, and the batch is audited with its counts. | CSV file | Or paste the CSV | Run dry run | 2 created · batch 37df7714 · 1 rejected and 1 possible duplicates not created | Row 1 → b5e93d28 · Row 2 → bc35d738",
+ "made": [
+  {
+   "name": "Browser Import Alpha",
+   "synthetic": true,
+   "row": 1
+  },
+  {
+   "name": "Browser Import Beta",
+   "synthetic": true,
+   "row": 2
+  }
+ ],
+ "leakedUrls": [],
+ "axeViolations": {
+  "dryRun": [],
+  "applied": []
+ },
+ "errors": [],
+ "completedAt": "2026-09-30T08:13:01.834Z",
+ "passed": true
+}
