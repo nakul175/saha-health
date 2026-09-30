@@ -38,5 +38,8 @@ export async function capabilityLifecycleSmoke({get,post,check,accounts,org}){
  await prepare(409);await post(o,{type:'executeAgent',visitId,runId:onSecond,inputHash:run(onSecond).inputHash},409,undefined,org);
  await read();check(()=>{assert.equal(entry(second).lifecycle.stage,'suspended');assert.equal(entry(second).impact.cancel,1);assert.equal(g.affected.find(a=>a.runId===onSecond).action,'cancel')});
  const events=await get(o,'/api/audit',200,org);check(()=>assert.ok(events.events.some(e=>e.action==='transitionGovernance'&&/In-progress work: 1 unsent request to cancel\./.test(e.detail))));
+ // Slice 5g: provider and model history per capability key, for governance managers.
+ check(()=>{const h=g.capabilityHistory.find(x=>x.key==='lifecycle-capability');assert.equal(h.providers,1);assert.deepEqual(h.revisions.map(r=>[r.revision,r.providerId,r.stage,r.requests,r.changes.length]),[[1,'local','replaced',2,0],[2,'local','suspended',1,0]]);assert.ok(h.revisions[0].activatedAt&&h.revisions[0].endedAt&&h.revisions[1].endedAt)});
+ g=await get(c,'/api/governance',200,org);check(()=>assert.equal(g.capabilityHistory.find(x=>x.key==='lifecycle-capability').revisions.length,2,'a clinician governance manager in scope sees it'));
  await post(o,{type:'switchOrganisation',organisationId:main});await post(c,{type:'switchOrganisation',organisationId:main});
 }

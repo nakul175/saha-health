@@ -43,3 +43,21 @@ export function capabilityImpact(visits:Visit[],e:GovernanceEntry){
  return {items,counts};
 }
 export const impactSummary=(c:Record<RequiredAction,number>)=>{const parts=[c.cancel&&`${c.cancel} unsent request${c.cancel===1?'':'s'} to cancel`,c['await-outcome']&&`${c['await-outcome']} in flight (results will be withheld)`,c.review&&`${c.review} result${c.review===1?'':'s'} to review`,c['check-applied']&&`${c['check-applied']} applied to draft visits to check`].filter(Boolean);return parts.length?parts.join(', '):'no in-progress work';};
+// Slice 5g (BR-AI-07): provider and model history per capability key. Each revision pins one provider, model and
+// agent version; a new revision may change them, and each change went through its own evaluation, independent
+// review and owner activation. Derived on read; counts only, no patient detail.
+export type HistoryChange='provider'|'model'|'agent-version';
+export function providerHistory(s:OrgState,key:string){
+ const revs=entries(s).filter(e=>e.spec.kind==='capability'&&e.spec.key===key).sort((a,b)=>a.revision-b.revision);
+ return revs.map((e,i)=>{
+  const spec=e.spec as Extract<GovernanceEntry['spec'],{kind:'capability'}>,prev=i?revs[i-1].spec as typeof spec:null;
+  const activatedAt=e.history.find(h=>h.state==='active')?.at??null,endedAt=e.state==='active'||!activatedAt?null:e.history.filter(h=>h.at>=activatedAt&&['suspended','retired'].includes(h.state)).at(-1)?.at??null;
+  const changes:HistoryChange[]=prev?([prev.providerId!==spec.providerId&&'provider',prev.model!==spec.model&&'model',prev.agentVersion!==spec.agentVersion&&'agent-version'].filter(Boolean) as HistoryChange[]):[];
+  const usage=capabilityUsage(s.workspace.visits,e);
+  return {entryId:e.id,revision:e.revision,providerId:spec.providerId,model:spec.model,agentVersion:spec.agentVersion,state:e.state,stage:lifecycleStage(s,e).stage,reviewedAt:e.review?.at??null,activatedAt,endedAt,changes,requests:usage.total,lastUsedAt:usage.lastUsedAt};
+ });
+}
+export function capabilityHistories(s:OrgState,keys?:Set<string>){
+ const byKey=new Map<string,string>();for(const e of entries(s).filter(e=>e.spec.kind==='capability').sort((a,b)=>a.revision-b.revision))if(!keys||keys.has(e.spec.key))byKey.set(e.spec.key,e.spec.title);
+ return [...byKey].map(([key,title])=>{const revisions=providerHistory(s,key);return {key,title,providers:new Set(revisions.map(r=>r.providerId)).size,revisions};});
+}
