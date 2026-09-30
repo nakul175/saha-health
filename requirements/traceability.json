@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a, 4a, 6a-6d, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a, 4a, 6a-6d, 7a, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 142,
-    "not-built": 11,
+    "partial": 145,
+    "not-built": 8,
     "unverified": 9
   },
   "acceptance": {
@@ -1920,10 +1920,10 @@
       "requirement": "Each deployment shall explicitly approve the ABDM modules and roles it uses, including any ABHA, Scan and Share, HIP, HIU, consented exchange or NHCX capability. Permission for one module or role shall not imply another.",
       "acceptance": "Acceptance: Administration and test evidence identify the enabled ABDM role, environment, facility, client credentials, approved operations and responsible owner; all other operations are unavailable.",
       "sourceTextLine": 407,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R13",
-      "current": "ABDM readiness boundary is documented; modules are unavailable.",
-      "remaining": "Deployment-specific module/role/environment/facility/credential approvals and enforcement.",
+      "current": "Slice 7a: owner-recorded ABDM environment (mock only), ABHA/HIP/HIU modules, facility identifier and an approval reference per module; ABHA and HIU actions refused unless their module is enabled with approval. Local mock gateway only.",
+      "remaining": "Sandbox and production onboarding, real credentials, facility registry verification and deployment-specific enforcement.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -1938,10 +1938,10 @@
       "requirement": "ABHA creation, verification, demographic matching and record linking shall use authorised flows and explicit user confirmation where required. The platform shall support care for a person without ABHA when the approved workflow permits and shall not merge people solely because names, phones or demographic fields are similar.",
       "acceptance": "Acceptance: Tests cover verified ABHA linkage, declined linkage, absent ABHA, duplicate candidates, demographic mismatch and later correction without wrong-person disclosure.",
       "sourceTextLine": 410,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R13",
-      "current": "Local matching exists; ABHA flows are absent.",
-      "remaining": "Authorised ABHA creation/verification/linkage/decline/correction workflows.",
+      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only.",
+      "remaining": "Authorised ABHA creation and verification with ABDM, checksum and issuer checks, and correction through ABDM.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -1956,10 +1956,10 @@
       "requirement": "For ABDM exchanges that require a consent artefact, the platform shall enforce the named HIU and HIP, purpose, health information types, date range, expiry and status. Revocation, expiry or mismatch shall stop new retrieval or disclosure and create an auditable outcome.",
       "acceptance": "Acceptance: Requests outside the approved purpose, date range, data type or validity period are blocked even when the calling user can otherwise view the local patient record.",
       "sourceTextLine": 413,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R13",
-      "current": "Local EHR permissions are not ABDM consent artefacts.",
-      "remaining": "HIU/HIP/purpose/type/date/expiry/revocation enforcement for ABDM exchange.",
+      "current": "Slice 7a: consent artefacts with purpose, health-information types, record date range, expiry and revocation; fetch checks enforce status, ABHA link, purpose, type and date. The consent manager is simulated by an owner; local mock gateway only.",
+      "remaining": "Real consent-manager integration, HIP/HIU callbacks, notifications and enforcement on actual ABDM exchange.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
