@@ -385,3 +385,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - **2,576 automated assertions passed:** 1,602 HTTP/D1 (1,578 plus 24 referral request checks), 953 contract/checkpoint and 21 encrypted restore checks. Reports: `tests/evidence/slice-3h/`. The new HTTP module passed on its first run.
 - Browser check with headless Chromium: a clinician created a referral from a field request on a confirmed visit, with a changed facility; the panel showed the outcome and the server held one linked draft referral; no console errors.
 - BR-OFF-05 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 4b — unified action plan with ownership — 30 September 2026 IST (30 September UTC)
+
+- **2,398 automated assertions passed:** 1,539 HTTP/D1 (1,500 plus 39 action-plan assertions), 838 contract/checkpoint (830 plus 8 action-plan contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-4b/`.
+- First-run failures, both in the new tests and fixed there: the contract fixture used past dates where future ones were meant, so its expected item count was wrong (the plan was right); the HTTP module confirmed a visit after programme enrolment without answering the programme questions, which the existing confirmation rule correctly refused. The visit is now confirmed before enrolment. No existing test changed.
+- Browser check with headless Chromium on the built Worker: the patient's Action plan panel showed an unowned referral with its queue; the owner assigned it from the panel and the gap cleared; no console errors (`tests/evidence/slice-4b/browser-action-plan.json`).
+- BR-CARE-01 and BR-CARE-05 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
