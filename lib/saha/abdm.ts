@@ -94,9 +94,10 @@ export function abdmView(s:OrgState,p:Person,q:{consentId?:string|null;hiType?:s
  return {config:cfg?{environment:cfg.environment,modules:cfg.modules,facilityId:cfg.facilityId,version:cfg.version,approvals:cfg.approvals}:null,
   abha:p.abha?{state:p.abha.state,number:mask(p.abha.number),address:p.abha.address??null,verification:p.abha.verification??null,history:p.abha.history.map(h=>({...h,number:mask(h.number)}))}:{state:'none',number:null,history:[]},
   consents:(p.abdmConsents??[]).map(c=>({...c,abhaNumber:mask(c.abhaNumber),status:effective(c,now)})).reverse(),
+  careContexts:(p.careContexts??[]).map(c=>({...c,abhaNumber:mask(c.abhaNumber),current:c.abhaNumber===p.abha?.number})),transfers:[...(p.abdmTransfers??[])].reverse(),received:(p.abdmReceived??[]).map(r=>({id:r.id,consentId:r.consentId,transferId:r.transferId,hiType:r.hiType,recordDate:r.recordDate,state:r.state,receivedAt:r.receivedAt,note:r.note??null,summary:(r.bundle?.entry??[]).map((e:any)=>e.resource?.resourceType).filter(Boolean).join(', ')})).reverse(),
   check:q.consentId&&q.hiType&&q.date?consentAllows(p,q.consentId,{hiType:q.hiType,date:q.date,purpose:q.purpose??undefined},now):null,
   purposes:PURPOSES,hiTypes:HI_TYPES,mock:'Local mock gateway only. One-time code 123456 is accepted; nothing is sent to ABDM.'};
 }
 // Snapshots carry masked ABHA numbers; the full number stays in the stored record and its revisions.
-export function redactAbha<T extends Person>(p:T):T{if(!p.abha&&!p.abdmConsents)return p;const mask=(n?:string)=>n?`${n.slice(0,2)}-XXXX-XXXX-${n.slice(-4)}`:n;
- return {...p,...(p.abha?{abha:{...p.abha,number:mask(p.abha.number),history:p.abha.history.map(h=>({...h,number:mask(h.number)}))}}:{}),...(p.abdmConsents?{abdmConsents:p.abdmConsents.map(c=>({...c,abhaNumber:mask(c.abhaNumber)!}))}:{})};}
+export function redactAbha<T extends Person>(p:T):T{if(!p.abha&&!p.abdmConsents&&!p.careContexts&&!p.abdmReceived)return p;const mask=(n?:string)=>n?`${n.slice(0,2)}-XXXX-XXXX-${n.slice(-4)}`:n;
+ return {...p,...(p.abha?{abha:{...p.abha,number:mask(p.abha.number),history:p.abha.history.map(h=>({...h,number:mask(h.number)}))}}:{}),...(p.abdmConsents?{abdmConsents:p.abdmConsents.map(c=>({...c,abhaNumber:mask(c.abhaNumber)!}))}:{}),...(p.careContexts?{careContexts:p.careContexts.map(c=>({...c,abhaNumber:mask(c.abhaNumber)!}))}:{}),...(p.abdmReceived?{abdmReceived:p.abdmReceived.map(({bundle,...r})=>r) as any}:{})};}
