@@ -22,3 +22,7 @@
 - The HIP and HIU are the same Saha organisation; there is no gateway routing, callback, data-push URL or partner HIP.
 - The key-agreement and encryption parameters are Saha's choice and have not been compared with ABDM's specification or libraries.
 - Only OP consultation bundles from Saha visits are produced; no discharge summaries, prescriptions or diagnostic reports. Accepted records are marked, not merged into visits. NRCeS profile validation (BR-INT-17) is not built.
+
+## Correction — 30 September 2026 (slice 6r)
+
+Received FHIR bundles were removed from snapshots but served in full in patient history revisions, and care-context linking was not paused by a processing restriction. Slice 6r withholds received bundles when history is served (they stay in the stored record) and pauses `abdmCareContextLink` under a restriction. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).

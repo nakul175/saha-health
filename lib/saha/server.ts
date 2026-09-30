@@ -16,7 +16,7 @@ import { applyDelegation, authorizeDelegation, delegationAudit, heldBy } from '.
 import { applyReferral, authorizeReferralSource } from './referrals';
 import { applyActionPlan, authorizeActionPlan } from './action-plan';
 import { applyRoster } from './roster';
-import { applyAbdm, authorizeAbdm, redactAbha } from './abdm';
+import { applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';
 import { applyTransfer, authorizeTransfer } from './abdm-transfer';
 import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';
 import { applyPilot, authorizePilotCommand } from './pilot';
@@ -162,7 +162,7 @@ async function sandboxSource(id:string,current:string,userId:string){if(id===cur
  const owner=await db().prepare('SELECT 1 AS ok FROM memberships WHERE org_id=? AND user_id=? AND status=? AND is_owner=1').bind(id,userId,'active').first();if(!owner)gone();
  const gov=await db().prepare('SELECT data FROM governance WHERE org_id=?').bind(id).first<{data:string}>();let declared=false;try{declared=!!(gov&&JSON.parse(gov.data)?.sandbox);}catch{declared=false;}if(!declared)gone();
  try{return await readState(db(),id);}catch{gone();}}
-export async function patientHistory(request:Request){const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),id=new URL(request.url).searchParams.get('personId')??'';person(s.workspace,id);return history(db(),s.organisation.id,id,parseCursor(new URL(request.url).searchParams.get('cursor')));}
+export async function patientHistory(request:Request){const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),id=new URL(request.url).searchParams.get('personId')??'';person(s.workspace,id);const h=await history(db(),s.organisation.id,id,parseCursor(new URL(request.url).searchParams.get('cursor')));return {...h,revisions:h.revisions.map(redactRevision)};}
 export async function organisationAudit(request:Request){const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation'));return auditPage(db(),s.organisation.id,u.userId,parseCursor(new URL(request.url).searchParams.get('cursor')));}
 // Slice 6n: every provider path receives the environment-policy runtime; rawRuntime is for reporting only.
 export const rawRuntime=()=>env as unknown as Record<string,string|undefined>;

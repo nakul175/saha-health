@@ -23,3 +23,7 @@
 - No ABDM gateway, sandbox, credentials, callbacks, cryptography or FHIR bundle exchange. HIP publication and encrypted transfer (BR-INT-18), HIU data flow and received-record review (BR-INT-19) and the NRCeS profile validator (BR-INT-17) are not built.
 - The mock one-time code and the owner acting as consent manager exist only to exercise the workflow; neither is an identity or consent proof.
 - ABHA numbers are format-checked only (14 digits); no checksum or issuer verification.
+
+## Correction — 30 September 2026 (slice 6r)
+
+ABHA numbers were masked in snapshots only. Patient history (`GET /api/history`) served stored revisions with the full ABHA number in revision data (`abha.number`, ABHA history, consent artefacts, care contexts) and in field changes. Slice 6r redacts history on read with the same masking; stored revisions are unchanged. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).

@@ -22,3 +22,7 @@
 - No disposal, tombstones or restore-safe deletion. Backups and exports are outside the review.
 - Record classes and triggers are fixed defaults, not an approved records schedule. Revisions, visits, plans and AI results follow their patient record rather than having their own schedules.
 - The review loads the whole organisation for owners; it is a periodic governance check, not a routine screen.
+
+## Correction — 30 September 2026 (slice 6r)
+
+Legal-hold release names the patient through `holdId`, which the emergency-access restriction (slice 6a) did not resolve. Slice 6r resolves it; retention commands remain owner-only. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).

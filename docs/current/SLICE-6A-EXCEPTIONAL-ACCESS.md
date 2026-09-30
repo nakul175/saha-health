@@ -24,3 +24,7 @@
 - The organisation activity log still filters patient events by normal team scope, so the clinician does not see the patient's activity there during the grant.
 - There is no separate break-glass role, second-factor step-up, notification to the patient's team when access opens, or support-staff access path.
 - The limits (4 hours, 3 open grants, 10 a day) are local defaults, not approved policy.
+
+## Correction — 30 September 2026 (slice 6r)
+
+The urgent-care-only restriction resolved only `personId`, `visitId`, `submissionId`, `referralId` and `messageId`, so commands naming the patient another way (merge `survivorId`/`duplicateId`, `caseId`, legal hold `holdId`) were not restricted. The reviewer check accepted any supervisor or care-role owner holding the patient's team id, even one who may not see the patient (an ASHA-role owner), and the review queue listed patient names and grant reasons on that basis. Slice 6r resolves every reference and fails closed, and requires the reviewer to have normal access to the patient. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).

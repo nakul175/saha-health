@@ -31,6 +31,9 @@ export async function abdmSmoke({get,post,check,accounts,org,base}){
  await view(a,{personId:pid},403);await view(w,{personId:pid},403);await view(o,{personId:pid,date:'yesterday'},422);
  await post(o,{type:'abdmConsentRevoke',personId:pid,consentId:cid,reason:'Patient withdrew permission in person'});
  v=await view(o,{personId:pid,consentId:cid,hiType:'OPConsultation',date:today});check(()=>{assert.equal(v.consents[0].status,'REVOKED');assert.equal(v.check.allowed,false);});
+ // Slice 6r: patient history is redacted on read; revisions and their field changes never serve the full ABHA number.
+ const hr=await fetch(`${base}/api/history?personId=${pid}`,{headers:{...o.headers,'x-saha-organisation':org}}),ht=await hr.text();
+ check(()=>{assert.equal(hr.status,200,ht.slice(0,200));assert.ok(!ht.includes(`8899-${tail}`)&&!ht.includes(`8899${tail}`),'history must not serve the full ABHA number');assert.match(ht,new RegExp(`XXXX-XXXX-${tail}`));});
  await post(o,{type:'abhaUnlink',personId:pid,version:person(pid).version,reason:'Wrong ABHA recorded at registration'});
  v=await view(o,{personId:pid});check(()=>{assert.equal(v.abha.state,'none');assert.equal(v.abha.history.length,2);});
 }

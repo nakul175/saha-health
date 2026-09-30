@@ -26,7 +26,7 @@ export const rightsSchema=z.discriminatedUnion('type',[
 ]);
 const TYPES=new Set(['rightsCreate','rightsAssign','rightsClose','rightsItemResolve','rightsRestrictionLift']);
 // Commands paused while processing is restricted: external sharing, programme sending and optional AI.
-export const PAUSED_WHEN_RESTRICTED=new Set(['preparePlan','approvePlan','executePlan','sendSubmission','runAI','prepareAgent','executeAgent','applyAgent','prepareEhrPublish','executeEhrPublish','messageCreate','messageApprove']);
+export const PAUSED_WHEN_RESTRICTED=new Set(['preparePlan','approvePlan','executePlan','sendSubmission','runAI','prepareAgent','executeAgent','applyAgent','prepareEhrPublish','executeEhrPublish','messageCreate','messageApprove','messageSimulate','abdmCareContextLink']);
 export function activeRestriction(p:Person){return (p.restrictions??[]).find(r=>!r.liftedAt);}
 export function ensureNotRestricted(s:OrgState,c:any){
  if(!PAUSED_WHEN_RESTRICTED.has(c.type))return;const w=s.workspace;let pid:string|undefined=c.personId;
@@ -71,8 +71,11 @@ export function applyRights(s:OrgState,input:unknown,u:Actor,m:Member,now=new Da
    if(r.state!=='open')fail(409,'This request is already closed.');
    if(['fulfilled','partially-fulfilled'].includes(c.outcome)&&r.items.some(i=>i.state==='open'))fail(409,'Record each destination as notified or not required before closing this request as fulfilled.');
    r.state='closed';r.closed={by:u.userId,at:now,outcome:c.outcome,response:c.response,evidence:c.evidence};r.history.push({at:now,by:u.userId,action:c.outcome,note:c.response});
-   if(r.kind==='restriction'&&c.outcome==='fulfilled'){if(!activeRestriction(p)){(p.restrictions??=[]).push({requestId:r.id,from:now,by:u.userId});p.version++;}}
-   detail=`Rights request closed: ${c.outcome}${now>r.dueAt?' (after the due date)':''}. Evidence ${c.evidence}. ${c.response}${r.kind==='restriction'&&c.outcome==='fulfilled'?' Processing restriction now in force.':''}`;result={state:r.state,late:now>r.dueAt};
+   let cancelled=0;
+   if(r.kind==='restriction'&&c.outcome==='fulfilled'){if(!activeRestriction(p)){(p.restrictions??=[]).push({requestId:r.id,from:now,by:u.userId});p.version++;}
+    // Slice 6r: prepared or approved reminders not yet sent are cancelled (kept with a reason, never erased); a new one needs a new review after the restriction is lifted.
+    for(const v of s.outreach?.messages.filter(v=>v.personId===p.id&&['draft','approved'].includes(v.state))??[]){v.state='cancelled';v.cancelReason='Processing restricted under a rights request; prepare and review a new message after the restriction is lifted.';v.version++;cancelled++;}}
+   detail=`Rights request closed: ${c.outcome}${now>r.dueAt?' (after the due date)':''}. Evidence ${c.evidence}. ${c.response}${r.kind==='restriction'&&c.outcome==='fulfilled'?` Processing restriction now in force.${cancelled?` ${cancelled} unsent reminder${cancelled===1?'':'s'} cancelled.`:''}`:''}`;result={state:r.state,late:now>r.dueAt,...(cancelled?{cancelledMessages:cancelled}:{})};
   }
   else if(c.type==='rightsItemResolve'){const i=r.items.find(x=>x.id===c.itemId);if(!i)fail(404,'Destination item not found.');if(i.state!=='open')fail(409,'This destination is already recorded.');Object.assign(i,{state:c.state,note:c.note,by:u.userId,at:now});r.history.push({at:now,by:u.userId,action:`destination ${c.state}`,note:c.note});detail=`Destination ${i.kind} recorded as ${c.state}: ${c.note}`;}
   else {const x=activeRestriction(p);if(!x||x.requestId!==r.id)fail(409,'No restriction from this request is in force.');Object.assign(x,{liftedAt:now,liftedBy:u.userId,liftReason:c.reason});p.version++;r.history.push({at:now,by:u.userId,action:'restriction lifted',note:c.reason});detail=`Processing restriction lifted. ${c.reason}`;}
