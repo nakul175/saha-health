@@ -18,7 +18,7 @@ export const exceptionalSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('exceptionalReview'),personId:id,grantId:id,outcome:z.enum(['appropriate','inappropriate']),note}).strict(),
 ]);
 // Commands a clinician may run on a patient reached only through exceptional access.
-export const PERMITTED_UNDER_EXCEPTIONAL=new Set(['startVisit','saveVisit','confirmVisit','createReferral','createDirectoryReferral','saveClinicalConcern','checkProtocol','scheduleFollowUp','saveProgrammeAnswers','exceptionalClose']);
+export const PERMITTED_UNDER_EXCEPTIONAL=new Set(['startVisit','saveVisit','confirmVisit','createReferral','createDirectoryReferral','saveClinicalConcern','checkProtocol','scheduleFollowUp','saveProgrammeAnswers','exceptionalClose','attachMedia']);
 function target(s:OrgState,c:any){const w=s.workspace;let pid:string|undefined=c.personId;if(c.visitId)pid=w.visits.find(v=>v.id===c.visitId)?.personId;if(c.submissionId)pid=w.submissions.find(v=>v.id===c.submissionId)?.personId;if(c.referralId)pid=w.referrals.find(v=>v.id===c.referralId)?.personId;if(c.messageId)pid=s.outreach?.messages.find(v=>v.id===c.messageId)?.personId;return pid?w.people.find(p=>p.id===pid):undefined;}
 // Refuses anything beyond urgent care on a patient the member reaches only through a grant.
 export function ensureExceptionalScope(s:OrgState,m:Member,c:any,now=new Date().toISOString()){

@@ -116,3 +116,8 @@ export const rightsRequests = sqliteTable('rights_requests', {
 export const retention = sqliteTable('retention', {
  orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
 });
+// Slice 2b: small visit media (photos and voice notes) with type, size and purpose; tombstoned on draft removal.
+export const media = sqliteTable('media', {
+  orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(),
+  mime:text('mime').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), purpose:text('purpose').notNull(), createdAt:text('created_at').notNull(), deletedAt:text('deleted_at'), data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('media_org_visit').on(t.orgId,t.visitId),index('media_org_person').on(t.orgId,t.personId)]);

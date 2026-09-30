@@ -16,7 +16,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 1c | Controlled identity merge and unmerge with a downstream impact queue | Delivered (see [slice 1c](current/SLICE-1C-MERGE.md)) |
 | 1d | Workforce roster reconciliation: preview, apply exactly the preview, invite, update, suspend | Delivered (see [slice 1d](current/SLICE-1D-ROSTER.md)) |
 | 2a | Reuse, blocked reuse, repeated-entry and correction metering from stored visits | Delivered (see [slice 2a](current/SLICE-2A-REUSE.md)) |
-| 2 | Per-fact provenance, media, import dry runs | Planned |
+| 2b | Visit photos and voice notes with type, signature, size and purpose checks, playback and draft deletion | Delivered (see [slice 2b](current/SLICE-2B-MEDIA.md)) |
+| 2 | Per-fact provenance, import dry runs | Planned |
 | 3 | Offline media queue, offline registration and referral creation, ordered sync, storage warnings | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
