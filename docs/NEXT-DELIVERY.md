@@ -31,6 +31,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 3 | Open referral request queue, larger notebook capacity | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4b | Per-patient action plan across follow-ups, referrals, protocol reviews, safety cases and outreach, with ownership gaps, take-ownership and steward reassignment | Delivered (see [slice 4b](current/SLICE-4B-ACTION-PLAN.md)) |
+| 4c | Per-worker activity evidence for supervisors: performed, claimed, verified and submitted activity derived from visits, outreach and receipts, with corrections traceable and no location | Delivered (see [slice 4c](current/SLICE-4C-WORKER-ACTIVITY.md)) |
 | 4 | Multi-programme referrals with several source links, action dependencies, pack migration and installation | Planned |
 | 5a | Monthly USD cost budgets per AI capability from recorded rates (estimates, not invoices), refusal before preparing or sending, budget use on Operations, care-team stop of unsent requests | Delivered (see [slice 5a](current/SLICE-5A-AI-BUDGETS.md)) |
 | 5b | Provider sandbox organisations with a provider-only role for documentation, credential references, proposals and synthetic evaluations; owner import into the standard production review path | Delivered (see [slice 5b](current/SLICE-5B-PROVIDER-SANDBOX.md)) |

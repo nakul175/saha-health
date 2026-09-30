@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **35 HTTP method/route pairs** and **159 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **36 HTTP method/route pairs** and **159 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -38,6 +38,7 @@ Generated from source: **35 HTTP method/route pairs** and **159 command schema d
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
+| GET | `/api/worker-activity` | [app/api/worker-activity/route.ts](../../app/api/worker-activity/route.ts) |
 | GET | `/api/workspace` | [app/api/workspace/route.ts](../../app/api/workspace/route.ts) |
 
 See the [command catalogue](COMMAND-CATALOGUE.csv) for every discriminator and schema location. [API and integrations](04_API-and-Integration-Specification_v1.1.md) explains identity, request, retry and external boundaries. The handler source supplies exact query/export behavior; this inventory is not a generated OpenAPI guarantee.
