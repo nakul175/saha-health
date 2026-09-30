@@ -22,3 +22,4 @@ function mediaTx(mode,fn){return openVault().then(db=>new Promise((resolve,rejec
 export const writeMedia=(id,value)=>mediaTx('readwrite',store=>{store.put(value,'media:'+id)});
 export const readMedia=id=>mediaTx('readonly',store=>store.get('media:'+id));
 export const deleteMedia=id=>mediaTx('readwrite',store=>{store.delete('media:'+id)});
+export const listMediaIds=()=>mediaTx('readonly',store=>store.getAllKeys()).then(keys=>(keys??[]).filter(k=>typeof k==='string'&&k.startsWith('media:')).map(k=>k.slice(6)));

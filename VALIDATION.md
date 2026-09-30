@@ -322,3 +322,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - **2,268 automated assertions passed:** 1,493 HTTP/D1 (1,489 plus 4 alert checks), 754 contract/checkpoint (740 plus 14 alert contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6g/`.
 - Browser check with headless Chromium: a critical incident showed as a critical alert and "Show details" opened the service tab; no console errors. The first run of the check script reported failure because its own text pattern expected a separator the page does not render; the pattern was corrected and the check rerun. The accessibility audit (24 screens) still reported no violations.
 - BR-OPS-04 and NFR-18 evidence updated; both stay partial (no delivery, acknowledgement or five-minute detection). Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 3c — media queue hardening after independent review — 30 September 2026 IST (30 September UTC)
+
+- A separate review agent, which had not written the code, reviewed every change after slice 2b and reported six findings (two medium, four low): a 2xx response without a media id treated as a confirmed upload, a lock-time send without a pending mark, removal of a synced copy deleting never-sent media, sealed copies left after failed deletes or saves, a weak supervisor alert-scope check, and misleading receipt-alert wording. All six were fixed; details in `docs/current/SLICE-3C-QUEUE-HARDENING.md`.
+- **2,290 automated assertions passed:** 1,495 HTTP/D1, 774 contract/checkpoint (field media queue 70 → 90) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3c/`.
+- Changed existing tests: the slice 3a assertion that removing a synced copy deletes queued media was replaced (that behaviour was the defect); the slice 6g alert action text assertion was updated to the new wording.
+- Real-IndexedDB browser check repeated and passed. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

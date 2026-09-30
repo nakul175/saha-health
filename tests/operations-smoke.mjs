@@ -13,6 +13,7 @@ export async function operationsSmoke({get,post,check,accounts,org,sql}){
  // Slice 6g: computed alerts are scoped to what each viewer may see.
  check(()=>{assert.equal(overview.alertRules,'1.0.0');assert.ok(Array.isArray(overview.alerts));assert.ok(Array.isArray(supervised.alerts)&&supervised.alerts.every(x=>!/^(incident|server|maintenance)/.test(x.id)));assert.ok(admin.alerts.every(x=>!/^(referrals|followups|destination|ehr|provider)/.test(x.id)));});
  const alerted=await get(a,'/api/operations',200,org);check(()=>{const x=alerted.alerts.find(y=>y.id==='incident-open');assert.equal(x?.count,1);assert.equal(x.owner,'operations');});
+ const supervisorOpen=await get(s,'/api/operations',200,org);check(()=>assert.equal(supervisorOpen.alerts.some(x=>/^(incident|server|maintenance)/.test(x.id)),false,'a supervisor does not see incident alerts while one is open'));
  await post(a,{type:'opsIncident',version:0,title:'Stale incident rejected',severity:'normal',ownerId:o.id},409);
  await post(a,{type:'opsUpdateIncident',version:1,id:incidentId,state:'resolved',ownerId:o.id,resolution:'Confirmed recovery evidence',evidence:''},422);
  await post(a,{type:'opsUpdateIncident',version:1,id:incidentId,state:'investigating',ownerId:o.id,resolution:'Looking up existing receipt; no resend',evidence:''});

@@ -20,7 +20,7 @@ try {
   check(() => assert.deepEqual(ids(all), ['server-errors', 'incident-critical-open', 'referrals-overdue', 'destination-uncertain', 'ehr-uncertain', 'maintenance', 'followups-overdue', 'provider-usage-missing', 'incident-open', 'referrals-undated'], 'critical first, then by count'));
   check(() => { const x = all.find(a => a.id === 'incident-critical-open'); assert.equal(x.count, 1, 'resolved incidents excluded'); assert.equal(x.owner, 'operations'); assert.equal(x.tab, 'service'); });
   check(() => { const x = all.find(a => a.id === 'referrals-overdue'); assert.equal(x.owner, 'supervisors'); assert.equal(x.count, 3); assert.match(x.action, /escalation queue/); });
-  check(() => assert.match(all.find(a => a.id === 'destination-uncertain').action, /never retried blindly/));
+  check(() => assert.match(all.find(a => a.id === 'destination-uncertain').action, /look up the receipt of any uncertain submission before a resend/));
   check(() => assert.match(all.find(a => a.id === 'maintenance').action, /Synthetic maintenance reason/));
   check(() => assert.equal(all.every(a => ['critical', 'high', 'normal'].includes(a.severity) && a.count > 0 && a.action.length > 10), true));
   // Error-rate thresholds: at least 20 requests and strictly above 5%.
