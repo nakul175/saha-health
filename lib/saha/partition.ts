@@ -21,6 +21,8 @@ export const PATIENT_COMMANDS = new Set<string>([
   'prepareFieldVisit', 'syncFieldVisit', 'revokeFieldLease', 'assignReferral', 'recordReferralEvent', 'referralDelay',
   // slice 4b: action-plan ownership of one patient's follow-ups and referrals
   'assignPlanItem',
+  // slice 4d: dependencies between one patient's plan items and further sources of one referral
+  'linkPlanItems', 'unlinkPlanItems', 'linkReferralSource',
   // identity review and handover acknowledgement
   'resolvePatientIdentity', 'acknowledgeAssignment',
   // clinical review on one encounter

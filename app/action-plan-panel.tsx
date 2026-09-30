@@ -7,7 +7,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import type { Person, Snapshot } from '@/lib/saha/types';
 type Command=(c:any,message?:string)=>Promise<any>;
 const KIND_LABEL:Record<string,string>={'safety-case':'Safety case',referral:'Referral','protocol-review':'Protocol review','ai-disagreement':'Assistant disagreement','follow-up':'Programme follow-up',outreach:'Outreach','message-follow-up':'Message follow-up'};
-const ATTENTION_LABEL:Record<string,string>={escalated:'Escalated',overdue:'Overdue','due-today':'Due today',now:'Review now',undated:'No due date',upcoming:'Upcoming'};
+const ATTENTION_LABEL:Record<string,string>={escalated:'Escalated',overdue:'Overdue','due-today':'Due today',now:'Review now',undated:'No due date',upcoming:'Upcoming',waiting:'Waiting'};
+const DEP_STATE:Record<string,string>={waiting:'Waiting',released:'Blocker closed',closed:'Item closed',removed:'Removed'};
+// Slice 4d: record that this item waits on another open item of the same patient.
+function Wait({item,plan,p,busy,command,done}:{item:any;plan:any;p:Person;busy:boolean;command:Command;done:()=>void}){
+ const [blocker,setBlocker]=useState(''),[reason,setReason]=useState('');
+ const others=plan.items.filter((i:any)=>i.key!==item.key&&i.refs.length);
+ if(!others.length)return null;
+ return <details><summary>Wait on another item</summary><div className="form-grid"><Select value={blocker} onValueChange={setBlocker}><SelectTrigger aria-label={`Blocker for ${item.title}`}><SelectValue placeholder="Choose the item to wait for"/></SelectTrigger><SelectContent>{others.map((o:any)=><SelectItem key={o.key} value={o.key}>{KIND_LABEL[o.kind]??o.kind}: {o.title}</SelectItem>)}</SelectContent></Select>
+  <label>Reason<Input aria-label={`Dependency reason for ${item.title}`} value={reason} maxLength={500} onChange={e=>setReason(e.target.value)} placeholder="At least 10 characters"/></label></div>
+  <Button disabled={busy||!blocker||reason.trim().length<10} onClick={async()=>{const b=others.find((o:any)=>o.key===blocker);const r=await command({type:'linkPlanItems',personId:p.id,version:plan.personVersion,dependent:item.refs[0],blocker:b.refs[0],reason},'Dependency recorded');if(r){setReason('');setBlocker('');done();}}}>Record dependency</Button></details>;
+}
+function Unlink({dep,plan,p,busy,command,done}:{dep:any;plan:any;p:Person;busy:boolean;command:Command;done:()=>void}){
+ const [reason,setReason]=useState('');
+ return <details><summary>Remove</summary><label>Reason<Input aria-label={`Removal reason for ${dep.dependent.title}`} value={reason} maxLength={500} onChange={e=>setReason(e.target.value)} placeholder="At least 10 characters"/></label>
+  <Button variant="outline" disabled={busy||reason.trim().length<10} onClick={async()=>{const r=await command({type:'unlinkPlanItems',personId:p.id,version:plan.personVersion,dependencyId:dep.id,reason},'Dependency removed');if(r){setReason('');done();}}}>Remove dependency</Button></details>;
+}
 
 // Slice 4b: one ordered plan of this patient's open work, with owners and ownership gaps.
 function Assign({item,plan,p,busy,command,done}:{item:any;plan:any;p:Person;busy:boolean;command:Command;done:()=>void}){
@@ -31,10 +46,16 @@ export function ActionPlanPanel({data,p,busy,command}:{data:Snapshot;p:Person;bu
     <p>{i.reason}</p>
     <p className="muted text-sm">Owner: {i.owner?`${i.owner.displayName}${i.owner.eligible?'':' (no current access)'}`:'none'}{i.queue?` · Queue: ${i.queue}`:''} · Due: {i.due??'not set'}{i.daysOverdue?` (${i.daysOverdue} day${i.daysOverdue===1?'':'s'} overdue)`:''} · Urgency: {i.urgency} · Status: {i.status}</p>
     {i.sources.length>1&&<p className="muted text-sm">Sources: {i.sources.map((s:any)=>s.label).join('; ')}</p>}
+    {i.waitingOn.length>0&&<p className="notice" role="status">Waiting for {i.waitingOn.map((x:any)=>`${x.title} (${x.status}${x.daysOverdue?`, ${x.daysOverdue} day${x.daysOverdue===1?'':'s'} overdue`:''})`).join('; ')}.</p>}
+    {i.blocks.length>0&&<p className="muted text-sm">Holds back: {i.blocks.map((x:any)=>x.title).join('; ')}</p>}
+    {plan.canLink&&['follow-up','referral'].includes(i.kind)&&<Wait item={i} plan={plan} p={p} busy={busy} command={command} done={load}/>}
     {i.ownershipGap&&<p className="notice amber-notice">{i.ownershipGap}</p>}
     {i.assignVia==='action-plan'&&(i.canAssign||i.canClaim)&&<Assign item={i} plan={plan} p={p} busy={busy} command={command} done={load}/>}
     {i.ownershipGap&&i.assignVia==='governance'&&<p className="muted text-sm">A clinician with access reassigns safety cases under Clinical governance.</p>}
     {i.ownershipGap&&i.assignVia==='outreach'&&<p className="muted text-sm">Reassign outreach work on the Outreach page.</p>}
    </li>)}</ol><p className="subtle-note">{plan.rules}</p></>:<p className="muted">No open work for this patient.</p>)}
+  {plan&&plan.dependencies.length>0&&<div className="action-plan-dependencies"><h3>Dependencies</h3><ul className="revision-list">{plan.dependencies.map((d:any)=><li key={d.id}><span className={`tag ${d.state==='waiting'?'amber':''}`}>{DEP_STATE[d.state]??d.state}</span> <strong>{d.dependent.title}</strong> waits on <strong>{d.blocker.title}</strong>
+   <p className="muted text-sm">Recorded {d.at.slice(0,10)} by {d.by}: {d.reason}{d.removed?` · Removed ${d.removed.at.slice(0,10)} by ${d.removed.by}: ${d.removed.reason}`:''}</p>
+   {plan.canLink&&!d.removed&&<Unlink dep={d} plan={plan} p={p} busy={busy} command={command} done={load}/>}</li>)}</ul></div>}
  </section>;
 }
