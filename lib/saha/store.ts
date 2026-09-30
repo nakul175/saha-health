@@ -35,11 +35,12 @@ export async function readState(db:D1Database,orgId:string,personIds?:string[]):
  const query=(t:string)=>{
   if(t==='organisations')return db.prepare('SELECT * FROM organisations WHERE id=?').bind(orgId);
   if(t==='memberships')return db.prepare('SELECT m.*,a.display_name,a.account_code FROM memberships m JOIN accounts a ON a.user_id=m.user_id WHERE m.org_id=?').bind(orgId);
-  if(ids&&t==='patients')return db.prepare(`SELECT * FROM patients WHERE org_id=? AND id IN (${marks})`).bind(orgId,...ids);
-  if(ids&&['visits','submissions','referrals'].includes(t))return db.prepare(`SELECT * FROM ${t} WHERE org_id=? AND person_id IN (${marks})${t==='visits'?" ORDER BY json_extract(data,'$.createdAt'),id":''}`).bind(orgId,...ids);
+  // Patient collections have an explicit order so partitions and full loads agree (slice 0b).
+  if(ids&&t==='patients')return db.prepare(`SELECT * FROM patients WHERE org_id=? AND id IN (${marks}) ORDER BY id`).bind(orgId,...ids);
+  if(ids&&['visits','submissions','referrals'].includes(t))return db.prepare(`SELECT * FROM ${t} WHERE org_id=? AND person_id IN (${marks})${t==='visits'?" ORDER BY json_extract(data,'$.createdAt'),id":' ORDER BY id'}`).bind(orgId,...ids);
   if(ids&&['plans','ai_results'].includes(t))return db.prepare(`SELECT * FROM ${t} WHERE org_id=? AND visit_id IN (SELECT id FROM visits WHERE org_id=? AND person_id IN (${marks}))`).bind(orgId,orgId,...ids);
   if(ids&&t==='audit_events')return db.prepare(`SELECT * FROM audit_events WHERE org_id=? AND person_id IN (${marks}) ORDER BY at DESC LIMIT 250`).bind(orgId,...ids);
-  return db.prepare(`SELECT * FROM ${t} WHERE org_id=?${t==='audit_events'?' ORDER BY at DESC LIMIT 250':t==='visits'?" ORDER BY json_extract(data,'$.createdAt'),id":''}`).bind(orgId);
+  return db.prepare(`SELECT * FROM ${t} WHERE org_id=?${t==='audit_events'?' ORDER BY at DESC LIMIT 250':t==='visits'?" ORDER BY json_extract(data,'$.createdAt'),id":['patients','submissions','referrals'].includes(t)?' ORDER BY id':''}`).bind(orgId);
  };
  const results=await db.batch(tables.map(query));
  const values=Object.fromEntries(tables.map((t,i)=>[t,results[i].results as Record<string,any>[]]));
