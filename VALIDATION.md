@@ -380,3 +380,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Browser check with headless Chromium: the owner set a $20.00 budget on the Operations page and the row showed "No cost rates: requests refused"; axe-core found no violations in the budget panel; no console errors. The accessibility audit (25 screens) reported no violations.
 - The refusal path is exercised only by the contract suite with a fixture provider, because live providers are disabled in the HTTP sandbox.
 - BR-AG-07 and BR-AI-12 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 6l — safe logs check — 30 September 2026 IST (30 September UTC)
+
+- **2,559 automated assertions passed:** 1,611 HTTP/D1 (1,583 plus 28 safe-logs checks), 927 contract/checkpoint (919 plus 8 safe-logs contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6l/`.
+- `tests/run-api-smoke.mjs` now exposes the Worker's captured console output to smoke modules. The media smoke still removes media with the query-string reason, which remains accepted for compatibility.
+- First run, before any fix: the safe-logs smoke passed (1,609 HTTP/D1) while media removal and indicator questions still used query strings, because the local development server does not print query strings. The move of that free text into request bodies comes from code review; the new contract guards it. A later run failed once because the smoke expected indicator results for a one-person village cohort; the cohort minimum refuses that over POST exactly as over GET, and the expectation was corrected.
+- Browser check with headless Chromium: media removal from the visit screen and an indicator question on the Operations page worked, and no request URL carried the reason or question; no console errors. The accessibility audit (25 screens) reported no violations.
+- BR-SEC-07 evidence updated; it stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

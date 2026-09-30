@@ -13,7 +13,7 @@ const ALL='__all';
 // Slice 6d: catalogue indicators over the manager's scope, with small-cell suppression and a governed question box.
 export function IndicatorsPanel({data}:{data:Snapshot}){
  const [cat,setCat]=useState<any>(null),[ids,setIds]=useState<string[]>([]),[days,setDays]=useState('30'),[group,setGroup]=useState('none'),[team,setTeam]=useState(ALL),[village,setVillage]=useState(ALL),[programme,setProgramme]=useState(ALL),[question,setQuestion]=useState(''),[interp,setInterp]=useState<any>(null),[result,setResult]=useState<any>(null),[error,setError]=useState('');
- const get=useCallback(async(q:Record<string,string>)=>{const r=await fetch(`/api/indicators?${new URLSearchParams(q)}`,{cache:'no-store',headers:{'x-saha-organisation':data.organisation.id}});const j:any=await r.json();if(!r.ok)throw Error(j.error??'Indicators unavailable.');return j;},[data.organisation.id]);
+ const get=useCallback(async(q:Record<string,string>)=>{const r=await fetch('/api/indicators',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','x-saha-organisation':data.organisation.id},body:JSON.stringify(q)});const j:any=await r.json();if(!r.ok)throw Error(j.error??'Indicators unavailable.');return j;},[data.organisation.id]);
  useEffect(()=>{get({}).then(setCat).catch(()=>setCat(null));},[get]);
  if(!cat)return null;
  const run=async(q?:{ids:string[];days:number;group:string})=>{setError('');try{const x=q??{ids,days:Number(days),group};setResult(await get({ids:x.ids.join(','),days:String(x.days),group:x.group,...(team!==ALL?{team}:{}),...(village!==ALL?{village}:{}),...(programme!==ALL?{programme}:{})}));}catch(e){setResult(null);setError(e instanceof Error?e.message:'Indicators unavailable.');}};
