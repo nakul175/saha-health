@@ -8,7 +8,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | --- | --- | --- |
 | 0a | Load probe, linear diffing, patient-partitioned loads and per-patient commit guards | Delivered (see [slice 0a](current/SLICE-0A-STORAGE.md)) |
 | 0b | Scoped command responses (partition deltas) merged by the workspace | Delivered (see [slice 0b](current/SLICE-0B-DELTAS.md)) |
-| 0b-2 | Paged patient lists and on-demand patient detail for large team scopes | Planned |
+| 0b-2 | Viewer-scoped workspace reads (ASHA reads independent of organisation size) | Delivered (see [slice 0b-2](current/SLICE-0B2-SCOPED-READS.md)) |
+| 0b-3 | Paged patient lists and on-demand patient detail for large team scopes | Planned |
 | 0c | Swappable identity layer, SBOM and audit gate, CI workflow, local test stability | Delivered (see [slice 0c](current/SLICE-0C-IDENTITY.md)) |
 | 1 | Households and proxy authority with sensitive-class disclosure | Delivered (see [slice 1](current/SLICE-1-HOUSEHOLDS.md)) |
 | 1b | Workforce lifecycle, bulk caseload transfer with effective dates and acknowledgement, responsibility gaps, member removal | Delivered (see [slice 1b](current/SLICE-1B-CASELOAD.md)) |

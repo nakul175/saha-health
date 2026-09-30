@@ -208,3 +208,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The rights suites passed on their first full run; the full suite showed no local Worker restarts.
 - Browser check with headless Chromium against the built Worker: a restriction request recorded and closed as fulfilled from the patient page, followed by the restriction notice. No console errors; every command and rights read returned 200.
 - Assessment changes: BR-SEC-10 moved from not-built to partial. Counts are now 14 implemented-local, 138 partial, 15 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 0b-2 — viewer-scoped workspace reads — 30 September 2026 IST (29-30 September UTC)
+
+- **1,782 automated assertions passed:** 1,231 HTTP/D1 (unchanged, now with every workspace read scoped), 530 contract/checkpoint (503 plus 27 scoped-read contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-0b2/`.
+- A first implementation used one correlated SQL predicate for every viewer. The probe showed owner reads 18–23 percent slower at 20,000–50,000 people (819 ms against 668 ms, and 2,050 ms against 1,743 ms), so it was replaced before commit with a per-viewer predicate and a plain read for all-team viewers; only the second version's results are saved.
+- Local read-only probe against the previous build: an ASHA's median workspace read at 50,006 people fell from 965 ms to 48 ms; owner reads were unchanged within noise (1,743 ms and 1,738 ms).
+- Browser check with headless Chromium: owner and ASHA workspaces loaded and a caseload transfer completed. No console errors.
+- Assessment changes: NFR-24 text updated; it remains unverified. Counts are unchanged at 14 implemented-local, 138 partial, 15 not-built and 9 unverified.
