@@ -27,6 +27,7 @@ import { referralRequestSchema } from './referral-request';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { agentSchema } from './agent';
+import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
@@ -55,6 +56,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...governanceSchema.options,
  ...evaluationSchema.options,
  ...sandboxSchema.options,
+ ...shadowSchema.options,
  ...operationsSchema.options,
  ...alertAckSchema.options,
  ...pilotSchema.options,

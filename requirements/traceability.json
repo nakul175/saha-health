@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3j, 4a-4b, 5a-5e, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3j, 4a-4b, 5a-5f, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1301,8 +1301,8 @@
       "sourceTextLine": 309,
       "implementation": "partial",
       "target": "R11",
-      "current": "Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views. Slice 5d: BRD lifecycle stages derived per package (registered, technically verified, approved for scope, active, suspended, retired, replaced), replacement recorded on activation, use counted per exact version, and in-progress work of an unusable capability identified with its required action (cancel, withheld, review, check applied values) on the governance page and in the audit line.",
-      "remaining": "Verified registration step, deployment-specific activation, trial or shadow operation, delivered impact queues and live lifecycle acceptance.",
+      "current": "Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views. Slice 5d: BRD lifecycle stages derived per package (registered, technically verified, approved for scope, active, suspended, retired, replaced), replacement recorded on activation, use counted per exact version, and in-progress work of an unusable capability identified with its required action (cancel, withheld, review, check applied values) on the governance page and in the audit line. Slice 5f: shadow operation of a reviewed revision for named teams or the whole organisation over at most 30 days; runs on confirmed visits (local rules provider only) without showing, applying or planning its output; consent, restriction, budget and lifecycle respected.",
+      "remaining": "Verified registration step, deployment-specific activation, automatic and live-provider shadow runs, delivered impact queues and live lifecycle acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1320,7 +1320,12 @@
         "app/governance-panel.tsx",
         "tests/capability-lifecycle-contract.mjs",
         "tests/capability-lifecycle-smoke.mjs",
-        "docs/current/SLICE-5D-CAPABILITY-LIFECYCLE.md"
+        "docs/current/SLICE-5D-CAPABILITY-LIFECYCLE.md",
+        "lib/saha/shadow.ts",
+        "app/shadow-panel.tsx",
+        "tests/shadow-contract.mjs",
+        "tests/shadow-smoke.mjs",
+        "docs/current/SLICE-5F-SHADOW-OPERATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1475,8 +1480,8 @@
       "sourceTextLine": 327,
       "implementation": "partial",
       "target": "R11",
-      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold.",
-      "remaining": "Representative quality/drift monitoring, ground-truth annotation, alerting and clinical response operations.",
+      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers.",
+      "remaining": "Representative quality/drift monitoring over time, independent ground-truth annotation and adjudication, alerting and clinical response operations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1488,7 +1493,12 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts"
+        "lib/saha/evaluation-execution.ts",
+        "lib/saha/shadow.ts",
+        "app/shadow-panel.tsx",
+        "tests/shadow-contract.mjs",
+        "tests/shadow-smoke.mjs",
+        "docs/current/SLICE-5F-SHADOW-OPERATION.md"
       ],
       "automatedAcceptanceClaim": false
     },

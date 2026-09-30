@@ -8,6 +8,7 @@ import type { AgentProvider, AgentRun } from './agent';
 import type { Evaluation } from './evaluation';
 import { checkMonthlyBudget } from './ai-budget';
 import type { ProviderSandbox, ProposalOrigin } from './provider-sandbox';
+import type { Shadow } from './shadow';
 import { capabilityImpact, impactSummary } from './capability-lifecycle';
 const id=z.string().trim().min(1).max(200),text=z.string().trim().min(10).max(1000),version=z.number().int().positive();
 const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>Number.isFinite(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x);
@@ -29,7 +30,7 @@ export type GovernanceSpec=z.infer<typeof governanceSpec>;
 export type GovernanceEntry={id:string;revision:number;version:number;spec:GovernanceSpec;manifestHash:string;createdBy:string;createdAt:string;replacesId?:string;replacedBy?:string;origin?:ProposalOrigin;state:'draft'|'reviewed'|'active'|'suspended'|'retired';review?:{by:string;memberVersion:number;ownerVersion:number;authorVersion:number;at:string;reference:string;findings:string;dependencyStamp:string;evaluationId?:string};history:{at:string;by:string;state:string;reason:string}[]};
 export type ProtocolCheck={id:string;at:string;by:string;byVersion:number;visitVersion:number;personVersion:number;contextHash:string;protocols:{id:string;manifestHash:string;revision:number;title:string}[];findings:{entryId:string;ruleId:string;label:string;urgency:string;action:string;service:{id:string;title:string;contactRoute:string;location:string};evidence:string;sources:{title:string;url:string;edition:string}[]}[];unknowns:string[];decision?:{by:string;at:string;decision:'accepted'|'rejected'|'override';reason:string;reference:string}};
 export type SafetyCase={id:string;personId:string;visitId:string;ownerId:string;createdBy:string;createdAt:string;version:number;kind:string;summary:string;state:'open'|'closed';entryId?:string;evidence:{visitVersion:number;recordVersion:number;agentRuns:{id:string;provider:string;model:string;status:string}[];protocolCheckIds:string[]};resolution?:{by:string;at:string;reason:string;reference:string}};
-export type Governance={entries:GovernanceEntry[];evaluations:Evaluation[];safety:SafetyCase[];sandbox?:ProviderSandbox};
+export type Governance={entries:GovernanceEntry[];evaluations:Evaluation[];safety:SafetyCase[];sandbox?:ProviderSandbox;shadows?:Shadow[]};
 export const governanceState=(s:OrgState)=>s.governance??{entries:[],evaluations:[],safety:[]};
 export const governanceSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('createGovernance'),spec:governanceSpec,replacesId:id.optional()}).strict(),

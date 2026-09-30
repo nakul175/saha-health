@@ -134,6 +134,7 @@ const {safeLogsSmoke}=await import('./safe-logs-smoke.mjs');await safeLogsSmoke(
 const {providerSandboxSmoke}=await import('./provider-sandbox-smoke.mjs');await providerSandboxSmoke({get,post,check,accounts,org});
 const {agentQualitySmoke}=await import('./agent-quality-smoke.mjs');await agentQualitySmoke({get,post,check,accounts,org,base});
 const {capabilityLifecycleSmoke}=await import('./capability-lifecycle-smoke.mjs');await capabilityLifecycleSmoke({get,post,check,accounts,org});
+const {shadowSmoke}=await import('./shadow-smoke.mjs');await shadowSmoke({get,post,check,accounts,org});
 const {dataExitSmoke}=await import('./data-exit-smoke.mjs');await dataExitSmoke({get,post,check,accounts,org,sql,base});
 const {environmentSmoke}=await import('./environment-smoke.mjs');await environmentSmoke({get,post,check,accounts,org,base});
 const {fixtureMigrationSmoke}=await import('./fixture-migration-smoke.mjs');await fixtureMigrationSmoke({get,post,check,accounts,org,sql,base});
