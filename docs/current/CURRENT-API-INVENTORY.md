@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **27 HTTP method/route pairs** and **149 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **28 HTTP method/route pairs** and **149 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -11,6 +11,7 @@ Generated from source: **27 HTTP method/route pairs** and **149 command schema d
 | POST | `/api/commands` | [app/api/commands/route.ts](../../app/api/commands/route.ts) |
 | GET | `/api/continuity` | [app/api/continuity/route.ts](../../app/api/continuity/route.ts) |
 | GET | `/api/exceptional` | [app/api/exceptional/route.ts](../../app/api/exceptional/route.ts) |
+| GET | `/api/exceptions` | [app/api/exceptions/route.ts](../../app/api/exceptions/route.ts) |
 | GET | `/api/expansion` | [app/api/expansion/route.ts](../../app/api/expansion/route.ts) |
 | GET | `/api/fhir/[id]` | [app/api/fhir/[id]/route.ts](../../app/api/fhir/[id]/route.ts) |
 | GET | `/api/governance` | [app/api/governance/route.ts](../../app/api/governance/route.ts) |

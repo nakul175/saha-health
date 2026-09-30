@@ -4,6 +4,8 @@ export async function actionPlanSmoke({get,post,check,accounts,org,base}){
  const {owner:o,worker:w,clinician:c,supervisor:s,admin:a,stranger:x}=accounts;
  const plan=async(who,personId,status=200)=>{const r=await fetch(`${base}/api/action-plan?${new URLSearchParams(personId==null?{}:{personId})}`,{headers:{...who.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
  const send=(who,body,status=200,key=crypto.randomUUID())=>post(who,body,status,key,org);
+ // An earlier module leaves the administrator suspended; restore it so refusals below test the role, not a lapsed membership.
+ await get(o,'/api/workspace',200,org);const adm=o.state.members.find(m=>m.userId===a.id);if(adm.status!=='active')await send(o,{type:'updateMember',userId:a.id,version:adm.version,role:'admin',teamIds:[],isOwner:false,status:'active',reason:'Restore synthetic administrator for action-plan scope checks'});
  const pid=(await send(o,{type:'createPerson',name:`Action Plan ${crypto.randomUUID().slice(0,6)}`,age:29,sex:'Female',village:'Action plan synthetic locality',programme:'Maternal care',teamId:'default'})).result.personId;
  const me=()=>o.state.people.find(p=>p.id===pid);
  await send(o,{type:'assignPatient',personId:pid,version:me().version,teamId:'default',assignedTo:w.id,reason:'Synthetic action plan patient assigned to the ASHA.'});
