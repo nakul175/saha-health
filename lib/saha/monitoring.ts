@@ -2,7 +2,7 @@ import { env } from 'cloudflare:workers';
 import { getChatGPTUser } from '@/app/chatgpt-auth';
 // Fixed route and numeric status only. Never store URLs, queries, payloads,
 // patient/actor IDs, headers, provider errors or raw exception messages.
-export async function measured(request:Request,route:'workspace'|'commands'|'operations'|'history'|'audit'|'fhir',action:()=>Promise<Response>){
+export async function measured(request:Request,route:'workspace'|'commands'|'operations'|'pilot'|'history'|'audit'|'fhir',action:()=>Promise<Response>){
  const started=performance.now(),response=await action(),elapsed=Math.max(0,Math.round(performance.now()-started)),requestId=crypto.randomUUID();
  response.headers.set('X-Saha-Request-Id',requestId);response.headers.set('Referrer-Policy','no-referrer');
  try{const user=await getChatGPTUser();if(user&&env.DB){const org=request.headers.get('x-saha-organisation')??new URL(request.url).searchParams.get('organisationId')??(await env.DB.prepare('SELECT active_org_id FROM accounts WHERE user_id=?').bind(user.userId).first<{active_org_id:string}>())?.active_org_id;
