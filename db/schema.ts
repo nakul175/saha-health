@@ -11,6 +11,9 @@ export const accounts = sqliteTable('accounts', {
 export const organisations = sqliteTable('organisations', {
   id:text('id').primaryKey(), name:text('name').notNull(), revision:integer('revision').notNull().default(1),
   lastCommand:text('last_command').notNull(), createdAt:text('created_at').notNull(),
+  // Slice 0a: counts patient-scoped commits. Organisation-wide commands guard on it;
+  // patient-scoped commands only increment it and guard on the organisation revision.
+  patientRevision:integer('patient_revision').notNull().default(0),
 });
 export const teams = sqliteTable('teams', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), name:text('name').notNull(), createdAt:text('created_at').notNull(),
@@ -30,6 +33,8 @@ export const invitations = sqliteTable('invitations', {
 export const patients = sqliteTable('patients', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
   name:text('name').notNull(), teamId:text('team_id').notNull(), assignedTo:text('assigned_to'), data:text('data').notNull(),
+  // Slice 0a: per-patient concurrency counter. Distinct from `version`, which binds approvals.
+  rev:integer('rev').notNull().default(0),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('patients_org_team').on(t.orgId,t.teamId),index('patients_org_assignee').on(t.orgId,t.assignedTo)]);
 export const visits = sqliteTable('visits', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), personId:text('person_id').notNull(),

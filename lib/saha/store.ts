@@ -4,9 +4,10 @@ import type { D1Database } from '@cloudflare/workers-types';
 import { digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
+import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
 export type Actor={userId:string;displayName:string;email:string};
 type Value=string|number|null;
-type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
+export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
 const row=(table:string,values:Record<string,Value>,keys=['org_id','id'],append=false):Row=>({table,values,keys,append});
 const j=(x:unknown)=>JSON.stringify(x);
 const same=(a:unknown,b:unknown)=>j(a)===j(b);
@@ -26,13 +27,27 @@ export function guarded(db:D1Database,orgId:string,token:string,rows:Row[]){
  return statements;
 }
 export function scope(state:OrgState,userId:string){const m=state.members.find(x=>x.userId===userId&&x.status==='active');if(!m)fail(403,'Your organisation membership is inactive or unavailable.');state.workspace.role=m.role;for(const p of state.workspace.people)p.assigned=allowed(m,p);return m;}
-export async function readState(db:D1Database,orgId:string):Promise<OrgState>{
+// Reads organisation-level state and either every patient (personIds omitted) or only the
+// named patients (slice 0a partition). Lookups are indexed maps so reading grows linearly.
+export async function readState(db:D1Database,orgId:string,personIds?:string[]):Promise<OrgState>{
  const tables=['organisations','teams','memberships','team_members','invitations','patients','visits','integrations','plans','ai_results','submissions','referrals','audit_events','operations','pilot','outreach','expansions','governance'];
- const results=await db.batch(tables.map(t=>db.prepare(t==='organisations'?'SELECT * FROM organisations WHERE id=?':t==='memberships'?'SELECT m.*,a.display_name,a.account_code FROM memberships m JOIN accounts a ON a.user_id=m.user_id WHERE m.org_id=?':`SELECT * FROM ${t} WHERE org_id=?${t==='audit_events'?' ORDER BY at DESC LIMIT 250':t==='visits'?" ORDER BY json_extract(data,'$.createdAt'),id":''}`).bind(orgId)));
+ const ids=personIds?.length?[...new Set(personIds)]:null,marks=ids?.map(()=>'?').join(',');
+ const query=(t:string)=>{
+  if(t==='organisations')return db.prepare('SELECT * FROM organisations WHERE id=?').bind(orgId);
+  if(t==='memberships')return db.prepare('SELECT m.*,a.display_name,a.account_code FROM memberships m JOIN accounts a ON a.user_id=m.user_id WHERE m.org_id=?').bind(orgId);
+  if(ids&&t==='patients')return db.prepare(`SELECT * FROM patients WHERE org_id=? AND id IN (${marks})`).bind(orgId,...ids);
+  if(ids&&['visits','submissions','referrals'].includes(t))return db.prepare(`SELECT * FROM ${t} WHERE org_id=? AND person_id IN (${marks})${t==='visits'?" ORDER BY json_extract(data,'$.createdAt'),id":''}`).bind(orgId,...ids);
+  if(ids&&['plans','ai_results'].includes(t))return db.prepare(`SELECT * FROM ${t} WHERE org_id=? AND visit_id IN (SELECT id FROM visits WHERE org_id=? AND person_id IN (${marks}))`).bind(orgId,orgId,...ids);
+  if(ids&&t==='audit_events')return db.prepare(`SELECT * FROM audit_events WHERE org_id=? AND person_id IN (${marks}) ORDER BY at DESC LIMIT 250`).bind(orgId,...ids);
+  return db.prepare(`SELECT * FROM ${t} WHERE org_id=?${t==='audit_events'?' ORDER BY at DESC LIMIT 250':t==='visits'?" ORDER BY json_extract(data,'$.createdAt'),id":''}`).bind(orgId);
+ };
+ const results=await db.batch(tables.map(query));
  const values=Object.fromEntries(tables.map((t,i)=>[t,results[i].results as Record<string,any>[]]));
  const org=values.organisations[0];if(!org)fail(404,'Organisation not found.');
- const w:Workspace={schemaVersion:1,revision:org.revision,role:'admin',people:values.patients.map(r=>({...JSON.parse(r.data),version:r.version,teamId:r.team_id,assignedTo:r.assigned_to,assigned:false})),visits:values.visits.map(r=>{const {planId,...data}=JSON.parse(r.data);return {...data,version:r.version,recordVersion:r.record_version,plan:values.plans.find(p=>p.id===planId)?JSON.parse(values.plans.find(p=>p.id===planId)!.data):undefined,aiResults:values.ai_results.filter(a=>a.visit_id===r.id).map(a=>JSON.parse(a.data))};}),integrations:values.integrations.map(r=>JSON.parse(r.data)),submissions:values.submissions.map(r=>JSON.parse(r.data)),referrals:values.referrals.map(r=>JSON.parse(r.data)),receipts:{},audit:values.audit_events.reverse().map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id}))};
- return {governance:values.governance[0]?JSON.parse(values.governance[0].data):undefined,outreach:values.outreach[0]?JSON.parse(values.outreach[0].data):undefined,expansions:values.expansions[0]?JSON.parse(values.expansions[0].data):undefined,pilot:values.pilot[0]?JSON.parse(values.pilot[0].data):undefined,operations:values.operations[0]?JSON.parse(values.operations[0].data):undefined,organisation:{id:org.id,name:org.name,revision:org.revision,createdAt:org.created_at},teams:values.teams.map(r=>({id:r.id,name:r.name,createdAt:r.created_at})),members:values.memberships.map(r=>({userId:r.user_id,displayName:r.display_name,accountCode:r.account_code,role:r.role,isOwner:!!r.is_owner,status:r.status,version:r.version,createdAt:r.created_at,teamIds:values.team_members.filter(t=>t.user_id===r.user_id).map(t=>t.team_id)})),invitations:values.invitations.map(r=>({id:r.id,accountCode:r.account_code,label:r.label,role:r.role,teamIds:JSON.parse(r.team_ids),status:r.status,expiresAt:r.expires_at,createdBy:r.created_by,createdAt:r.created_at,tokenHash:r.token_hash,acceptedBy:r.accepted_by??undefined})),workspace:w};
+ const plans=new Map(values.plans.map(p=>[p.id,p.data as string])),ai=new Map<string,string[]>();for(const a of values.ai_results)ai.set(a.visit_id,[...(ai.get(a.visit_id)??[]),a.data]);
+ const teamIds=new Map<string,string[]>();for(const t of values.team_members)teamIds.set(t.user_id,[...(teamIds.get(t.user_id)??[]),t.team_id]);
+ const w:Workspace={schemaVersion:1,revision:org.revision,role:'admin',people:values.patients.map(r=>({...JSON.parse(r.data),version:r.version,teamId:r.team_id,assignedTo:r.assigned_to,assigned:false})),visits:values.visits.map(r=>{const {planId,...data}=JSON.parse(r.data);const plan=planId?plans.get(planId):undefined;return {...data,version:r.version,recordVersion:r.record_version,plan:plan?JSON.parse(plan):undefined,aiResults:(ai.get(r.id)??[]).map(a=>JSON.parse(a))};}),integrations:values.integrations.map(r=>JSON.parse(r.data)),submissions:values.submissions.map(r=>JSON.parse(r.data)),referrals:values.referrals.map(r=>JSON.parse(r.data)),receipts:{},audit:values.audit_events.reverse().map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id}))};
+ return {governance:values.governance[0]?JSON.parse(values.governance[0].data):undefined,outreach:values.outreach[0]?JSON.parse(values.outreach[0].data):undefined,expansions:values.expansions[0]?JSON.parse(values.expansions[0].data):undefined,pilot:values.pilot[0]?JSON.parse(values.pilot[0].data):undefined,operations:values.operations[0]?JSON.parse(values.operations[0].data):undefined,organisation:{id:org.id,name:org.name,revision:org.revision,createdAt:org.created_at,patientRevision:org.patient_revision??0},teams:values.teams.map(r=>({id:r.id,name:r.name,createdAt:r.created_at})),members:values.memberships.map(r=>({userId:r.user_id,displayName:r.display_name,accountCode:r.account_code,role:r.role,isOwner:!!r.is_owner,status:r.status,version:r.version,createdAt:r.created_at,teamIds:teamIds.get(r.user_id)??[]})),invitations:values.invitations.map(r=>({id:r.id,accountCode:r.account_code,label:r.label,role:r.role,teamIds:JSON.parse(r.team_ids),status:r.status,expiresAt:r.expires_at,createdBy:r.created_by,createdAt:r.created_at,tokenHash:r.token_hash,acceptedBy:r.accepted_by??undefined})),workspace:w,patientRevs:Object.fromEntries(values.patients.map(r=>[r.id,r.rev??0])),...(ids?{partition:ids}:{})};
 }
 function revisionChanges(previous:unknown,current:unknown){
  const flatten=(value:any,prefix=''):Record<string,string>=>{const out:Record<string,string>={};for(const [key,val] of Object.entries(value??{})){if(['assigned','plan','aiResults','version','recordVersion'].includes(key))continue;const name=prefix?prefix+'.'+key:key;if(val!==null&&typeof val==='object'&&!Array.isArray(val))Object.assign(out,flatten(val,name));else out[name]=val==null?'—':Array.isArray(val)?val.join(', '):String(val);}return out;};
@@ -40,21 +55,24 @@ function revisionChanges(previous:unknown,current:unknown){
 }
 export function rowsForState(state:OrgState,previous:OrgState|null,actor:Actor,action:string,reason:string,now:string){
  const orgId=state.organisation.id,rows:Row[]=[];const old=previous?.workspace;
+ // Indexed previous state: diffing is linear in the organisation size (slice 0a).
+ const byId=<T,>(xs:T[]|undefined,key:(x:T)=>string)=>new Map((xs??[]).map(x=>[key(x),x] as const));
+ const prevTeams=byId(previous?.teams,t=>t.id),prevMembers=byId(previous?.members,m=>m.userId),prevInvites=byId(previous?.invitations,i=>i.id),prevPeople=byId(old?.people,p=>p.id),prevVisits=byId(old?.visits,v=>v.id),prevIntegrations=byId(old?.integrations,i=>i.id),prevSubmissions=byId(old?.submissions,x=>x.id),prevReferrals=byId(old?.referrals,r=>r.id),prevAudit=new Set((old?.audit??[]).map(a=>a.id));
  if(state.governance&&!same(state.governance,previous?.governance))rows.push(row('governance',{org_id:orgId,data:j(state.governance)},['org_id']));
  if(state.outreach&&!same(state.outreach,previous?.outreach))rows.push(row('outreach',{org_id:orgId,data:j(state.outreach)},['org_id']));
  if(state.expansions&&!same(state.expansions,previous?.expansions))rows.push(row('expansions',{org_id:orgId,data:j(state.expansions)},['org_id']));
  if(state.pilot&&!same(state.pilot,previous?.pilot))rows.push(row('pilot',{org_id:orgId,data:j(state.pilot)},['org_id']));
  if(state.operations&&!same(state.operations,previous?.operations))rows.push(row('operations',{org_id:orgId,data:j(state.operations)},['org_id']));
- for(const team of state.teams){if(!same(team,previous?.teams.find(t=>t.id===team.id)))rows.push(row('teams',{org_id:orgId,id:team.id,name:team.name,created_at:team.createdAt}));}
- for(const m of state.members){if(!same(m,previous?.members.find(x=>x.userId===m.userId)))rows.push(row('memberships',{org_id:orgId,user_id:m.userId,role:m.role,is_owner:+m.isOwner,status:m.status,version:m.version,created_at:m.createdAt},['org_id','user_id']));}
- for(const i of state.invitations){if(!same(i,previous?.invitations.find(x=>x.id===i.id)))rows.push(row('invitations',{id:i.id,org_id:orgId,token_hash:i.tokenHash!,account_code:i.accountCode,label:i.label,role:i.role,team_ids:j(i.teamIds),status:i.status,expires_at:i.expiresAt,created_by:i.createdBy,created_at:i.createdAt,accepted_by:i.acceptedBy??null},['id']));}
+ for(const team of state.teams){if(!same(team,prevTeams.get(team.id)))rows.push(row('teams',{org_id:orgId,id:team.id,name:team.name,created_at:team.createdAt}));}
+ for(const m of state.members){if(!same(m,prevMembers.get(m.userId)))rows.push(row('memberships',{org_id:orgId,user_id:m.userId,role:m.role,is_owner:+m.isOwner,status:m.status,version:m.version,created_at:m.createdAt},['org_id','user_id']));}
+ for(const i of state.invitations){if(!same(i,prevInvites.get(i.id)))rows.push(row('invitations',{id:i.id,org_id:orgId,token_hash:i.tokenHash!,account_code:i.accountCode,label:i.label,role:i.role,team_ids:j(i.teamIds),status:i.status,expires_at:i.expiresAt,created_by:i.createdBy,created_at:i.createdAt,accepted_by:i.acceptedBy??null},['id']));}
  function revision(type:'person'|'visit',entity:Person|Visit,before:Person|Visit|undefined){rows.push(row('record_revisions',{id:uuid(),org_id:orgId,person_id:type==='person'?entity.id:(entity as Visit).personId,entity_type:type,entity_id:entity.id,version:type==='person'?entity.version:(entity as Visit).recordVersion,actor_id:actor.userId,actor_name:actor.displayName,action,reason,data:j(entity),changes:j(revisionChanges(before,entity)),created_at:now},['id'],true));}
- for(const p of state.workspace.people){const before=old?.people.find(x=>x.id===p.id);if(same(p,before))continue;if(before&&p.version<=before.version)p.version=before.version+1;const {assigned,...data}=p;rows.push(row('patients',{org_id:orgId,id:p.id,version:p.version,name:p.name,team_id:p.teamId,assigned_to:p.assignedTo,data:j(data)}));revision('person',p,before);}
- for(const v of state.workspace.visits){const before=old?.visits.find(x=>x.id===v.id);if(same(v,before))continue;v.recordVersion=before?before.recordVersion+1:1;const {plan,aiResults,...data}=v;rows.push(row('visits',{org_id:orgId,id:v.id,person_id:v.personId,version:v.version,record_version:v.recordVersion,state:v.state,data:j({...data,planId:plan?.id})}));if(plan&&!same(plan,before?.plan))rows.push(row('plans',{org_id:orgId,id:plan.id,visit_id:v.id,state:plan.state,data:j(plan)}));for(const a of aiResults){if(!same(a,before?.aiResults.find(x=>x.id===a.id)))rows.push(row('ai_results',{org_id:orgId,id:a.id,visit_id:v.id,data:j(a)}));}revision('visit',v,before);}
- for(const i of state.workspace.integrations){if(!same(i,old?.integrations.find(x=>x.id===i.id)))rows.push(row('integrations',{org_id:orgId,id:i.id,version:i.version,kind:i.kind,status:i.status,data:j(i)}));}
- for(const s of state.workspace.submissions){if(!same(s,old?.submissions.find(x=>x.id===s.id)))rows.push(row('submissions',{org_id:orgId,id:s.id,visit_id:s.visitId,person_id:s.personId,state:s.state,data:j(s)}));}
- for(const r of state.workspace.referrals){if(!same(r,old?.referrals.find(x=>x.id===r.id)))rows.push(row('referrals',{org_id:orgId,id:r.id,person_id:r.personId,data:j(r)}));}
- for(const a of state.workspace.audit){if(old?.audit.some(x=>x.id===a.id))continue;rows.push(auditRow(orgId,a,actor.userId,state.workspace));}
+ for(const p of state.workspace.people){const before=prevPeople.get(p.id);if(same(p,before))continue;if(before&&p.version<=before.version)p.version=before.version+1;const {assigned,...data}=p;rows.push(row('patients',{org_id:orgId,id:p.id,version:p.version,name:p.name,team_id:p.teamId,assigned_to:p.assignedTo,data:j(data)}));revision('person',p,before);}
+ for(const v of state.workspace.visits){const before=prevVisits.get(v.id);if(same(v,before))continue;v.recordVersion=before?before.recordVersion+1:1;const {plan,aiResults,...data}=v;rows.push(row('visits',{org_id:orgId,id:v.id,person_id:v.personId,version:v.version,record_version:v.recordVersion,state:v.state,data:j({...data,planId:plan?.id})}));if(plan&&!same(plan,before?.plan))rows.push(row('plans',{org_id:orgId,id:plan.id,visit_id:v.id,state:plan.state,data:j(plan)}));for(const a of aiResults){if(!same(a,before?.aiResults.find(x=>x.id===a.id)))rows.push(row('ai_results',{org_id:orgId,id:a.id,visit_id:v.id,data:j(a)}));}revision('visit',v,before);}
+ for(const i of state.workspace.integrations){if(!same(i,prevIntegrations.get(i.id)))rows.push(row('integrations',{org_id:orgId,id:i.id,version:i.version,kind:i.kind,status:i.status,data:j(i)}));}
+ for(const s of state.workspace.submissions){if(!same(s,prevSubmissions.get(s.id)))rows.push(row('submissions',{org_id:orgId,id:s.id,visit_id:s.visitId,person_id:s.personId,state:s.state,data:j(s)}));}
+ for(const r of state.workspace.referrals){if(!same(r,prevReferrals.get(r.id)))rows.push(row('referrals',{org_id:orgId,id:r.id,person_id:r.personId,data:j(r)}));}
+ for(const a of state.workspace.audit){if(prevAudit.has(a.id))continue;rows.push(auditRow(orgId,a,actor.userId,state.workspace));}
  return rows;
 }
 function auditRow(orgId:string,a:Audit,fallbackActor:string,w:Workspace){const personId=a.personId??(w.people.some(p=>p.id===a.subject)?a.subject:w.visits.find(v=>v.id===a.subject)?.personId??w.submissions.find(s=>s.id===a.subject)?.personId??null);return row('audit_events',{org_id:orgId,id:a.id,person_id:personId,actor_id:a.actorId??fallbackActor,actor_name:a.actor,role:a.role,action:a.action,subject:a.subject,detail:a.detail,at:a.at},['org_id','id'],true);}
@@ -62,13 +80,40 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  const orgId=before.organisation.id,token=uuid(),now=new Date().toISOString();const rows=rowsForState(after,before,actor,command.type,command.reason??'',now);
  const actionEvent=after.workspace.audit.find(a=>!before.workspace.audit.some(b=>b.id===a.id));const patientId=actionEvent?.personId??after.workspace.people.find(p=>p.id===actionEvent?.subject)?.id??after.workspace.visits.find(v=>v.id===actionEvent?.subject)?.personId??after.workspace.visits.find(v=>v.id===result?.visitId)?.personId??null;
  rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true),...extraRows);
- const stmts=[db.prepare('UPDATE organisations SET revision=revision+1,last_command=?,name=? WHERE id=? AND revision=?').bind(token,after.organisation.name,orgId,before.organisation.revision),...guarded(db,orgId,token,rows)];
- for(const m of after.members){const prev=before.members.find(x=>x.userId===m.userId);if(!same(prev?.teamIds,m.teamIds)){
+ const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
+ const plan=commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
+ // Organisation-wide commits still serialise on the organisation revision and also refuse to
+ // commit over any patient change made since they read. Patient-scoped commits (slice 0a)
+ // require the organisation revision unchanged and each touched patient unchanged, so
+ // teammates on different patients no longer collide.
+ const head=plan.patients
+  ?db.prepare(`UPDATE organisations SET patient_revision=patient_revision+1,last_command=? WHERE id=? AND revision=? AND (SELECT count(*) FROM patients WHERE org_id=? AND (${plan.patients.map(()=>'(id=? AND rev=?)').join(' OR ')}))=?`).bind(token,orgId,before.organisation.revision,orgId,...plan.patients.flatMap(id=>[id,before.patientRevs![id]]),plan.patients.length)
+  :db.prepare('UPDATE organisations SET revision=revision+1,patient_revision=patient_revision+1,last_command=?,name=? WHERE id=? AND revision=? AND patient_revision=?').bind(token,after.organisation.name,orgId,before.organisation.revision,before.organisation.patientRevision??0);
+ const stmts=[head,...(plan.patients?[db.prepare(`UPDATE patients SET rev=rev+1 WHERE org_id=? AND id IN (${plan.patients.map(()=>'?').join(',')}) AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)`).bind(orgId,...plan.patients,orgId,token)]:[]),...guarded(db,orgId,token,rows)];
+ for(const m of teamChanges){
   stmts.push(db.prepare('DELETE FROM team_members WHERE org_id=? AND user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,m.userId,orgId,token));
   if(m.teamIds.length)stmts.push(...guarded(db,orgId,token,m.teamIds.map(t=>row('team_members',{org_id:orgId,team_id:t,user_id:m.userId},['org_id','team_id','user_id']))));
- }}
+ }
  if(switchOrg)stmts.push(db.prepare('UPDATE accounts SET active_org_id=? WHERE user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,actor.userId,orgId,token));
- const saved=await db.batch(stmts);if(saved[0].meta.changes!==1)fail(409,'A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.');
+ const saved=await db.batch(stmts);if(saved[0].meta.changes!==1)fail(409,plan.patients?'A teammate changed this patient record. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.':'A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.');
+ return plan;
+}
+// Decides whether a commit can use the patient-scoped guard. Every condition must hold;
+// otherwise the organisation-wide guard applies (the pre-0a behaviour).
+export function commitPlan(before:OrgState,after:OrgState,type:string,rows:Row[],teamChange:boolean,switchOrg:boolean):{patients:string[]|null;reason:string}{
+ if(!before.partition)return {patients:null,reason:'organisation-wide load'};
+ if(!PATIENT_COMMANDS.has(type))return {patients:null,reason:'command not certified for patient scope'};
+ if(teamChange||switchOrg||after.organisation.name!==before.organisation.name)return {patients:null,reason:'organisation settings changed'};
+ const visitPerson=new Map(after.workspace.visits.map(v=>[v.id,v.personId])),touched=new Set<string>();
+ for(const r of rows){
+  if(!PATIENT_TABLES.has(r.table))return {patients:null,reason:`organisation-level ${r.table} changed`};
+  const v=r.values,pid=r.table==='patients'?v.id:v.person_id??(typeof v.visit_id==='string'?visitPerson.get(v.visit_id):null);
+  if(pid!=null&&r.table!=='command_receipts'&&r.table!=='audit_events')touched.add(String(pid));
+ }
+ const ids=[...touched];
+ if(!ids.length)return {patients:null,reason:'no patient record changed'};
+ if(ids.some(id=>before.patientRevs?.[id]===undefined||!before.partition!.includes(id)))return {patients:null,reason:'a touched patient was not loaded'};
+ return {patients:ids,reason:'patient-scoped'};
 }
 export async function ensureAccount(db:D1Database,u:Actor){
  const code=await accountCode(u.userId),now=new Date().toISOString();

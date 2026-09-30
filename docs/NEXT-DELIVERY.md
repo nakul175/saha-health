@@ -1,5 +1,26 @@
 # Next delivery
 
+## Development-completion order (sponsor decision, 30 September 2026)
+
+The sponsor chose to finish buildable product work before the partner track closes. Decisions taken: keep the encrypted browser field notebook and add native Android only if a buyer requires it; keep the current sign-in and hosting during development behind a swappable identity layer; start with the storage foundation. Each slice ships on its own branch and draft pull request; GitHub main is not updated.
+
+| Slice | Scope | Status |
+| --- | --- | --- |
+| 0a | Load probe, linear diffing, patient-partitioned loads and per-patient commit guards | Delivered (see [slice 0a](current/SLICE-0A-STORAGE.md)) |
+| 0b | Paged patient lists, per-patient detail, scoped command responses; move screens onto them | Next |
+| 0c | Swappable identity layer; dependency audit and SBOM gate | Planned |
+| 1 | Households and proxy authority, workforce lifecycle, bulk caseload transfer, merge/unmerge | Planned |
+| 2 | Per-fact provenance, media, measured reuse, import dry runs | Planned |
+| 3 | Offline media queue, offline registration and referral creation, ordered sync, storage warnings | Planned |
+| 4 | Full referral lifecycle, escalation, unified action plan, pack migration and installation | Planned |
+| 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
+| 6 | Retention and disposal, rights requests, break-glass access, small-cell suppression, indicator registry, alerts, full Hindi UI, accessibility | Planned |
+| 7 | ABDM ABHA/HIP/HIU to the published specification against a mock gateway | Planned |
+| 8 | Programme and EHR adapters once partner specifications arrive | Blocked on partners |
+
+The external dependencies below are unchanged by this order; slices do not pass any acceptance gate.
+
+
 The next planned engineering batch is R12. R11 still has open live-provider and clinical follow-through. Five future batches remain planned, R12–R16; this is not a guarantee of production completion. Preserve the exact [176-requirement ledger](../REQUIREMENTS-TRACEABILITY.md) and [remaining release plan](../REMAINING-RELEASES.md).
 
 ## First coding slice

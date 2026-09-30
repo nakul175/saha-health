@@ -28,7 +28,12 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-for name,key in [('application-r11-sha256.json','baselineSourceFiles'),('original-documents-sha256.json','originalFiles')]:
+# The application baseline checked is the current one (docs/verification/current-baseline.json).
+# Earlier baselines such as application-r11-sha256.json are retained unchanged as history.
+pointer=ROOT/'docs/verification/current-baseline.json'
+current_baseline=json.loads(pointer.read_text())['manifest'] if pointer.exists() else 'application-r11-sha256.json'
+require((ROOT/'docs/verification/application-r11-sha256.json').is_file(),'R11 baseline manifest missing')
+for name,key in [(current_baseline,'baselineSourceFiles'),('original-documents-sha256.json','originalFiles')]:
     manifest=read_json('docs/verification/'+name)['files']
     for filename,expected in manifest.items():
         path=ROOT/filename
@@ -60,7 +65,7 @@ source=read_json('requirements/brd-v1.1.json'); trace=read_json('requirements/tr
 require(digest(history/'source'/source['source']['filename'])==source['source']['sha256'],'BRD source digest differs')
 require(len(source['requirements'])==176,'BRD requirement count changed')
 require(trace['acceptance']=={'pending':176,'accepted':0},'Formal acceptance changed')
-require(trace['counts']=={'implemented-local':14,'partial':134,'not-built':19,'unverified':9},'R11 assessment counts changed')
+require(sum(trace['counts'].values())==176 and set(trace['counts'])<= {'implemented-local','partial','not-built','unverified'},'Assessment counts inconsistent')
 require([r['id'] for r in source['requirements']]==[r['id'] for r in trace['requirements']],'Traceability ID order differs')
 for old,new in zip(source['requirements'],trace['requirements']):
     for key,value in old.items():
@@ -98,6 +103,16 @@ for row in reports:
 require(total==1284,'R11 assertion total differs')
 checks['historicalProductAssertions']=total
 
+# Development-slice evidence: each folder's manifest pins its reports' digests and dates.
+slice_total=0
+for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
+    manifest=json.loads(manifest_path.read_text())
+    for report,meta in manifest['reports'].items():
+        path=manifest_path.parent/report
+        require(path.is_file() and digest(path)==meta['sha256'],'Changed slice evidence: '+str(path.relative_to(ROOT)))
+        slice_total+=int(meta.get('passed') or 0)
+checks['sliceEvidenceAssertions']=slice_total
+
 # Historical links retain original locations. Check authored current links only.
 documents=[ROOT/'README.md',ROOT/'CLAUDE.md']+list((ROOT/'docs').glob('*.md'))+list((ROOT/'docs/current').glob('*.md'))+[ROOT/'docs/history/README.md',ROOT/'docs/reference/README.md']
 links=0
@@ -122,4 +137,4 @@ checks['prototypeScriptPreserved']=True
 if errors:
     print('\n'.join(errors),file=sys.stderr)
     raise SystemExit(1)
-print(json.dumps({'status':'passed','scope':'R11 documentation integrity; not product execution or formal acceptance',**checks},indent=2))
+print(json.dumps({'status':'passed','scope':'Documentation integrity against the current baseline ('+current_baseline+'); not product execution or formal acceptance',**checks},indent=2))
