@@ -371,3 +371,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The registration queue checks transpile `lib/saha/field-registration.ts` and its imports (core, mis, programmes, types, continuity, access, referral-rules) to check every notebook body against the server schema.
 - Browser check with headless Chromium and real IndexedDB: two registrations and a visit-draft edit made offline sent nothing; Sync all sent the registrations first, then the draft; the possible duplicate was reviewed on the device and synced; the server held the expected people, the draft visit with its referral request, and the edited draft; no console errors.
 - BR-OFF-05 and BR-OFF-01 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 2c — source and time for each fact — 30 September 2026 IST (30 September UTC)
+
+- **2,552 automated assertions passed:** 1,578 HTTP/D1 (1,551 plus 27 provenance checks), 953 contract/checkpoint (895 plus 41 provenance contract and 17 field provenance checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-2c/`.
+- The first full run failed to load the new HTTP module: it declared a local `base` that clashed with the harness's `base` parameter. The local was renamed and the full run repeated; no product code changed.
+- The new pure module `lib/saha/fact-provenance.ts` is imported by `core.ts`, so the 29 contract harnesses that transpile `core.ts` now also transpile it. Before the module was added to their lists they could not load (seen first on the field contract and slice 3g registration client); no assertion in those harnesses changed.
+- Browser check with headless Chromium: a reported weight with an earlier time and a declined temperature were entered in the visit screen, saved, reviewed and confirmed; the stored entries, the review text and the FHIR example (earlier weight time, reported method, no temperature Observation) matched; no console errors.
+- BR-DATA-02 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

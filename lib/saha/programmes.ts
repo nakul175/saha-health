@@ -1,6 +1,6 @@
 import type { Facts, Programme, Visit } from './types';
 export type PackId='maternal'|'tb'|'hypertension';
-export type Question={id:string;label:string;unit?:string;fact?:keyof Facts;options?:string[];when?:{id:string;value:string};required:boolean};
+export type Question={id:string;label:string;unit?:string;fact?:Exclude<keyof Facts,'provenance'>;options?:string[];when?:{id:string;value:string};required:boolean};
 export type Pack={id:PackId;version:number;name:string;programme:Programme;purpose:string;questions:Question[]};
 const weight:Question={id:'weight',label:'Weight',unit:'kg',fact:'weight',required:true};
 const bp:Question[]=[{id:'systolic',label:'Systolic blood pressure',unit:'mmHg',fact:'systolic',required:true},{id:'diastolic',label:'Diastolic blood pressure',unit:'mmHg',fact:'diastolic',required:true}];

@@ -8,7 +8,7 @@ const dir = mkdtempSync(join(process.cwd(), '.alerts-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 try {
-  for (const f of ['alerts', 'core', 'mis', 'programmes', 'types'])
+  for (const f of ['alerts', 'core', 'fact-provenance', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const A = await import(pathToFileURL(join(dir, 'alerts.js')));
   const backlog = over => ({ drafts: 0, openFollowUps: 0, overdueFollowUps: 0, openReferrals: 0, overdueReferrals: 0, undatedReferrals: 0, unresolvedSubmissions: 0, unresolvedEhr: 0, ...over });

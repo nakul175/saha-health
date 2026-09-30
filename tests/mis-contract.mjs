@@ -5,7 +5,7 @@ import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.mis-contract-'));let passed=0;
 try{
- for(const f of ['types','programmes','core','mis','mis-callback']){const code=ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,f+'.js'),code);}
+ for(const f of ['types','programmes','core','fact-provenance','mis','mis-callback']){const code=ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,f+'.js'),code);}
  const {misCredential,mappedPayload,applyReceipt,misRequest,mappingSchema,deliveryCurrent}=await import(pathToFileURL(join(dir,'mis.js')));
  const {verifyMisSignature}=await import(pathToFileURL(join(dir,'mis-callback.js')));
  const {apply}=await import(pathToFileURL(join(dir,'core.js')));

@@ -9,7 +9,7 @@ const dir = mkdtempSync(join(process.cwd(), '.fhir-validate-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 try {
-  for (const f of ['fhir-validate', 'fhir-document', 'core', 'mis', 'programmes', 'types'])
+  for (const f of ['fhir-validate', 'fhir-document', 'core', 'fact-provenance', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const V = await import(pathToFileURL(join(dir, 'fhir-validate.js')));
   const D = await import(pathToFileURL(join(dir, 'fhir-document.js')));

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3g, 4a, 6a-6h, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3g, 4a, 6a-6h, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -446,8 +446,8 @@
       "sourceTextLine": 201,
       "implementation": "partial",
       "target": "R12",
-      "current": "Visits record source/time; programme answers retain author and explicit absence values.",
-      "remaining": "Per-observation provenance and complete unknown/not-asked/refused/not-applicable semantics across exports.",
+      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values.",
+      "remaining": "Per-observation author and verification state; per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -457,7 +457,14 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/fact-provenance.ts",
+        "lib/saha/fhir-document.ts",
+        "app/provenance-panel.tsx",
+        "docs/current/SLICE-2C-FACT-PROVENANCE.md",
+        "tests/fact-provenance-contract.mjs",
+        "tests/fact-provenance-smoke.mjs",
+        "tests/field-provenance-client.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

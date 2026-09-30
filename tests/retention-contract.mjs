@@ -10,7 +10,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['retention', 'core', 'mis', 'programmes', 'types'])
+  for (const f of ['retention', 'core', 'fact-provenance', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const x = await import(pathToFileURL(join(dir, 'retention.js')));
   const now = '2026-09-30T06:00:00.000Z';

@@ -5,7 +5,7 @@ import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.outreach-contract-'));let passed=0;const check=fn=>{fn();passed++};
 try{
- for(const f of ['types','programmes','core','mis','operations','access','outreach','expansion','referral-rules'])writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ for(const f of ['types','programmes','core','fact-provenance','mis','operations','access','outreach','expansion','referral-rules'])writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {inContactWindow,messageReview,applyOutreach,contactSchema,MESSAGE_COPY}=await import(pathToFileURL(join(dir,'outreach.js')));
  const {maintenanceAllows}=await import(pathToFileURL(join(dir,'operations.js')));
  const {expansionStatus,EXPANSION_CHECKS}=await import(pathToFileURL(join(dir,'expansion.js')));

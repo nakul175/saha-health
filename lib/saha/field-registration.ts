@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { factsSchema, fail, uuid } from './core';
+import { checkFacts, factsSchema, fail, uuid } from './core';
 import { registrationReviewSchema, reviewRegistration } from './continuity';
 import { captureFor } from './programmes';
 import { PROGRAMMES, type OrgState, type Member, type Person, type Visit } from './types';
@@ -38,7 +38,7 @@ export async function applyFieldRegistration(s:OrgState,input:unknown,u:Actor,m:
   return {personId:prior.id,visitId:v?.id??null,referralRequested:!!v?.referralRequest,identity:prior.identityReview?.state??null,alreadyRegistered:true};
  }
  if(Date.parse(c.capturedAt)>Date.parse(now)+300000)fail(422,'The capture time cannot be in the future.');
- if(c.facts){if(Date.parse(c.facts.date+'Z')>Date.parse(now)+300000)fail(422,'Observation time cannot be in the future.');if(!!c.facts.systolic!==!!c.facts.diastolic)fail(422,'Enter both blood pressure readings or leave both blank.');}
+ if(c.facts)checkFacts(c.facts,Date.parse(now));
  if(c.referralRequest&&!c.facts)fail(422,'A referral request needs the visit it came from.');
  const review=await reviewRegistration(s,m,{name:c.name,age:c.age,sex:c.sex,village:c.village,teamId:c.teamId,registrationReview:c.registrationReview},now);
  const p:Person={id:uuid(),name:c.name,age:c.age,sex:c.sex,village:c.village,programmes:[c.programme as any,...(c.programme==='General care'?[]:['General care' as const])],task:'New home visit',due:'Today',status:c.facts?'in_progress':'due',aiConsent:false,exchangeConsent:false,consentVersion:1,assigned:true,createdAt:now,version:1,teamId:c.teamId,assignedTo:u.userId,identityReview:review,fieldRegistration:{id:c.registrationId,by:u.userId,capturedAt:c.capturedAt,syncedAt:now}};
