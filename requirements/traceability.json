@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5c, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1282,8 +1282,8 @@
       "sourceTextLine": 309,
       "implementation": "partial",
       "target": "R11",
-      "current": "Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views.",
-      "remaining": "Verified registration, scoped shadow operation, complete impact queues and live lifecycle acceptance.",
+      "current": "Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views. Slice 5d: BRD lifecycle stages derived per package (registered, technically verified, approved for scope, active, suspended, retired, replaced), replacement recorded on activation, use counted per exact version, and in-progress work of an unusable capability identified with its required action (cancel, withheld, review, check applied values) on the governance page and in the audit line.",
+      "remaining": "Verified registration step, deployment-specific activation, trial or shadow operation, delivered impact queues and live lifecycle acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1295,7 +1295,13 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts"
+        "lib/saha/evaluation-execution.ts",
+        "lib/saha/capability-lifecycle.ts",
+        "lib/saha/governance-server.ts",
+        "app/governance-panel.tsx",
+        "tests/capability-lifecycle-contract.mjs",
+        "tests/capability-lifecycle-smoke.mjs",
+        "docs/current/SLICE-5D-CAPABILITY-LIFECYCLE.md"
       ],
       "automatedAcceptanceClaim": false
     },
