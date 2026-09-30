@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3e, 4a, 6a-6h, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3f, 4a, 6a-6h, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -596,11 +596,13 @@
       "sourceTextLine": 219,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation.",
-      "remaining": "Object storage and larger media, clinical quality assessment and a retention lifecycle for media on the server (offline queueing: slice 3a, BR-OFF-04).",
+      "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata.",
+      "remaining": "Object storage and larger media, clinical quality assessment of reduced photos, and a retention lifecycle for media on the server (offline queueing: slice 3a, BR-OFF-04).",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/photo.ts",
+        "tests/photo-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
