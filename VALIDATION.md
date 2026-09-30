@@ -201,3 +201,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The exceptional-access suites passed on their first full run, apart from one contract assertion that read the review outcome from the wrong field of the view; the assertion was corrected, not the code.
 - Browser check with headless Chromium against the built Worker and two synthetic accounts: emergency access opened by record reference, restriction notice on the patient page, early closure, then an "appropriate" review by the owner. No console errors; every command and emergency-access read returned 200.
 - Assessment changes: BR-SEC-11 moved from not-built to partial. Counts are now 14 implemented-local, 137 partial, 16 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 6b — rights and grievance requests — 30 September 2026 IST (29 September UTC)
+
+- **1,755 automated assertions passed:** 1,231 HTTP/D1 (1,185 plus 46 rights checks), 503 contract/checkpoint (486 plus 17 rights contract checks) and 21 encrypted restore checks over 29 SQLite tables including rights requests. Reports: `tests/evidence/slice-6b/`.
+- The rights suites passed on their first full run; the full suite showed no local Worker restarts.
+- Browser check with headless Chromium against the built Worker: a restriction request recorded and closed as fulfilled from the patient page, followed by the restriction notice. No console errors; every command and rights read returned 200.
+- Assessment changes: BR-SEC-10 moved from not-built to partial. Counts are now 14 implemented-local, 138 partial, 15 not-built and 9 unverified; all 176 formal acceptances remain pending.

@@ -107,3 +107,8 @@ export const identityCases = sqliteTable('identity_cases', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
   state:text('state').notNull(), survivorId:text('survivor_id').notNull(), duplicateId:text('duplicate_id').notNull(), createdAt:text('created_at').notNull(), data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('identity_cases_survivor').on(t.orgId,t.survivorId),index('identity_cases_duplicate').on(t.orgId,t.duplicateId)]);
+// Slice 6b: rights and grievance requests with due dates, outcomes and destination notifications.
+export const rightsRequests = sqliteTable('rights_requests', {
+  orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
+  state:text('state').notNull(), personId:text('person_id').notNull(), dueAt:text('due_at').notNull(), createdAt:text('created_at').notNull(), data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('rights_requests_person').on(t.orgId,t.personId),index('rights_requests_open').on(t.orgId,t.state,t.dueAt)]);
