@@ -2,16 +2,17 @@ import { z } from 'zod';
 import { fail, uuid } from './core';
 import { allowed } from './access';
 import type { Actor } from './store';
-import type { OrgState, Member } from './types';
+import type { OrgState, Member, Person } from './types';
 import { TERMINAL } from './referral-rules';
 export const RELEASE='11 / v1.3-readiness';
 import type { AlertAck } from './alerts';
+import type { Delegation } from './delegation';
 export type Incident={id:string;title:string;severity:'critical'|'high'|'normal';state:'open'|'investigating'|'resolved';ownerId:string;createdAt:string;updatedAt:string;resolution?:string;evidence?:string};
 // Slice 5a: monthly cost budgets per capability key (estimates from `rates`, not invoices).
 export type CapabilityBudget={capabilityKey:string;monthlyUsd:number;setBy:string;setAt:string;reason:string};
 // Slice 2d: controlled migration batches (counts and plan hash only; marked records carry the batch id).
 export type FixtureBatch={id:string;migration:string;planHash:string;at:string;by:string;reason:string;examined:number;marked:number;rejected:number;alreadyMarked:number;outOfScope:number;revertedAt?:string;revertedBy?:string;revertReason?:string;reverted?:number};
-export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[];fixtureBatches?:FixtureBatch[]};
+export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[];fixtureBatches?:FixtureBatch[];delegations?:Delegation[]};
 export const defaultOperations=():Operations=>({version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null});
 export const GATES=[
  {id:'clinical',label:'Clinical and programme approval',state:'external',detail:'Named clinical owners, approved programme content and deployment-specific safety evidence required.'},
@@ -33,7 +34,7 @@ export const operationsSchema=z.discriminatedUnion('type',[
 ]);
 export function operator(m:Member){return m.isOwner||m.role==='admin';}
 export function requireReporting(m:Member){if(!operator(m)&&m.role!=='supervisor')fail(403,'Supervisor or operations access required.');}
-export function maintenanceAllows(c:any){return c.type==='opsAcknowledgeAlert'||c.type==='cancelEvaluation'||c.type==='reportSafety'||c.type==='resolveSafety'||c.type==='assignSafety'||c.type==='saveClinicalConcern'||c.type==='checkProtocol'||c.type==='reviewProtocol'||(c.type==='transitionGovernance'&&c.state!=='active')||c.type.startsWith('ops')||c.type==='messageCancel'||c.type==='messageResolve'||(c.type==='setContactPreferences'&&c.preferences.permission===false)||(c.type==='messageTemplateReview'&&c.state==='suspended')||(c.type==='outreachTransition'&&c.state==='cancelled')||(c.type==='pilotTransition'&&c.stage==='paused')||['switchOrganisation','lookupSubmission','lookupEhrPublish','reconcile','cancelAgent','cancelSubmission','revokeFieldLease','revokeInvite'].includes(c.type)||(c.type==='setConsent'&&c.active===false)||c.type==='withdrawConsent'||(c.type==='updateMember'&&c.status==='suspended')||(c.type==='revokeEhrPermission');}
+export function maintenanceAllows(c:any){return c.type==='opsAcknowledgeAlert'||c.type==='cancelEvaluation'||c.type==='reportSafety'||c.type==='resolveSafety'||c.type==='assignSafety'||c.type==='saveClinicalConcern'||c.type==='checkProtocol'||c.type==='reviewProtocol'||(c.type==='transitionGovernance'&&c.state!=='active')||c.type.startsWith('ops')||c.type==='messageCancel'||c.type==='messageResolve'||(c.type==='setContactPreferences'&&c.preferences.permission===false)||(c.type==='messageTemplateReview'&&c.state==='suspended')||(c.type==='outreachTransition'&&c.state==='cancelled')||(c.type==='pilotTransition'&&c.stage==='paused')||['switchOrganisation','lookupSubmission','lookupEhrPublish','reconcile','cancelAgent','cancelSubmission','revokeFieldLease','revokeInvite'].includes(c.type)||(c.type==='setConsent'&&c.active===false)||c.type==='withdrawConsent'||(c.type==='updateMember'&&c.status==='suspended')||(c.type==='revokeEhrPermission')||c.type==='delegationRevoke';}
 export function ensureOperating(s:OrgState,c:any){if(s.operations?.maintenance&&!maintenanceAllows(c))fail(423,'This organisation is paused for maintenance. Your draft is preserved. Receipt lookup and safety controls remain available.');}
 export function applyOperations(s:OrgState,input:unknown,u:Actor,m:Member){const parsed=operationsSchema.safeParse(input);if(!parsed.success)return null;if(!operator(m))fail(403,'Operations access required.');const c=parsed.data,ops=s.operations??=defaultOperations();if(c.version!==ops.version)fail(409,'Operations changed. Refresh and review the latest state.');const now=new Date().toISOString();let result:any={ok:true};
  if(c.type==='opsMaintenance'){if(!m.isOwner)fail(403,'Only an owner can pause or resume the organisation.');ops.maintenance=c.active;ops.reason=c.reason;}
@@ -43,8 +44,8 @@ export function applyOperations(s:OrgState,input:unknown,u:Actor,m:Member){const
  else{const incident=ops.incidents.find(x=>x.id===c.id);if(!incident)fail(404,'Incident not found.');if(incident.state==='resolved')fail(409,'Resolved incidents are immutable. Open a linked follow-up incident.');if(c.state==='resolved'&&(!c.evidence||c.resolution.length<10))fail(422,'Resolution requires an evidence reference and at least 10 characters of findings.');Object.assign(incident,{state:c.state,ownerId:c.ownerId,resolution:c.resolution,evidence:c.evidence,updatedAt:now});}}
  ops.version++;ops.updatedAt=now;s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:s.organisation.id,detail:c.type==='opsMaintenance'?`Maintenance ${c.active?'enabled':'disabled'}: ${c.reason}`:c.type==='opsRates'?'Cost assumptions updated; these are estimates, not provider invoices.':c.type==='opsBudget'?(c.monthlyUsd===null?`Monthly cost budget cleared for capability ${c.capabilityKey}: ${c.reason}`:`Monthly cost budget for capability ${c.capabilityKey} set to USD ${(Math.round(c.monthlyUsd*100)/100).toFixed(2)} (estimate basis, not an invoice): ${c.reason}`):`Incident register updated at version ${ops.version}.`});return result;
 }
-export function careReport(s:OrgState,m:Member,days:number,now=new Date()){
- const patients=s.workspace.people.filter(p=>allowed(m,p)),ids=new Set(patients.map(p=>p.id));const today=now.toISOString().slice(0,10),since=new Date(Date.parse(today+'T00:00:00Z')-(days-1)*86400000).toISOString(),until=now.toISOString();
+export function careReport(s:OrgState,m:Member,days:number,now=new Date(),include:(p:Person)=>boolean=p=>allowed(m,p)){
+ const patients=s.workspace.people.filter(include),ids=new Set(patients.map(p=>p.id));const today=now.toISOString().slice(0,10),since=new Date(Date.parse(today+'T00:00:00Z')-(days-1)*86400000).toISOString(),until=now.toISOString();
  const inRange=(v:string)=>v>=since&&v<=until;
  const visits=s.workspace.visits.filter(v=>ids.has(v.personId)&&!v.voidedAt&&!v.supersededBy),periodVisits=visits.filter(v=>inRange(v.createdAt)),confirmed=visits.filter(v=>v.state==='confirmed'&&inRange(v.confirmedAt??v.createdAt));
  const subs=s.workspace.submissions.filter(v=>ids.has(v.personId)),refs=s.workspace.referrals.filter(r=>ids.has(r.personId)),tasks=patients.flatMap(p=>p.followUps??[]),runs=visits.flatMap(v=>v.agentRuns??[]).filter(r=>inRange(r.createdAt));

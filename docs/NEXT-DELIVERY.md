@@ -15,6 +15,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 1b | Workforce lifecycle, bulk caseload transfer with effective dates and acknowledgement, responsibility gaps, member removal | Delivered (see [slice 1b](current/SLICE-1B-CASELOAD.md)) |
 | 1c | Controlled identity merge and unmerge with a downstream impact queue | Delivered (see [slice 1c](current/SLICE-1C-MERGE.md)) |
 | 1d | Workforce roster reconciliation: preview, apply exactly the preview, invite, update, suspend | Delivered (see [slice 1d](current/SLICE-1D-ROSTER.md)) |
+| 1e | Time-limited delegation of team supervision to a clinician and of reporting-only access, with revocation, loss of effect when either party stops qualifying, server-side enforcement and audit of each use; service accounts documented as not supported by the identity model | Delivered (see [slice 1e](current/SLICE-1E-DELEGATION.md)) |
 | 2a | Reuse, blocked reuse, repeated-entry and correction metering from stored visits | Delivered (see [slice 2a](current/SLICE-2A-REUSE.md)) |
 | 2b | Visit photos and voice notes with type, signature, size and purpose checks, playback and draft deletion | Delivered (see [slice 2b](current/SLICE-2B-MEDIA.md)) |
 | 2c | Source and observation time for each measurement, with missing reasons, in the visit screen, field notebook, FHIR exports and summaries | Delivered (see [slice 2c](current/SLICE-2C-FACT-PROVENANCE.md)) |
