@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3i, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3j, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2397,7 +2397,7 @@
       "sourceTextLine": 468,
       "implementation": "partial",
       "target": "R14",
-      "current": "Notebook supports ten drafts; slice 3a adds up to four queued media items per draft and 1 MB per notebook; slice 3b requests persistent storage, shows usage and pauses new visits and media when space is low.",
+      "current": "Notebook supported ten drafts; slice 3j raises this to 200 visit drafts, tested in a Node client harness with save, restart and ordered Sync all at 200; slice 3a adds up to four queued media items per draft and 1 MB per notebook; slice 3b requests persistent storage, shows usage and pauses new visits and media when space is low.",
       "remaining": "200 encounters, device-measured thresholds and no-eviction acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2407,7 +2407,9 @@
         "tests/field-shell.mjs",
         "public/field/app.js",
         "docs/current/SLICE-3B-STORAGE-WARNINGS.md",
-        "tests/field-storage-client.mjs"
+        "tests/field-storage-client.mjs",
+        "docs/current/SLICE-3J-NOTEBOOK-CAPACITY.md",
+        "tests/field-capacity-client.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3667,12 +3669,15 @@
       "sourceTextLine": 720,
       "implementation": "partial",
       "target": "R14",
-      "current": "Ten structured drafts; no media queue.",
+      "current": "Slice 3j: 200 structured visit drafts, with save, lock and unlock restart and a refused 201st draft tested in a Node client harness (sealed notebook 275 KB of ciphertext); slice 3a media queue unchanged at four items per draft and 1 MB per device.",
       "remaining": "200 encounters plus 100 media items within approved storage allowance, exhaustion/restart tests.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
-        "tests/field-contract.mjs"
+        "tests/field-contract.mjs",
+        "public/field/app.js",
+        "docs/current/SLICE-3J-NOTEBOOK-CAPACITY.md",
+        "tests/field-capacity-client.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3686,11 +3691,15 @@
       "sourceTextLine": 723,
       "implementation": "unverified",
       "target": "R14",
-      "current": "Small queue sync/replay logic is tested.",
+      "current": "Small queue sync/replay logic is tested. Slice 3j: Sync all of 200 drafts sends 200 commands in order with stable keys and one workspace read, in about 9 s of client time on the build machine with an instant injected network; not a reference device or network.",
       "remaining": "200-record queue with 95 percent eligible sync within five minutes on reference network.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "public/field/app.js",
+        "tests/evidence/slice-3j/field-capacity-client-result.json",
+        "docs/current/SLICE-3J-NOTEBOOK-CAPACITY.md",
+        "tests/field-capacity-client.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

@@ -29,7 +29,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 3g | Offline registration with an optional first visit and referral request, one-command creation, Sync all in dependency order, on-device duplicate review | Delivered (see [slice 3g](current/SLICE-3G-OFFLINE-REGISTRATION.md)) |
 | 3h | Clinician action on field referral requests: referral created in one step or declined with a reason | Delivered (see [slice 3h](current/SLICE-3H-REFERRAL-REQUESTS.md)) |
 | 3i | Open field referral request queue for clinicians, supervisors and owners in scope, with long waits raised in the exception queue | Delivered (see [slice 3i](current/SLICE-3I-REFERRAL-REQUEST-QUEUE.md)) |
-| 3 | Larger notebook capacity | Planned |
+| 3j | Field notebook capacity of 200 visit drafts; Sync all reads the workspace once per run | Delivered (see [slice 3j](current/SLICE-3J-NOTEBOOK-CAPACITY.md)) |
+| 3 | 100 queued media items within an approved storage allowance, per-record notebook storage, batch preparation | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4b | Per-patient action plan across follow-ups, referrals, protocol reviews, safety cases and outreach, with ownership gaps, take-ownership and steward reassignment | Delivered (see [slice 4b](current/SLICE-4B-ACTION-PLAN.md)) |
 | 4c | Per-worker activity evidence for supervisors: performed, claimed, verified and submitted activity derived from visits, outreach and receipts, with corrections traceable and no location | Delivered (see [slice 4c](current/SLICE-4C-WORKER-ACTIVITY.md)) |
