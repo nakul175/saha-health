@@ -1,0 +1,13 @@
+{
+ "text": "Shadow operation | In shadow, this revision runs on visits confirmed during the period in its scope when a manager runs it. Outputs are stored for this comparison only: they are never shown to field workers, never applied and never added to action plans. Only the local rules provider is called in shadow. | Not enough rated fields to compare Agreement over time | Agreement of shadow outputs with clinician-confirmed values per 7-day period, by visit confirmation date. A drop of more than 10 percentage points between consecutive periods, each with at least 10 rated fields, is flagged. Counts only; shadow comparisons from the local rules provider on synthetic or confirmed records, not a validated accuracy measure. Nothing is suspended automatically: a governance manager decides, and can place a safety hold. | Shadow agreement per period for revision 1 | Period (UTC)\tVisits\tRated fields\tAgreement rate\tChange | 2026-09-03 to 2026-09-09\t0\t0\t—\t— | 2026-09-10 to 2026-09-16\t0\t0\t—\tNot compared | 2026-09-17 to 2026-09-23\t0\t0\t—\tNot compared | 2026-09-24 to 2026-09-30\t1\t2\t50%\tNot compared | In shadow 1 team · 2026-09-30 to 2026-10-30 · started by owner@example.invalid | Visits processed: 1 (1 compared, 0 unable to assess, 0 not run) · 0 confirmed visits waiting | Shadow output compared with clinician-confirmed values, counts per field | Field\tAgreement\tDisagreement\tMissing\tNot recorded by clinician\tUnable to assess | Weight · kg\t1\t0\t0\t0\t0 | Temperature · °C\t0\t1\t0\t0\t0 | Run shadow on waiting visits | Stop shadow",
+ "limits": "Task limits: time limit 10 minutes, 2 attempts per task on a visit.",
+ "axeViolationsInCapabilityTab": [],
+ "errors": [],
+ "completedAt": "2026-09-30T09:16:08.656Z",
+ "drift": {
+  "shown": true,
+  "insufficient": true,
+  "rate": true
+ },
+ "passed": true
+}
