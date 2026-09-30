@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 6m, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2756,14 +2756,20 @@
       "sourceTextLine": 522,
       "implementation": "partial",
       "target": "R15",
-      "current": "Tenant/team/member and selected provider/connector settings are scoped.",
-      "remaining": "Facilities, jurisdiction, full language/provider eligibility and validated deployment limits.",
+      "current": "Tenant/team/member and selected provider/connector settings are scoped; an owner-only read-only configuration check reports missing or unsafe deployment settings and per-connection credential, grant and allowlist state without secret values.",
+      "remaining": "Facilities, jurisdiction, full language/provider eligibility, validated deployment limits and validation before configuration changes take effect.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
         "tests/operations-smoke.mjs",
-        "tests/pilot-smoke.mjs"
+        "tests/pilot-smoke.mjs",
+        "lib/saha/environment.ts",
+        "lib/saha/environment-server.ts",
+        "app/environment-panel.tsx",
+        "tests/environment-contract.mjs",
+        "tests/environment-smoke.mjs",
+        "docs/current/SLICE-6N-ENVIRONMENTS.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2777,14 +2783,20 @@
       "sourceTextLine": 525,
       "implementation": "partial",
       "target": "R15",
-      "current": "Synthetic environment labels, private deployment and disabled real credentials.",
-      "remaining": "Separate production/training identities, data/credentials and enforceable synthetic-to-live barrier.",
+      "current": "Declared environment (synthetic, training, staging, production; invalid values fail closed) decides fixture seeding, live provider calls, demonstration connectors and whether synthetic fixture records may reach a destination; shown in the banner; disabled real credentials and private deployment.",
+      "remaining": "Separate production/training identities, databases and credentials per deployment, and outbound labels that follow the environment.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
         "tests/operations-smoke.mjs",
-        "tests/pilot-smoke.mjs"
+        "tests/pilot-smoke.mjs",
+        "lib/saha/environment.ts",
+        "lib/saha/environment-server.ts",
+        "app/environment-panel.tsx",
+        "tests/environment-contract.mjs",
+        "tests/environment-smoke.mjs",
+        "docs/current/SLICE-6N-ENVIRONMENTS.md"
       ],
       "automatedAcceptanceClaim": false
     },
