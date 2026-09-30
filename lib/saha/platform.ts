@@ -5,6 +5,7 @@ import { exceptionalSchema } from './exceptional';
 import { rightsSchema } from './rights';
 import { retentionSchema } from './retention';
 import { referralSchema } from './referrals';
+import { actionPlanSchema } from './action-plan';
 import { rosterSchema } from './roster';
 import { abdmSchema } from './abdm';
 import { transferSchema } from './abdm-transfer';
@@ -38,6 +39,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...rightsSchema.options,
  ...retentionSchema.options,
  ...referralSchema.options,
+ ...actionPlanSchema.options,
  ...rosterSchema.options,
  ...abdmSchema.options,
  ...transferSchema.options,

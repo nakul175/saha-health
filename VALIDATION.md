@@ -363,3 +363,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - At the sponsor's instruction, pull requests #1–#34 (Releases 7–11, the R11 handover and development slices 0a–3f) were merged into GitHub `main` in order with merge commits. No branches were deleted and nothing was force-pushed. The resulting `main` tree is identical to the top of the stack (`slice-3f-workspace-photo-reduction`), whose CI and full local suites passed (2,351 assertions).
 - No independent human review took place before the merge. Formal acceptance is unchanged: all 176 criteria remain pending, and `main` is not accepted for production or real patient use.
 - GitHub reported a server error while merging #12; the merge commit had already reached `main` and GitHub recorded the pull request as merged a few minutes later. No merge was repeated.
+
+## Development slice 4b — unified action plan with ownership — 30 September 2026 IST (30 September UTC)
+
+- **2,398 automated assertions passed:** 1,539 HTTP/D1 (1,500 plus 39 action-plan assertions), 838 contract/checkpoint (830 plus 8 action-plan contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-4b/`.
+- First-run failures, both in the new tests and fixed there: the contract fixture used past dates where future ones were meant, so its expected item count was wrong (the plan was right); the HTTP module confirmed a visit after programme enrolment without answering the programme questions, which the existing confirmation rule correctly refused. The visit is now confirmed before enrolment. No existing test changed.
+- Browser check with headless Chromium on the built Worker: the patient's Action plan panel showed an unowned referral with its queue; the owner assigned it from the panel and the gap cleared; no console errors (`tests/evidence/slice-4b/browser-action-plan.json`).
+- BR-CARE-01 and BR-CARE-05 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

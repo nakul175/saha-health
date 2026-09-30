@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3f, 4a, 6a-6h, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3f, 4a-4b, 6a-6h, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2341,8 +2341,8 @@
       "sourceTextLine": 473,
       "implementation": "partial",
       "target": "R14",
-      "current": "Follow-up/referral/outreach owners; R10 unavailable-owner queue and handover.",
-      "remaining": "All clinical/integration exceptions, urgency policy and production monitoring coverage.",
+      "current": "Follow-up/referral/outreach owners; R10 unavailable-owner queue and handover. Slice 4b: per-patient action plan shows each open item's owner or responsible queue and flags items without a current eligible owner; a care worker takes ownership of an unowned follow-up or referral, and a supervisor or owner of the patient's team reassigns them.",
+      "remaining": "All clinical/integration exceptions, urgency policy and production monitoring coverage; queue notification; safety-case reassignment outside clinicians.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -2353,7 +2353,11 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/action-plan.ts",
+        "tests/action-plan-contract.mjs",
+        "tests/action-plan-smoke.mjs",
+        "docs/current/SLICE-4B-ACTION-PLAN.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2437,8 +2441,8 @@
       "sourceTextLine": 485,
       "implementation": "partial",
       "target": "R14",
-      "current": "Shared visit facts and duplicate patient/day reminder suppression.",
-      "remaining": "Cross-pack action dependency graph and one referral with multiple programme source links.",
+      "current": "Shared visit facts and duplicate patient/day reminder suppression. Slice 4b: one ordered per-patient action plan across programme follow-ups, referrals, protocol reviews, safety cases and outreach, each with its source; follow-ups with the same title, due date and owner from several programme episodes shown once with every source.",
+      "remaining": "Cross-pack action dependency graph and one referral with multiple programme source links at creation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -2449,7 +2453,11 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/action-plan.ts",
+        "tests/action-plan-contract.mjs",
+        "tests/action-plan-smoke.mjs",
+        "docs/current/SLICE-4B-ACTION-PLAN.md"
       ],
       "automatedAcceptanceClaim": false
     },

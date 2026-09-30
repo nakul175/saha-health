@@ -26,7 +26,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 3f | The same photo reduction in the online visit screen | Delivered (see [slice 3f](current/SLICE-3F-WORKSPACE-PHOTO-REDUCTION.md)) |
 | 3 | Offline registration and referral creation, ordered sync, larger notebook capacity | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
-| 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
+| 4b | Per-patient action plan across follow-ups, referrals, protocol reviews, safety cases and outreach, with ownership gaps, take-ownership and steward reassignment | Delivered (see [slice 4b](current/SLICE-4B-ACTION-PLAN.md)) |
+| 4 | Multi-programme referrals with several source links, action dependencies, pack migration and installation | Planned |
 | 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
 | 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |
