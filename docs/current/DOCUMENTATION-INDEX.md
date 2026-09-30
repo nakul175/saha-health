@@ -26,6 +26,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 5a](SLICE-5A-AI-BUDGETS.md) | AI capability cost budgets and stopping unsent requests |
 | [Development slice 5b](SLICE-5B-PROVIDER-SANDBOX.md) | Provider self-service in a provider sandbox and import into production review |
 | [Development slice 5c](SLICE-5C-CONFLICTS-QUALITY.md) | Conflicting assistant values and inability to assess |
+| [Development slice 5e](SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md) | Task time and attempt limits, uncertain timed-out requests, AI budget alerts |
 | [Development slice 5d](SLICE-5D-CAPABILITY-LIFECYCLE.md) | Capability lifecycle, replacement and in-progress work |
 | [Development slice 6l](SLICE-6L-SAFE-LOGS.md) | Safe-logs check and free text removed from request URLs |
 | [Development slice 6m](SLICE-6M-DATA-EXIT.md) | Organisation data export for exit or transfer, with offline verification |
