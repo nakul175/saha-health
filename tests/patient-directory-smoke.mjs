@@ -23,7 +23,8 @@ export async function patientDirectorySmoke({get,post,check,sql,base}){
  const inA=new Set([tpl,...seededA.map(p=>p.id)]),inB=new Set(seededB.map(p=>p.id));
  const paged={'x-saha-patients':'paged'};
  const ws=async(who,extra={},status=200)=>{const r=await fetch(`${base}/api/workspace`,{headers:{...who.headers,'x-saha-organisation':org,...extra}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
- const list=async(who,q='',status=200)=>{const r=await fetch(`${base}/api/patients${q}`,{headers:{...who.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
+ // Slice 6q: search text is sent in a POST body; plain paging stays a GET.
+ const list=async(who,q='',status=200)=>{const params=new URLSearchParams(q.replace(/^\?/,'')),post=params.has('q'),r=await fetch(post?`${base}/api/patients`:`${base}/api/patients${q}`,post?{method:'POST',headers:{...who.headers,'x-saha-organisation':org,'content-type':'application/json'},body:JSON.stringify(Object.fromEntries(params))}:{headers:{...who.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
  const detail=async(who,id,status=200)=>{const r=await fetch(`${base}/api/patients/detail?personId=${encodeURIComponent(id)}`,{headers:{...who.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
 
  // Workspace: a paging supervisor with 560 people receives the paging marker and no patient records.
@@ -57,6 +58,14 @@ export async function patientDirectorySmoke({get,post,check,sql,base}){
  // Other viewers: the ASHA lists her 20, admin none, a non-member is refused, bad input is rejected.
  const ashaList=await list(as,'?limit=100');check(()=>{assert.equal(ashaList.total,20);assert.ok(ashaList.rows.every(r=>r.assignedTo===as.id));});
  const adminList=await list(ad);check(()=>{assert.equal(adminList.total,0);assert.equal(adminList.rows.length,0);});
+ // Slice 6q (second independent review): the cursor carries no name, search text never goes in a GET URL, and a
+ // cursor naming a patient outside the viewer's scope is refused.
+ check(()=>{assert.match(first.nextCursor,/^after:[A-Za-z0-9_:.-]+$/);assert.ok(!first.nextCursor.includes(first.rows.at(-1).name));});
+ { const r=await fetch(`${base}/api/patients?q=birch`,{headers:{...sv.headers,'x-saha-organisation':org}});check(()=>assert.equal(r.status,400)); }
+ await list(sv,`?cursor=${encodeURIComponent(JSON.stringify([first.rows[0].name,first.rows[0].id]))}`,400);
+ await list(sv,`?cursor=${encodeURIComponent('after:'+seededB[0].id)}`,400);
+ { const r=await fetch(`${base}/api/patients`,{method:'POST',headers:{...sv.headers,'x-saha-organisation':org,'content-type':'application/json'},body:JSON.stringify({q:'directory village 11',cursor:null,limit:20})});const j=await r.json();check(()=>{assert.equal(r.status,200);assert.equal(j.total,46);assert.match(j.nextCursor,/^after:/);});
+   const r2=await fetch(`${base}/api/patients`,{method:'POST',headers:{...sv.headers,'x-saha-organisation':org,'content-type':'application/json'},body:JSON.stringify({q:'directory village 11',cursor:j.nextCursor,limit:20})});const j2=await r2.json();check(()=>{assert.equal(r2.status,200);assert.equal(j2.rows.length,20);assert.ok(j2.rows.every(x=>x.village==='Directory village 11'&&!j.rows.some(y=>y.id===x.id)));}); }
  await list(x,'',403);await list(sv,'?cursor=notjson',400);await list(sv,`?q=${'a'.repeat(81)}`,400);
 
  // Detail: one permitted patient in delta shape; out-of-scope and unknown ids look the same.

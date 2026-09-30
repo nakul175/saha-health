@@ -139,6 +139,13 @@ try {
     check(() => assert.equal(reloads, audit.EXPORT_AUDIT_ATTEMPTS - 1));
     // The three export routes record their audit event through this helper and never call persist directly.
     check(() => { for (const f of ['data-exit-server', 'audit-chain-server', 'operations-server']) { const src = readFileSync(`lib/saha/${f}.ts`, 'utf8'); assert.match(src, /recordExportAudit\(db\(\),\{state:s,reload:\(\)=>loadFor\(u,orgId\)/, f); assert.doesNotMatch(src, /\bpersist\(/, f); } });
+    // Slice 6q (second independent review): the audit-chain and operations export retries re-checked role and operator
+    // status only. They now also refuse the export if the care scope or, for the operations CSV, the reporting reach changed.
+    check(() => { audit.sameCareScope({ teamIds: ['a', 'b'] }, { teamIds: ['b', 'a'] }); audit.sameReach({ teams: ['a', 'b'], delegations: [{ id: 'd1' }] }, { teams: ['b', 'a'], delegations: [{ id: 'd1' }] }); });
+    await statusOf(async () => audit.sameCareScope({ teamIds: ['a', 'b'] }, { teamIds: ['a'] }), 409, /care scope changed/);
+    await statusOf(async () => audit.sameReach({ teams: ['a'], delegations: [{ id: 'd1' }] }, { teams: ['a'], delegations: [{ id: 'd2' }] }), 409, /reporting teams or delegations changed/);
+    await statusOf(async () => audit.sameReach({ teams: ['a'], delegations: [] }, { teams: ['a', 'b'], delegations: [] }), 409, /reporting teams or delegations changed/);
+    check(() => { const a = readFileSync('lib/saha/audit-chain-server.ts', 'utf8'), o = readFileSync('lib/saha/operations-server.ts', 'utf8'); assert.match(a, /const again=\(x:typeof s\)=>\{[^\n]*sameCareScope\(m,o\);return o;\};/); assert.match(o, /again=\(x:typeof s\)=>\{[^\n]*sameCareScope\(m,o\);if\(format==='csv'\)sameReach\(reach,reportingScope\(x,o\)\);return o;\};/); });
     // 5b. Audit-chain export visibility: the sandbox provider role, like administrators, sees patient events as digests only.
     d1.db.prepare('INSERT OR IGNORE INTO team_members (org_id,team_id,user_id) VALUES (?,?,?)').run(A, 'default', 'owner');
     const clin = await chain.exportRows(d1, A, { userId: 'owner', role: 'clinician' }, 0), prov = await chain.exportRows(d1, A, { userId: 'owner', role: 'provider' }, 0);
@@ -189,6 +196,12 @@ try {
     check(() => { assert.ok(g.delegationId, 'a grant succeeds after 200 ended or revoked records'); assert.equal(s.operations.delegations.length, dg.MAX_RECORDS + 1, 'old records are kept'); });
     const open = structuredClone(s); open.operations.delegations = Array.from({ length: dg.MAX_RECORDS }, (_, i) => ({ ...old(i), until: later, revokedAt: undefined, delegateId: 'gone' + i }));
     await statusOf(() => dg.applyDelegation(open, grant, { userId: 'sup', displayName: 'SUP' }, open.members[0], now), 422, /limit reached/);
+    // Slice 6q (second independent review): ended and revoked records no longer count toward MAX_RECORDS, so the total
+    // stored is capped separately (1,000); the refusal is clear and no stored record is deleted.
+    check(() => assert.equal(dg.MAX_STORED, 1000));
+    const full = structuredClone(s); full.operations.delegations = Array.from({ length: dg.MAX_STORED }, (_, i) => ({ ...old(i), until: past, revokedAt: undefined, delegateId: 'gone' + i }));
+    await statusOf(async () => dg.applyDelegation(full, grant, { userId: 'sup', displayName: 'SUP' }, full.members[0], now), 422, /Stored delegation record limit reached \(1,000 records, kept as evidence\)/);
+    check(() => assert.equal(full.operations.delegations.length, dg.MAX_STORED, 'no evidence deleted'));
     check(() => assert.equal(typeof allowed, 'function'));
   }
   const result = { suite: 'review fixes contract (slice 6p)', passed, completedAt: new Date().toISOString() };

@@ -40,3 +40,7 @@
 ## Follow-up (same day, after slice 3j)
 
 - Found on review, not by a test: a command sent with a malformed `x-saha-patient-window` header (more than 50 or invalid ids) was applied and committed, and only the snapshot built afterwards refused the header with 400, so the client was told the command failed. The header is now checked before the command runs (`command` in `lib/saha/server.ts`), and the workspace only sends ids in the accepted form. The patient-directory smoke now sends a command with 51 window ids and checks the 400 and that no visit was started.
+
+## Correction — 30 September 2026 (slice 6q)
+
+A second independent review found that this slice put patient names in URLs: the next-page cursor was `JSON.stringify([name, id])` and the panel sent the cursor and the search text `q` as GET query parameters, against the slice 6l safe-logs rule. Slice 6q makes the cursor opaque and name-free (`after:<patient id>`, resolved inside the viewer's scope on the server), moves search text to a POST body (`POST /api/patients`; GET refuses `q`), and extends the 6l static check. See [SLICE-6Q-SECOND-REVIEW-FIXES.md](SLICE-6Q-SECOND-REVIEW-FIXES.md). The text above is kept as written.

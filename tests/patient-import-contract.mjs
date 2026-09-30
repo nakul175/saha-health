@@ -45,6 +45,15 @@ try {
   // 3. Importer authority: owners and supervisors with a care or supervisor role, for teams they belong to.
   for (const m of [member('asha', 'asha'), member('clin', 'clinician'), member('adm', 'admin', { isOwner: true, teamIds: [] }), member('sus', 'supervisor', { status: 'suspended' })])
     await rejects(() => I.planImport(state(), m, file, 'synthetic', now), 403, /Only an owner or supervisor/);
+  // Slice 6q (second independent review): an owner holding the ASHA role no longer imports. Her duplicate matching covered
+  // only her assigned patients, so a team patient assigned to another ASHA came back accepted and would be duplicated.
+  { const ashaOwner = member('ao', 'asha', { isOwner: true }), st = state(); st.members.push(ashaOwner);
+    check(() => assert.equal(I.mayImport(st, ashaOwner, now), false));
+    await rejects(() => I.planImport(st, ashaOwner, file, 'synthetic', now), 403, /Only an owner or supervisor/);
+    check(() => assert.throws(() => I.authorizePatientImport(st, ashaOwner, { type: 'patientImportApply' }), e => e.status === 403)); }
+  // Slice 6q: the file limit is in UTF-8 bytes. 5,400 Devanagari letters are 16,200 bytes (under 16,000 characters).
+  check(() => { const deva = header + '\n' + 'क'.repeat(5400); assert.ok(deva.length < 16000); assert.ok(I.csvBytes(deva) > 16000); assert.equal(I.importInput.safeParse({ csv: deva }).success, false); assert.match(I.importInput.safeParse({ csv: deva }).error.issues[0].message, /16,000 bytes/); });
+  check(() => { const ok = header + '\n' + 'क'.repeat(5300); assert.ok(I.csvBytes(ok) <= 16000); assert.equal(I.importInput.safeParse({ csv: ok }).success, true); });
   // 4. Row classification, without names.
   const plan = await I.planImport(state(), owner, file, 'synthetic', now);
   const byRow = Object.fromEntries(plan.rows.map(r => [r.row, r]));

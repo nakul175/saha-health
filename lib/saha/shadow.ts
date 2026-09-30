@@ -3,6 +3,7 @@ import { fail, uuid } from './core';
 import { entryFor, entryIssues, entryScope, governanceState, type GovernanceEntry } from './governance';
 import { checkMonthlyBudget } from './ai-budget';
 import { FIELDS, FIELD_LABEL, localAssess, localExtract, validateOutput, type AgentField, type AgentOutput } from './agent';
+import { normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Visit } from './types';
 // Slice 5f (BR-AI-04, BR-AI-10): shadow operation of a reviewed capability revision.
@@ -47,7 +48,12 @@ export function authorizeShadow(s: OrgState, m: Member, c: { type: string; entry
   const e = c.entryId ? entryFor(s, c.entryId) : entryFor(s, findShadow(s, c.shadowId!).entryId);
   if (!entryScope(m, e)) fail(403, 'This capability is outside your team scope.');
   if (c.type === 'startShadow' && c.scope === 'organisation' && !m.isOwner) fail(403, 'Only an owner puts a capability into shadow for the whole organisation.');
+  // Slice 6q (second review): running or stopping a shadow needs an owner or a member of every shadow team;
+  // overlapping one of the capability's teams is not enough. The replay block in server.ts calls this check too.
+  if (c.shadowId && !m.isOwner && !findShadow(s, c.shadowId).teamIds.every(t => m.teamIds.includes(t))) fail(403, 'Only an owner or a member of every team in this shadow operation can run or stop it.');
 }
+// Slice 6q: a shadow never covers teams outside the capability revision's own reviewed teams.
+export const reviewedTeams = (s: OrgState, e: GovernanceEntry, teamIds: string[]) => teamIds.filter(t => e.spec.teamIds.includes(t) && s.teams.some(x => x.id === t));
 function audit(s: OrgState, u: Actor, m: Member, action: string, subject: string, detail: string, now: string) { s.workspace.audit.push({ id: uuid(), at: now, actorId: u.userId, actor: u.displayName, role: m.role, action, subject, detail }); }
 const same = (a: string, b: string) => Number(a) === Number(b);
 // Per-field comparison with the clinician-confirmed values. Fields with neither value are not counted.
@@ -78,7 +84,8 @@ export function runLocal(input: string): AgentOutput {
   catch { return { proposals: [], highlights: [], assessment: { status: 'unable_to_assess', reason: 'unsupported_case', detail: 'The shadow output did not pass the evidence contract.', retry: 'No value is compared for this visit.' } }; }
 }
 export function eligibleVisits(s: OrgState, sh: Shadow) {
-  const done = new Set(sh.results.map(r => r.visitId)), teams = new Set(sh.teamIds), people = new Map(s.workspace.people.map(p => [p.id, p]));
+  // Slice 6q: shadows stored before the fix may name teams outside the capability's reviewed teams; those are ignored.
+  const e = governanceState(s).entries.find(x => x.id === sh.entryId), done = new Set(sh.results.map(r => r.visitId)), teams = new Set(e ? reviewedTeams(s, e, sh.teamIds) : []), people = new Map(s.workspace.people.map(p => [p.id, p]));
   return s.workspace.visits.filter(v => v.state === 'confirmed' && !v.voidedAt && !v.supersededBy && !!v.confirmedAt && v.confirmedAt >= sh.startedAt && v.confirmedAt <= endOf(sh) && !done.has(v.id) && teams.has(people.get(v.personId)?.teamId ?? ''));
 }
 export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, now = new Date().toISOString()) {
@@ -91,9 +98,11 @@ export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, no
     const issues = entryIssues(s, e, now); if (issues.length) fail(409, issues.join('; '));
     const today = now.slice(0, 10), last = new Date(Date.parse(today + 'T00:00:00Z') + SHADOW_MAX_DAYS * 86400000).toISOString().slice(0, 10);
     if (!Number.isFinite(Date.parse(c.until + 'T00:00:00Z')) || c.until < today || c.until > last) fail(422, `Choose an end date from today to ${last} (at most ${SHADOW_MAX_DAYS} days).`);
-    const teamIds = c.scope === 'organisation' ? s.teams.map(t => t.id) : [...new Set(c.teamIds)];
-    if (!teamIds.length) fail(422, 'Choose at least one team.');
+    // Slice 6q: organisation scope is the overlap of the organisation's teams with the capability's reviewed teams.
+    const teamIds = c.scope === 'organisation' ? reviewedTeams(s, e, s.teams.map(t => t.id)) : [...new Set(c.teamIds)];
+    if (!teamIds.length) fail(422, c.scope === 'organisation' ? 'None of the capability\'s reviewed teams is a team of this organisation.' : 'Choose at least one team.');
     if (c.scope === 'teams' && !teamIds.every(t => s.teams.some(x => x.id === t) && (m.isOwner || m.teamIds.includes(t)))) fail(403, 'Choose teams within your management scope.');
+    if (c.scope === 'teams' && !teamIds.every(t => e.spec.teamIds.includes(t))) fail(422, 'Choose teams the capability revision was reviewed for.');
     if (list.some(x => x.entryId === e.id && shadowState(s, x, now) === 'active')) fail(409, 'This revision is already in shadow.');
     if (list.length >= MAX_SHADOWS) fail(422, 'Shadow operation limit reached.');
     const sh: Shadow = { id: uuid(), entryId: e.id, revision: e.revision, manifestHash: e.manifestHash, key: e.spec.key, scope: c.scope, teamIds, startedAt: now, until: c.until, startedBy: u.userId, reason: c.reason, state: 'active', version: 1, results: [] };
@@ -111,7 +120,10 @@ export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, no
   if (state === 'halted') fail(409, `This revision is ${e.state}; suspended, retired and changed revisions do not run in shadow.`);
   const issues = entryIssues(s, e, now); if (issues.length) fail(409, 'The revision is no longer usable: ' + issues.join('; '));
   if (sh.results.length >= MAX_RESULTS) fail(422, 'Shadow result limit reached; stop this shadow and start another.');
-  const pending = eligibleVisits(s, sh), batch = pending.slice(0, Math.min(SHADOW_BATCH, MAX_RESULTS - sh.results.length)), counts = { compared: 0, unable: 0, notRun: 0 };
+  // Slice 6q: only visits of patients in the runner's normal care scope are processed; the others are skipped,
+  // counted and left pending for a runner whose scope includes them. Owner authority does not widen this.
+  const all = eligibleVisits(s, sh), people = new Map(s.workspace.people.map(p => [p.id, p])), pending = all.filter(v => { const p = people.get(v.personId); return !!p && normallyAllowed(m, p); }), outsideCareScope = all.length - pending.length;
+  const batch = pending.slice(0, Math.min(SHADOW_BATCH, MAX_RESULTS - sh.results.length)), counts = { compared: 0, unable: 0, notRun: 0 };
   for (const v of batch) {
     const p = s.workspace.people.find(x => x.id === v.personId)!, reason = notRunReason(s, e, p, v, now);
     if (reason) { sh.results.push({ visitId: v.id, personId: p.id, visitVersion: v.version, at: now, status: 'not-run', reason }); counts.notRun++; continue; }
@@ -120,8 +132,8 @@ export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, no
     if (output.assessment) counts.unable++; else counts.compared++;
   }
   sh.version++;
-  audit(s, u, m, c.type, sh.entryId, `Shadow run of revision ${sh.revision}: ${batch.length} confirmed visit(s) processed (${counts.compared} compared, ${counts.unable} unable to assess, ${counts.notRun} not run); ${pending.length - batch.length} remaining. Nothing was shown to field workers or applied.`, now);
-  return { shadowId: sh.id, processed: batch.length, ...counts, remaining: pending.length - batch.length };
+  audit(s, u, m, c.type, sh.entryId, `Shadow run of revision ${sh.revision}: ${batch.length} confirmed visit(s) processed (${counts.compared} compared, ${counts.unable} unable to assess, ${counts.notRun} not run); ${pending.length - batch.length} remaining. Nothing was shown to field workers or applied.${outsideCareScope ? ` ${outsideCareScope} visit(s) outside the runner's care scope were skipped and left for a runner whose scope includes them.` : ''}`, now);
+  return { shadowId: sh.id, processed: batch.length, ...counts, remaining: pending.length - batch.length, ...(outsideCareScope ? { outsideCareScope } : {}) };
 }
 // Governance managers' report: counts only, no visit, person or value.
 export function shadowReport(s: OrgState, sh: Shadow, now = new Date().toISOString()) {

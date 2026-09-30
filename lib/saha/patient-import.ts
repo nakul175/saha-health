@@ -14,11 +14,16 @@ import type { Actor } from './store';
 // rows and to the id and version of every permitted record in the named teams. Apply recomputes the dry run and
 // accepts only that exact plan; it creates the accepted rows with a revision each and one counted audit event.
 export const IMPORT='patient-import-v1';
+// Slice 6q (second review): the file limit is stated and checked in UTF-8 bytes (Devanagari letters take 3 bytes each),
+// so it stays inside the 20,000-byte request body limit; a file within 16,000 bytes whose JSON encoding still exceeds
+// 20,000 bytes (for example, mostly quote characters) is refused as too large (413).
 export const MAX_CSV=16000,MAX_ROWS=100;
+export const csvBytes=(x:string)=>new TextEncoder().encode(x).length;
 export const COLUMNS=['name','age','sex','village','programme','team'] as const;
 const SEXES=['Female','Male','Other','Unknown'] as const;
 const reason=z.string().trim().min(10,'Explain the reason in at least 10 characters.').max(500);
-const csv=z.string().min(1,'Paste or choose a CSV file.').max(MAX_CSV,`The file is larger than ${MAX_CSV} characters. Split it into smaller batches.`);
+const tooLarge=`The file is larger than ${MAX_CSV.toLocaleString('en-IN')} bytes (Devanagari letters take 3 bytes each). Split it into smaller batches.`;
+const csv=z.string().min(1,'Paste or choose a CSV file.').max(MAX_CSV,tooLarge).refine(x=>csvBytes(x)<=MAX_CSV,tooLarge);
 export const importInput=z.object({csv}).strict();
 export const patientImportSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('patientImportApply'),csv,planHash:z.string().regex(/^[0-9a-f]{64}$/),reason}).strict(),
@@ -39,11 +44,15 @@ export function parseCsv(text:string):string[][]{
 export type ImportRow={row:number;status:'accepted'|'rejected'|'duplicate';reasons:string[];teamId?:string;candidates?:{personId:string;version:number}[];duplicateOfRow?:number};
 type Parsed={row:number;name:string;age:number;sex:string;village:string;programme:Programme;teamId:string};
 // Teams the member may import into: a team they belong to and supervise (owner or supervisor with a care or
-// supervisor role, or a supervision delegation in force for that team, through the slice 1e helper).
-export function importsInto(s:OrgState,m:Member,teamId:string,now=new Date().toISOString(),record=false){return m.status==='active'&&['asha','clinician','supervisor'].includes(m.role)&&m.teamIds.includes(teamId)&&supervises(s,m,teamId,now,record);}
+// supervisor role, or a supervision delegation in force for that team, through the slice 1e helper). Care role here
+// means clinician; see the slice 6q note below.
+// Slice 6q (second review): the ASHA role no longer imports, even as an owner. An ASHA sees only her assigned
+// patients, so duplicate matching (which covers the records visible to the importer) would miss a team patient
+// assigned to another ASHA and accept a duplicate. Clinicians and supervisors see the whole team.
+export function importsInto(s:OrgState,m:Member,teamId:string,now=new Date().toISOString(),record=false){return m.status==='active'&&['clinician','supervisor'].includes(m.role)&&m.teamIds.includes(teamId)&&supervises(s,m,teamId,now,record);}
 export function mayImport(s:OrgState,m:Member,now=new Date().toISOString()){return m.teamIds.some(t=>importsInto(s,m,t,now));}
 export async function planImport(s:OrgState,m:Member,text:string,envName:string,now=new Date().toISOString()){
- if(!mayImport(s,m,now))fail(403,'Only an owner or supervisor with a care or supervisor role can import people, for teams they belong to.');
+ if(!mayImport(s,m,now))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import people, for teams they belong to.');
  const table=parseCsv(text);if(!table.length)fail(422,'The CSV is empty.');
  const header=table[0].map(h=>h.trim().toLowerCase()),missing=COLUMNS.filter(c=>!header.includes(c)),extra=header.filter(h=>!(COLUMNS as readonly string[]).includes(h));
  if(missing.length||extra.length||new Set(header).size!==header.length)fail(422,`The header must name exactly these columns once each: ${COLUMNS.join(', ')}.${missing.length?` Missing: ${missing.join(', ')}.`:''}${extra.length?` Not recognised: ${extra.length} column${extra.length===1?'':'s'}.`:''}`);
@@ -77,7 +86,7 @@ export async function planImport(s:OrgState,m:Member,text:string,envName:string,
 }
 // The dry run as returned over HTTP: the parsed accepted rows (with names) stay on the server.
 export const publicPlan=({accepted,...plan}:Awaited<ReturnType<typeof planImport>>)=>plan;
-export function authorizePatientImport(s:OrgState,m:Member,c:any){if(c?.type==='patientImportApply'&&!mayImport(s,m))fail(403,'Only an owner or supervisor with a care or supervisor role can import people, for teams they belong to.');}
+export function authorizePatientImport(s:OrgState,m:Member,c:any){if(c?.type==='patientImportApply'&&!mayImport(s,m))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import people, for teams they belong to.');}
 export async function applyPatientImport(s:OrgState,input:unknown,u:Actor,m:Member,env:Record<string,string|undefined>,now=new Date().toISOString()):Promise<any|null>{
  const parsed=patientImportSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizePatientImport(s,m,c);
  const e=environmentOf(env);if(e.name==='misconfigured')fail(409,'The environment is not configured correctly. Imports are refused until it is corrected.');

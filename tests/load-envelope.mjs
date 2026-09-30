@@ -87,12 +87,12 @@ const supervisor = { 'oai-authenticated-user-id': `load-supervisor-${crypto.rand
 const supervisorHome = await fetch(base + '/api/workspace', { headers: supervisor }).then(r => r.json());
 const supervisorInvite = await post(owner, { type: 'createInvite', accountCode: supervisorHome.user.accountCode, label: 'Load supervisor', role: 'supervisor', teamIds: ['default'] }, org);
 await post(supervisor, { type: 'joinOrganisation', token: supervisorInvite.result.token });
-async function timed(path, who, extra = {}) {
+async function timed(path, who, extra = {}, body) {
   const t = performance.now();
-  try { const r = await fetch(base + path, { headers: { ...who, 'x-saha-organisation': org, ...extra }, signal: AbortSignal.timeout(120000) }); const text = await r.text(); return { status: r.status, ms: ms(t), bytes: text.length, body: r.ok ? JSON.parse(text) : null }; }
+  try { const r = await fetch(base + path, { ...(body ? { method: 'POST', body: JSON.stringify(body) } : {}), headers: { ...who, 'x-saha-organisation': org, ...(body ? { 'content-type': 'application/json' } : {}), ...extra }, signal: AbortSignal.timeout(120000) }); const text = await r.text(); return { status: r.status, ms: ms(t), bytes: text.length, body: r.ok ? JSON.parse(text) : null }; }
   catch (e) { return { status: 'error', ms: ms(t), bytes: 0, error: String(e.message ?? e) }; }
 }
-async function median3(path, who, extra) { const xs = []; for (let i = 0; i < 3; i++) xs.push(await timed(path, who, extra)); return { status: xs.map(r => r.status), p50Ms: pct(xs.map(r => r.ms), 50), maxMs: Math.max(...xs.map(r => r.ms)), responseKB: Math.round((xs.at(-1).bytes || 0) / 1024), people: xs.at(-1).body?.people?.length ?? xs.at(-1).body?.rows?.length ?? xs.at(-1).body?.delta?.people?.length ?? null, paging: xs.at(-1).body?.patientPaging ? { total: xs.at(-1).body.patientPaging.total } : undefined }; }
+async function median3(path, who, extra, body) { const xs = []; for (let i = 0; i < 3; i++) xs.push(await timed(path, who, extra, body)); return { status: xs.map(r => r.status), p50Ms: pct(xs.map(r => r.ms), 50), maxMs: Math.max(...xs.map(r => r.ms)), responseKB: Math.round((xs.at(-1).bytes || 0) / 1024), people: xs.at(-1).body?.people?.length ?? xs.at(-1).body?.rows?.length ?? xs.at(-1).body?.delta?.people?.length ?? null, paging: xs.at(-1).body?.patientPaging ? { total: xs.at(-1).body.patientPaging.total } : undefined }; }
 async function supervisorReads() {
   const paged = { 'x-saha-patients': 'paged' };
   return {
@@ -100,7 +100,7 @@ async function supervisorReads() {
     pagedWorkspace: await median3('/api/workspace', supervisor, paged),
     pagedWorkspaceWithWindow: await median3('/api/workspace', supervisor, { ...paged, 'x-saha-patient-window': Array.from({ length: 10 }, (_, i) => `load_p_${i}`).join(',') }),
     listFirstPage: await median3('/api/patients', supervisor),
-    listSearch: await median3('/api/patients?q=' + encodeURIComponent('synthetic person 12'), supervisor),
+    listSearch: await median3('/api/patients', supervisor, {}, { q: 'synthetic person 12' }),
     detail: await median3('/api/patients/detail?personId=load_p_5', supervisor),
   };
 }

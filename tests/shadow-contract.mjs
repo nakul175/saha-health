@@ -78,7 +78,7 @@ try{
 
  // Budgets: an external capability with its monthly budget reached is not run; otherwise it is not called in shadow.
  const extShadow=run({type:'startShadow',entryId:'ext',version:2,scope:'organisation',teamIds:[],until:day(7),reason:'External provider comparison fixture.'},owner).shadowId;
- check(()=>assert.deepEqual(s.governance.shadows.find(x=>x.id===extShadow).teamIds,['team','other'],'whole organisation'));
+ check(()=>assert.deepEqual(s.governance.shadows.find(x=>x.id===extShadow).teamIds,['team'],'whole organisation = the overlap with the capability\'s reviewed teams (slice 6q; before 6q this was every organisation team)'));
  s.workspace.visits.push(visit('v13','p1',{confirmedAt:at(11000),facts:facts({notes:'Weight 62 kg'})}));
  s.operations={version:1,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null,budgets:[{capabilityKey:'ext-cap',monthlyUsd:1,setBy:'owner',setAt:now,reason:'Synthetic budget'}]};
  const extVersion=()=>s.governance.shadows.find(x=>x.id===extShadow).version;
@@ -103,6 +103,22 @@ try{
  status(()=>run({type:'runShadow',shadowId,version:version()}),409,/stopped/);
  check(()=>assert.ok(start().shadowId,'a new shadow can start once the previous one is stopped'));
  check(()=>assert.equal(S.authorizeShadow(s,asha,{type:'checkProtocol'}),undefined,'other commands are not shadow commands'));
+
+ // Slice 6q (second independent review): shadow teams are limited to the capability's reviewed teams; running and
+ // stopping need an owner or a member of every shadow team; visits outside the runner's care scope are skipped and counted.
+ status(()=>run({type:'startShadow',entryId:'ext',version:2,scope:'teams',teamIds:['team','other'],until:day(3),reason:'Owner tries a team the capability was not reviewed for.'},owner),422,/reviewed for/);
+ const latest=s.governance.shadows.at(-1),elsewhere={...owner,userId:'elsewhere',teamIds:['other']},pendingNow=S.eligibleVisits(s,latest).length;
+ check(()=>assert.ok(pendingNow>0));
+ const skipped=S.applyShadow(s,{type:'runShadow',shadowId:latest.id,version:latest.version},actor(elsewhere),elsewhere,at(16000));
+ check(()=>{assert.equal(skipped.processed,0,'an owner outside the team processes no visit');assert.equal(skipped.outsideCareScope,pendingNow);assert.equal(latest.results.length,0);assert.match(s.workspace.audit.at(-1).detail,/outside the runner's care scope were skipped/);});
+ check(()=>assert.equal(S.applyShadow(s,{type:'runShadow',shadowId:latest.id,version:latest.version},actor(author),author,at(17000)).processed,pendingNow,'a runner in scope processes the skipped visits'));
+ const legacy={id:'legacy',entryId:'cap',revision:1,manifestHash:'hash-cap',key:'local-cap',scope:'organisation',teamIds:['team','other'],startedAt:now,until:day(7),startedBy:'owner',reason:'Stored before slice 6q.',state:'active',version:1,results:[]};s.governance.shadows.push(legacy);
+ status(()=>S.authorizeShadow(s,author,{type:'runShadow',shadowId:'legacy'}),403,/every team/);
+ status(()=>run({type:'runShadow',shadowId:'legacy',version:1},author),403,/every team/);
+ status(()=>run({type:'stopShadow',shadowId:'legacy',version:1,reason:'Stopping a shadow of another team.'},author),403,/every team/);
+ check(()=>assert.ok(!S.eligibleVisits(s,legacy).some(v=>v.personId==='p5'),'a stored shadow never reaches teams outside the reviewed teams'));
+ S.applyShadow(s,{type:'runShadow',shadowId:'legacy',version:1},actor(owner),owner,at(18000));
+ check(()=>assert.ok(legacy.results.length>0&&!legacy.results.some(r=>r.personId==='p5')));
 
  const result={suite:'Shadow operation contract (slice 5f)',passed,completedAt:new Date().toISOString()};
  writeFileSync('tests/shadow-contract-result.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

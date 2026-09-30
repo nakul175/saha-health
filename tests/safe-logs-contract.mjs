@@ -37,6 +37,15 @@ const found = clientFiles.flatMap(f => readFileSync(f, 'utf8').split('\n').map((
 check(() => assert.deepEqual(found, [], 'no free text in client request URLs'));
 check(() => { const panel = readFileSync('app/indicators-panel.tsx', 'utf8'); assert.ok(panel.includes("fetch('/api/indicators',{method:'POST'")); assert.ok(!panel.includes('/api/indicators?')); });
 check(() => { const panel = readFileSync('app/media-panel.tsx', 'utf8'); assert.ok(panel.includes("body:JSON.stringify({reason:reason.trim()})")); assert.ok(!panel.includes('?reason=')); });
+// Slice 6q (second independent review): the 6l detector missed query strings built with URLSearchParams and the
+// patient-directory cursor that carried a patient name. Free-text keys set on URLSearchParams, `q=` search
+// parameters in client URLs, and a name-bearing cursor are now flagged.
+const builtText = /(\.(set|append)\(\s*['"](q|search|query|reason|question|village|name|notes|detail|input|narrative|text|summary|title|comment)['"])|\/api\/[^'"`\s]*[?&](q|search|query)=/;
+check(() => assert.ok(builtText.test("const u=new URLSearchParams();if(query.trim())u.set('q',query.trim());if(after)u.set('cursor',after);const r=await fetch(`/api/patients?${u}`")));
+const built = clientFiles.flatMap(f => readFileSync(f, 'utf8').split('\n').map((l, i) => [f, i + 1, l]).filter(([, , l]) => builtText.test(l)).map(([f, n]) => `${f}:${n}`));
+check(() => assert.deepEqual(built, [], 'no search or free text set on client URL parameters'));
+check(() => { const panel = readFileSync('app/patient-directory-panel.tsx', 'utf8'); assert.ok(panel.includes("fetch('/api/patients',{method:'POST'")); assert.ok(!panel.includes('/api/patients?')); });
+check(() => { const lib = readFileSync('lib/saha/patient-directory.ts', 'utf8'); assert.ok(lib.includes('nextCursor: last ? `after:${last.id}` : null')); assert.ok(!/JSON\.stringify\(\[last\.name/.test(lib), 'the cursor carries no patient name'); });
 const result = { suite: 'safe logs contract (slice 6l)', passed, consoleCalls: calls.length, filesScanned: files.length, completedAt: new Date().toISOString() };
 writeFileSync('tests/safe-logs-contract-result.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result));

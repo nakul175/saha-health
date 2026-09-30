@@ -53,7 +53,7 @@ try {
   const state = { organisation: { id: 'org1', name: 'Directory contract', revision: 1, createdAt: now }, teams: [{ id: 'A', name: 'A', createdAt: now }, { id: 'B', name: 'B', createdAt: now }], members, invitations: [], workspace: { schemaVersion: 1, revision: 1, role: 'clinician', people, visits: [], integrations: [], submissions: [], referrals: [], receipts: {}, audit: [] } };
   await store.createState(d1, state, { userId: 'owner', displayName: 'OWNER', email: 'owner@example.invalid' }, 'seed');
   const ordered = xs => [...xs].sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0).map(p => p.id);
-  const walk = async (m, extra = {}, limit = 3) => { const out = []; let cursor = null, pages = 0, total; do { const page = await pd.patientPage(d1, 'org1', m, { q: '', programme: '', limit, cursor, ...extra }, now); if (pages === 0) total = page.total; else assert.equal(page.total, null); out.push(...page.rows); cursor = page.nextCursor ? JSON.parse(page.nextCursor) : null; pages++; } while (cursor && pages < 50); return { ids: out.map(r => r.id), rows: out, total, pages }; };
+  const walk = async (m, extra = {}, limit = 3) => { const out = []; let cursor = null, pages = 0, total; do { const page = await pd.patientPage(d1, 'org1', m, { q: '', programme: '', limit, cursor, ...extra }, now); if (pages === 0) total = page.total; else assert.equal(page.total, null); out.push(...page.rows); cursor = page.nextCursor ? pd.pageQuery(new URL(`https://saha.invalid/api/patients?cursor=${encodeURIComponent(page.nextCursor)}`)).cursor : null; pages++; } while (cursor && pages < 50); return { ids: out.map(r => r.id), rows: out, total, pages }; };
 
   // Parity with access.ts for every viewer, across pages of three, in (name, id) order.
   for (const m of members) {
@@ -117,7 +117,12 @@ try {
   const url = q => new URL(`https://saha.invalid/api/patients${q}`);
   check(() => assert.deepEqual(pd.pageQuery(url('?q=%20Anil%20&limit=500')), { q: 'anil', programme: '', limit: 100, cursor: null }));
   check(() => assert.equal(pd.pageQuery(url('?limit=0')).limit, 50));
-  check(() => assert.deepEqual(pd.pageQuery(url(`?cursor=${encodeURIComponent(JSON.stringify(['Anil', 'p01']))}`)).cursor, ['Anil', 'p01']));
+  // Slice 6q (second independent review): the pre-6q cursor carried the patient's name; it is now refused, and the
+  // opaque cursor carries the patient id only (resolved to its sort position in the viewer's scope on the server).
+  status(() => pd.pageQuery(url(`?cursor=${encodeURIComponent(JSON.stringify(['Anil', 'p01']))}`)), 400);
+  check(() => assert.equal(pd.pageQuery(url('?cursor=after%3Ap01')).cursor, 'p01'));
+  check(() => assert.deepEqual(pd.pageQuery({ q: ' Anil ', cursor: 'after:p01', limit: 500 }), { q: 'anil', programme: '', limit: 100, cursor: 'p01' }, 'a POST body is read the same way'));
+  status(() => pd.pageQuery({ q: ['Anil'] }), 400);
   status(() => pd.pageQuery(url('?cursor=%5B1%2C2%5D')), 400);
   status(() => pd.pageQuery(url('?cursor=nope')), 400);
   status(() => pd.pageQuery(url(`?q=${'x'.repeat(81)}`)), 400);

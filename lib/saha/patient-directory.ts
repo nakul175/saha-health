@@ -45,18 +45,20 @@ export async function pagedWindow(db: D1Database, orgId: string, userId: string,
 export type PatientRow = { id: string; name: string; age: number | null; sex: string; village: string; programmes: Programme[]; task: string; due: string; status: Person['status']; teamId: string; assignedTo: string | null; merged: boolean; exceptional: boolean };
 export type PatientPage = { rows: PatientRow[]; nextCursor: string | null; total: number | null };
 
-export function pageQuery(url: URL) {
-  const q = (url.searchParams.get('q') ?? '').trim().toLowerCase();
+// Slice 6q (second review): the cursor is opaque and name-free (`after:<patient id>`); the server resolves the
+// id to its sort position inside the viewer's scope. Search text travels only in a POST body (see
+// patient-directory-server.ts), never in a URL, where hosting platforms record it in request logs.
+const CURSOR = /^after:([A-Za-z0-9_:.-]{1,120})$/;
+export function pageQuery(source: URL | Record<string, unknown>) {
+  const get = (k: string) => source instanceof URL ? source.searchParams.get(k) : typeof source[k] === 'string' || typeof source[k] === 'number' ? String(source[k]) : source[k] == null ? null : fail(400, 'Invalid patient list request.');
+  const q = (get('q') ?? '').trim().toLowerCase();
   if (q.length > 80) fail(400, 'Search text is too long.');
-  const programme = url.searchParams.get('programme') ?? '';
+  const programme = get('programme') ?? '';
   if (programme.length > 60) fail(400, 'Choose a programme.');
-  const limit = Math.min(100, Math.max(1, Number(url.searchParams.get('limit') ?? PAGE_SIZE) || PAGE_SIZE));
-  const raw = url.searchParams.get('cursor');
-  let cursor: [string, string] | null = null;
-  if (raw) {
-    try { const c = JSON.parse(raw); if (Array.isArray(c) && c.length === 2 && c.every(x => typeof x === 'string' && x.length <= 200)) cursor = [c[0], c[1]]; } catch { /* rejected below */ }
-    if (!cursor) fail(400, 'Invalid patient list cursor.');
-  }
+  const limit = Math.min(100, Math.max(1, Number(get('limit') ?? PAGE_SIZE) || PAGE_SIZE));
+  const raw = get('cursor');
+  let cursor: string | null = null;
+  if (raw) { const c = CURSOR.exec(raw); if (!c) fail(400, 'Invalid patient list cursor.'); cursor = c![1]; }
   return { q, programme, limit, cursor };
 }
 
@@ -68,9 +70,15 @@ export async function patientPage(db: D1Database, orgId: string, member: Member,
   if (query.q) { filters.push("(instr(lower(p.name),?)>0 OR instr(lower(coalesce(json_extract(p.data,'$.village'),'')),?)>0 OR instr(lower(p.id),?)>0)"); fb.push(query.q, query.q, query.q); }
   if (query.programme) { filters.push("EXISTS (SELECT 1 FROM json_each(p.data,'$.programmes') g WHERE g.value=?)"); fb.push(query.programme); }
   const base = `FROM patients p WHERE p.org_id=? AND ${where}${filters.map(f => ` AND ${f}`).join('')}`;
-  const after = query.cursor ? ' AND (p.name>? OR (p.name=? AND p.id>?))' : '';
+  let key: [string, string] | null = null;
+  if (query.cursor) {
+    const at = await db.prepare(`SELECT p.name FROM patients p WHERE p.org_id=? AND p.id=? AND ${where}`).bind(orgId, query.cursor, ...binds).first<{ name: string }>();
+    if (!at) fail(400, 'The patient list changed. Start again from the first page.');
+    key = [at!.name, query.cursor];
+  }
+  const after = key ? ' AND (p.name>? OR (p.name=? AND p.id>?))' : '';
   const rows = await db.prepare(`SELECT p.id,p.name,p.team_id,p.assigned_to,json_extract(p.data,'$.age') AS age,json_extract(p.data,'$.sex') AS sex,json_extract(p.data,'$.village') AS village,json_extract(p.data,'$.programmes') AS programmes,json_extract(p.data,'$.task') AS task,json_extract(p.data,'$.due') AS due,json_extract(p.data,'$.status') AS status,json_extract(p.data,'$.mergedInto') AS merged,json_extract(p.data,'$.exceptionalAccess') AS grants ${base}${after} ORDER BY p.name,p.id LIMIT ?`)
-    .bind(orgId, ...binds, ...fb, ...(query.cursor ? [query.cursor[0], query.cursor[0], query.cursor[1]] : []), query.limit + 1).all<Record<string, any>>();
+    .bind(orgId, ...binds, ...fb, ...(key ? [key[0], key[0], key[1]] : []), query.limit + 1).all<Record<string, any>>();
   const total = query.cursor ? null : (await db.prepare(`SELECT count(*) AS n ${base}`).bind(orgId, ...binds, ...fb).first<{ n: number }>())?.n ?? 0;
   const out: PatientRow[] = [];
   for (const r of rows.results.slice(0, query.limit)) {
@@ -80,5 +88,5 @@ export async function patientPage(db: D1Database, orgId: string, member: Member,
     out.push({ id: r.id, name: r.name, age: typeof r.age === 'number' ? r.age : null, sex: r.sex ?? '', village: r.village ?? '', programmes: r.programmes ? JSON.parse(r.programmes) : [], task: r.task ?? '', due: r.due ?? '', status: r.status ?? 'due', teamId: r.team_id, assignedTo: r.assigned_to, merged: !!r.merged, exceptional: !member.teamIds.includes(r.team_id) });
   }
   const last = rows.results.length > query.limit ? rows.results[query.limit - 1] : null;
-  return { rows: out, nextCursor: last ? JSON.stringify([last.name, last.id]) : null, total };
+  return { rows: out, nextCursor: last ? `after:${last.id}` : null, total };
 }
