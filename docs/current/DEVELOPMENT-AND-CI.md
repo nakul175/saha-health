@@ -1,6 +1,6 @@
 # Development and CI
 
-Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f since 30 September 2026.
+Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f, and the later slices and review fixes 3g–6r (#36–#70), since 30 September 2026.
 
 ## Environment
 
