@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a, 4a, 6a-6d, 7a, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a, 4a, 6a-6d, 7a-7b, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 145,
-    "not-built": 8,
+    "partial": 147,
+    "not-built": 6,
     "unverified": 9
   },
   "acceptance": {
@@ -2014,10 +2014,10 @@
       "requirement": "When operating as or through a HIP, the platform shall create eligible records, preserve care-context linkage, respond only through authorised exchange, encrypt and transmit the required payload, and retain the ABDM acknowledgement and failure state.",
       "acceptance": "Acceptance: A consented request retrieves only the authorised records and produces traceable request, encryption, transfer, acknowledgement and error evidence without exposing unrelated records.",
       "sourceTextLine": 422,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R13",
-      "current": "No HIP gateway or encrypted transfer flow.",
-      "remaining": "Care-context linkage, authorised requests, encryption, transmission and acknowledgements.",
+      "current": "Slice 7b: care-context linking of confirmed visits under the current ABHA, and a mock HIP that encrypts consent-covered bundles for the requester (X25519, HKDF-SHA-256, AES-256-GCM) with checksums and delivery acknowledgement. Local mock gateway only.",
+      "remaining": "Real gateway routing, partner HIP onboarding, ABDM-conformant encryption and callbacks, and more record types.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -2032,10 +2032,10 @@
       "requirement": "When operating as or through an HIU, the platform shall request the minimum health information needed for the approved purpose, track consent and data-flow states, validate received bundles, preserve external provenance and prevent silent overwriting of local records.",
       "acceptance": "Acceptance: A received record is shown with its source and effective date, while invalid, duplicate or conflicting content enters the configured reconciliation path.",
       "sourceTextLine": 425,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R13",
-      "current": "Direct EHR imports do not implement HIU operation.",
-      "remaining": "Consent requests, data-flow tracking, cryptography, validation and received-record review.",
+      "current": "Slice 7b: consent-bound fetch with transfer tracking, decryption, checksum and bundle-type validation, and clinician review before any received record is accepted. Local mock gateway only.",
+      "remaining": "Real consent-manager and gateway data flow, NRCeS profile validation and merging accepted records into care.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"

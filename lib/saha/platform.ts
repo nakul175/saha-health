@@ -7,6 +7,7 @@ import { retentionSchema } from './retention';
 import { referralSchema } from './referrals';
 import { rosterSchema } from './roster';
 import { abdmSchema } from './abdm';
+import { transferSchema } from './abdm-transfer';
 import { governanceSchema } from './governance';
 import { evaluationSchema } from './evaluation';
 import { continuitySchema, transferPatientWork } from './continuity';
@@ -38,6 +39,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...referralSchema.options,
  ...rosterSchema.options,
  ...abdmSchema.options,
+ ...transferSchema.options,
  ...governanceSchema.options,
  ...evaluationSchema.options,
  ...operationsSchema.options,

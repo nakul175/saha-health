@@ -1,12 +1,12 @@
-# BRD v1.1 requirements traceability — R11 and development slices 0a-1d, 2a, 4a, 6a-6d, 7a, 0b-2
+# BRD v1.1 requirements traceability — R11 and development slices 0a-1d, 2a, 4a, 6a-6d, 7a-7b, 0b-2
 
 All **176 requirements** are assessed: 148 functional and 28 non-functional. Source: Health-AI-Orchestration-Platform-BRD-v1.1.docx, SHA-256 `8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8`. The exact requirement and acceptance text is preserved in [the source extract](requirements/brd-v1.1.json) and [the complete CSV](requirements/traceability.csv).
 
 | Implementation assessment | Count |
 | --- | ---: |
 | implemented-local | 14 |
-| partial | 145 |
-| not-built | 8 |
+| partial | 147 |
+| not-built | 6 |
 | unverified | 9 |
 
 **Formal acceptance: 0 accepted; 176 pending.** Local implementation and synthetic assertions are not clinical, field, regulatory, integration or production acceptance. These counts are not a completion percentage. BRD R1/R2/R3 are scope phases; engineering R10–R16 are delivery batches and are not equivalent. Targets are planned primary work batches, subject to dependencies and findings.
@@ -140,8 +140,8 @@ Evidence paths identify related code/tests or explicit gap documentation, not fu
 | BR-INT-15 — ABDM consent enforcement | Must / R1 | partial / R13 | Slice 7a: consent artefacts with purpose, health-information types, record date range, expiry and revocation; fetch checks enforce status, ABHA link, purpose, type and date. The consent manager is simulated by an owner; local mock gateway only. | Real consent-manager integration, HIP/HIU callbacks, notifications and enforcement on actual ABDM exchange. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-INT-16 — Facility and professional attribution | Must / R1 | partial / R13 | Document publisher and patient link configuration exist. | Verified HFR/HPR or destination professional/facility attribution and expiry checks. | [lib/saha/mis.ts](lib/saha/mis.ts)<br>[lib/saha/ehr.ts](lib/saha/ehr.ts)<br>[tests/mis-contract.mjs](tests/mis-contract.mjs)<br>[tests/ehr-contract.mjs](tests/ehr-contract.mjs)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-INT-17 — ABDM FHIR conformance and version control | Must / R1 | not-built / R13 | No NRCeS profile package or terminology validator is installed. | Pinned ABDM validator/profile/terminology/mapping bundle and upgrade regression corpus. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
-| BR-INT-18 — Health Information Provider operation | Must / R1 | not-built / R13 | No HIP gateway or encrypted transfer flow. | Care-context linkage, authorised requests, encryption, transmission and acknowledgements. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
-| BR-INT-19 — Health Information User operation | Must / R1 | not-built / R13 | Direct EHR imports do not implement HIU operation. | Consent requests, data-flow tracking, cryptography, validation and received-record review. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
+| BR-INT-18 — Health Information Provider operation | Must / R1 | partial / R13 | Slice 7b: care-context linking of confirmed visits under the current ABHA, and a mock HIP that encrypts consent-covered bundles for the requester (X25519, HKDF-SHA-256, AES-256-GCM) with checksums and delivery acknowledgement. Local mock gateway only. | Real gateway routing, partner HIP onboarding, ABDM-conformant encryption and callbacks, and more record types. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
+| BR-INT-19 — Health Information User operation | Must / R1 | partial / R13 | Slice 7b: consent-bound fetch with transfer tracking, decryption, checksum and bundle-type validation, and clinician review before any received record is accepted. Local mock gateway only. | Real consent-manager and gateway data flow, NRCeS profile validation and merging accepted records into care. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-INT-20 — EHR connector capability profile | Must / R1 | partial / R12 | Native FHIR capability profile gates document retrieval/publication. | Reference-partner profile covering all declared search/update/version/receipt/support behaviour. | [lib/saha/mis.ts](lib/saha/mis.ts)<br>[lib/saha/ehr.ts](lib/saha/ehr.ts)<br>[tests/mis-contract.mjs](tests/mis-contract.mjs)<br>[tests/ehr-contract.mjs](tests/ehr-contract.mjs)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-INT-21 — EHR writeback and conflict handling | Must / R1 | partial / R12 | Conditional document creation and duplicate receipt lookup. | EHR updates/amendments, destination version conflicts and named reconciliation owner. | [lib/saha/mis.ts](lib/saha/mis.ts)<br>[lib/saha/ehr.ts](lib/saha/ehr.ts)<br>[tests/mis-contract.mjs](tests/mis-contract.mjs)<br>[tests/ehr-contract.mjs](tests/ehr-contract.mjs)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-INT-22 — Legacy and document exchange | Should / R1 | partial / R12 | Reviewed FHIR document route preserves source and limitations. | Approved legacy HL7 v2/CDA/REST/SOAP/file adapters as selected by buyer. | [lib/saha/mis.ts](lib/saha/mis.ts)<br>[lib/saha/ehr.ts](lib/saha/ehr.ts)<br>[tests/mis-contract.mjs](tests/mis-contract.mjs)<br>[tests/ehr-contract.mjs](tests/ehr-contract.mjs)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |

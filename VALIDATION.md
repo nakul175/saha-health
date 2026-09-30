@@ -260,3 +260,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Browser check with headless Chromium: module configuration, ABHA link, consent request, mock grant and an allowed fetch check. The first browser run stopped at an ambiguous navigation locator in the test script; after fixing the locator the whole flow passed with no console errors.
 - Nothing was sent to ABDM. Purpose and type codes come from a secondary implementer's guide and are unverified against the ABDM sandbox.
 - Assessment changes: BR-INT-13, BR-INT-14 and BR-INT-15 moved from not-built to partial, each stating that only a local mock gateway exists. Counts are now 14 implemented-local, 145 partial, 8 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 7b — ABDM mock transfer — 30 September 2026 IST (30 September UTC)
+
+- **2,086 automated assertions passed:** 1,452 HTTP/D1 (1,423 plus 29 transfer checks), 613 contract/checkpoint (594 plus 19 transfer contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-7b/`.
+- The first full run failed in the new transfer suite: it expected a clinician to be refused when revoking consent, but slice 7a deliberately lets any care role with patient access revoke. The assertion now uses an administrator; the rerun passed. The contract's first version compared bundles including their generation timestamp and now excludes it.
+- Browser check with headless Chromium: care-context link, fetch under a mock-granted consent and acceptance of the received record. The first browser setup used approval references shorter than the three-character minimum and was refused as designed; with valid references the flow passed with no console errors.
+- Nothing was sent to ABDM; the encryption is Saha's own and is not validated against ABDM.
+- Assessment changes: BR-INT-18 and BR-INT-19 moved from not-built to partial, each stating mock-only. Counts are now 14 implemented-local, 147 partial, 6 not-built and 9 unverified; all 176 formal acceptances remain pending.
