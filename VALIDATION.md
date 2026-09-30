@@ -245,3 +245,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The first full run failed in the new reuse suite: its synthetic visit entered systolic without diastolic, which visit validation correctly refuses. The fixture now leaves both blank and records them as not measured; the rerun passed.
 - No user-interface code changed, so no browser check was run for this slice.
 - Assessment changes: BR-DATA-12 moved from not-built to partial; BR-REP-07 text updated. Counts are now 14 implemented-local, 141 partial, 12 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 1d — workforce roster reconciliation — 30 September 2026 IST (30 September UTC)
+
+- **1,990 automated assertions passed:** 1,389 HTTP/D1 (1,364 plus 25 roster checks), 580 contract/checkpoint (567 plus 13 roster contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-1d/`.
+- The first full run failed in the new roster suite because its fixture named a team that does not exist in the test organisation; the roster preview correctly reported it as an unknown team. The fixture now uses the team's id; the rerun passed.
+- Browser check with headless Chromium: one roster line previewed and applied from the Organisation page, returning one invitation code. No console errors.
+- Assessment changes: BR-ID-10 moved from not-built to partial; BR-ID-01 text updated. Counts are now 14 implemented-local, 142 partial, 11 not-built and 9 unverified; all 176 formal acceptances remain pending.
