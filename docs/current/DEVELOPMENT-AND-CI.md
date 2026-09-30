@@ -1,6 +1,6 @@
 # Development and CI
 
-Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should use the latest handover/release branch, not assume the older GitHub main contains R11.
+Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f since 30 September 2026.
 
 ## Environment
 
