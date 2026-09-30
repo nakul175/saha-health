@@ -151,7 +151,10 @@
   ],
   "NFR-10": [
     "lib/saha/store.ts",
-    "tests/api-smoke.mjs"
+    "tests/api-smoke.mjs",
+    "lib/saha/audit-chain.ts",
+    "tests/audit-chain-contract.mjs",
+    "docs/current/SLICE-6J-AUDIT-CHAIN.md"
   ],
   "NFR-11": [
     "lib/saha/field.ts",
@@ -350,5 +353,16 @@
     "tests/api-smoke.mjs",
     "docs/current/SLICE-3D-VOICE-RECORDING.md",
     "tests/field-recording-client.mjs"
+  ],
+  "BR-SEC-08": [
+    "lib/saha/server.ts",
+    "lib/saha/access.ts",
+    "lib/saha/store.ts",
+    "REMAINING-RELEASES.md",
+    "lib/saha/audit-chain.ts",
+    "lib/saha/audit-chain-server.ts",
+    "tests/audit-chain-contract.mjs",
+    "tests/audit-chain-smoke.mjs",
+    "docs/current/SLICE-6J-AUDIT-CHAIN.md"
   ]
 }

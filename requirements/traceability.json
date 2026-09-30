@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3f, 4a, 6a-6h, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3f, 4a, 6a-6h, 6j, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2997,14 +2997,19 @@
       "sourceTextLine": 569,
       "implementation": "partial",
       "target": "R15",
-      "current": "Writes/approvals/exports have append-only audit and revisions.",
-      "remaining": "Material-read audit coverage, audit authority/version completeness and independent reconstruction.",
+      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain.",
+      "remaining": "Material-read audit coverage, audit authority/version completeness, external anchoring or signing of the chain head, scheduled verification and independent reconstruction.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/audit-chain.ts",
+        "lib/saha/audit-chain-server.ts",
+        "tests/audit-chain-contract.mjs",
+        "tests/audit-chain-smoke.mjs",
+        "docs/current/SLICE-6J-AUDIT-CHAIN.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3508,12 +3513,15 @@
       "sourceTextLine": 717,
       "implementation": "partial",
       "target": "R15",
-      "current": "Audit/receipts committed atomically; external calls use durable checkpoints.",
-      "remaining": "Audit-store fault injection, clock skew and every designated external/privileged action.",
+      "current": "Audit/receipts committed atomically; external calls use durable checkpoints. Slice 6j: audit events are chained in commit order under a unique sequence, so recovery preserves order independently of timestamps; verification reports clock regressions.",
+      "remaining": "Audit-store fault injection, halting external/privileged actions when audit durability fails, and every designated external/privileged action.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/store.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/audit-chain.ts",
+        "tests/audit-chain-contract.mjs",
+        "docs/current/SLICE-6J-AUDIT-CHAIN.md"
       ],
       "automatedAcceptanceClaim": false
     },

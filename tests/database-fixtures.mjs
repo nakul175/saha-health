@@ -22,7 +22,8 @@ export function fixture(){const actor=`legacy-${randomUUID()}`,now='2026-09-20T0
 export function verifyMigration(f,orgId){
  const original=database.prepare('SELECT * FROM workspaces WHERE owner_id=?').get(f.actor);assert.equal(original.state,f.source);assert.equal(original.revision,8);
  const migrated=database.prepare('SELECT * FROM legacy_migrations WHERE owner_id=?').get(f.actor);assert.equal(migrated.org_id,orgId);assert.equal(migrated.source_hash,f.hash);assert.equal(migrated.source_revision,8);
- const expected={patients:6,visits:1,plans:1,ai_results:1,submissions:1,referrals:1,record_revisions:7,audit_events:2,command_receipts:1};for(const [table,count]of Object.entries(expected))assert.equal(database.prepare(`SELECT count(*) AS n FROM ${table} WHERE org_id=?`).get(orgId).n,count,table);
+ // Slice 6j: audit_events includes the organisation's audit-chain genesis marker (legacy event + migration event + genesis).
+ const expected={patients:6,visits:1,plans:1,ai_results:1,submissions:1,referrals:1,record_revisions:7,audit_events:3,command_receipts:1};for(const [table,count]of Object.entries(expected))assert.equal(database.prepare(`SELECT count(*) AS n FROM ${table} WHERE org_id=?`).get(orgId).n,count,table);
  assert.throws(()=>database.prepare('UPDATE record_revisions SET reason=? WHERE org_id=?').run('Tamper attempt',orgId),/append-only/);
  assert.throws(()=>database.prepare('DELETE FROM audit_events WHERE org_id=?').run(orgId),/append-only/);
  return 15;

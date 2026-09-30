@@ -59,6 +59,7 @@ await session(owner, [
   ['Owner · care handover', nav('Care handover')],
   ['Owner · operations', nav('Operations')],
   ['Owner · organisation', nav('Organisation & team')],
+  ['Owner · activity log', nav('Activity log')],
   ['Owner · connections', nav('Connections')],
 ]);
 await session(asha, [
