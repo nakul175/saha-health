@@ -44,6 +44,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 0b-2](SLICE-0B2-SCOPED-READS.md) | Viewer-scoped workspace reads and ASHA read measurements |
 | [Development slice 0b-3](SLICE-0B3-PAGED-PATIENTS.md) | Paged patient lists, on-demand patient detail and supervisor read measurements |
 | [Development slice 3i](SLICE-3I-REFERRAL-REQUEST-QUEUE.md) | Open field referral request queue and long-wait exceptions |
+| [Development slice 3j](SLICE-3J-NOTEBOOK-CAPACITY.md) | Field notebook capacity of 200 visit drafts |
 | [Development slice 6b](SLICE-6B-RIGHTS.md) | Rights and grievance requests, destination notification and processing restriction |
 | [Development slice 6a](SLICE-6A-EXCEPTIONAL-ACCESS.md) | Time-limited emergency access with restricted actions and independent review |
 | [Development slice 1c](SLICE-1C-MERGE.md) | Two-person identity merge, impact queue and unmerge |

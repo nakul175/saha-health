@@ -555,3 +555,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - First runs: one expected ordering in the new contract was corrected while writing it, before its first run (a 60-hour request under emergency access sorts before a 48-hour one). The contract, the HTTP suite and the browser check then passed on their first runs.
 - Browser check with headless Chromium: Care handover showed one long-waiting request with its reason and "Open visit to decide"; the link opened the visit and its request panel; the Operations exception queue showed the matching row; axe-core found no violations in the panel; no console errors.
 - BR-CARE-04 and BR-OFF-05 current text and evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 3j — field notebook capacity of 200 visit drafts — 30 September 2026 IST (30 September UTC)
+
+- **3,895 automated assertions passed:** 2,416 HTTP/D1 (unchanged), 1,458 contract/checkpoint/client (1,443 plus 15 field capacity client checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3j/`. No migration and no server change.
+- First run: the new capacity client test passed its 14 checks at the time, but measured Sync all of 200 drafts at 21.4 s with 201 workspace reads, because each draft re-read the workspace and saved the notebook for it. Sync all now reads the workspace once per organisation per run; the rerun took about 9.1 s with one read, and a 15th check asserts the single read. The eight existing field suites passed unchanged after the change.
+- Browser check with headless Chromium at a phone viewport: 200 sealed drafts in real IndexedDB were unlocked, verified and listed in 328 ms on the build machine; no console errors. Build-machine timings, not a reference device or network.
+- BR-OFF-08 and NFR-11 stay partial and NFR-12 stays unverified; their current text and evidence were updated. Counts unchanged at 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 formal acceptances remain pending.
