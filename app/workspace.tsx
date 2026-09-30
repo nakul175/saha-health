@@ -64,7 +64,7 @@ export default function WorkspaceApp(){
  const retryKeys=useRef<Record<string,string>>({});
  // Slice 0b-3: large non-ASHA scopes are paged by the server; opened patients form a window the server re-reads.
  const openedRef=useRef<string[]>([]);
- const paging=()=>({'x-saha-patients':'paged',...(openedRef.current.length?{'x-saha-patient-window':openedRef.current.join(',')}:{})});
+ const paging=()=>{const ids=openedRef.current.filter(x=>/^[A-Za-z0-9_:.-]{1,120}$/.test(x));return {'x-saha-patients':'paged',...(ids.length?{'x-saha-patient-window':ids.join(',')}:{})};};
  const remember=(pid:string)=>{openedRef.current=[...openedRef.current.filter(x=>x!==pid),pid].slice(-50);};
  const [editorKey,setEditorKey]=useState(0);
  const [unsaved,setUnsaved]=useState(false),[pendingNav,setPendingNav]=useState<null|(()=>void)>(null);

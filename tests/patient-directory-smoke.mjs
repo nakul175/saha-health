@@ -77,6 +77,10 @@ export async function patientDirectorySmoke({get,post,check,sql,base}){
  // Commands from a paging client: the returned snapshot is paged with the same window.
  const started=await post(cl,{type:'startVisit',personId:seededA[40].id},200,crypto.randomUUID(),org,{...paged,'x-saha-patient-window':seededA[40].id});
  check(()=>{assert.equal(started.snapshot.patientPaging.total,561);assert.deepEqual(started.snapshot.people.map(p=>p.id),[seededA[40].id]);assert.ok(started.snapshot.visits.some(v=>v.id===started.result.visitId));});
+ // A malformed window on a command is refused before the command runs: no visit is started.
+ const visitsBefore=sql.prepare('SELECT count(*) AS n FROM visits WHERE org_id=? AND person_id=?').get(org,seededA[42].id).n;
+ const refused=await fetch(`${base}/api/commands`,{method:'POST',headers:{...cl.headers,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID(),'x-saha-organisation':org,...paged,'x-saha-patient-window':Array.from({length:51},(_,i)=>`id${i}`).join(',')},body:JSON.stringify({type:'startVisit',personId:seededA[42].id})});
+ check(()=>{assert.equal(refused.status,400);assert.equal(sql.prepare('SELECT count(*) AS n FROM visits WHERE org_id=? AND person_id=?').get(org,seededA[42].id).n,visitsBefore);});
  const delta=await fetch(`${base}/api/commands`,{method:'POST',headers:{...cl.headers,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID(),'x-saha-organisation':org,'x-saha-response':'delta',...paged},body:JSON.stringify({type:'startVisit',personId:seededA[41].id})}).then(r=>r.json());
  check(()=>{assert.deepEqual(delta.partition,[seededA[41].id]);assert.deepEqual(delta.delta.people.map(p=>p.id),[seededA[41].id]);});
 }
