@@ -44,6 +44,7 @@ const queuedBytes=()=>(book?.drafts??[]).flatMap(d=>d.media??[]).filter(x=>x.sta
 async function attach(d,file,purpose){const e=epoch,k=key;if(!file)return;if(d.state!=='draft'||d.pending)throw Error('Attach media before syncing this draft. / सिंक से पहले जोड़ें।');
  if(Date.parse(d.packet.payload.expiresAt)<=Date.now())throw Error('Grant expired. / अनुमति समाप्त।');
  await checkSpace();ensureSpace();if(e!==epoch)return;
+ if(/^image\//i.test(file.type||'')){if(!MEDIA_PURPOSES.some(([v])=>v===purpose))throw Error('Choose why this is being attached. / उद्देश्य चुनें।');if(purpose==='voice-note')throw Error('A voice note must be audio. / आवाज़ नोट ऑडियो होना चाहिए।');file=await preparePhoto(file);if(e!==epoch)return;}
  const bytes=new Uint8Array(await file.arrayBuffer()),mime=(file.type||'').split(';')[0].trim().toLowerCase(),problem=mediaQuality(bytes,mime,purpose);if(problem)throw Error(problem);
  const open=(d.media??[]).filter(x=>x.state!=='uploaded');if(open.length>=MEDIA_PER_DRAFT)throw Error(`At most ${MEDIA_PER_DRAFT} queued items per draft. / प्रति ड्राफ़्ट अधिकतम ${MEDIA_PER_DRAFT}।`);
  if(queuedBytes()+bytes.byteLength>MEDIA_DEVICE_BYTES)throw Error('Device media queue is full (1 MB). Sync or discard first. / डिवाइस मीडिया कतार भरी है।');
@@ -51,6 +52,18 @@ async function attach(d,file,purpose){const e=epoch,k=key;if(!file)return;if(d.s
  const id=crypto.randomUUID();await writeMedia(id,await sealBytes(k,bytes));if(e!==epoch||!book){await deleteMedia(id).catch(()=>{});return;}
  (d.media??=[]).push({id,purpose,mime,size:bytes.byteLength,sha256,capturedAt:new Date().toISOString(),state:'queued'});
  try{await persist();}catch(err){d.media=d.media.filter(x=>x.id!==id);await deleteMedia(id).catch(()=>{});throw err;}status('Queued on this device, encrypted. It uploads after the draft syncs. / डिवाइस पर एन्क्रिप्टेड कतार में।');}
+// Slice 3e: photos are re-encoded on the device before queueing. Camera photos are usually several
+// megabytes, far above the 256 KB limit, so each photo is decoded, scaled to at most 1280 px on the long
+// edge and saved as JPEG, stepping down size and quality until it fits. Re-encoding also drops embedded
+// metadata such as the location where the photo was taken.
+const PHOTO_STEPS=[[1280,0.8],[1280,0.65],[1024,0.65],[800,0.6],[640,0.55],[480,0.5]],PHOTO_TARGET=MEDIA_MAX-8192;
+async function preparePhoto(file){
+ let bitmap;try{bitmap=await createImageBitmap(file);}catch{throw Error('This photo could not be read on the device. Try another photo. / यह फ़ोटो पढ़ी नहीं जा सकी।');}
+ try{for(const [edge,quality] of PHOTO_STEPS){const scale=Math.min(1,edge/Math.max(bitmap.width,bitmap.height)),w=Math.max(1,Math.round(bitmap.width*scale)),h=Math.max(1,Math.round(bitmap.height*scale));
+   const canvas=new OffscreenCanvas(w,h);canvas.getContext('2d').drawImage(bitmap,0,0,w,h);const blob=await canvas.convertToBlob({type:'image/jpeg',quality});if(blob.size<=PHOTO_TARGET)return blob;}}
+ finally{bitmap.close?.();}
+ throw Error('This photo could not be reduced below 256 KB. Take a closer, simpler photo. / फ़ोटो 256 KB से छोटी नहीं हो सकी।');
+}
 // Slice 3d: in-app voice-note recording (BR-UX-03). The browser's MediaRecorder records at a low bit rate
 // and stops at 60 seconds or near the 256 KB limit; the result is queued exactly like a chosen file.
 const RECORD_MAX_MS=60000,RECORD_BITS=24000;let recording=null;
@@ -96,8 +109,8 @@ function mediaSection(d,canAttach){const box=node('div',null,{className:'media'}
   row.append(node('p',`${MEDIA_PURPOSES.find(([v])=>v===item.purpose)?.[1]??item.purpose} · ${item.mime} · ${Math.ceil(item.size/1024)} KB · ${label}`));if(item.reason)row.append(node('p',item.reason));if(item.state!=='uploaded')row.append(button('Discard from device / डिवाइस से हटाएँ',()=>discardMedia(d,item),!!item.pending));box.append(row);}
  if(canAttach||recording?.d===d)box.append(button(recording?'Stop recording / रिकॉर्डिंग रोकें':'Record voice note (up to 60 s) / आवाज़ नोट रिकॉर्ड करें',()=>record(d),!!recording&&recording.d!==d));
  if(canAttach){const purpose=node('select',null,{disabled:busy});purpose.append(node('option','Purpose / उद्देश्य',{value:''}));for(const [v,text] of MEDIA_PURPOSES)purpose.append(node('option',text,{value:v}));purpose.value=d.mediaPurpose??'';purpose.onchange=()=>{d.mediaPurpose=purpose.value;};
-  const input=node('input',null,{type:'file',accept:Object.keys(MEDIA_TYPES).join(','),disabled:busy});input.onchange=()=>{const f=input.files?.[0];input.value='';run(()=>attach(d,f,purpose.value));};
-  const l1=node('label','Why is this attached? / क्यों जोड़ रहे हैं?'),l2=node('label','Photo or recording (256 KB max) / फ़ोटो या रिकॉर्डिंग');l1.append(purpose);l2.append(input);box.append(l1,l2);}
+  const input=node('input',null,{type:'file',accept:'image/*,'+Object.keys(MEDIA_TYPES).filter(t=>t.startsWith('audio/')).join(','),disabled:busy});input.onchange=()=>{const f=input.files?.[0];input.value='';run(()=>attach(d,f,purpose.value));};
+  const l1=node('label','Why is this attached? / क्यों जोड़ रहे हैं?'),l2=node('label','Photo (reduced on this device) or recording (256 KB max) / फ़ोटो या रिकॉर्डिंग');l1.append(purpose);l2.append(input);box.append(l1,l2);}
  if(d.state==='synced'&&items.some(x=>x.state==='queued'))box.append(button(items.some(x=>x.pending)?'Retry pending upload / लंबित अपलोड दोहराएँ':'Upload queued media / कतार की मीडिया अपलोड करें',()=>uploadMedia(d)));
  return box;}
 function persist(){if(!book||!key)return Promise.resolve();const value=structuredClone(book),k=key,s=[...salt],e=epoch;

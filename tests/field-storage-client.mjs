@@ -10,7 +10,10 @@ const storage={persistedValue:false,persistResult:true,persistCalls:0,estimateVa
  persisted:async()=>storage.persistedValue,persist:async()=>{storage.persistCalls++;storage.persistedValue=storage.persistResult;return storage.persistResult;},
  estimate:async()=>{if(storage.estimateThrows)throw Error('Unavailable');return {...storage.estimateValue};}};
 const navigator={onLine:true,storage};
-const context=vm.createContext({console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Number,Math,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+// Slice 3e: photos are decoded and re-encoded before queueing; an injected decoder and canvas stand in for the browser's.
+const encode=src=>{const out=new Uint8Array(Math.max(1200,Math.round(src.length/4)));out.set([0xff,0xd8,0xff,0xe0]);for(let i=4;i<out.length;i++)out[i]=src[i%src.length]^0x5a;return out;};
+class FakeCanvas{getContext(){return {drawImage:bmp=>{this.src=bmp.src;}};}async convertToBlob({type}){return new Blob([encode(this.src)],{type});}}
+const context=vm.createContext({Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>({width:2000,height:1500,src:new Uint8Array(await blob.arrayBuffer()),close(){}}),console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Number,Math,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{media.delete(id)},
  fetch:async(url,options)=>{calls.push({url,options});throw Error('Network disconnected')},navigator,window:{indexedDB:{},addEventListener:()=>{}},document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
