@@ -12,7 +12,7 @@ export async function shadowSmoke({get,post,check,accounts,org}){
  const id=(await post(o,{type:'createGovernance',spec},200,undefined,org)).result.entryId;
  await read();const prepared=(await post(o,{type:'prepareEvaluation',entryId:id,version:entry(id).version},200,undefined,org)).result;for(const caseId of prepared.caseIds)await post(o,{type:'runEvaluationCase',evaluationId:prepared.evaluationId,caseId},200,undefined,org);
  await read();await post(c,{type:'reviewGovernance',entryId:id,version:entry(id).version,reference:'SYNTH-REVIEW',findings:'Independent synthetic review before shadow.',evaluationId:prepared.evaluationId},200,undefined,org);
- await read();check(()=>{assert.equal(entry(id).state,'reviewed');assert.equal(g.canShadow,true);assert.deepEqual(g.shadows,[])});
+ await read();check(()=>{assert.equal(entry(id).state,'reviewed');assert.equal(g.canShadow,true);assert.deepEqual(g.shadows,[]);assert.deepEqual(g.drift.rows,[])});
  // A clinician manager cannot shadow the whole organisation; the owner can.
  const start={type:'startShadow',entryId:id,version:entry(id).version,scope:'organisation',until,reason:'Compare the reviewed revision with confirmed visits.'};
  await post(c,start,403,undefined,org);
@@ -30,6 +30,8 @@ export async function shadowSmoke({get,post,check,accounts,org}){
  await read();
  check(()=>{const x=g.shadows[0];assert.equal(x.state,'active');assert.deepEqual(x.visits,{total:1,compared:1,unable:0,notRun:{}});assert.deepEqual(x.fields.map(f=>[f.field,f.agreement,f.disagreement]),[['weight',1,0],['temperature',0,1]]);assert.equal(x.pending,0)});
  check(()=>{const text=JSON.stringify(g.shadows);assert.ok(!text.includes(visitId)&&!text.includes(personId)&&!text.includes('Weight 58'),'counts only')});
+ // Slice 5i: drift rows for the shadowed revision, counts only; one visit is too few rated fields to compare periods.
+ check(()=>{const d=g.drift.rows.find(r=>r.entryId===g.shadows[0].entryId),last=d.periods.at(-1),text=JSON.stringify(g.drift);assert.equal(d.status,'insufficient');assert.deepEqual([last.visits,last.rated,last.agreement,last.disagreement,last.rate],[1,2,1,1,50]);assert.ok(!text.includes(visitId)&&!text.includes(personId)&&!text.includes('Weight 58'));assert.match(g.drift.notice,/Nothing is suspended automatically/)});
  await get(o,'/api/workspace',200,org);check(()=>{assert.equal(JSON.stringify(v()),before,'the visit and its assistant requests are unchanged');assert.equal(o.state.governance,undefined,'the workspace snapshot carries no governance or shadow data')});
  // Stopping ends it.
  await read();await post(o,{type:'stopShadow',shadowId,version:g.shadows[0].version,reason:'Synthetic shadow comparison complete.'},200,undefined,org);

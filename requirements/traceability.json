@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5h, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1514,8 +1514,8 @@
       "sourceTextLine": 327,
       "implementation": "partial",
       "target": "R11",
-      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers.",
-      "remaining": "Representative quality/drift monitoring over time, independent ground-truth annotation and adjudication, alerting and clinical response operations.",
+      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers. Slice 5i: drift monitoring per capability revision from shadow comparisons: agreement rate per 7-day period by visit confirmation date over the last four periods, and a flag when the rate drops by more than 10 percentage points between consecutive periods with at least 10 rated fields each, counts only, to governance managers on the Clinical governance page; nothing is suspended automatically.",
+      "remaining": "Representative quality monitoring on live, representative data rather than local-rules shadow comparisons, configurable drift thresholds, drift from synthetic evaluations, independent ground-truth annotation and adjudication, delivered alerting and clinical response operations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1532,7 +1532,10 @@
         "app/shadow-panel.tsx",
         "tests/shadow-contract.mjs",
         "tests/shadow-smoke.mjs",
-        "docs/current/SLICE-5F-SHADOW-OPERATION.md"
+        "docs/current/SLICE-5F-SHADOW-OPERATION.md",
+        "lib/saha/drift.ts",
+        "tests/drift-contract.mjs",
+        "docs/current/SLICE-5I-DRIFT-MONITORING.md"
       ],
       "automatedAcceptanceClaim": false
     },
