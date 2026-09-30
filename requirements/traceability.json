@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 6a-6i, 6k, 6j, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1058,8 +1058,8 @@
       "sourceTextLine": 280,
       "implementation": "partial",
       "target": "R11",
-      "current": "One-call checkpointing, timeout/cancellation, per-capability daily call and reserved-token quotas; no automatic provider substitution.",
-      "remaining": "Monetary budgets, billing-aware alerts and validated provider outage operation.",
+      "current": "One-call checkpointing, timeout/cancellation, per-capability daily call and reserved-token quotas; no automatic provider substitution. Slice 5a: monthly USD budgets per capability (estimates from recorded rates) checked before preparing and before sending; clinicians and supervisors with care scope can stop another worker's unsent request; sent requests are never reported as recalled.",
+      "remaining": "Per-task time and retry limits, a looping-provider stop reporting completed/cancelled/unresolved actions, billing-aware alerts and validated provider outage operation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
@@ -1069,7 +1069,11 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/ai-budget.ts",
+        "tests/ai-budget-contract.mjs",
+        "tests/ai-budget-smoke.mjs",
+        "docs/current/SLICE-5A-AI-BUDGETS.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1480,8 +1484,8 @@
       "sourceTextLine": 333,
       "implementation": "partial",
       "target": "R11",
-      "current": "Per-capability daily call and reserved-token limits with reported usage and bounded synthetic evaluations.",
-      "remaining": "Provider/tenant/task monetary budgets, alerts and invoice reconciliation.",
+      "current": "Per-capability daily call and reserved-token limits with reported usage and bounded synthetic evaluations. Slice 5a: owner-set monthly USD budget per capability, estimated from recorded rates and reservations, refusal with a visible message and no provider substitution, and budget use on the Operations page.",
+      "remaining": "Provider, deployment and task budgets, delivered budget alerts, evaluation and other AI cost coverage, and invoice reconciliation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1493,7 +1497,11 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts"
+        "lib/saha/evaluation-execution.ts",
+        "lib/saha/ai-budget.ts",
+        "tests/ai-budget-contract.mjs",
+        "tests/ai-budget-smoke.mjs",
+        "docs/current/SLICE-5A-AI-BUDGETS.md"
       ],
       "automatedAcceptanceClaim": false
     },
