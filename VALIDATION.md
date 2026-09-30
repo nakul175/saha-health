@@ -336,3 +336,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The replay path previously refused every `ops*` command from non-operators; acknowledgements are exempted and checked against the alert's owning role instead, so a supervisor's replayed acknowledgement is not wrongly refused.
 - Browser check with headless Chromium: an owner acknowledged a critical incident alert and saw it marked with the note; no console errors. The accessibility audit (24 screens) still reported no violations.
 - BR-OPS-04 evidence updated; it and NFR-18 stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 3d — in-app voice-note recording — 30 September 2026 IST (30 September UTC)
+
+- **2,334 automated assertions passed:** 1,500 HTTP/D1, 813 contract/checkpoint (785 plus 28 recording checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3d/`.
+- The first runs of the new checks failed on the test itself (too short a wait for unlock, and a size-limit case that added up to 230 KB, under the 240 KB stop point); both were corrected before the evidence run.
+- Browser check with headless Chromium's synthetic microphone and real IndexedDB: an offline 3.5-second recording was queued, then uploaded after sync as a 6,267-byte `audio/webm` voice note; the device copy was removed; no console errors.
+- BR-UX-03 and BR-OFF-04 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

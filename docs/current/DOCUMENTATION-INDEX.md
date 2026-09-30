@@ -13,6 +13,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 6g](SLICE-6G-ALERTS.md) | Computed operational alerts with owners and next actions |
 | [Development slice 3c](SLICE-3C-QUEUE-HARDENING.md) | Media queue hardening after independent review |
 | [Development slice 6h](SLICE-6H-ALERT-ACKNOWLEDGEMENT.md) | Alert acknowledgement by the owning role |
+| [Development slice 3d](SLICE-3D-VOICE-RECORDING.md) | In-app voice-note recording in the field notebook |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |

@@ -21,7 +21,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 3a | Encrypted offline photo and voice-note queue in the field notebook, uploaded after sync only when grant, access and draft are rechecked | Delivered (see [slice 3a](current/SLICE-3A-OFFLINE-MEDIA.md)) |
 | 3b | Field notebook keep-data request, storage usage display and low-space pause on preparing visits and queueing media | Delivered (see [slice 3b](current/SLICE-3B-STORAGE-WARNINGS.md)) |
 | 3c | Media queue hardening after independent review: confirmed-upload rule, lock safety, removal guard, orphan sweep | Delivered (see [slice 3c](current/SLICE-3C-QUEUE-HARDENING.md)) |
-| 3 | In-app capture, offline registration and referral creation, ordered sync, larger notebook capacity | Planned |
+| 3d | In-app voice-note recording in the field notebook, 60 s and size-bounded, queued through the offline media path | Delivered (see [slice 3d](current/SLICE-3D-VOICE-RECORDING.md)) |
+| 3 | In-app photo capture, offline registration and referral creation, ordered sync, larger notebook capacity | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
 | 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
