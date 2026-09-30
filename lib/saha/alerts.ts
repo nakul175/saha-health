@@ -10,7 +10,7 @@ const RANK={critical:0,high:1,normal:2} as const;
 export function alertsFor({report,telemetry,operations}:Inputs):Alert[]{
  const out:Alert[]=[],add=(a:Alert)=>{if(a.count>0)out.push(a);},b=report?.backlog;
  if(b){
-  add({id:'destination-uncertain',severity:'high',title:'Programme submissions without a final receipt',count:b.unresolvedSubmissions,owner:'operations',action:'Look up each receipt before any resend. Uncertain outcomes are never retried blindly.',tab:'overview'});
+  add({id:'destination-uncertain',severity:'high',title:'Programme submissions not yet confirmed by the destination',count:b.unresolvedSubmissions,owner:'operations',action:'Check each one: look up the receipt of any uncertain submission before a resend; queued and retryable ones may be retried with their original key.',tab:'overview'});
   add({id:'ehr-uncertain',severity:'high',title:'EHR publications without a final receipt',count:b.unresolvedEhr,owner:'operations',action:'Look up the document identifier with the EHR; do not publish again.',tab:'overview'});
   add({id:'referrals-overdue',severity:'high',title:'Referrals past their due date',count:b.overdueReferrals,owner:'supervisors',action:'Review the referral escalation queue in Care handover and record an action or a reasoned delay.',tab:'overview'});
   add({id:'followups-overdue',severity:'normal',title:'Follow-ups past their due date',count:b.overdueFollowUps,owner:'supervisors',action:'Reassign or complete overdue follow-ups from Care handover.',tab:'overview'});
