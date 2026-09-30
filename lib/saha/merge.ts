@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
+import { TERMINAL } from './referral-rules';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 
@@ -62,7 +63,7 @@ function mergeEffects(s:OrgState,d:Person,now:string){
  for(const m of s.outreach?.messages??[])if(m.personId===d.id&&['draft','approved','failed'].includes(m.state)){m.state='cancelled';m.cancelReason='Record merged into another record. Prepare any reminder on the surviving record.';m.version++;messages++;}
  for(const x of w.submissions)if(x.personId===d.id&&['accepted','uncertain','queued','sending','retryable'].includes(x.state))items.push(item('programme-record',d.id,x.id,`${x.connectorName}: ${x.state} submission from this record. Confirm with the destination which identity it holds and issue any correction through its process.`,now));
  for(const l of activeLinks(d))items.push(item('ehr-link',d.id,l.id,`Active EHR link to ${l.externalName}. Decide whether it belongs to the surviving record; revoke it here if not.`,now));
- for(const r of w.referrals)if(r.personId===d.id&&r.state!=='completed')items.push(item('referral',d.id,r.id,`Open referral to ${r.facility} (${r.state}). Tell the facility which record to use; close it here once resolved.`,now));
+ for(const r of w.referrals)if(r.personId===d.id&&!TERMINAL.has(r.state))items.push(item('referral',d.id,r.id,`Open referral to ${r.facility} (${r.state}). Tell the facility which record to use; close it here once resolved.`,now));
  for(const f of d.followUps??[])if(f.state==='open')items.push(item('follow-up',d.id,f.id,`Open follow-up "${f.title}" due ${f.due}. Recreate it on the surviving record if still needed, then resolve it here.`,now));
  for(const e of d.enrolments??[])if(e.state==='active')items.push(item('enrolment',d.id,e.id,`Active ${e.packId} episode "${e.episodeLabel}". Enrol the surviving record if appropriate and close this episode.`,now));
  if(d.householdId)items.push(item('household',d.id,d.householdId,'Household membership on the duplicate. End it and add the surviving record if appropriate.',now));

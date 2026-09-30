@@ -7,6 +7,7 @@ import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';
 import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';
 import { applyRights, authorizeRights, ensureNotRestricted } from './rights';
 import { applyRetention, authorizeRetention } from './retention';
+import { applyReferral } from './referrals';
 import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';
 import { applyPilot, authorizePilotCommand } from './pilot';
 import { applyOutreach, authorizeOutreach } from './outreach';
@@ -89,8 +90,9 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const exceptional=applyExceptional(state,c,u,m);
   const rights=applyRights(state,c,u,m);
   const retention=applyRetention(state,c,u,m);
+  const referral=applyReferral(state,c,u,m);
   const ops=applyOperations(state,c,u,m);
-  const platform=retention?{handled:true,result:retention}:rights?{handled:true,result:rights}:exceptional?{handled:true,result:exceptional}:merge?{handled:true,result:merge}:caseload?{handled:true,result:caseload}:household?{handled:true,result:household}:evaluation?{handled:true,result:evaluation}:governance?{handled:true,result:governance}:continuity?{handled:true,result:continuity}:expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
+  const platform=referral?{handled:true,result:referral}:retention?{handled:true,result:retention}:rights?{handled:true,result:rights}:exceptional?{handled:true,result:exceptional}:merge?{handled:true,result:merge}:caseload?{handled:true,result:caseload}:household?{handled:true,result:household}:evaluation?{handled:true,result:evaluation}:governance?{handled:true,result:governance}:continuity?{handled:true,result:continuity}:expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
   if(platform.handled)result=platform.result;
   else {const oldRole=state.workspace.role;
    if(['toggleIntegration','registerIntegration'].includes(c.type)&&m.isOwner)state.workspace.role='admin';

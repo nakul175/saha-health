@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1c, 6a-6d, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1c, 6a-6d, 0b-2, 4a",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2371,8 +2371,8 @@
       "sourceTextLine": 479,
       "implementation": "partial",
       "target": "R14",
-      "current": "Draft/sent/received/completed referral events require dated evidence.",
-      "remaining": "Authorised/scheduled/attended/declined/cancelled/unknown states and external outcome evidence.",
+      "current": "Dated referral events with evidence. Slice 4a adds accepted, scheduled (with appointment time), attended, did-not-attend, declined, cancelled and unknown states under an explicit transition table; closed states are immutable.",
+      "remaining": "Facility-verified outcomes and external outcome evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -2397,8 +2397,8 @@
       "sourceTextLine": 482,
       "implementation": "partial",
       "target": "R14",
-      "current": "Due dates and overdue counts; scoped handover exception queue.",
-      "remaining": "Approved urgency ordering, automatic escalation and reasoned delay/service-constraint workflow.",
+      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue.",
+      "remaining": "Approved urgency policy, notification or on-call escalation, and automatic reassignment.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",

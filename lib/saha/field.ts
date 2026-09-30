@@ -3,6 +3,7 @@ import { apply, digest, factsSchema, fail, person, uuid, visit } from './core';
 import { programmeApply } from './programme-commands';
 import { ABSENCE } from './programmes';
 import type { OrgState, Member } from './types';
+import { NEXT, REFERRAL_EVENTS, TERMINAL, URGENCIES } from './referral-rules';
 import type { Actor } from './store';
 export type FieldLease={id:string;actorId:string;memberVersion:number;visitId:string;visitVersion:number;identityHash:string;consentVersion:number;expiresAt:string;status:'active'|'revoked'|'synced';packageHash:string;createdAt:string};
 const id=z.string().min(1).max(200),ver=z.number().int().positive(),note=z.string().trim().min(5).max(1000);
@@ -10,8 +11,8 @@ export const fieldSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('prepareFieldVisit'),personId:id,version:ver}).strict(),
  z.object({type:z.literal('revokeFieldLease'),personId:id,leaseId:id}).strict(),
  z.object({type:z.literal('syncFieldVisit'),personId:id,leaseId:id,packageHash:z.string().length(64),facts:factsSchema,answers:z.record(z.string(),z.string().max(500)),absence:z.record(z.string(),z.enum(ABSENCE))}).strict(),
- z.object({type:z.literal('assignReferral'),referralId:id,version:ver,ownerId:id,due:z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x),reason:note}).strict(),
- z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(['sent','received','completed']),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
+ z.object({type:z.literal('assignReferral'),referralId:id,version:ver,ownerId:id,due:z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x),urgency:z.enum(URGENCIES).optional(),reason:note}).strict(),
+ z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(REFERRAL_EVENTS as [string,...string[]]),appointmentAt:z.string().datetime().optional(),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
 ]);
 export async function fieldIdentity(p:{name:string;age:number;sex:string;village:string;teamId:string;assignedTo:string|null}){return digest([p.name,p.age,p.sex,p.village,p.teamId,p.assignedTo]);}
 export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
@@ -22,17 +23,18 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   const r=w.referrals.find(x=>x.id===c.referralId);if(!r)fail(404,'Referral not found.');const p=person(w,r.personId),v=visit(w,r.visitId);subject=p.id;
   if(v.voidedAt||v.supersededBy)fail(409,'Review the corrected source visit before updating this referral.');
   if((r.version??1)!==c.version)fail(409,'Referral changed. Refresh before continuing.');
-  if(r.state==='completed')fail(409,'Completed referral evidence is immutable.');
+  if(TERMINAL.has(r.state))fail(409,`A ${r.state} referral is closed; its evidence is immutable.`);
   if(c.type==='assignReferral'){
    const owner=state.members.find(x=>x.userId===c.ownerId&&x.status==='active'&&['asha','clinician'].includes(x.role)&&x.teamIds.includes(p.teamId)&&(x.role!=='asha'||p.assignedTo===x.userId));if(!owner)fail(422,'Choose a care worker with current patient access.');
-   r.ownerId=owner.userId;r.due=c.due;detail='Referral owner and due date recorded. '+c.reason;
+   r.ownerId=owner.userId;r.due=c.due;if(c.urgency)r.urgency=c.urgency;detail=`Referral owner and due date recorded${c.urgency?`; urgency ${c.urgency}`:''}. `+c.reason;
   }else{
    if(!r.ownerId||!r.due)fail(409,'Assign an owner and due date first.');
    const owner=state.members.find(x=>x.userId===r.ownerId&&x.status==='active'&&x.teamIds.includes(p.teamId)&&['asha','clinician'].includes(x.role)&&(x.role!=='asha'||p.assignedTo===x.userId));if(!owner)fail(409,'Reassign this referral to an active care worker.');
    if(r.ownerId!==u.userId&&!m.isOwner)fail(403,'Only the referral owner or organisation owner can record its outcome.');
-   const next:Record<string,string>={draft:'sent',sent:'received',received:'completed'};if(next[r.state]!==c.event)fail(409,'Record referral events in order.');
+   if(!(NEXT as any)[r.state]?.includes(c.event))fail(409,`A referral that is ${r.state} cannot move to ${c.event}. Record referral events in order.`);
+   if(c.event==='scheduled'){if(!c.appointmentAt)fail(422,'Record the appointment time for a scheduled referral.');r.appointmentAt=new Date(c.appointmentAt).toISOString();}else if(c.appointmentAt)fail(422,'An appointment time applies only to a scheduled referral.');
    if(Date.parse(c.occurredAt)>Date.parse(now)+300000||Date.parse(c.occurredAt)<Math.floor(Date.parse(r.createdAt)/1000)*1000||Date.parse(c.occurredAt)<Math.floor(Date.parse(r.events?.at(-1)?.occurredAt??r.createdAt)/1000)*1000)fail(422,'Event time must follow the previous event and cannot be in the future.');
-   r.events??=[];r.events.push({id:uuid(),state:c.event,note:c.note,source:c.source,evidenceReference:c.evidenceReference,occurredAt:c.occurredAt,recordedAt:now,actorId:u.userId});r.state=c.event;detail=`Referral ${c.event}; ${c.source}; evidence recorded manually. No facility API verification or message sent.`;
+   r.events??=[];r.events.push({id:uuid(),state:c.event,note:c.note,source:c.source,evidenceReference:c.evidenceReference,occurredAt:c.occurredAt,recordedAt:now,actorId:u.userId});r.state=c.event as any;detail=`Referral ${c.event}${c.event==='scheduled'?` for ${r.appointmentAt}`:''}; ${c.source}; evidence recorded manually. No facility API verification or message sent.`;
   }
   r.version=(r.version??1)+1;
  }else{

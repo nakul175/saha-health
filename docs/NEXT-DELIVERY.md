@@ -16,7 +16,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 1c | Controlled identity merge and unmerge with a downstream impact queue | Delivered (see [slice 1c](current/SLICE-1C-MERGE.md)) |
 | 2 | Per-fact provenance, media, measured reuse, import dry runs | Planned |
 | 3 | Offline media queue, offline registration and referral creation, ordered sync, storage warnings | Planned |
-| 4 | Full referral lifecycle, escalation, unified action plan, pack migration and installation | Planned |
+| 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
+| 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
 | 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
 | 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |
