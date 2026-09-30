@@ -9,8 +9,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 0a | Load probe, linear diffing, patient-partitioned loads and per-patient commit guards | Delivered (see [slice 0a](current/SLICE-0A-STORAGE.md)) |
 | 0b | Scoped command responses (partition deltas) merged by the workspace | Delivered (see [slice 0b](current/SLICE-0B-DELTAS.md)) |
 | 0b-2 | Paged patient lists and on-demand patient detail for large team scopes | Planned |
-| 0c | Swappable identity layer; dependency audit and SBOM gate | Next |
-| 1 | Households and proxy authority, workforce lifecycle, bulk caseload transfer, merge/unmerge | Planned |
+| 0c | Swappable identity layer, SBOM and audit gate, CI workflow, local test stability | Delivered (see [slice 0c](current/SLICE-0C-IDENTITY.md)) |
+| 1 | Households and proxy authority, workforce lifecycle, bulk caseload transfer, merge/unmerge | Next |
 | 2 | Per-fact provenance, media, measured reuse, import dry runs | Planned |
 | 3 | Offline media queue, offline registration and referral creation, ordered sync, storage warnings | Planned |
 | 4 | Full referral lifecycle, escalation, unified action plan, pack migration and installation | Planned |

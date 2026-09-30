@@ -50,8 +50,16 @@ git diff --check
 
 `scripts/build-documentation.py` generates inventories, baseline transcriptions, workbook CSV exports, catalogue and execution registers. It does not change runtime behavior or mark acceptance passed. Run it after intentional source/evidence changes, review the diff, then update prose and verification baselines deliberately. The R11 baseline manifest is immutable historical evidence; a later release should add a new baseline instead of relabelling this one.
 
+## Identity provider (slice 0c)
+
+`lib/saha/identity.ts` chooses one trusted provider per deployment with `SAHA_IDENTITY_PROVIDER`. `sites-chatgpt` (default) keeps the R11 Sites headers and account IDs. `cloudflare-access` trusts only a verified `Cf-Access-Jwt-Assertion` (RS256, team keys, issuer, audience, expiry) and namespaces account IDs as `access:<subject>`; it needs `SAHA_ACCESS_TEAM_DOMAIN` and `SAHA_ACCESS_AUD`. A misconfigured provider returns 503 rather than falling back. Moving an existing deployment between providers creates new account IDs, so members must be re-invited; no identity migration tool exists yet.
+
+## Supply-chain gate (slice 0c)
+
+After a build, `node scripts/security-gate.mjs` writes a CycloneDX SBOM of production dependencies (`dist/sbom.cdx.json`) and runs `pnpm audit`. It fails on any critical advisory and on any high advisory whose package appears in `dist/`; high advisories confined to development or build tooling are listed as accepted in `dist/security-gate.json`. The bundle check is a text search of the built output, not a reachability analysis. The gate fails closed when the audit service is unreachable.
+
 ## CI boundary
 
-No complete hosted product CI qualification is established by this documentation batch. The reproducible commands and documentation checker are committed, but a future CI job must provision a disposable environment, install the pinned dependencies, build, apply migrations, run suites and retain safe reports. Do not connect CI to a real patient database or live partner by default. Until that job is actually configured and run, label it planned rather than green.
+`.github/workflows/ci.yml` (slice 0c) runs documentation integrity, install, type check, build, the supply-chain gate, the HTTP/D1 suite, contract suites and the restore drill on pull requests with synthetic data only. It had not run on GitHub when it was committed; treat it as planned until a green run exists. Earlier text: no complete hosted product CI qualification is established by this documentation batch. The reproducible commands and documentation checker are committed, but a future CI job must provision a disposable environment, install the pinned dependencies, build, apply migrations, run suites and retain safe reports. Do not connect CI to a real patient database or live partner by default. Until that job is actually configured and run, label it planned rather than green.
 
 For a documentation-only change, hashes and integrity checks are sufficient when runtime files remain unchanged. For code changes, run TypeScript/build and the tests needed for the changed invariants, then record actual execution with its limits. GitHub publication is separate from authorized Sites deployment.

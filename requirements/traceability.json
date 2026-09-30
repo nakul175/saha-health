@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-0b",
+  "engineeringRelease": "R11 + development slices 0a-0c",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -257,7 +257,7 @@
       "sourceTextLine": 172,
       "implementation": "partial",
       "target": "R15",
-      "current": "ChatGPT identity is used; shared application passwords are absent.",
+      "current": "Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains the default and a verified Cloudflare Access JWT provider allows an institutional identity provider. Shared application passwords are absent.",
       "remaining": "Verified privileged MFA, workforce recovery/device replacement and session revocation acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3054,7 +3054,7 @@
       "sourceTextLine": 581,
       "implementation": "partial",
       "target": "R15",
-      "current": "Dependency lockfile and provider configuration inventory.",
+      "current": "Dependency lockfile and provider configuration inventory. Slice 0c: production SBOM (CycloneDX) and an audit gate failing on critical advisories or high advisories present in the built bundle.",
       "remaining": "SBOM/vulnerability gates, supplier controls/subprocessors and material-change assurance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [

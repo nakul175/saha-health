@@ -164,3 +164,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - One run hit the known transient local Worker restart (a 503 on a patient search in the continuity suite, before any slice 0b test). The delta suite's temporary directory was also moved out of the repository to rule out file-watch restarts. The final run passed with unchanged expectations and no retries.
 - Browser check with headless Chromium against the built Worker and a synthetic owner: start visit, save notes, reload and see the saved notes, record weight, confirm with the patient check. Every command answered with a delta; the confirmed record displayed correctly; no console errors.
 - Load probe at 1,006 people with deltas: one write returns 5 KB instead of 774 KB; 50 simultaneous writes on different people all commit with a median of 1.7 s instead of 3.6 s. Throughput in the mixed sustained phase is still bounded by full workspace reads. TypeScript and production build passed.
+
+## Development slice 0c — identity layer, supply-chain gate and CI — 30 September 2026 IST (29 September UTC)
+
+- **1,369 automated assertions passed:** 950 HTTP/D1, 398 contract/checkpoint (380 plus 18 identity contract checks) and 21 encrypted restore checks. Reports, the production SBOM and the gate report are in `tests/evidence/slice-0c/`.
+- Identity contract checks use a locally generated RSA key and an injected key endpoint; no real Access application or identity provider was contacted. HTTP checks against the built Worker confirmed 503 for a misconfigured Access provider, 401 for Sites headers and a forged token under Access, and 401 with the Access header ignored under the default provider.
+- Supply-chain gate passed: 222 production components; 0 critical and 22 high advisories, all in development or build tooling and none found in the built output.
+- The intermittent local "worker restarted mid-request" 503, previously recorded in R10, R11, 0a and 0b, was traced to requests rejected before their body was read. After draining unread bodies, five consecutive full runs passed with no restarts.
+- The new CI workflow was committed but had not run on GitHub at the time of this record. TypeScript and production build passed. The browser check found the default sign-out link unchanged and no page errors.
