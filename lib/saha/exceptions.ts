@@ -1,0 +1,83 @@
+import { fail } from './core';
+import { allowed, normallyAllowed } from './access';
+import { operator, requireReporting } from './operations';
+import { activeOwner } from './referrals';
+import { escalation } from './referral-rules';
+import { PACKS } from './programmes';
+import type { Member, OrgState, Person } from './types';
+
+// Slice 6i: item-level operational exception queue (BR-REP-01; item links for NFR-18). Computed on read
+// from the records that hold each problem. Supervisors and owners see rows for patients in their care
+// scope with a link that opens the patient and visit. Operations members (owners, administrators) also see
+// destination-delivery rows for patients outside that scope, without patient details or links.
+export const EXCEPTION_RULES_VERSION='1.0.0';
+export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received';
+export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null};
+const RANK={critical:0,high:1,normal:2} as const;
+// Destination-delivery problems are operations work: shown, redacted, to operations members for any patient.
+const OPERATIONS_KINDS=new Set<ExceptionKind>(['submission','ehr-publication']);
+export const STALE_RUNNING_MINUTES=10,MAX_ROWS=500;
+const day=86400000;
+export const href=(personId:string,visitId:string|null)=>`/?patient=${encodeURIComponent(personId)}${visitId?`&visit=${encodeURIComponent(visitId)}`:''}`;
+
+export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString()){
+ requireReporting(m);if(m.status!=='active')fail(403,'Your membership is inactive.');
+ const today=now.slice(0,10),members=new Map(s.members.map(x=>[x.userId,x])),rows:ExceptionRow[]=[];
+ const name=(id?:string|null)=>id?members.get(id)?.displayName??'Former member':null;
+ const team=(p:Person)=>s.teams.find(t=>t.id===p.teamId)?.name??'the patient\'s team';
+ for(const p of s.workspace.people){
+  const visible=m.role!=='admin'&&allowed(m,p,now),ops=operator(m);if(!visible&&!ops)continue;
+  const add=(r:Omit<ExceptionRow,'patient'|'link'|'ageDays'>,visitId:string|null)=>{
+   if(!visible&&!OPERATIONS_KINDS.has(r.kind))return;
+   rows.push({...r,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(r.since))/day)),patient:visible?{id:p.id,name:p.name}:null,link:visible?{personId:p.id,visitId,href:href(p.id,visitId)}:null});
+  };
+  // Programme submissions whose destination outcome is unknown, retryable or rejected (and not since accepted).
+  for(const x of s.workspace.submissions)if(x.personId===p.id){
+   if(x.state==='rejected'&&s.workspace.submissions.some(y=>y.visitId===x.visitId&&y.connectorId===x.connectorId&&y.createdAt>x.createdAt))continue;
+   if(!['uncertain','retryable','rejected'].includes(x.state))continue;
+   add({id:'submission:'+x.id,kind:'submission',severity:x.state==='rejected'?'normal':'high',what:`${x.connectorName}: ${x.state==='uncertain'?'outcome unknown':x.state==='retryable'?'delivery failed, retryable':'rejected by the destination'} after ${x.attempts} attempt${x.attempts===1?'':'s'}`,since:x.updatedAt,owner:'Operations (owner or administrator)',
+    recovery:x.state==='uncertain'?'Look up the receipt before any resend; never send again blindly.':x.state==='retryable'?'Retry with the original key, or cancel if the visit changed.':'Read the rejection, correct the visit by amendment, then prepare a new submission.'},x.visitId);
+  }
+  // EHR publications without a final receipt.
+  for(const o of p.ehr?.operations??[]){
+   if(!(o.state==='uncertain'||o.state==='running'&&Date.parse(now)-Date.parse(o.at)>STALE_RUNNING_MINUTES*60000))continue;
+   add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication ${o.state==='uncertain'?'outcome unknown':'still running after '+STALE_RUNNING_MINUTES+' minutes'}`,since:o.at,owner:'Operations (owner or administrator)',recovery:'Look up the document identifier with the EHR; do not publish again.'},o.visitId);
+  }
+  if(!visible)continue;
+  // Open clinical safety cases.
+  for(const c of s.governance?.safety??[])if(c.personId===p.id&&c.state==='open')
+   add({id:'safety-case:'+c.id,kind:'safety-case',severity:'critical',what:`Open clinical safety case (${c.kind.replace(/-/g,' ')})`,since:c.createdAt,owner:name(c.ownerId)??`Clinicians of ${team(p)}`,recovery:'The clinical owner reviews the evidence in Clinical governance and resolves or reassigns the case.'},c.visitId);
+  // Escalated referrals (slice 4a rules).
+  for(const r of s.workspace.referrals)if(r.personId===p.id){
+   const e=escalation(r as any,activeOwner(s,r,p),now);if(e.level!=='escalated')continue;
+   add({id:'referral-overdue:'+r.id,kind:'referral-overdue',severity:(r.urgency??'routine')==='emergency'?'critical':'high',what:`Referral to ${r.facility}: ${e.reasons.join('; ')}`,since:r.due&&r.due<today?r.due+'T00:00:00.000Z':r.events?.at(-1)?.occurredAt??r.createdAt,
+    owner:activeOwner(s,r,p)?name(r.ownerId)!:`Supervisors of ${team(p)}`,recovery:'Record the next referral event with evidence, a reasoned delay, or assign an owner from the patient\'s action plan.'},r.visitId);
+  }
+  // Emergency access that has ended without the team's review.
+  for(const g of p.exceptionalAccess??[])if(!g.review&&(g.closedAt||g.until<=now))
+   add({id:'emergency-access-unreviewed:'+g.id,kind:'emergency-access-unreviewed',severity:'high',what:`Emergency access by ${name(g.userId)??'a clinician'} ended without review`,since:g.closedAt??g.until,owner:`Supervisors and owners of ${team(p)}`,recovery:'Review the access and its reason in Care handover and record whether it was appropriate.'},null);
+  // The latest protocol evaluation of each current visit, with findings and no clinician decision.
+  for(const v of s.workspace.visits)if(v.personId===p.id&&!v.voidedAt&&!v.supersededBy){
+   const c=v.protocolChecks?.at(-1);if(!c||c.decision||!c.findings.length)continue;
+   add({id:'protocol-review:'+c.id,kind:'protocol-review',severity:c.findings.some(f=>f.urgency==='urgent_review')?'high':'normal',what:`${c.findings.length} protocol finding${c.findings.length===1?'':'s'} awaiting clinician review`,since:c.at,owner:`Clinicians of ${team(p)}`,recovery:'A clinician with access accepts, rejects or overrides the findings on the visit.'},v.id);
+  }
+  // Overdue programme follow-ups.
+  for(const t of p.followUps??[])if(t.state==='open'&&t.due<today){
+   const o=members.get(t.ownerId),ok=!!o&&o.status==='active'&&['asha','clinician'].includes(o.role)&&normallyAllowed(o,p);
+   add({id:'follow-up-overdue:'+t.id,kind:'follow-up-overdue',severity:'normal',what:`${PACKS.find(x=>x.id===t.packId)?.name??t.packId} follow-up "${t.title}" due ${t.due}${ok?'':'; owner has no current access'}`,since:t.due+'T00:00:00.000Z',owner:ok?o!.displayName:`Supervisors of ${team(p)}`,recovery:'Complete it, or reassign it from the patient\'s action plan.'},null);
+  }
+  // Identities kept provisional at registration.
+  if(p.identityReview?.state==='provisional')
+   add({id:'identity-provisional:'+p.id,kind:'identity-provisional',severity:'normal',what:'Identity recorded as provisional; confirmed care, referrals and sharing are held',since:p.identityReview.at,owner:`Clinicians of ${team(p)}`,recovery:'A clinician reviews possible matches in Care handover and resolves the identity with a reference.'},null);
+  // Field grants that expired without a sync: offline work on that device cannot be accepted on this grant.
+  for(const l of p.fieldLeases??[])if(l.status==='active'&&l.expiresAt<=now)
+   add({id:'field-grant-expired:'+l.id,kind:'field-grant-expired',severity:'normal',what:'Field visit grant expired without a sync',since:l.expiresAt,owner:name(l.actorId)??`Supervisors of ${team(p)}`,recovery:'Ask the worker whether anything was captured offline; prepare a new field visit to sync it, otherwise revoke the grant.'},l.visitId);
+  // ABDM records received and not yet reviewed.
+  for(const r of p.abdmReceived??[])if(r.state==='review')
+   add({id:'abdm-received:'+r.id,kind:'abdm-received',severity:'normal',what:`Received ABDM record (${r.hiType}) awaiting review`,since:r.receivedAt,owner:`Clinicians of ${team(p)}`,recovery:'A clinician with access accepts or rejects the record on the patient screen.'},null);
+ }
+ rows.sort((a,b)=>RANK[a.severity]-RANK[b.severity]||b.ageDays-a.ageDays||a.since.localeCompare(b.since)||a.id.localeCompare(b.id));
+ const counts:Record<string,number>={};for(const r of rows)counts[r.kind]=(counts[r.kind]??0)+1;
+ return {rulesVersion:EXCEPTION_RULES_VERSION,generatedAt:now,total:rows.length,counts,items:rows.slice(0,MAX_ROWS),truncated:rows.length>MAX_ROWS,
+  scope:m.role==='admin'?'Administrators see destination-delivery exceptions without patient details.':operator(m)?'Patients in your care teams, plus destination-delivery exceptions for other patients without patient details.':'Patients in your care teams.'};
+}
