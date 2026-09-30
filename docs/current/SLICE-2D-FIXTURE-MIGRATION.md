@@ -1,0 +1,26 @@
+# Development slice 2d — controlled migration: marking seeded fixtures
+
+30 September 2026 (IST). Builds on slice 6n. Synthetic data only; formal acceptance unchanged.
+
+## What changed
+
+- **The need.** Slice 6n marks the six seeded fixture people `synthetic: true` when an organisation is seeded and refuses to send a marked record to any destination outside the synthetic environment. Fixtures seeded before 6n carry no mark, so that barrier does not cover them. This slice adds a controlled migration, `mark-seeded-fixtures-v1` (`lib/saha/fixture-migration.ts`), that marks them.
+- **Dry run.** `GET /api/fixture-migration` (owners only) examines the organisation and reports: records examined, records with a seeded fixture id, candidates (fixture id and the seeded name, not yet marked, in the owner's normal care scope) with their record versions, rejected records with a reason (a fixture id with another name, for review rather than marking), already marked, and fixture records outside the owner's care scope (counted, not examined). It returns ids, versions, counts and reasons, never names, and a plan hash over the candidates' and rejected records' ids and versions. Batch history is returned with it.
+- **Apply.** `fixtureMarkApply` (owners only) recomputes the dry run and refuses with a 409 unless its plan hash equals the one supplied, so only the exact reviewed plan is applied and any change to a candidate since the dry run (a correction, a new version) forces a new dry run. Each candidate gets `synthetic: true` and `syntheticMark` (batch id, time, owner). Nothing else in the record changes; no enrolment is created and no clinical decision is touched. The store writes one revision per marked record with the owner's reason (source lineage), and the audit chain records the batch with its counts and plan hash. The batch record in the organisation's operations settings keeps counts and the plan hash, not record ids.
+- **Reverse.** `fixtureMarkRevert` (owners only) removes the marks carrying that batch id, once, with a reason, a revision per record and an audit event. Marks written at seeding by slice 6n are not touched.
+- **Screen.** Organisation & team gains an owner-only "Data migration: mark seeded fixtures" panel: dry run, apply with a reason, and a batch list with reversal.
+- The commands follow the existing maintenance rule: they are paused while the organisation is paused.
+
+## Evidence
+
+- 22 contract checks (`tests/fixture-migration-contract.mjs`): dry-run counts and reasons for candidates, a renamed fixture, an already marked fixture, a fixture in another team and a registered person, with no names in the report; a stable plan hash that changes with a record version; a stale plan, a non-owner and invalid inputs refused; apply marks exactly the three candidates and records batch counts and an audit line with the plan hash; the slice 6n guard then refuses an EHR publication for a marked record in production but not for the rejected one; a second dry run finds nothing and applying it is refused; reversal removes only this batch's marks, once, and the dry run again equals the original plan; through the real store and migrations, one revision per marked record with the reason and the changed field, the persisted version moves so an old plan cannot be replayed, reversal writes three more revisions, the batch record holds no record ids, and the audit chain verifies with both events.
+- 28 HTTP/D1 assertions (`tests/fixture-migration-smoke.mjs`): a new account's fixtures stripped of their marks in the local database stand in for pre-6n data; ASHA, supervisor, administrator and non-member refused the dry run and a supervisor member refused apply; a fixture renamed with the correction command is rejected for review; a correction after the dry run makes its plan stale (409); the fresh plan marks five with five revisions and a counted audit line; a second apply is refused; reversal clears the five marks once; the chain verifies.
+- Browser check (headless Chromium, built Worker, synthetic owner whose fixtures were unmarked in the local database): the panel's dry run showed six to mark, applying with a reason marked six and listed the batch, and reversing it cleared all six. A first run captured one colour-contrast finding while the panel was still updating after the reversal (the script's wait matched static text too early); after fixing the wait, two runs found no violations in the dry-run, applied and reversed states. No console errors. `tests/evidence/slice-2d/browser-fixture-migration.json`.
+- All suites: see [VALIDATION.md](../../VALIDATION.md). Reports in `tests/evidence/slice-2d/`.
+
+## Limits
+
+- One migration. There is still no general import: no CSV or partner-file dry runs, no duplicate review across sources, no rejection files and no data-quality report beyond this migration's counts (BR-DATA-11 stays partial).
+- Candidates are identified by fixture id and seeded name. A fixture whose name was corrected is rejected for manual review; there is no command to mark a single reviewed record.
+- Records outside the owner's care scope are counted but not marked; an owner with every team covers the whole organisation.
+- Reversal reverses one batch as a whole. A record changed after marking is still unmarked by reversal; the revision history shows both changes.
