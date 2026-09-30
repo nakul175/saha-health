@@ -7,6 +7,7 @@ import type { Actor } from './store';
 import type { AgentProvider, AgentRun } from './agent';
 import type { Evaluation } from './evaluation';
 import { checkMonthlyBudget } from './ai-budget';
+import type { ProviderSandbox, ProposalOrigin } from './provider-sandbox';
 const id=z.string().trim().min(1).max(200),text=z.string().trim().min(10).max(1000),version=z.number().int().positive();
 const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>Number.isFinite(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x);
 const unique=(v:string[])=>new Set(v).size===v.length;
@@ -22,10 +23,10 @@ export const governanceSpec=z.discriminatedUnion('kind',[
  z.object({...common,kind:z.literal('capability'),providerId:id,model:id,agentVersion:id,purpose:z.literal('documentary-evidence'),ageMin:z.number().int().min(0).max(120),ageMax:z.number().int().min(0).max(120),roles,languages:z.array(z.enum(['en','hi'])).min(1).max(2).refine(unique),settings:z.array(z.enum(['community','facility'])).min(1).max(2).refine(unique),devices:z.array(z.literal('browser')).length(1),tasks:z.array(z.enum(['extract','summary'])).min(1).max(2).refine(unique),excludedUses:text,supportContact:id,hostingRegion:id,retentionTerms:text,trainingUse:z.literal('not-authorised'),agreementReference:id,dailyCallLimit:z.number().int().min(1).max(100),dailyTokenBudget:z.number().int().min(6000).max(600000)}).strict()
 ]);
 export type GovernanceSpec=z.infer<typeof governanceSpec>;
-export type GovernanceEntry={id:string;revision:number;version:number;spec:GovernanceSpec;manifestHash:string;createdBy:string;createdAt:string;replacesId?:string;state:'draft'|'reviewed'|'active'|'suspended'|'retired';review?:{by:string;memberVersion:number;ownerVersion:number;authorVersion:number;at:string;reference:string;findings:string;dependencyStamp:string;evaluationId?:string};history:{at:string;by:string;state:string;reason:string}[]};
+export type GovernanceEntry={id:string;revision:number;version:number;spec:GovernanceSpec;manifestHash:string;createdBy:string;createdAt:string;replacesId?:string;origin?:ProposalOrigin;state:'draft'|'reviewed'|'active'|'suspended'|'retired';review?:{by:string;memberVersion:number;ownerVersion:number;authorVersion:number;at:string;reference:string;findings:string;dependencyStamp:string;evaluationId?:string};history:{at:string;by:string;state:string;reason:string}[]};
 export type ProtocolCheck={id:string;at:string;by:string;byVersion:number;visitVersion:number;personVersion:number;contextHash:string;protocols:{id:string;manifestHash:string;revision:number;title:string}[];findings:{entryId:string;ruleId:string;label:string;urgency:string;action:string;service:{id:string;title:string;contactRoute:string;location:string};evidence:string;sources:{title:string;url:string;edition:string}[]}[];unknowns:string[];decision?:{by:string;at:string;decision:'accepted'|'rejected'|'override';reason:string;reference:string}};
 export type SafetyCase={id:string;personId:string;visitId:string;ownerId:string;createdBy:string;createdAt:string;version:number;kind:string;summary:string;state:'open'|'closed';entryId?:string;evidence:{visitVersion:number;recordVersion:number;agentRuns:{id:string;provider:string;model:string;status:string}[];protocolCheckIds:string[]};resolution?:{by:string;at:string;reason:string;reference:string}};
-export type Governance={entries:GovernanceEntry[];evaluations:Evaluation[];safety:SafetyCase[]};
+export type Governance={entries:GovernanceEntry[];evaluations:Evaluation[];safety:SafetyCase[];sandbox?:ProviderSandbox};
 export const governanceState=(s:OrgState)=>s.governance??{entries:[],evaluations:[],safety:[]};
 export const governanceSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('createGovernance'),spec:governanceSpec,replacesId:id.optional()}).strict(),
@@ -42,7 +43,8 @@ export const governanceSchema=z.discriminatedUnion('type',[
 ]);
 export function entryFor(s:OrgState,id:string){const e=governanceState(s).entries.find(e=>e.id===id);if(!e)fail(404,'Review package not found.');return e;}
 const member=(s:OrgState,id:string)=>s.members.find(m=>m.userId===id&&m.status==='active');
-export const governanceManager=(m:Member)=>m.isOwner||m.role==='clinician'||m.role==='admin';
+// Slice 5b: provider accounts author capability proposals in their sandbox only (authorizeSandbox).
+export const governanceManager=(m:Member)=>m.isOwner||m.role==='clinician'||m.role==='admin'||m.role==='provider';
 export function entryScope(m:Member,e:GovernanceEntry){return m.status==='active'&&(m.isOwner||m.role==='admin'||e.spec.teamIds.some(t=>m.teamIds.includes(t)));}
 function dependencies(s:OrgState,e:GovernanceEntry){return e.spec.kind==='protocol'?[...e.spec.sourceIds,...new Set(e.spec.rules.map(r=>r.serviceId))].map(id=>entryFor(s,id)):[];}
 function dependencyStamp(s:OrgState,e:GovernanceEntry){return JSON.stringify(dependencies(s,e).map(d=>({id:d.id,version:d.version,manifestHash:d.manifestHash})));}

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5b, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 150,
-    "not-built": 3,
+    "partial": 151,
+    "not-built": 2,
     "unverified": 9
   },
   "acceptance": {
@@ -1464,13 +1464,28 @@
       "requirement": "Providers may maintain documentation, credentials for testing and proposed versions in an isolated environment using approved synthetic data. They shall not publish directly to production or inspect unrestricted patient payloads.",
       "acceptance": "Acceptance: Provider test access remains limited to its own capability and synthetic environment; production activation follows the standard review path.",
       "sourceTextLine": 330,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R16",
-      "current": "No separate provider self-service environment or account role.",
-      "remaining": "Isolated provider documentation/test access and reviewed proposed versions.",
+      "current": "Slice 5b: provider sandbox organisations (no patient records, one provider) with a provider-only role limited to its own documentation, credential references, capability proposals and synthetic evaluations; owner import into production as a draft that must pass production evaluation, independent review and owner activation.",
+      "remaining": "Physically isolated environment, provider-registered test endpoints, provider-facing contract and independent acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "lib/saha/agent-provider.ts",
+        "lib/saha/agent.ts",
+        "tests/agent-contract.mjs",
+        "REMAINING-RELEASES.md",
+        "lib/saha/governance.ts",
+        "tests/governance-smoke.mjs",
+        "tests/governance-contract.mjs",
+        "AI-GOVERNANCE.md",
+        "lib/saha/evaluation.ts",
+        "lib/saha/evaluation-execution.ts",
+        "lib/saha/provider-sandbox.ts",
+        "lib/saha/provider-sandbox-server.ts",
+        "app/provider-sandbox-panel.tsx",
+        "tests/provider-sandbox-contract.mjs",
+        "tests/provider-sandbox-smoke.mjs",
+        "docs/current/SLICE-5B-PROVIDER-SANDBOX.md"
       ],
       "automatedAcceptanceClaim": false
     },
