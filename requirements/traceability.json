@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3b, 4a, 6a-6e, 7a-7b, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3b, 4a, 6a-6e, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 149,
-    "not-built": 4,
+    "partial": 150,
+    "not-built": 3,
     "unverified": 9
   },
   "acceptance": {
@@ -1996,13 +1996,17 @@
       "requirement": "ABDM clinical artefacts shall conform to the pinned NRCeS FHIR implementation package agreed for the deployment. The validator, profile set, terminology content and mapping shall be versioned together; upgrades require regression testing and owner approval [S2].",
       "acceptance": "Acceptance: Every outbound test bundle passes the pinned validator; a deliberate profile violation is rejected with a specific error and no external submission.",
       "sourceTextLine": 419,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R13",
-      "current": "No NRCeS profile package or terminology validator is installed.",
-      "remaining": "Pinned ABDM validator/profile/terminology/mapping bundle and upgrade regression corpus.",
+      "current": "Slice 7c: a pinned, versioned structural rule set (FHIR R4 Bundle invariants bdl-7, bdl-9, bdl-10, bdl-11 and a Saha subset) validates every outbound EHR and mock ABDM document before anything is sent, stamps it, and refuses a deliberate violation with a specific error; 14-case regression corpus. No NRCeS profile package or terminology validator is installed.",
+      "remaining": "Pinned NRCeS profile package, HL7 validator, terminology and mapping bundle, owner-approved upgrades, and a partner-agreed regression corpus.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "docs/current/SLICE-7C-OUTBOUND-VALIDATION.md",
+        "lib/saha/fhir-validate.ts",
+        "tests/fhir-validate-contract.mjs",
+        "tests/abdm-transfer-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

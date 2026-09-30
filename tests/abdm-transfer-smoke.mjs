@@ -25,6 +25,7 @@ export async function abdmTransferSmoke({get,post,check,accounts,org,base}){
  check(()=>{const p=person(pid);assert.equal(p.abdmReceived.length,1);assert.equal(p.abdmReceived[0].bundle,undefined,'snapshots carry no decrypted bundle');assert.match(p.careContexts[0].abhaNumber,/XXXX/);});
  let v=await view({personId:pid});
  check(()=>{assert.equal(v.received[0].state,'review');assert.match(v.received[0].summary,/Patient/);assert.equal(v.transfers[0].state,'delivered');assert.equal(v.careContexts[0].current,true);});
+ check(()=>{assert.match(v.received[0].summary,/^Composition, /,'slice 7c: received entries are FHIR documents');assert.equal(v.received[0].validation,'saha-fhir-r4-document-structure 1.0.0');});
  await post(o,{type:'abdmReceivedReview',personId:pid,version:person(pid).version,recordId:v.received[0].id,decision:'accepted',note:'Matches the patient and visit date'});
  await post(o,{type:'abdmReceivedReview',personId:pid,version:person(pid).version,recordId:v.received[0].id,decision:'rejected',note:'Second review attempt'},409);
  await post(a,{type:'abdmConsentRevoke',personId:pid,consentId:cid,reason:'Patient withdrew permission in person'},403);

@@ -295,3 +295,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The first run of the new checks failed on the test's own expectation of the usage text ("10.0 MB" where the page correctly prints "10 MB" at exactly 10 MB); the expectation was corrected.
 - Browser check with headless Chromium: the page showed usage against a 408 MB allowance and reported that the browser did not agree to keep the data (headless Chromium refuses persistence). No console errors. `tests/evidence/slice-3b/storage-browser.json`.
 - BR-OFF-08 evidence text updated; status stays partial. Counts unchanged at 14 implemented-local, 149 partial, 4 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 7c — pinned outbound FHIR validation — 30 September 2026 IST (30 September UTC)
+
+- **2,248 automated assertions passed:** 1,489 HTTP/D1 (1,487 plus 2 validation-stamp checks), 738 contract/checkpoint (716 plus 20 validation contract checks and 2 ABDM deliberate-violation checks) and 21 encrypted restore checks over 31 SQLite tables. Reports: `tests/evidence/slice-7c/`.
+- Changed existing tests: the slice 7b ABDM transfer contract compared the received bundle with the example collection; the mock HIP now sends documents, so that assertion was replaced by document checks (Composition first, patient, visit weight, stamp). The R11 EHR contract suites gained `fhir-validate` in their transpile file lists; their assertions are unchanged.
+- Browser check with headless Chromium over the mock ABDM flow: the received record showed the validation stamp; all requests returned 200; no console errors.
+- Assessment changes: BR-INT-17 moved from not-built to partial. Counts are now 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending. The rule set is a structural subset of FHIR R4, not NRCeS conformance.
