@@ -16,7 +16,7 @@ import type { Member, OrgState, Person } from './types';
 export type DelegationKind='team-supervision'|'reporting';
 export type Delegation={id:string;version:number;kind:DelegationKind;grantorId:string;delegateId:string;teamIds:string[];from:string;until:string;reason:string;createdAt:string;revokedAt?:string;revokedBy?:string;revokeReason?:string};
 export type DelegationUse={id:string;kind:DelegationKind;grantorId:string;until:string};
-export const MAX_DAYS=30,MAX_RECORDS=200,MAX_ACTIVE_PER_DELEGATE=5;
+export const MAX_DAYS=30,MAX_RECORDS=200,MAX_ACTIVE_PER_DELEGATE=5,MAX_STORED=1000;
 export const KIND_LABEL:Record<DelegationKind,string>={'team-supervision':'Team supervision','reporting':'Reporting only'};
 // What each kind lets the delegate do; the UI and documentation show this list.
 export const SCOPE:Record<DelegationKind,string>={'team-supervision':'Assign patients within the team, steward rights requests, reassign action-plan items and manage referral ownership for the team\'s patients.','reporting':'View and export the scoped aggregate care report for the teams. No patient records, exception queue, indicators or operations settings.'};
@@ -76,6 +76,9 @@ export function applyDelegation(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
   // Slice 6p: only delegations not yet ended or revoked count toward the limit; ended and revoked
   // records stay stored (with their audit events) and no longer block new grants.
   if(list.filter(x=>!x.revokedAt&&x.until>now).length>=MAX_RECORDS)fail(422,'Delegation record limit reached.');
+  // Slice 6q (second review): ended and revoked records are kept as evidence and never deleted, so the total stored is
+  // capped separately; this bounds the operations JSON row. Reaching it needs an archive policy (not built).
+  if(list.length>=MAX_STORED)fail(422,`Stored delegation record limit reached (${MAX_STORED.toLocaleString('en-IN')} records, kept as evidence). No new delegation can be granted until an archive policy is in place.`);
   d={id:uuid(),version:1,kind:c.kind,grantorId:u.userId,delegateId:c.delegateId,teamIds:c.teamIds,from:now,until:new Date(c.until).toISOString(),reason:c.reason,createdAt:now};(ops.delegations??=[]).push(d);s.operations=ops;
   detail=`${KIND_LABEL[d.kind]} delegated to ${target!.displayName} for ${teams(d.teamIds)} until ${d.until.slice(0,16).replace('T',' ')} UTC. ${c.reason}`;
  } else {

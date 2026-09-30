@@ -1,0 +1,18 @@
+{
+  "slice": "6q",
+  "base": "e9b379d",
+  "recordedAt": "2026-09-30T09:46Z",
+  "note": "New contract checks run against the base source (fix files reverted with git stash, tests kept). First failing assertion of each suite as printed.",
+  "contractOnBase": {
+    "shadow-contract": "AssertionError: whole organisation = the overlap with the capability's reviewed teams (slice 6q; before 6q this was every organisation team) \u2014 actual ['team','other']",
+    "safe-logs-contract": "AssertionError: no search or free text set on client URL parameters",
+    "patient-directory-contract": "AssertionError: expected 400 (the name-bearing cursor was accepted)",
+    "review-fixes-contract": "TypeError: audit.sameCareScope is not a function",
+    "patient-import-contract": "AssertionError: Expected values to be strictly equal (mayImport for an ASHA-role owner was true)"
+  },
+  "httpOnBase": "not run",
+  "reviewerScripts": [
+    "/tmp/claude-0/review2/shadow-scope.mjs",
+    "/tmp/claude-0/review2/import-asha.mjs"
+  ]
+}

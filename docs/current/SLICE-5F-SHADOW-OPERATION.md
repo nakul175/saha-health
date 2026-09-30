@@ -25,3 +25,7 @@
 - The comparison is against what the clinician confirmed, which is not independent ground truth; there is no adjudication of disagreements, no confidence interval, no per-language or per-group breakdown and no drift trend over time. The report is counts only and is not a clinical validation.
 - Shadow runs use the visit's recorded note as input; visits without one are not run. Media, programme answers and other inputs are not used.
 - BR-AI-04 and BR-AI-10 stay partial.
+
+## Correction — 30 September 2026 (slice 6q)
+
+A second independent review found that this slice's scope claims were wrong. Starting, running and stopping only checked that one of the manager's teams overlapped the capability's teams: a shadow's teams were not limited to the capability revision's reviewed teams (a whole-organisation shadow took every organisation team), and a clinician in one team could run or stop a shadow covering another team and process its patients' notes. Slice 6q limits shadow teams to the reviewed teams (organisation scope is the overlap), requires an owner or a member of every shadow team to run or stop (also on replay), and skips and counts visits outside the runner's normal care scope. See [SLICE-6Q-SECOND-REVIEW-FIXES.md](SLICE-6Q-SECOND-REVIEW-FIXES.md). The text above is kept as written.

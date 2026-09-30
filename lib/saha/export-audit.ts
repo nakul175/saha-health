@@ -1,5 +1,5 @@
 import type { D1Database } from '@cloudflare/workers-types';
-import { AppError } from './core';
+import { AppError, fail } from './core';
 import { persist, type Actor } from './store';
 import type { Audit, Member, OrgState } from './types';
 // Slice 6p (independent review): an export's own audit event is written through `persist`, so the
@@ -23,3 +23,10 @@ export async function recordExportAudit(db: D1Database, opts: {
     catch (e) { if (!(e instanceof AppError) || e.status !== 409 || attempt >= limit) throw e; s = await opts.reload(); }
   }
 }
+// Slice 6q (second independent review): on the retry, the audit-chain and operations exports check the care scope
+// (sorted team ids) and, for the operations CSV, the reporting reach (teams and delegation ids) again, as the
+// data-exit route already did; a change refuses the export (409) and nothing is delivered.
+export const scopeKey = (m: { teamIds: string[] }) => [...m.teamIds].sort().join();
+export const reachKey = (r: { teams: string[]; delegations: { id: string }[] }) => [...r.teams].sort().join() + '|' + r.delegations.map(d => d.id).sort().join();
+export function sameCareScope(before: { teamIds: string[] }, now: { teamIds: string[] }) { if (scopeKey(before) !== scopeKey(now)) fail(409, 'Your care scope changed while the export was prepared. Export again.'); }
+export function sameReach(before: { teams: string[]; delegations: { id: string }[] }, now: { teams: string[]; delegations: { id: string }[] }) { if (reachKey(before) !== reachKey(now)) fail(409, 'Your reporting teams or delegations changed while the export was prepared. Export again.'); }

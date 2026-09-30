@@ -48,3 +48,7 @@ Each reproduction is now a permanent test that fails on the base and passes afte
 - Ended and revoked delegations are kept and the operations document grows by one record per grant; there is no archive or pruning.
 - The sandbox import still refuses import into the current organisation with 409, and the provider sandbox view lists only sandboxes the owner owns (unchanged).
 - The reviewer's findings are fixed; no further independent review of these fixes has taken place. BR-OPS-07, NFR-22, BR-DATA-11, BR-AI-11, BR-ID-02 and BR-ID-09 stay partial.
+
+## Correction — 30 September 2026 (slice 6q)
+
+A second independent review found two gaps in this slice. The export audit retry for the audit-chain and operations exports re-checked role and operator status only, not the care scope or, for the operations CSV, the reporting reach (the limit above says so for delegations; it was a defect, not only a limit). And with ended and revoked delegations no longer counted toward the 200-record limit, the stored delegation records were unbounded. Slice 6q refuses the export on retry if the care scope or reporting reach changed, and caps stored delegation records at 1,000 without deleting evidence. See [SLICE-6Q-SECOND-REVIEW-FIXES.md](SLICE-6Q-SECOND-REVIEW-FIXES.md). The text above is kept as written.

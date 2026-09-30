@@ -24,3 +24,7 @@
 - Duplicate detection sees only the records the importer may see and uses the same simple matcher as registration; it is not a national or cross-organisation identity check.
 - There is no batch reversal. A created person is corrected, merged or marked wrong through the existing commands, each with its own revision.
 - Files are limited to 100 rows and 16,000 characters per batch because they travel in the command body, which is bounded at 20,000 bytes; text in non-Latin scripts takes more bytes, so such a file can reach the byte bound first (refused with 413). Larger sources must be split.
+
+## Correction — 30 September 2026 (slice 6q)
+
+A second independent review found two errors in this slice. An owner holding the ASHA role could import, but duplicate matching covers only the records visible to the importer, so an existing team patient assigned to another ASHA came back `accepted` and would have been duplicated; slice 6q excludes the ASHA role from importing. And the 16,000-character file limit did not fit the 20,000-byte body limit for Devanagari text (3 bytes per letter); slice 6q states and checks the limit as 16,000 UTF-8 bytes. See [SLICE-6Q-SECOND-REVIEW-FIXES.md](SLICE-6Q-SECOND-REVIEW-FIXES.md). The text above is kept as written.

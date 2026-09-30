@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -238,7 +238,7 @@
       "sourceTextLine": 169,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope.",
+      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope. Slice 6q: stored delegation records are capped at 1,000 (kept as evidence); export retries re-check care scope; shadow runs are limited to the runner's care scope.",
       "remaining": "Programme, facility, purpose and geography policy dimensions across every channel.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -254,7 +254,9 @@
         "lib/saha/export-audit.ts",
         "tests/review-fixes-contract.mjs",
         "docs/current/SLICE-6P-REVIEW-FIXES.md",
-        "lib/saha/audit-chain.ts"
+        "lib/saha/audit-chain.ts",
+        "lib/saha/shadow.ts",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -698,7 +700,7 @@
       "sourceTextLine": 228,
       "implementation": "partial",
       "target": "R15",
-      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once).",
+      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once). Slice 6q: the ASHA role no longer imports (her duplicate matching could not see other ASHAs' patients); the import file limit is 16,000 UTF-8 bytes.",
       "remaining": "Imports beyond people (visits, enrolments, identifiers, contacts), duplicate review across external sources, downloadable rejection reports, data-quality reports and reversal for imported batches.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -724,7 +726,8 @@
         "docs/current/SLICE-2F-IMPORT-DRY-RUN.md",
         "lib/saha/export-audit.ts",
         "tests/review-fixes-contract.mjs",
-        "docs/current/SLICE-6P-REVIEW-FIXES.md"
+        "docs/current/SLICE-6P-REVIEW-FIXES.md",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1330,7 +1333,7 @@
       "sourceTextLine": 309,
       "implementation": "partial",
       "target": "R11",
-      "current": "Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views. Slice 5d: BRD lifecycle stages derived per package (registered, technically verified, approved for scope, active, suspended, retired, replaced), replacement recorded on activation, use counted per exact version, and in-progress work of an unusable capability identified with its required action (cancel, withheld, review, check applied values) on the governance page and in the audit line. Slice 5f: shadow operation of a reviewed revision for named teams or the whole organisation over at most 30 days; runs on confirmed visits (local rules provider only) without showing, applying or planning its output; consent, restriction, budget and lifecycle respected.",
+      "current": "Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views. Slice 5d: BRD lifecycle stages derived per package (registered, technically verified, approved for scope, active, suspended, retired, replaced), replacement recorded on activation, use counted per exact version, and in-progress work of an unusable capability identified with its required action (cancel, withheld, review, check applied values) on the governance page and in the audit line. Slice 5f: shadow operation of a reviewed revision for named teams or the whole organisation over at most 30 days; runs on confirmed visits (local rules provider only) without showing, applying or planning its output; consent, restriction, budget and lifecycle respected. Slice 6q (second independent review): a shadow's teams are limited to the revision's reviewed teams (organisation scope is the overlap); running and stopping need an owner or a member of every shadow team, also on replay; visits outside the runner's normal care scope are skipped and counted.",
       "remaining": "Verified registration step, deployment-specific activation, automatic and live-provider shadow runs, delivered impact queues and live lifecycle acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1354,7 +1357,8 @@
         "app/shadow-panel.tsx",
         "tests/shadow-contract.mjs",
         "tests/shadow-smoke.mjs",
-        "docs/current/SLICE-5F-SHADOW-OPERATION.md"
+        "docs/current/SLICE-5F-SHADOW-OPERATION.md",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1514,7 +1518,7 @@
       "sourceTextLine": 327,
       "implementation": "partial",
       "target": "R11",
-      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers. Slice 5i: drift monitoring per capability revision from shadow comparisons: agreement rate per 7-day period by visit confirmation date over the last four periods, and a flag when the rate drops by more than 10 percentage points between consecutive periods with at least 10 rated fields each, counts only, to governance managers on the Clinical governance page; nothing is suspended automatically.",
+      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers. Slice 5i: drift monitoring per capability revision from shadow comparisons: agreement rate per 7-day period by visit confirmation date over the last four periods, and a flag when the rate drops by more than 10 percentage points between consecutive periods with at least 10 rated fields each, counts only, to governance managers on the Clinical governance page; nothing is suspended automatically. Slice 6q: shadow comparisons (the drift input) no longer include teams outside the revision's reviewed teams or patients outside the runner's care scope.",
       "remaining": "Representative quality monitoring on live, representative data rather than local-rules shadow comparisons, configurable drift thresholds, drift from synthetic evaluations, independent ground-truth annotation and adjudication, delivered alerting and clinical response operations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1535,7 +1539,8 @@
         "docs/current/SLICE-5F-SHADOW-OPERATION.md",
         "lib/saha/drift.ts",
         "tests/drift-contract.mjs",
-        "docs/current/SLICE-5I-DRIFT-MONITORING.md"
+        "docs/current/SLICE-5I-DRIFT-MONITORING.md",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3018,7 +3023,7 @@
       "sourceTextLine": 540,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked).",
+      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach.",
       "remaining": "Buyer-authorised export beyond the owner's care scope, independent re-import tooling, staged exports for large tenants and queue disposition on provider termination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3036,7 +3041,8 @@
         "tests/review-fixes-contract.mjs",
         "docs/current/SLICE-6P-REVIEW-FIXES.md",
         "lib/saha/audit-chain-server.ts",
-        "lib/saha/operations-server.ts"
+        "lib/saha/operations-server.ts",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3198,7 +3204,7 @@
       "sourceTextLine": 566,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs.",
+      "current": "Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs. Slice 6q (second independent review): the paged patient list no longer puts names in URLs (opaque cursor, POST search); the static check also flags free-text and search keys set on URLSearchParams.",
       "remaining": "Hosted log, crash-report and analytics configuration and retention, identifiers in request paths, and a separate access-controlled store for necessary sensitive diagnostics with policy review.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3209,7 +3215,10 @@
         "lib/saha/monitoring.ts",
         "tests/safe-logs-contract.mjs",
         "tests/safe-logs-smoke.mjs",
-        "docs/current/SLICE-6L-SAFE-LOGS.md"
+        "docs/current/SLICE-6L-SAFE-LOGS.md",
+        "lib/saha/patient-directory.ts",
+        "app/patient-directory-panel.tsx",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3995,7 +4004,7 @@
       "sourceTextLine": 753,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain. Slice 6p: the manifest counts withheld entries inside organisation documents and is complete only when none is withheld; the offline verifier checks every personId inside those documents against the exported patients and that completeness claim.",
+      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain. Slice 6p: the manifest counts withheld entries inside organisation documents and is complete only when none is withheld; the offline verifier checks every personId inside those documents against the exported patients and that completeness claim. Slice 6q: export audit retries also re-check care scope and, for the operations CSV, reporting teams and delegation ids.",
       "remaining": "Independent re-import by a third party, units and provenance documentation for every JSON field, and buyer sign-off of the format.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4010,7 +4019,8 @@
         "docs/current/SLICE-6M-DATA-EXIT.md",
         "lib/saha/export-audit.ts",
         "tests/review-fixes-contract.mjs",
-        "docs/current/SLICE-6P-REVIEW-FIXES.md"
+        "docs/current/SLICE-6P-REVIEW-FIXES.md",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4044,7 +4054,7 @@
       "sourceTextLine": 759,
       "implementation": "unverified",
       "target": "R16",
-      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence.",
+      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body.",
       "remaining": "Partitioned architecture, topology/load/support/cost review before 10000-worker or five-million-person expansion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4053,7 +4063,8 @@
         "lib/saha/patient-directory.ts",
         "tests/patient-directory-contract.mjs",
         "tests/patient-directory-smoke.mjs",
-        "tests/evidence/slice-0b3/load-envelope-0b3.json"
+        "tests/evidence/slice-0b3/load-envelope-0b3.json",
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
