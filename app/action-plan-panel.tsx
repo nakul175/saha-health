@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Person, Snapshot } from '@/lib/saha/types';
 type Command=(c:any,message?:string)=>Promise<any>;
-const KIND_LABEL:Record<string,string>={'safety-case':'Safety case',referral:'Referral','protocol-review':'Protocol review','follow-up':'Programme follow-up',outreach:'Outreach','message-follow-up':'Message follow-up'};
+const KIND_LABEL:Record<string,string>={'safety-case':'Safety case',referral:'Referral','protocol-review':'Protocol review','ai-disagreement':'Assistant disagreement','follow-up':'Programme follow-up',outreach:'Outreach','message-follow-up':'Message follow-up'};
 const ATTENTION_LABEL:Record<string,string>={escalated:'Escalated',overdue:'Overdue','due-today':'Due today',now:'Review now',undated:'No due date',upcoming:'Upcoming'};
 
 // Slice 4b: one ordered plan of this patient's open work, with owners and ownership gaps.

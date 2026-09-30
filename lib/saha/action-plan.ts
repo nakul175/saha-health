@@ -8,7 +8,7 @@ import type { Member, OrgState, Person, Referral } from './types';
 
 // Slice 4b: one per-patient action plan (BR-CARE-05) with visible ownership (BR-CARE-01).
 // Computed on read from the records that already hold the work; nothing is copied or sent.
-export type PlanKind='safety-case'|'referral'|'protocol-review'|'follow-up'|'outreach'|'message-follow-up';
+export type PlanKind='safety-case'|'referral'|'protocol-review'|'ai-disagreement'|'follow-up'|'outreach'|'message-follow-up';
 export type Attention='escalated'|'overdue'|'due-today'|'now'|'undated'|'upcoming';
 export type PlanTarget={kind:'follow-up'|'referral';id:string;version:number};
 export type PlanItem={key:string;kind:PlanKind;title:string;reason:string;sources:{kind:PlanKind;id:string;label:string;programme?:string;visitId?:string}[];
@@ -17,7 +17,7 @@ export type PlanItem={key:string;kind:PlanKind;title:string;reason:string;source
  assignVia:'action-plan'|'governance'|'outreach'|'none';targets:PlanTarget[];canAssign:boolean;canClaim:boolean};
 const ATTENTION:Record<Attention,number>={escalated:0,overdue:1,'due-today':2,now:3,undated:4,upcoming:5};
 const URGENCY:Record<Urgency,number>={emergency:0,urgent:1,routine:2};
-const KIND:Record<PlanKind,number>={'safety-case':0,referral:1,'protocol-review':2,'follow-up':3,outreach:4,'message-follow-up':5};
+const KIND:Record<PlanKind,number>={'safety-case':0,referral:1,'protocol-review':2,'ai-disagreement':3,'follow-up':4,outreach:5,'message-follow-up':6};
 const day=86400000;
 // Stewards may reassign any open item of a patient in their team; this mirrors referrals.ts.
 export const steward=(m:Member,p:Person)=>m.status==='active'&&m.role!=='admin'&&(m.role==='supervisor'||m.isOwner)&&m.teamIds.includes(p.teamId);
@@ -68,6 +68,14 @@ export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOStri
   const urgent=check.findings.some(f=>f.urgency==='urgent_review'),gap=clinicians?null:`No clinician with current access in ${team}`;
   items.push({key:'protocol-review:'+check.id,kind:'protocol-review',title:`Review ${check.findings.length} protocol finding${check.findings.length===1?'':'s'}`,reason:check.findings.map(f=>f.label).join('; '),sources:[{kind:'protocol-review',id:check.id,label:'Protocol evaluation',visitId:v.id}],owner:null,queue:`Clinicians of ${team}`,ownershipGap:gap,due:null,urgency:urgent?'urgent':'routine',status:'Awaiting clinician review',daysOverdue:0,
    attention:gap?'escalated':urgent?'now':'undated',assignVia:'none',targets:[],canAssign:false,canClaim:false});
+ }
+ // Slice 5c (BR-AG-08): open assistant results on the same visit version that disagree are one review task for
+ // the worker who requested them, listing every original value; nothing is combined.
+ for(const v of s.workspace.visits)if(v.personId===p.id&&!v.voidedAt&&!v.supersededBy&&v.state==='draft'){
+  const runs=(v.agentRuns??[]).filter(r=>r.status==='review'&&!r.reviewDecision&&r.visitVersion===v.version&&r.conflicts?.some(c=>c.kind==='other-run'));if(!runs.length)continue;
+  const values=new Map<string,Set<string>>();for(const r of runs)for(const c of r.conflicts!)if(c.kind==='other-run')values.set(c.field,new Set([...(values.get(c.field)??[]),`${c.proposed} (${r.provider.name})`]));
+  const owner=who(runs[0].actorId,o=>eligibleOwner(o,p)),gap=gapFor(owner);
+  items.push({key:'ai-disagreement:'+v.id+':'+runs.map(r=>r.id).sort().join(','),kind:'ai-disagreement',title:'Assistant results disagree',reason:[...values].map(([f,xs])=>`${f}: ${[...xs].join(' vs ')}`).join('; ')+'. Choose explicitly or record the value manually.',sources:runs.map(r=>({kind:'ai-disagreement' as const,id:r.id,label:'Assistant result · '+r.provider.name,visitId:v.id})),owner,queue:gap?`Care workers of ${team}`:null,ownershipGap:gap,due:null,urgency:'routine',status:'Awaiting reviewer choice',daysOverdue:0,attention:gap?'escalated':'now',assignVia:'none',targets:[],canAssign:false,canClaim:false});
  }
  // Outreach items and failed-message follow-ups keep their own reassignment on the Outreach page.
  for(const plan of s.outreach?.plans??[])if(!['completed','cancelled'].includes(plan.state))for(const i of plan.items)if(i.personId===p.id&&!['completed','cancelled'].includes(i.state)){

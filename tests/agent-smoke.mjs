@@ -12,7 +12,7 @@ export async function agentSmoke({o,c,w,a,s,post,get,check,org,sql}){
  await post(c,{type:'executeAgent',visitId,runId,inputHash:run().inputHash},403,crypto.randomUUID(),org);
  await post(o,{type:'executeAgent',visitId,runId,inputHash:'wrong'},409);
  const key=crypto.randomUUID(),execute={type:'executeAgent',visitId,runId,inputHash:run().inputHash};await Promise.all([post(o,execute,200,key),post(o,execute,200,key)]);await get(o,'/api/workspace',200,org);
- check(()=>{assert.equal(run().status,'review');assert.equal(run().callCount,1);assert.equal(run().output.proposals.length,4);assert.equal(v().facts.weight,'');assert.equal(run().version,'saha-agent-1.1.0')});
+ check(()=>{assert.equal(run().status,'review');assert.equal(run().callCount,1);assert.equal(run().output.proposals.length,4);assert.equal(v().facts.weight,'');assert.equal(run().version,'saha-agent-1.2.0')});
  await post(o,execute);check(()=>assert.equal(run().callCount,1));
  const apply=()=>({type:'applyAgent',visitId,runId,version:v().version,fields:['weight','systolic','diastolic','coughDays'],includeNote:true,source:'measured',date:v().facts.date});
  await post(o,{...apply(),fields:['temperature']},422);await post(o,{...apply(),fields:['systolic']},422);await post(o,{...apply(),date:'2026-02-30T10:00'},422);

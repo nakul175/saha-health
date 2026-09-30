@@ -6,23 +6,32 @@ import { measureOf } from './fact-provenance';
 import { normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Facts, OrgState, Member, Visit, Integration } from './types';
-export const AGENT_VERSION='saha-agent-1.1.0';
+// 1.2.0 (slice 5c): explicit unable-to-assess outcome in the output contract.
+export const AGENT_VERSION='saha-agent-1.2.0';
 export const FIELDS=['systolic','diastolic','weight','temperature','weeks','coughDays'] as const;
 export type AgentField=typeof FIELDS[number];
 export const FIELD_LABEL:Record<AgentField,string>={systolic:'Systolic BP · mmHg',diastolic:'Diastolic BP · mmHg',weight:'Weight · kg',temperature:'Temperature · °C',weeks:'Gestational age · weeks',coughDays:'Cough duration · days'};
 export type Evidence={quote:string;start:number;end:number};
 export type Proposal=Evidence&{field:AgentField;value:string};
-export type AgentOutput={proposals:Proposal[];highlights:Evidence[]};
+// Slice 5c (BR-AI-06): a provider that cannot assess its input says so explicitly and proposes nothing.
+export const ASSESSMENT_REASONS=['insufficient_input','noisy_input','unsupported_case'] as const;
+export type AgentAssessment={status:'unable_to_assess';reason:typeof ASSESSMENT_REASONS[number];detail:string;retry:string};
+export const ASSESSMENT_LABEL:Record<AgentAssessment['reason'],string>={insufficient_input:'Insufficient input',noisy_input:'Noisy or illegible input',unsupported_case:'Unsupported case'};
+export type AgentOutput={proposals:Proposal[];highlights:Evidence[];assessment?:AgentAssessment};
+// Slice 5c (BR-AG-08): a proposed value that differs from a recorded fact or from another open request on the same visit version.
+export type AgentConflict={field:AgentField;kind:'recorded'|'other-run';proposed:string;other:string;otherRunId?:string;otherProvider?:string};
+export type AgentResolution={field:AgentField;proposed:string;replaced:string[];reason:string;by:string;at:string};
 export type AgentProvider={id:string;name:string;mode:'local'|'openai'|'http';model:string;version:number;available:boolean;reason:string};
-export type AgentRun={governance?:{id:string;version:number;manifestHash:string};context?:{language:string;setting:string;device:string};reviewDecision?:{by:string;at:string;decision:string;reason:string;reference:string};id:string;task:'extract'|'summary'|'review';status:'pending'|'running'|'review'|'applied'|'cancelled'|'failed'|'blocked';actorId:string;createdAt:string;expiresAt:string;startedAt?:string;finishedAt?:string;version:string;provider:AgentProvider;visitVersion:number;personVersion:number;consentVersion:number;inputHash:string;input:string;output?:AgentOutput;warnings:string[];message:string;callCount:number;approvedAt?:string;appliedFields?:string[];usage?:{inputTokens:number;outputTokens:number};steps:{name:string;state:'pending'|'done'|'blocked';detail:string}[]};
+export type AgentRun={assessment?:AgentAssessment;conflicts?:AgentConflict[];resolutions?:AgentResolution[];governance?:{id:string;version:number;manifestHash:string};context?:{language:string;setting:string;device:string};reviewDecision?:{by:string;at:string;decision:string;reason:string;reference:string};id:string;task:'extract'|'summary'|'review';status:'pending'|'running'|'review'|'applied'|'cancelled'|'failed'|'blocked';actorId:string;createdAt:string;expiresAt:string;startedAt?:string;finishedAt?:string;version:string;provider:AgentProvider;visitVersion:number;personVersion:number;consentVersion:number;inputHash:string;input:string;output?:AgentOutput;warnings:string[];message:string;callCount:number;approvedAt?:string;appliedFields?:string[];usage?:{inputTokens:number;outputTokens:number};steps:{name:string;state:'pending'|'done'|'blocked';detail:string}[]};
 const evidence=z.object({quote:z.string().min(1).max(600),start:z.number().int().min(0),end:z.number().int().positive()});
-export const agentOutputSchema=z.object({proposals:z.array(evidence.extend({field:z.enum(FIELDS),value:z.string().regex(/^\d+(\.\d+)?$/).max(12)}).strict()).max(12),highlights:z.array(evidence.strict()).max(8)}).strict();
+export const assessmentSchema=z.object({status:z.literal('unable_to_assess'),reason:z.enum(ASSESSMENT_REASONS),detail:z.string().trim().min(1).max(300),retry:z.string().trim().min(1).max(300)}).strict();
+export const agentOutputSchema=z.object({proposals:z.array(evidence.extend({field:z.enum(FIELDS),value:z.string().regex(/^\d+(\.\d+)?$/).max(12)}).strict()).max(12),highlights:z.array(evidence.strict()).max(8),assessment:assessmentSchema.nullable().optional()}).strict();
 const id=z.string().min(1).max(200),ver=z.number().int().positive();
 export const agentSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('prepareAgent'),visitId:id,version:ver,providerId:id,task:z.enum(['extract','summary','review']),input:z.string().trim().max(3000),context:z.object({language:z.enum(['en','hi']),setting:z.enum(['community','facility']),device:z.literal('browser')}).strict().optional()}).strict(),
  z.object({type:z.literal('executeAgent'),visitId:id,runId:id,inputHash:id}).strict(),
  z.object({type:z.literal('cancelAgent'),visitId:id,runId:id}).strict(),
- z.object({type:z.literal('applyAgent'),visitId:id,runId:id,version:ver,fields:z.array(z.enum(FIELDS)).min(1).max(6),includeNote:z.boolean().default(false),source:z.enum(['measured','reported']),date:z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/)}).strict(),
+ z.object({type:z.literal('applyAgent'),visitId:id,runId:id,version:ver,fields:z.array(z.enum(FIELDS)).min(1).max(6),includeNote:z.boolean().default(false),resolve:z.array(z.enum(FIELDS)).max(6).default([]),conflictReason:z.string().trim().min(10).max(500).optional(),source:z.enum(['measured','reported']),date:z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/)}).strict(),
  z.object({type:z.literal('enableAgentContract'),integrationId:id,version:ver,model:z.string().trim().min(1).max(120)}).strict()
 ]);
 export type AgentCommand=z.infer<typeof agentSchema>;
@@ -56,10 +65,15 @@ export async function agentApply(s:OrgState,input:unknown,u:Actor,m:Member,ps:Ag
  }
  if(c.type==='cancelAgent'){if(!['asha','clinician'].includes(m.role))fail(403,'A care role is required.');if(!['pending','running','review'].includes(r.status))fail(409,'This request is already closed.');r.status='cancelled';r.finishedAt=new Date().toISOString();r.message='Cancelled. No further output can be applied. Any request already sent to a provider is not recalled.';r.steps.filter(x=>x.state==='pending').forEach(x=>x.state='blocked');auditAgent(s,u,m,v,c.type,'Assistant request cancelled; pending application blocked.');return {runId:r.id};}
  current(s,v,r,m,u,ps);if(r.status!=='review'||v.state!=='draft'||r.task!=='extract')fail(409,'Choose a reviewed extraction on a current draft.');if(v.version!==c.version)fail(409,'The visit changed. Review a fresh extraction.');const validDate=Date.parse(c.date+'Z');if(!Number.isFinite(validDate)||new Date(validDate).toISOString().slice(0,16)!==c.date||validDate>Date.now()+300000)fail(422,'Choose a valid observation time, not in the future.');
- const fields=[...new Set(c.fields)],next={...v.facts};for(const f of fields){const proposal=r.output?.proposals.find(p=>p.field===f);if(!proposal)fail(422,'Select only proposed fields.');next[f]=proposal.value;}
+ if(r.assessment)fail(409,'This result could not assess its input, so it has no values to apply. Record the measurement manually or prepare a new request.');
+ const fields=[...new Set(c.fields)],resolve=[...new Set(c.resolve)],conflicts=conflictsFor(v,r),next={...v.facts};for(const f of fields){const proposal=r.output?.proposals.find(p=>p.field===f);if(!proposal)fail(422,'Select only proposed fields.');next[f]=proposal.value;}
+ // Slice 5c: a value that conflicts with a recorded fact or another open result needs an explicit choice and a reason.
+ for(const f of resolve)if(!fields.includes(f)||!conflicts.some(x=>x.field===f))fail(422,'Resolve only selected fields that have a conflict.');
+ for(const f of fields){const x=conflicts.filter(k=>k.field===f);if(x.length&&!resolve.includes(f))fail(409,`${FIELD_LABEL[f]}: ${describeConflicts(x)}. Choose explicitly to use the proposed value, with a reason, or leave the field unselected.`);}
+ if(resolve.length&&!c.conflictReason)fail(422,'Give a reason for choosing between conflicting values.');
  if(!!next.systolic!==!!next.diastolic)fail(422,'Select both blood pressure readings or neither.');next.date=c.date;next.source=c.source;
  // Slice 2c: applied fields take the reviewed visit-level source and time, so their own entries are cleared.
- if(next.provenance){const own={...next.provenance};for(const f of fields){const m=measureOf(f);if(m)delete own[m];}if(Object.keys(own).length)next.provenance=own;else delete next.provenance;}if(c.includeNote)next.notes=r.input;v.facts=next;v.version++;if(v.programmeCapture)for(const f of fields)delete v.programmeCapture.absence[f];r.status='applied';r.appliedFields=fields;r.finishedAt=new Date().toISOString();r.message='Selected fields applied to the draft after worker review. Visit confirmation remains separate.';r.steps[2]={name:'Human review',state:'done',detail:`${fields.length} fields accepted by ${u.displayName}.`};auditAgent(s,u,m,v,c.type,`Reviewed fields applied: ${fields.join(', ')}. Source retained in request ${r.id}.`);return {runId:r.id};
+ if(next.provenance){const own={...next.provenance};for(const f of fields){const m=measureOf(f);if(m)delete own[m];}if(Object.keys(own).length)next.provenance=own;else delete next.provenance;}if(c.includeNote)next.notes=r.input;v.facts=next;v.version++;if(v.programmeCapture)for(const f of fields)delete v.programmeCapture.absence[f];if(resolve.length)r.resolutions=resolve.map(f=>({field:f,proposed:next[f],replaced:conflicts.filter(x=>x.field===f).map(x=>x.kind==='recorded'?'recorded '+x.other:`${x.otherProvider} ${x.other}`),reason:c.conflictReason!,by:u.userId,at:new Date().toISOString()}));r.status='applied';r.appliedFields=fields;r.finishedAt=new Date().toISOString();r.message='Selected fields applied to the draft after worker review. Visit confirmation remains separate.';r.steps[2]={name:'Human review',state:'done',detail:`${fields.length} fields accepted by ${u.displayName}.`};auditAgent(s,u,m,v,c.type,`Reviewed fields applied: ${fields.join(', ')}. Source retained in request ${r.id}.${resolve.length?` Conflicts resolved by explicit choice: ${r.resolutions!.map(x=>`${x.field} ${x.proposed} over ${x.replaced.join(' and ')}`).join('; ')}. Reason: ${c.conflictReason}`:''}`);return {runId:r.id};
 }
 export const unsafeEvidence=(text:string)=>/\b(no|not|denies|denied|previous|previously|last|yesterday|ago|mother|father|husband|wife|daughter|son|sister|brother|maybe|possibly|uncertain|example|ignore|instructions?|pretend|invent|guess|might|would|could|should)\b/i.test(text);
 // Conservative, non-generative fallback. Historical, negated and conflicting clauses
@@ -73,7 +87,29 @@ export function validateOutput(raw:unknown,input:string,task:AgentRun['task']):{
  for(const e of [...out.proposals,...out.highlights])if(e.end<=e.start||input.slice(e.start,e.end)!==e.quote)fail(502,'Provider evidence did not match the submitted source.');
  if(task!=='extract'&&out.proposals.length)fail(502,'This task cannot propose record changes.');
  for(const p of out.proposals){const tokens:string[]=p.quote.match(/\d+(?:\.\d+)?/g)??[];if(!tokens.includes(p.value))fail(502,'A proposed value is not present in its cited source.');const left=Math.max(input.lastIndexOf(';',p.start-1),input.lastIndexOf('\n',p.start-1))+1;const after=input.slice(p.end).search(/[;\n]/);const clause=input.slice(left,after<0?input.length:p.end+after);if(unsafeEvidence(clause)||!localExtract(p.quote).proposals.some(q=>q.field===p.field&&q.value===p.value))fail(502,'Proposed measurement does not match its full source context, units and field.');const unit={weight:/\bkg\b/i,temperature:/(?:°\s*)?C\b/,weeks:/\bweeks\b/i,coughDays:/\bdays\b/i,systolic:/\b(?:BP|blood pressure)\b/i,diastolic:/\b(?:BP|blood pressure)\b/i}[p.field];if(!unit.test(p.quote)||unsafeEvidence(p.quote))fail(502,'Proposed measurement has incompatible units, history, negation or subject context.');}
+ // Slice 5c: an unable-to-assess answer carries no values.
+ if(out.assessment){if(out.proposals.length)fail(502,'A provider that could not assess the input must not propose values.');return {output:{proposals:[],highlights:out.highlights,assessment:out.assessment},warnings:[]};}
  const warnings:string[]=[];const proposals:Proposal[]=[];for(const field of FIELDS){const rows=out.proposals.filter(p=>p.field===field);if(new Set(rows.map(r=>r.value)).size>1){warnings.push('Conflicting '+FIELD_LABEL[field]+' values: enter a verified measurement manually.');continue;}if(rows.length)proposals.push(rows[0]);}
  if(!!proposals.find(p=>p.field==='systolic')!==!!proposals.find(p=>p.field==='diastolic')){warnings.push('Incomplete or conflicting blood pressure: both readings withheld.');for(let i=proposals.length-1;i>=0;i--)if(['systolic','diastolic'].includes(proposals[i].field))proposals.splice(i,1);}
  return {output:{proposals,highlights:out.highlights},warnings};
 }
+// Slice 5c (BR-AI-06): conservative input-quality checks for the local rules provider. A noisy or illegible
+// measurement, an unsupported unit, or a note without any supported measurement is reported as unable to
+// assess, with no values, rather than as an empty or normal result. The whole note is withheld, not only a clause.
+const MEASUREMENT=/\b(?:weight|temp|temperature|BP|blood pressure|cough|gestational age|pregnancy)\b|वजन|तापमान|रक्तचाप/i;
+export function localAssess(input:string):AgentAssessment|null{
+ if(/\[(?:inaudible|unclear|illegible)\]|\uFFFD/i.test(input)||[...input.matchAll(/[^;\n]+/g)].some(m=>MEASUREMENT.test(m[0])&&/\d\s*\?|\?\s*\d|\/\s*\?|\d_|_\d/.test(m[0])))return {status:'unable_to_assess',reason:'noisy_input',detail:'Part of a measurement is unreadable or marked as unclear.',retry:'Re-enter the measurement clearly, or record it manually from the device or card.'};
+ if(/\d+(?:\.\d+)?\s*(?:pounds?|lbs?\b|°\s*F\b|F\b|fahrenheit|inch(?:es)?\b)/i.test(input))return {status:'unable_to_assess',reason:'unsupported_case',detail:'A measurement uses a unit this capability does not support (pounds or Fahrenheit, for example).',retry:'Record the measurement manually in kg, °C or mmHg; do not convert it inside the note.'};
+ if(!MEASUREMENT.test(input))return {status:'unable_to_assess',reason:'insufficient_input',detail:'The note does not mention a supported measurement.',retry:'Add the current measurement with its unit, or record it manually.'};
+ return null;
+}
+// Slice 5c (BR-AG-08): conflicts are shown as such; nothing is averaged or combined.
+export function conflictsFor(v:Visit,r:AgentRun):AgentConflict[]{
+ if(r.task!=='extract'||!r.output||r.assessment)return [];const out:AgentConflict[]=[];
+ for(const p of r.output.proposals){const recorded=v.facts[p.field];if(recorded&&recorded!==p.value)out.push({field:p.field,kind:'recorded',proposed:p.value,other:recorded});
+  for(const o of v.agentRuns??[]){if(o.id===r.id||o.task!=='extract'||o.status!=='review'||o.assessment||o.visitVersion!==r.visitVersion)continue;const q=o.output?.proposals.find(x=>x.field===p.field);if(q&&q.value!==p.value)out.push({field:p.field,kind:'other-run',proposed:p.value,other:q.value,otherRunId:o.id,otherProvider:o.provider.name});}}
+ return out;
+}
+export const describeConflicts=(xs:AgentConflict[])=>xs.map(x=>x.kind==='recorded'?`proposed ${x.proposed}, recorded ${x.other}`:`proposed ${x.proposed}, another request (${x.otherProvider}) proposed ${x.other}`).join('; ');
+// Recomputed for every open extraction on the visit when a result arrives, so both sides of a disagreement show it.
+export function markConflicts(v:Visit){for(const o of v.agentRuns??[]){if(o.task!=='extract'||o.status!=='review')continue;const x=conflictsFor(v,o);if(x.length)o.conflicts=x;else delete o.conflicts;}}

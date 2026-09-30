@@ -1,6 +1,6 @@
 import { checkCapabilityBudget, entryFor } from './governance';
 import { AppError, fail, visit } from './core';
-import { auditAgent, current, providers, type AgentCommand } from './agent';
+import { auditAgent, current, describeConflicts, markConflicts, providers, type AgentCommand, type AgentOutput } from './agent';
 import { invokeAgent } from './agent-provider';
 import { persist, readState, scope, type Actor } from './store';
 import type { D1Database } from '@cloudflare/workers-types';
@@ -18,7 +18,9 @@ export async function executeAgent(db:D1Database,s:OrgState,c:Extract<AgentComma
   const after=await readState(db,s.organisation.id);try{scope(after,u.userId);}catch{}const old=structuredClone(after);const target=after.workspace.visits.find(x=>x.id===v.id),run=target?.agentRuns?.find(x=>x.id===r.id);if(!target||!run)fail(409,'The assistant checkpoint is no longer available.');if(run.status!=='running')return {runId:run.id,status:run.status};
   let member:Member|undefined;try{member=scope(after,u.userId);visit(after.workspace,target.id);current(after,target,run,member,u,providers(after.workspace.integrations,runtime));}catch{problem='Result withheld: patient access, permission, visit or provider changed during execution.';run.status='blocked';}
   if(run.status==='running')run.status=problem?'failed':'review';run.finishedAt=new Date().toISOString();run.message=problem||outcome!.message;
-  if(!problem){run.output=outcome!.output;run.warnings=outcome!.warnings;run.usage='usage' in outcome!?outcome!.usage:undefined;}
+  if(!problem){run.output=outcome!.output;run.warnings=outcome!.warnings;run.usage='usage' in outcome!?outcome!.usage:undefined;const assessed=(outcome!.output as AgentOutput).assessment;if(assessed)run.assessment=assessed;
+   // Slice 5c: flag disagreement with recorded facts and other open results on both sides; nothing is combined.
+   if(run.status==='review'){markConflicts(target);if(run.conflicts?.length)run.warnings.push('Conflicting values: '+describeConflicts(run.conflicts)+'. Applying any of them needs an explicit choice and a reason.');}}
   run.steps[1]={...run.steps[1],state:problem?'blocked':'done',detail:run.message};if(problem)run.steps[2].state='blocked';auditAgent(after,u,member??m,target,'agentResult',`${run.provider.name}: ${run.status}. ${run.message}`);
   try{await persist(db,old,after,u,{type:'agentResult'},'agent_finish_'+run.id,run.inputHash,{runId:run.id,status:run.status});return {runId:run.id,status:run.status};}catch(e){if(!(e instanceof AppError&&e.status===409)||attempt===2)throw e;}
  }
