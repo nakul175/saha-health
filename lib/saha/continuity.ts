@@ -16,6 +16,8 @@ export const continuitySchema=z.discriminatedUnion('type',[
 ]);
 const normal=(s:string)=>s.normalize('NFKC').toLocaleLowerCase().replace(/[^\p{L}\p{M}\p{N}]+/gu,' ').trim();
 function near(a:string,b:string){if(a.length<5||b.length<5||Math.abs(a.length-b.length)>2)return false;let row=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){const next=[i];for(let j=1;j<=b.length;j++)next[j]=Math.min(next[j-1]+1,row[j]+1,row[j-1]+(a[i-1]===b[j-1]?0:1));row=next;}return row[b.length]<=2;}
+// Slice 2f: the same normalisation and near-name test compare rows within an import file.
+export const normalName=normal,nearName=near;
 export async function patientMatches(s:OrgState,m:Member,input:z.infer<typeof matchInput>){
  if(!['asha','clinician','supervisor'].includes(m.role)||!m.teamIds.includes(input.teamId))fail(403,'Choose a team within your patient access.');
  const name=normal(input.name),village=normal(input.village);
