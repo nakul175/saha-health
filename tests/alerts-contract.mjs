@@ -15,7 +15,7 @@ try {
   const report = (over = {}, usage = { missingUsage: 0 }) => ({ backlog: backlog(over), usage });
   const ops = (incidents = [], maintenance = false) => ({ maintenance, reason: 'Synthetic maintenance reason', incidents });
   const ids = a => a.map(x => x.id);
-  check(() => assert.equal(A.ALERT_RULES_VERSION, '1.0.0'));
+  check(() => assert.equal(A.ALERT_RULES_VERSION, '1.1.0')); // slice 5e: budget alert rules added
   check(() => assert.deepEqual(A.alertsFor({ report: report(), telemetry: { count: 500, serverErrors: 0, errorRate: 0 }, operations: ops() }), [], 'quiet data raises nothing'));
   const all = A.alertsFor({ report: report({ unresolvedSubmissions: 2, unresolvedEhr: 1, overdueReferrals: 3, overdueFollowUps: 4, undatedReferrals: 1 }, { missingUsage: 2 }), telemetry: { count: 100, serverErrors: 10, errorRate: 0.1 }, operations: ops([{ severity: 'critical', state: 'open' }, { severity: 'critical', state: 'resolved' }, { severity: 'high', state: 'investigating' }], true) });
   check(() => assert.deepEqual(ids(all), ['server-errors', 'incident-critical-open', 'referrals-overdue', 'destination-uncertain', 'ehr-uncertain', 'maintenance', 'followups-overdue', 'provider-usage-missing', 'incident-open', 'referrals-undated'], 'critical first, then by count'));
