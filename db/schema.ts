@@ -63,3 +63,11 @@ export const commandReceipts = sqliteTable('command_receipts', {
 export const legacyMigrations = sqliteTable('legacy_migrations', {
   ownerId:text('owner_id').primaryKey(), orgId:text('org_id').notNull().references(()=>organisations.id), sourceRevision:integer('source_revision').notNull(), sourceHash:text('source_hash').notNull(), counts:text('counts').notNull(), migratedAt:text('migrated_at').notNull(),
 });
+// Release 7 operations settings contain no clinical records or credentials.
+export const operations = sqliteTable('operations', {
+ orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
+});
+export const requestMetrics = sqliteTable('request_metrics', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), bucket:text('bucket').notNull(), route:text('route').notNull(), status:integer('status').notNull(),
+ count:integer('count').notNull(), totalMs:integer('total_ms').notNull(), maxMs:integer('max_ms').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.bucket,t.route,t.status]})]);

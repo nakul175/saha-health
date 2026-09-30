@@ -1,0 +1,21 @@
+{
+  "passed": 14,
+  "release": "7 / v0.8",
+  "source": "isolated synthetic local D1",
+  "tables": 21,
+  "byteCount": 8859648,
+  "checks": [
+    "consistent SQLite snapshot",
+    "encrypted manifest and database",
+    "wrong key and ciphertext tamper rejection",
+    "fresh destination required",
+    "all table counts and digests match",
+    "schema digest and integrity checks",
+    "append-only history constraints survive",
+    "built Worker opens restored database",
+    "restored records and receipts accessible",
+    "reading restored workspace does not resend actions"
+  ],
+  "limitations": "No hosted backup, scheduled retention, infrastructure cutover or production RPO/RTO claim. Device-only drafts excluded.",
+  "completedAt": "2026-09-27T04:41:56.337Z"
+}

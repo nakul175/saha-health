@@ -47,3 +47,10 @@ next-env.d.ts
 
 !.env.example
 *.tsbuildinfo
+# Recovery artifacts may contain health records; never track them.
+/backups/
+/recovery/
+*.sahabackup
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
