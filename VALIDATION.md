@@ -315,3 +315,4 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - A self-review found that the slice 3b storage check re-rendered the whole field notebook editor when its estimate arrived after an action, which could move keyboard focus out of a field the worker had just entered. The late estimate now updates only the storage line.
 - A new client assertion checks that the editor is not rebuilt by a late estimate; it fails on the slice 3b code and passes with the fix.
 - **2,250 automated assertions passed:** 1,489 HTTP/D1, 740 contract/checkpoint (738 plus 2) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3b-followup/`.
+- Also in this follow-up: the Operations page notice still said "Release 9"; it now says "Release 11 with development slices". The application build passed; no test asserts this text.
