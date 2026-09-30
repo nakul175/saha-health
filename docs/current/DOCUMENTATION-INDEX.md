@@ -28,6 +28,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 5c](SLICE-5C-CONFLICTS-QUALITY.md) | Conflicting assistant values and inability to assess |
 | [Development slice 5g](SLICE-5G-PROVIDER-HISTORY.md) | Provider and model history per capability |
 | [Development slice 5h](SLICE-5H-INVOICE-RECONCILIATION.md) | AI invoice reconciliation against Saha's estimates |
+| [Development slice 5i](SLICE-5I-DRIFT-MONITORING.md) | Drift monitoring from shadow comparisons |
 | [Development slice 5f](SLICE-5F-SHADOW-OPERATION.md) | Shadow operation of a reviewed capability revision and its per-field comparison |
 | [Development slice 5e](SLICE-5E-TASK-LIMITS-BUDGET-ALERTS.md) | Task time and attempt limits, uncertain timed-out requests, AI budget alerts |
 | [Development slice 5d](SLICE-5D-CAPABILITY-LIFECYCLE.md) | Capability lifecycle, replacement and in-progress work |
