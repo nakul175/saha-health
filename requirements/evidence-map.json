@@ -195,7 +195,9 @@
   ],
   "NFR-18": [
     "lib/saha/monitoring.ts",
-    "tests/operations-smoke.mjs"
+    "tests/operations-smoke.mjs",
+    "lib/saha/alerts.ts",
+    "tests/alerts-contract.mjs"
   ],
   "NFR-19": [
     "lib/saha/programmes.ts",
@@ -329,5 +331,14 @@
     "public/field/app.js",
     "docs/current/SLICE-3B-STORAGE-WARNINGS.md",
     "tests/field-storage-client.mjs"
+  ],
+  "BR-OPS-04": [
+    "lib/saha/operations.ts",
+    "lib/saha/pilot.ts",
+    "tests/operations-smoke.mjs",
+    "tests/pilot-smoke.mjs",
+    "lib/saha/alerts.ts",
+    "tests/alerts-contract.mjs",
+    "docs/current/SLICE-6G-ALERTS.md"
   ]
 }

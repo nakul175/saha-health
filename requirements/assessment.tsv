@@ -120,7 +120,7 @@ BR-REP-07	partial	R15	Privacy-safe route metrics, task counts and partial agent 
 BR-OPS-01	partial	R15	Tenant/team/member and selected provider/connector settings are scoped.	Facilities, jurisdiction, full language/provider eligibility and validated deployment limits.
 BR-OPS-02	partial	R15	Synthetic environment labels, private deployment and disabled real credentials.	Separate production/training identities, data/credentials and enforceable synthetic-to-live barrier.
 BR-OPS-03	partial	R15	Source versions and independent template/proposal reviews.	Unified pack/language/knowledge/model/mapping publication, impact review and approved rollback.
-BR-OPS-04	partial	R15	Hourly request metrics, incidents, queue counts and cost assumptions.	Actionable alert routing with owners and approved detection/response targets.
+BR-OPS-04	partial	R15	Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer.	Alert delivery and acknowledgement, and approved detection/response targets.
 BR-OPS-05	partial	R15	Redacted technical support export and generic incidents.	Task-linked support cases and purpose/time-limited exceptional support access.
 BR-OPS-06	partial	R16	Synthetic training assessment and personal acknowledgement records.	Real cohort competency, actual training delivery and activation enforcement.
 BR-OPS-07	partial	R15	Local encrypted backup, configuration export and limited report/FHIR exports.	Buyer-scoped operational exit archive, independent re-import and named queue/task handover.
@@ -164,7 +164,7 @@ NFR-14	unverified	R16	Agent browser walkthroughs only.	At least 20 frontline use
 NFR-15	unverified	R14	Hindi/English notebook strings and neutral reminder copies exist.	Qualified review of critical translations and language safety benchmark acceptance.
 NFR-16	unverified	R11	Fixed 18-case corpus with field/language/group precision, recall, false positives/misses; English parser fixture pass and Hindi failure recorded.	Representative independently annotated corpus, clinical subgroups, correction burden and accuracy acceptance.
 NFR-17	partial	R11	Synthetic adversarial/source-context, stale governance, scope, lifecycle, safety-hold and referral-dependency tests.	Approved clinical escalation/adversarial corpus, independent named reviewer sign-off and issue disposition.
-NFR-18	partial	R15	Redacted request IDs, metrics and manual incidents.	Five-minute actionable alerts linking tasks, provider calls and destination receipts.
+NFR-18	partial	R15	Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents.	Five-minute detection with delivery, and item-level links to tasks, provider calls and destination receipts.
 NFR-19	partial	R15	Some versioned settings and source rollback runbooks.	Unified reviewed configuration publication/rollback without ad hoc production edits.
 NFR-20	partial	R12	Agent/MIS/EHR contract suites with pinned local contracts and injected transport.	Exact deployed live adapter and external profile conformance evidence.
 NFR-21	partial	R15	Known agent token usage and explicit missing-cost coverage.	At least 99 percent billable event attribution, invoice reconciliation and monetary limits.
