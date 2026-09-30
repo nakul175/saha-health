@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -3930,11 +3930,16 @@
       "sourceTextLine": 759,
       "implementation": "unverified",
       "target": "R16",
-      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Whole-team reads still grow with the team (38 MB at 50,006). Not scale evidence.",
+      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence.",
       "remaining": "Partitioned architecture, topology/load/support/cost review before 10000-worker or five-million-person expansion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "docs/current/SLICE-0B3-PAGED-PATIENTS.md",
+        "lib/saha/patient-directory.ts",
+        "tests/patient-directory-contract.mjs",
+        "tests/patient-directory-smoke.mjs",
+        "tests/evidence/slice-0b3/load-envelope-0b3.json"
       ],
       "automatedAcceptanceClaim": false
     },

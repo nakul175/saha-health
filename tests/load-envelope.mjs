@@ -82,6 +82,28 @@ const post = (who, body, orgId) => fetch(base + '/api/commands', { method: 'POST
 const ashaHome = await fetch(base + '/api/workspace', { headers: asha }).then(r => r.json());
 const invite = await post(owner, { type: 'createInvite', accountCode: ashaHome.user.accountCode, label: 'Load ASHA', role: 'asha', teamIds: ['default'] }, org);
 await post(asha, { type: 'joinOrganisation', token: invite.result.token });
+// Slice 0b-3: a supervisor of the whole team reads the full workspace, the paged workspace, the paged list and one detail.
+const supervisor = { 'oai-authenticated-user-id': `load-supervisor-${crypto.randomUUID()}`, 'oai-authenticated-user-email': 'load-supervisor@example.invalid' };
+const supervisorHome = await fetch(base + '/api/workspace', { headers: supervisor }).then(r => r.json());
+const supervisorInvite = await post(owner, { type: 'createInvite', accountCode: supervisorHome.user.accountCode, label: 'Load supervisor', role: 'supervisor', teamIds: ['default'] }, org);
+await post(supervisor, { type: 'joinOrganisation', token: supervisorInvite.result.token });
+async function timed(path, who, extra = {}) {
+  const t = performance.now();
+  try { const r = await fetch(base + path, { headers: { ...who, 'x-saha-organisation': org, ...extra }, signal: AbortSignal.timeout(120000) }); const text = await r.text(); return { status: r.status, ms: ms(t), bytes: text.length, body: r.ok ? JSON.parse(text) : null }; }
+  catch (e) { return { status: 'error', ms: ms(t), bytes: 0, error: String(e.message ?? e) }; }
+}
+async function median3(path, who, extra) { const xs = []; for (let i = 0; i < 3; i++) xs.push(await timed(path, who, extra)); return { status: xs.map(r => r.status), p50Ms: pct(xs.map(r => r.ms), 50), maxMs: Math.max(...xs.map(r => r.ms)), responseKB: Math.round((xs.at(-1).bytes || 0) / 1024), people: xs.at(-1).body?.people?.length ?? xs.at(-1).body?.rows?.length ?? xs.at(-1).body?.delta?.people?.length ?? null, paging: xs.at(-1).body?.patientPaging ? { total: xs.at(-1).body.patientPaging.total } : undefined }; }
+async function supervisorReads() {
+  const paged = { 'x-saha-patients': 'paged' };
+  return {
+    fullWorkspace: await median3('/api/workspace', supervisor),
+    pagedWorkspace: await median3('/api/workspace', supervisor, paged),
+    pagedWorkspaceWithWindow: await median3('/api/workspace', supervisor, { ...paged, 'x-saha-patient-window': Array.from({ length: 10 }, (_, i) => `load_p_${i}`).join(',') }),
+    listFirstPage: await median3('/api/patients', supervisor),
+    listSearch: await median3('/api/patients?q=' + encodeURIComponent('synthetic person 12'), supervisor),
+    detail: await median3('/api/patients/detail?personId=load_p_5', supervisor),
+  };
+}
 let ashaAssigned = false;
 function assignAsha() { if (ashaAssigned) return; const id = asha['oai-authenticated-user-id']; const up = sql.prepare("UPDATE patients SET assigned_to=?, data=json_set(data,'$.assignedTo',?) WHERE org_id=? AND id=?"); sql.exec('BEGIN'); for (let i = 0; i < 50; i++) up.run(id, id, org, `load_p_${100 + i}`); sql.exec('COMMIT'); ashaAssigned = true; }
 // New visits target people who have only a confirmed visit, so startVisit is valid.
@@ -120,7 +142,8 @@ for (const n of SIZES) {
   const single = await command(org, { type: 'startVisit', personId: nextPerson() });
   let ashaRead = null;
   if (n >= 150) { assignAsha(); const ar = []; for (let i = 0; i < 3; i++) ar.push(await read(org, asha)); ashaRead = { status: ar.map(r => r.status), p50Ms: pct(ar.map(r => r.ms), 50), maxMs: Math.max(...ar.map(r => r.ms)), responseKB: Math.round((ar.at(-1).bytes || 0) / 1024), patients: ar.at(-1).body?.people?.length ?? null }; }
-  const step = { people: n + 6, visits: n + 1, workspaceRead: { status: readStatus, p50Ms: pct(reads.map(r => r.ms), 50), maxMs: Math.max(...reads.map(r => r.ms)), responseKB: Math.round((reads.at(-1).bytes || 0) / 1024), error: reads.find(r => r.error)?.error ?? null }, singleWrite: { status: single.status, ms: single.ms, responseKB: Math.round(single.bytes / 1024) }, ...(ashaRead ? { ashaRead } : {}) };
+  const supervisorRead = process.env.SAHA_LOAD_SUPERVISOR === '1' ? await supervisorReads() : null;
+  const step = { people: n + 6, visits: n + 1, ...(supervisorRead ? { supervisorRead } : {}), workspaceRead: { status: readStatus, p50Ms: pct(reads.map(r => r.ms), 50), maxMs: Math.max(...reads.map(r => r.ms)), responseKB: Math.round((reads.at(-1).bytes || 0) / 1024), error: reads.find(r => r.error)?.error ?? null }, singleWrite: { status: single.status, ms: single.ms, responseKB: Math.round(single.bytes / 1024) }, ...(ashaRead ? { ashaRead } : {}) };
   const healthy = readStatus.every(s => s === 200) && step.workspaceRead.maxMs < stopAfterMs;
   if (healthy && !READ_ONLY) {
     step.burst10 = await burst(10);
