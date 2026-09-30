@@ -172,3 +172,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Supply-chain gate passed: 222 production components; 0 critical and 22 high advisories, all in development or build tooling and none found in the built output.
 - The intermittent local "worker restarted mid-request" 503, previously recorded in R10, R11, 0a and 0b, was traced to requests rejected before their body was read. After draining unread bodies, five consecutive full runs passed with no restarts.
 - The new CI workflow was committed but had not run on GitHub at the time of this record. TypeScript and production build passed. The browser check found the default sign-out link unchanged and no page errors.
+
+## Development slice 1 — households and proxy authority — 30 September 2026 IST (29 September UTC)
+
+- **1,432 automated assertions passed:** 1,001 HTTP/D1 (950 plus 51 household checks), 410 contract/checkpoint (398 plus 12 household contract checks) and 21 encrypted restore checks over 26 tables including households. Reports: `tests/evidence/slice-1/`.
+- The household suite passed on its first full run and the full suite showed no local Worker restarts.
+- Browser check with headless Chromium against the built Worker: household created, member added, proxy grant recorded for Appointments without the maternal class, sharing preview showed only the general home visit for the pregnant member. No console errors.
+- Assessment changes: BR-ID-07 and BR-SEC-04 moved from not-built to partial; BR-PROG-05 text updated. Counts are now 14 implemented-local, 136 partial, 17 not-built and 9 unverified; all 176 formal acceptances remain pending.

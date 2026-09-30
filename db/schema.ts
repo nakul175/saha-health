@@ -92,3 +92,8 @@ export const expansions = sqliteTable('expansions', {
 export const governance = sqliteTable('governance', {
  orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
 });
+// Slice 1: households. Membership and history live in versioned JSON; staff access is never derived from it.
+export const households = sqliteTable('households', {
+  orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
+  teamId:text('team_id').notNull(), data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('households_org_team').on(t.orgId,t.teamId)]);

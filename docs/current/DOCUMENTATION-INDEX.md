@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 1](SLICE-1-HOUSEHOLDS.md) | Households, proxy authority and sensitive-class disclosure |
 | [Development slice 0c](SLICE-0C-IDENTITY.md) | Identity provider layer, SBOM and audit gate, CI workflow |
 | [Development slice 0b](SLICE-0B-DELTAS.md) | Partition delta responses, client merge and evidence |
 | [Development slice 0a](SLICE-0A-STORAGE.md) | Patient-partitioned storage, commit guards, load-probe evidence and limits |
