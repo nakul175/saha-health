@@ -10,13 +10,15 @@ import type { Member, OrgState, Person } from './types';
 // from the records that hold each problem. Supervisors and owners see rows for patients in their care
 // scope with a link that opens the patient and visit. Operations members (owners, administrators) also see
 // destination-delivery rows for patients outside that scope, without patient details or links.
-export const EXCEPTION_RULES_VERSION='1.0.0';
-export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received';
+export const EXCEPTION_RULES_VERSION='1.1.0';
+export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting';
 export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null};
 const RANK={critical:0,high:1,normal:2} as const;
 // Destination-delivery problems are operations work: shown, redacted, to operations members for any patient.
 const OPERATIONS_KINDS=new Set<ExceptionKind>(['submission','ehr-publication']);
 export const STALE_RUNNING_MINUTES=10,MAX_ROWS=500;
+// Slice 3i (rules 1.1.0): a field referral request undecided this long is raised here as well as in its own queue.
+export const REQUEST_WAIT_HOURS=48;
 const day=86400000;
 export const href=(personId:string,visitId:string|null)=>`/?patient=${encodeURIComponent(personId)}${visitId?`&visit=${encodeURIComponent(visitId)}`:''}`;
 
@@ -65,6 +67,9 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    const c=v.protocolChecks?.at(-1);if(!c||c.decision||!c.findings.length)continue;
    add({id:'protocol-review:'+c.id,kind:'protocol-review',severity:c.findings.some(f=>f.urgency==='urgent_review')?'high':'normal',what:`${c.findings.length} protocol finding${c.findings.length===1?'':'s'} awaiting clinician review`,since:c.at,owner:`Clinicians of ${team(p)}`,recovery:'A clinician with access accepts, rejects or overrides the findings on the visit.'},v.id);
   }
+  // Slice 3i: field referral requests on a current visit left undecided for REQUEST_WAIT_HOURS or more.
+  for(const v of visits.get(p.id)??[]){const q=v.referralRequest;if(!q||q.decision||v.voidedAt||v.supersededBy||Date.parse(now)-Date.parse(q.requestedAt)<REQUEST_WAIT_HOURS*3600000)continue;const ready=v.state==='confirmed';
+   add({id:'referral-request-waiting:'+v.id,kind:'referral-request-waiting',severity:v.clinicalConcern?.value==='yes'?'high':'normal',what:`Field referral request to ${q.facility} not decided${ready?'':'; the visit is not confirmed'}`,since:q.requestedAt,owner:ready?`Clinicians of ${team(p)}`:name(q.requestedBy)??`Supervisors of ${team(p)}`,recovery:ready?'A clinician opens the visit and creates the referral or declines the request with a reason.':'The worker who recorded the visit confirms it; a clinician then decides the request.'},v.id);}
   // Overdue programme follow-ups.
   for(const t of p.followUps??[])if(t.state==='open'&&t.due<today){
    const o=members.get(t.ownerId),ok=!!o&&o.status==='active'&&['asha','clinician'].includes(o.role)&&normallyAllowed(o,p);

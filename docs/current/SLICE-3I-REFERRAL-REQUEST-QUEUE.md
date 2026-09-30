@@ -1,0 +1,32 @@
+# Development slice 3i — open field referral request queue
+
+30 September 2026 (IST). Builds on slices 3g and 3h; stacked on slice 0b-3. Synthetic data only; formal acceptance unchanged. No migration and no new command.
+
+## What changed
+
+- **Queue read.** `GET /api/referral-requests` (`lib/saha/referral-request-queue.ts`, rules 1.0.0) lists every open field referral request in the viewer's scope, computed on each read from the visits that hold them. A request is open while it has no decision and its visit is current (not voided and not superseded by a correction). Each item carries the patient (name and village), the requesting worker, when it was requested and captured, the facility and reason given, the visit's state and date, any clinical concern recorded on the visit, the time waiting in hours, whether it is long-waiting, whether this viewer can decide it now and, if not, why, and a link that opens the visit (the same `/?patient=&visit=` link as the exception queue).
+- **Order.** A recorded clinical concern first, then the oldest request. Field requests have no urgency field of their own (slice 3g records facility and reason only), so the visit's clinical concern is the only urgency signal used.
+- **Who and scope.** Clinicians (who decide, slice 3h), supervisors and owners with a care role may read it; ASHAs, administrators (owner or not), provider accounts and inactive members are refused. Rows follow `access.ts`, as in the exception queue (6i) and the action plan (4b): the viewer's teams, and for clinicians also patients under a current emergency-access grant. Owner authority does not widen scope. Only a clinician on a confirmed visit gets `canDecide`; a request on an unconfirmed visit says the recording worker must confirm it first.
+- **Long waits in the exception queue.** Exception rules move to 1.1.0 with one new kind, `referral-request-waiting`: an open request that has waited 48 hours or more (`REQUEST_WAIT_HOURS`). Severity is high when the visit records a clinical concern, otherwise normal; the owner is the clinicians of the patient's team on a confirmed visit, or the requesting worker while the visit is unconfirmed. Supervisors and owners therefore see long waits beside other operational exceptions.
+- **Care handover page.** A "Field referral requests" panel (clinicians, supervisors and owners with a care role) shows the count, scope, ordering rule and each request with "Clinical concern" and "Waiting" tags, the reason, the visit state and "Open visit to decide" (clinicians) or "Open visit". The exception queue labels the new kind "Field referral request".
+
+## Decisions
+
+- **Where it lives.** A GET route plus a panel on Care handover, not Operations: clinicians decide requests but do not see Operations, while Care handover already holds the clinician and supervisor queues (identity review, emergency access, rights, referral escalations).
+- **Exception queue, not the action plan.** Long-waiting requests are raised in the 6i exception queue so supervisors and owners see them with other operational exceptions. The 4b per-patient action plan is unchanged: the request is already shown on the visit, and the action plan's items have owners and take-ownership actions that a request (decided by any clinician of the team) does not have. Operations alerts (6g) do not count requests.
+
+## Evidence
+
+- 21 contract assertions (`tests/referral-request-queue-contract.mjs`): an ASHA, an administrator, an owner with the administrator role, a provider account and a suspended clinician are refused; a clinician sees the open requests of the team's patients and of a patient under a current emergency grant, ordered concern first then oldest; supervisors and owners see their team only and cannot decide; decided (referred and declined), voided and superseded requests are absent; waiting hours, the 48-hour boundary (47 hours not long-waiting, 48 hours long-waiting), a former member as requester, the unconfirmed-visit blocker, patient, facility, reason and link fields; the 500-item bound with the total; in the exception queue (rules 1.1.0) exactly the requests waiting 48 hours or more, with owner "Clinicians of" the team on a confirmed visit and the requesting worker on an unconfirmed one, high severity with a recorded concern, and no such rows for an administrator.
+- 26 HTTP/D1 assertions, requests and checks (`tests/referral-request-queue-smoke.mjs`): an ASHA registers three people with field referral requests and confirms two visits; one request is backdated three days. The clinician's queue lists all three with the oldest first, long-waiting, decidable and linked; the unconfirmed one blocked; the supervisor and owner see the same three without decide rights; the ASHA, the administrator and a non-member are refused. The supervisor's exception queue (rules 1.1.0) holds the long-waiting request with a link to the visit and not the new one. After the clinician declines the old request it leaves both queues.
+- The existing exception-queue smoke now expects rules 1.1.0; no other assertion changed.
+- Browser check (headless Chromium, built Worker, synthetic clinician owner): after registering a person with a referral request, confirming the visit and backdating the request three days, Care handover showed the panel with one request tagged "Waiting 3 days", the reason and "Open visit to decide"; the link opened the visit with its field referral request panel; the Operations exception queue showed the request as a normal "Field referral request" row owned by the team's clinicians; axe-core found no violations in the panel; no console errors. `tests/evidence/slice-3i/3i-browser-check.json`.
+- All suites: 2,416 HTTP/D1, 1,443 contract/checkpoint and 21 restore assertions (see `VALIDATION.md`).
+
+## Limits
+
+- The queue reads the whole organisation and filters it, as the exception queue does; it is not paged. At most 500 items are returned, with the total.
+- Urgency is only the visit's clinical concern. There is no request urgency, no due time and no assignment of a request to a named clinician.
+- Requests on corrected or wrong-patient visits leave the queue and cannot be decided (slice 3h); a clinician can still prepare a referral directly on the current visit.
+- The 48-hour wait is a fixed constant, not an approved service standard, and nobody is notified; the queue and the exception queue are read when opened.
+- No acceptance case is promoted.
