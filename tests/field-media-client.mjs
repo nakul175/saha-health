@@ -7,7 +7,12 @@ import {derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes} from '
 class Element{constructor(tag='div'){this.tag=tag;this.children=[];this.value='';this.hidden=false;this.style={};this.disabled=false;}append(...c){this.children.push(...c)}prepend(...c){this.children.unshift(...c)}replaceChildren(...c){this.children=c}querySelector(tag){return this.children.find(c=>c.tag===tag)||this.children.map(c=>c.querySelector?.(tag)).find(Boolean)||null}}
 const elements=new Map();const byId=id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id)};
 let record=null,calls=[],network=async()=>{throw Error('Network disconnected')},failDelete=false;const media=new Map();
-const context=vm.createContext({console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+// Slice 3e: an injected image decoder and canvas. Decoding accepts PNG or JPEG signatures of at least 512 bytes;
+// the canvas 'encodes' a deterministic JPEG derived from the source, so distinct photos stay distinct.
+const encode=src=>{const out=new Uint8Array(Math.max(1200,Math.round(src.length/4)));out.set([0xff,0xd8,0xff,0xe0]);for(let i=4;i<out.length;i++)out[i]=src[i%src.length]^0x5a;return out;};
+const isImage=b=>b.length>=512&&([0x89,0x50,0x4e,0x47].every((x,i)=>b[i]===x)||[0xff,0xd8,0xff].every((x,i)=>b[i]===x));
+class FakeCanvas{constructor(w,h){this.w=w;this.h=h;}getContext(){return {drawImage:bmp=>{this.src=bmp.src;}};}async convertToBlob({type}){return new Blob([encode(this.src)],{type});}}
+const context=vm.createContext({Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>{const b=new Uint8Array(await blob.arrayBuffer());if(!isImage(b))throw Error('decode failed');return {width:3000,height:2000,src:b,close(){}};},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{if(failDelete)throw Error('Delete failed');media.delete(id)},listMediaIds:async()=>[...media.keys()],
  fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
@@ -29,9 +34,10 @@ context.fixture=await draft('lease-1','v-1');await run("book.userId='worker-1';b
 const photo=file('image/png',PNG,4096);context.f=photo;
 await rejects("attach(active(),f,'')",/Choose why/);
 context.f={...file('text/plain',[0x3c,0x68],4096)};await rejects("attach(active(),f,'other-clinical')",/JPEG, PNG or WebP/);
-context.f={...file('image/jpeg',PNG,4096)};await rejects("attach(active(),f,'wound-or-skin')",/does not match/);
-context.f=file('image/png',PNG,100);await rejects("attach(active(),f,'wound-or-skin')",/too small/);
-context.f=file('image/png',PNG,256*1024+1);await rejects("attach(active(),f,'wound-or-skin')",/256 KB or smaller/);
+context.f={...file('audio/ogg',[0x1a,0x45,0xdf,0xa3],4096)};await rejects("attach(active(),f,'voice-note')",/does not match/);
+context.f=file('image/png',PNG,100);await rejects("attach(active(),f,'wound-or-skin')",/could not be read/);
+context.f=file('audio/ogg',OGG,100);await rejects("attach(active(),f,'voice-note')",/too small/);
+context.f=file('audio/ogg',OGG,256*1024+1);await rejects("attach(active(),f,'voice-note')",/256 KB or smaller/);
 context.f=photo;await rejects("attach(active(),f,'voice-note')",/voice note must be audio/);
 check(()=>assert.equal(media.size,0));
 await run("attach(active(),f,'wound-or-skin')");
@@ -39,7 +45,7 @@ check(()=>assert.equal(run('active().media.length'),1));check(()=>assert.equal(r
 const item=run('active().media[0]'),stored=media.get(item.id);
 check(()=>assert.notDeepEqual(Array.from(stored.cipher.slice(0,8)),PNG));
 check(()=>assert.equal(JSON.stringify(record).includes(Buffer.from(photo.bytes.slice(8,40)).toString('base64')),false));
-const opened=await unsealBytes(run('key'),stored);check(()=>assert.deepEqual(Array.from(opened),Array.from(photo.bytes)));
+const opened=await unsealBytes(run('key'),stored);check(()=>assert.deepEqual(Array.from(opened),Array.from(encode(photo.bytes)),'the device keeps the re-encoded photo, not the original'));check(()=>assert.equal(run('active().media[0].mime'),'image/jpeg'));
 await rejects("attach(active(),f,'wound-or-skin')",/already attached/);
 for(let i=0;i<3;i++){context.f=file('audio/ogg',OGG,2048);await run("attach(active(),f,'voice-note')");}
 context.f=file('audio/ogg',OGG,2048);await rejects("attach(active(),f,'voice-note')",/At most 4/);
@@ -64,7 +70,7 @@ await rejects('discardMedia(active(),active().media[0])',/pending upload/);
 const lostKey=calls.filter(c=>c.url.startsWith('/api/media')).at(-1).options.headers['Idempotency-Key'];check(()=>assert.equal(lostKey,item.id));
 check(()=>assert.equal(run('active().media.filter(x=>x.state==="queued").length'),3));
 const sent=await run('uploadMedia(active())');check(()=>assert.equal(sent,3));
-check(()=>assert.equal(uploads[0].key,item.id));check(()=>assert.equal(uploads[0].type,'image/png'));check(()=>assert.deepEqual(Array.from(uploads[0].body),Array.from(photo.bytes)));
+check(()=>assert.equal(uploads[0].key,item.id));check(()=>assert.equal(uploads[0].type,'image/jpeg'));check(()=>assert.deepEqual(Array.from(uploads[0].body),Array.from(encode(photo.bytes))));
 check(()=>assert.ok(uploads[0].url.includes('visitId=v-1')&&uploads[0].url.includes('purpose=wound-or-skin')));
 check(()=>assert.equal(run('active().media.every(x=>x.state==="uploaded"&&!x.pending&&x.mediaId)'),true));check(()=>assert.equal(media.size,0));
 check(()=>assert.equal(new Set(uploads.map(u=>u.key)).size,3));
@@ -124,5 +130,14 @@ context.fixture=await draft('lease-savefail','v-1');await run("book.drafts.push(
 const rev=record.revision;record.revision++;context.f=file('image/png',PNG,1700);const size=media.size;
 await rejects("attach(active(),f,'other-clinical')",/Another tab/);record.revision=rev;
 check(()=>assert.equal(media.size,size,'bytes removed when the notebook save fails'));check(()=>assert.equal(run('active().media.length'),0));
-writeFileSync('tests/field-media-client-result.json',JSON.stringify({passed,completedAt:new Date().toISOString(),coverage:'Field notebook offline media queue with real Web Crypto and injected storage/network: local type, signature, size and purpose checks; sealed per-item storage without bytes in the notebook; per-draft limit; lock/unlock survival; discard; upload only after sync with the item id as idempotency key and an identical body; lost response kept pending and retried with the same key; expired grant, confirmed visit, lost access, damaged copy and server refusal routed to review with nothing sent; temporary server failure kept pending; removal blocked while any item is pending, queued or in review, then allowed after discard; a 2xx without a media id kept pending with redirects refused; lock during upload sends nothing; orphaned sealed copies swept; failed notebook save removes the new copy. Real IndexedDB, camera/microphone and service-worker behaviour are not tested here.'},null,2)+'\n');
+// Slice 3e: photo reduction steps down size and quality until the JPEG fits, and refuses when nothing fits.
+const steps=[];context.OffscreenCanvas=class{constructor(w,h){this.w=w;this.h=h;}getContext(){return {drawImage(){}};}async convertToBlob({type,quality}){steps.push([this.w,this.h,quality]);const b=new Uint8Array(Math.round(this.w*this.h*quality/3));b.set([0xff,0xd8,0xff]);return new Blob([b],{type});}};
+context.bigPhoto=file('image/jpeg',[0xff,0xd8,0xff],4000);
+const reduced=await run('preparePhoto(bigPhoto)');
+check(()=>assert.equal(reduced.type,'image/jpeg'));check(()=>assert.ok(reduced.size<=256*1024-8192,'fits under the limit with margin'));
+check(()=>assert.deepEqual(steps[0],[1280,853,0.8],'first try: 1280 px long edge at quality 0.8'));check(()=>assert.ok(steps.length>1&&steps.at(-1)[0]<=steps[0][0],'stepped down'));
+context.OffscreenCanvas=class{constructor(w,h){}getContext(){return {drawImage(){}};}async convertToBlob({type}){return new Blob([new Uint8Array(300*1024)],{type});}};
+await assert.rejects(()=>run('preparePhoto(bigPhoto)'),/could not be reduced below 256 KB/);passed++;
+context.OffscreenCanvas=FakeCanvas;
+writeFileSync('tests/field-media-client-result.json',JSON.stringify({passed,completedAt:new Date().toISOString(),coverage:'Field notebook offline media queue with real Web Crypto and injected storage/network: local type, signature, size and purpose checks; sealed per-item storage without bytes in the notebook; per-draft limit; lock/unlock survival; discard; upload only after sync with the item id as idempotency key and an identical body; lost response kept pending and retried with the same key; expired grant, confirmed visit, lost access, damaged copy and server refusal routed to review with nothing sent; temporary server failure kept pending; removal blocked while any item is pending, queued or in review, then allowed after discard; a 2xx without a media id kept pending with redirects refused; lock during upload sends nothing; orphaned sealed copies swept; failed notebook save removes the new copy; photos decoded and re-encoded as JPEG on the device, stepping down size and quality until under the limit, refused when unreadable or impossible to reduce. Real IndexedDB, camera/microphone and service-worker behaviour are not tested here.'},null,2)+'\n');
 console.log(`${passed} field media queue checks passed`);

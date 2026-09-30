@@ -343,3 +343,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The first runs of the new checks failed on the test itself (too short a wait for unlock, and a size-limit case that added up to 230 KB, under the 240 KB stop point); both were corrected before the evidence run.
 - Browser check with headless Chromium's synthetic microphone and real IndexedDB: an offline 3.5-second recording was queued, then uploaded after sync as a 6,267-byte `audio/webm` voice note; the device copy was removed; no console errors.
 - BR-UX-03 and BR-OFF-04 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 3e — on-device photo reduction — 30 September 2026 IST (30 September UTC)
+
+- **2,341 automated assertions passed:** 1,500 HTTP/D1, 820 contract/checkpoint (field media queue 90 → 97) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3e/`.
+- The first full run failed one suite: the slice 3b storage-warning checks attach PNG files and their harness had no image decoder, so the new decode step refused them. An injected decoder and canvas were added to that harness (as in the media queue checks) and the full run was repeated.
+- Changed existing tests: image-signature and image-size refusals in the media queue checks were moved to audio files, because photos are now decoded and re-encoded on the device instead of signature-checked; the stored and uploaded bytes are now compared with the re-encoded JPEG.
+- Browser check with headless Chromium and real IndexedDB: a 5,724,852-byte camera-sized JPEG with a synthetic location string in its metadata was reduced to 226,943 bytes, uploaded after sync, and served back without the location string; no console errors.
+- BR-OFF-04 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
