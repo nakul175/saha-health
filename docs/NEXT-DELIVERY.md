@@ -26,7 +26,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 3e | On-device photo reduction to JPEG under 256 KB, dropping embedded location metadata | Delivered (see [slice 3e](current/SLICE-3E-PHOTO-REDUCTION.md)) |
 | 3f | The same photo reduction in the online visit screen | Delivered (see [slice 3f](current/SLICE-3F-WORKSPACE-PHOTO-REDUCTION.md)) |
 | 3g | Offline registration with an optional first visit and referral request, one-command creation, Sync all in dependency order, on-device duplicate review | Delivered (see [slice 3g](current/SLICE-3G-OFFLINE-REGISTRATION.md)) |
-| 3 | Clinician action on field referral requests, larger notebook capacity | Planned |
+| 3h | Clinician action on field referral requests: referral created in one step or declined with a reason | Delivered (see [slice 3h](current/SLICE-3H-REFERRAL-REQUESTS.md)) |
+| 3 | Open referral request queue, larger notebook capacity | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
 | 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
