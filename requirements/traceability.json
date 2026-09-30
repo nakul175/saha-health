@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3i, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2320,7 +2320,7 @@
       "sourceTextLine": 459,
       "implementation": "partial",
       "target": "R14",
-      "current": "Stable-key sync for existing authorised person and visit drafts. Slice 3g: a person registered offline, with a first visit draft and referral request, is created in one command keyed by a stable registration id, so resends under new keys never create a second person; Sync all sends registrations, then visit drafts, then media, stops on an uncertain outcome and retries it with the same key; tested with repeated lost responses. Slice 3h: a clinician turns the synced request into a referral in one step, or declines it, once the visit is confirmed.",
+      "current": "Stable-key sync for existing authorised person and visit drafts. Slice 3g: a person registered offline, with a first visit draft and referral request, is created in one command keyed by a stable registration id, so resends under new keys never create a second person; Sync all sends registrations, then visit drafts, then media, stops on an uncertain outcome and retries it with the same key; tested with repeated lost responses. Slice 3h: a clinician turns the synced request into a referral in one step, or declines it, once the visit is confirmed. Slice 3i: open synced requests are listed for clinicians and supervisors until decided.",
       "remaining": "Physical-device testing across real connection loss, and background sync.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2336,7 +2336,12 @@
         "lib/saha/referral-request.ts",
         "app/referral-request-panel.tsx",
         "docs/current/SLICE-3H-REFERRAL-REQUESTS.md",
-        "tests/referral-request-smoke.mjs"
+        "tests/referral-request-smoke.mjs",
+        "lib/saha/referral-request-queue.ts",
+        "app/referral-request-queue-panel.tsx",
+        "docs/current/SLICE-3I-REFERRAL-REQUEST-QUEUE.md",
+        "tests/referral-request-queue-contract.mjs",
+        "tests/referral-request-queue-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2490,7 +2495,7 @@
       "sourceTextLine": 482,
       "implementation": "partial",
       "target": "R14",
-      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue.",
+      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue. Slice 3i: a queue of open field referral requests for clinicians, supervisors and owners in scope (clinical concern first, then oldest, with waiting time and a link to the visit); requests waiting 48 hours or more are also exception-queue rows.",
       "remaining": "Approved urgency policy, notification or on-call escalation, and automatic reassignment.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2502,7 +2507,12 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/referral-request-queue.ts",
+        "app/referral-request-queue-panel.tsx",
+        "docs/current/SLICE-3I-REFERRAL-REQUEST-QUEUE.md",
+        "tests/referral-request-queue-contract.mjs",
+        "tests/referral-request-queue-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
