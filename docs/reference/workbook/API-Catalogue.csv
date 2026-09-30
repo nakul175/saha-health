@@ -1,0 +1,79 @@
+API Catalogue,,,,,,,,
+Health AI Orchestration · v1.0 · source BRD v1.1 · proposed baseline · 26 September 2026,,,,,,,,
+Controlled design catalogue. Update through the versioned specification review process.,,,,,,,,
+,,,,,,,,
+ID,Operation,Method,Path,Input schema,Response schema,Version precondition,BR family,Meaning
+API001,createPerson,POST,/v1/persons,createPersonInput,CommandReceipt,Not applicable,ID,Create a provisional local person
+API002,linkIdentifier,POST,/v1/persons/{id}/identifier-links,linkIdentifierInput,CommandReceipt,If-Match required,ID,Create a verified external identity link after confirmation
+API003,correctIdentifier,POST,/v1/identifier-links/{id}/correct,correctIdentifierInput,CommandReceipt,If-Match required,ID,Supersede a wrong identity link and create repair tasks
+API004,createEncounter,POST,/v1/encounters,createEncounterInput,CommandReceipt,Not applicable,UX,Start an encounter for a confirmed active person
+API005,recordObservation,POST,/v1/encounters/{id}/observations,recordObservationInput,CommandReceipt,If-Match required,DATA,Create a draft observation with value or missingness
+API006,confirmEncounter,POST,/v1/encounters/{id}/confirm,confirmEncounterInput,CommandReceipt,If-Match required,UX,Confirm the reviewed encounter snapshot
+API007,amendObservation,POST,/v1/observations/{id}/amend,amendObservationInput,CommandReceipt,If-Match required,DATA,Append a correction and invalidate dependent approval
+API008,resolveConflict,POST,/v1/conflicts/{id}/resolve,resolveConflictInput,CommandReceipt,If-Match required,DATA,Resolve a recorded conflict without silent overwrite
+API009,recordAuthority,POST,/v1/authorities,recordAuthorityInput,CommandReceipt,Not applicable,SEC,Record verified processing authority
+API010,withdrawAuthority,POST,/v1/authorities/{id}/withdraw,withdrawAuthorityInput,CommandReceipt,If-Match required,SEC,Revoke authority and invalidate pending disclosures
+API011,preparePlan,POST,/v1/plans,preparePlanInput,CommandReceipt,Not applicable,AG,Prepare a typed bounded plan
+API012,approvePlan,POST,/v1/plans/{id}/approvals,approvePlanInput,CommandReceipt,If-Match required,AG,Approve exact permitted actions and evidence
+API013,executePlan,POST,/v1/plans/{id}/execute,executePlanInput,CommandReceipt,If-Match required,AG,Queue approved actions after current policy checks
+API014,cancelPlan,POST,/v1/plans/{id}/cancel,cancelPlanInput,CommandReceipt,If-Match required,AG,Cancel unfinished work and retain accepted external effects
+API015,invokeCapability,POST,/v1/ai-requests,invokeCapabilityInput,CommandReceipt,Not applicable,AI,Admit an eligible provider invocation
+API016,cancelAIRequest,POST,/v1/ai-requests/{id}/cancel,cancelAIRequestInput,CommandReceipt,If-Match required,AI,Request provider cancellation with actual outcome tracking
+API017,registerCapability,POST,/v1/capabilities,registerCapabilityInput,CommandReceipt,Not applicable,AI,Register a non-active capability version
+API018,transitionCapability,POST,/v1/capabilities/{id}/transition,transitionCapabilityInput,CommandReceipt,If-Match required,AI,Review activate suspend or retire a pinned capability
+API019,prepareSubmission,POST,/v1/submissions,prepareSubmissionInput,CommandReceipt,Not applicable,INT,Prepare a validated minimal destination payload
+API020,dispatchSubmission,POST,/v1/submissions/{id}/dispatch,dispatchSubmissionInput,CommandReceipt,If-Match required,INT,Queue one destination action after revalidation
+API021,reconcileSubmission,POST,/v1/submissions/{id}/reconcile,reconcileSubmissionInput,CommandReceipt,If-Match required,INT,Look up uncertain external state before considering retry
+API022,createReferral,POST,/v1/referrals,createReferralInput,CommandReceipt,Not applicable,CARE,Prepare a referral with accountable ownership
+API023,transitionReferral,POST,/v1/referrals/{id}/transition,transitionReferralInput,CommandReceipt,If-Match required,CARE,Record an evidence-backed referral state change
+API024,assignTask,POST,/v1/tasks/{id}/assign,assignTaskInput,CommandReceipt,If-Match required,CARE,Transfer task responsibility
+API025,completeTask,POST,/v1/tasks/{id}/complete,completeTaskInput,CommandReceipt,If-Match required,CARE,Complete a task using authorised outcome evidence
+API026,requestExchange,POST,/v1/exchanges,requestExchangeInput,CommandReceipt,Not applicable,INT,Request an authorised ABDM exchange through its adapter
+API027,createLease,POST,/v1/offline-leases,createLeaseInput,CommandReceipt,Not applicable,OFF,Issue a server-scoped signed offline lease
+API028,syncBatch,POST,/v1/sync-batches,syncBatchInput,SyncResult,Not applicable,OFF,Ingest ordered offline commands with per-item receipts
+API029,reserveMedia,POST,/v1/media,reserveMediaInput,UploadTicket,Not applicable,DATA,Reserve a scoped upload target
+API030,completeMedia,POST,/v1/media/{id}/complete,completeMediaInput,CommandReceipt,If-Match required,DATA,Verify upload and queue scan and quality checks
+API031,openSafetyCase,POST,/v1/safety-cases,openSafetyCaseInput,CommandReceipt,Not applicable,CLIN,Record a safety or privacy incident
+API032,requestExport,POST,/v1/exports,requestExportInput,CommandReceipt,Not applicable,REP,Request a scoped expiring export
+API033,createSupportCase,POST,/v1/support-cases,createSupportCaseInput,CommandReceipt,Not applicable,OPS,Open a case with redacted diagnostics
+API034,publishPack,POST,/v1/programme-packs/{id}/publish,publishPackInput,CommandReceipt,If-Match required,PROG,Activate a reviewed programme version
+API035,publishConfiguration,POST,/v1/deployment-configs/{id}/publish,publishConfigurationInput,CommandReceipt,If-Match required,OPS,Activate a compatible reviewed deployment configuration
+API036,listPersons,GET,/v1/persons,,PersonList,Not applicable,ID,Policy-scoped read; cursor is opaque and tenant-bound
+API037,getPerson,GET,/v1/persons/{id},,Person,Not applicable,ID,Policy-scoped read; cursor is opaque and tenant-bound
+API038,listEncounters,GET,/v1/encounters,,EncounterList,Not applicable,UX,Policy-scoped read; cursor is opaque and tenant-bound
+API039,getEncounter,GET,/v1/encounters/{id},,Encounter,Not applicable,UX,Policy-scoped read; cursor is opaque and tenant-bound
+API040,listObservations,GET,/v1/observations,,ObservationList,Not applicable,DATA,Policy-scoped read; cursor is opaque and tenant-bound
+API041,getObservation,GET,/v1/observations/{id},,Observation,Not applicable,DATA,Policy-scoped read; cursor is opaque and tenant-bound
+API042,listConflicts,GET,/v1/conflicts,,ConflictList,Not applicable,DATA,Policy-scoped read; cursor is opaque and tenant-bound
+API043,getConflict,GET,/v1/conflicts/{id},,Conflict,Not applicable,DATA,Policy-scoped read; cursor is opaque and tenant-bound
+API044,listAuthorityRecords,GET,/v1/authorities,,AuthorityRecordList,Not applicable,SEC,Policy-scoped read; cursor is opaque and tenant-bound
+API045,getAuthorityRecord,GET,/v1/authorities/{id},,AuthorityRecord,Not applicable,SEC,Policy-scoped read; cursor is opaque and tenant-bound
+API046,listAgentPlans,GET,/v1/plans,,AgentPlanList,Not applicable,AG,Policy-scoped read; cursor is opaque and tenant-bound
+API047,getAgentPlan,GET,/v1/plans/{id},,AgentPlan,Not applicable,AG,Policy-scoped read; cursor is opaque and tenant-bound
+API048,listAIRequests,GET,/v1/ai-requests,,AIRequestList,Not applicable,AI,Policy-scoped read; cursor is opaque and tenant-bound
+API049,getAIRequest,GET,/v1/ai-requests/{id},,AIRequest,Not applicable,AI,Policy-scoped read; cursor is opaque and tenant-bound
+API050,listProviderCapabilitys,GET,/v1/capabilities,,ProviderCapabilityList,Not applicable,AI,Policy-scoped read; cursor is opaque and tenant-bound
+API051,getProviderCapability,GET,/v1/capabilities/{id},,ProviderCapability,Not applicable,AI,Policy-scoped read; cursor is opaque and tenant-bound
+API052,listSubmissions,GET,/v1/submissions,,SubmissionList,Not applicable,INT,Policy-scoped read; cursor is opaque and tenant-bound
+API053,getSubmission,GET,/v1/submissions/{id},,Submission,Not applicable,INT,Policy-scoped read; cursor is opaque and tenant-bound
+API054,listConnectors,GET,/v1/connectors,,ConnectorList,Not applicable,INT,Policy-scoped read; cursor is opaque and tenant-bound
+API055,getConnector,GET,/v1/connectors/{id},,Connector,Not applicable,INT,Policy-scoped read; cursor is opaque and tenant-bound
+API056,listReferrals,GET,/v1/referrals,,ReferralList,Not applicable,CARE,Policy-scoped read; cursor is opaque and tenant-bound
+API057,getReferral,GET,/v1/referrals/{id},,Referral,Not applicable,CARE,Policy-scoped read; cursor is opaque and tenant-bound
+API058,listTasks,GET,/v1/tasks,,TaskList,Not applicable,CARE,Policy-scoped read; cursor is opaque and tenant-bound
+API059,getTask,GET,/v1/tasks/{id},,Task,Not applicable,CARE,Policy-scoped read; cursor is opaque and tenant-bound
+API060,listExchanges,GET,/v1/exchanges,,ExchangeList,Not applicable,INT,Policy-scoped read; cursor is opaque and tenant-bound
+API061,getExchange,GET,/v1/exchanges/{id},,Exchange,Not applicable,INT,Policy-scoped read; cursor is opaque and tenant-bound
+API062,listSafetyCases,GET,/v1/safety-cases,,SafetyCaseList,Not applicable,CLIN,Policy-scoped read; cursor is opaque and tenant-bound
+API063,getSafetyCase,GET,/v1/safety-cases/{id},,SafetyCase,Not applicable,CLIN,Policy-scoped read; cursor is opaque and tenant-bound
+API064,listSupportCases,GET,/v1/support-cases,,SupportCaseList,Not applicable,OPS,Policy-scoped read; cursor is opaque and tenant-bound
+API065,getSupportCase,GET,/v1/support-cases/{id},,SupportCase,Not applicable,OPS,Policy-scoped read; cursor is opaque and tenant-bound
+API066,listProgrammePacks,GET,/v1/programme-packs,,ProgrammePackList,Not applicable,PROG,Policy-scoped read; cursor is opaque and tenant-bound
+API067,getProgrammePack,GET,/v1/programme-packs/{id},,ProgrammePack,Not applicable,PROG,Policy-scoped read; cursor is opaque and tenant-bound
+API068,listDeploymentConfigs,GET,/v1/deployment-configs,,DeploymentConfigList,Not applicable,OPS,Policy-scoped read; cursor is opaque and tenant-bound
+API069,getDeploymentConfig,GET,/v1/deployment-configs/{id},,DeploymentConfig,Not applicable,OPS,Policy-scoped read; cursor is opaque and tenant-bound
+API070,listExportJobs,GET,/v1/exports,,ExportJobList,Not applicable,REP,Policy-scoped read; cursor is opaque and tenant-bound
+API071,getExportJob,GET,/v1/exports/{id},,ExportJob,Not applicable,REP,Policy-scoped read; cursor is opaque and tenant-bound
+API072,getSession,GET,/v1/me,,Session,Not applicable,ID,Session or policy-scoped projection
+API073,runReport,GET,/v1/reports/{id},,ReportResult,Not applicable,REP,Session or policy-scoped projection
+API074,getExportDownload,GET,/v1/exports/{id}/download,,DownloadTicket,Not applicable,REP,Session or policy-scoped projection

@@ -1,0 +1,17 @@
+ADRs,,,,,
+Health AI Orchestration · v1.0 · source BRD v1.1 · proposed baseline · 26 September 2026,,,,,
+Controlled design catalogue. Update through the versioned specification review process.,,,,,
+,,,,,
+ID,Decision,Selected baseline,Reason,Consequence,Status
+ADR01,One encounter workspace,Use a task-centred mobile flow with person and encounter context fixed,Workers reuse facts across programmes; distinct patient records remain isolated,UI widgets and question packs require usability validation,Proposed
+ADR02,Modular server and durable workers,Start with a modular service and database-backed outbox workers,Reduces cross-service failure modes while preserving clear component contracts,Split components only when measured scale or custody requires it,Proposed
+ADR03,Canonical operational model,Persist typed operational entities and transform at adapter boundaries,Shared facts retain provenance while destinations keep independent schemas,Canonical shape is not itself an ABDM clinical document,Proposed
+ADR04,Native field client,Use an Android reference client with encrypted local storage and keystore wrapping,Offline lease and media recovery require controlled device behaviour,Web admin supports online work; browser storage is not the default clinical offline store,Proposed
+ADR05,Bounded planner,Separate model planning from deterministic execution and policy,Tool outputs and retrieved records cannot grant authority,Model vendor selected through performance privacy and cost review,Proposed
+ADR06,Independent destination actions,Use saga-style recovery and evidence-based reconciliation,No global atomic commit exists across unrelated programme systems,Uncertain results need lookup or manual resolution before retry,Proposed
+ADR07,Immutable confirmed revisions,Use append-only clinical fact revisions and approval hashes,Corrections remain attributable and invalidate affected work,Storage and retention policy must cover original and corrected versions,Proposed
+ADR08,Versioned capability activation,Activate provider and model version per deployment and scope,Evidence and local permission differ from a successful API test,Substitution requires equivalent approved intended use,Proposed
+ADR09,Explicit exchange scope,Implement ABDM and direct EHR as separate connector types,Consent or API availability does not grant universal records access,Exact external contracts stay blocked until owner verification,Proposed
+ADR10,Defence in depth authorisation,Use service policy and tenant RLS with separate runtime roles,Prevents client scope selection and catches tenant query errors,Tenant RLS does not replace patient relationship and purpose checks,Proposed
+ADR11,Operational metrics projection,Build controlled report projections from versioned domain events,Queries can disclose source completeness and avoid double counting,Late records require reproducible metric revision,Proposed
+ADR12,Explicit synthetic environment,Simulators emit mode and source markers and use isolated fixtures,Development can exercise failures before partner credentials exist,Simulation evidence cannot pass live connector or clinical validation gates,Proposed

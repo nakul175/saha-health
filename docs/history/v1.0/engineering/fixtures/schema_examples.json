@@ -1,0 +1,848 @@
+{
+  "ResourceVersion": {
+    "resource_type": "synthetic-resource_type",
+    "resource_id": "46ab9e52-d921-5ea8-b2f3-07bee6f91924",
+    "version": 1
+  },
+  "ClinicalValue": {
+    "kind": "quantity",
+    "value": 1,
+    "unit": "synthetic-unit",
+    "unit_system": "synthetic-unit_system"
+  },
+  "PlanStep": {
+    "step_id": "14f455da-40df-54f1-8806-973dc22949d0",
+    "tool_id": "synthetic-tool_id",
+    "input_refs": [],
+    "depends_on": [],
+    "authority_class": "read",
+    "state": "pending"
+  },
+  "Problem": {
+    "code": "synthetic-code",
+    "message": "synthetic-message",
+    "correlation_id": "a64cbedf-e158-5bfd-b7b4-586e6b281a67",
+    "retryable": true
+  },
+  "CommandReceipt": {
+    "command_id": "32af0aef-5479-5438-ae48-6c9d26e1defc",
+    "resource_type": "synthetic-resource_type",
+    "resource_id": "46ab9e52-d921-5ea8-b2f3-07bee6f91924",
+    "version": 1,
+    "state": "synthetic-state",
+    "location": "synthetic-location",
+    "correlation_id": "a64cbedf-e158-5bfd-b7b4-586e6b281a67",
+    "replayed": true
+  },
+  "Session": {
+    "principal_id": "d05790cc-19c5-5f08-885d-6a1e7239c4a3",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "active_role": "synthetic-active_role",
+    "assignment_version": "synthetic-assignment_version",
+    "allowed_actions": [],
+    "policy_version": "synthetic-policy_version",
+    "expires_at": "2026-09-26T12:00:00Z"
+  },
+  "SyncResult": {
+    "batch_id": "bb148ee4-19b1-5d14-a33c-db0565f7636f",
+    "items": [],
+    "server_cursor": "synthetic-server_cursor"
+  },
+  "ReportResult": {
+    "metric_key": "synthetic-metric_key",
+    "definition_version": "synthetic-definition_version",
+    "period_from": "2026-09-26T12:00:00Z",
+    "period_to": "2026-09-26T12:00:00Z",
+    "source_as_of": "2026-09-26T12:00:00Z",
+    "complete": true,
+    "suppressed": true
+  },
+  "DownloadTicket": {
+    "url": "https://synthetic.example.invalid/record",
+    "expires_at": "2026-09-26T12:00:00Z",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "byte_size": 1
+  },
+  "UploadTicket": {
+    "asset_id": "333da76b-f33b-53aa-bd22-270b39829d53",
+    "upload_url": "https://synthetic.example.invalid/record",
+    "expires_at": "2026-09-26T12:00:00Z",
+    "required_content_type": "synthetic-required_content_type",
+    "max_bytes": 1
+  },
+  "Person": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "display_name": "synthetic-display_name",
+    "age_basis": "verified_date",
+    "identity_status": "provisional",
+    "preferred_language": "synthetic-prefer"
+  },
+  "PersonList": {
+    "items": []
+  },
+  "IdentifierLink": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "issuer": "synthetic-issuer",
+    "external_identifier": "synthetic-external_identifier",
+    "verification": "unverified"
+  },
+  "IdentifierLinkList": {
+    "items": []
+  },
+  "HouseholdMembership": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "household_id": "268af71d-2f67-5186-b75c-69e761972465",
+    "relationship": "synthetic-relationship",
+    "effective_from": "2026-09-26T12:00:00Z"
+  },
+  "HouseholdMembershipList": {
+    "items": []
+  },
+  "Encounter": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "programme_ids": [
+      "synthetic-programme_ids"
+    ],
+    "state": "draft",
+    "started_at": "2026-09-26T12:00:00Z",
+    "patient_context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "EncounterList": {
+    "items": []
+  },
+  "Observation": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "concept_code": "synthetic-concept_code",
+    "concept_system": "synthetic-concept_system",
+    "effective_at": "2026-09-26T12:00:00Z",
+    "source_type": "measured",
+    "verification": "draft",
+    "author_id": "368b09c5-34e8-5b05-97dd-446bd6370771",
+    "value": {
+      "kind": "quantity",
+      "value": 1,
+      "unit": "synthetic-unit",
+      "unit_system": "synthetic-unit_system"
+    }
+  },
+  "ObservationList": {
+    "items": []
+  },
+  "Conflict": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "resource_type": "synthetic-resource_type",
+    "resource_id": "46ab9e52-d921-5ea8-b2f3-07bee6f91924",
+    "base_version": 1,
+    "candidate_refs": [
+      "synthetic-candidate_refs",
+      "synthetic-candidate_refs"
+    ],
+    "state": "open",
+    "owner_id": "6a0e9ef1-ef66-507e-9130-21af5ec5fd39"
+  },
+  "ConflictList": {
+    "items": []
+  },
+  "AuthorityRecord": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "purpose": "synthetic-purpose",
+    "basis": "consent",
+    "basis_ref": "synthetic-basis_ref",
+    "recipient_ids": [
+      "synthetic-recipient_ids"
+    ],
+    "data_types": [
+      "synthetic-data_types"
+    ],
+    "actions": [
+      "synthetic-actions"
+    ],
+    "state": "requested",
+    "valid_from": "2026-09-26T12:00:00Z",
+    "expires_at": "2026-09-26T12:00:00Z"
+  },
+  "AuthorityRecordList": {
+    "items": []
+  },
+  "ProgrammePack": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "programme_id": "synthetic-programme_id",
+    "pack_version": "synthetic-pack_version",
+    "schema_ref": "synthetic-schema_ref",
+    "rules_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "mapping_refs": [],
+    "state": "draft",
+    "effective_from": "2026-09-26T12:00:00Z",
+    "approval_refs": [],
+    "language_versions": []
+  },
+  "ProgrammePackList": {
+    "items": []
+  },
+  "Task": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "task_type": "synthetic-task_type",
+    "owner_ref": "synthetic-owner_ref",
+    "reason_codes": [],
+    "state": "open"
+  },
+  "TaskList": {
+    "items": []
+  },
+  "Referral": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "reason_codes": [
+      "synthetic-reason_codes"
+    ],
+    "destination_id": "6109b5b5-aa3c-51ca-bff1-7abb9b577a09",
+    "owner_ref": "synthetic-owner_ref",
+    "state": "proposed",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "evidence_refs": []
+  },
+  "ReferralList": {
+    "items": []
+  },
+  "ProviderCapability": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "provider_id": "synthetic-provider_id",
+    "capability_key": "synthetic-capability_key",
+    "manifest_version": "synthetic-manifest_version",
+    "provider_release_id": "synthetic-provider_release_id",
+    "state": "registered",
+    "manifest_ref": "synthetic-manifest_ref",
+    "intended_use": "synthetic-intended_use",
+    "input_schema_ref": "synthetic-input_schema_ref",
+    "output_schema_ref": "synthetic-output_schema_ref",
+    "population_rule_ref": "synthetic-population_rule_ref",
+    "approval_refs": [],
+    "region": "synthetic-region",
+    "cost_ceiling_minor": 1,
+    "currency": "INR"
+  },
+  "ProviderCapabilityList": {
+    "items": []
+  },
+  "AIRequest": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "capability_id": "b4f28f2d-1036-512d-9dc5-fdc7231ac665",
+    "manifest_version": "synthetic-manifest_version",
+    "input_refs": [
+      {
+        "resource_type": "synthetic-resource_type",
+        "resource_id": "46ab9e52-d921-5ea8-b2f3-07bee6f91924",
+        "version": 1
+      }
+    ],
+    "input_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "state": "prepared",
+    "deadline_at": "2026-09-26T12:00:00Z",
+    "max_cost_minor": 1,
+    "currency": "INR"
+  },
+  "AIRequestList": {
+    "items": []
+  },
+  "AIResult": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "request_id": "d6b5ed0c-17d0-5cbe-957f-65bdc858a5bf",
+    "provider_release_id": "synthetic-provider_release_id",
+    "output_schema_ref": "synthetic-output_schema_ref",
+    "output_ref": "synthetic-output_ref",
+    "output_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "quality_state": "valid",
+    "limitations": [],
+    "use_mode": "clinical_approved",
+    "review_state": "unreviewed"
+  },
+  "AIResultList": {
+    "items": []
+  },
+  "AgentPlan": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "goal_code": "synthetic-goal_code",
+    "state": "draft",
+    "steps": [],
+    "input_refs": [],
+    "plan_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "max_steps": 1,
+    "deadline_at": "2026-09-26T12:00:00Z",
+    "budget_minor": 1,
+    "currency": "INR"
+  },
+  "AgentPlanList": {
+    "items": []
+  },
+  "ActionApproval": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "plan_id": "70a6b4df-2aaf-5cd4-96e0-709bca1f2e7b",
+    "action_ids": [
+      "f8169933-be47-5e62-8401-9786405e18b1"
+    ],
+    "snapshot_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "purpose": "synthetic-purpose",
+    "recipient_ids": [],
+    "approver_id": "13ac9cf2-b737-5549-8dd6-7caef5479a4a",
+    "approved_at": "2026-09-26T12:00:00Z",
+    "expires_at": "2026-09-26T12:00:00Z",
+    "state": "active"
+  },
+  "ActionApprovalList": {
+    "items": []
+  },
+  "Connector": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "connector_key": "synthetic-connector_key",
+    "connector_type": "programme",
+    "profile_version": "synthetic-profile_version",
+    "supported_operations": [],
+    "supported_resources": [],
+    "mapping_version": "synthetic-mapping_version",
+    "external_schema_version": "synthetic-external_schema_version",
+    "state": "candidate",
+    "receipt_semantics_ref": "synthetic-receipt_semantics_ref",
+    "owner_ref": "synthetic-owner_ref",
+    "secret_ref": "synthetic-secret_ref"
+  },
+  "ConnectorList": {
+    "items": []
+  },
+  "Submission": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "connector_id": "d3af4e22-56e2-590e-b3e6-6f8818478a71",
+    "logical_action_id": "4bc41519-4a7c-5b5b-88bf-c34d010d765d",
+    "payload_ref": "synthetic-payload_ref",
+    "payload_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "mapping_version": "synthetic-mapping_version",
+    "source_refs": [],
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "approval_id": "83884d20-e908-5f2a-8379-8bc206135da2",
+    "state": "prepared",
+    "attempt_count": 1
+  },
+  "SubmissionList": {
+    "items": []
+  },
+  "Exchange": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "connector_id": "d3af4e22-56e2-590e-b3e6-6f8818478a71",
+    "role": "hip",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "data_types": [],
+    "date_from": "2026-09-26T12:00:00Z",
+    "date_to": "2026-09-26T12:00:00Z",
+    "state": "requested",
+    "profile_package": "synthetic-profile_package",
+    "bundle_refs": []
+  },
+  "ExchangeList": {
+    "items": []
+  },
+  "OfflineLease": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "user_id": "68a4d872-f11e-54fa-a064-4f66061b4452",
+    "device_id": "7825685b-b579-5285-8436-4e758763ac79",
+    "record_scope_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "allowed_actions": [],
+    "policy_version": "synthetic-policy_version",
+    "issued_at": "2026-09-26T12:00:00Z",
+    "expires_at": "2026-09-26T12:00:00Z",
+    "server_time_anchor": "2026-09-26T12:00:00Z",
+    "signature_ref": "synthetic-signature_ref",
+    "state": "active"
+  },
+  "OfflineLeaseList": {
+    "items": []
+  },
+  "MediaAsset": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "content_type": "audio/wav",
+    "byte_size": 1,
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "object_ref": "synthetic-object_ref",
+    "state": "reserved",
+    "purpose": "synthetic-purpose",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412"
+  },
+  "MediaAssetList": {
+    "items": []
+  },
+  "AuditEvent": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "actor_id": "23774223-c4b9-57ab-b69a-4c0bccc4f6ff",
+    "action": "synthetic-action",
+    "resource_type": "synthetic-resource_type",
+    "resource_id": "46ab9e52-d921-5ea8-b2f3-07bee6f91924",
+    "purpose": "synthetic-purpose",
+    "policy_decision_id": "synthetic-policy_decision_id",
+    "outcome": "allowed",
+    "correlation_id": "a64cbedf-e158-5bfd-b7b4-586e6b281a67",
+    "occurred_at": "2026-09-26T12:00:00Z",
+    "evidence_refs": []
+  },
+  "AuditEventList": {
+    "items": []
+  },
+  "SafetyCase": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "category": "clinical",
+    "severity": "critical",
+    "state": "open",
+    "summary": "synthetic-summary",
+    "owner_ref": "synthetic-owner_ref",
+    "affected_refs": [],
+    "containment_refs": []
+  },
+  "SafetyCaseList": {
+    "items": []
+  },
+  "SupportCase": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "category": "synthetic-category",
+    "summary": "synthetic-summary",
+    "state": "open",
+    "owner_ref": "synthetic-owner_ref",
+    "diagnostic_refs": []
+  },
+  "SupportCaseList": {
+    "items": []
+  },
+  "ReportDefinition": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "metric_key": "synthetic-metric_key",
+    "definition_version": "synthetic-definition_version",
+    "numerator_ref": "synthetic-numerator_ref",
+    "denominator_ref": "synthetic-denominator_ref",
+    "exclusion_ref": "synthetic-exclusion_ref",
+    "source_grain": "synthetic-source_grain",
+    "suppression_rule_ref": "synthetic-suppression_rule_ref",
+    "state": "draft"
+  },
+  "ReportDefinitionList": {
+    "items": []
+  },
+  "ExportJob": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "purpose": "synthetic-purpose",
+    "scope_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "state": "requested",
+    "format": "csv"
+  },
+  "ExportJobList": {
+    "items": []
+  },
+  "DeploymentConfig": {
+    "id": "e0ddc9fb-cdf6-5e97-b92d-bba54e161e13",
+    "tenant_id": "0a1dce9d-c80a-5b93-acab-85283390d556",
+    "version": 1,
+    "environment": "synthetic",
+    "created_at": "2026-09-26T12:00:00Z",
+    "updated_at": "2026-09-26T12:00:00Z",
+    "config_version": "synthetic-config_version",
+    "pack_refs": [],
+    "capability_refs": [],
+    "connector_refs": [],
+    "language_codes": [],
+    "policy_version": "synthetic-policy_version",
+    "state": "draft",
+    "manifest_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "approval_refs": []
+  },
+  "DeploymentConfigList": {
+    "items": []
+  },
+  "SyncItem": {
+    "command_id": "32af0aef-5479-5438-ae48-6c9d26e1defc",
+    "sequence": 1,
+    "depends_on": [],
+    "command_type": "createEncounter",
+    "base_version": 1,
+    "payload_ref": "synthetic-payload_ref",
+    "payload_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "createPersonInput": {
+    "display_name": "synthetic-display_name",
+    "age_basis": "verified_date",
+    "preferred_language": "synthetic-preferred_language"
+  },
+  "linkIdentifierInput": {
+    "issuer": "synthetic-issuer",
+    "external_identifier": "synthetic-external_identifier",
+    "evidence_ref": "synthetic-evidence_ref",
+    "confirmed_person_id": "8195e3a2-043e-5771-9d95-a2f3bfc293ab"
+  },
+  "correctIdentifierInput": {
+    "correct_person_id": "852f13a8-bc67-5303-babf-db97a68e2b7d",
+    "reason": "synthetic-reason",
+    "evidence_ref": "synthetic-evidence_ref"
+  },
+  "createEncounterInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "programme_ids": [
+      "synthetic-programme_ids"
+    ],
+    "patient_context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "started_at": "2026-09-26T12:00:00Z"
+  },
+  "recordObservationInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "concept_code": "synthetic-concept_code",
+    "concept_system": "synthetic-concept_system",
+    "effective_at": "2026-09-26T12:00:00Z",
+    "source_type": "measured",
+    "value": {
+      "kind": "quantity",
+      "value": 1,
+      "unit": "synthetic-unit",
+      "unit_system": "synthetic-unit_system"
+    }
+  },
+  "confirmEncounterInput": {
+    "patient_context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reviewed_refs": [
+      {
+        "resource_type": "synthetic-resource_type",
+        "resource_id": "46ab9e52-d921-5ea8-b2f3-07bee6f91924",
+        "version": 1
+      }
+    ],
+    "unresolved_refs": []
+  },
+  "amendObservationInput": {
+    "reason": "synthetic-reason",
+    "effective_at": "2026-09-26T12:00:00Z",
+    "value": {
+      "kind": "quantity",
+      "value": 1,
+      "unit": "synthetic-unit",
+      "unit_system": "synthetic-unit_system"
+    }
+  },
+  "resolveConflictInput": {
+    "resolution": "retain_both",
+    "reason": "synthetic-reason"
+  },
+  "recordAuthorityInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "purpose": "synthetic-purpose",
+    "basis": "consent",
+    "basis_ref": "synthetic-basis_ref",
+    "recipient_ids": [
+      "synthetic-recipient_ids"
+    ],
+    "data_types": [
+      "synthetic-data_types"
+    ],
+    "actions": [
+      "synthetic-actions"
+    ],
+    "expires_at": "2026-09-26T12:00:00Z"
+  },
+  "withdrawAuthorityInput": {
+    "reason": "synthetic-reason",
+    "requester_evidence_ref": "synthetic-requester_evidence_ref"
+  },
+  "preparePlanInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "goal_code": "synthetic-goal_code",
+    "input_refs": []
+  },
+  "approvePlanInput": {
+    "snapshot_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "action_ids": [
+      "f8169933-be47-5e62-8401-9786405e18b1"
+    ],
+    "purpose": "synthetic-purpose",
+    "recipient_ids": [],
+    "expires_at": "2026-09-26T12:00:00Z"
+  },
+  "executePlanInput": {
+    "approval_id": "83884d20-e908-5f2a-8379-8bc206135da2",
+    "snapshot_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "cancelPlanInput": {
+    "reason": "synthetic-reason"
+  },
+  "invokeCapabilityInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "capability_id": "b4f28f2d-1036-512d-9dc5-fdc7231ac665",
+    "manifest_version": "synthetic-manifest_version",
+    "input_refs": [
+      {
+        "resource_type": "synthetic-resource_type",
+        "resource_id": "46ab9e52-d921-5ea8-b2f3-07bee6f91924",
+        "version": 1
+      }
+    ],
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "max_cost_minor": 1,
+    "currency": "INR"
+  },
+  "cancelAIRequestInput": {
+    "reason": "synthetic-reason"
+  },
+  "registerCapabilityInput": {
+    "provider_id": "synthetic-provider_id",
+    "capability_key": "synthetic-capability_key",
+    "manifest_version": "synthetic-manifest_version",
+    "manifest_ref": "synthetic-manifest_ref"
+  },
+  "transitionCapabilityInput": {
+    "target_state": "registered",
+    "reason": "synthetic-reason",
+    "approval_refs": []
+  },
+  "prepareSubmissionInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "connector_id": "d3af4e22-56e2-590e-b3e6-6f8818478a71",
+    "logical_action_id": "4bc41519-4a7c-5b5b-88bf-c34d010d765d",
+    "source_refs": [],
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "approval_id": "83884d20-e908-5f2a-8379-8bc206135da2",
+    "mapping_version": "synthetic-mapping_version"
+  },
+  "dispatchSubmissionInput": {
+    "approval_id": "83884d20-e908-5f2a-8379-8bc206135da2",
+    "payload_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "reconcileSubmissionInput": {
+    "reason": "synthetic-reason"
+  },
+  "createReferralInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "reason_codes": [
+      "synthetic-reason_codes"
+    ],
+    "destination_id": "6109b5b5-aa3c-51ca-bff1-7abb9b577a09",
+    "owner_ref": "synthetic-owner_ref",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412"
+  },
+  "transitionReferralInput": {
+    "target_state": "proposed",
+    "evidence_ref": "synthetic-evidence_ref",
+    "reason": "synthetic-reason"
+  },
+  "assignTaskInput": {
+    "owner_ref": "synthetic-owner_ref",
+    "reason": "synthetic-reason"
+  },
+  "completeTaskInput": {
+    "evidence_ref": "synthetic-evidence_ref",
+    "outcome_code": "synthetic-outcome_code"
+  },
+  "requestExchangeInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "connector_id": "d3af4e22-56e2-590e-b3e6-6f8818478a71",
+    "role": "hip",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "data_types": [
+      "synthetic-data_types"
+    ],
+    "date_from": "2026-09-26T12:00:00Z",
+    "date_to": "2026-09-26T12:00:00Z"
+  },
+  "createLeaseInput": {
+    "device_id": "7825685b-b579-5285-8436-4e758763ac79",
+    "requested_person_ids": [],
+    "requested_actions": []
+  },
+  "syncBatchInput": {
+    "lease_id": "71b6524a-0438-542c-bf83-99f3deb56329",
+    "device_id": "7825685b-b579-5285-8436-4e758763ac79",
+    "cursor": "synthetic-cursor",
+    "items": []
+  },
+  "reserveMediaInput": {
+    "person_id": "0ef54417-69d1-53e7-8276-ba674a191e46",
+    "encounter_id": "c8c5ab1c-153d-5a1e-93b9-d1e05aa3388f",
+    "content_type": "audio/wav",
+    "byte_size": 1,
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "purpose": "synthetic-purpose",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412"
+  },
+  "completeMediaInput": {
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "byte_size": 1
+  },
+  "openSafetyCaseInput": {
+    "category": "clinical",
+    "severity": "critical",
+    "summary": "synthetic-summary",
+    "affected_refs": [],
+    "owner_ref": "synthetic-owner_ref"
+  },
+  "requestExportInput": {
+    "purpose": "synthetic-purpose",
+    "scope_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "authority_id": "d9a2d1e3-7ce6-5085-a251-598ecc5f6412",
+    "format": "csv"
+  },
+  "createSupportCaseInput": {
+    "category": "synthetic-category",
+    "summary": "synthetic-summary",
+    "diagnostic_refs": []
+  },
+  "publishPackInput": {
+    "approval_refs": [
+      "synthetic-approval_refs"
+    ],
+    "effective_from": "2026-09-26T12:00:00Z",
+    "impact_ref": "synthetic-impact_ref"
+  },
+  "publishConfigurationInput": {
+    "manifest_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "approval_refs": [
+      "synthetic-approval_refs"
+    ]
+  }
+}

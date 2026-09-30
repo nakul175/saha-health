@@ -1,0 +1,21 @@
+Events,,,,,
+Health AI Orchestration · v1.0 · source BRD v1.1 · proposed baseline · 26 September 2026,,,,,
+Controlled design catalogue. Update through the versioned specification review process.,,,,,
+,,,,,
+ID,Event name,Resource,Schema version,Delivery,Deduplication key
+EVT01,encounter.confirmed,Encounter,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT02,observation.amended,Observation,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT03,authority.revoked,AuthorityRecord,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT04,plan.approved,AgentPlan,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT05,ai.requested,AIRequest,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT06,ai.result_available,AIResult,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT07,capability.suspended,ProviderCapability,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT08,submission.accepted,Submission,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT09,submission.uncertain,Submission,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT10,referral.state_changed,Referral,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT11,identity.link_corrected,IdentifierLink,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT12,sync.conflict_detected,Conflict,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT13,exchange.validated,Exchange,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT14,safety.case_opened,SafetyCase,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT15,configuration.published,DeploymentConfig,1.0,At least once; order per aggregate,tenant + consumer + event ID
+EVT16,export.available,ExportJob,1.0,At least once; order per aggregate,tenant + consumer + event ID

@@ -1,0 +1,95 @@
+{
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Stable internal identifier",
+      "format": "uuid"
+    },
+    "event_type": {
+      "const": "ai.requested"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tenant_id": {
+      "type": "string",
+      "description": "Stable internal identifier",
+      "format": "uuid"
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "synthetic",
+        "test",
+        "production"
+      ]
+    },
+    "resource_id": {
+      "type": "string",
+      "description": "Stable internal identifier",
+      "format": "uuid"
+    },
+    "resource_type": {
+      "const": "AIRequest"
+    },
+    "resource_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "occurred_at": {
+      "type": "string",
+      "description": "UTC timestamp with explicit offset",
+      "format": "date-time"
+    },
+    "actor_id": {
+      "type": "string",
+      "description": "Stable internal identifier",
+      "format": "uuid"
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Stable internal identifier",
+      "format": "uuid"
+    },
+    "causation_id": {
+      "type": "string",
+      "description": "Stable internal identifier",
+      "format": "uuid"
+    },
+    "purpose": {
+      "type": "string",
+      "description": "",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "",
+        "minLength": 1,
+        "maxLength": 4000
+      }
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type",
+    "schema_version",
+    "tenant_id",
+    "environment",
+    "resource_id",
+    "resource_type",
+    "resource_version",
+    "occurred_at",
+    "actor_id",
+    "correlation_id",
+    "causation_id",
+    "purpose",
+    "evidence_refs"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://health.example.invalid/events/ai.requested/1.0"
+}

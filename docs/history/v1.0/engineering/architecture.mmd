@@ -1,0 +1,14 @@
+flowchart TD
+  Field["Field client and encrypted outbox"] --> API["Typed application commands"]
+  Admin["Supervisor and administration"] --> API
+  API --> Policy["Identity and current policy"]
+  API --> Records["Canonical records and revisions"]
+  Records --> Outbox["Audit and durable outbox"]
+  Outbox --> Agent["Bounded action executor"]
+  Policy --> Agent
+  Agent --> AI["AI broker and manifests"]
+  Agent --> Exchange["MIS EHR and ABDM adapters"]
+  AI --> Result["Validated independent results"]
+  Exchange --> Receipt["Destination receipts and reconciliation"]
+  Result --> Review["Human review and owned follow up"]
+  Receipt --> Review

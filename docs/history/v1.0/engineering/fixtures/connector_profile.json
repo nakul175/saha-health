@@ -1,0 +1,21 @@
+{
+  "environment": "synthetic",
+  "connector_key": "SYN-MIS-B",
+  "contract_version": "1.0",
+  "operations": [
+    "create",
+    "lookup"
+  ],
+  "identity_rule": "synthetic local ID exact match",
+  "logical_reference": "tenant + connector + logical_action_id",
+  "receipt_semantics": "business acceptance distinct from transport success",
+  "timeout_after_acceptance_scenario": true,
+  "lookup_outcomes": [
+    "accepted",
+    "proven_absent",
+    "unknown"
+  ],
+  "unattended_retry_without_lookup": false,
+  "production_credentials": null,
+  "owner_authority": "not granted"
+}

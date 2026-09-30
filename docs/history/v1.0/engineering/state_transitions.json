@@ -1,0 +1,254 @@
+{
+  "encounter": [
+    [
+      "draft",
+      "confirm",
+      "confirmed",
+      "Worker confirms person and facts; expected version matches"
+    ],
+    [
+      "confirmed",
+      "amend",
+      "confirmed",
+      "Append revision; invalidate affected pending approvals"
+    ],
+    [
+      "draft",
+      "void",
+      "void",
+      "Reason required; preserve local audit"
+    ],
+    [
+      "confirmed",
+      "void",
+      "void",
+      "Authorised correction review; accepted external records require repair"
+    ]
+  ],
+  "submission": [
+    [
+      "prepared",
+      "authorise",
+      "authorised",
+      "Approval hash and policy decision bound"
+    ],
+    [
+      "authorised",
+      "enqueue",
+      "queued",
+      "Payload validated; consent and input versions current"
+    ],
+    [
+      "queued",
+      "dispatch",
+      "sent",
+      "Worker holds action lease; stable external reference"
+    ],
+    [
+      "sent",
+      "accept",
+      "accepted",
+      "Destination business receipt verified"
+    ],
+    [
+      "sent",
+      "reject",
+      "rejected",
+      "Business rejection recorded"
+    ],
+    [
+      "sent",
+      "timeout",
+      "uncertain",
+      "Outcome unknown; do not resubmit blindly"
+    ],
+    [
+      "uncertain",
+      "reconcile accept",
+      "accepted",
+      "Evidence ties receipt to exact logical action"
+    ],
+    [
+      "uncertain",
+      "reconcile absent",
+      "queued",
+      "Destination proves no acceptance and policy remains valid"
+    ],
+    [
+      "rejected",
+      "correct",
+      "prepared",
+      "New payload revision and review; previous attempt retained"
+    ]
+  ],
+  "ai_request": [
+    [
+      "prepared",
+      "admit",
+      "queued",
+      "Eligible pinned capability; budget reserved"
+    ],
+    [
+      "queued",
+      "dispatch",
+      "running",
+      "Authority rechecked; input payload validated"
+    ],
+    [
+      "running",
+      "valid result",
+      "succeeded",
+      "Schema, correlation and intended-use validation pass"
+    ],
+    [
+      "running",
+      "quality failure",
+      "unable_to_assess",
+      "No clinical negative inferred"
+    ],
+    [
+      "running",
+      "timeout",
+      "failed",
+      "Deadline passed; attempt accounted"
+    ],
+    [
+      "queued",
+      "cancel",
+      "cancelled",
+      "Provider not yet invoked"
+    ],
+    [
+      "running",
+      "cancel request",
+      "cancelling",
+      "Best effort cancellation; keep actual provider outcome"
+    ],
+    [
+      "cancelling",
+      "acknowledge",
+      "cancelled",
+      "Provider confirms cancellation or broker records completed cleanup"
+    ]
+  ],
+  "referral": [
+    [
+      "proposed",
+      "authorise",
+      "authorised",
+      "Qualified actor where required"
+    ],
+    [
+      "authorised",
+      "send",
+      "sent",
+      "Destination known and disclosure permitted"
+    ],
+    [
+      "sent",
+      "acknowledge",
+      "received",
+      "Receiving service evidence"
+    ],
+    [
+      "received",
+      "schedule",
+      "scheduled",
+      "Appointment reference"
+    ],
+    [
+      "scheduled",
+      "attend",
+      "attended",
+      "Attendance evidence"
+    ],
+    [
+      "attended",
+      "complete",
+      "completed",
+      "Service outcome evidence and accountable verifier"
+    ],
+    [
+      "sent",
+      "unresolved close",
+      "unresolved",
+      "Approved coded reason, responsible actor and follow-up disposition"
+    ]
+  ],
+  "consent": [
+    [
+      "requested",
+      "approve",
+      "active",
+      "Authenticated artefact and exact scope"
+    ],
+    [
+      "requested",
+      "deny",
+      "denied",
+      "Denial received"
+    ],
+    [
+      "active",
+      "withdraw",
+      "revoked",
+      "Block new disclosure and dispose queues"
+    ],
+    [
+      "active",
+      "time expiry",
+      "expired",
+      "Server clock exceeds expiry"
+    ],
+    [
+      "active",
+      "replace",
+      "superseded",
+      "New authority scope requires new artefact"
+    ]
+  ],
+  "capability": [
+    [
+      "registered",
+      "technical review",
+      "verified",
+      "Contract tests and provider identity"
+    ],
+    [
+      "verified",
+      "review",
+      "under_review",
+      "Evidence and data-use review"
+    ],
+    [
+      "under_review",
+      "approve",
+      "approved",
+      "Named independent approval for scope"
+    ],
+    [
+      "approved",
+      "activate",
+      "active",
+      "Deployment policy and compatible version"
+    ],
+    [
+      "active",
+      "suspend",
+      "suspended",
+      "Incident or version incompatibility"
+    ],
+    [
+      "suspended",
+      "reapprove",
+      "approved",
+      "Corrective evidence reviewed"
+    ],
+    [
+      "active",
+      "retire",
+      "retired",
+      "No new calls; history retained"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+stateDiagram-v2
+  [*] --> Prepared
+  Prepared --> Queued: current approval and authority
+  Queued --> Sent: durable attempt checkpoint
+  Sent --> Accepted: verified business receipt
+  Sent --> Rejected: definitive business rejection
+  Sent --> Uncertain: response unavailable
+  Uncertain --> Accepted: lookup proves acceptance
+  Uncertain --> Queued: proven absent and policy still valid
+  Uncertain --> Review: outcome remains unknown
+  Rejected --> Prepared: reviewed correction
+  Accepted --> [*]
