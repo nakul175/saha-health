@@ -48,5 +48,8 @@ const saved=navigator.storage;navigator.storage=undefined;await run('checkSpace(
 // Persistence refused: the page says the browser may clear drafts.
 storage.persistedValue=false;storage.persistResult=false;await run('askedPersist=false;checkSpace()');run('render()');
 check(()=>assert.equal(run('space.persisted'),false));check(()=>assert.match(byId('space').textContent,/may clear saved drafts/));check(()=>assert.equal(storage.persistCalls,2));
+// A late storage estimate updates only the storage line; it does not rebuild the editor (which would move focus).
+storage.persistResult=true;storage.estimateValue={usage:990*MB,quota:1000*MB};await run('run(async()=>{})');const first=byId('editor').children[0];
+for(let i=0;i<20;i++)await new Promise(r=>setTimeout(r,2));check(()=>assert.equal(byId('editor').children[0],first));check(()=>assert.equal(byId('space').className,'notice'));
 writeFileSync('tests/field-storage-client-result.json',JSON.stringify({passed,completedAt:new Date().toISOString(),coverage:'Field notebook storage warnings with an injected StorageManager: one persistence request per session, usage display, low-space states by free bytes and by share of quota, preparing and queueing refused before any network call or device write while low, resumption when space frees, unknown or failing estimates shown and not treated as low, and refused persistence reported. Real browser quota, persistence grants and eviction are not tested.'},null,2)+'\n');
 console.log(`${passed} field storage warning checks passed`);
