@@ -268,3 +268,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Browser check with headless Chromium: care-context link, fetch under a mock-granted consent and acceptance of the received record. The first browser setup used approval references shorter than the three-character minimum and was refused as designed; with valid references the flow passed with no console errors.
 - Nothing was sent to ABDM; the encryption is Saha's own and is not validated against ABDM.
 - Assessment changes: BR-INT-18 and BR-INT-19 moved from not-built to partial, each stating mock-only. Counts are now 14 implemented-local, 147 partial, 6 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 2b — visit media — 30 September 2026 IST (30 September UTC)
+
+- **2,126 automated assertions passed:** 1,487 HTTP/D1 (1,452 plus 35 media checks), 618 contract/checkpoint (613 plus 5 media contract checks) and 21 encrypted restore checks over 31 SQLite tables including media. Reports: `tests/evidence/slice-2b/`.
+- The first full run stopped after an over-limit upload: the refusal left the body unread and the local Worker restarted on the next request (the behaviour first seen in R10 and fixed for JSON bodies in slice 0c). Upload bodies are now drained up to 1 MB before refusal; the rerun passed.
+- Browser check with headless Chromium: a real 40 × 40 PNG attached to a draft visit and rendered from the playback route. The first browser attempt could not find the upload control because it was only on confirmed visits; the panel was moved to the draft visit screen and the full suite was rerun after that change.
+- Assessment changes: BR-DATA-08 moved from not-built to partial. Counts are now 14 implemented-local, 148 partial, 5 not-built and 9 unverified; all 176 formal acceptances remain pending.

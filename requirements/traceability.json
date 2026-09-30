@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a, 4a, 6a-6d, 7a-7b, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 4a, 6a-6d, 7a-7b, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 147,
-    "not-built": 6,
+    "partial": 148,
+    "not-built": 5,
     "unverified": 9
   },
   "acceptance": {
@@ -592,10 +592,10 @@
       "requirement": "Attachments shall be linked to a person and encounter, checked for supported type and quality, and governed by purpose and retention. Extraction from an image or document shall remain distinguishable from a verified clinical entry.",
       "acceptance": "Acceptance: A low-quality image cannot silently generate confirmed values; deleting an unsubmitted recording removes the associated draft references.",
       "sourceTextLine": 219,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R14",
-      "current": "FHIR document import exists; general patient media capture/storage does not.",
-      "remaining": "Media attachment, quality/purpose checks, playback, draft deletion and retention lifecycle.",
+      "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation.",
+      "remaining": "Object storage and larger media, quality assessment, offline capture and retention lifecycle for media.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
