@@ -10,6 +10,7 @@ import type { CaseloadTransfer } from './caseload';
 import type { MergeCase, MergeLink } from './merge';
 import type { ExceptionalGrant } from './exceptional';
 import type { RightsRequest, Restriction } from './rights';
+import type { Retention } from './retention';
 import type { EhrConfig, EhrState } from './ehr';
 import type { MisConfig, Delivery } from './mis';
 import type { AgentRun, AgentProvider } from './agent';
@@ -43,7 +44,9 @@ export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Ex
  // Slice 1c: identity merge cases; organisation-wide reads load all, patient partitions load those naming a loaded patient.
  identityCases?:MergeCase[];
  // Slice 6b: rights and grievance requests.
- rightsRequests?:RightsRequest[]};
+ rightsRequests?:RightsRequest[];
+ // Slice 6c: retention schedules and legal holds (organisation-level).
+ retention?:Retention};
 export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic';externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
 export type RecordRevision = {id:string;personId:string;entityType:'person'|'visit';entityId:string;version:number;actorId:string;actorName:string;action:string;reason:string;data:Person|Visit;changes:{field:string;before:string;after:string}[];createdAt:string};
 export const PROGRAMMES:Programme[]=['Maternal care','Chronic care','TB screening','Child health','General care'];

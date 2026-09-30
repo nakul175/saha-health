@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 6c](SLICE-6C-RETENTION.md) | Retention schedules, legal holds and eligibility review without deletion |
 | [Development slice 0b-2](SLICE-0B2-SCOPED-READS.md) | Viewer-scoped workspace reads and ASHA read measurements |
 | [Development slice 6b](SLICE-6B-RIGHTS.md) | Rights and grievance requests, destination notification and processing restriction |
 | [Development slice 6a](SLICE-6A-EXCEPTIONAL-ACCESS.md) | Time-limited emergency access with restricted actions and independent review |

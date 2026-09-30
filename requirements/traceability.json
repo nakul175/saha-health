@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1c, 6a-6b, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1c, 6a-6c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 138,
-    "not-built": 15,
+    "partial": 139,
+    "not-built": 14,
     "unverified": 9
   },
   "acceptance": {
@@ -2998,10 +2998,10 @@
       "requirement": "Retention shall be specified by record class, purpose, location and jurisdiction, including transcripts, raw audio, model outputs, local caches, audit and backups. Legal holds and clinical record duties shall override routine disposal only through recorded policy.",
       "acceptance": "Acceptance: Test data expires according to its configured schedule, while held records remain protected and identifiable; backup restoration does not silently revive deleted operational data.",
       "sourceTextLine": 572,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R15",
-      "current": "Telemetry pruning and local cache expiry do not implement clinical retention.",
-      "remaining": "Record-class disposal schedules, holds, tombstones and restore-safe deletion policy.",
+      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted.",
+      "remaining": "Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"

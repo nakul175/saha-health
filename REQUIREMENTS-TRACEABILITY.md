@@ -1,12 +1,12 @@
-# BRD v1.1 requirements traceability — R11 and development slices 0a-1c, 6a-6b, 0b-2
+# BRD v1.1 requirements traceability — R11 and development slices 0a-1c, 6a-6c, 0b-2
 
 All **176 requirements** are assessed: 148 functional and 28 non-functional. Source: Health-AI-Orchestration-Platform-BRD-v1.1.docx, SHA-256 `8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8`. The exact requirement and acceptance text is preserved in [the source extract](requirements/brd-v1.1.json) and [the complete CSV](requirements/traceability.csv).
 
 | Implementation assessment | Count |
 | --- | ---: |
 | implemented-local | 14 |
-| partial | 138 |
-| not-built | 15 |
+| partial | 139 |
+| not-built | 14 |
 | unverified | 9 |
 
 **Formal acceptance: 0 accepted; 176 pending.** Local implementation and synthetic assertions are not clinical, field, regulatory, integration or production acceptance. These counts are not a completion percentage. BRD R1/R2/R3 are scope phases; engineering R10–R16 are delivery batches and are not equivalent. Targets are planned primary work batches, subject to dependencies and findings.
@@ -211,7 +211,7 @@ Evidence paths identify related code/tests or explicit gap documentation, not fu
 | BR-SEC-06 — Tenant and record isolation | Must / R1 | partial / R15 | Organisation/patient scope tested across current APIs and exports. | Independent adversarial coverage of hosted backup, future indexes/media and asynchronous services. | [lib/saha/server.ts](lib/saha/server.ts)<br>[lib/saha/access.ts](lib/saha/access.ts)<br>[lib/saha/store.ts](lib/saha/store.ts)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-SEC-07 — Safe logs and analytics | Must / R1 | partial / R15 | Fixed route/status telemetry and redacted support exports. | Full production logging, crash-report retention and sensitive diagnostic policy review. | [lib/saha/server.ts](lib/saha/server.ts)<br>[lib/saha/access.ts](lib/saha/access.ts)<br>[lib/saha/store.ts](lib/saha/store.ts)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-SEC-08 — Audit evidence | Must / R1 | partial / R15 | Writes/approvals/exports have append-only audit and revisions. | Material-read audit coverage, audit authority/version completeness and independent reconstruction. | [lib/saha/server.ts](lib/saha/server.ts)<br>[lib/saha/access.ts](lib/saha/access.ts)<br>[lib/saha/store.ts](lib/saha/store.ts)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
-| BR-SEC-09 — Controlled retention and disposal | Must / R1 | not-built / R15 | Telemetry pruning and local cache expiry do not implement clinical retention. | Record-class disposal schedules, holds, tombstones and restore-safe deletion policy. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
+| BR-SEC-09 — Controlled retention and disposal | Must / R1 | partial / R15 | Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. | Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-SEC-10 — Rights and correction workflow | Must / R1 | partial / R15 | Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. | Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation and retention-based deletion. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-SEC-11 — Emergency and support access | Must / R1 | partial / R15 | Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient's team. | Approved eligibility policy, support-staff access, step-up authentication, team notification and material-read audit during access. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 | BR-SEC-12 — Provider and supply-chain assurance | Must / R1 | partial / R15 | Dependency lockfile and provider configuration inventory. Slice 0c: production SBOM (CycloneDX) and an audit gate failing on critical advisories or high advisories present in the built bundle. | SBOM/vulnerability gates, supplier controls/subprocessors and material-change assurance. | [lib/saha/server.ts](lib/saha/server.ts)<br>[lib/saha/access.ts](lib/saha/access.ts)<br>[lib/saha/store.ts](lib/saha/store.ts)<br>[REMAINING-RELEASES.md](REMAINING-RELEASES.md) |

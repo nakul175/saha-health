@@ -112,3 +112,7 @@ export const rightsRequests = sqliteTable('rights_requests', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
   state:text('state').notNull(), personId:text('person_id').notNull(), dueAt:text('due_at').notNull(), createdAt:text('created_at').notNull(), data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('rights_requests_person').on(t.orgId,t.personId),index('rights_requests_open').on(t.orgId,t.state,t.dueAt)]);
+// Slice 6c: retention schedules and legal holds. Review only; nothing is deleted.
+export const retention = sqliteTable('retention', {
+ orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
+});
