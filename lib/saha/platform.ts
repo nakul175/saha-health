@@ -17,6 +17,7 @@ import { expansionSchema } from './expansion';
 import { operationsSchema } from './operations';
 import { alertAckSchema } from './alerts';
 import { fieldSchema } from './field';
+import { fieldRegistrationSchema } from './field-registration';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { agentSchema } from './agent';
@@ -49,6 +50,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...outreachSchema.options,
  ...expansionSchema.options,
  ...fieldSchema.options,
+ ...fieldRegistrationSchema.options,
  ...misSchema.options,
  ...ehrSchema.options,
  ...agentSchema.options,
