@@ -123,7 +123,8 @@ export function verifyFiles(files) {
     if (sha(JSON.stringify([CHAIN, e.seq, prev, c])) !== e.hash) { chainProblem = `event ${i}: content or hash altered`; break; }
     prev = e.hash;
   }
-  const head = chained.at(-1), expected = manifest.auditChain?.verification?.head;
+  // The archive's chain must end at the head recorded when it was read (exportedHead; earlier archives: verification.head).
+  const head = chained.at(-1), expected = manifest.auditChain?.exportedHead !== undefined ? manifest.auditChain.exportedHead : manifest.auditChain?.verification?.head;
   if (!chainProblem && expected && (!head || head.seq !== expected.seq || head.hash !== expected.hash)) chainProblem = 'the exported chain does not end at the head recorded in the manifest';
   if (chainProblem) bad('audit-chain', chainProblem); else pass('audit-chain', chained.length ? `${chained.length} events, head ${head.seq} ${head.hash.slice(0, 12)}` : 'not started');
   // Genesis seal over events written before the chain: recomputable only when none is withheld.
