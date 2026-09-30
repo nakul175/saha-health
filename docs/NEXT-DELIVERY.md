@@ -21,7 +21,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
 | 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |
 | 6c | Retention schedules, legal holds and disposal-eligibility review (no deletion) | Delivered (see [slice 6c](current/SLICE-6C-RETENTION.md)) |
-| 6 | Restore-safe disposal, small-cell suppression, indicator registry, alerts, full Hindi UI, accessibility | Planned |
+| 6d | Versioned indicator catalogue, cohort protection, small-cell suppression and governed question interpretation | Delivered (see [slice 6d](current/SLICE-6D-INDICATORS.md)) |
+| 6 | Restore-safe disposal, owner-maintained indicator registry, alerts, full Hindi UI, accessibility | Planned |
 | 7 | ABDM ABHA/HIP/HIU to the published specification against a mock gateway | Planned |
 | 8 | Programme and EHR adapters once partner specifications arrive | Blocked on partners |
 

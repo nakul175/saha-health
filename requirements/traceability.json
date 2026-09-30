@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1c, 6a-6c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1c, 6a-6d, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 139,
-    "not-built": 14,
+    "partial": 140,
+    "not-built": 13,
     "unverified": 9
   },
   "acceptance": {
@@ -1145,10 +1145,10 @@
       "requirement": "Authorised managers may request questions over approved datasets and metric definitions. The agent shall disclose the cohort, time period, data freshness, filters and method, and enforce the same restrictions as standard reporting.",
       "acceptance": "Acceptance: A natural-language count matches the governed report and cannot expose restricted patient lists through a reformulated query.",
       "sourceTextLine": 292,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R15",
-      "current": "No governed natural-language manager analysis.",
-      "remaining": "Authorised metric query catalogue with cohort, freshness and privacy enforcement.",
+      "current": "Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model.",
+      "remaining": "Natural-language analysis under governance, owner-maintained metric catalogue, differencing protection and validated definitions.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -2547,7 +2547,7 @@
       "sourceTextLine": 502,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed operational definitions and documented denominators/window.",
+      "current": "Fixed operational definitions and documented denominators/window. Slice 6d adds eight versioned indicator definitions with numerator, denominator, exclusions, owner and cadence.",
       "remaining": "Versioned indicator registry, owner/exclusion/cadence and historical reproducibility.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2567,7 +2567,7 @@
       "sourceTextLine": 505,
       "implementation": "partial",
       "target": "R15",
-      "current": "Generation window and usage coverage limitations are visible.",
+      "current": "Generation window and usage coverage limitations are visible. Slice 6d indicator results state computation time, window, cohort size and latest source record.",
       "remaining": "Source-specific freshness, late arrivals and affected reporting denominators.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2587,8 +2587,8 @@
       "sourceTextLine": 508,
       "implementation": "partial",
       "target": "R15",
-      "current": "Current team scope and administrator patient-aggregate denial.",
-      "remaining": "Small-cell suppression, filter-composition protection and separate purpose for patient exports.",
+      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells.",
+      "remaining": "Differencing protection across queries, suppression on exports and a separate purpose for patient exports.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",

@@ -2,7 +2,7 @@ import { env } from 'cloudflare:workers';
 import { identityConfig, principalFromHeaders } from './identity';
 // Fixed route and numeric status only. Never store URLs, queries, payloads,
 // patient/actor IDs, headers, provider errors or raw exception messages.
-export async function measured(request:Request,route:'household'|'caseload'|'identity-cases'|'exceptional'|'rights'|'retention'|'governance'|'patient-matches'|'continuity'|'workspace'|'commands'|'operations'|'pilot'|'outreach'|'expansion'|'history'|'audit'|'fhir',action:()=>Promise<Response>){
+export async function measured(request:Request,route:'household'|'caseload'|'identity-cases'|'exceptional'|'rights'|'retention'|'indicators'|'governance'|'patient-matches'|'continuity'|'workspace'|'commands'|'operations'|'pilot'|'outreach'|'expansion'|'history'|'audit'|'fhir',action:()=>Promise<Response>){
  const started=performance.now(),response=await action(),elapsed=Math.max(0,Math.round(performance.now()-started)),requestId=crypto.randomUUID();
  // A request rejected before its body was read (CSRF, media type, early scope checks) leaves the
  // body unconsumed. Draining a bounded amount (64 KB) and cancelling the rest lets the connection close cleanly; an unread body on a reused
