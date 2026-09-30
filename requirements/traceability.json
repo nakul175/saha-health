@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5f, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5g, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1399,7 +1399,7 @@
       "sourceTextLine": 318,
       "implementation": "partial",
       "target": "R11",
-      "current": "Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled.",
+      "current": "Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled. Slice 5g: provider and model history per capability key (pinned provider, model and agent version per revision, changes from the previous revision, activity period, stage and request counts) for governance managers.",
       "remaining": "Formal provider change review, live contract compatibility and historical legacy provenance limitations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1412,7 +1412,12 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts"
+        "lib/saha/evaluation-execution.ts",
+        "lib/saha/capability-lifecycle.ts",
+        "app/provider-history-panel.tsx",
+        "tests/provider-history-contract.mjs",
+        "tests/capability-lifecycle-smoke.mjs",
+        "docs/current/SLICE-5G-PROVIDER-HISTORY.md"
       ],
       "automatedAcceptanceClaim": false
     },
