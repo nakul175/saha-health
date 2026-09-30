@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 6l, 6o, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2938,14 +2938,18 @@
       "sourceTextLine": 554,
       "implementation": "partial",
       "target": "R15",
-      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible.",
-      "remaining": "Disposition queue for cached/externally held data and verified downstream outcomes.",
+      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain.",
+      "remaining": "Destination notification with verified external outcomes, offline device copies, real ABDM consent-manager revocation and approved policy for retained completed transactions.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/consent.ts",
+        "tests/consent-contract.mjs",
+        "tests/consent-smoke.mjs",
+        "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3887,13 +3891,17 @@
       "sourceTextLine": 765,
       "implementation": "partial",
       "target": "R13",
-      "current": "Direct-EHR permission, operation and receipt ledger with redacted telemetry.",
+      "current": "Direct-EHR permission, operation and receipt ledger with redacted telemetry. Slice 6o: consent history records who, when, how, which permission version and each affected exchange item; withdrawal revokes EHR permissions and mock ABDM consents with the disposition recorded.",
       "remaining": "Complete ABDM/direct-EHR purpose-to-final-state audit and disclosure traceability.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/ehr.ts",
         "tests/ehr-smoke.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/consent.ts",
+        "tests/consent-contract.mjs",
+        "tests/consent-smoke.mjs",
+        "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },

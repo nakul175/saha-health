@@ -10,6 +10,7 @@ import type { CaseloadTransfer } from './caseload';
 import type { MergeCase, MergeLink } from './merge';
 import type { ExceptionalGrant } from './exceptional';
 import type { RightsRequest, Restriction } from './rights';
+import type { ConsentEvent } from './consent';
 import type { Retention } from './retention';
 import type { ReferralState, Urgency } from './referral-rules';
 import type { Abha, AbdmConsent, AbdmConfig } from './abdm';
@@ -22,7 +23,7 @@ import type { Enrolment, FollowUp, ProgrammeCapture } from './programmes';
 import type { FieldRegistration, ReferralRequest } from './field-registration';
 export type Role = 'asha' | 'clinician' | 'supervisor' | 'admin';
 export type Programme = 'Maternal care' | 'Chronic care' | 'TB screening' | 'Child health' | 'General care';
-export type Person = {fieldRegistration?:FieldRegistration;abha?:Abha;abdmConsents?:AbdmConsent[];careContexts?:CareContext[];abdmTransfers?:Transfer[];abdmReceived?:ReceivedRecord[];restrictions?:Restriction[];exceptionalAccess?:ExceptionalGrant[];mergedInto?:MergeLink;mergedFrom?:MergeLink[];householdId?:string;proxies?:ProxyGrant[];identityReview?:IdentityReview;assignmentHistory?:AssignmentEvent[];contactPreferences?:ContactPreferences;fieldLeases?:FieldLease[];ehr?:EhrState;enrolments?:Enrolment[]; followUps?:FollowUp[]; id:string; name:string; age:number; sex:string; village:string; programmes:Programme[]; task:string; due:string; status:'due'|'in_progress'|'completed'; aiConsent:boolean; exchangeConsent:boolean; consentVersion:number; assigned:boolean; createdAt:string; version:number; teamId:string; assignedTo:string|null};
+export type Person = {consentHistory?:ConsentEvent[];fieldRegistration?:FieldRegistration;abha?:Abha;abdmConsents?:AbdmConsent[];careContexts?:CareContext[];abdmTransfers?:Transfer[];abdmReceived?:ReceivedRecord[];restrictions?:Restriction[];exceptionalAccess?:ExceptionalGrant[];mergedInto?:MergeLink;mergedFrom?:MergeLink[];householdId?:string;proxies?:ProxyGrant[];identityReview?:IdentityReview;assignmentHistory?:AssignmentEvent[];contactPreferences?:ContactPreferences;fieldLeases?:FieldLease[];ehr?:EhrState;enrolments?:Enrolment[]; followUps?:FollowUp[]; id:string; name:string; age:number; sex:string; village:string; programmes:Programme[]; task:string; due:string; status:'due'|'in_progress'|'completed'; aiConsent:boolean; exchangeConsent:boolean; consentVersion:number; assigned:boolean; createdAt:string; version:number; teamId:string; assignedTo:string|null};
 // Slice 2c: optional source and observation time for each measurement (BR-DATA-02). A value is measured or reported;
 // a blank measurement may say why it is missing. Absent entries fall back to the visit-level source and time.
 export type FactSource='measured'|'reported'|'not-asked'|'declined'|'unknown'|'not-applicable';

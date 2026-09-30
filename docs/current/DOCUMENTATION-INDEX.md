@@ -25,6 +25,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 6j](SLICE-6J-AUDIT-CHAIN.md) | Tamper-evident audit chain, verification and auditor export |
 | [Development slice 5a](SLICE-5A-AI-BUDGETS.md) | AI capability cost budgets and stopping unsent requests |
 | [Development slice 6l](SLICE-6L-SAFE-LOGS.md) | Safe-logs check and free text removed from request URLs |
+| [Development slice 6o](SLICE-6O-CONSENT-WITHDRAWAL.md) | Consent withdrawal, downstream dispositions and consent history |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |

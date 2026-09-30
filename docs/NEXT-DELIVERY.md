@@ -35,6 +35,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 5 | Task time and retry limits, invoice reconciliation, budget alerts, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
 | 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |
+| 6o | Consent withdrawal that stops queued deliveries, unexecuted plans, EHR permissions and publications, ABDM mock consents, unsent AI requests and reminders, lists what was already sent, and keeps a consent history on the patient | Delivered (see [slice 6o](current/SLICE-6O-CONSENT-WITHDRAWAL.md)) |
 | 6c | Retention schedules, legal holds and disposal-eligibility review (no deletion) | Delivered (see [slice 6c](current/SLICE-6C-RETENTION.md)) |
 | 6d | Versioned indicator catalogue, cohort protection, small-cell suppression and governed question interpretation | Delivered (see [slice 6d](current/SLICE-6D-INDICATORS.md)) |
 | 6e | Repeatable axe-core WCAG A/AA audit over 16 owner and ASHA screens; colour-contrast failures fixed | Delivered (see [slice 6e](current/SLICE-6E-ACCESSIBILITY.md)) |
