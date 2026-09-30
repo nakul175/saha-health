@@ -1,6 +1,6 @@
 # Current data dictionary
 
-Generated from `db/schema.ts`: **30 application tables** and **176 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
+Generated from `db/schema.ts`: **30 application tables** and **179 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
 
 | Table | Declaration | SQL columns |
 | --- | --- | ---: |
@@ -19,7 +19,7 @@ Generated from `db/schema.ts`: **30 application tables** and **176 declared SQL 
 | `submissions` | `submissions` | 6 |
 | `referrals` | `referrals` | 4 |
 | `record_revisions` | `recordRevisions` | 13 |
-| `audit_events` | `auditEvents` | 10 |
+| `audit_events` | `auditEvents` | 13 |
 | `command_receipts` | `commandReceipts` | 7 |
 | `legacy_migrations` | `legacyMigrations` | 6 |
 | `operations` | `operations` | 2 |
