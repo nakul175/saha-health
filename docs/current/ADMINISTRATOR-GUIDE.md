@@ -20,6 +20,8 @@ Every deployment declares `SAHA_ENVIRONMENT`: `synthetic` (the default when unse
 
 Owners use **Organisation & team → Data export for exit or transfer** for a tar archive of the organisation's records, audit chain, media and hand-over list, with a manifest and checksums; patient records outside the owner's care teams are withheld and counted. Check a received archive with `node scripts/verify-export.mjs <file>` (slice 6m).
 
+Fixtures seeded before slice 6n are not marked as synthetic. Owners use **Organisation & team → Data migration: mark seeded fixtures** to run a dry run, apply exactly that plan with a reason, and reverse the batch if needed; a fixture whose name was changed is rejected for manual review (slice 2d).
+
 ## Governance and operations
 
 R11 manifests carry immutable revisions, intended use, dates, owners and dependency references. Author, reviewer and activation rules require distinct eligible people where specified. Never impersonate a second account to obtain a review. A passed synthetic evaluation does not remove independent review or production evidence requirements.
