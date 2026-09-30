@@ -12,7 +12,7 @@ import type { D1Database } from '@cloudflare/workers-types';
 export const PATIENT_COMMANDS = new Set<string>([
   // core visit, plan, consent and referral work
   'startVisit', 'saveVisit', 'confirmVisit', 'preparePlan', 'approvePlan', 'executePlan', 'reconcile',
-  'setConsent', 'runAI', 'reviewAI', 'createReferral',
+  'setConsent', 'withdrawConsent', 'runAI', 'reviewAI', 'createReferral',
   // corrections and assignment
   'amendVisit', 'voidVisit', 'correctIdentity', 'assignPatient',
   // programme episodes and follow-ups

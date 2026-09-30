@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { digest, fail, person, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
 import { operator } from './operations';
+import { contactWithdrawalItems, recordConsent } from './consent';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 
@@ -68,7 +69,10 @@ export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,no
  const parsed=outreachSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeOutreach(s,m,c);const out=s.outreach??=defaultOutreach();let result:any={ok:true},personId:string|undefined;
  if(c.type==='setContactPreferences'){
   const p=person(s.workspace,c.personId);personId=p.id;current(p.version,c.version);if(c.preferences.from>=c.preferences.to)fail(422,'Contact hours must start before they end on the same local day.');if(c.preferences.method==='sms'&&!c.preferences.destination)fail(422,'Enter a synthetic contact identifier.');
-  p.contactPreferences={...c.preferences,version:(p.contactPreferences?.version??0)+1,updatedAt:now,by:u.userId};p.version++;
+  const was=!!p.contactPreferences?.permission,from=p.contactPreferences?.version??0;
+  p.contactPreferences={...c.preferences,version:from+1,updatedAt:now,by:u.userId};p.version++;
+  // Slice 6o: a permission change is recorded in the patient's consent history with what it stopped.
+  if(was!==c.preferences.permission){const items=was?contactWithdrawalItems(s,p,now,'Contact permission withdrawn.'):[];recordConsent(p,{purpose:'contact',action:was?'withdrawn':'granted',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:'contact-preferences',reference:c.preferences.reference,reason:was?'Recorded with contact preferences.':'',fromVersion:from,toVersion:from+1,items});}
   // Revocation and preference changes cancel pending work, never silently re-address it.
   for(const v of out.messages.filter(v=>v.personId===p.id&&['draft','approved','failed'].includes(v.state))){v.state='cancelled';v.cancelReason='Contact preferences changed; review before preparing new work.';v.version++;}
  }else if(c.type==='outreachCreate'){
