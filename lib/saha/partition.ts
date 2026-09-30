@@ -33,6 +33,8 @@ export const PATIENT_COMMANDS = new Set<string>([
   'cancelSubmission',
   // slice 2b: visit media attach and draft removal
   'attachMedia', 'removeMedia',
+  // slice 2e: clinician verification of one measurement on a confirmed visit
+  'verifyFact',
 ]);
 
 // Rows a patient-scoped commit may write. Any other table makes the commit organisation-wide.

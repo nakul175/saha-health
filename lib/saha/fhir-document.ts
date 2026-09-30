@@ -1,5 +1,5 @@
 import { fail, uuid } from './core';
-import { MEASURES, MEASURE_LABEL, SOURCE_LABEL, factProvenance, measureOf, measureValue } from './fact-provenance';
+import { MEASURES, MEASURE_LABEL, SOURCE_LABEL, factAuditText, factProvenance, measureOf, measureValue } from './fact-provenance';
 import type { Person, Visit } from './types';
 export type DocumentSummary={identifier:string;patientId:string;patientName:string;date:string;dates:string[];title:string;observations:{code:string;label:string;value:string;unit:string;date:string}[];notes:string[];warnings:string[]};
 const xml=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]!));
@@ -8,13 +8,16 @@ export function fhirDocument(p:Person,v:Visit,organisation:string,author:string,
  const ref=()=>`urn:uuid:${uuid()}`,patientRef=ref(),encounterRef=ref(),orgRef=ref(),authorRef=ref(),compositionRef=ref();
  const date=new Date(v.facts.date+'Z').toISOString(),entries:any[]=[];
  const put=(fullUrl:string,resource:any)=>entries.push({fullUrl,resource});
- const observations:string[]=[];
- for(const [field,code,label,unit,display] of [['weight','29463-7','Body weight','kg','kg'],['temperature','8310-5','Body temperature','Cel','°C'],['systolic','8480-6','Systolic blood pressure','mm[Hg]','mmHg'],['diastolic','8462-4','Diastolic blood pressure','mm[Hg]','mmHg']] as const){const value=v.facts[field];if(!value)continue;const fullUrl=ref(),pv=factProvenance(v.facts,measureOf(field)!);observations.push(fullUrl);
+ const observations:string[]=[],recorders=new Map<string,string>();
+ const recorderRef=(userId:string,name:string)=>{let r=recorders.get(userId);if(!r){r=ref();recorders.set(userId,r);put(r,{resourceType:'Practitioner',id:uuid(),name:[{text:name}]});}return r;};
+ for(const [field,code,label,unit,display] of [['weight','29463-7','Body weight','kg','kg'],['temperature','8310-5','Body temperature','Cel','°C'],['systolic','8480-6','Systolic blood pressure','mm[Hg]','mmHg'],['diastolic','8462-4','Diastolic blood pressure','mm[Hg]','mmHg']] as const){const value=v.facts[field];if(!value)continue;const fullUrl=ref(),m=measureOf(field)!,pv=factProvenance(v.facts,m);observations.push(fullUrl);
+  // Slice 2e: the recorder (when known) is the performer, as a Practitioner in the bundle; notes name the recorder and verification state.
+  const recorder=v.factAuthors?.[m],performer=recorder?recorderRef(recorder.userId,recorder.name):authorRef;
   // Slice 2c: each observation carries its own time and source; reported values also say so in method.
-  put(fullUrl,{resourceType:'Observation',id:uuid(),status:'final',category:[{coding:[{system:'http://terminology.hl7.org/CodeSystem/observation-category',code:'vital-signs'}]}],code:coding(code,label),subject:{reference:patientRef},encounter:{reference:encounterRef},effectiveDateTime:new Date(pv.at+'Z').toISOString(),performer:[{reference:authorRef}],valueQuantity:{value:Number(value),unit:display,system:'http://unitsofmeasure.org',code:unit},...(pv.source==='reported'?{method:{text:'Reported by the person or carer; not measured during the visit'}}:{}),note:[{text:`Recorded source: ${pv.source}${pv.own?'':' (visit-level)'}. Synthetic record.`}]});}
+  put(fullUrl,{resourceType:'Observation',id:uuid(),status:'final',category:[{coding:[{system:'http://terminology.hl7.org/CodeSystem/observation-category',code:'vital-signs'}]}],code:coding(code,label),subject:{reference:patientRef},encounter:{reference:encounterRef},effectiveDateTime:new Date(pv.at+'Z').toISOString(),performer:[{reference:performer}],valueQuantity:{value:Number(value),unit:display,system:'http://unitsofmeasure.org',code:unit},...(pv.source==='reported'?{method:{text:'Reported by the person or carer; not measured during the visit'}}:{}),note:[{text:`Recorded source: ${pv.source}${pv.own?'':' (visit-level)'}.${factAuditText(v,m)} Synthetic record.`}]});}
  const own=(m:'weeks'|'coughDays')=>{const pv=factProvenance(v.facts,m);return pv.own?` (${pv.source}, ${pv.at.replace('T',' ')} UTC)`:'';};
  const missing=MEASURES.filter(m=>!measureValue(v.facts,m)&&v.facts.provenance?.[m]).map(m=>`${MEASURE_LABEL[m]}: not recorded (${SOURCE_LABEL[v.facts.provenance![m]!.source].toLowerCase()}).`);
- const notes=[v.facts.notes,v.facts.weeks?`Reported gestational age: ${v.facts.weeks} weeks${own('weeks')}.`:'',v.facts.coughDays?`Reported cough duration: ${v.facts.coughDays} days${own('coughDays')}.`:'',...missing].filter(Boolean).join('\n');
+ const notes=[v.facts.notes,v.facts.weeks?`Reported gestational age: ${v.facts.weeks} weeks${own('weeks')}.${factAuditText(v,'weeks')}`:'',v.facts.coughDays?`Reported cough duration: ${v.facts.coughDays} days${own('coughDays')}.${factAuditText(v,'coughDays')}`:'',...missing].filter(Boolean).join('\n');
  const narrative=`<div xmlns="http://www.w3.org/1999/xhtml"><p>${xml(notes||'No visit notes recorded.')}</p></div>`;
  const composition={resourceType:'Composition',id:documentId,status:'final',type:{text:'Community visit record'},subject:{reference:patientRef},encounter:{reference:encounterRef},date,author:[{reference:authorRef}],title:'Synthetic community visit record',custodian:{reference:orgRef},section:[{title:'Recorded observations',text:{status:'generated',div:narrative},...(observations.length?{entry:observations.map(reference=>({reference}))}:{})}]};
  put(patientRef,{resourceType:'Patient',id:patientId,name:[{text:p.name}],gender:p.sex==='Female'?'female':p.sex==='Male'?'male':p.sex==='Other'?'other':'unknown'});
