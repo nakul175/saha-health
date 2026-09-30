@@ -61,8 +61,12 @@ export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Ex
  // Slice 6c: retention schedules and legal holds (organisation-level).
  retention?:Retention;
  // Slice 1e: delegations relied on while applying one command; never persisted, turned into audit lines.
- delegationUsed?:DelegationUse[]};
-export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic'|'training'|'staging'|'production'|'misconfigured';environmentLabel:string;externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;delegatedAuthority?:{id:string;kind:'team-supervision'|'reporting';teamIds:string[];until:string;grantorId:string}[];signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
+ delegationUsed?:DelegationUse[];
+ // Slice 0b-3: set when a large team scope was read as a window of opened patients; total is the viewer's permitted count.
+ paging?:{total:number;threshold:number}};
+export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic'|'training'|'staging'|'production'|'misconfigured';environmentLabel:string;externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;delegatedAuthority?:{id:string;kind:'team-supervision'|'reporting';teamIds:string[];until:string;grantorId:string}[];signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null;
+ // Slice 0b-3: present when the viewer's scope is paged; people, visits, submissions and referrals then hold only the opened window.
+ patientPaging?:{total:number;threshold:number;window:string[]}};
 export type RecordRevision = {id:string;personId:string;entityType:'person'|'visit';entityId:string;version:number;actorId:string;actorName:string;action:string;reason:string;data:Person|Visit;changes:{field:string;before:string;after:string}[];createdAt:string};
 export const PROGRAMMES:Programme[]=['Maternal care','Chronic care','TB screening','Child health','General care'];
 export const ROLE_LABEL:Record<Role,string>={asha:'ASHA worker',clinician:'Clinician',supervisor:'Supervisor',admin:'Administrator',provider:'Provider (sandbox)'};

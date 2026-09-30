@@ -26,5 +26,7 @@ export function mergeDelta(current: Snapshot, delta: Snapshot, partition: string
     visits,
     submissions: byId(replace(current.submissions, delta.submissions, s => s.personId)),
     referrals: byId(replace(current.referrals, delta.referrals, r => r.personId)),
+    // Slice 0b-3: a paged workspace keeps its paging and adds merged patients to the opened window.
+    ...(current.patientPaging ? { patientPaging: { ...current.patientPaging, window: [...new Set([...current.patientPaging.window, ...delta.people.filter(p => ids.has(p.id)).map(p => p.id)])].filter(id => !ids.has(id) || delta.people.some(p => p.id === id)) } } : {}),
   };
 }

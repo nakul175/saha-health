@@ -1,0 +1,54 @@
+{
+  "check": "Slice 0b-3 paged directory (headless Chromium, built Worker, local D1)",
+  "people": 606,
+  "notice": "Your care scope holds 606 people, so records load when opened. My work lists only the records opened in this session (0); search People for the whole scope, and use the action plan and exception queue on Operations for team-wide work.",
+  "firstPageRows": 50,
+  "afterLoadMore": 100,
+  "searchRows": [
+    "Browser Synthetic 0421 | 62 years · Browser village 7 | Medication history review | Tomorrow"
+  ],
+  "openedBanner": "BS | Browser Synthetic 0421 | 62 years · Female · Browser village 7Record ui_p_421 | Chronic care | General care | Permissions | New visit",
+  "visitStarted": true,
+  "bannerAfterCommand": 1,
+  "responses": [
+    {
+      "url": "/api/workspace",
+      "status": 200,
+      "bytes": 4454
+    },
+    {
+      "url": "/api/patients?",
+      "status": 200,
+      "bytes": 15280
+    },
+    {
+      "url": "/api/patients?cursor=%5B%22Browser+Synthetic+0048%22%2C%22ui_p_48%22%5D",
+      "status": 200,
+      "bytes": 15329
+    },
+    {
+      "url": "/api/patients?q=browser+synthetic+0421",
+      "status": 200,
+      "bytes": 344
+    },
+    {
+      "url": "/api/patients/detail?personId=ui_p_421",
+      "status": 200,
+      "bytes": 4845
+    },
+    {
+      "url": "/api/commands",
+      "status": 200,
+      "bytes": 5529
+    },
+    {
+      "url": "/api/patients?",
+      "status": 200,
+      "bytes": 15280
+    }
+  ],
+  "axeViolations": [],
+  "consoleErrors": [],
+  "passed": true,
+  "at": "2026-09-30T07:58:30.985Z"
+}

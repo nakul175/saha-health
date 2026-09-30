@@ -1,0 +1,435 @@
+{
+  "probe": "BRD R1 envelope load probe",
+  "release": "Slice 0b-3 paged patient directory",
+  "environment": "local Worker (wrangler dev --local) and local D1/SQLite; one owner account issuing concurrent commands",
+  "envelope": "BRD v1.1 section 23: 200 workers, 100 concurrent users, 100,000 people, 2,000 encounters/day, 50 req/s for 30 minutes",
+  "steps": [
+    {
+      "people": 1006,
+      "visits": 1001,
+      "supervisorRead": {
+        "fullWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 57,
+          "maxMs": 62,
+          "responseKB": 791,
+          "people": 1006
+        },
+        "pagedWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 35,
+          "maxMs": 35,
+          "responseKB": 5,
+          "people": 0,
+          "paging": {
+            "total": 1006
+          }
+        },
+        "pagedWorkspaceWithWindow": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 36,
+          "maxMs": 47,
+          "responseKB": 13,
+          "people": 10,
+          "paging": {
+            "total": 1006
+          }
+        },
+        "listFirstPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 30,
+          "maxMs": 37,
+          "responseKB": 16,
+          "people": 50
+        },
+        "listSearch": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 29,
+          "maxMs": 34,
+          "responseKB": 4,
+          "people": 11
+        },
+        "detail": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 27,
+          "maxMs": 46,
+          "responseKB": 5,
+          "people": 1
+        }
+      },
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 68,
+        "maxMs": 73,
+        "responseKB": 793,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 95,
+        "responseKB": 794
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 34,
+        "maxMs": 40,
+        "responseKB": 43,
+        "patients": 50
+      }
+    },
+    {
+      "people": 5006,
+      "visits": 5001,
+      "supervisorRead": {
+        "fullWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 192,
+          "maxMs": 194,
+          "responseKB": 3943,
+          "people": 5006
+        },
+        "pagedWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 36,
+          "maxMs": 37,
+          "responseKB": 5,
+          "people": 0,
+          "paging": {
+            "total": 5006
+          }
+        },
+        "pagedWorkspaceWithWindow": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 32,
+          "maxMs": 39,
+          "responseKB": 14,
+          "people": 10,
+          "paging": {
+            "total": 5006
+          }
+        },
+        "listFirstPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 29,
+          "maxMs": 30,
+          "responseKB": 16,
+          "people": 50
+        },
+        "listSearch": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 48,
+          "maxMs": 56,
+          "responseKB": 16,
+          "people": 50
+        },
+        "detail": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 25,
+          "maxMs": 29,
+          "responseKB": 6,
+          "people": 1
+        }
+      },
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 228,
+        "maxMs": 245,
+        "responseKB": 3945,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 227,
+        "responseKB": 3946
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 31,
+        "maxMs": 36,
+        "responseKB": 43,
+        "patients": 50
+      }
+    },
+    {
+      "people": 20006,
+      "visits": 20001,
+      "supervisorRead": {
+        "fullWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 749,
+          "maxMs": 776,
+          "responseKB": 15800,
+          "people": 20006
+        },
+        "pagedWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 39,
+          "maxMs": 62,
+          "responseKB": 5,
+          "people": 0,
+          "paging": {
+            "total": 20006
+          }
+        },
+        "pagedWorkspaceWithWindow": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 31,
+          "maxMs": 33,
+          "responseKB": 14,
+          "people": 10,
+          "paging": {
+            "total": 20006
+          }
+        },
+        "listFirstPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 27,
+          "maxMs": 34,
+          "responseKB": 16,
+          "people": 50
+        },
+        "listSearch": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 73,
+          "maxMs": 79,
+          "responseKB": 16,
+          "people": 50
+        },
+        "detail": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 22,
+          "maxMs": 24,
+          "responseKB": 6,
+          "people": 1
+        }
+      },
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 762,
+        "maxMs": 899,
+        "responseKB": 15802,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 786,
+        "responseKB": 15803
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 42,
+        "maxMs": 47,
+        "responseKB": 43,
+        "patients": 50
+      }
+    },
+    {
+      "people": 50006,
+      "visits": 50001,
+      "supervisorRead": {
+        "fullWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 1905,
+          "maxMs": 2033,
+          "responseKB": 39553,
+          "people": 50006
+        },
+        "pagedWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 34,
+          "maxMs": 88,
+          "responseKB": 5,
+          "people": 0,
+          "paging": {
+            "total": 50006
+          }
+        },
+        "pagedWorkspaceWithWindow": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 33,
+          "maxMs": 75,
+          "responseKB": 15,
+          "people": 10,
+          "paging": {
+            "total": 50006
+          }
+        },
+        "listFirstPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 38,
+          "maxMs": 43,
+          "responseKB": 16,
+          "people": 50
+        },
+        "listSearch": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 149,
+          "maxMs": 189,
+          "responseKB": 16,
+          "people": 50
+        },
+        "detail": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 18,
+          "maxMs": 19,
+          "responseKB": 6,
+          "people": 1
+        }
+      },
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 1882,
+        "maxMs": 1970,
+        "responseKB": 39555,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 1850,
+        "responseKB": 39556
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 40,
+        "maxMs": 141,
+        "responseKB": 43,
+        "patients": 50
+      }
+    }
+  ],
+  "stoppedAtPeople": null,
+  "limits": "Local engineering probe. Hosted D1 latency, Worker memory/CPU limits, network, multi-account sessions and 30-minute duration were not tested. Concurrency is from one account; the organisation revision guard makes the result the same for many accounts.",
+  "completedAt": "2026-09-30T07:56:06.094Z"
+}
