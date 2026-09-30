@@ -3,6 +3,7 @@ import { fail, person, uuid } from './core';
 import { normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
+import { supervises } from './delegation';
 
 // Slice 6b: rights and grievance requests (BR-SEC-10). A request is recorded against one patient
 // with how the requester's identity (or a representative's authority) was checked, gets a due date
@@ -34,14 +35,15 @@ export function ensureNotRestricted(s:OrgState,c:any){
  if(p&&activeRestriction(p))fail(409,'Processing is restricted for this patient under a rights request. Recording care continues; external sharing, programme sending, reminders and optional AI are paused.');
 }
 const staff=(m:Member)=>m.status==='active'&&m.role!=='admin';
-const steward=(m:Member,p:Person)=>m.status==='active'&&(m.role==='supervisor'||(m.isOwner&&m.role!=='admin'))&&m.teamIds.includes(p.teamId);
+// Slice 1e: a team supervisor or owner with a care role, or a clinician holding a supervision delegation for the team.
+const steward=(s:OrgState,m:Member,p:Person,now?:string)=>supervises(s,m,p.teamId,now);
 function request(s:OrgState,requestId:string,v:number){const r=(s.rightsRequests??[]).find(x=>x.id===requestId);if(!r)fail(404,'Rights request not found.');if(r.version!==v)fail(409,'This request changed. Refresh before continuing.');return r;}
-export function authorizeRights(s:OrgState,m:Member,c:any){
+export function authorizeRights(s:OrgState,m:Member,c:any,now?:string){
  if(!TYPES.has(c?.type))return;if(!staff(m))fail(403,'Rights requests contain patient information; an administrator role cannot handle them.');
  if(c.type==='rightsCreate'){person(s.workspace,c.personId);return;}
  const r=(s.rightsRequests??[]).find(x=>x.id===c.requestId);if(!r)fail(404,'Rights request not found.');const p=person(s.workspace,r.personId);
- if(c.type==='rightsAssign'&&!steward(m,p))fail(403,'A supervisor or owner of the patient\'s team assigns rights requests.');
- if(['rightsClose','rightsRestrictionLift','rightsItemResolve'].includes(c.type)&&r.ownerId!==m.userId&&!steward(m,p))fail(403,'Only the request owner or a supervisor or owner of the patient\'s team can do this.');
+ if(c.type==='rightsAssign'&&!steward(s,m,p,now))fail(403,'A supervisor or owner of the patient\'s team assigns rights requests.');
+ if(['rightsClose','rightsRestrictionLift','rightsItemResolve'].includes(c.type)&&r.ownerId!==m.userId&&!steward(s,m,p,now))fail(403,'Only the request owner or a supervisor or owner of the patient\'s team can do this.');
 }
 // Destinations that already hold data about the patient.
 function destinations(s:OrgState,p:Person,now:string):RightsItem[]{
@@ -51,7 +53,7 @@ function destinations(s:OrgState,p:Person,now:string):RightsItem[]{
  return items;
 }
 export function applyRights(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
- const parsed=rightsSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeRights(s,m,c);
+ const parsed=rightsSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeRights(s,m,c,now);
  s.rightsRequests??=[];const w=s.workspace;let r:RightsRequest,detail='',result:any={ok:true};
  if(c.type==='rightsCreate'){
   const p=person(w,c.personId);
@@ -81,7 +83,7 @@ export function applyRights(s:OrgState,input:unknown,u:Actor,m:Member,now=new Da
 }
 export function rightsView(s:OrgState,m:Member,personId:string|null,now=new Date().toISOString()){
  const name=(id:string)=>s.members.find(x=>x.userId===id)?.displayName??'Former member';
- const row=(r:RightsRequest)=>{const p=s.workspace.people.find(x=>x.id===r.personId)!;return {...r,personName:p.name,owner:name(r.ownerId),overdue:r.state==='open'&&r.dueAt<now,openItems:r.items.filter(i=>i.state==='open').length,canAssign:steward(m,p),canClose:r.state==='open'&&(r.ownerId===m.userId||steward(m,p)),restriction:activeRestriction(p)?.requestId===r.id,canLift:activeRestriction(p)?.requestId===r.id&&(r.ownerId===m.userId||steward(m,p)),history:r.history.map(h=>({...h,by:name(h.by)}))};};
+ const row=(r:RightsRequest)=>{const p=s.workspace.people.find(x=>x.id===r.personId)!;return {...r,personName:p.name,owner:name(r.ownerId),overdue:r.state==='open'&&r.dueAt<now,openItems:r.items.filter(i=>i.state==='open').length,canAssign:steward(s,m,p,now),canClose:r.state==='open'&&(r.ownerId===m.userId||steward(s,m,p,now)),restriction:activeRestriction(p)?.requestId===r.id,canLift:activeRestriction(p)?.requestId===r.id&&(r.ownerId===m.userId||steward(s,m,p,now)),history:r.history.map(h=>({...h,by:name(h.by)}))};};
  if(personId){const p=person(s.workspace,personId);return {personId:p.id,restricted:!!activeRestriction(p),requests:(s.rightsRequests??[]).filter(r=>r.personId===p.id).sort((a,b)=>b.receivedAt.localeCompare(a.receivedAt)).map(row),owners:s.members.filter(x=>staff(x)&&normallyAllowed(x,p)).map(x=>({userId:x.userId,displayName:x.displayName})),proxies:(p.proxies??[]).filter(g=>!g.revokedAt&&g.expiresAt>now).map(g=>({id:g.id,name:s.workspace.people.find(x=>x.id===g.proxyPersonId)?.name??'Registered person',relationship:g.relationship})),dueDays:DUE_DAYS};}
  const open=(s.rightsRequests??[]).filter(r=>r.state==='open'&&s.workspace.people.find(x=>x.id===r.personId)?.assigned).sort((a,b)=>a.dueAt.localeCompare(b.dueAt)).slice(0,100).map(row);
  return {open,overdue:open.filter(r=>r.overdue).length,dueDays:DUE_DAYS};

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 6l, 6o, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 6l, 6o, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -238,14 +238,19 @@
       "sourceTextLine": 169,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports.",
+      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited.",
       "remaining": "Programme, facility, purpose and geography policy dimensions across every channel.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
         "lib/saha/platform.ts",
         "tests/continuity-smoke.mjs",
-        "CORE-CONTINUITY.md"
+        "CORE-CONTINUITY.md",
+        "lib/saha/delegation.ts",
+        "lib/saha/delegation-server.ts",
+        "tests/delegation-contract.mjs",
+        "tests/delegation-smoke.mjs",
+        "docs/current/SLICE-1E-DELEGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -382,14 +387,19 @@
       "sourceTextLine": 190,
       "implementation": "partial",
       "target": "R15",
-      "current": "Scoped connector server bindings and grants separate user sessions from provider keys.",
-      "remaining": "Managed service identities, expiry, ownership, rotation and independent credential-revocation evidence.",
+      "current": "Scoped connector server bindings and grants separate user sessions from provider keys. Slice 1e: person-to-person delegation has scope, expiry, an accountable grantor, revocation and use audit; service accounts are documented as unsupported by both identity providers.",
+      "remaining": "Managed service identities for connectors and agents with expiry, ownership, rotation, independent credential revocation and audit naming initiating user and executing service.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
         "lib/saha/platform.ts",
         "tests/continuity-smoke.mjs",
-        "CORE-CONTINUITY.md"
+        "CORE-CONTINUITY.md",
+        "lib/saha/delegation.ts",
+        "lib/saha/delegation-server.ts",
+        "tests/delegation-contract.mjs",
+        "tests/delegation-smoke.mjs",
+        "docs/current/SLICE-1E-DELEGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
