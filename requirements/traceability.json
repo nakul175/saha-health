@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2485,7 +2485,7 @@
       "sourceTextLine": 473,
       "implementation": "partial",
       "target": "R14",
-      "current": "Follow-up/referral/outreach owners; R10 unavailable-owner queue and handover. Slice 4b: per-patient action plan shows each open item's owner or responsible queue and flags items without a current eligible owner; a care worker takes ownership of an unowned follow-up or referral, and a supervisor or owner of the patient's team reassigns them.",
+      "current": "Follow-up/referral/outreach owners; R10 unavailable-owner queue and handover. Slice 4b: per-patient action plan shows each open item's owner or responsible queue and flags items without a current eligible owner; a care worker takes ownership of an unowned follow-up or referral, and a supervisor or owner of the patient's team reassigns them. Slice 4d: a clinician with current access or a steward of the patient's team records that one follow-up or referral waits on another open item of the same patient; the plan shows each waiting item's blocker with the blocker's owner state and status, and what each item holds back.",
       "remaining": "All clinical/integration exceptions, urgency policy and production monitoring coverage; queue notification; safety-case reassignment outside clinicians.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2501,7 +2501,13 @@
         "lib/saha/action-plan.ts",
         "tests/action-plan-contract.mjs",
         "tests/action-plan-smoke.mjs",
-        "docs/current/SLICE-4B-ACTION-PLAN.md"
+        "docs/current/SLICE-4B-ACTION-PLAN.md",
+        "lib/saha/referrals.ts",
+        "app/action-plan-panel.tsx",
+        "app/referral-panel.tsx",
+        "tests/plan-dependencies-contract.mjs",
+        "tests/plan-dependencies-smoke.mjs",
+        "docs/current/SLICE-4D-ACTION-DEPENDENCIES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2559,8 +2565,8 @@
       "sourceTextLine": 482,
       "implementation": "partial",
       "target": "R14",
-      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue. Slice 3i: a queue of open field referral requests for clinicians, supervisors and owners in scope (clinical concern first, then oldest, with waiting time and a link to the visit); requests waiting 48 hours or more are also exception-queue rows.",
-      "remaining": "Approved urgency policy, notification or on-call escalation, and automatic reassignment.",
+      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue. Slice 3i: a queue of open field referral requests for clinicians, supervisors and owners in scope (clinical concern first, then oldest, with waiting time and a link to the visit); requests waiting 48 hours or more are also exception-queue rows. Slice 4d: in the action plan an item waiting on an open blocker is not counted as overdue and is listed after other work; an overdue blocker keeps its own place, and an ownership gap still escalates a waiting item.",
+      "remaining": "Approved urgency policy, notification or on-call escalation, and automatic reassignment. The referral escalation queue, caseload and handover counts do not yet apply action dependencies.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -2576,7 +2582,14 @@
         "app/referral-request-queue-panel.tsx",
         "docs/current/SLICE-3I-REFERRAL-REQUEST-QUEUE.md",
         "tests/referral-request-queue-contract.mjs",
-        "tests/referral-request-queue-smoke.mjs"
+        "tests/referral-request-queue-smoke.mjs",
+        "lib/saha/action-plan.ts",
+        "lib/saha/referrals.ts",
+        "app/action-plan-panel.tsx",
+        "app/referral-panel.tsx",
+        "tests/plan-dependencies-contract.mjs",
+        "tests/plan-dependencies-smoke.mjs",
+        "docs/current/SLICE-4D-ACTION-DEPENDENCIES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2590,8 +2603,8 @@
       "sourceTextLine": 485,
       "implementation": "partial",
       "target": "R14",
-      "current": "Shared visit facts and duplicate patient/day reminder suppression. Slice 4b: one ordered per-patient action plan across programme follow-ups, referrals, protocol reviews, safety cases and outreach, each with its source; follow-ups with the same title, due date and owner from several programme episodes shown once with every source.",
-      "remaining": "Cross-pack action dependency graph and one referral with multiple programme source links at creation.",
+      "current": "Shared visit facts and duplicate patient/day reminder suppression. Slice 4b: one ordered per-patient action plan across programme follow-ups, referrals, protocol reviews, safety cases and outreach, each with its source; follow-ups with the same title, due date and owner from several programme episodes shown once with every source. Slice 4d: recorded, audited dependencies between one patient's follow-ups, referrals and protocol reviews (self, cycle, closed-item and cross-patient links refused; removal needs a reason and keeps the record); a referral links further visits, protocol evaluations and programme episodes of the same patient, each with its kind and time, shown in the referral view and the action plan; single-source referrals are unchanged.",
+      "remaining": "No dependency is derived automatically; sources are linked after the referral is created, not chosen when it is created from several packs; programme pack migration and installation; dependencies are not applied to reminders, the escalation queue or caseload counts.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -2606,7 +2619,13 @@
         "lib/saha/action-plan.ts",
         "tests/action-plan-contract.mjs",
         "tests/action-plan-smoke.mjs",
-        "docs/current/SLICE-4B-ACTION-PLAN.md"
+        "docs/current/SLICE-4B-ACTION-PLAN.md",
+        "lib/saha/referrals.ts",
+        "app/action-plan-panel.tsx",
+        "app/referral-panel.tsx",
+        "tests/plan-dependencies-contract.mjs",
+        "tests/plan-dependencies-smoke.mjs",
+        "docs/current/SLICE-4D-ACTION-DEPENDENCIES.md"
       ],
       "automatedAcceptanceClaim": false
     },

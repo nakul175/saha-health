@@ -126,6 +126,7 @@ const {fieldRegistrationSmoke}=await import('./field-registration-smoke.mjs');aw
 const {factProvenanceSmoke}=await import('./fact-provenance-smoke.mjs');await factProvenanceSmoke({get,post,check,accounts,org,base});
 const {referralRequestSmoke}=await import('./referral-request-smoke.mjs');await referralRequestSmoke({get,post,check,accounts,org,sql});
 const {actionPlanSmoke}=await import('./action-plan-smoke.mjs');await actionPlanSmoke({get,post,check,accounts,org,base});
+const {planDependenciesSmoke}=await import('./plan-dependencies-smoke.mjs');await planDependenciesSmoke({get,post,check,accounts,org,base});
 const {exceptionsSmoke}=await import('./exceptions-smoke.mjs');await exceptionsSmoke({get,post,check,accounts,org,base});
 const {reportExportSmoke}=await import('./report-export-smoke.mjs');await reportExportSmoke({get,check,accounts,org,sql,base});
 const {auditChainSmoke}=await import('./audit-chain-smoke.mjs');await auditChainSmoke({get,post,check,accounts,org,sql,base});
