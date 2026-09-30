@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3c, 4a, 6a-6h, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3d, 4a, 6a-6h, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -75,13 +75,15 @@
       "sourceTextLine": 143,
       "implementation": "partial",
       "target": "R14",
-      "current": "Structured/text capture and gated on-device speech transcript review. Slices 2b and 3a: attached voice notes play back in the visit and can be deleted from drafts or discarded from the device queue.",
-      "remaining": "In-app recording, supported-device speech and complete common workflow coverage.",
+      "current": "Structured/text capture and gated on-device speech transcript review. Slices 2b and 3a: attached voice notes play back in the visit and can be deleted from drafts or discarded from the device queue. Slice 3d: voice notes recorded in the field notebook (24 kbps, up to 60 s) and queued offline.",
+      "remaining": "Real-device recording quality and interruption handling, supported-device speech and complete common workflow coverage.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "docs/current/SLICE-3D-VOICE-RECORDING.md",
+        "tests/field-recording-client.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2230,7 +2232,7 @@
       "implementation": "partial",
       "target": "R14",
       "current": "Slice 3a: field-notebook queue of photos and voice notes with purpose, local quality checks and device retention, sealed per item; on reconnection the grant, patient access and draft visit are rechecked before upload, and failures route items to review without sending.",
-      "remaining": "Provider/capability revalidation once media is sent to a provider; in-app capture; background upload; real-device, low-storage and eviction testing.",
+      "remaining": "Provider/capability revalidation once media is sent to a provider; in-app photo capture; background upload; real-device, low-storage and eviction testing.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md",

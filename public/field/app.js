@@ -44,13 +44,27 @@ const queuedBytes=()=>(book?.drafts??[]).flatMap(d=>d.media??[]).filter(x=>x.sta
 async function attach(d,file,purpose){const e=epoch,k=key;if(!file)return;if(d.state!=='draft'||d.pending)throw Error('Attach media before syncing this draft. / सिंक से पहले जोड़ें।');
  if(Date.parse(d.packet.payload.expiresAt)<=Date.now())throw Error('Grant expired. / अनुमति समाप्त।');
  await checkSpace();ensureSpace();if(e!==epoch)return;
- const bytes=new Uint8Array(await file.arrayBuffer()),mime=(file.type||'').toLowerCase(),problem=mediaQuality(bytes,mime,purpose);if(problem)throw Error(problem);
+ const bytes=new Uint8Array(await file.arrayBuffer()),mime=(file.type||'').split(';')[0].trim().toLowerCase(),problem=mediaQuality(bytes,mime,purpose);if(problem)throw Error(problem);
  const open=(d.media??[]).filter(x=>x.state!=='uploaded');if(open.length>=MEDIA_PER_DRAFT)throw Error(`At most ${MEDIA_PER_DRAFT} queued items per draft. / प्रति ड्राफ़्ट अधिकतम ${MEDIA_PER_DRAFT}।`);
  if(queuedBytes()+bytes.byteLength>MEDIA_DEVICE_BYTES)throw Error('Device media queue is full (1 MB). Sync or discard first. / डिवाइस मीडिया कतार भरी है।');
  const sha256=await hex(bytes);if((d.media??[]).some(x=>x.sha256===sha256))throw Error('This file is already attached. / यह फ़ाइल पहले से जुड़ी है।');
  const id=crypto.randomUUID();await writeMedia(id,await sealBytes(k,bytes));if(e!==epoch||!book){await deleteMedia(id).catch(()=>{});return;}
  (d.media??=[]).push({id,purpose,mime,size:bytes.byteLength,sha256,capturedAt:new Date().toISOString(),state:'queued'});
  try{await persist();}catch(err){d.media=d.media.filter(x=>x.id!==id);await deleteMedia(id).catch(()=>{});throw err;}status('Queued on this device, encrypted. It uploads after the draft syncs. / डिवाइस पर एन्क्रिप्टेड कतार में।');}
+// Slice 3d: in-app voice-note recording (BR-UX-03). The browser's MediaRecorder records at a low bit rate
+// and stops at 60 seconds or near the 256 KB limit; the result is queued exactly like a chosen file.
+const RECORD_MAX_MS=60000,RECORD_BITS=24000;let recording=null;
+function recordingType(){const R=window.MediaRecorder;if(!R)return null;return ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4'].find(t=>R.isTypeSupported?.(t))??null;}
+function stopRecording(discard=false){const x=recording;if(!x)return;if(discard){x.r.ondataavailable=null;x.r.onstop=null;x.stream.getTracks().forEach(t=>t.stop());recording=null;}if(x.r.state==='recording')x.r.stop();}
+async function record(d){if(recording){stopRecording();return;}
+ const type=recordingType();if(!type||!navigator.mediaDevices?.getUserMedia)throw Error('Recording is not available in this browser. Choose a recording file instead. / इस ब्राउज़र में रिकॉर्डिंग उपलब्ध नहीं।');
+ if(d.state!=='draft'||d.pending)throw Error('Attach media before syncing this draft. / सिंक से पहले जोड़ें।');await checkSpace();ensureSpace();
+ const e=epoch;let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true});}catch{throw Error('Microphone permission was not given. Nothing was recorded. / माइक्रोफ़ोन की अनुमति नहीं मिली।');}
+ if(e!==epoch||!key){stream.getTracks().forEach(t=>t.stop());return;}
+ const chunks=[];let size=0;const r=new window.MediaRecorder(stream,{mimeType:type,audioBitsPerSecond:RECORD_BITS});recording={r,stream,d};
+ r.ondataavailable=ev=>{if(ev.data?.size){chunks.push(ev.data);size+=ev.data.size;if(size>=MEDIA_MAX-16384&&r.state==='recording')r.stop();}};
+ r.onstop=()=>{stream.getTracks().forEach(t=>t.stop());recording=null;if(e!==epoch||!key){render();return;}const blob=new Blob(chunks,{type:type.split(';')[0]});const go=()=>busy?setTimeout(go,50):run(()=>attach(d,blob,'voice-note'));go();};
+ r.start(1000);setTimeout(()=>{if(recording?.r===r&&r.state==='recording')r.stop();},RECORD_MAX_MS);status('Recording. Press Stop when done; it stops by itself at 60 seconds. / रिकॉर्डिंग जारी है।');}
 // Reasons an item must not be uploaded now; each routes it to review instead of sending it.
 function mediaBlock(p,s){
  if(Date.parse(p.expiresAt)<=Date.now())return 'The field grant expired before upload. Check the visit online, then discard this copy. / अपलोड से पहले अनुमति समाप्त हुई।';
@@ -80,6 +94,7 @@ async function discardMedia(d,item){if(item.pending)throw Error('Retry the pendi
 function mediaSection(d,canAttach){const box=node('div',null,{className:'media'}),items=d.media??[];box.append(node('h3','Photos and voice notes / फ़ोटो और आवाज़ नोट'),node('p','Encrypted on this device until uploaded after sync, then deleted from the device. Discarded or removed drafts delete their media. / सिंक के बाद अपलोड होकर डिवाइस से हटती है।',{className:'muted'}));
  for(const item of items){const label=item.state==='uploaded'?'Uploaded / अपलोड हुआ':item.state==='review'?'Needs review, not sent / जाँच ज़रूरी, नहीं भेजा':item.pending?'Upload pending / अपलोड लंबित':'Queued / कतार में';const row=node('div',null,{className:item.state==='review'?'conflict':'media-item'});
   row.append(node('p',`${MEDIA_PURPOSES.find(([v])=>v===item.purpose)?.[1]??item.purpose} · ${item.mime} · ${Math.ceil(item.size/1024)} KB · ${label}`));if(item.reason)row.append(node('p',item.reason));if(item.state!=='uploaded')row.append(button('Discard from device / डिवाइस से हटाएँ',()=>discardMedia(d,item),!!item.pending));box.append(row);}
+ if(canAttach||recording?.d===d)box.append(button(recording?'Stop recording / रिकॉर्डिंग रोकें':'Record voice note (up to 60 s) / आवाज़ नोट रिकॉर्ड करें',()=>record(d),!!recording&&recording.d!==d));
  if(canAttach){const purpose=node('select',null,{disabled:busy});purpose.append(node('option','Purpose / उद्देश्य',{value:''}));for(const [v,text] of MEDIA_PURPOSES)purpose.append(node('option',text,{value:v}));purpose.value=d.mediaPurpose??'';purpose.onchange=()=>{d.mediaPurpose=purpose.value;};
   const input=node('input',null,{type:'file',accept:Object.keys(MEDIA_TYPES).join(','),disabled:busy});input.onchange=()=>{const f=input.files?.[0];input.value='';run(()=>attach(d,f,purpose.value));};
   const l1=node('label','Why is this attached? / क्यों जोड़ रहे हैं?'),l2=node('label','Photo or recording (256 KB max) / फ़ोटो या रिकॉर्डिंग');l1.append(purpose);l2.append(input);box.append(l1,l2);}
@@ -89,7 +104,7 @@ function persist(){if(!book||!key)return Promise.resolve();const value=structure
  chain=chain.catch(()=>{}).then(async()=>{const encrypted=await seal(k,value);revision=await writeVault({...encrypted,salt:s},revision);failedSave=false;if(e===epoch&&key)status(t('saved'));}).catch(err=>{failedSave=true;status(err.message+' / सहेजना विफल।');throw err;});return chain;
 }
 async function run(fn){if(busy)return;busy=true;try{const work=fn();render();await work}catch(e){status(e.message)}finally{busy=false;render();touch();if(key)checkSpace().then(()=>{if(key)showSpace()}).catch(()=>{});}}
-function lock(){if(!key)return;const pending=persist();epoch++;recognition?.abort();recognition=null;key=null;book=null;workspace=null;selected=null;$('editor').replaceChildren();$('drafts').replaceChildren();$('patient').replaceChildren();$('org').replaceChildren();$('owner').textContent='';$('notebook').hidden=true;$('unlock').hidden=false;$('lock').hidden=true;clearTimeout(timer);status(t('locked'));pending.catch(()=>status('Device save failed before lock. Reopen to inspect the last saved draft. / लॉक से पहले सहेजना विफल।'));}
+function lock(){if(!key)return;const pending=persist();epoch++;recognition?.abort();recognition=null;stopRecording(true);key=null;book=null;workspace=null;selected=null;$('editor').replaceChildren();$('drafts').replaceChildren();$('patient').replaceChildren();$('org').replaceChildren();$('owner').textContent='';$('notebook').hidden=true;$('unlock').hidden=false;$('lock').hidden=true;clearTimeout(timer);status(t('locked'));pending.catch(()=>status('Device save failed before lock. Reopen to inspect the last saved draft. / लॉक से पहले सहेजना विफल।'));}
 async function api(body,org,id=crypto.randomUUID()){const r=await fetch('/api/commands',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json','Idempotency-Key':id,'x-saha-organisation':org},body:JSON.stringify(body)});let j;try{j=await r.json()}catch{throw Error('Reconnect and sign in. / फिर जुड़ें और साइन इन करें।')}if(!r.ok){const e=Error(j.error??'Request failed');e.status=r.status;throw e;}return j;}
 async function loadWorkspace(org){const e=epoch;const r=await fetch('/api/workspace',{cache:'no-store',headers:org?{'x-saha-organisation':org}:{}});const s=await r.json();if(!r.ok)throw Error(s.error??'Sign in online first.');if(e!==epoch||!book)return null;
  if(book.userId&&book.userId!==s.user.userId)throw Error('This notebook belongs to another account. Lock it; do not sync. / यह नोटबुक दूसरे खाते की है।');
