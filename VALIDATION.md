@@ -302,3 +302,17 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Changed existing tests: the slice 7b ABDM transfer contract compared the received bundle with the example collection; the mock HIP now sends documents, so that assertion was replaced by document checks (Composition first, patient, visit weight, stamp). The R11 EHR contract suites gained `fhir-validate` in their transpile file lists; their assertions are unchanged.
 - Browser check with headless Chromium over the mock ABDM flow: the received record showed the validation stamp; all requests returned 200; no console errors.
 - Assessment changes: BR-INT-17 moved from not-built to partial. Counts are now 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending. The rule set is a structural subset of FHIR R4, not NRCeS conformance.
+
+## Development slice 6f — field, phone and keyboard accessibility — 30 September 2026 IST (30 September UTC)
+
+- **Accessibility audit (axe-core 4.13.0, WCAG 2.0/2.1/2.2 A and AA tags):** 24 screens including the field notebook in English and Hindi and a 390 × 844 phone viewport; no violations before or after. **Keyboard walk** on two screens (29 focus stops each): before, one stop on each screen had no visible focus indicator; after, every stop showed one. Reports: `tests/evidence/slice-6f/`.
+- The keyboard walk first flagged four stops; two were measurement artefacts (buttons read mid-transition). After adding a 250 ms settle the walk flagged two real stops ("Search people" in the workspace and the notebook date-time field's calendar button), which were fixed.
+- **2,248 automated assertions passed** on the changed stylesheets: 1,489 HTTP/D1, 738 contract/checkpoint and 21 encrypted restore checks.
+- NFR-13 evidence updated; status stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Slice 3b follow-up — storage line without editor rebuild — 30 September 2026 IST (30 September UTC)
+
+- A self-review found that the slice 3b storage check re-rendered the whole field notebook editor when its estimate arrived after an action, which could move keyboard focus out of a field the worker had just entered. The late estimate now updates only the storage line.
+- A new client assertion checks that the editor is not rebuilt by a late estimate; it fails on the slice 3b code and passes with the fix.
+- **2,250 automated assertions passed:** 1,489 HTTP/D1, 740 contract/checkpoint (738 plus 2) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3b-followup/`.
+- Also in this follow-up: the Operations page notice still said "Release 9"; it now says "Release 11 with development slices". The application build passed; no test asserts this text.

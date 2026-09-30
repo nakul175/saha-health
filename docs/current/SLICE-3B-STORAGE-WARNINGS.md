@@ -20,3 +20,7 @@
 - The thresholds (50 MB free, 80% used) are engineering defaults, not measured on target devices.
 - Browsers report estimates, not exact figures, and may still evict data. No eviction, low-storage fault injection or real-device testing was done. BR-OFF-08 and BR-OFF-02 remain partial.
 - The ten-draft limit is unchanged; the 200-encounter capacity in the requirement is not built.
+
+## Follow-up
+
+A self-review after this slice found that a late storage estimate re-rendered the whole editor and could move keyboard focus. It now updates only the storage line; see the slice 3b follow-up in `VALIDATION.md` and `tests/evidence/slice-3b-followup/`.

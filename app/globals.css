@@ -153,3 +153,5 @@
 /* Slice 6e: inactive tab labels at 4.5:1 or better on the tab list and card backgrounds. */
 [data-slot=tabs-trigger]:not([data-state=active]){color:#5a6d77}
 [data-slot=tabs-trigger]:not([data-state=active]):hover{color:var(--foreground)}
+/* Slice 6f: text fields and select triggers show a visible keyboard focus outline (their ring shadow is removed above). */
+[data-slot=input]:focus-visible,[data-slot=textarea]:focus-visible,[data-slot=select-trigger]:focus-visible{outline:3px solid #58b8ab;outline-offset:2px}

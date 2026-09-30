@@ -9,6 +9,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 3a](SLICE-3A-OFFLINE-MEDIA.md) | Encrypted offline photo and voice-note queue with recheck before upload |
 | [Development slice 3b](SLICE-3B-STORAGE-WARNINGS.md) | Field notebook storage usage, keep-data request and low-space pause |
 | [Development slice 7c](SLICE-7C-OUTBOUND-VALIDATION.md) | Pinned outbound FHIR structural validation and regression corpus |
+| [Development slice 6f](SLICE-6F-FIELD-ACCESSIBILITY.md) | Field notebook, phone and keyboard focus accessibility |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |

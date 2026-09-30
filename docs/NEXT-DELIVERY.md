@@ -29,6 +29,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 6c | Retention schedules, legal holds and disposal-eligibility review (no deletion) | Delivered (see [slice 6c](current/SLICE-6C-RETENTION.md)) |
 | 6d | Versioned indicator catalogue, cohort protection, small-cell suppression and governed question interpretation | Delivered (see [slice 6d](current/SLICE-6D-INDICATORS.md)) |
 | 6e | Repeatable axe-core WCAG A/AA audit over 16 owner and ASHA screens; colour-contrast failures fixed | Delivered (see [slice 6e](current/SLICE-6E-ACCESSIBILITY.md)) |
+| 6f | Audit extended to the field notebook, Hindi and a phone viewport; keyboard focus walk; focus-visible fixes | Delivered (see [slice 6f](current/SLICE-6F-FIELD-ACCESSIBILITY.md)) |
 | 6 | Restore-safe disposal, owner-maintained indicator registry, alerts, full Hindi UI, screen-reader, zoom and user accessibility review | Planned |
 | 7a | ABDM module readiness, ABHA link/decline/unlink and consent artefacts with enforcement, against a local mock gateway | Delivered (see [slice 7a](current/SLICE-7A-ABDM-MOCK.md)) |
 | 7b | Care-context linking, encrypted consent-bound transfer and received-record review against the mock gateway | Delivered (see [slice 7b](current/SLICE-7B-ABDM-TRANSFER.md)) |
