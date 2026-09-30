@@ -10,7 +10,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, code) => { try { await fn(); } catch (e) { assert.equal(e.status, code, e.message); passed++; return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm-transfer', 'abdm', 'fhir', 'core', 'mis', 'programmes', 'types'])
+  for (const f of ['abdm-transfer', 'abdm', 'fhir', 'fhir-document', 'fhir-validate', 'core', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const t = await import(pathToFileURL(join(dir, 'abdm-transfer.js')));
   const A = await import(pathToFileURL(join(dir, 'abdm.js')));
@@ -41,7 +41,7 @@ try {
   await rejects(() => run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid }), 409);
   abdm('own', { type: 'abdmConsentDecide', personId: 'p1', consentId: cid, decision: 'GRANTED' });
   const got = await run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid });
-  check(() => { assert.equal(got.entries, 1, 'only the care context inside the consent date range'); const r = P().abdmReceived[0]; assert.equal(r.state, 'review'); assert.equal(r.recordDate, '2026-05-01'); const { timestamp: a, ...got2 } = r.bundle, { timestamp: b, ...want } = JSON.parse(JSON.stringify(F.fhirExample(P(), s.workspace.visits[0]))); assert.deepEqual(got2, want, 'decrypted bundle equals the HIP bundle apart from its generation time'); assert.equal(P().abdmTransfers[0].state, 'delivered'); });
+  check(() => { assert.equal(got.entries, 1, 'only the care context inside the consent date range'); const r = P().abdmReceived[0]; assert.equal(r.state, 'review'); assert.equal(r.recordDate, '2026-05-01'); const v0 = s.workspace.visits[0], entries = r.bundle.entry.map(e => e.resource); assert.equal(r.bundle.type, 'document'); assert.equal(entries[0].resourceType, 'Composition', 'slice 7c: the HIP sends a FHIR document, Composition first'); assert.equal(entries.find(x => x.resourceType === 'Patient').id, 'p1'); assert.equal(String(entries.find(x => x.resourceType === 'Observation' && x.code.coding[0].code === '29463-7').valueQuantity.value), String(v0.facts.weight), 'decrypted document carries the visit weight'); assert.equal(r.validation.ruleset, 'saha-fhir-r4-document-structure', 'received entries carry the validation stamp'); assert.equal(P().abdmTransfers[0].state, 'delivered'); });
   // Crypto: a different HIU key cannot read the payload; tampering is detected.
   const pair = () => crypto.subtle.generateKey({ name: 'X25519' }, true, ['deriveBits']);
   const b64 = b => Buffer.from(b).toString('base64');
@@ -55,6 +55,11 @@ try {
   const flipped = Buffer.from(payload.entries[0].content, 'base64'); flipped[5] ^= 1;
   await rejects(() => t.receive(hiu.privateKey, nonce, { ...payload, entries: [{ ...payload.entries[0], content: flipped.toString('base64') }] }), 502);
   await rejects(() => t.receive(hiu.privateKey, nonce, { ...payload, entries: [{ ...payload.entries[0], checksum: 'AAAA' }] }), 502);
+  // Slice 7c: a deliberate violation in the HIP document (negative weight) is refused with the rule set and reason before encryption; nothing is stored.
+  const vIn = s.workspace.visits[0], keepWeight = vIn.facts.weight, beforeT = P().abdmTransfers.length, beforeR = P().abdmReceived.length; vIn.facts.weight = '-5';
+  const bad = await rejects(() => run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid }), 422);
+  check(() => { assert.match(bad.message, /saha-fhir-r4-document-structure 1\.0\.0: Observation units or values/); assert.equal(P().abdmTransfers.length, beforeT); assert.equal(P().abdmReceived.length, beforeR); });
+  vIn.facts.weight = keepWeight;
   // Review, then revocation and relinking stop further transfers.
   const rid = P().abdmReceived[0].id;
   check(() => assert.equal(t.transferSchema.safeParse({ type: 'abdmReceivedReview', personId: 'p1', version: 1, recordId: rid, decision: 'accepted', note: 'ok' }).success, false, 'a review note is required'));

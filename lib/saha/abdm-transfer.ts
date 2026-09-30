@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
-import { fhirExample } from './fhir';
+import { fhirDocument } from './fhir-document';
+import { validateOutbound, type ValidationStamp } from './fhir-validate';
 import { abdmConfig, consentAllows, effective } from './abdm';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
@@ -11,7 +12,7 @@ import type { Member, OrgState, Person } from './types';
 // uses X25519 key agreement, HKDF-SHA-256 and AES-256-GCM with per-side nonces; it is not
 // validated against ABDM's encryption library or any partner.
 export type CareContext={id:string;visitId:string;display:string;hiType:'OPConsultation';recordDate:string;linkedAt:string;linkedBy:string;abhaNumber:string};
-export type ReceivedRecord={id:string;consentId:string;transferId:string;careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:any;state:'review'|'accepted'|'rejected';receivedAt:string;reviewedBy?:string;reviewedAt?:string;note?:string};
+export type ReceivedRecord={id:string;consentId:string;transferId:string;careContextId:string;hiType:string;recordDate:string;checksum:string;bundle:any;validation?:ValidationStamp;state:'review'|'accepted'|'rejected';receivedAt:string;reviewedBy?:string;reviewedAt?:string;note?:string};
 export type Transfer={id:string;consentId:string;requestedAt:string;requestedBy:string;state:'delivered'|'failed';entries:number;acknowledgedAt?:string;message:string};
 const id=z.string().trim().min(1).max(200),version=z.number().int().positive();
 export const transferSchema=z.discriminatedUnion('type',[
@@ -42,7 +43,8 @@ export async function mockHip(p:Person,s:OrgState,consentId:string,hiu:{publicKe
  for(const cc of p.careContexts??[]){
   const check=consentAllows(p,consentId,{hiType:cc.hiType,date:cc.recordDate},now);if(!check.allowed||cc.abhaNumber!==p.abha?.number)continue;
   const v=s.workspace.visits.find(x=>x.id===cc.visitId);if(!v||v.state!=='confirmed'||v.voidedAt||v.supersededBy)continue;
-  const text=JSON.stringify(fhirExample(p,v));
+  // Slice 7c: each care context is sent as a FHIR document that must pass the pinned rule set first.
+  const doc=fhirDocument(p,v,s.organisation.name,'Saha mock HIP');validateOutbound(doc,p.id.replace(/_/g,'-'),now);const text=JSON.stringify(doc);
   entries.push({careContextId:cc.id,hiType:cc.hiType,recordDate:cc.recordDate,media:'application/fhir+json',checksum:await sha(text),content:b64(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(text)))});
  }
  return {hipPublicKey:b64(await crypto.subtle.exportKey('raw',hip.publicKey)),hipNonce:b64(nonce),entries};
@@ -52,7 +54,7 @@ export async function receive(hiuPrivate:CryptoKey,hiuNonce:Uint8Array,payload:A
  const {key,iv}=await sessionKey(hiuPrivate,unb64(payload.hipPublicKey),unb64(payload.hipNonce),hiuNonce);
  const out=[];for(const e of payload.entries){let text:string;try{text=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv},key,buf(unb64(e.content))));}catch{fail(502,'A received entry could not be decrypted. Nothing was stored.');}
   if(await sha(text!)!==e.checksum)fail(502,'A received entry failed its checksum. Nothing was stored.');let bundle:any;try{bundle=JSON.parse(text!);}catch{fail(502,'A received entry is not valid JSON. Nothing was stored.');}
-  if(bundle?.resourceType!=='Bundle')fail(502,'A received entry is not a FHIR Bundle. Nothing was stored.');out.push({...e,bundle});}
+  if(bundle?.resourceType!=='Bundle')fail(502,'A received entry is not a FHIR Bundle. Nothing was stored.');let validation:ValidationStamp;try{validation=validateOutbound(bundle);}catch(err:any){fail(502,'A received entry failed validation. Nothing was stored. '+String(err?.message??''));}out.push({...e,bundle,validation:validation!});}
  return out;
 }
 export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
@@ -75,7 +77,7 @@ export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,no
   const hiu=await pair(),nonce=crypto.getRandomValues(new Uint8Array(32));
   const payload=await mockHip(p,s,consent.id,{publicKey:b64(await crypto.subtle.exportKey('raw',hiu.publicKey)),nonce:b64(nonce)},now);
   const entries=await receive(hiu.privateKey,nonce,payload);if((p.abdmReceived??[]).length+entries.length>200)fail(422,'Received-record limit reached for this patient; review and archive first.');const t:Transfer={id:uuid(),consentId:consent.id,requestedAt:now,requestedBy:u.userId,state:'delivered',entries:entries.length,acknowledgedAt:now,message:entries.length?'Entries decrypted, checksums verified, awaiting clinician review.':'No care context matched the consent.'};
-  (p.abdmTransfers??=[]).push(t);for(const e of entries)(p.abdmReceived??=[]).push({id:uuid(),consentId:consent.id,transferId:t.id,careContextId:e.careContextId,hiType:e.hiType,recordDate:e.recordDate,checksum:e.checksum,bundle:e.bundle,state:'review',receivedAt:now});
+  (p.abdmTransfers??=[]).push(t);for(const e of entries)(p.abdmReceived??=[]).push({id:uuid(),consentId:consent.id,transferId:t.id,careContextId:e.careContextId,hiType:e.hiType,recordDate:e.recordDate,checksum:e.checksum,bundle:e.bundle,validation:e.validation,state:'review',receivedAt:now});
   detail=`Mock HIU transfer under consent ${consent.purpose}: ${entries.length} encrypted entr${entries.length===1?'y':'ies'} received, decrypted and checksum-verified; held for review. Nothing is added to the record until reviewed.`;result={transferId:t.id,entries:entries.length};
  }
  else {
