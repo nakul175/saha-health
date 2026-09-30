@@ -97,3 +97,8 @@ export const households = sqliteTable('households', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
   teamId:text('team_id').notNull(), data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('households_org_team').on(t.orgId,t.teamId)]);
+// Slice 1b: bulk caseload transfers with effective time, application result and acknowledgement.
+export const caseloadTransfers = sqliteTable('caseload_transfers', {
+  orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
+  teamId:text('team_id').notNull(), state:text('state').notNull(), createdAt:text('created_at').notNull(), data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('caseload_transfers_org_state').on(t.orgId,t.state)]);

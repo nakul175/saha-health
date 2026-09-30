@@ -5,7 +5,7 @@ import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 
 export type IdentityReview={state:'local'|'provisional'|'resolved';by:string;at:string;reason:string;reference?:string;candidateCount:number;reviewHash?:string};
-export type AssignmentEvent={id:string;at:string;by:string;fromTeam:string;fromOwner:string|null;teamId:string;ownerId:string|null;reason:string;openWork:number;acknowledgement?:{by:string;at:string;reference:string}};
+export type AssignmentEvent={id:string;at:string;by:string;fromTeam:string;fromOwner:string|null;teamId:string;ownerId:string|null;reason:string;openWork:number;transferId?:string;acknowledgement?:{by:string;at:string;reference:string}};
 const id=z.string().trim().min(1).max(200),reason=z.string().trim().min(10).max(1000);
 export const matchInput=z.object({name:id,age:z.number().int().min(0).max(120),sex:z.enum(['Female','Male','Other','Unknown']),village:id,teamId:id}).strict();
 export const registrationReviewSchema=z.object({hash:z.string().length(64),decision:z.enum(['distinct','provisional']),reason}).strict();
@@ -45,7 +45,7 @@ export function openPatientWork(s:OrgState,p:Person){
   ...(s.outreach?.messages??[]).filter(v=>v.personId===p.id&&v.recovery?.state==='open').map(v=>({kind:'message follow-up',id:v.id,ownerId:v.recovery!.ownerId,due:null})),
  ];
 }
-export function transferPatientWork(s:OrgState,p:Person,c:{teamId:string;assignedTo:string|null;reason:string},u:Actor,now=new Date().toISOString()){
+export function transferPatientWork(s:OrgState,p:Person,c:{teamId:string;assignedTo:string|null;reason:string},u:Actor,now=new Date().toISOString()):AssignmentEvent|undefined{
  const work=openPatientWork(s,p);if(work.length&&!c.assignedTo)fail(409,'Open work needs a responsible care worker. Choose an assignee before transferring.');
  if(p.teamId===c.teamId&&p.assignedTo===c.assignedTo&&!work.some(t=>t.ownerId!==c.assignedTo))return;
  p.assignmentHistory??=[];if(p.assignmentHistory.length>=100)fail(422,'Assignment history limit reached; an archival policy is required.');
@@ -57,6 +57,7 @@ export function transferPatientWork(s:OrgState,p:Person,c:{teamId:string;assigne
  }
  for(const v of s.outreach?.messages??[])if(v.personId===p.id){let changed=false;if(c.assignedTo&&v.recovery?.state==='open'){v.recovery.ownerId=c.assignedTo;changed=true;}if(['draft','approved','failed'].includes(v.state)){v.state='cancelled';v.cancelReason='Care assignment changed. Prepare a new reviewed reminder.';changed=true;}if(changed)v.version++;}
  for(const l of p.fieldLeases??[])if(l.status==='active')l.status='revoked';
+ return handover;
 }
 export function authorizeContinuity(s:OrgState,m:Member,c:any){
  if(!['resolvePatientIdentity','acknowledgeAssignment'].includes(c.type))return;const p=person(s.workspace,c.personId);

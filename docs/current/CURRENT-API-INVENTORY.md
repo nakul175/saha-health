@@ -1,10 +1,11 @@
 # Current API inventory
 
-Generated from source: **14 HTTP method/route pairs** and **113 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **15 HTTP method/route pairs** and **118 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
 | GET | `/api/audit` | [app/api/audit/route.ts](../../app/api/audit/route.ts) |
+| GET | `/api/caseload` | [app/api/caseload/route.ts](../../app/api/caseload/route.ts) |
 | POST | `/api/commands` | [app/api/commands/route.ts](../../app/api/commands/route.ts) |
 | GET | `/api/continuity` | [app/api/continuity/route.ts](../../app/api/continuity/route.ts) |
 | GET | `/api/expansion` | [app/api/expansion/route.ts](../../app/api/expansion/route.ts) |

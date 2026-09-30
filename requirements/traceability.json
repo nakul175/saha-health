@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1",
+  "engineeringRelease": "R11 + development slices 0a-1b",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -215,8 +215,8 @@
       "sourceTextLine": 166,
       "implementation": "partial",
       "target": "R15",
-      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks.",
-      "remaining": "Formal verification, removal lifecycle, workforce import and production identity governance.",
+      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return.",
+      "remaining": "Formal verification, workforce import, upstream de-provisioning and production identity governance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -278,8 +278,8 @@
       "sourceTextLine": 175,
       "implementation": "partial",
       "target": "R14",
-      "current": "R10 transfers open patient work atomically, records effective time and receiving-worker acknowledgement.",
-      "remaining": "Household/bulk caseload transfer, scheduled effective dates and field acceptance.",
+      "current": "R10 transfers open patient work atomically, records effective time and receiving-worker acknowledgement. Slice 1b adds bulk caseload transfer with scheduled effective dates, re-checks at application, bulk acknowledgement and a responsibility-gap view with urgent work first.",
+      "remaining": "Household or locality transfer, a scheduler for effective dates, field acceptance and approved urgency rules.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
