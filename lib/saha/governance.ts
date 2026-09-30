@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { digest, fail, person, uuid, visit } from './core';
 import { allowed, normallyAllowed } from './access';
+import { factProvenance, measureOf } from './fact-provenance';
 import type { OrgState, Member, Visit, Person } from './types';
 import type { Actor } from './store';
 import type { AgentProvider, AgentRun } from './agent';
@@ -86,7 +87,7 @@ export async function protocolPreview(s:OrgState,m:Member,v:Visit,now=new Date()
  const p=person(s.workspace,v.personId),findings:ProtocolCheck['findings']=[],unknowns:string[]=[],protocols:ProtocolCheck['protocols']=[];
  for(const e of governanceState(s).entries){const c=e.spec;if(c.kind!=='protocol'||!activeEntry(s,e,now)||!c.teamIds.includes(p.teamId)||!c.roles.includes(m.role as any)||!p.programmes.includes(c.programme)||p.age<c.ageMin||p.age>c.ageMax)continue;
   protocols.push({id:e.id,manifestHash:e.manifestHash,revision:e.revision,title:c.title});
-  for(const rule of c.rules){const f=rule.condition.field,raw=f==='workerConcern'?v.clinicalConcern?.value:v.facts[f],date=f==='workerConcern'?v.clinicalConcern?.at:v.facts.date+'Z',age=date?Date.parse(now)-Date.parse(date):NaN;
+  for(const rule of c.rules){const f=rule.condition.field,raw=f==='workerConcern'?v.clinicalConcern?.value:v.facts[f],date=f==='workerConcern'?v.clinicalConcern?.at:(measureOf(f)?factProvenance(v.facts,measureOf(f)!).at:v.facts.date)+'Z',age=date?Date.parse(now)-Date.parse(date):NaN;
    const missing=!raw||raw==='unknown'||!Number.isFinite(age)||age< -300000||age>c.maxObservationAgeHours*3600000;
    if(missing){unknowns.push(rule.label+': current evidence required');if(rule.condition.operator!=='missing')continue;}
    const hit=rule.condition.operator==='missing'?missing:rule.condition.operator==='eq'?raw===rule.condition.value:rule.condition.operator==='gte'?Number(raw)>=Number(rule.condition.value):Number(raw)<=Number(rule.condition.value);

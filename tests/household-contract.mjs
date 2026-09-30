@@ -9,7 +9,7 @@ const dir = mkdtempSync(join(process.cwd(), '.household-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 try {
-  for (const f of ['household', 'household-constants', 'referral-rules', 'core', 'access', 'mis', 'programmes', 'types'])
+  for (const f of ['household', 'household-constants', 'referral-rules', 'core', 'fact-provenance', 'access', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const h = await import(pathToFileURL(join(dir, 'household.js')));
   const now = '2026-09-30T00:00:00.000Z', later = '2026-12-01T00:00:00.000Z', earlier = '2026-09-01T00:00:00.000Z';

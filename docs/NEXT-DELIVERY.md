@@ -17,7 +17,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 1d | Workforce roster reconciliation: preview, apply exactly the preview, invite, update, suspend | Delivered (see [slice 1d](current/SLICE-1D-ROSTER.md)) |
 | 2a | Reuse, blocked reuse, repeated-entry and correction metering from stored visits | Delivered (see [slice 2a](current/SLICE-2A-REUSE.md)) |
 | 2b | Visit photos and voice notes with type, signature, size and purpose checks, playback and draft deletion | Delivered (see [slice 2b](current/SLICE-2B-MEDIA.md)) |
-| 2 | Per-fact provenance, import dry runs | Planned |
+| 2c | Source and observation time for each measurement, with missing reasons, in the visit screen, field notebook, FHIR exports and summaries | Delivered (see [slice 2c](current/SLICE-2C-FACT-PROVENANCE.md)) |
+| 2 | Per-observation author and verification state, import dry runs | Planned |
 | 3a | Encrypted offline photo and voice-note queue in the field notebook, uploaded after sync only when grant, access and draft are rechecked | Delivered (see [slice 3a](current/SLICE-3A-OFFLINE-MEDIA.md)) |
 | 3b | Field notebook keep-data request, storage usage display and low-space pause on preparing visits and queueing media | Delivered (see [slice 3b](current/SLICE-3B-STORAGE-WARNINGS.md)) |
 | 3c | Media queue hardening after independent review: confirmed-upload rule, lock safety, removal guard, orphan sweep | Delivered (see [slice 3c](current/SLICE-3C-QUEUE-HARDENING.md)) |
