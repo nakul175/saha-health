@@ -87,7 +87,9 @@ export function ensureEnvironment(s: OrgState, c: any, env: Env) {
     if (c.type === 'toggleIntegration' && demo(c.integrationId) && w.integrations.find(i => i.id === c.integrationId)?.status !== 'active') fail(409, `Demonstration connectors cannot be activated in the ${e.name} environment.`);
     if (c.type === 'executePlan') { const plan = w.visits.find(v => v.id === c.visitId)?.plan; if (plan?.recipients.some(demo)) fail(409, `Demonstration connectors do not receive records in the ${e.name} environment. Remove them from the plan.`); }
   }
-  if (!p.syntheticRecordsLive && ['sendSubmission', 'executeEhrPublish', 'executePlan'].includes(c.type)) {
+  // A plan whose recipients are all demonstration connectors reaches no real destination (training practice).
+  const demoOnlyPlan = c.type === 'executePlan' && (w.visits.find(v => v.id === c.visitId)?.plan?.recipients ?? []).every((id: string) => w.integrations.find(i => i.id === id)?.mode === 'demo');
+  if (!p.syntheticRecordsLive && ['sendSubmission', 'executeEhrPublish', 'executePlan'].includes(c.type) && !demoOnlyPlan) {
     const personId = c.personId ?? w.submissions.find(x => x.id === c.submissionId)?.personId ?? w.visits.find(v => v.id === c.visitId)?.personId;
     if (personId && w.people.find(x => x.id === personId)?.synthetic) fail(409, `Synthetic fixture records cannot be sent to a destination from the ${e.name} environment.`);
   }

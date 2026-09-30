@@ -494,3 +494,16 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The HTTP smoke removes the synthetic marks from a new account's fixtures directly in the local database to stand in for data created before slice 6n.
 - Browser check with headless Chromium: the Organisation & team migration panel ran a dry run (six to mark), applied it with a reason (six marked, batch listed) and reversed it (none marked). The first run reported one colour-contrast finding captured while the panel was still updating after the reversal, because the script's wait matched static text; with the wait corrected, two runs found no violations in the dry-run, applied and reversed states. No console errors.
 - BR-DATA-11 evidence updated; it stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Slice 6m follow-up — consistent audit chain end in the data export — 30 September 2026 IST (30 September UTC)
+
+- The data export read its tables before verifying the chain, so an export taken while commands ran could hold chained events after the head in its manifest and fail offline verification. The chain is now verified and its head read first, later events are left out, and the manifest records `auditChain.exportedHead`, which `scripts/verify-export.mjs` checks against.
+- **3,050 automated assertions passed:** 1,870 HTTP/D1, 1,159 contract/checkpoint (1,157 plus 2 data-exit contract checks: a command committed during the export, and a manifest claiming a later head) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6m-followup/`.
+- First contract run failed the existing size-guard check: its stand-in database had no `first()` for the chain reads that now come first. The stand-in was extended; no assertion changed.
+- Requirement statuses unchanged.
+
+## Slice 6n follow-up — training practice plans — 30 September 2026 IST (30 September UTC)
+
+- Found in review: the synthetic-record barrier refused executing a plan for a seeded fixture in training even when every recipient was a demonstration connector, which blocked the training practice the environment exists for. A plan whose recipients are all demonstration connectors is no longer treated as a destination; production still refuses demonstration connectors outright.
+- **3,051 automated assertions passed:** 1,870 HTTP/D1, 1,160 contract/checkpoint (1,159 plus 1 environment contract check) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6n-followup/`.
+- Requirement statuses unchanged.

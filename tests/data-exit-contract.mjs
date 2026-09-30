@@ -150,6 +150,15 @@ try {
   const plain = readTar(Buffer.from((await build(A, { includeFhir: false })).archive));
   check(() => { assert.equal([...plain.keys()].some(p => p.startsWith('fhir/')), false); assert.equal(JSON.parse(plain.get('manifest.json')).fhir.included, false); });
 
+  // 13b. A command committed while the export reads its tables: audit events chained after the head read
+  // first are left out, the manifest records that head, and the archive still verifies.
+  let injected = false;
+  const racing = { prepare: sql => { const st = d1.prepare(sql); if (injected || !/FROM organisations WHERE id=\? ORDER BY id LIMIT/.test(sql)) return st; return { bind: (...a) => ({ all: async () => { injected = true; const x = await load(A), y = structuredClone(x); y.workspace.audit.push({ id: crypto.randomUUID(), at: now, actor: 'Synthetic owner', actorId: 'owner', role: 'clinician', action: 'renameOrganisation', subject: A, detail: 'Committed during the export' }); y.organisation.name = 'Renamed during export'; await commit(x, y, 'renameOrganisation'); return st.bind(...a).all(); } }) }; }, batch: s => d1.batch(s) };
+  const raced = await exit.buildExport(racing, { orgId: A, member, exporter, exportId: 'export-raced', now: '2026-09-30T06:30:00.000Z', includeFhir: false, environment: 'synthetic' });
+  const racedFiles = readTar(Buffer.from(raced.archive)), racedManifest = JSON.parse(racedFiles.get('manifest.json').toString('utf8')), racedEvents = jsonl(racedFiles.get('tables/audit_events.jsonl'));
+  const dbHead = await chain.chainHead(d1, A);
+  check(() => { assert.equal(injected, true); assert.equal(dbHead.seq, racedManifest.auditChain.exportedHead.seq + 1, 'one event was chained during the export'); assert.equal(Math.max(...racedEvents.map(e => e.seq ?? -1)), racedManifest.auditChain.exportedHead.seq); assert.equal(racedEvents.some(e => e.detail === 'Committed during the export'), false); assert.equal(verifyFiles(racedFiles).ok, true, JSON.stringify(verifyFiles(racedFiles).failures)); });
+  check(() => { const m = JSON.parse(racedFiles.get('manifest.json').toString('utf8')); m.auditChain.exportedHead = dbHead; const r = verifyFiles(reseal(new Map([...racedFiles, ['manifest.json', Buffer.from(JSON.stringify(m, null, 2) + '\n')]]), 'manifest.json', Buffer.from(JSON.stringify(m, null, 2) + '\n'))); assert.equal(r.checks.find(c => c.name === 'audit-chain').ok, false, 'a manifest claiming a later head than the archive holds is caught'); });
   // 14. Organisation B: 1,203 events from before the chain are listed and reproduce the genesis seal offline.
   const B = 'org_exit_b';
   d1.db.prepare("INSERT INTO organisations (id,name,revision,last_command,created_at) VALUES (?,?,1,'legacy',?)").run(B, 'Pre-chain organisation', now);
@@ -191,7 +200,7 @@ try {
   const reVerify = await chain.verifyChain(d2, C);
   check(() => { assert.equal(reVerify.status, 'intact'); assert.deepEqual(reVerify.head, cManifest.auditChain.verification.head); });
   // 16. Size guard: an export over the row limit is refused rather than truncated.
-  await rejects(() => exit.buildExport({ prepare: sql => ({ bind: () => ({ all: async () => ({ results: /FROM organisations/.test(sql) ? [{ id: C }] : Array.from({ length: exit.PAGE }, (_, i) => ({ org_id: C, id: String(i) })) }) }) }) }, { orgId: C, member, exporter, exportId: 'x', now, includeFhir: false, environment: 'synthetic' }), /larger than a single export/);
+  await rejects(() => exit.buildExport({ prepare: sql => ({ bind: () => ({ first: async () => null, all: async () => ({ results: /FROM organisations/.test(sql) ? [{ id: C }] : Array.from({ length: exit.PAGE }, (_, i) => ({ org_id: C, id: String(i) })) }) }) }) }, { orgId: C, member, exporter, exportId: 'x', now, includeFhir: false, environment: 'synthetic' }), /larger than a single export/);
 
   const result = { suite: 'data exit contract (slice 6m)', passed, thousandPersonExport: { patients: 1000, visits: 1000, rows: cManifest.totals.rows, archiveBytes: cBuilt.archive.byteLength, createAndExportMs: exportMs, reimportedTablesMatched: exit.TABLES.length, reimportedChain: reVerify.status }, completedAt: new Date().toISOString() };
   writeFileSync('tests/data-exit-contract-result.json', JSON.stringify(result, null, 2) + '\n');
