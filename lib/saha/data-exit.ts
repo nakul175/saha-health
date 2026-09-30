@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { fail } from './core';
-import { CHAIN_VERSION, HASHING, contentDigest, sha256, verifyChain, type EventRow } from './audit-chain';
+import { CHAIN_VERSION, HASHING, chainHead, contentDigest, verifyChain, type EventRow } from './audit-chain';
 import { fhirDocument } from './fhir-document';
 import { TERMINAL } from './referral-rules';
 import type { Member } from './types';
@@ -94,7 +94,13 @@ const without = (r: Row, omit: string[] = []) => Object.fromEntries(Object.entri
 export async function buildExport(db: D1Database, input: ExportInput) {
   const { orgId, member: m } = input;
   const data: Record<string, Row[]> = {};
+  // The chain is verified and its head read before any table, and audit events chained after that head
+  // are left out, so the exported chain ends at a recorded head even while commands continue.
+  // Other tables are read page by page, not in one transaction: records changed during the export may
+  // appear in their newer state.
+  const chain = await verifyChain(db, orgId, undefined, input.now), cut = await chainHead(db, orgId);
   for (const spec of TABLES) data[spec.table] = await readAll(db, spec, orgId);
+  data.audit_events = data.audit_events.filter(r => r.seq == null || (cut !== null && Number(r.seq) <= cut.seq));
   const org = data.organisations[0];
   if (!org) fail(404, 'Organisation not found.');
   // Normal care scope, as access.ts normallyAllowed, over the stored patient columns.
@@ -169,7 +175,6 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   }
   for (const f of files) if (!/^[A-Za-z0-9._/-]{1,99}$/.test(f.path)) fail(422, 'An export file name cannot be written to the archive.');
 
-  const chain = await verifyChain(db, orgId, undefined, input.now);
   const described = await Promise.all(files.map(async f => ({ path: f.path, ...(f.table ? { table: f.table } : {}), ...(f.rows !== undefined ? { rows: f.rows } : {}), ...(f.withheld !== undefined ? { withheld: f.withheld } : {}), bytes: f.bytes.byteLength, sha256: await sha256Bytes(f.bytes), ...(f.columns ? { columns: f.columns } : {}), ...(f.omitted?.length ? { omittedColumns: f.omitted } : {}), ...(f.note ? { note: f.note } : {}) })));
   const bytes = described.reduce((n, f) => n + f.bytes, 0);
   if (bytes > MAX_BYTES) fail(413, 'This organisation is larger than a single export can hold. Ask the operator for a staged export.');
@@ -183,7 +188,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators none). Emergency access grants are not export authority. Households and caseload transfers follow team scope.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, complete: totalWithheld === 0 },
     totals: { files: described.length, rows: totalRows, withheld: totalWithheld, bytes },
     files: described,
-    auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, note: 'Verified by the server immediately before export. The export itself is recorded as a later audit event, so it is not in this archive.' },
+    auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },
     handover: { externalActions: handover.length - tasks.length, patientTasks: tasks.length, withoutActiveOwner: tasks.filter(t => t.ownerStatus !== 'active').length },
     fhir: { included: input.includeFhir, documents: fhirCount, note: input.includeFhir ? 'One FHIR R4 document Bundle per current confirmed visit in scope. Structural subset only; not profile-validated.' : 'Not requested.' },
     excluded: EXCLUDED,
