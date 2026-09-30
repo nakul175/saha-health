@@ -1,12 +1,11 @@
-import { env } from 'cloudflare:workers';
-import { db, error, json } from '@/lib/saha/server';
+import { db, error, json, runtime as policyRuntime } from '@/lib/saha/server';
 import { AppError, digest, fail } from '@/lib/saha/core';
 import { applyReceipt, misAudit, misCredential, misIntegration } from '@/lib/saha/mis';
 import { callbackSchema, verifyMisSignature } from '@/lib/saha/mis-callback';
 import { persist, readState } from '@/lib/saha/store';
 export async function POST(request:Request){try{
  if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON.');const reader=request.body?.getReader();if(!reader)fail(400,'Missing callback.');let size=0,raw='';const decoder=new TextDecoder();while(true){const {value,done}=await reader.read();if(done)break;size+=value.length;if(size>16000){await reader.cancel();fail(413,'Callback too large.');}raw+=decoder.decode(value,{stream:true});}raw+=decoder.decode();let body;try{body=callbackSchema.parse(JSON.parse(raw));}catch{fail(422,'Invalid callback contract.');}
- const runtime=env as unknown as Record<string,string|undefined>,state=await readState(db(),body.organisationId),connection=misIntegration(state,body.integrationId);const secret=misCredential(connection,state.organisation.id,runtime,true);await verifyMisSignature(raw,request.headers.get('x-saha-timestamp')??'',request.headers.get('x-saha-signature')??'',secret);
+ const runtime=policyRuntime(),state=await readState(db(),body.organisationId),connection=misIntegration(state,body.integrationId);const secret=misCredential(connection,state.organisation.id,runtime,true);await verifyMisSignature(raw,request.headers.get('x-saha-timestamp')??'',request.headers.get('x-saha-signature')??'',secret);
  if(!['accepted','rejected','pending'].includes(body.receipt.status))fail(422,'Callbacks cannot authorise resending a record.');
  const hash=await digest(body),actor={userId:'mis_callback_'+body.integrationId,displayName:'Programme receipt callback',email:''},key='callback_'+hash;
  for(let n=0;n<3;n++){

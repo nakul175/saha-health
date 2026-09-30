@@ -1,4 +1,5 @@
-import { identity, loadFor, json, db } from './server';
+import { identity, loadFor, json, db, rawRuntime } from './server';
+import { environmentOf } from './environment';
 import { accountCode, persist, scope } from './store';
 import { digest, fail, uuid } from './core';
 import { operator } from './operations';
@@ -16,7 +17,7 @@ export async function auditChainRead(request:Request){
  const page=await exportRows(db(),s.organisation.id,{userId:u.userId,role:m.role},from);
  if(!page.lines.length)fail(404,'No chained audit events from that sequence number.');
  const exportedAt=new Date().toISOString(),eventId=uuid();
- const header={type:'header',format:'saha-audit-chain-export-v1',chainVersion:CHAIN_VERSION,organisationId:s.organisation.id,generatedAt:exportedAt,range:{from,to:page.to},more:page.more,nextFrom:page.more?page.to!+1:null,maxEvents:EXPORT_LIMIT,hashing:HASHING,environment:'synthetic',notice:'Contains account identifiers and audit details. Keep within authorised auditors. Events written before the chain started are sealed by the genesis marker (sequence 0) and are not listed.'};
+ const header={type:'header',format:'saha-audit-chain-export-v1',chainVersion:CHAIN_VERSION,organisationId:s.organisation.id,generatedAt:exportedAt,range:{from,to:page.to},more:page.more,nextFrom:page.more?page.to!+1:null,maxEvents:EXPORT_LIMIT,hashing:HASHING,environment:environmentOf(rawRuntime()).name,notice:'Contains account identifiers and audit details. Keep within authorised auditors. Events written before the chain started are sealed by the genesis marker (sequence 0) and are not listed.'};
  const body=[header,...page.lines].map(x=>JSON.stringify(x)).join('\n')+'\n',bodySha256=await sha256(body);
  const before=structuredClone(s);
  s.workspace.audit.push({id:eventId,at:exportedAt,actorId:u.userId,actor:u.displayName,role:m.role,action:'auditChainExport',subject:s.organisation.id,detail:`Audit chain exported: events ${from}–${page.to}${page.more?' (more remain)':''}, ${page.redacted} patient-linked events as digests only; verification ${verification.status}${verification.head?` at head ${verification.head.seq}`:''}; file SHA-256 ${bodySha256}.`});
