@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 5a-4b, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -3019,14 +3019,18 @@
       "sourceTextLine": 566,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed route/status telemetry and redacted support exports.",
-      "remaining": "Full production logging, crash-report retention and sensitive diagnostic policy review.",
+      "current": "Fixed route/status telemetry and redacted support exports. Slice 6l: an end-to-end test shows distinctive names, narratives, a raw recording and an invitation token absent from request metrics, console output and support/report exports; console calls and log fields are statically reviewed; media removal reasons and indicator questions travel in request bodies rather than URLs.",
+      "remaining": "Hosted log, crash-report and analytics configuration and retention, identifiers in request paths, and a separate access-controlled store for necessary sensitive diagnostics with policy review.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/monitoring.ts",
+        "tests/safe-logs-contract.mjs",
+        "tests/safe-logs-smoke.mjs",
+        "docs/current/SLICE-6L-SAFE-LOGS.md"
       ],
       "automatedAcceptanceClaim": false
     },
