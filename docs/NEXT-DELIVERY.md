@@ -37,6 +37,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 6f | Audit extended to the field notebook, Hindi and a phone viewport; keyboard focus walk; focus-visible fixes | Delivered (see [slice 6f](current/SLICE-6F-FIELD-ACCESSIBILITY.md)) |
 | 6g | Computed operational alerts with owners, actions and viewer scope on the Operations page | Delivered (see [slice 6g](current/SLICE-6G-ALERTS.md)) |
 | 6h | Alert acknowledgement by the owning role, count-bound and at most 24 hours | Delivered (see [slice 6h](current/SLICE-6H-ALERT-ACKNOWLEDGEMENT.md)) |
+| 6i | Item-level exception queue on the Operations page with owner, age, recovery action and a link to the patient or visit | Delivered (see [slice 6i](current/SLICE-6I-EXCEPTION-QUEUE.md)) |
 | 6 | Restore-safe disposal, owner-maintained indicator registry, alert delivery, full Hindi UI, screen-reader, zoom and user accessibility review | Planned |
 | 7a | ABDM module readiness, ABHA link/decline/unlink and consent artefacts with enforcement, against a local mock gateway | Delivered (see [slice 7a](current/SLICE-7A-ABDM-MOCK.md)) |
 | 7b | Care-context linking, encrypted consent-bound transfer and received-record review against the mock gateway | Delivered (see [slice 7b](current/SLICE-7B-ABDM-TRANSFER.md)) |

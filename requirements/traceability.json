@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3f, 4a-4b, 6a-6h, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3f, 4a-4b, 6a-6i, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2549,13 +2549,17 @@
       "sourceTextLine": 499,
       "implementation": "partial",
       "target": "R15",
-      "current": "Operational backlog counts plus R10 identity/ownership/handover queues.",
-      "remaining": "Unified assignable clinical review, sync and destination exception queues with age/recovery action.",
+      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer.",
+      "remaining": "Assignment from the queue itself, device-side sync failures not reported to the server, notification, and seeded-failure acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
-        "tests/operations-smoke.mjs"
+        "tests/operations-smoke.mjs",
+        "lib/saha/exceptions.ts",
+        "tests/exceptions-contract.mjs",
+        "tests/exceptions-smoke.mjs",
+        "docs/current/SLICE-6I-EXCEPTION-QUEUE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3680,14 +3684,16 @@
       "sourceTextLine": 741,
       "implementation": "partial",
       "target": "R15",
-      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents.",
-      "remaining": "Five-minute detection with delivery, and item-level links to tasks, provider calls and destination receipts.",
+      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit.",
+      "remaining": "Five-minute detection with delivery, and links from a user task to provider calls and destination receipts in a trace.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/monitoring.ts",
         "tests/operations-smoke.mjs",
         "lib/saha/alerts.ts",
-        "tests/alerts-contract.mjs"
+        "tests/alerts-contract.mjs",
+        "lib/saha/exceptions.ts",
+        "tests/exceptions-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
