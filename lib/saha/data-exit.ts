@@ -69,7 +69,7 @@ export const EXCLUDED = [
   { what: 'server configuration and credentials', why: 'Held as deployment secrets, never in the database.' },
 ];
 const MEDIA_EXT: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'audio/webm': 'webm', 'audio/ogg': 'ogg', 'audio/mpeg': 'mp3', 'audio/mp4': 'm4a' };
-export type ExportFile = { path: string; bytes: Uint8Array; table?: string; rows?: number; withheld?: number; columns?: string[]; omitted?: string[]; note?: string };
+export type ExportFile = { path: string; bytes: Uint8Array; table?: string; rows?: number; withheld?: number; withheldEntries?: number; columns?: string[]; omitted?: string[]; note?: string };
 export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string };
 const enc = new TextEncoder();
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
@@ -89,6 +89,25 @@ async function readAll(db: D1Database, spec: TableSpec, orgId: string): Promise<
   return out;
 }
 const without = (r: Row, omit: string[] = []) => Object.fromEntries(Object.entries(r).filter(([k]) => !omit.includes(k)));
+// Slice 6p (independent review): organisation-level documents (governance, outreach, retention and the
+// other org-scope JSON aggregates) hold patient-linked entries — safety cases, shadow results, outreach
+// items and messages, person holds. Any entry, at any depth, that carries a personId outside the exported
+// patient set is left out and counted; an array element is removed, an object property is removed.
+// Entries without a personId (organisation holds, templates, plan headers) are kept.
+export function scopeEntries(value: unknown, keep: (personId: string) => boolean): { value: unknown; withheld: number } {
+  let withheld = 0;
+  const linked = (x: unknown) => !!x && typeof x === 'object' && !Array.isArray(x) && (x as Record<string, unknown>).personId != null;
+  const walk = (x: unknown): unknown => {
+    if (Array.isArray(x)) return x.filter(e => { if (linked(e) && !keep(String((e as Record<string, unknown>).personId))) { withheld++; return false; } return true; }).map(walk);
+    if (x && typeof x === 'object') {
+      const out: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(x)) { if (linked(v) && !keep(String((v as Record<string, unknown>).personId))) { withheld++; continue; } out[k] = walk(v); }
+      return out;
+    }
+    return x;
+  };
+  return { value: walk(value), withheld };
+}
 
 // Builds every file of the archive. Pure over the database: nothing is written.
 export async function buildExport(db: D1Database, input: ExportInput) {
@@ -104,17 +123,19 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   const org = data.organisations[0];
   if (!org) fail(404, 'Organisation not found.');
   // Normal care scope, as access.ts normallyAllowed, over the stored patient columns.
-  const inScope = (p: Row) => m.status === 'active' && m.role !== 'admin' && m.teamIds.includes(String(p.team_id)) && (m.role !== 'asha' || p.assigned_to === m.userId);
+  // Slice 6p: the sandbox provider role has no patient scope either (defence in depth; a sandbox holds none).
+  const noPatients = m.role === 'admin' || m.role === 'provider';
+  const inScope = (p: Row) => m.status === 'active' && !noPatients && m.teamIds.includes(String(p.team_id)) && (m.role !== 'asha' || p.assigned_to === m.userId);
   const people = new Set(data.patients.filter(inScope).map(p => String(p.id)));
   const visits = new Set(data.visits.filter(v => people.has(String(v.person_id))).map(v => String(v.id)));
-  const teamScope = (r: Row) => m.status === 'active' && m.role !== 'admin' && m.role !== 'asha' && m.teamIds.includes(String(r.team_id));
+  const teamScope = (r: Row) => m.status === 'active' && !noPatients && m.role !== 'asha' && m.teamIds.includes(String(r.team_id));
   const allowed = (spec: TableSpec, r: Row) => spec.scope === 'org' ? true : spec.scope === 'person' ? people.has(String(r.person_id ?? r.id)) : spec.scope === 'visit' ? visits.has(String(r.visit_id)) : spec.scope === 'team' ? teamScope(r) : spec.scope === 'identity' ? people.has(String(r.survivor_id)) && people.has(String(r.duplicate_id)) : r.person_id == null || people.has(String(r.person_id));
   const files: ExportFile[] = [];
-  let totalRows = 0, totalWithheld = 0;
+  let totalRows = 0, totalWithheld = 0, totalEntries = 0;
   const media: ExportFile[] = [];
   for (const spec of TABLES) {
     const rows = data[spec.table], lines: unknown[] = [];
-    let withheld = 0;
+    let withheld = 0, entries = 0;
     for (const r of rows) {
       if (spec.table === 'patients' ? !people.has(String(r.id)) : !allowed(spec, r)) {
         withheld++;
@@ -123,11 +144,18 @@ export async function buildExport(db: D1Database, input: ExportInput) {
         continue;
       }
       if (spec.table === 'media' && !r.deleted_at && typeof r.data === 'string' && r.data) media.push({ path: `media/${r.id}.${MEDIA_EXT[String(r.mime)] ?? 'bin'}`, bytes: fromB64(r.data), note: `Media ${r.id} for visit ${r.visit_id}` });
-      lines.push(without(r, spec.omit));
+      const out = without(r, spec.omit);
+      // Slice 6p: patient-linked entries inside an organisation document follow the same care scope.
+      // The data text is re-serialised only when something was left out; otherwise it stays as stored.
+      if (spec.scope === 'org' && typeof r.data === 'string' && r.data) {
+        let doc: unknown = null; try { doc = JSON.parse(r.data); } catch { doc = null; }
+        if (doc && typeof doc === 'object') { const scoped = scopeEntries(doc, id => people.has(id)); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
+      }
+      lines.push(out);
     }
-    totalRows += lines.length; totalWithheld += withheld;
+    totalRows += lines.length; totalWithheld += withheld; totalEntries += entries;
     const stored = rows.length ? Object.keys(rows[0]) : [];
-    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: spec.note });
+    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, ...(spec.scope === 'org' ? { withheldEntries: entries } : {}), columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: entries ? `${spec.note ? spec.note + ' ' : ''}${entries} patient-linked entries inside data are left out (outside the exporter's care scope); data is re-serialised without them.` : spec.note });
   }
   // Member accounts: identifiers and names only.
   const accounts = (await db.prepare('SELECT user_id,account_code,display_name,created_at FROM accounts WHERE user_id IN (SELECT user_id FROM memberships WHERE org_id=?) ORDER BY user_id').bind(orgId).all<Row>()).results;
@@ -173,9 +201,10 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       fhirCount++;
     }
   }
-  for (const f of files) if (!/^[A-Za-z0-9._/-]{1,99}$/.test(f.path)) fail(422, 'An export file name cannot be written to the archive.');
+  // Slice 6p: no empty, '.' or '..' path segments (the character class alone allowed them).
+  for (const f of files) if (!safePath(f.path)) fail(422, 'An export file name cannot be written to the archive.');
 
-  const described = await Promise.all(files.map(async f => ({ path: f.path, ...(f.table ? { table: f.table } : {}), ...(f.rows !== undefined ? { rows: f.rows } : {}), ...(f.withheld !== undefined ? { withheld: f.withheld } : {}), bytes: f.bytes.byteLength, sha256: await sha256Bytes(f.bytes), ...(f.columns ? { columns: f.columns } : {}), ...(f.omitted?.length ? { omittedColumns: f.omitted } : {}), ...(f.note ? { note: f.note } : {}) })));
+  const described = await Promise.all(files.map(async f => ({ path: f.path, ...(f.table ? { table: f.table } : {}), ...(f.rows !== undefined ? { rows: f.rows } : {}), ...(f.withheld !== undefined ? { withheld: f.withheld } : {}), ...(f.withheldEntries !== undefined ? { withheldEntries: f.withheldEntries } : {}), bytes: f.bytes.byteLength, sha256: await sha256Bytes(f.bytes), ...(f.columns ? { columns: f.columns } : {}), ...(f.omitted?.length ? { omittedColumns: f.omitted } : {}), ...(f.note ? { note: f.note } : {}) })));
   const bytes = described.reduce((n, f) => n + f.bytes, 0);
   if (bytes > MAX_BYTES) fail(413, 'This organisation is larger than a single export can hold. Ask the operator for a staged export.');
   const patientsWithheld = data.patients.length - people.size;
@@ -185,8 +214,8 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     organisation: { id: orgId, name: org.name, createdAt: org.created_at, revision: org.revision },
     exporter: { userId: input.exporter.userId, name: input.exporter.name, accountCode: input.exporter.accountCode, role: m.role, owner: m.isOwner },
     schema: { migration: SCHEMA_MIGRATION, workspaceSchemaVersion: 1, rowEncoding: 'One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text.' },
-    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators none). Emergency access grants are not export authority. Households and caseload transfers follow team scope.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, complete: totalWithheld === 0 },
-    totals: { files: described.length, rows: totalRows, withheld: totalWithheld, bytes },
+    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
+    totals: { files: described.length, rows: totalRows, withheld: totalWithheld, withheldEntries: totalEntries, bytes },
     files: described,
     auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },
     handover: { externalActions: handover.length - tasks.length, patientTasks: tasks.length, withoutActiveOwner: tasks.filter(t => t.ownerStatus !== 'active').length },
@@ -236,6 +265,7 @@ Checking
   checksums, row counts, relationships, media and the audit chain without the application.
 `;
 
+export const safePath = (p: string) => /^[A-Za-z0-9._/-]{1,99}$/.test(p) && p.split('/').every(x => x !== '' && x !== '.' && x !== '..');
 // Minimal POSIX ustar writer: regular files only, names under 100 bytes.
 export function tar(files: { path: string; bytes: Uint8Array }[], mtime: number) {
   const blocks: Uint8Array[] = [];

@@ -39,6 +39,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 4c](SLICE-4C-WORKER-ACTIVITY.md) | Worker activity evidence for supervisors |
 | [Development slice 2e](SLICE-2E-OBSERVATION-VERIFICATION.md) | Author and clinician verification for each measurement |
 | [Development slice 2f](SLICE-2F-IMPORT-DRY-RUN.md) | Controlled patient import with a dry run |
+| [Development slice 6p](SLICE-6P-REVIEW-FIXES.md) | Fixes for defects found by an independent review of slices 6m, 6j/6k, 2d, 5b and 1e |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |

@@ -28,3 +28,7 @@
 - Report-page reads are not audited per view (as before); CSV exports and commands are.
 - The five-in-force and 30-day bounds are fixed in code, not organisation policy.
 - No service accounts (see above). BR-ID-02 and BR-ID-09 stay partial.
+
+## Correction, 30 September 2026 (slice 6p)
+
+An independent review after this slice was built found that the 200-record limit counted revoked and ended delegations, so after 200 grants an organisation could never grant another. Slice 6p counts only delegations not yet ended or revoked; ended and revoked records stay stored with their audit events, so the stored list still grows by one record per grant. See [slice 6p](SLICE-6P-REVIEW-FIXES.md). The text above is kept as written.

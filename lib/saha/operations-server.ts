@@ -3,7 +3,8 @@ import { environmentOf } from './environment';
 import { careReport, defaultOperations, GATES, operator, RELEASE } from './operations';
 import { reportingScope } from './delegation';
 import { exportCsv, REPORT_DEFINITION } from './report-export';
-import { persist, scope } from './store';
+import { scope } from './store';
+import { recordExportAudit } from './export-audit';
 import { digest, fail, uuid } from './core';
 import { alertsFor, ALERT_RULES_VERSION } from './alerts';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
@@ -23,8 +24,10 @@ export async function operationsRead(request:Request){
  // Slice 6k: the CSV carries its definition, identifier, exporter, control totals and a checksum manifest;
  // the audit line records the same identifier and checksum so a received file can be matched to its export.
  const exportId=format==='csv'?uuid():null,exported=exportId?await exportCsv(report!,{exportId,generatedBy:u.displayName,role:m.role,teams:reach.teams.map(t=>s.teams.find(x=>x.id===t)?.name??t),days}):null;
- const before=structuredClone(s);s.workspace.audit.push({id:uuid(),at:result.generatedAt,actorId:u.userId,actor:u.displayName,role:m.role,action:'opsExport',subject:s.organisation.id,detail:exported?`Scoped aggregate report exported; ${days}-day period; definition ${REPORT_DEFINITION.id} ${REPORT_DEFINITION.version}; export ${exportId}; ${exported.rows} data rows; SHA-256 ${exported.sha256}; control totals ${exported.reconciled?'reconciled':'NOT reconciled'}.${reach.delegations.length?` Includes teams under reporting delegation ${reach.delegations.map(d=>d.id).join(', ')}.`:''}`:'Support diagnostic exported without patient records, actor identifiers, credentials or incident free text.'});
- await persist(db(),before,s,u,{type:'opsExport'},'export_'+uuid(),await digest({format,days}),{ok:true});
+ // Slice 6p: the audit commit is retried on a fresh read if a command saved meanwhile; the exporter's
+ // authority for this format is checked again there (CSV: not an administrator; support: operator).
+ const orgId=s.organisation.id,again=(x:typeof s)=>{const o=scope(x,u.userId);if(format==='csv'&&o.role==='admin')fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(o))fail(403,'Operations access required.');if(o.role!==m.role)fail(409,'Your role changed while the export was prepared. Export again.');return o;};
+ const auditId=uuid();await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:auditId,at:result.generatedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'opsExport',subject:orgId,detail:exported?`Scoped aggregate report exported; ${days}-day period; definition ${REPORT_DEFINITION.id} ${REPORT_DEFINITION.version}; export ${exportId}; ${exported.rows} data rows; SHA-256 ${exported.sha256}; control totals ${exported.reconciled?'reconciled':'NOT reconciled'}.${reach.delegations.length?` Includes teams under reporting delegation ${reach.delegations.map(d=>d.id).join(', ')}.`:''}`:'Support diagnostic exported without patient records, actor identifiers, credentials or incident free text.'}),actor:u,type:'opsExport',key:'export_'+uuid(),hash:await digest({format,days})});
  // Support output intentionally excludes organisation, members, free text,
  // clinical counters and connector endpoints. This is safe to inspect, not
  // permission to send it outside the organisation.

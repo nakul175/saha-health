@@ -48,11 +48,18 @@ export async function applyFixtureMark(s:OrgState,input:unknown,u:Actor,m:Member
   result={batchId:id,marked:b.marked,rejected:b.rejected};
  } else {
   const b=batches.find(x=>x.id===c.batchId);if(!b)fail(404,'Migration batch not found.');if(b.revertedAt)fail(409,'This batch has already been reversed.');
-  const marked=s.workspace.people.filter(p=>p.syntheticMark?.batchId===b.id);
-  for(const p of marked){delete p.synthetic;delete p.syntheticMark;}
-  Object.assign(b,{revertedAt:now,revertedBy:u.userId,revertReason:c.reason,reverted:marked.length});
-  detail=`Migration ${b.migration} batch ${b.id} reversed: ${marked.length} of ${b.marked} marks removed. Reason: ${c.reason}`;
-  result={batchId:b.id,reverted:marked.length};
+  // Slice 6p (independent review): a revert removes marks only from records the reverting owner may
+  // normally access (the dry run and apply scope). Marks on other records stay and are reported as out
+  // of scope; an owner whose scope covers them can revert the remainder later. Each mark is removed at
+  // most once (its batch link goes with it); the batch is complete when no record keeps its mark.
+  const marked=s.workspace.people.filter(p=>p.syntheticMark?.batchId===b.id),mine=marked.filter(p=>normallyAllowed(m,p)),left=marked.length-mine.length;
+  if(!mine.length)fail(409,marked.length?'No record marked by this batch is within your care scope. An owner whose care scope covers them can reverse it.':'No record keeps a mark from this batch.');
+  for(const p of mine){delete p.synthetic;delete p.syntheticMark;}
+  const total=(b.reverted??0)+mine.length;
+  (b.reverts??=[]).push({at:now,by:u.userId,reason:c.reason,reverted:mine.length,outOfScope:left});
+  b.reverted=total;if(!left)Object.assign(b,{revertedAt:now,revertedBy:u.userId,revertReason:c.reason});
+  detail=`Migration ${b.migration} batch ${b.id} ${left?'partly reversed':'reversed'}: ${total} of ${b.marked} marks removed (${mine.length} in this reverse)${left?`; ${left} marked records outside the reverting owner's care scope keep their mark`:''}. Reason: ${c.reason}`;
+  result={batchId:b.id,reverted:mine.length,outOfScope:left,complete:!left};
  }
  s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:s.organisation.id,detail});
  return result;

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5g, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5g, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -238,7 +238,7 @@
       "sourceTextLine": 169,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited.",
+      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope.",
       "remaining": "Programme, facility, purpose and geography policy dimensions across every channel.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -250,7 +250,11 @@
         "lib/saha/delegation-server.ts",
         "tests/delegation-contract.mjs",
         "tests/delegation-smoke.mjs",
-        "docs/current/SLICE-1E-DELEGATION.md"
+        "docs/current/SLICE-1E-DELEGATION.md",
+        "lib/saha/export-audit.ts",
+        "tests/review-fixes-contract.mjs",
+        "docs/current/SLICE-6P-REVIEW-FIXES.md",
+        "lib/saha/audit-chain.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -387,7 +391,7 @@
       "sourceTextLine": 190,
       "implementation": "partial",
       "target": "R15",
-      "current": "Scoped connector server bindings and grants separate user sessions from provider keys. Slice 1e: person-to-person delegation has scope, expiry, an accountable grantor, revocation and use audit; service accounts are documented as unsupported by both identity providers.",
+      "current": "Scoped connector server bindings and grants separate user sessions from provider keys. Slice 1e: person-to-person delegation has scope, expiry, an accountable grantor, revocation and use audit; service accounts are documented as unsupported by both identity providers. Slice 6p: a provider sandbox import checks the importer's active ownership of the source before reading it and answers one 404 for not found, not a sandbox and not the importer's own.",
       "remaining": "Managed service identities for connectors and agents with expiry, ownership, rotation, independent credential revocation and audit naming initiating user and executing service.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -399,7 +403,13 @@
         "lib/saha/delegation-server.ts",
         "tests/delegation-contract.mjs",
         "tests/delegation-smoke.mjs",
-        "docs/current/SLICE-1E-DELEGATION.md"
+        "docs/current/SLICE-1E-DELEGATION.md",
+        "lib/saha/export-audit.ts",
+        "tests/review-fixes-contract.mjs",
+        "docs/current/SLICE-6P-REVIEW-FIXES.md",
+        "lib/saha/server.ts",
+        "lib/saha/provider-sandbox.ts",
+        "tests/provider-sandbox-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -688,7 +698,7 @@
       "sourceTextLine": 228,
       "implementation": "partial",
       "target": "R15",
-      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event.",
+      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once).",
       "remaining": "Imports beyond people (visits, enrolments, identifiers, contacts), duplicate review across external sources, downloadable rejection reports, data-quality reports and reversal for imported batches.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -711,7 +721,10 @@
         "app/patient-import-panel.tsx",
         "tests/patient-import-contract.mjs",
         "tests/patient-import-smoke.mjs",
-        "docs/current/SLICE-2F-IMPORT-DRY-RUN.md"
+        "docs/current/SLICE-2F-IMPORT-DRY-RUN.md",
+        "lib/saha/export-audit.ts",
+        "tests/review-fixes-contract.mjs",
+        "docs/current/SLICE-6P-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1528,7 +1541,7 @@
       "sourceTextLine": 330,
       "implementation": "partial",
       "target": "R16",
-      "current": "Slice 5b: provider sandbox organisations (no patient records, one provider) with a provider-only role limited to its own documentation, credential references, capability proposals and synthetic evaluations; owner import into production as a draft that must pass production evaluation, independent review and owner activation.",
+      "current": "Slice 5b: provider sandbox organisations (no patient records, one provider) with a provider-only role limited to its own documentation, credential references, capability proposals and synthetic evaluations; owner import into production as a draft that must pass production evaluation, independent review and owner activation. Slice 6p (independent review): the sandbox import no longer reads another organisation before checking ownership, and gives one 404 for not found, not a sandbox and not the importer's own.",
       "remaining": "Physically isolated environment, provider-registered test endpoints, provider-facing contract and independent acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1547,7 +1560,11 @@
         "app/provider-sandbox-panel.tsx",
         "tests/provider-sandbox-contract.mjs",
         "tests/provider-sandbox-smoke.mjs",
-        "docs/current/SLICE-5B-PROVIDER-SANDBOX.md"
+        "docs/current/SLICE-5B-PROVIDER-SANDBOX.md",
+        "lib/saha/export-audit.ts",
+        "tests/review-fixes-contract.mjs",
+        "docs/current/SLICE-6P-REVIEW-FIXES.md",
+        "lib/saha/server.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2965,7 +2982,7 @@
       "sourceTextLine": 540,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier.",
+      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked).",
       "remaining": "Buyer-authorised export beyond the owner's care scope, independent re-import tooling, staged exports for large tenants and queue disposition on provider termination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2978,7 +2995,12 @@
         "scripts/verify-export.mjs",
         "tests/data-exit-contract.mjs",
         "tests/data-exit-smoke.mjs",
-        "docs/current/SLICE-6M-DATA-EXIT.md"
+        "docs/current/SLICE-6M-DATA-EXIT.md",
+        "lib/saha/export-audit.ts",
+        "tests/review-fixes-contract.mjs",
+        "docs/current/SLICE-6P-REVIEW-FIXES.md",
+        "lib/saha/audit-chain-server.ts",
+        "lib/saha/operations-server.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3937,7 +3959,7 @@
       "sourceTextLine": 753,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain.",
+      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain. Slice 6p: the manifest counts withheld entries inside organisation documents and is complete only when none is withheld; the offline verifier checks every personId inside those documents against the exported patients and that completeness claim.",
       "remaining": "Independent re-import by a third party, units and provenance documentation for every JSON field, and buyer sign-off of the format.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3949,7 +3971,10 @@
         "scripts/verify-export.mjs",
         "tests/data-exit-contract.mjs",
         "tests/data-exit-smoke.mjs",
-        "docs/current/SLICE-6M-DATA-EXIT.md"
+        "docs/current/SLICE-6M-DATA-EXIT.md",
+        "lib/saha/export-audit.ts",
+        "tests/review-fixes-contract.mjs",
+        "docs/current/SLICE-6P-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },

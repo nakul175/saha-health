@@ -11,6 +11,7 @@ import type { AgentProvider } from './agent';
 // activated; an owner of both organisations imports a proposal into a production organisation as a draft,
 // which then follows the standard evaluation, independent review and owner activation path.
 export type ProviderDocumentation={version:number;summary:string;intendedUse:string;limitations:string;knownFailureModes:string;supportContact:string;testEndpoint?:string;credentialReference?:string;updatedAt:string;updatedBy:string;hash:string};
+export const SANDBOX_UNAVAILABLE='Provider sandbox not found or unavailable. Name a provider sandbox of which you are an active owner.';
 export type ProviderSandbox={providerId:string;providerName:string;declaredAt:string;declaredBy:string;reason:string;documentation?:ProviderDocumentation};
 export type ProposalOrigin={sandboxOrganisationId:string;sandboxName:string;sandboxEntryId:string;sandboxRevision:number;sandboxManifestHash:string;evaluation:{id:string;corpusVersion:string;cases:number;precision:number|null;recall:number|null};documentation:{version:number;hash:string;summary:string;intendedUse:string;limitations:string;knownFailureModes:string;supportContact:string};importedBy:string;importedAt:string};
 // Commands a provider account may use, and the only commands a sandbox accepts from anyone.
@@ -71,9 +72,11 @@ export async function applySandbox(s:OrgState,input:unknown,u:Actor,m:Member,pro
   audit(s,u,m,c.type,s.organisation.id,`Provider documentation version ${sb.documentation.version} saved for ${sb.providerName}.${c.credentialReference?' A test credential reference is recorded; no credential value is stored.':''}`,now);return {version:sb.documentation.version};
  }
  // importCapabilityProposal: the sandbox state is read by the server before this handler runs.
- if(!source)fail(404,'Provider sandbox not found or unavailable.');
- const sb=sandboxOf(source);if(!sb)fail(409,'Choose a provider sandbox.');
- const owner=source.members.find(x=>x.userId===u.userId&&x.status==='active');if(!owner?.isOwner)fail(403,'You must be an owner of the provider sandbox to import its proposals.');
+ // Slice 6p: one answer for not found, not a sandbox and not the importer's own (the server checks the
+ // same before reading the source; this repeats it on the state read).
+ if(!source)fail(404,SANDBOX_UNAVAILABLE);
+ const owner=source.members.find(x=>x.userId===u.userId&&x.status==='active');if(!owner?.isOwner)fail(404,SANDBOX_UNAVAILABLE);
+ const sb=sandboxOf(source);if(!sb)fail(404,SANDBOX_UNAVAILABLE);
  const sg=governanceState(source),e=sg.entries.find(x=>x.id===c.entryId);if(!e)fail(404,'Proposal not found in that sandbox.');if(e.version!==c.entryVersion)fail(409,'The proposal changed. Refresh before importing.');
  if(e.spec.kind!=='capability'||e.spec.providerId!==sb.providerId||e.state!=='draft')fail(409,'Only a current draft capability proposal can be imported.');if(sg.entries.some(x=>x.replacesId===e.id))fail(409,'A later proposal revision exists in the sandbox.');
  if(!sb.documentation)fail(409,'The provider must record its documentation in the sandbox before a proposal is imported.');

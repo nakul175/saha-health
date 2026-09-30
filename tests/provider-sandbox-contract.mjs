@@ -86,9 +86,10 @@ try{
  await status(()=>sandbox(prod,imp(),owner,box),409,/passing synthetic evaluation/);
  const sandboxRun=complete(box,boxEval.evaluationId);check(()=>assert.equal(sandboxRun.metrics.passed,true,'the local parser passes the English corpus'));
  await status(()=>sandbox(prod,imp(),reviewer,box),403,/owner must import/);
- await status(()=>sandbox(prod,imp(),owner2,box),403,/owner of the provider sandbox/);
+ // Slice 6p (independent review): not the importer's own and not a sandbox answer the same 404 as not found.
+ await status(()=>sandbox(prod,imp(),owner2,box),404,/Provider sandbox not found or unavailable/);
  await status(()=>sandbox(box,imp(),owner,box),409,/into a production organisation/);
- await status(()=>sandbox(prod,imp(),owner,prod),409,/Choose a provider sandbox/);
+ await status(()=>sandbox(prod,imp(),owner,prod),404,/Provider sandbox not found or unavailable/);
  await status(()=>sandbox(prod,imp(),owner,null),404);
  await status(()=>sandbox(prod,imp({entryVersion:2}),owner,box),409,/proposal changed/);
  await status(()=>sandbox(prod,imp({entryId:'missing'}),owner,box),404);
