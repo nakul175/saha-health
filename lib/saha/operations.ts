@@ -3,7 +3,7 @@ import { fail, uuid } from './core';
 import { allowed } from './access';
 import type { Actor } from './store';
 import type { OrgState, Member } from './types';
-export const RELEASE='8 / v1.0-readiness';
+export const RELEASE='9 / v1.1-readiness';
 export type Incident={id:string;title:string;severity:'critical'|'high'|'normal';state:'open'|'investigating'|'resolved';ownerId:string;createdAt:string;updatedAt:string;resolution?:string;evidence?:string};
 export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null};
 export const defaultOperations=():Operations=>({version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null});
@@ -26,7 +26,7 @@ export const operationsSchema=z.discriminatedUnion('type',[
 ]);
 export function operator(m:Member){return m.isOwner||m.role==='admin';}
 export function requireReporting(m:Member){if(!operator(m)&&m.role!=='supervisor')fail(403,'Supervisor or operations access required.');}
-export function maintenanceAllows(c:any){return c.type.startsWith('ops')||(c.type==='pilotTransition'&&c.stage==='paused')||['switchOrganisation','lookupSubmission','lookupEhrPublish','reconcile','cancelAgent','cancelSubmission','revokeFieldLease','revokeInvite'].includes(c.type)||(c.type==='setConsent'&&c.active===false)||(c.type==='updateMember'&&c.status==='suspended')||(c.type==='revokeEhrPermission');}
+export function maintenanceAllows(c:any){return c.type.startsWith('ops')||c.type==='messageCancel'||c.type==='messageResolve'||(c.type==='setContactPreferences'&&c.preferences.permission===false)||(c.type==='messageTemplateReview'&&c.state==='suspended')||(c.type==='outreachTransition'&&c.state==='cancelled')||(c.type==='pilotTransition'&&c.stage==='paused')||['switchOrganisation','lookupSubmission','lookupEhrPublish','reconcile','cancelAgent','cancelSubmission','revokeFieldLease','revokeInvite'].includes(c.type)||(c.type==='setConsent'&&c.active===false)||(c.type==='updateMember'&&c.status==='suspended')||(c.type==='revokeEhrPermission');}
 export function ensureOperating(s:OrgState,c:any){if(s.operations?.maintenance&&!maintenanceAllows(c))fail(423,'This organisation is paused for maintenance. Your draft is preserved. Receipt lookup and safety controls remain available.');}
 export function applyOperations(s:OrgState,input:unknown,u:Actor,m:Member){const parsed=operationsSchema.safeParse(input);if(!parsed.success)return null;if(!operator(m))fail(403,'Operations access required.');const c=parsed.data,ops=s.operations??=defaultOperations();if(c.version!==ops.version)fail(409,'Operations changed. Refresh and review the latest state.');const now=new Date().toISOString();let result:any={ok:true};
  if(c.type==='opsMaintenance'){if(!m.isOwner)fail(403,'Only an owner can pause or resume the organisation.');ops.maintenance=c.active;ops.reason=c.reason;}

@@ -76,3 +76,9 @@ export const requestMetrics = sqliteTable('request_metrics', {
 export const pilot = sqliteTable('pilot', {
  orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
 });
+export const outreach = sqliteTable('outreach', {
+ orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
+});
+export const expansions = sqliteTable('expansions', {
+ orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),
+});

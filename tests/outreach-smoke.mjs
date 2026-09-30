@@ -1,0 +1,55 @@
+import assert from 'node:assert/strict';
+export async function outreachSmoke({get,post,check,accounts,org,sql}){
+ const {owner:o,worker:w,clinician:c,supervisor:s,admin:a,stranger:x}=accounts;
+ await get(null,'/api/outreach',401,org);await get(x,'/api/outreach',403,org);await get(o,'/api/workspace',200,org);
+ const created=await post(o,{type:'createPerson',name:'Synthetic outreach one',age:30,sex:'Unknown',village:'Synthetic service area',programme:'General care',teamId:'default'}),id=created.result.personId;
+ let person=o.state.people.find(p=>p.id===id);await post(o,{type:'assignPatient',personId:id,version:person.version,teamId:'default',assignedTo:w.id,reason:'Assign synthetic outreach case to worker'});
+ const second=(await post(o,{type:'createPerson',name:'Synthetic outreach private',age:30,sex:'Unknown',village:'Synthetic service area',programme:'General care',teamId:'default'})).result.personId;
+ const today=new Date().toISOString().slice(0,10),draft={type:'outreachCreate',title:'Synthetic outreach plan',date:today,teamId:'default',ownerId:c.id,personIds:[id,second],criteria:'Synthetic selected cases for the API acceptance exercise.'};
+ await post(a,draft,403);await post(w,draft,403);await post(o,{...draft,personIds:[id,id]},422);await post(o,{...draft,ownerId:a.id},422);
+ const planId=(await post(s,draft)).result.planId;let report=await get(o,'/api/outreach',200,org),plan=report.plans.find(p=>p.id===planId),item=plan.items.find(i=>i.personId===id),other=plan.items.find(i=>i.personId===second);
+ await post(s,draft,409);await post(w,{type:'outreachTransition',planId,version:1,state:'scheduled',reason:'Scope must be checked for every patient'},403);
+ await post(s,{type:'outreachTransition',planId,version:1,state:'scheduled',reason:'Schedule the synthetic outreach exercise'});
+ await post(s,{type:'outreachTransition',planId,version:1,state:'completed',reason:'Stale versions must not close the plan'},409);
+ await post(s,{type:'outreachTransition',planId,version:2,state:'completed',reason:'Unresolved items must prevent plan closure'},409);
+ await post(s,{type:'outreachAssign',planId,itemId:item.id,version:2,ownerId:w.id,reason:'Transfer responsibility to the assigned synthetic worker'});
+ const workerView=await get(w,'/api/outreach',200,org);check(()=>{const p=workerView.plans.find(p=>p.id===planId);assert.equal(p.items.length,1);assert.equal(p.fullScope,false);assert.ok(!JSON.stringify(workerView).includes('Synthetic outreach private'))});
+ const adminView=await get(a,'/api/outreach',200,org);check(()=>{assert.equal(adminView.people.length,0);assert.equal(adminView.plans.length,0);assert.equal(adminView.messages.length,0)});
+ await post(s,{type:'messageTemplatePropose',language:'en'},403);const templateId=(await post(o,{type:'messageTemplatePropose',language:'en'})).result.templateId;
+ await post(o,{type:'messageTemplateReview',templateId,version:1,state:'approved',reference:'SYNTHETIC-REVIEW',reason:'Independent approval is required for template content'},403);
+ await post(a,{type:'messageTemplateReview',templateId,version:1,state:'approved',reference:'SYNTHETIC-REVIEW',reason:'Neutral English template reviewed for synthetic use'});
+ await post(o,{type:'messageTemplatePropose',language:'en'},409);
+ const scheduledAt=new Date(Date.now()-1000).toISOString(),message={type:'messageCreate',planId,itemId:item.id,templateId,scheduledAt};
+ await post(o,message,409);
+ const prefs={method:'sms',destination:'TEST-OUTREACH-001',ownership:'shared',language:'en',timezone:new Date().getUTCHours()===23?'Etc/GMT+12':'UTC',from:'00:00',to:'23:59',permission:true,privateContact:false,reference:'SYNTHETIC-PREFERENCE'};
+ const preferences=async(changes={},status=200,who=o)=>{await get(who,'/api/workspace',200,org);const p=who.state.people.find(p=>p.id===id);return post(who,{type:'setContactPreferences',personId:id,version:p.version,preferences:{...prefs,...changes}},status);};
+ await preferences({destination:'+919999999999'},422);await preferences({from:'17:00',to:'09:00'},422);await preferences({timezone:'not-a-zone'},422);await preferences({},403,s);
+ await preferences();await post(o,message,409);await preferences({ownership:'unknown'});await post(o,message,409);await preferences({ownership:'personal',privateContact:true});await post(o,message,409);await preferences({ownership:'personal',permission:false});await post(o,message,409);
+ await preferences({ownership:'personal'});
+ const messageId=(await post(o,message)).result.messageId;
+ await post(o,message,409);report=await get(c,'/api/outreach',200,org);let msg=report.messages.find(v=>v.id===messageId);check(()=>{assert.ok(msg.preview.hash);assert.ok(!msg.body.includes('Synthetic outreach'));assert.equal(report.liveMessaging,false)});
+ await post(o,{type:'messageApprove',messageId,version:1,hash:msg.preview.hash},403);await post(w,{type:'messageApprove',messageId,version:1,hash:msg.preview.hash},403);await post(c,{type:'messageApprove',messageId,version:1,hash:'a'.repeat(64)},409);
+ await post(c,{type:'messageApprove',messageId,version:1,hash:msg.preview.hash});
+ const failureKey=crypto.randomUUID(),failure={type:'messageSimulate',messageId,version:2,outcome:'failed'};const failed=await post(w,failure,200,failureKey),replay=await post(w,failure,200,failureKey);check(()=>{assert.equal(failed.result.realMessageSent,false);assert.equal(failed.result.receipt,replay.result.receipt);assert.equal(replay.replayed,true)});
+ report=await get(o,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===messageId);check(()=>{assert.equal(msg.attempts.length,1);assert.equal(msg.recovery.state,'open');assert.equal(msg.recovery.ownerId,w.id)});
+ await post(w,{type:'messageRetry',messageId,version:3,scheduledAt:new Date(Date.now()-1000).toISOString(),reason:'Synthetic retry reuses the existing message record'});
+ await post(w,{type:'messageSimulate',messageId,version:4,outcome:'simulated'},409);
+ report=await get(c,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===messageId);await post(c,{type:'messageApprove',messageId,version:4,hash:msg.preview.hash});await post(w,{type:'messageSimulate',messageId,version:5,outcome:'simulated'});
+ report=await get(w,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===messageId);check(()=>{assert.equal(msg.state,'simulated');assert.equal(msg.attempts.length,2);assert.equal(msg.recovery.state,'open');assert.equal(report.plans.find(p=>p.id===planId).items[0].state,'planned')});
+ await post(w,{type:'messageResolve',messageId,version:6,note:'Synthetic follow-up reviewed without claiming patient acknowledgement.',reference:'SYNTHETIC-FOLLOW-UP'});
+ await post(w,{type:'messageCancel',messageId,version:7,reason:'A simulated receipt cannot be cancelled retrospectively'},409);
+ // Future work requires separate current approval and is cancelled on preference change.
+ const future={...message,scheduledAt:new Date(Date.now()+86400000).toISOString()};const futureId=(await post(o,future)).result.messageId;report=await get(c,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===futureId);await post(c,{type:'messageApprove',messageId:futureId,version:1,hash:msg.preview.hash});await post(o,{type:'messageSimulate',messageId:futureId,version:2,outcome:'simulated'},409);
+ await preferences({ownership:'personal',permission:false});report=await get(o,'/api/outreach',200,org);check(()=>{assert.equal(report.messages.find(v=>v.id===futureId).state,'cancelled');assert.equal(report.messages.find(v=>v.id===messageId).state,'simulated')});
+ await preferences({ownership:'personal'});const suspendedId=(await post(o,future)).result.messageId;report=await get(c,'/api/outreach',200,org);msg=report.messages.find(v=>v.id===suspendedId);await post(c,{type:'messageApprove',messageId:suspendedId,version:1,hash:msg.preview.hash});await post(a,{type:'messageTemplateReview',templateId,version:2,state:'suspended',reference:'SYNTHETIC-STOP',reason:'Suspend a previously approved message template'});await post(o,{type:'messageSimulate',messageId:suspendedId,version:2,outcome:'simulated'},409);
+ // A message receipt replay does not bypass revoked patient access.
+ await get(o,'/api/workspace',200,org);person=o.state.people.find(p=>p.id===id);await post(o,{type:'assignPatient',personId:id,version:person.version,teamId:'default',assignedTo:o.id,reason:'Synthetic patient reassignment revokes prior worker access'});await post(w,failure,403,failureKey);const revoked=await get(w,'/api/outreach',200,org);check(()=>assert.ok(!revoked.messages.some(v=>v.personId===id)));
+ await get(o,'/api/workspace',200,org);person=o.state.people.find(p=>p.id===id);await post(o,{type:'assignPatient',personId:id,version:person.version,teamId:'default',assignedTo:w.id,reason:'Restore synthetic worker assignment for outcome verification'});
+ await post(w,{type:'outreachRecord',planId,itemId:item.id,version:3,state:'completed',note:'No visit exists yet; completion must be rejected',reference:'SYNTHETIC-INVALID',visitId:'missing'},422);
+ const visitId=(await post(w,{type:'startVisit',personId:id})).result.visitId;let visit=w.state.visits.find(v=>v.id===visitId);await post(w,{type:'saveVisit',visitId,version:visit.version,facts:{...visit.facts,notes:'Synthetic outreach verification encounter'}});visit=w.state.visits.find(v=>v.id===visitId);await post(w,{type:'confirmVisit',visitId,version:visit.version});
+ await post(w,{type:'outreachRecord',planId,itemId:item.id,version:3,state:'completed',note:'Synthetic visit recorded and confirmed in the workspace',reference:'SYNTHETIC-VISIT',visitId});
+ await post(o,{type:'outreachRecord',planId,itemId:other.id,version:4,state:'cancelled',note:'Second synthetic visit removed from this exercise',reference:'SYNTHETIC-CANCEL'});await post(s,{type:'outreachTransition',planId,version:5,state:'completed',reason:'All outreach items resolved with distinct visit evidence'});
+ await get(w,'/api/workspace',200,org);visit=w.state.visits.find(v=>v.id===visitId);await post(w,{type:'voidVisit',visitId,version:visit.recordVersion,reason:'Synthetic wrong-patient evidence correction exercise'});
+ report=await get(o,'/api/outreach',200,org);plan=report.plans.find(p=>p.id===planId);check(()=>assert.equal(plan.items.find(i=>i.id===item.id).evidenceCurrent,false));await post(w,{type:'outreachRecord',planId,itemId:item.id,version:6,state:'attempted',note:'Reopened because the linked visit was voided during review',reference:'SYNTHETIC-REOPEN'});report=await get(o,'/api/outreach',200,org);check(()=>{assert.equal(report.plans.find(p=>p.id===planId).state,'scheduled');assert.equal(report.plans.find(p=>p.id===planId).items.find(i=>i.id===item.id).state,'attempted')});
+ check(()=>{const saved=JSON.parse(sql.prepare('SELECT data FROM outreach WHERE org_id=?').get(org).data);assert.equal(saved.messages.find(v=>v.id===messageId).attempts.length,2);assert.ok(sql.prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=? AND action=?').get(org,'messageSimulate').n>=2)});
+}

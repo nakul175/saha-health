@@ -1,4 +1,6 @@
 import { pilotSchema } from './pilot';
+import { outreachSchema } from './outreach';
+import { expansionSchema } from './expansion';
 import { operationsSchema } from './operations';
 import { fieldSchema } from './field';
 import { ehrSchema } from './ehr';
@@ -16,6 +18,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
  ...operationsSchema.options,
  ...pilotSchema.options,
+ ...outreachSchema.options,
+ ...expansionSchema.options,
  ...fieldSchema.options,
  ...misSchema.options,
  ...ehrSchema.options,
