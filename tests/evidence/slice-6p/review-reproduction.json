@@ -1,0 +1,97 @@
+{
+  "reviewer": "independent review, scripts /tmp/claude-0/review/*.mjs, 30 September 2026",
+  "base": "ea83d24",
+  "runs": {
+    "exit-leak:base": {
+      "exit": 0,
+      "output": [
+        "patients withheld: 1 kamla in patients.jsonl: false",
+        "LEAK SECRET-MSG in tables/outreach.jsonl",
+        "LEAK SECRET-OUTREACH-REASON in tables/outreach.jsonl",
+        "LEAK Kamla Devi in tables/outreach.jsonl",
+        "LEAK SECRET-SAFETY in tables/governance.jsonl",
+        "LEAK Kamla Devi in tables/governance.jsonl",
+        "LEAK SECRET-HOLD in tables/retention.jsonl"
+      ]
+    },
+    "exit-leak:fixed": {
+      "exit": 0,
+      "output": [
+        "patients withheld: 1 kamla in patients.jsonl: false"
+      ]
+    },
+    "export-race:base": {
+      "exit": 0,
+      "output": [
+        "concurrent patient commit plan: patient-scoped",
+        "export refused: 409 A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen."
+      ]
+    },
+    "export-race:fixed": {
+      "exit": 0,
+      "output": [
+        "concurrent patient commit plan: patient-scoped",
+        "export refused: 409 A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen."
+      ]
+    },
+    "fixture-revert:base": {
+      "exit": 0,
+      "output": [
+        "A marked 6 records in team default",
+        "B dry run: candidates 0 outOfScope 6",
+        "B (no access to team default) reverted 6 records; synthetic flags now: false,false,false,false,false,false"
+      ]
+    },
+    "fixture-revert:fixed": {
+      "exit": 1,
+      "output": [
+        "A marked 6 records in team default",
+        "B dry run: candidates 0 outOfScope 6",
+        "file:///tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/repro/mod-VlQGn1/core.js:13",
+        "export function fail(status, message) { throw new AppError(status, message); }",
+        "                                              ^",
+        "AppError: No record marked by this batch is within your care scope. An owner whose care scope covers them can reverse it.",
+        "    at fail (file:///tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/repro/mod-VlQGn1/core.js:13:47)",
+        "    at Module.applyFixtureMark (file:///tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/repro/mod-VlQGn1/fixture-migration.js:74:13)",
+        "    at file:///tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/repro/fixture-revert.mjs:19:19 {",
+        "  status: 409",
+        "}",
+        "Node.js v22.22.2"
+      ]
+    }
+  },
+  "note": "export-race.mjs calls store.persist directly, as the pre-6p export routes did; that single commit is still refused by design. The fix is in the export routes (lib/saha/export-audit.ts), covered by tests/review-fixes-contract.mjs.",
+  "newRegressionTestOnBase": {
+    "how": "tests/review-fixes-contract.mjs run against the base source (ea83d24) with lib/saha/export-audit.ts copied in so the harness loads; each block run alone",
+    "blocks": {
+      "block 1": {
+        "exit": 1,
+        "first failure": [
+          "AssertionError [ERR_ASSERTION]: no trace of the out-of-scope patient anywhere in the archive",
+          "+ actual - expected"
+        ]
+      },
+      "block 2": {
+        "exit": 1,
+        "first failure": [
+          "AssertionError [ERR_ASSERTION]: data-exit-server",
+          "  expected: /recordExportAudit\\(db\\(\\),\\{state:s,reload:\\(\\)=>loadFor\\(u,orgId\\)/,"
+        ]
+      },
+      "block 3": {
+        "exit": 1,
+        "first failure": [
+          "AssertionError [ERR_ASSERTION]: expected 409",
+          "  expected: undefined,"
+        ]
+      },
+      "block 5": {
+        "exit": 1,
+        "first failure": [
+          "export function fail(status, message) { throw new AppError(status, message); }",
+          "AppError: Delegation record limit reached."
+        ]
+      }
+    }
+  }
+}

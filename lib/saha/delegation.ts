@@ -73,7 +73,9 @@ export function applyDelegation(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
   if(c.until<=now||Date.parse(c.until)>Date.parse(now)+MAX_DAYS*86400000)fail(422,`Choose an end within the next ${MAX_DAYS} days.`);
   if(list.some(x=>x.delegateId===c.delegateId&&x.kind===c.kind&&inForce(s,x,now)&&x.teamIds.some(t=>c.teamIds.includes(t))))fail(409,'A delegation of this kind for one of these teams is already in force. Revoke it first.');
   if(list.filter(x=>x.delegateId===c.delegateId&&inForce(s,x,now)).length>=MAX_ACTIVE_PER_DELEGATE)fail(422,'This member already holds the maximum number of delegations.');
-  if(list.length>=MAX_RECORDS)fail(422,'Delegation record limit reached.');
+  // Slice 6p: only delegations not yet ended or revoked count toward the limit; ended and revoked
+  // records stay stored (with their audit events) and no longer block new grants.
+  if(list.filter(x=>!x.revokedAt&&x.until>now).length>=MAX_RECORDS)fail(422,'Delegation record limit reached.');
   d={id:uuid(),version:1,kind:c.kind,grantorId:u.userId,delegateId:c.delegateId,teamIds:c.teamIds,from:now,until:new Date(c.until).toISOString(),reason:c.reason,createdAt:now};(ops.delegations??=[]).push(d);s.operations=ops;
   detail=`${KIND_LABEL[d.kind]} delegated to ${target!.displayName} for ${teams(d.teamIds)} until ${d.until.slice(0,16).replace('T',' ')} UTC. ${c.reason}`;
  } else {

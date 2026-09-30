@@ -1,6 +1,7 @@
 import { identity, loadFor, json, db, rawRuntime } from './server';
 import { environmentOf } from './environment';
-import { accountCode, persist, scope } from './store';
+import { accountCode, scope } from './store';
+import { recordExportAudit } from './export-audit';
 import { digest, fail, uuid } from './core';
 import { operator } from './operations';
 import { CHAIN_VERSION, EXPORT_LIMIT, HASHING, exportRows, sha256, verifyChain } from './audit-chain';
@@ -19,9 +20,11 @@ export async function auditChainRead(request:Request){
  const exportedAt=new Date().toISOString(),eventId=uuid();
  const header={type:'header',format:'saha-audit-chain-export-v1',chainVersion:CHAIN_VERSION,organisationId:s.organisation.id,generatedAt:exportedAt,range:{from,to:page.to},more:page.more,nextFrom:page.more?page.to!+1:null,maxEvents:EXPORT_LIMIT,hashing:HASHING,environment:environmentOf(rawRuntime()).name,notice:'Contains account identifiers and audit details. Keep within authorised auditors. Events written before the chain started are sealed by the genesis marker (sequence 0) and are not listed.'};
  const body=[header,...page.lines].map(x=>JSON.stringify(x)).join('\n')+'\n',bodySha256=await sha256(body);
- const before=structuredClone(s);
- s.workspace.audit.push({id:eventId,at:exportedAt,actorId:u.userId,actor:u.displayName,role:m.role,action:'auditChainExport',subject:s.organisation.id,detail:`Audit chain exported: events ${from}–${page.to}${page.more?' (more remain)':''}, ${page.redacted} patient-linked events as digests only; verification ${verification.status}${verification.head?` at head ${verification.head.seq}`:''}; file SHA-256 ${bodySha256}.`});
- await persist(db(),before,s,u,{type:'auditChainExport'},'export_'+uuid(),await digest({from,bodySha256}),{ok:true});
+ // Slice 6p: the audit commit is retried on a fresh read if a command saved meanwhile; the exporter
+ // must still be an owner or administrator with the same role (the redaction depended on it).
+ const orgId=s.organisation.id,detail=`Audit chain exported: events ${from}–${page.to}${page.more?' (more remain)':''}, ${page.redacted} patient-linked events as digests only; verification ${verification.status}${verification.head?` at head ${verification.head.seq}`:''}; file SHA-256 ${bodySha256}.`;
+ const again=(x:typeof s)=>{const o=scope(x,u.userId);if(!operator(o))fail(403,'Owner or administrator access is required to verify the audit chain.');if(o.role!==m.role)fail(409,'Your role changed while the export was prepared. Export again.');return o;};
+ await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:eventId,at:exportedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'auditChainExport',subject:orgId,detail}),actor:u,type:'auditChainExport',key:'export_'+uuid(),hash:await digest({from,bodySha256})});
  const signoff={type:'signoff',exportedBy:{name:u.displayName,accountCode:await accountCode(u.userId),role:m.role,owner:m.isOwner},exportedAt,range:{from,to:page.to},events:page.lines.length,redacted:page.redacted,head:verification.head,verification:{status:verification.status,firstBreak:verification.firstBreak,events:verification.events,priorEvents:verification.priorEvents},bodySha256,recordedAs:eventId,signature:`No signing key is provisioned. This export is recorded in the audit chain as event ${eventId}, whose detail carries bodySha256 (the SHA-256 of every line above this one).`};
  return new Response(body+JSON.stringify(signoff)+'\n',{headers:{'Content-Type':'application/x-ndjson; charset=utf-8','Content-Disposition':`attachment; filename="saha-audit-chain-${from}-${page.to}.jsonl"`,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }

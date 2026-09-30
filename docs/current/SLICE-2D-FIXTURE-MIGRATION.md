@@ -24,3 +24,7 @@
 - Candidates are identified by fixture id and seeded name. A fixture whose name was corrected is rejected for manual review; there is no command to mark a single reviewed record.
 - Records outside the owner's care scope are counted but not marked; an owner with every team covers the whole organisation.
 - Reversal reverses one batch as a whole. A record changed after marking is still unmarked by reversal; the revision history shows both changes.
+
+## Correction, 30 September 2026 (slice 6p)
+
+An independent review after this slice was built found that "reversal reverses one batch as a whole" ignored care scope: the dry run and apply were limited to the owner's care scope, but reversal removed the mark from every record in the batch, so an owner without access to those records could unmark them and lift the slice 6n synthetic-record barrier for records only another owner may access. Slice 6p reverses only the marks on records the reverting owner may normally access; the others keep their mark and are reported as outside scope, and an owner whose scope covers them can reverse the remainder. Each mark is removed at most once; the batch is recorded as reversed when no record keeps its mark, and every partial reversal is listed on the batch and audited. See [slice 6p](SLICE-6P-REVIEW-FIXES.md). The text above is kept as written.

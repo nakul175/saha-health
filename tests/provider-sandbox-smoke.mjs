@@ -61,8 +61,16 @@ export async function providerSandboxSmoke({get,post,check,accounts,org}){
  const cview=await get(c,'/api/provider-sandbox',200,prod);check(()=>assert.deepEqual(cview.sandboxes,[],'non-owners see no sandboxes'));
  await post(c,imp,403,undefined,prod);
  await post(vendor,imp,403,undefined,prod);
- await post(o,{...imp,sandboxOrganisationId:org},409,undefined,prod);
- await post(o,{...imp,sandboxOrganisationId:'org_missing_sandbox'},404,undefined,prod);
+ // Slice 6p (independent review): not a sandbox, not the importer's own and not found give one 404
+ // with one message, checked before the named organisation is read (no existence or sandbox oracle).
+ const notSandbox=await post(o,{...imp,sandboxOrganisationId:org},404,undefined,prod);
+ const missing=await post(o,{...imp,sandboxOrganisationId:'org_missing_sandbox'},404,undefined,prod);
+ const outsider={id:o.id.replace(/owner$/,'outsider6p'),headers:{...o.headers,'oai-authenticated-user-id':o.id.replace(/owner$/,'outsider6p'),'oai-authenticated-user-email':'outsider6p@example.invalid'},state:null};
+ await get(outsider,'/api/workspace');
+ const outsiderProd=(await post(outsider,{type:'createOrganisation',name:'Synthetic outsider production'})).result.organisationId;
+ const notYours=await post(outsider,{...imp,ownerId:outsider.id},404,undefined,outsiderProd);
+ const outsiderMissing=await post(outsider,{...imp,ownerId:outsider.id,sandboxOrganisationId:'org_missing_sandbox'},404,undefined,outsiderProd);
+ check(()=>{for(const x of [notSandbox,missing,notYours,outsiderMissing])assert.equal(x.error,missing.error,'one message for every unavailable source');assert.match(missing.error,/Provider sandbox not found or unavailable/)});
  const imported=(await post(o,imp,200,undefined,prod)).result.entryId;
  await post(o,imp,409,undefined,prod);
  let pg=await get(o,'/api/governance',200,prod);const entry=()=>pg.entries.find(e=>e.id===imported);

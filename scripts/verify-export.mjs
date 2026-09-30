@@ -67,8 +67,10 @@ export function verifyFiles(files) {
   const extra = [...files.keys()].filter(p => !['manifest.json', 'SHA256SUMS', 'README.txt'].includes(p) && !described.has(p));
   if (extra.length) fileProblems.push(`not in manifest: ${extra.join(', ')}`);
   if (fileProblems.length) bad('manifest-files', fileProblems.slice(0, 20).join('; ')); else pass('manifest-files', `${described.size} files match size, SHA-256 and row count`);
-  const totals = (manifest.files ?? []).filter(f => f.table).reduce((t, f) => ({ rows: t.rows + f.rows, withheld: t.withheld + (f.withheld ?? 0) }), { rows: 0, withheld: 0 });
-  if (totals.rows !== manifest.totals?.rows || totals.withheld !== manifest.totals?.withheld || described.size !== manifest.totals?.files) bad('totals', `Manifest totals do not add up (${JSON.stringify(totals)} vs ${JSON.stringify(manifest.totals)}).`); else pass('totals', totals);
+  // Slice 6p: withheldEntries counts patient-linked entries left out of organisation documents (absent in earlier archives).
+  const totals = (manifest.files ?? []).filter(f => f.table).reduce((t, f) => ({ rows: t.rows + f.rows, withheld: t.withheld + (f.withheld ?? 0), withheldEntries: t.withheldEntries + (f.withheldEntries ?? 0) }), { rows: 0, withheld: 0, withheldEntries: 0 });
+  const complete = totals.withheld === 0 && totals.withheldEntries === 0;
+  if (totals.rows !== manifest.totals?.rows || totals.withheld !== manifest.totals?.withheld || totals.withheldEntries !== (manifest.totals?.withheldEntries ?? 0) || described.size !== manifest.totals?.files || (manifest.scope?.complete !== undefined && manifest.scope.complete !== complete)) bad('totals', `Manifest totals do not add up (${JSON.stringify(totals)} vs ${JSON.stringify(manifest.totals)}).`); else pass('totals', totals);
   if (report.failures.some(f => f.startsWith('manifest-files'))) return report;
 
   const t = name => files.has(`tables/${name}.jsonl`) ? lines(files.get(`tables/${name}.jsonl`)) : [];
@@ -91,6 +93,9 @@ export function verifyFiles(files) {
   for (const [name, col, target] of rel) for (const r of t(name)) { if (r[col] == null) continue; references++; if (!target.has(r[col])) dangling.push(`${name}.${col}=${r[col]}`); }
   for (const r of t('audit_events')) if (!r.withheld && r.person_id != null) { references++; if (!patients.has(r.person_id)) dangling.push(`audit_events.person_id=${r.person_id}`); }
   for (const r of t('command_receipts')) if (r.person_id != null) { references++; if (!patients.has(r.person_id)) dangling.push(`command_receipts.person_id=${r.person_id}`); }
+  // Slice 6p: every personId inside an organisation document (governance, outreach, retention, ...) is an exported patient.
+  const personIds = (x, out = []) => { if (Array.isArray(x)) x.forEach(e => personIds(e, out)); else if (x && typeof x === 'object') for (const [k, v] of Object.entries(x)) { if (k === 'personId' && v != null) out.push(v); else personIds(v, out); } return out; };
+  for (const f of (manifest.files ?? []).filter(f => f.table && ['integrations', 'operations', 'pilot', 'outreach', 'expansions', 'governance', 'retention'].includes(f.table))) for (const r of t(f.table)) { let doc = null; try { doc = typeof r.data === 'string' ? JSON.parse(r.data) : null; } catch { doc = null; } for (const id of personIds(doc)) { references++; if (!patients.has(id)) dangling.push(`${f.table}.data personId=${id}`); } }
   if (dangling.length) bad('relationships', `${dangling.length} references do not resolve: ${dangling.slice(0, 10).join(', ')}`); else pass('relationships', `${references} references resolve`);
   // Media content matches the recorded SHA-256 and size.
   const mediaProblems = [];

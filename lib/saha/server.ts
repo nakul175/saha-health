@@ -34,7 +34,7 @@ import { configureMis, misReadiness } from './mis';
 import { executeMis } from './mis-execution';
 import { providers, agentApply } from './agent';
 import { executeAgent } from './agent-execution';
-import { applySandbox, authorizeSandbox } from './provider-sandbox';
+import { applySandbox, authorizeSandbox, SANDBOX_UNAVAILABLE } from './provider-sandbox';
 import { env } from 'cloudflare:workers';
 import { headers } from 'next/headers';
 import { identityConfig, principalFromHeaders, signOutPath } from './identity';
@@ -105,7 +105,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const outreach=await applyOutreach(state,c,u,m);
   const expansion=await applyExpansion(state,c,u,m);
   // Slice 5b: an import reads the named provider sandbox; the importer's ownership of it is checked in applySandbox.
-  const sandbox=await applySandbox(state,c,u,m,providers(state.workspace.integrations,runtime()),c.type==='importCapabilityProposal'?await sandboxSource(c.sandboxOrganisationId,state.organisation.id):null);
+  const sandbox=await applySandbox(state,c,u,m,providers(state.workspace.integrations,runtime()),c.type==='importCapabilityProposal'?await sandboxSource(c.sandboxOrganisationId,state.organisation.id,u.userId):null);
   const governance=await applyGovernance(state,c,u,m);
   // Slice 5f: shadow operation of a reviewed capability revision (outputs stored for governance only).
   const shadow=applyShadow(state,c,u,m);
@@ -154,7 +154,13 @@ export async function command(request:Request){await identity();
  throw e;
 }}
 // Slice 5b: the provider sandbox named by an import, read whole but never persisted or returned.
-async function sandboxSource(id:string,current:string){if(id===current)fail(409,'Import proposals into a production organisation, not into a provider sandbox.');try{return await readState(db(),id);}catch{fail(404,'Provider sandbox not found or unavailable.');}}
+// Slice 6p (independent review): the importer's active owner membership of the named organisation and
+// its sandbox declaration are checked before its state is read; not found, not a sandbox and not the
+// importer's own all answer the same 404, so the route is not an existence or sandbox oracle.
+async function sandboxSource(id:string,current:string,userId:string){if(id===current)fail(409,'Import proposals into a production organisation, not into a provider sandbox.');const gone=()=>fail(404,SANDBOX_UNAVAILABLE);
+ const owner=await db().prepare('SELECT 1 AS ok FROM memberships WHERE org_id=? AND user_id=? AND status=? AND is_owner=1').bind(id,userId,'active').first();if(!owner)gone();
+ const gov=await db().prepare('SELECT data FROM governance WHERE org_id=?').bind(id).first<{data:string}>();let declared=false;try{declared=!!(gov&&JSON.parse(gov.data)?.sandbox);}catch{declared=false;}if(!declared)gone();
+ try{return await readState(db(),id);}catch{gone();}}
 export async function patientHistory(request:Request){const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),id=new URL(request.url).searchParams.get('personId')??'';person(s.workspace,id);return history(db(),s.organisation.id,id,parseCursor(new URL(request.url).searchParams.get('cursor')));}
 export async function organisationAudit(request:Request){const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation'));return auditPage(db(),s.organisation.id,u.userId,parseCursor(new URL(request.url).searchParams.get('cursor')));}
 // Slice 6n: every provider path receives the environment-policy runtime; rawRuntime is for reporting only.

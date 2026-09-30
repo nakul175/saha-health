@@ -26,3 +26,7 @@
 - Events written before the chain are sealed by digest but not listed in the export, so an auditor cannot recompute that digest from the export alone.
 - Verification and exports read the whole range in one request; very large organisations need paging or background checks. Verification itself is not audited.
 - BR-SEC-08 stays partial: material reads are still not audited, and the audit fields do not yet record authority or object version consistently. NFR-10 stays partial: there is no audit-store fault injection and no rule that halts external writes when audit durability fails.
+
+## Correction, 30 September 2026 (slice 6p)
+
+An independent review after this slice was built found two defects in the auditor export. The export's own `auditChainExport` event was committed against the state read at the start, so any command saved while the export was prepared made the whole export fail with 409. The visibility rule excluded administrators from patient-linked event content but not the sandbox `provider` role. Slice 6p records the event through `persist` with a bounded retry on a fresh read that repeats the owner-or-administrator check (and refuses if the role changed), and excludes the provider role in the export query. See [slice 6p](SLICE-6P-REVIEW-FIXES.md). The text above is kept as written.

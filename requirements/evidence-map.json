@@ -234,7 +234,10 @@
     "scripts/verify-export.mjs",
     "tests/data-exit-contract.mjs",
     "tests/data-exit-smoke.mjs",
-    "docs/current/SLICE-6M-DATA-EXIT.md"
+    "docs/current/SLICE-6M-DATA-EXIT.md",
+    "lib/saha/export-audit.ts",
+    "tests/review-fixes-contract.mjs",
+    "docs/current/SLICE-6P-REVIEW-FIXES.md"
   ],
   "NFR-23": [
     "scripts/recovery.mjs",
@@ -307,7 +310,11 @@
     "app/provider-sandbox-panel.tsx",
     "tests/provider-sandbox-contract.mjs",
     "tests/provider-sandbox-smoke.mjs",
-    "docs/current/SLICE-5B-PROVIDER-SANDBOX.md"
+    "docs/current/SLICE-5B-PROVIDER-SANDBOX.md",
+    "lib/saha/export-audit.ts",
+    "tests/review-fixes-contract.mjs",
+    "docs/current/SLICE-6P-REVIEW-FIXES.md",
+    "lib/saha/server.ts"
   ],
   "BR-CLIN-01": [
     "REMAINING-RELEASES.md"
@@ -619,7 +626,12 @@
     "scripts/verify-export.mjs",
     "tests/data-exit-contract.mjs",
     "tests/data-exit-smoke.mjs",
-    "docs/current/SLICE-6M-DATA-EXIT.md"
+    "docs/current/SLICE-6M-DATA-EXIT.md",
+    "lib/saha/export-audit.ts",
+    "tests/review-fixes-contract.mjs",
+    "docs/current/SLICE-6P-REVIEW-FIXES.md",
+    "lib/saha/audit-chain-server.ts",
+    "lib/saha/operations-server.ts"
   ],
   "BR-OPS-01": [
     "lib/saha/operations.ts",
@@ -665,7 +677,10 @@
     "app/patient-import-panel.tsx",
     "tests/patient-import-contract.mjs",
     "tests/patient-import-smoke.mjs",
-    "docs/current/SLICE-2F-IMPORT-DRY-RUN.md"
+    "docs/current/SLICE-2F-IMPORT-DRY-RUN.md",
+    "lib/saha/export-audit.ts",
+    "tests/review-fixes-contract.mjs",
+    "docs/current/SLICE-6P-REVIEW-FIXES.md"
   ],
   "BR-SEC-03": [
     "lib/saha/server.ts",
@@ -686,7 +701,11 @@
     "lib/saha/delegation-server.ts",
     "tests/delegation-contract.mjs",
     "tests/delegation-smoke.mjs",
-    "docs/current/SLICE-1E-DELEGATION.md"
+    "docs/current/SLICE-1E-DELEGATION.md",
+    "lib/saha/export-audit.ts",
+    "tests/review-fixes-contract.mjs",
+    "docs/current/SLICE-6P-REVIEW-FIXES.md",
+    "lib/saha/audit-chain.ts"
   ],
   "BR-ID-09": [
     "lib/saha/continuity.ts",
@@ -697,7 +716,13 @@
     "lib/saha/delegation-server.ts",
     "tests/delegation-contract.mjs",
     "tests/delegation-smoke.mjs",
-    "docs/current/SLICE-1E-DELEGATION.md"
+    "docs/current/SLICE-1E-DELEGATION.md",
+    "lib/saha/export-audit.ts",
+    "tests/review-fixes-contract.mjs",
+    "docs/current/SLICE-6P-REVIEW-FIXES.md",
+    "lib/saha/server.ts",
+    "lib/saha/provider-sandbox.ts",
+    "tests/provider-sandbox-smoke.mjs"
   ],
   "BR-CARE-08": [
     "lib/saha/continuity.ts",

@@ -23,3 +23,7 @@
 - The export reconciles within itself and to the page at the moment it is generated. A figure shown on screen earlier can differ if records changed in between; the file carries its own generation time.
 - A downloaded file has no protected expiry: once saved it is outside the application. Filters are the window and the viewer's teams only.
 - There is no official reporting lifecycle. Every export is a draft; review, approval and submission of an official report (BR-REP-05's distinct state) are not built. The checksum shows the file is unchanged since export; it is not a signature and does not prove who sent it.
+
+## Correction, 30 September 2026 (slice 6p)
+
+An independent review after this slice was built found that the CSV and support exports recorded their `opsExport` audit event against the state read at the start of the request, so a command saved by a teammate while the export was generated made it fail with 409 and nothing was delivered. Slice 6p records the event through `persist` with a bounded retry on a fresh read that repeats the authority check for the format (CSV: not an administrator; support: owner or administrator) and refuses if the role changed. See [slice 6p](SLICE-6P-REVIEW-FIXES.md). The text above is kept as written.

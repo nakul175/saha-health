@@ -26,3 +26,7 @@
 - One provider per sandbox, and only capability packages. There is no provider-side view of production outcomes, no notification to the provider when a proposal is imported or reviewed, and no expiry of provider memberships beyond the usual suspension.
 - Other read routes return the sandbox organisation's (empty) data to a provider rather than refusing outright; they hold no patient records because patient work is refused in a sandbox.
 - BR-AI-11 is partial: acceptance by an independent tester, a provider-facing contract and a physically isolated environment remain.
+
+## Correction, 30 September 2026 (slice 6p)
+
+An independent review after this slice was built found that importing a capability proposal read the whole named organisation before checking that the importer owned it, and answered differently for an organisation that did not exist (404), was not a sandbox (409) or was not the importer's (403), which told a caller whether an organisation existed and whether it was a sandbox. Slice 6p checks the importer's active owner membership and the sandbox declaration before reading the source, and answers one 404 with one message for all three. See [slice 6p](SLICE-6P-REVIEW-FIXES.md). The text above is kept as written.
