@@ -351,3 +351,9 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Changed existing tests: image-signature and image-size refusals in the media queue checks were moved to audio files, because photos are now decoded and re-encoded on the device instead of signature-checked; the stored and uploaded bytes are now compared with the re-encoded JPEG.
 - Browser check with headless Chromium and real IndexedDB: a 5,724,852-byte camera-sized JPEG with a synthetic location string in its metadata was reduced to 226,943 bytes, uploaded after sync, and served back without the location string; no console errors.
 - BR-OFF-04 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 3f — workspace photo reduction — 30 September 2026 IST (30 September UTC)
+
+- **2,351 automated assertions passed:** 1,500 HTTP/D1, 830 contract/checkpoint (820 plus 10 photo contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3f/`.
+- Browser check with headless Chromium: a 5,724,216-byte JPEG with a synthetic location string, attached in the online visit screen, was stored as a 226,584-byte JPEG, rendered, and served back without the location string; no console errors.
+- BR-DATA-08 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

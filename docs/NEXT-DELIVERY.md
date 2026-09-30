@@ -23,7 +23,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 3c | Media queue hardening after independent review: confirmed-upload rule, lock safety, removal guard, orphan sweep | Delivered (see [slice 3c](current/SLICE-3C-QUEUE-HARDENING.md)) |
 | 3d | In-app voice-note recording in the field notebook, 60 s and size-bounded, queued through the offline media path | Delivered (see [slice 3d](current/SLICE-3D-VOICE-RECORDING.md)) |
 | 3e | On-device photo reduction to JPEG under 256 KB, dropping embedded location metadata | Delivered (see [slice 3e](current/SLICE-3E-PHOTO-REDUCTION.md)) |
-| 3 | Photo reduction in the online workspace, offline registration and referral creation, ordered sync, larger notebook capacity | Planned |
+| 3f | The same photo reduction in the online visit screen | Delivered (see [slice 3f](current/SLICE-3F-WORKSPACE-PHOTO-REDUCTION.md)) |
+| 3 | Offline registration and referral creation, ordered sync, larger notebook capacity | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
 | 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
