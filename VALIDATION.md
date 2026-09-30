@@ -385,3 +385,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Browser check with headless Chromium on the built Worker: the CSV downloaded from the Operations page matched its manifest row count and SHA-256, its four control totals reconciled, and the on-screen confirmation showed the same checksum; no console errors (`tests/evidence/slice-6k/browser-export.json`).
 - Accessibility audit (`tests/a11y-audit.mjs`, axe-core, headless Chromium) on the slice 6k build, which includes the slice 4b action-plan panel and the slice 6i exception queue: 24 screens, no violations; every keyboard focus stop on the two walked screens visible (`tests/evidence/slice-6k/a11y-audit-result.json`). The audited patient and Operations screens held little open work, so populated panels were not audited.
 - BR-REP-05 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Slice 6i follow-up — exception queue indexed by patient — 30 September 2026 IST (30 September UTC)
+
+- A self-review after slice 6k found that the slice 6i exception queue scanned every submission, referral, visit and safety case once for each patient. Records are now indexed by patient once per read.
+- A new contract check builds 30,000 patients, each with a submission, referral and visit, and requires the queue in under 2 seconds with 3,000 rows found and the first 500 returned. It took 36.4 seconds on the slice 6i code and fails there; it passes with the fix (the whole contract file runs in about 1.3 seconds).
+- **2,450 automated assertions passed:** 1,576 HTTP/D1, 853 contract/checkpoint (852 plus 1) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6i-followup/`.
+- Requirement statuses and counts unchanged.
