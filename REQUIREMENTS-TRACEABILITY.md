@@ -1,12 +1,12 @@
-# BRD v1.1 requirements traceability — R11 and development slices 0a-1c, 6a-6d, 0b-2, 4a
+# BRD v1.1 requirements traceability — R11 and development slices 0a-1c, 2a, 4a, 6a-6d, 0b-2
 
 All **176 requirements** are assessed: 148 functional and 28 non-functional. Source: Health-AI-Orchestration-Platform-BRD-v1.1.docx, SHA-256 `8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8`. The exact requirement and acceptance text is preserved in [the source extract](requirements/brd-v1.1.json) and [the complete CSV](requirements/traceability.csv).
 
 | Implementation assessment | Count |
 | --- | ---: |
 | implemented-local | 14 |
-| partial | 140 |
-| not-built | 13 |
+| partial | 141 |
+| not-built | 12 |
 | unverified | 9 |
 
 **Formal acceptance: 0 accepted; 176 pending.** Local implementation and synthetic assertions are not clinical, field, regulatory, integration or production acceptance. These counts are not a completion percentage. BRD R1/R2/R3 are scope phases; engineering R10–R16 are delivery batches and are not equivalent. Targets are planned primary work batches, subject to dependencies and findings.
@@ -57,7 +57,7 @@ Evidence paths identify related code/tests or explicit gap documentation, not fu
 | BR-DATA-09 — Authoritative field mapping | Must / R1 | partial / R12 | MIS mapping versions and selected field allowlists are bound to submissions. | Owner-reviewed native mappings, effective dates and impact-managed mapping migration. | [lib/saha/core.ts](lib/saha/core.ts)<br>[lib/saha/platform.ts](lib/saha/platform.ts)<br>[lib/saha/store.ts](lib/saha/store.ts)<br>[tests/api-smoke.mjs](tests/api-smoke.mjs)<br>[lib/saha/governance.ts](lib/saha/governance.ts)<br>[tests/governance-smoke.mjs](tests/governance-smoke.mjs)<br>[tests/governance-contract.mjs](tests/governance-contract.mjs)<br>[AI-GOVERNANCE.md](AI-GOVERNANCE.md) |
 | BR-DATA-10 — Selective permitted reuse | Must / R1 | partial / R12 | Per-connector mapping allowlists, AI permission and scoped EHR permissions. | Unified purpose-specific authorisation and reuse policy across all data flows. | [lib/saha/core.ts](lib/saha/core.ts)<br>[lib/saha/platform.ts](lib/saha/platform.ts)<br>[lib/saha/store.ts](lib/saha/store.ts)<br>[tests/api-smoke.mjs](tests/api-smoke.mjs)<br>[lib/saha/governance.ts](lib/saha/governance.ts)<br>[tests/governance-smoke.mjs](tests/governance-smoke.mjs)<br>[tests/governance-contract.mjs](tests/governance-contract.mjs)<br>[AI-GOVERNANCE.md](AI-GOVERNANCE.md) |
 | BR-DATA-11 — Controlled migration | Should / R2 | partial / R15 | Legacy workspace migration validates counts, source hash and rollback. | General import dry runs, duplicate review, rejection reports and approved batch reversal. | [lib/saha/core.ts](lib/saha/core.ts)<br>[lib/saha/platform.ts](lib/saha/platform.ts)<br>[lib/saha/store.ts](lib/saha/store.ts)<br>[tests/api-smoke.mjs](tests/api-smoke.mjs)<br>[lib/saha/governance.ts](lib/saha/governance.ts)<br>[tests/governance-smoke.mjs](tests/governance-smoke.mjs)<br>[tests/governance-contract.mjs](tests/governance-contract.mjs)<br>[AI-GOVERNANCE.md](AI-GOVERNANCE.md) |
-| BR-DATA-12 — Measurement of actual reuse | Must / R1 | not-built / R15 | Shared-question reuse exists but opportunity/re-entry event metering does not. | Reproducible reuse opportunities, successful reuse and blocked/repeated-entry metrics. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
+| BR-DATA-12 — Measurement of actual reuse | Must / R1 | partial / R15 | Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression. | Cross-visit reuse, time and burden measurement, and validation against observed field practice. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
 
 ## BR-PROG
 
@@ -184,7 +184,7 @@ Evidence paths identify related code/tests or explicit gap documentation, not fu
 | BR-REP-04 — Privacy-preserving aggregation | Must / R1 | partial / R15 | Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. | Differencing protection across queries, suppression on exports and a separate purpose for patient exports. | [lib/saha/operations.ts](lib/saha/operations.ts)<br>[lib/saha/pilot.ts](lib/saha/pilot.ts)<br>[tests/operations-smoke.mjs](tests/operations-smoke.mjs) |
 | BR-REP-05 — Reconciled exports | Must / R1 | partial / R15 | Audited scoped CSV with generation time/window and formula escaping. | Definition version, exporting actor, protected expiry and official reviewed-submission lifecycle. | [lib/saha/operations.ts](lib/saha/operations.ts)<br>[lib/saha/pilot.ts](lib/saha/pilot.ts)<br>[tests/operations-smoke.mjs](tests/operations-smoke.mjs) |
 | BR-REP-06 — Population prioritisation | Should / R2 | partial / R14 | Human cohort selection with recorded criteria and allocation rationale. | Approved gap/risk measures and real data-quality/fairness validation. | [lib/saha/operations.ts](lib/saha/operations.ts)<br>[lib/saha/pilot.ts](lib/saha/pilot.ts)<br>[tests/operations-smoke.mjs](tests/operations-smoke.mjs) |
-| BR-REP-07 — Product performance metrics | Must / R1 | partial / R15 | Privacy-safe route metrics, task counts and partial agent usage. | Actual reuse/re-entry, correction, sync and support burden measurements for pilot evaluation. | [lib/saha/operations.ts](lib/saha/operations.ts)<br>[lib/saha/pilot.ts](lib/saha/pilot.ts)<br>[tests/operations-smoke.mjs](tests/operations-smoke.mjs) |
+| BR-REP-07 — Product performance metrics | Must / R1 | partial / R15 | Privacy-safe route metrics, task counts and partial agent usage. Slice 2a adds reuse, blocked reuse, repeated-entry and correction indicators. | Sync and support burden measurements and pilot evaluation of the reuse and correction figures. | [lib/saha/operations.ts](lib/saha/operations.ts)<br>[lib/saha/pilot.ts](lib/saha/pilot.ts)<br>[tests/operations-smoke.mjs](tests/operations-smoke.mjs) |
 
 ## BR-OPS
 

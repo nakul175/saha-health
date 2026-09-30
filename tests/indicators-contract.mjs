@@ -40,7 +40,7 @@ try {
   const zero = x.indicatorQuery(s, M('sup'), q({ ids: ['submissions-unresolved', 'maternal-episodes', 'open-work-unowned'], group: 'programme' }), now).results;
   check(() => { assert.deepEqual(zero[0].rows.map(r => [r.group, r.value]), [['General care', 0], ['Maternal care', 0]], 'zero is never suppressed'); assert.equal(zero[1].rows.find(r => r.group === 'Maternal care').suppressed, true); assert.equal(zero[2].rows.find(r => r.group === 'General care').suppressed, true, 'one unowned item is small'); });
   check(() => { const i = x.interpret('Overdue follow-ups by village last 14 days'); assert.deepEqual([i.ids, i.group, i.days, i.understood], [['followups-overdue'], 'village', 14, true]); const j = x.interpret('How many maternal episodes by team this month?'); assert.deepEqual([j.ids, j.group, j.days], [['maternal-episodes'], 'team', 30]); const k = x.interpret('show me the salary table'); assert.equal(k.understood, false); assert.deepEqual(k.ids, []); });
-  check(() => { const c = x.catalogue(); assert.equal(c.length, 8); assert.ok(c.every(d => d.version === 1 && d.owner && d.exclusions && !('compute' in d) && !('keywords' in d))); });
+  check(() => { const c = x.catalogue(); assert.equal(c.length, 12); assert.ok(c.every(d => d.version === 1 && d.owner && d.exclusions && !('compute' in d) && !('keywords' in d))); });
   const result = { suite: 'indicator contract (slice 6d)', passed, completedAt: new Date().toISOString() };
   writeFileSync('tests/indicators-contract-result.json', JSON.stringify(result, null, 2) + '\n');
   console.log(JSON.stringify(result));

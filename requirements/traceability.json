@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1c, 6a-6d, 0b-2, 4a",
+  "engineeringRelease": "R11 + development slices 0a-1c, 2a, 4a, 6a-6d, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 140,
-    "not-built": 13,
+    "partial": 141,
+    "not-built": 12,
     "unverified": 9
   },
   "acceptance": {
@@ -685,10 +685,10 @@
       "requirement": "The platform shall count opportunities for reuse, successful reuse, repeated questions and reasons reuse was blocked. Metrics shall exclude facts that are genuinely different in meaning or time.",
       "acceptance": "Acceptance: Auditors can reproduce a sample reuse calculation from event records and separate avoidable re-entry from clinically required recapture.",
       "sourceTextLine": 231,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R15",
-      "current": "Shared-question reuse exists but opportunity/re-entry event metering does not.",
-      "remaining": "Reproducible reuse opportunities, successful reuse and blocked/repeated-entry metrics.",
+      "current": "Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression.",
+      "remaining": "Cross-visit reuse, time and burden measurement, and validation against observed field practice.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -2647,8 +2647,8 @@
       "sourceTextLine": 517,
       "implementation": "partial",
       "target": "R15",
-      "current": "Privacy-safe route metrics, task counts and partial agent usage.",
-      "remaining": "Actual reuse/re-entry, correction, sync and support burden measurements for pilot evaluation.",
+      "current": "Privacy-safe route metrics, task counts and partial agent usage. Slice 2a adds reuse, blocked reuse, repeated-entry and correction indicators.",
+      "remaining": "Sync and support burden measurements and pilot evaluation of the reuse and correction figures.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",

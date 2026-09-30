@@ -14,7 +14,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 1 | Households and proxy authority with sensitive-class disclosure | Delivered (see [slice 1](current/SLICE-1-HOUSEHOLDS.md)) |
 | 1b | Workforce lifecycle, bulk caseload transfer with effective dates and acknowledgement, responsibility gaps, member removal | Delivered (see [slice 1b](current/SLICE-1B-CASELOAD.md)) |
 | 1c | Controlled identity merge and unmerge with a downstream impact queue | Delivered (see [slice 1c](current/SLICE-1C-MERGE.md)) |
-| 2 | Per-fact provenance, media, measured reuse, import dry runs | Planned |
+| 2a | Reuse, blocked reuse, repeated-entry and correction metering from stored visits | Delivered (see [slice 2a](current/SLICE-2A-REUSE.md)) |
+| 2 | Per-fact provenance, media, import dry runs | Planned |
 | 3 | Offline media queue, offline registration and referral creation, ordered sync, storage warnings | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
