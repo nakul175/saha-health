@@ -11,4 +11,14 @@ export async function packetHash(packet){return Array.from(new Uint8Array(await 
 export function openVault(){return new Promise((resolve,reject)=>{const r=indexedDB.open('saha-field-v1',1);r.onupgradeneeded=()=>r.result.createObjectStore('vault');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
 export async function readVault(){const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction('vault','readonly'),r=tx.objectStore('vault').get('encrypted');tx.oncomplete=()=>{db.close();resolve(r.result??null)};tx.onerror=()=>{db.close();reject(tx.error)};});}
 export async function writeVault(value,expected){const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction('vault','readwrite'),store=tx.objectStore('vault'),r=store.get('encrypted');let conflict=false;r.onsuccess=()=>{if((r.result?.revision??0)!==expected){conflict=true;tx.abort();return;}store.put({...value,revision:expected+1},'encrypted');};tx.oncomplete=()=>{db.close();resolve(expected+1)};tx.onabort=tx.onerror=()=>{db.close();reject(Error(conflict?'Another tab changed this vault. Lock and reopen before editing.':'Device save failed. Keep this page open and retry.'));};});}
-export async function deleteVault(){const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction('vault','readwrite');tx.objectStore('vault').delete('encrypted');tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};});}
+// Deleting the notebook clears the whole store: the sealed notebook and every sealed media item.
+export async function deleteVault(){const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction('vault','readwrite');tx.objectStore('vault').clear();tx.oncomplete=()=>{db.close();resolve()};tx.onerror=()=>{db.close();reject(tx.error)};});}
+// Slice 3a: queued photos and voice notes are sealed one by one under their own keys, so the
+// notebook itself stays small and is not re-encrypted with media on every keystroke.
+const MEDIA_AD=new TextEncoder().encode('saha-field-media-v1');
+export async function sealBytes(key,bytes){const iv=crypto.getRandomValues(new Uint8Array(12));return {iv:Array.from(iv),cipher:new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv,additionalData:MEDIA_AD},key,bytes))};}
+export async function unsealBytes(key,record){return new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(record.iv),additionalData:MEDIA_AD},key,record.cipher));}
+function mediaTx(mode,fn){return openVault().then(db=>new Promise((resolve,reject)=>{const tx=db.transaction('vault',mode),r=fn(tx.objectStore('vault'));tx.oncomplete=()=>{db.close();resolve(r?.result??null)};tx.onabort=tx.onerror=()=>{db.close();reject(tx.error??Error('Device media storage failed.'))};}));}
+export const writeMedia=(id,value)=>mediaTx('readwrite',store=>{store.put(value,'media:'+id)});
+export const readMedia=id=>mediaTx('readonly',store=>store.get('media:'+id));
+export const deleteMedia=id=>mediaTx('readwrite',store=>{store.delete('media:'+id)});
