@@ -75,8 +75,8 @@
       "sourceTextLine": 143,
       "implementation": "partial",
       "target": "R14",
-      "current": "Structured/text capture and gated on-device speech transcript review.",
-      "remaining": "Recording playback/deletion, supported-device speech and complete common workflow coverage.",
+      "current": "Structured/text capture and gated on-device speech transcript review. Slices 2b and 3a: attached voice notes play back in the visit and can be deleted from drafts or discarded from the device queue.",
+      "remaining": "In-app recording, supported-device speech and complete common workflow coverage.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "app/workspace.tsx",
@@ -595,7 +595,7 @@
       "implementation": "partial",
       "target": "R14",
       "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation.",
-      "remaining": "Object storage and larger media, quality assessment, offline capture and retention lifecycle for media.",
+      "remaining": "Object storage and larger media, clinical quality assessment and a retention lifecycle for media on the server (offline queueing: slice 3a, BR-OFF-04).",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
@@ -2267,8 +2267,8 @@
       "sourceTextLine": 462,
       "implementation": "partial",
       "target": "R14",
-      "current": "Assignment, identity, membership, consent and visit versions rechecked at sync.",
-      "remaining": "Protocol/freshness revalidation for expanded queued tasks and media.",
+      "current": "Assignment, identity, membership, consent and visit versions rechecked at sync. Slice 3a: queued media is uploaded only after the grant, patient access and draft visit are rechecked.",
+      "remaining": "Protocol/freshness revalidation for expanded queued tasks, and provider revalidation for media.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
@@ -2309,8 +2309,8 @@
       "sourceTextLine": 468,
       "implementation": "partial",
       "target": "R14",
-      "current": "Current notebook supports ten drafts and no media.",
-      "remaining": "200 encounters, media allowance, storage warnings and no-eviction acceptance.",
+      "current": "Notebook supports ten drafts; slice 3a adds up to four queued media items per draft and 1 MB per notebook.",
+      "remaining": "200 encounters, storage warnings and no-eviction acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
