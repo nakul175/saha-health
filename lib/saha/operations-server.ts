@@ -7,6 +7,7 @@ import { persist, scope } from './store';
 import { digest, fail, uuid } from './core';
 import { alertsFor, ALERT_RULES_VERSION } from './alerts';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
+import { invoiceAlertInputs, invoiceView } from './ai-invoice';
 const currentMonth=()=>new Date().toISOString().slice(0,7);
 export async function operationsRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);const reach=reportingScope(s,m);
@@ -17,7 +18,9 @@ export async function operationsRead(request:Request){
  if(operator(m)){const rows=await db().prepare('SELECT route,status,sum(count) AS count,sum(total_ms) AS total_ms,max(max_ms) AS max_ms FROM request_metrics WHERE org_id=? AND bucket>=? GROUP BY route,status ORDER BY route,status').bind(s.organisation.id,new Date(Date.now()-86400000).toISOString()).all<{route:string;status:number;count:number;total_ms:number;max_ms:number}>();const count=rows.results.reduce((n,r)=>n+r.count,0),errors=rows.results.filter(r=>r.status>=500).reduce((n,r)=>n+r.count,0);telemetry={windowHours:24,count,serverErrors:errors,errorRate:count?errors/count:null,meanMs:count?Math.round(rows.results.reduce((n,r)=>n+r.total_ms,0)/count):null,maxMs:rows.results.reduce((n,r)=>Math.max(n,r.max_ms),0),routes:rows.results,coverage:'Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort.'};}
  // Slice 5e: budget rows feed the owner-owned budget alerts as well as the budget table.
  const budgetRows=operator(m)?budgetView(s):null;
- const ops=s.operations??defaultOperations(),result={release:RELEASE,generatedAt:new Date().toISOString(),environment:environmentOf(rawRuntime()).name,maintenance:{active:ops.maintenance,reason:ops.reason},report,telemetry,operations:operator(m)?ops:null,operators:operator(m)?s.members.filter(x=>x.status==='active'&&operator(x)).map(x=>({id:x.userId,name:x.displayName})):[],gates:GATES,pilotReady:false,budgets:budgetRows?{notice:BUDGET_NOTICE,month:currentMonth(),rows:budgetRows}:null,alerts:alertsFor({budgets:budgetRows,report,telemetry,operations:operator(m)?ops:null,acknowledgements:ops.acknowledgements??[],viewerId:u.userId}),alertRules:ALERT_RULES_VERSION};
+ // Slice 5h: invoice reconciliations and their alerts, for the same operators who see budgets.
+ const invoiceAlerts=operator(m)?invoiceAlertInputs(s):null;
+ const ops=s.operations??defaultOperations(),result={release:RELEASE,generatedAt:new Date().toISOString(),environment:environmentOf(rawRuntime()).name,maintenance:{active:ops.maintenance,reason:ops.reason},report,telemetry,operations:operator(m)?ops:null,operators:operator(m)?s.members.filter(x=>x.status==='active'&&operator(x)).map(x=>({id:x.userId,name:x.displayName})):[],gates:GATES,pilotReady:false,budgets:budgetRows?{notice:BUDGET_NOTICE,month:currentMonth(),rows:budgetRows}:null,invoices:operator(m)?invoiceView(s):null,alerts:alertsFor({budgets:budgetRows,invoices:invoiceAlerts,report,telemetry,operations:operator(m)?ops:null,acknowledgements:ops.acknowledgements??[],viewerId:u.userId}),alertRules:ALERT_RULES_VERSION};
  if(format==='json')return json(result);
  if(format==='csv'&&!report)fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(m))fail(403,'Operations access required.');
  // Slice 6k: the CSV carries its definition, identifier, exporter, control totals and a checksum manifest;

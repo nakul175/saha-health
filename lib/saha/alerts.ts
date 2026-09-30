@@ -7,14 +7,16 @@
 // acknowledgements are per supervisor because each sees a differently scoped count.
 // Slice 5e: AI budget alerts from the slice 5a estimates, owned by organisation owners (who set budgets).
 // They are estimates from recorded cost assumptions, not invoices.
+// Slice 5h: invoice reconciliation alerts for the previous UTC month (owners): providers used without a
+// recorded reconciliation, and current reconciliations with lines above the owner's threshold.
 import { z } from 'zod';
 import { fail, uuid } from './core';
 import type { Actor } from './store';
 import type { Member, OrgState } from './types';
-export const ALERT_RULES_VERSION='1.1.0';
+export const ALERT_RULES_VERSION='1.2.0';
 export const ERROR_RATE_THRESHOLD=0.05,ERROR_MIN_REQUESTS=20;
 export type Alert={id:string;severity:'critical'|'high'|'normal';title:string;count:number;owner:'operations'|'supervisors'|'owners';action:string;tab:'overview'|'service';acknowledged?:{by:string;at:string;note:string}|null};
-export const ALERT_OWNERS={'destination-uncertain':'operations','ehr-uncertain':'operations','referrals-overdue':'supervisors','followups-overdue':'supervisors','referrals-undated':'supervisors','provider-usage-missing':'operations','server-errors':'operations','incident-critical-open':'operations','incident-open':'operations','maintenance':'operations','ai-budget-reached':'owners','ai-budget-near':'owners'} as const;
+export const ALERT_OWNERS={'destination-uncertain':'operations','ehr-uncertain':'operations','referrals-overdue':'supervisors','followups-overdue':'supervisors','referrals-undated':'supervisors','provider-usage-missing':'operations','server-errors':'operations','incident-critical-open':'operations','incident-open':'operations','maintenance':'operations','ai-budget-reached':'owners','ai-budget-near':'owners','ai-invoice-variance':'owners','ai-invoice-unreconciled':'owners'} as const;
 export const BUDGET_NEAR=0.8;
 export type BudgetRow={capabilityKey:string;title:string;monthlyUsd:number|null;spentUsd:number|null;reservedUsd:number|null;state:string};
 export const ACK_HOURS=24,MAX_ACKS=200;
@@ -23,7 +25,7 @@ export const alertAckSchema=z.discriminatedUnion('type',[z.object({type:z.litera
 export function canAcknowledge(m:Member,owner:'operations'|'supervisors'|'owners'){if(m.status!=='active')return false;return owner==='owners'?m.isOwner:owner==='operations'?(m.isOwner||m.role==='admin'):(m.role==='supervisor'||(m.isOwner&&m.role!=='admin'));}
 export function applyAlertAck(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()){
  const parsed=alertAckSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data,owner=ALERT_OWNERS[c.alertId];
- if(!canAcknowledge(m,owner))fail(403,owner==='owners'?'An organisation owner acknowledges budget alerts.':owner==='operations'?'Operations access is required to acknowledge this alert.':'A supervisor or owner with care reporting acknowledges this alert.');
+ if(!canAcknowledge(m,owner))fail(403,owner==='owners'?'An organisation owner acknowledges budget and invoice alerts.':owner==='operations'?'Operations access is required to acknowledge this alert.':'A supervisor or owner with care reporting acknowledges this alert.');
  const ops=s.operations;if(!ops)fail(409,'Operations are not set up for this organisation.');const scope=owner==='supervisors'?'user':'organisation';
  const acks=(ops!.acknowledgements??=[]).filter(a=>!(a.alertId===c.alertId&&(scope==='organisation'?a.scope==='organisation':a.scope==='user'&&a.userId===u.userId)));
  if(acks.length>=MAX_ACKS)acks.sort((a,b)=>a.at.localeCompare(b.at)).shift();
@@ -32,9 +34,10 @@ export function applyAlertAck(s:OrgState,input:unknown,u:Actor,m:Member,now=new 
  return {alertId:c.alertId,acknowledgedAt:now};
 }
 
-type Inputs={budgets?:BudgetRow[]|null;report:any|null;telemetry:any|null;operations:{maintenance:boolean;reason:string;incidents:{severity:string;state:string}[]}|null;acknowledgements?:AlertAck[];viewerId?:string;now?:string};
+export type InvoiceAlertInputs={month:string;unreconciled:string[];flagged:{provider:string;invoiceReference:string;flaggedLines:number}[]};
+type Inputs={budgets?:BudgetRow[]|null;invoices?:InvoiceAlertInputs|null;report:any|null;telemetry:any|null;operations:{maintenance:boolean;reason:string;incidents:{severity:string;state:string}[]}|null;acknowledgements?:AlertAck[];viewerId?:string;now?:string};
 const RANK={critical:0,high:1,normal:2} as const;
-export function alertsFor({budgets,report,telemetry,operations,acknowledgements=[],viewerId,now=new Date().toISOString()}:Inputs):Alert[]{
+export function alertsFor({budgets,invoices,report,telemetry,operations,acknowledgements=[],viewerId,now=new Date().toISOString()}:Inputs):Alert[]{
  const out:Alert[]=[],add=(a:Alert)=>{if(a.count>0)out.push(a);},b=report?.backlog;
  if(b){
   add({id:'destination-uncertain',severity:'high',title:'Programme submissions not yet confirmed by the destination',count:b.unresolvedSubmissions,owner:'operations',action:'Check each one: look up the receipt of any uncertain submission before a resend; queued and retryable ones may be retried with their original key.',tab:'overview'});
@@ -57,6 +60,10 @@ export function alertsFor({budgets,report,telemetry,operations,acknowledgements=
   const reached=rows.filter(r=>r.state==='reached'||used(r)>=r.monthlyUsd!),near=rows.filter(r=>!reached.includes(r)&&used(r)>=BUDGET_NEAR*r.monthlyUsd!),names=(xs:BudgetRow[])=>xs.map(r=>`${r.title} (USD ${used(r).toFixed(2)} of ${r.monthlyUsd!.toFixed(2)})`).join('; ');
   add({id:'ai-budget-reached',severity:'high',title:'AI capabilities that reached their monthly budget (estimate, not an invoice)',count:reached.length,owner:'owners',action:`New requests are refused until next month or until an owner changes the budget with a reason: ${names(reached)}. Workers continue with structured capture. Check the estimate against the provider's invoice.`,tab:'service'});
   add({id:'ai-budget-near',severity:'normal',title:'AI capabilities at 80% or more of their monthly budget (estimate, not an invoice)',count:near.length,owner:'owners',action:`Review expected use before requests are refused: ${names(near)}. Estimates use recorded cost assumptions and reservations.`,tab:'service'});
+ }
+ if(invoices){
+  add({id:'ai-invoice-variance',severity:'high',title:`AI invoices for ${invoices.month} that differ from Saha's estimates beyond the owner's threshold`,count:invoices.flagged.length,owner:'owners',action:`Review the flagged lines on the Service & incidents tab: ${invoices.flagged.map(f=>`${f.provider} invoice ${f.invoiceReference} (${f.flaggedLines} line${f.flaggedLines===1?'':'s'})`).join('; ')}. Budgets and cost assumptions are not changed automatically; change them with a reason if needed, or record a corrected reconciliation.`,tab:'service'});
+  add({id:'ai-invoice-unreconciled',severity:'normal',title:`AI providers used in ${invoices.month} without a recorded invoice reconciliation`,count:invoices.unreconciled.length,owner:'owners',action:`Record the provider's invoice summary for ${invoices.month} on the Service & incidents tab: ${invoices.unreconciled.join(', ')}.`,tab:'service'});
  }
  const since=new Date(Date.parse(now)-ACK_HOURS*3600000).toISOString();
  for(const a of out){const ack=acknowledgements.filter(k=>k.alertId===a.id&&(k.scope==='organisation'||k.userId===viewerId)&&k.count===a.count&&k.at>since&&k.at<=now).sort((x,y)=>y.at.localeCompare(x.at))[0];a.acknowledged=ack?{by:ack.by,at:ack.at,note:ack.note}:null;}
