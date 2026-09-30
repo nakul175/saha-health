@@ -161,12 +161,13 @@ export function commitPlan(before:OrgState,after:OrgState,type:string,rows:Row[]
  if(ids.some(id=>before.patientRevs?.[id]===undefined||!before.partition!.includes(id)))return {patients:null,reason:'a touched patient was not loaded'};
  return {patients:ids,reason:'patient-scoped'};
 }
-export async function ensureAccount(db:D1Database,u:Actor){
+// Slice 6n: `fixtures` decides which seeded synthetic records a new home organisation receives.
+export async function ensureAccount(db:D1Database,u:Actor,fixtures:(w:Workspace)=>Workspace=w=>w){
  const code=await accountCode(u.userId),now=new Date().toISOString();
  await db.prepare('INSERT INTO accounts (user_id,account_code,display_name,email,created_at) VALUES (?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET display_name=excluded.display_name,email=excluded.email').bind(u.userId,code,u.displayName,u.email,now).run();
  const orgId=await homeOrg(u.userId);
  const migrated=await db.prepare('SELECT owner_id FROM legacy_migrations WHERE owner_id=?').bind(u.userId).first();
- if(!migrated){const legacy=await db.prepare('SELECT revision,state FROM workspaces WHERE owner_id=?').bind(u.userId).first<{revision:number;state:string}>();const w:Workspace=legacy?JSON.parse(legacy.state):seedWorkspace();
+ if(!migrated){const legacy=await db.prepare('SELECT revision,state FROM workspaces WHERE owner_id=?').bind(u.userId).first<{revision:number;state:string}>();const w:Workspace=legacy?JSON.parse(legacy.state):fixtures(seedWorkspace());
   if(!Array.isArray(w.people)||!Array.isArray(w.visits))fail(503,'Existing records could not be migrated. The original workspace has been preserved.');
   for(const p of w.people){p.version=1;p.teamId='default';p.assignedTo=p.assigned?u.userId:null;}
   for(const v of w.visits){v.recordVersion=1;if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';}

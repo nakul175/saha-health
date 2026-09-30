@@ -1,0 +1,145 @@
+{
+ "description": "Slice 6n: the built Worker served locally four times with --var SAHA_ENVIRONMENT:<value> --var SAHA_EXTERNAL_APIS_ENABLED:true and a fresh local database each time; a new synthetic account, its home organisation, a newly created organisation, the configuration check over HTTP and in the Organisation & team panel, the banner and axe-core on the banner and panel.",
+ "runs": [
+  {
+   "environment": "production",
+   "snapshot": {
+    "environment": "production",
+    "label": "Production environment",
+    "externalApisEnabled": false,
+    "people": 0,
+    "syntheticPeople": 0,
+    "demoConnectors": 0
+   },
+   "newOrganisationDemoConnectors": 0,
+   "report": {
+    "environment": "production",
+    "source": "configured",
+    "live": {
+     "allowed": false,
+     "reason": "Deployment configuration has 1 error: outbound-labels."
+    },
+    "counts": {
+     "ok": 3,
+     "warning": 0,
+     "error": 1
+    },
+    "errors": [
+     "outbound-labels"
+    ]
+   },
+   "banner": "Production environment. This build is not accepted for real patient use. Demonstration connectors and synthetic fixtures are refused.",
+   "bannerEnv": "production",
+   "pill": "PRODUCTION",
+   "panel": "1 errors, 0 warnings, 3 OK. Live services: refused. Deployment configuration has 1 error: outbound-labels. | OK \u00b7 SAHA_ENVIRONMENT is production. | OK \u00b7 Sign-in provider: sites-chatgpt. | OK \u00b7 External services switch is on. | Error \u00b7 Programme messages, probes and FHIR documents from this build are labelled synthetic. Live calls from production are refused until those labels follow the environment.",
+   "axeViolations": [],
+   "errors": [],
+   "completedAt": "2026-09-30T07:01:09.854Z"
+  },
+  {
+   "environment": "training",
+   "snapshot": {
+    "environment": "training",
+    "label": "Training environment with synthetic practice records",
+    "externalApisEnabled": false,
+    "people": 6,
+    "syntheticPeople": 6,
+    "demoConnectors": 4
+   },
+   "newOrganisationDemoConnectors": 4,
+   "report": {
+    "environment": "training",
+    "source": "configured",
+    "live": {
+     "allowed": false,
+     "reason": "The training environment never calls live services."
+    },
+    "counts": {
+     "ok": 2,
+     "warning": 1,
+     "error": 1
+    },
+    "errors": [
+     "external-switch"
+    ]
+   },
+   "banner": "Training environment with synthetic practice records. Practice with synthetic records only. Live services are off in training.",
+   "bannerEnv": "training",
+   "pill": "TRAINING",
+   "panel": "1 errors, 0 warnings, 2 OK. Live services: refused. The training environment never calls live services. | OK \u00b7 SAHA_ENVIRONMENT is training. | OK \u00b7 Sign-in provider: sites-chatgpt. | Error \u00b7 SAHA_EXTERNAL_APIS_ENABLED is true, but the training environment never calls live services. Calls are refused; turn the switch off.",
+   "axeViolations": [],
+   "errors": [],
+   "completedAt": "2026-09-30T07:01:58.364Z"
+  },
+  {
+   "environment": "staging",
+   "snapshot": {
+    "environment": "staging",
+    "label": "Staging environment",
+    "externalApisEnabled": true,
+    "people": 0,
+    "syntheticPeople": 0,
+    "demoConnectors": 0
+   },
+   "newOrganisationDemoConnectors": 0,
+   "report": {
+    "environment": "staging",
+    "source": "configured",
+    "live": {
+     "allowed": true,
+     "reason": "Live calls are allowed in the staging environment when each connection is granted and configured."
+    },
+    "counts": {
+     "ok": 3,
+     "warning": 1,
+     "error": 0
+    },
+    "errors": []
+   },
+   "banner": "Staging environment. Not for real patient care. No synthetic fixtures; live services only through checked, granted connections.",
+   "bannerEnv": "staging",
+   "pill": "STAGING",
+   "panel": "0 errors, 1 warnings, 3 OK. Live services: allowed. Live calls are allowed in the staging environment when each connection is granted and configured. | OK \u00b7 SAHA_ENVIRONMENT is staging. | OK \u00b7 Sign-in provider: sites-chatgpt. | OK \u00b7 External services switch is on. | Warning \u00b7 Programme messages, probes and FHIR documents from this build are labelled synthetic; staging partners must accept that label.",
+   "axeViolations": [],
+   "errors": [],
+   "completedAt": "2026-09-30T07:02:42.686Z"
+  },
+  {
+   "environment": "Prod",
+   "snapshot": {
+    "environment": "misconfigured",
+    "label": "Environment not configured correctly",
+    "externalApisEnabled": false,
+    "people": 0,
+    "syntheticPeople": 0,
+    "demoConnectors": 0
+   },
+   "newOrganisationDemoConnectors": 0,
+   "report": {
+    "environment": "misconfigured",
+    "source": "invalid",
+    "live": {
+     "allowed": false,
+     "reason": "The environment is not configured correctly."
+    },
+    "counts": {
+     "ok": 1,
+     "warning": 0,
+     "error": 2
+    },
+    "errors": [
+     "environment",
+     "external-switch"
+    ]
+   },
+   "banner": "Environment not configured correctly. Fixtures and live services are refused until the operator corrects SAHA_ENVIRONMENT.",
+   "bannerEnv": "misconfigured",
+   "pill": "CHECK CONFIG",
+   "panel": "2 errors, 0 warnings, 1 OK. Live services: refused. The environment is not configured correctly. | Error \u00b7 SAHA_ENVIRONMENT is \"Prod\", which is not one of synthetic, training, staging, production. Fixtures and live services are refused until it is corrected. | OK \u00b7 Sign-in provider: sites-chatgpt. | Error \u00b7 SAHA_EXTERNAL_APIS_ENABLED is true, but the misconfigured environment never calls live services. Calls are refused; turn the switch off.",
+   "axeViolations": [],
+   "errors": [],
+   "completedAt": "2026-09-30T07:03:22.047Z"
+  }
+ ],
+ "passed": true
+}

@@ -1,0 +1,114 @@
+import { fail } from './core';
+import { identityConfig } from './identity';
+import type { OrgState, Workspace } from './types';
+// Slice 6n: environment separation (BR-OPS-02) and deployment configuration checks (BR-OPS-01).
+//
+// A deployment declares its environment in SAHA_ENVIRONMENT. Unset means `synthetic`, the
+// development and demonstration sandbox this repository runs in; an unrecognised value fails closed.
+//   synthetic   synthetic fixtures seeded; live calls only when SAHA_EXTERNAL_APIS_ENABLED=true (as before)
+//   training    synthetic practice fixtures seeded; live calls never
+//   staging     no fixtures; live calls only when enabled and the deployment check has no errors
+//   production  no fixtures; live calls only when enabled and the deployment check has no errors
+// Live calls are withheld by handing every provider path a runtime whose external switch is off,
+// so the existing checks in the MIS, EHR, AI and callback paths enforce the policy unchanged.
+// The configuration check reports names and states only; secret values are never read into it.
+export const ENVIRONMENTS = ['synthetic', 'training', 'staging', 'production'] as const;
+export type EnvironmentName = typeof ENVIRONMENTS[number] | 'misconfigured';
+export const ENVIRONMENT_LABEL: Record<EnvironmentName, string> = {
+  synthetic: 'Synthetic development and demonstration environment',
+  training: 'Training environment with synthetic practice records',
+  staging: 'Staging environment',
+  production: 'Production environment',
+  misconfigured: 'Environment not configured correctly',
+};
+export const POLICY: Record<EnvironmentName, { fixtures: boolean; live: 'switch' | 'checked' | 'never'; demoConnectors: boolean; syntheticRecordsLive: boolean }> = {
+  synthetic: { fixtures: true, live: 'switch', demoConnectors: true, syntheticRecordsLive: true },
+  training: { fixtures: true, live: 'never', demoConnectors: true, syntheticRecordsLive: false },
+  staging: { fixtures: false, live: 'checked', demoConnectors: false, syntheticRecordsLive: false },
+  production: { fixtures: false, live: 'checked', demoConnectors: false, syntheticRecordsLive: false },
+  misconfigured: { fixtures: false, live: 'never', demoConnectors: false, syntheticRecordsLive: false },
+};
+type Env = Record<string, string | undefined>;
+export type Check = { id: string; area: 'environment' | 'identity' | 'live-services' | 'organisation'; status: 'ok' | 'warning' | 'error'; message: string };
+
+export function environmentOf(env: Env): { name: EnvironmentName; declared: string | null; source: 'configured' | 'default' | 'invalid' } {
+  const raw = String(env.SAHA_ENVIRONMENT ?? '').trim();
+  if (!raw) return { name: 'synthetic', declared: null, source: 'default' };
+  return (ENVIRONMENTS as readonly string[]).includes(raw) ? { name: raw as EnvironmentName, declared: raw, source: 'configured' } : { name: 'misconfigured', declared: raw.slice(0, 40), source: 'invalid' };
+}
+const origins = (env: Env) => String(env.SAHA_ALLOWED_ORIGINS ?? '').split(',').map(x => x.trim()).filter(Boolean);
+const safeOrigin = (o: string) => { try { const u = new URL(o); return u.protocol === 'https:' && u.origin === o && !u.hostname.endsWith('.local') && u.hostname !== 'localhost' && !/^[\d.]+$/.test(u.hostname); } catch { return false; } };
+const grants = (env: Env, key: string): unknown[] | null => { try { const g = JSON.parse(env[key] ?? '[]'); return Array.isArray(g) ? g : null; } catch { return null; } };
+
+// Deployment-level checks, from configuration alone. Errors here withhold live calls in staging and production.
+export function deploymentChecks(env: Env): Check[] {
+  const e = environmentOf(env), out: Check[] = [], switchValue = String(env.SAHA_EXTERNAL_APIS_ENABLED ?? '').trim();
+  const add = (c: Check) => out.push(c);
+  if (e.source === 'invalid') add({ id: 'environment', area: 'environment', status: 'error', message: `SAHA_ENVIRONMENT is "${e.declared}", which is not one of ${ENVIRONMENTS.join(', ')}. Fixtures and live services are refused until it is corrected.` });
+  else if (e.source === 'default') add({ id: 'environment', area: 'environment', status: 'warning', message: 'SAHA_ENVIRONMENT is not set, so this deployment is treated as synthetic. Set it explicitly for every deployment.' });
+  else add({ id: 'environment', area: 'environment', status: 'ok', message: `SAHA_ENVIRONMENT is ${e.name}.` });
+  const id = identityConfig(env);
+  add(id.error ? { id: 'identity', area: 'identity', status: 'error', message: `Sign-in is not configured: ${id.error}` } : { id: 'identity', area: 'identity', status: 'ok', message: `Sign-in provider: ${id.provider}.` });
+  if (!['', 'true', 'false'].includes(switchValue)) add({ id: 'external-switch', area: 'live-services', status: 'warning', message: 'SAHA_EXTERNAL_APIS_ENABLED has an unrecognised value and is treated as off. Use true or false.' });
+  else if (switchValue === 'true' && POLICY[e.name].live === 'never') add({ id: 'external-switch', area: 'live-services', status: 'error', message: `SAHA_EXTERNAL_APIS_ENABLED is true, but the ${e.name} environment never calls live services. Calls are refused; turn the switch off.` });
+  else add({ id: 'external-switch', area: 'live-services', status: 'ok', message: `External services switch is ${switchValue === 'true' ? 'on' : 'off'}.` });
+  const listed = origins(env), unsafe = listed.filter(o => !safeOrigin(o));
+  if (unsafe.length) add({ id: 'allowed-origins', area: 'live-services', status: 'error', message: `SAHA_ALLOWED_ORIGINS has ${unsafe.length} entr${unsafe.length === 1 ? 'y' : 'ies'} that ${unsafe.length === 1 ? 'is' : 'are'} not a bare public HTTPS origin.` });
+  else if (listed.length) add({ id: 'allowed-origins', area: 'live-services', status: 'ok', message: `${listed.length} approved AI provider origin${listed.length === 1 ? '' : 's'}.` });
+  for (const [key, label] of [['SAHA_MIS_CONNECTIONS', 'programme'], ['SAHA_EHR_CONNECTIONS', 'EHR']] as const) if (env[key] !== undefined && grants(env, key) === null) add({ id: key.toLowerCase(), area: 'live-services', status: 'error', message: `${key} is not a JSON list, so no ${label} connection can be used.` });
+  // Outbound programme messages, probes and FHIR documents from this build carry a fixed synthetic label.
+  if (e.name === 'production') add({ id: 'outbound-labels', area: 'live-services', status: 'error', message: 'Programme messages, probes and FHIR documents from this build are labelled synthetic. Live calls from production are refused until those labels follow the environment.' });
+  else if (e.name === 'staging') add({ id: 'outbound-labels', area: 'live-services', status: 'warning', message: 'Programme messages, probes and FHIR documents from this build are labelled synthetic; staging partners must accept that label.' });
+  return out;
+}
+
+// Whether live provider calls may happen at all in this deployment, and why not.
+export function livePolicy(env: Env): { allowed: boolean; reason: string } {
+  const e = environmentOf(env), p = POLICY[e.name];
+  if (String(env.SAHA_EXTERNAL_APIS_ENABLED ?? '').trim() !== 'true') return { allowed: false, reason: 'The external services switch is off.' };
+  if (p.live === 'never') return { allowed: false, reason: e.name === 'misconfigured' ? 'The environment is not configured correctly.' : `The ${e.name} environment never calls live services.` };
+  if (p.live === 'checked') { const errors = deploymentChecks(env).filter(c => c.status === 'error'); if (errors.length) return { allowed: false, reason: `Deployment configuration has ${errors.length} error${errors.length === 1 ? '' : 's'}: ${errors.map(c => c.id).join(', ')}.` }; }
+  return { allowed: true, reason: `Live calls are allowed in the ${e.name} environment when each connection is granted and configured.` };
+}
+// The runtime every provider path receives: the external switch is forced off when policy withholds live calls.
+export function effectiveRuntime(env: Env): Env { return livePolicy(env).allowed ? env : { ...env, SAHA_EXTERNAL_APIS_ENABLED: 'false' }; }
+
+// Workspace fixtures for a new organisation: synthetic people and demonstration connectors only where the environment allows them.
+export function fixturesFor(env: Env, w: Workspace): Workspace {
+  if (POLICY[environmentOf(env).name].fixtures) { for (const p of w.people) p.synthetic = true; return w; }
+  return { ...w, people: [], visits: [], submissions: [], referrals: [], integrations: w.integrations.filter(i => i.mode !== 'demo') };
+}
+
+// Command guard: demonstration connectors and synthetic fixture records stay out of non-synthetic destinations.
+export function ensureEnvironment(s: OrgState, c: any, env: Env) {
+  const e = environmentOf(env), p = POLICY[e.name], w = s.workspace;
+  if (!p.demoConnectors) {
+    const demo = (id: string) => w.integrations.find(i => i.id === id)?.mode === 'demo';
+    if (c.type === 'toggleIntegration' && demo(c.integrationId) && w.integrations.find(i => i.id === c.integrationId)?.status !== 'active') fail(409, `Demonstration connectors cannot be activated in the ${e.name} environment.`);
+    if (c.type === 'executePlan') { const plan = w.visits.find(v => v.id === c.visitId)?.plan; if (plan?.recipients.some(demo)) fail(409, `Demonstration connectors do not receive records in the ${e.name} environment. Remove them from the plan.`); }
+  }
+  if (!p.syntheticRecordsLive && ['sendSubmission', 'executeEhrPublish', 'executePlan'].includes(c.type)) {
+    const personId = c.personId ?? w.submissions.find(x => x.id === c.submissionId)?.personId ?? w.visits.find(v => v.id === c.visitId)?.personId;
+    if (personId && w.people.find(x => x.id === personId)?.synthetic) fail(409, `Synthetic fixture records cannot be sent to a destination from the ${e.name} environment.`);
+  }
+}
+
+// Owner-visible report: deployment checks plus this organisation's connections. No secret values.
+export function configurationReport(env: Env, s: OrgState, checkedAt = new Date().toISOString()) {
+  const e = environmentOf(env), live = livePolicy(env), checks = deploymentChecks(env), w = s.workspace;
+  const set = (name?: string) => !!name && typeof env[name] === 'string' && env[name]!.length > 0;
+  for (const i of w.integrations.filter(i => i.mode === 'http')) {
+    const binding = i.credentialBinding;
+    let origin = ''; try { origin = new URL(i.endpoint ?? '').origin; } catch { origin = ''; }
+    const problems = [!origin.startsWith('https://') && 'endpoint is not HTTPS', !binding && 'no credential binding', binding && !set(binding) && `credential ${binding} is not set on the server`].filter(Boolean);
+    const grantKey = i.kind === 'mis' ? 'SAHA_MIS_CONNECTIONS' : i.kind === 'ehr' ? 'SAHA_EHR_CONNECTIONS' : null;
+    if (grantKey) { const g = grants(env, grantKey) ?? []; if (!g.some((x: any) => x?.organisationId === s.organisation.id && x?.integrationId === i.id)) problems.push(`no ${grantKey} grant for this organisation`); }
+    else if (origin && !origins(env).includes(origin)) problems.push('origin is not in SAHA_ALLOWED_ORIGINS');
+    checks.push({ id: `connection:${i.id}`, area: 'organisation', status: problems.length ? (i.status === 'active' ? 'error' : 'warning') : 'ok', message: `${i.name} (${i.kind}, ${i.status}): ${problems.length ? problems.join('; ') : `credential ${binding} is set and the connection is granted`}.` });
+  }
+  if (!POLICY[e.name].demoConnectors) { const active = w.integrations.filter(i => i.mode === 'demo' && i.status === 'active'); if (active.length) checks.push({ id: 'demo-connectors', area: 'organisation', status: 'warning', message: `${active.length} demonstration connector${active.length === 1 ? ' is' : 's are'} still active; they cannot receive records in ${e.name}. Suspend ${active.length === 1 ? 'it' : 'them'}.` }); }
+  const fixtures = w.people.filter(p => p.synthetic).length;
+  if (fixtures && !POLICY[e.name].syntheticRecordsLive) checks.push({ id: 'synthetic-records', area: 'organisation', status: 'warning', message: `${fixtures} synthetic fixture record${fixtures === 1 ? ' is' : 's are'} present; ${fixtures === 1 ? 'it' : 'they'} cannot be sent to any destination from ${e.name}.` });
+  const counts = { ok: checks.filter(c => c.status === 'ok').length, warning: checks.filter(c => c.status === 'warning').length, error: checks.filter(c => c.status === 'error').length };
+  return { environment: e.name, label: ENVIRONMENT_LABEL[e.name], source: e.source, policy: POLICY[e.name], live, checks, counts, checkedAt, notice: 'Read-only. Names and states only; no secret value is read into this report.' };
+}

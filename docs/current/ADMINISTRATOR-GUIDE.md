@@ -14,6 +14,12 @@ Use **Connections** to inspect mode, readiness and supported mapping/capabilitie
 
 MIS mapping changes affect the reviewed payload version. EHR requires an explicit external patient link and scoped permission. A generic FHIR export does not provide ABHA or HIP/HIU functionality. Live partner acceptance must come from the selected system owner.
 
+## Environment and exit
+
+Every deployment declares `SAHA_ENVIRONMENT`: `synthetic` (the default when unset), `training`, `staging` or `production`; any other value is treated as misconfigured and refuses fixtures and live calls. Only synthetic and training seed the six synthetic people and the demonstration connectors. Outside synthetic, records marked as synthetic fixtures are never sent to a destination; outside synthetic and training, demonstration connectors cannot be activated or receive records. Owners use **Organisation & team → Environment and configuration** to see which settings are missing or unsafe; it names settings and their state and never shows a secret value. Live calls from production are refused in this build because outbound messages still carry a synthetic label (slice 6n).
+
+Owners use **Organisation & team → Data export for exit or transfer** for a tar archive of the organisation's records, audit chain, media and hand-over list, with a manifest and checksums; patient records outside the owner's care teams are withheld and counted. Check a received archive with `node scripts/verify-export.mjs <file>` (slice 6m).
+
 ## Governance and operations
 
 R11 manifests carry immutable revisions, intended use, dates, owners and dependency references. Author, reviewer and activation rules require distinct eligible people where specified. Never impersonate a second account to obtain a review. A passed synthetic evaluation does not remove independent review or production evidence requirements.
