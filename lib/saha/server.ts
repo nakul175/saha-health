@@ -136,7 +136,9 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  if(request.headers.get('x-saha-response')==='delta'&&state.partition){const partition=state.partition;return {result,delta:await snapshotFor(await loadFor(u,state.organisation.id,async()=>partition),u),partition};}
  return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};
 }
-export async function command(request:Request){await identity();const parsed=await parseRequest(request);try{return await dispatchCommand(request,parsed);}catch(e){
+export async function command(request:Request){await identity();
+ // Slice 0b-3 follow-up: a malformed paging header is refused before the command runs, never after it commits.
+ pagingRequest(request);const parsed=await parseRequest(request);try{return await dispatchCommand(request,parsed);}catch(e){
  // Concurrent identical commands may race past the receipt read. Replay only a
  // committed receipt, after the normal current-membership checks run again.
  if(!(e instanceof AppError)||e.status===409){const u=await identity(),key=request.headers.get('idempotency-key');if(key){const saved=await db().prepare('SELECT key FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first();if(saved)return dispatchCommand(request,parsed);}}

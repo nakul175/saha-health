@@ -36,3 +36,7 @@
 - The window is limited to 50 opened records per session; older ones fall out of the workspace and are loaded again when reopened.
 - Commands still load their patient partition or the whole organisation as before; only reads and command answers are paged. Organisation-wide commands in large organisations (slice 0a) are unchanged.
 - Local probe only: hosted D1 latency, Worker CPU and memory limits, concurrent sessions and reference devices were not tested. NFR-24 stays unverified.
+
+## Follow-up (same day, after slice 3j)
+
+- Found on review, not by a test: a command sent with a malformed `x-saha-patient-window` header (more than 50 or invalid ids) was applied and committed, and only the snapshot built afterwards refused the header with 400, so the client was told the command failed. The header is now checked before the command runs (`command` in `lib/saha/server.ts`), and the workspace only sends ids in the accepted form. The patient-directory smoke now sends a command with 51 window ids and checks the 400 and that no visit was started.
