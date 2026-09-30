@@ -216,3 +216,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Local read-only probe against the previous build: an ASHA's median workspace read at 50,006 people fell from 965 ms to 48 ms; owner reads were unchanged within noise (1,743 ms and 1,738 ms).
 - Browser check with headless Chromium: owner and ASHA workspaces loaded and a caseload transfer completed. No console errors.
 - Assessment changes: NFR-24 text updated; it remains unverified. Counts are unchanged at 14 implemented-local, 138 partial, 15 not-built and 9 unverified.
+
+## Development slice 6c — retention schedules and holds — 30 September 2026 IST (29-30 September UTC)
+
+- **1,820 automated assertions passed:** 1,258 HTTP/D1 (1,231 plus 27 retention checks), 541 contract/checkpoint (530 plus 11 retention contract checks) and 21 encrypted restore checks over 30 SQLite tables. Reports: `tests/evidence/slice-6c/`.
+- The first full run failed one new assertion of this slice: it compared audit-event counts before and after hold commands, which themselves add audit events. The assertion now compares patients, visits and submissions for equality and requires revisions not to decrease; the rerun passed.
+- Browser check with headless Chromium: schedule saved and organisation hold placed from the Organisation page. No console errors.
+- Assessment changes: BR-SEC-09 moved from not-built to partial. Counts are now 14 implemented-local, 139 partial, 14 not-built and 9 unverified; all 176 formal acceptances remain pending.
