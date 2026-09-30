@@ -102,3 +102,8 @@ export const caseloadTransfers = sqliteTable('caseload_transfers', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
   teamId:text('team_id').notNull(), state:text('state').notNull(), createdAt:text('created_at').notNull(), data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('caseload_transfers_org_state').on(t.orgId,t.state)]);
+// Slice 1c: identity merge cases with their downstream impact queue. Merges link records; nothing is moved or deleted.
+export const identityCases = sqliteTable('identity_cases', {
+  orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), version:integer('version').notNull(),
+  state:text('state').notNull(), survivorId:text('survivor_id').notNull(), duplicateId:text('duplicate_id').notNull(), createdAt:text('created_at').notNull(), data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('identity_cases_survivor').on(t.orgId,t.survivorId),index('identity_cases_duplicate').on(t.orgId,t.duplicateId)]);

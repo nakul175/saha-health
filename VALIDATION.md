@@ -187,3 +187,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Browser check with headless Chromium against the built Worker and two synthetic accounts: a partial caseload transfer from the Care handover page, then acknowledgement by the receiving ASHA from her own page. No console errors; every command and caseload read returned 200.
 - CI now also runs the household and caseload contract suites, which slice 1 had omitted from the workflow.
 - Assessment changes: BR-ID-01 and BR-ID-04 texts updated; both remain partial. Counts are unchanged at 14 implemented-local, 136 partial, 17 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 1c — controlled identity merge and unmerge — 30 September 2026 IST (29 September UTC)
+
+- **1,626 automated assertions passed:** 1,138 HTTP/D1 (1,084 plus 54 merge checks), 467 contract/checkpoint (440 plus 27 merge contract checks) and 21 encrypted restore checks over 28 SQLite tables including identity cases. Reports: `tests/evidence/slice-1c/`.
+- The merge suites passed on their first full run. One later full run stalled in the operations load smoke, before any slice 1c test, with a local request-header timeout and so did not reach the restore drill; the immediate rerun passed and its reports are the ones saved.
+- Browser check with headless Chromium against the built Worker and two synthetic clinicians: proposal by one, approval by the other, read-only notice on the duplicate. No console errors; every command and identity-case read returned 200.
+- Assessment changes: BR-ID-05, BR-ID-08 and BR-DATA-06 texts updated; all remain partial. Counts are unchanged at 14 implemented-local, 136 partial, 17 not-built and 9 unverified; all 176 formal acceptances remain pending.
