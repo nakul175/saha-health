@@ -379,3 +379,9 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The new pure module `lib/saha/fact-provenance.ts` is imported by `core.ts`, so the 29 contract harnesses that transpile `core.ts` now also transpile it. Before the module was added to their lists they could not load (seen first on the field contract and slice 3g registration client); no assertion in those harnesses changed.
 - Browser check with headless Chromium: a reported weight with an earlier time and a declined temperature were entered in the visit screen, saved, reviewed and confirmed; the stored entries, the review text and the FHIR example (earlier weight time, reported method, no temperature Observation) matched; no console errors.
 - BR-DATA-02 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 3h — clinician action on field referral requests — 30 September 2026 IST (30 September UTC)
+
+- **2,576 automated assertions passed:** 1,602 HTTP/D1 (1,578 plus 24 referral request checks), 953 contract/checkpoint and 21 encrypted restore checks. Reports: `tests/evidence/slice-3h/`. The new HTTP module passed on its first run.
+- Browser check with headless Chromium: a clinician created a referral from a field request on a confirmed visit, with a changed facility; the panel showed the outcome and the server held one linked draft referral; no console errors.
+- BR-OFF-05 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

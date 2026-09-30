@@ -18,6 +18,7 @@ import { operationsSchema } from './operations';
 import { alertAckSchema } from './alerts';
 import { fieldSchema } from './field';
 import { fieldRegistrationSchema } from './field-registration';
+import { referralRequestSchema } from './referral-request';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { agentSchema } from './agent';
@@ -51,6 +52,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...expansionSchema.options,
  ...fieldSchema.options,
  ...fieldRegistrationSchema.options,
+ ...referralRequestSchema.options,
  ...misSchema.options,
  ...ehrSchema.options,
  ...agentSchema.options,

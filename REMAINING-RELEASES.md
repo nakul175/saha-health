@@ -1,6 +1,6 @@
 # Remaining delivery plan after Release 11
 
-Five future engineering batches remain planned: R12–R16. R11 also retains open live-provider and clinical-validation work. Five is a planning estimate, not a guarantee of production completion or a claim that R11 is fully accepted. The BRD's R1/R2/R3 phases are different from these engineering release numbers. All 176 acceptance criteria remain pending. The R11 audit recorded 14 implemented-local, 134 partial, 19 not-built and 9 unverified requirements (after development slice 2c: 14, 150, 3 and 9); these labels are not percentages of completion.
+Five future engineering batches remain planned: R12–R16. R11 also retains open live-provider and clinical-validation work. Five is a planning estimate, not a guarantee of production completion or a claim that R11 is fully accepted. The BRD's R1/R2/R3 phases are different from these engineering release numbers. All 176 acceptance criteria remain pending. The R11 audit recorded 14 implemented-local, 134 partial, 19 not-built and 9 unverified requirements (after development slice 3h: 14, 150, 3 and 9); these labels are not percentages of completion.
 
 | Batch | Primary work | Required evidence / dependencies |
 | --- | --- | --- |

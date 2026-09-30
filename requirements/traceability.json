@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3g, 4a, 6a-6h, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a, 6a-6h, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2264,8 +2264,8 @@
       "sourceTextLine": 459,
       "implementation": "partial",
       "target": "R14",
-      "current": "Stable-key sync for existing authorised person and visit drafts. Slice 3g: a person registered offline, with a first visit draft and referral request, is created in one command keyed by a stable registration id, so resends under new keys never create a second person; Sync all sends registrations, then visit drafts, then media, stops on an uncertain outcome and retries it with the same key; tested with repeated lost responses.",
-      "remaining": "Referral creation from the synced request, physical-device testing across real connection loss, and background sync.",
+      "current": "Stable-key sync for existing authorised person and visit drafts. Slice 3g: a person registered offline, with a first visit draft and referral request, is created in one command keyed by a stable registration id, so resends under new keys never create a second person; Sync all sends registrations, then visit drafts, then media, stops on an uncertain outcome and retries it with the same key; tested with repeated lost responses. Slice 3h: a clinician turns the synced request into a referral in one step, or declines it, once the visit is confirmed.",
+      "remaining": "Physical-device testing across real connection loss, and background sync.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
@@ -2276,7 +2276,11 @@
         "public/field/app.js",
         "docs/current/SLICE-3G-OFFLINE-REGISTRATION.md",
         "tests/field-registration-client.mjs",
-        "tests/field-registration-smoke.mjs"
+        "tests/field-registration-smoke.mjs",
+        "lib/saha/referral-request.ts",
+        "app/referral-request-panel.tsx",
+        "docs/current/SLICE-3H-REFERRAL-REQUESTS.md",
+        "tests/referral-request-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

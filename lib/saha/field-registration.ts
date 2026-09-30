@@ -4,6 +4,7 @@ import { registrationReviewSchema, reviewRegistration } from './continuity';
 import { captureFor } from './programmes';
 import { PROGRAMMES, type OrgState, type Member, type Person, type Visit } from './types';
 import type { Actor } from './store';
+import type { RequestDecision } from './referral-request';
 // Slice 3g: a person registered offline in the field notebook, with an optional first visit draft and an
 // optional referral request, is synced in ONE command, so person, visit and request are created together or
 // not at all (BR-OFF-05). The notebook's registration id is stored on the person, so a resend under a new
@@ -11,7 +12,7 @@ import type { Actor } from './store';
 // applies (reviewRegistration): possible matches refuse until the worker reviews them; the notebook then
 // calls POST /api/patient-matches for {hash,candidates} and resends with registrationReview.
 export type FieldRegistration={id:string;by:string;capturedAt:string;syncedAt:string};
-export type ReferralRequest={facility:string;reason:string;requestedBy:string;requestedAt:string;capturedAt:string};
+export type ReferralRequest={facility:string;reason:string;requestedBy:string;requestedAt:string;capturedAt:string;decision?:RequestDecision};
 const str=z.string().trim().min(1).max(200);
 export const fieldRegistrationSchema=z.discriminatedUnion('type',[z.object({
  type:z.literal('registerFieldPerson'),registrationId:z.string().uuid(),capturedAt:z.string().datetime(),
