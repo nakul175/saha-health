@@ -3,6 +3,7 @@ import { caseloadSchema } from './caseload';
 import { mergeSchema } from './merge';
 import { exceptionalSchema } from './exceptional';
 import { rightsSchema } from './rights';
+import { consentSchema } from './consent';
 import { retentionSchema } from './retention';
 import { fixtureMarkSchema } from './fixture-migration';
 import { referralSchema } from './referrals';
@@ -41,6 +42,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...mergeSchema.options,
  ...exceptionalSchema.options,
  ...rightsSchema.options,
+ ...consentSchema.options,
  ...retentionSchema.options,
  ...fixtureMarkSchema.options,
  ...referralSchema.options,
