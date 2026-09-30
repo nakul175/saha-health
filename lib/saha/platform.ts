@@ -23,6 +23,7 @@ import { outreachSchema } from './outreach';
 import { expansionSchema } from './expansion';
 import { operationsSchema } from './operations';
 import { alertAckSchema } from './alerts';
+import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
 import { fieldRegistrationSchema } from './field-registration';
 import { referralRequestSchema } from './referral-request';
@@ -63,6 +64,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...shadowSchema.options,
  ...operationsSchema.options,
  ...alertAckSchema.options,
+ ...invoiceSchema.options,
  ...pilotSchema.options,
  ...outreachSchema.options,
  ...expansionSchema.options,

@@ -11,7 +11,7 @@ export async function operationsSmoke({get,post,check,accounts,org,sql}){
  await post(s,{type:'opsIncident',version:0,title:'Forbidden incident',severity:'high',ownerId:o.id},403);await post(a,{type:'opsMaintenance',version:0,active:true,reason:'Forbidden pause'},403);
  const created=await post(a,{type:'opsIncident',version:0,title:'Synthetic delivery review',severity:'high',ownerId:o.id});const incidentId=created.result.incidentId;
  // Slice 6g: computed alerts are scoped to what each viewer may see.
- check(()=>{assert.equal(overview.alertRules,'1.1.0');assert.ok(Array.isArray(overview.alerts));assert.ok(Array.isArray(supervised.alerts)&&supervised.alerts.every(x=>!/^(incident|server|maintenance)/.test(x.id)));assert.ok(admin.alerts.every(x=>!/^(referrals|followups|destination|ehr|provider)/.test(x.id)));});
+ check(()=>{assert.equal(overview.alertRules,'1.2.0');assert.ok(Array.isArray(overview.alerts));assert.ok(Array.isArray(supervised.alerts)&&supervised.alerts.every(x=>!/^(incident|server|maintenance)/.test(x.id)));assert.ok(admin.alerts.every(x=>!/^(referrals|followups|destination|ehr|provider)/.test(x.id)));});
  const alerted=await get(a,'/api/operations',200,org);check(()=>{const x=alerted.alerts.find(y=>y.id==='incident-open');assert.equal(x?.count,1);assert.equal(x.owner,'operations');});
  // Slice 6h: acknowledgement by the owning role only; shown with its note.
  await post(s,{type:'opsAcknowledgeAlert',alertId:'incident-open',count:1,note:'Supervisor cannot own this'},403);

@@ -74,9 +74,9 @@ try{
  check(()=>assert.deepEqual(alerts.alertsFor({budgets:[row('d',7.99,10)],report:null,telemetry:null,operations:null,now}),[],'below 80% raises nothing'));
  check(()=>assert.deepEqual(alerts.alertsFor({budgets:null,report:null,telemetry:null,operations:null,now}),[],'no budget data (non-operators) raises nothing'));
  check(()=>{assert.equal(alerts.canAcknowledge(owner,'owners'),true);assert.equal(alerts.canAcknowledge(admin,'owners'),false);assert.equal(alerts.canAcknowledge(supervisor,'owners'),false);assert.equal(alerts.canAcknowledge({...owner,status:'suspended'},'owners'),false);});
- check(()=>assert.equal(alerts.ALERT_RULES_VERSION,'1.1.0'));
+ check(()=>assert.equal(alerts.ALERT_RULES_VERSION,'1.2.0'));
  s.operations={version:4,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null};
- await status(()=>alerts.applyAlertAck(s,{type:'opsAcknowledgeAlert',alertId:'ai-budget-near',count:1,note:'Reviewing expected use'},actor('admin'),admin),403,/owner acknowledges budget alerts/);
+ await status(()=>alerts.applyAlertAck(s,{type:'opsAcknowledgeAlert',alertId:'ai-budget-near',count:1,note:'Reviewing expected use'},actor('admin'),admin),403,/owner acknowledges budget and invoice alerts/);
  alerts.applyAlertAck(s,{type:'opsAcknowledgeAlert',alertId:'ai-budget-near',count:1,note:'Reviewing expected use'},actor('owner'),owner,now);
  check(()=>{const a=s.operations.acknowledgements.at(-1);assert.equal(a.scope,'organisation');assert.equal(s.operations.version,4);const seen=alerts.alertsFor({budgets:[row('a',8,10,'near')],report:null,telemetry:null,operations:null,acknowledgements:s.operations.acknowledgements,viewerId:'admin',now});assert.equal(seen[0].acknowledged.note,'Reviewing expected use','shared with other operators');});
  // From recorded estimates: an external capability at 80% of its budget.

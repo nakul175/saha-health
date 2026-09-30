@@ -130,6 +130,7 @@ const {exceptionsSmoke}=await import('./exceptions-smoke.mjs');await exceptionsS
 const {reportExportSmoke}=await import('./report-export-smoke.mjs');await reportExportSmoke({get,check,accounts,org,sql,base});
 const {auditChainSmoke}=await import('./audit-chain-smoke.mjs');await auditChainSmoke({get,post,check,accounts,org,sql,base});
 const {aiBudgetSmoke}=await import('./ai-budget-smoke.mjs');await aiBudgetSmoke({get,post,check,accounts,org});
+const {aiInvoiceSmoke}=await import('./ai-invoice-smoke.mjs');await aiInvoiceSmoke({get,post,check,accounts,org});
 const {safeLogsSmoke}=await import('./safe-logs-smoke.mjs');await safeLogsSmoke({get,post,check,accounts,org,sql,base});
 const {providerSandboxSmoke}=await import('./provider-sandbox-smoke.mjs');await providerSandboxSmoke({get,post,check,accounts,org});
 const {agentQualitySmoke}=await import('./agent-quality-smoke.mjs');await agentQualitySmoke({get,post,check,accounts,org,base});
