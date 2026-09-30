@@ -194,3 +194,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The merge suites passed on their first full run. One later full run stalled in the operations load smoke, before any slice 1c test, with a local request-header timeout and so did not reach the restore drill; the immediate rerun passed and its reports are the ones saved.
 - Browser check with headless Chromium against the built Worker and two synthetic clinicians: proposal by one, approval by the other, read-only notice on the duplicate. No console errors; every command and identity-case read returned 200.
 - Assessment changes: BR-ID-05, BR-ID-08 and BR-DATA-06 texts updated; all remain partial. Counts are unchanged at 14 implemented-local, 136 partial, 17 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 6a — exceptional access — 30 September 2026 IST (29 September UTC)
+
+- **1,692 automated assertions passed:** 1,185 HTTP/D1 (1,138 plus 47 exceptional-access checks), 486 contract/checkpoint (467 plus 19 exceptional-access contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6a/`.
+- The exceptional-access suites passed on their first full run, apart from one contract assertion that read the review outcome from the wrong field of the view; the assertion was corrected, not the code.
+- Browser check with headless Chromium against the built Worker and two synthetic accounts: emergency access opened by record reference, restriction notice on the patient page, early closure, then an "appropriate" review by the owner. No console errors; every command and emergency-access read returned 200.
+- Assessment changes: BR-SEC-11 moved from not-built to partial. Counts are now 14 implemented-local, 137 partial, 16 not-built and 9 unverified; all 176 formal acceptances remain pending.

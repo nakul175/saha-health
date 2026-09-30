@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 6a](SLICE-6A-EXCEPTIONAL-ACCESS.md) | Time-limited emergency access with restricted actions and independent review |
 | [Development slice 1c](SLICE-1C-MERGE.md) | Two-person identity merge, impact queue and unmerge |
 | [Development slice 1b](SLICE-1B-CASELOAD.md) | Workforce lifecycle, bulk caseload transfer, responsibility gaps and member removal |
 | [Development slice 1](SLICE-1-HOUSEHOLDS.md) | Households, proxy authority and sensitive-class disclosure |

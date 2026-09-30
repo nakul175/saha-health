@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1c",
+  "engineeringRelease": "R11 + development slices 0a-1c and 6a",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 136,
-    "not-built": 17,
+    "partial": 137,
+    "not-built": 16,
     "unverified": 9
   },
   "acceptance": {
@@ -3034,10 +3034,10 @@
       "requirement": "Any exceptional access shall have a defined eligible role, reason, time limit, minimum scope and retrospective review. It shall not create permanent access or bypass clinical authority.",
       "acceptance": "Acceptance: A break-glass event is visible to the designated reviewer and automatically expires; an ordinary worker cannot invoke it unless specifically authorised.",
       "sourceTextLine": 578,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R15",
-      "current": "No exceptional access path exists.",
-      "remaining": "Eligible break-glass/support roles, time/scoped grants and retrospective review.",
+      "current": "Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient's team.",
+      "remaining": "Approved eligibility policy, support-staff access, step-up authentication, team notification and material-read audit during access.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md"
