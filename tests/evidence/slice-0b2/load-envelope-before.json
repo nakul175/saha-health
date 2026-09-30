@@ -1,0 +1,139 @@
+{
+  "probe": "BRD R1 envelope load probe",
+  "release": "Slice 6b head before 0b-2 (organisation-wide workspace reads)",
+  "environment": "local Worker (wrangler dev --local) and local D1/SQLite; one owner account issuing concurrent commands",
+  "envelope": "BRD v1.1 section 23: 200 workers, 100 concurrent users, 100,000 people, 2,000 encounters/day, 50 req/s for 30 minutes",
+  "steps": [
+    {
+      "people": 1006,
+      "visits": 1001,
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 49,
+        "maxMs": 70,
+        "responseKB": 774,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 89,
+        "responseKB": 775
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 40,
+        "maxMs": 48,
+        "responseKB": 42,
+        "patients": 50
+      }
+    },
+    {
+      "people": 5006,
+      "visits": 5001,
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 195,
+        "maxMs": 215,
+        "responseKB": 3860,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 198,
+        "responseKB": 3861
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 113,
+        "maxMs": 118,
+        "responseKB": 42,
+        "patients": 50
+      }
+    },
+    {
+      "people": 20006,
+      "visits": 20001,
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 668,
+        "maxMs": 670,
+        "responseKB": 15468,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 650,
+        "responseKB": 15469
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 405,
+        "maxMs": 415,
+        "responseKB": 42,
+        "patients": 50
+      }
+    },
+    {
+      "people": 50006,
+      "visits": 50001,
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 1743,
+        "maxMs": 1798,
+        "responseKB": 38723,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 1618,
+        "responseKB": 38724
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 965,
+        "maxMs": 1155,
+        "responseKB": 42,
+        "patients": 50
+      }
+    }
+  ],
+  "stoppedAtPeople": null,
+  "limits": "Local engineering probe. Hosted D1 latency, Worker memory/CPU limits, network, multi-account sessions and 30-minute duration were not tested. Concurrency is from one account; the organisation revision guard makes the result the same for many accounts.",
+  "completedAt": "2026-09-29T23:58:52.593Z"
+}

@@ -34,6 +34,8 @@ export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Ex
  // Slice 0a: per-patient concurrency counters as loaded, and the patient ids loaded when the
  // state is a patient partition rather than the whole organisation.
  patientRevs?:Record<string,number>;partition?:string[];
+ // Slice 0b-2: set when the state was read for one viewer's workspace; such a state is never persisted.
+ readOnlyFor?:string;
  // Slice 1: households, loaded in full for organisation-wide reads and for the partition's households otherwise.
  households?:Household[];
  // Slice 1b: caseload transfers, loaded for organisation-wide reads only.

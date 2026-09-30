@@ -36,10 +36,10 @@ const owner = { 'oai-authenticated-user-id': `load-owner-${crypto.randomUUID()}`
 const ms = t => Math.round(performance.now() - t);
 const pct = (xs, p) => { if (!xs.length) return null; const s = [...xs].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.ceil(p / 100 * s.length) - 1)]; };
 
-async function read(org) {
+async function read(org, who = owner) {
   const t = performance.now();
   try {
-    const r = await fetch(base + '/api/workspace', { headers: { ...owner, ...(org ? { 'x-saha-organisation': org } : {}) }, signal: AbortSignal.timeout(120000) });
+    const r = await fetch(base + '/api/workspace', { headers: { ...who, ...(org ? { 'x-saha-organisation': org } : {}) }, signal: AbortSignal.timeout(120000) });
     const text = await r.text();
     return { status: r.status, ms: ms(t), bytes: text.length, body: r.ok ? JSON.parse(text) : null };
   } catch (e) { return { status: 'error', ms: ms(t), bytes: 0, error: String(e.message ?? e) }; }
@@ -76,6 +76,14 @@ function seedTo(n) {
   sql.exec('COMMIT');
   seeded = n;
 }
+// Slice 0b-2: an ASHA assigned 50 people reads her own workspace at every size.
+const asha = { 'oai-authenticated-user-id': `load-asha-${crypto.randomUUID()}`, 'oai-authenticated-user-email': 'load-asha@example.invalid' };
+const post = (who, body, orgId) => fetch(base + '/api/commands', { method: 'POST', headers: { ...who, 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID(), ...(orgId ? { 'x-saha-organisation': orgId } : {}) }, body: JSON.stringify(body) }).then(r => r.json());
+const ashaHome = await fetch(base + '/api/workspace', { headers: asha }).then(r => r.json());
+const invite = await post(owner, { type: 'createInvite', accountCode: ashaHome.user.accountCode, label: 'Load ASHA', role: 'asha', teamIds: ['default'] }, org);
+await post(asha, { type: 'joinOrganisation', token: invite.result.token });
+let ashaAssigned = false;
+function assignAsha() { if (ashaAssigned) return; const id = asha['oai-authenticated-user-id']; const up = sql.prepare("UPDATE patients SET assigned_to=?, data=json_set(data,'$.assignedTo',?) WHERE org_id=? AND id=?"); sql.exec('BEGIN'); for (let i = 0; i < 50; i++) up.run(id, id, org, `load_p_${100 + i}`); sql.exec('COMMIT'); ashaAssigned = true; }
 // New visits target people who have only a confirmed visit, so startVisit is valid.
 const nextPerson = () => `load_p_${cursor++}`;
 
@@ -110,7 +118,9 @@ for (const n of SIZES) {
   for (let i = 0; i < 3; i++) reads.push(await read(org));
   const readStatus = [warm, ...reads].map(r => r.status);
   const single = await command(org, { type: 'startVisit', personId: nextPerson() });
-  const step = { people: n + 6, visits: n + 1, workspaceRead: { status: readStatus, p50Ms: pct(reads.map(r => r.ms), 50), maxMs: Math.max(...reads.map(r => r.ms)), responseKB: Math.round((reads.at(-1).bytes || 0) / 1024), error: reads.find(r => r.error)?.error ?? null }, singleWrite: { status: single.status, ms: single.ms, responseKB: Math.round(single.bytes / 1024) } };
+  let ashaRead = null;
+  if (n >= 150) { assignAsha(); const ar = []; for (let i = 0; i < 3; i++) ar.push(await read(org, asha)); ashaRead = { status: ar.map(r => r.status), p50Ms: pct(ar.map(r => r.ms), 50), maxMs: Math.max(...ar.map(r => r.ms)), responseKB: Math.round((ar.at(-1).bytes || 0) / 1024), patients: ar.at(-1).body?.people?.length ?? null }; }
+  const step = { people: n + 6, visits: n + 1, workspaceRead: { status: readStatus, p50Ms: pct(reads.map(r => r.ms), 50), maxMs: Math.max(...reads.map(r => r.ms)), responseKB: Math.round((reads.at(-1).bytes || 0) / 1024), error: reads.find(r => r.error)?.error ?? null }, singleWrite: { status: single.status, ms: single.ms, responseKB: Math.round(single.bytes / 1024) }, ...(ashaRead ? { ashaRead } : {}) };
   const healthy = readStatus.every(s => s === 200) && step.workspaceRead.maxMs < stopAfterMs;
   if (healthy && !READ_ONLY) {
     step.burst10 = await burst(10);
@@ -124,7 +134,7 @@ for (const n of SIZES) {
 
 const result = {
   probe: 'BRD R1 envelope load probe',
-  release: 'Slice 0 baseline (R11 storage model)',
+  release: process.env.SAHA_LOAD_RELEASE ?? 'Slice 0 baseline (R11 storage model)',
   environment: 'local Worker (wrangler dev --local) and local D1/SQLite; one owner account issuing concurrent commands',
   envelope: 'BRD v1.1 section 23: 200 workers, 100 concurrent users, 100,000 people, 2,000 encounters/day, 50 req/s for 30 minutes',
   steps,
