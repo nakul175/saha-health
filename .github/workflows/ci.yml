@@ -36,7 +36,7 @@ jobs:
       - name: HTTP and database suite
         run: node tests/run-api-smoke.mjs
       - name: Contract suites
-        run: for t in agent-contract action-plan-contract exceptions-contract continuity-contract ehr-contract ehr-execution field-client field-media-client field-storage-client field-recording-client fhir-validate-contract alerts-contract photo-contract field-contract field-shell governance-contract mis-contract mis-delivery operations-contract outreach-contract pilot-contract storage-contract identity-contract household-contract caseload-contract merge-contract exceptional-contract rights-contract scoped-read-contract retention-contract indicators-contract referral-contract reuse-contract roster-contract abdm-contract abdm-transfer-contract media-contract; do node tests/$t.mjs; done
+        run: for t in agent-contract action-plan-contract exceptions-contract report-export-contract continuity-contract ehr-contract ehr-execution field-client field-media-client field-storage-client field-recording-client fhir-validate-contract alerts-contract photo-contract field-contract field-shell governance-contract mis-contract mis-delivery operations-contract outreach-contract pilot-contract storage-contract identity-contract household-contract caseload-contract merge-contract exceptional-contract rights-contract scoped-read-contract retention-contract indicators-contract referral-contract reuse-contract roster-contract abdm-contract abdm-transfer-contract media-contract; do node tests/$t.mjs; done
       - name: Encrypted restore drill
         run: node tests/recovery-drill.mjs
       - uses: actions/upload-artifact@v4

@@ -377,3 +377,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - First-run failure: the new HTTP module expected the administrator to read the queue and got 403 because an earlier module (expansion) leaves the administrator suspended. The slice 4b administrator refusals had been passing for that reason rather than for the role. The action-plan module now reactivates the administrator first; its refusals still hold. The exception contract passed on its first run.
 - Browser check with headless Chromium on the built Worker: the Operations exception queue listed an overdue referral with owner and recovery action; the kind filter, the row link and a direct `/?patient=&visit=` link each opened the patient's visit; an unknown record opened nothing; no console errors (`tests/evidence/slice-6i/browser-exception-queue.json`).
 - BR-REP-01 and NFR-18 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 6k — reconciled operational export — 30 September 2026 IST (30 September UTC)
+
+- **2,449 automated assertions passed:** 1,576 HTTP/D1 (1,566 plus 10 export assertions), 852 contract/checkpoint (845 plus 7 export contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6k/`.
+- First-run failure in the new HTTP module only: its helper for reading a CSV row skipped one character too few and kept the opening quote of the first value. Fixed in the test; the export was correct. The export contract passed on its first run.
+- Browser check with headless Chromium on the built Worker: the CSV downloaded from the Operations page matched its manifest row count and SHA-256, its four control totals reconciled, and the on-screen confirmation showed the same checksum; no console errors (`tests/evidence/slice-6k/browser-export.json`).
+- BR-REP-05 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

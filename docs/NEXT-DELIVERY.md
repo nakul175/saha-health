@@ -38,6 +38,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 6g | Computed operational alerts with owners, actions and viewer scope on the Operations page | Delivered (see [slice 6g](current/SLICE-6G-ALERTS.md)) |
 | 6h | Alert acknowledgement by the owning role, count-bound and at most 24 hours | Delivered (see [slice 6h](current/SLICE-6H-ALERT-ACKNOWLEDGEMENT.md)) |
 | 6i | Item-level exception queue on the Operations page with owner, age, recovery action and a link to the patient or visit | Delivered (see [slice 6i](current/SLICE-6I-EXCEPTION-QUEUE.md)) |
+| 6k | Operational CSV export identifies definition, export, exporter and teams, with control totals and a row-count and SHA-256 manifest | Delivered (see [slice 6k](current/SLICE-6K-RECONCILED-EXPORTS.md)) |
 | 6 | Restore-safe disposal, owner-maintained indicator registry, alert delivery, full Hindi UI, screen-reader, zoom and user accessibility review | Planned |
 | 7a | ABDM module readiness, ABHA link/decline/unlink and consent artefacts with enforcement, against a local mock gateway | Delivered (see [slice 7a](current/SLICE-7A-ABDM-MOCK.md)) |
 | 7b | Care-context linking, encrypted consent-bound transfer and received-record review against the mock gateway | Delivered (see [slice 7b](current/SLICE-7B-ABDM-TRANSFER.md)) |
