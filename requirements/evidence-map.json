@@ -221,7 +221,13 @@
   "NFR-22": [
     "lib/saha/fhir-document.ts",
     "lib/saha/operations.ts",
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "lib/saha/data-exit.ts",
+    "lib/saha/data-exit-server.ts",
+    "scripts/verify-export.mjs",
+    "tests/data-exit-contract.mjs",
+    "tests/data-exit-smoke.mjs",
+    "docs/current/SLICE-6M-DATA-EXIT.md"
   ],
   "NFR-23": [
     "scripts/recovery.mjs",
@@ -561,5 +567,17 @@
     "tests/capability-lifecycle-contract.mjs",
     "tests/capability-lifecycle-smoke.mjs",
     "docs/current/SLICE-5D-CAPABILITY-LIFECYCLE.md"
+  ],
+  "BR-OPS-07": [
+    "lib/saha/operations.ts",
+    "lib/saha/pilot.ts",
+    "tests/operations-smoke.mjs",
+    "tests/pilot-smoke.mjs",
+    "lib/saha/data-exit.ts",
+    "lib/saha/data-exit-server.ts",
+    "scripts/verify-export.mjs",
+    "tests/data-exit-contract.mjs",
+    "tests/data-exit-smoke.mjs",
+    "docs/current/SLICE-6M-DATA-EXIT.md"
   ]
 }
