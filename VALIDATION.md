@@ -288,3 +288,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The new client checks run `public/field/app.js` in Node with real Web Crypto and injected storage and network; they do not exercise IndexedDB. A separate headless-Chromium check with real IndexedDB queued a PNG offline, synced online, confirmed one upload, confirmed the sealed copy was deleted from the device and found the file on the server's draft visit, with no console errors (`tests/evidence/slice-3a/offline-media-browser.json`).
 - During development, the first run of the new client checks stopped inside the test itself: the synthetic file generator exceeded the Web Crypto random-fill limit of 65,536 bytes. This was a test defect, fixed before the evidence run.
 - Assessment changes: BR-OFF-04 moved from not-built to partial. Counts are now 14 implemented-local, 149 partial, 4 not-built and 9 unverified; all 176 formal acceptances remain pending. Provider revalidation, in-app capture, background upload and real-device testing are not done. The evidence text of BR-UX-03, BR-DATA-08, BR-OFF-06 and BR-OFF-08 was updated to reflect media playback, the offline queue and the media allowance; their status stays partial.
+
+## Development slice 3b — field storage warnings — 30 September 2026 IST (30 September UTC)
+
+- **2,224 automated assertions passed:** 1,487 HTTP/D1, 716 contract/checkpoint (688 plus 28 storage-warning checks) and 21 encrypted restore checks over 31 SQLite tables. Reports: `tests/evidence/slice-3b/`.
+- The first run of the new checks failed on the test's own expectation of the usage text ("10.0 MB" where the page correctly prints "10 MB" at exactly 10 MB); the expectation was corrected.
+- Browser check with headless Chromium: the page showed usage against a 408 MB allowance and reported that the browser did not agree to keep the data (headless Chromium refuses persistence). No console errors. `tests/evidence/slice-3b/storage-browser.json`.
+- BR-OFF-08 evidence text updated; status stays partial. Counts unchanged at 14 implemented-local, 149 partial, 4 not-built and 9 unverified; all 176 formal acceptances remain pending.
