@@ -11,6 +11,7 @@ import type { MergeCase, MergeLink } from './merge';
 import type { ExceptionalGrant } from './exceptional';
 import type { RightsRequest, Restriction } from './rights';
 import type { ConsentEvent } from './consent';
+import type { DelegationUse } from './delegation';
 import type { Retention } from './retention';
 import type { ReferralState, Urgency } from './referral-rules';
 import type { Abha, AbdmConsent, AbdmConfig } from './abdm';
@@ -58,8 +59,10 @@ export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Ex
  // Slice 6b: rights and grievance requests.
  rightsRequests?:RightsRequest[];
  // Slice 6c: retention schedules and legal holds (organisation-level).
- retention?:Retention};
-export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic'|'training'|'staging'|'production'|'misconfigured';environmentLabel:string;externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
+ retention?:Retention;
+ // Slice 1e: delegations relied on while applying one command; never persisted, turned into audit lines.
+ delegationUsed?:DelegationUse[]};
+export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic'|'training'|'staging'|'production'|'misconfigured';environmentLabel:string;externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;delegatedAuthority?:{id:string;kind:'team-supervision'|'reporting';teamIds:string[];until:string;grantorId:string}[];signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
 export type RecordRevision = {id:string;personId:string;entityType:'person'|'visit';entityId:string;version:number;actorId:string;actorName:string;action:string;reason:string;data:Person|Visit;changes:{field:string;before:string;after:string}[];createdAt:string};
 export const PROGRAMMES:Programme[]=['Maternal care','Chronic care','TB screening','Child health','General care'];
 export const ROLE_LABEL:Record<Role,string>={asha:'ASHA worker',clinician:'Clinician',supervisor:'Supervisor',admin:'Administrator',provider:'Provider (sandbox)'};

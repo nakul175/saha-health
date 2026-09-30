@@ -5,6 +5,7 @@ import { PACKS } from './programmes';
 import { escalation, STATE_LABEL, TERMINAL, type ReferralState, type Urgency } from './referral-rules';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Referral } from './types';
+import { supervises } from './delegation';
 
 // Slice 4b: one per-patient action plan (BR-CARE-05) with visible ownership (BR-CARE-01).
 // Computed on read from the records that already hold the work; nothing is copied or sent.
@@ -20,7 +21,8 @@ const URGENCY:Record<Urgency,number>={emergency:0,urgent:1,routine:2};
 const KIND:Record<PlanKind,number>={'safety-case':0,referral:1,'protocol-review':2,'ai-disagreement':3,'follow-up':4,outreach:5,'message-follow-up':6};
 const day=86400000;
 // Stewards may reassign any open item of a patient in their team; this mirrors referrals.ts.
-export const steward=(m:Member,p:Person)=>m.status==='active'&&m.role!=='admin'&&(m.role==='supervisor'||m.isOwner)&&m.teamIds.includes(p.teamId);
+export // Slice 1e: a team supervisor or owner with a care role, or a clinician holding a supervision delegation for the team.
+const steward=(s:OrgState,m:Member,p:Person)=>supervises(s,m,p.teamId);
 // Eligible owners of care tasks: active care workers with normal (not emergency) access to the patient.
 export const eligibleOwner=(o:Member|undefined,p:Person)=>!!o&&['asha','clinician'].includes(o.role)&&normallyAllowed(o,p);
 const careWorker=(m:Member,p:Person)=>['asha','clinician'].includes(m.role)&&normallyAllowed(m,p);
@@ -33,7 +35,7 @@ const norm=(s:string)=>s.normalize('NFKC').toLocaleLowerCase().replace(/\s+/g,' 
 export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOString()){
  if(m.role==='admin'||!allowed(m,p,now))fail(403,'This patient is outside your current care scope.');
  const members=new Map(s.members.filter(x=>x.status==='active').map(x=>[x.userId,x])),team=s.teams.find(t=>t.id===p.teamId)?.name??'the patient\'s team';
- const lead=steward(m,p),care=careWorker(m,p);
+ const lead=steward(s,m,p),care=careWorker(m,p);
  const who=(id:string|null|undefined,eligible:(o:Member|undefined)=>boolean)=>{if(!id)return null;const o=members.get(id);return {userId:id,displayName:o?.displayName??'Former member',role:o?.role??'unknown',eligible:eligible(o)};};
  const gapFor=(owner:PlanItem['owner'],label='care worker')=>!owner?`No named ${label}`:!owner.eligible?`${owner.displayName} no longer has current care access`:null;
  const items:PlanItem[]=[];
@@ -99,7 +101,7 @@ export const actionPlanSchema=z.discriminatedUnion('type',[
 ]);
 export function authorizeActionPlan(s:OrgState,m:Member,c:any){
  if(c?.type!=='assignPlanItem')return;const p=person(s.workspace,c.personId);
- if(steward(m,p))return;
+ if(steward(s,m,p))return;
  if(!careWorker(m,p))fail(403,'A supervisor or owner of the patient\'s team, or a care worker with current access, is required.');
  if(c.ownerId!==m.userId)fail(403,'Care workers can take ownership for themselves only. Ask a supervisor to assign someone else.');
 }
@@ -108,7 +110,7 @@ export function applyActionPlan(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
  authorizeActionPlan(s,m,c);const p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient changed. Refresh the action plan before assigning.');
  if(new Set(c.targets.map(t=>t.kind+':'+t.id)).size!==c.targets.length)fail(422,'List each item once.');
  const owner=s.members.find(x=>x.userId===c.ownerId&&x.status==='active');if(!eligibleOwner(owner,p))fail(422,'Choose an active care worker with current access to this patient.');
- const lead=steward(m,p),changed:string[]=[];let personChanged=false;
+ const lead=steward(s,m,p),changed:string[]=[];let personChanged=false;
  for(const t of c.targets){
   if(t.kind==='follow-up'){
    const f=p.followUps?.find(x=>x.id===t.id);if(!f||f.state!=='open')fail(409,'Choose an open follow-up of this patient.');

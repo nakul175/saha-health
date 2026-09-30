@@ -32,6 +32,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 6n](SLICE-6N-ENVIRONMENTS.md) | Declared environments, their guards and the owner configuration check |
 | [Development slice 2d](SLICE-2D-FIXTURE-MIGRATION.md) | Controlled migration marking earlier seeded fixtures, with dry run and reversal |
 | [Development slice 6o](SLICE-6O-CONSENT-WITHDRAWAL.md) | Consent withdrawal, downstream dispositions and consent history |
+| [Development slice 1e](SLICE-1E-DELEGATION.md) | Time-limited delegation of team supervision and reporting-only access |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |
