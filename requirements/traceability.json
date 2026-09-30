@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3c, 4a, 6a-6g, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3c, 4a, 6a-6h, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2740,8 +2740,8 @@
       "sourceTextLine": 531,
       "implementation": "partial",
       "target": "R15",
-      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer.",
-      "remaining": "Alert delivery and acknowledgement, and approved detection/response targets.",
+      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer. Slice 6h: the owning role acknowledges an alert with a note; the acknowledgement lapses when the count changes or after 24 hours.",
+      "remaining": "Alert delivery, escalation of acknowledged alerts, and approved detection/response targets.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -2750,7 +2750,8 @@
         "tests/pilot-smoke.mjs",
         "lib/saha/alerts.ts",
         "tests/alerts-contract.mjs",
-        "docs/current/SLICE-6G-ALERTS.md"
+        "docs/current/SLICE-6G-ALERTS.md",
+        "docs/current/SLICE-6H-ALERT-ACKNOWLEDGEMENT.md"
       ],
       "automatedAcceptanceClaim": false
     },

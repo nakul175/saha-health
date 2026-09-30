@@ -15,6 +15,7 @@ import { pilotSchema } from './pilot';
 import { outreachSchema } from './outreach';
 import { expansionSchema } from './expansion';
 import { operationsSchema } from './operations';
+import { alertAckSchema } from './alerts';
 import { fieldSchema } from './field';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
@@ -43,6 +44,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...governanceSchema.options,
  ...evaluationSchema.options,
  ...operationsSchema.options,
+ ...alertAckSchema.options,
  ...pilotSchema.options,
  ...outreachSchema.options,
  ...expansionSchema.options,
