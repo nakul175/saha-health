@@ -316,3 +316,9 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - A new client assertion checks that the editor is not rebuilt by a late estimate; it fails on the slice 3b code and passes with the fix.
 - **2,250 automated assertions passed:** 1,489 HTTP/D1, 740 contract/checkpoint (738 plus 2) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3b-followup/`.
 - Also in this follow-up: the Operations page notice still said "Release 9"; it now says "Release 11 with development slices". The application build passed; no test asserts this text.
+
+## Development slice 6g — computed operational alerts — 30 September 2026 IST (30 September UTC)
+
+- **2,268 automated assertions passed:** 1,493 HTTP/D1 (1,489 plus 4 alert checks), 754 contract/checkpoint (740 plus 14 alert contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6g/`.
+- Browser check with headless Chromium: a critical incident showed as a critical alert and "Show details" opened the service tab; no console errors. The first run of the check script reported failure because its own text pattern expected a separator the page does not render; the pattern was corrected and the check rerun. The accessibility audit (24 screens) still reported no violations.
+- BR-OPS-04 and NFR-18 evidence updated; both stay partial (no delivery, acknowledgement or five-minute detection). Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
