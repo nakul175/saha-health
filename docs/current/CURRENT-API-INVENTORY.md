@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **19 HTTP method/route pairs** and **133 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **20 HTTP method/route pairs** and **133 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -15,6 +15,7 @@ Generated from source: **19 HTTP method/route pairs** and **133 command schema d
 | GET | `/api/history` | [app/api/history/route.ts](../../app/api/history/route.ts) |
 | GET | `/api/household` | [app/api/household/route.ts](../../app/api/household/route.ts) |
 | GET | `/api/identity-cases` | [app/api/identity-cases/route.ts](../../app/api/identity-cases/route.ts) |
+| GET | `/api/indicators` | [app/api/indicators/route.ts](../../app/api/indicators/route.ts) |
 | POST | `/api/mis/callback` | [app/api/mis/callback/route.ts](../../app/api/mis/callback/route.ts) |
 | GET | `/api/operations` | [app/api/operations/route.ts](../../app/api/operations/route.ts) |
 | GET | `/api/outreach` | [app/api/outreach/route.ts](../../app/api/outreach/route.ts) |

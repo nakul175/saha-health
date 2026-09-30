@@ -223,3 +223,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The first full run failed one new assertion of this slice: it compared audit-event counts before and after hold commands, which themselves add audit events. The assertion now compares patients, visits and submissions for equality and requires revisions not to decrease; the rerun passed.
 - Browser check with headless Chromium: schedule saved and organisation hold placed from the Organisation page. No console errors.
 - Assessment changes: BR-SEC-09 moved from not-built to partial. Counts are now 14 implemented-local, 139 partial, 14 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 6d — indicator catalogue and suppression — 30 September 2026 IST (30 September UTC)
+
+- **1,856 automated assertions passed:** 1,285 HTTP/D1 (1,258 plus 27 indicator checks), 550 contract/checkpoint (541 plus 9 indicator contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6d/`.
+- The indicator suites passed on their first full run; the full suite showed no local Worker restarts.
+- Browser check with headless Chromium: a question interpreted and run from the Operations page. No console errors.
+- Assessment changes: BR-AG-11 moved from not-built to partial; BR-REP-02, BR-REP-03 and BR-REP-04 texts updated. Counts are now 14 implemented-local, 140 partial, 13 not-built and 9 unverified; all 176 formal acceptances remain pending.
