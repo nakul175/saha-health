@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 4a, 6a-6e, 7a-7b, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a, 4a, 6a-6e, 7a-7b, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -9,8 +9,8 @@
   },
   "counts": {
     "implemented-local": 14,
-    "partial": 148,
-    "not-built": 5,
+    "partial": 149,
+    "not-built": 4,
     "unverified": 9
   },
   "acceptance": {
@@ -2223,13 +2223,16 @@
       "requirement": "Recordings and images shall be queued with purpose, quality state and retention rules. On reconnection the platform shall recheck eligibility and authorisation before sending media to a provider.",
       "acceptance": "Acceptance: An offline request is cancelled or routed for review when its permission expires or its capability is suspended before upload.",
       "sourceTextLine": 456,
-      "implementation": "not-built",
+      "implementation": "partial",
       "target": "R14",
-      "current": "No offline audio/image queue.",
-      "remaining": "Purpose/quality/retention-bound media queue with reconnect permission/provider revalidation.",
+      "current": "Slice 3a: field-notebook queue of photos and voice notes with purpose, local quality checks and device retention, sealed per item; on reconnection the grant, patient access and draft visit are rechecked before upload, and failures route items to review without sending.",
+      "remaining": "Provider/capability revalidation once media is sent to a provider; in-app capture; background upload; real-device, low-storage and eviction testing.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "docs/current/SLICE-3A-OFFLINE-MEDIA.md",
+        "public/field/app.js",
+        "tests/field-media-client.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

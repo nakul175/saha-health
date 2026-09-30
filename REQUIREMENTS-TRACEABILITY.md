@@ -1,12 +1,12 @@
-# BRD v1.1 requirements traceability — R11 and development slices 0a-1d, 2a-2b, 4a, 6a-6e, 7a-7b, 0b-2
+# BRD v1.1 requirements traceability — R11 and development slices 0a-1d, 2a-2b, 3a, 4a, 6a-6e, 7a-7b, 0b-2
 
 All **176 requirements** are assessed: 148 functional and 28 non-functional. Source: Health-AI-Orchestration-Platform-BRD-v1.1.docx, SHA-256 `8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8`. The exact requirement and acceptance text is preserved in [the source extract](requirements/brd-v1.1.json) and [the complete CSV](requirements/traceability.csv).
 
 | Implementation assessment | Count |
 | --- | ---: |
 | implemented-local | 14 |
-| partial | 148 |
-| not-built | 5 |
+| partial | 149 |
+| not-built | 4 |
 | unverified | 9 |
 
 **Formal acceptance: 0 accepted; 176 pending.** Local implementation and synthetic assertions are not clinical, field, regulatory, integration or production acceptance. These counts are not a completion percentage. BRD R1/R2/R3 are scope phases; engineering R10–R16 are delivery batches and are not equivalent. Targets are planned primary work batches, subject to dependencies and findings.
@@ -155,7 +155,7 @@ Evidence paths identify related code/tests or explicit gap documentation, not fu
 | BR-OFF-01 — Defined offline capability | Must / R1 | partial / R14 | Encrypted bounded draft notebook with unavailable online functions. | Cached approved guidance, wider task capture and actual offline device acceptance. | [lib/saha/field.ts](lib/saha/field.ts)<br>[tests/field-contract.mjs](tests/field-contract.mjs)<br>[tests/field-client.mjs](tests/field-client.mjs)<br>[tests/field-shell.mjs](tests/field-shell.mjs) |
 | BR-OFF-02 — Durable local capture | Must / R1 | partial / R14 | Serialized encrypted writes acknowledge after persistence; recovery logic tested. | Actual IndexedDB crash/restart/low-storage fault injection on supported devices. | [lib/saha/field.ts](lib/saha/field.ts)<br>[tests/field-contract.mjs](tests/field-contract.mjs)<br>[tests/field-client.mjs](tests/field-client.mjs)<br>[tests/field-shell.mjs](tests/field-shell.mjs) |
 | BR-OFF-03 — Controlled offline authority | Must / R1 | partial / R14 | Signed 24-hour scoped grants, expiry and reconnect checks. | Managed keys/trusted device clock and approved deployment-specific extension policy. | [lib/saha/field.ts](lib/saha/field.ts)<br>[tests/field-contract.mjs](tests/field-contract.mjs)<br>[tests/field-client.mjs](tests/field-client.mjs)<br>[tests/field-shell.mjs](tests/field-shell.mjs) |
-| BR-OFF-04 — Pending media and AI work | Must / R1 | not-built / R14 | No offline audio/image queue. | Purpose/quality/retention-bound media queue with reconnect permission/provider revalidation. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md) |
+| BR-OFF-04 — Pending media and AI work | Must / R1 | partial / R14 | Slice 3a: field-notebook queue of photos and voice notes with purpose, local quality checks and device retention, sealed per item; on reconnection the grant, patient access and draft visit are rechecked before upload, and failures route items to review without sending. | Provider/capability revalidation once media is sent to a provider; in-app capture; background upload; real-device, low-storage and eviction testing. | [REMAINING-RELEASES.md](REMAINING-RELEASES.md)<br>[docs/current/SLICE-3A-OFFLINE-MEDIA.md](docs/current/SLICE-3A-OFFLINE-MEDIA.md)<br>[public/field/app.js](public/field/app.js)<br>[tests/field-media-client.mjs](tests/field-media-client.mjs) |
 | BR-OFF-05 — Safe synchronisation ordering | Must / R1 | partial / R14 | Stable-key sync for existing authorised person and visit drafts. | Offline new person/referral creation and dependency-ordered synchronisation. | [lib/saha/field.ts](lib/saha/field.ts)<br>[tests/field-contract.mjs](tests/field-contract.mjs)<br>[tests/field-client.mjs](tests/field-client.mjs)<br>[tests/field-shell.mjs](tests/field-shell.mjs) |
 | BR-OFF-06 — Revalidation of delayed actions | Must / R1 | partial / R14 | Assignment, identity, membership, consent and visit versions rechecked at sync. | Protocol/freshness revalidation for expanded queued tasks and media. | [lib/saha/field.ts](lib/saha/field.ts)<br>[tests/field-contract.mjs](tests/field-contract.mjs)<br>[tests/field-client.mjs](tests/field-client.mjs)<br>[tests/field-shell.mjs](tests/field-shell.mjs) |
 | BR-OFF-07 — Shared and lost devices | Must / R1 | partial / R14 | Encrypted per-user notebook, inactivity lock, grants and reconnect denial. | Main-workspace shared-device protection, native keystore/MDM and lost-device exercises. | [lib/saha/field.ts](lib/saha/field.ts)<br>[tests/field-contract.mjs](tests/field-contract.mjs)<br>[tests/field-client.mjs](tests/field-client.mjs)<br>[tests/field-shell.mjs](tests/field-shell.mjs) |
