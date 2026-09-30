@@ -1,0 +1,89 @@
+{
+  "check": "slice 4d action dependencies and referral sources (headless Chromium, built Worker, synthetic owner)",
+  "steps": [
+    [
+      "OK",
+      "people"
+    ],
+    [
+      "OK",
+      "patient"
+    ],
+    [
+      "OK",
+      "open wait form"
+    ],
+    [
+      "OK",
+      "choose blocker"
+    ],
+    [
+      "OK",
+      "reason"
+    ],
+    [
+      "OK",
+      "record"
+    ],
+    [
+      "OK",
+      "waiting shown"
+    ],
+    [
+      "OK",
+      "holds back shown"
+    ],
+    [
+      "OK",
+      "dependency listed"
+    ],
+    [
+      "OK",
+      "open link form"
+    ],
+    [
+      "OK",
+      "choose kind"
+    ],
+    [
+      "OK",
+      "choose source"
+    ],
+    [
+      "OK",
+      "note"
+    ],
+    [
+      "OK",
+      "link"
+    ],
+    [
+      "OK",
+      "sources shown"
+    ],
+    [
+      "OK",
+      "plan lists both sources"
+    ]
+  ],
+  "waiting": 1,
+  "dependencies": [
+    "waiting"
+  ],
+  "referralSources": [
+    "visit",
+    "programme-episode"
+  ],
+  "commandResponses": [
+    {
+      "url": "commands",
+      "status": 200
+    },
+    {
+      "url": "commands",
+      "status": 200
+    }
+  ],
+  "consoleErrors": [],
+  "completedAt": "2026-09-30T08:59:02.422Z"
+}
