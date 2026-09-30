@@ -33,6 +33,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 4 | Multi-programme referrals with several source links, action dependencies, pack migration and installation | Planned |
 | 5a | Monthly USD cost budgets per AI capability from recorded rates (estimates, not invoices), refusal before preparing or sending, budget use on Operations, care-team stop of unsent requests | Delivered (see [slice 5a](current/SLICE-5A-AI-BUDGETS.md)) |
 | 5b | Provider sandbox organisations with a provider-only role for documentation, credential references, proposals and synthetic evaluations; owner import into the standard production review path | Delivered (see [slice 5b](current/SLICE-5B-PROVIDER-SANDBOX.md)) |
+| 5c | Explicit unable-to-assess outcome (noisy, unsupported, insufficient input) with no values; conflicts with recorded facts and between open assistant results flagged, listed in the action plan and applied only by explicit choice with a reason | Delivered (see [slice 5c](current/SLICE-5C-CONFLICTS-QUALITY.md)) |
 | 5 | Task time and retry limits, invoice reconciliation, budget alerts, shadow operation, multi-provider history, drift monitoring, isolated provider environment | Planned |
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
 | 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |

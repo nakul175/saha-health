@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5b, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2c, 3a-3h, 4a-4b, 5a-5c, 6a-6i, 6k, 6j, 6l, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1087,8 +1087,8 @@
       "sourceTextLine": 283,
       "implementation": "partial",
       "target": "R11",
-      "current": "Conflicting extraction candidates are withheld; original results remain separate.",
-      "remaining": "Cross-model disagreement tasks and validated composition policy.",
+      "current": "Conflicting extraction candidates are withheld; original results remain separate. Slice 5c: values that conflict with recorded facts or another open result are flagged on both results, listed as one action-plan review task with every original value, never combined, and applied only after an explicit choice with a reason.",
+      "remaining": "Cross-model composition policy, routing beyond the requesting worker, comparison with earlier confirmed records and validated disagreement handling for risk outputs.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
@@ -1098,7 +1098,12 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/action-plan.ts",
+        "app/agent-panel.tsx",
+        "tests/agent-quality-contract.mjs",
+        "tests/agent-quality-smoke.mjs",
+        "docs/current/SLICE-5C-CONFLICTS-QUALITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1331,8 +1336,8 @@
       "sourceTextLine": 315,
       "implementation": "partial",
       "target": "R11",
-      "current": "Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently.",
-      "remaining": "Signal/media quality checks, complete unsupported-population taxonomy and representative validation.",
+      "current": "Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently. Slice 5c: an explicit unable-to-assess outcome (noisy input, unsupported case, insufficient input) with a retry instruction and no values, shown as such and never applied.",
+      "remaining": "Signal/media quality checks, per-field assessment, complete unsupported-population taxonomy and representative validation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1344,7 +1349,13 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts"
+        "lib/saha/evaluation-execution.ts",
+        "lib/saha/agent-execution.ts",
+        "lib/saha/action-plan.ts",
+        "app/agent-panel.tsx",
+        "tests/agent-quality-contract.mjs",
+        "tests/agent-quality-smoke.mjs",
+        "docs/current/SLICE-5C-CONFLICTS-QUALITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
