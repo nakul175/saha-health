@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3b, 4a, 6a-6e, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1d, 2a-2b, 3a-3b, 4a, 6a-6f, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -3556,14 +3556,15 @@
       "sourceTextLine": 726,
       "implementation": "partial",
       "target": "R15",
-      "current": "Labelled primitives, focusable controls and responsive CSS. Slice 6e: axe-core WCAG 2.0–2.2 A/AA rules report no violations on 16 owner and ASHA screens and dialogs after contrast fixes (271 contrast failures before).",
-      "remaining": "Automated coverage of the field notebook, populated panels, error states, mobile and Hindi screens; screen-reader, keyboard-only, zoom and representative-user review; independent accessibility review.",
+      "current": "Labelled primitives, focusable controls and responsive CSS. Slice 6e: axe-core WCAG 2.0–2.2 A/AA rules report no violations on owner and ASHA screens and dialogs after contrast fixes (271 contrast failures before). Slice 6f: 24 screens including the field notebook, Hindi and a phone viewport; a keyboard walk finds a visible focus indicator on every stop of two screens after two fixes.",
+      "remaining": "Automated coverage of populated panels and error states; focus order and dialog traps; screen-reader, zoom and representative-user review; independent accessibility review.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "app/workspace.tsx",
         "REMAINING-RELEASES.md",
         "docs/current/SLICE-6E-ACCESSIBILITY.md",
-        "tests/a11y-audit.mjs"
+        "tests/a11y-audit.mjs",
+        "docs/current/SLICE-6F-FIELD-ACCESSIBILITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
