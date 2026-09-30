@@ -35,6 +35,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 1e](SLICE-1E-DELEGATION.md) | Time-limited delegation of team supervision and reporting-only access |
 | [Development slice 4c](SLICE-4C-WORKER-ACTIVITY.md) | Worker activity evidence for supervisors |
 | [Development slice 2e](SLICE-2E-OBSERVATION-VERIFICATION.md) | Author and clinician verification for each measurement |
+| [Development slice 2f](SLICE-2F-IMPORT-DRY-RUN.md) | Controlled patient import with a dry run |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |

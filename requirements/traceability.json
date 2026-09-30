@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2e, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -688,8 +688,8 @@
       "sourceTextLine": 228,
       "implementation": "partial",
       "target": "R15",
-      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch.",
-      "remaining": "General import dry runs, duplicate review across sources, rejection reports and data-quality reports for imported batches.",
+      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event.",
+      "remaining": "Imports beyond people (visits, enrolments, identifiers, contacts), duplicate review across external sources, downloadable rejection reports, data-quality reports and reversal for imported batches.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -705,7 +705,13 @@
         "app/fixture-migration-panel.tsx",
         "tests/fixture-migration-contract.mjs",
         "tests/fixture-migration-smoke.mjs",
-        "docs/current/SLICE-2D-FIXTURE-MIGRATION.md"
+        "docs/current/SLICE-2D-FIXTURE-MIGRATION.md",
+        "lib/saha/patient-import.ts",
+        "lib/saha/patient-import-server.ts",
+        "app/patient-import-panel.tsx",
+        "tests/patient-import-contract.mjs",
+        "tests/patient-import-smoke.mjs",
+        "docs/current/SLICE-2F-IMPORT-DRY-RUN.md"
       ],
       "automatedAcceptanceClaim": false
     },

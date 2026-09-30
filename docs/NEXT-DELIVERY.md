@@ -20,7 +20,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 2b | Visit photos and voice notes with type, signature, size and purpose checks, playback and draft deletion | Delivered (see [slice 2b](current/SLICE-2B-MEDIA.md)) |
 | 2c | Source and observation time for each measurement, with missing reasons, in the visit screen, field notebook, FHIR exports and summaries | Delivered (see [slice 2c](current/SLICE-2C-FACT-PROVENANCE.md)) |
 | 2e | Author for each measurement from the server identity and role; clinician verify or dispute of one measurement on a confirmed visit, appended with revision and audit; shown on the visit screen and carried into FHIR notes and performers within the pinned rule set | Delivered (see [slice 2e](current/SLICE-2E-OBSERVATION-VERIFICATION.md)) |
-| 2 | Import dry runs | Planned |
+| 2f | Controlled patient import: CSV dry run by owners, supervisors and supervision delegates for their teams with accepted, rejected-with-reason and possible-duplicate rows, ids and counts only, a plan hash bound to rows and record versions; apply of that exact plan with a revision per person and one counted audit event; environment marking | Delivered (see [slice 2f](current/SLICE-2F-IMPORT-DRY-RUN.md)) |
+| 2 | Imports beyond people (visits, enrolments, identifiers), rejection files, data-quality reports, batch reversal | Planned |
 | 3a | Encrypted offline photo and voice-note queue in the field notebook, uploaded after sync only when grant, access and draft are rechecked | Delivered (see [slice 3a](current/SLICE-3A-OFFLINE-MEDIA.md)) |
 | 3b | Field notebook keep-data request, storage usage display and low-space pause on preparing visits and queueing media | Delivered (see [slice 3b](current/SLICE-3B-STORAGE-WARNINGS.md)) |
 | 3c | Media queue hardening after independent review: confirmed-upload rule, lock safety, removal guard, orphan sweep | Delivered (see [slice 3c](current/SLICE-3C-QUEUE-HARDENING.md)) |
