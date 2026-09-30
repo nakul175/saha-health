@@ -477,3 +477,9 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - **3,050 automated assertions passed:** 1,870 HTTP/D1, 1,159 contract/checkpoint (1,157 plus 2 data-exit contract checks: a command committed during the export, and a manifest claiming a later head) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6m-followup/`.
 - First contract run failed the existing size-guard check: its stand-in database had no `first()` for the chain reads that now come first. The stand-in was extended; no assertion changed.
 - Requirement statuses unchanged.
+
+## Slice 6n follow-up — training practice plans — 30 September 2026 IST (30 September UTC)
+
+- Found in review: the synthetic-record barrier refused executing a plan for a seeded fixture in training even when every recipient was a demonstration connector, which blocked the training practice the environment exists for. A plan whose recipients are all demonstration connectors is no longer treated as a destination; production still refuses demonstration connectors outright.
+- **3,051 automated assertions passed:** 1,870 HTTP/D1, 1,160 contract/checkpoint (1,159 plus 1 environment contract check) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6n-followup/`.
+- Requirement statuses unchanged.
