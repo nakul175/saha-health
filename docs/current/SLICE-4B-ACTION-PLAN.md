@@ -1,0 +1,26 @@
+# Development slice 4b — unified action plan with ownership
+
+30 September 2026 (IST). Second part of slice 4 of the development-completion plan. Synthetic data only; formal acceptance unchanged. The ordering is an engineering default, not an approved care policy.
+
+## What changed
+
+- **One plan per patient.** `lib/saha/action-plan.ts` builds one ordered list of a patient's open work from the records that already hold it: open programme follow-ups, open referrals (slice 4a states), the latest unreviewed protocol evaluation with findings on each current visit, open clinical safety cases, open outreach items and failed-message follow-ups. Each item shows its source, owner, responsible queue, due date, urgency, status and days overdue. Nothing is copied or sent; the plan is computed on read.
+- **Order.** Items without a current eligible owner, open safety cases and escalated referrals come first, then overdue work, work due today, protocol findings needing urgent review, undated work and upcoming work. Within each group: higher urgency, then longer overdue, then earlier due date.
+- **Ownership gaps.** An item is flagged when it has no named owner or its owner no longer has normal care access to the patient (an active ASHA or clinician in the patient's team, and for an ASHA the patient's assigned worker). Safety cases need a clinician with normal access. Protocol evaluations belong to the clinician queue of the patient's team and are flagged when that team has no clinician with access. Each flagged item names the queue responsible for it (supervisors or clinicians of the team).
+- **Duplicate reminders.** Open follow-ups from different programme episodes with the same title (case and spacing ignored), due date and owner are shown once, listing every programme source. Different titles, dates or owners stay separate.
+- **Ownership command.** `assignPlanItem` (patient, patient version, up to 20 follow-up or referral targets, new owner, a reason of 10–500 characters) is audited. A supervisor, or an owner who is not an administrator, in the patient's team may assign or reassign any listed follow-up or referral. An ASHA or clinician with normal access may take ownership for themselves of an item that has no current eligible owner, and nothing else. The new owner must be an eligible care worker. The same rule is applied when an idempotent request is replayed. The command is certified for the patient partition, and merged records refuse it.
+- **Scope.** `GET /api/action-plan?personId=` loads only that patient's partition. Administrators, members outside the patient's team (owner authority does not override patient scope) and ASHAs not assigned to the patient are refused. A clinician under an emergency-access grant can read the plan but cannot assign.
+- **Workspace.** The patient screen gains an Action plan panel under the programme panel, with an assign form for stewards and a take-ownership form for care workers. Safety cases and outreach work point to their existing screens for reassignment.
+
+## Evidence
+
+- 8 contract checks (`tests/action-plan-contract.mjs`): exact order of nine items across six sources, with closed, reviewed, older, voided and other-patient work excluded; two programme follow-ups shown once with both sources while different work stays separate; ownership gaps for a missing owner, a suspended owner, a missing clinician and a missing clinical owner; read refusals for an administrator, an owner outside the team, another team's clinician and an unassigned ASHA; command refusals (administrator, owner outside the team, other team, ASHA assigning someone else, ASHA taking an owned item, stale patient or referral version, closed referral, ineligible or suspended owner, duplicate targets); claim and reassignment effects, versions and audit lines.
+- 39 HTTP/D1 assertions (`tests/action-plan-smoke.mjs`): a patient with an unowned referral and three follow-ups from two programme episodes; the supervisor's plan lists the referral first with its gap and queue and one combined home visit with two sources; administrator, stranger, missing-patient and missing-parameter refusals; the assigned ASHA may claim only the unowned referral; refusals for assigning another person, an administrator, a stranger, a stale version and a short reason; the claim, its replay with the same key, and the supervisor's reassignment of the combined follow-up; both audit lines.
+- Browser check (headless Chromium, built Worker, synthetic owner): the panel showed one item without an eligible owner and the queue; the owner assigned it from the panel and the gap cleared. No console errors. `tests/evidence/slice-4b/browser-action-plan.json`.
+- All suites: see [VALIDATION.md](../../VALIDATION.md). Reports in `tests/evidence/slice-4b/`.
+
+## Limits
+
+- One referral with several programme source links (the BR-CARE-05 acceptance case) is not built; referrals created from two packs remain two referrals. There is no dependency graph between actions.
+- Safety cases are still reassigned only by a clinician in Clinical governance; outreach items and message follow-ups on the Outreach page. Protocol evaluations have a team queue, not a named reviewer.
+- The plan is a view. Nobody is notified when an item loses its owner; someone must open the patient or the handover queue.
