@@ -24,3 +24,7 @@
 - Household changes use the organisation-wide commit guard; very busy organisations may see more retries on household edits.
 - No household scheduling engine, bulk caseload transfer by household, or household-level outreach yet (BR-PROG-05, BR-ID-04).
 - Grants record an evidence reference; the software cannot verify that consent was actually given.
+
+## Correction — 30 September 2026 (slice 6r)
+
+The claim that only members inside the worker's scope are named was wrong for the sharing preview: `shareable` iterated every current member, so the view for a chosen recipient named and itemised (open-item titles and due dates) a member outside the worker's scope who had granted that recipient a proxy. Slice 6r limits the preview to members the viewer may see and counts the others (`omittedOutsideScope`). Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).

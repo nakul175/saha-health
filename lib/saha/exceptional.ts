@@ -19,11 +19,20 @@ export const exceptionalSchema=z.discriminatedUnion('type',[
 ]);
 // Commands a clinician may run on a patient reached only through exceptional access.
 export const PERMITTED_UNDER_EXCEPTIONAL=new Set(['startVisit','saveVisit','confirmVisit','createReferral','createDirectoryReferral','saveClinicalConcern','checkProtocol','scheduleFollowUp','saveProgrammeAnswers','exceptionalClose','attachMedia']);
-function target(s:OrgState,c:any){const w=s.workspace;let pid:string|undefined=c.personId;if(c.visitId)pid=w.visits.find(v=>v.id===c.visitId)?.personId;if(c.submissionId)pid=w.submissions.find(v=>v.id===c.submissionId)?.personId;if(c.referralId)pid=w.referrals.find(v=>v.id===c.referralId)?.personId;if(c.messageId)pid=s.outreach?.messages.find(v=>v.id===c.messageId)?.personId;return pid?w.people.find(p=>p.id===pid):undefined;}
-// Refuses anything beyond urgent care on a patient the member reaches only through a grant.
+// Slice 6r: every patient a command names, directly or through a visit, submission, referral, message,
+// identity or safety case, or legal hold. A reference that cannot be resolved names no loaded patient.
+function targets(s:OrgState,c:any):Person[]{const w=s.workspace,ids=new Set<string>(),add=(x:unknown)=>{if(typeof x==='string'&&x)ids.add(x);};
+ for(const k of ['personId','survivorId','duplicateId','proxyPersonId','recipientId'])add(c?.[k]);if(Array.isArray(c?.personIds))c.personIds.forEach(add);
+ if(c?.visitId)add(w.visits.find(v=>v.id===c.visitId)?.personId);if(Array.isArray(c?.visitIds))for(const id of c.visitIds)add(w.visits.find(v=>v.id===id)?.personId);
+ if(c?.submissionId)add(w.submissions.find(v=>v.id===c.submissionId)?.personId);if(c?.referralId)add(w.referrals.find(v=>v.id===c.referralId)?.personId);if(c?.messageId)add(s.outreach?.messages.find(v=>v.id===c.messageId)?.personId);
+ if(c?.caseId){const k=(s.identityCases??[]).find(x=>x.id===c.caseId);if(k){add(k.survivorId);add(k.duplicateId);}add(s.governance?.safety?.find((x:any)=>x.id===c.caseId)?.personId);}
+ if(c?.holdId)add(s.retention?.holds.find(x=>x.id===c.holdId)?.personId);
+ return w.people.filter(p=>ids.has(p.id));}
+// Refuses anything beyond urgent care when any patient the command names is reachable by the member only
+// through an emergency grant (fails closed across every reference, not just the first).
 export function ensureExceptionalScope(s:OrgState,m:Member,c:any,now=new Date().toISOString()){
- if(PERMITTED_UNDER_EXCEPTIONAL.has(c.type))return;const p=target(s,c);
- if(p&&!normallyAllowed(m,p)&&exceptionalGrant(m,p,now))fail(403,'Emergency access permits reading and recording urgent care only. Ask the patient\'s team for anything else.');
+ if(PERMITTED_UNDER_EXCEPTIONAL.has(c.type))return;
+ if(targets(s,c).some(p=>!normallyAllowed(m,p)&&exceptionalGrant(m,p,now)))fail(403,'Emergency access permits reading and recording urgent care only. Ask the patient\'s team for anything else.');
 }
 export function resolveRecord(s:OrgState,ref:string){
  const r=ref.trim().toLowerCase().replace(/^record\s+/,'');
@@ -31,7 +40,8 @@ export function resolveRecord(s:OrgState,ref:string){
  if(!found.length)fail(404,'No record matches this reference in this organisation.');if(found.length>1)fail(409,'This reference matches more than one record. Enter the full record reference.');
  return found[0];
 }
-const reviewer=(s:OrgState,m:Member,p:Person)=>m.status==='active'&&(m.role==='supervisor'||(m.isOwner&&m.role!=='admin'))&&m.teamIds.includes(p.teamId);
+// Slice 6r: the reviewer must also be normally allowed to see the patient (role and scope), not merely hold a team id.
+const reviewer=(s:OrgState,m:Member,p:Person)=>m.status==='active'&&(m.role==='supervisor'||(m.isOwner&&m.role!=='admin'))&&m.teamIds.includes(p.teamId)&&normallyAllowed(m,p);
 export function applyExceptional(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
  const parsed=exceptionalSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;const w=s.workspace;let p:Person,detail:string,result:any={ok:true};
  if(c.type==='exceptionalOpen'){

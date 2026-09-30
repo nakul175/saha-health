@@ -1,0 +1,31 @@
+{
+  "suite": "main review fixes contract run against the base source (slice 6r reproduction)",
+  "base": "1ae5cf7",
+  "ranAt": "2026-09-30",
+  "command": "REPORT_ALL=1 SAHA_LIB=<export of 1ae5cf7 lib/saha> node tests/main-review-fixes-contract.mjs",
+  "failedOnBase": 17,
+  "passedOnBase": 8,
+  "failedChecks": [
+    "household sharing omits out-of-scope members even with a grant",
+    "the grant still works for a worker who may see both",
+    "merge proposal naming a grant-only duplicate is refused",
+    "merge proposal naming a grant-only survivor is refused",
+    "identityMergeDecide through a case naming a grant-only patient is refused",
+    "identityUnmerge through a case naming a grant-only patient is refused",
+    "identityImpactResolve through a case naming a grant-only patient is refused",
+    "safety case naming a grant-only patient is refused",
+    "hold release naming a grant-only patient is refused",
+    "care-context link naming a grant-only visit is refused",
+    "history masks the ABHA number everywhere",
+    "history withholds received bundles",
+    "approved reminder cannot be sent under a restriction",
+    "care-context link is paused under a restriction",
+    "unsent reminders for that patient are cancelled with a reason, sent and other patients untouched",
+    "owner outside patient scope cannot review",
+    "review queue hides patients outside the viewer scope"
+  ],
+  "reviewerScripts": {
+    "household-leak.mjs": "base: shareable listed the out-of-scope daughter with \"TB sputum re-test\"; after 6r: shareable lists only the recipient",
+    "merge-bg.mjs": "base: identityMergePropose on a grant-only record returned a case id; after 6r: 403"
+  }
+}

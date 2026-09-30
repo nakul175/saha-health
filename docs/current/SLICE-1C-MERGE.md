@@ -26,3 +26,7 @@
 - Identity stewards are clinicians and supervisors with access to both records. There is no separate steward role or restricted-source comparison view.
 - Proxy grants that name a merged record as the proxy, and caseload or household views, do not follow the merge automatically.
 - Merge and unmerge use the organisation-wide commit guard.
+
+## Correction — 30 September 2026 (slice 6r)
+
+A clinician whose only access to a record was an emergency grant (slice 6a) could propose a merge naming that record, and case commands (decide, unmerge, impact resolution) were not checked against the emergency-access restriction because they name patients through `caseId`. Slice 6r resolves survivor, duplicate and case references in that check and refuses the command. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).

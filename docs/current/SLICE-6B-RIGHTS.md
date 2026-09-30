@@ -25,3 +25,7 @@
 - Access requests are fulfilled outside Saha (the existing record views and export); there is no packaged copy-of-record export.
 - Due period, kinds and outcomes are not jurisdiction-reviewed. Grievance escalation and appeal are not modelled.
 - Restriction pauses the listed actions only; it does not yet stop field packages or reports that include the patient.
+
+## Correction — 30 September 2026 (slice 6r)
+
+The processing restriction did not pause the simulated reminder send (`messageSimulate`) or ABDM care-context linking (`abdmCareContextLink`), so a reminder approved before the restriction still "sent". Slice 6r pauses both and, when a restriction takes effect, cancels the patient's unsent draft and approved reminders with a reason (kept, not erased). Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).

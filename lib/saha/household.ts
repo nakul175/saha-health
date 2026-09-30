@@ -67,16 +67,20 @@ export function openItems(s: OrgState, p: Person): Item[] {
 // What may be shared with `recipient` about each current member of the household, for one purpose.
 // Members without a current grant for that purpose are omitted; items revealing a sensitive class
 // the grant does not name are omitted. The recipient's own items are always included.
-export function shareable(s: OrgState, h: Household, recipient: Person, purpose: Purpose, now = new Date().toISOString()) {
+// Slice 6r: when `mayShow` is given (the worker-facing view), members the viewer may not see are never
+// named or itemised, even with a grant; they are only counted in `omittedOutsideScope`.
+export function shareable(s: OrgState, h: Household, recipient: Person, purpose: Purpose, now = new Date().toISOString(), mayShow?: (p: Person) => boolean) {
+  let omittedOutsideScope = 0;
   const members = current(h).flatMap(x => {
     const p = s.workspace.people.find(q => q.id === x.personId);
     if (!p) return [];
+    if (mayShow && !mayShow(p)) { omittedOutsideScope++; return []; }
     if (p.id === recipient.id) return [{ personId: p.id, name: p.name, relationship: x.relationship, self: true, items: openItems(s, p).map(({ classes, ...i }) => i) }];
     const grant = (p.proxies ?? []).find(g => g.proxyPersonId === recipient.id && g.purposes.includes(purpose) && activeGrant(g, now));
     if (!grant) return [];
     return [{ personId: p.id, name: p.name, relationship: x.relationship, self: false, grantId: grant.id, items: openItems(s, p).filter(i => i.classes.every(c => grant.classes.includes(c))).map(({ classes, ...i }) => i) }];
   });
-  return { recipientId: recipient.id, purpose, members, rule: 'Members without a current proxy grant for this purpose are omitted, as are items revealing a sensitive class the grant does not name.' };
+  return { recipientId: recipient.id, purpose, members, omittedOutsideScope, rule: 'Members outside your care scope are not shown. Members without a current proxy grant for this purpose are omitted, as are items revealing a sensitive class the grant does not name.' };
 }
 
 export function authorizeHousehold(s: OrgState, m: Member, c: any) {
@@ -157,7 +161,7 @@ export function householdView(s: OrgState, m: Member, p: Person, recipientId: st
     household: { id: h.id, version: h.version, label: h.label, teamId: h.teamId },
     members: visible.map(({ x, q }) => ({ personId: q!.id, name: q!.name, age: q!.age, version: q!.version, relationship: x.relationship, from: x.from, sensitive: sensitiveClasses(q!), openItems: openItems(s, q!).length, proxies: (q!.proxies ?? []).map(g => ({ ...g, active: activeGrant(g, now), proxyName: s.workspace.people.find(r => r.id === g.proxyPersonId && allowed(m, r))?.name ?? 'Person not shown in this household view' })) })),
     outsideScope: members.length - visible.length,
-    shareable: recipient ? shareable(s, h, recipient, purpose, now) : null,
+    shareable: recipient ? shareable(s, h, recipient, purpose, now, q => allowed(m, q)) : null,
     boundary: 'Household membership grants no staff access and no disclosure. Sharing with a member needs a current proxy grant on each subject.',
   };
 }
