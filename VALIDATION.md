@@ -371,3 +371,12 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - First full run: the HTTP smoke used the shared administrator, who is suspended by an earlier module, and failed with a 403 at assertion 902. The smoke now invites the administrator into its own new organisation; the rerun passed. A later change turned an exhausted chain retry into a 409 (two more contract checks) and the full suite was run again.
 - Browser check with headless Chromium: the activity log's Audit chain panel verified the chain as intact and downloaded a JSONL export whose sign-off digest matched its body; the genesis and export events appeared in the log; no console errors. The accessibility audit, extended to the activity log (25 screens), reported no violations.
 - BR-SEC-08 and NFR-10 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 5a — AI cost budgets and stopping unsent requests — 30 September 2026 IST (30 September UTC)
+
+- **2,523 automated assertions passed:** 1,583 HTTP/D1 (1,540 plus 43 budget and stop checks), 919 contract/checkpoint (878 plus 41 budget contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-5a/`. No migration; budgets live in the existing operations settings.
+- `tests/governance-contract.mjs` and `tests/agent-contract.mjs` now transpile `lib/saha/ai-budget.ts` because `governance.ts` imports it; their counts are unchanged.
+- First full run: the HTTP smoke expected 400 for an invalid budget amount; command validation returns 422. The expectation was corrected and the rerun passed.
+- Browser check with headless Chromium: the owner set a $20.00 budget on the Operations page and the row showed "No cost rates: requests refused"; axe-core found no violations in the budget panel; no console errors. The accessibility audit (25 screens) reported no violations.
+- The refusal path is exercised only by the contract suite with a fixture provider, because live providers are disabled in the HTTP sandbox.
+- BR-AG-07 and BR-AI-12 evidence updated; both stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.

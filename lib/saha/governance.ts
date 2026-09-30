@@ -5,6 +5,7 @@ import type { OrgState, Member, Visit, Person } from './types';
 import type { Actor } from './store';
 import type { AgentProvider, AgentRun } from './agent';
 import type { Evaluation } from './evaluation';
+import { checkMonthlyBudget } from './ai-budget';
 const id=z.string().trim().min(1).max(200),text=z.string().trim().min(10).max(1000),version=z.number().int().positive();
 const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>Number.isFinite(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x);
 const unique=(v:string[])=>new Set(v).size===v.length;
@@ -70,6 +71,7 @@ export function checkCapability(s:OrgState,m:Member,p:Person,provider:AgentProvi
 export function checkCapabilityBudget(s:OrgState,e:GovernanceEntry,excludeRunId?:string,now=new Date().toISOString()){
  if(e.spec.kind!=='capability')return;const spec=e.spec;const rows=s.workspace.visits.flatMap(v=>v.agentRuns??[]).filter(r=>r.id!==excludeRunId&&r.provider.id===spec.providerId&&(r.callCount>0&&(r.startedAt??r.createdAt).slice(0,10)===now.slice(0,10)||r.status==='pending'&&r.expiresAt>=now));
  if(rows.length>=e.spec.dailyCallLimit||rows.reduce((n,r)=>n+(r.usage?r.usage.inputTokens+r.usage.outputTokens:6000),0)+6000>e.spec.dailyTokenBudget)fail(429,'This capability reached its daily call or reserved-token budget. Continue structured capture; no provider substitution was made.');
+ checkMonthlyBudget(s,e,excludeRunId,now);
 }
 function clinical(s:OrgState,m:Member,p?:Person){if(m.role!=='clinician'||(p&&!allowed(m,p)))fail(403,'A clinician with current care scope is required.');}
 export function authorizeGovernance(s:OrgState,m:Member,c:any){

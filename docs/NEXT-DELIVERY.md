@@ -27,7 +27,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 3 | Offline registration and referral creation, ordered sync, larger notebook capacity | Planned |
 | 4a | Referral lifecycle states, urgency, reasoned delay and escalation queue | Delivered (see [slice 4a](current/SLICE-4A-REFERRALS.md)) |
 | 4 | Unified action plan, multi-programme referrals, pack migration and installation | Planned |
-| 5 | Monetary budgets, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
+| 5a | Monthly USD cost budgets per AI capability from recorded rates (estimates, not invoices), refusal before preparing or sending, budget use on Operations, care-team stop of unsent requests | Delivered (see [slice 5a](current/SLICE-5A-AI-BUDGETS.md)) |
+| 5 | Task time and retry limits, invoice reconciliation, budget alerts, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
 | 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |
 | 6c | Retention schedules, legal holds and disposal-eligibility review (no deletion) | Delivered (see [slice 6c](current/SLICE-6C-RETENTION.md)) |

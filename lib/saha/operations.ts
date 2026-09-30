@@ -7,7 +7,9 @@ import { TERMINAL } from './referral-rules';
 export const RELEASE='11 / v1.3-readiness';
 import type { AlertAck } from './alerts';
 export type Incident={id:string;title:string;severity:'critical'|'high'|'normal';state:'open'|'investigating'|'resolved';ownerId:string;createdAt:string;updatedAt:string;resolution?:string;evidence?:string};
-export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[]};
+// Slice 5a: monthly cost budgets per capability key (estimates from `rates`, not invoices).
+export type CapabilityBudget={capabilityKey:string;monthlyUsd:number;setBy:string;setAt:string;reason:string};
+export type Operations={version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[]};
 export const defaultOperations=():Operations=>({version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null});
 export const GATES=[
  {id:'clinical',label:'Clinical and programme approval',state:'external',detail:'Named clinical owners, approved programme content and deployment-specific safety evidence required.'},
@@ -24,7 +26,8 @@ export const operationsSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('opsMaintenance'),version,active:z.boolean(),reason:note}).strict(),
  z.object({type:z.literal('opsIncident'),version,title:z.string().trim().min(5).max(120),severity:z.enum(['critical','high','normal']),ownerId:id}).strict(),
  z.object({type:z.literal('opsUpdateIncident'),version,id,state:z.enum(['investigating','resolved']),ownerId:id,resolution:note,evidence:z.string().trim().max(200)}).strict(),
- z.object({type:z.literal('opsRates'),version,input:z.number().min(0).max(10000),output:z.number().min(0).max(10000)}).strict()
+ z.object({type:z.literal('opsRates'),version,input:z.number().min(0).max(10000),output:z.number().min(0).max(10000)}).strict(),
+ z.object({type:z.literal('opsBudget'),version,capabilityKey:z.string().regex(/^[a-z][a-z0-9-]{2,60}$/),monthlyUsd:z.number().min(0.01).max(1000000).nullable(),reason:note}).strict()
 ]);
 export function operator(m:Member){return m.isOwner||m.role==='admin';}
 export function requireReporting(m:Member){if(!operator(m)&&m.role!=='supervisor')fail(403,'Supervisor or operations access required.');}
@@ -33,9 +36,10 @@ export function ensureOperating(s:OrgState,c:any){if(s.operations?.maintenance&&
 export function applyOperations(s:OrgState,input:unknown,u:Actor,m:Member){const parsed=operationsSchema.safeParse(input);if(!parsed.success)return null;if(!operator(m))fail(403,'Operations access required.');const c=parsed.data,ops=s.operations??=defaultOperations();if(c.version!==ops.version)fail(409,'Operations changed. Refresh and review the latest state.');const now=new Date().toISOString();let result:any={ok:true};
  if(c.type==='opsMaintenance'){if(!m.isOwner)fail(403,'Only an owner can pause or resume the organisation.');ops.maintenance=c.active;ops.reason=c.reason;}
  else if(c.type==='opsRates'){if(!m.isOwner)fail(403,'Only an owner can set cost assumptions.');ops.rates={input:c.input,output:c.output,at:now};}
+ else if(c.type==='opsBudget'){if(!m.isOwner)fail(403,'Only an owner can set cost budgets.');if(!(s.governance?.entries??[]).some(e=>e.spec.kind==='capability'&&e.spec.key===c.capabilityKey))fail(404,'Capability not found.');const kept=(ops.budgets??[]).filter(b=>b.capabilityKey!==c.capabilityKey);if(c.monthlyUsd===null&&kept.length===(ops.budgets??[]).length)fail(409,'This capability has no budget to clear.');ops.budgets=c.monthlyUsd===null?kept:[...kept,{capabilityKey:c.capabilityKey,monthlyUsd:Math.round(c.monthlyUsd*100)/100,setBy:u.userId,setAt:now,reason:c.reason}];if(ops.budgets.length>50)fail(422,'At most 50 capability budgets.');}
  else {const owner=s.members.find(x=>x.userId===c.ownerId&&x.status==='active'&&operator(x));if(!owner)fail(422,'Choose an active operations member.');if(c.type==='opsIncident'){if(ops.incidents.length>=100)fail(422,'Incident limit reached; archive policy requires operator review.');const incident:Incident={id:uuid(),title:c.title,severity:c.severity,state:'open',ownerId:c.ownerId,createdAt:now,updatedAt:now};ops.incidents.push(incident);result={incidentId:incident.id};}
  else{const incident=ops.incidents.find(x=>x.id===c.id);if(!incident)fail(404,'Incident not found.');if(incident.state==='resolved')fail(409,'Resolved incidents are immutable. Open a linked follow-up incident.');if(c.state==='resolved'&&(!c.evidence||c.resolution.length<10))fail(422,'Resolution requires an evidence reference and at least 10 characters of findings.');Object.assign(incident,{state:c.state,ownerId:c.ownerId,resolution:c.resolution,evidence:c.evidence,updatedAt:now});}}
- ops.version++;ops.updatedAt=now;s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:s.organisation.id,detail:c.type==='opsMaintenance'?`Maintenance ${c.active?'enabled':'disabled'}: ${c.reason}`:c.type==='opsRates'?'Cost assumptions updated; these are estimates, not provider invoices.':`Incident register updated at version ${ops.version}.`});return result;
+ ops.version++;ops.updatedAt=now;s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:s.organisation.id,detail:c.type==='opsMaintenance'?`Maintenance ${c.active?'enabled':'disabled'}: ${c.reason}`:c.type==='opsRates'?'Cost assumptions updated; these are estimates, not provider invoices.':c.type==='opsBudget'?(c.monthlyUsd===null?`Monthly cost budget cleared for capability ${c.capabilityKey}: ${c.reason}`:`Monthly cost budget for capability ${c.capabilityKey} set to USD ${(Math.round(c.monthlyUsd*100)/100).toFixed(2)} (estimate basis, not an invoice): ${c.reason}`):`Incident register updated at version ${ops.version}.`});return result;
 }
 export function careReport(s:OrgState,m:Member,days:number,now=new Date()){
  const patients=s.workspace.people.filter(p=>allowed(m,p)),ids=new Set(patients.map(p=>p.id));const today=now.toISOString().slice(0,10),since=new Date(Date.parse(today+'T00:00:00Z')-(days-1)*86400000).toISOString(),until=now.toISOString();
