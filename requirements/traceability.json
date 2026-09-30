@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2598,8 +2598,8 @@
       "sourceTextLine": 494,
       "implementation": "partial",
       "target": "R15",
-      "current": "Visit-backed outreach completion and correction-aware evidence.",
-      "remaining": "Separate claimed/performed/verified/submitted activity and buyer reporting/claim reconciliation.",
+      "current": "Visit-backed outreach completion and correction-aware evidence. Slice 4c: per-worker summary for supervisors separating performed, claimed, verified (evidence-matched) and submitted activity, with corrections traced to reviser and reason and no payment language or location.",
+      "remaining": "Claim submission, buyer reporting and claim reconciliation, supervisor or beneficiary verification, and stored, signed or exported claims.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -2610,7 +2610,12 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/worker-activity.ts",
+        "lib/saha/worker-activity-server.ts",
+        "tests/worker-activity-contract.mjs",
+        "tests/worker-activity-smoke.mjs",
+        "docs/current/SLICE-4C-WORKER-ACTIVITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
