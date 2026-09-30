@@ -252,3 +252,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The first full run failed in the new roster suite because its fixture named a team that does not exist in the test organisation; the roster preview correctly reported it as an unknown team. The fixture now uses the team's id; the rerun passed.
 - Browser check with headless Chromium: one roster line previewed and applied from the Organisation page, returning one invitation code. No console errors.
 - Assessment changes: BR-ID-10 moved from not-built to partial; BR-ID-01 text updated. Counts are now 14 implemented-local, 142 partial, 11 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 7a — ABDM mock workflows — 30 September 2026 IST (30 September UTC)
+
+- **2,038 automated assertions passed:** 1,423 HTTP/D1 (1,389 plus 34 ABDM mock checks), 594 contract/checkpoint (580 plus 14 ABDM mock contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-7a/`.
+- The ABDM suites passed on their first full run; the full suite showed no local Worker restarts.
+- Browser check with headless Chromium: module configuration, ABHA link, consent request, mock grant and an allowed fetch check. The first browser run stopped at an ambiguous navigation locator in the test script; after fixing the locator the whole flow passed with no console errors.
+- Nothing was sent to ABDM. Purpose and type codes come from a secondary implementer's guide and are unverified against the ABDM sandbox.
+- Assessment changes: BR-INT-13, BR-INT-14 and BR-INT-15 moved from not-built to partial, each stating that only a local mock gateway exists. Counts are now 14 implemented-local, 145 partial, 8 not-built and 9 unverified; all 176 formal acceptances remain pending.

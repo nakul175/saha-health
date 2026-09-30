@@ -7,8 +7,8 @@ All 176 exact requirement IDs, titles, priorities, original BRD phases, requirem
 | Implementation label | Count | Meaning |
 | --- | ---: | --- |
 | implemented-local | 14 | Local control exists; external/field acceptance still pending |
-| partial | 142 | A foundation exists with functional or operational gaps (134 at R11) |
-| not-built | 11 | No complete implementation of the specified capability (19 at R11; slice 1 moved BR-ID-07 and BR-SEC-04, slice 6a BR-SEC-11, slice 6b BR-SEC-10, slice 6c BR-SEC-09, slice 6d BR-AG-11, slice 2a BR-DATA-12 and slice 1d BR-ID-10 to partial) |
+| partial | 145 | A foundation exists with functional or operational gaps (134 at R11) |
+| not-built | 8 | No complete implementation of the specified capability (19 at R11; slice 1 moved BR-ID-07 and BR-SEC-04, slice 6a BR-SEC-11, slice 6b BR-SEC-10, slice 6c BR-SEC-09, slice 6d BR-AG-11, slice 2a BR-DATA-12, slice 1d BR-ID-10 and slice 7a BR-INT-13, BR-INT-14 and BR-INT-15 to partial, the last three against a mock gateway only) |
 | unverified | 9 | Required measurable outcome has not been established |
 | Formal accepted | 0 | No formal BRD acceptance decision recorded |
 

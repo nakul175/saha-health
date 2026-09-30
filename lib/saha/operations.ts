@@ -12,7 +12,7 @@ export const GATES=[
  {id:'clinical',label:'Clinical and programme approval',state:'external',detail:'Named clinical owners, approved programme content and deployment-specific safety evidence required.'},
  {id:'mis',label:'Two live programme destinations',state:'external',detail:'Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered.'},
  {id:'ehr',label:'Live EHR acceptance',state:'external',detail:'Selected EHR testing, identity matching and clinical ingestion evidence are pending.'},
- {id:'abdm',label:'ABDM exchange and conformance',state:'unbuilt',detail:'ABHA, HIP and HIU workflows and official profile validation remain outstanding.'},
+ {id:'abdm',label:'ABDM exchange and conformance',state:'unbuilt',detail:'ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding.'},
  {id:'model',label:'Approved live AI',state:'external',detail:'Credential activation and intended-use, accuracy and language validation are pending.'},
  {id:'device',label:'Disconnected field and speech testing',state:'external',detail:'HTTPS physical-device restart, disconnected sync and on-device language validation are pending.'},
  {id:'security',label:'Independent security and accessibility assessment',state:'external',detail:'Independent penetration review, screen-reader and physical-device accessibility evidence are pending.'},

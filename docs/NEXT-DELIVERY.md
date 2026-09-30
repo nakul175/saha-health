@@ -26,7 +26,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 6c | Retention schedules, legal holds and disposal-eligibility review (no deletion) | Delivered (see [slice 6c](current/SLICE-6C-RETENTION.md)) |
 | 6d | Versioned indicator catalogue, cohort protection, small-cell suppression and governed question interpretation | Delivered (see [slice 6d](current/SLICE-6D-INDICATORS.md)) |
 | 6 | Restore-safe disposal, owner-maintained indicator registry, alerts, full Hindi UI, accessibility | Planned |
-| 7 | ABDM ABHA/HIP/HIU to the published specification against a mock gateway | Planned |
+| 7a | ABDM module readiness, ABHA link/decline/unlink and consent artefacts with enforcement, against a local mock gateway | Delivered (see [slice 7a](current/SLICE-7A-ABDM-MOCK.md)) |
+| 7 | HIP publication, encrypted transfer, HIU data flow and NRCeS profile validation to the published specification | Planned |
 | 8 | Programme and EHR adapters once partner specifications arrive | Blocked on partners |
 
 The external dependencies below are unchanged by this order; slices do not pass any acceptance gate.
