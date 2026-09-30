@@ -15,6 +15,7 @@
 - 7 contract checks (`tests/report-export-contract.mjs`): identification rows, with formula escaping still applied to a team name; control totals against a fixture with known sums; manifest row count and SHA-256 against Node's own hash, and the receiver recipe run literally with coreutils; an edited figure, a dropped row and a missing manifest each detected; an inconsistent report flagged "no" and refused by verification; the refactored report rows give the same CSV through the old and new helpers and still begin with the original title and generation rows; an export with no teams says so.
 - 10 HTTP/D1 assertions (`tests/report-export-smoke.mjs`): a supervisor's export carries the identification rows, a manifest matching its content and response headers, four reconciled control totals, and figures equal to the Operations page read just before it; the audit line names the export identifier, checksum and definition; administrator, ASHA and stranger downloads refused.
 - Browser check (headless Chromium, built Worker, synthetic owner): the CSV downloaded from the Operations page matched its own manifest, its four control totals reconciled, and the confirmation named the same checksum. No console errors. `tests/evidence/slice-6k/browser-export.json`.
+- The accessibility audit on this build, which also carries the slice 4b and 6i panels, found no violations on 24 screens (`tests/evidence/slice-6k/a11y-audit-result.json`).
 - All suites: see [VALIDATION.md](../../VALIDATION.md). Reports in `tests/evidence/slice-6k/`.
 
 ## Limits
