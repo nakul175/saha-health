@@ -1,10 +1,11 @@
 {
-  "passed": 19,
-  "release": "10 / v1.2-readiness",
+  "passed": 21,
+  "release": "11 / v1.3-readiness",
   "source": "isolated synthetic local D1",
-  "tables": 24,
-  "byteCount": 16691200,
+  "tables": 25,
+  "byteCount": 28897280,
   "checks": [
+    "governance manifests, synthetic evaluation results and safety cases survive restore",
     "consistent SQLite snapshot",
     "encrypted manifest and database",
     "wrong key and ciphertext tamper rejection",
@@ -20,5 +21,5 @@
     "reading restored workspace does not resend actions"
   ],
   "limitations": "No hosted backup, scheduled retention, infrastructure cutover or production RPO/RTO claim. Device-only drafts excluded.",
-  "completedAt": "2026-09-27T21:04:15.245Z"
+  "completedAt": "2026-09-27T22:11:37.073Z"
 }

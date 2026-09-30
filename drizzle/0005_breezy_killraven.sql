@@ -1,0 +1,5 @@
+CREATE TABLE `governance` (
+	`org_id` text PRIMARY KEY NOT NULL,
+	`data` text NOT NULL,
+	FOREIGN KEY (`org_id`) REFERENCES `organisations`(`id`) ON UPDATE no action ON DELETE no action
+);
