@@ -80,6 +80,13 @@ try {
     assert.equal(two.items[0].severity, 'critical'); assert.equal(two.items[0].owner, 'Supervisors of Team Two'); assert.equal(two.items[0].link.href, '/?patient=p2&visit=v9');
   });
   check(() => { status(() => q('asha'), 403); status(() => q('doc'), 403); status(() => q('idle'), 403); });
+  check(() => {
+    // Linear in the organisation: 30,000 patients each with a submission, referral and visit.
+    const big = { ...s, governance: { entries: [], evaluations: [], safety: [] }, workspace: { ...s.workspace, people: [], submissions: [], referrals: [], visits: [] } };
+    for (let i = 0; i < 30000; i++) { const id = 'b' + i; big.workspace.people.push({ ...base, id, name: id, assignedTo: 'asha' }); big.workspace.submissions.push(sub('bs' + i, id, i % 10 ? 'accepted' : 'uncertain', { visitId: 'bv' + i })); big.workspace.referrals.push({ id: 'br' + i, personId: id, visitId: 'bv' + i, facility: 'CHC', reason: 'x', state: 'sent', createdAt: ago(1), ownerId: 'asha', due: agoDate(-3), version: 1 }); big.workspace.visits.push({ id: 'bv' + i, personId: id, state: 'confirmed' }); }
+    const t0 = performance.now(), out = x.exceptionQueue(big, s.members.find(m => m.userId === 'sup'), now), ms = performance.now() - t0;
+    assert.equal(out.total, 3000); assert.equal(out.items.length, 500); assert.equal(out.truncated, true); assert.ok(ms < 2000, `took ${Math.round(ms)} ms`);
+  });
   writeFileSync('tests/exceptions-contract-result.json', JSON.stringify({ suite: 'exception queue contract (slice 6i)', passed, completedAt: new Date().toISOString() }, null, 2) + '\n');
   console.log(JSON.stringify({ passed }));
 } finally { rmSync(dir, { recursive: true, force: true }); }
