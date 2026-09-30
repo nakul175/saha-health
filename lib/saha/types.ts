@@ -20,7 +20,8 @@ import type { MisConfig, Delivery } from './mis';
 import type { AgentRun, AgentProvider } from './agent';
 import type { Enrolment, FollowUp, ProgrammeCapture } from './programmes';
 import type { FieldRegistration, ReferralRequest } from './field-registration';
-export type Role = 'asha' | 'clinician' | 'supervisor' | 'admin';
+// Slice 5b: 'provider' exists only in provider sandbox organisations (lib/saha/provider-sandbox.ts).
+export type Role = 'asha' | 'clinician' | 'supervisor' | 'admin' | 'provider';
 export type Programme = 'Maternal care' | 'Chronic care' | 'TB screening' | 'Child health' | 'General care';
 export type Person = {fieldRegistration?:FieldRegistration;abha?:Abha;abdmConsents?:AbdmConsent[];careContexts?:CareContext[];abdmTransfers?:Transfer[];abdmReceived?:ReceivedRecord[];restrictions?:Restriction[];exceptionalAccess?:ExceptionalGrant[];mergedInto?:MergeLink;mergedFrom?:MergeLink[];householdId?:string;proxies?:ProxyGrant[];identityReview?:IdentityReview;assignmentHistory?:AssignmentEvent[];contactPreferences?:ContactPreferences;fieldLeases?:FieldLease[];ehr?:EhrState;enrolments?:Enrolment[]; followUps?:FollowUp[]; id:string; name:string; age:number; sex:string; village:string; programmes:Programme[]; task:string; due:string; status:'due'|'in_progress'|'completed'; aiConsent:boolean; exchangeConsent:boolean; consentVersion:number; assigned:boolean; createdAt:string; version:number; teamId:string; assignedTo:string|null};
 // Slice 2c: optional source and observation time for each measurement (BR-DATA-02). A value is measured or reported;
@@ -60,5 +61,5 @@ export type OrgState = {governance?:Governance;outreach?:Outreach;expansions?:Ex
 export type Snapshot = Omit<Workspace,'receipts'> & {user:{userId:string;displayName:string;accountCode:string};maintenance?:{active:boolean;reason:string};environment:'synthetic';externalApisEnabled:boolean;agentProviders:AgentProvider[];ehrReadiness:{id:string;ready:boolean;message:string}[];misReadiness:{id:string;ready:boolean;message:string}[];organisation:Organisation;organisations:{id:string;name:string;role:Role;isOwner:boolean}[];membership:Member;members:Member[];teams:Team[];invitations:Invitation[];canManage:boolean;canAssign:boolean;signOutPath?:string;auditCursor:string|null;migration:{migratedAt:string;counts:Record<string,number>}|null};
 export type RecordRevision = {id:string;personId:string;entityType:'person'|'visit';entityId:string;version:number;actorId:string;actorName:string;action:string;reason:string;data:Person|Visit;changes:{field:string;before:string;after:string}[];createdAt:string};
 export const PROGRAMMES:Programme[]=['Maternal care','Chronic care','TB screening','Child health','General care'];
-export const ROLE_LABEL:Record<Role,string>={asha:'ASHA worker',clinician:'Clinician',supervisor:'Supervisor',admin:'Administrator'};
+export const ROLE_LABEL:Record<Role,string>={asha:'ASHA worker',clinician:'Clinician',supervisor:'Supervisor',admin:'Administrator',provider:'Provider (sandbox)'};
 export const emptyFacts=():Facts=>({date:new Date().toISOString().slice(0,16),systolic:'',diastolic:'',weight:'',temperature:'',weeks:'',coughDays:'',notes:'',source:'measured'});

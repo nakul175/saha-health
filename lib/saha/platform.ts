@@ -11,6 +11,7 @@ import { abdmSchema } from './abdm';
 import { transferSchema } from './abdm-transfer';
 import { governanceSchema } from './governance';
 import { evaluationSchema } from './evaluation';
+import { sandboxSchema } from './provider-sandbox';
 import { continuitySchema, transferPatientWork } from './continuity';
 import { pilotSchema } from './pilot';
 import { outreachSchema } from './outreach';
@@ -47,6 +48,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...transferSchema.options,
  ...governanceSchema.options,
  ...evaluationSchema.options,
+ ...sandboxSchema.options,
  ...operationsSchema.options,
  ...alertAckSchema.options,
  ...pilotSchema.options,
@@ -66,7 +68,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('createTeam'),name:str}),
  z.object({type:z.literal('createInvite'),accountCode:z.string().trim().regex(/^[A-F0-9]{24}$/,'Use the 24-character account code shown in your teammate’s account.'),label:str,role,teamIds}),
  z.object({type:z.literal('revokeInvite'),inviteId:str}),
- z.object({type:z.literal('updateMember'),userId:str,version:ver,role,teamIds,isOwner:z.boolean(),status:z.enum(['active','suspended']),reason}),
+ z.object({type:z.literal('updateMember'),userId:str,version:ver,role:z.enum(['asha','clinician','supervisor','admin','provider']),teamIds,isOwner:z.boolean(),status:z.enum(['active','suspended']),reason}),
  z.object({type:z.literal('assignPatient'),personId:str,version:ver,teamId:str,assignedTo:z.string().nullable(),reason}),
  z.object({type:z.literal('correctIdentity'),personId:str,version:ver,name:str,age:z.number().int().min(0).max(120),sex:z.enum(['Female','Male','Other','Unknown']),village:str,reason}),
  z.object({type:z.literal('amendVisit'),visitId:str,version:ver,reason}),

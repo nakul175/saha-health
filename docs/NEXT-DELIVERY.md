@@ -32,7 +32,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 4b | Per-patient action plan across follow-ups, referrals, protocol reviews, safety cases and outreach, with ownership gaps, take-ownership and steward reassignment | Delivered (see [slice 4b](current/SLICE-4B-ACTION-PLAN.md)) |
 | 4 | Multi-programme referrals with several source links, action dependencies, pack migration and installation | Planned |
 | 5a | Monthly USD cost budgets per AI capability from recorded rates (estimates, not invoices), refusal before preparing or sending, budget use on Operations, care-team stop of unsent requests | Delivered (see [slice 5a](current/SLICE-5A-AI-BUDGETS.md)) |
-| 5 | Task time and retry limits, invoice reconciliation, budget alerts, shadow operation, multi-provider history, drift monitoring, provider sandbox | Planned |
+| 5b | Provider sandbox organisations with a provider-only role for documentation, credential references, proposals and synthetic evaluations; owner import into the standard production review path | Delivered (see [slice 5b](current/SLICE-5B-PROVIDER-SANDBOX.md)) |
+| 5 | Task time and retry limits, invoice reconciliation, budget alerts, shadow operation, multi-provider history, drift monitoring, isolated provider environment | Planned |
 | 6a | Exceptional (break-glass) access with restricted actions and independent review | Delivered (see [slice 6a](current/SLICE-6A-EXCEPTIONAL-ACCESS.md)) |
 | 6b | Rights and grievance requests with destination notification and processing restriction | Delivered (see [slice 6b](current/SLICE-6B-RIGHTS.md)) |
 | 6c | Retention schedules, legal holds and disposal-eligibility review (no deletion) | Delivered (see [slice 6c](current/SLICE-6C-RETENTION.md)) |
