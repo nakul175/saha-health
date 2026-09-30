@@ -32,7 +32,8 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 6e | Repeatable axe-core WCAG A/AA audit over 16 owner and ASHA screens; colour-contrast failures fixed | Delivered (see [slice 6e](current/SLICE-6E-ACCESSIBILITY.md)) |
 | 6f | Audit extended to the field notebook, Hindi and a phone viewport; keyboard focus walk; focus-visible fixes | Delivered (see [slice 6f](current/SLICE-6F-FIELD-ACCESSIBILITY.md)) |
 | 6g | Computed operational alerts with owners, actions and viewer scope on the Operations page | Delivered (see [slice 6g](current/SLICE-6G-ALERTS.md)) |
-| 6 | Restore-safe disposal, owner-maintained indicator registry, alert delivery and acknowledgement, full Hindi UI, screen-reader, zoom and user accessibility review | Planned |
+| 6h | Alert acknowledgement by the owning role, count-bound and at most 24 hours | Delivered (see [slice 6h](current/SLICE-6H-ALERT-ACKNOWLEDGEMENT.md)) |
+| 6 | Restore-safe disposal, owner-maintained indicator registry, alert delivery, full Hindi UI, screen-reader, zoom and user accessibility review | Planned |
 | 7a | ABDM module readiness, ABHA link/decline/unlink and consent artefacts with enforcement, against a local mock gateway | Delivered (see [slice 7a](current/SLICE-7A-ABDM-MOCK.md)) |
 | 7b | Care-context linking, encrypted consent-bound transfer and received-record review against the mock gateway | Delivered (see [slice 7b](current/SLICE-7B-ABDM-TRANSFER.md)) |
 | 7c | Pinned, versioned outbound FHIR structural rule set on EHR publication and mock ABDM transfer, with a regression corpus | Delivered (see [slice 7c](current/SLICE-7C-OUTBOUND-VALIDATION.md)) |

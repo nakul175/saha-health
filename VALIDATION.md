@@ -329,3 +329,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - **2,290 automated assertions passed:** 1,495 HTTP/D1, 774 contract/checkpoint (field media queue 70 → 90) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3c/`.
 - Changed existing tests: the slice 3a assertion that removing a synced copy deletes queued media was replaced (that behaviour was the defect); the slice 6g alert action text assertion was updated to the new wording.
 - Real-IndexedDB browser check repeated and passed. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 6h — alert acknowledgement — 30 September 2026 IST (30 September UTC)
+
+- **2,306 automated assertions passed:** 1,500 HTTP/D1 (1,495 plus 5 acknowledgement checks), 785 contract/checkpoint (774 plus 11) and 21 encrypted restore checks. Reports: `tests/evidence/slice-6h/`.
+- The replay path previously refused every `ops*` command from non-operators; acknowledgements are exempted and checked against the alert's owning role instead, so a supervisor's replayed acknowledgement is not wrongly refused.
+- Browser check with headless Chromium: an owner acknowledged a critical incident alert and saw it marked with the note; no console errors. The accessibility audit (24 screens) still reported no violations.
+- BR-OPS-04 evidence updated; it and NFR-18 stay partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
