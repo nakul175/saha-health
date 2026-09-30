@@ -1,3 +1,4 @@
+import { boundedJsonBody } from './request-body';
 import { identity, loadFor, db, json } from './server';
 import { digest, fail, person, uuid, visit } from './core';
 import { persist, scope, type Row } from './store';
@@ -37,7 +38,9 @@ export async function mediaFile(request:Request,id:string){
  return new Response(fromB64(f.data) as unknown as BodyInit,{headers:{'Content-Type':f.mime,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Content-Disposition':'inline','Content-Security-Policy':"default-src 'none'; sandbox"}});
 }
 export async function removeMedia(request:Request,id:string){
- sameOrigin(request);const u=await identity(),key=idempotency(request),reason=(new URL(request.url).searchParams.get('reason')??'').trim();
+ sameOrigin(request);const u=await identity(),key=idempotency(request);
+ // Slice 6l: the reason travels in a JSON body so it stays out of request URLs and platform logs; the query form is still accepted.
+ const body=request.headers.get('content-type')?.startsWith('application/json')?await boundedJsonBody(request,4000):null,reason=(body&&typeof body.reason==='string'?body.reason:new URL(request.url).searchParams.get('reason')??'').trim();
  if(reason.length<5||reason.length>1000)fail(422,'Give a reason of at least 5 characters.');
  const hash=await digest({type:'removeMedia',id,reason});const prior=await replay(u.userId,key,hash);if(prior)return json(prior);
  let row:{person_id:string;visit_id:string}|null=null;
