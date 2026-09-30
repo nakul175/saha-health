@@ -11,6 +11,7 @@ import type { MergeCase, MergeLink } from './merge';
 import type { ExceptionalGrant } from './exceptional';
 import type { RightsRequest, Restriction } from './rights';
 import type { Retention } from './retention';
+import type { ReferralState, Urgency } from './referral-rules';
 import type { EhrConfig, EhrState } from './ehr';
 import type { MisConfig, Delivery } from './mis';
 import type { AgentRun, AgentProvider } from './agent';
@@ -24,7 +25,7 @@ export type Plan = {payloads?:Record<string,Record<string,unknown>>;id:string; p
 export type AIResult = {id:string; providerId:string; providerName:string; mode:'demo'|'http'; status:'succeeded'|'unable_to_assess'|'failed'; text:string; createdAt:string; inputHash:string; reviewed:boolean;};
 export type Integration = {ehr?:EhrConfig;mis?:MisConfig;agentContract?:{version:1;model:string};id:string;name:string;kind:'ai'|'mis'|'ehr'|'abdm';mode:'demo'|'http'|'unconfigured';status:'active'|'suspended'|'unconfigured';version:number;description:string;programmes:Programme[];endpoint?:string;credentialBinding?:string;capability?:'summary'|'completeness'|'generic';behavior?:'accept'|'uncertain';};
 export type Submission = {delivery?:Delivery;id:string;visitId:string;personId:string;connectorId:string;connectorName:string;state:'accepted'|'uncertain'|'rejected'|'cancelled'|'queued'|'sending'|'retryable';mode:'demo'|'http';payloadHash:string;receipt?:string;attempts:number;message:string;createdAt:string;updatedAt:string;};
-export type Referral = {directory?:{entryId:string;manifestHash:string;revision:number;contactRoute:string;location:string;verifiedOn:string;reviewBy:string};version?:number;ownerId?:string;due?:string;events?:{id:string;state:string;note:string;source:string;evidenceReference:string;occurredAt:string;recordedAt:string;actorId:string}[];id:string;personId:string;visitId:string;facility:string;reason:string;state:'draft'|'sent'|'received'|'completed';createdAt:string;};
+export type Referral = {urgency?:Urgency;appointmentAt?:string;delays?:{id:string;at:string;by:string;from:string;to:string;constraint:string;reason:string}[];directory?:{entryId:string;manifestHash:string;revision:number;contactRoute:string;location:string;verifiedOn:string;reviewBy:string};version?:number;ownerId?:string;due?:string;events?:{id:string;state:string;note:string;source:string;evidenceReference:string;occurredAt:string;recordedAt:string;actorId:string}[];id:string;personId:string;visitId:string;facility:string;reason:string;state:ReferralState;createdAt:string;};
 export type Audit = {id:string;at:string;actor:string;role:Role;action:string;subject:string;detail:string;actorId?:string;personId?:string|null;};
 export type Workspace = {schemaVersion:1;revision:number;role:Role;people:Person[];visits:Visit[];integrations:Integration[];submissions:Submission[];referrals:Referral[];audit:Audit[];receipts:Record<string,{hash:string;result:any}>};
 export type Member = {userId:string;displayName:string;accountCode:string;role:Role;isOwner:boolean;status:'active'|'suspended'|'removed';version:number;teamIds:string[];createdAt:string};

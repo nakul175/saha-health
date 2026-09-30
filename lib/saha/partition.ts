@@ -18,7 +18,7 @@ export const PATIENT_COMMANDS = new Set<string>([
   // programme episodes and follow-ups
   'enrolProgramme', 'scheduleFollowUp', 'resolveFollowUp', 'closeEnrolment', 'saveProgrammeAnswers',
   // field grants and referral tracking
-  'prepareFieldVisit', 'syncFieldVisit', 'revokeFieldLease', 'assignReferral', 'recordReferralEvent',
+  'prepareFieldVisit', 'syncFieldVisit', 'revokeFieldLease', 'assignReferral', 'recordReferralEvent', 'referralDelay',
   // identity review and handover acknowledgement
   'resolvePatientIdentity', 'acknowledgeAssignment',
   // clinical review on one encounter

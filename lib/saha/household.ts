@@ -14,6 +14,7 @@ import type { Actor } from './store';
 // cannot infer that the member has pending care.
 
 import { RELATIONSHIPS, PURPOSES, SENSITIVE } from './household-constants';
+import { TERMINAL } from './referral-rules';
 export { RELATIONSHIPS, PURPOSES, SENSITIVE };
 export type Relationship = typeof RELATIONSHIPS[number];
 export type Purpose = typeof PURPOSES[number];
@@ -59,7 +60,7 @@ export function openItems(s: OrgState, p: Person): Item[] {
     ...(p.followUps ?? []).filter(t => t.state === 'open').map(t => ({ kind: 'follow-up' as const, title: t.title, due: t.due, classes: [...packClass(t.packId), ...age] })),
     ...(p.status !== 'completed' ? [{ kind: 'visit' as const, title: 'Home visit', due: p.due ?? null, classes: age }] : []),
     // A referral reason can reveal any condition, so it carries every class the person has.
-    ...s.workspace.referrals.filter(r => r.personId === p.id && r.state !== 'completed').map(r => ({ kind: 'referral' as const, title: 'Referral follow-up', due: r.due ?? null, classes: personal })),
+    ...s.workspace.referrals.filter(r => r.personId === p.id && !TERMINAL.has(r.state)).map(r => ({ kind: 'referral' as const, title: 'Referral follow-up', due: r.due ?? null, classes: personal })),
   ];
 }
 

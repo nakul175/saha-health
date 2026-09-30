@@ -230,3 +230,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - The indicator suites passed on their first full run; the full suite showed no local Worker restarts.
 - Browser check with headless Chromium: a question interpreted and run from the Operations page. No console errors.
 - Assessment changes: BR-AG-11 moved from not-built to partial; BR-REP-02, BR-REP-03 and BR-REP-04 texts updated. Counts are now 14 implemented-local, 140 partial, 13 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Development slice 4a — referral lifecycle and escalation — 30 September 2026 IST (30 September UTC)
+
+- **1,919 automated assertions passed:** 1,338 HTTP/D1 (1,285 plus 53 referral checks), 560 contract/checkpoint (550 plus 10 referral contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-4a/`.
+- Ten contract harnesses, six of them from R11, now also compile `lib/saha/referral-rules.ts` because modules they load import it; no assertion changed and their pass counts are unchanged. Their saved R11 reports in `tests/` are untouched.
+- The first full run's open-work check read the continuity view, which lists only patients with exceptions and so could pass vacuously; it now reads the caseload preview and requires the patient to be listed with no open work. Only the second run is saved.
+- Browser check with headless Chromium: escalation list and a "Sent" event recorded from the referral card. No console errors.
+- Assessment changes: BR-CARE-03 and BR-CARE-04 texts updated; both remain partial. Counts are unchanged at 14 implemented-local, 140 partial, 13 not-built and 9 unverified.
