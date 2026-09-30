@@ -357,3 +357,9 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - **2,351 automated assertions passed:** 1,500 HTTP/D1, 830 contract/checkpoint (820 plus 10 photo contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-3f/`.
 - Browser check with headless Chromium: a 5,724,216-byte JPEG with a synthetic location string, attached in the online visit screen, was stored as a 226,584-byte JPEG, rendered, and served back without the location string; no console errors.
 - BR-DATA-08 evidence updated; stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Merge into main — 30 September 2026 IST
+
+- At the sponsor's instruction, pull requests #1–#34 (Releases 7–11, the R11 handover and development slices 0a–3f) were merged into GitHub `main` in order with merge commits. No branches were deleted and nothing was force-pushed. The resulting `main` tree is identical to the top of the stack (`slice-3f-workspace-photo-reduction`), whose CI and full local suites passed (2,351 assertions).
+- No independent human review took place before the merge. Formal acceptance is unchanged: all 176 criteria remain pending, and `main` is not accepted for production or real patient use.
+- GitHub reported a server error while merging #12; the merge commit had already reached `main` and GitHub recorded the pull request as merged a few minutes later. No merge was repeated.
