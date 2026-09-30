@@ -7,6 +7,7 @@ import { consentSchema } from './consent';
 import { delegationSchema, heldBy, supervises } from './delegation';
 import { retentionSchema } from './retention';
 import { fixtureMarkSchema } from './fixture-migration';
+import { factReviewSchema } from './fact-verification';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
 import { rosterSchema } from './roster';
@@ -47,6 +48,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...delegationSchema.options,
  ...retentionSchema.options,
  ...fixtureMarkSchema.options,
+ ...factReviewSchema.options,
  ...referralSchema.options,
  ...actionPlanSchema.options,
  ...rosterSchema.options,

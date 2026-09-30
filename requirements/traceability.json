@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2d, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2e, 3a-3h, 4a-4b, 5a-5d, 4c, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 7a-7c, 0b-2",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -456,8 +456,8 @@
       "sourceTextLine": 201,
       "implementation": "partial",
       "target": "R12",
-      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values.",
-      "remaining": "Per-observation author and verification state; per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
+      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"not recorded\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers.",
+      "remaining": "Author and verification for visit notes and programme answers; supervisor sign-off and verification before sending; coded FHIR provenance; per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -474,7 +474,12 @@
         "docs/current/SLICE-2C-FACT-PROVENANCE.md",
         "tests/fact-provenance-contract.mjs",
         "tests/fact-provenance-smoke.mjs",
-        "tests/field-provenance-client.mjs"
+        "tests/field-provenance-client.mjs",
+        "lib/saha/fact-verification.ts",
+        "app/fact-verification-panel.tsx",
+        "tests/fact-verification-contract.mjs",
+        "tests/fact-verification-smoke.mjs",
+        "docs/current/SLICE-2E-OBSERVATION-VERIFICATION.md"
       ],
       "automatedAcceptanceClaim": false
     },

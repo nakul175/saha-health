@@ -539,3 +539,11 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Corrected in this commit: the automatic merge repeated "and" in the README slice list, and the route paragraph in `docs/IMPLEMENTATION.md` gave the wrong number. The route inventory lists thirty-six method/route handlers; lane A's provider-sandbox route had not been counted.
 - **3,686 automated assertions passed on the combined source:** 2,296 HTTP/D1, 1,369 contract/checkpoint and 21 encrypted restore checks, with no failing suite on the first combined run. Reports: `tests/evidence/slice-integration-2/`.
 - Counts: 14 implemented-local, 151 partial, 2 not-built and 9 unverified (BR-AI-11 moved from not-built to partial in slice 5d); all 176 formal acceptances remain pending.
+
+## Development slice 2e — author and clinician verification for each measurement — 30 September 2026 IST (30 September UTC)
+
+- **3,761 automated assertions passed:** 2,334 HTTP/D1 (2,296 plus 38 fact-verification checks), 1,406 contract/checkpoint (1,369 plus 37 fact-verification contract checks) and 21 encrypted restore checks. Reports: `tests/evidence/slice-2e/`. No migration; authors and reviews are part of the visit document.
+- No existing assertion changed. The FHIR outputs of visits without authors or reviews are unchanged, so the slice 2c and 7c suites pass as before; the pinned rule set `saha-fhir-r4-document-structure` 1.0.0 is unchanged. The certified patient command count in `docs/IMPLEMENTATION.md` is now 45 (`verifyFact`); the route count is unchanged at thirty-six.
+- The contract suite, the full HTTP suite and the browser check each passed on their first run.
+- Browser check with headless Chromium: a second clinician opened the owner's confirmed visit, saw the recorder and "unverified" for three measurements, verified the weight and disputed the blood pressure with a reason; the panel and the stored reviews agreed; axe-core found no violations in the panel; no console errors.
+- BR-DATA-02 evidence and text updated; it stays partial. Counts unchanged at 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 formal acceptances remain pending.
