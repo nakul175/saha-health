@@ -530,3 +530,12 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - First runs, before fixes: the contract expected a visit confirmed exactly seven days earlier at 06:00 to fall inside the 7-day period; the period starts at midnight six days back, so the expectation was corrected. The HTTP suite and the browser check passed on their first runs.
 - Browser check with headless Chromium: the Care handover page showed the worker activity panel with the notice, definitions and one owner row (one performed visit, one wrong-patient visit with its reason); axe-core found no violations in the panel; no console errors. The accessibility audit (25 screens) reported no violations.
 - BR-CARE-08 evidence updated; it stays partial. Counts unchanged at 14 implemented-local, 150 partial, 3 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Parallel build integration, round 2 (slices 5b–4c) — 30 September 2026 IST
+
+- Ten slices were built at the same time by three builders in separate worktrees from `int-6l-safe-logs` (the round-1 top): lane A 5b, 5c and 5d; lane B 6m, 6n, 2d and the 6m/6n follow-ups; lane C 6o, 1e and 4c. Each lane's own sections above record that lane's runs, on that lane's source only.
+- Lane A was taken as built. Lane B and lane C slices were merged onto it in order (`int2-6m-data-exit` … `int2-4c-worker-activity`) with merge commits; no branch was rewritten. No textual conflict needed a manual resolution in this round; generated catalogues, traceability and baselines were rebuilt at each step.
+- The `agent-quality` contract harness from lane A transpiles `core.ts`, which imports the slice 1e `delegation` module from lane C. `delegation` was added to that harness's file list in the 1e integration commit; no assertion changed.
+- Corrected in this commit: the automatic merge repeated "and" in the README slice list, and the route paragraph in `docs/IMPLEMENTATION.md` gave the wrong number. The route inventory lists thirty-six method/route handlers; lane A's provider-sandbox route had not been counted.
+- **3,686 automated assertions passed on the combined source:** 2,296 HTTP/D1, 1,369 contract/checkpoint and 21 encrypted restore checks, with no failing suite on the first combined run. Reports: `tests/evidence/slice-integration-2/`.
+- Counts: 14 implemented-local, 151 partial, 2 not-built and 9 unverified (BR-AI-11 moved from not-built to partial in slice 5d); all 176 formal acceptances remain pending.
