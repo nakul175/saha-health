@@ -22,3 +22,5 @@
 - Rows cannot be assigned from the queue. Follow-ups and referrals are assigned from the patient's action plan (slice 4b); other kinds through their own screens.
 - Sync problems are those the server knows about (expired, unsynced grants). Failures that stay on a device are not reported.
 - Nothing is pushed to anyone; the queue is seen when someone opens Operations. Links reach the patient and visit, not a trace of provider calls and destination receipts.
+
+A self-review after slice 6k found that the queue scanned every submission, referral, visit and safety case once per patient, which took 36 seconds for 30,000 patients in the contract fixture. Records are now indexed by patient once per read; see the slice 6i follow-up in `VALIDATION.md` and `tests/evidence/slice-6i-followup/`.

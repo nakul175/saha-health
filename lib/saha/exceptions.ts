@@ -24,6 +24,9 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
  requireReporting(m);if(m.status!=='active')fail(403,'Your membership is inactive.');
  const today=now.slice(0,10),members=new Map(s.members.map(x=>[x.userId,x])),rows:ExceptionRow[]=[];
  const name=(id?:string|null)=>id?members.get(id)?.displayName??'Former member':null;
+ // Records indexed by patient once, so the queue grows linearly with the organisation.
+ const byPerson=<T extends {personId:string}>(xs:readonly T[])=>{const m=new Map<string,T[]>();for(const x of xs){const l=m.get(x.personId);if(l)l.push(x);else m.set(x.personId,[x]);}return m;};
+ const subs=byPerson(s.workspace.submissions),refs=byPerson(s.workspace.referrals),visits=byPerson(s.workspace.visits),safety=byPerson(s.governance?.safety??[]);
  const team=(p:Person)=>s.teams.find(t=>t.id===p.teamId)?.name??'the patient\'s team';
  for(const p of s.workspace.people){
   const visible=m.role!=='admin'&&allowed(m,p,now),ops=operator(m);if(!visible&&!ops)continue;
@@ -32,8 +35,9 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    rows.push({...r,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(r.since))/day)),patient:visible?{id:p.id,name:p.name}:null,link:visible?{personId:p.id,visitId,href:href(p.id,visitId)}:null});
   };
   // Programme submissions whose destination outcome is unknown, retryable or rejected (and not since accepted).
-  for(const x of s.workspace.submissions)if(x.personId===p.id){
-   if(x.state==='rejected'&&s.workspace.submissions.some(y=>y.visitId===x.visitId&&y.connectorId===x.connectorId&&y.createdAt>x.createdAt))continue;
+  const mine=subs.get(p.id)??[];
+  for(const x of mine){
+   if(x.state==='rejected'&&mine.some(y=>y.visitId===x.visitId&&y.connectorId===x.connectorId&&y.createdAt>x.createdAt))continue;
    if(!['uncertain','retryable','rejected'].includes(x.state))continue;
    add({id:'submission:'+x.id,kind:'submission',severity:x.state==='rejected'?'normal':'high',what:`${x.connectorName}: ${x.state==='uncertain'?'outcome unknown':x.state==='retryable'?'delivery failed, retryable':'rejected by the destination'} after ${x.attempts} attempt${x.attempts===1?'':'s'}`,since:x.updatedAt,owner:'Operations (owner or administrator)',
     recovery:x.state==='uncertain'?'Look up the receipt before any resend; never send again blindly.':x.state==='retryable'?'Retry with the original key, or cancel if the visit changed.':'Read the rejection, correct the visit by amendment, then prepare a new submission.'},x.visitId);
@@ -45,10 +49,10 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
   }
   if(!visible)continue;
   // Open clinical safety cases.
-  for(const c of s.governance?.safety??[])if(c.personId===p.id&&c.state==='open')
+  for(const c of safety.get(p.id)??[])if(c.state==='open')
    add({id:'safety-case:'+c.id,kind:'safety-case',severity:'critical',what:`Open clinical safety case (${c.kind.replace(/-/g,' ')})`,since:c.createdAt,owner:name(c.ownerId)??`Clinicians of ${team(p)}`,recovery:'The clinical owner reviews the evidence in Clinical governance and resolves or reassigns the case.'},c.visitId);
   // Escalated referrals (slice 4a rules).
-  for(const r of s.workspace.referrals)if(r.personId===p.id){
+  for(const r of refs.get(p.id)??[]){
    const e=escalation(r as any,activeOwner(s,r,p),now);if(e.level!=='escalated')continue;
    add({id:'referral-overdue:'+r.id,kind:'referral-overdue',severity:(r.urgency??'routine')==='emergency'?'critical':'high',what:`Referral to ${r.facility}: ${e.reasons.join('; ')}`,since:r.due&&r.due<today?r.due+'T00:00:00.000Z':r.events?.at(-1)?.occurredAt??r.createdAt,
     owner:activeOwner(s,r,p)?name(r.ownerId)!:`Supervisors of ${team(p)}`,recovery:'Record the next referral event with evidence, a reasoned delay, or assign an owner from the patient\'s action plan.'},r.visitId);
@@ -57,7 +61,7 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
   for(const g of p.exceptionalAccess??[])if(!g.review&&(g.closedAt||g.until<=now))
    add({id:'emergency-access-unreviewed:'+g.id,kind:'emergency-access-unreviewed',severity:'high',what:`Emergency access by ${name(g.userId)??'a clinician'} ended without review`,since:g.closedAt??g.until,owner:`Supervisors and owners of ${team(p)}`,recovery:'Review the access and its reason in Care handover and record whether it was appropriate.'},null);
   // The latest protocol evaluation of each current visit, with findings and no clinician decision.
-  for(const v of s.workspace.visits)if(v.personId===p.id&&!v.voidedAt&&!v.supersededBy){
+  for(const v of visits.get(p.id)??[])if(!v.voidedAt&&!v.supersededBy){
    const c=v.protocolChecks?.at(-1);if(!c||c.decision||!c.findings.length)continue;
    add({id:'protocol-review:'+c.id,kind:'protocol-review',severity:c.findings.some(f=>f.urgency==='urgent_review')?'high':'normal',what:`${c.findings.length} protocol finding${c.findings.length===1?'':'s'} awaiting clinician review`,since:c.at,owner:`Clinicians of ${team(p)}`,recovery:'A clinician with access accepts, rejects or overrides the findings on the visit.'},v.id);
   }

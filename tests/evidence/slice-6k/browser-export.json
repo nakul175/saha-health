@@ -1,0 +1,33 @@
+{
+  "check": "slice 6k export downloaded from the Operations page (headless Chromium, built Worker, synthetic owner)",
+  "steps": [
+    [
+      "OK",
+      "nav"
+    ],
+    [
+      "OK",
+      "download"
+    ],
+    [
+      "OK",
+      "toast"
+    ],
+    [
+      "OK",
+      "manifest verifies"
+    ]
+  ],
+  "manifest": {
+    "rows": 62,
+    "sha256": "1049a1caa4480ad713f84fbbcbd72a7f185c44faa38994459737a7bc6582ee49",
+    "controlTotals": [
+      "\"Visits confirmed in window\",\"0\",\"0\",\"Daily confirmations\",\"yes\"",
+      "\"Open follow-ups\",\"0\",\"0\",\"Programme open tasks\",\"yes\"",
+      "\"Overdue follow-ups\",\"0\",\"0\",\"Programme overdue tasks\",\"yes\"",
+      "\"Unresolved programme receipts\",\"0\",\"0\",\"Destination pending now\",\"yes\""
+    ]
+  },
+  "consoleErrors": [],
+  "completedAt": "2026-09-30T05:26:39.987Z"
+}
