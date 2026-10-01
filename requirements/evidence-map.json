@@ -164,7 +164,10 @@
   "NFR-05": [
     "lib/saha/server.ts",
     "tests/mis-delivery.mjs",
-    "tests/ehr-execution.mjs"
+    "tests/ehr-execution.mjs",
+    "tests/replay-soak-contract.mjs",
+    "tests/evidence/slice-7d/replay-soak-10000.json",
+    "docs/current/SLICE-7D-REPLAY-SOAK.md"
   ],
   "NFR-06": [
     "scripts/recovery.mjs",
@@ -333,7 +336,10 @@
     "REMAINING-RELEASES.md"
   ],
   "NFR-28": [
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "tests/adapter-overhead-bench.mjs",
+    "tests/evidence/slice-7d/adapter-overhead.json",
+    "docs/current/SLICE-7D-REPLAY-SOAK.md"
   ],
   "BR-ID-07": [
     "lib/saha/continuity.ts",

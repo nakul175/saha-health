@@ -83,6 +83,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 7a | ABDM module readiness, ABHA link/decline/unlink and consent artefacts with enforcement, against a local mock gateway | Delivered (see [slice 7a](current/SLICE-7A-ABDM-MOCK.md)) |
 | 7b | Care-context linking, encrypted consent-bound transfer and received-record review against the mock gateway | Delivered (see [slice 7b](current/SLICE-7B-ABDM-TRANSFER.md)) |
 | 7c | Pinned, versioned outbound FHIR structural rule set on EHR publication and mock ABDM transfer, with a regression corpus | Delivered (see [slice 7c](current/SLICE-7C-OUTBOUND-VALIDATION.md)) |
+| 7d | Replay and timeout soak: at least 10,000 timeouts, lost responses, replays, concurrent attempts and duplicate callbacks through the real programme and EHR execution code and HTTP adapters against a naive faulty mock partner, with no duplicate accepted partner activity, no blind resend and final states matching the partner ledger (bounded variant in CI); local per-adapter overhead benchmark with partner time excluded | Delivered (see [slice 7d](current/SLICE-7D-REPLAY-SOAK.md)) |
 | 7 | Real gateway integration to the published specification, partner HIPs and NRCeS profile validation | Planned |
 | 8 | Programme and EHR adapters once partner specifications arrive | Blocked on partners |
 

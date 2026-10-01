@@ -56,6 +56,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md) | Fixes for defects found by a fourth independent review of code already on main (1c, 6a, 6b, 6c, 6m, 6p, 6r, 7a, EHR publication, programme callback, pilot and expansion exports) |
 | [Development slice 6v](SLICE-6V-ALERT-DELIVERY.md) | In-app alert delivery to owning roles with a top-bar bell, acknowledgement clearing, once-only escalation to owners inside the organisation, evaluated idempotently on reads and organisation-wide writes |
 | [Development slice 6w](SLICE-6W-FIFTH-REVIEW-FIXES.md) | Fixes for defects found by a fifth independent review of slices 0b-4, 4e, 6s and 6t (indicator differencing and ledger, migration dry-run scope, data exit, paged window audit, checkpoints, work-list cursor) |
+| [Development slice 7d](SLICE-7D-REPLAY-SOAK.md) | Replay and timeout soak of programme and EHR delivery, and local adapter overhead benchmark |
 | [Development slice 6y](SLICE-6Y-TASK-TRACE.md) | Read-only trace from user commands to execution checkpoints, provider or destination receipts and audit events for a visit, submission or EHR publication, with correlation references on new execution steps |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
