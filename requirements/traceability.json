@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2j, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2j, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2914,13 +2914,20 @@
       "sourceTextLine": 505,
       "implementation": "partial",
       "target": "R15",
-      "current": "Generation window and usage coverage limitations are visible. Slice 6d indicator results state computation time, window, cohort size and latest source record.",
-      "remaining": "Source-specific freshness, late arrivals and affected reporting denominators.",
+      "current": "Generation window and usage coverage limitations are visible. Slice 6d indicator results state computation time, window, cohort size and latest source record. Slice 6ac adds, per team the viewer belongs to, the latest record time and banded counts of records arriving in the window and arriving more than 72 hours late for online visits, field-notebook syncs, imports and programme receipts, a late share to the nearest 10 points when at least 20 records support it, a data-still-syncing warning for field grants unsynced after 12 hours, and on each released visit-based result the banded number of late visits confirmed since the viewer's previous release of that figure; none of it enters a released cell.",
+      "remaining": "Configurable per-source lateness thresholds and reporting calendars; late arrivals for non-visit measures; freshness on aggregate reports and exports; marking figures already released as affected by later arrivals.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
-        "tests/operations-smoke.mjs"
+        "tests/operations-smoke.mjs",
+        "lib/saha/indicators.ts",
+        "lib/saha/indicator-freshness.ts",
+        "lib/saha/indicators-server.ts",
+        "tests/indicator-freshness-contract.mjs",
+        "tests/indicator-freshness-smoke.mjs",
+        "tests/indicators-smoke.mjs",
+        "docs/current/SLICE-6AC-REPORTING-FRESHNESS.md"
       ],
       "automatedAcceptanceClaim": false
     },

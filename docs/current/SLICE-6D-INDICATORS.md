@@ -28,3 +28,7 @@
 ## Later change, 1 October 2026 (slice 6s)
 
 Slice 6s turns the catalogue into an owner-maintained registry (these definitions become its version 1 entries), lets a result be recomputed from the definition version it names, adds differencing protection across one viewer's nested queries and an indicator CSV that keeps the suppression. See [slice 6s](SLICE-6S-INDICATOR-REGISTRY.md). The text above is kept as written.
+
+## Later change, 2 October 2026 (slice 6ac)
+
+Slice 6ac adds source-specific freshness beside each result: per team the viewer belongs to, the latest record time and banded counts of records arriving in the window and arriving late for online visits, field-notebook syncs, imports and programme receipts, a data-still-syncing warning, and on each released visit-based result the banded number of late visits since the viewer's previous release. See [slice 6ac](SLICE-6AC-REPORTING-FRESHNESS.md). The text above is kept as written.
