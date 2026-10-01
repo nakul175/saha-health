@@ -75,7 +75,7 @@ export async function worklistData(db: D1Database, orgId: string, member: Member
 
 export type WorkRow = { id: string; name: string; age: number | null; sex: string; village: string; programmes: string[]; task: string; due: string; status: string; merged: boolean };
 export type FollowUpRow = { personId: string; name: string; tasks: { id: string; due: string; packId: string; title: string }[] };
-export type SubmissionRow = Pick<Submission, 'id' | 'personId' | 'visitId' | 'connectorName' | 'state' | 'receipt' | 'attempts' | 'mode' | 'message' | 'createdAt'> & { personName: string };
+export type SubmissionRow = Pick<Submission, 'id' | 'personId' | 'visitId' | 'connectorName' | 'state' | 'receipt' | 'attempts' | 'mode' | 'message' | 'createdAt' | 'signOff'> & { personName: string };
 export type ReferralRow = Pick<Referral, 'id' | 'personId' | 'visitId' | 'facility' | 'reason' | 'state' | 'due' | 'urgency' | 'ownerId'> & { personName: string };
 export type WorklistPage = { view: WorklistView; total: number; nextCursor: string | null; stats?: WorkStats; tasks?: number; all?: number; attention?: number; rows: (WorkRow | FollowUpRow | SubmissionRow | ReferralRow)[] };
 
@@ -95,7 +95,7 @@ export function worklistPage(data: WorklistData, q: WorklistQuery): WorklistPage
   }
   if (q.view === 'submissions') {
     const s = submissionList(data.submissions, q.attention), pg = page(s.rows, q);
-    return { view: q.view, all: s.all, attention: s.attention, total: s.rows.length, nextCursor: pg.nextCursor, rows: pg.rows.map(x => ({ id: x.id, personId: x.personId, visitId: x.visitId, connectorName: x.connectorName, state: x.state, receipt: x.receipt, attempts: x.attempts, mode: x.mode, message: x.message, createdAt: x.createdAt, personName: name.get(x.personId) ?? '' })) };
+    return { view: q.view, all: s.all, attention: s.attention, total: s.rows.length, nextCursor: pg.nextCursor, rows: pg.rows.map(x => ({ id: x.id, personId: x.personId, visitId: x.visitId, connectorName: x.connectorName, state: x.state, receipt: x.receipt, attempts: x.attempts, mode: x.mode, message: x.message, createdAt: x.createdAt, personName: name.get(x.personId) ?? '', ...(x.signOff ? { signOff: x.signOff } : {}) })) };
   }
   const list = referralList(data.referrals), pg = page(list, q);
   return { view: q.view, total: list.length, nextCursor: pg.nextCursor, rows: pg.rows.map(r => ({ id: r.id, personId: r.personId, visitId: r.visitId, facility: r.facility, reason: r.reason, state: r.state, due: r.due, urgency: r.urgency, ownerId: r.ownerId, personName: name.get(r.personId) ?? '' })) };
