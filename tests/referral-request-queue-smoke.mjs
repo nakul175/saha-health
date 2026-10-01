@@ -23,7 +23,7 @@ export async function referralRequestQueueSmoke({get,post,check,accounts,org,sql
  await read(w,undefined,403);await read(a,undefined,403);await read(x,undefined,403);
  // The long-waiting request is also an exception-queue row for the supervisor, with a link to the visit.
  const ex=await read(s,'/api/exceptions');
- check(()=>{assert.equal(ex.rulesVersion,'1.2.0');const r=ex.items.find(i=>i.id==='referral-request-waiting:'+old.visitId);assert.ok(r);assert.match(r.owner,/^Clinicians of /);assert.equal(r.link.visitId,old.visitId);assert.equal(ex.items.some(i=>i.id==='referral-request-waiting:'+fresh.visitId),false);});
+ check(()=>{assert.equal(ex.rulesVersion,'1.3.0');const r=ex.items.find(i=>i.id==='referral-request-waiting:'+old.visitId);assert.ok(r);assert.match(r.owner,/^Clinicians of /);assert.equal(r.link.visitId,old.visitId);assert.equal(ex.items.some(i=>i.id==='referral-request-waiting:'+fresh.visitId),false);});
  // Deciding removes the request from both queues.
  await get(c,'/api/workspace',200,org);
  await post(c,{type:'decideReferralRequest',visitId:old.visitId,decision:'decline',reason:'Reviewed by phone; follow up in the village.'},200,crypto.randomUUID(),org);

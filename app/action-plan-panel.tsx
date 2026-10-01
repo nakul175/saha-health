@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Person, Snapshot } from '@/lib/saha/types';
 type Command=(c:any,message?:string)=>Promise<any>;
-const KIND_LABEL:Record<string,string>={'safety-case':'Safety case',referral:'Referral','protocol-review':'Protocol review','ai-disagreement':'Assistant disagreement','follow-up':'Programme follow-up',outreach:'Outreach','message-follow-up':'Message follow-up'};
+const KIND_LABEL:Record<string,string>={'safety-case':'Safety case',referral:'Referral','protocol-review':'Protocol review','ai-disagreement':'Assistant disagreement','follow-up':'Programme follow-up',outreach:'Outreach','message-follow-up':'Message follow-up',correction:'Correction task'};
 const ATTENTION_LABEL:Record<string,string>={escalated:'Escalated',overdue:'Overdue','due-today':'Due today',now:'Review now',undated:'No due date',upcoming:'Upcoming',waiting:'Waiting'};
 const DEP_STATE:Record<string,string>={waiting:'Waiting',released:'Blocker closed',closed:'Item closed',removed:'Removed'};
 // Slice 4d: record that this item waits on another open item of the same patient.
@@ -24,6 +24,17 @@ function Unlink({dep,plan,p,busy,command,done}:{dep:any;plan:any;p:Person;busy:b
   <Button variant="outline" disabled={busy||reason.trim().length<10} onClick={async()=>{const r=await command({type:'unlinkPlanItems',personId:p.id,version:plan.personVersion,dependencyId:dep.id,reason},'Dependency removed');if(r){setReason('');done();}}}>Remove dependency</Button></details>;
 }
 
+// Slice 2j: close a correction task with evidence: the Saha receipt of the correction (checked on the server)
+// or a reason, with an optional reference from the destination. Closing never changes the output itself.
+function CloseCorrection({item,p,busy,command,done}:{item:any;p:Person;busy:boolean;command:Command;done:()=>void}){
+ const c=item.correction,[receiptId,setReceipt]=useState(''),[reference,setReference]=useState(''),[reason,setReason]=useState('');
+ const ok=receiptId.trim().length>0||reason.trim().length>=10;
+ return <details><summary>Close with evidence</summary><div className="form-grid">
+  {c.receiptCloses&&<label>Correction receipt<Input aria-label={`Correction receipt for ${item.title}`} value={receiptId} maxLength={200} onChange={e=>setReceipt(e.target.value)} placeholder="Receipt of the correction sent through Saha"/></label>}
+  {c.external&&<label>Destination reference<Input aria-label={`Destination reference for ${item.title}`} value={reference} maxLength={200} onChange={e=>setReference(e.target.value)} placeholder="Optional"/></label>}
+  <label>Reason<Input aria-label={`Closing reason for ${item.title}`} value={reason} maxLength={500} onChange={e=>setReason(e.target.value)} placeholder={c.receiptCloses?'Or at least 10 characters':'At least 10 characters'}/></label></div>
+  <Button disabled={busy||!ok} onClick={async()=>{const r=await command({type:'closeCorrectionTask',personId:p.id,visitId:c.visitId,taskId:c.taskId,...(receiptId.trim()?{receiptId:receiptId.trim()}:{}),...(reference.trim()?{reference:reference.trim()}:{}),...(reason.trim()?{reason:reason.trim()}:{})},'Correction task closed');if(r){setReceipt('');setReference('');setReason('');done();}}}>Close task</Button></details>;
+}
 // Slice 4b: one ordered plan of this patient's open work, with owners and ownership gaps.
 function Assign({item,plan,p,busy,command,done}:{item:any;plan:any;p:Person;busy:boolean;command:Command;done:()=>void}){
  const self=plan.eligibleOwners.length===1&&!plan.canAssign?plan.eligibleOwners[0].userId:'';
@@ -37,7 +48,9 @@ export function ActionPlanPanel({data,p,busy,command}:{data:Snapshot;p:Person;bu
  const [plan,setPlan]=useState<any>(null),[error,setError]=useState(''),[loading,setLoading]=useState(false);
  const load=useCallback(async()=>{setLoading(true);try{const r=await fetch(`/api/action-plan?${new URLSearchParams({personId:p.id})}`,{cache:'no-store',headers:{'x-saha-organisation':data.organisation.id}}),j:any=await r.json();if(!r.ok)throw Error(j.error);setPlan(j);setError('');}catch(e){setError(e instanceof Error?e.message:'Action plan unavailable.');}finally{setLoading(false);}},[p.id,data.organisation.id]);
  const referrals=data.referrals.filter(r=>r.personId===p.id).map(r=>`${r.id}:${r.version??1}`).join(',');
- useEffect(()=>{if(data.role!=='admin')void load();},[load,data.role,p.version,referrals,data.organisation.revision]);
+ // Slice 2j: an amendment or void adds correction tasks without changing the patient version.
+ const corrections=data.visits.filter(v=>v.personId===p.id&&(v.supersededBy||v.voidedAt)).map(v=>v.id).join(',');
+ useEffect(()=>{if(data.role!=='admin')void load();},[load,data.role,p.version,referrals,corrections,data.organisation.revision]);
  if(data.role==='admin')return null;
  return <section className="panel action-plan" aria-labelledby="action-plan-title"><div className="section-heading"><div><h2 id="action-plan-title">Action plan</h2><p className="muted text-sm">Open work for {p.name} from every programme, referral, review and safety case, in one order.</p></div><Button variant="outline" size="sm" disabled={loading} onClick={load}><RefreshCw size={15}/>Refresh</Button></div>
   {error&&<p role="alert">{error}</p>}
@@ -51,6 +64,8 @@ export function ActionPlanPanel({data,p,busy,command}:{data:Snapshot;p:Person;bu
     {plan.canLink&&['follow-up','referral'].includes(i.kind)&&<Wait item={i} plan={plan} p={p} busy={busy} command={command} done={load}/>}
     {i.ownershipGap&&<p className="notice amber-notice">{i.ownershipGap}</p>}
     {i.assignVia==='action-plan'&&(i.canAssign||i.canClaim)&&<Assign item={i} plan={plan} p={p} busy={busy} command={command} done={load}/>}
+    {i.correction&&<p className="muted text-sm">{i.correction.external?'External output':'Internal output'}{i.correction.destination?` · ${i.correction.destination}`:''}{i.correction.receipt?` · receipt ${i.correction.receipt}`:''} · Open {i.correction.ageDays} day{i.correction.ageDays===1?'':'s'} · <a href={i.correction.href}>Open the earlier visit</a></p>}
+    {i.correction?.canClose&&<CloseCorrection item={i} p={p} busy={busy} command={command} done={load}/>}
     {i.ownershipGap&&i.assignVia==='governance'&&<p className="muted text-sm">A clinician with access reassigns safety cases under Clinical governance.</p>}
     {i.ownershipGap&&i.assignVia==='outreach'&&<p className="muted text-sm">Reassign outreach work on the Outreach page.</p>}
    </li>)}</ol><p className="subtle-note">{plan.rules}</p></>:<p className="muted">No open work for this patient.</p>)}
