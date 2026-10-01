@@ -37,6 +37,6 @@ export async function patientDetailRead(request: Request) {
   if (!delta.people.some(p => p.id === id)) fail(404, 'This patient is not in your care scope.');
   // Slice 6t: opening the full record is a material read, recorded before the record is returned.
   const m = scope(state, u.userId), p = state.workspace.people.find(x => x.id === id)!;
-  await recordAccess(db(), state, u, m, { action: 'viewPatientRecord', subject: id, personId: id, detail: `Full patient record opened: ${delta.visits.length} visits, ${delta.referrals.length} referrals.${accessRoute(m, p)}` });
+  await recordAccess(db(), state, u, m, { action: 'viewPatientRecord', subject: id, personId: id, detail: `Full patient record opened: ${delta.visits.length} visit${delta.visits.length === 1 ? '' : 's'}, ${delta.referrals.length} referral${delta.referrals.length === 1 ? '' : 's'}.${accessRoute(m, p)}` });
   return json({ delta, partition: [id] });
 }

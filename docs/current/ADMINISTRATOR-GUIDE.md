@@ -20,6 +20,8 @@ Every deployment declares `SAHA_ENVIRONMENT`: `synthetic` (the default when unse
 
 Owners use **Organisation & team → Data export for exit or transfer** for a tar archive of the organisation's records, audit chain, media and hand-over list, with a manifest and checksums; patient records outside the owner's care teams are withheld and counted. Check a received archive with `node scripts/verify-export.mjs <file>` (slice 6m).
 
+Opening a patient's history, visit media, received ABDM records, a FHIR download or a full record in a paged workspace is recorded in the audit chain and shown in the **Activity log** as record access (slice 6t); if Saha cannot write that record, the request is refused with a message and nothing is shown or sent. Owners and administrators can use **Activity log → Audit chain → Download head checkpoint** and keep the file outside Saha (for example in a ticket or a signed email); pasting it later into **Saved checkpoint** shows whether anything up to that point has changed.
+
 Fixtures seeded before slice 6n are not marked as synthetic. Owners use **Organisation & team → Data migration: mark seeded fixtures** to run a dry run, apply exactly that plan with a reason, and reverse the batch if needed; a fixture whose name was changed is rejected for manual review (slice 2d).
 
 ## Governance and operations

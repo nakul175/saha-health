@@ -154,6 +154,29 @@ try {
   v = await chain.verifyChain(d1, A);
   check(() => { assert.equal(v.status, 'intact'); assert.ok(perRead < 50, `average ${perRead} ms`); });
 
+  // 10. Chain-head checkpoint for external anchoring: the digest recomputes offline; a checkpoint keeps matching as
+  // the chain grows; a suffix rewritten with recomputed hashes still verifies intact but no longer matches.
+  const { createHash } = await import('node:crypto'), sha = t => createHash('sha256').update(t).digest('hex');
+  const head = (await chain.verifyChain(d1, A)).head, point = { organisationId: A, seq: head.seq, hash: head.hash, at: head.at, issuedAt: now };
+  check(() => assert.equal(chain.CHECKPOINT_FORMAT, 'saha-audit-checkpoint-v1'));
+  const digestOk = (await chain.checkpointDigest(point)) === sha(JSON.stringify(['saha-audit-checkpoint-v1', A, head.seq, head.hash, head.at, now]));
+  check(() => assert.ok(digestOk, 'checkpoint digest recomputes offline'));
+  check(() => { assert.deepEqual(chain.parseCheckpointRef(`${head.seq}:${head.hash}`), { seq: head.seq, hash: head.hash }); assert.equal(chain.parseCheckpointRef('12:abc'), null); assert.equal(chain.parseCheckpointRef(`x:${head.hash}`), null); });
+  s = await load([pid]); await read(s); await read(s);
+  let cp = await chain.checkCheckpoint(d1, A, head.seq, head.hash);
+  check(() => assert.equal(cp.result, 'matches', 'still matches after later events'));
+  const beyond = await chain.checkCheckpoint(d1, A, head.seq + 1000, head.hash), wrong = await chain.checkCheckpoint(d1, A, head.seq, 'f'.repeat(64));
+  check(() => { assert.equal(beyond.result, 'not-reached'); assert.equal(wrong.result, 'differs'); });
+  // Someone with database access rewrites the checkpointed event and every later hash consistently.
+  d1.db.exec('DROP TRIGGER audit_events_no_update; DROP TRIGGER audit_events_no_delete;');
+  try {
+    const rows = sql('SELECT * FROM audit_events WHERE org_id=? AND seq IS NOT NULL AND seq>=? ORDER BY seq', A, head.seq);
+    let prev = rows[0].prev_hash;
+    for (const r of rows) { const e = r.seq === head.seq ? { ...r, detail: r.detail + ' (rewritten)' } : r; const content = await chain.contentDigest(e); const hash = await chain.linkHash(r.seq, prev, content); d1.db.prepare('UPDATE audit_events SET detail=?,prev_hash=?,hash=? WHERE org_id=? AND id=?').run(e.detail, prev, hash, A, r.id); prev = hash; }
+  } finally { d1.db.exec("CREATE TRIGGER audit_events_no_update BEFORE UPDATE ON audit_events BEGIN SELECT RAISE(ABORT, 'Audit events are append-only'); END; CREATE TRIGGER audit_events_no_delete BEFORE DELETE ON audit_events BEGIN SELECT RAISE(ABORT, 'Audit events are append-only'); END;"); }
+  v = await chain.verifyChain(d1, A); cp = await chain.checkCheckpoint(d1, A, head.seq, head.hash);
+  check(() => { assert.equal(v.status, 'intact', 'a consistently rewritten suffix verifies intact on its own'); assert.equal(cp.result, 'differs', 'the external checkpoint detects it'); });
+
   const result = { suite: 'access audit contract (slice 6t)', passed, readCost: { batches: cost.batches, statements: cost.statements, rowsWritten: 1, averageMsInMemory: Number(perRead.toFixed(3)), reads: N }, completedAt: new Date().toISOString() };
   writeFileSync('tests/access-audit-contract-result.json', JSON.stringify(result, null, 2) + '\n');
   console.log(JSON.stringify(result));

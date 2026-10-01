@@ -165,7 +165,7 @@ async function sandboxSource(id:string,current:string,userId:string){if(id===cur
  try{return await readState(db(),id);}catch{gone();}}
 export async function patientHistory(request:Request){const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),id=new URL(request.url).searchParams.get('personId')??'';const p=person(s.workspace,id),cursor=parseCursor(new URL(request.url).searchParams.get('cursor'));const h=await history(db(),s.organisation.id,id,cursor);
  // Slice 6t: a revision history page is a material read, recorded before it is returned.
- const m=scope(s,u.userId);await recordAccess(db(),s,u,m,{action:'viewRecordHistory',subject:id,personId:id,detail:`Revision history read: ${h.revisions.length} revisions${cursor?' (older page)':''}.${accessRoute(m,p)}`});
+ const m=scope(s,u.userId);await recordAccess(db(),s,u,m,{action:'viewRecordHistory',subject:id,personId:id,detail:`Revision history read: ${h.revisions.length} revision${h.revisions.length===1?'':'s'}${cursor?' (older page)':''}.${accessRoute(m,p)}`});
  return {...h,revisions:h.revisions.map(redactRevision)};}
 export async function organisationAudit(request:Request){const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation'));return auditPage(db(),s.organisation.id,u.userId,parseCursor(new URL(request.url).searchParams.get('cursor')));}
 // Slice 6n: every provider path receives the environment-policy runtime; rawRuntime is for reporting only.

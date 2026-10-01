@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 // Slice 6t: material reads are chained audit events over HTTP and local D1, and nothing proceeds when the
 // audit store cannot be written (fault injected with a trigger on the local D1 database, for a separate
 // organisation so no other suite is affected; always removed afterwards).
@@ -34,6 +35,18 @@ export async function accessAuditSmoke({get,post,check,accounts,org,sql,base}){
  // The chain verifies with the access events in it.
  let chain=JSON.parse((await raw(o,'/api/audit/chain',200)).text);
  check(()=>assert.equal(chain.status,'intact'));
+ // A chain-head checkpoint for external anchoring: the head of the intact chain, its digest recomputes
+ // offline, issuing it is chained, and checking it later matches; a wrong hash differs, a later sequence is not reached.
+ const point=JSON.parse((await raw(o,'/api/audit/chain?format=checkpoint',200)).text);
+ const sha=t=>createHash('sha256').update(t).digest('hex');
+ check(()=>{assert.equal(point.format,'saha-audit-checkpoint-v1');assert.equal(point.organisationId,mine);assert.equal(point.head.seq,chain.head.seq);assert.equal(point.head.hash,chain.head.hash);assert.equal(point.checkpointSha256,sha(JSON.stringify(['saha-audit-checkpoint-v1',mine,point.head.seq,point.head.hash,point.head.at,point.issuedAt])));});
+ check(()=>{const e=events('auditChainCheckpoint');assert.equal(e.length,1);assert.equal(e[0].id,point.recordedAs);assert.equal(e[0].seq,point.head.seq+1);assert.ok(e[0].detail.includes(point.checkpointSha256));});
+ const checked=async ref=>JSON.parse((await raw(o,`/api/audit/chain?checkpoint=${encodeURIComponent(ref)}`,200)).text);
+ let c=await checked(`${point.head.seq}:${point.head.hash}`);check(()=>{assert.equal(c.status,'intact');assert.equal(c.checkpoint.result,'matches');});
+ c=await checked(`${point.head.seq}:${'0'.repeat(64)}`);check(()=>assert.equal(c.checkpoint.result,'differs'));
+ c=await checked(`${point.head.seq+100000}:${point.head.hash}`);check(()=>assert.equal(c.checkpoint.result,'not-reached'));
+ await raw(o,'/api/audit/chain?checkpoint=abc',422);
+ await raw(outsider,'/api/audit/chain?format=checkpoint',403);
  // A person outside the organisation is refused and nothing is recorded for them.
  const n=sql.prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=?').get(mine).n;
  await raw(outsider,`/api/history?personId=${encodeURIComponent(pid)}`,403);
@@ -48,6 +61,7 @@ export async function accessAuditSmoke({get,post,check,accounts,org,sql,base}){
   await refused(`/api/fhir/${vid}?organisationId=${encodeURIComponent(mine)}`,/could not record this access in the audit log/);
   await refused(`/api/patients/detail?personId=${encodeURIComponent(pid)}`,/could not record this access in the audit log/);
   await refused('/api/audit/chain?format=jsonl',/could not record this export in the audit log/);
+  await refused('/api/audit/chain?format=checkpoint',/could not record this export in the audit log/);
   // A command is not saved without its audit event.
   const r=await fetch(base+'/api/commands',{method:'POST',headers:{...o.headers,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID(),'x-saha-organisation':mine},body:JSON.stringify({type:'createPerson',name:`Blocked ${name}`,age:30,sex:'Male',village:'Access locality',programme:'General care',teamId:'default'})});
   check(()=>assert.equal(r.status,503));
