@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';import ts from 'typescript';import {read
 import {derive,seal,unseal,verifyPacket,packetHash} from '../public/field/vault.js';
 const dir=mkdtempSync(join(process.cwd(),'.field-contract-'));let passed=0;const check=fn=>{fn();passed++},rejects=async(fn,re)=>{await assert.rejects(fn,re);passed++};
 try{
- for(const f of ['types','programmes','core','fact-provenance','mis','programme-commands','field','referral-rules']){writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
+ for(const f of ['types','programmes','adapter-operations','core','fact-provenance','mis','programme-commands','field','referral-rules']){writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
  const {applyField,fieldSchema}=await import(pathToFileURL(join(dir,'field.js')));
  const actor={userId:'worker',displayName:'Synthetic worker'},member={userId:'worker',version:1,role:'clinician',isOwner:true,status:'active',teamIds:['team']},p={id:'patient',name:'Synthetic Test',age:30,sex:'Other',village:'Test village',teamId:'team',assignedTo:'worker',version:1,assigned:true,consentVersion:1};
  const s={organisation:{id:'org'},members:[member],workspace:{role:'clinician',people:[p],visits:[],referrals:[],audit:[],integrations:[],submissions:[]}};

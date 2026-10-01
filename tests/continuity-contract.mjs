@@ -5,7 +5,7 @@ import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.continuity-contract-'));let passed=0;const check=f=>{f();passed++};
 try{
- for(const f of ['types','programmes','core','fact-provenance','mis','access','continuity','referral-rules'])writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ for(const f of ['types','programmes','adapter-operations','core','fact-provenance','mis','access','continuity','referral-rules'])writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {patientMatches,reviewRegistration,transferPatientWork,ensurePatientIdentity,openPatientWork}=await import(pathToFileURL(join(dir,'continuity.js')));
  const m={userId:'worker',role:'asha',status:'active',teamIds:['a']},u={userId:'reviewer',displayName:'Synthetic reviewer'},input={name:'Synthetic Alpha',age:31,sex:'Unknown',village:'Synthetic locality',teamId:'a'};
  const p={...input,id:'p',version:1,assigned:true,assignedTo:'worker',followUps:[],fieldLeases:[]},s={workspace:{role:'asha',people:[p],visits:[],referrals:[],submissions:[]},outreach:{plans:[],messages:[]}};

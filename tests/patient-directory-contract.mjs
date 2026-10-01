@@ -30,7 +30,7 @@ class D1 {
 
 
 try {
-  for (const f of ['patient-directory', 'store', 'partition', 'access', 'core', 'fact-provenance', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'delta'])
+  for (const f of ['patient-directory', 'store', 'partition', 'access', 'adapter-operations','core', 'fact-provenance', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'delta'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const pd = await import(pathToFileURL(join(dir, 'patient-directory.js')));
   const store = await import(pathToFileURL(join(dir, 'store.js')));

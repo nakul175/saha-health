@@ -28,7 +28,7 @@ class D1 {
 }
 
 try {
-  for (const f of ['programme-migration', 'programme-commands', 'environment', 'identity', 'operations', 'referral-rules', 'store', 'partition', 'access', 'core', 'fact-provenance', 'delegation', 'mis', 'programmes', 'seed', 'types', 'audit-chain'])
+  for (const f of ['programme-migration', 'programme-commands', 'environment', 'identity', 'operations', 'referral-rules', 'store', 'partition', 'access', 'adapter-operations','core', 'fact-provenance', 'delegation', 'mis', 'programmes', 'seed', 'types', 'audit-chain'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const M = await import(pathToFileURL(join(dir, 'programme-migration.js')));
   const P = await import(pathToFileURL(join(dir, 'programmes.js')));

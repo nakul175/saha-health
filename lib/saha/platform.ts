@@ -35,6 +35,7 @@ import { fieldRegistrationSchema } from './field-registration';
 import { referralRequestSchema } from './referral-request';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
+import { adapterOperationsSchema } from './adapter-operations';
 import { agentSchema } from './agent';
 import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
@@ -84,6 +85,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...fieldRegistrationSchema.options,
  ...referralRequestSchema.options,
  ...misSchema.options,
+ adapterOperationsSchema.innerType(),
  ...ehrSchema.options,
  ...agentSchema.options,
  ...programmeSchema.options,

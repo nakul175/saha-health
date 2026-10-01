@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { AppError, fail, person, uuid } from './core';
 import type { Actor } from './store';
 import type { Integration, Member, OrgState, Person } from './types';
+import { operationRefusal, type AdapterOperation } from './adapter-operations';
 
 // Slice 7a: ABDM-shaped workflows against a local mock gateway (BR-INT-13, BR-INT-14, BR-INT-15).
 // Nothing here talks to ABDM. Purpose and health-information type codes follow the list in the
@@ -35,6 +36,10 @@ export const abdmIntegration=(s:OrgState)=>s.workspace.integrations.find(i=>i.ki
 export function abdmConfig(s:OrgState):AbdmConfig|undefined{return abdmIntegration(s)?.abdm;}
 function module(s:OrgState,name:'abha'|'hip'|'hiu'){const c=abdmConfig(s);if(!c||!c.modules[name]||!c.approvals.some(a=>a.module===name))fail(409,`The ABDM ${name.toUpperCase()} module is not enabled with a recorded approval for this organisation.`);return c;}
 const care=(m:Member)=>['asha','clinician'].includes(m.role);
+// Slice 7e: the mock gateway's permitted operations (create links, delete/unlink, look up records) are checked
+// before each ABDM-shaped step. These steps are single local commits against the mock, so a refusal changes nothing.
+const ABDM_OPERATION:Record<string,AdapterOperation>={abhaLink:'create',abhaUnlink:'delete',abdmCareContextLink:'create',abdmFetch:'lookup'};
+export function abdmOperation(s:OrgState,type:string){const op=ABDM_OPERATION[type],i=abdmIntegration(s);if(!op||!i)return;const refused=operationRefusal(i,op,op==='lookup'?'none':'patient');if(refused)fail(409,refused+' Nothing was changed on the mock gateway.');}
 export function authorizeAbdm(_s:OrgState,m:Member,c:any){
  if(!TYPES.has(c?.type))return;
  if(['abdmConfigure','abdmConsentDecide'].includes(c.type)&&!m.isOwner)fail(403,'Only an organisation owner can configure ABDM or act as the mock consent manager.');
@@ -55,6 +60,7 @@ export function consentAllows(p:Person,consentId:string,q:{purpose?:string;hiTyp
 }
 export function applyAbdm(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
  const parsed=abdmSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeAbdm(s,m,c);
+ abdmOperation(s,c.type);
  const w=s.workspace;let subject=s.organisation.id,personId:string|undefined,detail='',result:any={ok:true};
  if(c.type==='abdmConfigure'){
   if(c.environment!=='mock')fail(409,'Sandbox and production need ABDM onboarding, approvals and credentials outside Saha. This release supports the local mock gateway only.');

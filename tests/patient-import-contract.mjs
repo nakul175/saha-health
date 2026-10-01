@@ -12,7 +12,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['patient-import', 'core', 'access', 'continuity', 'delegation', 'environment', 'identity', 'referral-rules', 'fact-provenance', 'mis', 'programmes', 'types'])
+  for (const f of ['patient-import', 'adapter-operations','core', 'access', 'continuity', 'delegation', 'environment', 'identity', 'referral-rules', 'fact-provenance', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const I = await import(pathToFileURL(join(dir, 'patient-import.js')));
   const now = '2026-09-30T08:00:00.000Z';

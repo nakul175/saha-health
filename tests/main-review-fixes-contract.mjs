@@ -20,7 +20,7 @@ const failed = [];
 const check = (name, fn) => { try { fn(); passed++; } catch (e) { if (process.env.REPORT_ALL) { failed.push(name); return; } e.message = `${name}: ${e.message}`; throw e; } };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['types', 'programmes', 'mis', 'core', 'fact-provenance', 'delegation', 'access', 'household', 'household-constants', 'referral-rules', 'exceptional', 'merge', 'rights', 'abdm'])
+  for (const f of ['types', 'programmes', 'mis', 'adapter-operations','core', 'fact-provenance', 'delegation', 'access', 'household', 'household-constants', 'referral-rules', 'exceptional', 'merge', 'rights', 'abdm'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`${lib}/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const imp = f => import(pathToFileURL(join(dir, f + '.js')));
   const [H, E, M, R, B] = await Promise.all(['household', 'exceptional', 'merge', 'rights', 'abdm'].map(imp));
