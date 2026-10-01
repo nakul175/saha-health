@@ -48,3 +48,7 @@ A second independent review found that this slice put patient names in URLs: the
 ## Follow-up — 1 October 2026 (slice 0b-4)
 
 The first limit above is closed for My work (statistics, visit list and follow-ups), the referral tracker and Submissions: in a paged workspace they are now built on the server over the whole scope (`GET /api/worklists`), with the same order and counts as the unpaged workspace, and the My work notice about opened records is replaced. AI tools lists and activity counts by patient still cover only opened records. See [SLICE-0B4-SERVER-WORKLISTS.md](SLICE-0B4-SERVER-WORKLISTS.md). The text above is kept as written.
+
+## Correction — 1 October 2026 (slice 6w)
+
+The opened-patient window returned full records on every workspace read without an access event for records not opened through `/api/patients/detail`. Slice 6w records a `viewPatientRecord` access for such window records (once per viewer and patient in 12 hours) before they are returned. Found by a fifth independent review (an agent that did not write the code) of round-1 slices 0b-4, 4e, 6s and 6t; the original text above is kept. See [slice 6w](SLICE-6W-FIFTH-REVIEW-FIXES.md).

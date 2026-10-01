@@ -52,6 +52,7 @@ import { AppError, apply, digest, fail, person, uuid, type Command } from './cor
 import { platformApply, platformSchema, validTeams } from './platform';
 import { patientTargets } from './partition';
 import { PAGED_THRESHOLD, pagedWindow, pagingRequest, type PagingRequest } from './patient-directory';
+import { auditWindow } from './access-audit';
 import { accountCode, auditPage, parseCursor, createState, ensureAccount, history, persist, readState, scope, type Actor } from './store';
 import type { OrgState, Integration, Member, Snapshot } from './types';
 export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}
@@ -59,7 +60,10 @@ export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unava
 export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null){const id=await activeOrg(u,orgId);const ids=targets?await targets(id):null;
  // Slice 0b-3: a paging client with a large non-ASHA scope reads only its opened window of patients.
  const paged=viewerScoped&&!ids&&paging?await pagedWindow(db(),id,u.userId,paging.window):null;
- const state=paged?await readState(db(),id,paged.ids,u.userId,true):await readState(db(),id,ids??undefined,viewerScoped&&!ids?u.userId:undefined);if(paged)state.paging={total:paged.total,threshold:PAGED_THRESHOLD};scope(state,u.userId);return state;}
+ let state=paged?await readState(db(),id,paged.ids,u.userId,true):await readState(db(),id,ids??undefined,viewerScoped&&!ids?u.userId:undefined);
+ // Slice 6w (fifth review, finding 7): window records not opened through the detail route are audited first.
+ if(paged&&paged.ids.length){const kept=await auditWindow(db(),state,u,scope(state,u.userId),paged.ids);if(kept.length!==paged.ids.length){paged.ids=kept;state=await readState(db(),id,kept,u.userId,true);}}
+ if(paged)state.paging={total:paged.total,threshold:PAGED_THRESHOLD};scope(state,u.userId);return state;}
 // The organisation a request acts in: the named one, else the account's active membership.
 export async function activeOrg(u:Actor,orgId?:string|null){await ensureAccount(db(),u,w=>fixturesFor(rawRuntime(),w));let id=orgId;if(!id){const a=await db().prepare('SELECT active_org_id FROM accounts WHERE user_id=?').bind(u.userId).first<{active_org_id:string}>();id=a?.active_org_id;const active=id?await db().prepare('SELECT user_id FROM memberships WHERE org_id=? AND user_id=? AND status=?').bind(id,u.userId,'active').first():null;if(!active){const fallback=await db().prepare('SELECT org_id FROM memberships WHERE user_id=? AND status=? ORDER BY created_at LIMIT 1').bind(u.userId,'active').first<{org_id:string}>();id=fallback?.org_id;if(id)await db().prepare('UPDATE accounts SET active_org_id=? WHERE user_id=?').bind(id,u.userId).run();}}if(!id)fail(403,'Select an active organisation.');return id!;}
 export async function snapshotFor(state:OrgState,u:Actor):Promise<Snapshot>{

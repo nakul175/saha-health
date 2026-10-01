@@ -82,7 +82,7 @@ export async function worklistsSmoke({get,post,check,sql,base}){
  // Rows are summaries: no delivery payloads, hashes or referral events; names only of in-scope patients.
  check(()=>{const s=svc.subs.rows[0],r=svc.refs.rows[0];assert.ok(!('delivery' in s)&&!('payloadHash' in s)&&!('events' in r)&&!('sources' in r));assert.equal(s.personName,svc.full.people.find(p=>p.id===s.personId).name);});
  // The address never carries a name, free text or record id: only view, tab, limit and an offset cursor.
- check(()=>{for(const u of urls){const q=new URL(u).searchParams;assert.ok([...q.keys()].every(k=>['view','tab','limit','cursor'].includes(k)),u);assert.ok(!q.has('cursor')||/^n:\d+$/.test(q.get('cursor')),u);assert.ok(!/Synthetic|Aster|birch|Cedar|wl_/.test(decodeURIComponent(u)),u);}});
+ check(()=>{for(const u of urls){const q=new URL(u).searchParams;assert.ok([...q.keys()].every(k=>['view','tab','limit','cursor'].includes(k)),u);assert.ok(!q.has('cursor')||/^n:\d+:\d+$/.test(q.get('cursor')),u);/* slice 6w: offset and total, digits only */assert.ok(!/Synthetic|Aster|birch|Cedar|wl_/.test(decodeURIComponent(u)),u);}});
  await page(sv,'view=work&q=aster',400);await page(sv,`view=work&cursor=${encodeURIComponent('after:'+seededA[0].id)}`,400);await page(sv,'view=people',400);await page(sv,'view=work&tab=attention',400);await page(sv,'limit=x',400);
  // After a command the lists follow the data: a clinician starts a visit; the supervisor's lists still equal the unpaged workspace.
  const target=seededA.find((p,i)=>i%4&&p.data.status==='due');

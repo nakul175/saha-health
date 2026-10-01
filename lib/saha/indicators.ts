@@ -92,7 +92,10 @@ function suppress(rows:{group:string;n:number;d?:number}[],unit:'count'|'proport
 export type Query={ids:string[];days:number;group:Group;team?:string|null;village?:string|null;programme?:string|null};
 // Slice 6s: the people counted in each released cell, per (grouping, definition cohort). These counts never
 // leave the server; they feed the differencing check across one viewer's recent queries.
-export type Series={key:string;cells:Record<string,number>;ids:string[]};
+// Slice 6w: a definition contributes two series: its people per cell, and its numerator and denominator per
+// cell (keyed by measure). Definition filters are carried in `f` as nesting dimensions (sex, ageBand,
+// defProgramme), not in the series key, so complementary definitions are compared with each other.
+export type Series={key:string;f:Record<string,string>;cells:Record<string,number>;m?:Record<string,[number,number]>;ids:string[]};
 export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  manager(m);
  if(!q.ids.length||q.ids.length>8)fail(422,'Choose up to eight catalogue indicators.');
@@ -107,7 +110,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  const latest=[...s.workspace.visits.filter(v=>people.some(p=>p.id===v.personId)).map(v=>v.confirmedAt??v.createdAt),...s.workspace.submissions.filter(x=>people.some(p=>p.id===x.personId)).map(x=>x.updatedAt)].sort().at(-1)??null;
  const series=new Map<string,Series>();
  const cohortCells:Record<string,number>={};for(const p of people)for(const k of keysFor(s,p,'none'))cohortCells[k]=(cohortCells[k]??0)+1;
- series.set('cohort',{key:'cohort',cells:cohortCells,ids:[]});
+ series.set('cohort',{key:'cohort',f:{},cells:cohortCells,ids:[]});
  const results=defs.map(def=>{const sp=def.spec,f=sp.filters;
   const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def)}};
   const cohort=people.filter(p=>(!f.programme||p.programmes.includes(f.programme))&&(!f.ageBand||band(p.age)===f.ageBand)&&(!f.sex||p.sex===f.sex)&&!(sp.exclude.includes('identity-provisional')&&p.identityReview?.state==='provisional')&&!(sp.exclude.includes('no-programme')&&!p.programmes.length));
@@ -115,7 +118,10 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
   if(cohort.length<Math.max(MIN_CELL,sp.minimumCohort))return {...head,rows:[],refused:'cohort' as const,message:`This definition needs a cohort of at least ${Math.max(MIN_CELL,sp.minimumCohort)} people after its own filters. Widen the filters.`};
   const groups=new Map<string,{n:number;d:number;people:number}>();
   for(const p of cohort){const n=measure(sp.numerator).count(ctx,p),d=sp.denominator?measure(sp.denominator).count(ctx,p):0;for(const k of keysFor(s,p,q.group)){const g=groups.get(k)??{n:0,d:0,people:0};g.n+=n;g.d+=d;g.people++;groups.set(k,g);}}
-  const key=`${q.group}|${JSON.stringify(f)}|${[...sp.exclude].sort().join(',')}`,sr=series.get(key)??{key,cells:Object.fromEntries([...groups].map(([g,x])=>[g,x.people])),ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(key,sr);
+  const defF:Record<string,string>=Object.fromEntries(([['sex',f.sex],['ageBand',f.ageBand],['defProgramme',f.programme]] as [string,string|undefined][]).filter(([,v])=>!!v) as [string,string][]);
+  const base=`${q.group}|${[...sp.exclude].sort().join(',')}`,pc=Object.fromEntries([...groups].map(([g,x])=>[g,x.people]));
+  for(const [key,m] of [[base,undefined],[`${base}|${sp.numerator}/${sp.denominator??''}`,Object.fromEntries([...groups].map(([g,x])=>[g,[x.n,x.d] as [number,number]]))]] as [string,Record<string,[number,number]>|undefined][]){
+   const id=key+'#'+JSON.stringify(defF),sr=series.get(id)??{key,f:defF,cells:pc,...(m?{m}:{}),ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
   const rows=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([group,g])=>({group,n:g.n,d:sp.unit==='proportion'?g.d:undefined}));
   return {...head,rows:suppress(rows,sp.unit)};});
  const result={computedAt:ctx0.until,window:{since:ctx0.since,until:ctx0.until,days:q.days},cohort:{people:people.length,team:q.team??null,village:q.village??null,programme:q.programme??null},group:q.group,latestSourceRecord:latest,minimumCell:MIN_CELL,results,

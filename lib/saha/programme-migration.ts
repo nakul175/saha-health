@@ -83,5 +83,6 @@ export async function applyProgrammeMigration(s:OrgState,input:unknown,u:Actor,m
  const b:ProgrammeMigrationBatch={id,packId:c.packId,fromVersions:[...new Set(plan.candidates.map(x=>x.fromVersion as number))].sort((a,b)=>a-b),toVersion:plan.targetVersion,planHash:plan.planHash,at:now,by:u.userId,reason:c.reason,examined:plan.examined,migrated:plan.candidates.length,blocked:plan.blocked.length,outOfScope:plan.outOfScope,adopted:plan.adopts,previousAdopted:plan.adoptedVersion};batches.push(b);
  const detail=`Programme migration ${c.packId} to v${plan.targetVersion}, batch ${id}, applied from dry run ${plan.planHash}: ${plan.examined} open episodes on older versions examined, ${b.migrated} migrated, ${b.blocked} left on their version for manual action, ${b.outOfScope} outside the applier's care scope.${b.adopted?` New episodes now open on v${plan.targetVersion} (previously v${plan.adoptedVersion}).`:''} Confirmed visits keep their versions. Reason: ${c.reason}`;
  s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:s.organisation.id,detail});
- return {batchId:id,migrated:b.migrated,blocked:b.blocked,outOfScope:b.outOfScope,adopted:b.adopted};
+ // Slice 6w: the out-of-scope count is returned to an owner only (the stored batch keeps it for owners).
+ return {batchId:id,migrated:b.migrated,blocked:b.blocked,outOfScope:m.isOwner?b.outOfScope:null,adopted:b.adopted};
 }

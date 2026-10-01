@@ -87,7 +87,7 @@ try {
       const q = wl.worklistQuery(url(`view=${view}&limit=${limit}${tab === 'attention' ? '&tab=attention' : ''}${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`));
       const page = wl.worklistPage(await wl.worklistData(d1, 'org1', m, view, now), q);
       firsts.push(page); rows.push(...page.rows); cursor = page.nextCursor; pages++;
-      if (cursor) assert.match(cursor, /^n:\d+$/);
+      if (cursor) assert.match(cursor, /^n:\d+:\d+$/); // slice 6w: offset and the view's total, digits only
     } while (cursor && pages < 400);
     for (const p of firsts) assert.equal(p.total, firsts[0].total);
     return { rows, first: firsts[0], pages };

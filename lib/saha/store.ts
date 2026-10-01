@@ -16,12 +16,16 @@ export const accountCode=async(id:string)=>(await digest(`saha-account:${id}`)).
 export const homeOrg=async(id:string)=>`org_${(await digest(`saha-home:${id}`)).slice(0,32)}`;
 // Every statement is guarded by a transaction-local CAS token. D1 batch rolls back
 // all writes on error; a losing CAS leaves every dependent statement a no-op.
+// Slice 6w: the indicator differencing ledger in the operations row is written only by its own statement
+// (indicators-server). A command that saves the operations row keeps the ledger as currently stored, so a
+// command built on an older read never drops releases recorded since.
+const KEEP_LEDGER="data=CASE WHEN json_type(operations.data,'$.indicatorReleases') IS NULL THEN json_remove(excluded.data,'$.indicatorReleases') ELSE json_set(excluded.data,'$.indicatorReleases',json(json_extract(operations.data,'$.indicatorReleases'))) END";
 export function guarded(db:D1Database,orgId:string,token:string,rows:Row[]){
  const groups=new Map<string,Row[]>();for(const r of rows){const key=r.table+'|'+Object.keys(r.values).join(',')+'|'+r.append;groups.set(key,[...(groups.get(key)??[]),r]);}
  const statements=[];
  for(const rs of groups.values()){
   const first=rs[0],cols=Object.keys(first.values),size=Math.max(1,Math.floor(88/cols.length));
-  for(let n=0;n<rs.length;n+=size){const part=rs.slice(n,n+size);const binds=part.flatMap(r=>cols.map(k=>r.values[k]));const select=cols.map((_,i)=>`column${i+1}`).join(',');const updates=cols.filter(c=>!first.keys.includes(c));const conflict=first.append?'':updates.length?` ON CONFLICT (${first.keys.join(',')}) DO UPDATE SET ${updates.map(c=>`${c}=excluded.${c}`).join(',')}`:' ON CONFLICT DO NOTHING';
+  for(let n=0;n<rs.length;n+=size){const part=rs.slice(n,n+size);const binds=part.flatMap(r=>cols.map(k=>r.values[k]));const select=cols.map((_,i)=>`column${i+1}`).join(',');const updates=cols.filter(c=>!first.keys.includes(c));const conflict=first.append?'':updates.length?` ON CONFLICT (${first.keys.join(',')}) DO UPDATE SET ${updates.map(c=>first.table==='operations'&&c==='data'?KEEP_LEDGER:`${c}=excluded.${c}`).join(',')}`:' ON CONFLICT DO NOTHING';
    statements.push(db.prepare(`INSERT INTO ${first.table} (${cols.join(',')}) SELECT ${select} FROM (VALUES ${part.map(()=>`(${cols.map(()=>'?').join(',')})`).join(',')}) WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)${conflict}`).bind(...binds,orgId,token));
   }
  }

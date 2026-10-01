@@ -14,10 +14,13 @@ import { followUpGroups, referralList, submissionList, visitList, workStats, typ
 export const WORKLIST_VIEWS = ['work', 'followups', 'submissions', 'referrals'] as const;
 export type WorklistView = typeof WORKLIST_VIEWS[number];
 export const WORKLIST_PAGE = 50;
-const CURSOR = /^n:(\d{1,7})$/;
+const CURSOR = /^n:(\d{1,7})(?::(\d{1,7}))?$/;
 
 // The cursor is a position in the ordered view (`n:<offset>`): it carries no name, no free text and no record id.
-export type WorklistQuery = { view: WorklistView; limit: number; offset: number; attention: boolean };
+// Slice 6w (fifth review, finding 9): the cursor also carries the view's total when the page was served
+// (`n:<offset>:<total>`). If the total has changed, the list moved under the client: the server restarts at the
+// first page and says so (`restarted`), and the client replaces its rows instead of appending.
+export type WorklistQuery = { view: WorklistView; limit: number; offset: number; attention: boolean; total?: number };
 export function worklistQuery(url: URL): WorklistQuery {
   for (const k of url.searchParams.keys()) if (!['view', 'cursor', 'limit', 'tab'].includes(k)) fail(400, 'Invalid work list request.');
   const view = url.searchParams.get('view') ?? 'work';
@@ -27,10 +30,11 @@ export function worklistQuery(url: URL): WorklistQuery {
   const limit = Math.min(100, Math.max(1, rawLimit === null ? WORKLIST_PAGE : Number(rawLimit)));
   const raw = url.searchParams.get('cursor');
   let offset = 0;
-  if (raw !== null) { const c = CURSOR.exec(raw); if (!c) fail(400, 'Invalid work list cursor. Start the list again.'); offset = Number(c![1]); }
+  let total: number | undefined;
+  if (raw !== null) { const c = CURSOR.exec(raw); if (!c) fail(400, 'Invalid work list cursor. Start the list again.'); offset = Number(c![1]); if (c![2] !== undefined) total = Number(c![2]); }
   const tab = url.searchParams.get('tab') ?? 'all';
   if (!['all', 'attention'].includes(tab) || (tab === 'attention' && view !== 'submissions')) fail(400, 'Choose all or attention submissions.');
-  return { view: view as WorklistView, limit, offset, attention: tab === 'attention' };
+  return { view: view as WorklistView, limit, offset, attention: tab === 'attention', ...(total !== undefined ? { total } : {}) };
 }
 
 export type WorkPerson = Pick<Person, 'id' | 'name' | 'age' | 'sex' | 'village' | 'programmes' | 'task' | 'due' | 'status'> & { followUps?: FollowUp[]; merged: boolean };
@@ -77,9 +81,9 @@ export type WorkRow = { id: string; name: string; age: number | null; sex: strin
 export type FollowUpRow = { personId: string; name: string; tasks: { id: string; due: string; packId: string; title: string }[] };
 export type SubmissionRow = Pick<Submission, 'id' | 'personId' | 'visitId' | 'connectorName' | 'state' | 'receipt' | 'attempts' | 'mode' | 'message' | 'createdAt' | 'signOff'> & { personName: string };
 export type ReferralRow = Pick<Referral, 'id' | 'personId' | 'visitId' | 'facility' | 'reason' | 'state' | 'due' | 'urgency' | 'ownerId'> & { personName: string };
-export type WorklistPage = { view: WorklistView; total: number; nextCursor: string | null; stats?: WorkStats; tasks?: number; all?: number; attention?: number; rows: (WorkRow | FollowUpRow | SubmissionRow | ReferralRow)[] };
+export type WorklistPage = { view: WorklistView; total: number; nextCursor: string | null; restarted?: boolean; stats?: WorkStats; tasks?: number; all?: number; attention?: number; rows: (WorkRow | FollowUpRow | SubmissionRow | ReferralRow)[] };
 
-const page = <T>(items: T[], q: WorklistQuery) => ({ rows: items.slice(q.offset, q.offset + q.limit), nextCursor: q.offset + q.limit < items.length ? `n:${q.offset + q.limit}` : null });
+const page = <T>(items: T[], q: WorklistQuery) => { const stale = q.total !== undefined && q.total !== items.length, offset = stale ? 0 : q.offset; return { rows: items.slice(offset, offset + q.limit), nextCursor: offset + q.limit < items.length ? `n:${offset + q.limit}:${items.length}` : null, restarted: stale }; };
 
 // One page of one view. `total` counts the whole ordered view and every page repeats it, so a client can tell
 // when the list changed between pages.
@@ -87,16 +91,16 @@ export function worklistPage(data: WorklistData, q: WorklistQuery): WorklistPage
   const name = new Map(data.people.map(p => [p.id, p.name]));
   if (q.view === 'work') {
     const list = visitList(data.people), pg = page(list, q);
-    return { view: q.view, stats: data.stats, total: list.length, nextCursor: pg.nextCursor, rows: pg.rows.map(p => ({ id: p.id, name: p.name, age: p.age ?? null, sex: p.sex, village: p.village, programmes: p.programmes, task: p.task, due: p.due, status: p.status, merged: p.merged })) };
+    return { view: q.view, stats: data.stats, total: list.length, nextCursor: pg.nextCursor, ...(pg.restarted ? { restarted: true } : {}), rows: pg.rows.map(p => ({ id: p.id, name: p.name, age: p.age ?? null, sex: p.sex, village: p.village, programmes: p.programmes, task: p.task, due: p.due, status: p.status, merged: p.merged })) };
   }
   if (q.view === 'followups') {
     const f = followUpGroups(data.people), pg = page(f.groups, q);
-    return { view: q.view, tasks: f.tasks, total: f.groups.length, nextCursor: pg.nextCursor, rows: pg.rows.map(g => ({ personId: g.person.id, name: g.person.name, tasks: g.tasks.map(t => ({ id: t.id, due: t.due, packId: t.packId, title: t.title })) })) };
+    return { view: q.view, tasks: f.tasks, total: f.groups.length, nextCursor: pg.nextCursor, ...(pg.restarted ? { restarted: true } : {}), rows: pg.rows.map(g => ({ personId: g.person.id, name: g.person.name, tasks: g.tasks.map(t => ({ id: t.id, due: t.due, packId: t.packId, title: t.title })) })) };
   }
   if (q.view === 'submissions') {
     const s = submissionList(data.submissions, q.attention), pg = page(s.rows, q);
-    return { view: q.view, all: s.all, attention: s.attention, total: s.rows.length, nextCursor: pg.nextCursor, rows: pg.rows.map(x => ({ id: x.id, personId: x.personId, visitId: x.visitId, connectorName: x.connectorName, state: x.state, receipt: x.receipt, attempts: x.attempts, mode: x.mode, message: x.message, createdAt: x.createdAt, personName: name.get(x.personId) ?? '', ...(x.signOff ? { signOff: x.signOff } : {}) })) };
+    return { view: q.view, all: s.all, attention: s.attention, total: s.rows.length, nextCursor: pg.nextCursor, ...(pg.restarted ? { restarted: true } : {}), rows: pg.rows.map(x => ({ id: x.id, personId: x.personId, visitId: x.visitId, connectorName: x.connectorName, state: x.state, receipt: x.receipt, attempts: x.attempts, mode: x.mode, message: x.message, createdAt: x.createdAt, personName: name.get(x.personId) ?? '', ...(x.signOff ? { signOff: x.signOff } : {}) })) };
   }
   const list = referralList(data.referrals), pg = page(list, q);
-  return { view: q.view, total: list.length, nextCursor: pg.nextCursor, rows: pg.rows.map(r => ({ id: r.id, personId: r.personId, visitId: r.visitId, facility: r.facility, reason: r.reason, state: r.state, due: r.due, urgency: r.urgency, ownerId: r.ownerId, personName: name.get(r.personId) ?? '' })) };
+  return { view: q.view, total: list.length, nextCursor: pg.nextCursor, ...(pg.restarted ? { restarted: true } : {}), rows: pg.rows.map(r => ({ id: r.id, personId: r.personId, visitId: r.visitId, facility: r.facility, reason: r.reason, state: r.state, due: r.due, urgency: r.urgency, ownerId: r.ownerId, personName: name.get(r.personId) ?? '' })) };
 }

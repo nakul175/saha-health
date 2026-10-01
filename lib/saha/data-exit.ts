@@ -38,7 +38,7 @@ export const TABLES: TableSpec[] = [
   { table: 'team_members', order: 'team_id,user_id', scope: 'org' },
   { table: 'invitations', order: 'id', scope: 'org', omit: ['token_hash'], note: 'The token hash is a credential verifier and is left out.' },
   { table: 'integrations', order: 'id', scope: 'org', note: 'credentialBinding names a server secret; no secret value is stored or exported.' },
-  { table: 'operations', order: 'org_id', scope: 'org' },
+  { table: 'operations', order: 'org_id', scope: 'org', note: 'The indicator differencing ledger (indicatorReleases) is server-side protection state and is left out of data.' },
   { table: 'pilot', order: 'org_id', scope: 'org' },
   { table: 'outreach', order: 'org_id', scope: 'org' },
   { table: 'expansions', order: 'org_id', scope: 'org' },
@@ -163,6 +163,12 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       if ((spec.scope === 'org' || spec.scope === 'team') && typeof r.data === 'string' && r.data) {
         let doc: unknown = null; try { doc = JSON.parse(r.data); } catch { doc = null; }
         if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, id => people.has(id)); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
+      }
+      // Slice 6w (fifth review, finding 6): the indicator differencing ledger is server-side protection state
+      // (hashed filters and unsuppressed per-cell counts from every viewer's queries); it is not exported.
+      if (spec.table === 'operations' && typeof out.data === 'string' && out.data) {
+        let doc: Record<string, unknown> | null = null; try { doc = JSON.parse(out.data as string); } catch { doc = null; }
+        if (doc && typeof doc === 'object' && 'indicatorReleases' in doc) { delete doc.indicatorReleases; out.data = JSON.stringify(doc); }
       }
       lines.push(out);
     }

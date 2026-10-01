@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 // Slice 6d: indicator catalogue and suppressed cohort queries through the built Worker and local D1.
 export async function indicatorsSmoke({get,post,check,accounts,org,base}){
  const {owner:o,worker:w,supervisor:s,admin:a,clinician:c}=accounts;
- const read=async(who,q={},status=200)=>{const r=await fetch(`${base}/api/indicators?${new URLSearchParams(q)}`,{headers:{...who.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
+ // Slice 6w: running a query records a differencing release, so queries (ids) are POSTed; the catalogue stays a GET.
+ const read=async(who,q={},status=200)=>{const r=q.ids?await fetch(`${base}/api/indicators`,{method:'POST',headers:{...who.headers,'Content-Type':'application/json','x-saha-organisation':org},body:JSON.stringify(q)}):await fetch(`${base}/api/indicators?${new URLSearchParams(q)}`,{headers:{...who.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,status,JSON.stringify(j).slice(0,300)));return j;};
  await read(w,{},403);await read(a,{},403);await read(c,{},403);
  const cat=await read(s);
  check(()=>{assert.equal(cat.catalogue.length,12);assert.equal(cat.minimumCell,5);assert.ok(cat.catalogue.every(d=>d.version&&d.owner&&d.numerator));assert.ok(cat.villages.length>0);});

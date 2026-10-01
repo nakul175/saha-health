@@ -101,6 +101,9 @@ export function verifyFiles(files) {
   const caseloadIds = d => [...(d?.personIds ?? []), ...(d?.applied?.moved ?? []), ...Object.keys(d?.applied?.assignments ?? {})];
   for (const name of ['households', 'caseload_transfers']) for (const r of t(name)) { let doc = null; try { doc = typeof r.data === 'string' ? JSON.parse(r.data) : null; } catch { doc = null; } for (const id of [...personIds(doc), ...(name === 'caseload_transfers' ? caseloadIds(doc) : [])]) { references++; if (!patients.has(id)) dangling.push(`${name}.data personId=${id}`); } }
   if (dangling.length) bad('relationships', `${dangling.length} references do not resolve: ${dangling.slice(0, 10).join(', ')}`); else pass('relationships', `${references} references resolve`);
+  // Slice 6w: the indicator differencing ledger is server-side protection state and is never exported.
+  const ledgerRows = t('operations').filter(r => { try { return typeof r.data === 'string' && 'indicatorReleases' in (JSON.parse(r.data) ?? {}); } catch { return false; } });
+  if (ledgerRows.length) bad('protection-state', 'operations.data carries the indicator differencing ledger, which an export must leave out'); else pass('protection-state', 'no indicator differencing ledger in the operations document');
   // Media content matches the recorded SHA-256 and size.
   const mediaProblems = [];
   let mediaFiles = 0;

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2g, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2g, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6w, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -921,7 +921,7 @@
       "sourceTextLine": 254,
       "implementation": "partial",
       "target": "R11",
-      "current": "Immutable protocol revisions, effective/review dates, dependency invalidation, scoped related records and new-review-only transition. Slice 4e adds reviewed migration of open episodes to a newer pack version: an owner or clinician dry run over open episodes on older versions in their care scope with the changes between versions, candidates and episodes blocked with reasons (open visit, merged record, restriction, no reviewed mapping), a plan hash bound to record versions, apply of exactly that plan with a revision and episode history entry per episode and one counted audit batch, confirmed visits kept on their version, and owner adoption of the new version for new episodes; exercised with one illustrative maternal v2.",
+      "current": "Immutable protocol revisions, effective/review dates, dependency invalidation, scoped related records and new-review-only transition. Slice 4e adds reviewed migration of open episodes to a newer pack version: an owner or clinician dry run over open episodes on older versions in their care scope with the changes between versions, candidates and episodes blocked with reasons (open visit, merged record, restriction, no reviewed mapping), a plan hash bound to record versions, apply of exactly that plan with a revision and episode history entry per episode and one counted audit batch, confirmed visits kept on their version, and owner adoption of the new version for new episodes; exercised with one illustrative maternal v2. Slice 6w: a clinician's dry run counts episodes within their care scope only (no out-of-scope count) and the batch history shows them only the batches they applied, without organisation-wide counts; owners see both as before.",
       "remaining": "Approved pack versions with their own clinical review, per-team adoption, answer migration and schedule recomputation, a reviewed reverse path, and coordinated version changes across installed packs (installation is BR-PROG-08).",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -937,7 +937,9 @@
         "app/programme-migration-panel.tsx",
         "tests/programme-migration-contract.mjs",
         "tests/programme-migration-smoke.mjs",
-        "docs/current/SLICE-4E-PACK-MIGRATION.md"
+        "docs/current/SLICE-4E-PACK-MIGRATION.md",
+        "tests/fifth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1248,7 +1250,7 @@
       "sourceTextLine": 292,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model. Slice 6s: the catalogue is an owner-maintained registry of versioned definitions built from a fixed vocabulary of measures, filters and exclusions; the interpreter follows the registry; results name their definition version; one viewer's nested queries over seven days are checked for differencing and withheld when they would reveal a group of 1 to 4 people.",
+      "current": "Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model. Slice 6s: the catalogue is an owner-maintained registry of versioned definitions built from a fixed vocabulary of measures, filters and exclusions; the interpreter follows the registry; results name their definition version; one viewer's nested queries over seven days are checked for differencing and withheld when they would reveal a group of 1 to 4 people. Slice 6w: indicator queries are POST only (GET answers the catalogue and interpretation), a view no longer commits organisation-wide, and the CSV export is recorded as an access-audit event; differencing fixes as in BR-REP-04.",
       "remaining": "Natural-language analysis under governance, validated definitions with an approval workflow, owner-defined measures, and differencing protection across viewers, non-nested filters and groupings.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1259,7 +1261,9 @@
         "lib/saha/indicators-server.ts",
         "tests/indicator-registry-contract.mjs",
         "tests/indicator-registry-smoke.mjs",
-        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
+        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md",
+        "tests/fifth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2863,7 +2867,7 @@
       "sourceTextLine": 508,
       "implementation": "partial",
       "target": "R15",
-      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event.",
+      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out.",
       "remaining": "Differencing across viewers, non-nested filters, groupings and definitions, suppression on the operational export and other report paths, and a separate purpose for patient exports.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2876,7 +2880,9 @@
         "lib/saha/indicators-server.ts",
         "tests/indicator-registry-contract.mjs",
         "tests/indicator-registry-smoke.mjs",
-        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
+        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md",
+        "tests/fifth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3323,7 +3329,7 @@
       "sourceTextLine": 569,
       "implementation": "partial",
       "target": "R15",
-      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes.",
+      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events.",
       "remaining": "Audit of workspace snapshot loads, browser-side record opening, searches and aggregate views; audit authority/version completeness; signing of checkpoints and automatic external publication; scheduled verification and independent reconstruction.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3340,7 +3346,9 @@
         "lib/saha/export-audit.ts",
         "tests/access-audit-contract.mjs",
         "tests/access-audit-smoke.mjs",
-        "docs/current/SLICE-6T-ACCESS-AUDIT.md"
+        "docs/current/SLICE-6T-ACCESS-AUDIT.md",
+        "tests/fifth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4184,7 +4192,7 @@
       "sourceTextLine": 759,
       "implementation": "unverified",
       "target": "R16",
-      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured.",
+      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured. Slice 6w: work-list cursors carry the view's total as well as the offset; when the total has changed the server restarts at the first page and the panel replaces its rows instead of appending.",
       "remaining": "Partitioned architecture, topology/load/support/cost review before 10000-worker or five-million-person expansion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4200,7 +4208,9 @@
         "lib/saha/worklist-views.ts",
         "tests/worklists-contract.mjs",
         "tests/worklists-smoke.mjs",
-        "tests/evidence/slice-0b4/load-envelope-0b4.json"
+        "tests/evidence/slice-0b4/load-envelope-0b4.json",
+        "tests/fifth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
