@@ -117,3 +117,10 @@ export function tidyValues(f:Facts):Facts{const next:Facts={...f};
  if(f.entered){const e:NonNullable<Facts['entered']>={};for(const k of CONVERTIBLE_FIELDS){const x=f.entered[k];if(!x||!x.value.trim())continue;e[k]={value:x.value.trim(),unit:x.unit};if(!next[k])next[k]=convertEntered(k,e[k]!)??'';}if(Object.keys(e).length)next.entered=e;else delete next.entered;}
  if(f.unusual){const u:NonNullable<Facts['unusual']>={};for(const k of VALUE_FIELDS){const r=f.unusual[k];if(r&&r.trim()&&valueTier(k,next[k])!=='expected')u[k]=r;}if(Object.keys(u).length)next.unusual=u;else delete next.unusual;}
  return next;}
+// Slice 2i: text for any facts entry in the record history and version-conflict views (strings unchanged).
+export function factEntryText(key:string,value:unknown):string{if(typeof value==='string')return value;if(!value||typeof value!=='object')return String(value??'');
+ const label=(k:string)=>VALUE_RANGES.fields[k as ValueField]?.label??k;
+ if(key==='entered')return Object.entries(value as Record<string,EnteredValue>).map(([k,e])=>`${label(k)}: ${enteredText(e)}`).join('; ');
+ if(key==='unusual')return Object.entries(value as Record<string,string>).map(([k,r])=>`${label(k)}: ${r}`).join('; ');
+ return provenanceText(value);}
+export const FACT_ENTRY_LABEL:Record<string,string>={entered:'Entered in another unit',unusual:'Reasons for unusual values'};

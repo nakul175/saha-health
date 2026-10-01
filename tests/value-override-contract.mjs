@@ -108,6 +108,8 @@ try {
   const ex = X.fhirExample(person, conf.workspace.visits[0]).entry.map(e => e.resource);
   check(() => { assert.match(ex.find(x => x.id === 'v1-weight').note[0].text, /Entered as 882 lb; converted by Saha\./); assert.match(ex.find(x => x.id === 'v1-bp').note[0].text, /Unusual value .*outside 70–200 mmHg/); });
   check(() => assert.match(P.unusualNoteText(s3.workspace.visits[0], 'weight'), /Clinician confirmation pending\./));
+  // History and conflict views render the new facts entries as text (never as objects).
+  check(() => { assert.equal(P.factEntryText('entered', { weight: { value: '154', unit: 'lb' }, temperature: { value: '98.6', unit: 'degF' } }), 'Weight: 154 lb; Temperature: 98.6 °F'); assert.equal(P.factEntryText('unusual', { systolic: 'Repeated after rest.' }), 'Systolic blood pressure: Repeated after rest.'); assert.equal(P.factEntryText('weight', '60'), '60'); assert.match(P.factEntryText('provenance', { weight: { source: 'reported' } }), /^Weight: Reported/); });
   // 9. The field notebook mirrors the configuration exactly.
   const app = readFileSync('public/field/app.js', 'utf8'), mirror = JSON.parse(app.match(/const VALUE_RANGES=(\{.*?\}\}\});/)[1]);
   check(() => assert.deepEqual(mirror, JSON.parse(JSON.stringify(P.VALUE_RANGES))));
