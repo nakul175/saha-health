@@ -1,0 +1,82 @@
+{
+  "recordedAt": "2026-10-01T19:14:05.646Z",
+  "base": "153e741 (int5-6t-read-audit, lane6-a)",
+  "method": "tests/fourth-review-fixes-contract.mjs and tests/ehr-execution.mjs from slice 6u copied into an export of the base tree (git archive 153e741) and run there; REPORT_ALL=1 lists every failing check.",
+  "fourthReviewContract": {
+    "total": 32,
+    "passedOnBase": 9,
+    "failedOnBase": 23,
+    "passingOnBaseAreControls": [
+      "control: a command naming the grant-only patient directly is refused",
+      "control: a plan with only normally visible patients is not blocked",
+      "control: a clinician without the grant is not blocked by this check",
+      "control: in-scope and organisation holds keep their reason and reference",
+      "control: the out-of-scope patient row is withheld",
+      "control: the offline verifier accepts the scoped archive",
+      "control: another patient FHIR download is not affected",
+      "control: a viewer who may see both records sees reason and evidence",
+      "control: a worker who may see the other record is told it is linked there"
+    ],
+    "failed": [
+      "outreachAssign on a grant-only patient's item is refused",
+      "outreachRecord cancelling a grant-only patient's item is refused",
+      "outreachTransition cancelling a plan holding a grant-only patient is refused",
+      "messageCreate for a grant-only patient's item is refused (non-owner clinician)",
+      "hold on an out-of-scope patient withholds reason, reference and person id",
+      "the review counts holds outside scope",
+      "an administrator-role owner sees no patient hold reasons",
+      "household export leaves out the out-of-scope member and its end reason",
+      "caseload transfer export leaves out the out-of-scope patient",
+      "the manifest counts the withheld entries and marks the export incomplete",
+      "the verifier rejects a household naming a patient outside the export",
+      "pilot dossier export survives one concurrent commit and records its audit event once",
+      "pilot dossier export is refused when the exporter lost access before the retry",
+      "expansion pack export survives one concurrent commit and records its audit event once",
+      "expansion pack export is refused when the exporter lost access before the retry",
+      "unknown organisation, unknown connection and a bad signature get the same refusal without any read",
+      "a correctly signed callback reads one integration and is accepted",
+      "disabled external services refuse with the same answer",
+      "the route no longer reads the organisation before the signature check",
+      "a FHIR download of a restricted patient's visit is refused",
+      "the FHIR route applies the restriction check",
+      "merge view withholds reason, evidence and decision reason when the counterpart is outside scope",
+      "ABHA duplicate held by an out-of-scope record gets a neutral refusal"
+    ]
+  },
+  "ehrExecution": {
+    "failedOnBase": "tests/ehr-execution.mjs stops at the replaced assertion (line 21): a publication refused before the write is 'uncertain' on the base, expected 'blocked' (not sent). The new patient-lookup-failure check after it is not reached on the base."
+  },
+  "reviewerScripts": {
+    "note": "The reviewer scripts exc-outreach.mjs, retention-leak.mjs and exit-household.mjs from /tmp/claude-0/review4, with their source path pointed first at the base export (153e741) and then at the slice 6u tree. Output lines as printed (timestamps replaced).",
+    "base": [
+      "== exc-outreach",
+      "doc normally allowed x: false grant: true",
+      "setContactPreferences(personId): 403",
+      "outreachAssign under emergency grant only: APPLIED {\"ok\":true} item state: planned plan state: scheduled audit personId: x",
+      "outreachRecord under emergency grant only: APPLIED {\"ok\":true} item state: cancelled plan state: scheduled audit personId: x",
+      "outreachTransition under emergency grant only: APPLIED {\"ok\":true} item state: cancelled plan state: cancelled audit personId: undefined",
+      "messageCreate (non-owner clinician, grant only): passes the emergency-access guard and outreach authorization",
+      "== retention-leak",
+      "owner B may see y: false",
+      "holds returned to B: [{\"id\":\"h1\",\"scope\":\"person\",\"personId\":\"y\",\"reason\":\"SECRET-HOLD-REASON: subpoena about HIV treatment\",\"reference\":\"COURT-REF-42\",\"placedBy\":\"Former member\",\"placedAt\":\"<now>\",\"personName\":\"Patient outside you",
+      "== exit-household",
+      "kamla withheld from patients.jsonl: true manifest complete: false entriesWithheld: 0",
+      "LEAK SECRET-END-REASON in tables/households.jsonl",
+      "LEAK p_kamla in tables/households.jsonl"
+    ],
+    "fix": [
+      "== exc-outreach",
+      "doc normally allowed x: false grant: true",
+      "setContactPreferences(personId): 403",
+      "outreachAssign refused 403 Emergency access permits reading and recording urgent care only. Ask the patient's team for anything else.",
+      "outreachRecord refused 403 Emergency access permits reading and recording urgent care only. Ask the patient's team for anything else.",
+      "outreachTransition refused 403 Emergency access permits reading and recording urgent care only. Ask the patient's team for anything else.",
+      "messageCreate refused 403",
+      "== retention-leak",
+      "owner B may see y: false",
+      "holds returned to B: [{\"id\":\"h1\",\"scope\":\"person\",\"placedAt\":\"<now>\",\"outsideScope\":true,\"personName\":\"Patient outside your scope\"}]",
+      "== exit-household",
+      "kamla withheld from patients.jsonl: true manifest complete: false entriesWithheld: 1"
+    ]
+  }
+}

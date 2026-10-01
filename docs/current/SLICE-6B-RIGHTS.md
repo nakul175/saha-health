@@ -29,3 +29,7 @@
 ## Correction — 30 September 2026 (slice 6r)
 
 The processing restriction did not pause the simulated reminder send (`messageSimulate`) or ABDM care-context linking (`abdmCareContextLink`), so a reminder approved before the restriction still "sent". Slice 6r pauses both and, when a restriction takes effect, cancels the patient's unsent draft and approved reminders with a reason (kept, not erased). Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).
+
+## Correction — 1 October 2026 (slice 6u)
+
+The processing restriction did not cover FHIR downloads (`GET /api/fhir/[id]`), an export for sharing outside Saha. Slice 6u pauses them (409) while a restriction is in force. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).

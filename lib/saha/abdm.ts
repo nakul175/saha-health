@@ -69,7 +69,11 @@ export function applyAbdm(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date
   if(c.type==='abhaLink'){
    module(s,'abha');if(c.otp!==MOCK_OTP)fail(422,'The mock gateway did not accept this one-time code.');
    if(p.abha?.state==='linked')fail(409,'An ABHA is already linked. Unlink it with a reason before linking another.');
-   const other=w.people.find(q=>q.id!==p.id&&q.abha?.state==='linked'&&q.abha.number===c.abhaNumber&&!q.mergedInto);if(other)fail(409,'This ABHA number is linked to another record. Review whether the records are the same person before linking.');
+   const other=w.people.find(q=>q.id!==p.id&&q.abha?.state==='linked'&&q.abha.number===c.abhaNumber&&!q.mergedInto);if(other){
+    // Slice 6u (fourth review): the check is organisation-wide; when the other record is outside the worker's scope the
+    // refusal is neutral, so it does not reveal that a patient the worker may not see holds this ABHA number.
+    if(!other.assigned)fail(409,'This ABHA number cannot be linked here. Ask an identity steward to review this record before linking.');
+    fail(409,'This ABHA number is linked to another record. Review whether the records are the same person before linking.');}
    hist('linked',{number:c.abhaNumber});Object.assign(p.abha!,{state:'linked',number:c.abhaNumber,address:c.abhaAddress,verification:'mock-otp',at:now,by:u.userId});
    detail=`ABHA ${c.abhaNumber.slice(0,2)}-XXXX-XXXX-${c.abhaNumber.slice(-4)} linked after mock OTP verification. Not verified with ABDM.`;result={abha:`${c.abhaNumber.slice(0,2)}-XXXX-XXXX-${c.abhaNumber.slice(-4)}`};
   }

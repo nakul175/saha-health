@@ -385,7 +385,9 @@
     "lib/saha/abdm.ts",
     "tests/abdm-smoke.mjs",
     "tests/main-review-fixes-contract.mjs",
-    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+    "tests/fourth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
   ],
   "BR-INT-15": [
     "REMAINING-RELEASES.md"
@@ -416,7 +418,14 @@
     "REMAINING-RELEASES.md"
   ],
   "BR-SEC-09": [
-    "REMAINING-RELEASES.md"
+    "lib/saha/server.ts",
+    "lib/saha/access.ts",
+    "lib/saha/store.ts",
+    "REMAINING-RELEASES.md",
+    "lib/saha/retention.ts",
+    "app/retention-panel.tsx",
+    "tests/fourth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
   ],
   "BR-SEC-10": [
     "lib/saha/server.ts",
@@ -425,7 +434,10 @@
     "REMAINING-RELEASES.md",
     "lib/saha/rights.ts",
     "tests/main-review-fixes-contract.mjs",
-    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+    "app/api/fhir/[id]/route.ts",
+    "tests/fourth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
   ],
   "BR-SEC-11": [
     "lib/saha/server.ts",
@@ -434,7 +446,9 @@
     "REMAINING-RELEASES.md",
     "lib/saha/exceptional.ts",
     "tests/main-review-fixes-contract.mjs",
-    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+    "tests/fourth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
   ],
   "BR-OFF-08": [
     "lib/saha/field.ts",
@@ -729,7 +743,10 @@
     "docs/current/SLICE-6P-REVIEW-FIXES.md",
     "lib/saha/audit-chain-server.ts",
     "lib/saha/operations-server.ts",
-    "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+    "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+    "lib/saha/pilot-server.ts",
+    "tests/fourth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
   ],
   "BR-OPS-01": [
     "lib/saha/operations.ts",
@@ -914,7 +931,10 @@
     "CORE-CONTINUITY.md",
     "lib/saha/exceptional.ts",
     "tests/main-review-fixes-contract.mjs",
-    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+    "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+    "lib/saha/merge.ts",
+    "tests/fourth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
   ],
   "BR-REP-02": [
     "lib/saha/operations.ts",
@@ -939,5 +959,37 @@
     "tests/indicator-registry-contract.mjs",
     "tests/indicator-registry-smoke.mjs",
     "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
+  ],
+  "BR-OPS-08": [
+    "lib/saha/operations.ts",
+    "lib/saha/pilot.ts",
+    "tests/operations-smoke.mjs",
+    "tests/pilot-smoke.mjs",
+    "lib/saha/outreach-server.ts",
+    "lib/saha/export-audit.ts",
+    "tests/fourth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+  ],
+  "BR-INT-04": [
+    "lib/saha/mis.ts",
+    "lib/saha/ehr.ts",
+    "tests/mis-contract.mjs",
+    "tests/ehr-contract.mjs",
+    "REMAINING-RELEASES.md",
+    "lib/saha/ehr-execution.ts",
+    "tests/ehr-execution.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+  ],
+  "BR-INT-06": [
+    "lib/saha/mis.ts",
+    "lib/saha/ehr.ts",
+    "tests/mis-contract.mjs",
+    "tests/ehr-contract.mjs",
+    "REMAINING-RELEASES.md",
+    "lib/saha/mis-callback.ts",
+    "app/api/mis/callback/route.ts",
+    "tests/fourth-review-fixes-contract.mjs",
+    "tests/fourth-review-smoke.mjs",
+    "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
   ]
 }

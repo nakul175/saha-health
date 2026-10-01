@@ -27,6 +27,9 @@ function targets(s:OrgState,c:any):Person[]{const w=s.workspace,ids=new Set<stri
  if(c?.submissionId)add(w.submissions.find(v=>v.id===c.submissionId)?.personId);if(c?.referralId)add(w.referrals.find(v=>v.id===c.referralId)?.personId);if(c?.messageId)add(s.outreach?.messages.find(v=>v.id===c.messageId)?.personId);
  if(c?.caseId){const k=(s.identityCases??[]).find(x=>x.id===c.caseId);if(k){add(k.survivorId);add(k.duplicateId);}add(s.governance?.safety?.find((x:any)=>x.id===c.caseId)?.personId);}
  if(c?.holdId)add(s.retention?.holds.find(x=>x.id===c.holdId)?.personId);
+ // Slice 6u: outreach plan references. An item command (planId+itemId, including messageCreate) names that
+ // item's patient; a plan-level command (planId alone, for example outreachTransition) names every item's patient.
+ if(c?.planId){const plan=s.outreach?.plans.find(x=>x.id===c.planId);if(plan){if(c.itemId)add(plan.items.find(x=>x.id===c.itemId)?.personId);else plan.items.forEach(x=>add(x.personId));}}
  return w.people.filter(p=>ids.has(p.id));}
 // Refuses anything beyond urgent care when any patient the command names is reachable by the member only
 // through an emergency grant (fails closed across every reference, not just the first).

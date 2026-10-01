@@ -34,3 +34,7 @@ These defects were found by a third independent review, carried out by an agent 
 - Reminder cancellation happens only when a restriction takes effect through `rightsClose`; outreach state is changed only when it is loaded for that command. The send refusal applies regardless.
 - The review scope rule means an owner who holds the ASHA role cannot review emergency access for patients not assigned to her; a supervisor or care-role owner with normal scope must.
 - These fixes have not been independently reviewed. BR-ID-07, BR-SEC-11, BR-SEC-10, BR-INT-14 and BR-ID-08 stay partial.
+
+## Correction — 1 October 2026 (slice 6u)
+
+Fix 2 above says `targets()` collects every patient a command names; it did not resolve outreach `planId`/`itemId` references, so outreach item and plan commands and reminder creation were not restricted under an emergency grant. Slice 6u adds them. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).
