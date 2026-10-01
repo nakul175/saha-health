@@ -153,6 +153,7 @@ const {patientDirectorySmoke}=await import('./patient-directory-smoke.mjs');awai
 const {worklistsSmoke}=await import('./worklists-smoke.mjs');await worklistsSmoke({get,post,check,sql,base});
 const {factVerificationSmoke}=await import('./fact-verification-smoke.mjs');await factVerificationSmoke({get,post,check,accounts,org,sql,base});
 const {patientImportSmoke}=await import('./patient-import-smoke.mjs');await patientImportSmoke({get,post,check,accounts,org,sql,base});
+const {recordImportSmoke}=await import('./record-import-smoke.mjs');await recordImportSmoke({get,post,check,accounts,org,sql,base});
 const {indicatorRegistrySmoke}=await import('./indicator-registry-smoke.mjs');await indicatorRegistrySmoke({get,post,check,accounts,org,sql,base});
 const {alertDeliverySmoke}=await import('./alert-delivery-smoke.mjs');await alertDeliverySmoke({get,post,check,accounts,org,sql});
 const {noteAnswerSignOffSmoke}=await import('./note-answer-signoff-smoke.mjs');await noteAnswerSignOffSmoke({get,post,check,accounts,org,sql,base});

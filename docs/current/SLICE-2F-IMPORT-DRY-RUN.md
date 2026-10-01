@@ -28,3 +28,7 @@
 ## Correction — 30 September 2026 (slice 6q)
 
 A second independent review found two errors in this slice. An owner holding the ASHA role could import, but duplicate matching covers only the records visible to the importer, so an existing team patient assigned to another ASHA came back `accepted` and would have been duplicated; slice 6q excludes the ASHA role from importing. And the 16,000-character file limit did not fit the 20,000-byte body limit for Devanagari text (3 bytes per letter); slice 6q states and checks the limit as 16,000 UTF-8 bytes. See [SLICE-6Q-SECOND-REVIEW-FIXES.md](SLICE-6Q-SECOND-REVIEW-FIXES.md). The text above is kept as written.
+
+## Later change — 2 October 2026 (slice 2h)
+
+Slice 2h adds a downloadable rejection report for this dry run (row numbers, results and reasons only, with a manifest, recorded as an audited export) and imports programme enrolments and external identifiers for people already in Saha. See [SLICE-2H-ENROLMENT-IDENTIFIER-IMPORT.md](SLICE-2H-ENROLMENT-IDENTIFIER-IMPORT.md). The text above is kept as written.

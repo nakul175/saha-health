@@ -13,6 +13,7 @@ import { packInstallationSchema } from './pack-installation';
 import { factReviewSchema } from './fact-verification';
 import { signOffSchema } from './visit-signoff';
 import { patientImportSchema } from './patient-import';
+import { recordImportSchema } from './record-import';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
 import { rosterSchema } from './roster';
@@ -62,6 +63,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...factReviewSchema.options,
  ...signOffSchema.options,
  ...patientImportSchema.options,
+ ...recordImportSchema.options,
  ...referralSchema.options,
  ...actionPlanSchema.options,
  ...rosterSchema.options,
