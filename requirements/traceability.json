@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 7a-7d, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -3805,13 +3805,16 @@
       "sourceTextLine": 702,
       "implementation": "partial",
       "target": "R12",
-      "current": "Replay/CAS/uncertain-receipt tests pass on bounded fixtures.",
-      "remaining": "At least 10000 replay/timeout events with no duplicate accepted partner activity.",
+      "current": "Replay/CAS/uncertain-receipt tests pass on bounded fixtures. Slice 7d: a seeded soak drives at least 10,000 replay and timeout events (timeouts, lost responses, same-key and fresh-key replays, concurrent attempts and lookups, duplicate callbacks) through the real MIS and EHR execution code and HTTP adapters against a naive mock partner that does not deduplicate; three 10,000-event runs recorded no duplicate accepted partner record or stored document, no resend without a delivered not_found, and final states matching the partner ledger; a bounded 1,500-event variant runs in CI. In-memory CAS model, not D1.",
+      "remaining": "The same evidence against real partner sandboxes, D1 persistence and the deployed Worker, including partner deduplication of late or eventually consistent requests; EHR publications whose write was not stored stay unresolved (no definitive not-found) and need partner reconciliation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
         "tests/mis-delivery.mjs",
-        "tests/ehr-execution.mjs"
+        "tests/ehr-execution.mjs",
+        "tests/replay-soak-contract.mjs",
+        "tests/evidence/slice-7d/replay-soak-10000.json",
+        "docs/current/SLICE-7D-REPLAY-SOAK.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4325,11 +4328,14 @@
       "sourceTextLine": 771,
       "implementation": "unverified",
       "target": "R12",
-      "current": "No representative transformation/validation latency benchmark.",
-      "remaining": "Per-adapter p95 local overhead at most 500 ms under R1 workload, separate from external latency.",
+      "current": "No benchmark on the R1 reference workload or in a reference environment. Slice 7d: local benchmark of Saha-side adapter overhead (transformation, validation, checkpointing; partner time subtracted; in-memory persistence with the real row diff, no D1) on a stated synthetic organisation of 200 patients and 600 visits: p95 129 ms for programme mapping plus send and 167 ms for EHR document preparation plus publication on a contended 2-CPU build machine. Not the R1 reference workload or environment.",
+      "remaining": "Per-adapter p95 local overhead at most 500 ms under R1 workload, separate from external latency, measured in a reference environment with D1; the assistant adapter is not measured.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "tests/adapter-overhead-bench.mjs",
+        "tests/evidence/slice-7d/adapter-overhead.json",
+        "docs/current/SLICE-7D-REPLAY-SOAK.md"
       ],
       "automatedAcceptanceClaim": false
     }
