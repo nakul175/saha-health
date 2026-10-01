@@ -683,3 +683,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - `next` and `eslint-config-next` were raised from 16.3.4 to 16.3.6 with `pnpm install --lockfile-only` (pnpm 11.25.0); no application code changed. The gate then passed with no critical advisory (`tests/evidence/slice-security-next/security-gate.json`).
 - Full suite on the updated dependencies: 2,647 HTTP/D1, 1,791 contract/checkpoint and 21 encrypted restore checks passed, the same totals as before the update. Reports: `tests/evidence/slice-security-next/`.
 - Requirement statuses unchanged (14 / 151 / 2 / 9).
+## Hosted synthetic staging on Cloudflare — 1 October 2026 IST
+
+- At the sponsor's instruction ("host it and make it live"), `.github/workflows/deploy-staging.yml` and `scripts/cloudflare-staging.mjs` deploy every merge into `main` to a Cloudflare Worker with a D1 database behind Cloudflare Access, in the synthetic environment with external APIs and connections off. See `docs/current/HOSTED-STAGING.md`.
+- `tests/cloudflare-staging-contract.mjs`: 21 checks passed (environment limited to synthetic or training; Access values validated and set together; Sites identity, external APIs, routes and preview addresses removed; D1 binding with the repository migrations). Added to the CI contract loop. Report: `tests/evidence/hosted-staging/`.
+- A Wrangler dry-run deploy of the rewritten configuration succeeded (1,970.66 KiB, 549.84 KiB compressed; bindings in `tests/evidence/hosted-staging/wrangler-dry-run.txt`). Served locally with that configuration and no Access values, the page showed only "Sign-in required", `/api/workspace` answered 503 "Sign-in is not configured for this deployment", and forged Sites identity headers also got 503.
+- Not yet run: the hosted deploy itself, the remote migrations and the post-deploy sign-in check; they need the Cloudflare account, the `CLOUDFLARE_API_TOKEN` secret and the Access application. The full HTTP, contract and restore suites are not rerun at deploy time.
+- Requirement statuses unchanged (14 / 151 / 2 / 9); all 176 formal acceptances remain pending; the hosted copy is not accepted for real patient use.
