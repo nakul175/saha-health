@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { checkFacts, factsSchema, fail, uuid } from './core';
 import { registrationReviewSchema, reviewRegistration } from './continuity';
-import { captureFor } from './programmes';
+import { captureFor, installedPacks } from './programmes';
 import { PROGRAMMES, type OrgState, type Member, type Person, type Visit } from './types';
 import type { Actor } from './store';
 import type { RequestDecision } from './referral-request';
@@ -44,7 +44,7 @@ export async function applyFieldRegistration(s:OrgState,input:unknown,u:Actor,m:
  const review=await reviewRegistration(s,m,{name:c.name,age:c.age,sex:c.sex,village:c.village,teamId:c.teamId,registrationReview:c.registrationReview},now);
  const p:Person={id:uuid(),name:c.name,age:c.age,sex:c.sex,village:c.village,programmes:[c.programme as any,...(c.programme==='General care'?[]:['General care' as const])],task:'New home visit',due:'Today',status:c.facts?'in_progress':'due',aiConsent:false,exchangeConsent:false,consentVersion:1,assigned:true,createdAt:now,version:1,teamId:c.teamId,assignedTo:u.userId,identityReview:review,fieldRegistration:{id:c.registrationId,by:u.userId,capturedAt:c.capturedAt,syncedAt:now}};
  w.people.push(p);let visitId:string|null=null;
- if(c.facts){const v:Visit={id:uuid(),personId:p.id,version:1,state:'draft',facts:c.facts,createdAt:now,aiResults:[],recordVersion:1,programmeCapture:captureFor(p.enrolments??[]),fieldRegistrationId:c.registrationId,...(c.referralRequest?{referralRequest:{...c.referralRequest,requestedBy:u.userId,requestedAt:now,capturedAt:c.capturedAt}}:{})};w.visits.push(v);visitId=v.id;}
+ if(c.facts){const v:Visit={id:uuid(),personId:p.id,version:1,state:'draft',facts:c.facts,createdAt:now,aiResults:[],recordVersion:1,programmeCapture:captureFor(p.enrolments??[],installedPacks(s)),fieldRegistrationId:c.registrationId,...(c.referralRequest?{referralRequest:{...c.referralRequest,requestedBy:u.userId,requestedAt:now,capturedAt:c.capturedAt}}:{})};w.visits.push(v);visitId=v.id;}
  w.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'registerFieldPerson',subject:p.id,personId:p.id,detail:`Person registered offline in the field notebook (captured ${c.capturedAt}) and synced${c.facts?' with a first visit draft':''}${c.referralRequest?' and a referral request for clinician review':''}. Identity: ${review.state}${c.registrationReview?` after a ${c.registrationReview.decision} review of ${review.candidateCount} possible match${review.candidateCount===1?'':'es'}`:''}. Nothing was confirmed, referred or sent.`});
  return {personId:p.id,visitId,referralRequested:!!c.referralRequest,identity:review.state,alreadyRegistered:false};
 }

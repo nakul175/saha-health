@@ -1,0 +1,27 @@
+{
+ "stagedText": "Programme pack installation | Owner uploads · another clinician reviews · owner activates | Installed packs are synthetic configuration and are not clinically approved content. Review here checks structure, conflicts and authority only. Use synthetic test packs. | A pack manifest is data only: questions, shared measurements with their fixed units, answer options, show-when conditions, a follow-up interval and escalation rules in the protocol rule vocabulary. Episodes open only on activated versions. Retiring a version keeps it and its pinned episodes; it stops new episodes and migrations to it. Once a new version of an existing pack is active, use Programme pack versions to migrate open episodes when the manifest declares a mapping. | Refresh installations | Pack manifest (JSON, at most 8,000 characters) | Or read a .json file | Insert synthetic example | Reason for staging | Validate and stage | Child growth check · child_growth v1 · Child health · Staged · awaiting independent review · not clinically approved | Record a synthetic child growth check and a reported feeding concern. Staged by Pack Owner on 10/2/2026, 1:10:02 AM: Stage the synthetic child growth example | Questions: Weight (kg), Does the carer report a feeding concern? [Yes/No] | Schedule: Follow-up within 30 days of each confirmed visit (illustrative). Declared by an installed pack; nothing is scheduled automatically. | Escalation: Reported feeding concern: feeding_concern is Yes → clinician review. Declared b",
+ "reviewerText": "Programme pack installation | Owner uploads · another clinician reviews · owner activates | Installed packs are synthetic configuration and are not clinically approved content. Review here checks structure, conflicts and authority only. Use synthetic test packs. | A pack manifest is data only: questions, shared measurements with their fixed units, answer options, show-when conditions, a follow-up interval and escalation rules in the protocol rule vocabulary. Episodes open only on activated versions. Retiring a version keeps it and its pinned episodes; it stops new episodes and migrations to it",
+ "activeText": "Programme pack installation | Owner uploads · another clinician reviews · owner activates | Installed packs are synthetic configuration and are not clinically approved content. Review here checks structure, conflicts and authority only. Use synthetic test packs. | A pack manifest is data only: questions, shared measurements with their fixed units, answer options, show-when conditions, a follow-up interval and escalation rules in the protocol rule vocabulary. Episodes open only on activated versions. Retiring a version keeps it and its pinned episodes; it stops new episodes and migrations to it. Once a new version of an existing pack is active, use Programme pack versions to migrate open episodes when the manifest declares a mapping. | Refresh installations | Pack manifest (JSON, at most 8,000 characters) | Or read a .json file | Insert synthetic example | Reason for staging | Validate and stage | Child growth check · child_growth v1 · Child health · Active · not clinically approved | Record a synthetic child growth check and a reported feeding concern. Staged by Pack Owner on 10/2/2026, 1:10:02 AM: Stage the synthetic child growth example · Approved by Pack Reviewer: Structure and conflicts checked on synthetic data · 0 open episodes on this version | Questions: Weight (kg), Does the carer report a feeding concern? [Yes/No] | Schedule: Follow-up within 30 days of each confirmed visit (illustrative). Declared by an installed pack; nothing is scheduled automatically. | Escalati",
+ "catalogue": [
+  {
+   "id": "child_growth",
+   "version": 1,
+   "name": "Child growth check",
+   "enrollable": true,
+   "installed": true
+  }
+ ],
+ "enrolled": [
+  [
+   "child_growth",
+   1
+  ]
+ ],
+ "axeViolations": {
+  "staged": [],
+  "active": []
+ },
+ "errors": [],
+ "completedAt": "2026-10-01T19:40:07.790Z",
+ "passed": true
+}
