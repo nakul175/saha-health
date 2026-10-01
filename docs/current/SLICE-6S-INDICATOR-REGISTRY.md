@@ -26,3 +26,10 @@
 - Reproduction recomputes a recorded version over current records and the current window ending now; it does not snapshot past data, so a figure changes if the records behind it changed.
 - The CSV is a draft download without the slice 6k manifest or control totals. Once saved it is outside the application.
 - BR-REP-02, BR-REP-04 and BR-AG-11 stay partial.
+
+## Follow-up 6s-2, 1 October 2026 (UTC) — indicator export manifest and audit
+
+- **What changed.** The indicator CSV now names its export identifier and the exporting member and role after its title, and ends with the slice 6k manifest: the number of data rows and the SHA-256 of every line above, so a receiver checks it with `head -n -2 saha-indicators.csv | sha256sum`. The identifier and checksum are returned in `X-Saha-Export-Id` and `X-Saha-Content-SHA256`, and the file is built inside the same commit as the differencing release, which also records an `indicatorExport` audit event naming the export identifier, each definition and version (marked when withheld), the data row count and the checksum. No filter value or village name is written to the audit line. The page confirms a download with the identifier and the start of the checksum.
+- **Evidence.** The HTTP smoke recomputes the manifest row count and SHA-256 with Node's own hash, matches them to the response headers, finds the identifier and exporter rows, and reads the audit event (actor, checksum, definition version, row count, no village names). See [VALIDATION.md](../../VALIDATION.md); reports in `tests/evidence/slice-6s-2/`.
+- **Limits.** As in slice 6k, the checksum shows the file is unchanged since export; it is not a signature. There are no control totals for indicator results, and every export remains a draft.
+
