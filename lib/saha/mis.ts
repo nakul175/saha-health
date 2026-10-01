@@ -1,11 +1,11 @@
 import { z } from 'zod';
 import { digest, fail, person, uuid, visit } from './core';
-import { PROGRAMMES, type Integration, type Member, type OrgState, type Submission, type Visit } from './types';
+import { PROGRAMMES, type Integration, type Member, type OrgState, type Submission, type TraceRef, type Visit } from './types';
 import type { Actor } from './store';
 export const MIS_FIELDS=['personId','visitId','date','source','systolic','diastolic','weight','temperature','weeks','coughDays','notes'] as const;
 export type Mapping={source:typeof MIS_FIELDS[number];target:string;required:boolean};
 export type MisConfig={contract:'saha-mis-v1';mapping:Mapping[];corrections:boolean;test?:{at:string;version:number;ok:boolean;message:string}};
-export type Delivery={endpoint:string;credentialBinding:string;key:string;actorId:string;connectorVersion:number;personVersion:number;consentVersion:number;visitVersion:number;expiresAt:string;payload:Record<string,unknown>;startedAt?:string;operationId?:string;events:{at:string;state:string;detail:string}[]};
+export type Delivery={endpoint:string;credentialBinding:string;key:string;actorId:string;connectorVersion:number;personVersion:number;consentVersion:number;visitVersion:number;expiresAt:string;payload:Record<string,unknown>;startedAt?:string;operationId?:string;events:{at:string;state:string;detail:string;attempt?:number;ref?:TraceRef}[]};
 const id=z.string().min(1).max(200),ver=z.number().int().positive();
 export const mappingSchema=z.array(z.object({source:z.enum(MIS_FIELDS),target:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,63}$/).refine(s=>!['constructor','prototype','__proto__'].includes(s),'Reserved destination field'),required:z.boolean()}).strict()).min(1).max(20).refine(rows=>new Set(rows.map(r=>r.target)).size===rows.length,'Destination fields must be unique');
 export const misSchema=z.discriminatedUnion('type',[
