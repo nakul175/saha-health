@@ -677,6 +677,12 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - At the sponsor's instruction ("go ahead and merge", 16:16 IST), pull requests #36–#70 (the test-port change, development slices 3g–4d and the review-fix slices 6p, 6q and 6r) were merged into GitHub `main` in order with merge commits. No branches were deleted and nothing was force-pushed. The resulting `main` tree is identical to the top of the stack (`slice-6r-main-review-fixes`, 08aa5da), whose CI and full local suites passed (4,459 assertions: 2,647 HTTP/D1, 1,791 contract/checkpoint, 21 restore).
 - No independent human review took place before the merge. Three code reviews by separate agents found fifteen defects, fixed in #65, #69 and #70; those fixes were not reviewed again. Formal acceptance is unchanged: all 176 criteria remain pending, and `main` is not accepted for production or real patient use.
 
+## Next.js security update to 16.3.6 — 1 October 2026 IST
+
+- The supply-chain gate began failing on unchanged code (first seen on the CI run for the hosting pull request): npm advisory 1240609, critical, "Next.js: Remote Code Execution in next/og ImageResponse", affects `next` >=16.2.0 <16.3.6. Saha does not import `next/og` and the gate reported the advisory as not shipped, but the gate fails on any critical advisory, as designed.
+- `next` and `eslint-config-next` were raised from 16.3.4 to 16.3.6 with `pnpm install --lockfile-only` (pnpm 11.25.0); no application code changed. The gate then passed with no critical advisory (`tests/evidence/slice-security-next/security-gate.json`).
+- Full suite on the updated dependencies: 2,647 HTTP/D1, 1,791 contract/checkpoint and 21 encrypted restore checks passed, the same totals as before the update. Reports: `tests/evidence/slice-security-next/`.
+- Requirement statuses unchanged (14 / 151 / 2 / 9).
 ## Hosted synthetic staging on Cloudflare — 1 October 2026 IST
 
 - At the sponsor's instruction ("host it and make it live"), `.github/workflows/deploy-staging.yml` and `scripts/cloudflare-staging.mjs` deploy every merge into `main` to a Cloudflare Worker with a D1 database behind Cloudflare Access, in the synthetic environment with external APIs and connections off. See `docs/current/HOSTED-STAGING.md`.
