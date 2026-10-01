@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -943,8 +943,8 @@
       "sourceTextLine": 257,
       "implementation": "partial",
       "target": "R16",
-      "current": "Expansion proposals can describe a new programme; they do not install it.",
-      "remaining": "New approved programme packs through a governed runtime installation process.",
+      "current": "Slice 4f: an owner uploads a size-bounded, strictly validated data-only pack manifest (questions on shared facts with fixed units or options, show-when conditions, follow-up interval, escalation rules in the protocol rule vocabulary, declared mapping from earlier versions); conflicts with compiled and installed packs are refused; a clinician other than the uploader reviews the exact manifest hash; an owner activates; activation, review and retirement are versioned and audited, retirement never deletes; episodes open only on activated versions and slice 4e migration moves open episodes to an installed version through the declared mapping. Synthetic packs only; installed packs are marked not clinically approved. Expansion proposals still describe programmes without installing them.",
+      "remaining": "Clinically approved pack content and a clinical sign-off workflow; new programme categories with MIS/EHR/report routing; automated schedules and escalation from installed rules; translations; per-team adoption; cross-organisation publication and production rollout.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
@@ -953,7 +953,13 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/pack-installation.ts",
+        "lib/saha/pack-installation-server.ts",
+        "app/pack-installation-panel.tsx",
+        "tests/pack-installation-contract.mjs",
+        "tests/pack-installation-smoke.mjs",
+        "docs/current/SLICE-4F-PACK-INSTALLATION.md"
       ],
       "automatedAcceptanceClaim": false
     },

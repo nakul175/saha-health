@@ -9,6 +9,7 @@ import { indicatorRegistrySchema } from './indicator-registry';
 import { retentionSchema } from './retention';
 import { fixtureMarkSchema } from './fixture-migration';
 import { programmeMigrationSchema } from './programme-migration';
+import { packInstallationSchema } from './pack-installation';
 import { factReviewSchema } from './fact-verification';
 import { patientImportSchema } from './patient-import';
 import { referralSchema } from './referrals';
@@ -55,6 +56,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...retentionSchema.options,
  ...fixtureMarkSchema.options,
  ...programmeMigrationSchema.options,
+ ...packInstallationSchema.options,
  ...factReviewSchema.options,
  ...patientImportSchema.options,
  ...referralSchema.options,

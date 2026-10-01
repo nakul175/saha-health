@@ -1,3 +1,4 @@
+import { installedPacks } from './programmes';
 import { z } from 'zod';
 import { apply, digest, factsSchema, fail, person, uuid, visit } from './core';
 import { programmeApply } from './programme-commands';
@@ -41,7 +42,7 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   const p=person(w,c.personId);subject=p.id;p.fieldLeases??=[];
   if(c.type==='prepareFieldVisit'){
    if(p.version!==c.version)fail(409,'Patient changed. Refresh before preparing field work.');
-   const started=await apply(w,{type:'startVisit',personId:p.id},u.userId,{call:async()=>fail(409,'External calls unavailable')},now);const v=visit(w,started.visitId);
+   const started=await apply(w,{type:'startVisit',personId:p.id},u.userId,{call:async()=>fail(409,'External calls unavailable'),packs:installedPacks(state)},now);const v=visit(w,started.visitId);
    // A new grant replaces this worker's active grant for this visit; old ciphertext is retained locally for review.
    for(const l of p.fieldLeases)if(l.actorId===u.userId&&l.visitId===v.id&&l.status==='active')l.status='revoked';
    p.fieldLeases=p.fieldLeases.filter(l=>l.expiresAt>now).slice(-19);

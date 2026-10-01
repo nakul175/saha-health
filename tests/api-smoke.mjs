@@ -142,6 +142,8 @@ const {dataExitSmoke}=await import('./data-exit-smoke.mjs');await dataExitSmoke(
 const {environmentSmoke}=await import('./environment-smoke.mjs');await environmentSmoke({get,post,check,accounts,org,base});
 const {fixtureMigrationSmoke}=await import('./fixture-migration-smoke.mjs');await fixtureMigrationSmoke({get,post,check,accounts,org,sql,base});
 const {programmeMigrationSmoke}=await import('./programme-migration-smoke.mjs');await programmeMigrationSmoke({get,post,check,accounts,org,sql,base});
+// Slice 4f: governed installation of a programme pack (stage, independent review, activation, retirement).
+const {packInstallationSmoke}=await import('./pack-installation-smoke.mjs');await packInstallationSmoke({get,post,check,accounts,org,sql,base});
 const {consentSmoke}=await import('./consent-smoke.mjs');await consentSmoke({get,post,check,accounts,org,sql});
 const {delegationSmoke}=await import('./delegation-smoke.mjs');await delegationSmoke({get,post,check,accounts,org,sql,base});
 const {workerActivitySmoke}=await import('./worker-activity-smoke.mjs');await workerActivitySmoke({get,post,check,accounts,org,base});

@@ -49,7 +49,7 @@ export function PagedFollowUps({ organisationId, open, refresh }: { organisation
   const w = useWorklist<FollowUpRow>(organisationId, 'followups', 'all', refresh), today = new Date().toISOString().slice(0, 10);
   return <section className="panel programme-patient" aria-label="Programme follow-ups"><div className="section-heading"><h2>Programme follow-ups <span className="number-badge">{w.page?.tasks ?? '…'}</span></h2><span className="muted text-sm">Separate programme tasks, grouped by person</span><Shown w={w} /></div>
     {w.error && <div className="notice amber-notice" role="alert">{w.error}</div>}
-    {!w.rows.length && !w.loading && !w.error ? <p className="muted">Schedule a follow-up from an active programme episode.</p> : w.rows.map(g => <button className="followup-group" key={g.personId} onClick={() => open(g.personId)}><strong>{g.name}</strong><div>{g.tasks.map(t => <p key={t.id}>{t.due} · {PACKS.find(p => p.id === t.packId)?.name} · {t.title}{t.due < today ? ' · Overdue' : ''}</p>)}</div><span>Open record →</span></button>)}
+    {!w.rows.length && !w.loading && !w.error ? <p className="muted">Schedule a follow-up from an active programme episode.</p> : w.rows.map(g => <button className="followup-group" key={g.personId} onClick={() => open(g.personId)}><strong>{g.name}</strong><div>{g.tasks.map(t => <p key={t.id}>{t.due} · {PACKS.find(p => p.id === t.packId)?.name ?? t.packId} · {t.title}{t.due < today ? ' · Overdue' : ''}</p>)}</div><span>Open record →</span></button>)}
     <Foot w={w}>Open follow-ups across your whole care scope.</Foot>
   </section>;
 }
