@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { fail, person, uuid, visit } from './core';
 import { allowed } from './access';
-import { MEASURES, MEASURE_LABEL, factMeasuresPresent, factReview, stampAuthors } from './fact-provenance';
+import { MEASURES, MEASURE_LABEL, entryContent, factMeasuresPresent, factReview, stampAuthors, stampEntryAuthors } from './fact-provenance';
 import type { Actor } from './store';
 import type { FactReview, Member, OrgState } from './types';
 // Slice 2e: per-measurement author and clinician verification (BR-DATA-02).
@@ -44,8 +44,11 @@ export function recordFactAuthors(before:OrgState,after:OrgState,u:Actor,m:Membe
  const prev=new Map(before.workspace.visits.map(v=>[v.id,v]));
  const actor={userId:u.userId,name:u.displayName,accountCode:m.accountCode,role:m.role,at:now};
  for(const v of after.workspace.visits){
-  const old=prev.get(v.id);if(old&&JSON.stringify(old.facts)===JSON.stringify(v.facts))continue;
-  const base=old??(v.amendsVisitId?prev.get(v.amendsVisitId):undefined);
+  const old=prev.get(v.id),base=old??(v.amendsVisitId?prev.get(v.amendsVisitId):undefined);
+  // Slice 2g: visit notes and programme answers follow the same rule (author kept when unchanged).
+  const content=JSON.stringify(entryContent(v));if(!old||JSON.stringify(entryContent(old))!==content){const e=stampEntryAuthors(base?entryContent(base):undefined,entryContent(v),base,actor);
+   if(e.noteAuthor)v.noteAuthor=e.noteAuthor;else delete v.noteAuthor;if(e.answerAuthors)v.answerAuthors=e.answerAuthors;else delete v.answerAuthors;}
+  if(old&&JSON.stringify(old.facts)===JSON.stringify(v.facts))continue;
   if(!base&&!factMeasuresPresent(v.facts).length)continue;
   const authors=stampAuthors(base?.facts,v.facts,base?.factAuthors,actor);
   if(authors)v.factAuthors=authors;else delete v.factAuthors;
