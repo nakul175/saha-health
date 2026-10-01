@@ -95,6 +95,7 @@ try {
   await rejects(() => I.applyPackInstallation(s, review('approve'), { ...actor, userId: 'asha1' }, asha, now), /A clinician reviews/);
   check(() => { assert.throws(() => I.authorizePackInstallation(s, owner, review('approve')), /different person/); assert.throws(() => I.authorizePackInstallation(s, reviewer, { type: 'packInstallActivate', installationId: staged.installationId, manifestHash: staged.manifestHash, reason: 'Activate the reviewed pack' }), /An organisation owner/); assert.doesNotThrow(() => I.authorizePackInstallation(s, reviewer, review('approve'))); assert.doesNotThrow(() => I.authorizePackInstallation(s, asha, { type: 'other' })); });
   await rejects(() => I.applyPackInstallation(s, review('approve', { manifestHash: 'a'.repeat(64) }), reviewerActor, reviewer, now), /not the staged one/);
+  const retire = (x, reason = 'Withdraw the synthetic version after review') => ({ type: 'packInstallRetire', installationId: x.installationId, reason });
   const activate = (x, extra = {}) => ({ type: 'packInstallActivate', installationId: x.installationId, manifestHash: x.manifestHash, reason: 'Activate the reviewed synthetic pack', ...extra });
   await rejects(() => I.applyPackInstallation(s, activate(staged), actor, owner, now), /Only an approved pack/);
   const approved = await I.applyPackInstallation(s, review('approve'), reviewerActor, reviewer, now);
@@ -121,8 +122,13 @@ try {
   const m3 = await I.applyPackInstallation(s, stage(maternal3(), 'Stage the synthetic maternal v3'), actor, owner, now);
   await I.applyPackInstallation(s, { type: 'packInstallReview', installationId: m3.installationId, manifestHash: m3.manifestHash, decision: 'approve', reason: 'Structure and mapping from v2 checked' }, reviewerActor, reviewer, now);
   check(() => { assert.equal(P.latestVersion('maternal', s), 2, 'an approved version is not in the catalogue until activated'); });
+  // A higher version waiting for review does not block activating the approved one; it is withdrawn afterwards.
+  const m4 = await I.applyPackInstallation(s, stage({ ...maternal3(), version: 4, migratesFrom: undefined, questions: maternal3().questions.map(({ renamedFrom, ...q }) => q) }, 'Stage a later synthetic maternal v4'), actor, owner, now);
+  check(() => assert.deepEqual(I.conflicts(s, s.operations.installedPacks.find(x => x.id === m3.installationId).pack, m3.installationId, true), []));
   const m3a = await I.applyPackInstallation(s, activate(m3), actor, owner, now);
-  check(() => { assert.equal(m3a.migrationAvailable, true); assert.equal(P.latestVersion('maternal', s), 3); assert.equal(P.adoptedVersion(s, 'maternal'), 1, 'activation does not adopt; a reviewed migration does'); assert.match(s.workspace.audit.at(-1).detail, /stay where they are until a reviewed migration/); });
+  const w4 = await I.applyPackInstallation(s, retire(m4, 'Withdraw the later synthetic version'), actor, owner, now);
+  check(() => { assert.deepEqual([w4.state, w4.openEpisodes], ['retired', 0]); assert.match(s.workspace.audit.at(-1).detail, /retired from staged/); });
+  check(() => { assert.equal(m3a.migrationAvailable, true); assert.equal(P.latestVersion('maternal', s), 3); assert.equal(P.adoptedVersion(s, 'maternal'), 1, 'activation does not adopt; a reviewed migration does'); assert.match(s.workspace.audit.findLast(a => a.action === 'packInstallActivate').detail, /stay where they are until a reviewed migration/); });
   const plan = await M.planProgrammeMigration(s, owner, 'maternal');
   check(() => { assert.equal(plan.targetVersion, 3); assert.deepEqual(plan.candidates.map(c => c.enrolmentId), ['e_aarav']); assert.deepEqual(plan.blocked.map(b => [b.enrolmentId, b.code]), [['e_farida', 'no-reviewed-mapping']]); const ch = plan.changes.find(c => c.fromVersion === 2); assert.deepEqual(ch.renamed, [{ from: 'appointment_discussed', to: 'next_appointment_discussed', relabelled: false }]); assert.deepEqual(ch.added, [{ id: 'birth_plan_discussed', required: false }]); assert.equal(ch.reviewedMapping, true); });
   const moved = await M.applyProgrammeMigration(s, { type: 'programmeMigrationApply', packId: 'maternal', targetVersion: 3, planHash: plan.planHash, reason: 'Move v2 maternal episodes to installed v3' }, actor, owner, now);
@@ -130,10 +136,9 @@ try {
   await rejects(() => M.applyProgrammeMigration(s, { type: 'programmeMigrationApply', packId: 'unknown_pack', targetVersion: 1, planHash: plan.planHash, reason: 'Unknown pack migration attempt' }, actor, owner, now), /Choose a pack in this organisation's catalogue/);
 
   // 6. Retirement reverses activation without deleting: adoption falls back, pinned episodes keep the version, nothing new opens.
-  const retire = (x, reason = 'Withdraw the synthetic version after review') => ({ type: 'packInstallRetire', installationId: x.installationId, reason });
   await rejects(() => I.applyPackInstallation(s, retire(m3), reviewerActor, reviewer, now), /An organisation owner/);
   const r3 = await I.applyPackInstallation(s, retire(m3), actor, owner, now);
-  check(() => { assert.deepEqual([r3.state, r3.openEpisodes], ['retired', 1]); assert.equal(P.latestVersion('maternal', s), 2); assert.equal(P.adoptedVersion(s, 'maternal'), 2); assert.equal(s.operations.packVersions.maternal, 2); assert.equal(s.operations.installedPacks.length, 2, 'kept, not deleted'); assert.ok(P.packAt('maternal', 3, s), 'the retired version still resolves for pinned episodes'); assert.equal(P.captureFor(aarav.enrolments, P.installedPacks(s)).packs[0].pack.version, 3); assert.match(s.workspace.audit.at(-1).detail, /retired from active.*1 open episodes stay pinned to v3.*New episodes open on v2/); });
+  check(() => { assert.deepEqual([r3.state, r3.openEpisodes], ['retired', 1]); assert.equal(P.latestVersion('maternal', s), 2); assert.equal(P.adoptedVersion(s, 'maternal'), 2); assert.equal(s.operations.packVersions.maternal, 2); assert.equal(s.operations.installedPacks.length, 3, 'kept, not deleted'); assert.ok(P.packAt('maternal', 3, s), 'the retired version still resolves for pinned episodes'); assert.equal(P.captureFor(aarav.enrolments, P.installedPacks(s)).packs[0].pack.version, 3); assert.match(s.workspace.audit.at(-1).detail, /retired from active.*1 open episodes stay pinned to v3.*New episodes open on v2/); });
   const after = await M.planProgrammeMigration(s, owner, 'maternal');
   check(() => { assert.equal(after.targetVersion, 2); assert.equal(after.candidates.some(c => c.enrolmentId === 'e_aarav'), false, 'a retired version is never a migration source by default nor a target'); });
   await rejects(() => I.applyPackInstallation(s, retire(m3), actor, owner, now), /already closed/);

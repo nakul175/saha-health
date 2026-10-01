@@ -88,15 +88,18 @@ export function packFromManifest(x:PackManifest,installationId:string,manifestHa
  return {id:x.id,version:x.version,name:x.name,programme:x.programme,purpose:x.purpose,questions,...(schedule?{schedule}:{}),...(escalation?{escalation}:{}),...(x.migratesFrom?.length?{migratesFrom:[...x.migratesFrom].sort((a,b)=>a-b)}:{}),changeNote:x.changeNote,installed:{installationId,manifestHash}};
 }
 const shape=(q:Question)=>JSON.stringify({label:q.label,unit:q.unit??null,fact:q.fact??null,options:q.options??null,when:q.when??null});
-// Conflicts with the compiled catalogue and the other installations (rejected ones excepted). At activation only active,
-// retired and compiled versions count as existing for migratesFrom, and the shared-question check covers every pack a
-// visit could capture alongside this one.
+// Conflicts with the compiled catalogue and the other installations (rejected and withdrawn ones excepted). Version order
+// is checked against every staged, approved, active and retired version at staging, and against compiled, active and
+// retired versions at activation, so an approved version can be activated while a higher one waits for review. A mapping
+// (migratesFrom) must name a compiled or activated version, and the shared-question check covers every pack a visit could
+// capture alongside this one.
 export function conflicts(s:OrgState,p:Pack,self?:string,activating=false){
  const out:string[]=[],others=installationsOf(s).filter(x=>x.id!==self&&x.state!=='rejected'&&!(x.state==='retired'&&!x.activatedAt));
  const all=[...PACKS,...others.map(x=>x.pack)],same=all.filter(x=>x.id===p.id);
+ const ordered=activating?[...PACKS,...others.filter(x=>['active','retired'].includes(x.state)).map(x=>x.pack)].filter(x=>x.id===p.id):same;
  if(same.some(x=>x.version===p.version))out.push(`${p.id} v${p.version} is already in the catalogue or awaiting review.`);
- const highest=Math.max(0,...same.map(x=>x.version));if(same.length&&p.version<=highest)out.push(`${p.id} already has v${highest}; a new version must be higher.`);
- if(!same.length&&(p.version!==1||p.migratesFrom?.length))out.push(`${p.id} is a new pack: its first version is v1 with no earlier versions to migrate from.`);
+ const highest=Math.max(0,...ordered.map(x=>x.version));if(ordered.length&&p.version<=highest)out.push(`${p.id} already has v${highest}; a new version must be higher.`);
+ if(!ordered.length&&(p.version!==1||p.migratesFrom?.length))out.push(`${p.id} is a new pack: its first version is v1 with no earlier versions to migrate from.`);
  if(same.length&&same.some(x=>x.programme!==p.programme))out.push(`${p.id} belongs to the ${same[0].programme} programme; a new version cannot move it to ${p.programme}.`);
  if(!same.length&&all.some(x=>x.name.toLowerCase()===p.name.toLowerCase()))out.push(`Another pack is already named ${p.name}.`);
  const usable=activating?catalogueOf(s):[...PACKS,...others.filter(x=>['active','retired'].includes(x.state)).map(x=>x.pack)];
