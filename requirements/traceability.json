@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2g, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -718,8 +718,8 @@
       "sourceTextLine": 228,
       "implementation": "partial",
       "target": "R15",
-      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once). Slice 6q: the ASHA role no longer imports (her duplicate matching could not see other ASHAs' patients); the import file limit is 16,000 UTF-8 bytes.",
-      "remaining": "Imports beyond people (visits, enrolments, identifiers, contacts), duplicate review across external sources, downloadable rejection reports, data-quality reports and reversal for imported batches.",
+      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once). Slice 6q: the ASHA role no longer imports (her duplicate matching could not see other ASHAs' patients); the import file limit is 16,000 UTF-8 bytes. Slice 2h: the same importers dry-run CSVs of programme enrolments and external identifiers for existing people matched by a Saha record id or an exact recorded identifier (one neutral reason for unknown and out-of-scope records): episodes open on the adopted or a named compiled or activated pack version and an already open episode is refused; identifiers are format-checked for known issuers, ABHA is refused, and a value already on another record is refused, naming that record only when the importer can see it; apply takes only the plan with lineage, a revision per record and one counted audit event. Every import dry run (people, enrolments, identifiers) has a downloadable rejection report of row numbers and reasons only, formula-escaped, with a control total and SHA-256 manifest, recorded as an audited export.",
+      "remaining": "Imports of visits (clinical content) and contacts, identifier verification with issuers and correction of imported identifiers, duplicate review across external sources, data-quality reports and reversal for imported batches.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -745,7 +745,14 @@
         "lib/saha/export-audit.ts",
         "tests/review-fixes-contract.mjs",
         "docs/current/SLICE-6P-REVIEW-FIXES.md",
-        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+        "lib/saha/record-import.ts",
+        "lib/saha/record-import-server.ts",
+        "lib/saha/import-rejections.ts",
+        "app/record-import-panel.tsx",
+        "tests/record-import-contract.mjs",
+        "tests/record-import-smoke.mjs",
+        "docs/current/SLICE-2H-ENROLMENT-IDENTIFIER-IMPORT.md"
       ],
       "automatedAcceptanceClaim": false
     },

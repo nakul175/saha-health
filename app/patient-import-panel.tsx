@@ -5,14 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import type { Snapshot } from '@/lib/saha/types';
+import { downloadRejections } from './record-import-panel';
 // Slice 2f: controlled patient import. Dry run first; applying creates exactly the accepted rows of that dry run.
 const MAX=16000;
 export function PatientImportPanel({data,busy,command}:{data:Snapshot;busy:boolean;command:(c:any,msg?:string)=>Promise<any>}){
- const [csv,setCsv]=useState(''),[plan,setPlan]=useState<any>(null),[reason,setReason]=useState(''),[error,setError]=useState(''),[loading,setLoading]=useState(false),[done,setDone]=useState<any>(null);
+ const [csv,setCsv]=useState(''),[plan,setPlan]=useState<any>(null),[reason,setReason]=useState(''),[error,setError]=useState(''),[loading,setLoading]=useState(false),[done,setDone]=useState<any>(null),[report,setReport]=useState<{exportId:string;sha256:string}|null>(null);
  const m=data.membership,eligible=m.status==='active'&&m.role!=='admin'&&(m.isOwner||m.role==='supervisor'||(data.delegatedAuthority??[]).some(d=>d.kind==='team-supervision'));
  if(!eligible)return null;
  const teamName=(id?:string)=>data.teams.find(t=>t.id===id)?.name??id??'';
- const change=(text:string)=>{setCsv(text);setPlan(null);setDone(null);};
+ const change=(text:string)=>{setCsv(text);setPlan(null);setDone(null);setReport(null);};
+ // Slice 2h: the dry run's rejected rows and possible duplicates as a downloadable report (row numbers and reasons only).
+ const rejections=async()=>{setLoading(true);try{setReport(await downloadRejections(data.organisation.id,'people',csv));setError('');}catch(e){setError(e instanceof Error?e.message:'Could not download the rejection report.');}finally{setLoading(false);}};
  const choose=async(file?:File)=>{if(!file)return;if(file.size>MAX){setError(`The file is larger than ${MAX.toLocaleString('en-IN')} bytes (Devanagari letters take 3 bytes each). Split it into smaller batches.`);return;}change(await file.text());setError('');};
  const dryRun=async()=>{setLoading(true);try{const r=await fetch('/api/patient-import',{method:'POST',headers:{'content-type':'application/json','x-saha-organisation':data.organisation.id},body:JSON.stringify({csv}),cache:'no-store'});const j:any=await r.json();if(!r.ok)throw Error(j.error);setPlan(j);setDone(null);setError('');}catch(e){setPlan(null);setError(e instanceof Error?e.message:'Could not run the dry run.');}finally{setLoading(false);}};
  const apply=async()=>{const r=await command({type:'patientImportApply',csv,planHash:plan.planHash,reason},'People imported');if(r){setDone(r.result??r);setPlan(null);setReason('');}};
@@ -21,7 +24,8 @@ export function PatientImportPanel({data,busy,command}:{data:Snapshot;busy:boole
   <div className="grid gap-3 px-6 pb-5"><p className="muted">Columns: name, age, sex, village, programme, team (a team you belong to and supervise). Up to 100 rows and {MAX.toLocaleString('en-IN')} bytes (Devanagari letters take 3 bytes each). The dry run checks each row and looks for possible duplicates among the records you can see and earlier rows; only accepted rows are created, each with a revision, and the batch is audited with its counts.</p>
   <label className="field"><span>CSV file</span><Input type="file" accept=".csv,text/csv" onChange={e=>void choose(e.target.files?.[0])}/></label>
   <label className="field"><span>Or paste the CSV</span><Textarea rows={5} value={csv} maxLength={MAX} onChange={e=>change(e.target.value)} placeholder={'name,age,sex,village,programme,team'}/></label>
-  <div className="flex flex-wrap gap-3"><Button variant="outline" disabled={busy||loading||!csv.trim()} onClick={dryRun}>{loading?'Checking…':'Run dry run'}</Button></div>
+  <div className="flex flex-wrap gap-3"><Button variant="outline" disabled={busy||loading||!csv.trim()} onClick={dryRun}>{loading?'Checking…':'Run dry run'}</Button>{plan&&(k.rejected+k.duplicates)>0&&<Button variant="outline" disabled={busy||loading} onClick={rejections}>Download rejection report</Button>}</div>
+  {report&&<p role="status" className="notice">Rejection report {report.exportId.slice(0,8)} downloaded · SHA-256 {report.sha256.slice(0,12)}… · row numbers and reasons only</p>}
   {error&&<p role="alert" className="notice amber-notice">{error}</p>}
   {plan&&<div role="status" className="notice"><div><strong>{k.accepted} to create</strong> · {k.rejected} rejected · {k.duplicates} possible duplicates · {k.rows} rows{plan.markedSynthetic?' · will be marked synthetic in this environment':''}<br/><span className="text-sm">Plan {String(plan.planHash).slice(0,16)}…</span></div></div>}
   {plan&&<table className="w-full text-sm" aria-label="Dry run rows"><thead><tr><th className="text-left">Row</th><th className="text-left">Result</th><th className="text-left">Team</th><th className="text-left">Details</th></tr></thead><tbody>{plan.rows.map((r:any)=><tr key={r.row}><td>{r.row}</td><td>{r.status==='accepted'?'Accepted':r.status==='rejected'?'Rejected':'Possible duplicate'}</td><td>{teamName(r.teamId)}</td><td>{r.reasons.join(' ')||'Will be created.'}{r.candidates?.length?` Existing: ${r.candidates.map((c:any)=>c.personId.slice(0,8)).join(', ')}.`:''}</td></tr>)}</tbody></table>}
