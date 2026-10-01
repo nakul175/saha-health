@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { authorText, entryAuthor, entryKeys, entryReview, reviewText, signOffText } from '@/lib/saha/fact-provenance';
+import { own } from '@/lib/saha/programmes';
 import type { Person, Snapshot, Visit } from '@/lib/saha/types';
 type Command=(c:any,s?:string)=>Promise<any>;
 // Slice 2g: who recorded the visit notes and each programme answer, and their clinician verification (BR-DATA-02).
 // The server sets authors from the authenticated identity and checks role, care scope and state for every review.
 const label=(v:Visit,entry:string)=>entry==='notes'?'Visit notes':v.programmeCapture?.packs.flatMap(x=>x.pack.questions).find(q=>q.id===entry.slice(7))?.label??entry.slice(7);
-const value=(v:Visit,entry:string)=>{if(entry==='notes')return '';const k=entry.slice(7),a=v.programmeCapture?.answers[k],r=v.programmeCapture?.absence[k];return a?`: ${a}`:r?`: ${r} (absence reason)`:'';};
+const value=(v:Visit,entry:string)=>{if(entry==='notes')return '';const k=entry.slice(7),a=own(v.programmeCapture?.answers,k),r=own(v.programmeCapture?.absence,k);return a?`: ${a}`:r?`: ${r} (absence reason)`:'';};
 export function EntryVerificationPanel({v,data,busy,command}:{v:Visit;data:Snapshot;busy:boolean;command:Command}){
  const [disputing,setDisputing]=useState<string|null>(null),[reason,setReason]=useState('');
  const entries=entryKeys(v);if(!entries.length)return null;

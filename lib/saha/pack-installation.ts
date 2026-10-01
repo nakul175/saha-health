@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { digest, fail, uuid } from './core';
 import { defaultOperations } from './operations';
-import { PACKS, adoptedVersion, catalogueOf, enrollablePacks, type Pack, type Question } from './programmes';
+import { PACKS, RESERVED_QUESTION_IDS, adoptedVersion, catalogueOf, enrollablePacks, type Pack, type Question } from './programmes';
 import type { Actor } from './store';
 import type { Member, OrgState } from './types';
 // Slice 4f: governed runtime installation of a programme pack, or of a new version of an existing pack, without a code
@@ -22,7 +22,8 @@ const PROGRAMMES=['Maternal care','Chronic care','TB screening','Child health','
 // A measurement question captures a shared visit fact; its id is the fact key and its unit is fixed.
 export const FACT_UNITS={weight:'kg',systolic:'mmHg',diastolic:'mmHg',temperature:'°C',weeks:'weeks',coughDays:'days'} as const;
 type FactKey=keyof typeof FACT_UNITS;
-const qid=z.string().regex(/^[a-z][a-zA-Z0-9_]{1,39}$/,'Question ids are 2–40 letters, digits or underscores, starting with a lower-case letter.');
+const qid=z.string().regex(/^[a-z][a-zA-Z0-9_]{1,39}$/,'Question ids are 2–40 letters, digits or underscores, starting with a lower-case letter.').refine(x=>!RESERVED_QUESTION_IDS.has(x),'This question id is a reserved name (such as constructor or toString). Choose another id.');
+// Slice 6z: ids that name Object.prototype members are refused (answers are also read as own properties only).
 const label=z.string().trim().min(3).max(160);
 const question=z.object({id:qid,label,required:z.boolean(),fact:z.enum(Object.keys(FACT_UNITS) as [FactKey,...FactKey[]]).optional(),unit:z.enum(['kg','mmHg','°C','weeks','days']).optional(),options:z.array(z.string().trim().min(1).max(60)).min(2).max(8).optional(),when:z.object({id:qid,value:z.string().trim().min(1).max(60)}).strict().optional(),renamedFrom:qid.optional()}).strict();
 // The escalation vocabulary of the governed protocol rules (slice 4a/5x): a question, gte/lte/eq/missing and a value.

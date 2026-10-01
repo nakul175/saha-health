@@ -29,7 +29,8 @@ export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
 type Value = string | number | null;
 type Row = Record<string, Value>;
-type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit';
+// Slice 6z: 'self' rows are one member's own (their in-app alert inbox); only the exporter's own rows are exported.
+type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit' | 'self';
 export type TableSpec = { table: string; order: string; scope: Scope; omit?: string[]; note?: string };
 export const TABLES: TableSpec[] = [
   { table: 'organisations', order: 'id', scope: 'org' },
@@ -47,7 +48,7 @@ export const TABLES: TableSpec[] = [
   { table: 'legacy_migrations', order: 'owner_id', scope: 'org' },
   { table: 'request_metrics', order: 'bucket,route,status', scope: 'org' },
   { table: 'alert_occurrences', order: 'opened_at,id', scope: 'org', note: 'Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only.' },
-  { table: 'alert_notifications', order: 'delivered_at,id', scope: 'org', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content.' },
+  { table: 'alert_notifications', order: 'delivered_at,id', scope: 'self', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter\'s own notifications; other members\' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows).' },
   { table: 'patients', order: 'id', scope: 'person' },
   { table: 'visits', order: 'id', scope: 'person' },
   { table: 'plans', order: 'id', scope: 'visit' },
@@ -71,7 +72,7 @@ export const EXCLUDED = [
   { what: 'server configuration and credentials', why: 'Held as deployment secrets, never in the database.' },
 ];
 const MEDIA_EXT: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'audio/webm': 'webm', 'audio/ogg': 'ogg', 'audio/mpeg': 'mp3', 'audio/mp4': 'm4a' };
-export type ExportFile = { path: string; bytes: Uint8Array; table?: string; rows?: number; withheld?: number; withheldEntries?: number; columns?: string[]; omitted?: string[]; note?: string };
+export type ExportFile = { path: string; bytes: Uint8Array; table?: string; rows?: number; withheld?: number; withheldEntries?: number; otherMembersRows?: number; columns?: string[]; omitted?: string[]; note?: string };
 export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string };
 const enc = new TextEncoder();
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
@@ -146,8 +147,9 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   const media: ExportFile[] = [];
   for (const spec of TABLES) {
     const rows = data[spec.table], lines: unknown[] = [];
-    let withheld = 0, entries = 0;
+    let withheld = 0, entries = 0, others = 0;
     for (const r of rows) {
+      if (spec.scope === 'self' && String(r.user_id) !== m.userId) { others++; continue; }
       if (spec.table === 'patients' ? !people.has(String(r.id)) : !allowed(spec, r)) {
         withheld++;
         // Audit events outside scope keep their place in the chain as digests.
@@ -174,7 +176,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     }
     totalRows += lines.length; totalWithheld += withheld; totalEntries += entries;
     const stored = rows.length ? Object.keys(rows[0]) : [];
-    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, ...(spec.scope === 'org' || spec.scope === 'team' ? { withheldEntries: entries } : {}), columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: entries ? `${spec.note ? spec.note + ' ' : ''}${entries} patient-linked entries inside data are left out (outside the exporter's care scope); data is re-serialised without them.` : spec.note });
+    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, ...(spec.scope === 'self' ? { otherMembersRows: others } : {}), ...(spec.scope === 'org' || spec.scope === 'team' ? { withheldEntries: entries } : {}), columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: entries ? `${spec.note ? spec.note + ' ' : ''}${entries} patient-linked entries inside data are left out (outside the exporter's care scope); data is re-serialised without them.` : spec.note });
   }
   // Member accounts: identifiers and names only.
   const accounts = (await db.prepare('SELECT user_id,account_code,display_name,created_at FROM accounts WHERE user_id IN (SELECT user_id FROM memberships WHERE org_id=?) ORDER BY user_id').bind(orgId).all<Row>()).results;
@@ -223,7 +225,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // Slice 6p: no empty, '.' or '..' path segments (the character class alone allowed them).
   for (const f of files) if (!safePath(f.path)) fail(422, 'An export file name cannot be written to the archive.');
 
-  const described = await Promise.all(files.map(async f => ({ path: f.path, ...(f.table ? { table: f.table } : {}), ...(f.rows !== undefined ? { rows: f.rows } : {}), ...(f.withheld !== undefined ? { withheld: f.withheld } : {}), ...(f.withheldEntries !== undefined ? { withheldEntries: f.withheldEntries } : {}), bytes: f.bytes.byteLength, sha256: await sha256Bytes(f.bytes), ...(f.columns ? { columns: f.columns } : {}), ...(f.omitted?.length ? { omittedColumns: f.omitted } : {}), ...(f.note ? { note: f.note } : {}) })));
+  const described = await Promise.all(files.map(async f => ({ path: f.path, ...(f.table ? { table: f.table } : {}), ...(f.rows !== undefined ? { rows: f.rows } : {}), ...(f.withheld !== undefined ? { withheld: f.withheld } : {}), ...(f.otherMembersRows !== undefined ? { otherMembersRows: f.otherMembersRows } : {}), ...(f.withheldEntries !== undefined ? { withheldEntries: f.withheldEntries } : {}), bytes: f.bytes.byteLength, sha256: await sha256Bytes(f.bytes), ...(f.columns ? { columns: f.columns } : {}), ...(f.omitted?.length ? { omittedColumns: f.omitted } : {}), ...(f.note ? { note: f.note } : {}) })));
   const bytes = described.reduce((n, f) => n + f.bytes, 0);
   if (bytes > MAX_BYTES) fail(413, 'This organisation is larger than a single export can hold. Ask the operator for a staged export.');
   const patientsWithheld = data.patients.length - people.size;

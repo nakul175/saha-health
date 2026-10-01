@@ -31,7 +31,8 @@ export function applyFactReview(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
  if(v.recordVersion!==c.recordVersion)fail(409,'This visit changed. Refresh before reviewing its measurements.');
  if(!factMeasuresPresent(v.facts).includes(c.measure))fail(422,`${label} was not recorded on this visit.`);
  if(c.decision==='disputed'&&(c.reason??'').length<10)fail(422,'Explain the dispute in at least 10 characters.');
- if(v.factAuthors?.[c.measure]?.userId===u.userId)fail(403,'A different clinician must verify or dispute a measurement you recorded.');
+ // Slice 6z: a measurement with no recorded author (recorded before slice 2e) is treated as the confirmer's.
+ if((v.factAuthors?.[c.measure]?.userId??v.patientCheck?.by)===u.userId)fail(403,'A different clinician must verify or dispute a measurement you recorded.');
  if(factReview(v,c.measure)?.state===c.decision)fail(409,`${label} is already ${c.decision}.`);
  if((v.factReviews?.length??0)>=100)fail(422,'Measurement review limit reached for this visit.');
  const r:FactReview={id:uuid(),measure:c.measure,state:c.decision,by:u.userId,byName:u.displayName,at:now,...(c.reason?{reason:c.reason}:{})};

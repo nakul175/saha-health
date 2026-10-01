@@ -29,3 +29,7 @@
 - Under the 1e definition an owner with a care role in the team counts as a supervisor for sign-off; the confirmer and recorders are excluded, but an owner-clinician who did not touch the visit can sign it off.
 - Sign-off is not shown in the FHIR outputs or programme payloads, and no coded provenance or verification status is emitted (the pinned FHIR rule set does not permit it).
 - Owner policy changes are shown only as the current state in the Organisation view; the change list is kept in the operations document and the audit log, not displayed.
+
+## Correction — 1 October 2026 (slice 6z)
+
+On visits recorded before slices 2e and 2g there is no per-entry or per-measurement author, so the not-your-own checks compared against nothing: the confirmer could verify their own notes and the person who saved the programme answers could sign the visit off. Slice 6z treats the confirmer and, for answers, the answer saver as authors when none is recorded (and the confirmer for an unattributed measurement), and counts the answer saver as a recorder for sign-off. See [slice 6z](SLICE-6Z-SIXTH-REVIEW-FIXES.md), finding 4.

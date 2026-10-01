@@ -1,0 +1,53 @@
+{
+  "slice": "6z",
+  "date": "2026-10-01",
+  "base": "b0ba193 (int7-6y-task-trace)",
+  "contractOnBase": {
+    "command": "git archive b0ba193 | tar -x; REPORT_ALL=1 node tests/sixth-review-fixes-contract.mjs",
+    "summary": {
+      "suite": "sixth review fixes contract (slice 6z)",
+      "passed": 9,
+      "failed": 32,
+      "completedAt": "2026-10-01T21:31:44.616Z"
+    },
+    "failedChecks": [
+      "1 the manifest schema refuses question id constructor: Expected values to be strictly equal:",
+      "1 the manifest schema refuses question id toString: Expected values to be strictly equal:",
+      "1 the manifest schema refuses question id valueOf: Expected values to be strictly equal:",
+      "1 the manifest schema refuses question id hasOwnProperty: Expected values to be strictly equal:",
+      "1 the manifest schema refuses question id isPrototypeOf: Expected values to be strictly equal:",
+      "1 the manifest schema refuses question id toLocaleString: Expected values to be strictly equal:",
+      "1 the manifest schema refuses question id propertyIsEnumerable: Expected values to be strictly equal:",
+      "1 an escalation rule or show-when condition cannot name a reserved id either: Expected values to be strictly equal:",
+      "1 no compiled pack uses a reserved id: Cannot read properties of undefined (reading 'has')",
+      "1 required questions named after prototype members stay unresolved without answers: Expected values to be strictly deep-equal:",
+      "1 own() reads only own properties: G.own is not a function",
+      "1 an absence reason for a question named constructor is accepted: Remove the answer before recording an absence reason.",
+      "1 entry keys and authors are own properties only: Expected values to be strictly equal:",
+      "1 programme code reads answers through own(): lib/saha/programmes.ts",
+      "2 the occurrence is not cleared while another owner's view is unacknowledged: Expected values to be strictly deep-equal:",
+      "2 only the acknowledging owner's notification is cleared: Expected values to be strictly deep-equal:",
+      "2 the other owner's notification is restored if cleared: Expected values to be strictly deep-equal:",
+      "2 an overdue partly acknowledged occurrence escalates as unacknowledged: Expected values to be strictly equal:",
+      "2 control: when every view shows the acknowledgement the occurrence clears and does not escalate: Expected values to be strictly deep-equal:",
+      "3 no escalation notification exists for an occurrence that was never escalated: Expected values to be strictly deep-equal:",
+      "3 restore never re-opens notifications of an occurrence closed concurrently: Expected values to be strictly deep-equal:",
+      "3 source: escalation inserts select the occurrence escalated in this evaluation: The input did not match the regular expression /SELECT \\?,\\?,o\\.id,\\?,2,[^']*o\\.closed_at IS NULL AND o\\.escalated_at=\\? AND o\\.escalation_reason=\\?/. Input:",
+      "4 the confirmer cannot verify unattributed notes: Expected values to be strictly equal:",
+      "4 the confirmer cannot verify an unattributed answer: Expected values to be strictly equal:",
+      "4 the supervisor who saved the programme answers cannot sign off: Expected values to be strictly equal:",
+      "4 the confirmer cannot verify an unattributed measurement: Expected values to be strictly equal:",
+      "5 the out-of-scope refusal has the same status and text as a gateway refusal: Expected values to be strictly equal:",
+      "5 the refusal carries both record ids for the server only: Right-hand side of 'instanceof' is not an object",
+      "5 the steward review event is a recorded audit action: The expression evaluated to a falsy value:",
+      "5 source: the server records the steward event on the holding record and returns the ordinary refusal: The input did not match the regular expression /const abdm=await abdmWithStewardReview\\(state,c,u,m\\)/. Input:",
+      "6 only the exporter's own notifications are exported: Expected values to be strictly deep-equal:",
+      "6 the manifest counts the other members' rows left out: Expected values to be strictly equal:"
+    ]
+  },
+  "reviewerScripts": {
+    "note": "Scripts from /tmp/claude-0/review6 (a-proto.mjs, b-legacy.mjs, d-ack.mjs) run with their loader pointed at the base export and at the fixed tree. e-orphan.mjs needs the reviewer's server stub; the same race is reproduced by section 3 of the new contract (a batch hook runs a second evaluation before the first commits).",
+    "base": "== a-proto.mjs\nschema ok: true issues: []\nquestions shown: [ 'constructor', 'toString' ]\nunresolved with NO answers (should be 2): []\nread-back values: [\n  [ 'constructor', 'function Object() { [native code] }' ],\n  [ 'toString', 'function toString() { [native code] }' ]\n]\n== b-legacy.mjs\nC1 verifies the notes they wrote and confirmed: {\n  reviewId: '7171e8d1-f664-465c-b41d-d1bf23739bde',\n  entry: 'notes',\n  state: 'verified'\n}\nS1 (saved the answers) signs off: { signOffId: '7c1381aa-7d70-4d68-af82-0ba9e627c2ee' }\n== d-ack.mjs\nB sees acknowledged? null\nclear: [ 'occ1' ] restore: [] escalate: 0\n",
+    "fixed": "== a-proto.mjs\nschema ok: false issues: [\n  {\n    code: 'custom',\n    message: 'This question id is a reserved name (such as constructor or toString). Choose another id.',\n    path: [ 'questions', 0, 'id' ]\n  },\n  {\n    code: 'custom',\n    message: 'This question id is a reserved name (such as constructor or toString). Choose another id.',\n    path: [ 'questions', 1, 'id' ]\n  },\n  {\n    code: 'custom',\n    message: 'This question id is a reserved name (such as constructor or toString). Choose another id.',\n    path: [ 'escalation', 0, 'condition', 'questionId' ]\n  }\n]\nfile:///tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/laneA6z/mod/pack-installation.js:127\n    const questions = x.questions.map(q => ({ id: q.id, label: q.label, required: q.required, ...(q.fact ? { fact: q.fact, unit: FACT_UNITS[q.fact] } : {}), ...(q.options ? { options: [...q.options] }\n                        ^\n\nTypeError: Cannot read properties of undefined (reading 'questions')\n    at Module.packFromManifest (file:///tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/laneA6z/mod/pack-installation.js:127:25)\n    at file:///tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/laneA6z/a-proto.mjs:7:14\n\nNode.js v22.22.2\n== b-legacy.mjs\nrefused: A different clinician must verify or dispute an entry you recorded.\nrefused: A different person must sign off a visit you confirmed or recorded.\n== d-ack.mjs\nB sees acknowledged? null\nclear: [] restore: [ 'occ1' ] escalate: 1\n"
+  }
+}

@@ -8,6 +8,10 @@
 //    recorded with its delivery time; nothing is emailed, texted or sent outside Saha;
 //  - an acknowledgement (6h) clears the occurrence's notifications; when it stops applying (count change or
 //    24-hour lapse) they are shown again;
+//  - slice 6z (sixth review): an organisation acknowledgement is recorded at the count its author saw, and an alert
+//    computed from a care report has a different count in each member's own scope. Each recipient's notification is
+//    therefore cleared only when that recipient's own view shows the acknowledgement; the whole occurrence counts as
+//    acknowledged (escalation notifications cleared, no escalation) only when every recipient's view shows it;
 //  - an occurrence that stays unacknowledged past its severity threshold, or re-opens after an acknowledgement
 //    made during it, escalates once to the next role on its ladder, inside the organisation only.
 // The planner is pure: the server reads the open occurrences, plans, and writes with INSERT OR IGNORE on unique
@@ -35,6 +39,8 @@ export type Plan = {
   deliver: { alertId: string; scopeKey: string; userId: string; owner: OwnerRole; severity: Alert['severity']; title: string; count: number }[];
   close: string[];
   clear: string[];
+  // Slice 6z: level-1 notifications of recipients whose own view shows the acknowledgement while another recipient's does not.
+  clearFor: { occurrenceId: string; userId: string }[];
   restore: string[];
   escalate: { occurrenceId: string; alertId: string; scopeKey: string; owner: OwnerRole; severity: Alert['severity']; title: string; toRole: 'owners'; reason: 'unacknowledged' | 'reopened'; recipients: string[]; detail: string }[];
 };
@@ -62,7 +68,7 @@ export function mayHold(m: Member | undefined | null, n: { level: number; owner:
   return m.isOwner;
 }
 export function planDelivery({ present, open, acknowledgements, members, now }: { present: Present[]; open: OpenOccurrence[]; acknowledgements: AlertAck[]; members: Member[]; now: string }): Plan {
-  const plan: Plan = { open: [], deliver: [], close: [], clear: [], restore: [], escalate: [] };
+  const plan: Plan = { open: [], deliver: [], close: [], clear: [], clearFor: [], restore: [], escalate: [] };
   const live = new Map(present.map(p => [key(p.alertId, p.scopeKey), p]));
   for (const o of open) if (!live.has(key(o.alertId, o.scopeKey))) plan.close.push(o.id);
   const byKey = new Map(open.map(o => [key(o.alertId, o.scopeKey), o]));
@@ -71,19 +77,23 @@ export function planDelivery({ present, open, acknowledgements, members, now }: 
     if (!o) plan.open.push({ alertId: p.alertId, scopeKey: p.scopeKey, owner: p.owner, severity: p.severity, title: p.title });
     for (const r of p.recipients) plan.deliver.push({ alertId: p.alertId, scopeKey: p.scopeKey, userId: r.userId, owner: p.owner, severity: p.severity, title: p.title, count: r.count });
     if (!o) continue;
-    // Organisation acknowledgements are shared: one recipient's view showing it applies clears the occurrence.
-    const acknowledged = p.recipients.some(r => r.acknowledged);
-    if (acknowledged) { plan.clear.push(o.id); continue; }
+    // Slice 6z: the occurrence is acknowledged only when every recipient's own view shows the acknowledgement (one
+    // shared count for organisation-wide inputs; per-scope counts for care-report alerts). Otherwise recipients whose
+    // view shows it have their own notification cleared, the rest stay active, and escalation runs on the threshold.
+    const ackedBy = p.recipients.filter(r => r.acknowledged).map(r => r.userId);
+    if (ackedBy.length === p.recipients.length) { plan.clear.push(o.id); continue; }
+    for (const userId of ackedBy) plan.clearFor.push({ occurrenceId: o.id, userId });
     plan.restore.push(o.id);
     if (o.escalatedAt) continue;
     const next = ESCALATION_LADDER[p.owner][1];
     if (!next) continue;
-    const ackDuring = acknowledgements.some(k => k.alertId === p.alertId && (p.owner === 'supervisors' ? k.scope === 'user' && k.userId === p.scopeKey : k.scope === 'organisation') && k.at >= o.openedAt && k.at <= now);
+    // A partly acknowledged occurrence has not re-opened (the acknowledgement still applies to its author's view).
+    const ackDuring = !ackedBy.length && acknowledgements.some(k => k.alertId === p.alertId && (p.owner === 'supervisors' ? k.scope === 'user' && k.userId === p.scopeKey : k.scope === 'organisation') && k.at >= o.openedAt && k.at <= now);
     const overdue = Date.parse(now) - Date.parse(o.openedAt) >= ESCALATE_AFTER_MINUTES[p.severity] * 60000;
     if (!ackDuring && !overdue) continue;
     const reason = ackDuring ? 'reopened' as const : 'unacknowledged' as const;
     const raisedFor = p.owner === 'supervisors' ? members.find(m => m.userId === p.scopeKey)?.displayName ?? 'a supervisor' : null;
-    const detail = `${reason === 'reopened' ? 'Re-opened after its acknowledgement stopped applying' : `Not acknowledged within ${ESCALATE_AFTER_MINUTES[p.severity] >= 60 ? `${ESCALATE_AFTER_MINUTES[p.severity] / 60} hours` : `${ESCALATE_AFTER_MINUTES[p.severity]} minutes`}`}; open since ${o.openedAt}. Owned by ${p.owner}${raisedFor ? ` (care scope of ${raisedFor})` : ''}. Open Operations to see what your own scope shows.`;
+    const detail = `${reason === 'reopened' ? 'Re-opened after its acknowledgement stopped applying' : `Not acknowledged${ackedBy.length ? ' in every owning member\'s own view' : ''} within ${ESCALATE_AFTER_MINUTES[p.severity] >= 60 ? `${ESCALATE_AFTER_MINUTES[p.severity] / 60} hours` : `${ESCALATE_AFTER_MINUTES[p.severity]} minutes`}`}; open since ${o.openedAt}. Owned by ${p.owner}${raisedFor ? ` (care scope of ${raisedFor})` : ''}. Open Operations to see what your own scope shows.`;
     plan.escalate.push({ occurrenceId: o.id, alertId: p.alertId, scopeKey: p.scopeKey, owner: p.owner, severity: p.severity, title: p.title, toRole: next as 'owners', reason, recipients: ladderRecipients(members, next as 'owners', p.scopeKey), detail });
   }
   return plan;

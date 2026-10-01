@@ -29,7 +29,12 @@ export const signOffPolicy=(s:OrgState):SignOffPolicy=>(s.operations as {signOff
 const TYPES=new Set(['verifyEntry','signOffVisit','setSignOffPolicy']);
 const current=(v:Visit)=>{if(v.voidedAt||v.supersededBy)fail(409,'This visit was corrected or marked as wrong-patient. Open the current visit.');if(v.state!=='confirmed')fail(409,'Only a confirmed visit can be reviewed or signed off.');};
 // Everyone who recorded part of the visit: its confirmer and the authors of measurements, notes and answers.
-const recorders=(v:Visit)=>new Set([v.patientCheck?.by,v.noteAuthor?.userId,...Object.values(v.answerAuthors??{}).map(a=>a.userId),...Object.values(v.factAuthors??{}).map(a=>a?.userId)].filter(Boolean));
+// Slice 6z (sixth review): the person who last saved the programme answers (programmeCapture.savedBy) is a recorder too,
+// so a visit recorded before slice 2g (no per-entry authors) cannot be signed off by whoever saved its answers.
+const recorders=(v:Visit)=>new Set([v.patientCheck?.by,v.programmeCapture?.savedBy,v.noteAuthor?.userId,...Object.values(v.answerAuthors??{}).map(a=>a.userId),...Object.values(v.factAuthors??{}).map(a=>a?.userId)].filter(Boolean));
+// Slice 6z: when no author is recorded for an entry (visits recorded before slice 2g), the visit's confirmer and, for a
+// programme answer, the person who saved the programme answers are treated as its authors for the not-your-own rule.
+export const presumedEntryAuthors=(v:Visit,entry:string)=>{const a=entryAuthor(v,entry)?.userId;return new Set((a?[a]:[v.patientCheck?.by,entry==='notes'?undefined:v.programmeCapture?.savedBy]).filter((x):x is string=>!!x));};
 export function authorizeSignOff(s:OrgState,m:Member,c:any,record=false){
  if(!TYPES.has(c?.type))return;
  if(c.type==='setSignOffPolicy'){if(!m.isOwner||m.status!=='active')fail(403,'Only an organisation owner can change the sign-off policy.');return;}
@@ -57,7 +62,7 @@ export async function applySignOff(s:OrgState,input:unknown,u:Actor,m:Member,now
   if(!entryKeys(v).includes(c.entry))fail(422,c.entry==='notes'?'No visit notes were recorded on this visit.':'This programme answer was not recorded on this visit.');
   const label=c.entry==='notes'?'Visit notes':`Programme answer ${c.entry.slice(7)}`;
   if(c.decision==='disputed'&&(c.reason??'').length<10)fail(422,'Explain the dispute in at least 10 characters.');
-  if(entryAuthor(v,c.entry)?.userId===u.userId)fail(403,'A different clinician must verify or dispute an entry you recorded.');
+  if(presumedEntryAuthors(v,c.entry).has(u.userId))fail(403,'A different clinician must verify or dispute an entry you recorded.');
   if(entryReview(v,c.entry)?.state===c.decision)fail(409,`${label} already ${c.decision}.`);
   if((v.entryReviews?.length??0)>=200)fail(422,'Review limit reached for this visit.');
   const r:EntryReview={id:uuid(),entry:c.entry,state:c.decision,by:u.userId,byName:u.displayName,at:now,...(c.reason?{reason:c.reason}:{})};(v.entryReviews??=[]).push(r);

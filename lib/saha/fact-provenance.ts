@@ -1,4 +1,7 @@
 import type { EntryReview, FactAuthor, FactReview, Facts, FactSource, Measure, Role, Visit } from './types';
+// Slice 6z: entries are keyed by question id; read them as own properties only (the same rule as programmes.ts `own`,
+// repeated here so this module keeps no import of the programme catalogue).
+const own=<T>(r:Record<string,T>|undefined|null,k:string):T|undefined=>r&&Object.prototype.hasOwnProperty.call(r,k)?r[k]:undefined;
 // Slice 2c: source and observation time for each measurement (BR-DATA-02). Pure helpers shared by the server,
 // the workspace UI and the FHIR exports. A recorded value is measured or reported; a blank measurement may say
 // why it is missing (not asked, declined, unknown, not applicable), which is never read as a normal finding.
@@ -44,14 +47,14 @@ export function factAuditText(v:Pick<Visit,'factAuthors'|'factReviews'>,m:Measur
 // authenticated server identity), unchanged ones keep their author, cleared ones lose it, older ones stay "not recorded".
 export type EntryContent={notes:string;answers:Record<string,string>;absence:Record<string,string>};
 export const entryContent=(v:Pick<Visit,'facts'|'programmeCapture'>):EntryContent=>({notes:v.facts.notes??'',answers:v.programmeCapture?.answers??{},absence:v.programmeCapture?.absence??{}});
-export const answerKeys=(c:EntryContent)=>[...new Set([...Object.keys(c.answers),...Object.keys(c.absence)].filter(k=>!!(c.answers[k]||c.absence[k])))].sort();
+export const answerKeys=(c:EntryContent)=>[...new Set([...Object.keys(c.answers),...Object.keys(c.absence)].filter(k=>!!(own(c.answers,k)||own(c.absence,k))))].sort();
 export function stampEntryAuthors(prev:EntryContent|undefined,next:EntryContent,old:Pick<Visit,'noteAuthor'|'answerAuthors'>|undefined,actor:FactAuthor){
  const noteAuthor=!next.notes?undefined:prev?.notes===next.notes?old?.noteAuthor:{...actor};
- const answerAuthors:Record<string,FactAuthor>={};const fp=(c:EntryContent|undefined,k:string)=>c?JSON.stringify([c.answers[k]??null,c.absence[k]??null]):'';
- for(const k of answerKeys(next)){if(fp(prev,k)!==fp(next,k))answerAuthors[k]={...actor};else if(old?.answerAuthors?.[k])answerAuthors[k]={...old.answerAuthors[k]};}
+ const answerAuthors:Record<string,FactAuthor>={};const fp=(c:EntryContent|undefined,k:string)=>c?JSON.stringify([own(c.answers,k)??null,own(c.absence,k)??null]):'';
+ for(const k of answerKeys(next)){if(fp(prev,k)!==fp(next,k))answerAuthors[k]={...actor};else if(own(old?.answerAuthors,k))answerAuthors[k]={...own(old?.answerAuthors,k)!};}
  return {noteAuthor:noteAuthor?{...noteAuthor}:undefined,answerAuthors:Object.keys(answerAuthors).length?answerAuthors:undefined};
 }
 export const entryKeys=(v:Pick<Visit,'facts'|'programmeCapture'>)=>{const c=entryContent(v);return [...(c.notes?['notes']:[]),...answerKeys(c).map(k=>'answer:'+k)];};
-export const entryAuthor=(v:Pick<Visit,'noteAuthor'|'answerAuthors'>,entry:string)=>entry==='notes'?v.noteAuthor:entry.startsWith('answer:')?v.answerAuthors?.[entry.slice(7)]:undefined;
+export const entryAuthor=(v:Pick<Visit,'noteAuthor'|'answerAuthors'>,entry:string)=>entry==='notes'?v.noteAuthor:entry.startsWith('answer:')?own(v.answerAuthors,entry.slice(7)):undefined;
 export function entryReview(v:Pick<Visit,'entryReviews'>,entry:string):EntryReview|null{return (v.entryReviews??[]).filter(r=>r.entry===entry).at(-1)??null;}
 export function signOffText(s:{byName:string;role?:Role;at:string}|undefined){return s?`signed off by ${s.byName}${s.role?` (${AUTHOR_ROLE_LABEL[s.role]??s.role})`:''}, ${s.at.slice(0,16).replace('T',' ')} UTC`:'not signed off';}

@@ -37,20 +37,36 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   const openId = new Map(open.map(o => [`${o.alertId}|${o.scopeKey}`, o.id])), has = new Set(held.map(r => `${r.occurrence_id}|${r.user_id}|${r.level}`));
   plan.deliver = plan.deliver.filter(n => { const id = openId.get(`${n.alertId}|${n.scopeKey}`); return !id || !has.has(`${id}|${n.userId}|1`); });
   plan.clear = plan.clear.filter(id => held.some(r => r.occurrence_id === id && !r.cleared_at) || plan.deliver.some(n => openId.get(`${n.alertId}|${n.scopeKey}`) === id));
-  plan.restore = plan.restore.filter(id => held.some(r => r.occurrence_id === id && r.cleared_reason === 'acknowledged'));
-  const stmts = [];
+  // Slice 6z: a recipient whose own view shows the acknowledgement keeps their level-1 notification cleared.
+  const keep = new Map<string, Set<string>>();
+  for (const x of plan.clearFor) { const k = keep.get(x.occurrenceId) ?? new Set<string>(); k.add(x.userId); keep.set(x.occurrenceId, k); }
+  const kept = (r: { occurrence_id: string; user_id: string; level: number }) => r.level === 1 && !!keep.get(r.occurrence_id)?.has(r.user_id);
+  plan.clearFor = plan.clearFor.filter(x => held.some(r => r.occurrence_id === x.occurrenceId && r.user_id === x.userId && r.level === 1 && !r.cleared_at) || plan.deliver.some(n => openId.get(`${n.alertId}|${n.scopeKey}`) === x.occurrenceId && n.userId === x.userId));
+  plan.restore = plan.restore.filter(id => held.some(r => r.occurrence_id === id && r.cleared_reason === 'acknowledged' && !kept(r)));
+  const stmts: ReturnType<D1Database['prepare']>[] = [];
   for (const id of plan.close) { stmts.push(d.prepare('UPDATE alert_occurrences SET closed_at=? WHERE org_id=? AND id=? AND closed_at IS NULL').bind(now, orgId, id)); stmts.push(d.prepare("UPDATE alert_notifications SET cleared_at=?,cleared_reason='resolved' WHERE org_id=? AND occurrence_id=? AND cleared_at IS NULL").bind(now, orgId, id)); }
   for (const o of plan.open) stmts.push(d.prepare('INSERT OR IGNORE INTO alert_occurrences (org_id,id,alert_id,scope_key,owner_role,severity,title,opened_at) VALUES (?,?,?,?,?,?,?,?)').bind(orgId, uuid(), o.alertId, o.scopeKey, o.owner, o.severity, o.title, now));
   // The occurrence id comes from the open row itself, so a concurrent evaluation that opened it first is reused.
   for (const n of plan.deliver) stmts.push(d.prepare('INSERT OR IGNORE INTO alert_notifications (org_id,id,occurrence_id,user_id,level,alert_id,scope_key,owner_role,severity,title,count,detail,delivered_at) SELECT ?,?,o.id,?,1,?,?,?,?,?,?,NULL,? FROM alert_occurrences o WHERE o.org_id=? AND o.alert_id=? AND o.scope_key=? AND o.closed_at IS NULL').bind(orgId, uuid(), n.userId, n.alertId, n.scopeKey, n.owner, n.severity, n.title, n.count, now, orgId, n.alertId, n.scopeKey));
   for (const id of plan.clear) stmts.push(d.prepare("UPDATE alert_notifications SET cleared_at=?,cleared_reason='acknowledged' WHERE org_id=? AND occurrence_id=? AND cleared_at IS NULL").bind(now, orgId, id));
-  for (const id of plan.restore) stmts.push(d.prepare("UPDATE alert_notifications SET cleared_at=NULL,cleared_reason=NULL,read_at=NULL WHERE org_id=? AND occurrence_id=? AND cleared_reason='acknowledged'").bind(orgId, id));
+  for (const x of plan.clearFor) stmts.push(d.prepare("UPDATE alert_notifications SET cleared_at=?,cleared_reason='acknowledged' WHERE org_id=? AND occurrence_id=? AND user_id=? AND level=1 AND cleared_at IS NULL").bind(now, orgId, x.occurrenceId, x.userId));
+  // Slice 6z: restore only on a still-open occurrence (a concurrent evaluation may have closed it), and never a
+  // recipient whose own view shows the acknowledgement.
+  for (const id of plan.restore) { const k = [...(keep.get(id) ?? [])]; stmts.push(d.prepare(`UPDATE alert_notifications SET cleared_at=NULL,cleared_reason=NULL,read_at=NULL WHERE org_id=? AND occurrence_id=? AND cleared_reason='acknowledged' AND EXISTS (SELECT 1 FROM alert_occurrences o WHERE o.org_id=? AND o.id=? AND o.closed_at IS NULL)${k.length ? ` AND NOT (level=1 AND user_id IN (${k.map(() => '?').join(',')}))` : ''}`).bind(orgId, id, orgId, id, ...k)); }
+  const groups: (typeof stmts)[] = stmts.map(x => [x]);
   for (const e of plan.escalate) {
-    stmts.push(d.prepare('UPDATE alert_occurrences SET escalated_at=?,escalated_to=?,escalation_reason=?,escalation_recipients=? WHERE org_id=? AND id=? AND escalated_at IS NULL AND closed_at IS NULL').bind(now, e.toRole, e.reason, e.recipients.length, orgId, e.occurrenceId));
-    for (const userId of e.recipients) stmts.push(d.prepare('INSERT OR IGNORE INTO alert_notifications (org_id,id,occurrence_id,user_id,level,alert_id,scope_key,owner_role,severity,title,count,detail,delivered_at) VALUES (?,?,?,?,2,?,?,?,?,?,NULL,?,?)').bind(orgId, uuid(), e.occurrenceId, userId, e.alertId, e.scopeKey, e.owner, e.severity, `Escalated: ${e.title}`, e.detail, now));
+    const g: typeof stmts = [];groups.push(g);
+    g.push(d.prepare('UPDATE alert_occurrences SET escalated_at=?,escalated_to=?,escalation_reason=?,escalation_recipients=? WHERE org_id=? AND id=? AND escalated_at IS NULL AND closed_at IS NULL').bind(now, e.toRole, e.reason, e.recipients.length, orgId, e.occurrenceId));
+    // Slice 6z (sixth review): each escalation notification is inserted only when the guarded update above escalated
+    // this occurrence in this evaluation (same transaction): an occurrence a concurrent evaluation closed or escalated
+    // first gets no escalation row.
+    for (const userId of e.recipients) g.push(d.prepare('INSERT OR IGNORE INTO alert_notifications (org_id,id,occurrence_id,user_id,level,alert_id,scope_key,owner_role,severity,title,count,detail,delivered_at) SELECT ?,?,o.id,?,2,?,?,?,?,?,NULL,?,? FROM alert_occurrences o WHERE o.org_id=? AND o.id=? AND o.closed_at IS NULL AND o.escalated_at=? AND o.escalation_reason=?').bind(orgId, uuid(), userId, e.alertId, e.scopeKey, e.owner, e.severity, `Escalated: ${e.title}`, e.detail, now, orgId, e.occurrenceId, now, e.reason));
   }
-  for (let i = 0; i < stmts.length; i += 90) await d.batch(stmts.slice(i, i + 90));
-  return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes: stmts.length };
+  // Batches of at most about 90 statements; an escalation's update and its notification inserts stay in one batch.
+  let batch: typeof stmts = [], writes = 0;
+  for (const g of groups) { if (batch.length && batch.length + g.length > 90) { await d.batch(batch); batch = []; } batch.push(...g); writes += g.length; }
+  if (batch.length) await d.batch(batch);
+  return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes };
 }
 // Reads: evaluate when the organisation changed since the last evaluation, or a minute has passed. Best effort:
 // a failed evaluation never blocks the read; existing notifications are still shown.

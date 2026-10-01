@@ -25,6 +25,9 @@ export const ACCESS_ACTIONS = {
   externalRequest: 'Request to an external system recorded before it is sent.',
   // Slice 6w: an indicator CSV export is recorded the same way, so exporting does not move the organisation revision.
   indicatorExport: 'Indicator results exported as CSV (small cells suppressed).',
+  // Slice 6z: an ABHA link refused because the number is linked to a record outside the requester's scope, recorded on
+  // both records for identity steward review; the requester is shown the ordinary link refusal.
+  abhaLinkReview: 'ABHA link refused: the number is linked to another record. For identity steward review.',
 } as const;
 export type AccessAction = keyof typeof ACCESS_ACTIONS;
 export const ACCESS_REFUSED = 'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.';

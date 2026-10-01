@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fail, person, uuid } from './core';
+import { AppError, fail, person, uuid } from './core';
 import type { Actor } from './store';
 import type { Integration, Member, OrgState, Person } from './types';
 
@@ -9,6 +9,13 @@ import type { Integration, Member, OrgState, Person } from './types';
 export const PURPOSES=['CAREMGT','BTG','PUBHLTH','HPAYMT','DSRCH','PATRQT'] as const;
 export const HI_TYPES=['OPConsultation','Prescription','DiagnosticReport','DischargeSummary','ImmunizationRecord','HealthDocumentRecord','WellnessRecord'] as const;
 export const MOCK_OTP='123456';
+// Slice 6z (sixth review): one refusal for every failed link the requester may not learn more about — a one-time code the
+// gateway did not accept, and an ABHA number already linked to a record outside the requester's care scope — so the
+// refusal does not reveal that a patient the worker may not see holds the number.
+export const LINK_REFUSED='This ABHA could not be linked: the gateway did not accept this number and one-time code. Check both; if they are correct, ask an identity steward to review this record.';
+// The out-of-scope duplicate is refused with LINK_REFUSED and carries the two record ids so the server can record it for
+// identity steward review (an audit event on both records) without telling the requester.
+export class AbhaHeldElsewhere extends AppError{constructor(public personId:string,public heldBy:string){super(422,LINK_REFUSED);}}
 export type AbdmConfig={environment:'mock';modules:{abha:boolean;hip:boolean;hiu:boolean};facilityId:string;approvals:{module:'abha'|'hip'|'hiu';reference:string}[];version:number;setBy:string;setAt:string};
 export type Abha={state:'linked'|'declined'|'none';number?:string;address?:string;verification?:'mock-otp';at:string;by:string;history:{at:string;by:string;action:string;number?:string;reason?:string}[]};
 export type AbdmConsent={id:string;purpose:typeof PURPOSES[number];hiTypes:(typeof HI_TYPES[number])[];from:string;to:string;expiresAt:string;status:'REQUESTED'|'GRANTED'|'DENIED'|'REVOKED';requestedBy:string;requestedAt:string;decidedAt?:string;revokedAt?:string;revokeReason?:string;abhaNumber:string};
@@ -67,12 +74,13 @@ export function applyAbdm(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date
   const p=person(w,c.personId);personId=subject=p.id;if(p.version!==c.version)fail(409,'Patient changed. Refresh before continuing.');if(p.mergedInto)fail(409,'This record was merged into another record.');
   const hist=(action:string,extra:any={})=>{p.abha??={state:'none',at:now,by:u.userId,history:[]};p.abha.history.push({at:now,by:u.userId,action,...extra});if(p.abha.history.length>100)fail(422,'ABHA history limit reached.');};
   if(c.type==='abhaLink'){
-   module(s,'abha');if(c.otp!==MOCK_OTP)fail(422,'The mock gateway did not accept this one-time code.');
+   module(s,'abha');if(c.otp!==MOCK_OTP)fail(422,LINK_REFUSED);
    if(p.abha?.state==='linked')fail(409,'An ABHA is already linked. Unlink it with a reason before linking another.');
    const other=w.people.find(q=>q.id!==p.id&&q.abha?.state==='linked'&&q.abha.number===c.abhaNumber&&!q.mergedInto);if(other){
     // Slice 6u (fourth review): the check is organisation-wide; when the other record is outside the worker's scope the
     // refusal is neutral, so it does not reveal that a patient the worker may not see holds this ABHA number.
-    if(!other.assigned)fail(409,'This ABHA number cannot be linked here. Ask an identity steward to review this record before linking.');
+    // Slice 6z: the refusal is the same as a gateway refusal (status and text); the server records it for a steward.
+    if(!other.assigned)throw new AbhaHeldElsewhere(p.id,other.id);
     fail(409,'This ABHA number is linked to another record. Review whether the records are the same person before linking.');}
    hist('linked',{number:c.abhaNumber});Object.assign(p.abha!,{state:'linked',number:c.abhaNumber,address:c.abhaAddress,verification:'mock-otp',at:now,by:u.userId});
    detail=`ABHA ${c.abhaNumber.slice(0,2)}-XXXX-XXXX-${c.abhaNumber.slice(-4)} linked after mock OTP verification. Not verified with ABDM.`;result={abha:`${c.abhaNumber.slice(0,2)}-XXXX-XXXX-${c.abhaNumber.slice(-4)}`};

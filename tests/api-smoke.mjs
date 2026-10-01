@@ -121,6 +121,8 @@ const {referralSmoke}=await import('./referral-smoke.mjs');await referralSmoke({
 const {reuseSmoke}=await import('./reuse-smoke.mjs');await reuseSmoke({get,post,check,accounts,org,base});
 const {rosterSmoke}=await import('./roster-smoke.mjs');await rosterSmoke({get,post,check,accounts,org,base});
 const {abdmSmoke}=await import('./abdm-smoke.mjs');await abdmSmoke({get,post,check,accounts,org,base});
+// Slice 6z: the out-of-scope ABHA refusal is the ordinary link refusal and is recorded for an identity steward.
+const {sixthReviewSmoke}=await import('./sixth-review-smoke.mjs');await sixthReviewSmoke({get,post,check,accounts,org,sql,base});
 const {abdmTransferSmoke}=await import('./abdm-transfer-smoke.mjs');await abdmTransferSmoke({get,post,check,accounts,org,base});
 const {mediaSmoke}=await import('./media-smoke.mjs');await mediaSmoke({get,post,check,accounts,org,sql,base});
 const {fieldRegistrationSmoke}=await import('./field-registration-smoke.mjs');await fieldRegistrationSmoke({get,post,check,accounts,org,sql,base});
