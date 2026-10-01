@@ -22,3 +22,4 @@
 
 - Still no delivery: nothing is pushed, paged, emailed or messaged, so an alert is seen only when someone opens Operations. BR-OPS-04 and NFR-18 remain partial.
 - The 24-hour lifetime is an engineering default. There is no escalation when an acknowledged alert stays open.
+- Slice 6v later adds in-app delivery to the owning role, clearing on acknowledgement and once-only escalation to owners inside the organisation (see [slice 6v](SLICE-6V-ALERT-DELIVERY.md)).

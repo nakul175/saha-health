@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6v, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2763,8 +2763,8 @@
       "sourceTextLine": 499,
       "implementation": "partial",
       "target": "R15",
-      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer.",
-      "remaining": "Assignment from the queue itself, device-side sync failures not reported to the server, notification, and seeded-failure acceptance.",
+      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged.",
+      "remaining": "Assignment from the queue itself, device-side sync failures not reported to the server, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -2773,7 +2773,12 @@
         "lib/saha/exceptions.ts",
         "tests/exceptions-contract.mjs",
         "tests/exceptions-smoke.mjs",
-        "docs/current/SLICE-6I-EXCEPTION-QUEUE.md"
+        "docs/current/SLICE-6I-EXCEPTION-QUEUE.md",
+        "lib/saha/alert-delivery.ts",
+        "lib/saha/alert-delivery-server.ts",
+        "tests/alert-delivery-contract.mjs",
+        "tests/alert-delivery-smoke.mjs",
+        "docs/current/SLICE-6V-ALERT-DELIVERY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3000,8 +3005,8 @@
       "sourceTextLine": 531,
       "implementation": "partial",
       "target": "R15",
-      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer. Slice 6h: the owning role acknowledges an alert with a note; the acknowledgement lapses when the count changes or after 24 hours. Slice 5e: owner-owned AI budget alerts (80% and 100% of estimated monthly use) in alert rules 1.1.0. Slice 5h: alert rules 1.2.0 add owner-owned alerts for AI invoices of the previous month that differ from Saha's estimates beyond the owner's threshold, and for providers used that month without a recorded reconciliation.",
-      "remaining": "Alert delivery, escalation of acknowledged alerts, and approved detection/response targets.",
+      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer. Slice 6h: the owning role acknowledges an alert with a note; the acknowledgement lapses when the count changes or after 24 hours. Slice 5e: owner-owned AI budget alerts (80% and 100% of estimated monthly use) in alert rules 1.1.0. Slice 5h: alert rules 1.2.0 add owner-owned alerts for AI invoices of the previous month that differ from Saha's estimates beyond the owner's threshold, and for providers used that month without a recorded reconciliation. Slice 6v: each alert that opens is delivered in-app (top-bar bell with unread count) to the members who own it, from their own scope, with its delivery time; an acknowledgement clears it; an occurrence left unacknowledged past its severity threshold (critical 30 minutes, high 4 hours, normal 24 hours), or re-opened after its acknowledgement stopped applying, escalates once to owners inside the organisation with a recorded reason; evaluated idempotently on reads and organisation-wide writes.",
+      "remaining": "Delivery outside the app (email, SMS or paging to approved recipients), evaluation on a schedule independent of traffic, and approved detection/response targets and escalation ladders.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3017,7 +3022,12 @@
         "lib/saha/ai-invoice.ts",
         "tests/ai-invoice-contract.mjs",
         "tests/ai-invoice-smoke.mjs",
-        "docs/current/SLICE-5H-INVOICE-RECONCILIATION.md"
+        "docs/current/SLICE-5H-INVOICE-RECONCILIATION.md",
+        "lib/saha/alert-delivery.ts",
+        "lib/saha/alert-delivery-server.ts",
+        "tests/alert-delivery-contract.mjs",
+        "tests/alert-delivery-smoke.mjs",
+        "docs/current/SLICE-6V-ALERT-DELIVERY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3994,8 +4004,8 @@
       "sourceTextLine": 741,
       "implementation": "partial",
       "target": "R15",
-      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit.",
-      "remaining": "Five-minute detection with delivery, and links from a user task to provider calls and destination receipts in a trace.",
+      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit. Slice 6v: in-app delivery to the owning role with delivery times, and escalation records; evaluated on reads and organisation-wide writes, so detection time depends on traffic (no background timer).",
+      "remaining": "Five-minute detection independent of traffic (a scheduled trigger), delivery that reaches people outside the app, and links from a user task to provider calls and destination receipts in a trace.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/monitoring.ts",
@@ -4003,7 +4013,12 @@
         "lib/saha/alerts.ts",
         "tests/alerts-contract.mjs",
         "lib/saha/exceptions.ts",
-        "tests/exceptions-contract.mjs"
+        "tests/exceptions-contract.mjs",
+        "lib/saha/alert-delivery.ts",
+        "lib/saha/alert-delivery-server.ts",
+        "tests/alert-delivery-contract.mjs",
+        "tests/alert-delivery-smoke.mjs",
+        "docs/current/SLICE-6V-ALERT-DELIVERY.md"
       ],
       "automatedAcceptanceClaim": false
     },

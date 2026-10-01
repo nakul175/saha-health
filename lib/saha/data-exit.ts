@@ -23,7 +23,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0013_audit_chain';
+export const SCHEMA_MIGRATION = '0014_alert_delivery';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -46,6 +46,8 @@ export const TABLES: TableSpec[] = [
   { table: 'retention', order: 'org_id', scope: 'org' },
   { table: 'legacy_migrations', order: 'owner_id', scope: 'org' },
   { table: 'request_metrics', order: 'bucket,route,status', scope: 'org' },
+  { table: 'alert_occurrences', order: 'opened_at,id', scope: 'org', note: 'Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only.' },
+  { table: 'alert_notifications', order: 'delivered_at,id', scope: 'org', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content.' },
   { table: 'patients', order: 'id', scope: 'person' },
   { table: 'visits', order: 'id', scope: 'person' },
   { table: 'plans', order: 'id', scope: 'visit' },

@@ -14,6 +14,8 @@ const reviewed = [
   "lib/saha/server.ts: console.error('Workspace operation failed',e instanceof Error?e.name:'unknown')",
   // Slice 6t: an audit store failure on a read or export logs only the status or error class, never the event or content.
   "lib/saha/access-audit.ts: console.error('Access audit not recorded', e instanceof AppError ? e.status : e instanceof Error ? e.name : 'unknown')",
+  "lib/saha/alert-delivery-server.ts: console.error('Alert delivery evaluation failed', e instanceof Error ? e.name : 'unknown')",
+  "lib/saha/alert-delivery-server.ts: console.error('Alert delivery evaluation failed', e instanceof Error ? e.name : 'unknown')",
   "lib/saha/export-audit.ts: console.error('Export audit not recorded', e instanceof Error ? e.name : 'unknown')",
   // Development builds only (guarded by import.meta.env.DEV); a production build never prints the error object.
   'lib/saha/server.ts: console.error(e)',
