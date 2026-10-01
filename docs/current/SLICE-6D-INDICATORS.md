@@ -24,3 +24,7 @@
 - Suppression protects single queries. Differencing across many overlapping queries is not tracked, and exports do not use this path yet.
 - The interpreter is a keyword matcher over the catalogue, not natural-language understanding.
 - A patient in two programmes is counted under each programme when grouped by programme.
+
+## Later change, 1 October 2026 (slice 6s)
+
+Slice 6s turns the catalogue into an owner-maintained registry (these definitions become its version 1 entries), lets a result be recomputed from the definition version it names, adds differencing protection across one viewer's nested queries and an indicator CSV that keeps the suppression. See [slice 6s](SLICE-6S-INDICATOR-REGISTRY.md). The text above is kept as written.

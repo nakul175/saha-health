@@ -5,6 +5,7 @@ import { exceptionalSchema } from './exceptional';
 import { rightsSchema } from './rights';
 import { consentSchema } from './consent';
 import { delegationSchema, heldBy, supervises } from './delegation';
+import { indicatorRegistrySchema } from './indicator-registry';
 import { retentionSchema } from './retention';
 import { fixtureMarkSchema } from './fixture-migration';
 import { factReviewSchema } from './fact-verification';
@@ -49,6 +50,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...rightsSchema.options,
  ...consentSchema.options,
  ...delegationSchema.options,
+ ...indicatorRegistrySchema.options,
  ...retentionSchema.options,
  ...fixtureMarkSchema.options,
  ...factReviewSchema.options,

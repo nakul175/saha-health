@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6s, 7a-7c, 0b-2, 0b-3",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1228,11 +1228,18 @@
       "sourceTextLine": 292,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model.",
-      "remaining": "Natural-language analysis under governance, owner-maintained metric catalogue, differencing protection and validated definitions.",
+      "current": "Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model. Slice 6s: the catalogue is an owner-maintained registry of versioned definitions built from a fixed vocabulary of measures, filters and exclusions; the interpreter follows the registry; results name their definition version; one viewer's nested queries over seven days are checked for differencing and withheld when they would reveal a group of 1 to 4 people.",
+      "remaining": "Natural-language analysis under governance, validated definitions with an approval workflow, owner-defined measures, and differencing protection across viewers, non-nested filters and groupings.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/indicators.ts",
+        "lib/saha/indicator-registry.ts",
+        "lib/saha/indicator-differencing.ts",
+        "lib/saha/indicators-server.ts",
+        "tests/indicator-registry-contract.mjs",
+        "tests/indicator-registry-smoke.mjs",
+        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2769,13 +2776,20 @@
       "sourceTextLine": 502,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed operational definitions and documented denominators/window. Slice 6d adds eight versioned indicator definitions with numerator, denominator, exclusions, owner and cadence.",
-      "remaining": "Versioned indicator registry, owner/exclusion/cadence and historical reproducibility.",
+      "current": "Fixed operational definitions and documented denominators/window. Slice 6d adds eight versioned indicator definitions with numerator, denominator, exclusions, owner and cadence. Slice 6s makes them version 1 entries of an owner-maintained, append-only registry: owners add, revise and retire definitions (measures, filters, exclusions, owner, cadence, minimum cohort) with a reason and audit event; every result names the definition and version used, and a recorded version can be run again to reproduce an earlier result over current records.",
+      "remaining": "Approval and effective dates for definition changes, owner-defined measures, validation against programme specifications, and point-in-time data snapshots for historical reproduction.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
-        "tests/operations-smoke.mjs"
+        "tests/operations-smoke.mjs",
+        "lib/saha/indicators.ts",
+        "lib/saha/indicator-registry.ts",
+        "lib/saha/indicator-differencing.ts",
+        "lib/saha/indicators-server.ts",
+        "tests/indicator-registry-contract.mjs",
+        "tests/indicator-registry-smoke.mjs",
+        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2809,13 +2823,20 @@
       "sourceTextLine": 508,
       "implementation": "partial",
       "target": "R15",
-      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells.",
-      "remaining": "Differencing protection across queries, suppression on exports and a separate purpose for patient exports.",
+      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression.",
+      "remaining": "Differencing across viewers, non-nested filters, groupings and definitions, suppression on the operational export and other report paths, and a separate purpose for patient exports.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
-        "tests/operations-smoke.mjs"
+        "tests/operations-smoke.mjs",
+        "lib/saha/indicators.ts",
+        "lib/saha/indicator-registry.ts",
+        "lib/saha/indicator-differencing.ts",
+        "lib/saha/indicators-server.ts",
+        "tests/indicator-registry-contract.mjs",
+        "tests/indicator-registry-smoke.mjs",
+        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
       ],
       "automatedAcceptanceClaim": false
     },
