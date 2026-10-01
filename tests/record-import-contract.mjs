@@ -35,7 +35,7 @@ try {
       person('p2', 'Synthetic Other Team', 'north', { identifiers: [ident('nikshay', '1234567')] }),
       person('p3', 'Synthetic Person Three', 'default', { enrolments: [episode('maternal')] }),
       person('p4', 'Synthetic Merged', 'default', { mergedInto: { personId: 'p1', caseId: 'c1', at: now, by: 'owner' } }),
-      person('p5', 'Synthetic Person Five', 'default', { identifiers: [ident('ehr_local', 'X-1')] })], visits: [], integrations: [], submissions: [], referrals: [], audit: [], receipts: {} } });
+      person('p5', 'Synthetic Person Five', 'default', { identifiers: [ident('rch', '555566667777')] })], visits: [], integrations: [], submissions: [], referrals: [], audit: [], receipts: {} } });
   // 1. Schema, header and size rules.
   check(() => { assert.equal(R.recordImportInput.safeParse({ kind: 'visits', csv: 'a' }).success, false, 'visits are not an import kind'); assert.equal(R.recordImportInput.safeParse({ kind: 'enrolments', csv: 'x'.repeat(16001) }).success, false); assert.equal(R.recordImportSchema.safeParse({ type: 'recordImportApply', kind: 'identifiers', csv: 'a', planHash: 'a'.repeat(64), reason: 'short' }).success, false); });
   const EH = 'person,pack,version,episode_label,start_date', IH = 'person,issuer,identifier';
@@ -100,20 +100,22 @@ try {
   check(() => assert.equal(replan.counts.accepted, 0, 'the applied episodes are now open'));
   await rejects(() => apply(s, 'enrolments', efile, replan.planHash), 409, /no rows to apply/);
   // 6. Identifier rows.
+  // Slice 6aa (seventh review, finding 5): issuers are an allowlist, so the rows that test uniqueness and scope use listed
+  // issuers (rch, nikshay) instead of the unlisted ehr_local and local_mrn; their assertions are unchanged.
   const ifile = [IH,
     'p1,nikshay,7654321',
     'p3,rch,123456789012',
     'p1,rch,999988887777',
     'p1,rch,111122223333',
     'p3,nikshay,1234567',
-    'p3,ehr_local,X-1',
+    'p3,rch,555566667777',
     'p1,abha,12345678901234',
     'p3,rch,12345',
     'p3,BAD ISSUER,123',
     'p5,nikshay,7654321',
     'p3,rch,123456789013',
     'p1,local_mrn,=SUM(A1)',
-    'p2,local_mrn,N-1',
+    'p2,nikshay,2222333',
     'p4,local_mrn,M-1'].join('\n');
   const iplan = await R.planRecordImport(state(), owner, 'identifiers', ifile, 'synthetic', now), I1 = Object.fromEntries(iplan.rows.map(r => [r.row, r]));
   check(() => { assert.deepEqual(iplan.counts, { rows: 14, accepted: 2, rejected: 12 }); assert.deepEqual(iplan.rows.filter(r => r.status === 'accepted').map(r => r.row), [1, 2]); });

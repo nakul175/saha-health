@@ -95,7 +95,16 @@ export type Query={ids:string[];days:number;group:Group;team?:string|null;villag
 // Slice 6w: a definition contributes two series: its people per cell, and its numerator and denominator per
 // cell (keyed by measure). Definition filters are carried in `f` as nesting dimensions (sex, ageBand,
 // defProgramme), not in the series key, so complementary definitions are compared with each other.
-export type Series={key:string;f:Record<string,string>;cells:Record<string,number>;m?:Record<string,[number,number]>;ids:string[]};
+export type Series={key:string;f:Record<string,string>;cells:Record<string,number>;m?:Record<string,[number,number]>;ids:string[];
+ // Slice 6aa (seventh review): what the release discloses, for the population check in indicator-differencing.
+ // n/d: the measures shown; gd: the grouping dimension; x: exclusions; w: window start; shown: cells whose values were returned.
+ n?:MeasureId;d?:MeasureId|null;gd?:Group;x?:string[];w?:string;shown?:string[]};
+// Slice 6aa: measures counted over the query window; the others describe today and do not depend on it.
+export const WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','repeat-entries','corrections']);
+// A person's value of one measure over the window starting at `since` (ISO) and ending now.
+export function measureValue(s:OrgState,p:Person,id:MeasureId,since:string,now:Date){const today=now.toISOString().slice(0,10);return measure(id).count({s,people:[],since,until:now.toISOString(),today},p);}
+export const ageBandOf=(age:number)=>band(age);
+export const groupLabels=(s:OrgState,p:Person,g:Group)=>keysFor(s,p,g);
 export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  manager(m);
  if(!q.ids.length||q.ids.length>8)fail(422,'Choose up to eight catalogue indicators.');
@@ -110,7 +119,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  const latest=[...s.workspace.visits.filter(v=>people.some(p=>p.id===v.personId)).map(v=>v.confirmedAt??v.createdAt),...s.workspace.submissions.filter(x=>people.some(p=>p.id===x.personId)).map(x=>x.updatedAt)].sort().at(-1)??null;
  const series=new Map<string,Series>();
  const cohortCells:Record<string,number>={};for(const p of people)for(const k of keysFor(s,p,'none'))cohortCells[k]=(cohortCells[k]??0)+1;
- series.set('cohort',{key:'cohort',f:{},cells:cohortCells,ids:[]});
+ series.set('cohort',{key:'cohort',f:{},cells:cohortCells,ids:[],n:'patients',d:null,gd:'none',x:[],w:ctx0.since,shown:Object.keys(cohortCells)});
  const results=defs.map(def=>{const sp=def.spec,f=sp.filters;
   const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def)}};
   const cohort=people.filter(p=>(!f.programme||p.programmes.includes(f.programme))&&(!f.ageBand||band(p.age)===f.ageBand)&&(!f.sex||p.sex===f.sex)&&!(sp.exclude.includes('identity-provisional')&&p.identityReview?.state==='provisional')&&!(sp.exclude.includes('no-programme')&&!p.programmes.length));
@@ -119,16 +128,38 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
   const groups=new Map<string,{n:number;d:number;people:number}>();
   for(const p of cohort){const n=measure(sp.numerator).count(ctx,p),d=sp.denominator?measure(sp.denominator).count(ctx,p):0;for(const k of keysFor(s,p,q.group)){const g=groups.get(k)??{n:0,d:0,people:0};g.n+=n;g.d+=d;g.people++;groups.set(k,g);}}
   const defF:Record<string,string>=Object.fromEntries(([['sex',f.sex],['ageBand',f.ageBand],['defProgramme',f.programme]] as [string,string|undefined][]).filter(([,v])=>!!v) as [string,string][]);
+  const rows=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([group,g])=>({group,n:g.n,d:sp.unit==='proportion'?g.d:undefined}));
+  const out=suppress(rows,sp.unit),shown=out.filter(r=>!r.suppressed).map(r=>r.group);
   const base=`${q.group}|${[...sp.exclude].sort().join(',')}`,pc=Object.fromEntries([...groups].map(([g,x])=>[g,x.people]));
   for(const [key,m] of [[base,undefined],[`${base}|${sp.numerator}/${sp.denominator??''}`,Object.fromEntries([...groups].map(([g,x])=>[g,[x.n,x.d] as [number,number]]))]] as [string,Record<string,[number,number]>|undefined][]){
-   const id=key+'#'+JSON.stringify(defF),sr=series.get(id)??{key,f:defF,cells:pc,...(m?{m}:{}),ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
-  const rows=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([group,g])=>({group,n:g.n,d:sp.unit==='proportion'?g.d:undefined}));
-  return {...head,rows:suppress(rows,sp.unit)};});
+   const id=key+'#'+JSON.stringify(defF)+(m?'#'+sp.unit:''),sr=series.get(id)??{key,f:defF,cells:pc,...(m?{m,n:sp.numerator,d:sp.unit==='proportion'?sp.denominator:null,gd:q.group,x:[...sp.exclude].sort(),w:ctx0.since,shown}:{}),ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
+  return {...head,rows:out};});
  const result={computedAt:ctx0.until,window:{since:ctx0.since,until:ctx0.until,days:q.days},cohort:{people:people.length,team:q.team??null,village:q.village??null,programme:q.programme??null},group:q.group,latestSourceRecord:latest,minimumCell:MIN_CELL,results,
   scope:'Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.'};
  return {result,series:[...series.values()]};
 }
 export function indicatorQuery(s:OrgState,m:Member,q:Query,now=new Date()){return indicatorRun(s,m,q,now).result;}
+// Slice 6aa (seventh review): the releases a query records and the population they are checked against. Labels and
+// filter values are hashed by `h` (organisation-salted on the server), so the ledger holds no names or identifiers.
+export type Hash=(x:string)=>Promise<string>;
+const memoHash=(h:Hash)=>{const seen=new Map<string,Promise<string>>();return (x:string)=>{let v=seen.get(x);if(!v){v=h(x);seen.set(x,v);}return v;};};
+export async function releaseCandidates(series:Series[],q:{team?:string|null;village?:string|null;programme?:string|null},viewer:string,at:string,h0:Hash){
+ const h=memoHash(h0),f:Record<string,string>={};for(const k of ['team','village','programme'] as const)if(q[k])f[k]=await h(`${k}:${q[k]}`);
+ const hashCells=async<T,>(x:Record<string,T>)=>Object.fromEntries(await Promise.all(Object.entries(x).map(async([g,n])=>[await h(`group:${g}`),n] as const)));
+ return Promise.all(series.map(async sr=>{const df:Record<string,string>={...f};for(const [k,v] of Object.entries(sr.f))df[k]=await h(`${k}:${v}`);
+  const shown=new Set(sr.shown??Object.keys(sr.cells)),z=await Promise.all(Object.keys(sr.cells).filter(g=>!shown.has(g)).map(g=>h(`group:${g}`)));
+  return {ids:sr.ids,isCohort:sr.key==='cohort',release:{v:viewer,at,k:await h(`series:${sr.key}`),f:df,c:await hashCells(sr.cells),...(sr.m?{m:await hashCells(sr.m)}:{}),...(sr.n?{n:sr.n,d:sr.d??null,gd:sr.gd,x:sr.x,w:sr.w,z}:{})}};}));
+}
+export async function releasePopulation(s:OrgState,h0:Hash,now=new Date()){
+ const h=memoHash(h0),people=s.workspace.people.filter(p=>p.assigned&&!p.mergedInto);
+ const units=await Promise.all(people.map(async p=>{const progs=p.programmes,memo=new Map<string,number>();
+  const f:Record<string,string[]>={team:[await h(`team:${p.teamId}`)],village:[await h(`village:${p.village}`)],programme:await Promise.all(progs.map(x=>h(`programme:${x}`))),defProgramme:await Promise.all(progs.map(x=>h(`defProgramme:${x}`))),sex:[await h(`sex:${p.sex}`)],ageBand:[await h(`ageBand:${band(p.age)}`)]};
+  const g:Record<string,string[]>={};for(const d of GROUPS)g[d]=await Promise.all(keysFor(s,p,d).map(x=>h(`group:${x}`)));
+  const x=[...(p.identityReview?.state==='provisional'?['identity-provisional']:[]),...(!progs.length?['no-programme']:[])];
+  const q=(id:string,since:string)=>{const k=id+'|'+since;let v=memo.get(k);if(v===undefined){v=measureValue(s,p,id as MeasureId,since,now);memo.set(k,v);}return v;};
+  return {f,g,x,q};}));
+ return {units,windowed:WINDOWED as ReadonlySet<string>};
+}
 // Current, non-retired definitions; registry history and the vocabulary are separate.
 export function catalogue(s?:OrgState){return currentDefinitions(s).filter(r=>r.status==='active').map(r=>({id:r.id,version:r.version,title:r.spec.title,unit:r.spec.unit,numerator:measure(r.spec.numerator).label,denominator:r.spec.denominator?measure(r.spec.denominator).label:null,numeratorMeasure:r.spec.numerator,denominatorMeasure:r.spec.denominator,filters:r.spec.filters,exclude:r.spec.exclude,exclusions:r.spec.exclusionsNote||'None',owner:r.spec.owner,cadence:r.spec.cadence,minimumCohort:r.spec.minimumCohort,sources:[...new Set([r.spec.numerator,...(r.spec.denominator?[r.spec.denominator]:[])].flatMap(x=>measure(x).sources))],builtIn:!!r.builtIn,recordedAt:r.at}));}
 export const vocabulary=()=>({measures:MEASURES.map(m=>({id:m.id,label:m.label})),filters:{programme:PROGRAMMES,ageBand:AGE_BANDS,sex:SEXES},exclusions:EXCLUSIONS,cadences:CADENCES,minimumCohort:MIN_CELL});
