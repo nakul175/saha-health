@@ -14,6 +14,7 @@ import { RosterPanel } from './roster-panel';
 import { DataExitPanel } from './data-exit-panel';
 import { EnvironmentPanel } from './environment-panel';
 import { FixtureMigrationPanel } from './fixture-migration-panel';
+import { ProgrammeMigrationPanel } from './programme-migration-panel';
 import { PatientImportPanel } from './patient-import-panel';
 import { DelegationPanel } from './delegation-panel';
 export type RunCommand=(body:any,success?:string)=>Promise<any>;
@@ -37,6 +38,7 @@ export function OrganisationPanel({data,busy,command}:{data:Snapshot;busy:boolea
  <DataExitPanel data={data}/>
  <EnvironmentPanel data={data}/>
  <FixtureMigrationPanel data={data} busy={busy} command={command}/>
+ <ProgrammeMigrationPanel data={data} busy={busy} command={command}/>
  <PatientImportPanel data={data} busy={busy} command={command}/>
  {data.migration&&<div className="migration-note"><Check size={17}/><p>Existing records retained: {data.migration.counts.people} people, {data.migration.counts.visits} visits and {data.migration.counts.submissions} programme receipts at the Release 1 baseline. Earlier activity is preserved.</p></div>}
  <Dialog open={modal!==null} onOpenChange={yes=>{if(!yes){setModal(null);setInvitation(null)}}}><DialogContent><DialogHeader><DialogTitle>{({invite:'Invite a teammate',team:'Create a care team',create:'Create an organisation',join:'Join an organisation',rename:'Rename organisation'} as const)[modal??'invite']}</DialogTitle><DialogDescription>{modal==='invite'?'Choose the teammate’s role and teams. This creates a code; no email is sent.':modal==='join'?'Enter the invitation code an owner created for your account.':modal==='create'?'A new organisation starts with an empty patient directory and its own care team.':'Changes are recorded in the activity log.'}</DialogDescription></DialogHeader>

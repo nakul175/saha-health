@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -913,8 +913,8 @@
       "sourceTextLine": 254,
       "implementation": "partial",
       "target": "R11",
-      "current": "Immutable protocol revisions, effective/review dates, dependency invalidation, scoped related records and new-review-only transition.",
-      "remaining": "Reviewed open-episode migration and coordinated version changes across the full programme-pack engine.",
+      "current": "Immutable protocol revisions, effective/review dates, dependency invalidation, scoped related records and new-review-only transition. Slice 4e adds reviewed migration of open episodes to a newer pack version: an owner or clinician dry run over open episodes on older versions in their care scope with the changes between versions, candidates and episodes blocked with reasons (open visit, merged record, restriction, no reviewed mapping), a plan hash bound to record versions, apply of exactly that plan with a revision and episode history entry per episode and one counted audit batch, confirmed visits kept on their version, and owner adoption of the new version for new episodes; exercised with one illustrative maternal v2.",
+      "remaining": "Approved pack versions with their own clinical review, per-team adoption, answer migration and schedule recomputation, a reviewed reverse path, and coordinated version changes across installed packs (installation is BR-PROG-08).",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
@@ -923,7 +923,13 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/programme-migration.ts",
+        "lib/saha/programme-migration-server.ts",
+        "app/programme-migration-panel.tsx",
+        "tests/programme-migration-contract.mjs",
+        "tests/programme-migration-smoke.mjs",
+        "docs/current/SLICE-4E-PACK-MIGRATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
