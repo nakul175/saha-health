@@ -7,11 +7,14 @@ import { scope } from './store';
 import { recordExportAudit, sameCareScope, sameReach } from './export-audit';
 import { digest, fail, uuid } from './core';
 import { alertsFor, ALERT_RULES_VERSION } from './alerts';
+import { evaluateIfDue } from './alert-delivery-server';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
 import { invoiceAlertInputs, invoiceView } from './ai-invoice';
 const currentMonth=()=>new Date().toISOString().slice(0,7);
 export async function operationsRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);const reach=reportingScope(s,m);
+ // Slice 6v: an operations read also evaluates in-app alert delivery when due, on the state it already loaded.
+ await evaluateIfDue(s.organisation.id,s);
  const url=new URL(request.url),days=Number(url.searchParams.get('days')??30);if(![7,30,90].includes(days))fail(422,'Choose 7, 30 or 90 days.');const format=url.searchParams.get('format')??'json';if(!['json','csv','support'].includes(format))fail(422,'Unsupported report format.');
  const report=m.role==='admin'?null:careReport(s,m,days,undefined,reach.include);
  if(report){const rows=await db().prepare(`SELECT count(DISTINCT a.actor_id) AS n FROM audit_events a JOIN patients p ON p.org_id=a.org_id AND p.id=a.person_id WHERE a.org_id=? AND p.team_id IN (${reach.teams.map(()=>'?').join(',')||'NULL'}) AND a.at>=? AND a.at<=?`).bind(s.organisation.id,...reach.teams,report.since,report.until).first<{n:number}>();report.activeWorkers=rows?.n??0;report.activeWorkersCoverage='Distinct actors on authorised patient activity in the selected window.';}
