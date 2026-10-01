@@ -1,0 +1,369 @@
+import { misOperation, operationRefusal, refusalOf } from './adapter-operations.js';
+import { mappedPayload } from './mis.js';
+import { captureFor, unresolved } from './programmes.js';
+import { z } from 'zod';
+import { PROGRAMMES } from './types.js';
+import { ALT_UNITS, FACT_SOURCES, MEASURES, MEASURE_LABEL, VALUE_FIELDS, VALUE_RANGES, factProvenance, measureValue, normaliseUnits, rangeProblem, unconfirmedValues } from './fact-provenance.js';
+export class AppError extends Error {
+    status;
+    constructor(status, message) {
+        super(message);
+        this.status = status;
+    }
+}
+export function fail(status, message) { throw new AppError(status, message); }
+export const uuid = () => crypto.randomUUID();
+export async function digest(value) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(value))); return Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join(''); }
+const str = z.string().trim().min(1).max(200);
+const numeric = z.string().trim().max(12).refine(x => x === '' || (/^[0-9]+(\.[0-9]+)?$/.test(x) && Number.isFinite(+x)), 'Enter a positive number or leave blank.');
+const minute = z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/).refine(x => !isNaN(Date.parse(x + 'Z')), 'Select the observation date and time.');
+// Slice 2c: per-measurement source and time (BR-DATA-02); helpers in fact-provenance.ts.
+const provenanceSchema = z.object({ source: z.enum(FACT_SOURCES), at: minute.optional() }).strict();
+export const factsSchema = z.object({ date: minute, systolic: numeric, diastolic: numeric, weight: numeric, temperature: numeric, weeks: numeric, coughDays: numeric, notes: z.string().trim().max(3000), source: z.enum(['measured', 'reported']), provenance: z.object(Object.fromEntries(MEASURES.map(m => [m, provenanceSchema.optional()]))).strict().optional(),
+    // Slice 2i: a value entered in an alternative unit (converted on the server) and reasons for unusual values.
+    entered: z.object({ weight: z.object({ value: z.string().trim().max(12), unit: z.literal(ALT_UNITS.weight.unit) }).strict().optional(), temperature: z.object({ value: z.string().trim().max(12), unit: z.literal(ALT_UNITS.temperature.unit) }).strict().optional(), coughDays: z.object({ value: z.string().trim().max(12), unit: z.literal(ALT_UNITS.coughDays.unit) }).strict().optional() }).strict().optional(),
+    unusual: z.object(Object.fromEntries(VALUE_FIELDS.map(k => [k, z.string().trim().max(500).optional()]))).strict().optional() }).strict();
+// Shared checks for every path that stores visit facts (online save, field sync, field registration).
+// Slice 2i: returns the facts to store, with values entered in an alternative unit converted (original kept) and
+// values outside the placeholder expected range refused unless the recorder gave a reason.
+export function checkFacts(input, now = Date.now()) {
+    const units = normaliseUnits(input);
+    if (units.problem)
+        fail(422, units.problem);
+    const f = units.facts;
+    if (f.unusual) {
+        const kept = Object.fromEntries(Object.entries(f.unusual).filter(([, r]) => r !== undefined));
+        if (Object.keys(kept).length)
+            f.unusual = kept;
+        else
+            delete f.unusual;
+    }
+    if (Date.parse(f.date + 'Z') > now + 300000)
+        fail(422, 'Observation time cannot be in the future.');
+    if (!!f.systolic !== !!f.diastolic)
+        fail(422, 'Enter both blood pressure readings or leave both blank.');
+    for (const m of MEASURES) {
+        const p = f.provenance?.[m];
+        if (!p)
+            continue;
+        const value = measureValue(f, m), recorded = p.source === 'measured' || p.source === 'reported', label = MEASURE_LABEL[m];
+        if (value && !recorded)
+            fail(422, `${label}: a recorded value must be measured or reported. Clear the value to record why it is missing.`);
+        if (!value && recorded)
+            fail(422, `${label}: enter the value, or choose why it is missing.`);
+        if (p.at && !value)
+            fail(422, `${label}: a time applies only to a recorded value.`);
+        if (p.at && Date.parse(p.at + 'Z') > now + 300000)
+            fail(422, `${label}: observation time cannot be in the future.`);
+    }
+    const range = rangeProblem(f);
+    if (range)
+        fail(422, range);
+    return f;
+}
+export const commandSchema = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('createPerson'), name: str, age: z.number().int().min(0).max(120), sex: z.enum(['Female', 'Male', 'Other', 'Unknown']), village: str, programme: z.enum(PROGRAMMES), teamId: str, registrationReview: z.object({ hash: z.string().length(64), decision: z.enum(['distinct', 'provisional']), reason: z.string().trim().min(10).max(1000) }).strict().optional() }),
+    z.object({ type: z.literal('startVisit'), personId: str }),
+    z.object({ type: z.literal('saveVisit'), visitId: str, version: z.number().int(), facts: factsSchema }),
+    z.object({ type: z.literal('confirmVisit'), visitId: str, version: z.number().int(), patientCheck: z.object({ personId: str, personVersion: z.number().int().positive(), confirmed: z.literal(true) }).strict() }),
+    z.object({ type: z.literal('preparePlan'), visitId: str, recipients: z.array(str).min(1).max(10) }),
+    z.object({ type: z.literal('approvePlan'), visitId: str, planId: str, payloadHash: str }),
+    z.object({ type: z.literal('executePlan'), visitId: str, planId: str }),
+    z.object({ type: z.literal('reconcile'), submissionId: str }),
+    z.object({ type: z.literal('setConsent'), personId: str, purpose: z.enum(['ai', 'exchange']), active: z.boolean(), version: z.number().int().positive() }),
+    z.object({ type: z.literal('runAI'), visitId: str, providerId: str, version: z.number().int(), consentVersion: z.number().int(), approved: z.literal(true) }),
+    z.object({ type: z.literal('reviewAI'), visitId: str, resultId: str }),
+    z.object({ type: z.literal('createReferral'), visitId: str, facility: str, reason: z.string().trim().min(1).max(1000) }),
+    z.object({ type: z.literal('transitionReferral'), referralId: str, state: z.enum(['sent', 'received', 'completed']) }),
+    z.object({ type: z.literal('toggleIntegration'), integrationId: str, version: z.number().int().positive() }),
+    z.object({ type: z.literal('registerIntegration'), name: str, kind: z.enum(['ai', 'mis', 'ehr']), endpoint: z.string().url().max(500), credentialBinding: z.string().regex(/^SAHA_[A-Z0-9_]{1,50}$/), description: z.string().max(500) }),
+]);
+export function person(w, id) { const p = w.people.find(x => x.id === id); if (!p)
+    fail(404, 'Patient not found.'); if (w.role === 'admin')
+    fail(403, 'Your membership does not permit patient access.'); if (!p.assigned)
+    fail(403, 'This patient is not assigned to this worker.'); return p; }
+export function visit(w, id) { const v = w.visits.find(x => x.id === id); if (!v)
+    fail(404, 'Visit not found.'); person(w, v.personId); return v; }
+function care(w) { if (!['asha', 'clinician'].includes(w.role))
+    fail(403, 'A care role is required for this action.'); }
+function version(v, n) { if (v.version !== n)
+    fail(409, 'This visit has changed. Refresh it before continuing.'); }
+function integration(w, id) { const c = w.integrations.find(x => x.id === id); if (!c || c.status !== 'active')
+    fail(409, 'This connection is not active.'); return c; }
+function confirmed(v) { if (v.voidedAt || v.supersededBy)
+    fail(409, 'This visit was corrected or marked as wrong-patient. Open the current visit.'); if (v.state !== 'confirmed')
+    fail(409, 'Confirm the visit facts first.'); }
+export function activePlan(w, v, planId) { const p = person(w, v.personId), plan = v.plan; if (!plan || plan.id !== planId)
+    fail(409, 'This plan is no longer current.'); if (v.voidedAt || v.supersededBy)
+    fail(409, 'This visit is no longer current.'); if (v.version !== plan.visitVersion || p.consentVersion !== plan.consentVersion || p.version !== plan.personVersion)
+    fail(409, 'The facts or permissions changed. Prepare a new plan.'); for (const id of plan.recipients) {
+    const c = integration(w, id);
+    if (c.version !== plan.connectorVersions[id])
+        fail(409, 'A connection changed. Review a new plan.');
+} return plan; }
+export function summary(f) {
+    const src = (m) => { const p = factProvenance(f, m); return p.at !== f.date ? `${p.source}, ${p.at.replace('T', ' ')} UTC` : p.source; }, own = (m) => f.provenance?.[m] ? ` (${src(m)})` : '';
+    const missing = MEASURES.filter(m => !measureValue(f, m) && f.provenance?.[m]).map(m => `${MEASURE_LABEL[m].toLowerCase()} (${f.provenance[m].source.replace('-', ' ')})`);
+    return [f.notes && `Visit notes: ${f.notes}`, f.systolic && f.diastolic && `Blood pressure: ${f.systolic}/${f.diastolic} mmHg (${src('bloodPressure')}).`, f.weight && `Weight: ${f.weight} kg (${src('weight')}).`, f.temperature && `Temperature: ${f.temperature} °C (${src('temperature')}).`, f.weeks && `Gestational age reported: ${f.weeks} weeks${own('weeks')}.`, f.coughDays && `Cough duration reported: ${f.coughDays} days${own('coughDays')}.`, missing.length && `Not recorded: ${missing.join(', ')}.`, `Observation time: ${f.date.replace('T', ' ')}. No diagnosis or treatment recommendation generated.`].filter(Boolean).join('\n');
+}
+export async function apply(w, c, actor, external, now = new Date().toISOString()) {
+    let subject = '', detail = '', result = { ok: true };
+    if (c.type === 'createPerson') {
+        care(w);
+        const p = { id: uuid(), name: c.name, age: c.age, sex: c.sex, village: c.village, programmes: [c.programme, ...(c.programme === 'General care' ? [] : ['General care'])], task: 'New home visit', due: 'Today', status: 'due', aiConsent: false, exchangeConsent: false, consentVersion: 1, assigned: true, createdAt: now, version: 1, teamId: c.teamId, assignedTo: null };
+        w.people.push(p);
+        subject = p.id;
+        result = { personId: p.id };
+    }
+    else if (c.type === 'startVisit') {
+        care(w);
+        const p = person(w, c.personId);
+        const existing = w.visits.find(x => x.personId === p.id && x.state === 'draft' && !x.voidedAt && !x.supersededBy);
+        if (existing)
+            return { visitId: existing.id };
+        const v = { id: uuid(), personId: p.id, version: 1, state: 'draft', facts: { date: now.slice(0, 16), systolic: '', diastolic: '', weight: '', temperature: '', weeks: '', coughDays: '', notes: '', source: 'measured' }, createdAt: now, aiResults: [], recordVersion: 1, programmeCapture: captureFor(p.enrolments ?? [], external.packs) };
+        w.visits.push(v);
+        p.status = 'in_progress';
+        subject = p.id;
+        result = { visitId: v.id };
+    }
+    else if (c.type === 'saveVisit') {
+        care(w);
+        const v = visit(w, c.visitId);
+        version(v, c.version);
+        if (v.voidedAt || v.supersededBy)
+            fail(409, 'This visit is no longer current.');
+        if (v.state !== 'draft')
+            fail(409, 'Confirmed visits are immutable. Start a new visit for new facts.');
+        v.facts = checkFacts(c.facts);
+        if (v.programmeCapture) {
+            for (const key of Object.keys(v.programmeCapture.absence))
+                if (c.facts[key])
+                    delete v.programmeCapture.absence[key];
+        }
+        v.version++;
+        subject = v.id;
+    }
+    else if (c.type === 'confirmVisit') {
+        care(w);
+        const v = visit(w, c.visitId);
+        version(v, c.version);
+        if (v.voidedAt || v.supersededBy)
+            fail(409, 'This visit is no longer current.');
+        if (v.state !== 'draft')
+            fail(409, 'Visit already confirmed.');
+        const checkedPerson = person(w, v.personId);
+        if (c.patientCheck.personId !== v.personId || c.patientCheck.personVersion !== checkedPerson.version)
+            fail(409, 'Patient details changed or the wrong person was checked. Review patient context again.');
+        if (checkedPerson.identityReview?.state === 'provisional')
+            fail(409, 'Resolve the provisional patient identity before confirming.');
+        if (!v.facts.notes && !v.facts.weight && !v.facts.systolic && !v.facts.temperature && !v.facts.weeks && !v.facts.coughDays)
+            fail(422, 'Record at least one observation or a visit note.');
+        const unusual = unconfirmedValues(v);
+        if (unusual.length)
+            fail(409, unusual.map(x => x.need === 'reason' ? `${VALUE_RANGES.fields[x.field].label}: save the unusual value with a reason before confirming.` : `${VALUE_RANGES.fields[x.field].label}: a clinician who did not record this unusual value must confirm it before the visit is confirmed.`).join(' '));
+        const missing = unresolved(v);
+        if (missing.length)
+            fail(422, 'Complete programme questions or record an absence reason: ' + missing.map(q => q.label).join(', '));
+        v.patientCheck = { personId: checkedPerson.id, personVersion: checkedPerson.version, by: actor, at: now };
+        v.state = 'confirmed';
+        v.confirmedAt = now;
+        v.version++;
+        person(w, v.personId).status = 'completed';
+        subject = v.id;
+        detail = `Confirmed revision ${v.version}.`;
+    }
+    else if (c.type === 'preparePlan') {
+        care(w);
+        const v = visit(w, c.visitId);
+        confirmed(v);
+        const p = person(w, v.personId);
+        const recipients = [...new Set(c.recipients)];
+        for (const id of recipients) {
+            const i = integration(w, id);
+            if (i.kind !== 'mis')
+                fail(422, 'Only a programme connector can receive this plan.');
+            if (!i.programmes.some(x => p.programmes.includes(x)))
+                fail(422, 'This programme does not apply to this patient.');
+            if (i.mode === 'http' && (!i.mis?.test?.ok || !p.exchangeConsent))
+                fail(409, 'A tested mapping and current sharing permission are required.');
+            if (w.submissions.some(x => x.visitId === v.id && x.connectorId === id && ['accepted', 'uncertain', 'queued', 'sending', 'retryable', 'rejected'].includes(x.state)))
+                fail(409, 'A submission already exists. Check its receipt before creating another.');
+        }
+        const payloads = Object.fromEntries(recipients.filter(id => integration(w, id).mode === 'http').map(id => [id, mappedPayload(integration(w, id), v, { workspace: w })]));
+        for (const id of recipients) {
+            const refused = operationRefusal(integration(w, id), misOperation(payloads[id]), 'patient');
+            if (refused)
+                fail(409, refused);
+        }
+        const payloadHash = await digest({ visitId: v.id, version: v.version, facts: v.facts, programmeCapture: v.programmeCapture, recipients, payloads });
+        v.plan = { payloads, id: uuid(), visitVersion: v.version, personVersion: p.version, consentVersion: p.consentVersion, connectorVersions: Object.fromEntries(recipients.map(id => [id, integration(w, id).version])), recipients, payloadHash, state: 'proposed', purpose: 'Record a confirmed community visit in the selected destinations', createdAt: now };
+        subject = v.id;
+        result = { planId: v.plan.id };
+    }
+    else if (c.type === 'approvePlan') {
+        care(w);
+        const v = visit(w, c.visitId);
+        const p = activePlan(w, v, c.planId);
+        if (p.state !== 'proposed' || p.payloadHash !== c.payloadHash)
+            fail(409, 'Review the current plan before approving it.');
+        p.state = 'approved';
+        p.approvedAt = now;
+        p.approvedById = actor;
+        p.approvedBy = actor;
+        p.expiresAt = new Date(Date.parse(now) + 15 * 60000).toISOString();
+        subject = v.id;
+        detail = 'Approved the exact patient, facts, recipients and purpose for 15 minutes.';
+    }
+    else if (c.type === 'executePlan') {
+        care(w);
+        const v = visit(w, c.visitId);
+        const p = activePlan(w, v, c.planId);
+        if (p.state === 'completed')
+            return { ok: true, alreadyExecuted: true };
+        if (p.state !== 'approved' || p.approvedById !== actor || !p.expiresAt || p.expiresAt < now)
+            fail(409, 'A current approval by this user is required.');
+        for (const id of p.recipients) {
+            const i = integration(w, id);
+            const refused = operationRefusal(i, misOperation(p.payloads?.[id]), 'patient');
+            if (refused) {
+                w.submissions.push({ id: uuid(), visitId: v.id, personId: v.personId, connectorId: i.id, connectorName: i.name, state: 'cancelled', mode: i.mode === 'http' ? 'http' : 'demo', payloadHash: p.payloadHash, attempts: 0, message: `Not sent: ${refused} Nothing was sent to this destination; this item is closed. Prepare a new plan if it is still needed.`, createdAt: now, updatedAt: now, refusal: refusalOf(i, misOperation(p.payloads?.[id]), 'before-send', now) });
+                continue;
+            }
+            if (i.mode === 'http') {
+                const payload = p.payloads?.[id];
+                if (!payload)
+                    fail(409, 'Prepare a mapped programme payload first.');
+                const patient = person(w, v.personId);
+                if (!patient.exchangeConsent)
+                    fail(409, 'Sharing permission is required.');
+                const submissionId = uuid();
+                w.submissions.push({ id: submissionId, visitId: v.id, personId: v.personId, connectorId: i.id, connectorName: i.name, state: 'queued', mode: 'http', payloadHash: await digest(payload), attempts: 0, message: 'Queued for delivery. Open submissions to send during the approval window.', createdAt: now, updatedAt: now, delivery: { endpoint: i.endpoint, credentialBinding: i.credentialBinding, key: submissionId, actorId: actor, connectorVersion: i.version, personVersion: patient.version, consentVersion: patient.consentVersion, visitVersion: v.version, expiresAt: p.expiresAt, payload, events: [{ at: now, state: 'queued', detail: 'Approved payload saved to durable outbox.' }] } });
+                continue;
+            }
+            const uncertain = i.behavior === 'uncertain';
+            w.submissions.push({ id: uuid(), visitId: v.id, personId: v.personId, connectorId: i.id, connectorName: i.name, state: uncertain ? 'uncertain' : 'accepted', mode: 'demo', payloadHash: p.payloadHash, receipt: uncertain ? undefined : `SIM-${uuid().slice(0, 8).toUpperCase()}`, attempts: 1, message: uncertain ? 'Simulator stored the record, but its response was lost. Look up the receipt; do not resend.' : 'Programme simulator accepted this visit.', createdAt: now, updatedAt: now });
+        }
+        p.state = 'completed';
+        subject = v.id;
+        detail = 'Independent destination submissions created. HTTP payloads are queued; demo destinations are simulated.';
+    }
+    else if (c.type === 'reconcile') {
+        const s = w.submissions.find(x => x.id === c.submissionId);
+        if (!s)
+            fail(404, 'Submission not found.');
+        person(w, s.personId);
+        if (w.role === 'admin')
+            fail(403, 'Care or supervisor role required.');
+        if (s.state !== 'uncertain')
+            fail(409, 'Only an uncertain submission needs reconciliation.');
+        {
+            const refused = operationRefusal(integration(w, s.connectorId), 'lookup', 'none');
+            if (refused)
+                fail(409, refused + ' The outcome stays unknown; nothing is resent.');
+        }
+        if (s.mode !== 'demo')
+            fail(409, 'A live lookup contract is required.');
+        s.state = 'accepted';
+        s.receipt = `SIM-${s.id.slice(0, 8).toUpperCase()}`;
+        s.message = 'Receipt found by lookup. The visit was not sent again.';
+        s.updatedAt = now;
+        subject = s.id;
+        detail = 'Receipt lookup; submission attempt count stays at 1.';
+    }
+    else if (c.type === 'setConsent') {
+        care(w);
+        const p = person(w, c.personId);
+        if (p.version !== c.version)
+            fail(409, 'This patient record has changed. Refresh before updating permission.');
+        if (c.purpose === 'ai')
+            p.aiConsent = c.active;
+        else
+            p.exchangeConsent = c.active;
+        p.consentVersion++;
+        for (const v of w.visits.filter(v => v.personId === p.id)) {
+            if (v.plan && v.plan.state !== 'completed')
+                v.plan.state = 'blocked';
+        }
+        subject = p.id;
+        detail = `${c.purpose === 'ai' ? 'AI assistance' : 'External record sharing'} permission ${c.active ? 'recorded' : 'withdrawn'} in sandbox. Already shared records are not recalled.`;
+    }
+    else if (c.type === 'runAI') {
+        care(w);
+        const v = visit(w, c.visitId);
+        confirmed(v);
+        version(v, c.version);
+        const p = person(w, v.personId);
+        if (!p.aiConsent || p.consentVersion !== c.consentVersion)
+            fail(409, 'Current permission for AI assistance is required.');
+        const i = integration(w, c.providerId);
+        if (i.kind !== 'ai')
+            fail(422, 'Choose an AI provider.');
+        let output;
+        if (i.mode === 'demo') {
+            const missing = [!v.facts.notes && 'visit notes', !v.facts.weight && 'weight', !v.facts.systolic && p.programmes.includes('Chronic care') && 'blood pressure', !v.facts.weeks && p.programmes.includes('Maternal care') && 'gestational age'].filter(Boolean);
+            output = { status: 'succeeded', text: i.capability === 'summary' ? summary(v.facts) : (missing.length ? `Not recorded: ${missing.join(', ')}. Missing fields are unknown, not negative findings. Ask only if required by the local programme.` : 'Core demo fields are present. Programme-specific validation still applies.') };
+        }
+        else {
+            output = await external.call(i, { schemaVersion: '1.0', environment: 'synthetic', purpose: 'non-diagnostic visit assistance', facts: v.facts }, uuid());
+        }
+        if (!['succeeded', 'unable_to_assess'].includes(output?.status) || typeof output?.text !== 'string' || output.text.length > 6000)
+            fail(502, 'Provider returned an invalid response. No result was recorded.');
+        const r = { id: uuid(), providerId: i.id, providerName: i.name, mode: i.mode, status: output.status, text: output.text, createdAt: now, inputHash: await digest(v.facts), reviewed: false };
+        v.aiResults.push(r);
+        subject = v.id;
+        detail = `${i.name}: ${i.mode === 'demo' ? 'deterministic demo' : 'external API'} output stored for human review.`;
+        result = { resultId: r.id };
+    }
+    else if (c.type === 'reviewAI') {
+        care(w);
+        const v = visit(w, c.visitId);
+        const r = v.aiResults.find(x => x.id === c.resultId);
+        if (!r)
+            fail(404, 'Result not found.');
+        r.reviewed = true;
+        subject = v.id;
+        detail = 'Output marked reviewed; it does not replace a clinical decision.';
+    }
+    else if (c.type === 'createReferral') {
+        care(w);
+        const v = visit(w, c.visitId);
+        confirmed(v);
+        const r = { id: uuid(), personId: v.personId, visitId: v.id, facility: c.facility, reason: c.reason, state: 'draft', createdAt: now };
+        w.referrals.push(r);
+        subject = v.personId;
+        result = { referralId: r.id };
+        detail = 'Referral draft recorded locally; no facility was contacted.';
+    }
+    else if (c.type === 'transitionReferral') {
+        fail(409, 'Use referral tracking to assign ownership and record dated evidence for each event.');
+    }
+    else if (c.type === 'toggleIntegration') {
+        if (w.role !== 'admin')
+            fail(403, 'An administrator or organisation owner is required.');
+        const i = w.integrations.find(x => x.id === c.integrationId);
+        if (!i || i.mode === 'unconfigured')
+            fail(409, 'Complete partner onboarding first.');
+        if (i.version !== c.version)
+            fail(409, 'This connection changed. Refresh before updating it.');
+        if (['mis', 'ehr'].includes(i.kind) && i.mode === 'http' && i.status !== 'active')
+            fail(409, 'Test and activate this programme connection through its mapping controls.');
+        i.status = i.status === 'active' ? 'suspended' : 'active';
+        i.version++;
+        subject = i.id;
+        detail = `${i.name} ${i.status}. Existing approvals against older versions are invalid.`;
+    }
+    else if (c.type === 'registerIntegration') {
+        if (w.role !== 'admin')
+            fail(403, 'Administrator role required.');
+        const u = new URL(c.endpoint);
+        if (u.protocol !== 'https:' || u.username || u.password || u.search || u.hash)
+            fail(422, 'Use an HTTPS endpoint without credentials, query parameters or fragments.');
+        const i = { id: uuid(), name: c.name, description: c.description, kind: c.kind, mode: 'http', status: 'suspended', version: 1, endpoint: c.endpoint, credentialBinding: c.credentialBinding, programmes: [], capability: 'generic' };
+        w.integrations.push(i);
+        subject = i.id;
+        detail = 'API profile registered suspended. Server allowlist and secret binding are required; live MIS/EHR writes remain gated.';
+    }
+    w.audit.push({ id: uuid(), at: now, actor, role: w.role, action: c.type, subject, detail });
+    return result;
+}
