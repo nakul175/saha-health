@@ -42,6 +42,7 @@ import { configureMis, misReadiness } from './mis';
 import { executeMis } from './mis-execution';
 import { providers, agentApply } from './agent';
 import { executeAgent } from './agent-execution';
+import { linkTrace } from './trace';
 import { applySandbox, authorizeSandbox, SANDBOX_UNAVAILABLE } from './provider-sandbox';
 import { env } from 'cloudflare:workers';
 import { headers } from 'next/headers';
@@ -158,6 +159,8 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  }
  // Slice 2e: measurements whose value or entry changed are credited to the authenticated actor.
  stampSubmissions(before,state,signedOff);
+ // Slice 6y: execution steps this command adds carry its type, receipt key and audit event.
+ linkTrace(before,state,c.type,key,u.userId);
  if(c.type!=='switchOrganisation')recordFactAuthors(before,state,u,m);
  // Slice 1e: record any delegated authority the command relied on.
  if(state.delegationUsed?.length)delegationAudit(state,u,m,c.type,typeof (c as any).personId==='string'?(c as any).personId:null);

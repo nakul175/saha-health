@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **45 HTTP method/route pairs** and **181 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **46 HTTP method/route pairs** and **181 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -46,6 +46,7 @@ Generated from source: **45 HTTP method/route pairs** and **181 command schema d
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
+| GET | `/api/trace` | [app/api/trace/route.ts](../../app/api/trace/route.ts) |
 | GET | `/api/worker-activity` | [app/api/worker-activity/route.ts](../../app/api/worker-activity/route.ts) |
 | GET | `/api/worklists` | [app/api/worklists/route.ts](../../app/api/worklists/route.ts) |
 | GET | `/api/workspace` | [app/api/workspace/route.ts](../../app/api/workspace/route.ts) |
