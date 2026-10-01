@@ -117,6 +117,16 @@
 .adapter-ops-list { list-style:none; padding:0; margin:8px 0; display:grid; gap:6px; }
 .adapter-ops-list li { display:grid; gap:2px; }
 .adapter-ops-list .check-label { margin:0; }
+/* Slice 7g: aggregate report delivery on an aggregate-only destination. */
+.aggregate-reports { width:100%; font-size:14px; margin-top:12px; overflow-wrap:anywhere; display:grid; gap:8px; }
+.aggregate-reports h3 { font-size:15px; font-weight:600; margin:0; }
+.aggregate-reports fieldset { border:0; padding:0; margin:0 0 8px; display:grid; gap:4px; }
+.aggregate-reports legend { font-weight:600; margin-bottom:4px; }
+.aggregate-history { list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+.aggregate-history > li { border-top:1px solid var(--border); padding-top:8px; display:grid; gap:4px; }
+.aggregate-cells { width:100%; border-collapse:collapse; margin:6px 0; font-size:13px; overflow-wrap:normal; }
+.aggregate-cells th { white-space:nowrap; }
+.aggregate-cells th, .aggregate-cells td { text-align:left; padding:2px 6px; border-bottom:1px solid var(--border); }
 .mis-setup summary, details summary { cursor:pointer; font-weight:600; }
 .mis-setup pre, .plan-action pre { max-width:100%; white-space:pre-wrap; overflow-wrap:anywhere; font-size:13px; }
 .receipt-main .button-row { margin-top:12px; flex-wrap:wrap; }

@@ -86,6 +86,8 @@ export function ensureEnvironment(s: OrgState, c: any, env: Env) {
     const demo = (id: string) => w.integrations.find(i => i.id === id)?.mode === 'demo';
     if (c.type === 'toggleIntegration' && demo(c.integrationId) && w.integrations.find(i => i.id === c.integrationId)?.status !== 'active') fail(409, `Demonstration connectors cannot be activated in the ${e.name} environment.`);
     if (c.type === 'executePlan') { const plan = w.visits.find(v => v.id === c.visitId)?.plan; if (plan?.recipients.some(demo)) fail(409, `Demonstration connectors do not receive records in the ${e.name} environment. Remove them from the plan.`); }
+    // Slice 7g: nor aggregate reports.
+    if (c.type === 'prepareAggregateReport' || c.type === 'sendAggregateReport') { const dest = c.type === 'prepareAggregateReport' ? c.destinationId : ((s.operations as any)?.aggregateReports ?? []).find((x: any) => x.id === c.reportId)?.destinationId; if (dest && demo(dest)) fail(409, `Demonstration connectors do not receive aggregate reports in the ${e.name} environment.`); }
   }
   // A plan whose recipients are all demonstration connectors reaches no real destination (training practice).
   const demoOnlyPlan = c.type === 'executePlan' && (w.visits.find(v => v.id === c.visitId)?.plan?.recipients ?? []).every((id: string) => w.integrations.find(i => i.id === id)?.mode === 'demo');

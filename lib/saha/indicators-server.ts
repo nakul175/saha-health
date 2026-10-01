@@ -1,10 +1,11 @@
 import { identity, loadFor, json, db } from './server';
-import { digest, fail, uuid } from './core';
+import { fail, uuid } from './core';
 import type { Member } from './types';
 import { boundedJsonBody } from './request-body';
 import { scope } from './store';
 import { recordAccess } from './access-audit';
-import { csvLines, defaultOperations } from './operations';
+import { csvLines } from './operations';
+import { candidateReleases, readLedger, writeLedger } from './indicator-ledger';
 import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, vocabulary, type Group, type Series } from './indicators';
 import { ledgerFull, pruneLedger, screenReleases, type Release } from './indicator-differencing';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
@@ -50,33 +51,18 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
 // export's audit event is an access-audit commit (slice 6t pattern), written before the file is returned.
 type Shaped={computedAt:string;results:any[]};
 export const LEDGER_FULL_MESSAGE='You have run many different indicator queries in the last seven days. To keep small groups protected, Saha cannot record more until older queries leave the seven-day window. Repeat an earlier query or try again later.';
-async function readLedger(orgId:string):Promise<{ledger:Release[];text:string|null}>{
- const r=await db().prepare("SELECT json(json_extract(data,'$.indicatorReleases')) AS l, 1 AS present FROM operations WHERE org_id=?").bind(orgId).first<{l:string|null;present:number}>();
- if(!r)return {ledger:[],text:null};
- return {ledger:r.l?JSON.parse(r.l) as Release[]:[],text:r.l??''};
-}
-async function writeLedger(orgId:string,previous:string|null,next:Release[]){
- const value=JSON.stringify(next);
- if(previous===null){const r=await db().prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO NOTHING').bind(orgId,JSON.stringify({...defaultOperations(),indicatorReleases:next})).run();return r.meta.changes===1;}
- const r=await db().prepare("UPDATE operations SET data=json_set(data,'$.indicatorReleases',json(?)) WHERE org_id=? AND COALESCE(json(json_extract(data,'$.indicatorReleases')),'')=?").bind(value,orgId,previous).run();
- return r.meta.changes===1;
-}
 async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,m:Member,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string,csvOf:((released:Set<string>)=>Shaped)|null,state:Parameters<typeof recordAccess>[1]):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{
- const h=async(x:string)=>(await digest(`saha-indicator-release:${orgId}:${x}`)).slice(0,20);
- const f:Record<string,string>={};for(const k of ['team','village','programme'] as const)if(q[k])f[k]=await h(`${k}:${q[k]}`);
- const viewer=await h(`viewer:${u.userId}`);
- const cands=await Promise.all(series.map(async sr=>{const df:Record<string,string>={...f};for(const [k,v] of Object.entries(sr.f))df[k]=await h(`${k}:${v}`);
-  const hashCells=async<T,>(x:Record<string,T>)=>Object.fromEntries(await Promise.all(Object.entries(x).map(async([g,n])=>[await h(`group:${g}`),n] as const)));
-  return {ids:sr.ids,isCohort:sr.key==='cohort',release:{v:viewer,at,k:await h(`series:${sr.key}`),f:df,c:await hashCells(sr.cells),...(sr.m?{m:await hashCells(sr.m)}:{})} as Release};}));
+ // Slice 7g: candidate releases and ledger storage are shared with aggregate report delivery (indicator-ledger.ts).
+ const cands=await candidateReleases(orgId,`viewer:${u.userId}`,q,series,at);
  let released=new Set<string>();
  for(let attempt=1;;attempt++){
-  const {ledger,text}=await readLedger(orgId);
+  const {ledger,text}=await readLedger(db(),orgId);
   // The cohort is checked first; if it alone would reveal a small group, nothing is returned.
   const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at);
   if(refused.some(c=>c.isCohort))fail(422,DIFFERENCING_MESSAGE);
   const withheld=new Set(refused.flatMap(c=>c.ids));released=new Set(accepted.flatMap(c=>c.ids).filter(id=>!withheld.has(id)));
   if(ledgerFull(ledger,accepted.map(c=>c.release),at))fail(429,LEDGER_FULL_MESSAGE);
-  if(await writeLedger(orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at)))break;
+  if(await writeLedger(db(),orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at)))break;
   if(attempt>=RELEASE_ATTEMPTS)fail(409,'Many indicator queries are being recorded in this organisation at once. Nothing was shown. Please try again.');
  }
  if(!csvOf)return {released,file:null};

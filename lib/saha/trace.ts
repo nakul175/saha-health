@@ -38,6 +38,9 @@ export function linkTrace(before:OrgState,after:OrgState,command:string,key:stri
   const old=prevOps.get(o.id);if(old&&old.state===o.state&&old.at===o.at)continue;
   (o.events??=[]).push({at:o.at,state:o.state,ref:ref([o.id,o.visitId,p.id])});
  }
+ // Slice 7g: aggregate report events (organisation-level, kept in the operations record).
+ const prevReports=new Map((((before.operations as any)?.aggregateReports??[]) as {id:string;events:any[]}[]).map(r=>[r.id,r]));
+ for(const r of (((after.operations as any)?.aggregateReports??[]) as {id:string;destinationId:string;attempts:number;events:{ref?:TraceRef;attempt?:number}[]}[])){const n=prevReports.get(r.id)?.events.length??0;for(let i=n;i<r.events.length;i++){const e=r.events[i];if(!e.ref){e.ref=ref([r.id,r.destinationId]);e.attempt=r.attempts;}}}
  const prevRuns=new Map((before.workspace.visits??[]).flatMap(v=>(v.agentRuns??[]).map(r=>[r.id,r] as const)));
  for(const v of after.workspace.visits??[])for(const r of v.agentRuns??[]){
   const old=prevRuns.get(r.id);if(old&&old.status===r.status&&!!old.timeoutDecision===!!r.timeoutDecision&&!!old.reviewDecision===!!r.reviewDecision)continue;

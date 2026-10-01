@@ -36,6 +36,7 @@ import { referralRequestSchema } from './referral-request';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { adapterOperationsSchema } from './adapter-operations';
+import { aggregateSchema } from './aggregate-delivery';
 import { agentSchema } from './agent';
 import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
@@ -86,6 +87,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...referralRequestSchema.options,
  ...misSchema.options,
  adapterOperationsSchema.innerType(),
+ ...aggregateSchema.options,
  ...ehrSchema.options,
  ...agentSchema.options,
  ...programmeSchema.options,
