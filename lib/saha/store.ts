@@ -5,7 +5,7 @@ import { digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
-import { chainMoved, linkRows } from './audit-chain';
+import { ACCESS_AUDIT, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
 type Value=string|number|null;
 export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
@@ -120,9 +120,12 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  if(before.readOnlyFor)throw new Error('A viewer-scoped read cannot be persisted.');
  const orgId=before.organisation.id,now=new Date().toISOString();const rows=rowsForState(after,before,actor,command.type,command.reason??'',now);
  const actionEvent=after.workspace.audit.find(a=>!before.workspace.audit.some(b=>b.id===a.id));const patientId=actionEvent?.personId??after.workspace.people.find(p=>p.id===actionEvent?.subject)?.id??after.workspace.visits.find(v=>v.id===actionEvent?.subject)?.personId??after.workspace.visits.find(v=>v.id===result?.visitId)?.personId??null;
- rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true),...extraRows);
+ // Slice 6t: an access-audit commit appends audit events only: no command receipt (a read is not replayed).
+ const access=command.type===ACCESS_AUDIT;
+ if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true));rows.push(...extraRows);
  const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
- const plan=commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
+ if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events')||!rows.length))throw new Error('An access-audit commit may only append audit events.');
+ const plan=access?{patients:null,reason:'access audit only'}:commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
  // Slice 6j: audit rows are linked to the chain head read just before the batch. The unique
  // (org_id, seq) index refuses a second commit built on the same head; nothing of that batch
  // is written, so it is rebuilt on the new head. Patient and organisation guards are unchanged.
@@ -132,7 +135,11 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  // commit over any patient change made since they read. Patient-scoped commits (slice 0a)
  // require the organisation revision unchanged and each touched patient unchanged, so
  // teammates on different patients no longer collide.
- const head=plan.patients
+ // Slice 6t: an access-audit commit takes the batch token without moving either revision, so a read
+ // never makes a teammate's command conflict; the audit chain's unique sequence still orders it.
+ const head=access
+  ?db.prepare('UPDATE organisations SET last_command=? WHERE id=?').bind(token,orgId)
+  :plan.patients
   ?db.prepare(`UPDATE organisations SET patient_revision=patient_revision+1,last_command=? WHERE id=? AND revision=? AND (SELECT count(*) FROM patients WHERE org_id=? AND (${plan.patients.map(()=>'(id=? AND rev=?)').join(' OR ')}))=?`).bind(token,orgId,before.organisation.revision,orgId,...plan.patients.flatMap(id=>[id,before.patientRevs![id]]),plan.patients.length)
   :db.prepare('UPDATE organisations SET revision=revision+1,patient_revision=patient_revision+1,last_command=?,name=? WHERE id=? AND revision=? AND patient_revision=?').bind(token,after.organisation.name,orgId,before.organisation.revision,before.organisation.patientRevision??0);
  const stmts=[head,...(plan.patients?[db.prepare(`UPDATE patients SET rev=rev+1 WHERE org_id=? AND id IN (${plan.patients.map(()=>'?').join(',')}) AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)`).bind(orgId,...plan.patients,orgId,token)]:[]),...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)];
