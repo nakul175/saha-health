@@ -1,11 +1,12 @@
 import { identity, loadFor, json, db } from './server';
-import { digest, fail, uuid } from './core';
+import { fail, uuid } from './core';
 import type { Member } from './types';
 import { boundedJsonBody } from './request-body';
 import { scope } from './store';
 import { recordAccess } from './access-audit';
-import { csvLines, defaultOperations } from './operations';
-import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, releaseCandidates, releasePopulation, vocabulary, type Group, type Series } from './indicators';
+import { csvLines } from './operations';
+import { candidateReleases, ledgerHash, readLedger, writeLedger } from './indicator-ledger';
+import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, releasePopulation, vocabulary, type Group, type Series } from './indicators';
 import { ledgerFull, pruneLedger, RESIDUAL_RISK, screenReleases, type Release } from './indicator-differencing';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
 // Slice 6w (fifth review, finding 4): GET reads the catalogue and interprets questions only. Running a query
@@ -50,33 +51,21 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
 // export's audit event is an access-audit commit (slice 6t pattern), written before the file is returned.
 type Shaped={computedAt:string;results:any[]};
 export const LEDGER_FULL_MESSAGE='You have run many different indicator queries in the last seven days. To keep small groups protected, Saha cannot record more until older queries leave the seven-day window. Repeat an earlier query or try again later.';
-async function readLedger(orgId:string):Promise<{ledger:Release[];text:string|null}>{
- const r=await db().prepare("SELECT json(json_extract(data,'$.indicatorReleases')) AS l, 1 AS present FROM operations WHERE org_id=?").bind(orgId).first<{l:string|null;present:number}>();
- if(!r)return {ledger:[],text:null};
- return {ledger:r.l?JSON.parse(r.l) as Release[]:[],text:r.l??''};
-}
-async function writeLedger(orgId:string,previous:string|null,next:Release[]){
- const value=JSON.stringify(next);
- if(previous===null){const r=await db().prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO NOTHING').bind(orgId,JSON.stringify({...defaultOperations(),indicatorReleases:next})).run();return r.meta.changes===1;}
- const r=await db().prepare("UPDATE operations SET data=json_set(data,'$.indicatorReleases',json(?)) WHERE org_id=? AND COALESCE(json(json_extract(data,'$.indicatorReleases')),'')=?").bind(value,orgId,previous).run();
- return r.meta.changes===1;
-}
 async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,m:Member,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string,csvOf:((released:Set<string>)=>Shaped)|null,state:Parameters<typeof recordAccess>[1]):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{
- const h=async(x:string)=>(await digest(`saha-indicator-release:${orgId}:${x}`)).slice(0,20);
- const viewer=await h(`viewer:${u.userId}`);
- const cands=(await releaseCandidates(series,q,viewer,at,h)) as {ids:string[];isCohort:boolean;release:Release}[];
+ // Slice 7g: candidate releases and ledger storage are shared with aggregate report delivery (indicator-ledger.ts).
+ const cands=await candidateReleases(orgId,`viewer:${u.userId}`,q,series,at);
  // Slice 6aa (seventh review): every measure release is also checked against the people in the viewer's scope now.
- const population=await releasePopulation(state,h,new Date(at));
+ const population=await releasePopulation(state,ledgerHash(orgId),new Date(at));
  let released=new Set<string>();
  for(let attempt=1;;attempt++){
-  const {ledger,text}=await readLedger(orgId);
+  const {ledger,text}=await readLedger(db(),orgId);
   // The cohort is checked first; if it alone would reveal a small group, nothing is returned.
   const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at,population);
   if(refused.some(c=>c.isCohort))fail(422,DIFFERENCING_MESSAGE);
   const withheld=new Set(refused.flatMap(c=>c.ids));released=new Set(accepted.flatMap(c=>c.ids).filter(id=>!withheld.has(id)));
   if(ledgerFull(ledger,accepted.map(c=>c.release),at))fail(429,LEDGER_FULL_MESSAGE);
   // Slice 6aa (finding 4): a write D1 refuses (for example a value over its size limit) is refused as a full ledger.
-  let written=false;try{written=await writeLedger(orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at));}catch{fail(429,LEDGER_FULL_MESSAGE);}
+  let written=false;try{written=await writeLedger(db(),orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at));}catch{fail(429,LEDGER_FULL_MESSAGE);}
   if(written)break;
   if(attempt>=RELEASE_ATTEMPTS)fail(409,'Many indicator queries are being recorded in this organisation at once. Nothing was shown. Please try again.');
  }

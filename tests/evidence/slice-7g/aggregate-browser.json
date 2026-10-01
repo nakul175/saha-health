@@ -1,0 +1,94 @@
+{
+ "check": "slice-7g aggregate report delivery on the destination card",
+ "at": "2026-10-01T22:53:41.226Z",
+ "viewport": "1400x1600",
+ "results": [
+  {
+   "name": "setup: supervisor joins, six synthetic people, destination aggregate-only",
+   "ok": true,
+   "value": "org_661f4572f72d847c711f45f6fd355171"
+  },
+  {
+   "name": "owner opens connections",
+   "ok": true
+  },
+  {
+   "name": "aggregate reports section on the aggregate-only card",
+   "ok": true,
+   "value": "Aggregate reports"
+  },
+  {
+   "name": "no section on a destination that is not aggregate-only",
+   "ok": true,
+   "value": 0
+  },
+  {
+   "name": "7e note updated",
+   "ok": true
+  },
+  {
+   "name": "prepare a report",
+   "ok": true,
+   "value": "Awaiting approval · 2026-10-01 to 2026-10-01 · Rampur care team · No grouping | visits-confirmed@1 · 1 rows · SHA-256 232f9ea2b4c3b473… · attempts 0"
+  },
+  {
+   "name": "preparer cannot approve",
+   "ok": true
+  },
+  {
+   "name": "supervisor opens connections",
+   "ok": true
+  },
+  {
+   "name": "supervisor approves",
+   "ok": true
+  },
+  {
+   "name": "owner sends and sees the receipt",
+   "ok": true,
+   "value": "AGG-AD135D78"
+  },
+  {
+   "name": "minimisation check shown",
+   "ok": true
+  },
+  {
+   "name": "payload, manifest and linked steps",
+   "ok": true,
+   "value": 11
+  }
+ ],
+ "commands": [
+  {
+   "status": 200,
+   "error": null,
+   "result": {
+    "reportId": "4f11b779-9d48-4ef0-aaa0-5dbecf8267af",
+    "state": "prepared",
+    "rows": 1,
+    "sha256": "232f9ea2b4c3b4731d25fa9fe63282d5537a08dba45dc3593fa720e801384312"
+   }
+  },
+  {
+   "status": 200,
+   "error": null,
+   "result": {
+    "reportId": "4f11b779-9d48-4ef0-aaa0-5dbecf8267af",
+    "state": "approved",
+    "expiresAt": "2026-10-02T22:53:34.804Z"
+   }
+  },
+  {
+   "status": 200,
+   "error": null,
+   "result": {
+    "reportId": "4f11b779-9d48-4ef0-aaa0-5dbecf8267af",
+    "state": "accepted",
+    "receipt": "AGG-AD135D78"
+   }
+  }
+ ],
+ "consoleErrors": [],
+ "passed": 12,
+ "failed": 0
+}
