@@ -1,0 +1,45 @@
+{
+ "setup": [
+  200,
+  200,
+  200
+ ],
+ "weightField": "400.07",
+ "warning": "Other units and unusual values | Enter a value in another unit only when it was measured in that unit; Saha converts it on saving and keeps what you entered. Expected ranges: engineering placeholder — not clinically approved (saha-value-ranges-0.1.0). | Weight | 882 lb = 400.07 kg | Weight unit | lb (pounds) | Weight in lb | Temperature | Entered in °C | Temperature unit | °C | Temperature in °F | Weight 400.07 kg is outside the expected range 2–150 kg. Check the value and its unit. It is also outside 0.5–300 kg: a clinician who did not record it must confirm it before the visit is confirmed. | Reason for unusual weight (at least 10 characters)",
+ "ownerReview": "Units and unusual values · engineering placeholder — not clinically approved | Weight: entered as 882 lb, stored as 400.07 kg (converted by Saha). | Weight 400.07 kg (entered as 882 lb) outside the expected range 2–150 kg; reason: Synthetic scale reading repeated twice; recorded by Recording Owner (Clinician), saved 2026-10-01 21:35 UTC. Outside 0.5–300 kg: clinician confirmation required before the visit is confirmed. | A different clinician must confirm an unusual value you recorded.",
+ "before": "Units and unusual values · engineering placeholder — not clinically approved | Weight: entered as 882 lb, stored as 400.07 kg (converted by Saha). | Weight 400.07 kg (entered as 882 lb) outside the expected range 2–150 kg; reason: Synthetic scale reading repeated twice; recorded by Recording Owner (Clinician), saved 2026-10-01 21:35 UTC. Outside 0.5–300 kg: clinician confirmation required before the visit is confirmed. | Confirmation note (optional) | Confirm unusual weight",
+ "after": "Units and unusual values · engineering placeholder — not clinically approved | Weight: entered as 882 lb, stored as 400.07 kg (converted by Saha). | Weight 400.07 kg (entered as 882 lb) outside the expected range 2–150 kg; reason: Synthetic scale reading repeated twice; recorded by Recording Owner (Clinician), saved 2026-10-01 21:35 UTC. Confirmed by Confirming Clinician (clinician), 2026-10-01 21:35 UTC: Discussed with the recorder.",
+ "ranges": "Expected value ranges | Version saha-value-ranges-0.1.0: engineering placeholder — not clinically approved. No clinical authority is claimed. A value outside the expected range needs the recorder’s reason; outside the confirmation range, a clinician who did not record it must also confirm it. Changing these ranges needs a release. | Measurement\tExpected\tClinician confirmation outside\tOther unit accepted | Systolic blood pressure\t70–200 mmHg\t50–260 mmHg\tNone | Diastolic blood pressure\t40–120 mmHg\t25–160 mmHg\tNone | Weight\t2–150 kg\t0.5–300 kg\tlb (pounds) | Temperature\t34–41 °C\t30–44 °C\t°F (Fahrenheit) | Gestational age\t4–42 weeks\t1–45 weeks\tNone | Cough duration\t0–90 days\t0–730 days\tweeks",
+ "stored": {
+  "weight": "400.07",
+  "entered": {
+   "weight": {
+    "value": "882",
+    "unit": "lb"
+   }
+  },
+  "unusual": {
+   "weight": "Synthetic scale reading repeated twice"
+  },
+  "overrides": [
+   [
+    "weight",
+    "400.07",
+    "clinician",
+    "Recording Owner"
+   ]
+  ],
+  "confirmations": [
+   [
+    "weight",
+    "Confirming Clinician",
+    "Discussed with the recorder"
+   ]
+  ]
+ },
+ "axeViolationsInPanel": [],
+ "axeViolationsInRanges": [],
+ "errors": [],
+ "completedAt": "2026-10-01T21:36:01.320Z",
+ "passed": true
+}

@@ -152,6 +152,7 @@ const {referralRequestQueueSmoke}=await import('./referral-request-queue-smoke.m
 const {patientDirectorySmoke}=await import('./patient-directory-smoke.mjs');await patientDirectorySmoke({get,post,check,sql,base});
 const {worklistsSmoke}=await import('./worklists-smoke.mjs');await worklistsSmoke({get,post,check,sql,base});
 const {factVerificationSmoke}=await import('./fact-verification-smoke.mjs');await factVerificationSmoke({get,post,check,accounts,org,sql,base});
+const {valueOverrideSmoke}=await import('./value-override-smoke.mjs');await valueOverrideSmoke({get,post,check,accounts,org,sql,base});
 const {patientImportSmoke}=await import('./patient-import-smoke.mjs');await patientImportSmoke({get,post,check,accounts,org,sql,base});
 const {recordImportSmoke}=await import('./record-import-smoke.mjs');await recordImportSmoke({get,post,check,accounts,org,sql,base});
 const {indicatorRegistrySmoke}=await import('./indicator-registry-smoke.mjs');await indicatorRegistrySmoke({get,post,check,accounts,org,sql,base});

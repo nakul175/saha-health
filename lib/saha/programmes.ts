@@ -3,7 +3,7 @@ import type { Facts, Programme, Visit } from './types';
 // further versions of these) at runtime through the governed installation path in pack-installation.ts.
 export type PackId=string;
 export const COMPILED_PACK_IDS=['maternal','tb','hypertension'] as const;
-export type Question={id:string;label:string;unit?:string;fact?:Exclude<keyof Facts,'provenance'>;options?:string[];when?:{id:string;value:string};required:boolean;renamedFrom?:string};
+export type Question={id:string;label:string;unit?:string;fact?:Exclude<keyof Facts,'provenance'|'entered'|'unusual'>;options?:string[];when?:{id:string;value:string};required:boolean;renamedFrom?:string};
 // Slice 4e: a pack version may describe its (illustrative) schedule and escalation text and the earlier versions it
 // declares a reviewed mapping from; a question renamed between versions names its earlier id in renamedFrom.
 export type Pack={id:PackId;version:number;name:string;programme:Programme;purpose:string;questions:Question[];schedule?:string;escalation?:string;migratesFrom?:number[];changeNote?:string;installed?:{installationId:string;manifestHash:string}};
