@@ -11,6 +11,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 3b](SLICE-3B-STORAGE-WARNINGS.md) | Field notebook storage usage, keep-data request and low-space pause |
 | [Development slice 7c](SLICE-7C-OUTBOUND-VALIDATION.md) | Pinned outbound FHIR structural validation and regression corpus |
 | [Development slice 6f](SLICE-6F-FIELD-ACCESSIBILITY.md) | Field notebook, phone and keyboard focus accessibility |
+| [Development slice 6x](SLICE-6X-POPULATED-ACCESSIBILITY.md) | Accessibility of populated panels, empty and error states, dialog focus traps and focus return, Tab order and live regions |
 | [Development slice 6g](SLICE-6G-ALERTS.md) | Computed operational alerts with owners and next actions |
 | [Development slice 3c](SLICE-3C-QUEUE-HARDENING.md) | Media queue hardening after independent review |
 | [Development slice 6h](SLICE-6H-ALERT-ACKNOWLEDGEMENT.md) | Alert acknowledgement by the owning role |
