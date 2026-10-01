@@ -20,6 +20,9 @@ export const VERIFY_PAGE = 1000;
 export const VERIFY_LIMIT = 100000;
 // Clock regressions larger than this between consecutive chained events are reported (not a break).
 export const SKEW_MS = 5 * 60 * 1000;
+// Slice 6t: the command type of an access-audit commit. It appends audit events only (no receipt, no
+// record rows) and does not move the organisation or patient revisions; see lib/saha/access-audit.ts.
+export const ACCESS_AUDIT = 'recordAccess';
 type Value = string | number | null;
 export type ChainRow = { table: string; values: Record<string, Value>; keys: string[]; append?: boolean };
 export type EventRow = { org_id: string; id: string; person_id: string | null; actor_id: string; actor_name: string; role: string; action: string; subject: string; detail: string; at: string; seq?: number | null; prev_hash?: string | null; hash?: string | null };
@@ -131,4 +134,23 @@ export async function exportRows(db: D1Database, orgId: string, viewer: { userId
 export async function checkExportLine(orgId: string, line: any): Promise<boolean> {
   const content = line.event ? await contentDigest({ org_id: orgId, id: line.id, person_id: line.event.personId, actor_id: line.event.actorId, actor_name: line.event.actorName, role: line.event.role, action: line.event.action, subject: line.event.subject, detail: line.event.detail, at: line.event.at }) : line.content;
   return content === line.content && await linkHash(line.seq, line.prevHash, content) === line.hash;
+}
+
+// Slice 6t: a chain-head checkpoint for external anchoring. An owner or administrator downloads the head
+// (sequence, hash, time) of an intact chain and keeps it outside Saha (a ticket, a signed email, a
+// notary or a public log). Because every hash commits to all events before it, finding the same hash at
+// the same sequence later proves nothing up to that point changed, even if someone with database access
+// rewrote a whole suffix and recomputed its hashes (which verification alone cannot detect).
+export const CHECKPOINT_FORMAT = 'saha-audit-checkpoint-v1';
+export type Checkpoint = { organisationId: string; seq: number; hash: string; at: string; issuedAt: string };
+export const checkpointDigest = (c: Checkpoint) => sha256(JSON.stringify([CHECKPOINT_FORMAT, c.organisationId, c.seq, c.hash, c.at, c.issuedAt]));
+export function parseCheckpointRef(text: string): { seq: number; hash: string } | null {
+  const m = /^(\d{1,9}):([0-9a-f]{64})$/.exec(text.trim());
+  return m ? { seq: Number(m[1]), hash: m[2] } : null;
+}
+export async function checkCheckpoint(db: D1Database, orgId: string, seq: number, hash: string) {
+  const r = await db.prepare('SELECT hash FROM audit_events WHERE org_id=? AND seq=?').bind(orgId, seq).first<{ hash: string }>();
+  const result: 'matches' | 'differs' | 'not-reached' = !r ? 'not-reached' : r.hash === hash ? 'matches' : 'differs';
+  const meaning = { matches: 'The chain still holds this hash at this sequence number: nothing up to the checkpoint has changed since it was taken.', differs: 'The chain holds a different hash at this sequence number: events up to the checkpoint were changed, removed or replaced since it was taken.', 'not-reached': 'The chain has no event with this sequence number: it was never reached, or later events were removed.' }[result];
+  return { seq, hash, result, meaning };
 }

@@ -10,6 +10,7 @@ import type { Audit, Member, OrgState } from './types';
 // actually exported) is committed on the fresh state. Any other error, a failed authority check, or a
 // conflict on every attempt is returned unchanged and the export is not delivered.
 export const EXPORT_AUDIT_ATTEMPTS = 3;
+export const EXPORT_REFUSED = 'Saha could not record this export in the audit log, so the export was not delivered. Try again; if this continues, tell your organisation owner.';
 export async function recordExportAudit(db: D1Database, opts: {
   state: OrgState; reload: () => Promise<OrgState>; authorize: (s: OrgState) => Member; event: (m: Member) => Audit;
   actor: Actor; type: string; key: string; hash: string; result?: unknown; attempts?: number;
@@ -20,7 +21,11 @@ export async function recordExportAudit(db: D1Database, opts: {
     const m = opts.authorize(s), before = structuredClone(s);
     s.workspace.audit.push(opts.event(m));
     try { const plan = await persist(db, before, s, opts.actor, { type: opts.type }, opts.key, opts.hash, opts.result ?? { ok: true }); return { ...plan, exportAttempts: attempt }; }
-    catch (e) { if (!(e instanceof AppError) || e.status !== 409 || attempt >= limit) throw e; s = await opts.reload(); }
+    catch (e) {
+      // Slice 6t: an audit store failure (anything not an application error) refuses the export with a clear message.
+      if (!(e instanceof AppError)) { console.error('Export audit not recorded', e instanceof Error ? e.name : 'unknown'); fail(503, EXPORT_REFUSED); }
+      if (e.status !== 409 || attempt >= limit) throw e; s = await opts.reload();
+    }
   }
 }
 // Slice 6q (second independent review): on the retry, the audit-chain and operations exports check the care scope

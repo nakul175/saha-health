@@ -5,6 +5,7 @@ import { persist, scope, type Row } from './store';
 import { ensureOperating } from './operations';
 import { ensureNotMerged } from './merge';
 import { ensureExceptionalScope } from './exceptional';
+import { accessRoute, recordAccess } from './access-audit';
 import { checkMedia, fromB64, MAX_MEDIA_BYTES, MAX_MEDIA_PER_VISIT, readBounded, toB64, type MediaMime, type MediaRef } from './media';
 // Slice 2b: upload to a draft visit, playback for anyone with patient access, removal from drafts.
 function sameOrigin(request:Request){const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)fail(403,'Cross-origin changes are not allowed.');if(request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-site changes are not allowed.');}
@@ -34,7 +35,9 @@ export async function mediaFile(request:Request,id:string){
  let found:{person_id:string;visit_id:string;mime:string;data:string;deleted_at:string|null}|null=null;
  const s=await loadFor(u,org,async orgId=>{found=await db().prepare('SELECT person_id,visit_id,mime,data,deleted_at FROM media WHERE org_id=? AND id=?').bind(orgId,id).first();return found?[(found as any).person_id]:null;});
  if(!found)fail(404,'Media not found.');const f=found as unknown as {person_id:string;visit_id:string;mime:string;data:string;deleted_at:string|null};
- scope(s,u.userId);person(s.workspace,f.person_id);if(f.deleted_at)fail(410,'This media was removed from a draft visit.');
+ const m=scope(s,u.userId),p=person(s.workspace,f.person_id);if(f.deleted_at)fail(410,'This media was removed from a draft visit.');
+ // Slice 6t: opening visit media is a material read, recorded before the bytes are returned.
+ await recordAccess(db(),s,u,m,{action:'viewMedia',subject:id,personId:f.person_id,detail:`Visit media opened: ${id} (${f.mime}) on visit ${f.visit_id}.${accessRoute(m,p)}`});
  return new Response(fromB64(f.data) as unknown as BodyInit,{headers:{'Content-Type':f.mime,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Content-Disposition':'inline','Content-Security-Policy':"default-src 'none'; sandbox"}});
 }
 export async function removeMedia(request:Request,id:string){
