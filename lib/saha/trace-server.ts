@@ -12,7 +12,8 @@ export async function traceRead(request:Request){
  const audit=new Map<string,TraceAuditRow>(),add=(rows:TraceAuditRow[])=>{for(const r of rows)audit.set(r.id,r);};
  // Every event looked up here is linked to the patient (indexed by organisation, patient and time).
  const marks=(n:number)=>Array(n).fill('?').join(',');
- add((await d.prepare(`SELECT ${cols} FROM audit_events WHERE org_id=? AND person_id=? AND action IN (${marks(EXECUTION_ACTIONS.length)}) AND subject IN (${marks(l.subjects.length)}) ORDER BY at LIMIT 300`).bind(orgId,l.personId,...EXECUTION_ACTIONS,...l.subjects).all<TraceAuditRow>()).results);
+ // Subjects and ids are queried in chunks so a visit with many items stays under D1's bound-parameter limit.
+ for(const part of chunks(l.subjects))add((await d.prepare(`SELECT ${cols} FROM audit_events WHERE org_id=? AND person_id=? AND action IN (${marks(EXECUTION_ACTIONS.length)}) AND subject IN (${marks(part.length)}) ORDER BY at LIMIT 300`).bind(orgId,l.personId,...EXECUTION_ACTIONS,...part).all<TraceAuditRow>()).results);
  if(l.access&&l.visitId)add((await d.prepare(`SELECT ${cols} FROM audit_events WHERE org_id=? AND person_id=? AND action IN (${marks(ACCESS_ACTION_NAMES.length)}) AND (subject=? OR instr(detail,?)>0) ORDER BY at LIMIT 200`).bind(orgId,l.personId,...ACCESS_ACTION_NAMES,l.visitId,l.visitId).all<TraceAuditRow>()).results);
  for(const ids of chunks(l.auditIds))add((await d.prepare(`SELECT ${cols} FROM audit_events WHERE org_id=? AND person_id=? AND id IN (${marks(ids.length)})`).bind(orgId,l.personId,...ids).all<TraceAuditRow>()).results);
  const receipts:TraceReceiptRow[]=[];
