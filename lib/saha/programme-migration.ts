@@ -45,6 +45,7 @@ const openDraft=(s:OrgState,p:Person,enrolmentId:string)=>s.workspace.visits.som
 export function episodeBlocker(s:OrgState,p:Person,e:{id:string;packVersion:number},target:Pack):{code:string;reason:string}|null{
  if(!packAt(target.id,e.packVersion))return {code:'unknown-version',reason:`The episode's pack version v${e.packVersion} is not in this deployment's catalogue; review it manually.`};
  if(!target.migratesFrom?.includes(e.packVersion))return {code:'no-reviewed-mapping',reason:`No reviewed mapping from v${e.packVersion} to v${target.version} is declared; keep the episode on v${e.packVersion} or migrate it manually.`};
+ if(p.mergedInto)return {code:'merged',reason:'This record was merged into another record; the episode is handled through the merge impact queue, not migrated.'};
  if((p.restrictions??[]).some(r=>!r.liftedAt))return {code:'restricted',reason:'Processing of this record is restricted; the episode stays on its version until the restriction is lifted.'};
  if(openDraft(s,p,e.id))return {code:'open-visit',reason:`An open visit is capturing this episode under v${e.packVersion}; confirm or discard it, then run the dry run again.`};
  return null;
