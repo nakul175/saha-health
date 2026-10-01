@@ -4,11 +4,35 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+// Slice 6x: a table that scrolls sideways (wide tables on a phone) becomes a named, keyboard-focusable region so
+// keyboard users can scroll it (WCAG 2.1.1; axe rule scrollable-region-focusable). Tables that fit stay out of the
+// tab order.
+function useSideScroll() {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const [scrolls, setScrolls] = React.useState(false)
+  React.useEffect(() => {
+    const el = ref.current
+    if (!el || typeof ResizeObserver === "undefined") return
+    const check = () => setScrolls(el.scrollWidth > el.clientWidth + 1)
+    check()
+    const observer = new ResizeObserver(check)
+    observer.observe(el)
+    if (el.firstElementChild) observer.observe(el.firstElementChild)
+    return () => observer.disconnect()
+  }, [])
+  return { ref, scrolls }
+}
+
 function Table({ className, ...props }: React.ComponentProps<"table">) {
+  const { ref, scrolls } = useSideScroll()
   return (
     <div
+      ref={ref}
       data-slot="table-container"
       className="relative w-full overflow-x-auto"
+      tabIndex={scrolls ? 0 : undefined}
+      role={scrolls ? "region" : undefined}
+      aria-label={scrolls ? (props["aria-label"] ?? "Table, scrolls sideways") : undefined}
     >
       <table
         data-slot="table"
