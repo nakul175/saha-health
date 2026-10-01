@@ -115,7 +115,7 @@ try{
  await check('exception queue row',async()=>{
   const s=misState('queued',setting(['lookup']));store.setup(s);await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k8','h',env,transport);
   const st=await store.readState();st.workspace.referrals=[];st.governance={safety:[]};const q=exceptionQueue(st,owner);
-  const row=q.items.find(x=>x.kind==='operation-refused');assert.ok(row,'row present');assert.equal(q.rulesVersion,'1.2.0');
+  const row=q.items.find(x=>x.kind==='operation-refused');assert.ok(row,'row present');assert.equal(q.rulesVersion,'1.3.0');
   assert.equal(row.id,'operation-refused:submission:sub');assert.match(row.what,/Programme MIS: not sent, create not permitted \(setting version 1\)/);assert.deepEqual(row.trace,{query:'submission',id:'sub'});
   st.workspace.submissions.push({...st.workspace.submissions[0],id:'sub2',state:'accepted',refusal:undefined,createdAt:new Date(Date.now()+1000).toISOString()});
   assert.equal(exceptionQueue(st,owner).items.some(x=>x.kind==='operation-refused'),false,'a later submission resolves it');

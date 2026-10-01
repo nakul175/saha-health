@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2i, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2i, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 7f, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1929,8 +1929,8 @@
       "sourceTextLine": 375,
       "implementation": "partial",
       "target": "R12",
-      "current": "Stable keys, lookup-before-resend and uncertain outcomes tested with mock transport. Slice 6u: an EHR publication refused before its write request (patient check or authority recheck) is closed as not sent ('blocked') instead of staying uncertain; one that may have been sent stays uncertain and needs a receipt lookup.",
-      "remaining": "Real partner duplicate/reconciliation contracts and timeout acceptance.",
+      "current": "Stable keys, lookup-before-resend and uncertain outcomes tested with mock transport. Slice 6u: an EHR publication refused before its write request (patient check or authority recheck) is closed as not sent ('blocked') instead of staying uncertain; one that may have been sent stays uncertain and needs a receipt lookup. Slice 7f: an owner may declare per EHR connection, from the partner contract, that its identifier search is authoritative with a consistency delay; an uncertain publication then resolves by lookup as accepted (one equal match), not stored after the delay (closed, never resent; a new publication only through the normal approval) or conflict (several or a different match); default off keeps the earlier rule. Each lookup checks its operation, is audited before sending, traced and limited to 24 per publication; the write must start within 30 s of the checkpoint. Replay soak: unresolved EHR share about 21% for the default partner and 0 for the authoritative one, no duplicate stored document.",
+      "remaining": "Real partner duplicate/reconciliation contracts and timeout acceptance; partner evidence that its search is authoritative and its consistency delay holds.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
@@ -1940,7 +1940,11 @@
         "REMAINING-RELEASES.md",
         "lib/saha/ehr-execution.ts",
         "tests/ehr-execution.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "lib/saha/ehr-provider.ts",
+        "tests/ehr-resolution-contract.mjs",
+        "tests/replay-soak-contract.mjs",
+        "docs/current/SLICE-7F-EHR-RESOLUTION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2310,15 +2314,21 @@
       "sourceTextLine": 431,
       "implementation": "partial",
       "target": "R12",
-      "current": "Conditional document creation and duplicate receipt lookup.",
-      "remaining": "EHR updates/amendments, destination version conflicts and named reconciliation owner.",
+      "current": "Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.",
+      "remaining": "EHR updates/amendments, destination version conflicts and recording a conflict's resolution in Saha.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
         "lib/saha/ehr.ts",
         "tests/mis-contract.mjs",
         "tests/ehr-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/ehr-execution.ts",
+        "lib/saha/ehr-provider.ts",
+        "lib/saha/exceptions.ts",
+        "tests/ehr-resolution-contract.mjs",
+        "tests/ehr-smoke.mjs",
+        "docs/current/SLICE-7F-EHR-RESOLUTION.md"
       ],
       "automatedAcceptanceClaim": false
     },

@@ -196,7 +196,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   }
   for (const p of patientRows) {
     const d = parsed(p);
-    for (const o of d.ehr?.operations ?? []) if (['running', 'uncertain'].includes(o.state)) handover.push({ kind: 'external-action', system: 'ehr', id: o.id, personId: p.id, visitId: o.visitId, state: o.state, since: o.at, disposition: 'Unresolved. Look up the EHR receipt before any retry; never resend blindly.' });
+    for (const o of d.ehr?.operations ?? []) if (['running', 'uncertain', 'conflict'].includes(o.state)) handover.push({ kind: 'external-action', system: 'ehr', id: o.id, personId: p.id, visitId: o.visitId, state: o.state, since: o.at, disposition: o.state === 'conflict' ? 'Conflict: several or different documents carry this identifier at the EHR. The reconciliation owner resolves it with the partner; never resend.' : 'Unresolved. Look up the EHR receipt before any retry; never resend blindly.' });
     for (const f of d.followUps ?? []) if (f.state === 'open') handover.push({ kind: 'patient-task', task: 'follow-up', id: f.id, personId: p.id, title: f.title, due: f.due, ...owner(f.ownerId) });
   }
   const assigned = new Map(patientRows.map(p => [String(p.id), p.assigned_to]));

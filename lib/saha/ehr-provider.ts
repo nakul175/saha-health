@@ -1,5 +1,5 @@
 import { fail } from './core';
-import { ehrCredential, type EhrConfig } from './ehr';
+import { ehrCredential, EHR_ATTEMPT_WINDOW_SECONDS, type EhrConfig } from './ehr';
 import { inspectDocument } from './fhir-document';
 import type { Integration } from './types';
 export async function fhirRequest(i:Integration,orgId:string,env:Record<string,string|undefined>,path:string,init:RequestInit={},send:typeof fetch=fetch){
@@ -12,3 +12,20 @@ export function capabilities(raw:any){if(raw?.resourceType!=='CapabilityStatemen
 }
 export function checkRemotePatient(raw:any,externalId:string,externalName:string){const name=raw?.name?.[0]?.text??[...(raw?.name?.[0]?.given??[]),raw?.name?.[0]?.family??''].join(' ').trim();if(raw?.resourceType!=='Patient'||raw.id!==externalId||raw.active===false||typeof name!=='string'||name.trim().replace(/\s+/g,' ').toLowerCase()!==externalName.trim().replace(/\s+/g,' ').toLowerCase())fail(409,'Remote patient identity differs from the worker-confirmed link. Reconcile identity before exchange.');}
 export function publicationReceipt(raw:any,expected:any,externalId:string){inspectDocument(raw,externalId);if(raw.identifier.system!==expected.identifier.system||raw.identifier.value!==expected.identifier.value||typeof raw.id!=='string'||!/^[A-Za-z0-9.-]{1,64}$/.test(raw.id))fail(502,'EHR acknowledgement does not match the published document identifier.');if(JSON.stringify(raw.entry)!==JSON.stringify(expected.entry))fail(502,'EHR returned changed document content. Reconcile with the partner.');return 'Bundle/'+raw.id;}
+// Slice 7f: classify the identifier search for one publication (BR-INT-04, BR-INT-21). Without an authoritative
+// policy this is exactly the earlier rule: only one matching document that equals the published one resolves it, and
+// anything else leaves the outcome unknown. With the partner contract's authoritative search: no match after the
+// attempt window plus the stated consistency delay means the document is not stored; more than one match, or one
+// match that is not the published document, is a conflict for the named reconciliation owner. An inconsistent
+// search result (total and entries disagree) or an empty result inside the delay leaves the outcome unknown.
+export type SearchOutcome={outcome:'found';receipt:string;matches:1}|{outcome:'not-stored';matches:0}|{outcome:'conflict';matches:number;detail:string}|{outcome:'wait';matches:0;due:string};
+export function classifySearch(raw:any,expected:any,externalId:string,policy:{authoritative:boolean;consistencySeconds:number},settleFrom:string,now=Date.now()):SearchOutcome{
+ if(!policy.authoritative){if(raw?.resourceType!=='Bundle'||raw.type!=='searchset'||raw.entry?.length!==1)fail(502,'EHR lookup did not return exactly one matching document.');return {outcome:'found',receipt:publicationReceipt(raw.entry[0].resource,expected,externalId),matches:1};}
+ if(raw?.resourceType!=='Bundle'||raw.type!=='searchset'||(raw.entry!==undefined&&!Array.isArray(raw.entry)))fail(502,'EHR lookup did not return a search result.');
+ const entries=(raw.entry??[]).filter((e:any)=>(e?.search?.mode??'match')==='match'),total=raw.total;
+ if(total!==undefined&&(!Number.isInteger(total)||total<0||entries.length>total||entries.length<Math.min(total,2)))fail(502,'EHR search result is inconsistent: its total does not match its entries.');
+ const matches=Math.max(entries.length,total??0);
+ if(matches===0){const due=Date.parse(settleFrom)+(EHR_ATTEMPT_WINDOW_SECONDS+policy.consistencySeconds)*1000;if(!Number.isFinite(due))fail(409,'The publication attempt time is unknown.');return now<due?{outcome:'wait',matches:0,due:new Date(due).toISOString()}:{outcome:'not-stored',matches:0};}
+ if(matches>1)return {outcome:'conflict',matches,detail:`${matches} documents in the EHR carry this publication's identifier.`};
+ try{return {outcome:'found',receipt:publicationReceipt(entries[0].resource,expected,externalId),matches:1};}catch(e){return {outcome:'conflict',matches:1,detail:`The one document with this publication's identifier is not the published document (${e instanceof Error?e.message:'unrecognised response'})`};}
+}

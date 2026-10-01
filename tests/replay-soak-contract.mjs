@@ -17,6 +17,12 @@
 // runs applyReceipt and the route's replay rules, not the HTTP route, its signature check or D1. Clock passage for
 // stuck checkpoints is simulated by back-dating the checkpoint time. Partner lookups are consistent and no request
 // arrives late; a partner whose lookup is eventually consistent must still deduplicate (MIS-API.md).
+//
+// Slice 7f: every round of EHR organisations also runs against a partner whose contract makes identifier search
+// authoritative (lookup policy: consistency delay 30 seconds, reconciliation owner named). The simulated clock advances
+// 40 seconds per round for publication checkpoints. Checks 5 and 8 compare the unresolved share of the two partner kinds:
+// an authoritative empty search after the delay closes a publication as not stored (never resent), and no publication is
+// closed as not stored while the partner holds its document.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
 import {createHash} from 'node:crypto';
@@ -132,6 +138,7 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
    return jsonResponse(saved,201,type);
   }
   if(path==='Bundle'&&u.searchParams.get('identifier')){
+   assert.equal(init.body,undefined,'A lookup never sends a document');assert.ok(!init.method||init.method==='GET','A lookup is a GET');
    const r=ehrRecord(u.searchParams.get('identifier'));r.lookups++;bump('ehrLookupRequests');const mode=forceDeliver?'deliver':pick([['deliver',0.7],['timeout',0.15],['drop',0.15]]);
    const answer={resourceType:'Bundle',type:'searchset',total:r.docs.length,entry:r.docs.map(d=>({resource:d}))};
    if(mode==='timeout'){bump('ehrLookupTimeouts');throw timeout();}if(mode==='drop'){bump('ehrLookupDropped');return truncated(answer,type);}bump('ehrLookupDelivered');return jsonResponse(answer,200,type);
@@ -180,9 +187,9 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
 
  // ---------------------------------------------------------------- EHR organisation lifecycle
  const ehrBase='https://ehr.example/fhir';
- async function ehrOrganisation(n){
-  const orgId='ehr-org-'+n,env={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_EHR_SOAK:'synthetic-secret',SAHA_EHR_CONNECTIONS:JSON.stringify([{organisationId:orgId,integrationId:'ehr1',baseUrl:ehrBase,credentialBinding:'SAHA_EHR_SOAK'}])};
-  const i={id:'ehr1',kind:'ehr',mode:'http',status:'active',version:1,name:'Synthetic EHR',endpoint:ehrBase,credentialBinding:'SAHA_EHR_SOAK',ehr:{read:true,write:true}};
+ async function ehrOrganisation(n,authoritative=false){
+  const orgId=(authoritative?'ehra-org-':'ehr-org-')+n,env={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_EHR_SOAK:'synthetic-secret',SAHA_EHR_CONNECTIONS:JSON.stringify([{organisationId:orgId,integrationId:'ehr1',baseUrl:ehrBase,credentialBinding:'SAHA_EHR_SOAK'}])};
+  const i={id:'ehr1',kind:'ehr',mode:'http',status:'active',version:1,name:'Synthetic EHR',endpoint:ehrBase,credentialBinding:'SAHA_EHR_SOAK',ehr:{read:true,write:true,...(authoritative?{lookup:{version:1,authoritative:true,consistencySeconds:30,ownerId:'worker',setBy:'worker',setAt:new Date().toISOString(),reason:'Synthetic partner contract: identifier search is authoritative after 30 seconds.',history:[]}}:{})}};
   const p={id:'p',name:'Soak Person',sex:'Other',age:30,village:'Soak village',version:1,consentVersion:1,exchangeConsent:true,assigned:true},date=new Date().toISOString().slice(0,16);
   const visits=[0,1,2].map(j=>({id:'v'+j,personId:'p',version:1,state:'confirmed',facts:{date,source:'reported',weight:String(50+j),notes:'Synthetic soak visit'}}));
   const state={organisation:{id:orgId,name:'Soak organisation',revision:1},members:[member],workspace:{role:'clinician',people:[p],visits,integrations:[i],submissions:[],audit:[]}};
@@ -194,8 +201,8 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
   const execute=(op,key)=>run(orgId,key,s=>executeEhr({},s,{type:'executeEhrPublish',personId:'p',operationId:op.id,hash:op.hash},actor,member,key,'h-'+key,env,transport));
   const lookup=(op,key)=>run(orgId,key,s=>executeEhr({},s,{type:'lookupEhrPublish',personId:'p',operationId:op.id},actor,member,key,'h-'+key,env,transport));
   for(let round=0;round<10;round++){
-   for(const op of o.state.workspace.people[0].ehr.operations)if(op.state==='running'){op.at=new Date(Date.now()-46000).toISOString();bump('ehrStuckCheckpoints');}
-   const ops=structuredClone(o.state.workspace.people[0].ehr.operations);if(ops.every(x=>['accepted','blocked'].includes(x.state)))break;
+   for(const op of o.state.workspace.people[0].ehr.operations){if(op.state==='running'){op.at=new Date(Date.now()-46000).toISOString();bump('ehrStuckCheckpoints');}if(op.publishStartedAt)op.publishStartedAt=new Date(Date.parse(op.publishStartedAt)-40000).toISOString();}
+   const ops=structuredClone(o.state.workspace.people[0].ehr.operations);if(ops.every(x=>CLOSED_EHR.includes(x.state)))break;
    o.interrupt=rng()<0.06;if(o.interrupt)bump('interruptedRounds');const tasks=[];
    for(const op of ops){const identifier='urn:saha:documents|'+op.id;
     if(op.state==='prepared'){const k=rng()<0.3?(rng()<0.5?2:3):1;bump('ehrExecutes');bump('concurrentExtraAttempts',k-1);
@@ -203,12 +210,13 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
     else if(['uncertain','running'].includes(op.state)){
      if(rng()<0.75){const k=rng()<0.2?2:1;bump('ehrLookups');bump('concurrentExtraLookups',k-1);tasks.push(Promise.all(Array.from({length:k},()=>lookup(op,freshKey(op.id+'-l')))));}
      else tasks.push((async()=>{const before=ehrRecord(identifier).posts;await execute(op,freshKey(op.id));bump('newKeyReplays');assert.equal(ehrRecord(identifier).posts,before,'An unresolved publication must not be resent');})());}
-    else if(['accepted','blocked'].includes(op.state)&&rng()<0.3)tasks.push((async()=>{const before=ehrRecord(identifier).posts;await execute(op,freshKey(op.id));bump('newKeyReplays');assert.equal(ehrRecord(identifier).posts,before,'A closed publication must not be resent');})());
+    else if(CLOSED_EHR.includes(op.state)&&rng()<0.3)tasks.push((async()=>{const before=ehrRecord(identifier).posts;await execute(op,freshKey(op.id));bump('newKeyReplays');assert.equal(ehrRecord(identifier).posts,before,'A closed publication must not be resent');})());
    }
    await Promise.all(tasks);o.interrupt=false;
   }
-  return {orgId,lookup,execute};
+  return {orgId,lookup,execute,authoritative};
  }
+ const CLOSED_EHR=['accepted','blocked','not-stored','conflict'];
 
  // ---------------------------------------------------------------- drive until the replay/timeout event target is met
  // Counted toward the target: timeouts, lost (dropped, truncated or reset) responses, command replays with the same or a
@@ -218,9 +226,12 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
  const REPLAY_KEYS=['sameKeyReplays','newKeyReplays','concurrentExtraAttempts','concurrentExtraLookups','misDuplicateCallbacks'];
  const REPLAY_TIMEOUT_KEYS=[...TIMEOUT_KEYS,...REPLAY_KEYS];
  const replayTimeoutEvents=()=>REPLAY_TIMEOUT_KEYS.reduce((a,k)=>a+(counts[k]??0),0);
- const misOrgs=[],ehrOrgs=[];let n=0;
- while(replayTimeoutEvents()<TARGET){misOrgs.push(await misOrganisation(n));ehrOrgs.push(await ehrOrganisation(n));n++;}
+ const misOrgs=[],ehrOrgs=[],ehrAuthOrgs=[];let n=0;
+ while(replayTimeoutEvents()<TARGET){misOrgs.push(await misOrganisation(n));ehrOrgs.push(await ehrOrganisation(n));ehrAuthOrgs.push(await ehrOrganisation(n,true));n++;}
 
+ // Slice 7f: EHR states at the end of the fault rounds, before the reconciliation pass, for both partner kinds.
+ const tallyOf=(orgs)=>{const t={};for(const org of orgs)for(const op of store.orgs.get(org.orgId).state.workspace.people[0].ehr.operations)t[op.state]=(t[op.state]??0)+1;return t;};
+ const beforeReconciliation={ehr:tallyOf(ehrOrgs),ehrAuthoritative:tallyOf(ehrAuthOrgs)};
  // ---------------------------------------------------------------- reconciliation: faults off, resolve only by lookup
  forceDeliver=true;
  for(const cb of callbackQueue.splice(0))await misCallback(cb);
@@ -228,12 +239,13 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
    for(const x of o.state.workspace.submissions)if(x.state==='sending')x.delivery.startedAt=new Date(Date.now()-31000).toISOString();
    for(const sub of structuredClone(o.state.workspace.submissions)){if(['uncertain','sending'].includes(sub.state)){open=true;await org.lookup(sub,freshKey(sub.id+'-r'));bump('reconcileLookups');}else if(['queued','retryable'].includes(sub.state)&&sub.attempts<3){open=true;await org.send(sub,freshKey(sub.id+'-r'));bump('reconcileSends');}}
    for(const cb of callbackQueue.splice(0))await misCallback(cb);if(!open)break;}}
- for(const org of ehrOrgs){const o=store.orgs.get(org.orgId);for(let pass=0;pass<4;pass++){let open=false;
-   for(const op of o.state.workspace.people[0].ehr.operations)if(op.state==='running')op.at=new Date(Date.now()-46000).toISOString();
+ for(const org of [...ehrOrgs,...ehrAuthOrgs]){const o=store.orgs.get(org.orgId);for(let pass=0;pass<4;pass++){let open=false;
+   // Simulated clock: the reconciliation runs after the attempt window and the partner's consistency delay.
+   for(const op of o.state.workspace.people[0].ehr.operations){if(op.state==='running')op.at=new Date(Date.now()-46000).toISOString();if(op.publishStartedAt)op.publishStartedAt=new Date(Date.now()-(45+30+1)*1000).toISOString();}
    for(const op of structuredClone(o.state.workspace.people[0].ehr.operations)){if(op.state==='running'||(op.state==='uncertain'&&pass===0)){open=true;await org.lookup(op,freshKey(op.id+'-r'));bump('reconcileLookups');}else if(op.state==='prepared'){open=true;await org.execute(op,freshKey(op.id+'-r'));bump('reconcileSends');}}if(!open)break;}}
 
  // ---------------------------------------------------------------- checks
- const finalMis={},finalEhr={};let misItems=0,ehrItems=0;
+ const finalMis={},finalEhr={},finalEhrAuth={};let misItems=0,ehrItems=0,ehrAuthItems=0;
  // 1. The naive partner never recorded a second accepted programme record for any idempotency key.
  for(const [key,r] of misLedger){assert.ok(r.accepted<=1,`Duplicate accepted programme record for ${key}`);}assert.equal(counts.misDuplicateAcceptedRecords??0,0);passed++;
  // 2. No programme submission reached the partner for a key whose uncertain outcome had not been resolved as not_found.
@@ -250,22 +262,30 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
  for(const [id,r] of ehrLedger){assert.ok(r.docs.length<=1,`Duplicate stored document for ${id}`);assert.ok(r.posts<=1,`Repeated POST for ${id}`);}assert.equal(counts.ehrDuplicateStoredDocuments??0,0);assert.equal(counts.ehrRepeatPosts??0,0);passed++;
  // 5. Every Saha EHR state matches the partner ledger. 'uncertain' is left only where the partner stored nothing: the
  // adapter has no definitive not-found answer (EHR-ABDM.md), so these need partner reconciliation and were never resent.
- for(const org of ehrOrgs)for(const op of store.orgs.get(org.orgId).state.workspace.people[0].ehr.operations){ehrItems++;const r=ehrLedger.get('urn:saha:documents|'+op.id);finalEhr[op.state]=(finalEhr[op.state]??0)+1;
+ // Slice 7f: with the authoritative partner, 'not-stored' only where the partner holds no document; 'conflict' cannot occur
+ // here because the partner never holds two documents for one identifier (check 4). The default partner never yields either.
+ for(const org of [...ehrOrgs,...ehrAuthOrgs])for(const op of store.orgs.get(org.orgId).state.workspace.people[0].ehr.operations){const r=ehrLedger.get('urn:saha:documents|'+op.id),tally=org.authoritative?finalEhrAuth:finalEhr;if(org.authoritative)ehrAuthItems++;else ehrItems++;tally[op.state]=(tally[op.state]??0)+1;
   if(op.state==='accepted'){assert.equal(r.docs.length,1);assert.equal(op.receipt,'Bundle/'+r.docs[0].id);}
+  else if(op.state==='not-stored'){assert.ok(org.authoritative,'Only an authoritative search closes a publication as not stored');assert.ok(!r||r.docs.length===0,'Closed as not stored while the partner holds the document');assert.equal(op.resolution?.outcome,'not-stored');bump(r&&r.posts===1?'ehrNotStoredAfterWrite':'ehrNotStoredNeverWritten');}
   else if(op.state==='blocked')assert.ok(!r||r.posts===0,'A publication closed as not sent never reached the write endpoint');
   // posts 0: the checkpoint was saved but the command was interrupted before its outcome was stored, so Saha cannot
   // know whether the write started; it stays unresolved rather than being closed or resent.
-  else if(op.state==='uncertain'){assert.ok(!r||(r.posts<=1&&r.docs.length===0),'An unresolved publication is one where the partner stored nothing');bump(r&&r.posts===1?'ehrUnresolvedAfterWrite':'ehrUnresolvedNeverWritten');}
+  else if(op.state==='uncertain'){assert.ok(!r||(r.posts<=1&&r.docs.length===0),'An unresolved publication is one where the partner stored nothing');bump((org.authoritative?'ehrAuth':'ehr')+(r&&r.posts===1?'UnresolvedAfterWrite':'UnresolvedNeverWritten'));}
   else assert.fail(`EHR publication left ${op.state} after reconciliation`);}
  passed++;
  // 6. The soak met its event target and exercised every fault class.
  assert.ok(replayTimeoutEvents()>=TARGET);for(const k of ['misSubmitTimeouts','misLookupTimeouts','misSubmitDropped','misLookupDropped','misHttpErrors','misMismatchedReceipts','ehrPostTimeouts','ehrLookupTimeouts','ehrPostDropped','ehrLookupDropped','ehrChangedAcknowledgements','sameKeyReplays','newKeyReplays','concurrentExtraAttempts','casConflicts','misCallbacksScheduled','misDuplicateCallbacks','misCallbackReplayed','interruptedFinishes','ehrStuckCheckpoints','misCallbackApplied','misStuckCheckpoints'])assert.ok((counts[k]??0)>0,`fault class not exercised: ${k}`);passed++;
  // 7. Uncertain outcomes were resolved by receipt (lookup or signed callback), and every lookup kept visit fields out.
  assert.ok((counts.misLookupDelivered??0)>0&&(counts.ehrLookupDelivered??0)>0);passed++;
- const result={passed,suite:'replay and timeout soak: real MIS/EHR execution and HTTP adapters against a naive faulty mock partner',seed:SEED,target:TARGET,replayTimeoutEvents:replayTimeoutEvents(),timeoutAndLostResponseEvents:TIMEOUT_KEYS.reduce((a,k)=>a+(counts[k]??0),0),replayEvents:REPLAY_KEYS.reduce((a,k)=>a+(counts[k]??0),0),countedKeys:{timeoutAndLostResponse:TIMEOUT_KEYS,replay:REPLAY_KEYS},organisations:{mis:misOrgs.length,ehr:ehrOrgs.length},items:{misSubmissions:misItems,ehrPublications:ehrItems},finalStates:{mis:finalMis,ehr:finalEhr},
+ // 8. Slice 7f: the authoritative partner leaves a smaller unresolved share than the default partner, closes some
+ // publications as not stored, and every lookup carried no document (asserted in the mock on each request).
+ const share=(t,total)=>total?(t.uncertain??0)/total:0,unresolvedShare={default:share(finalEhr,ehrItems),authoritative:share(finalEhrAuth,ehrAuthItems)};
+ assert.ok((finalEhrAuth['not-stored']??0)>0,'the authoritative partner closed publications as not stored');assert.equal(finalEhr['not-stored']??0,0);assert.equal((finalEhr.conflict??0)+(finalEhrAuth.conflict??0),0);
+ assert.ok(unresolvedShare.authoritative<unresolvedShare.default,`unresolved share did not drop: ${JSON.stringify(unresolvedShare)}`);passed++;
+ const result={passed,suite:'replay and timeout soak: real MIS/EHR execution and HTTP adapters against a naive faulty mock partner',seed:SEED,target:TARGET,replayTimeoutEvents:replayTimeoutEvents(),timeoutAndLostResponseEvents:TIMEOUT_KEYS.reduce((a,k)=>a+(counts[k]??0),0),replayEvents:REPLAY_KEYS.reduce((a,k)=>a+(counts[k]??0),0),countedKeys:{timeoutAndLostResponse:TIMEOUT_KEYS,replay:REPLAY_KEYS},organisations:{mis:misOrgs.length,ehr:ehrOrgs.length,ehrAuthoritative:ehrAuthOrgs.length},items:{misSubmissions:misItems,ehrPublications:ehrItems,ehrAuthoritativePublications:ehrAuthItems},finalStates:{mis:finalMis,ehr:finalEhr,ehrAuthoritative:finalEhrAuth},unresolvedShare,ehrStatesBeforeReconciliation:beforeReconciliation,unresolvedShareBeforeReconciliation:{default:((beforeReconciliation.ehr.uncertain??0)+(beforeReconciliation.ehr.running??0))/ehrItems,authoritative:((beforeReconciliation.ehrAuthoritative.uncertain??0)+(beforeReconciliation.ehrAuthoritative.running??0))/ehrAuthItems},
   partnerLedger:{misKeys:misLedger.size,misAcceptedRecords:[...misLedger.values()].reduce((a,r)=>a+r.accepted,0),misDuplicateAcceptedRecords:counts.misDuplicateAcceptedRecords??0,misBlindResends:counts.misBlindResends??0,ehrIdentifiers:ehrLedger.size,ehrStoredDocuments:stored,ehrDuplicateStoredDocuments:counts.ehrDuplicateStoredDocuments??0,ehrRepeatPosts:counts.ehrRepeatPosts??0},
   counts:Object.fromEntries(Object.entries(counts).sort(([a],[b])=>a.localeCompare(b))),durationMs:Date.now()-started,
-  limits:'In-memory CAS model, not D1; callback path is applyReceipt plus the route replay rules, not the HTTP route or signature; same-key replay modelled from stored receipts as server.ts does; simulated clock for stuck checkpoints; consistent partner lookups, no late-arriving requests.',completedAt:new Date().toISOString()};
+  limits:'In-memory CAS model, not D1; callback path is applyReceipt plus the route replay rules, not the HTTP route or signature; same-key replay modelled from stored receipts as server.ts does; simulated clock for stuck checkpoints; consistent partner lookups, no late-arriving requests; the authoritative partner is the same mock with a declared lookup policy (consistency delay 30 s) and simulated clock steps of 40 s per round.',completedAt:new Date().toISOString()};
  writeFileSync('tests/replay-soak-result.json',JSON.stringify(result,null,2)+'\n');if(OUT){mkdirSync(dirname(OUT),{recursive:true});writeFileSync(OUT,JSON.stringify(result,null,2)+'\n');}
- console.log({passed,replayTimeoutEvents:result.replayTimeoutEvents,organisations:result.organisations,finalStates:result.finalStates,partnerLedger:result.partnerLedger,durationMs:result.durationMs});
+ console.log({passed,replayTimeoutEvents:result.replayTimeoutEvents,organisations:result.organisations,finalStates:result.finalStates,unresolvedShare,partnerLedger:result.partnerLedger,durationMs:result.durationMs});
 }finally{rmSync(dir,{recursive:true,force:true})}
