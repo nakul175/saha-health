@@ -14,7 +14,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['record-import', 'import-rejections', 'operations', 'report-export', 'patient-import', 'core', 'access', 'continuity', 'delegation', 'environment', 'identity', 'referral-rules', 'fact-provenance', 'mis', 'programmes', 'types', 'abdm'])
+  for (const f of ['record-import', 'import-rejections', 'operations', 'report-export', 'patient-import', 'adapter-operations','core', 'access', 'continuity', 'delegation', 'environment', 'identity', 'referral-rules', 'fact-provenance', 'mis', 'programmes', 'types', 'abdm'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const R = await import(pathToFileURL(join(dir, 'record-import.js')));
   const X = await import(pathToFileURL(join(dir, 'import-rejections.js')));

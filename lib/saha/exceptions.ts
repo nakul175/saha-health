@@ -10,12 +10,12 @@ import type { Member, OrgState, Person } from './types';
 // from the records that hold each problem. Supervisors and owners see rows for patients in their care
 // scope with a link that opens the patient and visit. Operations members (owners, administrators) also see
 // destination-delivery rows for patients outside that scope, without patient details or links.
-export const EXCEPTION_RULES_VERSION='1.1.0';
-export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting';
+export const EXCEPTION_RULES_VERSION='1.2.0';
+export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting'|'operation-refused';
 export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null;trace:{query:'submission'|'publication';id:string}|null};
 const RANK={critical:0,high:1,normal:2} as const;
 // Destination-delivery problems are operations work: shown, redacted, to operations members for any patient.
-const OPERATIONS_KINDS=new Set<ExceptionKind>(['submission','ehr-publication']);
+const OPERATIONS_KINDS=new Set<ExceptionKind>(['submission','ehr-publication','operation-refused']);
 export const STALE_RUNNING_MINUTES=10,MAX_ROWS=500;
 // Slice 3i (rules 1.1.0): a field referral request undecided this long is raised here as well as in its own queue.
 export const REQUEST_WAIT_HOURS=48;
@@ -44,6 +44,16 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    if(!['uncertain','retryable','rejected'].includes(x.state))continue;
    add({id:'submission:'+x.id,kind:'submission',severity:x.state==='rejected'?'normal':'high',what:`${x.connectorName}: ${x.state==='uncertain'?'outcome unknown':x.state==='retryable'?'delivery failed, retryable':'rejected by the destination'} after ${x.attempts} attempt${x.attempts===1?'':'s'}`,since:x.updatedAt,owner:'Operations (owner or administrator)',
     recovery:x.state==='uncertain'?'Look up the receipt before any resend; never send again blindly.':x.state==='retryable'?'Retry with the original key, or cancel if the visit changed.':'Read the rejection, correct the visit by amendment, then prepare a new submission.'},x.visitId,{query:'submission',id:x.id});
+  }
+  // Slice 7e (rules 1.2.0): deliveries closed as not sent because the destination's operation was withdrawn or
+  // it is aggregate-only, until a later submission for the same visit and destination exists.
+  for(const x of mine){
+   if(!x.refusal||x.state!=='cancelled'||mine.some(y=>y.visitId===x.visitId&&y.connectorId===x.connectorId&&y.createdAt>x.createdAt))continue;
+   add({id:'operation-refused:submission:'+x.id,kind:'operation-refused',severity:'normal',what:`${x.connectorName}: not sent, ${x.refusal.aggregateOnly?'destination is aggregate-only':x.refusal.operation+' not permitted'} (setting version ${x.refusal.settingVersion})`,since:x.refusal.at,owner:'Operations (owner or administrator)',recovery:'Nothing was sent. If this destination should receive the record, an owner reviews its operation setting and a care worker prepares a new plan. Never resend the closed item.'},x.visitId,{query:'submission',id:x.id});
+  }
+  for(const o of p.ehr?.operations??[]){
+   if(!o.refusal||o.state!=='blocked'||(p.ehr?.operations??[]).some(y=>y.visitId===o.visitId&&y.linkId===o.linkId&&y.at>o.at&&y.id!==o.id))continue;
+   add({id:'operation-refused:ehr-publication:'+o.id,kind:'operation-refused',severity:'normal',what:`EHR publication not sent, ${o.refusal.operation} not permitted (setting version ${o.refusal.settingVersion})`,since:o.refusal.at,owner:'Operations (owner or administrator)',recovery:'Nothing was sent. If the EHR should receive the document, an owner reviews the connection\'s operation setting and a care worker prepares a new publication.'},o.visitId,{query:'publication',id:o.id});
   }
   // EHR publications without a final receipt.
   for(const o of p.ehr?.operations??[]){

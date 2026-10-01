@@ -9,7 +9,7 @@ const dir = mkdtempSync(join(process.cwd(), '.alert-delivery-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 try {
-  for (const f of ['alert-delivery', 'alerts', 'core', 'fact-provenance', 'mis', 'programmes', 'types'])
+  for (const f of ['alert-delivery', 'alerts', 'adapter-operations','core', 'fact-provenance', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const D = await import(pathToFileURL(join(dir, 'alert-delivery.js')));
   const member = (userId, role, isOwner = false, status = 'active') => ({ userId, displayName: 'Synthetic ' + userId, role, isOwner, status, teamIds: ['t1'], version: 1, createdAt: '2026-10-01T00:00:00Z' });

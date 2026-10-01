@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 7a-7c, 7e, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -1862,15 +1862,21 @@
       "sourceTextLine": 369,
       "implementation": "partial",
       "target": "R12",
-      "current": "EHR read/write directions and local scoped permissions are independent.",
-      "remaining": "Separate create/update/delete/lookup/aggregation permissions for every adapter.",
+      "current": "EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue.",
+      "remaining": "Live partner adapters configured and tested with narrowed operations; void and aggregate report paths; AI providers are not covered; production acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
         "lib/saha/ehr.ts",
         "tests/mis-contract.mjs",
         "tests/ehr-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/adapter-operations.ts",
+        "lib/saha/mis-execution.ts",
+        "lib/saha/ehr-execution.ts",
+        "tests/adapter-operations-contract.mjs",
+        "tests/adapter-operations-smoke.mjs",
+        "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2024,15 +2030,21 @@
       "sourceTextLine": 390,
       "implementation": "partial",
       "target": "R12",
-      "current": "Per-destination mapped field allowlists.",
-      "remaining": "Aggregate-only adapter policies and live payload minimisation audit.",
+      "current": "Per-destination mapped field allowlists. Slice 7e: aggregate-only programme destinations refuse every patient-level record before preparation and inside the delivery checkpoint.",
+      "remaining": "Aggregate report delivery to aggregate-only destinations and live payload minimisation audit.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
         "lib/saha/ehr.ts",
         "tests/mis-contract.mjs",
         "tests/ehr-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/adapter-operations.ts",
+        "lib/saha/mis-execution.ts",
+        "lib/saha/ehr-execution.ts",
+        "tests/adapter-operations-contract.mjs",
+        "tests/adapter-operations-smoke.mjs",
+        "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md"
       ],
       "automatedAcceptanceClaim": false
     },

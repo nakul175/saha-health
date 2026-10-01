@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';import ts from 'typescript';import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';import {join} from 'node:path';import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.operations-contract-'));let passed=0;const check=fn=>{fn();passed++},rejects=async fn=>{await assert.rejects(fn);passed++};
 try{
- for(const f of ['types','programmes','core','fact-provenance','mis','operations','access','request-body','referral-rules'])writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ for(const f of ['types','programmes','adapter-operations','core','fact-provenance','mis','operations','access','request-body','referral-rules'])writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {careReport,csvCell,ensureOperating}=await import(pathToFileURL(join(dir,'operations.js'))),{boundedJsonBody}=await import(pathToFileURL(join(dir,'request-body.js')));
  for(const val of ['=HYPERLINK("evil")',' +1','-1','\t@SUM(A1)','\n=1'])check(()=>assert.ok(csvCell(val).startsWith('"\'')));
  check(()=>assert.equal(csvCell('a"b'),'"a""b"'));check(()=>assert.equal(csvCell('normal'),'"normal"'));
