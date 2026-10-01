@@ -1,0 +1,515 @@
+{
+  "probe": "BRD R1 envelope load probe",
+  "release": "slice 0b-4 server work lists",
+  "environment": "local Worker (wrangler dev --local) and local D1/SQLite; read-only size scaling (SAHA_LOAD_MODE=read) with SAHA_LOAD_SUPERVISOR=1 and SAHA_LOAD_WORKLISTS=1; the machine was shared with four other builders running test suites at the same time",
+  "steps": [
+    {
+      "people": 1006,
+      "visits": 1001,
+      "supervisorRead": {
+        "fullWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 132,
+          "maxMs": 151,
+          "responseKB": 903,
+          "people": 1006
+        },
+        "pagedWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 103,
+          "maxMs": 177,
+          "responseKB": 5,
+          "people": 0,
+          "paging": {
+            "total": 1006
+          }
+        },
+        "pagedWorkspaceWithWindow": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 57,
+          "maxMs": 135,
+          "responseKB": 14,
+          "people": 10,
+          "paging": {
+            "total": 1006
+          }
+        },
+        "listFirstPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 46,
+          "maxMs": 245,
+          "responseKB": 16,
+          "people": 50,
+          "listTotal": 1006
+        },
+        "listSearch": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 65,
+          "maxMs": 159,
+          "responseKB": 4,
+          "people": 11,
+          "listTotal": 11
+        },
+        "detail": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 93,
+          "maxMs": 139,
+          "responseKB": 5,
+          "people": 1
+        },
+        "worklistWork": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 125,
+          "maxMs": 203,
+          "responseKB": 11,
+          "people": 50,
+          "listTotal": 1006
+        },
+        "worklistFollowUps": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 63,
+          "maxMs": 66,
+          "responseKB": 8,
+          "people": 50,
+          "listTotal": 100
+        },
+        "worklistSubmissions": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 160,
+          "maxMs": 164,
+          "responseKB": 13,
+          "people": 50,
+          "listTotal": 250
+        },
+        "worklistReferrals": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 89,
+          "maxMs": 121,
+          "responseKB": 10,
+          "people": 50,
+          "listTotal": 50
+        },
+        "worklistLastPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 132,
+          "maxMs": 149,
+          "responseKB": 22,
+          "people": 100,
+          "listTotal": 1006
+        }
+      },
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 147,
+        "maxMs": 242,
+        "responseKB": 906,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 317,
+        "responseKB": 906
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 41,
+        "maxMs": 61,
+        "responseKB": 49,
+        "patients": 50
+      }
+    },
+    {
+      "people": 5006,
+      "visits": 5001,
+      "supervisorRead": {
+        "fullWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 464,
+          "maxMs": 583,
+          "responseKB": 4510,
+          "people": 5006
+        },
+        "pagedWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 68,
+          "maxMs": 68,
+          "responseKB": 5,
+          "people": 0,
+          "paging": {
+            "total": 5006
+          }
+        },
+        "pagedWorkspaceWithWindow": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 77,
+          "maxMs": 91,
+          "responseKB": 15,
+          "people": 10,
+          "paging": {
+            "total": 5006
+          }
+        },
+        "listFirstPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 65,
+          "maxMs": 201,
+          "responseKB": 16,
+          "people": 50,
+          "listTotal": 5006
+        },
+        "listSearch": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 81,
+          "maxMs": 206,
+          "responseKB": 16,
+          "people": 50,
+          "listTotal": 111
+        },
+        "detail": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 61,
+          "maxMs": 80,
+          "responseKB": 6,
+          "people": 1
+        },
+        "worklistWork": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 242,
+          "maxMs": 262,
+          "responseKB": 11,
+          "people": 50,
+          "listTotal": 5006
+        },
+        "worklistFollowUps": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 217,
+          "maxMs": 315,
+          "responseKB": 8,
+          "people": 50,
+          "listTotal": 500
+        },
+        "worklistSubmissions": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 137,
+          "maxMs": 137,
+          "responseKB": 13,
+          "people": 50,
+          "listTotal": 1250
+        },
+        "worklistReferrals": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 146,
+          "maxMs": 248,
+          "responseKB": 10,
+          "people": 50,
+          "listTotal": 250
+        },
+        "worklistLastPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 191,
+          "maxMs": 240,
+          "responseKB": 22,
+          "people": 100,
+          "listTotal": 5006
+        }
+      },
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 506,
+        "maxMs": 592,
+        "responseKB": 4513,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 751,
+        "responseKB": 4513
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 124,
+        "maxMs": 128,
+        "responseKB": 49,
+        "patients": 50
+      }
+    },
+    {
+      "people": 20006,
+      "visits": 20001,
+      "supervisorRead": {
+        "fullWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 2296,
+          "maxMs": 2763,
+          "responseKB": 18085,
+          "people": 20006
+        },
+        "pagedWorkspace": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 62,
+          "maxMs": 99,
+          "responseKB": 5,
+          "people": 0,
+          "paging": {
+            "total": 20006
+          }
+        },
+        "pagedWorkspaceWithWindow": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 62,
+          "maxMs": 118,
+          "responseKB": 16,
+          "people": 10,
+          "paging": {
+            "total": 20006
+          }
+        },
+        "listFirstPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 75,
+          "maxMs": 142,
+          "responseKB": 16,
+          "people": 50,
+          "listTotal": 20006
+        },
+        "listSearch": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 205,
+          "maxMs": 214,
+          "responseKB": 16,
+          "people": 50,
+          "listTotal": 1111
+        },
+        "detail": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 57,
+          "maxMs": 67,
+          "responseKB": 6,
+          "people": 1
+        },
+        "worklistWork": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 557,
+          "maxMs": 872,
+          "responseKB": 11,
+          "people": 50,
+          "listTotal": 20006
+        },
+        "worklistFollowUps": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 303,
+          "maxMs": 421,
+          "responseKB": 8,
+          "people": 50,
+          "listTotal": 2000
+        },
+        "worklistSubmissions": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 423,
+          "maxMs": 452,
+          "responseKB": 13,
+          "people": 50,
+          "listTotal": 5000
+        },
+        "worklistReferrals": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 350,
+          "maxMs": 651,
+          "responseKB": 10,
+          "people": 50,
+          "listTotal": 1000
+        },
+        "worklistLastPage": {
+          "status": [
+            200,
+            200,
+            200
+          ],
+          "p50Ms": 597,
+          "maxMs": 670,
+          "responseKB": 22,
+          "people": 100,
+          "listTotal": 20006
+        }
+      },
+      "workspaceRead": {
+        "status": [
+          200,
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 2140,
+        "maxMs": 2491,
+        "responseKB": 18087,
+        "error": null
+      },
+      "singleWrite": {
+        "status": 200,
+        "ms": 2382,
+        "responseKB": 18088
+      },
+      "ashaRead": {
+        "status": [
+          200,
+          200,
+          200
+        ],
+        "p50Ms": 157,
+        "maxMs": 159,
+        "responseKB": 49,
+        "patients": 50
+      }
+    }
+  ],
+  "stoppedAtPeople": 50006,
+  "stopNote": "The 50,006-person step did not complete: after seeding, the local Worker stopped responding (no CPU use; a 10-second request to it timed out) and the probe was stopped by hand about ten minutes after it started. The cause was not investigated. These steps were recorded from the probe console output, because the probe writes its report only at the end.",
+  "limits": "Local engineering probe on a shared machine. Hosted D1 latency, Worker memory/CPU limits, network and concurrent sessions were not tested. Not comparable with earlier slices measured on a quieter machine; compare within this run only.",
+  "completedAt": "2026-10-01T18:44:20Z"
+}

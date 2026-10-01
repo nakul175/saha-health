@@ -44,3 +44,7 @@
 ## Correction — 30 September 2026 (slice 6q)
 
 A second independent review found that this slice put patient names in URLs: the next-page cursor was `JSON.stringify([name, id])` and the panel sent the cursor and the search text `q` as GET query parameters, against the slice 6l safe-logs rule. Slice 6q makes the cursor opaque and name-free (`after:<patient id>`, resolved inside the viewer's scope on the server), moves search text to a POST body (`POST /api/patients`; GET refuses `q`), and extends the 6l static check. See [SLICE-6Q-SECOND-REVIEW-FIXES.md](SLICE-6Q-SECOND-REVIEW-FIXES.md). The text above is kept as written.
+
+## Follow-up — 1 October 2026 (slice 0b-4)
+
+The first limit above is closed for My work (statistics, visit list and follow-ups), the referral tracker and Submissions: in a paged workspace they are now built on the server over the whole scope (`GET /api/worklists`), with the same order and counts as the unpaged workspace, and the My work notice about opened records is replaced. AI tools lists and activity counts by patient still cover only opened records. See [SLICE-0B4-SERVER-WORKLISTS.md](SLICE-0B4-SERVER-WORKLISTS.md). The text above is kept as written.

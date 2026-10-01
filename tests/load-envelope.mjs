@@ -16,6 +16,9 @@ const OUT = process.env.SAHA_LOAD_OUT ?? 'tests/load-envelope-result.json';
 const base = `http://127.0.0.1:${PORT}`;
 const stopAfterMs = 30000; // stop escalating once a single workspace read exceeds this
 const READ_ONLY = process.env.SAHA_LOAD_MODE === 'read'; // size scaling only: no bursts or sustained phase
+// Slice 0b-4: with SAHA_LOAD_WORKLISTS=1 every 10th person has an open follow-up, every 4th a programme submission and
+// every 20th a referral, and the supervisor also reads the four server work lists.
+const WORKLISTS = process.env.SAHA_LOAD_WORKLISTS === '1';
 
 if (existsSync(STATE)) rmSync(STATE, { recursive: true, force: true });
 for (const file of readdirSync('drizzle').filter(f => /^\d{4}_.*\.sql$/.test(f)).sort()) {
@@ -64,14 +67,18 @@ function seedTo(n) {
   const now = '2026-09-20T08:00:00.000Z';
   const insP = sql.prepare('INSERT INTO patients (org_id,id,version,name,team_id,assigned_to,data) VALUES (?,?,?,?,?,?,?)');
   const insV = sql.prepare('INSERT INTO visits (org_id,id,person_id,version,record_version,state,data) VALUES (?,?,?,?,?,?,?)');
+  const insS = sql.prepare('INSERT INTO submissions (org_id,id,visit_id,person_id,state,data) VALUES (?,?,?,?,?,?)');
+  const insR = sql.prepare('INSERT INTO referrals (org_id,id,person_id,data) VALUES (?,?,?,?)');
   sql.exec('BEGIN');
   for (let i = seeded; i < n; i++) {
     const id = `load_p_${i}`, name = `Synthetic Person ${i}`;
-    const person = { ...template, id, name, age: 20 + (i % 50), village: `Village ${i % 40}`, version: 1, teamId: 'default', assignedTo: owner['oai-authenticated-user-id'] };
+    const person = { ...template, id, name, age: 20 + (i % 50), village: `Village ${i % 40}`, version: 1, teamId: 'default', assignedTo: owner['oai-authenticated-user-id'], ...(WORKLISTS && i % 10 === 0 ? { followUps: [{ id: `load_f_${i}`, enrolmentId: `load_e_${i}`, packId: 'maternal', title: 'Synthetic follow-up', due: `2026-10-${String(1 + (i % 28)).padStart(2, '0')}`, ownerId: owner['oai-authenticated-user-id'], state: 'open', createdAt: now, createdBy: owner['oai-authenticated-user-id'] }] } : {}) };
     insP.run(org, id, 1, name, 'default', owner['oai-authenticated-user-id'], JSON.stringify(person));
     const vid = `load_v_${i}`;
     const facts = { date: '2026-09-20T08:00', systolic: '124', diastolic: '80', weight: '58', temperature: '', weeks: '', coughDays: '', notes: 'Synthetic load record', source: 'measured' };
     insV.run(org, vid, id, 2, 1, 'confirmed', JSON.stringify({ id: vid, personId: id, version: 2, state: 'confirmed', facts, createdAt: now, confirmedAt: now, aiResults: [], recordVersion: 1 }));
+    if (WORKLISTS && i % 4 === 0) { const state = ['accepted', 'uncertain', 'queued', 'rejected'][(i / 4) % 4]; insS.run(org, `load_s_${i}`, vid, id, state, JSON.stringify({ id: `load_s_${i}`, visitId: vid, personId: id, connectorId: 'mis', connectorName: 'Synthetic programme', state, mode: 'demo', payloadHash: 'h', attempts: 1, message: 'Synthetic receipt', createdAt: now, updatedAt: now })); }
+    if (WORKLISTS && i % 20 === 0) insR.run(org, `load_r_${i}`, id, JSON.stringify({ id: `load_r_${i}`, personId: id, visitId: vid, facility: 'Synthetic PHC', reason: 'Synthetic referral', state: ['sent', 'scheduled', 'completed'][(i / 20) % 3], due: `2026-10-${String(1 + (i % 28)).padStart(2, '0')}`, createdAt: now, version: 1 }));
   }
   sql.exec('COMMIT');
   seeded = n;
@@ -92,7 +99,7 @@ async function timed(path, who, extra = {}, body) {
   try { const r = await fetch(base + path, { ...(body ? { method: 'POST', body: JSON.stringify(body) } : {}), headers: { ...who, 'x-saha-organisation': org, ...(body ? { 'content-type': 'application/json' } : {}), ...extra }, signal: AbortSignal.timeout(120000) }); const text = await r.text(); return { status: r.status, ms: ms(t), bytes: text.length, body: r.ok ? JSON.parse(text) : null }; }
   catch (e) { return { status: 'error', ms: ms(t), bytes: 0, error: String(e.message ?? e) }; }
 }
-async function median3(path, who, extra, body) { const xs = []; for (let i = 0; i < 3; i++) xs.push(await timed(path, who, extra, body)); return { status: xs.map(r => r.status), p50Ms: pct(xs.map(r => r.ms), 50), maxMs: Math.max(...xs.map(r => r.ms)), responseKB: Math.round((xs.at(-1).bytes || 0) / 1024), people: xs.at(-1).body?.people?.length ?? xs.at(-1).body?.rows?.length ?? xs.at(-1).body?.delta?.people?.length ?? null, paging: xs.at(-1).body?.patientPaging ? { total: xs.at(-1).body.patientPaging.total } : undefined }; }
+async function median3(path, who, extra, body) { const xs = []; for (let i = 0; i < 3; i++) xs.push(await timed(path, who, extra, body)); return { status: xs.map(r => r.status), p50Ms: pct(xs.map(r => r.ms), 50), maxMs: Math.max(...xs.map(r => r.ms)), responseKB: Math.round((xs.at(-1).bytes || 0) / 1024), people: xs.at(-1).body?.people?.length ?? xs.at(-1).body?.rows?.length ?? xs.at(-1).body?.delta?.people?.length ?? null, paging: xs.at(-1).body?.patientPaging ? { total: xs.at(-1).body.patientPaging.total } : undefined, listTotal: typeof xs.at(-1).body?.total === 'number' ? xs.at(-1).body.total : undefined }; }
 async function supervisorReads() {
   const paged = { 'x-saha-patients': 'paged' };
   return {
@@ -102,6 +109,13 @@ async function supervisorReads() {
     listFirstPage: await median3('/api/patients', supervisor),
     listSearch: await median3('/api/patients', supervisor, {}, { q: 'synthetic person 12' }),
     detail: await median3('/api/patients/detail?personId=load_p_5', supervisor),
+    ...(WORKLISTS ? {
+      worklistWork: await median3('/api/worklists?view=work', supervisor),
+      worklistFollowUps: await median3('/api/worklists?view=followups', supervisor),
+      worklistSubmissions: await median3('/api/worklists?view=submissions', supervisor),
+      worklistReferrals: await median3('/api/worklists?view=referrals', supervisor),
+      worklistLastPage: await median3(`/api/worklists?view=work&limit=100&cursor=n:${Math.max(0, seeded - 100)}`, supervisor),
+    } : {}),
   };
 }
 let ashaAssigned = false;

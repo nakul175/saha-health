@@ -10,6 +10,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 0b | Scoped command responses (partition deltas) merged by the workspace | Delivered (see [slice 0b](current/SLICE-0B-DELTAS.md)) |
 | 0b-2 | Viewer-scoped workspace reads (ASHA reads independent of organisation size) | Delivered (see [slice 0b-2](current/SLICE-0B2-SCOPED-READS.md)) |
 | 0b-3 | Paged patient lists and on-demand patient detail for large team scopes | Delivered (see [slice 0b-3](current/SLICE-0B3-PAGED-PATIENTS.md)) |
+| 0b-4 | Server-side, scope-checked, paged work lists for paged workspaces (My work statistics, visit list and follow-ups, the referral tracker and Submissions), with the same counts and order as the unpaged workspace | Delivered (see [slice 0b-4](current/SLICE-0B4-SERVER-WORKLISTS.md)) |
 | 0c | Swappable identity layer, SBOM and audit gate, CI workflow, local test stability | Delivered (see [slice 0c](current/SLICE-0C-IDENTITY.md)) |
 | 1 | Households and proxy authority with sensitive-class disclosure | Delivered (see [slice 1](current/SLICE-1-HOUSEHOLDS.md)) |
 | 1b | Workforce lifecycle, bulk caseload transfer with effective dates and acknowledgement, responsibility gaps, member removal | Delivered (see [slice 1b](current/SLICE-1B-CASELOAD.md)) |
