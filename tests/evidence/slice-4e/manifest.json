@@ -1,0 +1,369 @@
+{
+  "slice": "4e",
+  "label": "Development slice 4e \u2014 reviewed migration of open programme episodes to a new pack version",
+  "environment": "local built Worker, local D1/SQLite, synthetic fixtures",
+  "totalPassed": 4543,
+  "note": "Fresh runs on the slice 4e source. The R11 results in tests/ are unchanged historical evidence.",
+  "reports": {
+    "abdm-contract-result.json": {
+      "sha256": "11bd224f2afde7792ff3b275b57e253fac8d341ebaceba8a129df9d799a6ad22",
+      "passed": 14,
+      "completedAt": "2026-10-01T18:22:05.344Z"
+    },
+    "abdm-transfer-contract-result.json": {
+      "sha256": "0b8492f9975bb223e444020c74c24e23ebe401306216865d1856f84761b25a23",
+      "passed": 21,
+      "completedAt": "2026-10-01T18:22:07.528Z"
+    },
+    "action-plan-contract-result.json": {
+      "sha256": "b32f47c0f4673e165c44958c16ba890708278412c295d0d8c873edc21c45f0c5",
+      "passed": 8,
+      "completedAt": "2026-10-01T18:22:10.229Z"
+    },
+    "agent-contract-result.json": {
+      "sha256": "267fe65ab1b4aeb3c99b835412674f2300576f085e9212dbcb5ef4280f127f22",
+      "passed": 23,
+      "completedAt": "2026-10-01T18:22:12.668Z"
+    },
+    "agent-quality-contract-result.json": {
+      "sha256": "feebe8bdb2352d970f9d318f00fba4547bec76844093b34e3a463e80ff2288ee",
+      "passed": 50,
+      "completedAt": "2026-10-01T18:22:14.887Z"
+    },
+    "ai-budget-contract-result.json": {
+      "sha256": "b700a4fb4a05382e3561f59688ee4a9e8cbdcf4522b6ece71a05e75f7be09386",
+      "passed": 41,
+      "completedAt": "2026-10-01T18:22:16.251Z"
+    },
+    "ai-invoice-contract-result.json": {
+      "sha256": "26ee6f735def4e5280700989cc1ef9fd213807113921fd18681ef0760c237443",
+      "passed": 54,
+      "completedAt": "2026-10-01T18:22:17.674Z"
+    },
+    "alerts-contract-result.json": {
+      "sha256": "0ca90da3237d163f7d677dbe9f9f4ab137c475f077d546fd2afabf867a74ee3d",
+      "passed": 25,
+      "completedAt": "2026-10-01T18:22:19.266Z"
+    },
+    "audit-chain-contract-result.json": {
+      "sha256": "6e9be1a2f2d987a559169417d41b3aad8a8383fc51e4326d6453eed512569315",
+      "passed": 48,
+      "completedAt": "2026-10-01T18:22:22.825Z"
+    },
+    "capability-lifecycle-contract-result.json": {
+      "sha256": "5ed72a80441b4b9753722a2450bdeec1824b81b2a2db1febfc0890554441b442",
+      "passed": 25,
+      "completedAt": "2026-10-01T18:22:27.205Z"
+    },
+    "caseload-contract-result.json": {
+      "sha256": "91532a65cb108d819d8e33f1d74bc5721e60fcda18156a3bf817e3c5a49d9ae3",
+      "passed": 30,
+      "completedAt": "2026-10-01T18:22:29.591Z"
+    },
+    "cloudflare-staging-contract-result.json": {
+      "sha256": "3fe73db1aa8ccc043bf1795f9927455e6a24214b65cd9d3086b962a669a7c779",
+      "passed": 21,
+      "completedAt": "2026-10-01T18:22:29.925Z"
+    },
+    "consent-contract-result.json": {
+      "sha256": "4325fc5dbe4b43342593c87b8ad22b70f735addba5b9cbb388273ca6d6bfa2c4",
+      "passed": 25,
+      "completedAt": "2026-10-01T18:22:34.256Z"
+    },
+    "continuity-contract-result.json": {
+      "sha256": "f4e9e0080134607477f1e6aa85ab08ef2a071ca54ff561c432ce3c85cd486794",
+      "passed": 29,
+      "completedAt": "2026-10-01T18:22:37.337Z"
+    },
+    "data-exit-contract-result.json": {
+      "sha256": "c322b305741781b8c356c5b14a3ced7ba47bd824c11faad8daed1d0302ee023e",
+      "passed": 39,
+      "completedAt": "2026-10-01T18:22:43.445Z"
+    },
+    "delegation-contract-result.json": {
+      "sha256": "5a31ee9d6fa6f4366d28b07a135815fd675e030291f1d01e786578238e764cad",
+      "passed": 22,
+      "completedAt": "2026-10-01T18:22:46.422Z"
+    },
+    "drift-contract-result.json": {
+      "sha256": "0fae8a5580931e6c313872e2af505695f1ef07135d64d038f387bb350ed7d988",
+      "passed": 15,
+      "completedAt": "2026-10-01T18:22:48.165Z"
+    },
+    "ehr-contract-result.json": {
+      "sha256": "ae1f048e3ed74db76b5721084965bb07730ff20dc3cdcdb8de8e31d7d2d123cc",
+      "passed": 46,
+      "completedAt": "2026-10-01T18:22:51.602Z"
+    },
+    "ehr-execution-result.json": {
+      "sha256": "f5e4aa4ca8e8334410925c4a8ca61ba4a5c90117cde3cd3156a7c088c4ad8c72",
+      "passed": 8,
+      "completedAt": "2026-10-01T18:25:44.262Z"
+    },
+    "environment-contract-result.json": {
+      "sha256": "2543b8810affc06508c2a709b9e5aea6f6c93d9124eacc7971af27eff3ef6be4",
+      "passed": 26,
+      "completedAt": "2026-10-01T18:22:55.876Z"
+    },
+    "exceptional-contract-result.json": {
+      "sha256": "b86358aeef101539333ad85a6de26400c92cab9074de5f6fb7010addb8b05ee1",
+      "passed": 19,
+      "completedAt": "2026-10-01T18:22:58.610Z"
+    },
+    "exceptions-contract-result.json": {
+      "sha256": "3c9577d10816b04e53be595797ca85f48cb9cd2e07218543a18596e42af4ebe6",
+      "passed": 8,
+      "completedAt": "2026-10-01T18:23:04.097Z"
+    },
+    "fact-provenance-contract-result.json": {
+      "sha256": "ad32ab3d722e880d478b30b33db8c847f991851700b1cd32a8706748739e82a3",
+      "passed": 41,
+      "completedAt": "2026-10-01T18:23:06.613Z"
+    },
+    "fact-verification-contract-result.json": {
+      "sha256": "3c058d06e8140a44abffcba5b4e3e4dec32122ac259122b6b8151c00f9c70fd4",
+      "passed": 37,
+      "completedAt": "2026-10-01T18:23:09.197Z"
+    },
+    "fhir-validate-contract-result.json": {
+      "sha256": "a0a719c824a8dd084b8d231fdccd8489ab90a129271da105b8461b840944ddb9",
+      "passed": 20,
+      "completedAt": "2026-10-01T18:23:12.315Z"
+    },
+    "field-capacity-client-result.json": {
+      "sha256": "3465b747854e83187842de1aa27b5baccf93323422bea263290f42576970068d",
+      "passed": 15,
+      "completedAt": "2026-10-01T18:25:28.437Z"
+    },
+    "field-client-result.json": {
+      "sha256": "e38ed62d312127ce0203df33707dc6336a1c34b11e1a826e082f7cb5b3d3f1db",
+      "passed": 23,
+      "completedAt": "Not recorded in this report"
+    },
+    "field-contract-result.json": {
+      "sha256": "cd6133148a429b8c7e4d2012c63146e1832d2d290d8a99bb5c0c408a86d7f9b5",
+      "passed": 38,
+      "completedAt": "Not recorded in this report"
+    },
+    "field-media-client-result.json": {
+      "sha256": "387ddcfb420e826c31dcc9522e201e3647645dd9257fe68d839a099ab2681203",
+      "passed": 97,
+      "completedAt": "2026-10-01T18:25:34.148Z"
+    },
+    "field-provenance-client-result.json": {
+      "sha256": "6e0f7aabb9f5d0d41422218add43ef0b4a9503b333da7e4d918ea9a12f8c48c4",
+      "passed": 17,
+      "completedAt": "2026-10-01T18:25:34.645Z"
+    },
+    "field-recording-client-result.json": {
+      "sha256": "a1964c78ed10b37616dd1e4643648cb28f95abe8c5e759ba5d5d0f19a54ae05e",
+      "passed": 28,
+      "completedAt": "2026-10-01T18:25:35.376Z"
+    },
+    "field-registration-client-result.json": {
+      "sha256": "eb984f1c2bc26a863f568a19083257b4a469ab6d1384f8ba7953d70a6bcec565",
+      "passed": 65,
+      "completedAt": "2026-10-01T18:25:39.540Z"
+    },
+    "field-shell-result.json": {
+      "sha256": "3fc174b9cd814f2b73e06f335930a2ce19951a53bdb5832dc53b1c8f432e5fcf",
+      "passed": 11,
+      "completedAt": "Not recorded in this report"
+    },
+    "field-storage-client-result.json": {
+      "sha256": "071aaea16b289610c1eeba0bcac4fd4224f6e335cf69196437f554adbb0bb48e",
+      "passed": 30,
+      "completedAt": "2026-10-01T18:25:40.314Z"
+    },
+    "fixture-migration-contract-result.json": {
+      "sha256": "b77963ddacd698025dc107acfc51c60372548e26842449be11cdd80834e261e2",
+      "passed": 22,
+      "completedAt": "2026-10-01T18:23:19.588Z"
+    },
+    "governance-contract-result.json": {
+      "sha256": "1d1d0df90e4ec3e0bb481303e8cfed489f161d3499f659920cca2a5366414204",
+      "passed": 27,
+      "completedAt": "2026-10-01T18:23:23.130Z"
+    },
+    "household-contract-result.json": {
+      "sha256": "e73c8cbda4fe9a3610687237556c6076c71876b30d80c7f86c0671d3eb112bec",
+      "passed": 12,
+      "completedAt": "2026-10-01T18:23:26.335Z"
+    },
+    "identity-contract-result.json": {
+      "sha256": "fa40e6d10b151f02f2087573a37683c5652c50b9bd183907dca5746a08719d9d",
+      "passed": 18,
+      "completedAt": "2026-10-01T18:23:28.414Z"
+    },
+    "indicators-contract-result.json": {
+      "sha256": "96e1bc9b17c54ed54f9f5714423411e7d2086c0c2e2f084b36935cfb62325699",
+      "passed": 9,
+      "completedAt": "2026-10-01T18:23:31.880Z"
+    },
+    "latest-result.json": {
+      "sha256": "959298ff0264321706cb4214eddcba8f344007b57c8e9fe771b97a355aa006e9",
+      "passed": 2678,
+      "completedAt": "2026-10-01T18:22:02.441Z"
+    },
+    "main-review-fixes-contract-result.json": {
+      "sha256": "81125b87460a2d5e30c914a8877b17825b60796599a53243b8478234f2f91701",
+      "passed": 25,
+      "completedAt": "2026-10-01T18:23:35.867Z"
+    },
+    "media-contract-result.json": {
+      "sha256": "f9592ff9bb4fca4348e9255c688abd89140ad9133f35452658a8219358c87b0f",
+      "passed": 5,
+      "completedAt": "2026-10-01T18:23:37.657Z"
+    },
+    "merge-contract-result.json": {
+      "sha256": "a063da862e3b26dc05f4f0d1f1d45220f586be4ce03273e5b661278cc73e745e",
+      "passed": 27,
+      "completedAt": "2026-10-01T18:23:39.313Z"
+    },
+    "mis-contract-result.json": {
+      "sha256": "72f984e1603b45772adc15123a5c000caacea6766d38062f3acf5a7b4711a0a7",
+      "passed": 43,
+      "completedAt": "2026-10-01T18:23:42.234Z"
+    },
+    "mis-delivery-result.json": {
+      "sha256": "a4930f545e2467d7d22a8cb1a379f451534e4f4c6789f66fc369b864f9e69c68",
+      "passed": 10,
+      "completedAt": "2026-10-01T18:25:47.855Z"
+    },
+    "operations-contract-result.json": {
+      "sha256": "86d61b713dabbf990e986ceb6ffcf3ddf45f1f1fb8360e89ddc934e99b2090a5",
+      "passed": 24,
+      "completedAt": "2026-10-01T18:23:45.809Z"
+    },
+    "operations-load-result.json": {
+      "sha256": "7573355bb3209cc591cee7dfd2722979a176a97681870aca4ac802f221f7793d",
+      "passed": null,
+      "completedAt": "2026-10-01T18:19:55.974Z"
+    },
+    "outreach-contract-result.json": {
+      "sha256": "5ddd6628d227993762e44efeeb59cf884eca85acfab353da29f462e641ae07a2",
+      "passed": 55,
+      "completedAt": "2026-10-01T18:23:49.310Z"
+    },
+    "patient-directory-contract-result.json": {
+      "sha256": "cd1f849cf46b49412fea6abfa900add925415210ff2012bb43802dc36340813f",
+      "passed": 56,
+      "completedAt": "2026-10-01T18:23:52.884Z"
+    },
+    "patient-import-contract-result.json": {
+      "sha256": "9c8d4739b634152cb6954838b37cbcf10d4344f05e266b93ad7c298081eb4cd8",
+      "passed": 38,
+      "completedAt": "2026-10-01T18:23:56.469Z"
+    },
+    "photo-contract-result.json": {
+      "sha256": "a326def6265f3af1ef38a861a876f74af3b7a31387f41f2501981b8509e4c7db",
+      "passed": 10,
+      "completedAt": "2026-10-01T18:23:58.057Z"
+    },
+    "pilot-contract-result.json": {
+      "sha256": "8d4159e9cef39a8ce430d3f2faadacd29d3da20843052f10dbff6c740fa97764",
+      "passed": 24,
+      "completedAt": "2026-10-01T18:24:03.026Z"
+    },
+    "plan-dependencies-contract-result.json": {
+      "sha256": "3f3f2d78c0671148da40bb6ce50b9151616383a3bd3d6c6d83c8290e9c5f3ff1",
+      "passed": 9,
+      "completedAt": "2026-10-01T18:24:06.585Z"
+    },
+    "programme-migration-contract-result.json": {
+      "sha256": "6a3f3747893b963b0d7fac73fea3b5e3af04f536f975aeeae3979e23fe710156",
+      "passed": 32,
+      "completedAt": "2026-10-01T18:24:11.631Z"
+    },
+    "provider-history-contract-result.json": {
+      "sha256": "ee065e3c181803476c7b812e0b21d509c586f2e75f4aa93ded97d45f59f0e303",
+      "passed": 13,
+      "completedAt": "2026-10-01T18:24:13.696Z"
+    },
+    "provider-sandbox-result.json": {
+      "sha256": "24d3728252d1a4de45ade615b657a5740a099bca3d3e0ffd6e775786d2c0a4e8",
+      "passed": 75,
+      "completedAt": "2026-10-01T18:24:18.876Z"
+    },
+    "recovery-result.json": {
+      "sha256": "9dd7b588829046b1544f232deed2f20478cb0a774af79d7b3e574ee93f97ceef",
+      "passed": 21,
+      "completedAt": "2026-10-01T18:25:59.355Z"
+    },
+    "referral-contract-result.json": {
+      "sha256": "89727ff7e4707a45e83c25589724390cac25507171409398cb30dd15e11e0603",
+      "passed": 10,
+      "completedAt": "2026-10-01T18:24:21.614Z"
+    },
+    "referral-request-queue-contract-result.json": {
+      "sha256": "2f1a8c2ec922d3eb2570e6c7f36db4595f5cbfe801bc3226d2cac2db7f7b99fb",
+      "passed": 21,
+      "completedAt": "2026-10-01T18:24:25.026Z"
+    },
+    "report-export-contract-result.json": {
+      "sha256": "a479fd0ed422da93a26ace63b16f77f0944e5316fb1083c7689e9911a67ec770",
+      "passed": 7,
+      "completedAt": "2026-10-01T18:24:28.703Z"
+    },
+    "retention-contract-result.json": {
+      "sha256": "b5d24be1e5cf34a1b9d86897d57c9e153be9272062d2c62115b49fd114859619",
+      "passed": 11,
+      "completedAt": "2026-10-01T18:24:31.955Z"
+    },
+    "reuse-contract-result.json": {
+      "sha256": "db2e8cfa3970d50bd8e33a42dd834d430b35f0d18e47d77a98ee4824709ab127",
+      "passed": 7,
+      "completedAt": "2026-10-01T18:24:35.452Z"
+    },
+    "review-fixes-contract-result.json": {
+      "sha256": "0ae691fceff8e12cbbf4f26db8f3cce5dfd25e1335c3b5aaee9d9c852799bc5e",
+      "passed": 41,
+      "completedAt": "2026-10-01T18:24:39.798Z"
+    },
+    "rights-contract-result.json": {
+      "sha256": "25934350c516e30dea1f5a28534f8488c1a7ba045893b8ab34fd2660f2ddb8a1",
+      "passed": 17,
+      "completedAt": "2026-10-01T18:24:44.091Z"
+    },
+    "roster-contract-result.json": {
+      "sha256": "1129575c4cb6f127ec408829dda78d64568e981c69f58e3cf6ef34f4314f10a2",
+      "passed": 13,
+      "completedAt": "2026-10-01T18:24:46.789Z"
+    },
+    "safe-logs-contract-result.json": {
+      "sha256": "356d3fa7a24f34b6b5cea0a439cb725467dcf4318d6b7fb4355af2890a599fa8",
+      "passed": 12,
+      "completedAt": "2026-10-01T18:24:46.987Z"
+    },
+    "scoped-read-contract-result.json": {
+      "sha256": "c935718bc86712a41905f663003d9a2b970dd257a7dea48075b67b20c3c3ef3d",
+      "passed": 27,
+      "completedAt": "2026-10-01T18:24:51.411Z"
+    },
+    "shadow-contract-result.json": {
+      "sha256": "0adec720f8c8d20a8cd0edcbeba1f4ee8373fb4d13eaf94a6835e59af7d483a3",
+      "passed": 55,
+      "completedAt": "2026-10-01T18:24:55.407Z"
+    },
+    "storage-contract-result.json": {
+      "sha256": "54285c8aad2842ea8b9fa07e30212f8ec96b844d5f02099bfbbd8894e962b61c",
+      "passed": 19,
+      "completedAt": "2026-10-01T18:24:59.426Z"
+    },
+    "task-limits-contract-result.json": {
+      "sha256": "8f4cf099c6684360a424ffb7104443713b1e1356764ce9ab66be098d45626faa",
+      "passed": 39,
+      "completedAt": "2026-10-01T18:25:03.419Z"
+    },
+    "worker-activity-contract-result.json": {
+      "sha256": "543fd4aff1af230718503831ca06b1b7065d85258d7a308b63d7feb39d49c01c",
+      "passed": 12,
+      "completedAt": "2026-10-01T18:25:06.972Z"
+    },
+    "browser-pack-migration.json": {
+      "sha256": "11aed61a86f42fadbe2622bb657c750024c79a945e43dd54b4b62b991459630c",
+      "passed": null,
+      "completedAt": "2026-10-01T18:23:46.914Z"
+    }
+  }
+}

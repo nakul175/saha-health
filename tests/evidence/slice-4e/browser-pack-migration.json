@@ -1,0 +1,17 @@
+{
+ "apiHasNames": false,
+ "dryText": "Programme pack versions | Owners and clinicians · dry run first | Each open episode stays on the pack version it opened on. When a newer version exists, the dry run lists what it changes and which open episodes in your care teams would move. Applying moves exactly those episodes, with a record revision and your reason for each; visits already recorded keep the version they were made under. Episodes that cannot move stay where they are and are listed for manual action. | Run dry run | Maternal care · versions 1, 2 · new episodes open on v1 · v2 available | TB screening · versions 1 · new episodes open on v1 | Hypertension follow-up · versions 1 · new episodes open on v1 | Maternal care: v2 · 2 to migrate · 1 for manual action · 0 outside your care teams · 3 open episodes on older versions | Applying also opens new episodes on v2. Plan 85328a871b586ef1… | v1 → v2 · Synthetic illustrative revision for the migration workflow; not clinically approved. | Questions added: danger_signs_reviewed (required) · removed: none · renamed: maternal_contact → appointment_discussed · redefined: none | Schedule: Illustrative: the worker sets a follow-up within 28 days of each confirmed visit; nothing is scheduled automatically. | Escalation: Illustrative: a \"No\" to the danger-sign discussion is shown for clinician review; nothing is escalated automatically. | Aarav Singh · v1 → v2 · 0 open follow-ups carried over · 0 recorded visits keep v1 | Meena Devi · v1 → v2 · 0 open follow-ups carried over · 0 recorded visits keep v1 | Farida Begum · stays on v1: An open visit is capturing this episode under v1; confirm or discard it, then run the dry run again. | Reason for applying (Maternal care) | Apply this dry run",
+ "doneText": "Programme pack versions | Owners and clinicians · dry run first | Each open episode stays on the pack version it opened on. When a newer version exists, the dry run lists what it changes and which open episodes in your care teams would move. Applying moves exactly those episodes, with a record revision and your reason for each; visits already recorded keep the version they were made under. Episodes that cannot move stay where they are and are listed for manual action. | Run dry run | Maternal care · versions 1, 2 · new episodes open on v2 | TB screening · versions 1 · new episodes open on v1 | Hypertension follow-up · versions 1 · new episodes open on v1 | Maternal care: v2 · 0 to migrate · 1 for manual action · 0 outside your care teams · 1 open episodes on older versions | New episodes already open on v2. Plan 26f24ddce988e9ed… | v1 → v2 · Synthetic illustrative revision for the migration workflow; not clinically approved. | Questions added: danger_signs_reviewed (required) · removed: none · renamed: maternal_contact → appointment_discussed · redefined: none | Schedule: Illustrative: the worker sets a follow-up within 28 days of each confirmed visit; nothing is scheduled automati",
+ "versions": {
+  "p_meena": 2,
+  "p_aarav": 2,
+  "p_farida": 1
+ },
+ "axeViolations": {
+  "dryRun": [],
+  "applied": []
+ },
+ "errors": [],
+ "completedAt": "2026-10-01T18:23:46.914Z",
+ "passed": true
+}
