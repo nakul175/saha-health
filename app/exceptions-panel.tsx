@@ -4,7 +4,7 @@ import { ListChecks, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Snapshot } from '@/lib/saha/types';
 import { TracePanel } from './trace-panel';
-const KIND:Record<string,string>={'safety-case':'Safety case',submission:'Programme submission','ehr-publication':'EHR publication','referral-overdue':'Referral','emergency-access-unreviewed':'Emergency access','protocol-review':'Protocol review','follow-up-overdue':'Follow-up','identity-provisional':'Provisional identity','field-grant-expired':'Field grant','abdm-received':'Received ABDM record','referral-request-waiting':'Field referral request','operation-refused':'Operation not permitted'};
+const KIND:Record<string,string>={'safety-case':'Safety case',submission:'Programme submission','ehr-publication':'EHR publication','referral-overdue':'Referral','emergency-access-unreviewed':'Emergency access','protocol-review':'Protocol review','follow-up-overdue':'Follow-up','identity-provisional':'Provisional identity','field-grant-expired':'Field grant','abdm-received':'Received ABDM record','referral-request-waiting':'Field referral request','operation-refused':'Operation not permitted','correction-task':'Correction task'};
 // Slice 6i: each exception with patient, problem, age, owner, recovery action and a link to the record.
 export function ExceptionQueue({data,open}:{data:Snapshot;open?:(personId:string,visitId:string|null)=>void}){
  const [value,setValue]=useState<any>(null),[error,setError]=useState(''),[kind,setKind]=useState('all'),[loading,setLoading]=useState(false);

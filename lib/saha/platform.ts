@@ -16,6 +16,7 @@ import { patientImportSchema } from './patient-import';
 import { recordImportSchema } from './record-import';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
+import { correctionTaskSchema, correctionTasks } from './correction-tasks';
 import { rosterSchema } from './roster';
 import { abdmSchema } from './abdm';
 import { transferSchema } from './abdm-transfer';
@@ -67,6 +68,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...recordImportSchema.options,
  ...referralSchema.options,
  ...actionPlanSchema.options,
+ ...correctionTaskSchema.options,
  ...rosterSchema.options,
  ...abdmSchema.options,
  ...transferSchema.options,
@@ -105,6 +107,8 @@ export const platformSchema=z.discriminatedUnion('type',[
 export type PlatformCommand=z.infer<typeof platformSchema>;
 export function manage(member:Member){if(!member.isOwner)fail(403,'Only organisation owners can manage membership and teams.');}
 export function validTeams(state:OrgState,ids:string[],r:Role){if(r!=='admin'&&!ids.length)fail(422,'A care or supervisor role requires at least one team.');if(ids.some(id=>!state.teams.some(t=>t.id===id)))fail(422,'Choose a team in this organisation.');}
+// Slice 2j: the audit line names how many downstream tasks were created and how many need a person.
+const taskSummary=(t:{state:string}[])=>`${t.length} downstream output${t.length===1?'':'s'} recorded as correction tasks (${t.filter(x=>x.state==='open').length} open).`;
 function clinical(member:Member){if(!['asha','clinician'].includes(member.role))fail(403,'A care role is required for this action.');}
 export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:Member):Promise<{handled:boolean;result?:any}>{
  const programmeResult=programmeApply(state,c,u,m);if(programmeResult)return {handled:true,result:programmeResult};
@@ -119,8 +123,10 @@ export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:M
   // Slice 1e: a supervision delegate may move assignments only within teams delegated to them.
   if(!own&&!(supervises(state,m,p.teamId,now,false)&&supervises(state,m,c.teamId,now,false)))fail(403,'Your supervision delegation does not cover this patient\'s team and the destination team.');if(!own){supervises(state,m,p.teamId,now);supervises(state,m,c.teamId,now);}if(c.assignedTo){const target=state.members.find(x=>x.userId===c.assignedTo&&x.status==='active');if(!target||!['asha','clinician'].includes(target.role)||!target.teamIds.includes(c.teamId))fail(422,'Choose an active care worker in the destination team.');}transferPatientWork(state,p,c,u,now);p.teamId=c.teamId;p.assignedTo=c.assignedTo;p.version++;for(const v of w.visits.filter(v=>v.personId===p.id))if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';patientId=subject=p.id;detail=`Patient assignment updated. Reason: ${c.reason}`;break;}
  case 'correctIdentity':{clinical(m);const p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient details changed. Refresh and compare before correcting.');if(p.name===c.name&&p.age===c.age&&p.sex===c.sex&&p.village===c.village)fail(422,'Change at least one identity detail.');Object.assign(p,{name:c.name,age:c.age,sex:c.sex,village:c.village,version:p.version+1});for(const v of w.visits.filter(v=>v.personId===p.id))if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';subject=patientId=p.id;detail=`Identity corrected. Earlier revisions and completed outputs retained. Reason: ${c.reason}`;break;}
- case 'amendVisit':{clinical(m);const v=visit(w,c.visitId);if(v.recordVersion!==c.version)fail(409,'This visit changed. Refresh before creating a correction.');if(v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(409,'Choose a current confirmed visit to correct.');const newVisit={id:uuid(),personId:v.personId,version:1,recordVersion:1,state:'draft' as const,facts:structuredClone(v.facts),programmeCapture:v.programmeCapture?structuredClone(v.programmeCapture):undefined,aiResults:[],createdAt:now,amendsVisitId:v.id};v.supersededBy=newVisit.id;if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';w.visits.push(newVisit);person(w,v.personId).status='in_progress';subject=v.id;patientId=v.personId;detail=`Correction draft created; original facts and receipts retained. Reason: ${c.reason}`;result={visitId:newVisit.id};break;}
- case 'voidVisit':{clinical(m);const v=visit(w,c.visitId);if(v.recordVersion!==c.version)fail(409,'This visit changed. Refresh before marking it as wrong-patient.');if(v.voidedAt||v.supersededBy)fail(409,'This visit is already corrected or marked as wrong-patient.');v.voidedAt=now;v.voidReason=c.reason;if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';subject=v.id;patientId=v.personId;detail=`Marked as recorded against the wrong patient. Further use blocked; no data moved or receipts recalled. Reason: ${c.reason}`;break;}
+ case 'amendVisit':{clinical(m);const v=visit(w,c.visitId);if(v.recordVersion!==c.version)fail(409,'This visit changed. Refresh before creating a correction.');if(v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(409,'Choose a current confirmed visit to correct.');const newVisit={id:uuid(),personId:v.personId,version:1,recordVersion:1,state:'draft' as const,facts:structuredClone(v.facts),programmeCapture:v.programmeCapture?structuredClone(v.programmeCapture):undefined,aiResults:[],createdAt:now,amendsVisitId:v.id};
+  // Slice 2j: every downstream output of the earlier version becomes an explicit task, computed before anything changes.
+  const tasks=correctionTasks(state,v,'amend',u,now,newVisit.id);v.correctionTasks=[...(v.correctionTasks??[]),...tasks];v.supersededBy=newVisit.id;if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';w.visits.push(newVisit);person(w,v.personId).status='in_progress';subject=v.id;patientId=v.personId;detail=`Correction draft created; original facts and receipts retained. ${taskSummary(tasks)} Reason: ${c.reason}`;result={visitId:newVisit.id};break;}
+ case 'voidVisit':{clinical(m);const v=visit(w,c.visitId);if(v.recordVersion!==c.version)fail(409,'This visit changed. Refresh before marking it as wrong-patient.');if(v.voidedAt||v.supersededBy)fail(409,'This visit is already corrected or marked as wrong-patient.');const tasks=v.state==='confirmed'?correctionTasks(state,v,'void',u,now,null):[];if(tasks.length)v.correctionTasks=[...(v.correctionTasks??[]),...tasks];v.voidedAt=now;v.voidReason=c.reason;if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';subject=v.id;patientId=v.personId;detail=`Marked as recorded against the wrong patient. Further use blocked; no data moved or receipts recalled. ${tasks.length?taskSummary(tasks)+' ':''}Reason: ${c.reason}`;break;}
  default:return {handled:false};
  }
  w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:c.type,subject,personId:patientId,detail});return {handled:true,result};

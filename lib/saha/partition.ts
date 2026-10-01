@@ -41,6 +41,8 @@ export const PATIENT_COMMANDS = new Set<string>([
   'verifyEntry', 'signOffVisit',
   // slice 2i: clinician confirmation of an unusual value on one draft visit
   'confirmUnusualValue',
+  // slice 2j: closing one correction task of one patient's corrected or voided visit
+  'closeCorrectionTask',
 ]);
 
 // Rows a patient-scoped commit may write. Any other table makes the commit organisation-wide.

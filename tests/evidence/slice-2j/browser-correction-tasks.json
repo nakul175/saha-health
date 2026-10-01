@@ -1,0 +1,93 @@
+{
+  "check": "slice 2j correction tasks in the action plan and exception queue, one closed with a reason (headless Chromium, built Worker, synthetic owner)",
+  "setup": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "correctionVisit": "529d84bc-73c9-414a-b336-d237bf2f7a2c",
+  "tasks": [
+    {
+      "kind": "programme-submission",
+      "action": "manual-correction",
+      "state": "open",
+      "external": true
+    },
+    {
+      "kind": "referral",
+      "action": "review",
+      "state": "open",
+      "external": false
+    },
+    {
+      "kind": "worker-activity",
+      "action": "recomputed",
+      "state": "done",
+      "external": false
+    },
+    {
+      "kind": "indicator-releases",
+      "action": "recomputed",
+      "state": "done",
+      "external": false
+    }
+  ],
+  "openBefore": 2,
+  "openAfter": 1,
+  "queueRows": 1,
+  "closed": [
+    {
+      "kind": "referral",
+      "by": "Correction Owner",
+      "reason": "Referral still applies after the corrected weight.",
+      "verified": false
+    }
+  ],
+  "axeActionPlan": [],
+  "steps": [
+    [
+      "OK",
+      "people"
+    ],
+    [
+      "OK",
+      "patient"
+    ],
+    [
+      "OK",
+      "correction items shown"
+    ],
+    [
+      "OK",
+      "open close form"
+    ],
+    [
+      "OK",
+      "reason"
+    ],
+    [
+      "OK",
+      "close"
+    ],
+    [
+      "OK",
+      "item closed"
+    ],
+    [
+      "OK",
+      "operations"
+    ],
+    [
+      "OK",
+      "queue rows"
+    ]
+  ],
+  "consoleErrors": [],
+  "completedAt": "2026-10-01T22:31:37.854Z",
+  "passed": true
+}

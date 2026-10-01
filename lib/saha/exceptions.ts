@@ -11,7 +11,7 @@ import type { Member, OrgState, Person } from './types';
 // scope with a link that opens the patient and visit. Operations members (owners, administrators) also see
 // destination-delivery rows for patients outside that scope, without patient details or links.
 export const EXCEPTION_RULES_VERSION='1.3.0';
-export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting'|'operation-refused';
+export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting'|'operation-refused'|'correction-task';
 export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null;trace:{query:'submission'|'publication';id:string}|null};
 const RANK={critical:0,high:1,normal:2} as const;
 // Destination-delivery problems are operations work: shown, redacted, to operations members for any patient.
@@ -89,6 +89,11 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
   // Slice 3i: field referral requests on a current visit left undecided for REQUEST_WAIT_HOURS or more.
   for(const v of visits.get(p.id)??[]){const q=v.referralRequest;if(!q||q.decision||v.voidedAt||v.supersededBy||Date.parse(now)-Date.parse(q.requestedAt)<REQUEST_WAIT_HOURS*3600000)continue;const ready=v.state==='confirmed';
    add({id:'referral-request-waiting:'+v.id,kind:'referral-request-waiting',severity:v.clinicalConcern?.value==='yes'?'high':'normal',what:`Field referral request to ${q.facility} not decided${ready?'':'; the visit is not confirmed'}`,since:q.requestedAt,owner:ready?`Clinicians of ${team(p)}`:name(q.requestedBy)??`Supervisors of ${team(p)}`,recovery:ready?'A clinician opens the visit and creates the referral or declines the request with a reason.':'The worker who recorded the visit confirms it; a clinician then decides the request.'},v.id);}
+  // Slice 2j (rules 1.3.0): open correction tasks of amended or voided visits, external outputs first.
+  for(const v of visits.get(p.id)??[])for(const t of v.correctionTasks??[])if(t.state==='open'){
+   const o=t.ownerId?members.get(t.ownerId):undefined,ok=!!o&&o.status==='active'&&['asha','clinician'].includes(o.role)&&normallyAllowed(o,p);
+   add({id:'correction-task:'+t.id,kind:'correction-task',severity:t.external?'high':'normal',what:`${t.cause==='amend'?'Corrected':'Wrong-patient'} visit: ${t.output.label} (${t.output.stateAtCorrection}) ${t.external?'needs a correction with the destination':'needs review'}`,since:t.createdAt,owner:ok?o!.displayName:`Supervisors of ${team(p)}`,recovery:`${t.instruction} Close it from the patient's action plan with the correction receipt or a reason.`},v.id);
+  }
   // Overdue programme follow-ups.
   for(const t of p.followUps??[])if(t.state==='open'&&t.due<today){
    const o=members.get(t.ownerId),ok=!!o&&o.status==='active'&&['asha','clinician'].includes(o.role)&&normallyAllowed(o,p);

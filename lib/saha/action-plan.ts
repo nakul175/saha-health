@@ -9,7 +9,7 @@ import { supervises } from './delegation';
 
 // Slice 4b: one per-patient action plan (BR-CARE-05) with visible ownership (BR-CARE-01).
 // Computed on read from the records that already hold the work; nothing is copied or sent.
-export type PlanKind='safety-case'|'referral'|'protocol-review'|'ai-disagreement'|'follow-up'|'outreach'|'message-follow-up';
+export type PlanKind='safety-case'|'referral'|'protocol-review'|'ai-disagreement'|'follow-up'|'outreach'|'message-follow-up'|'correction';
 export type Attention='escalated'|'overdue'|'due-today'|'now'|'undated'|'upcoming'|'waiting';
 export type PlanTarget={kind:'follow-up'|'referral';id:string;version:number};
 export type PlanItem={key:string;kind:PlanKind;title:string;reason:string;sources:{kind:PlanKind;id:string;label:string;programme?:string;visitId?:string;link?:string;at?:string}[];
@@ -17,10 +17,12 @@ export type PlanItem={key:string;kind:PlanKind;title:string;reason:string;source
  // How ownership changes: this slice's command, an existing screen, or not at all.
  assignVia:'action-plan'|'governance'|'outreach'|'none';targets:PlanTarget[];canAssign:boolean;canClaim:boolean;
  // Slice 4d: the item references a dependency can name, what this item waits on, and what waits on it.
+ // Slice 2j: a correction task of a corrected or voided visit, closed with evidence from the plan.
+ correction?:{taskId:string;visitId:string;correctionVisitId:string|null;cause:'amend'|'void';action:string;external:boolean;outputKind:string;destination:string|null;receipt:string|null;ageDays:number;since:string;canClose:boolean;receiptCloses:boolean;href:string};
  refs:PlanItemRef[];waitingOn:{dependencyId:string;key:string;title:string;status:string;attention:Attention;daysOverdue:number}[];blocks:{dependencyId:string;key:string;title:string}[]};
 const ATTENTION:Record<Attention,number>={escalated:0,overdue:1,'due-today':2,now:3,undated:4,upcoming:5,waiting:6};
 const URGENCY:Record<Urgency,number>={emergency:0,urgent:1,routine:2};
-const KIND:Record<PlanKind,number>={'safety-case':0,referral:1,'protocol-review':2,'ai-disagreement':3,'follow-up':4,outreach:5,'message-follow-up':6};
+const KIND:Record<PlanKind,number>={'safety-case':0,referral:1,'protocol-review':2,'ai-disagreement':3,'follow-up':4,outreach:5,'message-follow-up':6,correction:7};
 const day=86400000;
 // Stewards may reassign any open item of a patient in their team; this mirrors referrals.ts.
 export // Slice 1e: a team supervisor or owner with a care role, or a clinician holding a supervision delegation for the team.
@@ -95,6 +97,14 @@ export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOStri
   const values=new Map<string,Set<string>>();for(const r of runs)for(const c of r.conflicts!)if(c.kind==='other-run')values.set(c.field,new Set([...(values.get(c.field)??[]),`${c.proposed} (${r.provider.name})`]));
   const owner=who(runs[0].actorId,o=>eligibleOwner(o,p)),gap=gapFor(owner);
   items.push({key:'ai-disagreement:'+v.id+':'+runs.map(r=>r.id).sort().join(','),kind:'ai-disagreement',title:'Assistant results disagree',reason:[...values].map(([f,xs])=>`${f}: ${[...xs].join(' vs ')}`).join('; ')+'. Choose explicitly or record the value manually.',sources:runs.map(r=>({kind:'ai-disagreement' as const,id:r.id,label:'Assistant result · '+r.provider.name,visitId:v.id})),owner,queue:gap?`Care workers of ${team}`:null,ownershipGap:gap,due:null,urgency:'routine',status:'Awaiting reviewer choice',daysOverdue:0,attention:gap?'escalated':'now',assignVia:'none',targets:[],canAssign:false,canClaim:false,refs:[],waitingOn:[],blocks:[]});
+ }
+ // Slice 2j: open correction tasks recorded when a confirmed visit was amended or voided. External outputs come
+ // first (urgent); each names its owner (the worker who corrected the visit) and is closed with evidence here.
+ for(const v of s.workspace.visits)if(v.personId===p.id)for(const t of v.correctionTasks??[])if(t.state==='open'){
+  const owner=who(t.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner),ageDays=Math.max(0,Math.floor((Date.parse(now)-Date.parse(t.createdAt))/day));
+  items.push({key:'correction:'+t.id,kind:'correction',title:`${t.cause==='amend'?'Corrected':'Wrong-patient'} visit: ${t.output.label}`,reason:t.instruction,sources:[{kind:'correction',id:t.id,label:`${t.cause==='amend'?'Corrected':'Wrong-patient'} visit of ${(v.confirmedAt??v.createdAt).slice(0,10)}`,visitId:v.id,link:'visit',at:t.createdAt}],owner,queue:gap?`Supervisors of ${team}`:null,ownershipGap:gap,due:null,urgency:t.external?'urgent':'routine',
+   status:`Open ${ageDays} day${ageDays===1?'':'s'} · ${t.output.stateAtCorrection}`,daysOverdue:0,attention:gap?'escalated':'now',assignVia:'none',targets:[],canAssign:false,canClaim:false,refs:[],waitingOn:[],blocks:[],
+   correction:{taskId:t.id,visitId:v.id,correctionVisitId:t.correctionVisitId,cause:t.cause,action:t.action,external:t.external,outputKind:t.output.kind,destination:t.output.destination?.name??null,receipt:t.output.receipt??null,ageDays,since:t.createdAt,canClose:lead||care,receiptCloses:t.action==='send-correction',href:`/?patient=${encodeURIComponent(p.id)}&visit=${encodeURIComponent(v.id)}`}});
  }
  // Outreach items and failed-message follow-ups keep their own reassignment on the Outreach page.
  for(const plan of s.outreach?.plans??[])if(!['completed','cancelled'].includes(plan.state))for(const i of plan.items)if(i.personId===p.id&&!['completed','cancelled'].includes(i.state)){
