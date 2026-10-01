@@ -58,6 +58,10 @@ git diff --check
 
 After a build, `node scripts/security-gate.mjs` writes a CycloneDX SBOM of production dependencies (`dist/sbom.cdx.json`) and runs `pnpm audit`. It fails on any critical advisory and on any high advisory whose package appears in `dist/`; high advisories confined to development or build tooling are listed as accepted in `dist/security-gate.json`. The bundle check is a text search of the built output, not a reachability analysis. The gate fails closed when the audit service is unreachable.
 
+## Hosted synthetic staging
+
+Since 1 October 2026, at the sponsor's instruction, `.github/workflows/deploy-staging.yml` deploys every merge into `main` to a Cloudflare Worker with a D1 database behind Cloudflare Access, in the synthetic environment with external APIs off. `scripts/cloudflare-staging.mjs` rewrites the built Worker configuration (Access identity only, `workers.dev` only, no preview addresses) and checks after each deploy that the address does not answer without sign-in; `tests/cloudflare-staging-contract.mjs` covers the configuration rules. See [Hosted synthetic staging](HOSTED-STAGING.md). Merging into `main` therefore publishes to this synthetic host; it is not a production Site.
+
 ## CI boundary
 
 `.github/workflows/ci.yml` (slice 0c) runs documentation integrity, install, type check, build, the supply-chain gate, the HTTP/D1 suite, contract suites and the restore drill on pull requests with synthetic data only. It had not run on GitHub when it was committed; treat it as planned until a green run exists. Earlier text: no complete hosted product CI qualification is established by this documentation batch. The reproducible commands and documentation checker are committed, but a future CI job must provision a disposable environment, install the pinned dependencies, build, apply migrations, run suites and retain safe reports. Do not connect CI to a real patient database or live partner by default. Until that job is actually configured and run, label it planned rather than green.
