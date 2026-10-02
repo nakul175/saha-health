@@ -18,6 +18,7 @@ import { applyFactReview, authorizeFactReview, recordFactAuthors } from './fact-
 import { applySignOff, authorizeSignOff, ensureSignOff, signOffPolicy, stampSubmissions } from './visit-signoff';
 import { applyPatientImport, authorizePatientImport } from './patient-import';
 import { applyRecordImport, authorizeRecordImport } from './record-import';
+import { ensureNotImported } from './imported-visits';
 import { applyDelegation, authorizeDelegation, delegationAudit, heldBy } from './delegation';
 import { applyIndicatorRegistry, authorizeIndicatorRegistry } from './indicator-registry';
 import { applyReferral, authorizeReferralSource } from './referrals';
@@ -132,7 +133,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  }
  const requested=c.type==='switchOrganisation'?c.organisationId:request.headers.get('x-saha-organisation');
  // Slice 0a: certified patient commands load only the named patient(s).
- const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;
+ const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureNotImported(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;
  // Slice 2g: supervisor sign-off is checked on the server before executePlan sends or queues programme submissions.
  const signedOff=await ensureSignOff(state,c);
  if(c.type==='probeEhr'||c.type==='retrieveEhrDocument'||c.type==='executeEhrPublish'||c.type==='lookupEhrPublish'){const result=await executeEhr(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}

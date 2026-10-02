@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { boundedJsonBody } from './request-body';
 import { environmentOf } from './environment';
 import { mayImport, planImport, publicPlan, csvBytes, MAX_CSV } from './patient-import';
+import { mayImportVisits, VISIT_REFUSED } from './visit-import';
 import { planRecordImport, publicRecordPlan, recordImportInput } from './record-import';
 import { rejectionReport, REJECTIONS_DEFINITION, REJECTION_KINDS } from './import-rejections';
 import { recordAccess } from './access-audit';
@@ -27,7 +28,7 @@ const rejectionInput=z.object({kind:z.enum(REJECTION_KINDS),csv:z.string().min(1
 const REFUSED='Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.';
 export async function importRejections(request:Request){
  const u=await identity(),{input,env}=await body(request);const parsed=rejectionInput.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid import.');
- const {kind,csv}=parsed.data!,s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);if(!mayImport(s,m))fail(403,REFUSED);
+ const {kind,csv}=parsed.data!,s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);if(!(kind==='visits'?mayImportVisits(m):mayImport(s,m)))fail(403,kind==='visits'?VISIT_REFUSED:REFUSED);
  const plan=kind==='people'?publicPlan(await planImport(s,m,csv,env)):publicRecordPlan(await planRecordImport(s,m,kind,csv,env));
  const exportId=uuid(),generatedAt=new Date().toISOString(),report=await rejectionReport(plan,{exportId,kind,role:m.role,generatedAt});
  // Slice 6aa (seventh review, finding 6): the export's audit event is an access-audit commit (slice 6t pattern): it is

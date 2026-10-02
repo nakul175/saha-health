@@ -215,7 +215,8 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     const byId = new Map(patientRows.map(p => [String(p.id), p]));
     for (const v of data.visits.filter(x => people.has(String(x.person_id)))) {
       const d = parsed(v);
-      if (v.state !== 'confirmed' || d.voidedAt || d.supersededBy) continue;
+      // Slice 10i: an imported visit is historical content from another system; it is exported in the visits table with its lineage but is not written as a FHIR document of a Saha visit.
+      if (v.state !== 'confirmed' || d.voidedAt || d.supersededBy || d.imported) continue;
       const p = byId.get(String(v.person_id))!;
       const doc = fhirDocument({ ...parsed(p), id: String(p.id) }, { ...d, id: String(v.id), personId: String(v.person_id) }, String(org.name), confirmer.get(String(v.id)) ?? 'Confirming member (see audit)');
       files.push({ path: `fhir/${v.id}.json`, bytes: enc.encode(JSON.stringify(doc, null, 2) + '\n'), note: `FHIR R4 document for visit ${v.id}` });

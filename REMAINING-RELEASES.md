@@ -18,6 +18,7 @@ Five future engineering batches remain planned: R12–R16. R11 also retains open
 - R11 adds immutable source/service/protocol versions, independent rehearsal reviews and model-independent rule findings. Approved triage/red-flag logic, real directory verification, contraindication/interaction scope, full programme-engine integration and offline clinical operation remain incomplete.
 - Fully disconnected registration, actual encrypted IndexedDB recovery on supported devices, attachments/media, speech playback/deletion and complete localisation need further work.
 - Current persistence loads and rewrites an organisation-level state transaction. The small local concurrency smoke does not demonstrate the BRD's scale. Query/persistence architecture, bounded queues, indexes and representative workload measurements need review before rollout.
+- Historical visit import (slice 10i) is controlled but incomplete: there is no batch reversal, no clinician review step that could adopt an imported fact, no programme answers, attachments or structured notes in a file, and no handling of conflicts with visits recorded in Saha. Imported visits stay read-only history until a reviewed design says otherwise.
 - Live adapters, callbacks, identity and consent exchange, connector version compatibility, reconciliation and operational ownership need partner-level evidence. Generic mock transport tests remain local engineering evidence.
 
 ## Acceptance and external inputs

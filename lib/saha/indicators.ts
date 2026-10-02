@@ -8,7 +8,8 @@ import { PROGRAMMES, type Member, type OrgState, type Person, type Programme } f
 // only; there is no free query language. Every figure is computed over the viewer's current scope.
 export const MIN_CELL=5;
 type Ctx={s:OrgState;people:Person[];since:string;until:string;today:string};
-const visitsOf=(c:Ctx,p:Person)=>c.s.workspace.visits.filter(v=>v.personId===p.id&&!v.voidedAt&&!v.supersededBy);
+// Slice 10i: imported visits (historical records from another system) are not counted as visits recorded in Saha.
+const visitsOf=(c:Ctx,p:Person)=>c.s.workspace.visits.filter(v=>v.personId===p.id&&!v.voidedAt&&!v.supersededBy&&!v.imported);
 const inWindow=(c:Ctx,t?:string)=>!!t&&t>=c.since&&t<=c.until;
 // Slice 2a: reuse metering, reproducible from stored visits. A question shared by N programme packs in
 // one visit is N-1 reuse opportunities; answering it once reuses it for all N; an absence reason blocks it.
