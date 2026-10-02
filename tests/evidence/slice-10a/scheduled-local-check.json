@@ -1,0 +1,16 @@
+{
+  "suite": "Scheduled job local served-Worker check (slice 10a)",
+  "passed": 8,
+  "steps": [
+    "the built Worker still serves requests with the custom entry",
+    "the scheduled handler runs on an empty database and logs fixed counters only",
+    "a transfer scheduled for a few seconds ahead is not applied early, even when the job runs",
+    "once due, the scheduled job applies the transfer with nobody using Saha and names itself in the audit trail",
+    "alerts are evaluated by the job and the evaluation is recorded through the normal commit",
+    "a repeat run does not apply or record again within the hour",
+    "the job made no outbound request",
+    "a misconfigured environment is refused with a fixed message and the database is untouched"
+  ],
+  "port": "8811",
+  "completedAt": "2026-10-02T14:36:27.772Z"
+}

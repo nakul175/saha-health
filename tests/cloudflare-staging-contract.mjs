@@ -2,7 +2,7 @@
 // only, runs synthetic or training, keeps external APIs off and serves only its workers.dev address.
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
-import { readConfig, hostedWorkerConfig } from '../scripts/cloudflare-staging.mjs';
+import { readConfig, hostedWorkerConfig, SCHEDULED_CRON } from '../scripts/cloudflare-staging.mjs';
 
 let passed = 0; const check = fn => { fn(); passed++; };
 const refuses = (fn, pattern) => check(() => assert.throws(fn, pattern));
@@ -36,6 +36,19 @@ check(() => assert.equal(built.vars.SAHA_IDENTITY_PROVIDER, 'sites-chatgpt'));
 check(() => { const o = hostedWorkerConfig(built, readConfig(text({})), ID); assert.deepEqual([o.vars.SAHA_ACCESS_TEAM_DOMAIN, o.vars.SAHA_ACCESS_AUD], ['', '']); });
 refuses(() => hostedWorkerConfig(built, readConfig(text({})), ''), /D1 database ID/);
 refuses(() => hostedWorkerConfig(built, readConfig(text({})), 'not-a-uuid'), /D1 database ID/);
+
+// Slice 10a: the hosted Worker carries one Cron Trigger (every five minutes) that runs the scheduled job.
+check(() => assert.equal(SCHEDULED_CRON, '*/5 * * * *'));
+check(() => assert.equal(readConfig(readFileSync('deploy/cloudflare-staging.json', 'utf8')).scheduledCron, '*/5 * * * *'));
+check(() => assert.deepEqual(out.triggers, { crons: ['*/5 * * * *'] }));
+check(() => assert.equal(readConfig(text({})).scheduledCron, '*/5 * * * *', 'omitted means the default'));
+check(() => assert.deepEqual(hostedWorkerConfig(built, readConfig(text({ scheduledCron: '*/10 * * * *' })), ID).triggers, { crons: ['*/10 * * * *'] }));
+check(() => assert.deepEqual(hostedWorkerConfig(built, readConfig(text({ scheduledCron: '' })), ID).triggers, { crons: [] }, 'empty turns the trigger off'));
+check(() => assert.equal(built.triggers, undefined, 'the built configuration is not changed'));
+check(() => assert.deepEqual(hostedWorkerConfig({ ...built, triggers: { crons: ['0 0 * * *'] } }, readConfig(text({})), ID).triggers, { crons: ['*/5 * * * *'] }, 'a trigger in the built file never survives'));
+for (const scheduledCron of ['every five minutes', '* * * *', '*/5 * * * * *', '*/5 * * * *; rm', 5]) refuses(() => readConfig(text({ scheduledCron })), /scheduledCron/);
+// The external-call switches are unchanged by the trigger: still off, still no connections.
+check(() => assert.deepEqual([out.vars.SAHA_EXTERNAL_APIS_ENABLED, out.vars.SAHA_MIS_CONNECTIONS, out.vars.SAHA_EHR_CONNECTIONS], ['false', '[]', '[]']));
 
 // Slice 9c: demo freeze. A merge (push) deploys nothing while SAHA_DEPLOY_FREEZE is "true"; a hand-started run still deploys.
 const workflow = readFileSync('.github/workflows/deploy-staging.yml', 'utf8');

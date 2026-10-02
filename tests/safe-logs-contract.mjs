@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync, globSync } from 'node:fs';
 let passed = 0;
 const check = fn => { fn(); passed++; };
-const files = [...globSync('lib/**/*.ts'), ...globSync('app/**/*.{ts,tsx}'), ...globSync('public/field/*.js')].sort();
+const files = [...globSync('lib/**/*.ts'), ...globSync('app/**/*.{ts,tsx}'), ...globSync('worker/**/*.ts'), ...globSync('public/field/*.js')].sort();
 const reviewed = [
   "lib/saha/monitoring.ts: console.error('Saha request metrics unavailable')",
   "lib/saha/monitoring.ts: console.log(JSON.stringify({event:'saha_request',requestId,route,status:response.status,durationMs:elapsed}))",
@@ -18,6 +18,11 @@ const reviewed = [
   "lib/saha/alert-delivery-server.ts: console.error('Alert delivery evaluation failed', e instanceof Error ? e.name : 'unknown')",
   "lib/saha/caseload-schedule.ts: console.error('Scheduled caseload application failed', e instanceof Error ? e.name : 'unknown')",
   "lib/saha/export-audit.ts: console.error('Export audit not recorded', e instanceof Error ? e.name : 'unknown')",
+  // Slice 10a: the Worker entry's scheduled handler logs fixed counts and an error class only, never an organisation, a patient or a message.
+  "worker/index.ts: console.error('Scheduled job not run: no database binding')",
+  "worker/index.ts: console.error('Scheduled job refused: environment is not configured correctly')",
+  "worker/index.ts: console.log(JSON.stringify({ event: 'saha_scheduled', cron: controller.cron, organisations: run.organisations.length, notReached: run.notReached, stoppedBy: run.stoppedBy, transfers: sum(o => (o.transfers?.applied ?? 0) + (o.transfers?.held ?? 0)), reviews: sum(o => o.reviews?.marked ?? 0), problems: sum(o => o.problems.length), queries: run.queries, durationMs: Date.now() - started }))",
+  "worker/index.ts: console.error('Scheduled job failed', e instanceof Error ? e.name : 'unknown')",
   // Development builds only (guarded by import.meta.env.DEV); a production build never prints the error object.
   'lib/saha/server.ts: console.error(e)',
 ];
@@ -33,6 +38,8 @@ for (const f of files) {
 check(() => assert.deepEqual(calls.sort(), [...reviewed].sort(), 'every console call is reviewed'));
 check(() => assert.match(readFileSync('lib/saha/server.ts', 'utf8'), /if\(import\.meta\.env\.DEV\)console\.error\(e\)/, 'the full error object is printed in development only'));
 check(() => { const line = /console\.log\(JSON\.stringify\(\{([^}]*)\}\)\)/.exec(readFileSync('lib/saha/monitoring.ts', 'utf8'))[1]; assert.deepEqual(line.split(',').map(x => x.split(':')[0]), ['event', 'requestId', 'route', 'status', 'durationMs']); });
+// Slice 10a: the scheduled log line has fixed counters only (no organisation id, patient, message or error text).
+check(() => { const line = /console\.log\(JSON\.stringify\(\{ event: 'saha_scheduled', (.*) \}\)\)/.exec(readFileSync('worker/index.ts', 'utf8'))[1]; assert.deepEqual(line.split(/, (?=[a-zA-Z]+:)/).map(x => x.split(':')[0]), ['cron', 'organisations', 'notReached', 'stoppedBy', 'transfers', 'reviews', 'problems', 'queries', 'durationMs']); });
 check(() => assert.match(readFileSync('lib/saha/monitoring.ts', 'utf8'), /INSERT INTO request_metrics \(org_id,bucket,route,status,count,total_ms,max_ms\)/, 'request metrics store fixed columns only'));
 // Free-text parameters in client request URLs.
 const clientFiles = files.filter(f => f.startsWith('app/') || f.startsWith('public/'));

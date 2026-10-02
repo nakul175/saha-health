@@ -36,3 +36,7 @@
 ## Correction — 1 October 2026 (slice 6z)
 
 An organisation acknowledgement counted for an occurrence when any recipient's view showed it, although care-report alerts have a different count in each member's scope: one owner's acknowledgement cleared another owner's notification and stopped escalation. Escalation notifications were not tied to the guarded escalation update, so a concurrent evaluation could leave them on a closed, never-escalated occurrence, and restore was not guarded against a closed occurrence. Data exit exported every member's notifications. Slice 6z clears each recipient's notification only when their own view shows the acknowledgement and treats the occurrence as acknowledged only when every view does; inserts escalation notifications only when this evaluation's guarded update escalated the occurrence; guards restore; and exports only the exporter's own notifications. See [slice 6z](SLICE-6Z-SIXTH-REVIEW-FIXES.md), findings 2, 3 and 6.
+
+## Update — 2 October 2026 (slice 10a)
+
+Where a Cron Trigger is configured (the hosted staging Worker), a scheduled job now evaluates every organisation's alerts and in-app delivery about every five minutes through the same writer, so detection and threshold escalation no longer wait for someone to open Saha there, and it records the evaluation time in the organisation record. Delivery is still in-app only. The statements above about the Worker having no background timer describe every host without a trigger. See [slice 10a](SLICE-10A-SCHEDULED-TRIGGER.md).
