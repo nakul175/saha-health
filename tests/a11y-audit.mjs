@@ -5,6 +5,8 @@
 // Escape and focus-return checks, document-order Tab walks and live-region checks for error messages.
 // Needs playwright and axe-core resolvable from SAHA_A11Y_MODULES (a directory with node_modules)
 // and a Worker at SAHA_A11Y_ORIGIN (default http://127.0.0.1:8790). Writes tests/a11y-audit-result.json.
+// Slice 10j adds the ASHA journey with Hindi (draft translation) chosen: SAHA_A11Y_ONLY=hindi runs only that section
+// (it still seeds the populated organisation first) and SAHA_A11Y_OUT redirects the result file.
 import { createRequire } from 'node:module';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -12,7 +14,7 @@ const require = createRequire(join(process.env.SAHA_A11Y_MODULES ?? process.cwd(
 const { chromium } = require('playwright');
 const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const axeVersion = require('axe-core/package.json').version;
-const base = process.env.SAHA_A11Y_ORIGIN ?? 'http://127.0.0.1:8790', run = Date.now();
+const base = process.env.SAHA_A11Y_ORIGIN ?? 'http://127.0.0.1:8790', run = Date.now(), only = process.env.SAHA_A11Y_ONLY ?? '';
 const H = (id, name) => ({ 'oai-authenticated-user-id': id, 'oai-authenticated-user-email': `${id}@example.invalid`, 'oai-authenticated-user-full-name': encodeURIComponent(name), 'oai-authenticated-user-full-name-encoding': 'percent-encoded-utf-8' });
 const owner = H(`a11y-owner-${run}`, 'Audit Owner'), asha = H(`a11y-asha-${run}`, 'Audit Asha');
 const api = async (h, body, org) => { const r = await fetch(base + '/api/commands', { method: 'POST', headers: { ...h, 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID(), ...(org ? { 'x-saha-organisation': org } : {}) }, body: JSON.stringify(body) }); return r.json(); };
@@ -41,7 +43,8 @@ async function audit(page, screen) {
   const r = await page.evaluate(async () => await window.axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] }, resultTypes: ['violations'] }));
   results.push({ screen, violations: r.violations.map(v => ({ id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length, targets: v.nodes.slice(0, 3).map(n => n.target.join(' ')), firstFailure: (v.nodes[0]?.failureSummary ?? '').replace(/\s+/g, ' ').slice(0, 240) })) });
 }
-async function session(headers, steps, viewport = { width: 1280, height: 900 }, start = '/') {
+async function session(headers, steps, viewport = { width: 1280, height: 900 }, start = '/', always = false) {
+  if (only === 'hindi' && !always) return;
   const ctx = await browser.newContext({ extraHTTPHeaders: headers, viewport });
   const page = await ctx.newPage(); await page.goto(base + start, { waitUntil: 'networkidle' });
   for (const [screen, go] of steps) { try { await go(page); await audit(page, screen); } catch (e) { results.push({ screen, error: String(e.message).split('\n')[0] }); } }
@@ -167,7 +170,7 @@ await session(owner, [
   ['Empty · owner · pack installations', showPacks],
 ]);
 // Populated states, desktop then phone. On the phone the sidebar is a sheet opened from "Toggle Sidebar".
-const phoneNav = name => async page => { for (let attempt = 0; attempt < 2; attempt++) { try { await page.keyboard.press('Escape').catch(() => {}); await page.evaluate(() => window.scrollTo(0, 0)); await page.getByRole('button', { name: 'Toggle Sidebar' }).first().click({ timeout: 8000 }); await page.getByRole('button', { name, exact: true }).first().click({ timeout: 8000 }); await page.waitForTimeout(300); return; } catch (e) { if (attempt) throw e; await page.waitForTimeout(1000); } } };
+const phoneNav = (name, toggle = 'Toggle Sidebar') => async page => { for (let attempt = 0; attempt < 2; attempt++) { try { await page.keyboard.press('Escape').catch(() => {}); await page.evaluate(() => window.scrollTo(0, 0)); await page.getByRole('button', { name: toggle }).first().click({ timeout: 8000 }); await page.getByRole('button', { name, exact: true }).first().click({ timeout: 8000 }); await page.waitForTimeout(300); return; } catch (e) { if (attempt) throw e; await page.waitForTimeout(1000); } } };
 for (const [label, viewport] of [['desktop', undefined], ['phone', phone]]) {
   const go = viewport ? phoneNav : nav;
   const patient = async page => { await page.keyboard.press('Escape').catch(() => {}); await go('People')(page); await page.getByRole('button', { name: /Meena Devi/ }).first().click(); };
@@ -189,6 +192,53 @@ for (const [label, viewport] of [['desktop', undefined], ['phone', phone]]) {
     [`Populated · ASHA · patient record · ${label}`, async page => { await page.keyboard.press('Escape').catch(() => {}); await go('People')(page); await page.getByRole('button', { name: /Meena Devi/ }).first().click(); }],
   ], viewport);
 }
+// ---------------------------------------------------------------------------------------------------------------
+// Slice 10j: the ASHA journey with Hindi (draft translation) chosen, at desktop and phone widths. The populated
+// organisation's ASHA first chooses Hindi in the sidebar (the real command, saved for the member), then the same screens
+// are audited with Hindi labels read from the message catalogue. Besides axe, every screen records that lang="hi" content
+// exists, that the draft-translation notice is visible (role=note, Hindi first) and that the expected Hindi headings and
+// controls are on the page. The ASHA switches back to English at the end so later sections see the English labels.
+const { default: tsc } = await import('typescript');
+const catalogue = await import('data:text/javascript;base64,' + Buffer.from(tsc.transpileModule(readFileSync('lib/saha/messages.ts', 'utf8'), { compilerOptions: { module: tsc.ModuleKind.ESNext, target: tsc.ScriptTarget.ES2022 } }).outputText).toString('base64'));
+const hi = key => catalogue.message('hi', key);
+const HI = { work: hi('nav.work'), people: hi('nav.people'), start: hi('patient.startVisit'), newVisit: hi('patient.newVisit'), capture: hi('capture.tab'), review: hi('review.tab'), receipts: hi('receipts.tab'), save: hi('capture.saveDraft'), systolic: hi('capture.systolic'), diastolic: hi('capture.diastolic'), clinical: hi('clinical.title'), notice: hi('common.draftNotice') };
+const hindiChecks = [];
+const hiProbe = (screen, texts) => async page => {
+  await page.waitForTimeout(500);
+  const r = await page.evaluate(({ notice, texts }) => {
+    const shown = e => !!e && (e.offsetParent !== null || getComputedStyle(e).position === 'fixed');
+    const strip = document.querySelector('.translation-strip'), text = document.body.innerText;
+    return { hindiElements: document.querySelectorAll('[lang="hi"]').length, englishIslands: document.querySelectorAll('.lang-island[lang="en"]').length, noticeVisible: shown(strip) && (strip.textContent || '').includes(notice), noticeIsNote: strip?.getAttribute('role') === 'note', noticeHindiFirst: strip?.firstElementChild?.getAttribute('lang') === 'hi', missingText: texts.filter(t => !text.includes(t)) };
+  }, { notice: HI.notice, texts });
+  hindiChecks.push({ screen, ...r, passed: r.hindiElements > 0 && r.noticeVisible && r.noticeIsNote && r.noticeHindiFirst && !r.missingText.length });
+  // Optional evidence screenshots of the desktop Hindi screens (SAHA_A11Y_SHOTS is a directory).
+  if (process.env.SAHA_A11Y_SHOTS && /desktop|language chosen/.test(screen)) await page.screenshot({ path: join(process.env.SAHA_A11Y_SHOTS, screen.replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.png') }).catch(() => {});
+};
+const hiPatient = go => async page => { await page.keyboard.press('Escape').catch(() => {}); await go(HI.people)(page); await page.getByRole('button', { name: /Meena Devi/ }).first().click(); };
+// A visit opens by itself when a draft exists; otherwise the patient page offers "Start visit" or "New visit".
+const openVisit = async (page, review, starts) => { const tab = `[role="tab"]:has-text("${review}")`; await page.waitForSelector(`${tab}, ${starts.map(x => `button:has-text("${x}")`).join(', ')}`, { timeout: 8000 }); if (!(await page.locator(tab).count())) await page.getByRole('button', { name: new RegExp(starts.join('|')) }).first().click(); await page.waitForSelector(tab, { timeout: 8000 }); };
+const hiVisit = go => async page => { await hiPatient(go)(page); await openVisit(page, HI.review, [HI.start, HI.newVisit]); };
+const withProbe = (fn, screen, texts) => async page => { await fn(page); await hiProbe(screen, texts)(page); };
+await session(pAsha, [
+  ['Hindi · ASHA · language chosen in the sidebar', async page => { await page.getByRole('button', { name: catalogue.LANGUAGE_NAME.hi, exact: true }).click(); await page.waitForSelector('.translation-strip', { timeout: 8000 }); await hiProbe('Hindi · ASHA · language chosen in the sidebar', [HI.work])(page); }],
+], undefined, '/', true);
+for (const [label, viewport] of [['desktop', undefined], ['phone', phone]]) {
+  const go = viewport ? (n => phoneNav(n, hi('nav.toggleSidebar'))) : nav;
+  const screen = name => `Hindi · ASHA · ${name} · ${label}`;
+  await session(pAsha, [
+    [screen('my work'), withProbe(go(HI.work), screen('my work'), [hi('work.title')])],
+    [screen('patient'), withProbe(hiPatient(go), screen('patient'), [hi('patient.permissions')])],
+    [screen('visit capture'), withProbe(hiVisit(go), screen('visit capture'), [HI.capture, hi('capture.common')])],
+    [screen('visit capture, saved, with clinical review'), withProbe(async page => { await page.getByLabel(HI.systolic, { exact: true }).fill(viewport ? '152' : '150'); await page.getByLabel(HI.diastolic, { exact: true }).fill(viewport ? '114' : '112'); await page.getByRole('button', { name: HI.save }).click(); await page.waitForSelector(`text=${HI.clinical}`, { timeout: 10000 }); await page.waitForTimeout(1500); if (process.env.SAHA_A11Y_SHOTS && !viewport) { await page.getByText(HI.clinical, { exact: true }).first().scrollIntoViewIfNeeded().catch(() => {}); await page.screenshot({ path: join(process.env.SAHA_A11Y_SHOTS, 'Hindi-ASHA-clinical-review-desktop.png') }).catch(() => {}); await page.evaluate(() => window.scrollTo(0, 0)); } if (!viewport) await walk(page, 'Hindi · ASHA · visit · keyboard'); }, screen('visit capture, saved, with clinical review'), [HI.clinical, hi('clinical.applied')])],
+    [screen('review and act'), withProbe(async page => { await page.getByRole('tab', { name: HI.review }).first().click(); }, screen('review and act'), [HI.review, hi('review.checkFacts')])],
+    [screen('receipts'), withProbe(async page => { await page.getByRole('tab', { name: HI.receipts }).first().click(); }, screen('receipts'), [HI.receipts])],
+  ], viewport, '/', true);
+}
+await session(pAsha, [
+  ['Hindi · ASHA · back to English in the sidebar', async page => { await page.getByRole('button', { name: catalogue.LANGUAGE_NAME.en, exact: true }).click(); await page.waitForFunction(() => !document.querySelector('.translation-strip'), null, { timeout: 8000 }); const left = await page.evaluate(() => ({ strips: document.querySelectorAll('.translation-strip').length, hindiOutsideLanguageChoice: [...document.querySelectorAll('[lang="hi"]')].filter(e => !e.closest('.language-choice, .sidebar-note, .signout-link')).length })); hindiChecks.push({ screen: 'Hindi · ASHA · back to English in the sidebar', ...left, passed: left.strips === 0 }); }],
+  // Control for the Hindi keyboard walk: the same visit screen in English, to tell Hindi-specific focus problems from existing ones.
+  ['English control · ASHA · visit capture', async page => { await openPatient(page); await openVisit(page, 'Review', ['Start visit', 'New visit']); await walk(page, 'English control · ASHA · visit · keyboard'); }],
+], undefined, '/', true);
 // Error states. A refused command (409) and unavailable reads (503) are injected in the browser with page.route; the
 // Worker itself is not changed. The workspace-level failure replaces the whole first load.
 const refusal = 'Synthetic refusal for the accessibility audit: this record changed, reload and try again.';
@@ -198,7 +248,7 @@ await session(pOwner, [
   ['Error · reads unavailable (503) · operations', async page => { await nav('Operations')(page); await page.waitForTimeout(1200); await liveCheck(page, 'Error · reads unavailable (503) · operations', /Synthetic service unavailable|could not be loaded|could not load|unavailable/, false); }],
   ['Error · reads unavailable (503) · organisation', async page => { await toOrg(page); await page.waitForTimeout(1200); }],
 ]);
-{
+if (only !== 'hindi') {
   const ctx = await browser.newContext({ extraHTTPHeaders: pOwner, viewport: { width: 1280, height: 900 } }); const page = await ctx.newPage();
   await page.route('**/api/workspace*', r => r.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'Synthetic service unavailable for the accessibility audit.' }) }));
   try { await page.goto(base + '/', { waitUntil: 'networkidle' }); await page.waitForTimeout(800); await audit(page, 'Error · workspace unavailable (503) · desktop'); await liveCheck(page, 'Error · workspace unavailable (503)', /Synthetic service unavailable|Workspace unavailable/); } catch (e) { results.push({ screen: 'Error · workspace unavailable (503) · desktop', error: String(e.message).split('\n')[0] }); }
@@ -206,7 +256,7 @@ await session(pOwner, [
   await ctx.close();
 }
 // Dialogs and disclosures, opened from the keyboard.
-{
+if (only !== 'hindi') {
   const ctx = await browser.newContext({ extraHTTPHeaders: pOwner, viewport: { width: 1280, height: 900 } }); const page = await ctx.newPage(); await page.goto(base + '/', { waitUntil: 'networkidle' });
   for (const name of ['Household & proxies', 'Identity & merges', 'Rights requests', 'ABHA & consent']) { await openPatient(page); await dialogCheck(page, `Patient · ${name}`, page.getByRole('button', { name }).first()); }
   await nav('Outreach')(page); await page.waitForTimeout(600); await dialogCheck(page, 'Outreach · Plan outreach', page.getByRole('button', { name: 'Plan outreach' }).first());
@@ -223,6 +273,6 @@ await session(pOwner, [
 await browser.close();
 const byRule = {};
 for (const r of results) for (const v of r.violations ?? []) { byRule[v.id] ??= { impact: v.impact, help: v.help, screens: 0, nodes: 0 }; byRule[v.id].screens++; byRule[v.id].nodes += v.nodes; }
-const report = { tool: `axe-core ${axeVersion}`, tags: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'], screens: results.length, screensWithErrors: results.filter(r => r.error).length, violationsByRule: byRule, totalViolationNodes: Object.values(byRule).reduce((n, r) => n + r.nodes, 0), results, keyboard, setup, populatedProbes: probes, dialogs, tabOrder, liveRegions, keyboardChecksFailed: dialogs.filter(d => !d.passed).length + tabOrder.filter(t => !t.passed).length + liveRegions.filter(l => !l.passed).length, limits: 'Automated rules find a subset of WCAG failures. The keyboard walk checks reachability and a visible focus style; the 6x checks test dialog focus traps, Escape, focus return, document-order tab sequence and live regions for status and error text, not whether the order or announcements make sense to a person. No screen-reader, zoom or representative-user review was done.', completedAt: new Date().toISOString() };
+const report = { tool: `axe-core ${axeVersion}`, tags: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'], screens: results.length, screensWithErrors: results.filter(r => r.error).length, violationsByRule: byRule, totalViolationNodes: Object.values(byRule).reduce((n, r) => n + r.nodes, 0), results, keyboard, setup, populatedProbes: probes, dialogs, tabOrder, liveRegions, hindiChecks, hindiChecksFailed: hindiChecks.filter(h => !h.passed).length, keyboardChecksFailed: dialogs.filter(d => !d.passed).length + tabOrder.filter(t => !t.passed).length + liveRegions.filter(l => !l.passed).length, limits: 'Automated rules find a subset of WCAG failures. The keyboard walk checks reachability and a visible focus style; the 6x checks test dialog focus traps, Escape, focus return, document-order tab sequence and live regions for status and error text, not whether the order or announcements make sense to a person. No screen-reader, zoom or representative-user review was done.', completedAt: new Date().toISOString() };
 writeFileSync(process.env.SAHA_A11Y_OUT ?? 'tests/a11y-audit-result.json', JSON.stringify(report, null, 2) + '\n');
-console.log(JSON.stringify({ setup: setup.filter(x => !x.endsWith(':200')), probesNotShown: probes.filter(p => !p.shown).map(p => p.pattern), dialogs: dialogs.map(d => `${d.passed ? 'PASS' : 'FAIL'} ${d.name} ${d.error ?? ''} inside=${d.focusMovedInside} trap=${d.trapsFocus} esc=${d.closedOnEscape} return=${d.focusReturned} name=${d.dialogName}`), tabOrder: tabOrder.map(t => `${t.passed ? 'PASS' : 'FAIL'} ${t.screen}: ${t.stops} stops, positive ${t.positiveTabindex.length}, out of order ${t.outOfDocumentOrder.length}, backward ${t.backwardInSameColumnForReview.length}`), live: liveRegions.map(l => `${l.passed ? 'PASS' : 'FAIL'} ${l.screen}: ${l.announced}/${l.found}`), keyboard: keyboard.map(k => `${k.screen}: ${k.stops} stops, ${k.withoutVisibleFocus.length} without visible focus ${k.withoutVisibleFocus.slice(0, 6).join(', ')}`), screens: report.screens, errors: report.screensWithErrors, totalViolationNodes: report.totalViolationNodes, rules: Object.fromEntries(Object.entries(byRule).map(([k, v]) => [k, `${v.impact}:${v.nodes}@${v.screens}`])) }, null, 1));
+console.log(JSON.stringify({ setup: setup.filter(x => !x.endsWith(':200')), hindi: hindiChecks.map(h => `${h.passed ? 'PASS' : 'FAIL'} ${h.screen}: lang=hi ${h.hindiElements ?? '-'}, islands ${h.englishIslands ?? '-'}, notice ${h.noticeVisible ?? '-'}${(h.missingText ?? []).length ? ', missing ' + h.missingText.join('|') : ''}`), probesNotShown: probes.filter(p => !p.shown).map(p => p.pattern), dialogs: dialogs.map(d => `${d.passed ? 'PASS' : 'FAIL'} ${d.name} ${d.error ?? ''} inside=${d.focusMovedInside} trap=${d.trapsFocus} esc=${d.closedOnEscape} return=${d.focusReturned} name=${d.dialogName}`), tabOrder: tabOrder.map(t => `${t.passed ? 'PASS' : 'FAIL'} ${t.screen}: ${t.stops} stops, positive ${t.positiveTabindex.length}, out of order ${t.outOfDocumentOrder.length}, backward ${t.backwardInSameColumnForReview.length}`), live: liveRegions.map(l => `${l.passed ? 'PASS' : 'FAIL'} ${l.screen}: ${l.announced}/${l.found}`), keyboard: keyboard.map(k => `${k.screen}: ${k.stops} stops, ${k.withoutVisibleFocus.length} without visible focus ${k.withoutVisibleFocus.slice(0, 6).join(', ')}`), screens: report.screens, errors: report.screensWithErrors, totalViolationNodes: report.totalViolationNodes, rules: Object.fromEntries(Object.entries(byRule).map(([k, v]) => [k, `${v.impact}:${v.nodes}@${v.screens}`])) }, null, 1));

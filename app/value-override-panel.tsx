@@ -6,25 +6,27 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ALT_UNITS, CONVERTIBLE_FIELDS, VALUE_FIELDS, VALUE_RANGES, authorText, convertEntered, currentOverride, enteredText, overrideConfirmation, overrideText, rangeText, valueTier } from '@/lib/saha/fact-provenance';
 import type { ConvertibleField, Facts, Measure, Snapshot, ValueField, Visit } from '@/lib/saha/types';
+import { useI18n } from './i18n';
 // Slice 2i: values entered in another unit (converted on the server, original kept) and reasons for values outside the
 // placeholder expected range (BR-DATA-05). The ranges are an engineering placeholder, not clinically approved.
 const fieldsFor=(measures:Measure[]):ValueField[]=>VALUE_FIELDS.filter(f=>measures.includes(f==='systolic'||f==='diastolic'?'bloodPressure':f as Measure));
 export function UnitAndReasonEditor({facts,measures,onChange}:{facts:Facts;measures:Measure[];onChange:(f:Facts)=>void}){
+ const {t,lang,label}=useI18n(),hl=lang==='hi'?'hi':undefined,unitName=(text:string)=>lang==='hi'?<span lang="en">{text}</span>:text;
  const fields=fieldsFor(measures),convertible=CONVERTIBLE_FIELDS.filter(f=>fields.includes(f));
  const setEntered=(f:ConvertibleField,unit:string,value:string)=>{const entered={...(facts.entered??{})};const next:Facts={...facts};
   if(unit==='base'){delete entered[f];}else{entered[f]={value,unit};next[f]=value.trim()?convertEntered(f,{value:value.trim(),unit})??'':'';}
   if(Object.keys(entered).length)next.entered=entered;else delete next.entered;onChange(next);};
  const setReason=(f:ValueField,reason:string)=>{const unusual={...(facts.unusual??{}),[f]:reason};onChange({...facts,unusual});};
  const unusual=fields.filter(f=>valueTier(f,facts[f])!=='expected');
- return <details className="provenance-editor" open={!!facts.entered||unusual.length>0} data-testid="unit-and-reason"><summary>Other units and unusual values</summary>
-  <p className="muted text-sm">Enter a value in another unit only when it was measured in that unit; Saha converts it on saving and keeps what you entered. Expected ranges: {VALUE_RANGES.status} ({VALUE_RANGES.version}).</p>
-  {convertible.map(f=>{const e=facts.entered?.[f],alt=ALT_UNITS[f],r=VALUE_RANGES.fields[f];
-   return <div className="form-grid three" key={f}><div className="provenance-label"><strong>{r.label}</strong><span className="muted text-sm">{e?(facts[f]?`${e.value} ${alt.label.split(' ')[0]} = ${facts[f]} ${r.unit}`:'Enter a positive number'):`Entered in ${r.unit}`}</span></div>
-    <label className="field"><span>{r.label} unit</span><Select value={e?alt.unit:'base'} onValueChange={u=>setEntered(f,u,u==='base'?'':(e?.value??''))}><SelectTrigger aria-label={`${r.label} unit`}><SelectValue/></SelectTrigger><SelectContent><SelectItem value="base">{r.unit}</SelectItem><SelectItem value={alt.unit}>{alt.label}</SelectItem></SelectContent></Select></label>
-    <label className="field"><span>{r.label} in {alt.label.split(' ')[0]}</span><Input inputMode="decimal" value={e?.value??''} disabled={!e} onChange={x=>setEntered(f,alt.unit,x.target.value)} placeholder={e?'Value as measured':'Choose the unit first'}/></label></div>;})}
-  {unusual.map(f=>{const r=VALUE_RANGES.fields[f],tier=valueTier(f,facts[f]);
-   return <div className="provenance-row" key={'u'+f}><p className="notice amber-notice">{r.label} {facts[f]} {r.unit} is outside the expected range {rangeText(f,r.expected)}. Check the value and its unit.{tier==='clinician'?` It is also outside ${rangeText(f,r.confirm)}: a clinician who did not record it must confirm it before the visit is confirmed.`:''}</p>
-    <label className="field"><span>Reason for unusual {r.label.toLowerCase()} (at least 10 characters)</span><Textarea value={facts.unusual?.[f]??''} onChange={x=>setReason(f,x.target.value)} maxLength={500} rows={2}/></label></div>;})}
+ return <details className="provenance-editor" open={!!facts.entered||unusual.length>0} data-testid="unit-and-reason"><summary>{t('capture.unit.summary')}</summary>
+  <p className="muted text-sm">{t('capture.unit.help')} {t('capture.unit.ranges')} <span lang="en">{VALUE_RANGES.status} ({VALUE_RANGES.version})</span>.</p>
+  {convertible.map(f=>{const e=facts.entered?.[f],alt=ALT_UNITS[f],r=VALUE_RANGES.fields[f],name=label('capture.measure',f);
+   return <div className="form-grid three" key={f}><div className="provenance-label"><strong>{name}</strong><span className="muted text-sm">{e?(facts[f]?`${e.value} ${alt.label.split(' ')[0]} = ${facts[f]} ${r.unit}`:t('capture.unit.enterPositive')):t('capture.unit.enteredIn',{unit:r.unit})}</span></div>
+    <label className="field"><span>{t('capture.unit.unitOf',{measure:name})}</span><Select value={e?alt.unit:'base'} onValueChange={u=>setEntered(f,u,u==='base'?'':(e?.value??''))}><SelectTrigger aria-label={t('capture.unit.unitOf',{measure:name})}><SelectValue/></SelectTrigger><SelectContent lang={hl}><SelectItem value="base">{r.unit}</SelectItem><SelectItem value={alt.unit}>{unitName(alt.label)}</SelectItem></SelectContent></Select></label>
+    <label className="field"><span>{t('capture.unit.measureIn',{measure:name,unit:alt.label.split(' ')[0]})}</span><Input inputMode="decimal" value={e?.value??''} disabled={!e} onChange={x=>setEntered(f,alt.unit,x.target.value)} placeholder={e?t('capture.unit.valueAsMeasured'):t('capture.unit.chooseFirst')}/></label></div>;})}
+  {unusual.map(f=>{const r=VALUE_RANGES.fields[f],tier=valueTier(f,facts[f]),name=label('capture.measure',f);
+   return <div className="provenance-row" key={'u'+f}><p className="notice amber-notice">{t('capture.unit.outside',{measure:name,value:facts[f],unit:r.unit,range:rangeText(f,r.expected)})}{tier==='clinician'?t('capture.unit.outsideConfirm',{range:rangeText(f,r.confirm)}):''}</p>
+    <label className="field"><span>{t('capture.unit.reason',{measure:name.toLowerCase()})}</span><Textarea value={facts.unusual?.[f]??''} onChange={x=>setReason(f,x.target.value)} maxLength={500} rows={2}/></label></div>;})}
  </details>;
 }
 export function ValueOverridePanel({v,data,busy,command}:{v:Visit;data:Snapshot;busy:boolean;command:(c:any,s?:string)=>Promise<any>}){

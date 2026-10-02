@@ -5,15 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import type { Person, Snapshot } from '@/lib/saha/types';
+import { useI18n } from './i18n';
 type Command=(c:any,s?:string)=>Promise<any>;
 function Field({label,children}:{label:string;children:React.ReactNode}){return <label className="field"><span>{label}</span>{children}</label>}
 const KIND:Record<string,string>={'programme-record':'Programme record','ehr-link':'EHR link','referral':'Referral','follow-up':'Follow-up','enrolment':'Episode','household':'Household','proxy':'Proxy grant','post-merge-review':'Created while merged'};
 
 // Slice 1c: duplicate-record merge proposals, two-person review, impact queue and unmerge for one patient.
 export function MergeNotice({p}:{p:Person}){
- if(p.mergedInto)return <div className="notice amber-notice" role="status">This record was merged into another record on {new Date(p.mergedInto.at).toLocaleDateString()}. It is read-only for new care; visits, receipts and history are kept. Open Identity & merges for the surviving record and remaining work.</div>;
+ const {t,n}=useI18n();
+ if(p.mergedInto)return <div className="notice amber-notice" role="status">{t('patient.merged',{date:new Date(p.mergedInto.at).toLocaleDateString()})}</div>;
  const active=(p.mergedFrom??[]).filter(x=>!x.unmergedAt).length;
- return active?<div className="notice" role="status">{active} duplicate record{active>1?'s were':' was'} merged into this record. Their history stays on the original record; open Identity & merges for remaining work.</div>:null;
+ return active?<div className="notice" role="status">{n('patient.mergedFrom',active)}</div>:null;
 }
 export function MergePatient({data,p,busy,command}:{data:Snapshot;p:Person;busy:boolean;command:Command}){
  const [open,setOpen]=useState(false),[view,setView]=useState<any>(null),[error,setError]=useState('');
