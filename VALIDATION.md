@@ -1010,3 +1010,16 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - Browser check: an ASHA's menu shows My work, People, Submissions, Outreach, Care handover and Organisation & team; a supervisor's adds Pilot readiness, Operations, Connections and Activity log; the owner's is unchanged in content. With a visit open the visit form is the first panel after the patient banner, and "Assigned to Sunita Yadav" replaces the account email. Screenshots before and after in `tests/evidence/slice-9b/`.
 - No requirement status changed: 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 formal acceptances remain pending.
 
+
+## Development slice 9c — demo freeze for the hosted site — 2 October 2026 IST
+
+- At the sponsor's request for a presenter-led demonstration to a government audience, `.github/workflows/deploy-staging.yml` now skips deployment on a merge into `main` while the repository variable `SAHA_DEPLOY_FREEZE` is `true`, with a notice in the run; a run started by hand (workflow_dispatch) still deploys, from the chosen branch or tag. The procedure is in `docs/current/HOSTED-STAGING.md`.
+- `tests/cloudflare-staging-contract.mjs` gains 4 checks on the workflow text (the variable is read; a push with the variable `true` stops before the credentials are treated as configured; workflow_dispatch remains): 25 checks passed (21 before). The workflow itself has not run with the variable set: no Cloudflare key is configured yet, so every run still deploys nothing.
+- No application code, route or command changed. Requirement counts unchanged at 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
+## Demonstration build integration (slices 9a, 9b and 9c) — 2 October 2026 IST
+
+- Slices 9a (demonstration clinical package), 9b (demonstration screens) and 9c (demo freeze) merged in that order with merge commits; conflicts were in shared documentation and generated files only, resolved by keeping both sides and rebuilding the generated catalogues and baseline.
+- **6,268 automated assertions passed on the combined source, first run:** 3,604 HTTP/D1 (3,521 plus 47 for 9a and 36 for 9b), 2,643 contract/checkpoint (2,587 plus 52 for 9a and 4 for 9c) and 21 encrypted restore checks. Reports: `tests/evidence/slice-integration-12/`.
+- Requirement counts unchanged at 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 formal acceptances remain pending. None of 9a–9c has been independently reviewed.
+

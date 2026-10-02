@@ -37,6 +37,13 @@ check(() => { const o = hostedWorkerConfig(built, readConfig(text({})), ID); ass
 refuses(() => hostedWorkerConfig(built, readConfig(text({})), ''), /D1 database ID/);
 refuses(() => hostedWorkerConfig(built, readConfig(text({})), 'not-a-uuid'), /D1 database ID/);
 
+// Slice 9c: demo freeze. A merge (push) deploys nothing while SAHA_DEPLOY_FREEZE is "true"; a hand-started run still deploys.
+const workflow = readFileSync('.github/workflows/deploy-staging.yml', 'utf8');
+check(() => assert.match(workflow, /SAHA_DEPLOY_FREEZE: \$\{\{ vars\.SAHA_DEPLOY_FREEZE \}\}/));
+check(() => assert.match(workflow, /\[ "\$TRIGGER" = "push" \] && \[ "\$SAHA_DEPLOY_FREEZE" = "true" \]/));
+check(() => assert.match(workflow, /workflow_dispatch:/));
+check(() => { const freeze = workflow.indexOf('SAHA_DEPLOY_FREEZE" = "true"'), creds = workflow.indexOf('configured=true'); assert.ok(freeze > 0 && freeze < creds); });
+
 const result = { suite: 'Hosted synthetic staging configuration contract', passed, completedAt: new Date().toISOString() };
 writeFileSync('tests/cloudflare-staging-contract-result.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result));
