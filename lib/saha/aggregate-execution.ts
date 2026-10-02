@@ -4,20 +4,24 @@ import { persist, readState, type Actor } from './store';
 import { linkTrace } from './trace';
 import { recordAccess } from './access-audit';
 import { operationRefusal, refusalOf, type Refusal } from './adapter-operations';
-import { resolveDefinition, MIN_CELL } from './indicators';
+import { resolveDefinition, MIN_CELL, releasePopulation } from './indicators';
 import { ledgerFull, pruneLedger, screenReleases } from './indicator-differencing';
-import { candidateReleases, readLedger, writeLedger, type Candidate } from './indicator-ledger';
+import { candidateReleases, ledgerHash, readLedger, writeLedger, type Candidate } from './indicator-ledger';
 import { aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, computeRuns, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
 import type { Member, OrgState } from './types';
 // Slice 7g: preparing, approving, sending and looking up aggregate reports (see aggregate-delivery.ts).
+export const LEDGER_WRITE_REFUSED='the differencing ledger could not record this release (storage refused the write), so the release could not be protected.';
 const LEDGER_ATTEMPTS=3,receiver=(destinationId:string)=>`destination:${destinationId}`;
 const audit=(s:OrgState,u:Actor,m:Member,action:string,subject:string,detail:string,at:string)=>s.workspace.audit.push({id:uuid(),at,actor:u.displayName,actorId:u.userId,role:m.role,action,subject,detail});
 // The differencing screen for one report against the destination's recent releases (slice 6s/6w): a team whose
 // cohort would reveal a remainder of 1 to 4 is withheld whole; otherwise each definition is screened.
-async function screen(db:D1Database,orgId:string,destinationId:string,runs:TeamRun[],at:string){
+// Slice 6ab (round-5 integration limit): each measure release is also checked against the organisation's people now
+// (slice 6aa population check), as the indicator page does.
+async function screen(db:D1Database,s:OrgState,destinationId:string,runs:TeamRun[],at:string){
+ const orgId=s.organisation.id,population=await releasePopulation(s,ledgerHash(orgId),new Date(at));
  const {ledger,text}=await readLedger(db,orgId);let working=ledger;const released=new Map<string,Set<string>>(),accepted:Candidate[]=[];
  for(const run of runs){if(!run.results)continue;
-  const cands=await candidateReleases(orgId,receiver(destinationId),{team:run.teamId},run.series,at),res=screenReleases(working,cands,MIN_CELL,at);
+  const cands=await candidateReleases(orgId,receiver(destinationId),{team:run.teamId},run.series,at),res=screenReleases(working,cands,MIN_CELL,at,population);
   if(res.refused.some(c=>c.isCohort)){released.set(run.teamId,new Set());continue;}
   const withheld=new Set(res.refused.flatMap(c=>c.ids));released.set(run.teamId,new Set(res.accepted.flatMap(c=>c.ids).filter(x=>!withheld.has(x))));
   accepted.push(...res.accepted);working=[...working,...res.accepted.map(c=>c.release)];}
@@ -26,7 +30,7 @@ async function screen(db:D1Database,orgId:string,destinationId:string,runs:TeamR
 // Recomputes a report from its recorded parameters (pinned definition versions, period, teams, grouping and the
 // preparation time) on the state given, screened against the destination's current releases.
 async function compute(db:D1Database,s:OrgState,m:Member,r:Pick<AggregateReport,'id'|'definitions'|'teamIds'|'group'|'period'|'computedAt'|'destinationId'>,releaseAt:string){
- const runs=computeRuns(s,m,r,new Date(r.computedAt)),sc=await screen(db,s.organisation.id,r.destinationId,runs,releaseAt);
+ const runs=computeRuns(s,m,r,new Date(r.computedAt)),sc=await screen(db,s,r.destinationId,runs,releaseAt);
  return {payload:await buildPayload(s,r.id,r,runs,sc.released,r.computedAt),screen:sc};
 }
 async function prepare(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'prepareAggregateReport'}>,u:Actor,m:Member,key:string,hash:string){
@@ -89,7 +93,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
   else if(lookup){withdrawn=operationRefusal(li,'lookup','none');if(withdrawn)refusal=refusalOf(li,'lookup','checkpoint');}
   else {const x=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(x){withdrawn=x.text;refusal=x.refusal;}
    else {check=minimisationCheck(stored?.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed){withdrawn=`the payload failed the minimisation check (${check.problems[0]})`;refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'minimisation'};}}
-   if(!withdrawn)withdrawn=await recordReleases(db,s.organisation.id,releases,now);
+   if(!withdrawn)withdrawn=await recordReleases(db,latest,releases,now);
    if(withdrawn&&!refusal&&li)refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'differencing'};}}
  let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch{}
  for(let n=0;n<3;n++){
@@ -112,12 +116,16 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
 }
 // The release is recorded in the differencing ledger as a release to the destination before the request is made. A
 // report sent to the same destination since this one was approved can make it unsafe: then nothing is sent.
-async function recordReleases(db:D1Database,orgId:string,releases:Candidate[],at:string):Promise<string|null>{
+// Slice 6ab: the checkpoint screen also uses the population check on the state read inside the checkpoint, and a ledger
+// write that D1 refuses (for example a value over its size limit) closes the report as not sent with a clear reason.
+async function recordReleases(db:D1Database,s:OrgState,releases:Candidate[],at:string):Promise<string|null>{
+ const orgId=s.organisation.id,population=await releasePopulation(s,ledgerHash(orgId),new Date(at));
  for(let attempt=1;attempt<=LEDGER_ATTEMPTS;attempt++){
-  const {ledger,text}=await readLedger(db,orgId),{refused}=screenReleases(ledger,releases,MIN_CELL,at);
-  if(refused.length)return 'together with reports sent to this destination since approval, it would reveal a group of fewer than 5 people.';
+  const {ledger,text}=await readLedger(db,orgId),{refused}=screenReleases(ledger,releases,MIN_CELL,at,population);
+  if(refused.length)return 'together with reports sent to this destination since approval and the people recorded now, it would reveal a group of fewer than 5 people.';
   if(ledgerFull(ledger,releases.map(c=>c.release),at))return 'the differencing ledger is full for this destination; try again when older releases leave the seven-day window.';
-  if(await writeLedger(db,orgId,text,pruneLedger([...ledger,...releases.map(c=>c.release)],at)))return null;
+  let written=false;try{written=await writeLedger(db,orgId,text,pruneLedger([...ledger,...releases.map(c=>c.release)],at));}catch{return LEDGER_WRITE_REFUSED;}
+  if(written)return null;
  }
  return 'many indicator releases were being recorded at once, so this release could not be recorded.';
 }

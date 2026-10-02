@@ -35,3 +35,7 @@ These defects were found by a sixth independent review, carried out by an agent 
 - Data exit leaves out other members' inboxes entirely; a buyer who needs every member's delivery history must export as each member or read occurrences only.
 - A sign-off still stays valid after the signer loses supervisor authority (noted by the review; unchanged).
 - These fixes have not been independently reviewed. BR-PROG-08, BR-OPS-04, BR-DATA-02, BR-INT-14, BR-OPS-07 and NFR-18 stay partial and NFR-22 stays partial; their current text and evidence are updated.
+
+## Correction — 2 October 2026 (slice 6ab)
+
+An eighth independent review found that the "neutral" ABHA refusal of finding 5 is still an oracle, because the mock gateway's one-time code is public: a requester who enters it can tell the refusal from a successful link. Every probe also added another review event, and the access action text said "on both records" although the event is written on the holding record only. Slice 6ab bounds the oracle rather than removing it (it cannot be removed while the mock code is public): the duplicate is decided before the code is looked at, one review event is written per requester and holding record a day, and after three such refusals in a day every further link by that requester is refused the same way. The text now names the holding record only. See [SLICE-6AB-EIGHTH-REVIEW-FIXES.md](SLICE-6AB-EIGHTH-REVIEW-FIXES.md).

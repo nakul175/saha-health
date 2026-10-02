@@ -26,8 +26,9 @@ export const ACCESS_ACTIONS = {
   // Slice 6w: an indicator CSV export is recorded the same way, so exporting does not move the organisation revision.
   indicatorExport: 'Indicator results exported as CSV (small cells suppressed).',
   // Slice 6z: an ABHA link refused because the number is linked to a record outside the requester's scope, recorded on
-  // both records for identity steward review; the requester is shown the ordinary link refusal.
-  abhaLinkReview: 'ABHA link refused: the number is linked to another record. For identity steward review.',
+  // the record that holds the number (not on the requesting record) for identity steward review; the requester is shown
+  // the ordinary link refusal. Slice 6ab: at most one event per requester and holding record a day.
+  abhaLinkReview: 'ABHA link refused: the number is linked to this record. Recorded on the holding record only, for identity steward review.',
   // Slice 6aa: an import rejection report (row numbers and reasons only) is recorded the same way as an indicator export.
   importRejectionsExport: 'Import rejection report exported as CSV (row numbers and reasons only).',
 } as const;

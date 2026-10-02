@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2j, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2j, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ab, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -575,7 +575,7 @@
       "sourceTextLine": 210,
       "implementation": "partial",
       "target": "R11",
-      "current": "Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i).",
+      "current": "Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i). Slice 6ab: a clinician confirming an unusual value must not be the measurement's recorded author or the author of any override with the same value (rewording the reason or re-entering the value in another unit no longer lets the recorder confirm it).",
       "remaining": "Approved clinical ranges and their governance, age-, sex- and pregnancy-specific ranges, further units (blood pressure kPa, gestational age in weeks and days), range checks for programme answers, and structured (non-note) exchange of overrides.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -595,7 +595,9 @@
         "tests/value-override-smoke.mjs",
         "tests/field-units-client.mjs",
         "tests/value-override-agent-contract.mjs",
-        "docs/current/SLICE-2I-VALUE-OVERRIDES.md"
+        "docs/current/SLICE-2I-VALUE-OVERRIDES.md",
+        "tests/eighth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1012,7 +1014,7 @@
       "sourceTextLine": 262,
       "implementation": "implemented-local",
       "target": "R11",
-      "current": "Closed extraction/summary/review task catalogue and explicit unavailable states.",
+      "current": "Closed extraction/summary/review task catalogue and explicit unavailable states. Slice 6ab: the summary source lists text facts only (no entered-unit, unusual-reason or provenance objects).",
       "remaining": "Approved task catalogue and live-provider acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1023,7 +1025,9 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "tests/eighth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1886,7 +1890,7 @@
       "sourceTextLine": 369,
       "implementation": "partial",
       "target": "R12",
-      "current": "EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue.",
+      "current": "EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read.",
       "remaining": "Live partner adapters configured and tested with narrowed operations; void and aggregate report paths; AI providers are not covered; production acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1900,7 +1904,10 @@
         "lib/saha/ehr-execution.ts",
         "tests/adapter-operations-contract.mjs",
         "tests/adapter-operations-smoke.mjs",
-        "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md"
+        "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md",
+        "lib/saha/abdm.ts",
+        "tests/eighth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2058,7 +2065,7 @@
       "sourceTextLine": 390,
       "implementation": "partial",
       "target": "R12",
-      "current": "Per-destination mapped field allowlists. Slice 7e: aggregate-only programme destinations refuse every patient-level record before preparation and inside the delivery checkpoint. Slice 7g: an aggregate-only demonstration destination receives approved aggregate reports only: suppressed cells from named indicator versions, a definition and version manifest, row count and SHA-256; a payload minimisation check (no patient-level field or identifier value, no released cell from 1 to 4) runs before preparing, before the checkpoint and inside it, and its result is recorded on the report; a failed check closes the report as not sent.",
+      "current": "Per-destination mapped field allowlists. Slice 7e: aggregate-only programme destinations refuse every patient-level record before preparation and inside the delivery checkpoint. Slice 7g: an aggregate-only demonstration destination receives approved aggregate reports only: suppressed cells from named indicator versions, a definition and version manifest, row count and SHA-256; a payload minimisation check (no patient-level field or identifier value, no released cell from 1 to 4) runs before preparing, before the checkpoint and inside it, and its result is recorded on the report; a failed check closes the report as not sent. Slice 6ab: aggregate report screening also uses the slice 6aa population check (preparation, pre-send recomputation and checkpoint), and a ledger write D1 refuses closes the report as not sent.",
       "remaining": "Aggregate delivery to live HTTP destinations under a partner-agreed aggregate contract, minimisation of patient-level payloads to other destinations beyond their mapped allowlists, and live partner testing.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2077,7 +2084,9 @@
         "lib/saha/aggregate-execution.ts",
         "tests/aggregate-delivery-contract.mjs",
         "tests/aggregate-delivery-smoke.mjs",
-        "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md"
+        "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md",
+        "tests/eighth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2175,7 +2184,7 @@
       "sourceTextLine": 410,
       "implementation": "partial",
       "target": "R13",
-      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told.",
+      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed.",
       "remaining": "Authorised ABHA creation and verification with ABDM, checksum and issuer checks, and correction through ABDM.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2192,7 +2201,10 @@
         "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
         "tests/sixth-review-fixes-contract.mjs",
         "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
-        "tests/sixth-review-smoke.mjs"
+        "tests/sixth-review-smoke.mjs",
+        "tests/eighth-review-fixes-contract.mjs",
+        "tests/eighth-review-smoke.mjs",
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2965,7 +2977,7 @@
       "sourceTextLine": 511,
       "implementation": "partial",
       "target": "R15",
-      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen.",
+      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen. Slice 6ab: aggregate reports are screened with the population check, as indicator queries are.",
       "remaining": "Protected expiry of downloaded files, filters beyond window and team, and an official reviewed-submission lifecycle distinct from draft export. Aggregate reports go to demonstration destinations only; there is no official reviewed-submission lifecycle with the programme, no reporting calendar or scheduled report, and no snapshot of the records behind a sent report.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2980,7 +2992,9 @@
         "lib/saha/aggregate-execution.ts",
         "tests/aggregate-delivery-contract.mjs",
         "tests/aggregate-delivery-smoke.mjs",
-        "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md"
+        "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md",
+        "tests/eighth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3868,7 +3882,7 @@
       "sourceTextLine": 702,
       "implementation": "partial",
       "target": "R12",
-      "current": "Replay/CAS/uncertain-receipt tests pass on bounded fixtures. Slice 7d: a seeded soak drives at least 10,000 replay and timeout events (timeouts, lost responses, same-key and fresh-key replays, concurrent attempts and lookups, duplicate callbacks) through the real MIS and EHR execution code and HTTP adapters against a naive mock partner that does not deduplicate; three 10,000-event runs recorded no duplicate accepted partner record or stored document, no resend without a delivered not_found, and final states matching the partner ledger; a bounded 1,500-event variant runs in CI. In-memory CAS model, not D1.",
+      "current": "Replay/CAS/uncertain-receipt tests pass on bounded fixtures. Slice 7d: a seeded soak drives at least 10,000 replay and timeout events (timeouts, lost responses, same-key and fresh-key replays, concurrent attempts and lookups, duplicate callbacks) through the real MIS and EHR execution code and HTTP adapters against a naive mock partner that does not deduplicate; three 10,000-event runs recorded no duplicate accepted partner record or stored document, no resend without a delivered not_found, and final states matching the partner ledger; a bounded 1,500-event variant runs in CI. In-memory CAS model, not D1. Slice 6ab: a resend counts as allowed only after Saha recorded not_found; signed callbacks run the real callback route function; bounded organisations create, cancel, withdraw and re-prepare submissions through the real plan commands, with at most one accepted record per visit.",
       "remaining": "The same evidence against real partner sandboxes, D1 persistence and the deployed Worker, including partner deduplication of late or eventually consistent requests; EHR publications whose write was not stored stay unresolved (no definitive not-found) and need partner reconciliation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3877,7 +3891,9 @@
         "tests/ehr-execution.mjs",
         "tests/replay-soak-contract.mjs",
         "tests/evidence/slice-7d/replay-soak-10000.json",
-        "docs/current/SLICE-7D-REPLAY-SOAK.md"
+        "docs/current/SLICE-7D-REPLAY-SOAK.md",
+        "app/api/mis/callback/route.ts",
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },

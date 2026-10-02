@@ -15,7 +15,7 @@ try{
  // Injectable persistence (a hook runs after each commit), access audit and differencing ledger. The HTTP suite runs the real D1 versions.
  writeFileSync(join(dir,'store.js'),`import {AppError} from './core.js'; export let saved;let hook=null;export const log=[];export function setup(s,h=null){saved=structuredClone(s);hook=h;log.length=0}export function setHook(h){hook=h}export async function readState(){return structuredClone(saved)}export function scope(s,id){const m=s.members.find(m=>m.userId===id);if(!m||m.status==='suspended')throw new AppError(403,'Member revoked');return m}export async function persist(db,before,after,u,c){if(before.organisation.revision!==saved.organisation.revision)throw new AppError(409,'CAS conflict');saved=structuredClone(after);saved.organisation.revision++;log.push('persist:'+c.type);if(hook)hook(saved,c);}`);
  writeFileSync(join(dir,'access-audit.js'),`import {log} from './store.js';import {AppError} from './core.js';export let failNext=false;export function failAudit(v){failNext=v}export const events=[];export async function recordAccess(db,s,u,m,a){if(failNext)throw new AppError(503,'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent.');events.push(a);log.push('access:'+a.action);}`);
- writeFileSync(join(dir,'indicator-ledger.js'),`export {candidateReleases} from './indicator-ledger-real.js';export let ledger=[];export function resetLedger(){ledger=[]}export async function readLedger(){return {ledger:structuredClone(ledger),text:JSON.stringify(ledger)}}export async function writeLedger(db,org,prev,next){if(prev!==JSON.stringify(ledger))return false;ledger=structuredClone(next);return true}`);
+ writeFileSync(join(dir,'indicator-ledger.js'),`export {candidateReleases,ledgerHash} from './indicator-ledger-real.js';export let ledger=[];export function resetLedger(){ledger=[]}export async function readLedger(){return {ledger:structuredClone(ledger),text:JSON.stringify(ledger)}}export async function writeLedger(db,org,prev,next){if(prev!==JSON.stringify(ledger))return false;ledger=structuredClone(next);return true}`);
  const imp=f=>import(pathToFileURL(join(dir,f+'.js')));
  const D=await imp('aggregate-delivery'),store=await imp('store'),audit=await imp('access-audit'),L=await imp('indicator-ledger'),{executeAggregate}=await imp('aggregate-execution'),{AppError}=await imp('core');
  const old='2026-01-01T08:00:00.000Z',recent=new Date(Date.now()-2*86400000).toISOString(),today=new Date().toISOString().slice(0,10),start=new Date(Date.now()-20*86400000).toISOString().slice(0,10);
@@ -154,15 +154,21 @@ try{
  // 10. Differencing across reports to the same destination: a release that would reveal 3 men is withheld or refused.
  await check('differencing per destination',async()=>{
   store.setup(fresh());L.resetLedger();
-  const a=await as('sup',prep({definitions:['all-people'],teamIds:['t1']})),b=await as('sup',prep({definitions:['female-people'],teamIds:['t1']}));
+  // Slice 6ab: with the population check (slice 6aa), "women in Team one" (10 of 13) reveals the 3 men through the
+  // team's own cohort, so it is withheld whatever was sent before. Report b now carries it with "all people" and becomes
+  // different from what was approved because a record changes after approval (it used to change because report a was
+  // sent first, which the key-only screen needed to notice the 3 men).
+  const a=await as('sup',prep({definitions:['all-people'],teamIds:['t1']})),b=await as('sup',prep({definitions:['all-people','female-people'],teamIds:['t1']}));
   for(const id of [a.reportId,b.reportId])await as('own',{type:'approveAggregateReport',reportId:id,payloadSha256:report(id).payloadSha256});
   assert.equal((await as('sup',{type:'sendAggregateReport',reportId:a.reportId})).state,'accepted');
+  store.saved.workspace.people.push({...store.saved.workspace.people[0],id:'t1-Alpur-late',name:'Synthetic Alpur late'});store.saved.workspace.visits.push({...store.saved.workspace.visits[0],id:'v-t1-Alpur-late',personId:'t1-Alpur-late'});
   calls.length=0;const sent=await as('sup',{type:'sendAggregateReport',reportId:b.reportId},spy());assert.equal(sent.state,'cancelled');assert.equal(calls.length,0);
   assert.match(report(b.reportId).message,/would now differ from what was approved/);
   await rejects(()=>as('sup',prep({definitions:['female-people'],teamIds:['t1']})),422,/every block is withheld to protect small groups/);
   const both=await as('sup',prep({definitions:['all-people','female-people'],teamIds:['t1']}));assert.equal(report(both.reportId).payload.blocks.find(x=>x.indicator==='female-people').withheld,'differencing');
-  // Another destination has its own ledger entries: the same release to it is not compared with the first destination's.
-  const other=await as('sup',prep({destinationId:'agg-lost',definitions:['female-people'],teamIds:['t1']}));assert.equal(report(other.reportId).payload.blocks[0].withheld,null);
+  // Slice 6ab: this assertion used to expect the same release to another destination (empty ledger) to be released; that
+  // was the round-5 integration limit. The population check refuses it for every destination.
+  await rejects(()=>as('sup',prep({destinationId:'agg-lost',definitions:['female-people'],teamIds:['t1']})),422,/every block is withheld to protect small groups/);
  });
  // 11. If the access audit cannot be written, nothing is sent and the report stays approved.
  await check('audit fails closed',async()=>{

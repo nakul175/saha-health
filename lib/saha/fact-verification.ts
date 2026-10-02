@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { fail, person, uuid, visit } from './core';
 import { allowed } from './access';
-import { MEASURES, MEASURE_LABEL, VALUE_FIELDS, VALUE_RANGES, currentOverride, entryContent, factMeasuresPresent, factReview, overrideConfirmation, rangeText, stampAuthors, stampEntryAuthors, valueTier } from './fact-provenance';
+import { MEASURES, MEASURE_LABEL, measureOf, VALUE_FIELDS, VALUE_RANGES, currentOverride, entryContent, factMeasuresPresent, factReview, overrideConfirmation, rangeText, stampAuthors, stampEntryAuthors, valueTier } from './fact-provenance';
 import type { Actor } from './store';
 import type { FactAuthor, FactReview, Member, OrgState, OverrideConfirmation, ValueOverride, Visit } from './types';
 // Slice 2e: per-measurement author and clinician verification (BR-DATA-02).
@@ -52,7 +52,11 @@ function confirmUnusual(s:OrgState,c:{visitId:string;version:number;field:(typeo
  if(v.version!==c.version)fail(409,'This visit changed. Refresh before confirming an unusual value.');
  const o=currentOverride(v,c.field);if(!o||o.id!==c.overrideId)fail(409,`${label}: this unusual value is no longer the current one. Refresh the visit.`);
  if(valueTier(c.field,v.facts[c.field])!=='clinician')fail(409,`${label}: this value needs only the recorder's reason, not a clinician confirmation.`);
- if(o.by.userId===u.userId)fail(403,'A different clinician must confirm an unusual value you recorded.');
+ // Slice 6ab: the confirmer must not be the value's recorder (the measurement's author) nor the author of any override
+ // carrying the same value in this visit's history; rewording the reason or re-entering the value in another unit
+ // credits a new override to someone else but does not make the original recorder independent.
+ const measure=measureOf(c.field),recorder=measure?v.factAuthors?.[measure]?.userId:undefined;
+ if(o.by.userId===u.userId||recorder===u.userId||(v.valueOverrides??[]).some(x=>x.field===c.field&&x.value===o.value&&x.by.userId===u.userId))fail(403,'A different clinician must confirm an unusual value you recorded.');
  if(overrideConfirmation(v,o))fail(409,`${label}: this unusual value is already confirmed.`);
  if((v.overrideConfirmations?.length??0)>=100)fail(422,'Unusual value confirmation limit reached for this visit.');
  const r:OverrideConfirmation={id:uuid(),overrideId:o.id,field:c.field,by:u.userId,byName:u.displayName,accountCode:m.accountCode,at:now,visitId:v.id,...(c.note?{note:c.note}:{})};

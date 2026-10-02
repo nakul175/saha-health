@@ -23,7 +23,7 @@ import { applyReferral, authorizeReferralSource } from './referrals';
 import { applyActionPlan, authorizeActionPlan } from './action-plan';
 import { applyCorrectionTask, authorizeCorrectionTask } from './correction-tasks';
 import { applyRoster } from './roster';
-import { AbhaHeldElsewhere, LINK_REFUSED, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';
+import { ABHA_REVIEW_LIMIT, AbhaHeldElsewhere, LINK_REFUSED, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';
 import { applyTransfer, authorizeTransfer } from './abdm-transfer';
 import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';
 import { applyPilot, authorizePilotCommand } from './pilot';
@@ -91,10 +91,16 @@ async function parseRequest(request:Request){const origin=request.headers.get('o
 // Slice 6z (sixth review): an ABHA link refused because a record outside the requester's care scope holds the number is
 // recorded for identity steward review as an audit event on that record (visible only to members who may see it), then
 // refused with the ordinary link refusal. Recording is best effort: the requester's answer is the same either way.
+// Slice 6ab (eighth review): the mock gateway's one-time code is public, so this refusal can still be told apart from a
+// successful link by someone who enters that code. The oracle is bounded: one review event per requester and holding
+// record a day (repeats add nothing), and a requester with ABHA_REVIEW_LIMIT such refusals in the last day has every
+// further link refused the same way until the day has passed, so repeated probing reveals nothing more.
 async function abdmWithStewardReview(state:OrgState,c:any,u:Actor,m:Member){
+ const since=new Date(Date.now()-86400000).toISOString(),reviews=async()=>c?.type==='abhaLink'?(await db().prepare("SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='abhaLinkReview' AND at>=?").bind(state.organisation.id,u.userId,since).all<{person_id:string}>()).results.map(r=>r.person_id):[];
+ if(c?.type==='abhaLink'&&(await reviews()).length>=ABHA_REVIEW_LIMIT){try{applyAbdm(structuredClone(state),{...c,otp:'000000'},u,m);}catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;}fail(422,LINK_REFUSED);}
  try{return applyAbdm(state,c,u,m);}
  catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;
-  try{await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal.`}]);}catch{/* recordAccesses has logged the failure without content */}
+  try{if(!(await reviews()).includes(e.heldBy))await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal. Recorded on this record only; repeats by the same requester within a day are not recorded again.`}]);}catch{/* recordAccesses has logged the failure without content */}
   fail(422,LINK_REFUSED);}
 }
 async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof parseRequest>>){

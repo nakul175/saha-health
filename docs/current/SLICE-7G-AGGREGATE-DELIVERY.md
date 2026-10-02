@@ -30,3 +30,7 @@
 - Teams are reported separately; there is no total across selected teams, no reporting calendar or schedule, no cancellation command for a prepared or approved report (an approval simply expires after 24 hours), and a destination answer of "not found" leaves the outcome unknown for the destination to resolve.
 - Reports are kept in the organisation's operations record (up to 200) and are not part of the exception queue or the patient trace route; their steps are traced on the report itself.
 - BR-INT-09 and BR-REP-05 stay partial.
+
+## Correction — 2 October 2026 (slice 6ab)
+
+When round 5 was integrated, aggregate report screening compared releases by key only, without the population check slice 6aa added to indicator queries. Slice 6ab passes the organisation's population to the screen at preparation, at the pre-send recomputation and inside the checkpoint, and closes a report as not sent with a clear reason when D1 refuses the ledger write. See [SLICE-6AB-EIGHTH-REVIEW-FIXES.md](SLICE-6AB-EIGHTH-REVIEW-FIXES.md).
