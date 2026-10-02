@@ -40,6 +40,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 2d](SLICE-2D-FIXTURE-MIGRATION.md) | Controlled migration marking earlier seeded fixtures, with dry run and reversal |
 | [Development slice 6o](SLICE-6O-CONSENT-WITHDRAWAL.md) | Consent withdrawal, downstream dispositions and consent history |
 | [Development slice 1e](SLICE-1E-DELEGATION.md) | Time-limited delegation of team supervision and reporting-only access |
+| [Development slice 1f](SLICE-1F-EFFECTIVE-TRANSFERS.md) | Scheduled caseload transfers applied automatically at their effective time on the next use, with re-checks, exactly-once commits and a held state, and whole-household transfer |
 | [Development slice 4c](SLICE-4C-WORKER-ACTIVITY.md) | Worker activity evidence for supervisors |
 | [Development slice 4d](SLICE-4D-ACTION-DEPENDENCIES.md) | Action dependencies and referrals with several sources |
 | [Development slice 4e](SLICE-4E-PACK-MIGRATION.md) | Reviewed migration of open programme episodes to a new pack version |
