@@ -130,6 +130,7 @@ const {planDependenciesSmoke}=await import('./plan-dependencies-smoke.mjs');awai
 const {exceptionsSmoke}=await import('./exceptions-smoke.mjs');await exceptionsSmoke({get,post,check,accounts,org,base});
 const {reportExportSmoke}=await import('./report-export-smoke.mjs');await reportExportSmoke({get,check,accounts,org,sql,base});
 const {auditChainSmoke}=await import('./audit-chain-smoke.mjs');await auditChainSmoke({get,post,check,accounts,org,sql,base});
+const {accessAuditSmoke}=await import('./access-audit-smoke.mjs');await accessAuditSmoke({get,post,check,accounts,org,sql,base});
 const {aiBudgetSmoke}=await import('./ai-budget-smoke.mjs');await aiBudgetSmoke({get,post,check,accounts,org});
 const {aiInvoiceSmoke}=await import('./ai-invoice-smoke.mjs');await aiInvoiceSmoke({get,post,check,accounts,org});
 const {safeLogsSmoke}=await import('./safe-logs-smoke.mjs');await safeLogsSmoke({get,post,check,accounts,org,sql,base});

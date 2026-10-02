@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6s, 6s-2, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -3282,8 +3282,8 @@
       "sourceTextLine": 569,
       "implementation": "partial",
       "target": "R15",
-      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain.",
-      "remaining": "Material-read audit coverage, audit authority/version completeness, external anchoring or signing of the chain head, scheduled verification and independent reconstruction.",
+      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes.",
+      "remaining": "Audit of workspace snapshot loads, browser-side record opening, searches and aggregate views; audit authority/version completeness; signing of checkpoints and automatic external publication; scheduled verification and independent reconstruction.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3294,7 +3294,12 @@
         "lib/saha/audit-chain-server.ts",
         "tests/audit-chain-contract.mjs",
         "tests/audit-chain-smoke.mjs",
-        "docs/current/SLICE-6J-AUDIT-CHAIN.md"
+        "docs/current/SLICE-6J-AUDIT-CHAIN.md",
+        "lib/saha/access-audit.ts",
+        "lib/saha/export-audit.ts",
+        "tests/access-audit-contract.mjs",
+        "tests/access-audit-smoke.mjs",
+        "docs/current/SLICE-6T-ACCESS-AUDIT.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3810,15 +3815,20 @@
       "sourceTextLine": 717,
       "implementation": "partial",
       "target": "R15",
-      "current": "Audit/receipts committed atomically; external calls use durable checkpoints. Slice 6j: audit events are chained in commit order under a unique sequence, so recovery preserves order independently of timestamps; verification reports clock regressions.",
-      "remaining": "Audit-store fault injection, halting external/privileged actions when audit durability fails, and every designated external/privileged action.",
+      "current": "Audit/receipts committed atomically; external calls use durable checkpoints. Slice 6j: audit events are chained in commit order under a unique sequence, so recovery preserves order independently of timestamps; verification reports clock regressions. Slice 6t: fault-injected audit-store failures (contract and local D1) refuse audited reads, commands, privileged changes, exports and external AI/EHR-retrieval requests with nothing written or sent; reads and exports fail closed with a clear message.",
+      "remaining": "Hosted D1 fault and outage testing, the EHR capability probe (calls before its audit), an emergency read path during audit outages, and every designated external/privileged action reviewed against the rule.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/store.ts",
         "tests/api-smoke.mjs",
         "lib/saha/audit-chain.ts",
         "tests/audit-chain-contract.mjs",
-        "docs/current/SLICE-6J-AUDIT-CHAIN.md"
+        "docs/current/SLICE-6J-AUDIT-CHAIN.md",
+        "lib/saha/access-audit.ts",
+        "lib/saha/export-audit.ts",
+        "tests/access-audit-contract.mjs",
+        "tests/access-audit-smoke.mjs",
+        "docs/current/SLICE-6T-ACCESS-AUDIT.md"
       ],
       "automatedAcceptanceClaim": false
     },
