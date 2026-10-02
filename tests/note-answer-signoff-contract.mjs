@@ -11,7 +11,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const refuses = async (fn, status, pattern) => { await assert.rejects(async () => fn(), e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['visit-signoff', 'fact-verification', 'fact-provenance', 'core', 'access', 'delegation', 'mis', 'mis-execution', 'trace', 'operations', 'referral-rules', 'task-limits', 'programmes', 'programme-commands', 'types'])
+  for (const f of ['visit-signoff', 'fact-verification', 'fact-provenance', 'adapter-operations','core', 'access', 'delegation', 'mis', 'mis-execution', 'trace', 'operations', 'referral-rules', 'task-limits', 'programmes', 'programme-commands', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   writeFileSync(join(dir, 'store.js'), `export let saved;export function setup(s){saved=structuredClone(s)}export async function readState(){return structuredClone(saved)}export function scope(s,id){return s.members.find(m=>m.userId===id)}export async function persist(db,before,after){saved=structuredClone(after);}`);
   const S = await import(pathToFileURL(join(dir, 'visit-signoff.js')));

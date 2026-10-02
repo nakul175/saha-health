@@ -21,7 +21,7 @@ export async function exceptionsSmoke({get,post,check,accounts,org,base}){
  let q=await queue(s);const row=id=>q.items.find(i=>i.id===id);
  check(()=>{const r=row('referral-overdue:'+rid);assert.ok(r,'overdue referral listed');assert.equal(r.severity,'high');assert.equal(r.patient.id,pid);assert.deepEqual(r.link,{personId:pid,visitId:vid,href:`/?patient=${encodeURIComponent(pid)}&visit=${encodeURIComponent(vid)}`});assert.match(r.what,/urgent referral overdue by 6 days/);assert.ok(r.ageDays>=6);assert.match(r.recovery,/reasoned delay/);});
  check(()=>{const f=row('follow-up-overdue:'+fid);assert.ok(f,'overdue follow-up listed');assert.equal(f.link.href,`/?patient=${encodeURIComponent(pid)}`);assert.match(f.what,/TB screening follow-up "Sputum sample check"/);assert.equal(f.owner.startsWith('Supervisors'),false,'named owner with access');});
- check(()=>{assert.equal(q.total,Object.values(q.counts).reduce((n,v)=>n+v,0));assert.ok(q.items.every(i=>i.patient&&i.link),'supervisor rows are all in scope');assert.equal(q.rulesVersion,'1.1.0');});
+ check(()=>{assert.equal(q.total,Object.values(q.counts).reduce((n,v)=>n+v,0));assert.ok(q.items.every(i=>i.patient&&i.link),'supervisor rows are all in scope');assert.equal(q.rulesVersion,'1.2.0');});
  // Scope: administrators get delivery rows without patient details; care roles and strangers are refused.
  const qa=await queue(a);check(()=>{assert.ok(qa.items.every(i=>['submission','ehr-publication'].includes(i.kind)&&i.patient===null&&i.link===null));assert.equal(JSON.stringify(qa).includes('Exception Queue'),false);});
  await queue(w,403);await queue(c,403);await queue(x,403);

@@ -1,0 +1,101 @@
+{
+ "check": "slice-7e connection screen operation settings",
+ "at": "2026-10-01T21:50:50.237Z",
+ "viewport": "1400x1400",
+ "results": [
+  {
+   "name": "open connections",
+   "ok": true
+  },
+  {
+   "name": "maternal default summary",
+   "ok": true,
+   "value": "Permitted operations: create, update, lookup"
+  },
+  {
+   "name": "open maternal disclosure",
+   "ok": true
+  },
+  {
+   "name": "five operations listed with paths",
+   "ok": true,
+   "value": 10
+  },
+  {
+   "name": "release default shown",
+   "ok": true
+  },
+  {
+   "name": "untick create",
+   "ok": true
+  },
+  {
+   "name": "reason",
+   "ok": true
+  },
+  {
+   "name": "save",
+   "ok": true
+  },
+  {
+   "name": "maternal summary after save",
+   "ok": true,
+   "value": "Permitted operations: update, lookup"
+  },
+  {
+   "name": "disclosure stays open after save",
+   "ok": true,
+   "value": true
+  },
+  {
+   "name": "community aggregate-only",
+   "ok": true,
+   "value": "Permitted operations: aggregate reports only"
+  },
+  {
+   "name": "no aggregate delivery note",
+   "ok": true
+  },
+  {
+   "name": "AI provider has no operations control",
+   "ok": true,
+   "value": 0
+  },
+  {
+   "name": "keyboard: disclosure summary focusable",
+   "ok": true,
+   "value": "SUMMARY"
+  }
+ ],
+ "commands": [
+  {
+   "status": 200,
+   "error": null,
+   "result": {
+    "integrationId": "mis_maternal",
+    "version": 1,
+    "allowed": [
+     "update",
+     "lookup"
+    ],
+    "aggregateOnly": false
+   }
+  },
+  {
+   "status": 200,
+   "error": null,
+   "result": {
+    "integrationId": "mis_community",
+    "version": 1,
+    "allowed": [
+     "lookup",
+     "aggregate"
+    ],
+    "aggregateOnly": true
+   }
+  }
+ ],
+ "consoleErrors": [],
+ "passed": 14,
+ "failed": 0
+}

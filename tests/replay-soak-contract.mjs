@@ -33,7 +33,7 @@ const sha=(x)=>createHash('sha256').update(typeof x==='string'?x:JSON.stringify(
 const yieldNow=()=>new Promise(r=>setImmediate(r));
 const counts={};const bump=(k,n=1)=>{counts[k]=(counts[k]??0)+n;};
 try{
- for(const f of ['types','programmes','core','fact-provenance','access','delegation','visit-signoff','mis','mis-execution','trace','operations','referral-rules','task-limits','ehr','fhir-document','fhir-validate','ehr-provider','ehr-execution']){writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
+ for(const f of ['types','programmes','core','adapter-operations','fact-provenance','access','delegation','visit-signoff','mis','mis-execution','trace','operations','referral-rules','task-limits','ehr','fhir-document','fhir-validate','ehr-provider','ehr-execution']){writeFileSync(join(dir,f+'.js'),ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));}
  // Multi-organisation compare-and-swap model. Each organisation has its own revision, command receipts and an
  // interruption switch that makes final receipt writes fail (a process stopping after the partner call).
  writeFileSync(join(dir,'store.js'),`import {AppError} from './core.js';

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { fail, person, uuid } from './core';
 import { fhirDocument } from './fhir-document';
 import { validateOutbound, type ValidationStamp } from './fhir-validate';
-import { abdmConfig, consentAllows, effective } from './abdm';
+import { abdmConfig, abdmOperation, consentAllows, effective } from './abdm';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 
@@ -59,6 +59,7 @@ export async function receive(hiuPrivate:CryptoKey,hiuNonce:Uint8Array,payload:A
 }
 export async function applyTransfer(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
  const parsed=transferSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeTransfer(s,m,c);
+ abdmOperation(s,c.type);
  const w=s.workspace,p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient changed. Refresh before continuing.');
  const cfg=abdmConfig(s);let detail='',result:any={ok:true};
  if(c.type==='abdmCareContextLink'){

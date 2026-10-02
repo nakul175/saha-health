@@ -48,7 +48,7 @@ function reseal(files, path, bytes) {
 const jsonl = b => b.toString('utf8').split('\n').filter(Boolean).map(l => JSON.parse(l));
 
 try {
-  for (const f of ['store', 'partition', 'access', 'core', 'fact-provenance', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'data-exit', 'fhir-document', 'referral-rules', 'export-audit', 'fixture-migration', 'operations', 'delegation'])
+  for (const f of ['store', 'partition', 'access', 'adapter-operations','core', 'fact-provenance', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'data-exit', 'fhir-document', 'referral-rules', 'export-audit', 'fixture-migration', 'operations', 'delegation'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const store = await import(pathToFileURL(join(dir, 'store.js')));
   const chain = await import(pathToFileURL(join(dir, 'audit-chain.js')));

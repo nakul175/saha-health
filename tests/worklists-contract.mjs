@@ -32,7 +32,7 @@ class D1 {
 }
 
 try {
-  for (const f of ['worklists', 'worklist-views', 'referral-rules', 'patient-directory', 'store', 'partition', 'access', 'core', 'fact-provenance', 'delegation', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'delta'])
+  for (const f of ['worklists', 'worklist-views', 'referral-rules', 'patient-directory', 'store', 'partition', 'access', 'adapter-operations','core', 'fact-provenance', 'delegation', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'delta'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const wl = await import(pathToFileURL(join(dir, 'worklists.js')));
   const views = await import(pathToFileURL(join(dir, 'worklist-views.js')));

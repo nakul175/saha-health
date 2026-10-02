@@ -10,7 +10,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['indicators', 'continuity', 'referral-rules', 'core', 'fact-provenance', 'access', 'mis', 'programmes', 'types'])
+  for (const f of ['indicators', 'continuity', 'referral-rules', 'adapter-operations','core', 'fact-provenance', 'access', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const x = await import(pathToFileURL(join(dir, 'indicators.js')));
   const now = new Date('2026-09-30T06:00:00.000Z'), recent = '2026-09-28T08:00:00.000Z', old = '2026-01-01T08:00:00.000Z';

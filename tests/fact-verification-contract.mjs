@@ -11,7 +11,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const refuses = (fn, status, pattern) => { assert.throws(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['fact-verification', 'fact-provenance', 'core', 'access', 'mis', 'programmes', 'types', 'fhir-document', 'fhir-validate', 'fhir'])
+  for (const f of ['fact-verification', 'fact-provenance', 'adapter-operations','core', 'access', 'mis', 'programmes', 'types', 'fhir-document', 'fhir-validate', 'fhir'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const F = await import(pathToFileURL(join(dir, 'fact-verification.js')));
   const P = await import(pathToFileURL(join(dir, 'fact-provenance.js')));

@@ -11,7 +11,7 @@ const dir = mkdtempSync(join(process.cwd(), '.report-export-contract-'));
 let passed = 0;
 const check = async fn => { await fn(); passed++; };
 try {
-  for (const f of ['report-export', 'operations', 'referral-rules', 'access', 'core','fact-provenance', 'mis', 'programmes', 'types'])
+  for (const f of ['report-export', 'operations', 'referral-rules', 'access', 'adapter-operations','core','fact-provenance', 'mis', 'programmes', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const X = await import(pathToFileURL(join(dir, 'report-export.js'))), O = await import(pathToFileURL(join(dir, 'operations.js')));
   const now = new Date('2026-09-30T06:00:00Z'), member = { userId: 'sup', role: 'supervisor', status: 'active', teamIds: ['a'] };

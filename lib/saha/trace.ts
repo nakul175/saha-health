@@ -17,7 +17,7 @@ import { ACCESS_ACTION_NAMES, type Member, type OrgState, type Person, type Trac
 export const TRACE_VERSION='1.0.0';
 export const MIS_MAX_ATTEMPTS=3;
 // Audit actions that belong to a visit's external work (listed for the visit even when not linked to a step).
-export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent'] as const;
+export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused'] as const;
 const DESTINATION=new Set(['misReceipt','ehrReceipt','agentResult']),CALLBACK=new Set(['misCallback']);
 const ID=/^[A-Za-z0-9_-]{1,200}$/;
 
@@ -74,21 +74,21 @@ export function traceTarget(s:OrgState,m:Member,q:TraceQuery,now=new Date().toIS
 export type TraceAuditRow={id:string;at:string;actor_name:string;role:string;action:string;subject:string;seq:number|null};
 export type TraceReceiptRow={actor_id:string;key:string;created_at:string};
 export type Step={at:string;state:string;attempt:number|null;source:'command'|'destination'|'callback'|'not linked';command:string|null;actor:string|null;receiptId:string|null;receiptAt:string|null;receiptFound:boolean|null;auditId:string|null;auditSeq:number|null;linked:boolean};
-export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant';recordId:string;destination:string;state:string;receipt:string|null;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[]};
+export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant';recordId:string;destination:string;state:string;receipt:string|null;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
 type Raw={thread:Thread;steps:{at:string;state:string;attempt?:number;ref?:TraceRef}[]};
 function threads(s:OrgState,t:Target,now:string):Raw[]{
  const out:Raw[]=[],p=t.person,want=(id:string)=>t.scope==='full'||t.threadIds.includes(id);
- const base=(id:string,kind:Thread['kind'],recordId:string,destination:string,state:string):Thread=>({id,kind,recordId,destination,state,receipt:null,attempts:{used:0,limit:null,rule:''},limits:null,taskAttempt:null,timedOut:false,steps:[]});
+ const base=(id:string,kind:Thread['kind'],recordId:string,destination:string,state:string):Thread=>({id,kind,recordId,destination,state,receipt:null,attempts:{used:0,limit:null,rule:''},limits:null,taskAttempt:null,timedOut:false,steps:[],refusal:null});
  for(const x of s.workspace.submissions){
   if(x.personId!==p.id||(t.visit&&x.visitId!==t.visit.id)||!want('submission:'+x.id))continue;
-  const th=base('submission:'+x.id,'submission',x.id,x.connectorName,x.state);th.receipt=x.receipt??null;
+  const th=base('submission:'+x.id,'submission',x.id,x.connectorName,x.state);th.receipt=x.receipt??null;th.refusal=x.refusal?{...x.refusal}:null;
   th.attempts=x.mode==='http'?{used:x.attempts,limit:MIS_MAX_ATTEMPTS,rule:`At most ${MIS_MAX_ATTEMPTS} sends with the same key; an unknown outcome is looked up, never resent.`}:{used:x.attempts,limit:1,rule:'Demo destination: one simulated delivery.'};
   const steps:Raw['steps']=x.delivery?x.delivery.events.map(e=>({at:e.at,state:e.state,attempt:e.attempt,ref:e.ref})):x.trace?.length?x.trace:[{at:x.updatedAt,state:x.state}];
   out.push({thread:th,steps});
  }
  for(const o of p.ehr?.operations??[]){
   if((t.visit&&o.visitId!==t.visit.id)||!want('ehr-publication:'+o.id))continue;
-  const th=base('ehr-publication:'+o.id,'ehr-publication',o.id,s.workspace.integrations.find(i=>i.id===p.ehr?.links.find(l=>l.id===o.linkId)?.integrationId)?.name??'EHR',o.state);th.receipt=o.receipt??null;
+  const th=base('ehr-publication:'+o.id,'ehr-publication',o.id,s.workspace.integrations.find(i=>i.id===p.ehr?.links.find(l=>l.id===o.linkId)?.integrationId)?.name??'EHR',o.state);th.receipt=o.receipt??null;th.refusal=o.refusal?{...o.refusal}:null;
   th.attempts={used:o.state==='prepared'?0:1,limit:1,rule:'One publication per approval; an unknown outcome is looked up by document identifier, never published again.'};
   const steps:Raw['steps']=[...(o.events??[])];if(!steps.length||steps.at(-1)!.state!==o.state||steps.at(-1)!.at!==o.at)steps.push({at:o.at,state:o.state});
   out.push({thread:th,steps});
