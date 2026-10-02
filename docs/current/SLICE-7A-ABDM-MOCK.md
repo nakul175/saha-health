@@ -27,3 +27,7 @@
 ## Correction — 30 September 2026 (slice 6r)
 
 ABHA numbers were masked in snapshots only. Patient history (`GET /api/history`) served stored revisions with the full ABHA number in revision data (`abha.number`, ABHA history, consent artefacts, care contexts) and in field changes. Slice 6r redacts history on read with the same masking; stored revisions are unchanged. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).
+
+## Correction — 1 October 2026 (slice 6u)
+
+The one-record-per-ABHA-number check is organisation-wide and its refusal said the number was linked to another record even when that record was outside the worker's scope. Slice 6u gives a neutral refusal (ask an identity steward) in that case. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).

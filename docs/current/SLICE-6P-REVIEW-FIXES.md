@@ -52,3 +52,7 @@ Each reproduction is now a permanent test that fails on the base and passes afte
 ## Correction — 30 September 2026 (slice 6q)
 
 A second independent review found two gaps in this slice. The export audit retry for the audit-chain and operations exports re-checked role and operator status only, not the care scope or, for the operations CSV, the reporting reach (the limit above says so for delegations; it was a defect, not only a limit). And with ended and revoked delegations no longer counted toward the 200-record limit, the stored delegation records were unbounded. Slice 6q refuses the export on retry if the care scope or reporting reach changed, and caps stored delegation records at 1,000 without deleting evidence. See [SLICE-6Q-SECOND-REVIEW-FIXES.md](SLICE-6Q-SECOND-REVIEW-FIXES.md). The text above is kept as written.
+
+## Correction — 1 October 2026 (slice 6u)
+
+The export audit retry was applied to data exit, the audit-chain export and the operations exports only; the pilot dossier and expansion pack exports still committed their audit event with a single `persist`, and data exit scoping (`scopeEntries`) was applied to organisation documents but not to team-scoped households and caseload transfers. Slice 6u applies both. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).

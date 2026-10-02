@@ -115,6 +115,7 @@ const {mergeSmoke}=await import('./merge-smoke.mjs');await mergeSmoke({get,post,
 const {exceptionalSmoke}=await import('./exceptional-smoke.mjs');await exceptionalSmoke({get,post,check,accounts,org,sql,base});
 const {rightsSmoke}=await import('./rights-smoke.mjs');await rightsSmoke({get,post,check,accounts,org,sql,base});
 const {retentionSmoke}=await import('./retention-smoke.mjs');await retentionSmoke({get,post,check,accounts,org,sql,base});
+const {fourthReviewSmoke}=await import('./fourth-review-smoke.mjs');await fourthReviewSmoke({check,org,base});
 const {indicatorsSmoke}=await import('./indicators-smoke.mjs');await indicatorsSmoke({get,post,check,accounts,org,base});
 const {referralSmoke}=await import('./referral-smoke.mjs');await referralSmoke({get,post,check,accounts,org,base});
 const {reuseSmoke}=await import('./reuse-smoke.mjs');await reuseSmoke({get,post,check,accounts,org,base});

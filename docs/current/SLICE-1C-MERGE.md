@@ -30,3 +30,7 @@
 ## Correction — 30 September 2026 (slice 6r)
 
 A clinician whose only access to a record was an emergency grant (slice 6a) could propose a merge naming that record, and case commands (decide, unmerge, impact resolution) were not checked against the emergency-access restriction because they name patients through `caseId`. Slice 6r resolves survivor, duplicate and case references in that check and refuses the command. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).
+
+## Correction — 1 October 2026 (slice 6u)
+
+The merge view named a counterpart outside the viewer's scope only as "A record outside your scope" but still returned the case's reason and evidence and the decision and reversal reasons, which describe both patients. Slice 6u returns them only to a viewer who may see both records. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).

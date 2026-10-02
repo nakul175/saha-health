@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -379,7 +379,7 @@
       "sourceTextLine": 187,
       "implementation": "partial",
       "target": "R12",
-      "current": "Identity revisions, EHR link revocation and changed-link rejection retain history. Slice 1c: two-steward link-based merge that preserves original records and receipts, invalidates pending approvals, queues downstream corrections and supports unmerge with review of work created while merged. Slice 6r: a clinician holding only emergency access to a record cannot propose, decide, unmerge or resolve a merge naming it.",
+      "current": "Identity revisions, EHR link revocation and changed-link rejection retain history. Slice 1c: two-steward link-based merge that preserves original records and receipts, invalidates pending approvals, queues downstream corrections and supports unmerge with review of work created while merged. Slice 6r: a clinician holding only emergency access to a record cannot propose, decide, unmerge or resolve a merge naming it. Slice 6u: the merge view returns the case reason and evidence only to a viewer who may see both records.",
       "remaining": "Programme identity crosswalks, issuer identifiers and destination-specific correction automation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -389,7 +389,10 @@
         "CORE-CONTINUITY.md",
         "lib/saha/exceptional.ts",
         "tests/main-review-fixes-contract.mjs",
-        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+        "lib/saha/merge.ts",
+        "tests/fourth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1881,7 +1884,7 @@
       "sourceTextLine": 375,
       "implementation": "partial",
       "target": "R12",
-      "current": "Stable keys, lookup-before-resend and uncertain outcomes tested with mock transport.",
+      "current": "Stable keys, lookup-before-resend and uncertain outcomes tested with mock transport. Slice 6u: an EHR publication refused before its write request (patient check or authority recheck) is closed as not sent ('blocked') instead of staying uncertain; one that may have been sent stays uncertain and needs a receipt lookup.",
       "remaining": "Real partner duplicate/reconciliation contracts and timeout acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1889,7 +1892,10 @@
         "lib/saha/ehr.ts",
         "tests/mis-contract.mjs",
         "tests/ehr-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/ehr-execution.ts",
+        "tests/ehr-execution.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1925,7 +1931,7 @@
       "sourceTextLine": 381,
       "implementation": "partial",
       "target": "R12",
-      "current": "Receipt callbacks/lookups and staged document imports preserve source data.",
+      "current": "Receipt callbacks/lookups and staged document imports preserve source data. Slice 6u: programme callbacks are authenticated (server grant and signature) before any organisation data is read, and every authentication failure gets the same 401.",
       "remaining": "Scheduled reconciliation and broader inbound clinical conflict queues.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1933,7 +1939,12 @@
         "lib/saha/ehr.ts",
         "tests/mis-contract.mjs",
         "tests/ehr-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/mis-callback.ts",
+        "app/api/mis/callback/route.ts",
+        "tests/fourth-review-fixes-contract.mjs",
+        "tests/fourth-review-smoke.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2097,7 +2108,7 @@
       "sourceTextLine": 410,
       "implementation": "partial",
       "target": "R13",
-      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged.",
+      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it.",
       "remaining": "Authorised ABHA creation and verification with ABDM, checksum and issuer checks, and correction through ABDM.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2109,7 +2120,9 @@
         "lib/saha/abdm.ts",
         "tests/abdm-smoke.mjs",
         "tests/main-review-fixes-contract.mjs",
-        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+        "tests/fourth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3073,7 +3086,7 @@
       "sourceTextLine": 540,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach.",
+      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach. Slice 6u: household members and caseload transfer patients outside the exporter's scope are left out of those rows and counted, and the verifier checks them; pilot dossier and expansion pack exports retry their audit commit with access rechecked.",
       "remaining": "Buyer-authorised export beyond the owner's care scope, independent re-import tooling, staged exports for large tenants and queue disposition on provider termination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3092,7 +3105,10 @@
         "docs/current/SLICE-6P-REVIEW-FIXES.md",
         "lib/saha/audit-chain-server.ts",
         "lib/saha/operations-server.ts",
-        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+        "lib/saha/pilot-server.ts",
+        "tests/fourth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3106,14 +3122,18 @@
       "sourceTextLine": 543,
       "implementation": "partial",
       "target": "R16",
-      "current": "Configuration-only proposal pack with local differences; no patient collection copied.",
+      "current": "Configuration-only proposal pack with local differences; no patient collection copied. Slice 6u: the pack export's audit event is retried on a concurrent command with operations access rechecked.",
       "remaining": "Installable approved deployment pack including training, tests and operating responsibility.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
         "lib/saha/pilot.ts",
         "tests/operations-smoke.mjs",
-        "tests/pilot-smoke.mjs"
+        "tests/pilot-smoke.mjs",
+        "lib/saha/outreach-server.ts",
+        "lib/saha/export-audit.ts",
+        "tests/fourth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3313,11 +3333,18 @@
       "sourceTextLine": 572,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted.",
+      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners.",
       "remaining": "Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "lib/saha/server.ts",
+        "lib/saha/access.ts",
+        "lib/saha/store.ts",
+        "REMAINING-RELEASES.md",
+        "lib/saha/retention.ts",
+        "app/retention-panel.tsx",
+        "tests/fourth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3331,7 +3358,7 @@
       "sourceTextLine": 575,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect.",
+      "current": "Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too.",
       "remaining": "Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation and retention-based deletion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3341,7 +3368,10 @@
         "REMAINING-RELEASES.md",
         "lib/saha/rights.ts",
         "tests/main-review-fixes-contract.mjs",
-        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+        "app/api/fhir/[id]/route.ts",
+        "tests/fourth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3355,7 +3385,7 @@
       "sourceTextLine": 578,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient's team. Slice 6r: the urgent-care-only restriction resolves every patient a command names (merge survivor/duplicate, identity and safety cases, legal holds, visits) and fails closed; reviewers need normal access to the patient and the review queue follows it.",
+      "current": "Slice 6a: clinician emergency access to one out-of-scope patient by record reference, 15 minutes to 4 hours, with reason, caps, urgent-care actions only, audit and single independent review by the patient's team. Slice 6r: the urgent-care-only restriction resolves every patient a command names (merge survivor/duplicate, identity and safety cases, legal holds, visits) and fails closed; reviewers need normal access to the patient and the review queue follows it. Slice 6u: outreach item and plan commands and reminder creation are restricted too (an item's patient, or every patient on the plan).",
       "remaining": "Approved eligibility policy, support-staff access, step-up authentication, team notification and material-read audit during access.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3365,7 +3395,9 @@
         "REMAINING-RELEASES.md",
         "lib/saha/exceptional.ts",
         "tests/main-review-fixes-contract.mjs",
-        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+        "tests/fourth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },

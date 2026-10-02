@@ -96,6 +96,10 @@ export function verifyFiles(files) {
   // Slice 6p: every personId inside an organisation document (governance, outreach, retention, ...) is an exported patient.
   const personIds = (x, out = []) => { if (Array.isArray(x)) x.forEach(e => personIds(e, out)); else if (x && typeof x === 'object') for (const [k, v] of Object.entries(x)) { if (k === 'personId' && v != null) out.push(v); else personIds(v, out); } return out; };
   for (const f of (manifest.files ?? []).filter(f => f.table && ['integrations', 'operations', 'pilot', 'outreach', 'expansions', 'governance', 'retention'].includes(f.table))) for (const r of t(f.table)) { let doc = null; try { doc = typeof r.data === 'string' ? JSON.parse(r.data) : null; } catch { doc = null; } for (const id of personIds(doc)) { references++; if (!patients.has(id)) dangling.push(`${f.table}.data personId=${id}`); } }
+  // Slice 6u: team-scoped rows too: household members, caseload transfer patients (personIds, moved, skipped,
+  // assignments keys) must be exported patients.
+  const caseloadIds = d => [...(d?.personIds ?? []), ...(d?.applied?.moved ?? []), ...Object.keys(d?.applied?.assignments ?? {})];
+  for (const name of ['households', 'caseload_transfers']) for (const r of t(name)) { let doc = null; try { doc = typeof r.data === 'string' ? JSON.parse(r.data) : null; } catch { doc = null; } for (const id of [...personIds(doc), ...(name === 'caseload_transfers' ? caseloadIds(doc) : [])]) { references++; if (!patients.has(id)) dangling.push(`${name}.data personId=${id}`); } }
   if (dangling.length) bad('relationships', `${dangling.length} references do not resolve: ${dangling.slice(0, 10).join(', ')}`); else pass('relationships', `${references} references resolve`);
   // Media content matches the recorded SHA-256 and size.
   const mediaProblems = [];

@@ -4,7 +4,9 @@ import { allowed } from './access';
 import { operator } from './operations';
 import { expansionFor, expansionStatus, EXPANSION_CHECKS } from './expansion';
 import { digest, fail, uuid } from './core';
-import { persist, scope } from './store';
+import { scope } from './store';
+import { recordExportAudit } from './export-audit';
+import type { OrgState } from './types';
 
 export async function outreachRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId),o=s.outreach??defaultOutreach();
@@ -17,6 +19,8 @@ export async function expansionRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);if(!operator(m))fail(403,'Operations access required.');const url=new URL(request.url),format=url.searchParams.get('format')??'json';if(!['json','pack'].includes(format))fail(422,'Unsupported expansion format.');
  if(format==='json')return json({environment:'synthetic',liveExpansion:false,checks:EXPANSION_CHECKS,proposals:await Promise.all((s.expansions??[]).map(async p=>({...p,readiness:await expansionStatus(s,p)}))),members:s.members.filter(x=>x.status==='active'&&operator(x)).map(x=>({id:x.userId,name:x.displayName,isOwner:x.isOwner})),pilotExitAccepted:false});
  const p=expansionFor(s,url.searchParams.get('id')??''),pack={format:'saha-expansion-proposal',schema:1,spec:p.spec};
- const before=structuredClone(s);s.workspace.audit.push({id:uuid(),at:new Date().toISOString(),actorId:u.userId,actor:u.displayName,role:m.role,action:'expansionExport',subject:s.organisation.id,detail:`Configuration-only expansion proposal ${p.id} exported. Evidence, accounts, approvals, credentials and patient records excluded.`});await persist(db(),before,s,u,{type:'expansionExport'},'export_'+uuid(),await digest(pack),{ok:true});
+ // Slice 6u (fourth review): the export audit goes through recordExportAudit (slice 6p) with operations access checked again.
+ const orgId=s.organisation.id,auditId=uuid(),at=new Date().toISOString(),again=(x:OrgState)=>{const o=scope(x,u.userId);if(!operator(o))fail(403,'Operations access required.');if(o.role!==m.role)fail(409,'Your role changed while the export was prepared. Export again.');return o;};
+ await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:auditId,at,actorId:u.userId,actor:u.displayName,role:o.role,action:'expansionExport',subject:orgId,detail:`Configuration-only expansion proposal ${p.id} exported. Evidence, accounts, approvals, credentials and patient records excluded.`}),actor:u,type:'expansionExport',key:'export_'+uuid(),hash:await digest(pack)});
  return new Response(JSON.stringify(pack,null,2),{headers:{'Content-Type':'application/json','Content-Disposition':'attachment; filename="saha-expansion-proposal.json"','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }

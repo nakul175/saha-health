@@ -49,6 +49,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md) | Fixes for defects found by a third independent review of slices already merged into main (1, 1c, 6a, 6b, 6c, 7a, 7b) |
 | [Development slice 6s](SLICE-6S-INDICATOR-REGISTRY.md) | Owner-maintained indicator registry, reproduction by version and differencing protection |
 | [Development slice 6t](SLICE-6T-ACCESS-AUDIT.md) | Audit of material reads and external requests in the audit chain; reads, commands, exports and external requests refused when the audit cannot be written; chain-head checkpoint for external anchoring |
+| [Development slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md) | Fixes for defects found by a fourth independent review of code already on main (1c, 6a, 6b, 6c, 6m, 6p, 6r, 7a, EHR publication, programme callback, pilot and expansion exports) |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |

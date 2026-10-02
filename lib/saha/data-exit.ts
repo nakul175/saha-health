@@ -94,14 +94,23 @@ const without = (r: Row, omit: string[] = []) => Object.fromEntries(Object.entri
 // items and messages, person holds. Any entry, at any depth, that carries a personId outside the exported
 // patient set is left out and counted; an array element is removed, an object property is removed.
 // Entries without a personId (organisation holds, templates, plan headers) are kept.
-export function scopeEntries(value: unknown, keep: (personId: string) => boolean): { value: unknown; withheld: number } {
+// Slice 6u (fourth review): team-scoped rows (households, caseload transfers) are scoped the same way, and
+// patient references held as bare ids are scoped too: `idLists` names properties whose value is an array of
+// patient ids (caseload `personIds`, `moved`), `idMaps` names properties keyed by patient id (`assignments`).
+export const PATIENT_ID_LISTS = ['personIds', 'moved'], PATIENT_ID_MAPS = ['assignments'];
+export function scopeEntries(value: unknown, keep: (personId: string) => boolean, idLists: string[] = [], idMaps: string[] = []): { value: unknown; withheld: number } {
   let withheld = 0;
   const linked = (x: unknown) => !!x && typeof x === 'object' && !Array.isArray(x) && (x as Record<string, unknown>).personId != null;
   const walk = (x: unknown): unknown => {
     if (Array.isArray(x)) return x.filter(e => { if (linked(e) && !keep(String((e as Record<string, unknown>).personId))) { withheld++; return false; } return true; }).map(walk);
     if (x && typeof x === 'object') {
       const out: Record<string, unknown> = {};
-      for (const [k, v] of Object.entries(x)) { if (linked(v) && !keep(String((v as Record<string, unknown>).personId))) { withheld++; continue; } out[k] = walk(v); }
+      for (const [k, v] of Object.entries(x)) {
+        if (linked(v) && !keep(String((v as Record<string, unknown>).personId))) { withheld++; continue; }
+        if (idLists.includes(k) && Array.isArray(v)) { out[k] = v.filter(e => { if (typeof e === 'string' && !keep(e)) { withheld++; return false; } return true; }); continue; }
+        if (idMaps.includes(k) && v && typeof v === 'object' && !Array.isArray(v)) { out[k] = Object.fromEntries(Object.entries(v).filter(([id]) => { if (!keep(id)) { withheld++; return false; } return true; })); continue; }
+        out[k] = walk(v);
+      }
       return out;
     }
     return x;
@@ -147,15 +156,17 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       const out = without(r, spec.omit);
       // Slice 6p: patient-linked entries inside an organisation document follow the same care scope.
       // The data text is re-serialised only when something was left out; otherwise it stays as stored.
-      if (spec.scope === 'org' && typeof r.data === 'string' && r.data) {
+      // Slice 6u: team-scoped rows (households, caseload transfers) too: a member or transferred patient outside
+      // the exporter's patient scope is left out of the row's data, with its relationship and any end reason.
+      if ((spec.scope === 'org' || spec.scope === 'team') && typeof r.data === 'string' && r.data) {
         let doc: unknown = null; try { doc = JSON.parse(r.data); } catch { doc = null; }
-        if (doc && typeof doc === 'object') { const scoped = scopeEntries(doc, id => people.has(id)); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
+        if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, id => people.has(id)); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
       }
       lines.push(out);
     }
     totalRows += lines.length; totalWithheld += withheld; totalEntries += entries;
     const stored = rows.length ? Object.keys(rows[0]) : [];
-    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, ...(spec.scope === 'org' ? { withheldEntries: entries } : {}), columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: entries ? `${spec.note ? spec.note + ' ' : ''}${entries} patient-linked entries inside data are left out (outside the exporter's care scope); data is re-serialised without them.` : spec.note });
+    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, ...(spec.scope === 'org' || spec.scope === 'team' ? { withheldEntries: entries } : {}), columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: entries ? `${spec.note ? spec.note + ' ' : ''}${entries} patient-linked entries inside data are left out (outside the exporter's care scope); data is re-serialised without them.` : spec.note });
   }
   // Member accounts: identifiers and names only.
   const accounts = (await db.prepare('SELECT user_id,account_code,display_name,created_at FROM accounts WHERE user_id IN (SELECT user_id FROM memberships WHERE org_id=?) ORDER BY user_id').bind(orgId).all<Row>()).results;
@@ -214,7 +225,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     organisation: { id: orgId, name: org.name, createdAt: org.created_at, revision: org.revision },
     exporter: { userId: input.exporter.userId, name: input.exporter.name, accountCode: input.exporter.accountCode, role: m.role, owner: m.isOwner },
     schema: { migration: SCHEMA_MIGRATION, workspaceSchemaVersion: 1, rowEncoding: 'One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text.' },
-    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
+    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
     totals: { files: described.length, rows: totalRows, withheld: totalWithheld, withheldEntries: totalEntries, bytes },
     files: described,
     auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },

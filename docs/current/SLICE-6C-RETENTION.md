@@ -26,3 +26,7 @@
 ## Correction — 30 September 2026 (slice 6r)
 
 Legal-hold release names the patient through `holdId`, which the emergency-access restriction (slice 6a) did not resolve. Slice 6r resolves it; retention commands remain owner-only. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).
+
+## Correction — 1 October 2026 (slice 6u)
+
+The retention review masked only the patient name of a hold on a patient outside the viewer's scope and returned the hold's reason, reference, patient id and placer, also to an owner holding the administrator role. Slice 6u returns only the hold's id, scope and times for such holds, and counts them. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).

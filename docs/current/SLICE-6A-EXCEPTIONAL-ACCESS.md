@@ -28,3 +28,7 @@
 ## Correction — 30 September 2026 (slice 6r)
 
 The urgent-care-only restriction resolved only `personId`, `visitId`, `submissionId`, `referralId` and `messageId`, so commands naming the patient another way (merge `survivorId`/`duplicateId`, `caseId`, legal hold `holdId`) were not restricted. The reviewer check accepted any supervisor or care-role owner holding the patient's team id, even one who may not see the patient (an ASHA-role owner), and the review queue listed patient names and grant reasons on that basis. Slice 6r resolves every reference and fails closed, and requires the reviewer to have normal access to the patient. Found by a third independent review of code already merged into `main` without independent human review; the original text above is kept. See [slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md).
+
+## Correction — 1 October 2026 (slice 6u)
+
+The urgent-care-only restriction did not resolve outreach plan references: a clinician whose only access to a patient was an emergency grant could reassign or cancel that patient's outreach item, cancel the whole plan, or (any grant-only clinician) create a reminder for the item. Slice 6u resolves an item's patient (`planId` with `itemId`, including `messageCreate`) and every item's patient for plan-level commands. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).
