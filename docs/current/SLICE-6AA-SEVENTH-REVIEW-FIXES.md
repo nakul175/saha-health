@@ -47,3 +47,7 @@ These defects were found by a seventh independent review, carried out by an agen
 - An unpaged read of a large scope writes one audit event per record not recently recorded, in one commit; for scopes of several thousand records that commit is large. Paging clients are unaffected.
 - The issuer allowlist is in code; an owner cannot add an issuer.
 - These fixes have not been independently reviewed. BR-REP-04, BR-AG-11, BR-SEC-08, BR-DATA-11 and NFR-18 stay partial; their current text and evidence are updated.
+
+## Correction — 2 October 2026 (slice 6ad)
+
+A measure release recorded its window start only and the population check counted every window until now. That holds for indicator page queries, which always end now, but not for aggregate reports (slice 7g), whose period can end in the past: two reports with the same start and different ends shared one release identity. Slice 6ad records the window end for such releases, uses it in the window key, the prune identity and the population check, counts each window to its own end, and checks windows that do not nest by whole-person profiles. See [SLICE-6AD-NINTH-REVIEW-FIXES.md](SLICE-6AD-NINTH-REVIEW-FIXES.md).

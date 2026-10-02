@@ -26,3 +26,7 @@
 - Shadow comparisons, released indicator figures and the governance record are not changed; the tasks tell a person what to review. A patient-scoped commit cannot write organisation-level documents.
 - Tasks cannot be reassigned yet; a lost owner shows as a gap with the supervisors' queue. Nobody is notified; the tasks are seen in the action plan and the exception queue.
 - Corrections made before this slice have no tasks; nothing is backfilled.
+
+## Correction — 2 October 2026 (slice 6ad)
+
+A ninth independent review found that a visit with more than 60 downstream outputs could not be amended or voided: the refusal said to ask an administrator, but no administrator path exists. Slice 6ad corrects such a visit, keeps a task for every external output and folds internal outputs past the cap into one review task per kind with the count. The organisation-wide indicator-release count on the correction task is not changed. See [SLICE-6AD-NINTH-REVIEW-FIXES.md](SLICE-6AD-NINTH-REVIEW-FIXES.md).

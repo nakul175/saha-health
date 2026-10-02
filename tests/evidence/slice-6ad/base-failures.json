@@ -1,0 +1,18 @@
+{
+ "passed": 0,
+ "failed": [
+  "1 a report view carries the manifest and withheld blocks but no payload or cells: D.reportView is not a function",
+  "1 the aggregate reports read uses the cell-free view: The input did not match the regular expression /\\.\\.\\.reportView\\(r\\)/. Input:",
+  "2 a report ending one day later than a sent report never reveals the one visit in between: The input did not match the regular expression /every block is withheld/. Input:",
+  "2 releases with the same start and different ends are both kept by the ledger prune: Expected values to be strictly equal:",
+  "2 windows that do not nest fall back to whole profiles: DIFF.windowChain is not a function",
+  "3 payload and report budgets keep the operations row inside D1 limits with the ledger: reports and ledger leave at least 400 kB of the 2 MB value",
+  "3 a sent report keeps its manifest, hash and receipt but not its payload: Expected values to be strictly equal:",
+  "3 preparing is refused when the stored reports would exceed their byte budget: Expected values to be strictly equal:",
+  "4 closed reports do not count towards the report limit: This organisation has 200 aggregate reports, the most this release keeps.",
+  "4 a report not approved within the approval window expires and cannot be approved: Expected values to be strictly equal:",
+  "6 a send answer that arrives after a lookup took over is recorded, not discarded: Expected values to be strictly equal:",
+  "7 a receipt lookup stays available during maintenance: Expected values to be strictly equal:",
+  "7 the send checkpoint re-checks maintenance and sends nothing: Expected values to be strictly equal:"
+ ]
+}

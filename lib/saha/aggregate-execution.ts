@@ -7,7 +7,7 @@ import { operationRefusal, refusalOf, type Refusal } from './adapter-operations'
 import { resolveDefinition, MIN_CELL, releasePopulation } from './indicators';
 import { ledgerFull, pruneLedger, screenReleases } from './indicator-differencing';
 import { candidateReleases, ledgerHash, readLedger, writeLedger, type Candidate } from './indicator-ledger';
-import { aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, computeRuns, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
+import { aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, bytesOf, compactReports, computeRuns, OPEN_STATES, PAYLOAD_BYTES, REPORTS_BYTES, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
 import type { Member, OrgState } from './types';
 // Slice 7g: preparing, approving, sending and looking up aggregate reports (see aggregate-delivery.ts).
 export const LEDGER_WRITE_REFUSED='the differencing ledger could not record this release (storage refused the write), so the release could not be protected.';
@@ -37,15 +37,21 @@ async function prepare(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type
  reportingScope(m,c.teamIds);
  // The aggregate operation is checked before anything is prepared.
  const now=new Date(),at=now.toISOString(),i=aggregateDestination(s,c.destinationId),refused=aggregateRefusal(i,'before-send',at);if(refused)fail(409,refused.text+' Nothing was prepared.');
- if(reportList(s).length>=REPORT_LIMIT)fail(409,`This organisation has ${REPORT_LIMIT} aggregate reports, the most this release keeps.`);
+ // Slice 6ad (ninth review, finding 4): expired reports are closed first, and only open reports count.
+ const expired=compactReports(s,at);
+ if(reportList(s).filter(r=>OPEN_STATES.includes(r.state)).length>=REPORT_LIMIT)fail(409,`This organisation has ${REPORT_LIMIT} open aggregate reports, the most this release keeps open. Send, or let expire, an open report first.`);
  const definitions=c.definitions.map(ref=>{const d=resolveDefinition(s,ref);return `${d.id}@${d.version}`;});
  const id=uuid(),params={id,definitions,teamIds:c.teamIds,group:c.group,period:c.period,computedAt:at,destinationId:i.id};
  const {payload}=await compute(db,s,m,params,at);
  if(!payload.manifest.rows)fail(422,'Nothing in this report can be released: every block is withheld to protect small groups. Widen the teams, period or grouping.');
  const check=minimisationCheck(payload,s,'prepare',at);if(!check.passed)fail(422,`The report failed the payload minimisation check: ${check.problems[0]} Nothing was prepared.`);
+ // Slice 6ad (finding 3): a payload and the stored reports are bounded so the operations row never reaches D1's limit.
+ if(bytesOf(payload)>PAYLOAD_BYTES)fail(422,`This report is too large to keep (${Math.ceil(bytesOf(payload)/1000)} kB; at most ${PAYLOAD_BYTES/1000} kB). Choose fewer teams or indicators, or a coarser grouping. Nothing was prepared.`);
  const before=structuredClone(s),r:AggregateReport={...params,destinationName:i.name,state:'prepared',preparedBy:u.userId,preparedByName:u.displayName,preparedAt:at,payload,payloadSha256:payload.manifest.sha256,rowCount:payload.manifest.rows,attempts:0,minimisation:[check],events:[],message:'',updatedAt:at};
  reportEvent(r,at,`Prepared by ${u.displayName}: ${definitions.join(', ')} for ${c.period.start} to ${c.period.end}, ${c.teamIds.length} team${c.teamIds.length===1?'':'s'}. A different authorised person must approve it before it is sent.`);
+ if(bytesOf(reportList(s))+bytesOf(r)>REPORTS_BYTES)fail(409,'The stored aggregate reports have reached the space this release keeps for them. Nothing was prepared; archiving closed reports is not built in this release.');
  reportList(s).push(r);
+ for(const x of expired)audit(s,u,m,'aggregateReportExpired',x.id,x.message,at);
  audit(s,u,m,'prepareAggregateReport',id,`Aggregate report ${id} prepared for ${i.name}: ${definitions.join(', ')}; ${r.rowCount} rows; SHA-256 ${r.payloadSha256}; minimisation check passed (${check.fields} fields, ${check.cells} cells).`,at);
  linkTrace(before,s,c.type,key,u.userId);
  await persist(db,before,s,u,c,key,hash,{reportId:id,state:r.state});
@@ -53,7 +59,7 @@ async function prepare(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type
 }
 // A report that may not be sent is closed as not sent, with the reason recorded; it is never retried automatically.
 async function closeRefused(db:D1Database,s:OrgState,r:AggregateReport,c:{type:string},u:Actor,m:Member,key:string,hash:string,text:string,refusal:Refusal&{reason?:string}){
- const before=structuredClone(s),at=new Date().toISOString();r.state='cancelled';r.refusal=refusal;
+ const before=structuredClone(s),at=new Date().toISOString();r.state='cancelled';r.refusal=refusal;delete r.payload;
  reportEvent(r,at,`Not sent: ${text} Nothing was sent to the destination; this report is closed. Prepare a new report if it is still needed.`);
  audit(s,u,m,'aggregateReportRefused',r.id,r.message,at);linkTrace(before,s,c.type,key,u.userId);
  await persist(db,before,s,u,c,key,hash,{reportId:r.id,state:r.state,refused:true});return {reportId:r.id,state:r.state,refused:true,message:r.message};
@@ -91,6 +97,8 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
  {const latest=await readState(db,s.organisation.id),li=latest.workspace.integrations.find(x=>x.id===r.destinationId),stored=latest.operations&&((latest.operations as any).aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id);
   if(!li)withdrawn='The destination connection no longer exists.';
   else if(lookup){withdrawn=operationRefusal(li,'lookup','none');if(withdrawn)refusal=refusalOf(li,'lookup','checkpoint');}
+  // Slice 6ad (ninth review, finding 7): the checkpoint also re-checks operating mode, as an EHR publication does.
+  else if(latest.operations?.maintenance){withdrawn='the organisation was paused for maintenance.';refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'maintenance'};}
   else {const x=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(x){withdrawn=x.text;refusal=x.refusal;}
    else {check=minimisationCheck(stored?.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed){withdrawn=`the payload failed the minimisation check (${check.problems[0]})`;refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'minimisation'};}}
    if(!withdrawn)withdrawn=await recordReleases(db,latest,releases,now);
@@ -99,13 +107,27 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
  for(let n=0;n<3;n++){
   const after=await readState(db,s.organisation.id),old=structuredClone(after),target=((after.operations as any)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id) as AggregateReport|undefined,at=new Date().toISOString();
   if(!target)fail(409,'The report checkpoint is unavailable.');
-  if(target!.operationId!==operationId||['accepted','rejected','cancelled'].includes(target!.state))return {reportId:r.id,state:target!.state};
+  if(target!.operationId!==operationId||['accepted','rejected','cancelled'].includes(target!.state)){
+   // Slice 6ad (ninth review, finding 6): an answer that arrives after a lookup took over, or after the report closed,
+   // is appended as evidence, never discarded. It resolves the report only while its outcome is still unknown.
+   if(withdrawn||raw===undefined)return {reportId:r.id,state:target!.state};
+   const was=target!.state,copy=structuredClone(target!);let note:string;
+   try{applyAggregateReceipt(copy,raw,lookup,at);note=`Late answer to an earlier ${lookup?'receipt lookup':'send'}: ${copy.message}`;
+    if(['sending','uncertain'].includes(was)&&['accepted','rejected'].includes(copy.state)){target!.state=copy.state;if(copy.receipt)target!.receipt=copy.receipt;}
+    else if(copy.receipt&&!target!.receipt&&copy.state==='accepted'&&was==='accepted')target!.receipt=copy.receipt;}
+   catch(e){note=`Late answer to an earlier ${lookup?'receipt lookup':'send'} did not match the aggregate receipt contract (${e instanceof Error?e.message:'unreadable'}).`;}
+   reportEvent(target!,at,note+(target!.state===was?' The report state is unchanged.':''));if(!OPEN_STATES.includes(target!.state))delete target!.payload;
+   audit(after,u,m,'aggregateReceipt',target!.id,target!.message,at);linkTrace(old,after,'aggregateReceipt','agg_late_'+operationId,u.userId);
+   try{await persist(db,old,after,u,{type:'aggregateReceipt'},'agg_late_'+operationId,hash,{reportId:target!.id,state:target!.state});return {reportId:target!.id,state:target!.state,...(target!.receipt?{receipt:target!.receipt}:{})};}
+   catch(e){if(!(e instanceof AppError&&e.status===409)||n===2)throw e;continue;}
+  }
   if(check)target!.minimisation.push(check);
   if(withdrawn){
    if(lookup){target!.state='uncertain';reportEvent(target!,at,`Receipt lookup not made: ${withdrawn} The outcome stays unknown; do not resend.`);}
    else {target!.state='cancelled';target!.refusal=refusal;target!.attempts=Math.max(0,target!.attempts-1);reportEvent(target!,at,`Not sent: ${withdrawn} This was found after the checkpoint and before the request, so nothing was sent and the reserved attempt is released. This report is closed; prepare a new report if it is still needed.`);}
   }
   else try{applyAggregateReceipt(target!,raw,lookup,at);}catch{target!.state='uncertain';reportEvent(target!,at,'No matching definitive receipt was received. Look up this report before anything else; it is never sent again.');}
+  if(!OPEN_STATES.includes(target!.state))delete target!.payload;
   const action=withdrawn&&!lookup?'aggregateReportRefused':'aggregateReceipt';
   // Receipts describe what already happened outside Saha; they are kept even if the sender's access changed in flight.
   audit(after,u,m,action,target!.id,target!.message,at);linkTrace(old,after,action,'agg_finish_'+operationId,u.userId);
