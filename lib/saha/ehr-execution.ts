@@ -7,8 +7,9 @@ import { persist, readState, scope, type Actor } from './store';
 import { recordAccess } from './access-audit';
 import { linkTrace } from './trace';
 import { operationRefusal, refusalOf, type Refusal } from './adapter-operations';
+import { sendBlock } from './send-gate';
 import type { D1Database } from '@cloudflare/workers-types';
-import type { Member, OrgState, Person } from './types';
+import type { Member, OrgState, Person, SendBlockRecord } from './types';
 export async function publishAuthority(s:OrgState,p:Person,op:EhrOperation,u:Actor){const current=await ehrAccess(s,p,op.linkId,op.permissionId,'write');const v=visit(s.workspace,op.visitId);if(op.actorId!==u.userId||op.approvalUntil<=new Date().toISOString()||op.identityHash!==await identityHash(p)||op.consentVersion!==p.consentVersion||op.visitVersion!==v.version||v.state!=='confirmed'||v.voidedAt||v.supersededBy||current.i.version!==op.integrationVersion||current.i.status!=='active')fail(409,'Publication approval, identity, permission, visit or connection changed.');withinPermission(inspectDocument(op.bundle,current.link.externalId),current.permission);return current;}
 export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof fhirRequest=fhirRequest){
  if(c.type==='probeEhr'){if(!m.isOwner)fail(403,'Owner access required.');const i=ehrIntegration(s,c.integrationId);if(i.version!==c.version||!i.ehr)fail(409,'Save current capabilities before testing.');const raw=await transport(i,s.organisation.id,env,'metadata');const caps=capabilities(raw);const after=await readState(db,s.organisation.id),member=scope(after,u.userId);if(!member.isOwner)fail(403,'Owner access changed.');const target=ehrIntegration(after,i.id);if(target.version!==i.version)fail(409,'EHR configuration changed during the test.');const before=structuredClone(after);target.ehr!.test={at:new Date().toISOString(),version:i.version,...caps,message:'CapabilityStatement checked. A partner acceptance test is still required.'};ehrAudit(after,u,member,c.type,i.id,target.ehr!.test.message);await persist(db,before,after,u,c,key,hash,caps);return caps;}
@@ -24,7 +25,11 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  else{if(op.state!=='prepared')return {operationId:op.id,state:op.state};if(c.hash!==op.hash)fail(409,'Review the exact document before approval.');
   // Slice 7e: if creating records was withdrawn after preparation, the publication is closed as not sent.
   {const refused=operationRefusal(i,'create','patient');if(refused){if(op.actorId!==u.userId)fail(409,'Publication approval, identity, permission, visit or connection changed.');const before=structuredClone(s);op.state='blocked';op.refusal=refusalOf(i,'create','before-send');op.at=new Date().toISOString();op.message=`Not sent: ${refused} Nothing was sent to the EHR; this publication is closed. Prepare a new publication if it is still needed.`;ehrAudit(s,u,m,'adapterOperationRefused',p.id,op.message,p.id);linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,{operationId:op.id,state:op.state,refused:true});return {operationId:op.id,state:op.state,refused:true,message:op.message};}}
-  ({i}=await publishAuthority(s,p,op,u));ehrCredential(i,s.organisation.id,env);if(ehrState(p).operations.some(o=>o.id!==op.id&&o.linkId===op.linkId&&o.visitId===op.visitId&&EHR_HOLDING_STATES.includes(o.state)))fail(409,'Another publication already exists for this visit and destination.');}
+  ({i}=await publishAuthority(s,p,op,u));ehrCredential(i,s.organisation.id,env);
+  // Slice 10g: an open dispute on anything the document carries, a withdrawn sign-off or a sign-off rule for this connection
+  // stops the publication before its checkpoint; it stays prepared (nothing was sent) until that is resolved.
+  {const g=await sendBlock(s,s.workspace.visits.find(x=>x.id===op.visitId),i,'plan');if(g.block)fail(409,g.block.text);if(g.signOff)op.signOff={id:g.signOff.id,by:g.signOff.by,byName:g.signOff.byName,at:g.signOff.at};}
+  if(ehrState(p).operations.some(o=>o.id!==op.id&&o.linkId===op.linkId&&o.visitId===op.visitId&&EHR_HOLDING_STATES.includes(o.state)))fail(409,'Another publication already exists for this visit and destination.');}
  // Slice 7f: the publication checkpoint time bounds when its write could have reached the partner; each lookup is counted.
  const before=structuredClone(s),priorAt=op.at;op.state='running';op.at=new Date().toISOString();if(lookup)op.lookups=(op.lookups??0)+1;else op.publishStartedAt=op.at;const settleFrom=op.publishStartedAt??priorAt;op.message=lookup?'Receipt lookup started; no document resent.':'Publication checkpoint saved before external requests.';ehrAudit(s,u,m,c.type,p.id,op.message,p.id);linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,{operationId:op.id,state:op.state});
  let receipt:string|undefined,message='No definitive EHR acknowledgement. Look up the document identifier before further action.';
@@ -32,7 +37,7 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  // (patient check, authority recheck, operating state) is definitive: nothing was sent, so the publication is
  // closed as not sent ('blocked') instead of staying 'uncertain' with no way to resolve it. Once the write may
  // have started, a failure stays 'uncertain' and needs a receipt lookup; it is never retried blindly.
- let sent=false,refusal:string|undefined,operationRefused:Refusal|undefined;
+ let sent=false,refusal:string|undefined,operationRefused:Refusal|undefined,blocked:SendBlockRecord|undefined;
  // Slice 7f: a definitive lookup answer under the policy read just before the request, and the request's audit event.
  let resolution:{outcome:'not-stored'|'conflict';matches:number;detail:string}|undefined,policy=lookupPolicyOf(i),requestAuditId:string|null=null,requestAt='';
  try{if(lookup){
@@ -49,12 +54,16 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  else resolution=found.outcome==='conflict'?{outcome:'conflict',matches:found.matches,detail:found.detail}:{outcome:'not-stored',matches:0,detail:`No document with this identifier after the partner's ${policy.consistencySeconds}-second consistency delay.`};}else{
  // Slice 6ab (eighth review): the create operation is rechecked on a fresh read before the patient read goes out, so a
  // withdrawn create sends nothing at all (not even the Patient/<id> read); it is checked again after the read below.
- {const early=await readState(db,s.organisation.id),li=early.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'create','patient'):'The EHR connection no longer exists.';if(refused){if(li)operationRefused=refusalOf(li,'create','checkpoint');fail(409,refused);}}
+ {const early=await readState(db,s.organisation.id),li=early.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'create','patient'):'The EHR connection no longer exists.';if(refused){if(li)operationRefused=refusalOf(li,'create','checkpoint');fail(409,refused);}
+  // Slice 10g: disputes and sign-off are rechecked on this fresh read, before the patient read goes out.
+  const g=await sendBlock(early,early.workspace.visits.find(x=>x.id===op.visitId),li!,'checkpoint');if(g.block){blocked={kind:g.block.kind==='dispute'?'dispute':'sign-off',stage:'checkpoint',at:new Date().toISOString(),...(g.block.disputeIds.length?{disputeIds:g.block.disputeIds}:{})};fail(409,g.block.text);}}
  checkRemotePatient(await transport(i,s.organisation.id,env,'Patient/'+link.externalId),link.externalId,link.externalName);
  // Recheck authorisation immediately before the write, after patient lookup.
  const latest=await readState(db,s.organisation.id),member=scope(latest,u.userId);if(!['asha','clinician'].includes(member.role))fail(403,'Care access changed.');ensureOperating(latest,c);const personNow=person(latest.workspace,p.id);
  // Slice 7e: the create operation is rechecked inside the checkpoint; a withdrawal closes the publication as not sent.
- {const li=latest.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'create','patient'):null;if(refused){operationRefused=refusalOf(li!,'create','checkpoint');fail(409,refused);}}
+ {const li=latest.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'create','patient'):null;if(refused){operationRefused=refusalOf(li!,'create','checkpoint');fail(409,refused);}
+  // Slice 10g: and again immediately before the write, after the remote patient check.
+  const g=li?await sendBlock(latest,latest.workspace.visits.find(x=>x.id===op.visitId),li,'checkpoint'):null;if(g?.block){blocked={kind:g.block.kind==='dispute'?'dispute':'sign-off',stage:'checkpoint',at:new Date().toISOString(),...(g.block.disputeIds.length?{disputeIds:g.block.disputeIds}:{})};fail(409,g.block.text);}}
  await publishAuthority(latest,personNow,op,u);
  // Slice 7f: the write starts inside the attempt window or not at all (a lookup relies on that bound).
  if(Date.now()-Date.parse(op.publishStartedAt!)>EHR_WRITE_DEADLINE_SECONDS*1000)fail(409,`The publication did not reach its write step within ${EHR_WRITE_DEADLINE_SECONDS} seconds of its checkpoint.`);
@@ -69,6 +78,6 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
   target.state=receipt?'accepted':outcome?outcome.outcome:refusal?'blocked':'uncertain';target.receipt=receipt;target.message=text;
   if(lookup&&(receipt||outcome))target.resolution={outcome:receipt?'found':outcome!.outcome,matches:receipt?1:outcome!.matches,policyVersion:policy.version,at:new Date().toISOString(),key,detail:receipt?'One matching document equal to the published document.':outcome!.detail};
   // Slice 7f: the lookup request step, linked to its external-request audit event.
-  if(lookup&&requestAuditId)(target.events??=[]).push({at:requestAt,state:'lookup request',ref:{command:c.type,key,actorId:u.userId,auditId:requestAuditId}});if(operationRefused&&!receipt)target.refusal=operationRefused;const action=operationRefused&&!receipt?'adapterOperationRefused':'ehrReceipt';ehrAudit(after,u,m,action,p.id,text,p.id);const finish='ehr_finish_'+uuid();linkTrace(old,after,action,finish,u.userId);try{await persist(db,old,after,u,{type:action},finish,hash,{operationId:target.id,state:target.state});return {operationId:target.id,state:target.state,...(refusal||outcome?{message:target.message}:{})};}catch(e){if(!(e instanceof AppError&&e.status===409)||n===2)throw e;}}
+  if(lookup&&requestAuditId)(target.events??=[]).push({at:requestAt,state:'lookup request',ref:{command:c.type,key,actorId:u.userId,auditId:requestAuditId}});if(operationRefused&&!receipt)target.refusal=operationRefused;if(blocked&&!receipt)target.block=blocked;const action=operationRefused&&!receipt?'adapterOperationRefused':blocked&&!receipt?'sendBlocked':'ehrReceipt';ehrAudit(after,u,m,action,p.id,text,p.id);const finish='ehr_finish_'+uuid();linkTrace(old,after,action,finish,u.userId);try{await persist(db,old,after,u,{type:action},finish,hash,{operationId:target.id,state:target.state});return {operationId:target.id,state:target.state,...(refusal||outcome?{message:target.message}:{})};}catch(e){if(!(e instanceof AppError&&e.status===409)||n===2)throw e;}}
  fail(409,'Publication result is unresolved. Look up its document identifier; do not resend.');
 }

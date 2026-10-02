@@ -167,6 +167,8 @@ const {noteAnswerSignOffSmoke}=await import('./note-answer-signoff-smoke.mjs');a
 const {traceSmoke}=await import('./trace-smoke.mjs');await traceSmoke({get,post,check,accounts,org,sql,base});
 const {adapterOperationsSmoke}=await import('./adapter-operations-smoke.mjs');await adapterOperationsSmoke({get,post,check,accounts,org,base});
 const {aggregateDeliverySmoke}=await import('./aggregate-delivery-smoke.mjs');await aggregateDeliverySmoke({get,post,check,accounts,org,sql});
+// Slice 10g: disputes block sending, sign-off rules per programme and destination, sign-off withdrawal (leaves the organisation's sign-off rules cleared).
+const {sendGateSmoke}=await import('./send-gate-smoke.mjs');await sendGateSmoke({get,post,check,accounts,org,sql});
 // Slice 9a: demonstration clinical package (its own synthetic accounts and home organisation).
 const {demonstrationSmoke}=await import('./demonstration-smoke.mjs');await demonstrationSmoke({get,post,check,sql,base});
 const {memberNamesSmoke}=await import('./member-names-smoke.mjs');await memberNamesSmoke({get,post,check,accounts,org,sql});

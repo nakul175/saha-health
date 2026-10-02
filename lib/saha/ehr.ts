@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { digest, fail, person, uuid, visit } from './core';
 import { fhirDocument, inspectDocument, type DocumentSummary } from './fhir-document';
 import { validateOutbound, type ValidationStamp } from './fhir-validate';
-import type { Integration, Member, OrgState, Person, TraceStep } from './types';
+import type { Integration, Member, OrgState, Person, SendBlockRecord, TraceStep } from './types';
 import { operationRefusal, type Refusal } from './adapter-operations';
 import type { Actor } from './store';
 // Slice 7f: the connection's declared receipt-lookup policy (BR-INT-04, BR-INT-21). `authoritative` says the partner
@@ -17,7 +17,7 @@ export type EhrResolution={outcome:'found'|'not-stored'|'conflict';matches:numbe
 export type EhrLink={id:string;integrationId:string;externalId:string;externalName:string;identityHash:string;status:'active'|'revoked';at:string;verifiedBy:string;method:'worker-confirmed'};
 export type EhrPermission={id:string;linkId:string;direction:'read'|'write';purpose:'care-coordination';from:string;to:string;expiresAt:string;status:'active'|'revoked';at:string};
 export type EhrDocument={id:string;linkId:string;permissionId:string;hash:string;bundle:any;summary:DocumentSummary;status:'review'|'reviewed'|'rejected';at:string;origin:'file'|'ehr';reviewedBy?:string;reviewedAt?:string};
-export type EhrOperation={id:string;linkId:string;permissionId:string;actorId:string;integrationVersion:number;identityHash:string;consentVersion:number;state:'prepared'|'running'|'accepted'|'uncertain'|'blocked'|'not-stored'|'conflict';visitId:string;visitVersion:number;approvalUntil:string;bundle:any;hash:string;at:string;message:string;receipt?:string;validation?:ValidationStamp;events?:TraceStep[];refusal?:Refusal;publishStartedAt?:string;lookups?:number;resolution?:EhrResolution};
+export type EhrOperation={id:string;linkId:string;permissionId:string;actorId:string;integrationVersion:number;identityHash:string;consentVersion:number;state:'prepared'|'running'|'accepted'|'uncertain'|'blocked'|'not-stored'|'conflict';visitId:string;visitVersion:number;approvalUntil:string;bundle:any;hash:string;at:string;message:string;receipt?:string;validation?:ValidationStamp;events?:TraceStep[];refusal?:Refusal;block?:SendBlockRecord;signOff?:{id:string;by:string;byName:string;at:string};publishStartedAt?:string;lookups?:number;resolution?:EhrResolution};
 export type EhrState={links:EhrLink[];permissions:EhrPermission[];documents:EhrDocument[];operations:EhrOperation[]};
 const id=z.string().min(1).max(200),external=z.string().regex(/^[A-Za-z0-9.-]{1,64}$/),version=z.number().int().positive(),date=z.string().datetime();
 export const ehrSchema=z.discriminatedUnion('type',[

@@ -127,6 +127,7 @@ probeEhr,lib/saha/ehr.ts,25,Schema discriminator; authorization and state gates 
 programmeMigrationApply,lib/saha/programme-migration.ts,26,Schema discriminator; authorization and state gates still apply
 proxyGrant,lib/saha/household.ts,32,Schema discriminator; authorization and state gates still apply
 proxyRevoke,lib/saha/household.ts,33,Schema discriminator; authorization and state gates still apply
+raiseDispute,lib/saha/visit-signoff.ts,42,Schema discriminator; authorization and state gates still apply
 reconcile,lib/saha/core.ts,44,Schema discriminator; authorization and state gates still apply
 recordImportApply,lib/saha/record-import.ts,38,Schema discriminator; authorization and state gates still apply
 recordReferralEvent,lib/saha/field.ts,16,Schema discriminator; authorization and state gates still apply
@@ -136,6 +137,7 @@ registerIntegration,lib/saha/core.ts,51,Schema discriminator; authorization and 
 removeMember,lib/saha/caseload.ts,29,Schema discriminator; authorization and state gates still apply
 renameOrganisation,lib/saha/platform.ts,101,Schema discriminator; authorization and state gates still apply
 reportSafety,lib/saha/governance.ts,43,Schema discriminator; authorization and state gates still apply
+resolveDispute,lib/saha/visit-signoff.ts,43,Schema discriminator; authorization and state gates still apply
 resolveFollowUp,lib/saha/programme-commands.ts,13,Schema discriminator; authorization and state gates still apply
 resolvePatientIdentity,lib/saha/continuity.ts,14,Schema discriminator; authorization and state gates still apply
 resolveSafety,lib/saha/governance.ts,44,Schema discriminator; authorization and state gates still apply
@@ -175,8 +177,9 @@ setConsent,lib/saha/core.ts,45,Schema discriminator; authorization and state gat
 setContactPreferences,lib/saha/outreach.ts,25,Schema discriminator; authorization and state gates still apply
 setEhrLookupPolicy,lib/saha/ehr.ts,37,Schema discriminator; authorization and state gates still apply
 setMyDisplayName,lib/saha/platform.ts,104,Schema discriminator; authorization and state gates still apply
-setSignOffPolicy,lib/saha/visit-signoff.ts,25,Schema discriminator; authorization and state gates still apply
-signOffVisit,lib/saha/visit-signoff.ts,24,Schema discriminator; authorization and state gates still apply
+setSignOffPolicy,lib/saha/visit-signoff.ts,37,Schema discriminator; authorization and state gates still apply
+setSignOffRules,lib/saha/visit-signoff.ts,40,Schema discriminator; authorization and state gates still apply
+signOffVisit,lib/saha/visit-signoff.ts,36,Schema discriminator; authorization and state gates still apply
 startShadow,lib/saha/shadow.ts,32,Schema discriminator; authorization and state gates still apply
 startVisit,lib/saha/core.ts,38,Schema discriminator; authorization and state gates still apply
 stopShadow,lib/saha/shadow.ts,34,Schema discriminator; authorization and state gates still apply
@@ -188,7 +191,8 @@ transitionGovernance,lib/saha/governance.ts,38,Schema discriminator; authorizati
 transitionReferral,lib/saha/core.ts,49,Schema discriminator; authorization and state gates still apply
 unlinkPlanItems,lib/saha/action-plan.ts,148,Schema discriminator; authorization and state gates still apply
 updateMember,lib/saha/platform.ts,108,Schema discriminator; authorization and state gates still apply
-verifyEntry,lib/saha/visit-signoff.ts,23,Schema discriminator; authorization and state gates still apply
+verifyEntry,lib/saha/visit-signoff.ts,35,Schema discriminator; authorization and state gates still apply
 verifyFact,lib/saha/fact-verification.ts,19,Schema discriminator; authorization and state gates still apply
 voidVisit,lib/saha/platform.ts,112,Schema discriminator; authorization and state gates still apply
 withdrawConsent,lib/saha/consent.ts,24,Schema discriminator; authorization and state gates still apply
+withdrawSignOff,lib/saha/visit-signoff.ts,41,Schema discriminator; authorization and state gates still apply
