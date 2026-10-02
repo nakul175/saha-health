@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fail, person, visit, uuid } from './core';
-import { ABSENCE, PACKS, questions } from './programmes';
+import { ABSENCE, PACKS, adoptedVersion, questions } from './programmes';
 import type { OrgState, Member } from './types';
 import type { Actor } from './store';
 const id=z.string().min(1).max(200),version=z.number().int().positive();
@@ -27,7 +27,7 @@ export function programmeApply(state:OrgState,input:unknown,u:Actor,m:Member):an
   const p=person(w,c.personId);if(p.version!==c.version)fail(409,'The patient changed. Refresh before editing programme work.');p.enrolments??=[];p.followUps??=[];subject=p.id;
   if(c.type==='enrolProgramme'){
    if(p.enrolments.some(e=>e.packId===c.packId&&e.state==='active'))fail(409,'This programme already has an active episode.');if(c.startDate&&c.startDate>now.slice(0,10))fail(422,'Episode start cannot be in the future.');
-   const pack=PACKS.find(x=>x.id===c.packId)!;const e={id:uuid(),packId:pack.id,packVersion:pack.version,state:'active' as const,episodeLabel:c.episodeLabel,startDate:c.startDate,createdAt:now,createdBy:u.userId,registration:'not_submitted' as const};p.enrolments.push(e);if(!p.programmes.includes(pack.programme))p.programmes.push(pack.programme);detail=`Local sandbox episode opened: ${pack.name} v${pack.version}. Official registration not submitted.`;result={enrolmentId:e.id};
+   const pack=PACKS.find(x=>x.id===c.packId&&x.version===adoptedVersion(state,c.packId))!;const e={id:uuid(),packId:pack.id,packVersion:pack.version,state:'active' as const,episodeLabel:c.episodeLabel,startDate:c.startDate,createdAt:now,createdBy:u.userId,registration:'not_submitted' as const};p.enrolments.push(e);if(!p.programmes.includes(pack.programme))p.programmes.push(pack.programme);detail=`Local sandbox episode opened: ${pack.name} v${pack.version}. Official registration not submitted.`;result={enrolmentId:e.id};
   }else if(c.type==='closeEnrolment'){
    const e=p.enrolments.find(e=>e.id===c.enrolmentId);if(!e||e.state!=='active')fail(409,'Choose an active episode.');if(w.visits.some(v=>v.personId===p.id&&v.state==='draft'&&!v.voidedAt&&!v.supersededBy&&v.programmeCapture?.packs.some(x=>x.enrolmentId===e.id)))fail(409,'Finish the open programme visit before closing this episode.');e.state='closed';e.closedAt=now;e.outcome=c.outcome;
    for(const t of p.followUps.filter(t=>t.enrolmentId===e.id&&t.state==='open')){t.state='cancelled';t.closedAt=now;t.resolution='Episode closed: '+c.outcome;}detail='Episode closed; open follow-ups cancelled and history retained. '+c.outcome;
