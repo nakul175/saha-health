@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2i, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 7f, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2j, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 7f, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -609,8 +609,8 @@
       "sourceTextLine": 213,
       "implementation": "partial",
       "target": "R12",
-      "current": "Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies.",
-      "remaining": "Complete dependency invalidation and explicit correction/reconciliation tasks for every downstream output.",
+      "current": "Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited.",
+      "remaining": "Recomputation of shadow comparisons and released indicator figures, follow-up source links (follow-ups are listed as possible dependants), task reassignment and notification, tasks for corrections made before slice 2j, and identity-merge and correction tasks in one reconciliation view.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -620,7 +620,14 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/correction-tasks.ts",
+        "lib/saha/action-plan.ts",
+        "lib/saha/exceptions.ts",
+        "app/action-plan-panel.tsx",
+        "tests/correction-tasks-contract.mjs",
+        "tests/correction-tasks-smoke.mjs",
+        "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3641,8 +3648,8 @@
       "sourceTextLine": 604,
       "implementation": "partial",
       "target": "R12",
-      "current": "Local/simulator/external outcomes remain distinct and receipts are not silently reversed.",
-      "remaining": "Evidence-backed downstream reversal/correction tasks for each supported partner.",
+      "current": "Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason.",
+      "remaining": "Correction or reversal support from real partners (no destination declares void support and Saha has no EHR amendment or withdrawal path, so these stay manual), partner-confirmed reversal receipts, and acceptance with a real destination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -3652,7 +3659,14 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/correction-tasks.ts",
+        "lib/saha/action-plan.ts",
+        "lib/saha/exceptions.ts",
+        "app/action-plan-panel.tsx",
+        "tests/correction-tasks-contract.mjs",
+        "tests/correction-tasks-smoke.mjs",
+        "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
