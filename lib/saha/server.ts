@@ -22,14 +22,14 @@ import { applyIndicatorRegistry, authorizeIndicatorRegistry } from './indicator-
 import { applyReferral, authorizeReferralSource } from './referrals';
 import { applyActionPlan, authorizeActionPlan } from './action-plan';
 import { applyRoster } from './roster';
-import { applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';
+import { AbhaHeldElsewhere, LINK_REFUSED, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';
 import { applyTransfer, authorizeTransfer } from './abdm-transfer';
 import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';
 import { applyPilot, authorizePilotCommand } from './pilot';
 import { applyOutreach, authorizeOutreach } from './outreach';
 import { applyExpansion, authorizeExpansion } from './expansion';
 import { boundedJsonBody } from './request-body';
-import { accessRoute, recordAccess } from './access-audit';
+import { accessRoute, recordAccess, recordAccesses } from './access-audit';
 import { applyOperations, ensureOperating, operator } from './operations';
 import { applyInvoiceReconciliation } from './ai-invoice';
 import { ALERT_OWNERS, applyAlertAck, canAcknowledge } from './alerts';
@@ -80,6 +80,15 @@ export async function snapshot(request?:Request){const u=await identity();return
 // Slice 0b-3: the snapshot returned after a command follows the same paging request as the workspace read.
 const viewerSnapshot=async(request:Request,u:Actor,orgId:string)=>snapshotFor(await loadFor(u,orgId,undefined,true,pagingRequest(request)),u);
 async function parseRequest(request:Request){const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)fail(403,'Cross-origin changes are not allowed.');if(request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-site changes are not allowed.');if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON for this operation.');const key=request.headers.get('idempotency-key');if(!key||!/^[a-zA-Z0-9_-]{8,100}$/.test(key))fail(400,'A valid idempotency key is required.');const input=await boundedJsonBody(request,20000);const parsed=platformSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid command.');return {key,c:parsed.data};}
+// Slice 6z (sixth review): an ABHA link refused because a record outside the requester's care scope holds the number is
+// recorded for identity steward review as an audit event on that record (visible only to members who may see it), then
+// refused with the ordinary link refusal. Recording is best effort: the requester's answer is the same either way.
+async function abdmWithStewardReview(state:OrgState,c:any,u:Actor,m:Member){
+ try{return applyAbdm(state,c,u,m);}
+ catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;
+  try{await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal.`}]);}catch{/* recordAccesses has logged the failure without content */}
+  fail(422,LINK_REFUSED);}
+}
 async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof parseRequest>>){
  const u=await identity(),{key,c}=parsed,hash=await digest(c);await ensureAccount(db(),u,w=>fixturesFor(rawRuntime(),w));
  const old=await db().prepare('SELECT org_id,hash,result,person_id FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;hash:string;result:string;person_id:string|null}>();
@@ -152,7 +161,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const recordImport=await applyRecordImport(state,c,u,m,rawRuntime());
   const referral=applyReferral(state,c,u,m)??applyActionPlan(state,c,u,m);
   const roster=await applyRoster(state,c,u,m);
-  const abdm=applyAbdm(state,c,u,m);
+  const abdm=await abdmWithStewardReview(state,c,u,m);
   const transfer=await applyTransfer(state,c,u,m);
   const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m);
   const platform=shadow?{handled:true,result:shadow}:sandbox?{handled:true,result:sandbox}:transfer?{handled:true,result:transfer}:abdm?{handled:true,result:abdm}:roster?{handled:true,result:roster}:referral?{handled:true,result:referral}:retention?{handled:true,result:retention}:fixture?{handled:true,result:fixture}:packMigration?{handled:true,result:packMigration}:packInstall?{handled:true,result:packInstall}:factReview?{handled:true,result:factReview}:signOff?{handled:true,result:signOff}:patientImport?{handled:true,result:patientImport}:recordImport?{handled:true,result:recordImport}:rights?{handled:true,result:rights}:consent?{handled:true,result:consent}:registry?{handled:true,result:registry}:delegation?{handled:true,result:delegation}:exceptional?{handled:true,result:exceptional}:merge?{handled:true,result:merge}:caseload?{handled:true,result:caseload}:household?{handled:true,result:household}:evaluation?{handled:true,result:evaluation}:governance?{handled:true,result:governance}:continuity?{handled:true,result:continuity}:expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);

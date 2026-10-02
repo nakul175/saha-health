@@ -32,3 +32,7 @@
 - The once-a-minute throttle is per Worker instance (in memory), so several instances may evaluate in the same minute; the unique keys keep this harmless.
 - Notifications and occurrences are not pruned yet. Counts on a notification are the count when delivered; Operations shows the current count.
 - Alerts still point to Operations tabs, not to individual tasks, provider calls or receipts.
+
+## Correction — 1 October 2026 (slice 6z)
+
+An organisation acknowledgement counted for an occurrence when any recipient's view showed it, although care-report alerts have a different count in each member's scope: one owner's acknowledgement cleared another owner's notification and stopped escalation. Escalation notifications were not tied to the guarded escalation update, so a concurrent evaluation could leave them on a closed, never-escalated occurrence, and restore was not guarded against a closed occurrence. Data exit exported every member's notifications. Slice 6z clears each recipient's notification only when their own view shows the acknowledgement and treats the occurrence as acknowledged only when every view does; inserts escalation notifications only when this evaluation's guarded update escalated the occurrence; guards restore; and exports only the exporter's own notifications. See [slice 6z](SLICE-6Z-SIXTH-REVIEW-FIXES.md), findings 2, 3 and 6.

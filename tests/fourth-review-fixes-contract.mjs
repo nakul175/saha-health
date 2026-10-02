@@ -199,7 +199,9 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
       B.applyAbdm(s, { type: 'abdmConfigure', environment: 'mock', modules: { abha: true, hip: false, hiu: false }, facilityId: 'FAC-SYNTH', approvals: [{ module: 'abha', reference: 'APPROVAL-SYNTH' }], reason: 'Synthetic mock gateway configuration' }, { userId: 'own', displayName: 'Owner' }, own, now); return s; };
     const link = { type: 'abhaLink', personId: 'mine', version: 1, abhaNumber: '91-1234-5678-9012', otp: B.MOCK_OTP };
     const s1 = mk(); visible(s1, asha);
-    check('ABHA duplicate held by an out-of-scope record gets a neutral refusal', () => { const e = status(() => B.applyAbdm(s1, link, { userId: 'asha', displayName: 'ASHA' }, asha, now), 409); assert.ok(!/another record/.test(e.message), e.message); assert.match(e.message, /identity steward/); });
+    // Slice 6z (sixth review): the 6u refusal used its own status (409) and text, which still told the requester the number
+    // is held elsewhere. It is now the ordinary link refusal (422, the gateway-refusal text); the status below changed for that.
+    check('ABHA duplicate held by an out-of-scope record gets a neutral refusal', () => { const e = status(() => B.applyAbdm(s1, link, { userId: 'asha', displayName: 'ASHA' }, asha, now), 422); assert.ok(!/another record/.test(e.message), e.message); assert.match(e.message, /identity steward/); });
     const s2 = mk(); visible(s2, own);
     check('control: a worker who may see the other record is told it is linked there', () => { const e = status(() => B.applyAbdm(s2, link, { userId: 'own', displayName: 'Owner' }, own, now), 409); assert.match(e.message, /linked to another record/); });
   }

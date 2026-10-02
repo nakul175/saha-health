@@ -23,8 +23,13 @@ export type EpisodeMigration={batchId:string;from:number;to:number;at:string;by:
 export type FollowUp={id:string;enrolmentId:string;packId:PackId;title:string;due:string;ownerId:string;state:'open'|'completed'|'cancelled';createdAt:string;createdBy:string;closedAt?:string;resolution?:string};
 export type ProgrammeCapture={packs:{enrolmentId:string;pack:Pack}[];answers:Record<string,string>;absence:Record<string,string>;savedBy?:string;savedAt?:string};
 export const ABSENCE=['Unknown','Not measured','Declined','Unable to obtain'] as const;
-export function questions(c?:ProgrammeCapture){const found=new Map<string,Question&{programmes:string[]}>();for(const {pack} of c?.packs??[])for(const q of pack.questions){if(q.when&&c?.answers[q.when.id]!==q.when.value)continue;const old=found.get(q.id);if(old)old.programmes.push(pack.name);else found.set(q.id,{...q,programmes:[pack.name]});}return [...found.values()];}
-export function unresolved(v:Visit){return questions(v.programmeCapture).filter(q=>!String(q.fact?v.facts[q.fact]:v.programmeCapture?.answers[q.id]??'').trim()&&!v.programmeCapture?.absence[q.id]);}
+// Slice 6z (sixth review): answers and absence reasons are keyed by question id. They are read as own properties only,
+// so an id that names an Object.prototype member (constructor, toString, valueOf…) can never read a built-in function as
+// an answer or an absence reason. Installed manifests also refuse such ids (pack-installation.ts).
+export const RESERVED_QUESTION_IDS:ReadonlySet<string>=new Set(Object.getOwnPropertyNames(Object.prototype));
+export const own=<T>(r:Record<string,T>|undefined|null,k:string):T|undefined=>r&&Object.prototype.hasOwnProperty.call(r,k)?r[k]:undefined;
+export function questions(c?:ProgrammeCapture){const found=new Map<string,Question&{programmes:string[]}>();for(const {pack} of c?.packs??[])for(const q of pack.questions){if(q.when&&own(c?.answers,q.when.id)!==q.when.value)continue;const old=found.get(q.id);if(old)old.programmes.push(pack.name);else found.set(q.id,{...q,programmes:[pack.name]});}return [...found.values()];}
+export function unresolved(v:Visit){return questions(v.programmeCapture).filter(q=>!String(q.fact?v.facts[q.fact]:own(v.programmeCapture?.answers,q.id)??'').trim()&&!own(v.programmeCapture?.absence,q.id));}
 export function captureFor(enrolments:Enrolment[],installed?:readonly Pack[]):ProgrammeCapture{const all=[...PACKS,...(installed??[])];return {packs:enrolments.filter(e=>e.state==='active').flatMap(e=>{const pack=all.find(p=>p.id===e.packId&&p.version===e.packVersion);return pack?[{enrolmentId:e.id,pack:structuredClone(pack)}]:[];}),answers:{},absence:{}};}
 // Slice 4f: the catalogue is the compiled packs plus the organisation's installed versions. Activated versions can open
 // episodes and be migration targets; retired installed versions stay resolvable for the episodes pinned to them.

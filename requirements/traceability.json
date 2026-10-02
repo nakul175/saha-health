@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -481,7 +481,7 @@
       "sourceTextLine": 201,
       "implementation": "partial",
       "target": "R12",
-      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"not recorded\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries \"not recorded\") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view.",
+      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"not recorded\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries \"not recorded\") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view. Slice 6z: on a visit with no recorded entry or measurement author (recorded before slices 2e and 2g), the confirmer and, for a programme answer, the person who saved the answers are treated as authors, so they cannot verify their own entries; the person who saved the programme answers cannot sign the visit off.",
       "remaining": "Disputes blocking sending; per-programme or per-destination sign-off policy and sign-off withdrawal; coded FHIR provenance (authors, reviews and sign-off are not in FHIR or programme payloads); per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -509,7 +509,9 @@
         "app/entry-verification-panel.tsx",
         "tests/note-answer-signoff-contract.mjs",
         "tests/note-answer-signoff-smoke.mjs",
-        "docs/current/SLICE-2G-NOTE-ANSWER-SIGNOFF.md"
+        "docs/current/SLICE-2G-NOTE-ANSWER-SIGNOFF.md",
+        "tests/sixth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -960,7 +962,7 @@
       "sourceTextLine": 257,
       "implementation": "partial",
       "target": "R16",
-      "current": "Slice 4f: an owner uploads a size-bounded, strictly validated data-only pack manifest (questions on shared facts with fixed units or options, show-when conditions, follow-up interval, escalation rules in the protocol rule vocabulary, declared mapping from earlier versions); conflicts with compiled and installed packs are refused; a clinician other than the uploader reviews the exact manifest hash; an owner activates; activation, review and retirement are versioned and audited, retirement never deletes; episodes open only on activated versions and slice 4e migration moves open episodes to an installed version through the declared mapping. Synthetic packs only; installed packs are marked not clinically approved. Expansion proposals still describe programmes without installing them.",
+      "current": "Slice 4f: an owner uploads a size-bounded, strictly validated data-only pack manifest (questions on shared facts with fixed units or options, show-when conditions, follow-up interval, escalation rules in the protocol rule vocabulary, declared mapping from earlier versions); conflicts with compiled and installed packs are refused; a clinician other than the uploader reviews the exact manifest hash; an owner activates; activation, review and retirement are versioned and audited, retirement never deletes; episodes open only on activated versions and slice 4e migration moves open episodes to an installed version through the declared mapping. Synthetic packs only; installed packs are marked not clinically approved. Expansion proposals still describe programmes without installing them. Slice 6z: question ids that name Object.prototype members (constructor, toString and similar) are refused by the manifest schema, and answers and absence reasons are read as own properties only, for installed and compiled packs.",
       "remaining": "Clinically approved pack content and a clinical sign-off workflow; new programme categories with MIS/EHR/report routing; automated schedules and escalation from installed rules; translations; per-team adoption; cross-organisation publication and production rollout.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -976,7 +978,9 @@
         "app/pack-installation-panel.tsx",
         "tests/pack-installation-contract.mjs",
         "tests/pack-installation-smoke.mjs",
-        "docs/current/SLICE-4F-PACK-INSTALLATION.md"
+        "docs/current/SLICE-4F-PACK-INSTALLATION.md",
+        "tests/sixth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2130,7 +2134,7 @@
       "sourceTextLine": 410,
       "implementation": "partial",
       "target": "R13",
-      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it.",
+      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told.",
       "remaining": "Authorised ABHA creation and verification with ABDM, checksum and issuer checks, and correction through ABDM.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2144,7 +2148,10 @@
         "tests/main-review-fixes-contract.mjs",
         "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "tests/sixth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
+        "tests/sixth-review-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3048,7 +3055,7 @@
       "sourceTextLine": 531,
       "implementation": "partial",
       "target": "R15",
-      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer. Slice 6h: the owning role acknowledges an alert with a note; the acknowledgement lapses when the count changes or after 24 hours. Slice 5e: owner-owned AI budget alerts (80% and 100% of estimated monthly use) in alert rules 1.1.0. Slice 5h: alert rules 1.2.0 add owner-owned alerts for AI invoices of the previous month that differ from Saha's estimates beyond the owner's threshold, and for providers used that month without a recorded reconciliation. Slice 6v: each alert that opens is delivered in-app (top-bar bell with unread count) to the members who own it, from their own scope, with its delivery time; an acknowledgement clears it; an occurrence left unacknowledged past its severity threshold (critical 30 minutes, high 4 hours, normal 24 hours), or re-opened after its acknowledgement stopped applying, escalates once to owners inside the organisation with a recorded reason; evaluated idempotently on reads and organisation-wide writes.",
+      "current": "Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: versioned alert rules computed on each operations read, each with an owning role, count and next safe action, scoped to the viewer. Slice 6h: the owning role acknowledges an alert with a note; the acknowledgement lapses when the count changes or after 24 hours. Slice 5e: owner-owned AI budget alerts (80% and 100% of estimated monthly use) in alert rules 1.1.0. Slice 5h: alert rules 1.2.0 add owner-owned alerts for AI invoices of the previous month that differ from Saha's estimates beyond the owner's threshold, and for providers used that month without a recorded reconciliation. Slice 6v: each alert that opens is delivered in-app (top-bar bell with unread count) to the members who own it, from their own scope, with its delivery time; an acknowledgement clears it; an occurrence left unacknowledged past its severity threshold (critical 30 minutes, high 4 hours, normal 24 hours), or re-opened after its acknowledgement stopped applying, escalates once to owners inside the organisation with a recorded reason; evaluated idempotently on reads and organisation-wide writes. Slice 6z: an organisation acknowledgement clears only the notifications of recipients whose own view shows it (counts differ by care scope); the occurrence counts as acknowledged, and is not escalated, only when every recipient's view shows it; escalation notifications are written only with the guarded escalation update, and restore never re-opens a closed occurrence.",
       "remaining": "Delivery outside the app (email, SMS or paging to approved recipients), evaluation on a schedule independent of traffic, and approved detection/response targets and escalation ladders.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3070,7 +3077,9 @@
         "lib/saha/alert-delivery-server.ts",
         "tests/alert-delivery-contract.mjs",
         "tests/alert-delivery-smoke.mjs",
-        "docs/current/SLICE-6V-ALERT-DELIVERY.md"
+        "docs/current/SLICE-6V-ALERT-DELIVERY.md",
+        "tests/sixth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3126,7 +3135,7 @@
       "sourceTextLine": 540,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach. Slice 6u: household members and caseload transfer patients outside the exporter's scope are left out of those rows and counted, and the verifier checks them; pilot dossier and expansion pack exports retry their audit commit with access rechecked.",
+      "current": "Local encrypted backup, configuration export, limited report/FHIR exports and an owner-only organisation export archive (every table, audit chain, media, manifest and checksums, hand-over list of unresolved external actions and owned patient tasks) with an offline verifier. Slice 6p (independent review): patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) now follow the owner's care scope and are counted as withheld (before 6p they were exported whole); a command saved during an export no longer discards it (the audit event is retried on a fresh read with the authority re-checked). Slice 6q: the audit-chain and operations export retries refuse (409, nothing delivered) a changed care scope and, for the operations CSV, a changed reporting reach. Slice 6u: household members and caseload transfer patients outside the exporter's scope are left out of those rows and counted, and the verifier checks them; pilot dossier and expansion pack exports retry their audit commit with access rechecked. Slice 6z: alert notifications are exported for the exporter only; other members' notifications (counts from their own care scope) are left out and counted in the manifest.",
       "remaining": "Buyer-authorised export beyond the owner's care scope, independent re-import tooling, staged exports for large tenants and queue disposition on provider termination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3148,7 +3157,9 @@
         "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
         "lib/saha/pilot-server.ts",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "tests/sixth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4071,7 +4082,7 @@
       "sourceTextLine": 741,
       "implementation": "partial",
       "target": "R15",
-      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit. Slice 6v: in-app delivery to the owning role with delivery times, and escalation records; evaluated on reads and organisation-wide writes, so detection time depends on traffic (no background timer). Slice 6y: a read-only trace per visit, programme submission or EHR publication (`GET /api/trace`, linked from the visit's Receipts tab and the exception queue) lists each step from the user command to the execution checkpoint, the provider or destination receipt or callback and the audit event, with command type, actor, receipt key, attempt numbers and task limits, ids, states and times only; execution steps carry a correlation reference from this slice on (older steps show as not linked); scoped like the visit, with redacted delivery items for owners and administrators outside patient scope.",
+      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit. Slice 6v: in-app delivery to the owning role with delivery times, and escalation records; evaluated on reads and organisation-wide writes, so detection time depends on traffic (no background timer). Slice 6y: a read-only trace per visit, programme submission or EHR publication (`GET /api/trace`, linked from the visit's Receipts tab and the exception queue) lists each step from the user command to the execution checkpoint, the provider or destination receipt or callback and the audit event, with command type, actor, receipt key, attempt numbers and task limits, ids, states and times only; execution steps carry a correlation reference from this slice on (older steps show as not linked); scoped like the visit, with redacted delivery items for owners and administrators outside patient scope. Slice 6z: in-app escalation is suppressed only when every owning member's own view shows the acknowledgement, and no escalation notification is left on an occurrence a concurrent evaluation closed.",
       "remaining": "Five-minute detection independent of traffic (a scheduled trigger), delivery that reaches people outside the app, a trace id carried to destinations and stored with request ids, and correlation for steps recorded before slice 6y.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4091,7 +4102,9 @@
         "app/trace-panel.tsx",
         "tests/trace-contract.mjs",
         "tests/trace-smoke.mjs",
-        "docs/current/SLICE-6Y-TASK-TRACE.md"
+        "docs/current/SLICE-6Y-TASK-TRACE.md",
+        "tests/sixth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4164,7 +4177,7 @@
       "sourceTextLine": 753,
       "implementation": "partial",
       "target": "R15",
-      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain. Slice 6p: the manifest counts withheld entries inside organisation documents and is complete only when none is withheld; the offline verifier checks every personId inside those documents against the exported patients and that completeness claim. Slice 6q: export audit retries also re-check care scope and, for the operations CSV, reporting teams and delegation ids.",
+      "current": "Local full-database restore, limited structured exports and a documented organisation export with identifiers, relationships and version metadata; a 1000-person synthetic export re-imports in the contract suite with matching counts and an intact audit chain. Slice 6p: the manifest counts withheld entries inside organisation documents and is complete only when none is withheld; the offline verifier checks every personId inside those documents against the exported patients and that completeness claim. Slice 6q: export audit retries also re-check care scope and, for the operations CSV, reporting teams and delegation ids. Slice 6z: the manifest counts other members' alert notifications left out (otherMembersRows); they are not patient rows and do not affect completeness.",
       "remaining": "Independent re-import by a third party, units and provenance documentation for every JSON field, and buyer sign-off of the format.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4180,7 +4193,9 @@
         "lib/saha/export-audit.ts",
         "tests/review-fixes-contract.mjs",
         "docs/current/SLICE-6P-REVIEW-FIXES.md",
-        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+        "tests/sixth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },

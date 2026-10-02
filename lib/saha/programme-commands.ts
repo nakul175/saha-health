@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fail, person, visit, uuid } from './core';
-import { ABSENCE, adoptedVersion, enrollableAt, questions } from './programmes';
+import { ABSENCE, adoptedVersion, enrollableAt, own, questions } from './programmes';
 import type { OrgState, Member } from './types';
 import type { Actor } from './store';
 const id=z.string().min(1).max(200),version=z.number().int().positive();
@@ -21,7 +21,7 @@ export function programmeApply(state:OrgState,input:unknown,u:Actor,m:Member):an
   if(!v.programmeCapture?.packs.length)fail(422,'This visit has no programme packs. Enrol first, then start a new visit.');
   const candidate={...v.programmeCapture,answers:c.answers,absence:c.absence};const qs=questions(candidate);
   for(const [key,value] of Object.entries(c.answers)){const q=qs.find(q=>q.id===key&&!q.fact);if(!q||!q.options?.includes(value))fail(422,'An answer is invalid or belongs to an inactive question.');}
-  for(const key of Object.keys(c.absence)){const q=qs.find(q=>q.id===key);if(!q)fail(422,'Absence reason belongs to an inactive question.');if((q.fact?v.facts[q.fact]:c.answers[key]))fail(422,'Remove the answer before recording an absence reason.');}
+  for(const key of Object.keys(c.absence)){const q=qs.find(q=>q.id===key);if(!q)fail(422,'Absence reason belongs to an inactive question.');if((q.fact?v.facts[q.fact]:own(c.answers,key)))fail(422,'Remove the answer before recording an absence reason.');}
   v.programmeCapture={...candidate,savedBy:u.userId,savedAt:now};v.version++;subject=v.personId;detail='Programme answers and explicit absence reasons saved against pinned pack versions.';
  }else{
   const p=person(w,c.personId);if(p.version!==c.version)fail(409,'The patient changed. Refresh before editing programme work.');p.enrolments??=[];p.followUps??=[];subject=p.id;

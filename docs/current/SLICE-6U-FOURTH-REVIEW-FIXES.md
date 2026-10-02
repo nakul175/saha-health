@@ -45,3 +45,7 @@ These defects were found by a fourth independent review, carried out by an agent
 - The FHIR restriction applies to the download route. Data exit (`includeFhir`) still writes FHIR documents for restricted patients in the exporter's scope; it is an owner's organisation exit, recorded in the audit chain.
 - The ABHA neutral refusal does not open a task for an identity steward; the worker is told to ask one.
 - These fixes have not been independently reviewed. BR-SEC-11, BR-SEC-09, BR-OPS-07, BR-OPS-08, BR-INT-04, BR-INT-06, BR-SEC-10, BR-ID-08 and BR-INT-14 stay partial.
+
+## Correction — 1 October 2026 (slice 6z)
+
+The "neutral" ABHA refusal for a number held by a record outside the worker's scope had its own text and status (409), which occurred only in that case and so still revealed that the number was held. Slice 6z gives it the same status and text as a gateway refusal of the one-time code (422) and records the conflict as an `abhaLinkReview` audit event on the holding record for an identity steward, without telling the requester. See [slice 6z](SLICE-6Z-SIXTH-REVIEW-FIXES.md), finding 5.

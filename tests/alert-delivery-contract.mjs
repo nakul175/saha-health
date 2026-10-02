@@ -54,8 +54,15 @@ try {
   // 8. Already escalated: never again for the same occurrence.
   check(() => assert.equal(esc('incident-critical-open', 'critical', 'org', 600, [], { escalatedAt: at(31) }).length, 0));
   // 9. Acknowledged: notifications clear and nothing escalates, however long it has been open.
-  const acked = D.planDelivery({ present: one('incident-critical-open', 'critical', 'org', [{ userId: 'adm', count: 1, acknowledged: true }, { userId: 'own', count: 1, acknowledged: false }]), open: occ('incident-critical-open', 'critical', 'org'), acknowledgements: [], members, now: at(600) });
+  // Slice 6z (sixth review): this check used views where one recipient's view showed the acknowledgement and the other's
+  // did not, and expected the whole occurrence to clear — the defect itself (an acknowledgement at one scope's count
+  // cleared another owner's notification and blocked escalation). An organisation-wide input gives every recipient the
+  // same count, so both views show the acknowledgement here; the mixed case is asserted below and in
+  // tests/sixth-review-fixes-contract.mjs.
+  const acked = D.planDelivery({ present: one('incident-critical-open', 'critical', 'org', [{ userId: 'adm', count: 1, acknowledged: true }, { userId: 'own', count: 1, acknowledged: true }]), open: occ('incident-critical-open', 'critical', 'org'), acknowledgements: [], members, now: at(600) });
   check(() => { assert.deepEqual(acked.clear, ['o-incident-critical-open'], 'an organisation acknowledgement clears the shared occurrence'); assert.equal(acked.escalate.length, 0); assert.equal(acked.restore.length, 0); });
+  const mixed = D.planDelivery({ present: one('incident-critical-open', 'critical', 'org', [{ userId: 'adm', count: 1, acknowledged: true }, { userId: 'own', count: 1, acknowledged: false }]), open: occ('incident-critical-open', 'critical', 'org'), acknowledgements: [], members, now: at(600) });
+  check(() => { assert.deepEqual(mixed.clear, [], 'a view without the acknowledgement keeps the occurrence open'); assert.deepEqual(mixed.clearFor, [{ occurrenceId: 'o-incident-critical-open', userId: 'adm' }]); assert.equal(mixed.escalate.length, 1); assert.equal(mixed.escalate[0].reason, 'unacknowledged'); });
   // 10. Re-opened after an acknowledgement made during the occurrence stopped applying: shown again and escalated at once.
   const orgAck = [{ alertId: 'incident-open', count: 1, userId: 'adm', by: 'Synthetic adm', at: at(5), note: 'Looking into it', scope: 'organisation' }];
   const re = D.planDelivery({ present: one('incident-open', 'normal', 'org', [{ userId: 'adm', count: 2, acknowledged: false }]), open: occ('incident-open', 'normal', 'org'), acknowledgements: orgAck, members, now: at(10) });

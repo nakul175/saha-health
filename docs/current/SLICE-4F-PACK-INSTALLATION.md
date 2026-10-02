@@ -31,3 +31,7 @@
 - The static Programmes catalogue page still lists the compiled packs only; installed packs are listed in Organisation & team and offered in the enrolment form.
 - A retired version cannot be reactivated; install a higher version instead. An approved version whose reviewer lost authority needs a fresh review before activation.
 - BR-PROG-08 stays partial: this is a local, synthetic governed path, not a production publication process with clinical sign-off. BR-OPS-03 and NFR-19 (unified publication and rollback across packs, languages, knowledge, models and mappings) are not materially changed beyond pack versions and keep their text.
+
+## Correction — 1 October 2026 (slice 6z)
+
+The question-id pattern accepted names of `Object.prototype` members (`constructor`, `toString`, `valueOf`, `hasOwnProperty`), and answers were read with `answers[q.id]`, so a required question `constructor` counted as answered and an absence reason for it was refused. Slice 6z refuses those names in the manifest schema and reads answers, absence reasons and answer authors as own properties only, for installed and compiled packs. See [slice 6z](SLICE-6Z-SIXTH-REVIEW-FIXES.md), finding 1.

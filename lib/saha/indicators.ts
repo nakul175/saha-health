@@ -1,6 +1,6 @@
 import { fail } from './core';
 import { openPatientWork } from './continuity';
-import { questions } from './programmes';
+import { own, questions } from './programmes';
 import { PROGRAMMES, type Member, type OrgState, type Person, type Programme } from './types';
 
 // Slice 6d: a versioned indicator registry, cohort queries with small-cell suppression, and a
@@ -13,7 +13,7 @@ const inWindow=(c:Ctx,t?:string)=>!!t&&t>=c.since&&t<=c.until;
 // Slice 2a: reuse metering, reproducible from stored visits. A question shared by N programme packs in
 // one visit is N-1 reuse opportunities; answering it once reuses it for all N; an absence reason blocks it.
 export function reuseOf(v:{facts:Record<string,any>;programmeCapture?:any}){const c=v.programmeCapture;let opportunities=0,reused=0,blocked=0;if(!c)return {opportunities,reused,blocked};
- for(const q of questions(c)){const k=q.programmes.length-1;if(k<=0)continue;opportunities+=k;const value=q.fact?v.facts[q.fact]:c.answers[q.id];if(String(value??'').trim())reused+=k;else if(c.absence[q.id])blocked+=k;}
+ for(const q of questions(c)){const k=q.programmes.length-1;if(k<=0)continue;opportunities+=k;const value=q.fact?v.facts[q.fact]:own(c.answers,q.id);if(String(value??'').trim())reused+=k;else if(own(c.absence,q.id))blocked+=k;}
  return {opportunities,reused,blocked};}
 const confirmedIn=(c:Ctx,p:Person)=>visitsOf(c,p).filter(v=>v.state==='confirmed'&&inWindow(c,v.confirmedAt??v.createdAt));
 const signature=(v:{facts:Record<string,any>})=>[String(v.facts.date??'').slice(0,10),v.facts.weight,v.facts.systolic,v.facts.diastolic,v.facts.temperature].join('|');
