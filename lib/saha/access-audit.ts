@@ -31,6 +31,13 @@ export const ACCESS_ACTIONS = {
   abhaLinkReview: 'ABHA link refused: the number is linked to this record. Recorded on the holding record only, for identity steward review.',
   // Slice 6aa: an import rejection report (row numbers and reasons only) is recorded the same way as an indicator export.
   importRejectionsExport: 'Import rejection report exported as CSV (row numbers and reasons only).',
+  // Slice 10e: a search by issuer identifier is a material read when it returns a match (one event per matched record,
+  // sharing the search's id in `subject`) and is recorded without a record when it finds nothing; both count toward the
+  // searcher's rate limit. A link refused because another record outside the requester's scope already holds the
+  // identifier is recorded on that record for identity steward review, as for ABHA numbers (slice 6z).
+  identifierSearch: 'Searched by an issuer identifier; this record matched and was returned to the searcher.',
+  identifierSearchMiss: 'Searched by an issuer identifier; no record in the searcher\'s care scope matched.',
+  identifierConflictReview: 'Identifier link refused: the identifier is recorded on this record. Recorded on the holding record only, for identity steward review.',
 } as const;
 export type AccessAction = keyof typeof ACCESS_ACTIONS;
 export const ACCESS_REFUSED = 'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.';

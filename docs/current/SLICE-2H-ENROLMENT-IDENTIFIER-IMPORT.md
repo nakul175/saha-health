@@ -38,3 +38,7 @@ A visit is clinical content: measurements with their source and observation time
 ## Correction — 2 October 2026 (slice 6aa)
 
 A seventh independent review found that ABHA refusal was a three-name denylist (`abha_number`, `healthid` or `abhaid` with a 14-digit value were accepted) and that the rejection report's audit event moved the organisation revision. Slice 6aa makes issuers an allowlist (`rch`, `nikshay`), refuses ABHA-shaped values under any issuer, and records the rejection report as an access-audit event. See `SLICE-6AA-SEVENTH-REVIEW-FIXES.md`.
+
+## Addition — 2 October 2026 (slice 10e)
+
+Slice 10e answers two of the limits above and adds a search. The identifier list on a record is now an append-only ledger: an imported entry can be corrected or withdrawn by a later entry that names it (`import:<batch>:<row>`), the earlier entry stays, and the import's matching and uniqueness checks follow the identifiers a record holds now. Identifiers are shown, with who recorded them and when, in a Programme identifiers dialog among the record tools, and people can be found by one complete ABHA, RCH or Ni-kshay identifier inside their care scope. The import's own person matching (`issuer:value` in the person column) still does not match linked ABHA numbers. Identifiers are still recorded, not verified, and not sent to destinations. See [slice 10e](SLICE-10E-IDENTIFIER-SEARCH.md).

@@ -14,6 +14,7 @@ import { factReviewSchema } from './fact-verification';
 import { signOffSchema } from './visit-signoff';
 import { patientImportSchema } from './patient-import';
 import { recordImportSchema } from './record-import';
+import { crosswalkSchema } from './crosswalk';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
 import { correctionTaskSchema, correctionTasks } from './correction-tasks';
@@ -67,6 +68,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...signOffSchema.options,
  ...patientImportSchema.options,
  ...recordImportSchema.options,
+ ...crosswalkSchema.options,
  ...referralSchema.options,
  ...actionPlanSchema.options,
  ...correctionTaskSchema.options,

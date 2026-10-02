@@ -34,3 +34,7 @@ A clinician whose only access to a record was an emergency grant (slice 6a) coul
 ## Correction — 1 October 2026 (slice 6u)
 
 The merge view named a counterpart outside the viewer's scope only as "A record outside your scope" but still returned the case's reason and evidence and the decision and reversal reasons, which describe both patients. Slice 6u returns them only to a viewer who may see both records. Found by a fourth independent review of code already on `main`, which had been merged without independent human review; the original text above is kept. See [slice 6u](SLICE-6U-FOURTH-REVIEW-FIXES.md).
+
+## Addition — 2 October 2026 (slice 10e)
+
+A programme identifier that would be recorded on a second live record now opens a merge proposal through this path when the requester is a clinician or supervisor who may see both records in the ordinary way (a record reached only through an emergency grant does not count, as in slice 6r): the record already holding the identifier is the survivor, nothing is recorded on either record, and two different stewards decide the case as for any proposal. `identifierLink` is among the commands refused on a merged record. See [slice 10e](SLICE-10E-IDENTIFIER-SEARCH.md).

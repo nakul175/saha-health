@@ -4,6 +4,7 @@ import { allowed } from './access';
 import { environmentOf } from './environment';
 import { csvBytes, importsInto, MAX_CSV, MAX_ROWS, mayImport, parseCsv } from './patient-import';
 import { adoptedVersion, catalogueOf, enrollableAt } from './programmes';
+import { currentIdentifiers } from './types';
 import type { Member, OrgState, Person } from './types';
 import type { Actor } from './store';
 // Slice 2h: controlled import of programme enrolments and external identifiers for existing people (BR-DATA-11), on
@@ -29,7 +30,7 @@ export const REFUSED_ISSUERS=['abha','abha_address','abha-address'];
 // ABHA verification and organisation-wide ABHA uniqueness cannot be skipped by naming the issuer differently.
 export const ABHA_LIKE_VALUE=/^\d{2}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}$/;
 export const ABHA_LIKE_ISSUER=/abha|health|hid|phr/;
-const ISSUER=/^[a-z][a-z0-9_-]{1,31}$/,VALUE=/^[A-Za-z0-9][A-Za-z0-9/._-]{0,63}$/;
+export const ISSUER=/^[a-z][a-z0-9_-]{1,31}$/,VALUE=/^[A-Za-z0-9][A-Za-z0-9/._-]{0,63}$/;
 const reason=z.string().trim().min(10,'Explain the reason in at least 10 characters.').max(500);
 const tooLarge=`The file is larger than ${MAX_CSV.toLocaleString('en-IN')} bytes. Split it into smaller batches.`;
 const csv=z.string().min(1,'Paste or choose a CSV file.').max(MAX_CSV,tooLarge).refine(x=>csvBytes(x)<=MAX_CSV,tooLarge);
@@ -41,12 +42,14 @@ export type RecordRow={row:number;status:'accepted'|'rejected';reasons:string[];
 type Accepted={row:number;personId:string}&({kind:'enrolments';packId:string;packVersion:number;episodeLabel:string;startDate:string|null}|{kind:'identifiers';issuer:string;value:string});
 const NO_RECORD='No record in the teams you may import into matches this person.';
 const live=(p:Person)=>!p.mergedInto;
+// Slice 10e: identifiers are an append-only ledger (types.ts); a record holds the entries not replaced by a later correction or
+// withdrawal (currentIdentifiers), so a corrected or withdrawn value neither matches a record nor blocks the same value elsewhere.
 // Resolve a row's person: a Saha record id, or issuer:value naming an identifier already recorded on one record.
 // Not found and outside the importer's teams answer the same neutral reason, so the dry run is not an existence oracle.
 export function resolvePerson(s:OrgState,m:Member,ref:string,now:string):{person?:Person;reason?:string}{
  const text=ref.trim();if(!text)return {reason:'Person is required: a Saha record id or an identifier written issuer:value.'};
  let found:Person[];const at=text.indexOf(':');
- if(at>0){const issuer=text.slice(0,at).trim().toLowerCase(),value=text.slice(at+1).trim();found=s.workspace.people.filter(p=>live(p)&&(p.identifiers??[]).some(i=>i.issuer===issuer&&i.value===value));}
+ if(at>0){const issuer=text.slice(0,at).trim().toLowerCase(),value=text.slice(at+1).trim();found=s.workspace.people.filter(p=>live(p)&&currentIdentifiers(p).some(i=>i.issuer===issuer&&i.value===value));}
  else found=s.workspace.people.filter(p=>p.id===text);
  const mine=found.filter(p=>allowed(m,p,now)&&importsInto(s,m,p.teamId,now));
  if(found.length!==1||mine.length!==1)return {reason:NO_RECORD};
@@ -91,11 +94,11 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
    else if(Object.hasOwn(KNOWN_ISSUERS,issuer)&&!KNOWN_ISSUERS[issuer].pattern.test(value))reasons.push(KNOWN_ISSUERS[issuer].format);
    if(ISSUER.test(issuer)&&!reasons.some(x=>x.startsWith('ABHA'))&&!Object.hasOwn(KNOWN_ISSUERS,issuer))reasons.push(`Issuer must be one of: ${Object.keys(KNOWN_ISSUERS).join(', ')}. Other issuers are not imported.`);
    if(p&&!p.mergedInto&&Object.hasOwn(KNOWN_ISSUERS,issuer)&&VALUE.test(value)&&!ABHA_LIKE_VALUE.test(value)){
-    const own=(p.identifiers??[]).filter(i=>i.issuer===issuer);
+    const own=currentIdentifiers(p).filter(i=>i.issuer===issuer);
     if(own.some(i=>i.value===value))reasons.push('This identifier is already recorded on this record.');
     else if(own.length)reasons.push('This record already has a different identifier from this issuer; an import does not replace it.');
     // Organisation-wide, as slice 6u checks ABHA: a record outside the importer's scope is never named.
-    const other=s.workspace.people.find(o=>o.id!==p.id&&live(o)&&(o.identifiers??[]).some(i=>i.issuer===issuer&&i.value===value));
+    const other=s.workspace.people.find(o=>o.id!==p.id&&live(o)&&currentIdentifiers(o).some(i=>i.issuer===issuer&&i.value===value));
     if(other){if(allowed(m,other,now)){reasons.push('This identifier is already recorded on another record you can see. Review whether the records are the same person.');conflict={personId:other.id,version:other.version};}
      else reasons.push('This identifier cannot be recorded here. Ask an identity steward to review before importing it.');}
    }
