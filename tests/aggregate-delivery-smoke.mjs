@@ -24,9 +24,12 @@ export async function aggregateDeliverySmoke({get,post,check,accounts,org,sql}){
  const replay=await send(o,prep(),200,key);check(()=>{assert.equal(replay.replayed,true);assert.equal(replay.result.reportId,id);});
  let r=(await reports()).find(x=>x.id===id);
  check(()=>{assert.equal(r.state,'prepared');assert.equal(r.destinationId,'mis_maternal');assert.deepEqual(r.definitions,['visits-confirmed@1','patients-seen@1']);
-  const p=r.payload;assert.equal(p.manifest.sha256,createHash('sha256').update(canonical({report:p.report,definitions:p.manifest.definitions,blocks:p.blocks})).digest('hex'));assert.equal(p.manifest.rows,p.blocks.reduce((n,b)=>n+b.cells.length,0));
-  const json=JSON.stringify(p);assert.ok(!/personId|visitId|"name"/.test(json));for(const person of o.state.people.slice(0,40))assert.ok(!json.includes(person.id)&&!json.includes(person.name),'no patient identifier or name');
-  for(const b of p.blocks)for(const c of b.cells)if(!c.suppressed)for(const v of [c.numerator,c.denominator])assert.ok(v===null||v===0||v>=5,'no released cell from 1 to 4');
+  // Slice 6ad (ninth review, finding 1): the read no longer returns the cells (they were screened for the destination,
+  // not for the reader); it returns the manifest and which blocks were withheld. The payload's recomputable SHA-256,
+  // row count and the absence of cells from 1 to 4 are checked on the stored payload in tests/aggregate-delivery-contract.mjs.
+  assert.equal(r.payload,undefined,'no payload in the read');assert.equal(r.manifest.sha256,r.payloadSha256);assert.equal(r.manifest.rows,r.rowCount);
+  assert.ok(r.blocks.length>0);for(const b of r.blocks)assert.equal('cells' in b,false,'no cells in the read');
+  const json=JSON.stringify({manifest:r.manifest,blocks:r.blocks});assert.ok(!/personId|visitId|"name"|numerator|denominator/.test(json));for(const person of o.state.people.slice(0,40))assert.ok(!json.includes(person.id)&&!json.includes(person.name),'no patient identifier or name');
   assert.equal(r.minimisation[0].passed,true);assert.equal(r.events[0].ref.command,'prepareAggregateReport');assert.equal(r.teamNames.length,1);assert.equal(typeof r.teamNames[0],'string');});
  // A different authorised person approves the payload they reviewed.
  await send(o,{type:'approveAggregateReport',reportId:id,payloadSha256:r.payloadSha256},403);

@@ -27,11 +27,13 @@ export const FILTER_KEYS = ['team', 'village', 'programme', 'sex', 'ageBand', 'd
 // Slice 6aa (seventh review, findings 1 and 2): a measure release also records what it disclosed: the measures shown
 // (n, d), grouping dimension (gd), exclusions (x), window start (w) and the hashed cells suppressed in the result (z).
 export type Release = { v: string; at: string; k: string; f: Record<string, string>; c: Record<string, number>; m?: Record<string, [number, number]>;
-  n?: string; d?: string | null; gd?: string; x?: string[]; w?: string; z?: string[] };
+  n?: string; d?: string | null; gd?: string; x?: string[]; w?: string; z?: string[]; u?: string };
+// Slice 6ad (ninth review, finding 2): `u` is the window end for a release whose window ended before it was made (an
+// aggregate report for a past period). A release without `u` covers a window ending when it was made, as before.
 const filterKey = (f: Record<string, string>) => FILTER_KEYS.map(k => `${k}=${f[k] ?? ''}`).join('&');
 // Slice 6aa (finding 2): the window is part of a measure release's identity, so a query over another window never
 // replaces a protecting release. People series do not depend on the window.
-const windowKey = (r: Release) => (r.m ? r.w ?? '' : '');
+const windowKey = (r: Release) => (r.m ? `${r.w ?? ''}|${r.u ?? ''}` : '');
 const sameExcept = (child: Record<string, string>, parent: Record<string, string>, key: string) =>
   FILTER_KEYS.every(k => k === key ? !!child[k] && !parent[k] : (child[k] ?? '') === (parent[k] ?? ''));
 export const recent = (ledger: Release[], now: string) => { const since = Date.parse(now) - DIFFERENCING_WINDOW_HOURS * 3600000; return ledger.filter(r => Date.parse(r.at) >= since); };
@@ -61,7 +63,7 @@ export function differencingRisk(ledger: Release[], candidate: Release, min: num
 // release for the same viewer, series and filters is replaced by its newer one, which the check uses instead.
 export function pruneLedger(ledger: Release[], now: string) {
   const out = new Map<string, Release>();
-  for (const r of recent(ledger, now)) { const id = `${r.v}|${r.k}|${filterKey(r.f)}|${r.w ?? ''}|${r.n ?? ''}/${r.d ?? ''}`; out.delete(id); out.set(id, r); }
+  for (const r of recent(ledger, now)) { const id = `${r.v}|${r.k}|${filterKey(r.f)}|${r.w ?? ''}|${r.u ?? ''}|${r.n ?? ''}/${r.d ?? ''}`; out.delete(id); out.set(id, r); }
   return [...out.values()];
 }
 // Whether adding these releases would take the viewer or the organisation past its bound.
@@ -97,7 +99,8 @@ export function screenReleases<T extends { release: Release }>(ledger: Release[]
 // so a change between two queries (a new visit) can still be seen by repeating a query; differences between two
 // unrelated measures are checked only for the pairs listed in CONTAINED_PAIRS and pairs used by a definition; a
 // pair difference across two windows is not split by increments.
-export type Unit = { f: Record<string, string[]>; g: Record<string, string[]>; x: string[]; q: (measure: string, since: string) => number };
+// Slice 6ad: `q` takes a window key: the start, or `start|end` for a window that ended in the past (see windowOf).
+export type Unit = { f: Record<string, string[]>; g: Record<string, string[]>; x: string[]; q: (measure: string, window: string) => number };
 export type Population = { units: Unit[]; windowed: ReadonlySet<string> };
 export const CONTAINED_PAIRS: [string, string][] = [['patients-seen', 'patients'], ['identity-provisional', 'patients'], ['followups-overdue', 'followups-open'], ['referrals-completed', 'referrals-created'], ['reuse-served', 'reuse-opportunities'], ['reuse-blocked', 'reuse-opportunities']];
 type Cell = { pred: string; r: Release; g: string; w: string; cand: boolean };
@@ -111,14 +114,47 @@ function memberOf(u: Unit, r: Release) {
 function cellsOf(rs: { r: Release; cand: boolean }[], measure: string, pop: Population): Cell[] {
   const out = new Map<string, Cell>();
   for (const { r, cand } of rs) if (r.n === measure || (r.d && r.d === measure)) for (const g of shownCells(r)) {
-    const w = pop.windowed.has(measure) ? r.w ?? '' : '', pred = predicate(r, g), id = pred + '|' + w, had = out.get(id);
+    const w = windowOf(r, pop.windowed.has(measure)), pred = predicate(r, g), id = pred + '|' + w, had = out.get(id);
     out.set(id, had ? { ...had, cand: had.cand && cand } : { pred, r, g, w, cand });
   }
   return [...out.values()];
 }
+// Slice 6ad (finding 2): a release's window key. A windowed measure is counted over [w, u] (u absent: until the release
+// was made); a measure describing a moment is counted at u (absent: now), so two moments are two windows.
+export const windowOf = (r: Release, windowed: boolean) => windowed ? (r.u ? `${r.w ?? ''}|${r.u}` : r.w ?? '') : (r.u ? `|${r.u}` : '');
+const bounds = (w: string) => { const [since, until] = w.split('|'); return { since, until: until ?? '' }; };
+// Windows ordered smallest first; null when they do not form a chain, each inside the next (then the increments
+// between windows are not defined and atomRisk falls back to whole profiles).
+export function windowChain(ws: string[]): string[] | null {
+  const xs = [...new Set(ws)].map(w => ({ w, ...bounds(w) })), end = (u: string) => u || '\uffff';
+  if (xs.length > 1 && xs.some(x => x.w.startsWith('|'))) return null;
+  xs.sort((a, b) => b.since.localeCompare(a.since) || end(a.until).localeCompare(end(b.until)));
+  for (let k = 0; k + 1 < xs.length; k++) if (end(xs[k].until) > end(xs[k + 1].until)) return null;
+  return xs.map(x => x.w);
+}
+// Slice 6ad: when the windows are not a chain, each unit is one atom keyed by its whole profile (its value in every
+// shown cell). Every released figure is a sum over profiles, so a profile held by 1 to min-1 units that a candidate
+// cell involves or that splits an earlier profile is refused. This is more conservative than the increments split.
+function profileRisk(units: Unit[], cells: Cell[], windows: string[], value: (u: Unit, k: number) => number, min: number): number | null {
+  const widx = cells.map(c => windows.indexOf(c.w)), atoms = new Map<string, { v: number; old: string; cand: boolean }>(), splits = new Map<string, Set<string>>();
+  for (const u of units) {
+    const vals = cells.map((c, i) => memberOf(u, c.r) && (u.g[c.r.gd ?? 'none'] ?? []).includes(c.g) ? value(u, widx[i]) : 0);
+    if (!vals.some(v => v !== 0)) continue;
+    const key = vals.join(','), oldKey = vals.filter((_, i) => !cells[i].cand).join(','), a = atoms.get(key) ?? { v: 0, old: oldKey, cand: vals.some((v, i) => v !== 0 && cells[i].cand) };
+    a.v += 1; atoms.set(key, a);
+    const sp = splits.get(oldKey) ?? new Set<string>(); sp.add(key); splits.set(oldKey, sp);
+  }
+  let worst: number | null = null;
+  for (const a of atoms.values()) if ((a.cand || (splits.get(a.old)?.size ?? 0) > 1) && a.v > 0 && a.v < min && (worst === null || a.v < worst)) worst = a.v;
+  return worst;
+}
 // Smallest |atom| in 1..min-1 among the atoms that involve a candidate cell or split an earlier atom.
-function atomRisk(units: Unit[], cells: Cell[], windows: string[], value: (u: Unit, k: number) => number, increments: boolean, min: number): number | null {
+function atomRisk(units: Unit[], cells: Cell[], windows0: string[], value0: (u: Unit, k: number) => number, increments: boolean, min: number): number | null {
   if (!cells.some(c => c.cand)) return null;
+  // Slice 6ad: increments need windows that nest; otherwise every unit's whole profile is its atom.
+  const chain = increments ? windowChain(windows0) : windows0;
+  if (!chain) return profileRisk(units, cells, windows0, value0, min);
+  const windows = chain, value = (u: Unit, k: number) => value0(u, windows0.indexOf(windows[k]));
   const widx = cells.map(c => windows.indexOf(c.w)), atoms = new Map<string, { v: number; old: string; cand: boolean }>(), splits = new Map<string, Set<string>>();
   const mem = new Map<Release, boolean>();
   for (const u of units) {
@@ -146,13 +182,14 @@ function atomRisk(units: Unit[], cells: Cell[], windows: string[], value: (u: Un
 }
 export function populationRisk(ledger: Release[], candidate: Release, min: number, now: string, pop: Population): number | null {
   if (!candidate.n) return null;
-  const same = (a: Release, b: Release) => a.k === b.k && filterKey(a.f) === filterKey(b.f) && (a.w ?? '') === (b.w ?? '') && a.n === b.n && (a.d ?? null) === (b.d ?? null);
+  const same = (a: Release, b: Release) => a.k === b.k && filterKey(a.f) === filterKey(b.f) && (a.w ?? '') === (b.w ?? '') && (a.u ?? '') === (b.u ?? '') && a.n === b.n && (a.d ?? null) === (b.d ?? null);
   const rs = [...recent(ledger, now).filter(r => r.v === candidate.v && r.n && !same(r, candidate)).map(r => ({ r, cand: false })), { r: candidate, cand: true }];
   const desc = (ws: string[]) => [...new Set(ws)].sort((a, b) => b.localeCompare(a));
   let worst: number | null = null;
   const note = (x: number | null) => { if (x !== null && (worst === null || x < worst)) worst = x; };
   for (const measure of [candidate.n, ...(candidate.d ? [candidate.d] : [])]) {
     const cells = cellsOf(rs, measure, pop), windows = desc(cells.map(c => c.w));
+    // atomRisk orders these windows by containment (slice 6ad); `windows[k]` stays the key the value is read for.
     note(atomRisk(pop.units, cells, windows, (u, k) => u.q(measure, windows[k]), true, min));
   }
   const pairs = new Map<string, [string, string]>();
@@ -160,7 +197,9 @@ export function populationRisk(ledger: Release[], candidate: Release, min: numbe
     if ([a, b].some(x => x === candidate.n || x === candidate.d)) pairs.set(a + '/' + b, [a, b]);
   for (const [a, b] of pairs.values()) {
     const ca = cellsOf(rs, a, pop), cb = cellsOf(rs, b, pop), cells: Cell[] = [];
-    for (const x of cb) for (const y of ca) if (x.pred === y.pred && (!x.w || !y.w || x.w === y.w)) cells.push({ ...x, w: x.w || y.w, cand: x.cand && y.cand ? true : (x.cand || y.cand) });
+    // Slice 6ad: a measure describing a moment (`|end`) pairs with a window ending at that moment.
+    const moment = (w: string) => !w || w.startsWith('|'), meets = (m: string, w: string) => !m || bounds(m).until === bounds(w).until;
+    for (const x of cb) for (const y of ca) if (x.pred === y.pred && (x.w === y.w || (moment(x.w) && meets(x.w, y.w)) || (moment(y.w) && meets(y.w, x.w)))) cells.push({ ...x, w: moment(x.w) ? y.w || x.w : x.w, cand: x.cand && y.cand ? true : (x.cand || y.cand) });
     const seen = new Map<string, Cell>();
     for (const c of cells) { const id = c.pred + '|' + c.w, had = seen.get(id); seen.set(id, had ? { ...had, cand: had.cand && c.cand } : c); }
     const list = [...seen.values()], windows = desc(list.map(c => c.w));

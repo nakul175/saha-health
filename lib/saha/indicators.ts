@@ -98,10 +98,13 @@ export type Query={ids:string[];days:number;group:Group;team?:string|null;villag
 export type Series={key:string;f:Record<string,string>;cells:Record<string,number>;m?:Record<string,[number,number]>;ids:string[];
  // Slice 6aa (seventh review): what the release discloses, for the population check in indicator-differencing.
  // n/d: the measures shown; gd: the grouping dimension; x: exclusions; w: window start; shown: cells whose values were returned.
- n?:MeasureId;d?:MeasureId|null;gd?:Group;x?:string[];w?:string;shown?:string[]};
+ n?:MeasureId;d?:MeasureId|null;gd?:Group;x?:string[];w?:string;shown?:string[];
+ // Slice 6ad (ninth review, finding 2): the window end, set by an aggregate report for a period that ended in the past.
+ u?:string};
 // Slice 6aa: measures counted over the query window; the others describe today and do not depend on it.
 export const WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','repeat-entries','corrections']);
 // A person's value of one measure over the window starting at `since` (ISO) and ending now.
+// Slice 6ad: `now` is the window end (and the moment a measure describing today is counted at).
 export function measureValue(s:OrgState,p:Person,id:MeasureId,since:string,now:Date){const today=now.toISOString().slice(0,10);return measure(id).count({s,people:[],since,until:now.toISOString(),today},p);}
 export const ageBandOf=(age:number)=>band(age);
 export const groupLabels=(s:OrgState,p:Person,g:Group)=>keysFor(s,p,g);
@@ -148,7 +151,7 @@ export async function releaseCandidates(series:Series[],q:{team?:string|null;vil
  const hashCells=async<T,>(x:Record<string,T>)=>Object.fromEntries(await Promise.all(Object.entries(x).map(async([g,n])=>[await h(`group:${g}`),n] as const)));
  return Promise.all(series.map(async sr=>{const df:Record<string,string>={...f};for(const [k,v] of Object.entries(sr.f))df[k]=await h(`${k}:${v}`);
   const shown=new Set(sr.shown??Object.keys(sr.cells)),z=await Promise.all(Object.keys(sr.cells).filter(g=>!shown.has(g)).map(g=>h(`group:${g}`)));
-  return {ids:sr.ids,isCohort:sr.key==='cohort',release:{v:viewer,at,k:await h(`series:${sr.key}`),f:df,c:await hashCells(sr.cells),...(sr.m?{m:await hashCells(sr.m)}:{}),...(sr.n?{n:sr.n,d:sr.d??null,gd:sr.gd,x:sr.x,w:sr.w,z}:{})}};}));
+  return {ids:sr.ids,isCohort:sr.key==='cohort',release:{v:viewer,at,k:await h(`series:${sr.key}`),f:df,c:await hashCells(sr.cells),...(sr.m?{m:await hashCells(sr.m)}:{}),...(sr.n?{n:sr.n,d:sr.d??null,gd:sr.gd,x:sr.x,w:sr.w,z,...(sr.u?{u:sr.u}:{})}:{})}};}));
 }
 export async function releasePopulation(s:OrgState,h0:Hash,now=new Date()){
  const h=memoHash(h0),people=s.workspace.people.filter(p=>p.assigned&&!p.mergedInto);
@@ -156,7 +159,8 @@ export async function releasePopulation(s:OrgState,h0:Hash,now=new Date()){
   const f:Record<string,string[]>={team:[await h(`team:${p.teamId}`)],village:[await h(`village:${p.village}`)],programme:await Promise.all(progs.map(x=>h(`programme:${x}`))),defProgramme:await Promise.all(progs.map(x=>h(`defProgramme:${x}`))),sex:[await h(`sex:${p.sex}`)],ageBand:[await h(`ageBand:${band(p.age)}`)]};
   const g:Record<string,string[]>={};for(const d of GROUPS)g[d]=await Promise.all(keysFor(s,p,d).map(x=>h(`group:${x}`)));
   const x=[...(p.identityReview?.state==='provisional'?['identity-provisional']:[]),...(!progs.length?['no-programme']:[])];
-  const q=(id:string,since:string)=>{const k=id+'|'+since;let v=memo.get(k);if(v===undefined){v=measureValue(s,p,id as MeasureId,since,now);memo.set(k,v);}return v;};
+  // Slice 6ad: the window key is `start` (ending now) or `start|end` (a window that ended at `end`).
+  const q=(id:string,window:string)=>{const k=id+'|'+window;let v=memo.get(k);if(v===undefined){const [since,until]=window.split('|');v=measureValue(s,p,id as MeasureId,since,until?new Date(until):now);memo.set(k,v);}return v;};
   return {f,g,x,q};}));
  return {units,windowed:WINDOWED as ReadonlySet<string>};
 }

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2073,7 +2073,7 @@
       "sourceTextLine": 390,
       "implementation": "partial",
       "target": "R12",
-      "current": "Per-destination mapped field allowlists. Slice 7e: aggregate-only programme destinations refuse every patient-level record before preparation and inside the delivery checkpoint. Slice 7g: an aggregate-only demonstration destination receives approved aggregate reports only: suppressed cells from named indicator versions, a definition and version manifest, row count and SHA-256; a payload minimisation check (no patient-level field or identifier value, no released cell from 1 to 4) runs before preparing, before the checkpoint and inside it, and its result is recorded on the report; a failed check closes the report as not sent. Slice 6ab: aggregate report screening also uses the slice 6aa population check (preparation, pre-send recomputation and checkpoint), and a ledger write D1 refuses closes the report as not sent.",
+      "current": "Per-destination mapped field allowlists. Slice 7e: aggregate-only programme destinations refuse every patient-level record before preparation and inside the delivery checkpoint. Slice 7g: an aggregate-only demonstration destination receives approved aggregate reports only: suppressed cells from named indicator versions, a definition and version manifest, row count and SHA-256; a payload minimisation check (no patient-level field or identifier value, no released cell from 1 to 4) runs before preparing, before the checkpoint and inside it, and its result is recorded on the report; a failed check closes the report as not sent. Slice 6ab: aggregate report screening also uses the slice 6aa population check (preparation, pre-send recomputation and checkpoint), and a ledger write D1 refuses closes the report as not sent. Slice 6ad (ninth review): aggregate report reads return the manifest and withheld blocks but never the cells (figures go to the destination only); payloads are kept only while a report is open and bounded (150 kB each, 450 kB for all reports beside the 1 MB ledger); only open reports count towards the limit of 20 and unapproved or unsent reports expire after 24 hours; a late destination answer is appended as evidence; receipt lookup stays available in maintenance and the send checkpoint re-checks maintenance.",
       "remaining": "Aggregate delivery to live HTTP destinations under a partner-agreed aggregate contract, minimisation of patient-level payloads to other destinations beyond their mapped allowlists, and live partner testing.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2094,7 +2094,9 @@
         "tests/aggregate-delivery-smoke.mjs",
         "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md",
         "tests/eighth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+        "tests/ninth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2965,7 +2967,7 @@
       "sourceTextLine": 508,
       "implementation": "partial",
       "target": "R15",
-      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out. Slice 6aa (seventh independent review): differencing is also checked through the people behind each release rather than by key: every measure release of the viewer's last seven days is re-evaluated against the people in scope now and split into atoms (people, and window-to-window increments for windowed measures, in exactly the same shown cells); a result that would create or split an atom of 1 to 4 is withheld, so a different grouping, an exclusion definition or a different window no longer bypasses it; the window is part of each release's identity; the ledger is bounded by size (1 MB organisation, 250 KB per viewer, 429 when full); a property test over random synthetic query sequences finds no released nested pair differing by 1 to 4; the remaining limits (two viewers combining results, changes between queries, releases older than seven days, unrelated measures) are stated to owners.",
+      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out. Slice 6aa (seventh independent review): differencing is also checked through the people behind each release rather than by key: every measure release of the viewer's last seven days is re-evaluated against the people in scope now and split into atoms (people, and window-to-window increments for windowed measures, in exactly the same shown cells); a result that would create or split an atom of 1 to 4 is withheld, so a different grouping, an exclusion definition or a different window no longer bypasses it; the window is part of each release's identity; the ledger is bounded by size (1 MB organisation, 250 KB per viewer, 429 when full); a property test over random synthetic query sequences finds no released nested pair differing by 1 to 4; the remaining limits (two viewers combining results, changes between queries, releases older than seven days, unrelated measures) are stated to owners. Slice 6ad (ninth review): a release for a window that ended in the past records its end, used in the window key, the ledger prune identity and the population check, which counts each window to its own end and falls back to whole-person profiles when windows do not nest.",
       "remaining": "Differencing across viewers, non-nested filters, groupings and definitions, suppression on the operational export and other report paths, and a separate purpose for patient exports.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2982,7 +2984,9 @@
         "tests/fifth-review-fixes-contract.mjs",
         "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md",
         "tests/seventh-review-fixes-contract.mjs",
-        "docs/current/SLICE-6AA-SEVENTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AA-SEVENTH-REVIEW-FIXES.md",
+        "tests/ninth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2996,7 +3000,7 @@
       "sourceTextLine": 511,
       "implementation": "partial",
       "target": "R15",
-      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen. Slice 6ab: aggregate reports are screened with the population check, as indicator queries are.",
+      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen. Slice 6ab: aggregate reports are screened with the population check, as indicator queries are. Slice 6ad (ninth review): aggregate report cells are never shown to people (they were screened for the destination only); a report period ending in the past records its window end so it never replaces or escapes an earlier release to the same destination.",
       "remaining": "Protected expiry of downloaded files, filters beyond window and team, and an official reviewed-submission lifecycle distinct from draft export. Aggregate reports go to demonstration destinations only; there is no official reviewed-submission lifecycle with the programme, no reporting calendar or scheduled report, and no snapshot of the records behind a sent report.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3013,7 +3017,9 @@
         "tests/aggregate-delivery-smoke.mjs",
         "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md",
         "tests/eighth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+        "tests/ninth-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },

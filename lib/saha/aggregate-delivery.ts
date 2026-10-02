@@ -21,7 +21,36 @@ import type { Integration, Member, OrgState, TraceRef } from './types';
 // This module has the pure parts; aggregate-execution.ts has the steps that read and write storage.
 export const AGGREGATE_CONTRACT='saha-aggregate-v1';
 export const APPROVAL_HOURS=24;
-export const REPORT_LIMIT=200;
+// Slice 6ad (ninth review, finding 4): the limit counts open reports only (prepared, approved, sending, uncertain);
+// a report not approved within the approval window, or approved and not sent within it, is closed as expired.
+export const REPORT_LIMIT=20;
+// Slice 6ad (finding 3): reports live in the operations row beside the differencing ledger (at most 1 MB). A report's
+// payload is kept only while it is open and must fit PAYLOAD_BYTES; a closed report keeps its manifest, hash, steps
+// and receipt (its payload is recomputable from the pinned parameters). All reports together must fit REPORTS_BYTES,
+// so the operations row stays well inside D1's 2 MB value limit whatever reports are prepared.
+export const PAYLOAD_BYTES=150_000;
+export const REPORTS_BYTES=450_000;
+export const OPEN_STATES=['prepared','approved','sending','uncertain'];
+export const bytesOf=(x:unknown)=>new TextEncoder().encode(JSON.stringify(x)).length;
+// Closes expired open reports and removes the payload from closed ones. Returns the reports it closed.
+export function compactReports(s:OrgState,now:string,expire=true){
+ const closed:AggregateReport[]=[],t=Date.parse(now),window=APPROVAL_HOURS*3600000;
+ for(const r of reportsOf(s)){
+  if(!expire){}
+  else if(r.state==='prepared'&&Date.parse(r.preparedAt)+window<t){r.state='cancelled';reportEvent(r,now,`Expired: not approved within ${APPROVAL_HOURS} hours of preparation. Nothing was sent; prepare a new report if it is still needed.`);closed.push(r);}
+  else if(r.state==='approved'&&(!r.expiresAt||r.expiresAt<now)){r.state='cancelled';reportEvent(r,now,`Expired: not sent within ${APPROVAL_HOURS} hours of approval. Nothing was sent; prepare a new report if it is still needed.`);closed.push(r);}
+  if(!OPEN_STATES.includes(r.state)&&(r as any).payload)delete (r as any).payload;
+ }
+ return closed;
+}
+// Slice 6ad (finding 1): what a report read returns. Cells are never returned to a person: they were screened against
+// the destination's releases only, not against what the viewer has been shown. A reader sees the manifest, which
+// blocks were withheld and the steps; the figures go to the destination only.
+export function reportView(r:AggregateReport){
+ const {payload,...rest}=r as AggregateReport&{payload?:AggregatePayload};
+ return {...rest,manifest:payload?{definitions:payload.manifest.definitions,rows:payload.manifest.rows,sha256:payload.manifest.sha256}:null,
+  blocks:payload?payload.blocks.map(b=>({team:b.team,indicator:b.indicator,version:b.version,unit:b.unit,withheld:b.withheld})):null};
+}
 export const AGGREGATE_GROUPS=['none','village','programme','age-band'] as const;
 export type AggregateGroup=typeof AGGREGATE_GROUPS[number];
 export type MinimisationCheck={at:string;stage:'prepare'|'before-send'|'checkpoint';passed:boolean;fields:number;cells:number;problems:string[]};
@@ -31,7 +60,7 @@ export type Block={team:string;indicator:string;version:number;unit:'count'|'pro
 export type AggregatePayload={contract:typeof AGGREGATE_CONTRACT;environment:'synthetic';operation:'aggregate';report:{id:string;period:{start:string;end:string};group:AggregateGroup;minimumCell:number;computedAt:string};manifest:{definitions:{id:string;version:number;canonicalSha256:string}[];rows:number;sha256:string};blocks:Block[]};
 export type AggregateReport={id:string;destinationId:string;destinationName:string;definitions:string[];period:{start:string;end:string};teamIds:string[];group:AggregateGroup;computedAt:string;
  state:'prepared'|'approved'|'sending'|'accepted'|'rejected'|'uncertain'|'cancelled';preparedBy:string;preparedByName:string;preparedAt:string;approvedBy?:string;approvedByName?:string;approvedAt?:string;expiresAt?:string;
- payload:AggregatePayload;payloadSha256:string;rowCount:number;attempts:number;receipt?:string;minimisation:MinimisationCheck[];refusal?:Refusal&{reason?:string};events:ReportEvent[];message:string;updatedAt:string;operationId?:string;startedAt?:string};
+ payload?:AggregatePayload;payloadSha256:string;rowCount:number;attempts:number;receipt?:string;minimisation:MinimisationCheck[];refusal?:Refusal&{reason?:string};events:ReportEvent[];message:string;updatedAt:string;operationId?:string;startedAt?:string};
 
 const id=z.string().min(1).max(200),day=z.string().regex(/^\d{4}-\d{2}-\d{2}$/,'Use a date as YYYY-MM-DD.');
 export const aggregateSchema=z.discriminatedUnion('type',[
@@ -72,7 +101,7 @@ export function periodWindow(period:{start:string;end:string},now=new Date()){
  if(!Number.isFinite(s)||!Number.isFinite(e)||new Date(s).toISOString().slice(0,10)!==period.start||new Date(e).toISOString().slice(0,10)!==period.end)fail(422,'Use real dates for the period.');
  if(e<s)fail(422,'The period must end on or after its start.');if(period.end>today)fail(422,'The period cannot end after today.');
  const days=Math.round((e-s)/86400000)+1;if(days>366)fail(422,'Choose a period of at most 366 days.');
- return {days,until:period.end===today?now:new Date(e+86400000-1)};
+ return {days,until:period.end===today?now:new Date(e+86400000-1),past:period.end!==today};
 }
 export async function sha256Hex(text:string){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(b=>b.toString(16).padStart(2,'0')).join('');}
 // Canonical JSON (sorted keys) so the SHA-256 is stable whatever order the fields were built in.
@@ -83,7 +112,11 @@ export type TeamRun={teamId:string;teamName:string;series:Series[];results:any[]
 export function computeRuns(s:OrgState,m:Member,r:{definitions:string[];teamIds:string[];group:AggregateGroup;period:{start:string;end:string}},now:Date):TeamRun[]{
  const w=periodWindow(r.period,now);
  return r.teamIds.map(teamId=>{const teamName=s.teams.find(t=>t.id===teamId)?.name;if(!teamName)fail(422,'Choose teams that exist.');
-  try{const {result,series}=indicatorRun(s,m,{ids:r.definitions,days:w.days,group:r.group,team:teamId},w.until);return {teamId,teamName:teamName!,series,results:result.results};}
+  try{const {result,series}=indicatorRun(s,m,{ids:r.definitions,days:w.days,group:r.group,team:teamId},w.until);
+   // Slice 6ad (ninth review, finding 2): a period that ended before the report was computed records its end, so it
+   // never replaces or escapes a release for the same start that ended at another time.
+   if(w.past)for(const sr of series)if(sr.n)sr.u=w.until.toISOString();
+   return {teamId,teamName:teamName!,series,results:result.results};}
   catch(e){if(e instanceof AppError&&e.status===422&&/fewer than/.test(e.message))return {teamId,teamName:teamName!,series:[],results:null};throw e;}});
 }
 // The payload from computed runs and the ids (`id@version` per team) the differencing screen released.
@@ -125,6 +158,8 @@ export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationC
 export function approveReport(s:OrgState,c:Extract<AggregateCommand,{type:'approveAggregateReport'}>,u:Actor,m:Member,now:string){
  const r=findReport(s,c.reportId);reportingScope(m,r.teamIds);
  if(r.state!=='prepared')fail(409,'Only a prepared report can be approved.');
+ // Slice 6ad: a report not approved within the approval window has expired.
+ if(Date.parse(r.preparedAt)+APPROVAL_HOURS*3600000<Date.parse(now))fail(409,`This report was prepared more than ${APPROVAL_HOURS} hours ago and has expired. Prepare a new report.`);
  if(r.preparedBy===u.userId)fail(403,'A different authorised person must approve this report.');
  if(r.payloadSha256!==c.payloadSha256)fail(409,'The report is not the one you reviewed. Refresh and review it again.');
  const i=aggregateDestination(s,r.destinationId),refused=aggregateRefusal(i,'before-send',now);if(refused)fail(409,refused.text);

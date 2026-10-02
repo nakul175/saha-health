@@ -34,3 +34,7 @@
 ## Correction — 2 October 2026 (slice 6ab)
 
 When round 5 was integrated, aggregate report screening compared releases by key only, without the population check slice 6aa added to indicator queries. Slice 6ab passes the organisation's population to the screen at preparation, at the pre-send recomputation and inside the checkpoint, and closes a report as not sent with a clear reason when D1 refuses the ledger write. See [SLICE-6AB-EIGHTH-REVIEW-FIXES.md](SLICE-6AB-EIGHTH-REVIEW-FIXES.md).
+
+## Correction — 2 October 2026 (slice 6ad)
+
+A ninth independent review found that this slice showed report cells to the preparer, approver and managers without any check for them, that a report period ending in the past recorded only its window start (so a later report with the same start replaced and escaped the earlier release), that full payloads were kept in the operations row without bound (a few large reports could take it past D1's 2 MB value limit), that the report limit counted closed reports and prepared reports never expired, that a late send answer was discarded, and that receipt lookup was not allowed during maintenance. Slice 6ad returns no cells to people, records the window end, keeps payloads only while a report is open within byte budgets, counts only open reports and expires them after 24 hours, appends late answers as evidence, and allows lookup during maintenance with a maintenance re-check inside the send checkpoint. See [SLICE-6AD-NINTH-REVIEW-FIXES.md](SLICE-6AD-NINTH-REVIEW-FIXES.md).

@@ -46,9 +46,11 @@ export function AggregateReportsPanel({i,data,busy,command}:{i:Integration;data:
     {r.state==='approved'&&sender&&<Button size="sm" disabled={busy} onClick={()=>run({type:'sendAggregateReport',reportId:r.id},'Aggregate report sent')}>Send report</Button>}
     {r.state==='uncertain'&&<Button size="sm" variant="outline" disabled={busy} onClick={()=>run({type:'lookupAggregateReport',reportId:r.id},'Receipt lookup finished')}>Look up receipt</Button>}
    </div>
-   <details><summary>Payload, manifest and steps</summary>
-    <table className="aggregate-cells"><caption className="sr-only">Released cells</caption><thead><tr><th scope="col">Team</th><th scope="col">Indicator</th><th scope="col">Group</th><th scope="col">Value</th></tr></thead><tbody>{(r.payload.blocks as any[]).flatMap((b:any)=>b.withheld?[<tr key={b.team+b.indicator}><td>{b.team}</td><td>{b.indicator} v{b.version}</td><td colSpan={2}>Withheld ({b.withheld==='cohort'?'cohort below minimum':'differencing protection'})</td></tr>]:b.cells.map((c:any)=><tr key={b.team+b.indicator+c.group}><td>{b.team}</td><td>{b.indicator} v{b.version}</td><td>{c.group}</td><td>{c.suppressed?'suppressed':b.unit==='proportion'?`${c.value}% (${c.numerator}/${c.denominator})`:c.value}</td></tr>))}</tbody></table>
-    <p className="text-sm muted">Manifest: {(r.payload.manifest.definitions as any[]).map(d=>`${d.id} v${d.version}`).join(', ')} · {r.payload.manifest.rows} rows · SHA-256 {r.payload.manifest.sha256}</p>
+   <details><summary>Manifest and steps</summary>
+    {/* Slice 6ad: figures go to the destination only; a reader sees which blocks were released or withheld. */}
+    {r.blocks?<table className="aggregate-cells"><caption className="sr-only">Report blocks</caption><thead><tr><th scope="col">Team</th><th scope="col">Indicator</th><th scope="col">Status</th></tr></thead><tbody>{(r.blocks as any[]).map((b:any)=><tr key={b.team+b.indicator}><td>{b.team}</td><td>{b.indicator} v{b.version}</td><td>{b.withheld?`Withheld (${b.withheld==='cohort'?'cohort below minimum':'differencing protection'})`:'Included in the report'}</td></tr>)}</tbody></table>:<p className="text-sm muted">This report is closed; its payload is not kept and can be recomputed from the pinned definitions.</p>}
+    <p className="text-sm muted">The figures are sent to the destination only and are not shown here: they were checked for small groups against what the destination has received, not against what you have been shown. Run the same indicators on the indicator page to see them.</p>
+    <p className="text-sm muted">Manifest: {r.definitions.join(', ')} · {r.rowCount} rows · SHA-256 {r.payloadSha256}</p>
     <ol className="text-sm">{(r.events as any[]).map((e,n)=><li key={n}>{new Date(e.at).toLocaleString()} · {STATE[e.state]??e.state} · {e.detail}{e.ref?` (${e.ref.command})`:''}</li>)}</ol>
    </details>
   </li>;})}</ul>}
