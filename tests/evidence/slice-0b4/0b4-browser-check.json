@@ -1,0 +1,109 @@
+{
+  "check": "Slice 0b-4 server work lists (headless Chromium, built Worker, local D1)",
+  "people": 606,
+  "unpagedStats": {
+    "toDo": 154,
+    "inProgress": 150,
+    "confirmed": 120,
+    "attention": 80
+  },
+  "shownStats": [
+    "154",
+    "150",
+    "120",
+    "80"
+  ],
+  "statText": "Visits to do | 154 | In your care scope | In progress | 150 | Saved visit drafts | Visits confirmed | 120 | Ready for programme review | Needs attention | 80 | Check destination receipts",
+  "heading": "Your visit list 606",
+  "firstPageRows": 50,
+  "firstPageMatchesUnpagedOrder": true,
+  "afterLoadMore": 100,
+  "oldNoticeShown": 0,
+  "followUps": {
+    "heading": "Programme follow-ups 60",
+    "groups": 50
+  },
+  "referrals": {
+    "heading": "Referrals & outcomes 30",
+    "cards": 30
+  },
+  "openedFromReferral": "BS | Browser Synthetic 0000 | 62 years · Female · Browser village 0Record ui_p_000 | Chronic care | General care | Permissions | New visit",
+  "fullReferralCardsInVisit": 1,
+  "submissions": {
+    "tabs": [
+      "All submissions (120)",
+      "Needs attention (80)"
+    ],
+    "rows": 50,
+    "attentionRows": 50,
+    "attentionStates": [
+      "uncertain",
+      "queued"
+    ]
+  },
+  "worklistRequests": [
+    {
+      "url": "/api/worklists?view=work",
+      "status": 200,
+      "bytes": 11730
+    },
+    {
+      "url": "/api/worklists?view=followups",
+      "status": 200,
+      "bytes": 7561
+    },
+    {
+      "url": "/api/worklists?view=referrals",
+      "status": 200,
+      "bytes": 5876
+    },
+    {
+      "url": "/api/worklists?view=work&cursor=n%3A50",
+      "status": 200,
+      "bytes": 11776
+    },
+    {
+      "url": "/api/worklists?view=followups",
+      "status": 200,
+      "bytes": 7561
+    },
+    {
+      "url": "/api/worklists?view=work",
+      "status": 200,
+      "bytes": 11730
+    },
+    {
+      "url": "/api/worklists?view=referrals",
+      "status": 200,
+      "bytes": 5876
+    },
+    {
+      "url": "/api/worklists?view=submissions",
+      "status": 200,
+      "bytes": 12709
+    },
+    {
+      "url": "/api/worklists?view=submissions&tab=attention",
+      "status": 200,
+      "bytes": 12696
+    }
+  ],
+  "worklistUrlsSafe": true,
+  "workspaceReads": [
+    {
+      "url": "/api/workspace",
+      "status": 200,
+      "bytes": 4446
+    }
+  ],
+  "axeViolations": {
+    "visitList": [],
+    "followUps": [],
+    "referrals": [],
+    "stats": [],
+    "submissions": []
+  },
+  "consoleErrors": [],
+  "passed": true,
+  "at": "2026-10-01T18:33:17.555Z"
+}

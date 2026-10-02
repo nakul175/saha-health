@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 7a-7c, 0b-2, 0b-3",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2588,7 +2588,7 @@
       "sourceTextLine": 482,
       "implementation": "partial",
       "target": "R14",
-      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue. Slice 3i: a queue of open field referral requests for clinicians, supervisors and owners in scope (clinical concern first, then oldest, with waiting time and a link to the visit); requests waiting 48 hours or more are also exception-queue rows. Slice 4d: in the action plan an item waiting on an open blocker is not counted as overdue and is listed after other work; an overdue blocker keeps its own place, and an ownership gap still escalates a waiting item.",
+      "current": "Due dates and overdue counts; scoped handover exception queue. Slice 4a adds urgency, reasoned delays with constraint and history, and a computed escalation queue ordered by level, urgency and days overdue. Slice 3i: a queue of open field referral requests for clinicians, supervisors and owners in scope (clinical concern first, then oldest, with waiting time and a link to the visit); requests waiting 48 hours or more are also exception-queue rows. Slice 4d: in the action plan an item waiting on an open blocker is not counted as overdue and is listed after other work; an overdue blocker keeps its own place, and an ownership gap still escalates a waiting item. Slice 0b-4: in a workspace paged for a scope above 500 people, the follow-up list (due dates and overdue marks) and the referral tracker on My work cover the viewer's whole scope, built on the server page by page with the same order and counts as the unpaged workspace; before, they covered only opened records.",
       "remaining": "Approved urgency policy, notification or on-call escalation, and automatic reassignment. The referral escalation queue, caseload and handover counts do not yet apply action dependencies.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2612,7 +2612,12 @@
         "app/referral-panel.tsx",
         "tests/plan-dependencies-contract.mjs",
         "tests/plan-dependencies-smoke.mjs",
-        "docs/current/SLICE-4D-ACTION-DEPENDENCIES.md"
+        "docs/current/SLICE-4D-ACTION-DEPENDENCIES.md",
+        "docs/current/SLICE-0B4-SERVER-WORKLISTS.md",
+        "lib/saha/worklist-views.ts",
+        "app/worklist-panel.tsx",
+        "tests/worklists-contract.mjs",
+        "tests/worklists-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4084,7 +4089,7 @@
       "sourceTextLine": 759,
       "implementation": "unverified",
       "target": "R16",
-      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body.",
+      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured.",
       "remaining": "Partitioned architecture, topology/load/support/cost review before 10000-worker or five-million-person expansion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4094,7 +4099,13 @@
         "tests/patient-directory-contract.mjs",
         "tests/patient-directory-smoke.mjs",
         "tests/evidence/slice-0b3/load-envelope-0b3.json",
-        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+        "docs/current/SLICE-0B4-SERVER-WORKLISTS.md",
+        "lib/saha/worklists.ts",
+        "lib/saha/worklist-views.ts",
+        "tests/worklists-contract.mjs",
+        "tests/worklists-smoke.mjs",
+        "tests/evidence/slice-0b4/load-envelope-0b4.json"
       ],
       "automatedAcceptanceClaim": false
     },

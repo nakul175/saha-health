@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select,SelectTrigger,SelectValue,SelectContent,SelectItem } from '@/components/ui/select';
 import type { Snapshot, Referral } from '@/lib/saha/types';
 import { CONSTRAINTS, NEXT, STATE_LABEL, TERMINAL, URGENCIES, escalation, type ReferralState } from '@/lib/saha/referral-rules';
+import { referralList } from '@/lib/saha/worklist-views';
 type Command=(c:any,message?:string)=>Promise<any>;
 function Choice({label,value,options,onChange}:{label:string;value:string;options:{id:string;label:string}[];onChange:(s:string)=>void}){return <Select value={value} onValueChange={onChange}><SelectTrigger aria-label={label}><SelectValue placeholder={label}/></SelectTrigger><SelectContent>{options.map(o=><SelectItem key={o.id} value={o.id}>{o.label}</SelectItem>)}</SelectContent></Select>}
 // Slice 4d: every source of a referral, with its kind and time; the referral's own visit is the first.
@@ -35,7 +36,7 @@ function ReferralCard({r,data,busy,command}:{r:Referral;data:Snapshot;busy:boole
  {(r.events??[]).map(e=><div className="referral-evidence" key={e.id}><strong>{STATE_LABEL[e.state as ReferralState]??e.state} · {e.source}</strong><p>{e.note}</p><small>{e.occurredAt} · {e.evidenceReference} · Recorded by {data.members.find(m=>m.userId===e.actorId)?.displayName??'care worker'}</small></div>)}
  {r.state==='completed'&&<p className="subtle-note">{r.events?.some(e=>e.state==='completed')?'Outcome evidence recorded manually; independent facility verification remains pending.':'Legacy completion has no structured outcome evidence.'}</p>}</article>;
 }
-export function ReferralTracker({data,busy,command,visitId}:{data:Snapshot;busy:boolean;command:Command;visitId?:string}){const refs=data.referrals.filter(r=>!visitId||r.visitId===visitId).slice().sort((a,b)=>Number(TERMINAL.has(a.state))-Number(TERMINAL.has(b.state))||(a.due??'9999').localeCompare(b.due??'9999'));return <section className="referral-section"><h2>Referrals & outcomes</h2><p>Named ownership, due dates and a recorded source for each event.</p>{refs.length?refs.map(r=><ReferralCard key={`${r.id}-${r.version??1}`} r={r} data={data} busy={busy} command={command}/>):<p className="muted">No referrals recorded. Prepare one from a confirmed visit.</p>}</section>}
+export function ReferralTracker({data,busy,command,visitId}:{data:Snapshot;busy:boolean;command:Command;visitId?:string}){const refs=referralList(data.referrals.filter(r=>!visitId||r.visitId===visitId));return <section className="referral-section"><h2>Referrals & outcomes</h2><p>Named ownership, due dates and a recorded source for each event.</p>{refs.length?refs.map(r=><ReferralCard key={`${r.id}-${r.version??1}`} r={r} data={data} busy={busy} command={command}/>):<p className="muted">No referrals recorded. Prepare one from a confirmed visit.</p>}</section>}
 
 // Slice 4a: referrals needing attention, escalated first, for stewards (their teams) and care workers (their own).
 export function ReferralEscalations({data}:{data:Snapshot}){
