@@ -39,6 +39,7 @@ import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
 import { adapterOperationsSchema } from './adapter-operations';
 import { aggregateSchema } from './aggregate-delivery';
+import { incentiveSchema } from './incentives';
 import { agentSchema } from './agent';
 import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
@@ -92,6 +93,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...misSchema.options,
  adapterOperationsSchema.innerType(),
  ...aggregateSchema.options,
+ // Slice 10c: synthetic worker incentive claims (lib/saha/incentives.ts).
+ ...incentiveSchema.options,
  ...ehrSchema.options,
  ...agentSchema.options,
  ...programmeSchema.options,

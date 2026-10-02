@@ -48,6 +48,8 @@ export const ACCESS_ACTIONS = {
   identifierSearch: 'Searched by an issuer identifier; this record matched and was returned to the searcher.',
   identifierSearchMiss: 'Searched by an issuer identifier; no record in the searcher\'s care scope matched.',
   identifierConflictReview: 'Identifier link refused: the identifier is recorded on this record. Recorded on the holding record only, for identity steward review.',
+  // Slice 10c: an approved synthetic incentive claims export is recorded the same way (no patient name or identifier in the file).
+  incentiveExport: 'Synthetic incentive claims exported as CSV (no patient name or identifier).',
 } as const;
 export type AccessAction = keyof typeof ACCESS_ACTIONS;
 export const ACCESS_REFUSED = 'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.';
