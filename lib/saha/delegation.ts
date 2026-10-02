@@ -33,7 +33,8 @@ export function holds(m:Member|undefined,kind:DelegationKind,teamIds:string[]){
  return kind==='team-supervision'?(m.role==='supervisor'||m.isOwner):m.isOwner;
 }
 export function qualifies(m:Member|undefined,kind:DelegationKind,teamIds:string[]){
- if(!active(m))return false;
+ // Slice 9a: demonstration fixture clinicians never hold delegated authority.
+ if(!active(m)||m.userId.startsWith('fixture:'))return false;
  return kind==='team-supervision'?m.role==='clinician'&&teamIds.every(t=>m.teamIds.includes(t)):['clinician','supervisor'].includes(m.role);
 }
 const member=(s:OrgState,userId:string)=>s.members.find(x=>x.userId===userId);

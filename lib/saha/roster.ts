@@ -27,6 +27,8 @@ export async function rosterDiff(s:OrgState,rows:RosterRow[],complete:boolean,ac
   const teamIds=[...new Set(ids as string[])].sort();
   if(r.status==='active'&&r.role!=='admin'&&!teamIds.length){errors.push(`${line}: a care or supervisor role needs a team.`);return;}
   const m=s.members.find(x=>x.accountCode===r.accountCode);
+  // Slice 9a: demonstration fixture clinicians are not staff and are not managed by roster sync.
+  if(m&&m.userId.startsWith('fixture:')){actions.push({accountCode:r.accountCode,name:r.name,action:'none',detail:'Demonstration fixture clinician: not managed by roster sync.'});return;}
   if(m?.userId===actorId){actions.push({accountCode:r.accountCode,name:r.name,action:'none',detail:'Your own membership is not changed by roster sync.'});return;}
   if(r.status==='left'){
    if(!m||m.status!=='active'){actions.push({accountCode:r.accountCode,name:r.name,action:'none',detail:m?`Already ${m.status}.`:'Not a member.'});return;}
@@ -41,7 +43,7 @@ export async function rosterDiff(s:OrgState,rows:RosterRow[],complete:boolean,ac
   const same=m.role===r.role&&[...m.teamIds].sort().join()===teamIds.join();
   actions.push(same?{accountCode:r.accountCode,name:r.name,action:'none',detail:'No change.'}:{accountCode:r.accountCode,name:r.name,action:'update',detail:`Role ${m.role} → ${r.role}; teams ${m.teamIds.map(t=>s.teams.find(x=>x.id===t)?.name??t).join(', ')||'none'} → ${teamIds.map(t=>s.teams.find(x=>x.id===t)!.name).join(', ')||'none'}.`,role:r.role,teamIds,userId:m.userId});
  });
- if(complete)for(const m of s.members.filter(x=>x.status==='active'&&!seen.has(x.accountCode)&&x.userId!==actorId)){
+ if(complete)for(const m of s.members.filter(x=>x.status==='active'&&!seen.has(x.accountCode)&&x.userId!==actorId&&!x.userId.startsWith('fixture:'))){
   if(m.isOwner)actions.push({accountCode:m.accountCode,name:m.displayName,action:'conflict',detail:'Owner missing from the complete roster. Roster sync never suspends an owner.'});
   else actions.push({accountCode:m.accountCode,name:m.displayName,action:'suspend',detail:'Missing from the complete roster: membership will be suspended.',userId:m.userId});
  }
