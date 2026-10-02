@@ -1,0 +1,84 @@
+{
+  "check": "Slice 7f EHR receipt lookup policy on the Connections screen",
+  "base": "http://127.0.0.1:8812",
+  "checkedAt": "2026-10-01T22:35:09.804Z",
+  "passed": 13,
+  "failed": 0,
+  "steps": [
+    {
+      "name": "register synthetic EHR (API)",
+      "ok": true
+    },
+    {
+      "name": "enable storage (API)",
+      "ok": true,
+      "value": {
+        "ok": true
+      }
+    },
+    {
+      "name": "open connections",
+      "ok": true
+    },
+    {
+      "name": "default policy summary",
+      "ok": true,
+      "value": "not authoritative, owner not named"
+    },
+    {
+      "name": "open policy disclosure",
+      "ok": true
+    },
+    {
+      "name": "tick authoritative",
+      "ok": true
+    },
+    {
+      "name": "checkboxes keep their own size",
+      "ok": true,
+      "value": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    {
+      "name": "delay",
+      "ok": true
+    },
+    {
+      "name": "pick owner",
+      "ok": true
+    },
+    {
+      "name": "reason",
+      "ok": true
+    },
+    {
+      "name": "save",
+      "ok": true
+    },
+    {
+      "name": "summary after save",
+      "ok": true,
+      "value": "authoritative, 120 s, Lookup Owner"
+    },
+    {
+      "name": "command accepted",
+      "ok": true,
+      "value": {
+        "integrationId": "3abd6fd6-e6d4-4146-966c-c6f22116d839",
+        "version": 1,
+        "authoritative": true,
+        "consistencySeconds": 120,
+        "ownerId": "ui-b7f-owner-1790894098506"
+      }
+    }
+  ],
+  "consoleErrors": []
+}

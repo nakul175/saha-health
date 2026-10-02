@@ -10,7 +10,7 @@ import type { Member, OrgState, Person } from './types';
 // from the records that hold each problem. Supervisors and owners see rows for patients in their care
 // scope with a link that opens the patient and visit. Operations members (owners, administrators) also see
 // destination-delivery rows for patients outside that scope, without patient details or links.
-export const EXCEPTION_RULES_VERSION='1.2.0';
+export const EXCEPTION_RULES_VERSION='1.3.0';
 export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting'|'operation-refused';
 export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null;trace:{query:'submission'|'publication';id:string}|null};
 const RANK={critical:0,high:1,normal:2} as const;
@@ -55,10 +55,18 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    if(!o.refusal||o.state!=='blocked'||(p.ehr?.operations??[]).some(y=>y.visitId===o.visitId&&y.linkId===o.linkId&&y.at>o.at&&y.id!==o.id))continue;
    add({id:'operation-refused:ehr-publication:'+o.id,kind:'operation-refused',severity:'normal',what:`EHR publication not sent, ${o.refusal.operation} not permitted (setting version ${o.refusal.settingVersion})`,since:o.refusal.at,owner:'Operations (owner or administrator)',recovery:'Nothing was sent. If the EHR should receive the document, an owner reviews the connection\'s operation setting and a care worker prepares a new publication.'},o.visitId,{query:'publication',id:o.id});
   }
-  // EHR publications without a final receipt.
+  // EHR publications without a final receipt. Slice 7f (rules 1.3.0): rows name the connection's reconciliation owner
+  // when one is set; a conflict (several documents, or a different one, under the publication's identifier) is that
+  // owner's; a publication the EHR's authoritative search showed as not stored is listed until a later publication of
+  // the same visit to the same link exists.
   for(const o of p.ehr?.operations??[]){
+   const ops=p.ehr?.operations??[],link=p.ehr?.links.find(l=>l.id===o.linkId),conn=link?s.workspace.integrations.find(i=>i.id===link.integrationId):undefined,ownerId=conn?.ehr?.lookup?.ownerId??null;
+   const owner=ownerId?`${name(ownerId)} (reconciliation owner)`:'Operations (owner or administrator)';
+   if(o.state==='conflict'){add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication conflict: ${o.resolution?.matches===1?'the one document under its identifier differs from the published document':`${o.resolution?.matches??'several'} documents carry its identifier`}`,since:o.resolution?.at??o.at,owner,recovery:'Compare the matching documents with the partner and agree which one stands. Saha does not choose; do not publish again.'},o.visitId,{query:'publication',id:o.id});continue;}
+   if(o.state==='not-stored'){if(ops.some(y=>y.id!==o.id&&y.visitId===o.visitId&&y.linkId===o.linkId&&y.at>o.at))continue;
+    add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'normal',what:'EHR publication not stored (authoritative identifier search found no document)',since:o.resolution?.at??o.at,owner:`Care workers of ${team(p)}`,recovery:'Nothing was resent. If the document is still needed, a care worker prepares a new publication and approves it.'},o.visitId,{query:'publication',id:o.id});continue;}
    if(!(o.state==='uncertain'||o.state==='running'&&Date.parse(now)-Date.parse(o.at)>STALE_RUNNING_MINUTES*60000))continue;
-   add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication ${o.state==='uncertain'?'outcome unknown':'still running after '+STALE_RUNNING_MINUTES+' minutes'}`,since:o.at,owner:'Operations (owner or administrator)',recovery:'Look up the document identifier with the EHR; do not publish again.'},o.visitId,{query:'publication',id:o.id});
+   add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication ${o.state==='uncertain'?'outcome unknown':'still running after '+STALE_RUNNING_MINUTES+' minutes'}`,since:o.at,owner,recovery:'Look up the document identifier with the EHR; do not publish again.'},o.visitId,{query:'publication',id:o.id});
   }
   if(!visible)continue;
   // Open clinical safety cases.
