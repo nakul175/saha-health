@@ -4,6 +4,7 @@ import { applyEvaluation, authorizeEvaluation } from './evaluation';
 import { executeEvaluation } from './evaluation-execution';
 import { applyHousehold, authorizeHousehold } from './household';
 import { applyCaseload, authorizeCaseload } from './caseload';
+import { applyDueCaseloads } from './caseload-schedule';
 import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';
 import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';
 import { applyRights, authorizeRights, ensureNotRestricted } from './rights';
@@ -63,7 +64,10 @@ import { accountCode, auditPage, parseCursor, createState, ensureAccount, histor
 import type { OrgState, Integration, Member, Snapshot } from './types';
 export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}
 export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unavailable. Your unsaved input has been kept on screen.');return env.DB!;}
-export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material=false){const id=await activeOrg(u,orgId);const ids=targets?await targets(id):null;
+export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material=false){const id=await activeOrg(u,orgId);
+ // Slice 1f: due scheduled caseload transfers are applied (or held) before the organisation is read for this request.
+ await applyDueCaseloads(db(),id,u.userId);
+ const ids=targets?await targets(id):null;
  // Slice 0b-3: a paging client with a large non-ASHA scope reads only its opened window of patients.
  const paged=viewerScoped&&!ids&&paging?await pagedWindow(db(),id,u.userId,paging.window):null;
  // Slice 6aa (seventh review, finding 3): the window audit is not opt-in. A workspace read without the paging request by a

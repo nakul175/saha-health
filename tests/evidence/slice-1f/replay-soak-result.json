@@ -1,0 +1,157 @@
+{
+  "passed": 8,
+  "suite": "replay and timeout soak: real MIS/EHR execution and HTTP adapters against a naive faulty mock partner",
+  "seed": 7,
+  "target": 1500,
+  "replayTimeoutEvents": 1522,
+  "timeoutAndLostResponseEvents": 323,
+  "replayEvents": 1199,
+  "countedKeys": {
+    "timeoutAndLostResponse": [
+      "misSubmitTimeouts",
+      "misLookupTimeouts",
+      "ehrPostTimeouts",
+      "ehrLookupTimeouts",
+      "ehrPatientTimeouts",
+      "misSubmitDropped",
+      "misLookupDropped",
+      "ehrPostDropped",
+      "ehrLookupDropped"
+    ],
+    "replay": [
+      "sameKeyReplays",
+      "newKeyReplays",
+      "concurrentExtraAttempts",
+      "concurrentExtraLookups",
+      "misDuplicateCallbacks"
+    ]
+  },
+  "organisations": {
+    "mis": 45,
+    "ehr": 45,
+    "ehrAuthoritative": 45
+  },
+  "items": {
+    "misSubmissions": 135,
+    "ehrPublications": 135,
+    "ehrAuthoritativePublications": 135
+  },
+  "finalStates": {
+    "mis": {
+      "accepted": 115,
+      "rejected": 18,
+      "retryable": 2
+    },
+    "ehr": {
+      "blocked": 18,
+      "uncertain": 36,
+      "accepted": 81
+    },
+    "ehrAuthoritative": {
+      "not-stored": 35,
+      "accepted": 92,
+      "blocked": 8
+    }
+  },
+  "unresolvedShare": {
+    "default": 0.26666666666666666,
+    "authoritative": 0
+  },
+  "ehrStatesBeforeReconciliation": {
+    "ehr": {
+      "blocked": 18,
+      "uncertain": 38,
+      "accepted": 73,
+      "prepared": 5,
+      "running": 1
+    },
+    "ehrAuthoritative": {
+      "not-stored": 31,
+      "accepted": 92,
+      "blocked": 8,
+      "uncertain": 4
+    }
+  },
+  "unresolvedShareBeforeReconciliation": {
+    "default": 0.28888888888888886,
+    "authoritative": 0.02962962962962963
+  },
+  "partnerLedger": {
+    "misKeys": 135,
+    "misAcceptedRecords": 115,
+    "misDuplicateAcceptedRecords": 0,
+    "misBlindResends": 0,
+    "ehrIdentifiers": 267,
+    "ehrStoredDocuments": 173,
+    "ehrDuplicateStoredDocuments": 0,
+    "ehrRepeatPosts": 0
+  },
+  "counts": {
+    "casConflicts": 1352,
+    "concurrentExtraAttempts": 407,
+    "concurrentExtraLookups": 116,
+    "ehrChangedAcknowledgements": 24,
+    "ehrExecutes": 658,
+    "ehrHttpErrors": 34,
+    "ehrLookupDelivered": 309,
+    "ehrLookupDropped": 64,
+    "ehrLookupRequests": 419,
+    "ehrLookups": 471,
+    "ehrLookupTimeouts": 46,
+    "ehrNotStoredAfterWrite": 35,
+    "ehrPartnerRequests": 933,
+    "ehrPatient:http503": 12,
+    "ehrPatient:ok": 244,
+    "ehrPatient:timeout": 14,
+    "ehrPatientTimeouts": 14,
+    "ehrPost:accept": 83,
+    "ehrPost:changedContent": 24,
+    "ehrPost:dropAfterStore": 33,
+    "ehrPost:reject422": 22,
+    "ehrPost:timeoutAfterStore": 33,
+    "ehrPost:timeoutBeforeStore": 49,
+    "ehrPostDropped": 33,
+    "ehrPostRequests": 244,
+    "ehrPostTimeouts": 82,
+    "ehrStuckCheckpoints": 77,
+    "ehrUnresolvedAfterWrite": 36,
+    "interruptedFinishes": 65,
+    "interruptedRounds": 60,
+    "misCallbackApplied": 46,
+    "misCallbackReplayed": 86,
+    "misCallbacksAfterResponse": 88,
+    "misCallbacksDelivered": 132,
+    "misCallbacksScheduled": 132,
+    "misDuplicateCallbacks": 60,
+    "misHttpErrors": 13,
+    "misLookupDelivered": 86,
+    "misLookupDropped": 10,
+    "misLookupRequests": 104,
+    "misLookups": 142,
+    "misLookupTimeouts": 8,
+    "misMismatchedReceipts": 15,
+    "misPartnerRequests": 277,
+    "misSends": 296,
+    "misStuckCheckpoints": 19,
+    "misSubmit:accept": 52,
+    "misSubmit:dropAfterAccept": 13,
+    "misSubmit:http503": 13,
+    "misSubmit:pending": 10,
+    "misSubmit:reject": 17,
+    "misSubmit:resetAfterAccept": 6,
+    "misSubmit:timeoutAfterAccept": 20,
+    "misSubmit:timeoutBeforeAccept": 27,
+    "misSubmit:wrongHash": 15,
+    "misSubmitDropped": 19,
+    "misSubmitRequests": 173,
+    "misSubmitTimeouts": 47,
+    "newKeyReplays": 520,
+    "reconcileLookups": 45,
+    "reconcileSends": 6,
+    "refused:409": 1417,
+    "sameKeyReplays": 96
+  },
+  "durationMs": 3404,
+  "limits": "In-memory CAS model, not D1; callback path is applyReceipt plus the route replay rules, not the HTTP route or signature; same-key replay modelled from stored receipts as server.ts does; simulated clock for stuck checkpoints; consistent partner lookups, no late-arriving requests; the authoritative partner is the same mock with a declared lookup policy (consistency delay 30 s) and simulated clock steps of 40 s per round.",
+  "completedAt": "2026-10-01T23:59:22.061Z"
+}

@@ -47,15 +47,17 @@ export async function caseloadSmoke({get,post,check,accounts,org,sql,base}){
  await post(r,{type:'caseloadAcknowledge',transferId:incoming.id,version:incoming.version+1,reference:'SYNTH-AGAIN'},409);
  await get(r,'/api/workspace',200,org);check(()=>assert.equal(r.state.people.find(p=>p.id===ids[1]).assignmentHistory.at(-1).acknowledgement.reference,'SYNTH-HANDOVER'));
  // Scheduled transfer of C; overlapping schedule, early apply and cancel.
- const soon=new Date(Date.now()+3000).toISOString();
+ const soon=new Date(Date.now()+6000).toISOString();
  const t2=await post(s,body({personIds:[ids[2]],effectiveAt:soon}));
  check(()=>assert.equal(t2.result.state,'scheduled'));
  await post(s,body({personIds:[ids[2]],effectiveAt:new Date(Date.now()+86400000).toISOString()}),409);
  await post(s,{type:'caseloadApply',transferId:t2.result.transferId,version:1},409);
  await post(o,{type:'removeMember',userId:q.id,version:o.state.members.find(m=>m.userId===q.id).version,reason:'Synthetic departure attempt'},409);
  await new Promise(done=>setTimeout(done,Math.max(0,Date.parse(soon)-Date.now())+500));
- const applied=await post(s,{type:'caseloadApply',transferId:t2.result.transferId,version:1});
- check(()=>{assert.equal(applied.result.moved,1);assert.deepEqual(applied.result.skipped,[]);});
+ // Slice 1f: the first use after the effective time applies the transfer automatically, so a manual apply is too late.
+ await post(s,{type:'caseloadApply',transferId:t2.result.transferId,version:1},409);
+ const applied=JSON.parse(sql.prepare('SELECT data FROM caseload_transfers WHERE org_id=? AND id=?').get(org,t2.result.transferId).data);
+ check(()=>{assert.equal(applied.state,'applied');assert.deepEqual(applied.applied.moved,[ids[2]]);assert.deepEqual(applied.applied.skipped,[]);assert.equal(applied.applied.automatic,true);assert.equal(applied.version,2);});
  await post(s,{type:'caseloadCancel',transferId:t2.result.transferId,version:2,reason:'Too late to cancel synthetic'},409);
  const t3=await post(s,{...body({fromUserId:r.id,toUserId:q.id,personIds:[ids[2]],effectiveAt:new Date(Date.now()+86400000).toISOString()})});
  await post(s,{type:'caseloadCancel',transferId:t3.result.transferId,version:1,reason:'Synthetic change of plan'});
