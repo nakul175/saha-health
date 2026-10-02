@@ -991,3 +991,10 @@ These checks establish the tested synthetic release behaviour, not clinical or p
 - No independent human review took place before the merge. Seven code reviews by separate agents found 53 defects, eight of them high; all eight high findings were fixed, but those fixes were not reviewed again, and the medium and lower findings listed under slice 6ae remain open.
 - Each merge into `main` started the hosted staging workflow (`deploy-staging`); without the `CLOUDFLARE_API_TOKEN` repository secret every run skipped deployment, so nothing was deployed.
 - Formal acceptance is unchanged: counts stay at 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 criteria remain pending, and `main` is not accepted for production or real patient use.
+
+## Development slice 9c — demo freeze for the hosted site — 2 October 2026 IST
+
+- At the sponsor's request for a presenter-led demonstration to a government audience, `.github/workflows/deploy-staging.yml` now skips deployment on a merge into `main` while the repository variable `SAHA_DEPLOY_FREEZE` is `true`, with a notice in the run; a run started by hand (workflow_dispatch) still deploys, from the chosen branch or tag. The procedure is in `docs/current/HOSTED-STAGING.md`.
+- `tests/cloudflare-staging-contract.mjs` gains 4 checks on the workflow text (the variable is read; a push with the variable `true` stops before the credentials are treated as configured; workflow_dispatch remains): 25 checks passed (21 before). The workflow itself has not run with the variable set: no Cloudflare key is configured yet, so every run still deploys nothing.
+- No application code, route or command changed. Requirement counts unchanged at 14 implemented-local, 151 partial, 2 not-built and 9 unverified; all 176 formal acceptances remain pending.
+
