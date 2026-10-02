@@ -1,0 +1,177 @@
+id	class	reason
+BR-UX-01	EXTERNAL	Needs two independent real providers and programme destinations
+BR-UX-02	VALIDATION	Field usability and wrong-person acceptance testing only
+BR-UX-03	VALIDATION	Real-device recording, speech and workflow coverage testing
+BR-UX-04	VALIDATION	Representative usability evidence only
+BR-UX-05	VALIDATION	Reviewed localisation and accessibility acceptance
+BR-UX-06	EXTERNAL	Needs real destination for acceptance
+BR-UX-07	VALIDATION	Physical-device crash/call/eviction/network acceptance
+BR-UX-08	BUILD	On-demand audio guidance feature
+BR-UX-09	EXTERNAL	Partner-specific payload comprehension needs partners
+BR-ID-01	BUILD	Workforce import
+BR-ID-02	BUILD	Programme/facility/purpose/geography policy dimensions across channels
+BR-ID-03	VALIDATION	Verification of MFA, recovery and revocation
+BR-ID-04	BUILD	Timed Cron Trigger; locality transfer
+BR-ID-05	BUILD	Issuer-identifier search
+BR-ID-06	EXTERNAL	Approved local identity process and pilot
+BR-ID-07	BUILD	Household relationships and expiring proxy authority
+BR-ID-08	BUILD	Programme identity crosswalks and correction automation
+BR-ID-09	BUILD	Managed service identities with rotation, revocation, audit
+BR-ID-10	BUILD	Controlled emergency administration
+BR-DATA-01	EXTERNAL	Owner-approved programme fixtures and field validation
+BR-DATA-02	BUILD	Disputes blocking sending; coded FHIR provenance; sign-off withdrawal
+BR-DATA-03	VALIDATION	Representative speech corpus and correction-burden acceptance
+BR-DATA-04	EXTERNAL	Concept reuse/quality policies need clinical acceptance
+BR-DATA-05	BUILD	kPa and gestational-age units; programme answer range checks
+BR-DATA-06	BUILD	Recomputation, follow-up links, task reassignment and notification
+BR-DATA-07	BUILD	Partner-origin clinical conflict resolution workflow
+BR-DATA-08	BUILD	Object storage and server media retention lifecycle
+BR-DATA-09	BUILD	Mapping effective dates and impact-managed migration
+BR-DATA-10	BUILD	Unified purpose-specific authorisation across data flows
+BR-DATA-11	BUILD	Visit and contact imports; batch reversal; data-quality reports
+BR-DATA-12	BUILD	Cross-visit reuse; time and burden measurement
+BR-PROG-01	EXTERNAL	Governed manifests require approved clinical protocols
+BR-PROG-02	EXTERNAL	Approved maternal symptoms and escalation logic
+BR-PROG-03	BUILD	Non-suppressible clinical escalation mechanism
+BR-PROG-04	EXTERNAL	Approved measurement/adherence content and clinical evidence
+BR-PROG-05	BUILD	Household scheduling; cross-pack referral consolidation
+BR-PROG-06	BUILD	Enrolment request/rejection/acceptance lifecycle
+BR-PROG-07	BUILD	Answer migration, schedule recomputation, coordinated version changes
+BR-PROG-08	BUILD	Clinical sign-off workflow; automated schedules from installed rules
+BR-AG-01	EXTERNAL	Approved task catalogue and live-provider acceptance
+BR-AG-02	BUILD	Comprehensive sensitive-data minimisation
+BR-AG-03	EXTERNAL	Jurisdiction and professional verification need external input
+BR-AG-04	EXTERNAL	Live-provider corpus acceptance and independent review
+BR-AG-05	EXTERNAL	Clinical authority policy
+BR-AG-06	EXTERNAL	Needs real destinations and operational owners
+BR-AG-07	BUILD	Looping-provider stop; background timeout detection; delivered alerts
+BR-AG-08	BUILD	Routing beyond requester; comparison with confirmed records
+BR-AG-09	EXTERNAL	Verified clinical source content
+BR-AG-10	BUILD	Offline cached protocols
+BR-AG-11	BUILD	Definition approval workflow; owner measures; differencing protection
+BR-AG-12	BUILD	Complete prompt/routing change impact analysis
+BR-AI-01	EXTERNAL	Live provider onboarding and evidence ownership
+BR-AI-02	EXTERNAL	Verified intended use and clinical evidence
+BR-AI-03	EXTERNAL	Regulatory status and signed deployment authorisation
+BR-AI-04	BUILD	Automatic shadow runs; deployment-specific activation; delivered impact queues
+BR-AI-05	BUILD	Governed rejected-response quarantine; async/media contracts
+BR-AI-06	BUILD	Signal/media quality checks; per-field assessment
+BR-AI-07	EXTERNAL	Formal provider change review and live contract compatibility
+BR-AI-08	BUILD	Complete payload minimisation
+BR-AI-09	BUILD	End-to-end input-time semantics
+BR-AI-10	BUILD	Configurable drift thresholds; delivered alerting
+BR-AI-11	EXTERNAL	Provider-registered test endpoints and isolated environment
+BR-AI-12	BUILD	Provider/deployment budgets; pushed budget alerts; cost rates
+BR-CLIN-01	BUILD	Source document retrieval
+BR-CLIN-02	EXTERNAL	Clinically approved eligibility and red-flag logic
+BR-CLIN-03	EXTERNAL	Approved escalation pathways and response operations
+BR-CLIN-04	EXTERNAL	Verified professional authority and clinical scope policies
+BR-CLIN-05	EXTERNAL	Verified clinical authority and acceptance
+BR-CLIN-06	EXTERNAL	Clinical study plan and signed authorisation
+BR-CLIN-07	VALIDATION	Composition safety evaluations before enabling
+BR-CLIN-08	EXTERNAL	Real incident response operations and harm reporting
+BR-INT-01	EXTERNAL	Receiving-owner contracts and live acceptance
+BR-INT-02	BUILD	Void and aggregate report paths
+BR-INT-03	EXTERNAL	Actual partner acceptance and authorisation
+BR-INT-04	EXTERNAL	Real partner reconciliation contracts and evidence
+BR-INT-05	EXTERNAL	Two live systems required
+BR-INT-06	BUILD	Scheduled reconciliation; inbound clinical conflict queues
+BR-INT-07	BUILD	Schema change detection; preserved-queue migration
+BR-INT-08	BUILD	Batch/assisted workflows with reconciliation identifiers
+BR-INT-09	BUILD	Patient-level payload minimisation beyond allowlists
+BR-INT-10	EXTERNAL	Ecosystem implementation guides need owner selection and acceptance
+BR-INT-11	BUILD	Canonical condition, service request, medication, diagnostic resources
+BR-INT-12	BUILD	Element-level author/device and transformation lineage
+BR-INT-13	EXTERNAL	ABDM sandbox/production onboarding and real credentials
+BR-INT-14	BUILD	ABHA checksum validation
+BR-INT-15	EXTERNAL	Real consent-manager integration and callbacks
+BR-INT-16	EXTERNAL	Verified HFR/HPR attribution
+BR-INT-17	BUILD	HL7 validator integration
+BR-INT-18	BUILD	Additional record types
+BR-INT-19	BUILD	Merging accepted records into care
+BR-INT-20	EXTERNAL	Reference-partner profile needs a real partner
+BR-INT-21	BUILD	EHR amendments; version conflict resolution recording
+BR-INT-22	EXTERNAL	Legacy adapters selected and approved by buyer
+BR-INT-23	BUILD	Terminology impact reports
+BR-INT-24	EXTERNAL	Depends on partner onboarding evidence
+BR-OFF-01	BUILD	Wider offline task capture
+BR-OFF-02	VALIDATION	Device fault injection on supported devices
+BR-OFF-03	BUILD	Trusted device clock
+BR-OFF-04	BUILD	Background media upload
+BR-OFF-05	BUILD	Background sync
+BR-OFF-06	BUILD	Protocol/freshness revalidation for queued tasks and media
+BR-OFF-07	BUILD	Main-workspace shared-device protection
+BR-OFF-08	VALIDATION	Real-device 200-encounter and eviction acceptance
+BR-CARE-01	BUILD	Queue notification; safety-case reassignment
+BR-CARE-02	BUILD	Urgent alternatives; facility availability updates
+BR-CARE-03	EXTERNAL	Facility-verified external outcomes
+BR-CARE-04	BUILD	Automatic reassignment; on-call escalation; dependency application
+BR-CARE-05	BUILD	Automatic dependency derivation; dependencies in reminders/queues
+BR-CARE-06	EXTERNAL	Real notice workflow and approved channels
+BR-CARE-07	BUILD	Incoming opt-out handling
+BR-CARE-08	BUILD	Claim submission, reconciliation and signed/exported claims
+BR-REP-01	BUILD	Queue assignment; device sync failure reporting; item notification
+BR-REP-02	BUILD	Definition effective dates; point-in-time snapshots
+BR-REP-03	BUILD	Configurable lateness thresholds; reporting calendars
+BR-REP-04	BUILD	Differencing protection; export suppression; patient export purpose
+BR-REP-05	BUILD	Download expiry; submission lifecycle; scheduled reports; snapshots
+BR-REP-06	EXTERNAL	Approved gap/risk measures and real data validation
+BR-REP-07	VALIDATION	Burden measurement and pilot evaluation
+BR-OPS-01	BUILD	Validation before configuration changes take effect
+BR-OPS-02	BUILD	Per-deployment separation; environment outbound labels
+BR-OPS-03	BUILD	Unified configuration publication
+BR-OPS-04	BUILD	Scheduled evaluation; out-of-app alert delivery
+BR-OPS-05	BUILD	Task-linked support cases; time-limited support access
+BR-OPS-06	BUILD	Training-based activation enforcement
+BR-OPS-07	BUILD	Staged exports; queue disposition on termination
+BR-OPS-08	BUILD	Installable deployment pack
+BR-SEC-01	EXTERNAL	Approved processing inventory and legal basis
+BR-SEC-02	BUILD	Notice versions; expiry semantics
+BR-SEC-03	BUILD	Destination withdrawal notification; offline device copies
+BR-SEC-04	BUILD	Relationship/authority/expiry enforcement
+BR-SEC-05	VALIDATION	Independent encryption and key-management assessment
+BR-SEC-06	VALIDATION	Independent adversarial coverage
+BR-SEC-07	BUILD	Request-path identifiers; access-controlled diagnostics store
+BR-SEC-08	BUILD	Audit of further read paths; checkpoint signing; scheduled verification
+BR-SEC-09	BUILD	Tombstones; restore-safe disposal
+BR-SEC-10	BUILD	Copy-of-record package; grievance escalation; retention deletion
+BR-SEC-11	BUILD	Step-up authentication; material-read audit; team notification
+BR-SEC-12	BUILD	SBOM/vulnerability gates
+BR-SEC-13	BUILD	Breach impact discovery tooling
+BR-SEC-14	EXTERNAL	Legal data-location policy
+BR-RULE-01	BUILD	Missing/refused/uncertain semantics across downstream resources
+BR-RULE-02	EXTERNAL	Partner-specific identity requirements
+BR-RULE-03	VALIDATION	Independent evidence review
+BR-RULE-04	BUILD	EHR amendment/withdrawal path
+BR-RULE-05	EXTERNAL	Approved composition policy
+BR-RULE-06	EXTERNAL	Real gateway/provider revocation
+BR-RULE-07	BUILD	Experimental-result exclusion; environment segregation
+BR-RULE-08	VALIDATION	Independent adversarial acceptance
+NFR-01	BUILD	Synthetic probes and availability reporting
+NFR-02	VALIDATION	Reference device/network p95 measurements
+NFR-03	VALIDATION	Representative load evidence
+NFR-04	VALIDATION	Physical-device crash and power-loss tests
+NFR-05	EXTERNAL	Real partner sandboxes and partner reconciliation
+NFR-06	VALIDATION	Hosted RPO/RTO measurement
+NFR-07	BUILD	Reconciliation corpus for media/canonical resources
+NFR-08	VALIDATION	Independent security assessment
+NFR-09	VALIDATION	Measured production revocation timing
+NFR-10	BUILD	Emergency read path during audit outages; probe audit ordering
+NFR-11	EXTERNAL	Approved storage allowance
+NFR-12	VALIDATION	Reference network/device sync measurement
+NFR-13	BUILD	Add dialogs and Hindi screens to accessibility audit
+NFR-14	VALIDATION	Frontline user study
+NFR-15	VALIDATION	Qualified translation review and benchmark
+NFR-16	VALIDATION	Independently annotated corpus accuracy acceptance
+NFR-17	EXTERNAL	Approved clinical corpus and named reviewer sign-off
+NFR-18	BUILD	Scheduled trigger; out-of-app delivery; trace id propagation
+NFR-19	BUILD	Unified configuration publication/rollback
+NFR-20	EXTERNAL	Live adapter and external profile conformance
+NFR-21	BUILD	Monetary limits; billable event attribution
+NFR-22	BUILD	Units/provenance documentation for every JSON field
+NFR-23	VALIDATION	Hosted tabletop and technical acceptance
+NFR-24	BUILD	Partitioned architecture
+NFR-25	EXTERNAL	Pinned external schema/profile/terminology corpus
+NFR-26	BUILD	ABDM/EHR purpose-to-final-state audit traceability
+NFR-27	BUILD	Breaking upgrade tests for queued work and profiles
+NFR-28	VALIDATION	Reference-environment adapter latency measurement
