@@ -19,6 +19,10 @@ To undo a bad deploy, revert the change on `main`; the next run deploys the reve
 
 Every merge into `main` redeploys the site, so a merge on the day of a demonstration would change what is shown. Since 2 October 2026 (slice 9c) the repository variable `SAHA_DEPLOY_FREEZE` stops that: while it is `true`, a merge runs the workflow, which deploys nothing and says so in a notice. A run started by hand from the Actions tab (workflow_dispatch) still deploys, from the branch or tag chosen when it is started; tag the commit to show (for example `demo-2026-10-06`) and start the run from that tag. Set the variable back to `false`, or delete it, to resume deploying on merge. The variable is kept in the repository settings (Settings → Secrets and variables → Actions → Variables), not in Git.
 
+## Status
+
+Live since 2 October 2026 at `https://saha-staging.nakul17.workers.dev`. The first deploy (workflow run 36967401955, started by hand after the `CLOUDFLARE_API_TOKEN` secret was added) passed every step, and the address answered only "Sign-in required" before Access was configured. The same day Cloudflare Access was turned on for all traffic to the Worker (team domain `aged-pond-c865.cloudflareaccess.com`), with one reusable allow policy listing named email addresses, a one-time code sent by email and a 24-hour session. Who may sign in is kept in the Cloudflare policy, not in Git. `deploy/cloudflare-staging.json` records the account ID, team domain and audience tag (identifiers, not secrets).
+
 ## Fails closed until sign-in is set up
 
 `deploy/cloudflare-staging.json` holds the Access team domain and audience tag. Until both are filled in, the deployed Worker shows only "Sign-in required" and refuses every API call with 503 ("Sign-in is not configured for this deployment"). The deploy check accepts that state only while the two values are empty; once they are set it requires a Cloudflare Access redirect on both the page and the API.
