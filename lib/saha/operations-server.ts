@@ -43,4 +43,5 @@ export async function operationsRead(request:Request){
  return new Response(exported?exported.csv:JSON.stringify(support,null,2),{headers:{...(exported?{'X-Saha-Export-Id':exportId!,'X-Saha-Content-SHA256':exported.sha256}:{}),'Content-Type':format==='csv'?'text/csv; charset=utf-8':'application/json','Content-Disposition':`attachment; filename="saha-${format==='csv'?'report.csv':'support.json'}"`,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }
 // Slice 6s: the indicator differencing ledger (hashed filters and per-cell people counts) stays on the server.
-const withoutReleases=(ops:any)=>{const {indicatorReleases,...rest}=ops;return rest;};
+// Slice 7g: aggregate reports are read through /api/aggregate-reports (scoped to the viewer's teams).
+const withoutReleases=(ops:any)=>{const {indicatorReleases,aggregateReports,...rest}=ops;return rest;};
