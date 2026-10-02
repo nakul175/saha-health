@@ -152,6 +152,8 @@ const {packInstallationSmoke}=await import('./pack-installation-smoke.mjs');awai
 const {consentSmoke}=await import('./consent-smoke.mjs');await consentSmoke({get,post,check,accounts,org,sql});
 const {delegationSmoke}=await import('./delegation-smoke.mjs');await delegationSmoke({get,post,check,accounts,org,sql,base});
 const {workerActivitySmoke}=await import('./worker-activity-smoke.mjs');await workerActivitySmoke({get,post,check,accounts,org,base});
+// Slice 10c: synthetic worker incentive claims (schedule, claim, verification, approval into a digest chain, correction, CSV).
+const {incentiveClaimsSmoke}=await import('./incentive-claims-smoke.mjs');await incentiveClaimsSmoke({get,post,check,accounts,org,sql,base});
 const {correctionTasksSmoke}=await import('./correction-tasks-smoke.mjs');await correctionTasksSmoke({get,post,check,accounts,org,sql,base});
 const {referralRequestQueueSmoke}=await import('./referral-request-queue-smoke.mjs');await referralRequestQueueSmoke({get,post,check,accounts,org,sql,base});
 const {patientDirectorySmoke}=await import('./patient-directory-smoke.mjs');await patientDirectorySmoke({get,post,check,sql,base});

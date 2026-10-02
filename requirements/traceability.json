@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b",
+  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10c",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2848,8 +2848,8 @@
       "sourceTextLine": 494,
       "implementation": "partial",
       "target": "R15",
-      "current": "Visit-backed outreach completion and correction-aware evidence. Slice 4c: per-worker summary for supervisors separating performed, claimed, verified (evidence-matched) and submitted activity, with corrections traced to reviser and reason and no payment language or location.",
-      "remaining": "Claim submission, buyer reporting and claim reconciliation, supervisor or beneficiary verification, and stored, signed or exported claims.",
+      "current": "Visit-backed outreach completion and correction-aware evidence. Slice 4c: per-worker summary for supervisors separating performed, claimed, verified (evidence-matched) and submitted activity, with corrections traced to reviser and reason and no payment language or location. Slice 10c: worker incentive claims on an owner-set synthetic placeholder schedule (not a real rate): an ASHA prepares a claim from her own current confirmed visits and outreach completions, each line linked to its source record and never claimed twice; the team supervisor verifies or returns it with a reason; a different owner approves; an approved claim is immutable and stored with a digest chained to the previous claim, with corrections as new linked claims and a CSV export carrying the digests; no payment is made or implied.",
+      "remaining": "Real incentive rates and scheme rules, beneficiary or field verification, payment and reconciliation, buyer reporting, external anchoring or qualified signing of claims, and an archive policy for stored claims.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -2865,7 +2865,14 @@
         "lib/saha/worker-activity-server.ts",
         "tests/worker-activity-contract.mjs",
         "tests/worker-activity-smoke.mjs",
-        "docs/current/SLICE-4C-WORKER-ACTIVITY.md"
+        "docs/current/SLICE-4C-WORKER-ACTIVITY.md",
+        "lib/saha/incentives.ts",
+        "lib/saha/incentives-view.ts",
+        "lib/saha/incentives-server.ts",
+        "app/incentive-claims-panel.tsx",
+        "tests/incentive-claims-contract.mjs",
+        "tests/incentive-claims-smoke.mjs",
+        "docs/current/SLICE-10C-INCENTIVE-CLAIMS.md"
       ],
       "automatedAcceptanceClaim": false
     },

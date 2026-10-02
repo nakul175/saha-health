@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **49 HTTP method/route pairs** and **193 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **50 HTTP method/route pairs** and **199 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -26,6 +26,7 @@ Generated from source: **49 HTTP method/route pairs** and **193 command schema d
 | GET | `/api/household` | [app/api/household/route.ts](../../app/api/household/route.ts) |
 | GET | `/api/identity-cases` | [app/api/identity-cases/route.ts](../../app/api/identity-cases/route.ts) |
 | POST | `/api/import-rejections` | [app/api/import-rejections/route.ts](../../app/api/import-rejections/route.ts) |
+| GET | `/api/incentive-claims` | [app/api/incentive-claims/route.ts](../../app/api/incentive-claims/route.ts) |
 | GET | `/api/indicators` | [app/api/indicators/route.ts](../../app/api/indicators/route.ts) |
 | POST | `/api/indicators` | [app/api/indicators/route.ts](../../app/api/indicators/route.ts) |
 | GET | `/api/media/[id]` | [app/api/media/[id]/route.ts](../../app/api/media/[id]/route.ts) |

@@ -31,6 +31,8 @@ export const ACCESS_ACTIONS = {
   abhaLinkReview: 'ABHA link refused: the number is linked to this record. Recorded on the holding record only, for identity steward review.',
   // Slice 6aa: an import rejection report (row numbers and reasons only) is recorded the same way as an indicator export.
   importRejectionsExport: 'Import rejection report exported as CSV (row numbers and reasons only).',
+  // Slice 10c: an approved synthetic incentive claims export is recorded the same way (no patient name or identifier in the file).
+  incentiveExport: 'Synthetic incentive claims exported as CSV (no patient name or identifier).',
 } as const;
 export type AccessAction = keyof typeof ACCESS_ACTIONS;
 export const ACCESS_REFUSED = 'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.';
