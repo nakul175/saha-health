@@ -1,0 +1,47 @@
+{
+ "check": "slice-1f household transfer, automatic application and held transfer on the Care handover page",
+ "at": "2026-10-01T23:55:15.432Z",
+ "viewport": "1400x1700",
+ "results": [
+  {
+   "name": "setup: three ASHAs join, four people, a household of two",
+   "ok": true,
+   "value": "org_ab4d7e0311973cd24adf1366c1d4f1cc"
+  },
+  {
+   "name": "caseloads panel lists the sending ASHA",
+   "ok": true
+  },
+  {
+   "name": "open transfer dialog and choose the whole household",
+   "ok": true
+  },
+  {
+   "name": "household members selected and locked",
+   "ok": true,
+   "value": {
+    "checkboxes": 5,
+    "checked": 2,
+    "disabled": 4
+   }
+  },
+  {
+   "name": "transfer the household now",
+   "ok": true
+  },
+  {
+   "name": "schedule two transfers a few seconds ahead; suspend the second receiver",
+   "ok": true
+  },
+  {
+   "name": "after the effective time: one applied automatically, one held with its reason",
+   "ok": true,
+   "value": {
+    "apply": 1
+   }
+  }
+ ],
+ "consoleErrors": [],
+ "passed": 7,
+ "failed": 0
+}

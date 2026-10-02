@@ -111,6 +111,8 @@ const {partitionSmoke}=await import('./partition-smoke.mjs');await partitionSmok
 const {deltaSmoke}=await import('./delta-smoke.mjs');await deltaSmoke({get,post,check,accounts,org,base});
 const {householdSmoke}=await import('./household-smoke.mjs');await householdSmoke({get,post,check,accounts,org,sql,base});
 const {caseloadSmoke}=await import('./caseload-smoke.mjs');await caseloadSmoke({get,post,check,accounts,org,sql,base});
+// Slice 1f: scheduled caseload transfers applied at their effective time, and household transfer.
+const {caseloadScheduleSmoke}=await import('./caseload-schedule-smoke.mjs');await caseloadScheduleSmoke({get,post,check,accounts,org,sql,base});
 const {mergeSmoke}=await import('./merge-smoke.mjs');await mergeSmoke({get,post,check,accounts,org,sql,base});
 const {exceptionalSmoke}=await import('./exceptional-smoke.mjs');await exceptionalSmoke({get,post,check,accounts,org,sql,base});
 const {rightsSmoke}=await import('./rights-smoke.mjs');await rightsSmoke({get,post,check,accounts,org,sql,base});
