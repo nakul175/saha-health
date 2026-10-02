@@ -21,3 +21,7 @@
 - Account codes still come from each worker's own account; Saha does not create accounts or verify identity with the institution.
 - There is no scheduled or automatic feed from an HR or identity system, and no SCIM or single sign-on federation (BR-ID-10 remains mostly open).
 - Invitation codes still have to be delivered to each person outside Saha. Like single invitations, the apply result (including codes) is kept in the command receipt so an identical retry returns the same codes.
+
+## Later change — 2 October 2026 (slice 10d)
+
+Slice 10d lets owners import a roster from a CSV file (name, account code, role, team, status and an optional external staff id) with a dry run, a downloadable rejection report and an apply of exactly the previewed plan. Every row that passes its file checks is classified by this slice's `rosterDiff`, so the rules above apply unchanged; the import adds no "complete roster" suspension. See [SLICE-10D-WORKFORCE-IMPORT.md](SLICE-10D-WORKFORCE-IMPORT.md). The text above is kept as written.

@@ -1,0 +1,33 @@
+{
+ "axeEmpty": [],
+ "dry": "Import a workforce roster from a CSV file | Owners · dry run first | Upload the roster your institution keeps as a spreadsheet. The dry run lists the invitations that would be created, the memberships that would change, rows that are rejected and conflicts left for review; nothing is stored until you apply. Applying changes exactly the previewed plan and is refused if anything changed since. People missing from the file are never suspended; only a row marked left suspends someone, and never an owner or yourself. | Columns: name,account_code,role,team,status,external_staff_id (external_staff_id is optional). Role is asha, clinician, supervisor or admin; team is a team name, several separated by semicolons; status is active or left. Up to 100 rows and 16,000 bytes. Invitations are ordinary account-bound invitations that expire after 72 hours. | CSV file | Or paste the CSV | Run dry run | Download rejection report | 3 to apply · 1 invitations · 1 updates · 1 suspensions · 1 unchanged · 1 conflicts · 1 rejected · 6 rows · 1 staff ids to record | Plan 12f458fae93b533d… | Row\tPerson\tResult\tRole and teams\tDetails | 1\tBrowser New 1790949583885 | 7BFC0FB3\tInvite\tasha · Rampur care team\tNew asha invitation for Rampur care team. Records the external staff id. | 2\tBrowser Upd 1790949583885 | B58FE254\tUpdate\tclinician · Rampur care team\tRole asha → clinician; teams Rampur care team → Rampur care team. | 3\tBrowser Left 1790949583885 | E6AC6E71\tSuspend\t\tListed as left: membership will be suspended. Their caseload stays visible as a responsibility gap until transferred. | 4\tBrowser Owner 1790949583885 | 0335CFE8\tNo change\t\tYour own membership is not changed by roster sync. | 5\tBrowser Held 1790949583885 | F6807043\tConflict\t\tSuspended here but active in the roster. Reactivate by hand if the suspension no longer applies. | 6\tBrowser Nurse 1790949583885 | BBBBBBBB\tRejected\t\tRole must be one of asha, clinician, supervisor, admin. | Reason for this import | Apply exactly this plan",
+ "axeDry": [],
+ "report": {
+  "lines": 17,
+  "manifestMatches": true,
+  "noticeMatches": true,
+  "leaks": [],
+  "conflicts": 1,
+  "rejected": 1
+ },
+ "done": "; only a row marked left suspends someone, and never an owner or yourself. | Columns: name,account_code,role,team,status,external_staff_id (external_staff_id is optional). Role is asha, clinician, supervisor or admin; team is a team name, several separated by semicolons; status is active or left. Up to 100 rows and 16,000 bytes. Invitations are ordinary account-bound invitations that expire after 72 hours. | CSV file | Or paste the CSV | Run dry run | 1 invited · 1 updated · 1 suspended · 1 conflicts and 1 rejected rows not applied · batch 1c8343b7 | Rows 1, 2, 3 | Share each invitation code only with its account. Codes expire in 72 hours. Copy them now; this screen does not show them again.",
+ "axeDone": [],
+ "codes": 1,
+ "joinStatus": 200,
+ "newMember": {
+  "status": 200,
+  "role": "asha"
+ },
+ "effects": {
+  "upd": "clinician",
+  "left": "suspended",
+  "held": "suspended",
+  "ownerVersionUnchanged": true
+ },
+ "staffRecorded": true,
+ "leakedUrls": [],
+ "leakedResponses": 0,
+ "errors": [],
+ "completedAt": "2026-10-02T13:59:49.534Z",
+ "passed": true
+}

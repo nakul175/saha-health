@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 10d](SLICE-10D-WORKFORCE-IMPORT.md) | Workforce roster import from a CSV file for owners: dry run with plan hash, rejection report and apply of exactly the previewed plan (slice 1d rules reused; BR-ID-01 stays partial) |
 | [Development slice 9a](SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md) | Demonstration clinical package for synthetic organisations (two cited demonstration protocols, not clinically approved) |
 | [Development slice 9b](SLICE-9B-DEMONSTRATION-SCREENS.md) | Screens ready for a presenter-led demonstration: menu by role, visit first, member names, no build labels |
 | [Development slice 6ae](SLICE-6AE-HELD-TRANSFER-ATOMICITY.md) | Automatic caseload transfers applied all-or-nothing (tenth independent review) |

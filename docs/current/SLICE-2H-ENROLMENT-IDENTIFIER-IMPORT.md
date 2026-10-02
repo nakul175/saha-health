@@ -38,3 +38,7 @@ A visit is clinical content: measurements with their source and observation time
 ## Correction — 2 October 2026 (slice 6aa)
 
 A seventh independent review found that ABHA refusal was a three-name denylist (`abha_number`, `healthid` or `abhaid` with a 14-digit value were accepted) and that the rejection report's audit event moved the organisation revision. Slice 6aa makes issuers an allowlist (`rch`, `nikshay`), refuses ABHA-shaped values under any issuer, and records the rejection report as an access-audit event. See `SLICE-6AA-SEVENTH-REVIEW-FIXES.md`.
+
+## Later change — 2 October 2026 (slice 10d)
+
+Slice 10d adds kind `workforce` to `POST /api/import-rejections` for the workforce roster import (organisation owners only; rows are listed as Rejected or Conflict). See [SLICE-10D-WORKFORCE-IMPORT.md](SLICE-10D-WORKFORCE-IMPORT.md). The text above is kept as written.
