@@ -98,8 +98,12 @@ try {
     assert.equal(dif.differencingRisk([R({ team: 'T' }, { All: 19 })], R({ team: 'T', programme: 'P' }, { All: 16 }), 5, at), 3, 'nested inside another filter');
     assert.equal(dif.differencingRisk([R({}, { x: 12, y: 9 })], R({ village: 'A' }, { x: 12, y: 6 }), 5, at), 3, 'per grouped cell');
     assert.equal(dif.differencingRisk([R({}, { All: 19 })], R({ village: 'A', team: 'T' }, { All: 17 }), 5, at), null, 'two filters apart is not a one-filter child');
+    // Slice 6w: this assertion tested the defect itself (count eviction kept the newest LEDGER_LIMIT entries and
+    // dropped protecting entries inside the window). It is replaced: pruning is by time only, every one of the
+    // 500 in-window releases is kept, and a repeat of the same viewer, series and filters replaces its older release.
     const many = Array.from({ length: 600 }, (_, i) => R({ village: String(i) }, { All: 5 }, { at: i < 100 ? '2026-09-01T00:00:00.000Z' : at }));
-    assert.equal(dif.pruneLedger(many, at).length, dif.LEDGER_LIMIT);
+    assert.equal(dif.pruneLedger(many, at).length, 500);
+    assert.equal(dif.pruneLedger([...many, R({ village: '599' }, { All: 6 })], at).length, 500);
   });
   const result = { suite: 'indicator registry contract (slice 6s)', passed, completedAt: new Date().toISOString() };
   writeFileSync('tests/indicator-registry-contract-result.json', JSON.stringify(result, null, 2) + '\n');

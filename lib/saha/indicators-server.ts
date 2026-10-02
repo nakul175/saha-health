@@ -1,13 +1,16 @@
 import { identity, loadFor, json, db } from './server';
-import { AppError, digest, fail, uuid } from './core';
+import { digest, fail, uuid } from './core';
+import type { Member } from './types';
 import { boundedJsonBody } from './request-body';
-import { persist, scope } from './store';
+import { scope } from './store';
+import { recordAccess } from './access-audit';
 import { csvLines, defaultOperations } from './operations';
-import { sameCareScope } from './export-audit';
-import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, vocabulary, type Group } from './indicators';
-import { differencingRisk, pruneLedger, type Release } from './indicator-differencing';
+import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, vocabulary, type Group, type Series } from './indicators';
+import { ledgerFull, pruneLedger, screenReleases, type Release } from './indicator-differencing';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
-export async function indicatorsRead(request:Request){return indicatorsFor(request,new URL(request.url).searchParams);}
+// Slice 6w (fifth review, finding 4): GET reads the catalogue and interprets questions only. Running a query
+// records a release in the differencing ledger, so it is POST only (a cross-site GET cannot trigger it).
+export async function indicatorsRead(request:Request){const p=new URL(request.url).searchParams;if(p.get('ids'))fail(405,'Run indicator queries with POST from the workspace.');return indicatorsFor(request,p);}
 // Slice 6l: the workspace posts questions and filters in a JSON body, so free text and village
 // names stay out of request URLs (and so out of platform request logs). GET remains for compatibility.
 export async function indicatorsPost(request:Request){
@@ -32,36 +35,54 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  const {result,series}=indicatorRun(s,m,q);
  // Results whose series would allow differencing are withheld whole; nothing of them is returned.
  const shape=(released:Set<string>)=>({...result,results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.'}});
- const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null);
+ const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null,s);
  if(file)return new Response(file.csv,{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="saha-indicators.csv"','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Saha-Export-Id':file.exportId,'X-Saha-Content-SHA256':file.sha256}});
  return json(shape(released));
 }
-// Slice 6s: record what this viewer was given (hashed filters and per-cell people counts only) and refuse
-// anything that, nested with the viewer's recent releases, would reveal a remainder of 1 to 4 people.
-// The release is committed through persist on a fresh full read, with the viewer's authority and care
-// scope checked again on that read; a concurrent commit is retried on a new read, as exports are (slice 6p).
-// Slice 6s-2: a CSV request builds its file from the withheld-and-suppressed result inside the same commit,
-// and records an indicatorExport audit event naming the export identifier, definitions, row count and SHA-256.
+// Slice 6s: record what this viewer was given (hashed filters and per-cell counts only) and refuse
+// anything that, nested with the viewer's recent releases, would reveal a remainder of 1 to 4.
+// Slice 6s-2: a CSV request builds its file from the withheld-and-suppressed result and records an
+// indicatorExport audit event naming the export identifier, definitions, row count and SHA-256.
+// Slice 6w (fifth review, finding 4): a view is not a command. The ledger is written by its own
+// compare-and-swap statement on the ledger value in the operations row: it moves neither organisation
+// nor patient revision, writes no command receipt, and a concurrent release is retried on a fresh
+// ledger read. Commands that write the operations row keep the stored ledger (`store.guarded`). A CSV
+// export's audit event is an access-audit commit (slice 6t pattern), written before the file is returned.
 type Shaped={computedAt:string;results:any[]};
-async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,first:{teamIds:string[]},q:{team:string|null;village:string|null;programme:string|null},series:{key:string;cells:Record<string,number>;ids:string[]}[],at:string,csvOf:((released:Set<string>)=>Shaped)|null):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{
+export const LEDGER_FULL_MESSAGE='You have run many different indicator queries in the last seven days. To keep small groups protected, Saha cannot record more until older queries leave the seven-day window. Repeat an earlier query or try again later.';
+async function readLedger(orgId:string):Promise<{ledger:Release[];text:string|null}>{
+ const r=await db().prepare("SELECT json(json_extract(data,'$.indicatorReleases')) AS l, 1 AS present FROM operations WHERE org_id=?").bind(orgId).first<{l:string|null;present:number}>();
+ if(!r)return {ledger:[],text:null};
+ return {ledger:r.l?JSON.parse(r.l) as Release[]:[],text:r.l??''};
+}
+async function writeLedger(orgId:string,previous:string|null,next:Release[]){
+ const value=JSON.stringify(next);
+ if(previous===null){const r=await db().prepare('INSERT INTO operations (org_id,data) VALUES (?,?) ON CONFLICT(org_id) DO NOTHING').bind(orgId,JSON.stringify({...defaultOperations(),indicatorReleases:next})).run();return r.meta.changes===1;}
+ const r=await db().prepare("UPDATE operations SET data=json_set(data,'$.indicatorReleases',json(?)) WHERE org_id=? AND COALESCE(json(json_extract(data,'$.indicatorReleases')),'')=?").bind(value,orgId,previous).run();
+ return r.meta.changes===1;
+}
+async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,m:Member,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string,csvOf:((released:Set<string>)=>Shaped)|null,state:Parameters<typeof recordAccess>[1]):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{
  const h=async(x:string)=>(await digest(`saha-indicator-release:${orgId}:${x}`)).slice(0,20);
  const f:Record<string,string>={};for(const k of ['team','village','programme'] as const)if(q[k])f[k]=await h(`${k}:${q[k]}`);
  const viewer=await h(`viewer:${u.userId}`);
- const cands=await Promise.all(series.map(async sr=>({ids:sr.ids,isCohort:sr.key==='cohort',release:{v:viewer,at,k:await h(`series:${sr.key}`),f,c:Object.fromEntries(await Promise.all(Object.entries(sr.cells).map(async([g,n])=>[await h(`group:${g}`),n] as const)))} as Release})));
+ const cands=await Promise.all(series.map(async sr=>{const df:Record<string,string>={...f};for(const [k,v] of Object.entries(sr.f))df[k]=await h(`${k}:${v}`);
+  const hashCells=async<T,>(x:Record<string,T>)=>Object.fromEntries(await Promise.all(Object.entries(x).map(async([g,n])=>[await h(`group:${g}`),n] as const)));
+  return {ids:sr.ids,isCohort:sr.key==='cohort',release:{v:viewer,at,k:await h(`series:${sr.key}`),f:df,c:await hashCells(sr.cells),...(sr.m?{m:await hashCells(sr.m)}:{})} as Release};}));
+ let released=new Set<string>();
  for(let attempt=1;;attempt++){
-  const full=await loadFor(u,orgId),m=scope(full,u.userId);manager(m);sameCareScope(first,m);
-  const ledger=((full.operations as any)?.indicatorReleases??[]) as Release[];
-  const cohort=cands.find(c=>c.isCohort)!;
-  if(differencingRisk(ledger,cohort.release,MIN_CELL,at)!==null)fail(422,DIFFERENCING_MESSAGE);
-  const ok=cands.filter(c=>c.isCohort||differencingRisk(ledger,c.release,MIN_CELL,at)===null);
-  const before=structuredClone(full),ops=full.operations??=defaultOperations(),released=new Set(ok.flatMap(c=>c.ids));
-  (ops as any).indicatorReleases=pruneLedger([...ledger,...ok.map(c=>c.release)],at);
-  let file:{csv:string;sha256:string;rows:number;exportId:string}|null=null;
-  if(csvOf){const shaped=csvOf(released),exportId=uuid();file={...await indicatorCsv(shaped,{exportId,by:u.displayName,role:m.role}),exportId};
-   full.workspace.audit.push({id:uuid(),at,actor:u.displayName,actorId:u.userId,role:m.role,action:'indicatorExport',subject:exportId,detail:`Indicator CSV ${exportId}: ${shaped.results.map((r:any)=>`${r.id} v${r.version}${r.refused?' withheld':''}`).join(', ')}; ${file.rows} data rows; SHA-256 ${file.sha256}. Draft export with small cells suppressed.`});}
-  try{await persist(db(),before,full,u,{type:csvOf?'indicatorExport':'indicatorRelease'},`indicator-release-${uuid()}`,await digest({at,viewer}),{ok:true});return {released,file};}
-  catch(e){if(!(e instanceof AppError)||e.status!==409||attempt>=RELEASE_ATTEMPTS)throw e;}
+  const {ledger,text}=await readLedger(orgId);
+  // The cohort is checked first; if it alone would reveal a small group, nothing is returned.
+  const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at);
+  if(refused.some(c=>c.isCohort))fail(422,DIFFERENCING_MESSAGE);
+  const withheld=new Set(refused.flatMap(c=>c.ids));released=new Set(accepted.flatMap(c=>c.ids).filter(id=>!withheld.has(id)));
+  if(ledgerFull(ledger,accepted.map(c=>c.release),at))fail(429,LEDGER_FULL_MESSAGE);
+  if(await writeLedger(orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at)))break;
+  if(attempt>=RELEASE_ATTEMPTS)fail(409,'Many indicator queries are being recorded in this organisation at once. Nothing was shown. Please try again.');
  }
+ if(!csvOf)return {released,file:null};
+ const shaped=csvOf(released),exportId=uuid(),file={...await indicatorCsv(shaped,{exportId,by:u.displayName,role:m.role}),exportId};
+ await recordAccess(db(),state,u,m,{action:'indicatorExport',subject:exportId,detail:`Indicator CSV ${exportId}: ${shaped.results.map((r:any)=>`${r.id} v${r.version}${r.refused?' withheld':''}`).join(', ')}; ${file.rows} data rows; SHA-256 ${file.sha256}. Draft export with small cells suppressed.`},at);
+ return {released,file};
 }
 // Slice 6s: indicator results as CSV, written from the suppressed result only. Suppressed and withheld
 // cells are written as such; each block names the definition and version it used.

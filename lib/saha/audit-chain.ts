@@ -84,11 +84,20 @@ export async function chainMoved(db: D1Database, orgId: string, base: Head) {
 }
 
 // Walks the chain in sequence order and reports the first break. Content is never returned.
-export async function verifyChain(db: D1Database, orgId: string, limit = VERIFY_LIMIT, checkedAt = new Date().toISOString()): Promise<Verification> {
+// Slice 6w (fifth review, finding 8): verification can start from an anchor (a checkpoint the owner kept, or the
+// last checkpoint issued and recorded in the chain): the event at the anchor must still hold the anchor's hash,
+// and every later event must link from it. Events before the anchor are not re-read (`fromAnchor` says so).
+export async function verifyChain(db: D1Database, orgId: string, limit = VERIFY_LIMIT, checkedAt = new Date().toISOString(), anchor: { seq: number; hash: string } | null = null): Promise<Verification & { fromAnchor?: { seq: number; hash: string } }> {
   const priorEvents = Number((await db.prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=? AND seq IS NULL').bind(orgId).first<{ n: number }>())?.n ?? 0);
-  const out: Verification = { chainVersion: CHAIN_VERSION, status: 'intact', events: 0, priorEvents, head: null, genesisAt: null, firstBreak: null, clockRegressions: { count: 0, largestMs: 0, firstSeq: null }, checkedAt };
+  const out: Verification & { fromAnchor?: { seq: number; hash: string } } = { chainVersion: CHAIN_VERSION, status: 'intact', events: 0, priorEvents, head: null, genesisAt: null, firstBreak: null, clockRegressions: { count: 0, largestMs: 0, firstSeq: null }, checkedAt };
   let expected = 0, prev = GENESIS_PREV, lastAt: string | null = null;
   const broken = (seq: number, id: string | null, reason: string) => { out.status = 'broken'; out.firstBreak = { seq, id, reason }; return out; };
+  if (anchor) {
+    const a = await db.prepare('SELECT id,hash,at FROM audit_events WHERE org_id=? AND seq=?').bind(orgId, anchor.seq).first<{ id: string; hash: string; at: string }>();
+    if (!a) return broken(anchor.seq, null, `The anchor event ${anchor.seq} is missing from the chain.`);
+    if (a.hash !== anchor.hash) return broken(anchor.seq, a.id, 'The event at the anchor no longer holds the anchor hash.');
+    out.fromAnchor = { seq: anchor.seq, hash: anchor.hash }; expected = anchor.seq + 1; prev = anchor.hash; lastAt = a.at; out.head = { seq: anchor.seq, hash: a.hash, at: a.at };
+  }
   for (;;) {
     const page = (await db.prepare(`SELECT org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at,seq,prev_hash,hash FROM audit_events WHERE org_id=? AND seq IS NOT NULL AND seq>=? ORDER BY seq LIMIT ${VERIFY_PAGE}`).bind(orgId, expected).all<EventRow>()).results;
     if (!page.length) break;
@@ -112,8 +121,14 @@ export async function verifyChain(db: D1Database, orgId: string, limit = VERIFY_
     }
     if (page.length < VERIFY_PAGE) break;
   }
-  if (!out.events) out.status = 'not-started';
+  if (!out.events && !anchor) out.status = 'not-started';
   return out;
+}
+// The most recent checkpoint issued and recorded in the chain (its detail names the event and hash).
+export async function lastRecordedCheckpoint(db: D1Database, orgId: string): Promise<{ seq: number; hash: string } | null> {
+  const r = await db.prepare("SELECT detail FROM audit_events WHERE org_id=? AND action='auditChainCheckpoint' AND seq IS NOT NULL ORDER BY seq DESC LIMIT 1").bind(orgId).first<{ detail: string }>();
+  const m = r ? /event (\d+), hash ([0-9a-f]{64})/.exec(r.detail) : null;
+  return m ? { seq: Number(m[1]), hash: m[2] } : null;
 }
 
 export const EXPORT_LIMIT = 5000;

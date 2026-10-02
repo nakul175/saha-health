@@ -24,7 +24,8 @@ export function useWorklist<R>(organisationId: string | null, view: WorklistView
       const r = await fetch(`/api/worklists?view=${view}${tab === 'attention' ? '&tab=attention' : ''}${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`, { cache: 'no-store', headers: { 'x-saha-organisation': organisationId } });
       const j: WorklistPage & { error?: string } = await r.json();
       if (!r.ok) throw Error(j.error ?? 'Could not load this list.');
-      setRows(prev => cursor ? [...prev, ...(j.rows as R[])] : j.rows as R[]); setPage(j); setError('');
+      // Slice 6w: a restarted page (the list changed between pages) replaces the rows instead of appending.
+      setRows(prev => cursor && !j.restarted ? [...prev, ...(j.rows as R[])] : j.rows as R[]); setPage(j); setError(j.restarted ? 'This list changed while you were reading it, so it was loaded again from the top.' : '');
     } catch (e) { setError(e instanceof Error ? e.message : 'Could not load this list.'); } finally { setLoading(false); }
   }, [organisationId, view, tab]);
   useEffect(() => { if (organisationId) void load(null); else { setRows([]); setPage(null); } }, [organisationId, load, refresh]);

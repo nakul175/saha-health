@@ -37,3 +37,7 @@
 - Fail-closed reads trade availability for completeness. There is no emergency override for reads during an audit-store outage.
 - The checkpoint is not signed and Saha does not publish it anywhere: anchoring depends on the owner keeping the file outside Saha. A checkpoint detects changes up to its own position, not later ones. Verification and checkpoints are on demand, not scheduled.
 - BR-SEC-08 and NFR-10 stay partial.
+
+## Correction — 1 October 2026 (slice 6w)
+
+The paged workspace window (slice 0b-3) returned full records for client-named ids without the `viewPatientRecord` event the detail route writes, and a checkpoint could not be issued once the chain passed the 100,000-event verification limit. Slice 6w records window records not opened in the last 12 hours before returning them (leaving them out if the event cannot be written) and verifies a checkpoint from an anchor when a full verification is incomplete. Found by a fifth independent review (an agent that did not write the code) of round-1 slices 0b-4, 4e, 6s and 6t; the original text above is kept. See [slice 6w](SLICE-6W-FIFTH-REVIEW-FIXES.md).

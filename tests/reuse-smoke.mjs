@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 // Slice 2a: reuse metering on a real two-pack visit through the built Worker and local D1.
 export async function reuseSmoke({get,post,check,accounts,org,base}){
  const {owner:o,supervisor:s}=accounts;
- const read=async q=>{const r=await fetch(`${base}/api/indicators?${new URLSearchParams(q)}`,{headers:{...s.headers,'x-saha-organisation':org}});const j=await r.json();check(()=>assert.equal(r.status,200,JSON.stringify(j).slice(0,300)));return j;};
+ // Slice 6w: indicator queries are POST only (a query records a differencing release).
+ const read=async q=>{const r=await fetch(`${base}/api/indicators`,{method:'POST',headers:{...s.headers,'Content-Type':'application/json','x-saha-organisation':org},body:JSON.stringify(q)});const j=await r.json();check(()=>assert.equal(r.status,200,JSON.stringify(j).slice(0,300)));return j;};
  const ids='reuse-shared-answers,reuse-blocked,repeat-entry,corrections';
  const before=await read({ids,days:'30',group:'none'});
  const person=id=>o.state.people.find(p=>p.id===id);

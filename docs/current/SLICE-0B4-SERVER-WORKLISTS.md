@@ -37,3 +37,7 @@
 - Other browser-built views in a paged workspace (AI tools lists and activity counts by patient) still cover only opened records. Server-computed queues (action plan, exception queue, referral escalations, alerts, worker activity, indicators) were already whole-scope.
 - Local probe only: hosted D1 latency, Worker CPU and memory limits, concurrent sessions and reference devices were not tested. NFR-24 stays unverified; BR-CARE-04 stays partial.
 - Not independently reviewed.
+
+## Correction — 1 October 2026 (slice 6w)
+
+The offset cursor did not notice a list that changed between pages, and the panel appended pages without checking, so rows could be skipped or repeated. Slice 6w carries the view's total in the cursor (`n:<offset>:<total>`); a changed total restarts at the first page and the panel replaces its rows. A list that re-sorts with the same total is not detected. Found by a fifth independent review (an agent that did not write the code) of round-1 slices 0b-4, 4e, 6s and 6t; the original text above is kept. See [slice 6w](SLICE-6W-FIFTH-REVIEW-FIXES.md).

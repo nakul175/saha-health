@@ -1,0 +1,65 @@
+{
+  "slice": "6w",
+  "recordedAt": "2026-10-01",
+  "base": "d00e438 (int6-2g-note-answer-signoff), exported with git archive",
+  "contractOnBase": {
+    "command": "REPORT_ALL=1 node tests/fifth-review-fixes-contract.mjs (from the base export, with this slice's test file copied in)",
+    "passed": 6,
+    "failed": 27,
+    "failedChecks": [
+      "1 the child whose numerator differs by 1 is withheld: Expected values to be strictly equal:",
+      "1 a numerator remainder of 1 is a risk on its own: Expected values to be strictly equal:",
+      "1 denominator minus numerator is compared too: Expected values to be strictly equal:",
+      "2 the protecting parent is still in the ledger after 250 queries: The expression evaluated to a falsy value:",
+      "2 the child is still refused: Expected values to be strictly equal:",
+      "2 nothing inside the window is dropped for space: Expected values to be strictly equal:",
+      "2 a viewer at the bound is refused new releases: Expected values to be strictly equal:",
+      "3 one of the complementary definitions is withheld in a single query: Expected values to be strictly deep-equal:",
+      "3 and across queries: Expected values to be strictly equal:",
+      "3 definition filters travel as dimensions, not in the series key: Expected values to be strictly deep-equal:",
+      "4 the view moves no revision and writes no command receipt: Expected values to be strictly deep-equal:",
+      "4 the CSV export is an access-audit event, still without a revision change or receipt: Expected values to be strictly deep-equal:",
+      "4 GET does not run a query: Expected values to be strictly equal:",
+      "4 a command that saves the operations row keeps the stored ledger: Expected values to be strictly deep-equal:",
+      "5 a clinician sees no out-of-scope count: Expected values to be strictly equal:",
+      "5 a clinician sees only batches they applied: Expected values to be strictly deep-equal:",
+      "6 the operations row is exported without the ledger: The expression evaluated to a falsy value:",
+      "6 the verifier names the protection-state check: The expression evaluated to a falsy value:",
+      "6 an archive carrying the ledger fails the verifier: The expression evaluated to a falsy value:",
+      "7 a window id not opened before is recorded as a record view: Expected values to be strictly equal:",
+      "7 a window id opened in the period is not recorded again: access.auditWindow is not a function",
+      "7 if the event cannot be written, the unrecorded id is left out of the window: access.auditWindow is not a function",
+      "8 verification from an anchor reaches the head: Expected values to be strictly deep-equal:",
+      "8 a wrong anchor hash is a break: Expected values to be strictly equal:",
+      "8 no recorded checkpoint gives no anchor: Expected values to be strictly equal:",
+      "9 the cursor carries the total: Expected values to be strictly equal:",
+      "9 a changed list restarts at the first page: Expected values to be strictly equal:"
+    ],
+    "controlsPassingOnBase": [
+      "1 the parent count is released",
+      "4 the query is answered",
+      "4 the ledger is recorded in the operations row",
+      "5 the owner sees the out-of-scope count",
+      "8 a limited verification is incomplete",
+      "9 an unchanged list continues"
+    ]
+  },
+  "reviewerScriptsOnBase": {
+    "scripts": [
+      "/tmp/claude-0/review5/s6-diff.mjs",
+      "/tmp/claude-0/review5/s6-defs.mjs"
+    ],
+    "note": "load.mjs pointed at the base export's lib/saha. The scripts replicate the pre-fix release construction (people counts only, definition filters in the series key), so they are reproduction evidence only; the contract is the after-fix evidence.",
+    "output": [
+      "== s6-diff on base d00e438",
+      "(a) parent rows [{\"group\":\"All\",\"value\":6,\"numerator\":6,\"denominator\":null,\"suppressed\":false}] | child(V) rows [{\"group\":\"All\",\"value\":5,\"numerator\":5,\"denominator\":null,\"suppressed\":false}] refused: no",
+      "    => provisional identities outside V = 1",
+      "(b) child before flush: cohort",
+      "    ledger size 500 parent still in ledger: false | child after 250 filler queries: released cohort people revealed by difference = 3",
+      "== s6-defs on base d00e438",
+      "series risks (null = released): [[\"cohort\",null],[\"none|{}|\",null],[\"none|{\\\"sex\\\":\\\"Female\\\"}|\",null],[\"none|{\\\"sex\\\":\\\"Male\\\"}|\",null]]",
+      "values all/F/M: [ 22, 10, 10 ] => sex Other = 2"
+    ]
+  },
+  "otherFindings": "Findings 4-9 (indicator view commits, migration dry-run scope, data-exit ledger, paged window audit, checkpoint limit, work-list cursor) are reproduced by the failing contract checks listed above; the reviewer's s6-conflict.mjs, s4e.mjs and s6-exit.mjs were not rerun."
+}
