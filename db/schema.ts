@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import { sqliteTable, text, integer, primaryKey, index, uniqueIndex } from 'drizzle-orm/sqlite-core';
 // Release 0.1 source is retained unchanged as a migration and rollback reference.
 export const workspaces = sqliteTable('workspaces', {
@@ -79,6 +80,16 @@ export const requestMetrics = sqliteTable('request_metrics', {
  orgId:text('org_id').notNull().references(()=>organisations.id), bucket:text('bucket').notNull(), route:text('route').notNull(), status:integer('status').notNull(),
  count:integer('count').notNull(), totalMs:integer('total_ms').notNull(), maxMs:integer('max_ms').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.bucket,t.route,t.status]})]);
+// Slice 6v: in-app alert delivery. Occurrences and notifications carry alert ids, titles, counts and member ids only,
+// never patient names or clinical content. They sit outside the organisation record so a delivery never moves its revision.
+export const alertOccurrences = sqliteTable('alert_occurrences', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), alertId:text('alert_id').notNull(), scopeKey:text('scope_key').notNull(), ownerRole:text('owner_role').notNull(), severity:text('severity').notNull(), title:text('title').notNull(),
+ openedAt:text('opened_at').notNull(), closedAt:text('closed_at'), escalatedAt:text('escalated_at'), escalatedTo:text('escalated_to'), escalationReason:text('escalation_reason'), escalationRecipients:integer('escalation_recipients'),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('alert_occurrence_open').on(t.orgId,t.alertId,t.scopeKey).where(sql`closed_at IS NULL`)]);
+export const alertNotifications = sqliteTable('alert_notifications', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), occurrenceId:text('occurrence_id').notNull(), userId:text('user_id').notNull(), level:integer('level').notNull(), alertId:text('alert_id').notNull(), scopeKey:text('scope_key').notNull(), ownerRole:text('owner_role').notNull(), severity:text('severity').notNull(), title:text('title').notNull(),
+ count:integer('count'), detail:text('detail'), deliveredAt:text('delivered_at').notNull(), readAt:text('read_at'), clearedAt:text('cleared_at'), clearedReason:text('cleared_reason'),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('alert_notification_once').on(t.orgId,t.occurrenceId,t.userId,t.level),index('alert_notification_inbox').on(t.orgId,t.userId,t.clearedAt,t.deliveredAt)]);
 
 // Bounded rehearsal configuration and evidence. No clinical records or credentials.
 export const pilot = sqliteTable('pilot', {
