@@ -79,6 +79,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 0b-3](SLICE-0B3-PAGED-PATIENTS.md) | Paged patient lists, on-demand patient detail and supervisor read measurements |
 | [Development slice 0b-4](SLICE-0B4-SERVER-WORKLISTS.md) | Server-side work lists (My work, follow-ups, referrals, Submissions) for paged workspaces |
 | [Development slice 3i](SLICE-3I-REFERRAL-REQUEST-QUEUE.md) | Open field referral request queue and long-wait exceptions |
+| [Development slice 3k](SLICE-3K-NOTEBOOK-MEDIA-CAPACITY.md) | Field notebook at 200 visit drafts plus 100 photos and voice notes: media budget, exhaustion, restart mid-sync, throttled timing |
 | [Development slice 3j](SLICE-3J-NOTEBOOK-CAPACITY.md) | Field notebook capacity of 200 visit drafts |
 | [Development slice 6b](SLICE-6B-RIGHTS.md) | Rights and grievance requests, destination notification and processing restriction |
 | [Development slice 6a](SLICE-6A-EXCEPTIONAL-ACCESS.md) | Time-limited emergency access with restricted actions and independent review |
