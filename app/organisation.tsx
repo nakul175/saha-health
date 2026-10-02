@@ -18,6 +18,7 @@ import { ProgrammeMigrationPanel } from './programme-migration-panel';
 import { PackInstallationPanel } from './pack-installation-panel';
 import { PatientImportPanel } from './patient-import-panel';
 import { RecordImportPanel } from './record-import-panel';
+import { WorkforceImportPanel } from './workforce-import-panel';
 import { DelegationPanel } from './delegation-panel';
 export type RunCommand=(body:any,success?:string)=>Promise<any>;
 function Field({label,children}:{label:string;children:React.ReactNode}){return <label className="field"><span>{label}</span>{children}</label>}
@@ -47,6 +48,7 @@ export function OrganisationPanel({data,busy,command}:{data:Snapshot;busy:boolea
  <div className="org-bottom"><section className="panel teams-panel"><div className="section-heading"><h2>Care teams</h2>{data.canManage&&<Button variant="outline" onClick={()=>setModal('team')}><Plus size={16}/>New team</Button>}</div>{data.teams.map(t=><div className="team-list-row" key={t.id}><div><strong>{t.name}</strong><p>{data.members.filter(m=>m.status==='active'&&m.teamIds.includes(t.id)).length} visible active members</p></div><span className="tag">{data.people.filter(p=>p.teamId===t.id).length} patients in your scope</span></div>)}</section><section className="panel access-explainer"><ShieldCheck size={24}/><h3>Your current access</h3><p>{roleHelp[data.role]}</p>{data.membership.isOwner&&<p>As an owner you also manage membership, teams and connections. Patient access still follows your clinical role and teams.</p>}<p>To collaborate here, each teammate also needs permission to open this Site. An organisation invitation does not change the Site’s sharing settings.</p><Button variant="outline" onClick={()=>setModal('create')}><Building2 size={16}/>Create another organisation</Button></section></div>
  {data.canManage&&<section className="panel invitation-panel"><div className="section-heading"><h2>Invitations</h2><span className="muted text-sm">Single use · expires after 72 hours</span></div>{data.invitations.length?<Table><TableHeader><TableRow><TableHead>Teammate</TableHead><TableHead>Role</TableHead><TableHead>Status</TableHead><TableHead>Action</TableHead></TableRow></TableHeader><TableBody>{data.invitations.slice().reverse().map(i=><TableRow key={i.id}><TableCell>{i.label}<small className="audit-actor">{i.accountCode}</small></TableCell><TableCell>{ROLE_LABEL[i.role]}</TableCell><TableCell><span className="tag">{i.status==='pending'&&i.expiresAt<new Date().toISOString()?'expired':i.status}</span></TableCell><TableCell>{i.status==='pending'&&<Button size="sm" variant="outline" disabled={busy} onClick={()=>command({type:'revokeInvite',inviteId:i.id},'Invitation revoked')}>Revoke</Button>}</TableCell></TableRow>)}</TableBody></Table>:<div className="section-empty">No invitations yet. Ask a teammate for their account code to get started.</div>}</section>}
  <RosterPanel data={data} busy={busy} command={command}/>
+ <WorkforceImportPanel data={data} busy={busy} command={command}/>
  <DelegationPanel data={data} busy={busy} command={command}/>
  <RetentionPanel data={data} busy={busy} command={command}/>
  <DataExitPanel data={data}/>

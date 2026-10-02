@@ -1,16 +1,17 @@
 import { csvLines } from './operations';
-// Slice 2h: a downloadable rejection report for an import dry run (people, enrolments or identifiers). It lists row
+// Slice 2h: a downloadable rejection report for an import dry run (people, enrolments or identifiers; slice 10d adds
+// workforce rosters, where a row held back by a conflict is listed as a Conflict). It lists row
 // numbers, results and reasons only, never names, localities, labels or identifier values; cells are formula-escaped by
 // the shared CSV writer; and, like the slice 6k operational export, it names its definition, export identifier and
 // status, carries a control total and ends with a manifest of the row count and SHA-256 of every line above it, so
 // `verifyExportCsv` (report-export.ts) and `head -n -2 file.csv | sha256sum` check it.
 export const REJECTIONS_DEFINITION={id:'saha-import-rejections',version:'1.0.0'} as const;
 export const REJECTIONS_STATUS='Dry-run rejection report; nothing was imported by this download';
-export const REJECTION_KINDS=['people','enrolments','identifiers'] as const;
+export const REJECTION_KINDS=['people','enrolments','identifiers','workforce'] as const;
 type PlanRow={row:number;status:string;reasons:string[]};
 type Plan={import:string;planHash:string;counts:{rows:number;accepted:number};rows:PlanRow[]};
 async function sha256(text:string){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(b=>b.toString(16).padStart(2,'0')).join('');}
-const result=(status:string)=>status==='duplicate'?'Possible duplicate':'Rejected';
+const result=(status:string)=>status==='duplicate'?'Possible duplicate':status==='conflict'?'Conflict':'Rejected';
 export async function rejectionReport(plan:Plan,meta:{exportId:string;kind:string;role:string;generatedAt:string}){
  const listed=plan.rows.filter(r=>r.status!=='accepted'),notAccepted=plan.counts.rows-plan.counts.accepted,distinct=new Set(listed.map(r=>r.row)).size;
  const rows:unknown[][]=[['Saha import rejection report'],['Report definition',REJECTIONS_DEFINITION.id,REJECTIONS_DEFINITION.version],['Export identifier',meta.exportId],['Status',REJECTIONS_STATUS],

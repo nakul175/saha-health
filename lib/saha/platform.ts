@@ -19,6 +19,7 @@ import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
 import { correctionTaskSchema, correctionTasks } from './correction-tasks';
 import { rosterSchema } from './roster';
+import { workforceImportSchema } from './workforce-import';
 import { abdmSchema } from './abdm';
 import { transferSchema } from './abdm-transfer';
 import { governanceSchema } from './governance';
@@ -74,6 +75,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...actionPlanSchema.options,
  ...correctionTaskSchema.options,
  ...rosterSchema.options,
+ ...workforceImportSchema.options,
  ...abdmSchema.options,
  ...transferSchema.options,
  ...governanceSchema.options,

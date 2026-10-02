@@ -12,7 +12,7 @@ const MAX=16000;
 const KINDS={enrolments:{label:'Programme enrolments',columns:'person,pack,version,episode_label,start_date',help:'person is a Saha record id or an identifier written issuer:value; version may be left empty for the adopted version; start_date is YYYY-MM-DD or empty.'},identifiers:{label:'External identifiers',columns:'person,issuer,identifier',help:'issuer is a short code such as rch (12 digits) or nikshay (6 to 10 digits); ABHA numbers are linked through ABHA verification, not imported.'}} as const;
 type Kind=keyof typeof KINDS;
 // Download the rejection report for a dry run. The file travels in the request body; the response is a CSV export.
-export async function downloadRejections(orgId:string,kind:'people'|Kind,csv:string){
+export async function downloadRejections(orgId:string,kind:'people'|'workforce'|Kind,csv:string){
  const r=await fetch('/api/import-rejections',{method:'POST',headers:{'content-type':'application/json','x-saha-organisation':orgId},body:JSON.stringify({kind,csv}),cache:'no-store'});
  if(!r.ok)throw Error(((await r.json()) as any).error);
  const url=URL.createObjectURL(await r.blob()),a=document.createElement('a');a.href=url;a.download='saha-import-rejections.csv';a.click();URL.revokeObjectURL(url);

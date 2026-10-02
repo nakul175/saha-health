@@ -166,6 +166,8 @@ const {patientImportSmoke}=await import('./patient-import-smoke.mjs');await pati
 const {recordImportSmoke}=await import('./record-import-smoke.mjs');await recordImportSmoke({get,post,check,accounts,org,sql,base});
 // Slice 10e: issuer-identifier search, ABHA format and programme identity crosswalks (its own synthetic organisation).
 const {identifierSearchSmoke}=await import('./identifier-search-smoke.mjs');await identifierSearchSmoke({get,post,check,sql,base});
+// Slice 10d: workforce roster import (dry run, rejection report, apply exactly the plan).
+const {workforceImportSmoke}=await import('./workforce-import-smoke.mjs');await workforceImportSmoke({get,post,check,accounts,org,sql,base});
 const {indicatorRegistrySmoke}=await import('./indicator-registry-smoke.mjs');await indicatorRegistrySmoke({get,post,check,accounts,org,sql,base});
 const {indicatorFreshnessSmoke}=await import('./indicator-freshness-smoke.mjs');await indicatorFreshnessSmoke({get,post,check,accounts,org,sql,base});
 const {alertDeliverySmoke}=await import('./alert-delivery-smoke.mjs');await alertDeliverySmoke({get,post,check,accounts,org,sql});

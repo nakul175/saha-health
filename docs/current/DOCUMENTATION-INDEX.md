@@ -6,6 +6,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | --- | --- |
 | [Development slice 10h](SLICE-10H-READ-AUDIT-COMPLETION.md) | Audit of the remaining read paths: workspace loads, record opens, searches, list pages and aggregate views as chained fail-closed events, with membership role, version and delegated authority on every access event |
 | [Development slice 10c](SLICE-10C-INCENTIVE-CLAIMS.md) | Worker incentive claims on a synthetic placeholder schedule: ASHA claim from her own confirmed activity, supervisor verification, owner approval, immutable hash-chained record, linked corrections, CSV (no payment) |
+| [Development slice 10d](SLICE-10D-WORKFORCE-IMPORT.md) | Workforce roster import from a CSV file for owners: dry run with plan hash, rejection report and apply of exactly the previewed plan (slice 1d rules reused; BR-ID-01 stays partial) |
 | [Development slice 9a](SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md) | Demonstration clinical package for synthetic organisations (two cited demonstration protocols, not clinically approved) |
 | [Development slice 9b](SLICE-9B-DEMONSTRATION-SCREENS.md) | Screens ready for a presenter-led demonstration: menu by role, visit first, member names, no build labels |
 | [Development slice 10e](SLICE-10E-IDENTIFIER-SEARCH.md) | Issuer-identifier search within the care scope, ABHA number format checks (no checksum found) and programme identity crosswalks with provenance |

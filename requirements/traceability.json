@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10h, 10e, 10c",
+  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10h, 10e, 10c, 10d",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -217,14 +217,22 @@
       "sourceTextLine": 166,
       "implementation": "partial",
       "target": "R15",
-      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return. Slice 1d adds roster-based bulk invitation, update and suspension.",
-      "remaining": "Formal verification, workforce import, upstream de-provisioning and production identity governance.",
+      "current": "Account-bound invitations, role/team changes, suspension and immediate online access checks. Slice 1b adds removal that requires the caseload to be transferred first, keeps history and needs a new invitation to return. Slice 1d adds roster-based bulk invitation, update and suspension. Slice 10d adds workforce import from a CSV file: an owner uploads a roster (name, account code, role, team, status, optional external staff id) for a dry run that lists invitations to create, memberships to update or suspend, rows rejected with reasons and conflicts under a plan hash, downloads a rejection report and applies exactly the previewed plan (refused if anything changed since), on the slice 1d rules, in batches of at most 100 rows with an audit record.",
+      "remaining": "Formal verification, scheduled or API workforce feeds, upstream de-provisioning, batches over 100 rows, verified and displayed external staff ids, and production identity governance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
         "lib/saha/platform.ts",
         "tests/continuity-smoke.mjs",
-        "CORE-CONTINUITY.md"
+        "CORE-CONTINUITY.md",
+        "lib/saha/roster.ts",
+        "tests/roster-contract.mjs",
+        "tests/roster-smoke.mjs",
+        "lib/saha/workforce-import.ts",
+        "lib/saha/workforce-import-server.ts",
+        "tests/workforce-import-contract.mjs",
+        "tests/workforce-import-smoke.mjs",
+        "docs/current/SLICE-10D-WORKFORCE-IMPORT.md"
       ],
       "automatedAcceptanceClaim": false
     },
