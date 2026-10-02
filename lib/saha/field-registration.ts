@@ -39,12 +39,12 @@ export async function applyFieldRegistration(s:OrgState,input:unknown,u:Actor,m:
   return {personId:prior.id,visitId:v?.id??null,referralRequested:!!v?.referralRequest,identity:prior.identityReview?.state??null,alreadyRegistered:true};
  }
  if(Date.parse(c.capturedAt)>Date.parse(now)+300000)fail(422,'The capture time cannot be in the future.');
- if(c.facts)checkFacts(c.facts,Date.parse(now));
+ const facts=c.facts?checkFacts(c.facts,Date.parse(now)):undefined;
  if(c.referralRequest&&!c.facts)fail(422,'A referral request needs the visit it came from.');
  const review=await reviewRegistration(s,m,{name:c.name,age:c.age,sex:c.sex,village:c.village,teamId:c.teamId,registrationReview:c.registrationReview},now);
  const p:Person={id:uuid(),name:c.name,age:c.age,sex:c.sex,village:c.village,programmes:[c.programme as any,...(c.programme==='General care'?[]:['General care' as const])],task:'New home visit',due:'Today',status:c.facts?'in_progress':'due',aiConsent:false,exchangeConsent:false,consentVersion:1,assigned:true,createdAt:now,version:1,teamId:c.teamId,assignedTo:u.userId,identityReview:review,fieldRegistration:{id:c.registrationId,by:u.userId,capturedAt:c.capturedAt,syncedAt:now}};
  w.people.push(p);let visitId:string|null=null;
- if(c.facts){const v:Visit={id:uuid(),personId:p.id,version:1,state:'draft',facts:c.facts,createdAt:now,aiResults:[],recordVersion:1,programmeCapture:captureFor(p.enrolments??[],installedPacks(s)),fieldRegistrationId:c.registrationId,...(c.referralRequest?{referralRequest:{...c.referralRequest,requestedBy:u.userId,requestedAt:now,capturedAt:c.capturedAt}}:{})};w.visits.push(v);visitId=v.id;}
+ if(facts){const v:Visit={id:uuid(),personId:p.id,version:1,state:'draft',facts,createdAt:now,aiResults:[],recordVersion:1,programmeCapture:captureFor(p.enrolments??[],installedPacks(s)),fieldRegistrationId:c.registrationId,...(c.referralRequest?{referralRequest:{...c.referralRequest,requestedBy:u.userId,requestedAt:now,capturedAt:c.capturedAt}}:{})};w.visits.push(v);visitId=v.id;}
  w.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'registerFieldPerson',subject:p.id,personId:p.id,detail:`Person registered offline in the field notebook (captured ${c.capturedAt}) and synced${c.facts?' with a first visit draft':''}${c.referralRequest?' and a referral request for clinician review':''}. Identity: ${review.state}${c.registrationReview?` after a ${c.registrationReview.decision} review of ${review.candidateCount} possible match${review.candidateCount===1?'':'es'}`:''}. Nothing was confirmed, referred or sent.`});
  return {personId:p.id,visitId,referralRequested:!!c.referralRequest,identity:review.state,alreadyRegistered:false};
 }

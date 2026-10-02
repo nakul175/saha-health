@@ -3,7 +3,7 @@ import { checkTaskAttempts, expiryMinutes, limitsOf, timedOut, type TaskLimits }
 import { z } from 'zod';
 import { digest, fail, uuid, visit } from './core';
 import { questions, unresolved } from './programmes';
-import { measureOf } from './fact-provenance';
+import { measureOf, rangeProblem } from './fact-provenance';
 import { normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Facts, OrgState, Member, Visit, Integration, TraceStep } from './types';
@@ -82,7 +82,11 @@ export async function agentApply(s:OrgState,input:unknown,u:Actor,m:Member,ps:Ag
  for(const f of resolve)if(!fields.includes(f)||!conflicts.some(x=>x.field===f))fail(422,'Resolve only selected fields that have a conflict.');
  for(const f of fields){const x=conflicts.filter(k=>k.field===f);if(x.length&&!resolve.includes(f))fail(409,`${FIELD_LABEL[f]}: ${describeConflicts(x)}. Choose explicitly to use the proposed value, with a reason, or leave the field unselected.`);}
  if(resolve.length&&!c.conflictReason)fail(422,'Give a reason for choosing between conflicting values.');
- if(!!next.systolic!==!!next.diastolic)fail(422,'Select both blood pressure readings or neither.');next.date=c.date;next.source=c.source;
+ if(!!next.systolic!==!!next.diastolic)fail(422,'Select both blood pressure readings or neither.');
+ // Slice 2i: an applied value replaces any alternative-unit entry and unusual-value reason for that field; a proposal
+ // outside the placeholder expected range is refused (the worker enters it with a reason instead).
+ for(const f of fields){if(next.entered&&f in next.entered){const e={...next.entered};delete e[f as keyof typeof e];if(Object.keys(e).length)next.entered=e;else delete next.entered;}if(next.unusual&&f in next.unusual){const u2={...next.unusual};delete u2[f as keyof typeof u2];if(Object.keys(u2).length)next.unusual=u2;else delete next.unusual;}}
+ {const problem=rangeProblem(next);if(problem)fail(422,`Assistant value not applied. ${problem}`);}next.date=c.date;next.source=c.source;
  // Slice 2c: applied fields take the reviewed visit-level source and time, so their own entries are cleared.
  if(next.provenance){const own={...next.provenance};for(const f of fields){const m=measureOf(f);if(m)delete own[m];}if(Object.keys(own).length)next.provenance=own;else delete next.provenance;}if(c.includeNote)next.notes=r.input;v.facts=next;v.version++;if(v.programmeCapture)for(const f of fields)delete v.programmeCapture.absence[f];if(resolve.length)r.resolutions=resolve.map(f=>({field:f,proposed:next[f],replaced:conflicts.filter(x=>x.field===f).map(x=>x.kind==='recorded'?'recorded '+x.other:`${x.otherProvider} ${x.other}`),reason:c.conflictReason!,by:u.userId,at:new Date().toISOString()}));r.status='applied';r.appliedFields=fields;r.finishedAt=new Date().toISOString();r.message='Selected fields applied to the draft after worker review. Visit confirmation remains separate.';r.steps[2]={name:'Human review',state:'done',detail:`${fields.length} fields accepted by ${u.displayName}.`};auditAgent(s,u,m,v,c.type,`Reviewed fields applied: ${fields.join(', ')}. Source retained in request ${r.id}.${resolve.length?` Conflicts resolved by explicit choice: ${r.resolutions!.map(x=>`${x.field} ${x.proposed} over ${x.replaced.join(' and ')}`).join('; ')}. Reason: ${c.conflictReason}`:''}`);return {runId:r.id};
 }

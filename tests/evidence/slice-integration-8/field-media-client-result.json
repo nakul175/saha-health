@@ -1,0 +1,5 @@
+{
+  "passed": 97,
+  "completedAt": "2026-10-01T22:02:11.272Z",
+  "coverage": "Field notebook offline media queue with real Web Crypto and injected storage/network: local type, signature, size and purpose checks; sealed per-item storage without bytes in the notebook; per-draft limit; lock/unlock survival; discard; upload only after sync with the item id as idempotency key and an identical body; lost response kept pending and retried with the same key; expired grant, confirmed visit, lost access, damaged copy and server refusal routed to review with nothing sent; temporary server failure kept pending; removal blocked while any item is pending, queued or in review, then allowed after discard; a 2xx without a media id kept pending with redirects refused; lock during upload sends nothing; orphaned sealed copies swept; failed notebook save removes the new copy; photos decoded and re-encoded as JPEG on the device, stepping down size and quality until under the limit, refused when unreadable or impossible to reduce. Real IndexedDB, camera/microphone and service-worker behaviour are not tested here."
+}
