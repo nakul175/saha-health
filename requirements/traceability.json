@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10h",
+  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10h, 10e",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -320,14 +320,21 @@
       "sourceTextLine": 178,
       "implementation": "partial",
       "target": "R12",
-      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches.",
-      "remaining": "Issuer-identifier search, validated matching performance and approved wider identity resolution.",
+      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches. Slice 10e: search by one complete issuer identifier (a linked ABHA number, RCH ID or Ni-kshay ID) inside the searcher's own care scope only; exact whole-value formats, so a partial or wildcard identifier is refused rather than searched; each search is a material read audited before it returns and a search that finds nothing is audited too; per-searcher limits (30 an hour, 8 finding nothing an hour, 24 a day); a record outside the scope gets the same answer as no record. The programme issuer formats are illustrative and unchecked against the registries.",
+      "remaining": "Issuer-registry-backed identifier lookup (nothing contacts an issuer), validated matching performance, timing and enumeration testing by an independent reviewer, and approved wider identity resolution.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
         "lib/saha/platform.ts",
         "tests/continuity-smoke.mjs",
-        "CORE-CONTINUITY.md"
+        "CORE-CONTINUITY.md",
+        "lib/saha/crosswalk.ts",
+        "lib/saha/crosswalk-server.ts",
+        "lib/saha/identifier-search.ts",
+        "lib/saha/identifier-search-server.ts",
+        "tests/identifier-crosswalk-contract.mjs",
+        "tests/identifier-search-smoke.mjs",
+        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -387,8 +394,8 @@
       "sourceTextLine": 187,
       "implementation": "partial",
       "target": "R12",
-      "current": "Identity revisions, EHR link revocation and changed-link rejection retain history. Slice 1c: two-steward link-based merge that preserves original records and receipts, invalidates pending approvals, queues downstream corrections and supports unmerge with review of work created while merged. Slice 6r: a clinician holding only emergency access to a record cannot propose, decide, unmerge or resolve a merge naming it. Slice 6u: the merge view returns the case reason and evidence only to a viewer who may see both records.",
-      "remaining": "Programme identity crosswalks, issuer identifiers and destination-specific correction automation.",
+      "current": "Identity revisions, EHR link revocation and changed-link rejection retain history. Slice 1c: two-steward link-based merge that preserves original records and receipts, invalidates pending approvals, queues downstream corrections and supports unmerge with review of work created while merged. Slice 6r: a clinician holding only emergency access to a record cannot propose, decide, unmerge or resolve a merge naming it. Slice 6u: the merge view returns the case reason and evidence only to a viewer who may see both records. Slice 10e: a person's programme identifiers (slice 2h imports and new links) form an append-only crosswalk ledger recording who linked each, when, where it came from and a verification state a person attests; corrections and withdrawals append and keep the earlier entry; one live holder per identifier, and a conflicting link opens the slice 1c identity case for two stewards and never merges; a holder outside the requester's scope is not revealed (steward review event on the holder, three a day per requester).",
+      "remaining": "Identifiers verified with their issuers (nothing contacts one), further programme issuers, sending crosswalks to destinations and destination-specific correction automation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -400,7 +407,12 @@
         "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
         "lib/saha/merge.ts",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "lib/saha/crosswalk.ts",
+        "lib/saha/crosswalk-server.ts",
+        "tests/identifier-crosswalk-contract.mjs",
+        "tests/identifier-search-smoke.mjs",
+        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2195,8 +2207,8 @@
       "sourceTextLine": 410,
       "implementation": "partial",
       "target": "R13",
-      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed.",
-      "remaining": "Authorised ABHA creation and verification with ABDM, checksum and issuer checks, and correction through ABDM.",
+      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed. Slice 10e: an ABHA number is accepted as 14 digits or grouped 2-4-4-4 with hyphens and refused otherwise, in the link command and in search. No checksum is applied because no official specification of one was found: the PIB explainer and community guides call it a random 14-digit number, and abdm.gov.in and the sandbox documents could not be read from the build environment.",
+      "remaining": "Authorised ABHA creation and verification with ABDM, a checksum if ABDM specifies one, issuer checks, and correction through ABDM.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
@@ -2215,7 +2227,11 @@
         "tests/sixth-review-smoke.mjs",
         "tests/eighth-review-fixes-contract.mjs",
         "tests/eighth-review-smoke.mjs",
-        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+        "lib/saha/identifier-search.ts",
+        "tests/identifier-crosswalk-contract.mjs",
+        "tests/identifier-search-smoke.mjs",
+        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
       ],
       "automatedAcceptanceClaim": false
     },

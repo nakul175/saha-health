@@ -41,6 +41,13 @@ export const ACCESS_ACTIONS = {
   searchPatients: 'Patient search run (kind and result count; the search text is not recorded).',
   listPatients: 'Patient list or work list page read (kind and result count).',
   viewAggregate: 'Aggregate view read (indicator results, scoped care report or aggregate report history).',
+  // Slice 10e: a search by issuer identifier is a material read when it returns a match (one event per matched record,
+  // sharing the search's id in `subject`) and is recorded without a record when it finds nothing; both count toward the
+  // searcher's rate limit. A link refused because another record outside the requester's scope already holds the
+  // identifier is recorded on that record for identity steward review, as for ABHA numbers (slice 6z).
+  identifierSearch: 'Searched by an issuer identifier; this record matched and was returned to the searcher.',
+  identifierSearchMiss: 'Searched by an issuer identifier; no record in the searcher\'s care scope matched.',
+  identifierConflictReview: 'Identifier link refused: the identifier is recorded on this record. Recorded on the holding record only, for identity steward review.',
 } as const;
 export type AccessAction = keyof typeof ACCESS_ACTIONS;
 export const ACCESS_REFUSED = 'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.';
