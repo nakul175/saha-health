@@ -8,6 +8,8 @@ import { csvLines } from './operations';
 import { candidateReleases, ledgerHash, readLedger, writeLedger } from './indicator-ledger';
 import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, releasePopulation, vocabulary, type Group, type Series } from './indicators';
 import { ledgerFull, pruneLedger, RESIDUAL_RISK, screenReleases, type Release } from './indicator-differencing';
+import { lateSinceRelease, teamFreshness } from './indicator-freshness';
+import { resolveDefinition } from './indicators';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
 // Slice 6w (fifth review, finding 4): GET reads the catalogue and interprets questions only. Running a query
 // records a release in the differencing ledger, so it is POST only (a cross-site GET cannot trigger it).
@@ -36,7 +38,12 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  const {result,series}=indicatorRun(s,m,q);
  // Results whose series would allow differencing are withheld whole; nothing of them is returned.
  const shape=(released:Set<string>)=>({...result,results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.',limits:RESIDUAL_RISK}});
+ // Slice 6ac: the viewer's previous release of each figure is read before this one is recorded (read only).
+ const previous=p.get('format')==='csv'?null:await previousReleases(s.organisation.id,u.userId,q,series,result.computedAt);
  const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null,s);
+ if(previous){const shaped=shape(released),people=s.workspace.people.filter(x=>x.assigned&&!x.mergedInto&&(!q.team||x.teamId===q.team)&&(!q.village||x.village===q.village)&&(!q.programme||x.programmes.includes(q.programme as any)));
+  // Slice 6ac: freshness per team and late arrivals per released result; withheld results carry nothing more. The CSV is unchanged.
+  return json({...shaped,freshness:teamFreshness(s,m,q,result.window,new Date(result.computedAt)),results:shaped.results.map((r:any)=>r.refused?r:{...r,lateArrivals:lateSinceRelease(s,people,resolveDefinition(s,`${r.id}@${r.version}`),result.window.since,result.window.until,previous.get(r.id+'@'+r.version)??null)})});}
  if(file)return new Response(file.csv,{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="saha-indicators.csv"','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Saha-Export-Id':file.exportId,'X-Saha-Content-SHA256':file.sha256}});
  return json(shape(released));
 }
@@ -49,6 +56,14 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
 // nor patient revision, writes no command receipt, and a concurrent release is retried on a fresh
 // ledger read. Commands that write the operations row keep the stored ledger (`store.guarded`). A CSV
 // export's audit event is an access-audit commit (slice 6t pattern), written before the file is returned.
+// Slice 6ac: when this viewer was last given each figure (same series and filters, any window), from the ledger as it
+// stands before this query is recorded. Only the release time is used; nothing is written.
+async function previousReleases(orgId:string,userId:string,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string){
+ const cands=await candidateReleases(orgId,`viewer:${userId}`,q,series,at),{ledger}=await readLedger(db(),orgId),out=new Map<string,string>();
+ const same=(a:Record<string,string>,b:Record<string,string>)=>JSON.stringify(Object.entries(a).sort())===JSON.stringify(Object.entries(b).sort());
+ for(const c of cands){const r=c.release as any;if(!r.n)continue;const last=ledger.filter((x:any)=>x.v===r.v&&x.k===r.k&&x.n===r.n&&same(x.f??{},r.f??{})).map((x:any)=>x.at as string).sort().at(-1);if(last)for(const id of c.ids)out.set(id,last);}
+ return out;
+}
 type Shaped={computedAt:string;results:any[]};
 export const LEDGER_FULL_MESSAGE='You have run many different indicator queries in the last seven days. To keep small groups protected, Saha cannot record more until older queries leave the seven-day window. Repeat an earlier query or try again later.';
 async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,m:Member,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string,csvOf:((released:Set<string>)=>Shaped)|null,state:Parameters<typeof recordAccess>[1]):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{

@@ -1,0 +1,56 @@
+{
+  "check": "slice 6ac source freshness on the Operations page",
+  "at": "2026-10-01T23:32:35.432Z",
+  "base": "http://127.0.0.1:8813",
+  "steps": [
+    {
+      "name": "open Operations",
+      "ok": true
+    },
+    {
+      "name": "choose Confirmed visits and run",
+      "ok": true
+    },
+    {
+      "name": "source freshness table with four sources",
+      "ok": true
+    },
+    {
+      "name": "banded counts only",
+      "ok": true
+    },
+    {
+      "name": "first result states no earlier release",
+      "ok": true
+    },
+    {
+      "name": "second run names the previous release",
+      "ok": true
+    },
+    {
+      "name": "queries posted with no query string",
+      "ok": true
+    }
+  ],
+  "passed": 7,
+  "failed": 0,
+  "freshnessTable": "Rampur care team: source\tLatest record\tArrived in window\tLate (over 72 h)\tLate share\nOnline visits\tnone\tfewer than 5\tfewer than 5\tnot stated\nField-notebook syncs\tnone\tfewer than 5\tfewer than 5\tnot stated\nImports\tnone\tfewer than 5\tfewer than 5\tnot stated\nProgramme receipts\tnone\tfewer than 5\tfewer than 5\tnot stated",
+  "consoleErrors": [],
+  "indicatorRequests": [
+    {
+      "method": "POST",
+      "path": "/api/indicators",
+      "query": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/indicators",
+      "query": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/indicators",
+      "query": ""
+    }
+  ]
+}
