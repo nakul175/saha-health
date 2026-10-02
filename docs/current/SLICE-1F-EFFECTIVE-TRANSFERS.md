@@ -32,3 +32,8 @@ The Worker has no background timer in this deployment (the same constraint as sl
 - A household transfer takes members as they are at request time; someone who joins the household after scheduling is not added. Members held by another worker are reported, not moved.
 - A held transfer keeps the steward's original reason and effective time; there is no rescheduling command (cancel and schedule again).
 - Each application or hold is one organisation-wide commit; in a busy organisation it may make a concurrent command retry, as any organisation-wide command does.
+
+
+## Correction — 2 October 2026 (slice 6ae)
+
+A tenth independent review found that an automatic application refused part-way through left the patients already moved with the receiving worker while the transfer was marked held. Slice 6ae applies each due transfer to a copy of the state and keeps it only if the whole transfer succeeds. See [slice 6ae](SLICE-6AE-HELD-TRANSFER-ATOMICITY.md).

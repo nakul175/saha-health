@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 6ae](SLICE-6AE-HELD-TRANSFER-ATOMICITY.md) | Automatic caseload transfers applied all-or-nothing (tenth independent review) |
 | [Hosted synthetic staging](HOSTED-STAGING.md) | Cloudflare Worker, D1 and Access hosting of the synthetic workspace; deploy on merge into main; limits |
 | [Development slice 2b](SLICE-2B-MEDIA.md) | Visit photos and voice notes with checks, playback and draft deletion |
 | [Development slice 6e](SLICE-6E-ACCESSIBILITY.md) | Automated WCAG A/AA audit of 16 screens and contrast fixes |

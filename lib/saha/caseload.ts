@@ -197,21 +197,29 @@ export function dueTransfers(s:OrgState,now:string){return (s.caseloads??[]).fil
 export function applyDueTransfers(s:OrgState,now:string){
  const out:{transferId:string;state:'applied'|'held';moved:number;skipped:number;reason?:string}[]=[];
  const audit=(t:CaseloadTransfer,action:string,detail:string)=>s.workspace.audit.push({id:uuid(),at:now,actorId:SCHEDULER.userId,actor:SCHEDULER.displayName,role:'system' as Role,action,subject:t.id,detail});
- for(const t of dueTransfers(s,now)){
+ // Slice 6ae (tenth review, finding 1): the state is copied before each transfer is applied; a refusal part-way through
+ // restores the copy, so every assignment is exactly as it was, and the transfer is held on the restored state.
+ for(const id of dueTransfers(s,now).map(x=>x.id)){
+  const t=(s.caseloads??[]).find(x=>x.id===id)!;
   const creator=s.members.find(x=>x.userId===t.createdBy&&x.status==='active');
   let reason='';
   if(!creator)reason='The steward who scheduled it is no longer an active member.';
   else if(creator.role==='admin'||(!creator.isOwner&&creator.role!=='supervisor')||!creator.teamIds.includes(t.teamId)||!s.teams.some(x=>x.id===t.teamId))reason='The steward who scheduled it no longer manages this team.';
   else {const r=s.members.find(x=>x.userId===t.toUserId);if(!r||r.status!=='active'||!['asha','clinician'].includes(r.role)||!r.teamIds.includes(t.teamId))reason='The receiving worker is no longer an active care worker in this team.';}
   if(!reason){
+   const before=structuredClone(s);
    try{const r=applyTransfer(s,t,SCHEDULER,now,p=>allowed(creator!,p,now));t.applied!.automatic=true;
     audit(t,'caseloadAutoApply',`Scheduled caseload transfer applied automatically at ${now} (effective ${t.effectiveAt}) with the scheduling steward's authority re-checked: ${r.moved} moved, ${r.skipped.length} skipped. Acknowledgement pending.`);
     out.push({transferId:t.id,state:'applied',moved:r.moved,skipped:r.skipped.length});continue;}
-   catch(e){if(!(e instanceof AppError))throw e;reason=e.status===409?'No patient in it is still assigned to the sending worker.':e.message;}
+   catch(e){if(!(e instanceof AppError))throw e;reason=e.status===409?'No patient in it is still assigned to the sending worker.':e.message;
+    // Undo everything the refused application changed, then hold the transfer on the restored state.
+    for(const k of Object.keys(s) as (keyof OrgState)[])if(!(k in before))delete (s as any)[k];
+    for(const k of Object.keys(before) as (keyof OrgState)[])(s as any)[k]=before[k];}
   }
-  t.state='held';t.held={at:now,reason};t.version++;
-  audit(t,'caseloadHold',`Scheduled caseload transfer not applied automatically: ${reason} Assignments are unchanged. A steward must apply or cancel it.`);
-  out.push({transferId:t.id,state:'held',moved:0,skipped:0,reason});
+  const h=(s.caseloads??[]).find(x=>x.id===id)!;
+  h.state='held';h.held={at:now,reason};h.version++;
+  audit(h,'caseloadHold',`Scheduled caseload transfer not applied automatically: ${reason} Assignments are unchanged. A steward must apply or cancel it.`);
+  out.push({transferId:h.id,state:'held',moved:0,skipped:0,reason});
  }
  return out;
 }
