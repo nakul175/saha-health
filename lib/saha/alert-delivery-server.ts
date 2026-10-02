@@ -14,6 +14,8 @@ import { budgetView } from './ai-budget';
 import { invoiceAlertInputs } from './ai-invoice';
 import { fail, uuid } from './core';
 import { CLEARED_DAYS, DELIVERY_RULES_VERSION, ESCALATE_AFTER_MINUTES, ESCALATION_LADDER, EVALUATE_EVERY_SECONDS, INBOX_LIMIT, mayHold, planDelivery, presentFrom, type OpenOccurrence, type OwnerRole } from './alert-delivery';
+import { evaluateChannel } from './notification-channel-server';
+import { authorizeChannelCommand } from './notification-channel';
 import type { Member, OrgState } from './types';
 const last = new Map<string, { basis: string; at: number }>();
 const basisOf = async (d: D1Database, orgId: string) => { const r = await d.prepare('SELECT revision,patient_revision FROM organisations WHERE id=?').bind(orgId).first<{ revision: number; patient_revision: number | null }>(); return r ? `${r.revision}:${r.patient_revision ?? 0}` : ''; };
@@ -66,7 +68,11 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   let batch: typeof stmts = [], writes = 0;
   for (const g of groups) { if (batch.length && batch.length + g.length > 90) { await d.batch(batch); batch = []; } batch.push(...g); writes += g.length; }
   if (batch.length) await d.batch(batch);
-  return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes };
+  // Slice 10b: out-of-app messages (demonstration simulator) for what is now open. A failure here is reported in the result and never
+  // undoes or blocks the in-app delivery above; the next evaluation tries again (messages are unique per occurrence, tier and recipient).
+  let channel: Awaited<ReturnType<typeof evaluateChannel>> | { error: string } | null = null;
+  try { channel = await evaluateChannel(d, s, present, now); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
+  return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes, channel };
 }
 // Reads: evaluate when the organisation changed since the last evaluation, or a minute has passed. Best effort:
 // a failed evaluation never blocks the read; existing notifications are still shown.
@@ -112,7 +118,7 @@ async function ownedNotifications(d: D1Database, orgId: string, m: Member, ids: 
   if (rows.length !== unique.length || !rows.every(r => visible(m, r))) fail(404, 'Notification not found.');
   return unique;
 }
-export async function authorizeInboxReplay(s: OrgState, m: Member, c: { type: string; ids?: string[] }) { if (c.type === 'alertInboxMarkRead') await ownedNotifications(db(), s.organisation.id, m, c.ids!); }
+export async function authorizeInboxReplay(s: OrgState, m: Member, c: { type: string; ids?: string[] }) { if (c.type === 'alertInboxMarkRead') await ownedNotifications(db(), s.organisation.id, m, c.ids!); authorizeChannelCommand(m, c, fail); } // slice 10b: an owner-only command shares this replay hook
 export async function markRead(s: OrgState, u: Actor, m: Member, c: { ids: string[] }, key: string, hash: string) {
   const d = db(), orgId = s.organisation.id, ids = await ownedNotifications(d, orgId, m, c.ids), now = new Date().toISOString(), result = { read: ids.length, readAt: now };
   await d.batch([d.prepare(`UPDATE alert_notifications SET read_at=COALESCE(read_at,?) WHERE org_id=? AND user_id=? AND id IN (${ids.map(() => '?').join(',')})`).bind(now, orgId, u.userId, ...ids), d.prepare('INSERT INTO command_receipts (actor_id,key,org_id,hash,result,person_id,created_at) VALUES (?,?,?,?,?,NULL,?)').bind(u.userId, key, orgId, hash, JSON.stringify(result), now)]);

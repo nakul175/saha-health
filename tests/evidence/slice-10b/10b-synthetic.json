@@ -1,0 +1,43 @@
+{
+ "expected": "synthetic",
+ "incidentStatus": 200,
+ "notice": "Demonstration simulator. Messages are stored and shown inside Saha. Nothing is sent to any email address or phone number, and recipients hold no contact details.",
+ "afterSave": {
+  "setting": "Send simulated messages for operational alerts (setting version 1 · saved Oct 2, 2026, 7:36 PM by Olivia Owner)",
+  "log": [
+   "Oct 2, 2026, 7:36 PM Asha Admin Tier 1 · SMS · demo-sms-bbcb15f2 (not a phone number) critical Critical incidents not resolved (1) Show what was \"sent\" Simulated delivery SIM-90F33044 · nothing contacted"
+  ]
+ },
+ "sentText": "Saha critical: Critical incidents not resolved (1) /?view=operations Ref NC-57FA08",
+ "afterEscalation": [
+  "Oct 2, 2026, 7:36 PM Olivia Owner Tier 2 · Email · demo-1a126156@simulator.invalid critical Escalation Critical incidents not resolved (1) Show what was \"sent\" Simulated delivery SIM-88F30CB8 · nothing contacted",
+  "Oct 2, 2026, 7:36 PM Asha Admin Tier 1 · SMS · demo-sms-bbcb15f2 (not a phone number) critical Critical incidents not resolved (1) Show what was \"sent\" Saha critical: Critical incidents not resolved (1) /?view=operations Ref NC-57FA08 Simulated delivery SIM-90F33044 · nothing contacted"
+ ],
+ "openAlerts": [
+  "normal Other incidents not resolved Organisation alert Oct 2, 2026, 7:36 PM No recipient is listed for this alert.",
+  "critical Critical incidents not resolved Organisation alert Oct 2, 2026, 7:30 PM Tier 1 · 1 recipient · due Oct 2, 2026, 7:30 PM · sent Tier 2 · 1 recipient · due Oct 2, 2026, 7:35 PM · sent"
+ ],
+ "axe": [],
+ "contactDetailInScreen": false,
+ "stored": [
+  {
+   "tier": 1,
+   "channel": "sms",
+   "reason": "first",
+   "address": "demo-sms-bbcb15f2 (not a phone number)",
+   "status": "simulated-delivered"
+  },
+  {
+   "tier": 2,
+   "channel": "email",
+   "reason": "escalation",
+   "address": "demo-1a126156@simulator.invalid",
+   "status": "simulated-delivered"
+  }
+ ],
+ "mobileOverflow": false,
+ "mobileAxe": [],
+ "passed": true,
+ "errors": [],
+ "completedAt": "2026-10-02T14:06:24.312Z"
+}

@@ -47,6 +47,7 @@ import { providers, agentApply } from './agent';
 import { executeAgent } from './agent-execution';
 import { linkTrace } from './trace';
 import { applyAdapterOperations } from './adapter-operations';
+import { applyNotificationChannel } from './notification-channel';
 import { authorizeAggregate } from './aggregate-delivery';
 import { executeAggregate } from './aggregate-execution';
 import { applySandbox, authorizeSandbox, SANDBOX_UNAVAILABLE } from './provider-sandbox';
@@ -190,7 +191,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const roster=await applyRoster(state,c,u,m);
   const abdm=await abdmWithStewardReview(state,c,u,m);
   const transfer=await applyTransfer(state,c,u,m);
-  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m);
+  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m)??applyNotificationChannel(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid); // slice 10b: owner-managed notification channel (demonstration simulator)
   // Slice 7e: owner-managed, versioned operation permissions for record adapters.
   const adapterOps=applyAdapterOperations(state,c,u,m,fail,uuid);
   const platform=demonstration?{handled:true,result:demonstration}:adapterOps?{handled:true,result:adapterOps}:shadow?{handled:true,result:shadow}:sandbox?{handled:true,result:sandbox}:transfer?{handled:true,result:transfer}:abdm?{handled:true,result:abdm}:roster?{handled:true,result:roster}:referral?{handled:true,result:referral}:retention?{handled:true,result:retention}:fixture?{handled:true,result:fixture}:packMigration?{handled:true,result:packMigration}:packInstall?{handled:true,result:packInstall}:factReview?{handled:true,result:factReview}:signOff?{handled:true,result:signOff}:patientImport?{handled:true,result:patientImport}:recordImport?{handled:true,result:recordImport}:rights?{handled:true,result:rights}:consent?{handled:true,result:consent}:registry?{handled:true,result:registry}:delegation?{handled:true,result:delegation}:exceptional?{handled:true,result:exceptional}:merge?{handled:true,result:merge}:caseload?{handled:true,result:caseload}:household?{handled:true,result:household}:evaluation?{handled:true,result:evaluation}:governance?{handled:true,result:governance}:continuity?{handled:true,result:continuity}:expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);

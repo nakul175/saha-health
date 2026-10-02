@@ -91,6 +91,14 @@ export const alertNotifications = sqliteTable('alert_notifications', {
  count:integer('count'), detail:text('detail'), deliveredAt:text('delivered_at').notNull(), readAt:text('read_at'), clearedAt:text('cleared_at'), clearedReason:text('cleared_reason'),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('alert_notification_once').on(t.orgId,t.occurrenceId,t.userId,t.level),index('alert_notification_inbox').on(t.orgId,t.userId,t.clearedAt,t.deliveredAt)]);
 
+// Slice 10b: the out-of-app notification channel's message log (demonstration simulator only). Rows hold alert ids, titles,
+// counts, member ids, a fixed link path and the simulator receipt; never patient names, identifiers or a real address or
+// number. Unique per occurrence, tier and recipient, so an evaluation repeated or run concurrently never sends twice.
+export const notificationMessages = sqliteTable('notification_messages', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), occurrenceId:text('occurrence_id').notNull(), alertId:text('alert_id').notNull(), scopeKey:text('scope_key').notNull(), tier:integer('tier').notNull(), rung:integer('rung').notNull(), userId:text('user_id').notNull(),
+ channel:text('channel').notNull(), reason:text('reason').notNull(), severity:text('severity').notNull(), title:text('title').notNull(), count:integer('count'), subject:text('subject'), body:text('body').notNull(), link:text('link').notNull(), address:text('address').notNull(), status:text('status').notNull(), receipt:text('receipt').notNull(),
+ dueAt:text('due_at').notNull(), sentAt:text('sent_at').notNull(), auditId:text('audit_id').notNull(), configVersion:integer('config_version').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('notification_message_once').on(t.orgId,t.occurrenceId,t.tier,t.userId),index('notification_message_log').on(t.orgId,t.sentAt)]);
 // Bounded rehearsal configuration and evidence. No clinical records or credentials.
 export const pilot = sqliteTable('pilot', {
  orgId:text('org_id').primaryKey().references(()=>organisations.id), data:text('data').notNull(),

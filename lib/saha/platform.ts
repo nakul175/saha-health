@@ -30,6 +30,7 @@ import { expansionSchema } from './expansion';
 import { defaultOperations, operationsSchema } from './operations';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
+import { notificationChannelSchema } from './notification-channel';
 import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
 import { fieldRegistrationSchema } from './field-registration';
@@ -80,6 +81,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...operationsSchema.options,
  ...alertAckSchema.options,
  ...inboxSchema.options,
+ ...notificationChannelSchema.options,
  ...invoiceSchema.options,
  ...pilotSchema.options,
  ...outreachSchema.options,
