@@ -9,7 +9,9 @@ const source=globSync('.wrangler/test-state/v3/d1/**/*.sqlite').find(p=>!p.endsW
 const temp=mkdtempSync(join(process.cwd(),'.wrangler/recovery-drill-')),file=join(temp,'snapshot.sahabackup'),state=join(temp,'restored'),target=join(state,relative('.wrangler/test-state',source)),pass=randomBytes(32).toString('hex');let passed=0,worker,output='';const check=fn=>{fn();passed++};
 try{
  const baseline=inventory(source),created=await createBackup(source,file,pass);passed++;
- check(()=>{assert.equal(created.tables,Object.keys(baseline.tables).length);assert.ok(!readFileSync(file,'utf8').includes('Meena'));assert.ok(!readFileSync(file,'utf8').includes('schemaSha256'))});
+ // Slice 9a: the ciphertext is stored as base64 text, so a plaintext word can occur in it by chance (a first run failed
+ // that way). Check the decoded ciphertext bytes and every other envelope field instead of the raw file text.
+ check(()=>{assert.equal(created.tables,Object.keys(baseline.tables).length);const env=JSON.parse(readFileSync(file,'utf8')),cipher=Buffer.from(env.ciphertext,'base64'),rest=JSON.stringify({...env,ciphertext:null});for(const word of ['Meena','schemaSha256']){assert.ok(!cipher.includes(Buffer.from(word)));assert.ok(!rest.includes(word));}});
  await assert.rejects(()=>createBackup(source,file,pass),/already exists/);passed++;
  await assert.rejects(()=>restoreBackup(file,join(temp,'wrong.sqlite'),'incorrect-backup-passphrase'),/authenticate/);passed++;
  const tampered=JSON.parse(readFileSync(file,'utf8')),bytes=Buffer.from(tampered.ciphertext,'base64');bytes[10]^=1;tampered.ciphertext=bytes.toString('base64');writeFileSync(join(temp,'tampered.sahabackup'),JSON.stringify(tampered));await assert.rejects(()=>restoreBackup(join(temp,'tampered.sahabackup'),join(temp,'tampered.sqlite'),pass));passed++;

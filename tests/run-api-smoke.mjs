@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 const isolated=mkdtempSync(join(tmpdir(),'saha-api-worker-'));cpSync('dist',join(isolated,'dist'),{recursive:true});
 // The port can be set with SAHA_TEST_PORT so several worktrees can run the suite at once.
 const PORT=process.env.SAHA_TEST_PORT??'8787';process.env.SAHA_TEST_ORIGIN??=`http://127.0.0.1:${PORT}`;
-const server=spawn(process.execPath,['--import','./scripts/sites-env.mjs','./node_modules/wrangler/bin/wrangler.js','dev','--config',join(isolated,'dist/server/wrangler.json'),'--local','--persist-to',resolve('.wrangler/test-state'),'--name','saha-api-tests','--ip','127.0.0.1','--port',PORT,'--inspector-port','0'],{stdio:['ignore','pipe','pipe'],env:{...process.env,WRANGLER_REGISTRY_PATH:join(isolated,'registry'),MINIFLARE_REGISTRY_PATH:join(isolated,'miniflare')}});
+const server=spawn(process.execPath,['--import','./scripts/sites-env.mjs','./node_modules/wrangler/bin/wrangler.js','dev','--config',join(isolated,'dist/server/wrangler.json'),'--local','--persist-to',resolve('.wrangler/test-state'),'--name','saha-api-tests','--var','SAHA_DEMONSTRATION_PACKAGE:manual','--ip','127.0.0.1','--port',PORT,'--inspector-port','0'],{stdio:['ignore','pipe','pipe'],env:{...process.env,WRANGLER_REGISTRY_PATH:join(isolated,'registry'),MINIFLARE_REGISTRY_PATH:join(isolated,'miniflare')}});
 let started=false,output='';
 // Slice 6l: the safe-logs smoke inspects what the Worker wrote to its console during the run.
 globalThis.sahaWorkerOutput=()=>output;

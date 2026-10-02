@@ -175,7 +175,8 @@ export function commitPlan(before:OrgState,after:OrgState,type:string,rows:Row[]
  return {patients:ids,reason:'patient-scoped'};
 }
 // Slice 6n: `fixtures` decides which seeded synthetic records a new home organisation receives.
-export async function ensureAccount(db:D1Database,u:Actor,fixtures:(w:Workspace)=>Workspace=w=>w){
+// Slice 9a: `prepare` may add to a new, non-legacy home organisation before it is written (the demonstration clinical package).
+export async function ensureAccount(db:D1Database,u:Actor,fixtures:(w:Workspace)=>Workspace=w=>w,prepare?:(state:OrgState)=>Promise<void>){
  const code=await accountCode(u.userId),now=new Date().toISOString();
  await db.prepare('INSERT INTO accounts (user_id,account_code,display_name,email,created_at) VALUES (?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET display_name=excluded.display_name,email=excluded.email').bind(u.userId,code,u.displayName,u.email,now).run();
  const orgId=await homeOrg(u.userId);
@@ -185,6 +186,7 @@ export async function ensureAccount(db:D1Database,u:Actor,fixtures:(w:Workspace)
   for(const p of w.people){p.version=1;p.teamId='default';p.assignedTo=p.assigned?u.userId:null;}
   for(const v of w.visits){v.recordVersion=1;if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';}
   const state:OrgState={organisation:{id:orgId,name:'Rampur care organisation',revision:1,createdAt:now},teams:[{id:'default',name:'Rampur care team',createdAt:now}],members:[{userId:u.userId,accountCode:code,displayName:u.displayName,role:'clinician',isOwner:true,status:'active',version:1,teamIds:['default'],createdAt:now}],invitations:[],workspace:w};
+  if(!legacy&&prepare)await prepare(state);
   await createState(db,state,u,legacy?'migrateWorkspace':'createWorkspace',legacy?.revision??0,legacy?await digest(legacy.state):await digest(w),w.receipts);
  }
  const account=await db.prepare('SELECT active_org_id FROM accounts WHERE user_id=?').bind(u.userId).first<{active_org_id:string|null}>();

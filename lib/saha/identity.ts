@@ -32,7 +32,9 @@ export function signOutPath(config: IdentityConfig): string {
 
 export function sitesPrincipal(h: HeaderSource): Principal | null {
   const userId = h.get('oai-authenticated-user-id'), email = h.get('oai-authenticated-user-email');
-  if (!userId || !email) return null;
+  // Slice 9a: ids beginning `fixture:` are reserved for synthetic demonstration fixture members (lib/saha/demonstration.ts);
+  // no one can sign in as one. Cloudflare Access ids always begin `access:`.
+  if (!userId || !email || userId.startsWith('fixture:')) return null;
   const encoded = h.get('oai-authenticated-user-full-name');
   let fullName: string | null = null;
   if (encoded && h.get('oai-authenticated-user-full-name-encoding') === 'percent-encoded-utf-8') { try { fullName = decodeURIComponent(encoded); } catch { fullName = null; } }
