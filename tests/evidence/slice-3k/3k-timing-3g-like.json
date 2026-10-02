@@ -1,0 +1,79 @@
+{
+  "check": "Slice 3k field notebook: 200 server-prepared visit drafts plus 100 photos and voice notes (headless Chromium 412x915, real IndexedDB and Web Crypto, built Worker served locally, service workers blocked so network emulation covers every request)",
+  "mode": "timing",
+  "networkProfile": {
+    "name": "3g-like",
+    "offline": false,
+    "latency": 300,
+    "downloadThroughput": 200000,
+    "uploadThroughput": 93750
+  },
+  "setupMs": 57663,
+  "fillMs": 107615,
+  "attach100Ms": 33555,
+  "queuedMedia": {
+    "photos": 75,
+    "voiceNotes": 25,
+    "totalBytes": 8563767,
+    "largest": 178785,
+    "smallest": 59577,
+    "originalPhotoBytesMax": 301142
+  },
+  "filled": {
+    "draftsListed": 200,
+    "idbKeys": 101,
+    "estimate": {
+      "usage": 9303929,
+      "quota": 488161264
+    },
+    "spaceLine": "Device storage: 8.9 MB used of 466 MB available to this browser. The browser may clear saved drafts when space runs low; sync promptly. / जगह कम होने पर ब्राउज़र ड्राफ़्ट हटा सकता है; जल्दी सिंक करें।",
+    "refusedMedia": "The device holds at most 100 photos and voice notes waiting to upload. Sync all, or discard items, before adding more. Nothing was added. / डिवाइस पर अधिकतम 100 फ़ोटो और आवाज़ नोट रुक सकते हैं। पहले सिंक करें।",
+    "refusedDraft": "The notebook holds at most 200 visit drafts. Sync and remove synced copies before preparing more. / नोटबुक में अधिकतम 200 ड्राफ़्ट रह सकते हैं। पहले सिंक करें।",
+    "patient201HasVisit": false,
+    "serverDraftVisits": 200
+  },
+  "unlockMs": 687,
+  "syncRuns": [
+    {
+      "status": "Sync all: 0 registrations, 200 visit drafts, 100 media items synced. / सब सिंक: पंजीकरण 0, ड्राफ़्ट 200, मीडिया 100।",
+      "ms": 300531,
+      "commands": 200,
+      "media": 100
+    }
+  ],
+  "syncWallMs": 300677,
+  "requests": {
+    "commands": 400,
+    "media": 100,
+    "workspace": 27
+  },
+  "device": {
+    "drafts": 200,
+    "synced": 200,
+    "pending": 0,
+    "mediaUploaded": 100
+  },
+  "server": {
+    "visits": 200,
+    "media": 100,
+    "mediaBytes": 8563767
+  },
+  "checks": {
+    "filled200": true,
+    "media100": true,
+    "refused101stMedia": true,
+    "refused201stDraft": true,
+    "unlockReturns200": true,
+    "deviceAllSynced": true,
+    "receiptsMatch": true,
+    "noDuplicateVisits": true,
+    "serverMediaOnce": true,
+    "deviceMediaUploaded": true,
+    "deviceCopiesRemoved": true,
+    "noConsoleErrors": true
+  },
+  "consoleErrors": [],
+  "passed": true,
+  "environment": "Headless Chromium 1194 and wrangler dev (local D1) on the build machine; network emulation is Chromium DevTools throttling, not a reference network or device",
+  "completedAt": "2026-10-01T23:59:52.297Z"
+}

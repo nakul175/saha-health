@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2j, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2584,8 +2584,8 @@
       "sourceTextLine": 468,
       "implementation": "partial",
       "target": "R14",
-      "current": "Notebook supported ten drafts; slice 3j raises this to 200 visit drafts, tested in a Node client harness with save, restart and ordered Sync all at 200; slice 3a adds up to four queued media items per draft and 1 MB per notebook; slice 3b requests persistent storage, shows usage and pauses new visits and media when space is low.",
-      "remaining": "200 encounters, device-measured thresholds and no-eviction acceptance.",
+      "current": "Notebook supported ten drafts; slice 3j raises this to 200 visit drafts, tested in a Node client harness with save, restart and ordered Sync all at 200; slice 3a adds up to four queued media items per draft and 1 MB per notebook, raised in slice 3k to 100 queued items and 25 MB per device; slice 3b requests persistent storage, shows usage and pauses new visits and media when space is low. Slice 3k: 200 server-prepared visit drafts plus 100 reduced photos and voice notes in headless Chromium against the built Worker, with the 201st draft and the 101st item refused and nothing lost, lock and unlock, and two page reloads mid-sync ending with each visit and item on the server once.",
+      "remaining": "200 encounters on a real device, device-measured thresholds and no-eviction acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
@@ -2596,7 +2596,11 @@
         "docs/current/SLICE-3B-STORAGE-WARNINGS.md",
         "tests/field-storage-client.mjs",
         "docs/current/SLICE-3J-NOTEBOOK-CAPACITY.md",
-        "tests/field-capacity-client.mjs"
+        "tests/field-capacity-client.mjs",
+        "docs/current/SLICE-3K-NOTEBOOK-MEDIA-CAPACITY.md",
+        "tests/field-media-capacity-client.mjs",
+        "tests/evidence/slice-3k/3k-restart-none.json",
+        "tests/evidence/slice-3k/3k-timing-3g-like.json"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3993,15 +3997,19 @@
       "sourceTextLine": 720,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 3j: 200 structured visit drafts, with save, lock and unlock restart and a refused 201st draft tested in a Node client harness (sealed notebook 275 KB of ciphertext); slice 3a media queue unchanged at four items per draft and 1 MB per device.",
-      "remaining": "200 encounters plus 100 media items within approved storage allowance, exhaustion/restart tests.",
+      "current": "Slice 3j: 200 structured visit drafts, with save, lock and unlock restart and a refused 201st draft tested in a Node client harness (sealed notebook 275 KB of ciphertext). Slice 3k: device media budget of 100 queued items and 25 MB (100 times the 256 KB item limit; the slice 3b low-space pause still applies first); 200 drafts plus 100 items tested in a Node client harness (24.6 MB of near-limit items) and in headless Chromium with server-prepared grants (8.6 MB of reduced photos and voice notes; the browser reported 8.9 MB of site storage), with the 201st draft and 101st item refused and nothing lost, and lock and unlock and reload mid-sync restarts.",
+      "remaining": "An approved storage allowance confirmed on target devices; quota pressure, eviction and physical-device restart tests.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
         "tests/field-contract.mjs",
         "public/field/app.js",
         "docs/current/SLICE-3J-NOTEBOOK-CAPACITY.md",
-        "tests/field-capacity-client.mjs"
+        "tests/field-capacity-client.mjs",
+        "docs/current/SLICE-3K-NOTEBOOK-MEDIA-CAPACITY.md",
+        "tests/field-media-capacity-client.mjs",
+        "tests/evidence/slice-3k/3k-restart-none.json",
+        "tests/evidence/slice-3k/3k-timing-3g-like.json"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4015,15 +4023,19 @@
       "sourceTextLine": 723,
       "implementation": "unverified",
       "target": "R14",
-      "current": "Small queue sync/replay logic is tested. Slice 3j: Sync all of 200 drafts sends 200 commands in order with stable keys and one workspace read, in about 9 s of client time on the build machine with an instant injected network; not a reference device or network.",
-      "remaining": "200-record queue with 95 percent eligible sync within five minutes on reference network.",
+      "current": "Small queue sync/replay logic is tested. Slice 3j: Sync all of 200 drafts sends 200 commands in order with stable keys and one workspace read, in about 9 s of client time on the build machine with an instant injected network; not a reference device or network. Slice 3k: in headless Chromium against the locally served Worker, Sync all of 200 server-prepared drafts plus 100 media items finished with each visit and item on the server once after two page reloads mid-sync; under Chromium network emulation of 300 ms latency, 1.6 Mbit/s down and 750 kbit/s up, one uninterrupted Sync all of 200 drafts and 100 items (8.6 MB) took 300.5 s with 400 commands, 100 uploads and 27 workspace reads; the split between drafts and media was not recorded. Local emulation on the build machine, not the reference network.",
+      "remaining": "200-record queue with 95 percent eligible sync within five minutes on the reference network and device.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md",
         "public/field/app.js",
         "tests/evidence/slice-3j/field-capacity-client-result.json",
         "docs/current/SLICE-3J-NOTEBOOK-CAPACITY.md",
-        "tests/field-capacity-client.mjs"
+        "tests/field-capacity-client.mjs",
+        "docs/current/SLICE-3K-NOTEBOOK-MEDIA-CAPACITY.md",
+        "tests/field-media-capacity-client.mjs",
+        "tests/evidence/slice-3k/3k-restart-none.json",
+        "tests/evidence/slice-3k/3k-timing-3g-like.json"
       ],
       "automatedAcceptanceClaim": false
     },

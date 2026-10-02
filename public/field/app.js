@@ -26,7 +26,9 @@ function ensureSpace(){if(space.state==='low')throw Error('Device storage is low
 // fresh online check shows the grant, patient access and draft visit are all still current.
 const MEDIA_TYPES={'image/jpeg':'photo','image/png':'photo','image/webp':'photo','audio/webm':'audio','audio/ogg':'audio','audio/mpeg':'audio','audio/mp4':'audio'};
 const MEDIA_PURPOSES=[['wound-or-skin','Wound or skin / घाव या त्वचा'],['document-or-card','Document or card / दस्तावेज़ या कार्ड'],['medicine-packaging','Medicine packaging / दवा की पैकिंग'],['voice-note','Voice note / आवाज़ नोट'],['other-clinical','Other clinical / अन्य नैदानिक']];
-const MEDIA_MAX=256*1024,MEDIA_MIN=512,MEDIA_PER_DRAFT=4,MEDIA_DEVICE_BYTES=1024*1024;
+// Slice 3k: the device media budget is 100 open items and 25 MB (100 times the 256 KB item limit), so 100 items of any
+// permitted size fit beside 200 visit drafts. The slice 3b low-space pause (under 50 MB free or over 80% used) still applies first.
+const MEDIA_MAX=256*1024,MEDIA_MIN=512,MEDIA_PER_DRAFT=4,MEDIA_DEVICE_ITEMS=100,MEDIA_DEVICE_BYTES=MEDIA_DEVICE_ITEMS*MEDIA_MAX;
 const starts=(b,sig,at=0)=>sig.every((x,i)=>b[at+i]===x);
 function sniff(b,mime){switch(mime){case 'image/jpeg':return starts(b,[0xff,0xd8,0xff]);case 'image/png':return starts(b,[0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a]);case 'image/webp':return starts(b,[0x52,0x49,0x46,0x46])&&starts(b,[0x57,0x45,0x42,0x50],8);case 'audio/webm':return starts(b,[0x1a,0x45,0xdf,0xa3]);case 'audio/ogg':return starts(b,[0x4f,0x67,0x67,0x53]);case 'audio/mpeg':return starts(b,[0x49,0x44,0x33])||(b[0]===0xff&&(b[1]&0xe0)===0xe0);case 'audio/mp4':return starts(b,[0x66,0x74,0x79,0x70],4);default:return false;}}
 // The same type, signature, size and purpose rules the server applies, checked before queueing.
@@ -40,14 +42,15 @@ function mediaQuality(bytes,mime,purpose){
  return null;
 }
 const hex=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),x=>x.toString(16).padStart(2,'0')).join('');
-const queuedBytes=()=>(book?.drafts??[]).flatMap(d=>d.media??[]).filter(x=>x.state!=='uploaded').reduce((n,x)=>n+x.size,0);
+const openMedia=()=>(book?.drafts??[]).flatMap(d=>d.media??[]).filter(x=>x.state!=='uploaded'),queuedBytes=()=>openMedia().reduce((n,x)=>n+x.size,0),queuedCount=()=>openMedia().length;
 async function attach(d,file,purpose){const e=epoch,k=key;if(!file)return;if(d.state!=='draft'||d.pending)throw Error('Attach media before syncing this draft. / सिंक से पहले जोड़ें।');
  if(Date.parse(d.packet.payload.expiresAt)<=Date.now())throw Error('Grant expired. / अनुमति समाप्त।');
  await checkSpace();ensureSpace();if(e!==epoch)return;
  if(/^image\//i.test(file.type||'')){if(!MEDIA_PURPOSES.some(([v])=>v===purpose))throw Error('Choose why this is being attached. / उद्देश्य चुनें।');if(purpose==='voice-note')throw Error('A voice note must be audio. / आवाज़ नोट ऑडियो होना चाहिए।');file=await preparePhoto(file);if(e!==epoch)return;}
  const bytes=new Uint8Array(await file.arrayBuffer()),mime=(file.type||'').split(';')[0].trim().toLowerCase(),problem=mediaQuality(bytes,mime,purpose);if(problem)throw Error(problem);
  const open=(d.media??[]).filter(x=>x.state!=='uploaded');if(open.length>=MEDIA_PER_DRAFT)throw Error(`At most ${MEDIA_PER_DRAFT} queued items per draft. / प्रति ड्राफ़्ट अधिकतम ${MEDIA_PER_DRAFT}।`);
- if(queuedBytes()+bytes.byteLength>MEDIA_DEVICE_BYTES)throw Error('Device media queue is full (1 MB). Sync or discard first. / डिवाइस मीडिया कतार भरी है।');
+ if(queuedCount()>=MEDIA_DEVICE_ITEMS)throw Error(`The device holds at most ${MEDIA_DEVICE_ITEMS} photos and voice notes waiting to upload. Sync all, or discard items, before adding more. Nothing was added. / डिवाइस पर अधिकतम ${MEDIA_DEVICE_ITEMS} फ़ोटो और आवाज़ नोट रुक सकते हैं। पहले सिंक करें।`);
+ if(queuedBytes()+bytes.byteLength>MEDIA_DEVICE_BYTES)throw Error(`The device media queue is full (${MEDIA_DEVICE_BYTES/1048576} MB). Sync all, or discard items, before adding more. Nothing was added. / डिवाइस मीडिया कतार भरी है (${MEDIA_DEVICE_BYTES/1048576} MB)। पहले सिंक करें।`);
  const sha256=await hex(bytes);if((d.media??[]).some(x=>x.sha256===sha256))throw Error('This file is already attached. / यह फ़ाइल पहले से जुड़ी है।');
  const id=crypto.randomUUID();await writeMedia(id,await sealBytes(k,bytes));if(e!==epoch||!book){await deleteMedia(id).catch(()=>{});return;}
  (d.media??=[]).push({id,purpose,mime,size:bytes.byteLength,sha256,capturedAt:new Date().toISOString(),state:'queued'});
@@ -95,7 +98,7 @@ async function uploadMedia(d,s){const e=epoch,k=key,p=d.packet.payload;await swe
   catch{throw Error('Upload outcome not confirmed. Retry uses the same key. / अपलोड की पुष्टि नहीं हुई; उसी कुंजी से फिर करें।');}
   let j={};try{j=await r.json()}catch{}if(e!==epoch)return sent;
   // Only a response naming the stored media confirms the upload; anything else keeps the device copy and the pending key.
-  if(r.ok&&typeof j.mediaId==='string'&&j.mediaId){item.state='uploaded';item.mediaId=j.mediaId;item.uploadedAt=new Date().toISOString();delete item.pending;delete item.reason;await persist();await deleteMedia(item.id).catch(()=>{});sent++;continue;}
+  if(r.ok&&typeof j.mediaId==='string'&&j.mediaId){item.state='uploaded';item.mediaId=j.mediaId;item.uploadedAt=new Date().toISOString();delete item.pending;delete item.reason;await persist();await deleteMedia(item.id).catch(()=>{});sent++;touch();continue;}
   if(r.ok)throw Error('Upload outcome not confirmed: the response did not name the stored file. Sign in again, then retry with the same key. / अपलोड की पुष्टि नहीं हुई।');
   if([400,403,404,409,410,413,415,422].includes(r.status)){item.state='review';item.reason=(j.error??`Refused (${r.status}).`)+' Nothing was added. / कुछ नहीं जोड़ा गया।';delete item.pending;await persist();continue;}
   throw Error((j.error??'Upload not confirmed.')+' Retry uses the same key. / उसी कुंजी से फिर करें।');}
@@ -178,11 +181,13 @@ async function discardRegistration(r){if(r.pending)throw Error('Retry the pendin
 async function syncAll(){const e=epoch,done={registered:0,drafts:0,media:0,review:0};
  const summary=()=>`Sync all: ${done.registered} registration${done.registered===1?'':'s'}, ${done.drafts} visit draft${done.drafts===1?'':'s'}, ${done.media} media item${done.media===1?'':'s'} synced${done.review?`; ${done.review} need${done.review===1?'s':''} review`:''}. / सब सिंक: पंजीकरण ${done.registered}, ड्राफ़्ट ${done.drafts}, मीडिया ${done.media}${done.review?`; जाँच ज़रूरी ${done.review}`:''}।`;
  try{
-  for(const r of regs().filter(r=>r.state==='queued')){const out=await syncRegistration(r);if(e!==epoch||out===null)return done;if(out==='synced')done.registered++;else done.review++;}
+  // Slice 3k: a step the server confirmed counts as activity, so a long run keeps the notebook open while it progresses;
+  // the two-minute idle lock still applies when nothing completes (a stalled request) and hiding the page still locks it.
+  for(const r of regs().filter(r=>r.state==='queued')){const out=await syncRegistration(r);if(e!==epoch||out===null)return done;if(out==='synced')done.registered++;else done.review++;touch();}
   // Slice 3j: one workspace read per organisation per run (not one per draft); the server still authorises every command.
   const read=new Map(),current=async org=>{if(!read.has(org))read.set(org,await loadWorkspace(org));return read.get(org);};
   for(const d of (book?.drafts??[]).filter(d=>d.state==='draft'&&!d.conflict&&!d.comparison&&(d.pending||Date.parse(d.packet.payload.expiresAt)>Date.now()))){
-   try{await sync(d,false,await current(d.packet.payload.organisationId));}catch(err){if(e!==epoch)return done;if(d.conflict&&!d.pending){done.review++;continue;}throw err;}if(e!==epoch)return done;if(d.state==='synced')done.drafts++;}
+   try{await sync(d,false,await current(d.packet.payload.organisationId));}catch(err){if(e!==epoch)return done;if(d.conflict&&!d.pending){done.review++;continue;}throw err;}if(e!==epoch)return done;if(d.state==='synced')done.drafts++;touch();}
   for(const d of (book?.drafts??[]).filter(d=>d.state==='synced'&&(d.media??[]).some(x=>x.state==='queued'))){done.media+=await uploadMedia(d);if(e!==epoch)return done;}
  }catch(err){throw Error(summary()+' Stopped: '+err.message);}
  status(summary());return done;}
