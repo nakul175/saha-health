@@ -34,3 +34,7 @@ A visit is clinical content: measurements with their source and observation time
 - An open episode of the same pack is refused rather than merged or updated; closing or migrating episodes stays with the existing commands. Imported episodes do not schedule follow-ups.
 - No batch reversal and no data-quality report beyond counts, reasons and the rejection report. The rejection report is generated from a fresh dry run at download time; if the records changed since the reviewed dry run, its plan hash differs from the one on screen.
 - Files are bounded at 100 rows and 16,000 UTF-8 bytes as in slice 2f.
+
+## Correction — 2 October 2026 (slice 6aa)
+
+A seventh independent review found that ABHA refusal was a three-name denylist (`abha_number`, `healthid` or `abhaid` with a 14-digit value were accepted) and that the rejection report's audit event moved the organisation revision. Slice 6aa makes issuers an allowlist (`rch`, `nikshay`), refuses ABHA-shaped values under any issuer, and records the rejection report as an access-audit event. See `SLICE-6AA-SEVENTH-REVIEW-FIXES.md`.

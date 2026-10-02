@@ -1,5 +1,5 @@
 import { db, identity, loadFor, json, rawRuntime } from './server';
-import { digest, fail, uuid } from './core';
+import { fail, uuid } from './core';
 import { scope } from './store';
 import { z } from 'zod';
 import { boundedJsonBody } from './request-body';
@@ -7,7 +7,7 @@ import { environmentOf } from './environment';
 import { mayImport, planImport, publicPlan, csvBytes, MAX_CSV } from './patient-import';
 import { planRecordImport, publicRecordPlan, recordImportInput } from './record-import';
 import { rejectionReport, REJECTIONS_DEFINITION, REJECTION_KINDS } from './import-rejections';
-import { recordExportAudit, sameCareScope } from './export-audit';
+import { recordAccess } from './access-audit';
 // Slice 2h: read-only dry run for enrolment and identifier imports, and the rejection report for any import dry run.
 // The file travels in the request body, never in the URL.
 async function body(request:Request){
@@ -30,8 +30,8 @@ export async function importRejections(request:Request){
  const {kind,csv}=parsed.data!,s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);if(!mayImport(s,m))fail(403,REFUSED);
  const plan=kind==='people'?publicPlan(await planImport(s,m,csv,env)):publicRecordPlan(await planRecordImport(s,m,kind,csv,env));
  const exportId=uuid(),generatedAt=new Date().toISOString(),report=await rejectionReport(plan,{exportId,kind,role:m.role,generatedAt});
- // The export's audit event goes through persist (slice 6p); a retry on a fresh read checks the exporter again.
- const orgId=s.organisation.id,again=(x:typeof s)=>{const o=scope(x,u.userId);if(!mayImport(x,o))fail(403,REFUSED);if(o.role!==m.role)fail(409,'Your role changed while the report was prepared. Download it again.');sameCareScope(m,o);return o;};
- await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:uuid(),at:generatedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'importRejectionsExport',subject:orgId,detail:`Import rejection report exported for a ${kind} dry run (plan ${plan.planHash}); definition ${REJECTIONS_DEFINITION.id} ${REJECTIONS_DEFINITION.version}; export ${exportId}; ${plan.counts.rows} rows in file, ${report.listed} listed; ${report.rows} data rows; SHA-256 ${report.sha256}; control total ${report.reconciled?'reconciled':'NOT reconciled'}. Row numbers and reasons only.`}),actor:u,type:'importRejectionsExport',key:'export_'+uuid(),hash:await digest({kind,planHash:plan.planHash})});
+ // Slice 6aa (seventh review, finding 6): the export's audit event is an access-audit commit (slice 6t pattern): it is
+ // written before the file is returned, appends the event only and moves no organisation or patient revision.
+ await recordAccess(db(),s,u,m,{action:'importRejectionsExport',subject:s.organisation.id,detail:`Import rejection report exported for a ${kind} dry run (plan ${plan.planHash}); definition ${REJECTIONS_DEFINITION.id} ${REJECTIONS_DEFINITION.version}; export ${exportId}; ${plan.counts.rows} rows in file, ${report.listed} listed; ${report.rows} data rows; SHA-256 ${report.sha256}; control total ${report.reconciled?'reconciled':'NOT reconciled'}. Row numbers and reasons only.`},generatedAt);
  return new Response(report.csv,{headers:{'X-Saha-Export-Id':exportId,'X-Saha-Content-SHA256':report.sha256,'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="saha-import-rejections.csv"','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }

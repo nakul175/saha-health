@@ -28,6 +28,8 @@ export const ACCESS_ACTIONS = {
   // Slice 6z: an ABHA link refused because the number is linked to a record outside the requester's scope, recorded on
   // both records for identity steward review; the requester is shown the ordinary link refusal.
   abhaLinkReview: 'ABHA link refused: the number is linked to another record. For identity steward review.',
+  // Slice 6aa: an import rejection report (row numbers and reasons only) is recorded the same way as an indicator export.
+  importRejectionsExport: 'Import rejection report exported as CSV (row numbers and reasons only).',
 } as const;
 export type AccessAction = keyof typeof ACCESS_ACTIONS;
 export const ACCESS_REFUSED = 'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.';
@@ -58,15 +60,18 @@ export async function recordAccesses(db: D1Database, s: OrgState, actor: Actor, 
 // viewPatientRecord access before its record is returned. If the event cannot be written, those ids are left
 // out of the window (nothing of them is returned); ids already recorded in the period stay.
 export const WINDOW_REOPEN_HOURS = 12;
-export async function auditWindow(db: D1Database, s: OrgState, actor: Actor, m: Member, ids: string[], now = new Date().toISOString()): Promise<string[]> {
+// Slice 6aa (seventh review, finding 3): also used for an unpaged workspace read by a non-ASHA viewer above the paging
+// threshold (`how` = 'full'); the lookup is chunked so a large scope stays under D1's bound-parameter limit.
+const SEEN_CHUNK = 90;
+export async function auditWindow(db: D1Database, s: OrgState, actor: Actor, m: Member, ids: string[], now = new Date().toISOString(), how: 'window' | 'full' = 'window'): Promise<string[]> {
   if (!ids.length) return ids;
-  const since = new Date(Date.parse(now) - WINDOW_REOPEN_HOURS * 3600000).toISOString();
-  const seen = new Set((await db.prepare(`SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewPatientRecord' AND at>=? AND person_id IN (${ids.map(() => '?').join(',')})`).bind(s.organisation.id, actor.userId, since, ...ids).all<{ person_id: string }>()).results.map(r => r.person_id));
+  const since = new Date(Date.parse(now) - WINDOW_REOPEN_HOURS * 3600000).toISOString(), seen = new Set<string>();
+  for (let i = 0; i < ids.length; i += SEEN_CHUNK) { const part = ids.slice(i, i + SEEN_CHUNK); for (const r of (await db.prepare(`SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewPatientRecord' AND at>=? AND person_id IN (${part.map(() => '?').join(',')})`).bind(s.organisation.id, actor.userId, since, ...part).all<{ person_id: string }>()).results) seen.add(r.person_id); }
   const missing = ids.filter(id => !seen.has(id));
   if (!missing.length) return ids;
-  const people = new Map(s.workspace.people.map(p => [p.id, p]));
+  const people = new Map(s.workspace.people.map(p => [p.id, p])), route = how === 'full' ? 'an unpaged workspace read (no paging window requested; scope above the paging threshold)' : 'the paged workspace window';
   try {
-    await recordAccesses(db, s, actor, m, missing.map(id => ({ action: 'viewPatientRecord' as const, subject: id, personId: id, detail: `Full patient record returned through the paged workspace window (not opened through the patient detail route in the last ${WINDOW_REOPEN_HOURS} hours).${people.get(id) ? accessRoute(m, people.get(id)!, now) : ''}` })), now);
+    await recordAccesses(db, s, actor, m, missing.map(id => ({ action: 'viewPatientRecord' as const, subject: id, personId: id, detail: `Full patient record returned through ${route} (not opened through the patient detail route in the last ${WINDOW_REOPEN_HOURS} hours).${people.get(id) ? accessRoute(m, people.get(id)!, now) : ''}` })), now);
     return ids;
   } catch { return ids.filter(id => seen.has(id)); }
 }

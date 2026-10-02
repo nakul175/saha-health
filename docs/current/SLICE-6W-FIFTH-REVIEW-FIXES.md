@@ -44,3 +44,7 @@ These defects were found by a fifth independent review, carried out by an agent 
 - Anchored verification does not re-read events before the anchor. An anchor taken from a checkpoint recorded inside the chain is only as trustworthy as the chain up to it; a checkpoint the owner kept outside Saha is the stronger anchor. If more than 100,000 events follow the anchor, the checkpoint is still refused.
 - The work-list restart catches lists whose total changed; a list that re-sorted with the same total can still skip or repeat a row between pages.
 - These fixes have not been independently reviewed. BR-REP-04, BR-AG-11, BR-PROG-07 and BR-SEC-08 stay partial and NFR-24 stays unverified; their current text and evidence are updated.
+
+## Correction — 2 October 2026 (slice 6aa)
+
+A seventh independent review found that fixes 1 to 3 above were incomplete: the series key (grouping and exclusions) let a differently grouped figure or an exclusion definition escape the comparison, the window was not part of a release's identity, the ledger bound counted releases but not bytes (D1 refuses a value over 2 MB), and the paged-window audit applied only when the client sent the paging header. Slice 6aa replaces key comparison as the protection with a population check, keys releases on their window, bounds the ledger by size with a 429, and audits an unpaged read of a large scope. See `SLICE-6AA-SEVENTH-REVIEW-FIXES.md`.

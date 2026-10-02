@@ -26,3 +26,7 @@
 - EHR execution events written before this slice name the patient, not the publication, so they are not listed for a visit. Programme callbacks that fail authentication leave no step.
 - The trace covers programme submissions, EHR publications and assistant requests of one visit. EHR document retrieval, ABDM exchanges, evaluation runs and connection tests are not traced here.
 - The trace is read on demand; nothing is pushed. NFR-18 and BR-REP-01 stay partial.
+
+## Correction — 2 October 2026 (slice 6aa)
+
+A seventh independent review found that a redacted trace carried the destination receipt string and that the look-ups kept the oldest 300 and 200 events, silently dropping the newest. Slice 6aa returns only whether a receipt exists in a redacted trace, looks events up newest first and reports `truncated`; the trace version is 1.1.0. See `SLICE-6AA-SEVENTH-REVIEW-FIXES.md`.

@@ -5,8 +5,8 @@ import { boundedJsonBody } from './request-body';
 import { scope } from './store';
 import { recordAccess } from './access-audit';
 import { csvLines, defaultOperations } from './operations';
-import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, vocabulary, type Group, type Series } from './indicators';
-import { ledgerFull, pruneLedger, screenReleases, type Release } from './indicator-differencing';
+import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, releaseCandidates, releasePopulation, vocabulary, type Group, type Series } from './indicators';
+import { ledgerFull, pruneLedger, RESIDUAL_RISK, screenReleases, type Release } from './indicator-differencing';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
 // Slice 6w (fifth review, finding 4): GET reads the catalogue and interprets questions only. Running a query
 // records a release in the differencing ledger, so it is POST only (a cross-site GET cannot trigger it).
@@ -29,12 +29,12 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  if(question!==null){if(question.length>300)fail(422,'Keep the question under 300 characters.');return json({interpretation:interpret(question,s)});}
  const ids=(p.get('ids')??'').split(',').map(x=>x.trim()).filter(Boolean);
  // Slice 6s: the catalogue read also carries every recorded version and the definition vocabulary.
- if(!ids.length)return json({catalogue:catalogue(s),registry:registryRecords(s).map(r=>({id:r.id,version:r.version,status:r.status,title:r.spec.title,spec:r.spec,reason:r.reason,by:r.byName,at:r.at,builtIn:!!r.builtIn})),vocabulary:vocabulary(),canMaintain:m.isOwner,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});
+ if(!ids.length)return json({catalogue:catalogue(s),registry:registryRecords(s).map(r=>({id:r.id,version:r.version,status:r.status,title:r.spec.title,spec:r.spec,reason:r.reason,by:r.byName,at:r.at,builtIn:!!r.builtIn})),vocabulary:vocabulary(),canMaintain:m.isOwner,protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});
  const text=(k:string)=>{const v=p.get(k);if(v&&v.length>200)fail(422,'Filter value too long.');return v||null;};
  const q={ids,days:Number(p.get('days')??30),group:(p.get('group')??'none') as Group,team:text('team'),village:text('village'),programme:text('programme')};
  const {result,series}=indicatorRun(s,m,q);
  // Results whose series would allow differencing are withheld whole; nothing of them is returned.
- const shape=(released:Set<string>)=>({...result,results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.'}});
+ const shape=(released:Set<string>)=>({...result,results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.',limits:RESIDUAL_RISK}});
  const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null,s);
  if(file)return new Response(file.csv,{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="saha-indicators.csv"','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Saha-Export-Id':file.exportId,'X-Saha-Content-SHA256':file.sha256}});
  return json(shape(released));
@@ -63,20 +63,21 @@ async function writeLedger(orgId:string,previous:string|null,next:Release[]){
 }
 async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,m:Member,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string,csvOf:((released:Set<string>)=>Shaped)|null,state:Parameters<typeof recordAccess>[1]):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{
  const h=async(x:string)=>(await digest(`saha-indicator-release:${orgId}:${x}`)).slice(0,20);
- const f:Record<string,string>={};for(const k of ['team','village','programme'] as const)if(q[k])f[k]=await h(`${k}:${q[k]}`);
  const viewer=await h(`viewer:${u.userId}`);
- const cands=await Promise.all(series.map(async sr=>{const df:Record<string,string>={...f};for(const [k,v] of Object.entries(sr.f))df[k]=await h(`${k}:${v}`);
-  const hashCells=async<T,>(x:Record<string,T>)=>Object.fromEntries(await Promise.all(Object.entries(x).map(async([g,n])=>[await h(`group:${g}`),n] as const)));
-  return {ids:sr.ids,isCohort:sr.key==='cohort',release:{v:viewer,at,k:await h(`series:${sr.key}`),f:df,c:await hashCells(sr.cells),...(sr.m?{m:await hashCells(sr.m)}:{})} as Release};}));
+ const cands=(await releaseCandidates(series,q,viewer,at,h)) as {ids:string[];isCohort:boolean;release:Release}[];
+ // Slice 6aa (seventh review): every measure release is also checked against the people in the viewer's scope now.
+ const population=await releasePopulation(state,h,new Date(at));
  let released=new Set<string>();
  for(let attempt=1;;attempt++){
   const {ledger,text}=await readLedger(orgId);
   // The cohort is checked first; if it alone would reveal a small group, nothing is returned.
-  const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at);
+  const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at,population);
   if(refused.some(c=>c.isCohort))fail(422,DIFFERENCING_MESSAGE);
   const withheld=new Set(refused.flatMap(c=>c.ids));released=new Set(accepted.flatMap(c=>c.ids).filter(id=>!withheld.has(id)));
   if(ledgerFull(ledger,accepted.map(c=>c.release),at))fail(429,LEDGER_FULL_MESSAGE);
-  if(await writeLedger(orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at)))break;
+  // Slice 6aa (finding 4): a write D1 refuses (for example a value over its size limit) is refused as a full ledger.
+  let written=false;try{written=await writeLedger(orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at));}catch{fail(429,LEDGER_FULL_MESSAGE);}
+  if(written)break;
   if(attempt>=RELEASE_ATTEMPTS)fail(409,'Many indicator queries are being recorded in this organisation at once. Nothing was shown. Please try again.');
  }
  if(!csvOf)return {released,file:null};

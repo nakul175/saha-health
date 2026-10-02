@@ -14,7 +14,8 @@ import { ACCESS_ACTION_NAMES, type Member, type OrgState, type Person, type Trac
 //
 // Content. Ids, states, times, attempt numbers, limits, command types and actor names only: no facts, notes,
 // payloads, document text, audit detail text or credentials.
-export const TRACE_VERSION='1.0.0';
+// Slice 6aa: 1.1.0 adds receiptExists (a redacted trace no longer carries the receipt itself) and truncated.
+export const TRACE_VERSION='1.1.0';
 export const MIS_MAX_ATTEMPTS=3;
 // Audit actions that belong to a visit's external work (listed for the visit even when not linked to a step).
 export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused'] as const;
@@ -74,7 +75,7 @@ export function traceTarget(s:OrgState,m:Member,q:TraceQuery,now=new Date().toIS
 export type TraceAuditRow={id:string;at:string;actor_name:string;role:string;action:string;subject:string;seq:number|null};
 export type TraceReceiptRow={actor_id:string;key:string;created_at:string};
 export type Step={at:string;state:string;attempt:number|null;source:'command'|'destination'|'callback'|'not linked';command:string|null;actor:string|null;receiptId:string|null;receiptAt:string|null;receiptFound:boolean|null;auditId:string|null;auditSeq:number|null;linked:boolean};
-export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant';recordId:string;destination:string;state:string;receipt:string|null;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
+export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant';recordId:string;destination:string;state:string;receipt:string|null;receiptExists?:boolean;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
 type Raw={thread:Thread;steps:{at:string;state:string;attempt?:number;ref?:TraceRef}[]};
 function threads(s:OrgState,t:Target,now:string):Raw[]{
  const out:Raw[]=[],p=t.person,want=(id:string)=>t.scope==='full'||t.threadIds.includes(id);
@@ -115,7 +116,7 @@ export function traceLookups(s:OrgState,t:Target,now=new Date().toISOString()){
  const subjects=[...new Set([...(t.visit?[t.visit.id]:[]),...raw.map(r=>r.thread.recordId)])];
  return {auditIds:[...new Set(refs.map(r=>r.auditId).filter((x):x is string=>!!x))],receipts:[...new Map(refs.map(r=>[r.actorId+'\u0000'+r.key,{actorId:r.actorId,key:r.key}])).values()],subjects,personId:t.person.id,visitId:t.visit?.id??null,access:t.scope==='full'};
 }
-export function assembleTrace(s:OrgState,m:Member,t:Target,audit:TraceAuditRow[],receipts:TraceReceiptRow[],now=new Date().toISOString()){
+export function assembleTrace(s:OrgState,m:Member,t:Target,audit:TraceAuditRow[],receipts:TraceReceiptRow[],now=new Date().toISOString(),truncated=false){
  const names=new Map(s.members.map(x=>[x.userId,x.displayName])),byAudit=new Map(audit.map(a=>[a.id,a])),byReceipt=new Map(receipts.map(r=>[r.actor_id+'\u0000'+r.key,r]));
  const actor=(id:string)=>id.startsWith('mis_callback_')?'Programme receipt callback':names.get(id)??'Former member';
  const raw=threads(s,t,now),linkedAudit=new Map<string,string[]>();
@@ -132,8 +133,10 @@ export function assembleTrace(s:OrgState,m:Member,t:Target,audit:TraceAuditRow[]
  const events=audit.filter(a=>t.scope==='full'||linkedAudit.has(a.id)||(!access.has(a.action)&&t.threadIds.some(id=>id.endsWith(':'+a.subject))))
   .map(a=>({id:a.id,at:a.at,seq:a.seq,action:a.action,actor:a.actor_name,role:a.role,kind:access.has(a.action)?(a.action==='externalRequest'?'external-request':'record-access'):'execution',subject:t.scope==='full'?a.subject:null,steps:linkedAudit.get(a.id)??[]}))
   .sort((a,b)=>a.at.localeCompare(b.at)||(a.seq??0)-(b.seq??0));
- const list=raw.map(r=>r.thread).sort((a,b)=>(a.steps[0]?.at??'').localeCompare(b.steps[0]?.at??''));
- return {traceVersion:TRACE_VERSION,generatedAt:now,scope:t.scope,
+ // Slice 6aa (seventh review, finding 7): a redacted trace says whether the destination returned a receipt, not the receipt.
+ const list=raw.map(r=>({...r.thread,receipt:t.scope==='full'?r.thread.receipt:null,receiptExists:!!r.thread.receipt})).sort((a,b)=>(a.steps[0]?.at??'').localeCompare(b.steps[0]?.at??''));
+ // Slice 6aa (finding 8): truncated is true when a lookup reached its limit; the newest events are the ones kept.
+ return {traceVersion:TRACE_VERSION,generatedAt:now,scope:t.scope,truncated,
   visit:t.scope==='full'&&t.visit?{id:t.visit.id,personId:t.person.id,state:t.visit.state,version:t.visit.version}:null,
   focus:t.focus,threads:list,events,
   notLinked:list.reduce((n,x)=>n+x.steps.filter(y=>!y.linked).length,0),

@@ -33,6 +33,11 @@ export async function patientDirectorySmoke({get,post,check,sql,base}){
  // Without the paging request the read is unchanged: the whole scoped team, never team B.
  const full=await ws(sv);
  check(()=>{assert.equal(full.patientPaging,undefined);assert.equal(full.people.length,560);assert.ok(full.people.every(p=>inA.has(p.id)));});
+ // Slice 6aa (seventh review, finding 3): the window audit is not opt-in. That unpaged read returned every in-scope full
+ // record, so each was recorded as a viewPatientRecord access first; a repeat within 12 hours records nothing new.
+ const unpagedEvents=()=>sql.prepare("SELECT count(*) AS n, count(DISTINCT person_id) AS d FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewPatientRecord' AND instr(detail,'unpaged workspace read')>0").get(org,sv.id);
+ check(()=>assert.deepEqual({...unpagedEvents()},{n:560,d:560}));
+ await ws(sv);check(()=>assert.deepEqual({...unpagedEvents()},{n:560,d:560},'no second event within the reopen period'));
  // Owner authority does not widen scope: the owner belongs to team A only and is paged over team A.
  const so=await ws(o,paged);check(()=>{assert.equal(so.patientPaging.total,560);assert.equal(so.people.length,0);});
  // The ASHA keeps her whole caseload (20 assigned + the template she did not create is not hers).

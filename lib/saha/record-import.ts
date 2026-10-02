@@ -24,6 +24,11 @@ export const KNOWN_ISSUERS:Record<string,{label:string;pattern:RegExp;format:str
  nikshay:{label:'Ni-kshay ID',pattern:/^\d{6,10}$/,format:'A Ni-kshay ID is 6 to 10 digits.'},
 };
 export const REFUSED_ISSUERS=['abha','abha_address','abha-address'];
+// Slice 6aa (seventh review, finding 5): issuers are an allowlist (KNOWN_ISSUERS); a value shaped like an ABHA number
+// (14 digits, optionally grouped 2-4-4-4) or an issuer code naming ABHA or a health id is refused under any issuer, so
+// ABHA verification and organisation-wide ABHA uniqueness cannot be skipped by naming the issuer differently.
+export const ABHA_LIKE_VALUE=/^\d{2}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}$/;
+export const ABHA_LIKE_ISSUER=/abha|health|hid|phr/;
 const ISSUER=/^[a-z][a-z0-9_-]{1,31}$/,VALUE=/^[A-Za-z0-9][A-Za-z0-9/._-]{0,63}$/;
 const reason=z.string().trim().min(10,'Explain the reason in at least 10 characters.').max(500);
 const tooLarge=`The file is larger than ${MAX_CSV.toLocaleString('en-IN')} bytes. Split it into smaller batches.`;
@@ -80,11 +85,12 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
    if(!reasons.length&&p)item={kind,row,personId:p.id,packId,packVersion:version,episodeLabel:label,startDate:start||null};
   }else{
    const issuer=col(r,'issuer').toLowerCase(),value=col(r,'identifier');
-   if(REFUSED_ISSUERS.includes(issuer))reasons.push('ABHA numbers and addresses are linked through ABHA verification, not imported.');
+   if(REFUSED_ISSUERS.includes(issuer)||ABHA_LIKE_ISSUER.test(issuer)||ABHA_LIKE_VALUE.test(value))reasons.push('ABHA numbers and addresses are linked through ABHA verification, not imported.');
    else if(!ISSUER.test(issuer))reasons.push('Issuer must be a short lower-case code such as rch or nikshay.');
    if(!VALUE.test(value))reasons.push('Identifier must be 1 to 64 letters, digits or the characters / . _ - and start with a letter or digit.');
-   else if(KNOWN_ISSUERS[issuer]&&!KNOWN_ISSUERS[issuer].pattern.test(value))reasons.push(KNOWN_ISSUERS[issuer].format);
-   if(p&&!p.mergedInto&&ISSUER.test(issuer)&&VALUE.test(value)){
+   else if(Object.hasOwn(KNOWN_ISSUERS,issuer)&&!KNOWN_ISSUERS[issuer].pattern.test(value))reasons.push(KNOWN_ISSUERS[issuer].format);
+   if(ISSUER.test(issuer)&&!reasons.some(x=>x.startsWith('ABHA'))&&!Object.hasOwn(KNOWN_ISSUERS,issuer))reasons.push(`Issuer must be one of: ${Object.keys(KNOWN_ISSUERS).join(', ')}. Other issuers are not imported.`);
+   if(p&&!p.mergedInto&&Object.hasOwn(KNOWN_ISSUERS,issuer)&&VALUE.test(value)&&!ABHA_LIKE_VALUE.test(value)){
     const own=(p.identifiers??[]).filter(i=>i.issuer===issuer);
     if(own.some(i=>i.value===value))reasons.push('This identifier is already recorded on this record.');
     else if(own.length)reasons.push('This record already has a different identifier from this issuer; an import does not replace it.');

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2i, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 7a-7d, 7e, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2i, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 7a-7d, 7e, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -729,7 +729,7 @@
       "sourceTextLine": 228,
       "implementation": "partial",
       "target": "R15",
-      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once). Slice 6q: the ASHA role no longer imports (her duplicate matching could not see other ASHAs' patients); the import file limit is 16,000 UTF-8 bytes. Slice 2h: the same importers dry-run CSVs of programme enrolments and external identifiers for existing people matched by a Saha record id or an exact recorded identifier (one neutral reason for unknown and out-of-scope records): episodes open on the adopted or a named compiled or activated pack version and an already open episode is refused; identifiers are format-checked for known issuers, ABHA is refused, and a value already on another record is refused, naming that record only when the importer can see it; apply takes only the plan with lineage, a revision per record and one counted audit event. Every import dry run (people, enrolments, identifiers) has a downloadable rejection report of row numbers and reasons only, formula-escaped, with a control total and SHA-256 manifest, recorded as an audited export.",
+      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once). Slice 6q: the ASHA role no longer imports (her duplicate matching could not see other ASHAs' patients); the import file limit is 16,000 UTF-8 bytes. Slice 2h: the same importers dry-run CSVs of programme enrolments and external identifiers for existing people matched by a Saha record id or an exact recorded identifier (one neutral reason for unknown and out-of-scope records): episodes open on the adopted or a named compiled or activated pack version and an already open episode is refused; identifiers are format-checked for known issuers, ABHA is refused, and a value already on another record is refused, naming that record only when the importer can see it; apply takes only the plan with lineage, a revision per record and one counted audit event. Every import dry run (people, enrolments, identifiers) has a downloadable rejection report of row numbers and reasons only, formula-escaped, with a control total and SHA-256 manifest, recorded as an audited export. Slice 6aa: identifier import accepts listed issuers only (rch, nikshay) and refuses ABHA-shaped values under any issuer; the rejection report's audit event no longer moves the organisation revision.",
       "remaining": "Imports of visits (clinical content) and contacts, identifier verification with issuers and correction of imported identifiers, duplicate review across external sources, data-quality reports and reversal for imported batches.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -763,7 +763,9 @@
         "app/record-import-panel.tsx",
         "tests/record-import-contract.mjs",
         "tests/record-import-smoke.mjs",
-        "docs/current/SLICE-2H-ENROLMENT-IDENTIFIER-IMPORT.md"
+        "docs/current/SLICE-2H-ENROLMENT-IDENTIFIER-IMPORT.md",
+        "tests/seventh-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AA-SEVENTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1270,7 +1272,7 @@
       "sourceTextLine": 292,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model. Slice 6s: the catalogue is an owner-maintained registry of versioned definitions built from a fixed vocabulary of measures, filters and exclusions; the interpreter follows the registry; results name their definition version; one viewer's nested queries over seven days are checked for differencing and withheld when they would reveal a group of 1 to 4 people. Slice 6w: indicator queries are POST only (GET answers the catalogue and interpretation), a view no longer commits organisation-wide, and the CSV export is recorded as an access-audit event; differencing fixes as in BR-REP-04.",
+      "current": "Slice 6d: a catalogue of eight versioned indicators queried over the viewer's scope with cohort minimum, small-cell and complementary suppression and freshness, plus a keyword interpreter that maps a question to catalogue entries for review without running it or using a model. Slice 6s: the catalogue is an owner-maintained registry of versioned definitions built from a fixed vocabulary of measures, filters and exclusions; the interpreter follows the registry; results name their definition version; one viewer's nested queries over seven days are checked for differencing and withheld when they would reveal a group of 1 to 4 people. Slice 6w: indicator queries are POST only (GET answers the catalogue and interpretation), a view no longer commits organisation-wide, and the CSV export is recorded as an access-audit event; differencing fixes as in BR-REP-04. Slice 6aa: indicator results carry the stated limits of small-group protection, and owners see them in the registry; the population-based differencing check withholds more results for small teams and narrow filters.",
       "remaining": "Natural-language analysis under governance, validated definitions with an approval workflow, owner-defined measures, and differencing protection across viewers, non-nested filters and groupings.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1283,7 +1285,9 @@
         "tests/indicator-registry-smoke.mjs",
         "docs/current/SLICE-6S-INDICATOR-REGISTRY.md",
         "tests/fifth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md",
+        "tests/seventh-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AA-SEVENTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2908,7 +2912,7 @@
       "sourceTextLine": 508,
       "implementation": "partial",
       "target": "R15",
-      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out.",
+      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out. Slice 6aa (seventh independent review): differencing is also checked through the people behind each release rather than by key: every measure release of the viewer's last seven days is re-evaluated against the people in scope now and split into atoms (people, and window-to-window increments for windowed measures, in exactly the same shown cells); a result that would create or split an atom of 1 to 4 is withheld, so a different grouping, an exclusion definition or a different window no longer bypasses it; the window is part of each release's identity; the ledger is bounded by size (1 MB organisation, 250 KB per viewer, 429 when full); a property test over random synthetic query sequences finds no released nested pair differing by 1 to 4; the remaining limits (two viewers combining results, changes between queries, releases older than seven days, unrelated measures) are stated to owners.",
       "remaining": "Differencing across viewers, non-nested filters, groupings and definitions, suppression on the operational export and other report paths, and a separate purpose for patient exports.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2923,7 +2927,9 @@
         "tests/indicator-registry-smoke.mjs",
         "docs/current/SLICE-6S-INDICATOR-REGISTRY.md",
         "tests/fifth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md",
+        "tests/seventh-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AA-SEVENTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3374,7 +3380,7 @@
       "sourceTextLine": 569,
       "implementation": "partial",
       "target": "R15",
-      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events.",
+      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events. Slice 6aa: an unpaged workspace read by a non-ASHA viewer above the paging threshold records a viewPatientRecord event for every returned record not recorded in the last 12 hours before returning it (fail closed); the import rejection report is an access-audit event that moves no revision.",
       "remaining": "Audit of workspace snapshot loads, browser-side record opening, searches and aggregate views; audit authority/version completeness; signing of checkpoints and automatic external publication; scheduled verification and independent reconstruction.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3393,7 +3399,9 @@
         "tests/access-audit-smoke.mjs",
         "docs/current/SLICE-6T-ACCESS-AUDIT.md",
         "tests/fifth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md",
+        "tests/seventh-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AA-SEVENTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4106,7 +4114,7 @@
       "sourceTextLine": 741,
       "implementation": "partial",
       "target": "R15",
-      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit. Slice 6v: in-app delivery to the owning role with delivery times, and escalation records; evaluated on reads and organisation-wide writes, so detection time depends on traffic (no background timer). Slice 6y: a read-only trace per visit, programme submission or EHR publication (`GET /api/trace`, linked from the visit's Receipts tab and the exception queue) lists each step from the user command to the execution checkpoint, the provider or destination receipt or callback and the audit event, with command type, actor, receipt key, attempt numbers and task limits, ids, states and times only; execution steps carry a correlation reference from this slice on (older steps show as not linked); scoped like the visit, with redacted delivery items for owners and administrators outside patient scope. Slice 6z: in-app escalation is suppressed only when every owning member's own view shows the acknowledgement, and no escalation notification is left on an occurrence a concurrent evaluation closed.",
+      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit. Slice 6v: in-app delivery to the owning role with delivery times, and escalation records; evaluated on reads and organisation-wide writes, so detection time depends on traffic (no background timer). Slice 6y: a read-only trace per visit, programme submission or EHR publication (`GET /api/trace`, linked from the visit's Receipts tab and the exception queue) lists each step from the user command to the execution checkpoint, the provider or destination receipt or callback and the audit event, with command type, actor, receipt key, attempt numbers and task limits, ids, states and times only; execution steps carry a correlation reference from this slice on (older steps show as not linked); scoped like the visit, with redacted delivery items for owners and administrators outside patient scope. Slice 6z: in-app escalation is suppressed only when every owning member's own view shows the acknowledgement, and no escalation notification is left on an occurrence a concurrent evaluation closed. Slice 6aa: a trace for an item outside the viewer's patient scope says whether a receipt exists without returning it, and trace look-ups keep the newest events and report when a list was cut (trace 1.1.0).",
       "remaining": "Five-minute detection independent of traffic (a scheduled trigger), delivery that reaches people outside the app, a trace id carried to destinations and stored with request ids, and correlation for steps recorded before slice 6y.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4128,7 +4136,9 @@
         "tests/trace-smoke.mjs",
         "docs/current/SLICE-6Y-TASK-TRACE.md",
         "tests/sixth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
+        "tests/seventh-review-fixes-contract.mjs",
+        "docs/current/SLICE-6AA-SEVENTH-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
