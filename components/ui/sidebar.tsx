@@ -304,9 +304,11 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   )
 }
 
-function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
+// Slice 9b: the inset is a plain container. The page puts its single <main> landmark inside it, so the header and footer
+// beside that main remain banner and contentinfo landmarks instead of nesting a second main.
+function SidebarInset({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <main
+    <div
       data-slot="sidebar-inset"
       className={cn(
         "relative flex w-full flex-1 flex-col bg-background",

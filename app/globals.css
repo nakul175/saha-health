@@ -188,3 +188,23 @@ html [data-sonner-toaster][data-sonner-theme=light]{--success-text:hsl(140,100%,
 /* Slice 6y: trace of external work */
 .trace-panel{display:grid;gap:12px;padding:16px 0}.trace-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.trace-heading h3{display:flex;align-items:center;gap:8px}.trace-thread{border:1px solid #dce6ea;border-radius:8px;padding:12px;display:grid;gap:8px}.trace-focus{border-color:#087f74;box-shadow:0 0 0 1px #087f74}.trace-scroll{overflow-x:auto;max-width:100%}.trace-table{border-collapse:collapse;font-size:.8rem;min-width:640px;width:100%}.trace-table th,.trace-table td{text-align:left;padding:6px 8px;border-bottom:1px solid #e7eff2;vertical-align:top;color:#3f5f6c}.trace-table th{background:#f7fafb;font-weight:600}.trace-id{overflow-wrap:anywhere;max-width:220px}.trace-subhead{font-size:.875rem;margin-top:4px}
 .trace-details{margin:16px 22px 22px;border-top:1px solid #e4edf1;padding-top:14px;font-size:.875rem}.trace-details summary{cursor:pointer;font-weight:600;color:#355b52}
+/* Slice 9b: demonstration screens. Patient page spacing after the visit moved up, the record tools card, the action
+   plan's padded contents, the styled photo / voice-note picker and the member's own display name. */
+.visit-start,.media-panel,.referral-request,.action-plan,.record-tools{margin-bottom:24px}
+.visit-layout{margin-bottom:4px}
+.action-plan>:not(.section-heading){margin-left:24px;margin-right:24px}.action-plan>:last-child{margin-bottom:22px}
+.record-tools-row{display:flex;flex-wrap:wrap;gap:10px;padding:0 24px 22px}.record-tools-row [data-slot=button]{white-space:normal;text-align:left}
+.record-tools:has(.record-tools-row:empty){display:none}
+.media-panel>.ehr-item,.media-panel>.notice{margin:0 24px 16px}
+.media-add{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto;gap:12px;align-items:center;padding:0 24px 22px}
+.file-pick{position:relative;display:flex;align-items:center;gap:12px;min-height:44px;border:1px dashed #b9ccd4;border-radius:8px;background:#f8fbfc;padding:6px 12px 6px 6px;min-width:0;cursor:pointer}
+.file-pick:hover{background:#f0f6f8}
+.file-pick:has(.file-pick-input:focus-visible){outline:3px solid #58b8ab;outline-offset:2px}
+.file-pick-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.file-pick-button{display:inline-flex;align-items:center;gap:8px;flex-shrink:0;background:white;border:1px solid #cedce2;border-radius:6px;padding:7px 12px;font-size:.875rem;font-weight:600;color:#15313e}
+.file-pick-name{font-size:.875rem;color:#5c717d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.member-name-form{display:grid;gap:8px;margin-top:18px;border-top:1px solid #e3ecf0;padding-top:16px}
+.member-name-form>label{font-size:.875rem;font-weight:600;color:#3f5f6c}
+.member-name-row{display:flex;gap:8px;align-items:center}.member-name-row [data-slot=input]{flex:1;min-width:0}
+.member-name-form small{font-size:.75rem;color:#5c717d}
+@media(max-width:767px){.action-plan>:not(.section-heading){margin-left:16px;margin-right:16px}.record-tools-row{padding:0 16px 16px}.record-tools-row [data-slot=button]{flex:1 1 calc(50% - 10px);font-size:.8rem;padding-inline:10px}.media-add{grid-template-columns:1fr;padding:0 16px 16px}.media-panel>.ehr-item,.media-panel>.notice{margin:0 16px 12px}.member-name-row{flex-direction:column;align-items:stretch}}
