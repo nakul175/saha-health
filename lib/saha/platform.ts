@@ -11,6 +11,7 @@ import { fixtureMarkSchema } from './fixture-migration';
 import { programmeMigrationSchema } from './programme-migration';
 import { packInstallationSchema } from './pack-installation';
 import { factReviewSchema } from './fact-verification';
+import { signOffSchema } from './visit-signoff';
 import { patientImportSchema } from './patient-import';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
@@ -59,6 +60,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...programmeMigrationSchema.options,
  ...packInstallationSchema.options,
  ...factReviewSchema.options,
+ ...signOffSchema.options,
  ...patientImportSchema.options,
  ...referralSchema.options,
  ...actionPlanSchema.options,

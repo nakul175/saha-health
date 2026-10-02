@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2f, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2g, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -481,8 +481,8 @@
       "sourceTextLine": 201,
       "implementation": "partial",
       "target": "R12",
-      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"not recorded\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers.",
-      "remaining": "Author and verification for visit notes and programme answers; supervisor sign-off and verification before sending; coded FHIR provenance; per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
+      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"not recorded\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries \"not recorded\") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view.",
+      "remaining": "Disputes blocking sending; per-programme or per-destination sign-off policy and sign-off withdrawal; coded FHIR provenance (authors, reviews and sign-off are not in FHIR or programme payloads); per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -504,7 +504,12 @@
         "app/fact-verification-panel.tsx",
         "tests/fact-verification-contract.mjs",
         "tests/fact-verification-smoke.mjs",
-        "docs/current/SLICE-2E-OBSERVATION-VERIFICATION.md"
+        "docs/current/SLICE-2E-OBSERVATION-VERIFICATION.md",
+        "lib/saha/visit-signoff.ts",
+        "app/entry-verification-panel.tsx",
+        "tests/note-answer-signoff-contract.mjs",
+        "tests/note-answer-signoff-smoke.mjs",
+        "docs/current/SLICE-2G-NOTE-ANSWER-SIGNOFF.md"
       ],
       "automatedAcceptanceClaim": false
     },

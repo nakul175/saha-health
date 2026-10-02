@@ -1,4 +1,4 @@
-import type { FactAuthor, FactReview, Facts, FactSource, Measure, Role, Visit } from './types';
+import type { EntryReview, FactAuthor, FactReview, Facts, FactSource, Measure, Role, Visit } from './types';
 // Slice 2c: source and observation time for each measurement (BR-DATA-02). Pure helpers shared by the server,
 // the workspace UI and the FHIR exports. A recorded value is measured or reported; a blank measurement may say
 // why it is missing (not asked, declined, unknown, not applicable), which is never read as a normal finding.
@@ -36,6 +36,22 @@ export function factMeasuresPresent(f:Facts){return MEASURES.filter(m=>present(f
 // Current verification state: the latest appended review for the measurement, or unverified.
 export function factReview(v:Pick<Visit,'factReviews'>,m:Measure):FactReview|null{const rs=(v.factReviews??[]).filter(r=>r.measure===m);return rs.at(-1)??null;}
 export function authorText(a:FactAuthor|undefined){return a?`${a.name} (${AUTHOR_ROLE_LABEL[a.role]??a.role}), saved ${a.at.slice(0,16).replace('T',' ')} UTC`:'not recorded';}
-export function reviewText(r:FactReview|null){return !r?'unverified':`${r.state==='verified'?'verified':'disputed'} by ${r.byName} (clinician), ${r.at.slice(0,16).replace('T',' ')} UTC${r.reason?`: ${r.reason}`:''}`;}
+export function reviewText(r:Pick<FactReview,'state'|'byName'|'at'|'reason'>|null){return !r?'unverified':`${r.state==='verified'?'verified':'disputed'} by ${r.byName} (clinician), ${r.at.slice(0,16).replace('T',' ')} UTC${r.reason?`: ${r.reason}`:''}`;}
 // Text added to FHIR observation notes. Visits recorded before slice 2e (no authors, no reviews) are unchanged.
 export function factAuditText(v:Pick<Visit,'factAuthors'|'factReviews'>,m:Measure){if(!v.factAuthors&&!v.factReviews?.length)return '';return ` Recorded by: ${authorText(v.factAuthors?.[m])}. Verification: ${reviewText(factReview(v,m))}.`;}
+// Slice 2g: authors of the visit notes and of each programme answer (an answer or an absence reason, keyed by question
+// id), and clinician reviews of them. The same rule as measurements: changed entries are credited to the actor (the
+// authenticated server identity), unchanged ones keep their author, cleared ones lose it, older ones stay "not recorded".
+export type EntryContent={notes:string;answers:Record<string,string>;absence:Record<string,string>};
+export const entryContent=(v:Pick<Visit,'facts'|'programmeCapture'>):EntryContent=>({notes:v.facts.notes??'',answers:v.programmeCapture?.answers??{},absence:v.programmeCapture?.absence??{}});
+export const answerKeys=(c:EntryContent)=>[...new Set([...Object.keys(c.answers),...Object.keys(c.absence)].filter(k=>!!(c.answers[k]||c.absence[k])))].sort();
+export function stampEntryAuthors(prev:EntryContent|undefined,next:EntryContent,old:Pick<Visit,'noteAuthor'|'answerAuthors'>|undefined,actor:FactAuthor){
+ const noteAuthor=!next.notes?undefined:prev?.notes===next.notes?old?.noteAuthor:{...actor};
+ const answerAuthors:Record<string,FactAuthor>={};const fp=(c:EntryContent|undefined,k:string)=>c?JSON.stringify([c.answers[k]??null,c.absence[k]??null]):'';
+ for(const k of answerKeys(next)){if(fp(prev,k)!==fp(next,k))answerAuthors[k]={...actor};else if(old?.answerAuthors?.[k])answerAuthors[k]={...old.answerAuthors[k]};}
+ return {noteAuthor:noteAuthor?{...noteAuthor}:undefined,answerAuthors:Object.keys(answerAuthors).length?answerAuthors:undefined};
+}
+export const entryKeys=(v:Pick<Visit,'facts'|'programmeCapture'>)=>{const c=entryContent(v);return [...(c.notes?['notes']:[]),...answerKeys(c).map(k=>'answer:'+k)];};
+export const entryAuthor=(v:Pick<Visit,'noteAuthor'|'answerAuthors'>,entry:string)=>entry==='notes'?v.noteAuthor:entry.startsWith('answer:')?v.answerAuthors?.[entry.slice(7)]:undefined;
+export function entryReview(v:Pick<Visit,'entryReviews'>,entry:string):EntryReview|null{return (v.entryReviews??[]).filter(r=>r.entry===entry).at(-1)??null;}
+export function signOffText(s:{byName:string;role?:Role;at:string}|undefined){return s?`signed off by ${s.byName}${s.role?` (${AUTHOR_ROLE_LABEL[s.role]??s.role})`:''}, ${s.at.slice(0,16).replace('T',' ')} UTC`:'not signed off';}

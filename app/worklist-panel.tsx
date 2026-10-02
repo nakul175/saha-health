@@ -1,4 +1,5 @@
 'use client';
+import { signOffText } from '@/lib/saha/fact-provenance';
 import { useCallback, useEffect, useState } from 'react';
 import { CheckCheck, ChevronRight, Clock3, Loader2, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -69,7 +70,7 @@ export function PagedReceipts({ organisationId, open, refresh }: { organisationI
   return <section className="panel receipt-panel" aria-label="Programme submissions">
     <div className="section-heading" role="tablist"><button role="tab" aria-selected={tab === 'all'} className={`text-link${tab === 'all' ? ' active' : ''}`} onClick={() => setTab('all')}>All submissions ({w.page?.all ?? '…'})</button><button role="tab" aria-selected={tab === 'attention'} className={`text-link${tab === 'attention' ? ' active' : ''}`} onClick={() => setTab('attention')}>Needs attention ({w.page?.attention ?? '…'})</button><Shown w={w} /></div>
     {w.error && <div className="notice amber-notice" role="alert">{w.error}</div>}
-    {w.rows.map(s => <div className="receipt-row" key={s.id}><div className={`receipt-icon ${s.state === 'accepted' ? 'ok' : 'warning'}`}>{s.state === 'accepted' ? <CheckCheck /> : <Clock3 />}</div><div className="receipt-main"><strong>{s.connectorName}</strong><span>{s.personName} · {new Date(s.createdAt).toLocaleString('en-IN')}</span><p>{s.message}</p><small>{s.receipt ?? 'Receipt not confirmed'} · {s.attempts} send attempts · {s.mode === 'demo' ? 'Demo' : 'HTTP API'}</small></div><div className="receipt-actions"><span className={`tag ${s.state === 'accepted' ? 'success' : 'amber'}`}>{s.state}</span><button className="text-link" onClick={() => open(s.personId, s.visitId)}>Open visit <ChevronRight size={14} /></button></div></div>)}
+    {w.rows.map(s => <div className="receipt-row" key={s.id}><div className={`receipt-icon ${s.state === 'accepted' ? 'ok' : 'warning'}`}>{s.state === 'accepted' ? <CheckCheck /> : <Clock3 />}</div><div className="receipt-main"><strong>{s.connectorName}</strong><span>{s.personName} · {new Date(s.createdAt).toLocaleString('en-IN')}</span><p>{s.message}</p><small>{s.receipt ?? 'Receipt not confirmed'} · {s.attempts} send attempts · {s.mode === 'demo' ? 'Demo' : 'HTTP API'}</small><small className="block">Supervisor sign-off: {signOffText(s.signOff)}</small></div><div className="receipt-actions"><span className={`tag ${s.state === 'accepted' ? 'success' : 'amber'}`}>{s.state}</span><button className="text-link" onClick={() => open(s.personId, s.visitId)}>Open visit <ChevronRight size={14} /></button></div></div>)}
     {!w.rows.length && !w.loading && !w.error && <p className="muted">{tab === 'attention' ? 'No unresolved submissions. Every recorded destination has a confirmed status.' : 'No submissions yet. Confirm a visit, then review and run its programme plan.'}</p>}
     <Foot w={w}>Built on the server over your whole care scope. Open a visit to send, look up or view a receipt.</Foot>
   </section>;
