@@ -30,3 +30,7 @@
 - The run is seeded, but concurrent interleavings depend on scheduling, so two runs with the same seed can differ in detail.
 - The benchmark is a local measurement on the build machine with a stated synthetic workload while other builders ran test suites on the same machine. It is not the R1 reference workload or a reference environment: D1 latency, Worker isolate limits and real partner payloads are excluded. The assistant (agent) adapter is not benchmarked.
 - NFR-05 stays partial (live partner replay evidence and partner deduplication remain); NFR-28 stays unverified (no reference environment or R1 workload).
+
+## Correction — 2 October 2026 (slice 6ab)
+
+An eighth independent review found the soak's oracle too loose: a resend counted as allowed once the partner had delivered `not_found` even if Saha never stored it; duplicates were checked per idempotency key with pre-seeded submissions only; and the callback path was a copy without the route's event limit and endpoint/binding checks. Slice 6ab requires Saha's stored delivery events to show a recorded `not_found` before a resend, runs signed callbacks through the real route function, adds bounded organisations that create, cancel, withdraw and re-prepare submissions through the real plan commands, and checks at most one accepted record per visit. The stricter soak also passes on the code before 6ab. See [SLICE-6AB-EIGHTH-REVIEW-FIXES.md](SLICE-6AB-EIGHTH-REVIEW-FIXES.md).

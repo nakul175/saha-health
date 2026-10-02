@@ -32,7 +32,7 @@ const VERB:Record<AdapterOperation,string>={create:'create records',update:'upda
 export const OPERATION_PATHS:Record<GovernedKind,Record<AdapterOperation,string>>={
  mis:{create:'Send a confirmed visit as a new submission',update:'Send the correction of an accepted submission',delete:'',lookup:'Look up a delivery receipt',aggregate:''},
  ehr:{create:'Publish a confirmed visit document',update:'',delete:'',lookup:'Look up a publication receipt',aggregate:''},
- abdm:{create:'Link an ABHA or care contexts on the mock gateway',update:'',delete:'Unlink an ABHA on the mock gateway',lookup:'Fetch records under a granted consent (mock HIU)',aggregate:''},
+ abdm:{create:'Link an ABHA or care contexts on the mock gateway',update:'',delete:'Unlink an ABHA on the mock gateway (a consent revocation always applies in Saha; this decides whether the gateway is told)',lookup:'Request consent and fetch records under a granted consent (mock HIU)',aggregate:''},
 };
 export const NO_PATH='No path in this release. Changes of this kind need a separate process agreed with the partner.';
 export const DEFAULT_OPERATIONS:Record<GovernedKind,AdapterOperation[]>={mis:['create','update','lookup'],ehr:['create','lookup'],abdm:['create','delete','lookup']};

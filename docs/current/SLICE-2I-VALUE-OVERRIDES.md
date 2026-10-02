@@ -33,3 +33,7 @@
 - The field registration form has no unit or reason controls; a registration with an unusual value is refused by the server and kept for review in the notebook.
 - FHIR carries units and overrides as note text only; no extension, `Provenance` resource or coded interpretation is emitted, because the pinned rule set does not permit them. Programme (MIS) payloads carry the stored value without the entered unit or override.
 - The notebook keeps its own copy of the ranges and units; a contract check compares them with the server configuration, but a notebook cached before a ranges change keeps the old copy until it reloads (the server decides in any case).
+
+## Correction — 2 October 2026 (slice 6ab)
+
+An eighth independent review found that `confirmUnusualValue` refused only the author of the current override: after another worker reworded the reason or re-entered the same value in another unit, the value's original recorder could confirm it. Slice 6ab also refuses the measurement's recorded author and the author of any override with the same value. The review also found that the assistant summary input listed the `entered` and `unusual` objects as "[object Object]"; it now includes text facts only. See [SLICE-6AB-EIGHTH-REVIEW-FIXES.md](SLICE-6AB-EIGHTH-REVIEW-FIXES.md).

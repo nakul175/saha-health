@@ -169,7 +169,9 @@
     "tests/ehr-execution.mjs",
     "tests/replay-soak-contract.mjs",
     "tests/evidence/slice-7d/replay-soak-10000.json",
-    "docs/current/SLICE-7D-REPLAY-SOAK.md"
+    "docs/current/SLICE-7D-REPLAY-SOAK.md",
+    "app/api/mis/callback/route.ts",
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
   ],
   "NFR-06": [
     "scripts/recovery.mjs",
@@ -441,7 +443,10 @@
     "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
     "tests/sixth-review-fixes-contract.mjs",
     "docs/current/SLICE-6Z-SIXTH-REVIEW-FIXES.md",
-    "tests/sixth-review-smoke.mjs"
+    "tests/sixth-review-smoke.mjs",
+    "tests/eighth-review-fixes-contract.mjs",
+    "tests/eighth-review-smoke.mjs",
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
   ],
   "BR-INT-15": [
     "REMAINING-RELEASES.md"
@@ -677,7 +682,9 @@
     "lib/saha/aggregate-execution.ts",
     "tests/aggregate-delivery-contract.mjs",
     "tests/aggregate-delivery-smoke.mjs",
-    "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md"
+    "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md",
+    "tests/eighth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
   ],
   "BR-SEC-08": [
     "lib/saha/server.ts",
@@ -1110,7 +1117,10 @@
     "lib/saha/ehr-execution.ts",
     "tests/adapter-operations-contract.mjs",
     "tests/adapter-operations-smoke.mjs",
-    "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md"
+    "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md",
+    "lib/saha/abdm.ts",
+    "tests/eighth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
   ],
   "BR-INT-09": [
     "lib/saha/mis.ts",
@@ -1128,7 +1138,9 @@
     "lib/saha/aggregate-execution.ts",
     "tests/aggregate-delivery-contract.mjs",
     "tests/aggregate-delivery-smoke.mjs",
-    "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md"
+    "docs/current/SLICE-7G-AGGREGATE-DELIVERY.md",
+    "tests/eighth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
   ],
   "BR-DATA-05": [
     "lib/saha/core.ts",
@@ -1147,7 +1159,9 @@
     "tests/value-override-smoke.mjs",
     "tests/field-units-client.mjs",
     "tests/value-override-agent-contract.mjs",
-    "docs/current/SLICE-2I-VALUE-OVERRIDES.md"
+    "docs/current/SLICE-2I-VALUE-OVERRIDES.md",
+    "tests/eighth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
   ],
   "BR-INT-21": [
     "lib/saha/mis.ts",
@@ -1195,5 +1209,17 @@
     "tests/correction-tasks-contract.mjs",
     "tests/correction-tasks-smoke.mjs",
     "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md"
+  ],
+  "BR-AG-01": [
+    "lib/saha/agent.ts",
+    "lib/saha/agent-execution.ts",
+    "tests/agent-contract.mjs",
+    "tests/agent-smoke.mjs",
+    "lib/saha/governance.ts",
+    "tests/governance-smoke.mjs",
+    "tests/governance-contract.mjs",
+    "AI-GOVERNANCE.md",
+    "tests/eighth-review-fixes-contract.mjs",
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
   ]
 }

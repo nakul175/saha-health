@@ -38,7 +38,10 @@ function module(s:OrgState,name:'abha'|'hip'|'hiu'){const c=abdmConfig(s);if(!c|
 const care=(m:Member)=>['asha','clinician'].includes(m.role);
 // Slice 7e: the mock gateway's permitted operations (create links, delete/unlink, look up records) are checked
 // before each ABDM-shaped step. These steps are single local commits against the mock, so a refusal changes nothing.
-const ABDM_OPERATION:Record<string,AdapterOperation>={abhaLink:'create',abhaUnlink:'delete',abdmCareContextLink:'create',abdmFetch:'lookup'};
+// Slice 6ab (eighth review): a consent request is the first step of a fetch, so it is governed by lookup. A consent
+// revocation is never refused (withdrawing permission must always work locally); see abdmConsentRevoke below.
+const ABDM_OPERATION:Record<string,AdapterOperation>={abhaLink:'create',abhaUnlink:'delete',abdmCareContextLink:'create',abdmFetch:'lookup',abdmConsentRequest:'lookup'};
+export const ABHA_REVIEW_LIMIT=3;
 export function abdmOperation(s:OrgState,type:string){const op=ABDM_OPERATION[type],i=abdmIntegration(s);if(!op||!i)return;const refused=operationRefusal(i,op,op==='lookup'?'none':'patient');if(refused)fail(409,refused+' Nothing was changed on the mock gateway.');}
 export function authorizeAbdm(_s:OrgState,m:Member,c:any){
  if(!TYPES.has(c?.type))return;
@@ -73,21 +76,30 @@ export function applyAbdm(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date
  else if(c.type==='abdmConsentDecide'||c.type==='abdmConsentRevoke'){
   const p=person(w,c.personId);personId=subject=p.id;const x=(p.abdmConsents??[]).find(y=>y.id===c.consentId);if(!x)fail(404,'Consent artefact not found.');
   if(c.type==='abdmConsentDecide'){module(s,'hiu');if(x.status!=='REQUESTED')fail(409,'This consent request is already decided.');x.status=c.decision;x.decidedAt=now;detail=`Mock consent manager recorded ${c.decision} for ${x.purpose} (${x.hiTypes.join(', ')}). In a real deployment the patient decides in their ABDM app.`;}
-  else {const st=effective(x,now);if(!['GRANTED','REQUESTED'].includes(st))fail(409,`A ${st} consent cannot be revoked.`);x.status='REVOKED';x.revokedAt=now;x.revokeReason=c.reason;detail=`Consent revoked; further fetches are refused. ${c.reason}`;}
+  else {const st=effective(x,now);if(!['GRANTED','REQUESTED'].includes(st))fail(409,`A ${st} consent cannot be revoked.`);x.status='REVOKED';x.revokedAt=now;x.revokeReason=c.reason;
+   // Slice 6ab: the revocation always applies in Saha; the gateway's delete operation governs only whether the mock
+   // gateway is told (nothing is sent in this release either way), and the audit says which.
+   const gw=abdmIntegration(s),told=!gw||!operationRefusal(gw,'delete','patient');result={ok:true,gatewayNotified:told};
+   detail=`Consent revoked; further fetches are refused.${told?'':' The mock gateway was not told: its delete operation is withdrawn.'} ${c.reason}`;}
   p.version++;
  }
  else {
   const p=person(w,c.personId);personId=subject=p.id;if(p.version!==c.version)fail(409,'Patient changed. Refresh before continuing.');if(p.mergedInto)fail(409,'This record was merged into another record.');
   const hist=(action:string,extra:any={})=>{p.abha??={state:'none',at:now,by:u.userId,history:[]};p.abha.history.push({at:now,by:u.userId,action,...extra});if(p.abha.history.length>100)fail(422,'ABHA history limit reached.');};
   if(c.type==='abhaLink'){
-   module(s,'abha');if(c.otp!==MOCK_OTP)fail(422,LINK_REFUSED);
+   module(s,'abha');
+   // Slice 6ab (eighth review): an already linked record is refused first, whatever number or code is entered.
    if(p.abha?.state==='linked')fail(409,'An ABHA is already linked. Unlink it with a reason before linking another.');
-   const other=w.people.find(q=>q.id!==p.id&&q.abha?.state==='linked'&&q.abha.number===c.abhaNumber&&!q.mergedInto);if(other){
-    // Slice 6u (fourth review): the check is organisation-wide; when the other record is outside the worker's scope the
-    // refusal is neutral, so it does not reveal that a patient the worker may not see holds this ABHA number.
-    // Slice 6z: the refusal is the same as a gateway refusal (status and text); the server records it for a steward.
-    if(!other.assigned)throw new AbhaHeldElsewhere(p.id,other.id);
-    fail(409,'This ABHA number is linked to another record. Review whether the records are the same person before linking.');}
+   const other=w.people.find(q=>q.id!==p.id&&q.abha?.state==='linked'&&q.abha.number===c.abhaNumber&&!q.mergedInto);
+   // Slice 6u (fourth review): the check is organisation-wide. Slice 6z: when the other record is outside the worker's
+   // scope the refusal is the same as a gateway refusal (status and text) and the server records it for a steward.
+   // Slice 6ab: it is decided before the one-time code is looked at, so it does not depend on the code. Because the
+   // mock gateway's code is public, a requester who enters it can still tell this refusal from a successful link: the
+   // server therefore records at most one review event per requester and holding record a day, and after
+   // ABHA_REVIEW_LIMIT such refusals in a day refuses every further link by that requester the same way (server.ts).
+   if(other&&!other.assigned)throw new AbhaHeldElsewhere(p.id,other.id);
+   if(c.otp!==MOCK_OTP)fail(422,LINK_REFUSED);
+   if(other)fail(409,'This ABHA number is linked to another record. Review whether the records are the same person before linking.');
    hist('linked',{number:c.abhaNumber});Object.assign(p.abha!,{state:'linked',number:c.abhaNumber,address:c.abhaAddress,verification:'mock-otp',at:now,by:u.userId});
    detail=`ABHA ${c.abhaNumber.slice(0,2)}-XXXX-XXXX-${c.abhaNumber.slice(-4)} linked after mock OTP verification. Not verified with ABDM.`;result={abha:`${c.abhaNumber.slice(0,2)}-XXXX-XXXX-${c.abhaNumber.slice(-4)}`};
   }

@@ -29,3 +29,7 @@
 - Mock ABDM refusals are plain refusals with nothing changed; they are not raised in the exception queue or traced (ABDM exchanges are not part of the 6y trace).
 - A refusal inside the programme checkpoint uses one extra state read before the request. The operation setting is per integration, not per programme, team or patient.
 - BR-INT-02 and BR-INT-09 stay partial: no live partner has been configured or tested with narrowed operations, and none of this is accepted for production.
+
+## Correction — 2 October 2026 (slice 6ab)
+
+An eighth independent review found three gaps: a correction to a demonstration destination (which has no payload) was classified as a create, so withdrawing `update` did not stop it; `abdmConsentRequest` and `abdmConsentRevoke` had no operation; and an EHR publication read `Patient/<externalId>` before its create recheck. Slice 6ab classifies a correction by an accepted submission of a visit it corrects to the same destination, governs consent requests by `lookup` (a revocation always applies; `delete` decides only whether the mock gateway is told), and rechecks `create` before the patient read. See [SLICE-6AB-EIGHTH-REVIEW-FIXES.md](SLICE-6AB-EIGHTH-REVIEW-FIXES.md).

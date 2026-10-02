@@ -46,7 +46,11 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
  const found=classifySearch(await transport(i,s.organisation.id,env,'Bundle?identifier='+encodeURIComponent('urn:saha:documents|'+op.id)+'&_count=2'),op.bundle,link.externalId,policy,settleFrom);
  if(found.outcome==='found')receipt=found.receipt;
  else if(found.outcome==='wait')message=`No matching document yet, but the partner's ${policy.consistencySeconds}-second consistency delay has not passed since this publication was attempted. Look up again after ${found.due}; do not publish again.`;
- else resolution=found.outcome==='conflict'?{outcome:'conflict',matches:found.matches,detail:found.detail}:{outcome:'not-stored',matches:0,detail:`No document with this identifier after the partner's ${policy.consistencySeconds}-second consistency delay.`};}else{checkRemotePatient(await transport(i,s.organisation.id,env,'Patient/'+link.externalId),link.externalId,link.externalName);
+ else resolution=found.outcome==='conflict'?{outcome:'conflict',matches:found.matches,detail:found.detail}:{outcome:'not-stored',matches:0,detail:`No document with this identifier after the partner's ${policy.consistencySeconds}-second consistency delay.`};}else{
+ // Slice 6ab (eighth review): the create operation is rechecked on a fresh read before the patient read goes out, so a
+ // withdrawn create sends nothing at all (not even the Patient/<id> read); it is checked again after the read below.
+ {const early=await readState(db,s.organisation.id),li=early.workspace.integrations.find(x=>x.id===i.id);const refused=li?operationRefusal(li,'create','patient'):'The EHR connection no longer exists.';if(refused){if(li)operationRefused=refusalOf(li,'create','checkpoint');fail(409,refused);}}
+ checkRemotePatient(await transport(i,s.organisation.id,env,'Patient/'+link.externalId),link.externalId,link.externalName);
  // Recheck authorisation immediately before the write, after patient lookup.
  const latest=await readState(db,s.organisation.id),member=scope(latest,u.userId);if(!['asha','clinician'].includes(member.role))fail(403,'Care access changed.');ensureOperating(latest,c);const personNow=person(latest.workspace,p.id);
  // Slice 7e: the create operation is rechecked inside the checkpoint; a withdrawal closes the publication as not sent.
