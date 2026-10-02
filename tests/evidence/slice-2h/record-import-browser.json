@@ -1,0 +1,43 @@
+{
+ "enrolDry": "Import enrolments or identifiers for existing people | Owners and supervisors · dry run first | For people already in Saha, in teams you belong to and supervise. Up to 100 rows and 16,000 bytes. The dry run checks each row; only accepted rows are applied, each record gets a revision, and the batch is audited with its counts. Visits are not imported. | What to import | Programme enrolments | External identifiers | Columns: person,pack,version,episode_label,start_date. person is a Saha record id or an identifier written issuer:value; version may be left empty for the adopted version; start_date is YYYY-MM-DD or empty. | CSV file | Or paste the CSV | Run dry run | Download rejection report | 2 to apply · 2 rejected · 4 rows | Plan d83ac7d68a1b597a… | Row\tResult\tRecord\tDetails | 1\tAccepted\tAarav Singh (p_aarav)\tEpisode will be opened. | 2\tAccepted\tFarida Begum (p_farida)\tEpisode will be opened. | 3\tRejected\t\tNo record in the teams you may import into matches this person. | 4\tRejected\tAarav Singh (p_aarav)\tRow 1 in this file already opens this pack for this record. | Reason for this import | Apply 2 rows",
+ "axeDry": [],
+ "reportNotice": "Rejection report 4ab0f18e downloaded · SHA-256 8f056542fa87… · row numbers and reasons only",
+ "report": {
+  "lines": 17,
+  "manifestMatches": true,
+  "noticeMatches": true,
+  "leaks": [],
+  "listed": 2
+ },
+ "enrolDone": "n,episode_label,start_date. person is a Saha record id or an identifier written issuer:value; version may be left empty for the adopted version; start_date is YYYY-MM-DD or empty. | CSV file | Or paste the CSV | Run dry run | Rejection report 4ab0f18e downloaded · SHA-256 8f056542fa87… · row numbers and reasons only | 2 applied to 2 records · batch b41c7ee8 · 2 rejected and not applied | Rows 1, 2",
+ "axeDone": [],
+ "identDry": "Row\tResult\tRecord\tDetails | 1\tAccepted\tAarav Singh (p_aarav)\tIdentifier will be recorded. | 2\tRejected\tFarida Begum (p_farida)\tRow 1 in this file already carries this identifier. | 3\tRejected\tFarida Begum (p_farida)\tABHA numbers and addresses are linked through ABHA verification, not imported.",
+ "stored": {
+  "aEpisodes": [
+   {
+    "pack": "tb",
+    "v": 1,
+    "row": 1
+   }
+  ],
+  "bEpisodes": [
+   {
+    "pack": "tb",
+    "v": 1,
+    "row": 2
+   }
+  ],
+  "aIdentifiers": [
+   {
+    "issuer": "rch",
+    "verified": false,
+    "matches": true
+   }
+  ]
+ },
+ "leakedUrls": [],
+ "leakedResponses": 0,
+ "errors": [],
+ "completedAt": "2026-10-01T20:35:54.820Z",
+ "passed": true
+}

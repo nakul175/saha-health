@@ -103,8 +103,10 @@ export function abdmView(s:OrgState,p:Person,q:{consentId?:string|null;hiType?:s
   purposes:PURPOSES,hiTypes:HI_TYPES,mock:'Local mock gateway only. One-time code 123456 is accepted; nothing is sent to ABDM.'};
 }
 // Snapshots carry masked ABHA numbers; the full number stays in the stored record and its revisions.
-export function redactAbha<T extends Person>(p:T):T{if(!p.abha&&!p.abdmConsents&&!p.careContexts&&!p.abdmReceived)return p;const mask=(n?:string)=>n?`${n.slice(0,2)}-XXXX-XXXX-${n.slice(-4)}`:n;
- return {...p,...(p.abha?{abha:{...p.abha,number:mask(p.abha.number),history:p.abha.history.map(h=>({...h,number:mask(h.number)}))}}:{}),...(p.abdmConsents?{abdmConsents:p.abdmConsents.map(c=>({...c,abhaNumber:mask(c.abhaNumber)!}))}:{}),...(p.careContexts?{careContexts:p.careContexts.map(c=>({...c,abhaNumber:mask(c.abhaNumber)!}))}:{}),...(p.abdmReceived?{abdmReceived:p.abdmReceived.map(({bundle,...r})=>r) as any}:{})};}
+// Slice 2h: imported external identifiers are masked the same way in snapshots and history (all but the last four characters).
+export const maskIdentifier=(v:string)=>v.length>4?'X'.repeat(v.length-4)+v.slice(-4):'X'.repeat(v.length);
+export function redactAbha<T extends Person>(p:T):T{if(!p.abha&&!p.abdmConsents&&!p.careContexts&&!p.abdmReceived&&!p.identifiers)return p;const mask=(n?:string)=>n?`${n.slice(0,2)}-XXXX-XXXX-${n.slice(-4)}`:n;
+ return {...p,...(p.abha?{abha:{...p.abha,number:mask(p.abha.number),history:p.abha.history.map(h=>({...h,number:mask(h.number)}))}}:{}),...(p.abdmConsents?{abdmConsents:p.abdmConsents.map(c=>({...c,abhaNumber:mask(c.abhaNumber)!}))}:{}),...(p.careContexts?{careContexts:p.careContexts.map(c=>({...c,abhaNumber:mask(c.abhaNumber)!}))}:{}),...(p.abdmReceived?{abdmReceived:p.abdmReceived.map(({bundle,...r})=>r) as any}:{}),...(p.identifiers?{identifiers:p.identifiers.map(i=>({...i,value:maskIdentifier(i.value)}))}:{})};}
 // Slice 6r: stored revisions keep the full record; history is redacted on read like snapshots (masked ABHA numbers, no received FHIR bundles).
 const maskAbha=(n:string)=>/^[0-9-]{8,}$/.test(n)?`${n.slice(0,2)}-XXXX-XXXX-${n.slice(-4)}`:n;
 export function redactRevision<T extends {entityType:string;data:any;changes:{field:string;before:string;after:string}[]}>(r:T):T{const abhaField=(f:string)=>/(^|\.)abha\.number$|abhaNumber$/i.test(f),received=(f:string)=>/^abdmReceived(\.|$)/.test(f);
