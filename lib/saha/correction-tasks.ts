@@ -93,8 +93,19 @@ export function correctionTasks(s:OrgState,v:Visit,cause:'amend'|'void',u:Actor,
  const counted=v.confirmedAt?releases.filter(r=>typeof r?.at==='string'&&r.at>=v.confirmedAt!).length:0;
  add({output:{kind:'indicator-releases',refId:null,label:'Indicator releases',stateAtCorrection:`${counted} release${counted===1?'':'s'} since confirmation`,count:counted},external:false,action:counted?'review':'recomputed',state:counted?'open':'done',
   instruction:counted?`${counted} indicator release${counted===1?'':'s'} recorded since this visit was confirmed may have counted it. Indicators are recomputed on each read; figures already released are not recalled. Decide whether a reissued figure is needed.`:'No indicator release is recorded since confirmation; indicators are recomputed on each read.'});
- if(tasks.length>MAX_TASKS)fail(422,`This visit has more than ${MAX_TASKS} downstream outputs. Ask an administrator to review it before correcting.`);
- return tasks;
+ // Slice 6ad (ninth review, finding 9): a visit with more downstream outputs than MAX_TASKS can still be corrected
+ // (there is no administrator path, so refusing could make a wrong-patient visit impossible to void). Every external
+ // output keeps its own task; internal outputs past the cap are folded into one review task per kind with the count.
+ if(tasks.length<=MAX_TASKS)return tasks;
+ const ext=tasks.filter(t=>t.external);
+ if(ext.length>MAX_TASKS)fail(422,`This visit has more than ${MAX_TASKS} deliveries to external destinations. Resolve or look up the open deliveries first; nothing was changed.`);
+ const internal=tasks.filter(t=>!t.external),kept=internal.slice(0,MAX_TASKS-ext.length),rest=internal.slice(MAX_TASKS-ext.length),folded=new Map<CorrectionTask['output']['kind'],CorrectionTask[]>();
+ for(const t of rest)folded.set(t.output.kind,[...(folded.get(t.output.kind)??[]),t]);
+ const out=[...ext,...kept];
+ for(const [kind,ts] of folded){const open=ts.filter(t=>t.state==='open').length;
+  out.push({...ts[0],id:uuid(),output:{kind,refId:null,label:`${ts.length} further ${CORRECTION_KIND_LABEL[kind].toLowerCase()} outputs`,stateAtCorrection:`${ts.length} not listed one by one`,count:ts.length},state:open?'open':'done',action:open?'review':ts[0].action,
+   instruction:`This visit has more than ${MAX_TASKS} downstream outputs, so ${ts.length} ${CORRECTION_KIND_LABEL[kind].toLowerCase()} outputs are listed here as one task${open?`; ${open} of them need review. Review them from the patient's record`:''}.`});}
+ return out;
 }
 
 // Who may close a task: a care worker with normal access to the patient, or a supervisor or owner of the

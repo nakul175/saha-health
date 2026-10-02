@@ -160,10 +160,15 @@ try {
     assert.equal(exceptionQueue(s, m('sup'), now).items.filter(i => i.kind === 'correction-task').length, 11);
     assert.equal(x.correctionsOf(s, 'v1').map(v => v.id).join(), 'v1b');
   });
-  // 12. Too many downstream outputs are refused before anything changes.
+  // 12. Too many downstream outputs. Slice 6ad (ninth review, finding 9) replaced the expected 422 refusal ("ask an
+  // administrator", with no administrator path, so such a visit could never be corrected): the visit is corrected, and
+  // internal outputs past the cap are folded into one review task per kind that counts them all.
   check(() => {
     const big = fresh(); for (let i = 0; i < 70; i++) big.workspace.referrals.push({ id: 'rx' + i, personId: 'p1', visitId: 'v1', facility: 'F', state: 'sent', createdAt: after });
-    status(() => x.correctionTasks(big, big.workspace.visits[0], 'amend', u('doc'), now, 'v1b'), 422);
+    const tasks = x.correctionTasks(big, big.workspace.visits[0], 'amend', u('doc'), now, 'v1b');
+    assert.ok(tasks.length <= 70, 'bounded: at most 60 tasks plus one per folded kind');
+    const listed = tasks.filter(t => t.output.kind === 'referral' && t.output.refId).length, folded = tasks.filter(t => t.output.kind === 'referral' && !t.output.refId);
+    assert.equal(folded.length, 1); assert.equal(listed + folded[0].output.count, big.workspace.referrals.filter(r => r.visitId === 'v1').length, 'every referral of the visit is listed or counted'); assert.equal(folded[0].state, 'open'); assert.match(folded[0].instruction, /listed here as one task/);
   });
   writeFileSync('tests/correction-tasks-contract-result.json', JSON.stringify({ passed, suite: 'correction-tasks-contract', completedAt: new Date().toISOString() }, null, 2) + '\n');
   console.log(JSON.stringify({ passed, suite: 'correction-tasks-contract' }));
