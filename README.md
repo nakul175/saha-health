@@ -27,7 +27,7 @@ The current pack contains reconciled BRD/FSD/HLD/LLD, API/data/security/test/del
 
 The runtime uses React/Vinext, a Cloudflare Worker and D1. The original PostgreSQL/RLS, native Android and broader REST design remains a target, not installed functionality. Live AI/MIS/EHR/ABDM, physical-device/offline, independent clinical/security/accessibility, representative scale, hosted recovery and field acceptance remain open.
 
-GitHub main contains R11, development slices 0a–3f and the later slices and review fixes 3g–6r (#36–#70), merged on 30 September 2026, and the overnight slices and review fixes 0b-4 to 6ae (#74–#99), merged on 2 October 2026, all at the sponsor's instruction without independent human review. Branch from main after checking its history. Follow [AGENTS.md](AGENTS.md), preserve concurrent work and publish each completed batch through a branch/draft PR. GitHub publication does not deploy the running Site.
+GitHub main contains R11, development slices 0a–3f and the later slices and review fixes 3g–6r (#36–#70), merged on 30 September 2026, the overnight slices and review fixes 0b-4 to 6ae (#74–#99) and the demonstration slices 9a–9c (#101–#103), merged on 2 October 2026, all at the sponsor's instruction without independent human review. Branch from main after checking its history. Follow [AGENTS.md](AGENTS.md), preserve concurrent work and publish each completed batch through a branch/draft PR. GitHub publication does not deploy the running Site.
 
 For documentation verification:
 
