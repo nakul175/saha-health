@@ -3,6 +3,7 @@ import { fail, person, uuid } from './core';
 import { allowed } from './access';
 import type { Member, OrgState, Person } from './types';
 import type { Actor } from './store';
+import type { HouseholdVisit } from './household-visit';
 
 // Slice 1: households and proxy authority (BR-ID-07, BR-SEC-04, part of BR-PROG-05).
 //
@@ -20,7 +21,7 @@ export type Relationship = typeof RELATIONSHIPS[number];
 export type Purpose = typeof PURPOSES[number];
 export type Sensitive = typeof SENSITIVE[number];
 export type HouseholdMember = { personId: string; relationship: Relationship; from: string; to?: string; addedBy: string; addedAt: string; endedBy?: string; endReason?: string };
-export type Household = { id: string; version: number; label: string; teamId: string; members: HouseholdMember[]; createdAt: string; createdBy: string };
+export type Household = { id: string; version: number; label: string; teamId: string; members: HouseholdMember[]; createdAt: string; createdBy: string; visits?: HouseholdVisit[] };
 export type ProxyGrant = { id: string; proxyPersonId: string; relationship: Relationship; purposes: Purpose[]; classes: Sensitive[]; evidence: string; from: string; expiresAt: string; grantedBy: string; grantedAt: string; revokedAt?: string; revokedBy?: string; revokeReason?: string };
 
 const id = z.string().trim().min(1).max(100), ver = z.number().int().positive(), note = z.string().trim().min(5).max(500);

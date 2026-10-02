@@ -1,4 +1,6 @@
 import { householdSchema } from './household';
+import { householdVisitSchema } from './household-visit';
+import { programmeReferralSchema } from './referral-consolidation';
 import { caseloadSchema } from './caseload';
 import { mergeSchema } from './merge';
 import { exceptionalSchema } from './exceptional';
@@ -55,6 +57,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
  ...continuitySchema.options,
  ...householdSchema.options,
+ ...householdVisitSchema.options,
  ...caseloadSchema.options,
  ...mergeSchema.options,
  ...exceptionalSchema.options,
@@ -72,6 +75,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...recordImportSchema.options,
  ...crosswalkSchema.options,
  ...referralSchema.options,
+ ...programmeReferralSchema.options,
  ...actionPlanSchema.options,
  ...correctionTaskSchema.options,
  ...rosterSchema.options,

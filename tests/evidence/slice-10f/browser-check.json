@@ -1,0 +1,60 @@
+{
+ "check": "slice-10f household visit plan (ASHA with one member outside scope) and one referral for two programme packs",
+ "at": "2026-10-02T13:29:41.061Z",
+ "viewport": "1400x1900",
+ "results": [
+  {
+   "name": "setup: ASHA joins; household of three; two programme episodes; follow-ups; a confirmed visit",
+   "ok": true,
+   "value": "org_7eb2c540bc0847a4950e8de9d2992883"
+  },
+  {
+   "name": "the patient page offers the household visit plan",
+   "ok": true,
+   "value": 1393
+  },
+  {
+   "name": "overdue follow-up, programme and routine visit are listed per member",
+   "ok": true
+  },
+  {
+   "name": "plan one visit covering both members",
+   "ok": true,
+   "value": "Household visits\n2026-10-04 · Morning Upcoming · planned by Visit Asha\nAsha Client Alpha · 1 of 1 still open\nWeigh and blood pressure · due 2026-10-01, 3 days before this visit\nAsha Client Bravo · 1 of 1 still open\nChild contact check · due 2026-10-03, 1 day before this visit\nRescheduled\nCancel this"
+  },
+  {
+   "name": "covered items cannot be planned twice and show the slot",
+   "ok": true,
+   "value": {
+    "disabled": true
+   }
+  },
+  {
+   "name": "cancel the visit with a reason",
+   "ok": true,
+   "value": {
+    "enabledAgain": true
+   }
+  },
+  {
+   "name": "prepare a programme referral for two packs",
+   "ok": true,
+   "value": "submitted"
+  },
+  {
+   "name": "one referral lists both programmes that asked",
+   "ok": true,
+   "value": {
+    "need": "Blood pressure review",
+    "packs": [
+     "Maternal care",
+     "TB screening"
+    ],
+    "panel": "Need: Blood pressure review · asked for by Maternal care v1, TB screening v1 (one referral for every programme that raised it)"
+   }
+  }
+ ],
+ "consoleErrors": [],
+ "passed": 8,
+ "failed": 0
+}

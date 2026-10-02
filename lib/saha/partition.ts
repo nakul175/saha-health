@@ -23,6 +23,8 @@ export const PATIENT_COMMANDS = new Set<string>([
   'assignPlanItem',
   // slice 4d: dependencies between one patient's plan items and further sources of one referral
   'linkPlanItems', 'unlinkPlanItems', 'linkReferralSource',
+  // slice 10f: one referral for the programme episodes of one confirmed visit that raised the same need
+  'createProgrammeReferrals',
   // identity review and handover acknowledgement
   'resolvePatientIdentity', 'acknowledgeAssignment',
   // clinical review on one encounter
