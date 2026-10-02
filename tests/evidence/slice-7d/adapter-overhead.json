@@ -1,0 +1,109 @@
+{
+  "benchmark": "per-adapter local overhead (transformation + validation + checkpointing), partner handler time subtracted",
+  "classification": "local measurement only; not the R1 reference workload and not a reference environment; NFR-28 remains unverified",
+  "workload": {
+    "people": 200,
+    "visitsPerPerson": 3,
+    "priorSubmissions": 300,
+    "eventsPerPriorSubmission": 4,
+    "auditEvents": 1500,
+    "misMappedFields": 6,
+    "targetVisitFacts": "weight, temperature, systolic, diastolic, notes",
+    "ehrTarget": "one linked patient with a write permission; one document per publication",
+    "iterations": 200,
+    "warmup": 30
+  },
+  "machine": {
+    "node": "v22.22.2",
+    "platform": "linux 6.18.44-fc-v51",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "cpus": 2,
+    "loadAverageAtStart": [
+      8.72,
+      8.72,
+      7.51
+    ],
+    "loadAverageAtEnd": [
+      5.96,
+      7.96,
+      7.38
+    ],
+    "note": "Other builders ran test suites on the same machine at the same time; figures include that contention."
+  },
+  "excluded": [
+    "partner handler time (subtracted)",
+    "D1 network and disk latency (in-memory CAS model; real rowsForState diff is run)",
+    "Worker isolate CPU limits",
+    "network transfer"
+  ],
+  "stats": {
+    "mis.transform": {
+      "n": 200,
+      "p50": 5.103,
+      "p95": 13.131,
+      "p99": 23.851,
+      "max": 178.538,
+      "unit": "ms"
+    },
+    "mis.send": {
+      "n": 200,
+      "p50": 81.824,
+      "p95": 119.386,
+      "p99": 166.483,
+      "max": 186.734,
+      "unit": "ms"
+    },
+    "mis.lookup": {
+      "n": 200,
+      "p50": 84.219,
+      "p95": 124.066,
+      "p99": 146.014,
+      "max": 196.436,
+      "unit": "ms"
+    },
+    "mis.transform+send": {
+      "n": 200,
+      "p50": 87.196,
+      "p95": 129.143,
+      "p99": 182.01,
+      "max": 286.693,
+      "unit": "ms"
+    },
+    "ehr.transform": {
+      "n": 200,
+      "p50": 5.158,
+      "p95": 13.463,
+      "p99": 53.324,
+      "max": 62.595,
+      "unit": "ms"
+    },
+    "ehr.publish": {
+      "n": 200,
+      "p50": 86.833,
+      "p95": 158.463,
+      "p99": 219.576,
+      "max": 250.515,
+      "unit": "ms"
+    },
+    "ehr.lookup": {
+      "n": 200,
+      "p50": 85.186,
+      "p95": 130.019,
+      "p99": 171.525,
+      "max": 239.503,
+      "unit": "ms"
+    },
+    "ehr.transform+publish": {
+      "n": 200,
+      "p50": 95.576,
+      "p95": 167.012,
+      "p99": 237.692,
+      "max": 257.417,
+      "unit": "ms"
+    }
+  },
+  "referenceLimitMs": 500,
+  "localP95WithinReferenceLimit": true,
+  "durationMs": 109702,
+  "completedAt": "2026-10-01T21:42:57.910Z"
+}
