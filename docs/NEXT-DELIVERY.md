@@ -101,6 +101,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 8 | Programme and EHR adapters once partner specifications arrive | Blocked on partners |
 | 9 | Demonstration readiness for an external (government) audience | Planned |
 | 9a | Demonstration clinical package: a new synthetic organisation gets two cited demonstration protocols (antenatal blood pressure, presumptive TB) authored, reviewed and activated through ordinary governance by synthetic fixture clinicians; owner command for existing synthetic organisations | Delivered (see [slice 9a](current/SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md)); not clinically approved |
+| 9b | Demonstration screens: menu by role (display only), visit first on the patient page, tidy record tools, member names instead of email addresses with a self-set name, no build numbers on screens, styled photo picker, one main landmark | Delivered (see [slice 9b](current/SLICE-9B-DEMONSTRATION-SCREENS.md)) |
 
 The external dependencies below are unchanged by this order; slices do not pass any acceptance gate.
 

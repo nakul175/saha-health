@@ -1,4 +1,4 @@
-# BRD v1.1 requirements traceability — R11 and development slices 0a-1f, 2a-2j, 3a-3k, 4a-4f, 5a-5i, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6s, 6s-2, 6t, 6u, 6v, 6w, 6x, 6y, 6z, 6aa, 6ab, 6ac, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a
+# BRD v1.1 requirements traceability — R11 and development slices 0a-1f, 2a-2j, 3a-3k, 4a-4f, 5a-5i, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6s, 6s-2, 6t, 6u, 6v, 6w, 6x, 6y, 6z, 6aa, 6ab, 6ac, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b
 
 All **176 requirements** are assessed: 148 functional and 28 non-functional. Source: Health-AI-Orchestration-Platform-BRD-v1.1.docx, SHA-256 `8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8`. The exact requirement and acceptance text is preserved in [the source extract](requirements/brd-v1.1.json) and [the complete CSV](requirements/traceability.csv).
 
