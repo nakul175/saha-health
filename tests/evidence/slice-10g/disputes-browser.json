@@ -1,0 +1,76 @@
+{
+ "check": "slice-10g disputes, sign-off rules and withdrawal from the screens (synthetic, built Worker on 8817)",
+ "at": "2026-10-02T14:10:10.924Z",
+ "results": [
+  {
+   "name": "setup statuses are all 200 and a programme destination serves the patient",
+   "ok": true,
+   "value": "Community health MIS"
+  },
+  {
+   "name": "supervisor raises a dispute on Weight from the visit screen",
+   "ok": true,
+   "value": "Disputes · an open dispute stops sending | Sending is blocked for 1 open dispute: programme plans and EHR publications that would carry this item are not prepared, approved or run until a clinician resolves it. | Weight: 57 · Open | Reason: The synthetic clinic scale reads two kilograms high. · Reference: Synthetic scale check 3 · Raised by Team Supervisor (supervisor), 2026-10-02 14:09 UTC | Raise a dispute | Anythi"
+  },
+  {
+   "name": "preparing a programme plan is refused while the dispute is open",
+   "ok": true,
+   "value": "Open dispute on Weight: “The synthetic clinic scale reads two kilograms high.” (reference Synthetic scale check 3), raised by Team Supervisor on 2026-10-02. Community health MIS would receive this item, so nothing is prepared or sent there until a clinician re"
+  },
+  {
+   "name": "a second clinician resolves the dispute from the visit screen; the dispute stays",
+   "ok": true,
+   "value": "Disputes · an open dispute stops sending | Weight: 57 · Resolved | Reason: The synthetic clinic scale reads two kilograms high. · Reference: Synthetic scale check 3 · Raised by Team Supervisor (supervisor), 2026-10-02 14:09 UTC | Resolved as standing as recorded by Reviewing Clinician, 2026-10-02 14:10 UTC: Checked against the synthetic home weighing record.. The dispute stays on the record. | Raise a dispute | Anyth"
+  },
+  {
+   "name": "the plan can now be prepared and approved",
+   "ok": true,
+   "value": "prepared and approved"
+  },
+  {
+   "name": "the owner requires sign-off for the destination from the Organisation view",
+   "ok": true,
+   "value": {
+    "required": false,
+    "version": 1,
+    "rules": {
+     "programmes": {},
+     "destinations": {
+      "mis_community": "required"
+     }
+    }
+   }
+  },
+  {
+   "name": "running the plan is refused until a supervisor signs off",
+   "ok": true,
+   "value": "Supervisor sign-off is required before sending. Ask a supervisor of this patient’s team to sign off the confirmed visit. It is required for Community health MIS by the sign-off rule for Community health MIS."
+  },
+  {
+   "name": "the supervisor signs off and then withdraws the sign-off with a reason; sending is held",
+   "ok": true,
+   "value": "Supervisor sign-off before sending · not required by default; rules for some programmes or destinations apply | Withdrawn: the sign-off by Team Supervisor was withdrawn by Team Supervisor (2026-10-02 14:10 UTC): The supervisor found the synthetic weight doubtful.. The sign-off record is kept. | Sending of this visit to programmes and health records is held until a supervisor of the patient’s team signs it off again, whatever the sign-off rules say. | Sign-off note (optional) | Sign off for sending"
+  },
+  {
+   "name": "running the plan is refused after the withdrawal, with the reason",
+   "ok": true,
+   "value": "Sending is blocked: Team Supervisor withdrew the supervisor sign-off on 2026-10-02 (“The supervisor found the synthetic weight doubtful.”). A supervisor must sign the visit off again before it is sent. Anything already sent is not recalled."
+  },
+  {
+   "name": "nothing was sent",
+   "ok": true,
+   "value": 0
+  }
+ ],
+ "axeViolations": {
+  "raise": [],
+  "resolve": [],
+  "rules": [],
+  "withdraw": []
+ },
+ "consoleErrors": [],
+ "passed": 10,
+ "failed": 0,
+ "allClean": true,
+ "completedAt": "2026-10-02T14:10:10.924Z"
+}

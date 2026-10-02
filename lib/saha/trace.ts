@@ -18,7 +18,7 @@ import { ACCESS_ACTION_NAMES, type Member, type OrgState, type Person, type Trac
 export const TRACE_VERSION='1.1.0';
 export const MIS_MAX_ATTEMPTS=3;
 // Audit actions that belong to a visit's external work (listed for the visit even when not linked to a step).
-export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused'] as const;
+export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused','sendBlocked'] as const;
 const DESTINATION=new Set(['misReceipt','ehrReceipt','agentResult']),CALLBACK=new Set(['misCallback']);
 const ID=/^[A-Za-z0-9_-]{1,200}$/;
 

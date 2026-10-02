@@ -20,7 +20,7 @@ let passed = 0;
 const check = async fn => { await fn(); passed++; };
 const status = async (fn, code, pattern) => { try { await fn(); } catch (e) { assert.equal(e.status, code, e.message); if (pattern) assert.match(e.message, pattern); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['operations', 'access', 'types', 'programmes', 'adapter-operations', 'core', 'fact-provenance', 'mis', 'ehr', 'fhir-document', 'fhir-validate', 'ehr-provider', 'ehr-execution', 'referral-rules', 'trace', 'task-limits', 'exceptions', 'referrals', 'delegation'])
+  for (const f of ['operations', 'access', 'types', 'programmes', 'adapter-operations', 'core', 'fact-provenance','send-gate', 'mis', 'ehr', 'fhir-document', 'fhir-validate', 'ehr-provider', 'ehr-execution', 'referral-rules', 'trace', 'task-limits', 'exceptions', 'referrals', 'delegation'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   writeFileSync(join(dir, 'store.js'), `import {AppError} from './core.js';
 export let saved;let hook=null;export function setup(s){saved=structuredClone(s);hook=null}export function setHook(f){hook=f}export function edit(f){f(saved)}
