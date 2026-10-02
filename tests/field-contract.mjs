@@ -25,7 +25,7 @@ try{
  await rejects(()=>applyField(s,{...command(),packageHash:'0'.repeat(64)},actor,member),/Identity/);
  p.name='Changed identity';await rejects(()=>applyField(s,command(),actor,member),/Identity/);p.name='Synthetic Test';p.consentVersion++;await rejects(()=>applyField(s,command(),actor,member),/permission/);p.consentVersion--;
  const v=s.workspace.visits[0];v.version++;await rejects(()=>applyField(s,command(),actor,member),/server visit/);v.version--;v.state='confirmed';await rejects(()=>applyField(s,command(),actor,member),/server visit/);v.state='draft';
- await applyField(s,command(),actor,member);check(()=>{assert.equal(v.state,'draft');assert.equal(v.facts.weight,'62');assert.equal(lease.status,'synced')});await rejects(()=>applyField(s,command(),actor,member),/already synced/);
+ await applyField(s,command(),actor,member);check(()=>{assert.equal(v.state,'draft');assert.equal(v.facts.weight,'62');assert.equal(lease.status,'synced');assert.equal(v.fieldSync.leaseId,lease.id);assert.ok(Date.parse(v.fieldSync.at)>0)});await rejects(()=>applyField(s,command(),actor,member),/already synced/);
  grant=await prepare();await applyField(s,{type:'revokeFieldLease',personId:p.id,leaseId:grant.packet.payload.leaseId},actor,member);await rejects(()=>applyField(s,command(),actor,member),/revoked/);
  grant=await prepare();const old=grant;grant=await prepare();check(()=>assert.equal(p.fieldLeases.find(l=>l.id===old.packet.payload.leaseId).status,'revoked'));
  v.state='confirmed';const now=new Date().toISOString(),r={id:'ref',personId:p.id,visitId:v.id,facility:'Synthetic facility',state:'draft',createdAt:now};s.workspace.referrals.push(r);
