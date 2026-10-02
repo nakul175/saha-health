@@ -1,15 +1,13 @@
 import { fail } from './core';
 import { openPatientWork } from './continuity';
 import { questions } from './programmes';
-import type { Member, OrgState, Person } from './types';
+import { PROGRAMMES, type Member, type OrgState, type Person, type Programme } from './types';
 
 // Slice 6d: a versioned indicator registry, cohort queries with small-cell suppression, and a
 // governed question interpreter (BR-AG-11, BR-REP-02..05). Managers choose catalogue indicators
 // only; there is no free query language. Every figure is computed over the viewer's current scope.
 export const MIN_CELL=5;
 type Ctx={s:OrgState;people:Person[];since:string;until:string;today:string};
-type Def={id:string;version:number;title:string;unit:'count'|'proportion';numerator:string;denominator?:string;exclusions:string;owner:string;cadence:string;sources:string[];keywords:string[];
- compute:(c:Ctx,p:Person)=>{n:number;d?:number}};
 const visitsOf=(c:Ctx,p:Person)=>c.s.workspace.visits.filter(v=>v.personId===p.id&&!v.voidedAt&&!v.supersededBy);
 const inWindow=(c:Ctx,t?:string)=>!!t&&t>=c.since&&t<=c.until;
 // Slice 2a: reuse metering, reproducible from stored visits. A question shared by N programme packs in
@@ -19,20 +17,65 @@ export function reuseOf(v:{facts:Record<string,any>;programmeCapture?:any}){cons
  return {opportunities,reused,blocked};}
 const confirmedIn=(c:Ctx,p:Person)=>visitsOf(c,p).filter(v=>v.state==='confirmed'&&inWindow(c,v.confirmedAt??v.createdAt));
 const signature=(v:{facts:Record<string,any>})=>[String(v.facts.date??'').slice(0,10),v.facts.weight,v.facts.systolic,v.facts.diastolic,v.facts.temperature].join('|');
-export const INDICATORS:Def[]=[
- {id:'visits-confirmed',version:1,title:'Confirmed visits',unit:'count',numerator:'Visits confirmed in the window',exclusions:'Voided and superseded visits',owner:'Programme manager',cadence:'Weekly',sources:['visits'],keywords:['visit','visits','confirmed','encounter'],compute:(c,p)=>({n:visitsOf(c,p).filter(v=>v.state==='confirmed'&&inWindow(c,v.confirmedAt??v.createdAt)).length})},
- {id:'patients-seen',version:1,title:'Patients with a confirmed visit',unit:'proportion',numerator:'Patients with at least one visit confirmed in the window',denominator:'Patients in the cohort',exclusions:'Voided and superseded visits',owner:'Programme manager',cadence:'Monthly',sources:['patients','visits'],keywords:['seen','coverage','reached','patients seen'],compute:(c,p)=>({n:visitsOf(c,p).some(v=>v.state==='confirmed'&&inWindow(c,v.confirmedAt??v.createdAt))?1:0,d:1})},
- {id:'followups-overdue',version:1,title:'Overdue follow-ups',unit:'proportion',numerator:'Open follow-ups past their due date today',denominator:'Open follow-ups today',exclusions:'Completed and cancelled follow-ups',owner:'Supervisor',cadence:'Weekly',sources:['follow-ups'],keywords:['overdue','follow-up','follow-ups','followup','followups','late'],compute:(c,p)=>{const open=(p.followUps??[]).filter(f=>f.state==='open');return {n:open.filter(f=>f.due<c.today).length,d:open.length};}},
- {id:'referrals-completed',version:1,title:'Referrals completed',unit:'proportion',numerator:'Referrals created in the window now completed',denominator:'Referrals created in the window',exclusions:'None',owner:'Programme manager',cadence:'Monthly',sources:['referrals'],keywords:['referral','referrals','completed referrals'],compute:(c,p)=>{const r=c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt));return {n:r.filter(x=>x.state==='completed').length,d:r.length};}},
- {id:'maternal-episodes',version:1,title:'Active maternal episodes',unit:'count',numerator:'Maternal episodes active today',exclusions:'Closed episodes',owner:'Maternal programme lead',cadence:'Monthly',sources:['enrolments'],keywords:['maternal','pregnancy','pregnant','anc','antenatal'],compute:(_c,p)=>({n:(p.enrolments??[]).filter(e=>e.packId==='maternal'&&e.state==='active').length})},
- {id:'open-work-unowned',version:1,title:'Open work without an active owner',unit:'count',numerator:'Open items whose owner is not an active member',exclusions:'None',owner:'Supervisor',cadence:'Weekly',sources:['follow-ups','referrals','outreach'],keywords:['unowned','orphaned','owner','responsibility','gap','gaps'],compute:(c,p)=>{const active=new Set(c.s.members.filter(m=>m.status==='active').map(m=>m.userId));return {n:openPatientWork(c.s,p).filter(w=>!w.ownerId||!active.has(w.ownerId)).length};}},
- {id:'submissions-unresolved',version:1,title:'Unresolved programme submissions',unit:'count',numerator:'Submissions queued, sending, retryable or uncertain today',exclusions:'Accepted, rejected and cancelled',owner:'Data manager',cadence:'Daily',sources:['submissions'],keywords:['submission','submissions','unresolved','uncertain','programme record','mis'],compute:(c,p)=>({n:c.s.workspace.submissions.filter(x=>x.personId===p.id&&['queued','sending','retryable','uncertain'].includes(x.state)).length})},
- {id:'reuse-shared-answers',version:1,title:'Shared answers reused across programmes',unit:'proportion',numerator:'Programme links served by one shared answer beyond the first',denominator:'Reuse opportunities: programme links beyond the first for questions shared by several packs in a confirmed visit',exclusions:'Voided and superseded visits; visits with one pack',owner:'Programme manager',cadence:'Monthly',sources:['visits'],keywords:['reuse','reused','shared','re-entry','duplication'],compute:(c,p)=>confirmedIn(c,p).reduce((a,v)=>{const r=reuseOf(v);return {n:a.n+r.reused,d:a.d+r.opportunities};},{n:0,d:0})},
- {id:'reuse-blocked',version:1,title:'Reuse blocked by a missing shared answer',unit:'count',numerator:'Reuse opportunities where the shared answer was recorded as unknown, declined, not measured or unobtainable',exclusions:'Voided and superseded visits',owner:'Programme manager',cadence:'Monthly',sources:['visits'],keywords:['blocked','missing answer','absence'],compute:(c,p)=>({n:confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blocked,0)})},
- {id:'repeat-entry',version:1,title:'Possible repeated entries',unit:'count',numerator:'Confirmed visits repeating the date and core measurements of an earlier confirmed visit for the same person',exclusions:'Voided and superseded visits',owner:'Data manager',cadence:'Monthly',sources:['visits'],keywords:['repeat','repeated','duplicate entry','entered twice','double entry'],compute:(c,p)=>{const all=visitsOf(c,p).filter(v=>v.state==='confirmed').sort((a,b)=>(a.confirmedAt??a.createdAt).localeCompare(b.confirmedAt??b.createdAt));const seen=new Set<string>();let n=0;for(const v of all){const k=signature(v);if(seen.has(k)&&inWindow(c,v.confirmedAt??v.createdAt))n++;seen.add(k);}return {n};}},
- {id:'corrections',version:1,title:'Visit corrections',unit:'count',numerator:'Correction drafts started and visits marked wrong-patient in the window',exclusions:'None',owner:'Data manager',cadence:'Monthly',sources:['visits'],keywords:['correction','corrections','amended','voided','wrong patient'],compute:(c,p)=>({n:c.s.workspace.visits.filter(v=>v.personId===p.id&&((v.amendsVisitId&&inWindow(c,v.createdAt))||inWindow(c,v.voidedAt))).length})},
- {id:'identity-provisional',version:1,title:'Provisional identities',unit:'count',numerator:'Patients whose identity review is provisional today',exclusions:'Merged records',owner:'Identity steward',cadence:'Weekly',sources:['patients'],keywords:['identity','provisional','duplicate','unverified'],compute:(_c,p)=>({n:p.identityReview?.state==='provisional'&&!p.mergedInto?1:0})},
+// Slice 6s: the computation vocabulary. Every definition, built-in or owner-maintained, is a numerator
+// and optional denominator drawn from these per-patient measures, cohort filters from a fixed list and
+// exclusions from a fixed list. There is no expression language and no free field access.
+export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'repeat-entries'|'corrections'|'identity-provisional';
+type Measure={id:MeasureId;label:string;sources:string[];count:(c:Ctx,p:Person)=>number};
+export const MEASURES:Measure[]=[
+ {id:'patients',label:'Patients in the cohort',sources:['patients'],count:()=>1},
+ {id:'patients-seen',label:'Patients with at least one visit confirmed in the window',sources:['patients','visits'],count:(c,p)=>confirmedIn(c,p).length?1:0},
+ {id:'visits-confirmed',label:'Visits confirmed in the window',sources:['visits'],count:(c,p)=>confirmedIn(c,p).length},
+ {id:'followups-open',label:'Open follow-ups today',sources:['follow-ups'],count:(_c,p)=>(p.followUps??[]).filter(f=>f.state==='open').length},
+ {id:'followups-overdue',label:'Open follow-ups past their due date today',sources:['follow-ups'],count:(c,p)=>(p.followUps??[]).filter(f=>f.state==='open'&&f.due<c.today).length},
+ {id:'referrals-created',label:'Referrals created in the window',sources:['referrals'],count:(c,p)=>c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt)).length},
+ {id:'referrals-completed',label:'Referrals created in the window now completed',sources:['referrals'],count:(c,p)=>c.s.workspace.referrals.filter(x=>x.personId===p.id&&inWindow(c,x.createdAt)&&x.state==='completed').length},
+ {id:'maternal-episodes-active',label:'Maternal episodes active today',sources:['enrolments'],count:(_c,p)=>(p.enrolments??[]).filter(e=>e.packId==='maternal'&&e.state==='active').length},
+ {id:'open-work-unowned',label:'Open items whose owner is not an active member',sources:['follow-ups','referrals','outreach'],count:(c,p)=>{const active=new Set(c.s.members.filter(m=>m.status==='active').map(m=>m.userId));return openPatientWork(c.s,p).filter(w=>!w.ownerId||!active.has(w.ownerId)).length;}},
+ {id:'submissions-unresolved',label:'Submissions queued, sending, retryable or uncertain today',sources:['submissions'],count:(c,p)=>c.s.workspace.submissions.filter(x=>x.personId===p.id&&['queued','sending','retryable','uncertain'].includes(x.state)).length},
+ {id:'reuse-opportunities',label:'Reuse opportunities: programme links beyond the first for questions shared by several packs in a confirmed visit',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).opportunities,0)},
+ {id:'reuse-served',label:'Programme links served by one shared answer beyond the first',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).reused,0)},
+ {id:'reuse-blocked',label:'Reuse opportunities where the shared answer was recorded as unknown, declined, not measured or unobtainable',sources:['visits'],count:(c,p)=>confirmedIn(c,p).reduce((a,v)=>a+reuseOf(v).blocked,0)},
+ {id:'repeat-entries',label:'Confirmed visits repeating the date and core measurements of an earlier confirmed visit for the same person',sources:['visits'],count:(c,p)=>{const all=visitsOf(c,p).filter(v=>v.state==='confirmed').sort((a,b)=>(a.confirmedAt??a.createdAt).localeCompare(b.confirmedAt??b.createdAt));const seen=new Set<string>();let n=0;for(const v of all){const k=signature(v);if(seen.has(k)&&inWindow(c,v.confirmedAt??v.createdAt))n++;seen.add(k);}return n;}},
+ {id:'corrections',label:'Correction drafts started and visits marked wrong-patient in the window',sources:['visits'],count:(c,p)=>c.s.workspace.visits.filter(v=>v.personId===p.id&&((v.amendsVisitId&&inWindow(c,v.createdAt))||inWindow(c,v.voidedAt))).length},
+ {id:'identity-provisional',label:'Patients whose identity review is provisional today',sources:['patients'],count:(_c,p)=>p.identityReview?.state==='provisional'&&!p.mergedInto?1:0},
 ];
+export const MEASURE_IDS=MEASURES.map(m=>m.id) as [MeasureId,...MeasureId[]];
+export const AGE_BANDS=['0–9','10–17','18–49','50+'] as const;
+export const SEXES=['Female','Male','Other'] as const;
+export const EXCLUSIONS=['identity-provisional','no-programme'] as const;
+export const CADENCES=['Daily','Weekly','Monthly','Quarterly'] as const;
+export type Exclusion=typeof EXCLUSIONS[number];
+export type Spec={title:string;unit:'count'|'proportion';numerator:MeasureId;denominator:MeasureId|null;filters:{programme?:Programme;ageBand?:typeof AGE_BANDS[number];sex?:typeof SEXES[number]};exclude:Exclusion[];exclusionsNote:string;owner:string;cadence:typeof CADENCES[number];minimumCohort:number};
+export type DefinitionRecord={id:string;version:number;status:'active'|'retired';spec:Spec;reason:string;by:string;byName:string;at:string;builtIn?:boolean};
+// The slice 6d catalogue, now the version 1 entries of the registry. Keywords serve the interpreter only.
+const BUILT_IN_AT='2026-09-30T00:00:00.000Z';
+const b=(id:string,title:string,unit:'count'|'proportion',numerator:MeasureId,denominator:MeasureId|null,exclusionsNote:string,owner:string,cadence:Spec['cadence'],keywords:string[])=>({record:{id,version:1,status:'active' as const,spec:{title,unit,numerator,denominator,filters:{},exclude:[] as Exclusion[],exclusionsNote,owner,cadence,minimumCohort:MIN_CELL},reason:'Built-in catalogue definition (slice 6d).',by:'built-in',byName:'Saha release',at:BUILT_IN_AT,builtIn:true},keywords});
+const BUILT_IN=[
+ b('visits-confirmed','Confirmed visits','count','visits-confirmed',null,'Voided and superseded visits','Programme manager','Weekly',['visit','visits','confirmed','encounter']),
+ b('patients-seen','Patients with a confirmed visit','proportion','patients-seen','patients','Voided and superseded visits','Programme manager','Monthly',['seen','coverage','reached','patients seen']),
+ b('followups-overdue','Overdue follow-ups','proportion','followups-overdue','followups-open','Completed and cancelled follow-ups','Supervisor','Weekly',['overdue','follow-up','follow-ups','followup','followups','late']),
+ b('referrals-completed','Referrals completed','proportion','referrals-completed','referrals-created','None','Programme manager','Monthly',['referral','referrals','completed referrals']),
+ b('maternal-episodes','Active maternal episodes','count','maternal-episodes-active',null,'Closed episodes','Maternal programme lead','Monthly',['maternal','pregnancy','pregnant','anc','antenatal']),
+ b('open-work-unowned','Open work without an active owner','count','open-work-unowned',null,'None','Supervisor','Weekly',['unowned','orphaned','owner','responsibility','gap','gaps']),
+ b('submissions-unresolved','Unresolved programme submissions','count','submissions-unresolved',null,'Accepted, rejected and cancelled','Data manager','Daily',['submission','submissions','unresolved','uncertain','programme record','mis']),
+ b('reuse-shared-answers','Shared answers reused across programmes','proportion','reuse-served','reuse-opportunities','Voided and superseded visits; visits with one pack','Programme manager','Monthly',['reuse','reused','shared','re-entry','duplication']),
+ b('reuse-blocked','Reuse blocked by a missing shared answer','count','reuse-blocked',null,'Voided and superseded visits','Programme manager','Monthly',['blocked','missing answer','absence']),
+ b('repeat-entry','Possible repeated entries','count','repeat-entries',null,'Voided and superseded visits','Data manager','Monthly',['repeat','repeated','duplicate entry','entered twice','double entry']),
+ b('corrections','Visit corrections','count','corrections',null,'None','Data manager','Monthly',['correction','corrections','amended','voided','wrong patient']),
+ b('identity-provisional','Provisional identities','count','identity-provisional',null,'Merged records','Identity steward','Weekly',['identity','provisional','duplicate','unverified']),
+];
+export const BUILT_IN_IDS=BUILT_IN.map(x=>x.record.id);
+// Every version of every definition: built-in version 1 entries, then the owner's appended records.
+export const registryRecords=(s?:OrgState):DefinitionRecord[]=>[...BUILT_IN.map(x=>x.record),...(((s?.operations as any)?.indicatorDefinitions??[]) as DefinitionRecord[])];
+export function currentDefinitions(s?:OrgState){const latest=new Map<string,DefinitionRecord>();for(const r of registryRecords(s)){const x=latest.get(r.id);if(!x||r.version>x.version)latest.set(r.id,r);}return [...latest.values()];}
+const measure=(id:MeasureId)=>MEASURES.find(m=>m.id===id)!;
+// A definition's canonical form; its digest is stated with every result so a reader can match it to the registry.
+export const canonicalSpec=(r:DefinitionRecord)=>JSON.stringify({id:r.id,version:r.version,unit:r.spec.unit,numerator:r.spec.numerator,denominator:r.spec.denominator,filters:Object.fromEntries(Object.entries(r.spec.filters).sort()),exclude:[...r.spec.exclude].sort(),minimumCohort:r.spec.minimumCohort});
+// Resolve "id" (current version) or "id@N" (that recorded version, even if later revised or retired).
+export function resolveDefinition(s:OrgState|undefined,ref:string){const m=/^([a-z][a-z0-9-]{1,39})(?:@(\d{1,4}))?$/.exec(ref);if(!m)fail(422,'Choose up to eight catalogue indicators.');const all=registryRecords(s).filter(r=>r.id===m![1]);if(!all.length)fail(422,'Choose up to eight catalogue indicators.');
+ if(m![2]){const r=all.find(x=>x.version===Number(m![2]));if(!r||r.status==='retired')fail(422,'That indicator version is not in the registry.');return r!;}
+ const r=all.reduce((a,x)=>x.version>a.version?x:a);if(r.status==='retired')fail(422,`The indicator "${r.spec.title}" was retired. Run an earlier version by number to reproduce a past result.`);return r;}
 export const GROUPS=['none','team','village','programme','age-band'] as const;
 export type Group=typeof GROUPS[number];
 const band=(age:number)=>age<10?'0–9':age<18?'10–17':age<50?'18–49':'50+';
@@ -46,9 +89,14 @@ function suppress(rows:{group:string;n:number;d?:number}[],unit:'count'|'proport
  if(out.length>1&&out.filter(r=>r.suppressed).length===1){const next=out.filter(r=>!r.suppressed&&r.n>0).sort((a,b)=>a.n-b.n)[0];if(next)next.suppressed=true;}
  return out.map(r=>r.suppressed?{group:r.group,value:null,numerator:null,denominator:null,suppressed:true}:{group:r.group,value:unit==='count'?r.n:(r.d?Math.round(r.n/r.d*1000)/10:null),numerator:r.n,denominator:unit==='proportion'?r.d??0:null,suppressed:false});
 }
-export function indicatorQuery(s:OrgState,m:Member,q:{ids:string[];days:number;group:Group;team?:string|null;village?:string|null;programme?:string|null},now=new Date()){
+export type Query={ids:string[];days:number;group:Group;team?:string|null;village?:string|null;programme?:string|null};
+// Slice 6s: the people counted in each released cell, per (grouping, definition cohort). These counts never
+// leave the server; they feed the differencing check across one viewer's recent queries.
+export type Series={key:string;cells:Record<string,number>;ids:string[]};
+export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  manager(m);
- if(!q.ids.length||q.ids.length>8||q.ids.some(id=>!INDICATORS.some(d=>d.id===id)))fail(422,'Choose up to eight catalogue indicators.');
+ if(!q.ids.length||q.ids.length>8)fail(422,'Choose up to eight catalogue indicators.');
+ const defs=q.ids.map(ref=>resolveDefinition(s,ref));
  if(!GROUPS.includes(q.group))fail(422,'Choose a grouping from the catalogue.');if(!Number.isInteger(q.days)||q.days<1||q.days>366)fail(422,'Choose a window of 1 to 366 days.');
  if(q.team&&!m.teamIds.includes(q.team))fail(403,'Choose one of your teams.');
  const today=now.toISOString().slice(0,10),ctx0={since:new Date(Date.parse(today+'T00:00:00Z')-(q.days-1)*86400000).toISOString(),until:now.toISOString(),today};
@@ -57,18 +105,32 @@ export function indicatorQuery(s:OrgState,m:Member,q:{ids:string[];days:number;g
  if(people.length<MIN_CELL)fail(422,`This cohort has fewer than ${MIN_CELL} people. Widen the filters.`);
  const ctx:Ctx={s,people,...ctx0};
  const latest=[...s.workspace.visits.filter(v=>people.some(p=>p.id===v.personId)).map(v=>v.confirmedAt??v.createdAt),...s.workspace.submissions.filter(x=>people.some(p=>p.id===x.personId)).map(x=>x.updatedAt)].sort().at(-1)??null;
- const results=q.ids.map(id=>{const def=INDICATORS.find(d=>d.id===id)!;const groups=new Map<string,{n:number;d:number}>();
-  for(const p of people){const v=def.compute(ctx,p);for(const k of keysFor(s,p,q.group)){const g=groups.get(k)??{n:0,d:0};g.n+=v.n;g.d+=v.d??0;groups.set(k,g);}}
-  const rows=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([group,g])=>({group,n:g.n,d:def.unit==='proportion'?g.d:undefined}));
-  return {id:def.id,version:def.version,title:def.title,unit:def.unit,numerator:def.numerator,denominator:def.denominator??null,rows:suppress(rows,def.unit)};});
- return {computedAt:ctx0.until,window:{since:ctx0.since,until:ctx0.until,days:q.days},cohort:{people:people.length,team:q.team??null,village:q.village??null,programme:q.programme??null},group:q.group,latestSourceRecord:latest,minimumCell:MIN_CELL,results,
+ const series=new Map<string,Series>();
+ const cohortCells:Record<string,number>={};for(const p of people)for(const k of keysFor(s,p,'none'))cohortCells[k]=(cohortCells[k]??0)+1;
+ series.set('cohort',{key:'cohort',cells:cohortCells,ids:[]});
+ const results=defs.map(def=>{const sp=def.spec,f=sp.filters;
+  const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def)}};
+  const cohort=people.filter(p=>(!f.programme||p.programmes.includes(f.programme))&&(!f.ageBand||band(p.age)===f.ageBand)&&(!f.sex||p.sex===f.sex)&&!(sp.exclude.includes('identity-provisional')&&p.identityReview?.state==='provisional')&&!(sp.exclude.includes('no-programme')&&!p.programmes.length));
+  // Slice 6s: the definition's own minimum cohort, applied after its filters and exclusions.
+  if(cohort.length<Math.max(MIN_CELL,sp.minimumCohort))return {...head,rows:[],refused:'cohort' as const,message:`This definition needs a cohort of at least ${Math.max(MIN_CELL,sp.minimumCohort)} people after its own filters. Widen the filters.`};
+  const groups=new Map<string,{n:number;d:number;people:number}>();
+  for(const p of cohort){const n=measure(sp.numerator).count(ctx,p),d=sp.denominator?measure(sp.denominator).count(ctx,p):0;for(const k of keysFor(s,p,q.group)){const g=groups.get(k)??{n:0,d:0,people:0};g.n+=n;g.d+=d;g.people++;groups.set(k,g);}}
+  const key=`${q.group}|${JSON.stringify(f)}|${[...sp.exclude].sort().join(',')}`,sr=series.get(key)??{key,cells:Object.fromEntries([...groups].map(([g,x])=>[g,x.people])),ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(key,sr);
+  const rows=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([group,g])=>({group,n:g.n,d:sp.unit==='proportion'?g.d:undefined}));
+  return {...head,rows:suppress(rows,sp.unit)};});
+ const result={computedAt:ctx0.until,window:{since:ctx0.since,until:ctx0.until,days:q.days},cohort:{people:people.length,team:q.team??null,village:q.village??null,programme:q.programme??null},group:q.group,latestSourceRecord:latest,minimumCell:MIN_CELL,results,
   scope:'Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.'};
+ return {result,series:[...series.values()]};
 }
-export function catalogue(){return INDICATORS.map(({compute,keywords,...d})=>d);}
+export function indicatorQuery(s:OrgState,m:Member,q:Query,now=new Date()){return indicatorRun(s,m,q,now).result;}
+// Current, non-retired definitions; registry history and the vocabulary are separate.
+export function catalogue(s?:OrgState){return currentDefinitions(s).filter(r=>r.status==='active').map(r=>({id:r.id,version:r.version,title:r.spec.title,unit:r.spec.unit,numerator:measure(r.spec.numerator).label,denominator:r.spec.denominator?measure(r.spec.denominator).label:null,numeratorMeasure:r.spec.numerator,denominatorMeasure:r.spec.denominator,filters:r.spec.filters,exclude:r.spec.exclude,exclusions:r.spec.exclusionsNote||'None',owner:r.spec.owner,cadence:r.spec.cadence,minimumCohort:r.spec.minimumCohort,sources:[...new Set([r.spec.numerator,...(r.spec.denominator?[r.spec.denominator]:[])].flatMap(x=>measure(x).sources))],builtIn:!!r.builtIn,recordedAt:r.at}));}
+export const vocabulary=()=>({measures:MEASURES.map(m=>({id:m.id,label:m.label})),filters:{programme:PROGRAMMES,ageBand:AGE_BANDS,sex:SEXES},exclusions:EXCLUSIONS,cadences:CADENCES,minimumCohort:MIN_CELL});
 // Governed question interpreter: maps words to catalogue entries and never runs anything itself.
-export function interpret(question:string){
+export function interpret(question:string,s?:OrgState){
  const t=question.toLowerCase().replace(/[^a-z0-9\s-]/g,' ');const words=new Set(t.split(/\s+/).filter(Boolean));
- const ids=INDICATORS.filter(d=>d.keywords.some(k=>k.includes(' ')?t.includes(k):words.has(k))).map(d=>d.id).slice(0,8);
+ const active=new Set(catalogue(s).map(d=>d.id)),owned=catalogue(s).filter(d=>!d.builtIn&&t.includes(d.title.toLowerCase().replace(/[^a-z0-9\s-]/g,' '))).map(d=>d.id);
+ const ids=[...BUILT_IN.filter(d=>active.has(d.record.id)&&d.keywords.some(k=>k.includes(' ')?t.includes(k):words.has(k))).map(d=>d.record.id),...owned].slice(0,8);
  const group:Group=/\bby (team|teams)\b/.test(t)?'team':/\bby (village|villages|locality)\b/.test(t)?'village':/\bby (programme|programmes|program)\b/.test(t)?'programme':/\bby age\b/.test(t)?'age-band':'none';
  const m=t.match(/\blast (\d{1,3}) days?\b/);const days=m?Math.min(366,Math.max(1,Number(m[1]))):/\blast week\b|\bthis week\b/.test(t)?7:/\blast month\b|\bthis month\b/.test(t)?30:/\blast year\b|\bthis year\b/.test(t)?365:30;
  return {ids,group,days,understood:ids.length>0,note:ids.length?'Review this interpretation before running it. Only catalogue indicators can be answered.':'No catalogue indicator matches. Choose one from the list.'};

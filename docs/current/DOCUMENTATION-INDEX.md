@@ -47,6 +47,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 6p](SLICE-6P-REVIEW-FIXES.md) | Fixes for defects found by an independent review of slices 6m, 6j/6k, 2d, 5b and 1e |
 | [Development slice 6q](SLICE-6Q-SECOND-REVIEW-FIXES.md) | Fixes for defects found by a second independent review of slices 5f, 0b-3, 2f and 6p |
 | [Development slice 6r](SLICE-6R-MAIN-REVIEW-FIXES.md) | Fixes for defects found by a third independent review of slices already merged into main (1, 1c, 6a, 6b, 6c, 7a, 7b) |
+| [Development slice 6s](SLICE-6S-INDICATOR-REGISTRY.md) | Owner-maintained indicator registry, reproduction by version and differencing protection |
 | [Development slice 7b](SLICE-7B-ABDM-TRANSFER.md) | Care contexts, encrypted consent-bound transfer and received-record review (mock gateway) |
 | [Development slice 7a](SLICE-7A-ABDM-MOCK.md) | ABDM module readiness, ABHA workflows and consent artefacts against a local mock gateway |
 | [Development slice 1d](SLICE-1D-ROSTER.md) | Workforce roster preview and apply |
