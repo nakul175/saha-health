@@ -1,5 +1,5 @@
 import { csvLines } from './operations';
-// Slice 2h: a downloadable rejection report for an import dry run (people, enrolments or identifiers; slice 10d adds
+// Slice 2h: a downloadable rejection report for an import dry run (people, enrolments, identifiers or, from slice 10i, visits; slice 10d adds
 // workforce rosters, where a row held back by a conflict is listed as a Conflict). It lists row
 // numbers, results and reasons only, never names, localities, labels or identifier values; cells are formula-escaped by
 // the shared CSV writer; and, like the slice 6k operational export, it names its definition, export identifier and
@@ -7,7 +7,7 @@ import { csvLines } from './operations';
 // `verifyExportCsv` (report-export.ts) and `head -n -2 file.csv | sha256sum` check it.
 export const REJECTIONS_DEFINITION={id:'saha-import-rejections',version:'1.0.0'} as const;
 export const REJECTIONS_STATUS='Dry-run rejection report; nothing was imported by this download';
-export const REJECTION_KINDS=['people','enrolments','identifiers','workforce'] as const;
+export const REJECTION_KINDS=['people','enrolments','identifiers','workforce','visits'] as const;
 type PlanRow={row:number;status:string;reasons:string[]};
 type Plan={import:string;planHash:string;counts:{rows:number;accepted:number};rows:PlanRow[]};
 async function sha256(text:string){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(b=>b.toString(16).padStart(2,'0')).join('');}

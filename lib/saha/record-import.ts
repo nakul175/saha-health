@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import { digest, fail, uuid } from './core';
-import { allowed } from './access';
+import { allowed, normallyAllowed } from './access';
 import { environmentOf } from './environment';
 import { csvBytes, importsInto, MAX_CSV, MAX_ROWS, mayImport, parseCsv } from './patient-import';
 import { adoptedVersion, catalogueOf, enrollableAt } from './programmes';
 import { currentIdentifiers } from './types';
+import { VISIT_COLUMNS, VISIT_REFUSED, applyVisitRows, fileDigest, mayImportVisits, planVisitRows } from './visit-import';
 import type { Member, OrgState, Person } from './types';
 import type { Actor } from './store';
 // Slice 2h: controlled import of programme enrolments and external identifiers for existing people (BR-DATA-11), on
@@ -13,11 +14,12 @@ import type { Actor } from './store';
 // record id or an exact external identifier written issuer:value, classifies the row as accepted or rejected with
 // reasons, and returns row numbers, record ids, versions, counts and reasons only (never names or identifier values)
 // under a plan hash. Apply recomputes the dry run, accepts only that exact plan, changes the accepted records (one
-// revision each) and writes one counted audit event. Visits are not imported (clinical content; see the slice doc).
+// revision each) and writes one counted audit event. Slice 10i adds kind `visits` (historical visits with clinical content, imported
+// as confirmed visits marked IMPORTED; lib/saha/visit-import.ts) on the same dry run, plan hash and apply, for owners and clinicians.
 export const RECORD_IMPORT='record-import-v1';
-export const KINDS=['enrolments','identifiers'] as const;
+export const KINDS=['enrolments','identifiers','visits'] as const;
 export type ImportKind=typeof KINDS[number];
-export const COLUMNS:Record<ImportKind,readonly string[]>={enrolments:['person','pack','version','episode_label','start_date'],identifiers:['person','issuer','identifier']};
+export const COLUMNS:Record<ImportKind,readonly string[]>={enrolments:['person','pack','version','episode_label','start_date'],identifiers:['person','issuer','identifier'],visits:VISIT_COLUMNS};
 // Known issuers and their formats. Illustrative: the formats are not validated against the issuing registries.
 // ABHA numbers and addresses are linked through the ABHA verification flow (slice 7a), never imported.
 export const KNOWN_ISSUERS:Record<string,{label:string;pattern:RegExp;format:string}>={
@@ -38,7 +40,7 @@ export const recordImportInput=z.object({kind:z.enum(KINDS),csv}).strict();
 export const recordImportSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('recordImportApply'),kind:z.enum(KINDS),csv,planHash:z.string().regex(/^[0-9a-f]{64}$/),reason}).strict(),
 ]);
-export type RecordRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;conflict?:{personId:string;version:number}};
+export type RecordRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;conflict?:{personId:string;version:number};duplicateOf?:{visitId:string}};
 type Accepted={row:number;personId:string}&({kind:'enrolments';packId:string;packVersion:number;episodeLabel:string;startDate:string|null}|{kind:'identifiers';issuer:string;value:string});
 const NO_RECORD='No record in the teams you may import into matches this person.';
 const live=(p:Person)=>!p.mergedInto;
@@ -46,12 +48,12 @@ const live=(p:Person)=>!p.mergedInto;
 // withdrawal (currentIdentifiers), so a corrected or withdrawn value neither matches a record nor blocks the same value elsewhere.
 // Resolve a row's person: a Saha record id, or issuer:value naming an identifier already recorded on one record.
 // Not found and outside the importer's teams answer the same neutral reason, so the dry run is not an existence oracle.
-export function resolvePerson(s:OrgState,m:Member,ref:string,now:string):{person?:Person;reason?:string}{
+export function resolvePerson(s:OrgState,m:Member,ref:string,now:string,inScope:(p:Person)=>boolean=p=>allowed(m,p,now)&&importsInto(s,m,p.teamId,now)):{person?:Person;reason?:string}{
  const text=ref.trim();if(!text)return {reason:'Person is required: a Saha record id or an identifier written issuer:value.'};
  let found:Person[];const at=text.indexOf(':');
  if(at>0){const issuer=text.slice(0,at).trim().toLowerCase(),value=text.slice(at+1).trim();found=s.workspace.people.filter(p=>live(p)&&currentIdentifiers(p).some(i=>i.issuer===issuer&&i.value===value));}
  else found=s.workspace.people.filter(p=>p.id===text);
- const mine=found.filter(p=>allowed(m,p,now)&&importsInto(s,m,p.teamId,now));
+ const mine=found.filter(inScope);
  if(found.length!==1||mine.length!==1)return {reason:NO_RECORD};
  if(mine[0].mergedInto)return {person:mine[0],reason:'This record was merged into another record. Use the surviving record.'};
  return {person:mine[0]};
@@ -64,9 +66,14 @@ const header=(kind:ImportKind,table:string[][])=>{
 const today=(now:string)=>now.slice(0,10);
 const validDate=(x:string)=>/^\d{4}-\d{2}-\d{2}$/.test(x)&&!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x;
 export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:string,envName:string,now=new Date().toISOString()){
- if(!mayImport(s,m,now))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');
+ if(!(kind==='visits'?mayImportVisits(m):mayImport(s,m,now)))fail(403,kind==='visits'?VISIT_REFUSED:'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');
  const table=parseCsv(text);if(!table.length)fail(422,'The CSV is empty.');const h=header(kind,table);
  const body=table.slice(1);if(!body.length)fail(422,'The CSV has a header but no rows.');if(body.length>MAX_ROWS)fail(422,`At most ${MAX_ROWS} rows per import; this file has ${body.length}.`);
+ if(kind==='visits'){
+  // Slice 10i: visits are resolved within the importer's normal care scope only (no emergency access, no owner widening).
+  const plan=await planVisitRows(s,m,h,body,envName,now,await fileDigest(text),ref=>resolvePerson(s,m,ref,now,p=>normallyAllowed(m,p)&&m.teamIds.includes(p.teamId)));
+  return {import:RECORD_IMPORT,kind,environment:envName,counts:plan.counts,rows:plan.rows as RecordRow[],planHash:plan.planHash,accepted:plan.accepted,fileDigest:plan.fileDigest,notice:plan.notice};
+ }
  const col=(r:string[],c:string)=>(r[h.indexOf(c)]??'').trim();
  const rows:RecordRow[]=[],accepted:Accepted[]=[],teams=new Set<string>();
  for(const [n,r] of body.entries()){
@@ -118,15 +125,17 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
 }
 // The dry run as returned over HTTP: the parsed rows (labels and identifier values) stay on the server.
 export const publicRecordPlan=({accepted,...plan}:Awaited<ReturnType<typeof planRecordImport>>)=>plan;
-export function authorizeRecordImport(s:OrgState,m:Member,c:any){if(c?.type==='recordImportApply'&&!mayImport(s,m))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');}
+export function authorizeRecordImport(s:OrgState,m:Member,c:any){if(c?.type!=='recordImportApply')return;if(c.kind==='visits'){if(!mayImportVisits(m))fail(403,VISIT_REFUSED);return;}if(!mayImport(s,m))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');}
 export async function applyRecordImport(s:OrgState,input:unknown,u:Actor,m:Member,env:Record<string,string|undefined>,now=new Date().toISOString()):Promise<any|null>{
  const parsed=recordImportSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeRecordImport(s,m,c);
  const e=environmentOf(env);if(e.name==='misconfigured')fail(409,'The environment is not configured correctly. Imports are refused until it is corrected.');
  const plan=await planRecordImport(s,m,c.kind,c.csv,e.name,now);
  if(plan.planHash!==c.planHash)fail(409,'The file or the records changed since the dry run. Run the dry run again and review it before applying.');
  if(!plan.accepted.length)fail(409,'The dry run has no rows to apply.');
+ if(c.kind==='visits')return applyVisitRows(s,plan as Awaited<ReturnType<typeof planVisitRows>>,c.reason,u,m,now);
  const batchId=uuid(),people=new Set<string>(),w=s.workspace,lineage=(row:number)=>({batchId,row,planHash:plan.planHash});
  for(const a of plan.accepted){
+  if(a.kind==='visits')continue;
   const p=w.people.find(x=>x.id===a.personId)!;importsInto(s,m,p.teamId,now,true);people.add(p.id);
   if(a.kind==='enrolments'){
    const pack=enrollableAt(a.packId,a.packVersion,s)!;p.enrolments??=[];p.followUps??=[];

@@ -46,3 +46,7 @@ Slice 10e answers two of the limits above and adds a search. The identifier list
 ## Later change — 2 October 2026 (slice 10d)
 
 Slice 10d adds kind `workforce` to `POST /api/import-rejections` for the workforce roster import (organisation owners only; rows are listed as Rejected or Conflict). See [SLICE-10D-WORKFORCE-IMPORT.md](SLICE-10D-WORKFORCE-IMPORT.md). The text above is kept as written.
+
+## Later change — 2 October 2026 (slice 10i)
+
+Slice 10i adds the third import kind `visits` on the same routes, for owners and clinicians only, answering the list under "Why visits are not imported" in part: stated units and the slice 2i rules, a source marker (`imported`) that keeps imported visits out of reuse, indicators and submissions, and a source lineage. A clinician review or sign-off step and conflict handling against visits recorded in Saha are not built. The text above is unchanged and describes this slice as delivered. See `SLICE-10I-VISIT-IMPORT.md`.

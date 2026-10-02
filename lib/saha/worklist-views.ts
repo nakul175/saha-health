@@ -18,12 +18,13 @@ export function visitCompare(a: VisitPerson, b: VisitPerson) {
 }
 export const visitList = <T extends VisitPerson>(people: T[]) => people.slice().sort(visitCompare);
 
-type StatsVisit = Pick<Visit, 'state' | 'voidedAt' | 'supersededBy'>;
+// Slice 10i: imported visits are historical records from another system and are not counted as confirmed visits.
+type StatsVisit = Pick<Visit, 'state' | 'voidedAt' | 'supersededBy'> & { imported?: unknown };
 export function workStats(people: Pick<Person, 'status' | 'due'>[], visits: StatsVisit[], submissions: Pick<Submission, 'state'>[]) {
   return {
     toDo: people.filter(p => p.status === 'due' && p.due === 'Today').length,
     inProgress: people.filter(p => p.status === 'in_progress').length,
-    confirmed: visits.filter(v => v.state === 'confirmed' && !v.voidedAt && !v.supersededBy).length,
+    confirmed: visits.filter(v => v.state === 'confirmed' && !v.voidedAt && !v.supersededBy && !v.imported).length,
     attention: submissions.filter(needsAttention).length,
   };
 }

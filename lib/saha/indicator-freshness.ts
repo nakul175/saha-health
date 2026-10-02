@@ -11,7 +11,7 @@ export type Source='online-visits'|'field-syncs'|'imports'|'programme-receipts';
 export const SOURCES:{id:Source;label:string;arrival:string;described:string}[]=[
  {id:'online-visits',label:'Online visits',arrival:'confirmed',described:'visit date entered by the worker'},
  {id:'field-syncs',label:'Field-notebook syncs',arrival:'synced from the field notebook',described:'visit date entered offline'},
- {id:'imports',label:'Imports',arrival:'applied from an import batch',described:'enrolment start date (imported patients and identifiers carry no source time)'},
+ {id:'imports',label:'Imports',arrival:'applied from an import batch',described:'enrolment start date (imported patients, identifiers and visits carry no source time)'},
  {id:'programme-receipts',label:'Programme receipts',arrival:'accepted with a receipt',described:'time the submission was queued'},
 ];
 type Rec={arrival:string;described:string|null};
@@ -28,9 +28,9 @@ const fromField=(v:Visit)=>!!v.fieldSync||!!v.fieldRegistrationId;
 // The records of each source for a set of people, with the time each arrived and the time it describes.
 export function sourceRecords(s:OrgState,people:Person[]):Record<Source,Rec[]>{
  const byId=new Map(people.map(p=>[p.id,p])),visits=s.workspace.visits.filter(v=>byId.has(v.personId)&&live(v));
- const online=visits.filter(v=>!fromField(v)&&v.state==='confirmed'&&v.confirmedAt).map(v=>({arrival:v.confirmedAt!,described:describedTime(v.facts?.date)}));
+ const online=visits.filter(v=>!fromField(v)&&!v.imported&&v.state==='confirmed'&&v.confirmedAt).map(v=>({arrival:v.confirmedAt!,described:describedTime(v.facts?.date)}));
  const field=visits.filter(fromField).map(v=>{const at=fieldSyncTime(byId.get(v.personId),v);return at?{arrival:at,described:describedTime(v.facts?.date)??describedTime(byId.get(v.personId)?.fieldRegistration?.capturedAt)}:null;}).filter((x):x is Rec=>!!x);
- const imports:Rec[]=people.flatMap(p=>[...(p.imported?[{arrival:p.imported.at,described:null}]:[]),...(p.enrolments??[]).filter(e=>e.imported).map(e=>({arrival:e.imported!.at,described:describedTime(e.startDate)})),...(p.identifiers??[]).filter(i=>i.imported).map(i=>({arrival:i.recordedAt,described:null}))]);
+ const imports:Rec[]=people.flatMap(p=>[...(p.imported?[{arrival:p.imported.at,described:null}]:[]),...(p.enrolments??[]).filter(e=>e.imported).map(e=>({arrival:e.imported!.at,described:describedTime(e.startDate)})),...(p.identifiers??[]).filter(i=>i.imported).map(i=>({arrival:i.recordedAt,described:null})),...visits.filter(v=>v.personId===p.id&&v.imported).map(v=>({arrival:v.imported!.at,described:null}))]);
  const receipts=s.workspace.submissions.filter(x=>byId.has(x.personId)&&x.state==='accepted'&&x.receipt).map(x=>({arrival:x.updatedAt,described:x.createdAt}));
  return {'online-visits':online,'field-syncs':field,imports,'programme-receipts':receipts};
 }

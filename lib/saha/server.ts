@@ -22,6 +22,7 @@ import { applyPatientImport, authorizePatientImport } from './patient-import';
 import { applyRecordImport, authorizeRecordImport } from './record-import';
 import { authorizeCrosswalk } from './crosswalk';
 import { crosswalkWithReview } from './crosswalk-server';
+import { ensureNotImported } from './imported-visits';
 import { applyDelegation, authorizeDelegation, delegationAudit, heldBy } from './delegation';
 import { applyIndicatorRegistry, authorizeIndicatorRegistry } from './indicator-registry';
 import { applyReferral, authorizeReferralSource } from './referrals';
@@ -143,7 +144,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  }
  const requested=c.type==='switchOrganisation'?c.organisationId:request.headers.get('x-saha-organisation');
  // Slice 0a: certified patient commands load only the named patient(s).
- const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;
+ const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureNotImported(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;
  // Slice 2g: supervisor sign-off is checked on the server before executePlan sends or queues programme submissions.
  // Slice 10g: the same call stops open disputes before a plan or EHR publication is prepared or approved, and applies the
  // withdrawal hold and the per-programme and per-destination sign-off rules before a plan runs.

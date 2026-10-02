@@ -86,7 +86,7 @@ export function runLocal(input: string): AgentOutput {
 export function eligibleVisits(s: OrgState, sh: Shadow) {
   // Slice 6q: shadows stored before the fix may name teams outside the capability's reviewed teams; those are ignored.
   const e = governanceState(s).entries.find(x => x.id === sh.entryId), done = new Set(sh.results.map(r => r.visitId)), teams = new Set(e ? reviewedTeams(s, e, sh.teamIds) : []), people = new Map(s.workspace.people.map(p => [p.id, p]));
-  return s.workspace.visits.filter(v => v.state === 'confirmed' && !v.voidedAt && !v.supersededBy && !!v.confirmedAt && v.confirmedAt >= sh.startedAt && v.confirmedAt <= endOf(sh) && !done.has(v.id) && teams.has(people.get(v.personId)?.teamId ?? ''));
+  return s.workspace.visits.filter(v => v.state === 'confirmed' && !v.voidedAt && !v.supersededBy && !v.imported && !!v.confirmedAt && v.confirmedAt >= sh.startedAt && v.confirmedAt <= endOf(sh) && !done.has(v.id) && teams.has(people.get(v.personId)?.teamId ?? ''));
 }
 export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, now = new Date().toISOString()) {
   const parsed = shadowSchema.safeParse(input); if (!parsed.success) return null; const c = parsed.data; authorizeShadow(s, m, c);

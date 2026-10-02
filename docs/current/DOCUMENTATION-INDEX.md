@@ -58,6 +58,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 2g](SLICE-2G-NOTE-ANSWER-SIGNOFF.md) | Author and clinician verification for visit notes and programme answers; optional supervisor sign-off before programme submissions are sent |
 | [Development slice 10g](SLICE-10G-DISPUTES-SIGNOFF.md) | Disputes on a confirmed fact or answer that block programme and EHR sending until a clinician resolves them, sign-off rules per programme and per destination, supervisor sign-off withdrawal; checks repeated inside the execution checkpoint |
 | [Development slice 2h](SLICE-2H-ENROLMENT-IDENTIFIER-IMPORT.md) | Controlled import of programme enrolments and external identifiers for existing people, and a downloadable rejection report for import dry runs |
+| [Development slice 10i](SLICE-10I-VISIT-IMPORT.md) | Controlled import of historical visits with clinical content (owners and clinicians), imported visits as read-only history with source lineage |
 | [Development slice 2f](SLICE-2F-IMPORT-DRY-RUN.md) | Controlled patient import with a dry run |
 | [Development slice 6p](SLICE-6P-REVIEW-FIXES.md) | Fixes for defects found by an independent review of slices 6m, 6j/6k, 2d, 5b and 1e |
 | [Development slice 6q](SLICE-6Q-SECOND-REVIEW-FIXES.md) | Fixes for defects found by a second independent review of slices 5f, 0b-3, 2f and 6p |
