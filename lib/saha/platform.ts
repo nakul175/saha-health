@@ -28,6 +28,7 @@ import { pilotSchema } from './pilot';
 import { outreachSchema } from './outreach';
 import { expansionSchema } from './expansion';
 import { defaultOperations, operationsSchema } from './operations';
+import { chooseLanguage } from './messages';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
 import { invoiceSchema } from './ai-invoice';
@@ -102,6 +103,9 @@ export const platformSchema=z.discriminatedUnion('type',[
  // Slice 9b: a member sets the name this organisation shows for their own account. There is no member field: it can only
  // ever apply to the signed-in account. Control and bidirectional-override characters are refused.
  z.object({type:z.literal('setMyDisplayName'),name:z.string().trim().min(1,'Enter a name of 1 to 80 characters.').max(80,'Enter a name of 1 to 80 characters.').regex(/^[^\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]+$/,'Remove control characters from the name.'),version:z.number().int().min(0)}).strict(),
+ // Slice 10j: a member chooses the language this organisation shows them (English, or the draft Hindi translation). As with the
+ // display name there is no member field: it can only apply to the signed-in account. Version-checked, audited, per organisation.
+ z.object({type:z.literal('setMyLanguage'),language:z.enum(['en','hi']),version:z.number().int().min(0)}).strict(),
  z.object({type:z.literal('createTeam'),name:str}),
  z.object({type:z.literal('createInvite'),accountCode:z.string().trim().regex(/^[A-F0-9]{24}$/,'Use the 24-character account code shown in your teammate’s account.'),label:str,role,teamIds}),
  z.object({type:z.literal('revokeInvite'),inviteId:str}),
@@ -123,6 +127,7 @@ export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:M
  switch(c.type){
  case 'renameOrganisation':manage(m);if(c.version!==state.organisation.revision)fail(409,'Organisation settings changed. Refresh and try again.');state.organisation.name=c.name;detail='Organisation name updated.';break;
  case 'setMyDisplayName':{const ops=state.operations??=defaultOperations(),names=ops.memberNames??={},own=names[u.userId],version=own?.version??0;if(c.version!==version)fail(409,'Your name in this organisation changed. Refresh and try again.');const me=state.members.find(x=>x.userId===u.userId)!,prior=me.displayName;if(c.name===prior&&me.nameSource==='self')fail(422,'This is already your name in this organisation.');if(Object.keys(names).length>=2000&&!own)fail(422,'Display name limit reached for this organisation.');names[u.userId]={name:c.name,version:version+1,at:now};Object.assign(me,{displayName:c.name,nameSource:'self',nameVersion:version+1});subject=u.userId;detail=`Display name in this organisation changed from "${prior}" to "${c.name}". Sign-in identity and access unchanged.`;result={name:c.name,version:version+1};break;}
+ case 'setMyLanguage':{const ops=state.operations??=defaultOperations(),records=ops.memberLanguages??={},change=chooseLanguage(records,u.userId,c.language,c.version,now);if(!change.ok)fail(change.status,change.message);records[u.userId]=change.record;subject=u.userId;detail=`Display language in this organisation changed from ${change.prior==='hi'?'Hindi':'English'} to ${c.language==='hi'?'Hindi (draft translation, not reviewed by a qualified translator)':'English'}. Sign-in identity and access unchanged.`;result={language:c.language,version:change.record.version};break;}
  case 'createTeam':manage(m);if(state.teams.some(t=>t.name.toLowerCase()===c.name.toLowerCase()))fail(409,'A team with this name already exists.');if(state.teams.length>=30)fail(422,'This release supports up to 30 teams per organisation.');const t={id:uuid(),name:c.name,createdAt:now};state.teams.push(t);subject=t.id;detail=`Team created: ${t.name}.`;result={teamId:t.id};break;
  case 'createInvite':{manage(m);validTeams(state,c.teamIds,c.role);if(state.members.some(x=>x.accountCode===c.accountCode&&x.status==='active'))fail(409,'This account is already an active member. Edit its membership instead.');if(state.invitations.some(i=>i.accountCode===c.accountCode&&i.status==='pending'&&i.expiresAt>now))fail(409,'A current invitation already exists. Revoke it before issuing another.');const bytes=crypto.getRandomValues(new Uint8Array(32));const token=Array.from(bytes,x=>x.toString(16).padStart(2,'0')).join('');const i={id:uuid(),accountCode:c.accountCode,label:c.label,role:c.role,teamIds:c.teamIds,status:'pending' as const,expiresAt:new Date(Date.now()+72*3600000).toISOString(),createdBy:u.userId,createdAt:now,tokenHash:await digest(token)};state.invitations.push(i);subject=i.id;detail=`Invitation created for ${c.label}; role ${c.role}; expires in 72 hours.`;result={invitationId:i.id,token,expiresAt:i.expiresAt};break;}
  case 'revokeInvite':{manage(m);const i=state.invitations.find(i=>i.id===c.inviteId);if(!i||i.status!=='pending')fail(409,'This invitation is no longer pending.');i.status='revoked';subject=i.id;detail='Invitation revoked.';break;}

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b",
+  "engineeringRelease": "R11 + development slices 0a-1f, 2a-2j, 3a-3k, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 6z, 6aa, 6ac, 6ab, 6ad, 7a-7d, 7e, 7f, 7g, 0b-2, 0b-3, 0b-4, 9a, 9b, 10j",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -117,13 +117,19 @@
       "sourceTextLine": 149,
       "implementation": "partial",
       "target": "R14",
-      "current": "Hindi/English field notebook; main workspace mostly English.",
-      "remaining": "Complete reviewed localisation and accessibility/language acceptance.",
+      "current": "Hindi/English field notebook (slice 6f). Slice 10j: each member can choose English or Hindi for the workspace (saved for the member in the organisation) from a message catalogue of about 400 strings, with a draft Hindi translation of the ASHA journey screens (My work, patient page, visit capture, Review & act, Receipts, clinical review panel, navigation) and a visible notice on every Hindi screen that the text is an unreviewed draft. Protocol text, record contents, programme names, units and numbers are not translated; sign-off, verification, unusual-value confirmation, referral, media, supervisor and administration panels are still English.",
+      "remaining": "Qualified translator review of all Hindi text; translate the remaining workspace panels and views; user testing of the Hindi screens with ASHAs; complete reviewed localisation and accessibility/language acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "lib/saha/messages.ts",
+        "app/i18n.tsx",
+        "tests/i18n-contract.mjs",
+        "tests/language-smoke.mjs",
+        "tests/a11y-audit.mjs",
+        "docs/current/SLICE-10J-HINDI-WORKSPACE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4130,11 +4136,14 @@
       "sourceTextLine": 732,
       "implementation": "unverified",
       "target": "R14",
-      "current": "Hindi/English notebook strings and neutral reminder copies exist.",
-      "remaining": "Qualified review of critical translations and language safety benchmark acceptance.",
+      "current": "Hindi/English notebook strings and neutral reminder copies exist. Slice 10j adds draft Hindi strings for the ASHA workspace screens; no qualified translator has reviewed the notebook or workspace Hindi.",
+      "remaining": "Qualified review of critical translations (notebook and workspace) and language safety benchmark acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/messages.ts",
+        "tests/i18n-contract.mjs",
+        "docs/current/SLICE-10J-HINDI-WORKSPACE.md"
       ],
       "automatedAcceptanceClaim": false
     },

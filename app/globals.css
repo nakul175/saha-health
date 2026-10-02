@@ -208,3 +208,11 @@ html [data-sonner-toaster][data-sonner-theme=light]{--success-text:hsl(140,100%,
 .member-name-row{display:flex;gap:8px;align-items:center}.member-name-row [data-slot=input]{flex:1;min-width:0}
 .member-name-form small{font-size:.75rem;color:#5c717d}
 @media(max-width:767px){.action-plan>:not(.section-heading){margin-left:16px;margin-right:16px}.record-tools-row{padding:0 16px 16px}.record-tools-row [data-slot=button]{flex:1 1 calc(50% - 10px);font-size:.8rem;padding-inline:10px}.media-add{grid-template-columns:1fr;padding:0 16px 16px}.media-panel>.ehr-item,.media-panel>.notice{margin:0 16px 12px}.member-name-row{flex-direction:column;align-items:stretch}}
+/* Slice 10j: Hindi workspace (draft translation). */
+.translation-strip{padding:9px 32px;background:#fff8e6;color:#6b4a0e;border-bottom:1px solid #efd9a6;font-size:.875rem;line-height:1.7}.translation-strip p{margin:0}.translation-strip strong{font-weight:650}.translation-en{margin-top:2px!important;font-size:.75rem;color:#7a5a1c}
+.lang-island{display:contents}
+:lang(hi){font-family:"Noto Sans Devanagari","Nirmala UI","Mangal",Arial,Helvetica,sans-serif;letter-spacing:normal!important}
+h1:lang(hi),h2:lang(hi),h3:lang(hi),h4:lang(hi),.stat>strong:lang(hi),.assistant-card h2:lang(hi){line-height:1.5}
+.language-choice{display:grid;gap:8px;margin-top:20px;border-top:1px solid #345160;padding-top:16px}.language-choice .role-label{margin-bottom:0}.language-choice small{font-size:.75rem;color:#95b0bb;line-height:1.6}
+.language-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.language-buttons [data-slot=button]{min-height:40px;padding-inline:8px;font-size:.875rem;border:1px solid #47606b;background:#1e3c4a;color:#ebf6f8}.language-buttons [data-slot=button]:hover:not(:disabled){background:#244958;color:white}.language-buttons [data-slot=button][aria-pressed=true]{background:#8ce6cf;color:#0f2a35;border-color:#8ce6cf}.language-buttons [data-slot=button]:focus-visible{outline:3px solid #8ce6cf;outline-offset:2px}
+@media(max-width:767px){.translation-strip{padding:9px 16px}}

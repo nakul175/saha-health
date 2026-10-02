@@ -5,6 +5,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | Document | Purpose |
 | --- | --- |
 | [Development slice 9a](SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md) | Demonstration clinical package for synthetic organisations (two cited demonstration protocols, not clinically approved) |
+| [Development slice 10j](SLICE-10J-HINDI-WORKSPACE.md) | Hindi (draft translation) for the ASHA journey in the workspace: message catalogue, per-member language choice, notice on every Hindi screen; not reviewed by a qualified translator |
 | [Development slice 9b](SLICE-9B-DEMONSTRATION-SCREENS.md) | Screens ready for a presenter-led demonstration: menu by role, visit first, member names, no build labels |
 | [Development slice 6ae](SLICE-6AE-HELD-TRANSFER-ATOMICITY.md) | Automatic caseload transfers applied all-or-nothing (tenth independent review) |
 | [Remaining work estimate](REMAINING-WORK-ESTIMATE.md) | Share of development done on 2 October 2026: requirement classes by who can close them, and remaining buildable slices (estimate, not acceptance) |
