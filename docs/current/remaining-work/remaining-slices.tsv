@@ -1,0 +1,104 @@
+slice	scope	requirements
+R01	Scheduled trigger (Cron) foundation: due caseload transfers applied on schedule, alert evaluation every 5 min independent of traffic, background detection of timed-out provider/destination requests	BR-ID-04,BR-OPS-04,NFR-18,BR-AG-07
+R02	Out-of-app notification channel (email/SMS/paging via demonstration adapter) with recipient lists, delivery receipts and audit; operational alerts and on-call escalation delivered through it	BR-OPS-04,NFR-18,BR-CARE-04
+R03	Route further alert sources through R02: AI budget and drift alerts, timed-out request alerts, individual exception items, referral queue notifications [generous grouping: merge into R02]	BR-AI-12,BR-AI-10,BR-AG-07,BR-REP-01,BR-CARE-01
+R04	Scheduled reconciliation of outstanding/uncertain external actions against mock partners [generous grouping: merge into R01]	BR-INT-06
+R05	Synthetic availability probes and core/end-to-end availability reporting against the 99.5% target [generous grouping: merge into R01]	NFR-01
+R06	Audit checkpoint signing, automatic publication outside Saha, scheduled chain verification	BR-SEC-08
+R07	Audit of remaining read paths (workspace snapshot loads, browser-side record opening, searches, aggregate views); authority/version completeness of audit events [generous grouping: merge into R06]	BR-SEC-08
+R08	Facility and geography/locality dimensions in access policy across channels; locality transfer of caseloads; facility configuration	BR-ID-02,BR-ID-04,BR-OPS-01
+R09	Programme and purpose dimensions in access policy across all channels; unified purpose-specific authorisation for data flows	BR-ID-02,BR-DATA-10
+R10	Workforce import on the dry-run/plan-hash/apply pattern	BR-ID-01
+R11	Household relationship model (typed relationships between people) [generous grouping: merge into R12]	BR-ID-07,BR-SEC-04
+R12	Purpose-limited, expiring proxy authority with relationship/authority/expiry enforcement and representative authority on notices	BR-ID-07,BR-SEC-04,BR-SEC-02
+R13	Managed service identities for connectors and agents with ownership and expiry	BR-ID-09
+R14	Service credential rotation and independent revocation; audit naming initiating user and executing service [generous grouping: merge into R13]	BR-ID-09
+R15	Controlled emergency administration (break-glass administrative access with review)	BR-ID-10
+R16	Issuer-identifier search, ABHA checksum validation and programme identity crosswalks	BR-ID-05,BR-ID-08,BR-INT-14
+R17	Correction of imported identifiers and destination-specific identifier correction through the approval path	BR-ID-08,BR-DATA-11
+R18	Step-up authentication for privileged actions; purpose/time-limited support-staff access with team notification and material-read audit	BR-SEC-11,BR-OPS-05
+R19	Task-linked support cases [generous grouping: merge into R18]	BR-OPS-05
+R20	Disputes block sending; per-programme/per-destination sign-off policy; sign-off withdrawal	BR-DATA-02
+R21	FHIR Provenance for authors, reviews and sign-off; structured (non-note) exchange of overrides	BR-DATA-02,BR-DATA-05,BR-INT-11
+R22	Element-level author/device, receipt/effective time and transformation lineage for all resources [generous grouping: merge into R21]	BR-INT-12,BR-INT-11
+R23	Unified missing/refused/uncertain/absence reasons across visit and programme answers and every downstream resource; coded methods	BR-RULE-01,BR-DATA-02
+R24	Further units (BP kPa, gestational age weeks+days), age/sex/pregnancy-specific range mechanism with placeholder values, range checks for programme answers	BR-DATA-05
+R25	Per-measurement programme mappings, mapping effective dates, impact-managed mapping migration, terminology impact reports	BR-DATA-02,BR-DATA-09,BR-INT-23
+R26	Correction propagation: recompute shadow comparisons and released indicator figures; follow-up source links	BR-DATA-06
+R27	One reconciliation view for identity-merge and correction tasks; task reassignment and notification; tasks for pre-2j corrections [generous grouping: merge into R26]	BR-DATA-06
+R28	Inbound clinical conflict queue for partner-origin data; destination version conflicts with resolution recorded in Saha	BR-DATA-07,BR-INT-06,BR-INT-21
+R29	Object storage for media and larger media	BR-DATA-08
+R30	Disposal execution: tombstones, restore-safe disposal, server media retention lifecycle, retention-based deletion, export coverage	BR-SEC-09,BR-SEC-10,BR-DATA-08
+R31	Import of visits with clinical content	BR-DATA-11
+R32	Contact import; duplicate review across external sources; import data-quality reports; reversal of imported batches	BR-DATA-11
+R33	Cross-visit reuse of recorded facts with provenance	BR-DATA-12
+R34	Time, sync and support burden instrumentation and reports	BR-DATA-12,BR-REP-07
+R35	Non-suppressible clinical escalation; automated schedules and escalation from installed pack rules	BR-PROG-03,BR-PROG-08
+R36	Household scheduling and cross-pack referral consolidation	BR-PROG-05
+R37	Destination enrolment request/rejection/acceptance lifecycle (mock destination)	BR-PROG-06
+R38	Per-team pack adoption, answer migration and schedule recomputation on version change	BR-PROG-07,BR-PROG-08
+R39	Reviewed reverse migration path; coordinated version changes across installed packs [generous grouping: merge into R38]	BR-PROG-07
+R40	New programme categories with MIS/EHR/report routing	BR-PROG-08
+R41	Pack translations, clinical sign-off workflow and cross-organisation publication	BR-PROG-08
+R42	Comprehensive minimisation of AI provider payloads and of patient-level destination payloads beyond mapped allowlists	BR-AG-02,BR-AI-08,BR-INT-09
+R43	Looping-provider stop reporting completed/cancelled/unresolved actions across multi-step tasks	BR-AG-07
+R44	Risk-output routing beyond the requesting worker, comparison with earlier confirmed records, disagreement handling	BR-AG-08
+R45	Offline cached protocols/guidance with protocol freshness revalidation for queued tasks	BR-AG-10,BR-OFF-01,BR-OFF-06
+R46	Natural-language analysis under governance mapped to registry definitions	BR-AG-11
+R47	Indicator definition approval workflow with effective dates; owner-defined measures	BR-AG-11,BR-REP-02
+R48	Differencing protection across viewers, non-nested filters and groupings	BR-AG-11,BR-REP-04
+R49	Point-in-time data snapshots for historical reproduction and for records behind sent reports [generous grouping: merge into R47]	BR-REP-02,BR-REP-05
+R50	Prompt/routing change impact analysis	BR-AG-12
+R51	Deployment-specific activation, automatic shadow runs, delivered impact queues	BR-AI-04
+R52	Configurable drift thresholds; drift from synthetic evaluations [generous grouping: merge into R51]	BR-AI-10
+R53	Governed rejected-response quarantine; end-to-end input-time semantics	BR-AI-05,BR-AI-09
+R54	Media/asynchronous provider contracts (mock) with provider revalidation for queued media [generous grouping: merge into R53]	BR-AI-05,BR-OFF-04,BR-OFF-06
+R55	Signal/media quality checks, per-field assessment, unsupported-population taxonomy	BR-AI-06
+R56	Provider and deployment budgets, evaluation cost coverage, per-provider/historical rates, billable event attribution, monetary limits	BR-AI-12,NFR-21
+R57	Clinical source document retrieval	BR-CLIN-01
+R58	Void/withdrawal path for programme submissions and EHR amendment/withdrawal through approval (mock partners)	BR-INT-02,BR-RULE-04,BR-INT-21
+R59	External schema change detection and preserved-queue migration with breaking-upgrade tests	BR-INT-07,NFR-27
+R60	Batch/assisted file delivery workflows with reconciliation identifiers and receipts	BR-INT-08
+R61	Canonical condition and service request resources	BR-INT-11
+R62	Canonical medication and diagnostic result resources; further ABDM record types [generous grouping: merge into R61]	BR-INT-11,BR-INT-18
+R63	HL7 FHIR validator integration over the regression corpus	BR-INT-17
+R64	Merging accepted received ABDM records into care	BR-INT-19
+R65	ABDM/EHR purpose-to-final-state audit and disclosure traceability; trace id carried to destinations and stored with request ids	NFR-26,NFR-18
+R66	Emergency read path during audit outages; EHR capability probe audited before the call [generous grouping: merge into R65]	NFR-10
+R67	Reconciliation test corpus across media and canonical resources [generous grouping: merge into R63]	NFR-07
+R68	Wider offline task capture	BR-OFF-01
+R69	Background upload and background sync	BR-OFF-04,BR-OFF-05
+R70	Trusted device clock [generous grouping: merge into R69]	BR-OFF-03
+R71	Main-workspace shared-device protection	BR-OFF-07
+R72	On-demand audio guidance	BR-UX-08
+R73	Device-side sync failures reported to the server; offline device copies removed on consent withdrawal	BR-REP-01,BR-SEC-03
+R74	Automatic reassignment, safety-case reassignment outside clinicians, assignment from the queue	BR-CARE-04,BR-CARE-01,BR-REP-01
+R75	Action dependencies applied to reminders, escalation queue, caseload and handover counts; automatic derivation; sources chosen at creation	BR-CARE-04,BR-CARE-05
+R76	Urgent referral alternatives and facility availability updates	BR-CARE-02
+R77	Incoming reminder opt-out handling (mock provider)	BR-CARE-07
+R78	Claim submission with stored, signed claims	BR-CARE-08
+R79	Claim reconciliation, buyer reporting, verification and export [generous grouping: merge into R78]	BR-CARE-08
+R80	Configurable lateness thresholds, reporting calendars, non-visit late arrivals, freshness on aggregate reports/exports, marking released figures affected	BR-REP-03,BR-REP-05
+R81	Suppression on operational export and other report paths; separate patient-export purpose; protected download expiry; wider filters	BR-REP-04,BR-REP-05
+R82	Official reviewed-submission lifecycle and scheduled reports [generous grouping: merge into R81]	BR-REP-05
+R83	Configuration validation before taking effect: language/provider eligibility and deployment limits	BR-OPS-01
+R84	Unified pack/language/knowledge/model/mapping publication and rollback with impact review	BR-OPS-03,NFR-19
+R85	Per-deployment identities/databases/credentials, environment-following outbound labels, experimental-result exclusion	BR-OPS-02,BR-RULE-07
+R86	Training records and activation enforcement	BR-OPS-06
+R87	Staged exports for large tenants; queue disposition on provider termination	BR-OPS-07
+R88	Installable deployment pack	BR-OPS-08
+R89	Units and provenance documentation for every export JSON field [generous grouping: merge into R88]	NFR-22
+R90	Notice versions and full consent expiry semantics	BR-SEC-02
+R91	Destination notification of withdrawal with recorded outcomes [generous grouping: merge into R73]	BR-SEC-03
+R92	Identifiers out of request paths; hosted log/crash/analytics configuration; access-controlled sensitive diagnostics store	BR-SEC-07
+R93	Copy-of-record package and grievance escalation	BR-SEC-10
+R94	SBOM/vulnerability severity gates [generous grouping: merge into R92]	BR-SEC-12
+R95	Breach impact discovery tooling	BR-SEC-13
+R96	Accessibility audit extended to visit confirmation/correction dialogs and Hindi workspace screens	NFR-13
+R97	Partitioned architecture: organisation-to-database routing	NFR-24
+R98	Partitioned architecture: cross-partition reporting and exports [generous grouping: merge into R97]	NFR-24
+R99	Partitioned architecture: partition migration tooling [generous grouping: merge into R97]	NFR-24
+B1	Jurisdiction-specific sensitivity restriction mechanism (policy values external) [borderline: high estimate only]	BR-SEC-04,BR-AG-03
+B2	Provider billing API reconciliation against a mock billing API [borderline: high estimate only]	BR-AG-07,BR-AI-12
+B3	Session revocation propagation to background jobs and devices; device replacement workflow [borderline: high estimate only]	NFR-09,BR-ID-03
+B4	Voice capture across remaining common workflows [borderline: high estimate only]	BR-UX-03

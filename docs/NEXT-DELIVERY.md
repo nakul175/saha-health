@@ -2,7 +2,7 @@
 
 ## Development-completion order (sponsor decision, 30 September 2026)
 
-The sponsor chose to finish buildable product work before the partner track closes. Decisions taken: keep the encrypted browser field notebook and add native Android only if a buyer requires it; keep the current sign-in and hosting during development behind a swappable identity layer; start with the storage foundation. Each slice ships on its own branch and draft pull request; slices reach GitHub main only when the sponsor instructs a merge (slices 0a–3f and 3g–6r were merged on 30 September 2026 without independent human review).
+The sponsor chose to finish buildable product work before the partner track closes. Decisions taken: keep the encrypted browser field notebook and add native Android only if a buyer requires it; keep the current sign-in and hosting during development behind a swappable identity layer; start with the storage foundation. Each slice ships on its own branch and draft pull request; slices reach GitHub main only when the sponsor instructs a merge (slices 0a–3f and 3g–6r were merged on 30 September 2026, and 0b-4 to 6ae on 2 October 2026, without independent human review).
 
 | Slice | Scope | Status |
 | --- | --- | --- |
