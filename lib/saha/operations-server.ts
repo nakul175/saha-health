@@ -6,6 +6,7 @@ import { exportCsv, REPORT_DEFINITION } from './report-export';
 import { scope } from './store';
 import { recordExportAudit, sameCareScope, sameReach } from './export-audit';
 import { digest, fail, uuid } from './core';
+import { recordAggregateView } from './read-audit';
 import { alertsFor, ALERT_RULES_VERSION } from './alerts';
 import { evaluateIfDue } from './alert-delivery-server';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
@@ -25,7 +26,8 @@ export async function operationsRead(request:Request){
  // Slice 5h: invoice reconciliations and their alerts, for the same operators who see budgets.
  const invoiceAlerts=operator(m)?invoiceAlertInputs(s):null;
  const ops=s.operations??defaultOperations(),result={release:RELEASE,generatedAt:new Date().toISOString(),environment:environmentOf(rawRuntime()).name,maintenance:{active:ops.maintenance,reason:ops.reason},report,telemetry,operations:operator(m)?withoutReleases(ops):null,operators:operator(m)?s.members.filter(x=>x.status==='active'&&operator(x)).map(x=>({id:x.userId,name:x.displayName})):[],gates:GATES,pilotReady:false,budgets:budgetRows?{notice:BUDGET_NOTICE,month:currentMonth(),rows:budgetRows}:null,invoices:operator(m)?invoiceView(s):null,alerts:alertsFor({budgets:budgetRows,invoices:invoiceAlerts,report,telemetry,operations:operator(m)?ops:null,acknowledgements:ops.acknowledgements??[],viewerId:u.userId}),alertRules:ALERT_RULES_VERSION};
- if(format==='json')return json(result);
+ // Slice 10h: the JSON view is the preview of the CSV and support exports (which are audited as opsExport); it is an aggregate view and is recorded before it is returned.
+ if(format==='json'){await recordAggregateView(db(),s,u,m,'operations and care report',`Operations view read (JSON): ${days}-day window; scoped care report ${report?`included (${reach.teams.length} team${reach.teams.length===1?'':'s'}, ${reach.own?'own':'delegated'} reporting authority; ${report.patients} patients counted)`:'not included'}; operator detail ${operator(m)?'included':'not included'}. Aggregate figures only.`);return json(result);}
  if(format==='csv'&&!report)fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(m))fail(403,'Operations access required.');
  // Slice 6k: the CSV carries its definition, identifier, exporter, control totals and a checksum manifest;
  // the audit line records the same identifier and checksum so a received file can be matched to its export.

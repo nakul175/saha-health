@@ -49,6 +49,7 @@ export async function auditChainSmoke({get,post,check,accounts,org,sql,base}){
  check(()=>{assert.equal(view.status,'broken');assert.equal(view.firstBreak.seq,head.seq+1);assert.match(view.firstBreak.reason,/altered/)});
  // Work continues after a break; the break stays reported.
  await post(o,{type:'saveVisit',visitId:vid,version:1,facts:{date:new Date(Date.now()-60000).toISOString().slice(0,16),systolic:'120',diastolic:'80',weight:'60',temperature:'',weeks:'',coughDays:'',notes:'Synthetic chain visit.',source:'measured'}},200,undefined,mine);
- view=JSON.parse((await raw(o,'',mine)).text);check(()=>{assert.equal(view.firstBreak.seq,head.seq+1);assert.equal(rows().at(-1).action,'saveVisit')});
+ view=JSON.parse((await raw(o,'',mine)).text);// Slice 10h: the snapshot returned with the command is a workspace load and writes one `viewWorkspace` event after the command's own event.
+ check(()=>{assert.equal(view.firstBreak.seq,head.seq+1);assert.equal(rows().filter(r=>r.action!=='viewWorkspace').at(-1).action,'saveVisit')});
  await post(o,{type:'switchOrganisation',organisationId:org});
 }

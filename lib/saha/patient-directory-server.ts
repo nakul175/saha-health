@@ -2,6 +2,7 @@ import { activeOrg, db, identity, json, loadFor, snapshotFor } from './server';
 import { fail } from './core';
 import { scope } from './store';
 import { accessRoute, recordAccess } from './access-audit';
+import { recordPatientList } from './read-audit';
 import { boundedJsonBody } from './request-body';
 import { pageQuery, patientId, patientPage } from './patient-directory';
 import type { Member } from './types';
@@ -24,8 +25,11 @@ export async function patientsRead(request: Request) {
   ]);
   const row = (m.results as Record<string, any>[])[0];
   if (!row || row.status !== 'active') fail(403, 'Your organisation membership is inactive or unavailable.');
-  const member = { userId: u.userId, role: row.role, status: row.status, isOwner: !!row.is_owner, teamIds: (t.results as { team_id: string }[]).map(r => r.team_id) } as Member;
-  return json(await patientPage(db(), orgId, member, pageQuery(source)));
+  const member = { userId: u.userId, role: row.role, status: row.status, isOwner: !!row.is_owner, version: row.version, teamIds: (t.results as { team_id: string }[]).map(r => r.team_id) } as Member;
+  const query = pageQuery(source), page = await patientPage(db(), orgId, member, query);
+  // Slice 10h: a patient list or search is recorded before the rows are returned: its kind and result count, never the search text.
+  await recordPatientList(db(), orgId, u, member, { text: !!query.q, programme: !!query.programme, later: !!query.cursor }, page.rows.length, page.total);
+  return json(page);
 }
 
 // Slice 0b-3: GET /api/patients/detail?personId= — the patient partition snapshot for one permitted

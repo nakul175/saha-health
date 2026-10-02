@@ -1,4 +1,5 @@
-import { identity, loadFor, json } from './server';
+import { db, identity, loadFor, json } from './server';
+import { recordMatchSearch } from './read-audit';
 import { allowed } from './access';
 import { fail } from './core';
 import { scope } from './store';
@@ -6,7 +7,9 @@ import { boundedJsonBody } from './request-body';
 import { matchInput, patientMatches, openPatientWork } from './continuity';
 export async function matchesRead(request:Request){
  const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)fail(403,'Cross-origin patient searches are unavailable.');if(request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-site patient searches are unavailable.');if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON for patient search.');
- const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId),parsed=matchInput.safeParse(await boundedJsonBody(request,3000));if(!parsed.success)fail(422,'Enter valid patient demographics and a care team.');return json(await patientMatches(s,m,parsed.data));
+ const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId),parsed=matchInput.safeParse(await boundedJsonBody(request,3000));if(!parsed.success)fail(422,'Enter valid patient demographics and a care team.');const result=await patientMatches(s,m,parsed.data);
+ // Slice 10h: the duplicate check is a search of permitted records: recorded as a kind and a result count, never the entered details.
+ await recordMatchSearch(db(),s,u,m,result.candidates.length,result.overflow);return json(result);
 }
 export async function continuityRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);if(m.role==='admin')fail(403,'Patient access is required.');

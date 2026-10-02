@@ -2,6 +2,7 @@ import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, fail, uuid } from './core';
 import { ACCESS_AUDIT } from './audit-chain';
 import { exceptionalGrant, normallyAllowed } from './access';
+import { heldBy } from './delegation';
 import { persist, type Actor } from './store';
 import type { Audit, Member, OrgState, Person } from './types';
 export { ACCESS_ACTION_NAMES } from './types';
@@ -31,6 +32,15 @@ export const ACCESS_ACTIONS = {
   abhaLinkReview: 'ABHA link refused: the number is linked to this record. Recorded on the holding record only, for identity steward review.',
   // Slice 6aa: an import rejection report (row numbers and reasons only) is recorded the same way as an indicator export.
   importRejectionsExport: 'Import rejection report exported as CSV (row numbers and reasons only).',
+  // Slice 10h: the remaining read paths. One summarised event per workspace snapshot load (counts only, never one row per
+  // patient); an explicit record-opened event when the browser opens a record it already holds; patient searches and
+  // lists (query kind and result count, never the search text); aggregate views (indicators, the scoped care report,
+  // aggregate report history).
+  viewWorkspace: 'Workspace snapshot loaded (summary: scope size, records returned, paging window).',
+  openRecord: 'Patient record opened on screen from the workspace (reported by the browser; the record was already loaded).',
+  searchPatients: 'Patient search run (kind and result count; the search text is not recorded).',
+  listPatients: 'Patient list or work list page read (kind and result count).',
+  viewAggregate: 'Aggregate view read (indicator results, scoped care report or aggregate report history).',
 } as const;
 export type AccessAction = keyof typeof ACCESS_ACTIONS;
 export const ACCESS_REFUSED = 'Saha could not record this access in the audit log, so it was stopped: nothing was shown or sent. Try again; if this continues, tell your organisation owner.';
@@ -42,14 +52,34 @@ export function accessRoute(m: Member, p: Person, now = new Date().toISOString()
 }
 // An organisation shell carrying no records: the commit diff covers the one event and nothing else.
 const shell = (s: OrgState): OrgState => ({ organisation: s.organisation, teams: [], members: [], invitations: [], workspace: { ...s.workspace, people: [], visits: [], integrations: [], submissions: [], referrals: [], audit: [], receipts: {} } });
+// Slice 10h: a read that is answered from SQL alone (a patient page, a work-list page) has no organisation state loaded.
+// Its audit commit needs only the organisation id, so it is built on an empty shell; delegations are not consulted
+// because those views are scoped by the viewer's own membership and teams (delegation never widens patient access).
+const bare = (orgId: string): OrgState => ({ organisation: { id: orgId, name: '', revision: 0, createdAt: '' }, teams: [], members: [], invitations: [], workspace: { schemaVersion: 1, revision: 0, role: 'admin', people: [], visits: [], integrations: [], submissions: [], referrals: [], audit: [], receipts: {} } });
+// Slice 10h (BR-SEC-08): the acting membership's role, its version and any delegated authority in force are written into
+// the detail of every access event, so they are covered by the audit chain hash like the rest of the event. `s` is null for
+// a read answered without organisation state. Identifiers only: no names, no reasons.
+export function authorityClause(s: OrgState | null, m: Member, now = new Date().toISOString()) {
+  const head = ` Authority: role ${m.role}${m.isOwner ? ' (organisation owner)' : ''}, membership version ${m.version ?? 'unknown'}`;
+  if (!s) return `${head}; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams).`;
+  const held = [...heldBy(s, m, 'team-supervision', now), ...heldBy(s, m, 'reporting', now)];
+  return `${head}; delegated authority in force: ${held.length ? held.map(d => `${d.kind} ${d.id} (grantor ${d.grantorId}, until ${d.until})`).join('; ') : 'none'}.`;
+}
 type AccessEntry = { action: AccessAction; subject: string; personId?: string | null; detail: string };
 export async function recordAccess(db: D1Database, s: OrgState, actor: Actor, m: Member, a: AccessEntry, now = new Date().toISOString()) {
   return (await recordAccesses(db, s, actor, m, [a], now))[0];
 }
+// A read answered without organisation state (slice 10h): same single chained commit, authority without delegations.
+export async function recordAccessBare(db: D1Database, orgId: string, actor: Actor, m: Member, a: AccessEntry, now = new Date().toISOString()) {
+  return (await write(db, bare(orgId), actor, m, [a], now, null))[0];
+}
 // Several access events in one access-audit commit (slice 6w: the paged workspace window).
 export async function recordAccesses(db: D1Database, s: OrgState, actor: Actor, m: Member, list: AccessEntry[], now = new Date().toISOString()) {
-  const before = shell(s), after = shell(s);
-  const events: Audit[] = list.map(a => ({ id: uuid(), at: now, actor: actor.displayName, actorId: actor.userId, role: m.role, action: a.action, subject: a.subject, detail: a.detail, personId: a.personId ?? null }));
+  return write(db, s, actor, m, list, now, s);
+}
+async function write(db: D1Database, s: OrgState, actor: Actor, m: Member, list: AccessEntry[], now: string, authoritySource: OrgState | null) {
+  const before = shell(s), after = shell(s), authority = authorityClause(authoritySource, m, now);
+  const events: Audit[] = list.map(a => ({ id: uuid(), at: now, actor: actor.displayName, actorId: actor.userId, role: m.role, action: a.action, subject: a.subject, detail: a.detail + authority, personId: a.personId ?? null }));
   after.workspace.audit = events;
   try { await persist(db, before, after, actor, { type: ACCESS_AUDIT }, 'access_' + events[0].id, '', null); }
   catch (e) { console.error('Access audit not recorded', e instanceof AppError ? e.status : e instanceof Error ? e.name : 'unknown'); fail(503, ACCESS_REFUSED); }
