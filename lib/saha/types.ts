@@ -76,7 +76,9 @@ export type TraceRef = {command:string;key:string;actorId:string;auditId:string|
 export type TraceStep = {at:string;state:string;attempt?:number;ref:TraceRef};
 export type Audit = {id:string;at:string;actor:string;role:Role;action:string;subject:string;detail:string;actorId?:string;personId?:string|null;};
 export type Workspace = {schemaVersion:1;revision:number;role:Role;people:Person[];visits:Visit[];integrations:Integration[];submissions:Submission[];referrals:Referral[];audit:Audit[];receipts:Record<string,{hash:string;result:any}>};
-export type Member = {userId:string;displayName:string;accountCode:string;role:Role;isOwner:boolean;status:'active'|'suspended'|'removed';version:number;teamIds:string[];createdAt:string};
+// Slice 9b: displayName is the name the organisation shows (the member's own chosen name, else the invitation label when the
+// sign-in identity carries only an email address, else the sign-in name). accountName is the sign-in name, kept to identify the account.
+export type Member = {userId:string;displayName:string;accountCode:string;role:Role;isOwner:boolean;status:'active'|'suspended'|'removed';version:number;teamIds:string[];createdAt:string;accountName?:string;nameSource?:'self'|'invitation'|'account';nameVersion?:number};
 export type Team = {id:string;name:string;createdAt:string};
 export type Invitation = {id:string;accountCode:string;label:string;role:Role;teamIds:string[];status:'pending'|'accepted'|'revoked';expiresAt:string;createdBy:string;createdAt:string;tokenHash?:string;acceptedBy?:string};
 export type Organisation = {id:string;name:string;revision:number;createdAt:string;patientRevision?:number};

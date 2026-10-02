@@ -4,16 +4,16 @@ The original prototype has **22 design screens**. All IDs and contracts are reta
 
 | Navigation ID | Label in current source |
 | --- | --- |
-| `governance` | Clinical governance |
-| `continuity` | Care handover |
-| `outreach` | Outreach |
-| `expansion` | Expansion |
-| `pilot` | Pilot readiness |
-| `operations` | Operations |
-| `programmes` | Programmes |
 | `work` | My work |
 | `people` | People |
 | `receipts` | Submissions |
+| `outreach` | Outreach |
+| `continuity` | Care handover |
+| `governance` | Clinical governance |
+| `pilot` | Pilot readiness |
+| `expansion` | Expansion |
+| `operations` | Operations |
+| `programmes` | Programmes |
 | `ai` | AI tools |
 | `connections` | Connections |
 | `activity` | Activity log |
