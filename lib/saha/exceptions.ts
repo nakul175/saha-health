@@ -12,7 +12,7 @@ import type { Member, OrgState, Person } from './types';
 // destination-delivery rows for patients outside that scope, without patient details or links.
 export const EXCEPTION_RULES_VERSION='1.1.0';
 export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting';
-export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null};
+export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null;trace:{query:'submission'|'publication';id:string}|null};
 const RANK={critical:0,high:1,normal:2} as const;
 // Destination-delivery problems are operations work: shown, redacted, to operations members for any patient.
 const OPERATIONS_KINDS=new Set<ExceptionKind>(['submission','ehr-publication']);
@@ -32,9 +32,10 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
  const team=(p:Person)=>s.teams.find(t=>t.id===p.teamId)?.name??'the patient\'s team';
  for(const p of s.workspace.people){
   const visible=m.role!=='admin'&&allowed(m,p,now),ops=operator(m);if(!visible&&!ops)continue;
-  const add=(r:Omit<ExceptionRow,'patient'|'link'|'ageDays'>,visitId:string|null)=>{
+  // Slice 6y: delivery rows name the submission or publication whose trace the viewer may open (GET /api/trace).
+  const add=(r:Omit<ExceptionRow,'patient'|'link'|'ageDays'|'trace'>,visitId:string|null,trace:ExceptionRow['trace']=null)=>{
    if(!visible&&!OPERATIONS_KINDS.has(r.kind))return;
-   rows.push({...r,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(r.since))/day)),patient:visible?{id:p.id,name:p.name}:null,link:visible?{personId:p.id,visitId,href:href(p.id,visitId)}:null});
+   rows.push({...r,ageDays:Math.max(0,Math.floor((Date.parse(now)-Date.parse(r.since))/day)),patient:visible?{id:p.id,name:p.name}:null,link:visible?{personId:p.id,visitId,href:href(p.id,visitId)}:null,trace});
   };
   // Programme submissions whose destination outcome is unknown, retryable or rejected (and not since accepted).
   const mine=subs.get(p.id)??[];
@@ -42,12 +43,12 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
    if(x.state==='rejected'&&mine.some(y=>y.visitId===x.visitId&&y.connectorId===x.connectorId&&y.createdAt>x.createdAt))continue;
    if(!['uncertain','retryable','rejected'].includes(x.state))continue;
    add({id:'submission:'+x.id,kind:'submission',severity:x.state==='rejected'?'normal':'high',what:`${x.connectorName}: ${x.state==='uncertain'?'outcome unknown':x.state==='retryable'?'delivery failed, retryable':'rejected by the destination'} after ${x.attempts} attempt${x.attempts===1?'':'s'}`,since:x.updatedAt,owner:'Operations (owner or administrator)',
-    recovery:x.state==='uncertain'?'Look up the receipt before any resend; never send again blindly.':x.state==='retryable'?'Retry with the original key, or cancel if the visit changed.':'Read the rejection, correct the visit by amendment, then prepare a new submission.'},x.visitId);
+    recovery:x.state==='uncertain'?'Look up the receipt before any resend; never send again blindly.':x.state==='retryable'?'Retry with the original key, or cancel if the visit changed.':'Read the rejection, correct the visit by amendment, then prepare a new submission.'},x.visitId,{query:'submission',id:x.id});
   }
   // EHR publications without a final receipt.
   for(const o of p.ehr?.operations??[]){
    if(!(o.state==='uncertain'||o.state==='running'&&Date.parse(now)-Date.parse(o.at)>STALE_RUNNING_MINUTES*60000))continue;
-   add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication ${o.state==='uncertain'?'outcome unknown':'still running after '+STALE_RUNNING_MINUTES+' minutes'}`,since:o.at,owner:'Operations (owner or administrator)',recovery:'Look up the document identifier with the EHR; do not publish again.'},o.visitId);
+   add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication ${o.state==='uncertain'?'outcome unknown':'still running after '+STALE_RUNNING_MINUTES+' minutes'}`,since:o.at,owner:'Operations (owner or administrator)',recovery:'Look up the document identifier with the EHR; do not publish again.'},o.visitId,{query:'publication',id:o.id});
   }
   if(!visible)continue;
   // Open clinical safety cases.

@@ -1,6 +1,6 @@
 {
   "auditedAt": "2026-09-30",
-  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6x, 6w, 7a-7c, 0b-2, 0b-3, 0b-4",
+  "engineeringRelease": "R11 + development slices 0a-1e, 2a-2h, 3a-3j, 4a-4b, 5a-5i, 4c, 4d, 4e, 4f, 6a-6i, 6k, 6j, 6l, 6m, 6n, 6o, 6p, 6q, 6r, 6t, 6s, 6s-2, 6u, 6v, 6y, 6x, 6w, 7a-7c, 0b-2, 0b-3, 0b-4",
   "source": {
     "filename": "Health-AI-Orchestration-Platform-BRD-v1.1.docx",
     "version": "1.1",
@@ -2798,7 +2798,7 @@
       "sourceTextLine": 499,
       "implementation": "partial",
       "target": "R15",
-      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged.",
+      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events.",
       "remaining": "Assignment from the queue itself, device-side sync failures not reported to the server, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2813,7 +2813,13 @@
         "lib/saha/alert-delivery-server.ts",
         "tests/alert-delivery-contract.mjs",
         "tests/alert-delivery-smoke.mjs",
-        "docs/current/SLICE-6V-ALERT-DELIVERY.md"
+        "docs/current/SLICE-6V-ALERT-DELIVERY.md",
+        "lib/saha/trace.ts",
+        "lib/saha/trace-server.ts",
+        "app/trace-panel.tsx",
+        "tests/trace-contract.mjs",
+        "tests/trace-smoke.mjs",
+        "docs/current/SLICE-6Y-TASK-TRACE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4065,8 +4071,8 @@
       "sourceTextLine": 741,
       "implementation": "partial",
       "target": "R15",
-      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit. Slice 6v: in-app delivery to the owning role with delivery times, and escalation records; evaluated on reads and organisation-wide writes, so detection time depends on traffic (no background timer).",
-      "remaining": "Five-minute detection independent of traffic (a scheduled trigger), delivery that reaches people outside the app, and links from a user task to provider calls and destination receipts in a trace.",
+      "current": "Redacted request IDs, metrics and manual incidents. Slice 6g: computed alerts for uncertain receipts, overdue work, missing provider usage, error rate and open incidents. Slice 6i: exception rows link to the affected patient and visit. Slice 6v: in-app delivery to the owning role with delivery times, and escalation records; evaluated on reads and organisation-wide writes, so detection time depends on traffic (no background timer). Slice 6y: a read-only trace per visit, programme submission or EHR publication (`GET /api/trace`, linked from the visit's Receipts tab and the exception queue) lists each step from the user command to the execution checkpoint, the provider or destination receipt or callback and the audit event, with command type, actor, receipt key, attempt numbers and task limits, ids, states and times only; execution steps carry a correlation reference from this slice on (older steps show as not linked); scoped like the visit, with redacted delivery items for owners and administrators outside patient scope.",
+      "remaining": "Five-minute detection independent of traffic (a scheduled trigger), delivery that reaches people outside the app, a trace id carried to destinations and stored with request ids, and correlation for steps recorded before slice 6y.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/monitoring.ts",
@@ -4079,7 +4085,13 @@
         "lib/saha/alert-delivery-server.ts",
         "tests/alert-delivery-contract.mjs",
         "tests/alert-delivery-smoke.mjs",
-        "docs/current/SLICE-6V-ALERT-DELIVERY.md"
+        "docs/current/SLICE-6V-ALERT-DELIVERY.md",
+        "lib/saha/trace.ts",
+        "lib/saha/trace-server.ts",
+        "app/trace-panel.tsx",
+        "tests/trace-contract.mjs",
+        "tests/trace-smoke.mjs",
+        "docs/current/SLICE-6Y-TASK-TRACE.md"
       ],
       "automatedAcceptanceClaim": false
     },

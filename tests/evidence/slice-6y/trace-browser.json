@@ -1,0 +1,55 @@
+{
+  "check": "slice 6y trace from the exception queue row and the visit Receipts tab (headless Chromium, built Worker, synthetic owner)",
+  "steps": [
+    [
+      "OK",
+      "nav"
+    ],
+    [
+      "OK",
+      "uncertain submission row listed"
+    ],
+    [
+      "OK",
+      "show trace"
+    ],
+    [
+      "OK",
+      "trace shows the linked plan execution"
+    ],
+    [
+      "OK",
+      "no patient note in trace"
+    ],
+    [
+      "OK",
+      "hide trace"
+    ],
+    [
+      "OK",
+      "open visit"
+    ],
+    [
+      "OK",
+      "receipts tab"
+    ],
+    [
+      "OK",
+      "open trace disclosure"
+    ],
+    [
+      "OK",
+      "visit trace lists submission and audit events"
+    ],
+    [
+      "OK",
+      "phone width: no page-level horizontal scroll"
+    ]
+  ],
+  "axeViolations": {
+    "queueTrace": [],
+    "visitTrace": []
+  },
+  "consoleErrors": [],
+  "completedAt": "2026-10-01T20:35:10.279Z"
+}

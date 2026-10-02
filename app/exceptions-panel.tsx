@@ -3,10 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { ListChecks, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Snapshot } from '@/lib/saha/types';
+import { TracePanel } from './trace-panel';
 const KIND:Record<string,string>={'safety-case':'Safety case',submission:'Programme submission','ehr-publication':'EHR publication','referral-overdue':'Referral','emergency-access-unreviewed':'Emergency access','protocol-review':'Protocol review','follow-up-overdue':'Follow-up','identity-provisional':'Provisional identity','field-grant-expired':'Field grant','abdm-received':'Received ABDM record','referral-request-waiting':'Field referral request'};
 // Slice 6i: each exception with patient, problem, age, owner, recovery action and a link to the record.
 export function ExceptionQueue({data,open}:{data:Snapshot;open?:(personId:string,visitId:string|null)=>void}){
  const [value,setValue]=useState<any>(null),[error,setError]=useState(''),[kind,setKind]=useState('all'),[loading,setLoading]=useState(false);
+ // Slice 6y: one row's trace (submission or EHR publication) open at a time.
+ const [trace,setTrace]=useState<string|null>(null);
  const load=useCallback(async()=>{setLoading(true);try{const r=await fetch('/api/exceptions',{cache:'no-store',headers:{'x-saha-organisation':data.organisation.id}}),j:any=await r.json();if(!r.ok)throw Error(j.error);setValue(j);setError('');}catch(e){setError(e instanceof Error?e.message:'Exception queue unavailable.');}finally{setLoading(false);}},[data.organisation.id]);
  useEffect(()=>{void load();},[load,data.organisation.revision]);
  const rows=(value?.items??[]).filter((i:any)=>kind==='all'||i.kind===kind);
@@ -16,7 +19,9 @@ export function ExceptionQueue({data,open}:{data:Snapshot;open?:(personId:string
    {value.total>0&&<div className="button-row" role="group" aria-label="Filter exceptions"><Button size="sm" variant={kind==='all'?'default':'outline'} aria-pressed={kind==='all'} onClick={()=>setKind('all')}>All {value.total}</Button>{Object.entries(value.counts).map(([k,n])=><Button key={k} size="sm" variant={kind===k?'default':'outline'} aria-pressed={kind===k} onClick={()=>setKind(k)}>{KIND[k]??k} {n as number}</Button>)}</div>}
    {rows.length?<ul className="revision-list">{rows.map((i:any)=><li key={i.id}><span className={`tag ${i.severity==='normal'?'':'amber'}`}>{i.severity}</span> <span className="tag">{KIND[i.kind]??i.kind}</span> <strong>{i.patient?i.patient.name:'Patient outside your care scope'}</strong> · {i.what}
     <p className="muted text-sm">Since {new Date(i.since).toLocaleString()} ({i.ageDays} day{i.ageDays===1?'':'s'}) · Owner: {i.owner}</p><p className="muted text-sm">{i.recovery}</p>
-    {i.link&&<a className="download-link" href={i.link.href} onClick={e=>{if(open){e.preventDefault();open(i.link.personId,i.link.visitId);}}}>Open {i.link.visitId?'visit':'patient'}</a>}</li>)}</ul>:<p className="muted">No exceptions in your scope.</p>}
+    {i.link&&<a className="download-link" href={i.link.href} onClick={e=>{if(open){e.preventDefault();open(i.link.personId,i.link.visitId);}}}>Open {i.link.visitId?'visit':'patient'}</a>}
+    {i.trace&&<> <Button size="sm" variant="outline" aria-expanded={trace===i.id} onClick={()=>setTrace(trace===i.id?null:i.id)}>{trace===i.id?'Hide trace':'Show trace'}</Button></>}
+    {i.trace&&trace===i.id&&<TracePanel organisationId={data.organisation.id} query={{[i.trace.query]:i.trace.id}} title={`Trace of this ${i.trace.query==='publication'?'EHR publication':'programme submission'}`}/>}</li>)}</ul>:<p className="muted">No exceptions in your scope.</p>}
    {value.truncated&&<p className="muted text-sm">Showing the first {value.items.length} of {value.total}.</p>}</>}
  </section>;
 }

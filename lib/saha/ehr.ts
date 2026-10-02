@@ -2,13 +2,13 @@ import { z } from 'zod';
 import { digest, fail, person, uuid, visit } from './core';
 import { fhirDocument, inspectDocument, type DocumentSummary } from './fhir-document';
 import { validateOutbound, type ValidationStamp } from './fhir-validate';
-import type { Integration, Member, OrgState, Person } from './types';
+import type { Integration, Member, OrgState, Person, TraceStep } from './types';
 import type { Actor } from './store';
 export type EhrConfig={read:boolean;write:boolean;test?:{at:string;version:number;read:boolean;write:boolean;message:string}};
 export type EhrLink={id:string;integrationId:string;externalId:string;externalName:string;identityHash:string;status:'active'|'revoked';at:string;verifiedBy:string;method:'worker-confirmed'};
 export type EhrPermission={id:string;linkId:string;direction:'read'|'write';purpose:'care-coordination';from:string;to:string;expiresAt:string;status:'active'|'revoked';at:string};
 export type EhrDocument={id:string;linkId:string;permissionId:string;hash:string;bundle:any;summary:DocumentSummary;status:'review'|'reviewed'|'rejected';at:string;origin:'file'|'ehr';reviewedBy?:string;reviewedAt?:string};
-export type EhrOperation={id:string;linkId:string;permissionId:string;actorId:string;integrationVersion:number;identityHash:string;consentVersion:number;state:'prepared'|'running'|'accepted'|'uncertain'|'blocked';visitId:string;visitVersion:number;approvalUntil:string;bundle:any;hash:string;at:string;message:string;receipt?:string;validation?:ValidationStamp};
+export type EhrOperation={id:string;linkId:string;permissionId:string;actorId:string;integrationVersion:number;identityHash:string;consentVersion:number;state:'prepared'|'running'|'accepted'|'uncertain'|'blocked';visitId:string;visitVersion:number;approvalUntil:string;bundle:any;hash:string;at:string;message:string;receipt?:string;validation?:ValidationStamp;events?:TraceStep[]};
 export type EhrState={links:EhrLink[];permissions:EhrPermission[];documents:EhrDocument[];operations:EhrOperation[]};
 const id=z.string().min(1).max(200),external=z.string().regex(/^[A-Za-z0-9.-]{1,64}$/),version=z.number().int().positive(),date=z.string().datetime();
 export const ehrSchema=z.discriminatedUnion('type',[

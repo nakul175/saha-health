@@ -3,6 +3,7 @@ import { AppError, digest, fail } from '@/lib/saha/core';
 import { applyReceipt, misAudit, misIntegration } from '@/lib/saha/mis';
 import { authenticateCallback, callbackSchema } from '@/lib/saha/mis-callback';
 import { persist, readState } from '@/lib/saha/store';
+import { linkTrace } from '@/lib/saha/trace';
 export async function POST(request:Request){try{
  if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON.');const reader=request.body?.getReader();if(!reader)fail(400,'Missing callback.');let size=0,raw='';const decoder=new TextDecoder();while(true){const {value,done}=await reader.read();if(done)break;size+=value.length;if(size>16000){await reader.cancel();fail(413,'Callback too large.');}raw+=decoder.decode(value,{stream:true});}raw+=decoder.decode();let body;try{body=callbackSchema.parse(JSON.parse(raw));}catch{fail(422,'Invalid callback contract.');}
  // Slice 6u (fourth review): grant and signature first, then one integration row; the organisation is read only after.
@@ -15,7 +16,7 @@ export async function POST(request:Request){try{
   if(sub.delivery.endpoint!==connection.endpoint||sub.delivery.credentialBinding!==connection.credentialBinding)fail(409,'Connection route changed; partner reconciliation required.');const previous=sub.state;applyReceipt(sub,body.receipt);if(previous===sub.state&&['accepted','rejected'].includes(previous))return json({ok:true,replayed:true});
   const prior=await db().prepare('SELECT key FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.userId,key).first();if(prior)return json({ok:true,replayed:true});
   if(sub.delivery.events.length>60)fail(409,'Receipt event limit reached; investigate with the partner.');
-  misAudit(s,actor,{role:'admin'} as any,'misCallback',sub.id,sub.message,sub.personId);try{await persist(db(),old,s,actor,{type:'misCallback'},key,hash,{ok:true});return json({ok:true});}catch(e){if(!(e instanceof AppError&&e.status===409)||n===2)throw e;}
+  misAudit(s,actor,{role:'admin'} as any,'misCallback',sub.id,sub.message,sub.personId);linkTrace(old,s,'misCallback',key,actor.userId);try{await persist(db(),old,s,actor,{type:'misCallback'},key,hash,{ok:true});return json({ok:true});}catch(e){if(!(e instanceof AppError&&e.status===409)||n===2)throw e;}
  }
  return json({error:'Callback conflict; retry the signed receipt.'},409);
  }catch(e){return error(e);}}
