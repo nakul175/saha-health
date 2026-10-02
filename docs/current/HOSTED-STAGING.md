@@ -15,6 +15,10 @@ Every merge into `main` runs `.github/workflows/deploy-staging.yml`: documentati
 
 To undo a bad deploy, revert the change on `main`; the next run deploys the reverted code. Applied database migrations are not reversed (repository rule: applied migrations are preserved).
 
+## Freezing the site for a demonstration
+
+Every merge into `main` redeploys the site, so a merge on the day of a demonstration would change what is shown. Since 2 October 2026 (slice 9c) the repository variable `SAHA_DEPLOY_FREEZE` stops that: while it is `true`, a merge runs the workflow, which deploys nothing and says so in a notice. A run started by hand from the Actions tab (workflow_dispatch) still deploys, from the branch or tag chosen when it is started; tag the commit to show (for example `demo-2026-10-06`) and start the run from that tag. Set the variable back to `false`, or delete it, to resume deploying on merge. The variable is kept in the repository settings (Settings → Secrets and variables → Actions → Variables), not in Git.
+
 ## Fails closed until sign-in is set up
 
 `deploy/cloudflare-staging.json` holds the Access team domain and audience tag. Until both are filled in, the deployed Worker shows only "Sign-in required" and refuses every API call with 503 ("Sign-in is not configured for this deployment"). The deploy check accepts that state only while the two values are empty; once they are set it requires a Cloudflare Access redirect on both the page and the API.
