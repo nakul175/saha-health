@@ -39,6 +39,8 @@ try {
   writeFileSync(join(dir, 'server.js'), `export async function identity() { throw new Error('not used'); }
 export async function activeOrg() { throw new Error('not used'); }
 export function db() { throw new Error('not used'); }
+export async function loadFor() { throw new Error('not used'); }
+export function rawRuntime() { return {}; }
 export function json(body, status = 200) { return new Response(JSON.stringify(body), { status }); }`);
   writeFileSync(join(dir, 'package.json'), '{"type":"module"}');
   const load = n => import(pathToFileURL(join(dir, n + '.js')));
