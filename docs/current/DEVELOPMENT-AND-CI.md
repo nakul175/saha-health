@@ -38,6 +38,8 @@ node tests/recovery-drill.mjs
 
 The API runner copies the built Worker to a temporary directory and isolates its registry. Ports 8787 and 8788 must be available for API and restore checks respectively. Fixture constructors use synthetic accounts and local dispatcher-model headers. Recovery runs after successful API checks and needs the populated synthetic database. Review the resulting reports; do not claim these commands were run merely because this guide contains them.
 
+The accessibility audit (`tests/a11y-audit.mjs`, slices 6e, 6f and 6x) runs outside CI because Playwright and axe-core are not project dependencies. Install them in a separate directory and start a built Worker with fresh local synthetic state on a free port. Then run `SAHA_A11Y_MODULES=<that directory> SAHA_A11Y_CHROMIUM=<chromium executable> SAHA_A11Y_ORIGIN=http://127.0.0.1:<port> node tests/a11y-audit.mjs`. It creates synthetic accounts and records on that Worker, so never point it at hosted staging. See [slice 6x](SLICE-6X-POPULATED-ACCESSIBILITY.md) for what it checks.
+
 The [execution register](EXECUTION-REGISTER.csv) lists individual contract scripts. Run affected suites directly with Node. The HTTP suite imports its component smoke modules; do not double-count those as separate runs. The load result is a bounded reporting smoke, not another assertion suite.
 
 ## Documentation maintenance
