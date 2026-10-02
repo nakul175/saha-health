@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import { fail, person, visit, uuid } from './core';
-import { ABSENCE, PACKS, adoptedVersion, questions } from './programmes';
+import { ABSENCE, adoptedVersion, enrollableAt, questions } from './programmes';
 import type { OrgState, Member } from './types';
 import type { Actor } from './store';
 const id=z.string().min(1).max(200),version=z.number().int().positive();
 const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x,'Enter a valid date.');
 export const programmeSchema=z.discriminatedUnion('type',[
- z.object({type:z.literal('enrolProgramme'),personId:id,version,packId:z.enum(['maternal','tb','hypertension']),episodeLabel:z.string().trim().min(3).max(200),startDate:date.nullable()}),
+ z.object({type:z.literal('enrolProgramme'),personId:id,version,packId:z.string().regex(/^[a-z][a-z0-9_]{1,31}$/),episodeLabel:z.string().trim().min(3).max(200),startDate:date.nullable()}),
  z.object({type:z.literal('closeEnrolment'),personId:id,version,enrolmentId:id,outcome:z.string().trim().min(5).max(500)}),
  z.object({type:z.literal('saveProgrammeAnswers'),visitId:id,version,answers:z.record(z.string(),z.string().trim().max(500)),absence:z.record(z.string(),z.enum(ABSENCE))}),
  z.object({type:z.literal('scheduleFollowUp'),personId:id,version,enrolmentId:id,title:z.string().trim().min(3).max(200),due:date,ownerId:id}),
@@ -27,7 +27,8 @@ export function programmeApply(state:OrgState,input:unknown,u:Actor,m:Member):an
   const p=person(w,c.personId);if(p.version!==c.version)fail(409,'The patient changed. Refresh before editing programme work.');p.enrolments??=[];p.followUps??=[];subject=p.id;
   if(c.type==='enrolProgramme'){
    if(p.enrolments.some(e=>e.packId===c.packId&&e.state==='active'))fail(409,'This programme already has an active episode.');if(c.startDate&&c.startDate>now.slice(0,10))fail(422,'Episode start cannot be in the future.');
-   const pack=PACKS.find(x=>x.id===c.packId&&x.version===adoptedVersion(state,c.packId))!;const e={id:uuid(),packId:pack.id,packVersion:pack.version,state:'active' as const,episodeLabel:c.episodeLabel,startDate:c.startDate,createdAt:now,createdBy:u.userId,registration:'not_submitted' as const};p.enrolments.push(e);if(!p.programmes.includes(pack.programme))p.programmes.push(pack.programme);detail=`Local sandbox episode opened: ${pack.name} v${pack.version}. Official registration not submitted.`;result={enrolmentId:e.id};
+   // Slice 4f: episodes open only on a compiled or an activated installed version (the adopted one).
+   const pack=enrollableAt(c.packId,adoptedVersion(state,c.packId),state);if(!pack)fail(422,'Choose an available programme pack.');const e={id:uuid(),packId:pack.id,packVersion:pack.version,state:'active' as const,episodeLabel:c.episodeLabel,startDate:c.startDate,createdAt:now,createdBy:u.userId,registration:'not_submitted' as const};p.enrolments.push(e);if(!p.programmes.includes(pack.programme))p.programmes.push(pack.programme);detail=`Local sandbox episode opened: ${pack.name} v${pack.version}. Official registration not submitted.`;result={enrolmentId:e.id};
   }else if(c.type==='closeEnrolment'){
    const e=p.enrolments.find(e=>e.id===c.enrolmentId);if(!e||e.state!=='active')fail(409,'Choose an active episode.');if(w.visits.some(v=>v.personId===p.id&&v.state==='draft'&&!v.voidedAt&&!v.supersededBy&&v.programmeCapture?.packs.some(x=>x.enrolmentId===e.id)))fail(409,'Finish the open programme visit before closing this episode.');e.state='closed';e.closedAt=now;e.outcome=c.outcome;
    for(const t of p.followUps.filter(t=>t.enrolmentId===e.id&&t.state==='open')){t.state='cancelled';t.closedAt=now;t.resolution='Episode closed: '+c.outcome;}detail='Episode closed; open follow-ups cancelled and history retained. '+c.outcome;
