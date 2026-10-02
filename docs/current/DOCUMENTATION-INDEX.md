@@ -4,6 +4,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 10f](SLICE-10F-HOUSEHOLD-SCHEDULING.md) | Household visit plan and visit slots (per-member scope, no free text, due dates and completion conditions unchanged, late items shown) and one referral for programme episodes that raise the same need, with every asking pack linked and recorded |
 | [Development slice 9a](SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md) | Demonstration clinical package for synthetic organisations (two cited demonstration protocols, not clinically approved) |
 | [Development slice 9b](SLICE-9B-DEMONSTRATION-SCREENS.md) | Screens ready for a presenter-led demonstration: menu by role, visit first, member names, no build labels |
 | [Development slice 6ae](SLICE-6AE-HELD-TRANSFER-ATOMICITY.md) | Automatic caseload transfers applied all-or-nothing (tenth independent review) |
