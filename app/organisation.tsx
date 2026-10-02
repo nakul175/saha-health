@@ -20,6 +20,7 @@ import { PatientImportPanel } from './patient-import-panel';
 import { RecordImportPanel } from './record-import-panel';
 import { WorkforceImportPanel } from './workforce-import-panel';
 import { DelegationPanel } from './delegation-panel';
+import { NotificationChannelPanel } from './notification-channel-panel';
 export type RunCommand=(body:any,success?:string)=>Promise<any>;
 function Field({label,children}:{label:string;children:React.ReactNode}){return <label className="field"><span>{label}</span>{children}</label>}
 function RoleChoice({value,onChange}:{value:Role;onChange:(role:Role)=>void}){return <Select value={value} onValueChange={v=>onChange(v as Role)}><SelectTrigger aria-label="Membership role"><SelectValue/></SelectTrigger><SelectContent>{Object.entries(ROLE_LABEL).filter(([r])=>r!=='provider'||value==='provider').map(([r,l])=><SelectItem key={r} value={r} disabled={value==='provider'&&r!=='provider'}>{l}</SelectItem>)}</SelectContent></Select>}
@@ -53,6 +54,7 @@ export function OrganisationPanel({data,busy,command}:{data:Snapshot;busy:boolea
  <RetentionPanel data={data} busy={busy} command={command}/>
  <DataExitPanel data={data}/>
  <EnvironmentPanel data={data}/>
+ <NotificationChannelPanel data={data} busy={busy} command={command}/>
  <FixtureMigrationPanel data={data} busy={busy} command={command}/>
  <ProgrammeMigrationPanel data={data} busy={busy} command={command}/>
  <PackInstallationPanel data={data} busy={busy} command={command}/>

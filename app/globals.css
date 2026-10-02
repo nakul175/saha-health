@@ -117,6 +117,16 @@
 .adapter-ops-list { list-style:none; padding:0; margin:8px 0; display:grid; gap:6px; }
 .adapter-ops-list li { display:grid; gap:2px; }
 .adapter-ops-list .check-label { margin:0; }
+/* Slice 10b: out-of-app notification channel (demonstration simulator), owner panel on the Organisation page. */
+.notification-channel fieldset { border:0; padding:0; margin:0; min-width:0; }
+.notification-channel legend { font-weight:600; margin-bottom:6px; font-size:14px; }
+.notification-recipient { display:grid; gap:8px; padding:8px 0; border-top:1px solid #e5edf0; }
+.notification-recipient-detail { display:grid; grid-template-columns:repeat(2,minmax(140px,220px)); gap:10px; padding-left:28px; align-items:start; }
+.notification-recipient-detail .notification-kinds { grid-column:1/-1; display:grid; gap:2px; }
+.notification-recipient-detail .notification-kinds .check-label { margin:4px 0; }
+.notification-rungs { list-style:none; padding:0; margin:0; display:grid; gap:4px; font-size:13px; }
+.notification-body { white-space:pre-wrap; overflow-wrap:anywhere; font-size:12px; background:#f1f6f8; border-radius:6px; padding:10px; margin:6px 0 0; }
+@media(max-width:767px){.notification-recipient-detail{grid-template-columns:1fr;padding-left:0}}
 /* Slice 7g: aggregate report delivery on an aggregate-only destination. */
 .aggregate-reports { width:100%; font-size:14px; margin-top:12px; overflow-wrap:anywhere; display:grid; gap:8px; }
 .aggregate-reports h3 { font-size:15px; font-weight:600; margin:0; }

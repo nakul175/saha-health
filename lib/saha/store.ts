@@ -5,7 +5,7 @@ import { digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
-import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, chainMoved, linkRows } from './audit-chain';
+import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
 type Value=string|number|null;
 export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
@@ -141,7 +141,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  const access=command.type===ACCESS_AUDIT;
  if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true));rows.push(...extraRows);
  const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
- if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events')||!rows.length))throw new Error('An access-audit commit may only append audit events.');
+ if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events'&&!ACCESS_SIDE_TABLES.has(r.table))||!rows.length))throw new Error('An access-audit commit may only append audit events.');
  const plan=access?{patients:null,reason:'access audit only'}:commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
  // Slice 6j: audit rows are linked to the chain head read just before the batch. The unique
  // (org_id, seq) index refuses a second commit built on the same head; nothing of that batch

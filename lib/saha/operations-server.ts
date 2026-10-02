@@ -46,4 +46,4 @@ export async function operationsRead(request:Request){
 }
 // Slice 6s: the indicator differencing ledger (hashed filters and per-cell people counts) stays on the server.
 // Slice 7g: aggregate reports are read through /api/aggregate-reports (scoped to the viewer's teams).
-const withoutReleases=(ops:any)=>{const {indicatorReleases,aggregateReports,...rest}=ops;return rest;};
+const withoutReleases=(ops:any)=>{const {indicatorReleases,aggregateReports,notificationChannel,...rest}=ops;return rest;}; // slice 10b: the notification channel is read through its own owner-only route

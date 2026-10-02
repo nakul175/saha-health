@@ -53,6 +53,7 @@ import { providers, agentApply } from './agent';
 import { executeAgent } from './agent-execution';
 import { linkTrace } from './trace';
 import { applyAdapterOperations } from './adapter-operations';
+import { applyNotificationChannel } from './notification-channel';
 import { authorizeAggregate } from './aggregate-delivery';
 import { applyIncentives, authorizeIncentives } from './incentives';
 import { executeAggregate } from './aggregate-execution';
@@ -209,7 +210,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const roster=await applyRoster(state,c,u,m);
   const abdm=await abdmWithStewardReview(state,c,u,m);
   const transfer=await applyTransfer(state,c,u,m);
-  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m);
+  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m)??applyNotificationChannel(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid); // slice 10b: owner-managed notification channel (demonstration simulator)
   // Slice 7e: owner-managed, versioned operation permissions for record adapters.
   const adapterOps=applyAdapterOperations(state,c,u,m,fail,uuid);
   // Slice 10c: synthetic worker incentive claims (schedule, prepare, verify, approve, correct); stored in the operations document.

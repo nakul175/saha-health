@@ -28,6 +28,9 @@ export const ACCESS_AUDIT = 'recordAccess';
 // default log page leaves them out (`GET /api/audit?summaries=1` asks for them) so routine loads do not bury other events.
 // They stay in the audit chain and in every export of it. Kept here (not in types.ts) so the store needs no new module.
 export const SUMMARY_ACCESS_ACTIONS: readonly string[] = ['viewWorkspace', 'searchPatients', 'listPatients', 'viewAggregate'];
+// Slice 10b: side tables an access-audit commit may also append to in the same batch (the notification message log: one
+// message row per audit event, committed together so a message never exists without its audit event, or the reverse).
+export const ACCESS_SIDE_TABLES: ReadonlySet<string> = new Set(['notification_messages']);
 type Value = string | number | null;
 export type ChainRow = { table: string; values: Record<string, Value>; keys: string[]; append?: boolean };
 export type EventRow = { org_id: string; id: string; person_id: string | null; actor_id: string; actor_name: string; role: string; action: string; subject: string; detail: string; at: string; seq?: number | null; prev_hash?: string | null; hash?: string | null };

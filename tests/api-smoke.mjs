@@ -175,6 +175,8 @@ const {visitImportSmoke}=await import('./visit-import-smoke.mjs');await visitImp
 const {indicatorRegistrySmoke}=await import('./indicator-registry-smoke.mjs');await indicatorRegistrySmoke({get,post,check,accounts,org,sql,base});
 const {indicatorFreshnessSmoke}=await import('./indicator-freshness-smoke.mjs');await indicatorFreshnessSmoke({get,post,check,accounts,org,sql,base});
 const {alertDeliverySmoke}=await import('./alert-delivery-smoke.mjs');await alertDeliverySmoke({get,post,check,accounts,org,sql});
+// Slice 10b: owner-managed out-of-app notification channel (demonstration simulator). Runs right after 6v, which it builds on, and leaves the channel off.
+const {notificationChannelSmoke}=await import('./notification-channel-smoke.mjs');await notificationChannelSmoke({get,post,check,accounts,org,sql});
 const {noteAnswerSignOffSmoke}=await import('./note-answer-signoff-smoke.mjs');await noteAnswerSignOffSmoke({get,post,check,accounts,org,sql,base});
 const {traceSmoke}=await import('./trace-smoke.mjs');await traceSmoke({get,post,check,accounts,org,sql,base});
 const {adapterOperationsSmoke}=await import('./adapter-operations-smoke.mjs');await adapterOperationsSmoke({get,post,check,accounts,org,base});
