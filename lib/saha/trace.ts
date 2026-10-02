@@ -18,7 +18,7 @@ import { ACCESS_ACTION_NAMES, type Member, type OrgState, type Person, type Trac
 export const TRACE_VERSION='1.1.0';
 export const MIS_MAX_ATTEMPTS=3;
 // Audit actions that belong to a visit's external work (listed for the visit even when not linked to a step).
-export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused'] as const;
+export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused','scheduledTimeoutReview'] as const;
 const DESTINATION=new Set(['misReceipt','ehrReceipt','agentResult']),CALLBACK=new Set(['misCallback']);
 const ID=/^[A-Za-z0-9_-]{1,200}$/;
 
@@ -107,6 +107,8 @@ function threads(s:OrgState,t:Target,now:string):Raw[]{
    if(!has('pending'))steps.push({at:r.createdAt,state:'pending'});
    if(r.startedAt&&!has('running'))steps.push({at:r.startedAt,state:'running',attempt:r.callCount});
    if(r.finishedAt&&!['pending','running'].includes(r.status)&&!has(r.status))steps.push({at:r.finishedAt,state:r.status});
+   // Slice 10a: the scheduled job marked this request as needing review (a mark only; the request itself is unchanged).
+   if(r.timeoutReview&&!has('flagged for review'))steps.push({at:r.timeoutReview.at,state:'flagged for review'});
    if(r.timeoutDecision&&!steps.some(x=>x.at===r.timeoutDecision!.at))steps.push({at:r.timeoutDecision.at,state:'closed after time limit'});
    out.push({thread:th,steps});
   }
