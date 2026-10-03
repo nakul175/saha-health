@@ -4,7 +4,7 @@
 
 ## Independent-provider feature (3 October 2026)
 
-The current feature adds an independent Anaemia Screen service adapter, not clinical AI approval. The runnable private Sites demonstration and provider console have separate deployments/databases. GitHub main and Cloudflare staging remain at their existing state until a sponsor-approved merge. See [demonstration and ownership](docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md).
+The current feature adds an independent Anaemia Screen service adapter, not clinical AI approval. The runnable private Sites demonstration and provider console have separate deployments/databases. It was integrated with `main` in pull request #126 at the sponsor's instruction on 3 October 2026. On the hosted staging Worker the service stays disabled after the merge: `scripts/cloudflare-staging.mjs` sets `SAHA_EXTERNAL_APIS_ENABLED` to `false` and sets no `SAHA_ANAEMIA_*` value, and `connection()` in `lib/saha/anaemia.ts` refuses unless all of them are set for the approved origin. The staging environment is named `synthetic`, so a signed-in owner with a care role can still open the synthetic screening example there (it adds one synthetic example person and visit to that organisation); no image leaves Saha. See [demonstration and ownership](docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md).
 
 The hosted service-to-service diagnostic also passed eight checks against the actual independent provider model and quality refusal, without patient context.
 
@@ -40,6 +40,8 @@ These come from the sponsor and from earlier reviews; [CLAUDE.md](CLAUDE.md) and
 
 ## Verifying a change
 
+Since round 11 the test layers, commands and CI tiers are in [Testing Saha](docs/current/TESTING.md): `npm test` runs the pull-request tier, `npm run test:regression` runs everything. The manual sequence below is what `npm test` does.
+
 Node 22.13 or newer (Node 24 for the full restore workflow), pnpm 11.25.0. From the repository root:
 
 ```sh
@@ -71,6 +73,8 @@ Each round ran several agents in parallel, each on its own branch from the same 
 
 ## Open defects and risks
 
+- **Round-11 test findings:** hosted sign-in never worked after Access went live (fixed in slice 0c-1, pull request #118; confirm in a browser after it deploys). Open: O-1 reads occasionally refused with 503 under concurrency when their audit event cannot be written (fails closed); O-2 Worker memory grew from about 199 MB to 583 MB over 3,000 workspace loads without levelling off (a Cloudflare isolate allows 128 MB; not measured on Cloudflare); O-4 workspace loads slowed 74% over 8,000 loads. See [slice 11f](docs/current/SLICE-11F-TESTING-INTEGRATION.md).
+
 - **Round-10 review (slice 10k):** M2 the scheduled job's rotation can skip organisations when a run stops early, and never reaches organisations beyond the first 1,000 (needs a stored cursor); M3 the household visit plan route returns names and follow-up titles without a read-audit event; L1 the scheduled evaluation record is an organisation-wide commit that can cause 409s; L3 only `fixture:` is a reserved identity prefix; L4 the job and the notification simulator read the environment from two places; L5 the dispute send gate does not cover assistant runs; L6 the operations document has no overall size bound. Details: [slice 10k](docs/current/SLICE-10K-COMBINED-REVIEW-FIXES.md).
 - **Earlier reviews:** medium and lower findings listed under slice 6ae in `VALIDATION.md` remain open.
 - **Scheduled job on the hosted copy:** the Cron Trigger (every five minutes) was deployed with round 10, but no scheduled run has been confirmed in the Worker log, and on the Workers Free plan a scheduled run gets 10 ms of CPU, which is less than loading one organisation. Confirm in the Cloudflare dashboard and ask the sponsor about the Paid plan before relying on it.
@@ -79,10 +83,11 @@ Each round ran several agents in parallel, each on its own branch from the same 
 
 ## Suggested next work
 
-1. Fix M2 and M3 from the round-10 review, each with a failing test first.
-2. Confirm the scheduled job on the hosted Worker (log lines `saha_scheduled`) and measure the hosted Worker's memory under repeated workspace loads.
-3. Continue the proposed slices in `remaining-slices.tsv`. By name, round 10 covered R01, R02, R07, R10, R16 (without the ABHA checksum: no official specification was found), R20, R31 and R36; 10c (incentive claims) and 10j (Hindi workspace) have no single matching row. Candidates that look buildable against synthetic data and mock partners: R03 (route more alert sources through the notification channel), R06 (audit checkpoint signing), R17, R21, R23, R26, R27, R33, R96 (accessibility audit of the Hindi screens).
-4. Ask for an independent human review before any use beyond synthetic demonstrations.
+1. Investigate O-2 (Worker memory growth) and O-1 (audit-write contention) from round 11; measure memory on the hosted Worker.
+2. Fix M2 and M3 from the round-10 review, each with a failing test first.
+3. Confirm the scheduled job on the hosted Worker (log lines `saha_scheduled`) and measure the hosted Worker's memory under repeated workspace loads.
+4. Continue the proposed slices in `remaining-slices.tsv`. By name, round 10 covered R01, R02, R07, R10, R16 (without the ABHA checksum: no official specification was found), R20, R31 and R36; 10c (incentive claims) and 10j (Hindi workspace) have no single matching row. Candidates that look buildable against synthetic data and mock partners: R03 (route more alert sources through the notification channel), R06 (audit checkpoint signing), R17, R21, R23, R26, R27, R33, R96 (accessibility audit of the Hindi screens).
+5. Run the UAT pack with named testers (docs/testing/uat/) and ask for an independent human review before any use beyond synthetic demonstrations.
 
 ## Only the sponsor can do
 

@@ -1,0 +1,3 @@
+/* The last receipt row has no bottom border (.receipt-row:last-child), and which of two receipts created in the same second is last
+   depends on a random record id. Removing the border makes a single-row screenshot independent of that order. */
+.receipt-row { border-bottom: 0 !important; }

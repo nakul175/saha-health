@@ -35,19 +35,15 @@
       "sourceTextLine": 137,
       "implementation": "partial",
       "target": "R12",
-      "current": "One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen.",
+      "current": "One authenticated patient workspace with programme and agent panels.",
       "remaining": "Validate the full journey with two independent real providers and programme destinations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
         "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "tests/smoke/local-smoke.mjs",
+        "tests/ui/asha-visit.spec.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -67,13 +63,7 @@
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "tests/api-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -115,13 +105,7 @@
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "tests/api-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -147,7 +131,8 @@
         "tests/i18n-contract.mjs",
         "tests/language-smoke.mjs",
         "tests/a11y-audit.mjs",
-        "docs/current/SLICE-10J-HINDI-WORKSPACE.md"
+        "docs/current/SLICE-10J-HINDI-WORKSPACE.md",
+        "tests/ui/hindi.spec.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -167,13 +152,7 @@
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "tests/api-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -193,13 +172,7 @@
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "tests/api-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -219,13 +192,7 @@
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "tests/api-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -245,13 +212,7 @@
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "tests/api-smoke.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -312,7 +273,10 @@
         "docs/current/SLICE-6P-REVIEW-FIXES.md",
         "lib/saha/audit-chain.ts",
         "lib/saha/shadow.ts",
-        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+        "tests/nfr/authorisation-matrix.mjs",
+        "tests/ui/roles.spec.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -333,7 +297,10 @@
         "lib/saha/continuity.ts",
         "lib/saha/platform.ts",
         "tests/continuity-smoke.mjs",
-        "CORE-CONTINUITY.md"
+        "CORE-CONTINUITY.md",
+        "tests/nfr/identity-hardening.mjs",
+        "tests/smoke/hosted-smoke.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -566,7 +533,7 @@
       "sourceTextLine": 201,
       "implementation": "partial",
       "target": "R12",
-      "current": "\"Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"\"not recorded\"\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries \"\"not recorded\"\") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view. Slice 6z: on a visit with no recorded entry or measurement author (recorded before slices 2e and 2g), the confirmer and, for a programme answer, the person who saved the answers are treated as authors, so they cannot verify their own entries; the person who saved the programme answers cannot sign the visit off. Slice 10g: a care-team member in normal scope (an ASHA only for an assigned patient) can raise a dispute on one confirmed measurement, the visit notes or one programme answer, with a reason and a reference; while it is open on a current visit, no programme plan or EHR publication that would carry the item is prepared, approved or run, the reason is shown, and the same check is repeated on a fresh read inside the delivery and publication checkpoint so a dispute raised between the checkpoint and the request stops the request and closes the item as not sent; a clinician in scope resolves it by appending evidence (closing it as standing needs a clinician who neither recorded the item nor raised the dispute), and the dispute and the original value stay on the record; a correction draft carries still-open disputes forward. An owner can set the sign-off requirement per programme and per destination (versioned with the organisation default, audited; a destination rule wins over programme rules, which win over the default, and the default covers programme destinations only), and a supervisor of the patient's team can withdraw a current sign-off with a reason, which holds sending until a supervisor signs the visit off again whatever the rules say. Nothing already sent is recalled; the screens say so.\"",
+      "current": "Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"not recorded\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries \"not recorded\") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view. Slice 6z: on a visit with no recorded entry or measurement author (recorded before slices 2e and 2g), the confirmer and, for a programme answer, the person who saved the answers are treated as authors, so they cannot verify their own entries; the person who saved the programme answers cannot sign the visit off. Slice 10g: a care-team member in normal scope (an ASHA only for an assigned patient) can raise a dispute on one confirmed measurement, the visit notes or one programme answer, with a reason and a reference; while it is open on a current visit, no programme plan or EHR publication that would carry the item is prepared, approved or run, the reason is shown, and the same check is repeated on a fresh read inside the delivery and publication checkpoint so a dispute raised between the checkpoint and the request stops the request and closes the item as not sent; a clinician in scope resolves it by appending evidence (closing it as standing needs a clinician who neither recorded the item nor raised the dispute), and the dispute and the original value stay on the record; a correction draft carries still-open disputes forward. An owner can set the sign-off requirement per programme and per destination (versioned with the organisation default, audited; a destination rule wins over programme rules, which win over the default, and the default covers programme destinations only), and a supervisor of the patient's team can withdraw a current sign-off with a reason, which holds sending until a supervisor signs the visit off again whatever the rules say. Nothing already sent is recalled; the screens say so.",
       "remaining": "Disputes raised in the verification review (slices 2e and 2g) are a clinician's review and still do not stop sending (only a dispute raised in the slice 10g form does); an answer dispute stops every programme destination because no mapping carries answers yet; ABDM transfer, aggregate reports and receipt lookups are not gated by disputes or sign-off; a blocked send raises no exception-queue item or notification; coded FHIR provenance (authors, reviews, disputes and sign-off are not in FHIR or programme payloads); per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1447,7 +1414,7 @@
       "sourceTextLine": 300,
       "implementation": "partial",
       "target": "R11",
-      "current": "Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required. Independent anaemia demo: separate provider organisation, customer agreement revision and independent administration; demo agreement only.",
+      "current": "Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required.",
       "remaining": "Live provider onboarding, evidence ownership and verification of the full accountable manifest.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1460,13 +1427,7 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1480,7 +1441,7 @@
       "sourceTextLine": 303,
       "implementation": "partial",
       "target": "R11",
-      "current": "Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable. Independent anaemia demo: explicitly synthetic environment and patient, normal care-role/team scope and per-image synthetic approval.",
+      "current": "Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable.",
       "remaining": "Verified intended use, jurisdiction and broader population criteria with representative clinical evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1493,13 +1454,7 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1513,15 +1468,11 @@
       "sourceTextLine": 306,
       "implementation": "partial",
       "target": "R11",
-      "current": "Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use. Independent anaemia demo remains outside clinical activation and carries clinicalUse:false; real model use is engineering-only.",
+      "current": "Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use.",
       "remaining": "Regulatory status, representative clinical evidence and signed deployment authorisation; no real approval recorded.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "tests/anaemia-provider-contract.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "REMAINING-RELEASES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1574,7 +1525,7 @@
       "sourceTextLine": 312,
       "implementation": "partial",
       "target": "R11",
-      "current": "Strict documentary output contracts, exact evidence/field checks and checkpointed failed results. Independent anaemia demo: strict versioned image/result contract, HMAC and input binding, one-call durable checkpoint and receipt-only recovery.",
+      "current": "Strict documentary output contracts, exact evidence/field checks and checkpointed failed results.",
       "remaining": "Capability-specific clinical semantics, media/asynchronous contracts and governed rejected-response quarantine.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1587,13 +1538,7 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1607,7 +1552,7 @@
       "sourceTextLine": 315,
       "implementation": "partial",
       "target": "R11",
-      "current": "Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently. Slice 5c: an explicit unable-to-assess outcome (noisy input, unsupported case, insufficient input) with a retry instruction and no values, shown as such and never applied. Independent anaemia demo: technical-quality unable_to_assess has no score; unknown outcomes remain unresolved without inference retry.",
+      "current": "Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently. Slice 5c: an explicit unable-to-assess outcome (noisy input, unsupported case, insufficient input) with a retry instruction and no values, shown as such and never applied.",
       "remaining": "Signal/media quality checks, per-field assessment, complete unsupported-population taxonomy and representative validation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1626,11 +1571,7 @@
         "app/agent-panel.tsx",
         "tests/agent-quality-contract.mjs",
         "tests/agent-quality-smoke.mjs",
-        "docs/current/SLICE-5C-CONFLICTS-QUALITY.md",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "tests/anaemia-provider-contract.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "docs/current/SLICE-5C-CONFLICTS-QUALITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1644,7 +1585,7 @@
       "sourceTextLine": 318,
       "implementation": "partial",
       "target": "R11",
-      "current": "Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled. Slice 5g: provider and model history per capability key (pinned provider, model and agent version per revision, changes from the previous revision, activity period, stage and request counts) for governance managers. Independent anaemia demo: pinned provider, ONNX model/hash and contract retained per request.",
+      "current": "Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled. Slice 5g: provider and model history per capability key (pinned provider, model and agent version per revision, changes from the previous revision, activity period, stage and request counts) for governance managers.",
       "remaining": "Formal provider change review, live contract compatibility and historical legacy provenance limitations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1662,11 +1603,7 @@
         "app/provider-history-panel.tsx",
         "tests/provider-history-contract.mjs",
         "tests/capability-lifecycle-smoke.mjs",
-        "docs/current/SLICE-5G-PROVIDER-HISTORY.md",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "tests/anaemia-provider-contract.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "docs/current/SLICE-5G-PROVIDER-HISTORY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1680,7 +1617,7 @@
       "sourceTextLine": 321,
       "implementation": "partial",
       "target": "R11",
-      "current": "Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference. Independent anaemia demo: cropped RGB only, no identity/notes/EXIF, no stored image pixels in either request ledger.",
+      "current": "Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference.",
       "remaining": "Complete minimisation and enforceable provider retention, training, subprocessor and region compliance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1693,13 +1630,7 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1713,7 +1644,7 @@
       "sourceTextLine": 324,
       "implementation": "partial",
       "target": "R11",
-      "current": "Original outputs, model/provider, versioned source and reasoned human decisions are retained. Independent anaemia demo: saved signed result, consent/visit/agreement versions and reasoned staff acknowledgement or rejection; no automatic clinical record update.",
+      "current": "Original outputs, model/provider, versioned source and reasoned human decisions are retained.",
       "remaining": "Complete legacy provenance, end-to-end input-time semantics and external-provider acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1726,13 +1657,7 @@
         "tests/governance-contract.mjs",
         "AI-GOVERNANCE.md",
         "lib/saha/evaluation.ts",
-        "lib/saha/evaluation-execution.ts",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "lib/saha/evaluation-execution.ts"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3585,7 +3510,9 @@
         "lib/saha/server.ts",
         "lib/saha/access.ts",
         "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "tests/nfr/authorisation-matrix.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4038,7 +3965,9 @@
       "remaining": "Reference Android/network/workload p95 measurements for saves and screens.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "tests/nfr/performance-budgets.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4105,7 +4034,9 @@
         "tests/evidence/slice-7d/replay-soak-10000.json",
         "docs/current/SLICE-7D-REPLAY-SOAK.md",
         "app/api/mis/callback/route.ts",
-        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+        "tests/nfr/load-burst.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4161,7 +4092,10 @@
       "remaining": "Independent assessment with no unresolved exploitable critical/high findings in agreed scope.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "tests/nfr/authorisation-matrix.mjs",
+        "tests/nfr/identity-hardening.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4180,7 +4114,9 @@
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/access.ts",
-        "tests/api-smoke.mjs"
+        "tests/api-smoke.mjs",
+        "tests/nfr/authorisation-matrix.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4207,7 +4143,9 @@
         "lib/saha/export-audit.ts",
         "tests/access-audit-contract.mjs",
         "tests/access-audit-smoke.mjs",
-        "docs/current/SLICE-6T-ACCESS-AUDIT.md"
+        "docs/current/SLICE-6T-ACCESS-AUDIT.md",
+        "tests/nfr/load-burst.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4284,7 +4222,9 @@
         "docs/current/SLICE-6F-FIELD-ACCESSIBILITY.md",
         "docs/current/SLICE-6X-POPULATED-ACCESSIBILITY.md",
         "tests/evidence/slice-6x/a11y-audit-result.json",
-        "components/ui/return-focus.ts"
+        "components/ui/return-focus.ts",
+        "tests/ui/phone.spec.mjs",
+        "tests/ui/support/fixtures.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4323,7 +4263,8 @@
         "REMAINING-RELEASES.md",
         "lib/saha/messages.ts",
         "tests/i18n-contract.mjs",
-        "docs/current/SLICE-10J-HINDI-WORKSPACE.md"
+        "docs/current/SLICE-10J-HINDI-WORKSPACE.md",
+        "tests/ui/hindi.spec.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4568,7 +4509,10 @@
         "tests/worklists-smoke.mjs",
         "tests/evidence/slice-0b4/load-envelope-0b4.json",
         "tests/fifth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md",
+        "tests/nfr/performance-budgets.mjs",
+        "tests/nfr/memory-growth.mjs",
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
       ],
       "automatedAcceptanceClaim": false
     },

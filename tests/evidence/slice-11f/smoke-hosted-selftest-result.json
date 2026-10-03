@@ -1,0 +1,58 @@
+{
+  "suite": "Smoke (hosted) self-test",
+  "layer": "smoke",
+  "passed": 8,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-03T04:21:46.006Z",
+  "completedAt": "2026-10-03T04:21:53.335Z",
+  "environment": "local: a stand-in Cloudflare edge in front of the built Worker (cloudflare-access mode, and the default Sites mode), synthetic data",
+  "limits": [
+    "The edge is a stand-in written for this test, not Cloudflare. It shows the checks react correctly to good and bad sites; it does not show how the real Access behaves (the real redirect shape, kid parameter, service-token handling).",
+    "TLS and plain-HTTP checks are skipped here (local stand-ins speak http).",
+    "The service token 200 branch is exercised with a canned answer, not the real app: the real app refuses a service token (no email claim)."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "good site, anonymous tier: every check passes, the service-token tier is skipped with a reason",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "good site with a service token: Access admits it, the real app refuses it with 401, and that is recorded (not a failure)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a service token Access does not admit is a failure that says so",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Access missing, app in cloudflare-access mode: the redirect checks fail, but forged identity headers, garbage and unsigned JWTs are still refused by the app",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "dispatcher-header identity exposed with no Access: forged identity headers get in, and the suite FAILS on exactly that",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "if the app accepts the service identity (canned 200): workspace shape, headers, page and synthetic environment are checked",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "an unreachable site is NOT EXECUTED, with a reason and curl classification, never a pass",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "an egress gateway's 403 host_not_allowed is NOT EXECUTED (it is not the app's answer and not a pass of 'refused')",
+      "ok": true,
+      "ms": 0
+    }
+  ]
+}

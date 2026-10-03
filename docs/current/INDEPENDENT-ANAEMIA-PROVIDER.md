@@ -47,7 +47,7 @@ The private Sites demo alone enables `SAHA_ANAEMIA_DEMO_ENABLED`, the external s
 
 The allowance is 100 provider requests per UTC day, and at most eight screening attempts per Saha visit. This is a demonstration allowance, not metered invoicing or a contractual SLA. The agreement reference is a demo identifier, not a signed legal document. Production onboarding, regulatory review, representative validation, security review, support/SLA, retention/deletion terms, key rotation and billing integration remain partner work.
 
-Cloudflare synthetic staging and GitHub main are unchanged until the sponsor explicitly approves the pull request merge. Its default environment template keeps this service disabled.
+Pull request #126 was integrated with `main` (round 11 and slice 11h included) at the sponsor's instruction on 3 October 2026 ("merge all outstanding first"). Its default environment template keeps this service disabled. On the hosted staging Worker the service stays disabled after the merge: `scripts/cloudflare-staging.mjs` sets `SAHA_EXTERNAL_APIS_ENABLED` to `false` and sets no `SAHA_ANAEMIA_*` value, and `connection()` in `lib/saha/anaemia.ts` refuses unless all of them are set for the approved origin. The staging environment is named `synthetic`, so a signed-in owner with a care role can still open the synthetic screening example there (it adds one synthetic example person and visit to that organisation); no image leaves Saha.
 
 ## Evidence and limitations
 

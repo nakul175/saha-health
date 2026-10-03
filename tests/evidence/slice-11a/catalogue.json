@@ -1,0 +1,2746 @@
+{
+  "generatedAt": "2026-10-03T03:04:43.449Z",
+  "summary": {
+    "layers": {
+      "unit": {
+        "suites": 106,
+        "components": 0,
+        "suitesCitingNoRequirement": 19,
+        "requirementsCited": 128
+      },
+      "integration": {
+        "suites": 2,
+        "components": 80,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 113
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 0,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 0
+      },
+      "ui": {
+        "suites": 0,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 0
+      },
+      "nfr": {
+        "suites": 0,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 0
+      },
+      "uat": {
+        "suites": 0,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 3
+      }
+    },
+    "supportFiles": 4,
+    "suites": 112,
+    "components": 80,
+    "requirementsCitedBySomeSuite": 150,
+    "suitesCitingNoRequirement": 20,
+    "componentsCitingNoRequirement": 14,
+    "requirementsCitedBySomeTest": 150
+  },
+  "errors": [],
+  "suites": [
+    {
+      "id": "manual/a11y-audit",
+      "file": "tests/a11y-audit.mjs",
+      "layer": "manual",
+      "tier": "manual",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-UX-05",
+        "NFR-13"
+      ],
+      "resultFiles": [
+        "tests/a11y-audit-result.json"
+      ],
+      "note": "axe over 66 screens; needs Playwright and axe-core installed outside the project and a running synthetic Worker (docs/current/DEVELOPMENT-AND-CI.md)"
+    },
+    {
+      "id": "unit/abdm-contract",
+      "file": "tests/abdm-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/abdm-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/abdm-transfer-contract",
+      "file": "tests/abdm-transfer-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-17"
+      ],
+      "resultFiles": [
+        "tests/abdm-transfer-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/access-audit-contract",
+      "file": "tests/access-audit-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-SEC-08",
+        "NFR-10"
+      ],
+      "resultFiles": [
+        "tests/access-audit-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/action-plan-contract",
+      "file": "tests/action-plan-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-01",
+        "BR-CARE-05"
+      ],
+      "resultFiles": [
+        "tests/action-plan-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/adapter-operations-contract",
+      "file": "tests/adapter-operations-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-02",
+        "BR-INT-09"
+      ],
+      "resultFiles": [
+        "tests/adapter-operations-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "manual/adapter-overhead-bench",
+      "file": "tests/adapter-overhead-bench.mjs",
+      "layer": "manual",
+      "tier": "manual",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "NFR-28"
+      ],
+      "resultFiles": [],
+      "note": "local benchmark of per-adapter overhead; in-process, no Worker"
+    },
+    {
+      "id": "unit/agent-contract",
+      "file": "tests/agent-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-01",
+        "BR-AG-02",
+        "BR-AG-03",
+        "BR-AG-04",
+        "BR-AG-05",
+        "BR-AG-06",
+        "BR-AG-07",
+        "BR-AG-08",
+        "BR-AG-09",
+        "BR-AG-10",
+        "BR-AG-12",
+        "BR-AI-01",
+        "BR-AI-02",
+        "BR-AI-04",
+        "BR-AI-05",
+        "BR-AI-06",
+        "BR-AI-07",
+        "BR-AI-08",
+        "BR-AI-09",
+        "BR-AI-10",
+        "BR-AI-11",
+        "BR-AI-12"
+      ],
+      "resultFiles": [
+        "tests/agent-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/agent-quality-contract",
+      "file": "tests/agent-quality-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-08",
+        "BR-AI-06"
+      ],
+      "resultFiles": [
+        "tests/agent-quality-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/aggregate-delivery-contract",
+      "file": "tests/aggregate-delivery-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-09",
+        "BR-REP-05"
+      ],
+      "resultFiles": [
+        "tests/aggregate-delivery-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/ai-budget-contract",
+      "file": "tests/ai-budget-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-07",
+        "BR-AI-12"
+      ],
+      "resultFiles": [
+        "tests/ai-budget-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/ai-invoice-contract",
+      "file": "tests/ai-invoice-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-07",
+        "BR-AI-12",
+        "BR-OPS-04"
+      ],
+      "resultFiles": [
+        "tests/ai-invoice-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/alert-delivery-contract",
+      "file": "tests/alert-delivery-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OPS-04",
+        "BR-REP-01",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/alert-delivery-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/alerts-contract",
+      "file": "tests/alerts-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OPS-04",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/alerts-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/audit-chain-contract",
+      "file": "tests/audit-chain-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-SEC-08",
+        "NFR-10"
+      ],
+      "resultFiles": [
+        "tests/audit-chain-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/capability-lifecycle-contract",
+      "file": "tests/capability-lifecycle-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AI-04"
+      ],
+      "resultFiles": [
+        "tests/capability-lifecycle-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/caseload-contract",
+      "file": "tests/caseload-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-04"
+      ],
+      "resultFiles": [
+        "tests/caseload-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/caseload-schedule-contract",
+      "file": "tests/caseload-schedule-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-04"
+      ],
+      "resultFiles": [
+        "tests/caseload-schedule-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/cloudflare-staging-contract",
+      "file": "tests/cloudflare-staging-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-04",
+        "BR-OPS-04",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/cloudflare-staging-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/consent-contract",
+      "file": "tests/consent-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-SEC-03",
+        "NFR-26"
+      ],
+      "resultFiles": [
+        "tests/consent-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/continuity-contract",
+      "file": "tests/continuity-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/continuity-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/correction-tasks-contract",
+      "file": "tests/correction-tasks-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-06",
+        "BR-RULE-04"
+      ],
+      "resultFiles": [
+        "tests/correction-tasks-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/data-exit-contract",
+      "file": "tests/data-exit-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OPS-07",
+        "NFR-22"
+      ],
+      "resultFiles": [
+        "tests/data-exit-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/delegation-contract",
+      "file": "tests/delegation-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-02",
+        "BR-ID-09"
+      ],
+      "resultFiles": [
+        "tests/delegation-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/demonstration-contract",
+      "file": "tests/demonstration-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/demonstration-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/drift-contract",
+      "file": "tests/drift-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AI-10"
+      ],
+      "resultFiles": [
+        "tests/drift-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/ehr-contract",
+      "file": "tests/ehr-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-01",
+        "BR-INT-02",
+        "BR-INT-03",
+        "BR-INT-04",
+        "BR-INT-05",
+        "BR-INT-06",
+        "BR-INT-07",
+        "BR-INT-08",
+        "BR-INT-09",
+        "BR-INT-10",
+        "BR-INT-11",
+        "BR-INT-12",
+        "BR-INT-14",
+        "BR-INT-16",
+        "BR-INT-20",
+        "BR-INT-21",
+        "BR-INT-22",
+        "BR-INT-23",
+        "BR-INT-24",
+        "NFR-20",
+        "NFR-25"
+      ],
+      "resultFiles": [
+        "tests/ehr-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/ehr-execution",
+      "file": "tests/ehr-execution.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-04",
+        "NFR-05"
+      ],
+      "resultFiles": [
+        "tests/ehr-execution-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/ehr-resolution-contract",
+      "file": "tests/ehr-resolution-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-04",
+        "BR-INT-21"
+      ],
+      "resultFiles": [
+        "tests/ehr-resolution-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/eighth-review-fixes-contract",
+      "file": "tests/eighth-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-01",
+        "BR-DATA-05",
+        "BR-INT-02",
+        "BR-INT-09",
+        "BR-INT-14",
+        "BR-REP-05"
+      ],
+      "resultFiles": [
+        "tests/eighth-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/environment-contract",
+      "file": "tests/environment-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OPS-01",
+        "BR-OPS-02"
+      ],
+      "resultFiles": [
+        "tests/environment-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/exceptional-contract",
+      "file": "tests/exceptional-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/exceptional-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/exceptions-contract",
+      "file": "tests/exceptions-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-REP-01",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/exceptions-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/fact-provenance-contract",
+      "file": "tests/fact-provenance-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-02"
+      ],
+      "resultFiles": [
+        "tests/fact-provenance-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/fact-verification-contract",
+      "file": "tests/fact-verification-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-02"
+      ],
+      "resultFiles": [
+        "tests/fact-verification-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/fhir-validate-contract",
+      "file": "tests/fhir-validate-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-17"
+      ],
+      "resultFiles": [
+        "tests/fhir-validate-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-capacity-client",
+      "file": "tests/field-capacity-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-08",
+        "NFR-11",
+        "NFR-12"
+      ],
+      "resultFiles": [
+        "tests/field-capacity-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-client",
+      "file": "tests/field-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-01",
+        "BR-OFF-02",
+        "BR-OFF-03",
+        "BR-OFF-05",
+        "BR-OFF-06",
+        "BR-OFF-07",
+        "BR-OFF-08",
+        "NFR-04"
+      ],
+      "resultFiles": [
+        "tests/field-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-contract",
+      "file": "tests/field-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-01",
+        "BR-OFF-02",
+        "BR-OFF-03",
+        "BR-OFF-05",
+        "BR-OFF-06",
+        "BR-OFF-07",
+        "BR-OFF-08",
+        "NFR-11"
+      ],
+      "resultFiles": [
+        "tests/field-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-media-capacity-client",
+      "file": "tests/field-media-capacity-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-08",
+        "NFR-11",
+        "NFR-12"
+      ],
+      "resultFiles": [
+        "tests/field-media-capacity-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-media-client",
+      "file": "tests/field-media-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-04"
+      ],
+      "resultFiles": [
+        "tests/field-media-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-provenance-client",
+      "file": "tests/field-provenance-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-02"
+      ],
+      "resultFiles": [
+        "tests/field-provenance-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-recording-client",
+      "file": "tests/field-recording-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-UX-03"
+      ],
+      "resultFiles": [
+        "tests/field-recording-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-registration-client",
+      "file": "tests/field-registration-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-01",
+        "BR-OFF-05"
+      ],
+      "resultFiles": [
+        "tests/field-registration-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-shell",
+      "file": "tests/field-shell.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-01",
+        "BR-OFF-02",
+        "BR-OFF-03",
+        "BR-OFF-05",
+        "BR-OFF-06",
+        "BR-OFF-07",
+        "BR-OFF-08",
+        "NFR-04"
+      ],
+      "resultFiles": [
+        "tests/field-shell-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-storage-client",
+      "file": "tests/field-storage-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-OFF-08"
+      ],
+      "resultFiles": [
+        "tests/field-storage-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/field-units-client",
+      "file": "tests/field-units-client.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-05"
+      ],
+      "resultFiles": [
+        "tests/field-units-client-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/fifth-review-fixes-contract",
+      "file": "tests/fifth-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-11",
+        "BR-PROG-07",
+        "BR-REP-04",
+        "BR-SEC-08",
+        "NFR-24"
+      ],
+      "resultFiles": [
+        "tests/fifth-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/fixture-migration-contract",
+      "file": "tests/fixture-migration-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-11"
+      ],
+      "resultFiles": [
+        "tests/fixture-migration-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/fourth-review-fixes-contract",
+      "file": "tests/fourth-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-08",
+        "BR-INT-06",
+        "BR-INT-14",
+        "BR-OPS-07",
+        "BR-OPS-08",
+        "BR-SEC-09",
+        "BR-SEC-10",
+        "BR-SEC-11"
+      ],
+      "resultFiles": [
+        "tests/fourth-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/governance-contract",
+      "file": "tests/governance-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-01",
+        "BR-AG-02",
+        "BR-AG-03",
+        "BR-AG-04",
+        "BR-AG-05",
+        "BR-AG-06",
+        "BR-AG-07",
+        "BR-AG-08",
+        "BR-AG-09",
+        "BR-AG-10",
+        "BR-AG-12",
+        "BR-AI-01",
+        "BR-AI-02",
+        "BR-AI-04",
+        "BR-AI-05",
+        "BR-AI-06",
+        "BR-AI-07",
+        "BR-AI-08",
+        "BR-AI-09",
+        "BR-AI-10",
+        "BR-AI-11",
+        "BR-AI-12",
+        "BR-CARE-01",
+        "BR-CARE-03",
+        "BR-CARE-04",
+        "BR-CARE-05",
+        "BR-CARE-06",
+        "BR-CARE-07",
+        "BR-CARE-08",
+        "BR-CLIN-04",
+        "BR-CLIN-05",
+        "BR-CLIN-08",
+        "BR-DATA-01",
+        "BR-DATA-02",
+        "BR-DATA-03",
+        "BR-DATA-04",
+        "BR-DATA-05",
+        "BR-DATA-06",
+        "BR-DATA-07",
+        "BR-DATA-09",
+        "BR-DATA-10",
+        "BR-DATA-11",
+        "BR-PROG-01",
+        "BR-PROG-02",
+        "BR-PROG-03",
+        "BR-PROG-04",
+        "BR-PROG-05",
+        "BR-PROG-06",
+        "BR-PROG-07",
+        "BR-PROG-08",
+        "BR-RULE-01",
+        "BR-RULE-02",
+        "BR-RULE-03",
+        "BR-RULE-04",
+        "BR-RULE-05",
+        "BR-RULE-06",
+        "BR-RULE-07",
+        "BR-RULE-08",
+        "NFR-03",
+        "NFR-16",
+        "NFR-17"
+      ],
+      "resultFiles": [
+        "tests/governance-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/household-contract",
+      "file": "tests/household-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-PROG-05"
+      ],
+      "resultFiles": [
+        "tests/household-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/household-visit-contract",
+      "file": "tests/household-visit-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-05",
+        "BR-PROG-05"
+      ],
+      "resultFiles": [
+        "tests/household-visit-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/i18n-contract",
+      "file": "tests/i18n-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-UX-05",
+        "NFR-15"
+      ],
+      "resultFiles": [
+        "tests/i18n-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/identifier-crosswalk-contract",
+      "file": "tests/identifier-crosswalk-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-05",
+        "BR-ID-08",
+        "BR-INT-14"
+      ],
+      "resultFiles": [
+        "tests/identifier-crosswalk-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/identity-contract",
+      "file": "tests/identity-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/identity-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/incentive-claims-contract",
+      "file": "tests/incentive-claims-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-08"
+      ],
+      "resultFiles": [
+        "tests/incentive-claims-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/indicator-freshness-contract",
+      "file": "tests/indicator-freshness-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-REP-03"
+      ],
+      "resultFiles": [
+        "tests/indicator-freshness-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/indicator-registry-contract",
+      "file": "tests/indicator-registry-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-11",
+        "BR-REP-02",
+        "BR-REP-04"
+      ],
+      "resultFiles": [
+        "tests/indicator-registry-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/indicators-contract",
+      "file": "tests/indicators-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/indicators-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "manual/load-envelope",
+      "file": "tests/load-envelope.mjs",
+      "layer": "manual",
+      "tier": "manual",
+      "runner": "node",
+      "needs": [
+        "build"
+      ],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/load-envelope-result.json"
+      ],
+      "note": "local load probe toward the BRD planning envelope; builds its own large synthetic database and takes many minutes; needs dist/"
+    },
+    {
+      "id": "unit/main-review-fixes-contract",
+      "file": "tests/main-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-07",
+        "BR-ID-08",
+        "BR-INT-14",
+        "BR-SEC-10",
+        "BR-SEC-11"
+      ],
+      "resultFiles": [
+        "tests/main-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/media-contract",
+      "file": "tests/media-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/media-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/merge-contract",
+      "file": "tests/merge-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/merge-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/mis-contract",
+      "file": "tests/mis-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-01",
+        "BR-INT-02",
+        "BR-INT-03",
+        "BR-INT-04",
+        "BR-INT-05",
+        "BR-INT-06",
+        "BR-INT-07",
+        "BR-INT-08",
+        "BR-INT-09",
+        "BR-INT-10",
+        "BR-INT-11",
+        "BR-INT-12",
+        "BR-INT-14",
+        "BR-INT-16",
+        "BR-INT-20",
+        "BR-INT-21",
+        "BR-INT-22",
+        "BR-INT-23",
+        "BR-INT-24",
+        "NFR-20"
+      ],
+      "resultFiles": [
+        "tests/mis-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/mis-delivery",
+      "file": "tests/mis-delivery.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "NFR-05"
+      ],
+      "resultFiles": [
+        "tests/mis-delivery-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/ninth-review-fixes-contract",
+      "file": "tests/ninth-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-09",
+        "BR-REP-04",
+        "BR-REP-05"
+      ],
+      "resultFiles": [
+        "tests/ninth-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/note-answer-signoff-contract",
+      "file": "tests/note-answer-signoff-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-02"
+      ],
+      "resultFiles": [
+        "tests/note-answer-signoff-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/notification-channel-contract",
+      "file": "tests/notification-channel-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-04",
+        "BR-OPS-04",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/notification-channel-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/operations-contract",
+      "file": "tests/operations-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/operations-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/outreach-contract",
+      "file": "tests/outreach-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/outreach-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/pack-installation-contract",
+      "file": "tests/pack-installation-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-PROG-08"
+      ],
+      "resultFiles": [
+        "tests/pack-installation-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/patient-directory-contract",
+      "file": "tests/patient-directory-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "NFR-24"
+      ],
+      "resultFiles": [
+        "tests/patient-directory-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/patient-import-contract",
+      "file": "tests/patient-import-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-11"
+      ],
+      "resultFiles": [
+        "tests/patient-import-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/photo-contract",
+      "file": "tests/photo-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-08"
+      ],
+      "resultFiles": [
+        "tests/photo-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/pilot-contract",
+      "file": "tests/pilot-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/pilot-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/plan-dependencies-contract",
+      "file": "tests/plan-dependencies-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-01",
+        "BR-CARE-04",
+        "BR-CARE-05"
+      ],
+      "resultFiles": [
+        "tests/plan-dependencies-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/programme-migration-contract",
+      "file": "tests/programme-migration-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-PROG-07"
+      ],
+      "resultFiles": [
+        "tests/programme-migration-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/provider-history-contract",
+      "file": "tests/provider-history-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AI-07"
+      ],
+      "resultFiles": [
+        "tests/provider-history-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/provider-sandbox-contract",
+      "file": "tests/provider-sandbox-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AI-11"
+      ],
+      "resultFiles": [
+        "tests/provider-sandbox-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/read-audit-completion-contract",
+      "file": "tests/read-audit-completion-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-SEC-08"
+      ],
+      "resultFiles": [
+        "tests/read-audit-completion-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/record-import-contract",
+      "file": "tests/record-import-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-11"
+      ],
+      "resultFiles": [
+        "tests/record-import-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "resilience/recovery-drill",
+      "file": "tests/recovery-drill.mjs",
+      "layer": "resilience",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [
+        "build"
+      ],
+      "requirementsCited": [
+        "NFR-06",
+        "NFR-23"
+      ],
+      "resultFiles": [
+        "tests/recovery-result.json"
+      ],
+      "note": "encrypted backup and restore against the database the HTTP suite populated"
+    },
+    {
+      "id": "unit/referral-contract",
+      "file": "tests/referral-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/referral-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/referral-request-queue-contract",
+      "file": "tests/referral-request-queue-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-04",
+        "BR-OFF-05"
+      ],
+      "resultFiles": [
+        "tests/referral-request-queue-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/replay-soak-contract",
+      "file": "tests/replay-soak-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-INT-04",
+        "NFR-05"
+      ],
+      "resultFiles": [
+        "tests/replay-soak-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/report-export-contract",
+      "file": "tests/report-export-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-REP-05"
+      ],
+      "resultFiles": [
+        "tests/report-export-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/retention-contract",
+      "file": "tests/retention-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/retention-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/reuse-contract",
+      "file": "tests/reuse-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/reuse-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/review-fixes-contract",
+      "file": "tests/review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AI-11",
+        "BR-DATA-11",
+        "BR-ID-02",
+        "BR-ID-09",
+        "BR-OPS-07",
+        "NFR-22"
+      ],
+      "resultFiles": [
+        "tests/review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/rights-contract",
+      "file": "tests/rights-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/rights-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/roster-contract",
+      "file": "tests/roster-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-01"
+      ],
+      "resultFiles": [
+        "tests/roster-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "integration/run-api-smoke",
+      "file": "tests/run-api-smoke.mjs",
+      "layer": "integration",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [
+        "build"
+      ],
+      "requirementsCited": [
+        "BR-AG-01",
+        "BR-AG-02",
+        "BR-AG-03",
+        "BR-AG-04",
+        "BR-AG-05",
+        "BR-AG-06",
+        "BR-AG-07",
+        "BR-AG-08",
+        "BR-AG-09",
+        "BR-AG-10",
+        "BR-AG-11",
+        "BR-AG-12",
+        "BR-AI-01",
+        "BR-AI-02",
+        "BR-AI-04",
+        "BR-AI-05",
+        "BR-AI-06",
+        "BR-AI-07",
+        "BR-AI-08",
+        "BR-AI-09",
+        "BR-AI-10",
+        "BR-AI-11",
+        "BR-AI-12",
+        "BR-CARE-01",
+        "BR-CARE-03",
+        "BR-CARE-04",
+        "BR-CARE-05",
+        "BR-CARE-06",
+        "BR-CARE-07",
+        "BR-CARE-08",
+        "BR-CLIN-04",
+        "BR-CLIN-05",
+        "BR-CLIN-08",
+        "BR-DATA-01",
+        "BR-DATA-02",
+        "BR-DATA-03",
+        "BR-DATA-04",
+        "BR-DATA-05",
+        "BR-DATA-06",
+        "BR-DATA-07",
+        "BR-DATA-09",
+        "BR-DATA-10",
+        "BR-DATA-11",
+        "BR-ID-01",
+        "BR-ID-02",
+        "BR-ID-03",
+        "BR-ID-04",
+        "BR-ID-05",
+        "BR-ID-06",
+        "BR-ID-07",
+        "BR-ID-08",
+        "BR-ID-09",
+        "BR-INT-02",
+        "BR-INT-06",
+        "BR-INT-09",
+        "BR-INT-14",
+        "BR-INT-21",
+        "BR-OFF-05",
+        "BR-OPS-01",
+        "BR-OPS-02",
+        "BR-OPS-03",
+        "BR-OPS-04",
+        "BR-OPS-05",
+        "BR-OPS-06",
+        "BR-OPS-07",
+        "BR-OPS-08",
+        "BR-PROG-01",
+        "BR-PROG-02",
+        "BR-PROG-03",
+        "BR-PROG-04",
+        "BR-PROG-05",
+        "BR-PROG-06",
+        "BR-PROG-07",
+        "BR-PROG-08",
+        "BR-REP-01",
+        "BR-REP-02",
+        "BR-REP-03",
+        "BR-REP-04",
+        "BR-REP-05",
+        "BR-REP-06",
+        "BR-REP-07",
+        "BR-RULE-01",
+        "BR-RULE-02",
+        "BR-RULE-03",
+        "BR-RULE-04",
+        "BR-RULE-05",
+        "BR-RULE-06",
+        "BR-RULE-07",
+        "BR-RULE-08",
+        "BR-SEC-03",
+        "BR-SEC-07",
+        "BR-SEC-08",
+        "BR-UX-01",
+        "BR-UX-02",
+        "BR-UX-03",
+        "BR-UX-04",
+        "BR-UX-05",
+        "BR-UX-06",
+        "BR-UX-07",
+        "BR-UX-08",
+        "BR-UX-09",
+        "NFR-03",
+        "NFR-07",
+        "NFR-09",
+        "NFR-10",
+        "NFR-16",
+        "NFR-17",
+        "NFR-18",
+        "NFR-19",
+        "NFR-21",
+        "NFR-22",
+        "NFR-24",
+        "NFR-26"
+      ],
+      "resultFiles": [
+        "tests/latest-result.json"
+      ],
+      "note": "HTTP and D1 suite against the built Worker"
+    },
+    {
+      "id": "unit/safe-logs-contract",
+      "file": "tests/safe-logs-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-SEC-07"
+      ],
+      "resultFiles": [
+        "tests/safe-logs-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/scheduled-job-contract",
+      "file": "tests/scheduled-job-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-04",
+        "BR-OPS-04",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/scheduled-job-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "integration/scheduled-local-check",
+      "file": "tests/scheduled-local-check.mjs",
+      "layer": "integration",
+      "tier": "extended",
+      "runner": "node",
+      "needs": [
+        "build"
+      ],
+      "requirementsCited": [
+        "BR-ID-04",
+        "BR-OPS-04",
+        "NFR-18"
+      ],
+      "resultFiles": [],
+      "note": "served-Worker check of the scheduled handler; needs dist/ and a port, so not a unit test"
+    },
+    {
+      "id": "unit/scoped-read-contract",
+      "file": "tests/scoped-read-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/scoped-read-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/send-gate-contract",
+      "file": "tests/send-gate-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-02"
+      ],
+      "resultFiles": [
+        "tests/send-gate-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/seventh-review-fixes-contract",
+      "file": "tests/seventh-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-11",
+        "BR-DATA-11",
+        "BR-REP-04",
+        "BR-SEC-08",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/seventh-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/shadow-contract",
+      "file": "tests/shadow-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AI-04",
+        "BR-AI-10"
+      ],
+      "resultFiles": [
+        "tests/shadow-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/sixth-review-fixes-contract",
+      "file": "tests/sixth-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-02",
+        "BR-INT-14",
+        "BR-OPS-04",
+        "BR-OPS-07",
+        "BR-PROG-08",
+        "NFR-18",
+        "NFR-22"
+      ],
+      "resultFiles": [
+        "tests/sixth-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/storage-contract",
+      "file": "tests/storage-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/storage-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/task-limits-contract",
+      "file": "tests/task-limits-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-AG-07",
+        "BR-AI-12",
+        "BR-OPS-04"
+      ],
+      "resultFiles": [
+        "tests/task-limits-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/tenth-review-fixes-contract",
+      "file": "tests/tenth-review-fixes-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/tenth-review-fixes-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/test-runner-contract",
+      "file": "tests/test-runner-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/latest-result.json",
+        "tests/recovery-result.json",
+        "tests/alpha-contract-result.json",
+        "tests/tracked-result.json",
+        "tests/gamma-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/trace-contract",
+      "file": "tests/trace-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-REP-01",
+        "NFR-18"
+      ],
+      "resultFiles": [
+        "tests/trace-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/value-override-agent-contract",
+      "file": "tests/value-override-agent-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-05"
+      ],
+      "resultFiles": [
+        "tests/value-override-agent-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/value-override-contract",
+      "file": "tests/value-override-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-05"
+      ],
+      "resultFiles": [
+        "tests/value-override-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/visit-import-contract",
+      "file": "tests/visit-import-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-DATA-11"
+      ],
+      "resultFiles": [
+        "tests/visit-import-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/worker-activity-contract",
+      "file": "tests/worker-activity-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-08"
+      ],
+      "resultFiles": [
+        "tests/worker-activity-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/workforce-import-contract",
+      "file": "tests/workforce-import-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-ID-01"
+      ],
+      "resultFiles": [
+        "tests/workforce-import-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    },
+    {
+      "id": "unit/worklists-contract",
+      "file": "tests/worklists-contract.mjs",
+      "layer": "unit",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [],
+      "requirementsCited": [
+        "BR-CARE-04",
+        "NFR-24"
+      ],
+      "resultFiles": [
+        "tests/worklists-contract-result.json"
+      ],
+      "note": "transpiles lib/saha modules and checks them with node:assert"
+    }
+  ],
+  "components": [
+    {
+      "file": "tests/abdm-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-INT-14"
+      ]
+    },
+    {
+      "file": "tests/abdm-transfer-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/access-audit-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-SEC-08",
+        "NFR-10"
+      ]
+    },
+    {
+      "file": "tests/action-plan-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-01",
+        "BR-CARE-05"
+      ]
+    },
+    {
+      "file": "tests/adapter-operations-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-INT-02",
+        "BR-INT-09"
+      ]
+    },
+    {
+      "file": "tests/agent-quality-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AG-08",
+        "BR-AI-06"
+      ]
+    },
+    {
+      "file": "tests/agent-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AG-01",
+        "BR-AG-02",
+        "BR-AG-03",
+        "BR-AG-04",
+        "BR-AG-05",
+        "BR-AG-06",
+        "BR-AG-07",
+        "BR-AG-08",
+        "BR-AG-09",
+        "BR-AG-10",
+        "BR-AG-12",
+        "NFR-03"
+      ]
+    },
+    {
+      "file": "tests/aggregate-delivery-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-INT-09",
+        "BR-REP-05"
+      ]
+    },
+    {
+      "file": "tests/ai-budget-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AG-07",
+        "BR-AI-12"
+      ]
+    },
+    {
+      "file": "tests/ai-invoice-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AG-07",
+        "BR-AI-12",
+        "BR-OPS-04"
+      ]
+    },
+    {
+      "file": "tests/alert-delivery-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-OPS-04",
+        "BR-REP-01",
+        "NFR-18"
+      ]
+    },
+    {
+      "file": "tests/audit-chain-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-SEC-08"
+      ]
+    },
+    {
+      "file": "tests/capability-lifecycle-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AI-04",
+        "BR-AI-07"
+      ]
+    },
+    {
+      "file": "tests/caseload-schedule-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-ID-04"
+      ]
+    },
+    {
+      "file": "tests/caseload-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-ID-04"
+      ]
+    },
+    {
+      "file": "tests/consent-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-SEC-03",
+        "NFR-26"
+      ]
+    },
+    {
+      "file": "tests/continuity-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-01",
+        "BR-CARE-03",
+        "BR-CARE-04",
+        "BR-CARE-05",
+        "BR-CARE-06",
+        "BR-CARE-07",
+        "BR-CARE-08",
+        "BR-ID-01",
+        "BR-ID-02",
+        "BR-ID-03",
+        "BR-ID-04",
+        "BR-ID-05",
+        "BR-ID-06",
+        "BR-ID-07",
+        "BR-ID-08",
+        "BR-ID-09"
+      ]
+    },
+    {
+      "file": "tests/correction-tasks-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-06",
+        "BR-RULE-04"
+      ]
+    },
+    {
+      "file": "tests/data-exit-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-OPS-07",
+        "NFR-22"
+      ]
+    },
+    {
+      "file": "tests/delegation-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-ID-02",
+        "BR-ID-09"
+      ]
+    },
+    {
+      "file": "tests/delta-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/demonstration-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/ehr-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-INT-21",
+        "NFR-26"
+      ]
+    },
+    {
+      "file": "tests/eighth-review-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-INT-14"
+      ]
+    },
+    {
+      "file": "tests/environment-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-OPS-01",
+        "BR-OPS-02"
+      ]
+    },
+    {
+      "file": "tests/exceptional-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/exceptions-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-REP-01"
+      ]
+    },
+    {
+      "file": "tests/expansion-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "NFR-19"
+      ]
+    },
+    {
+      "file": "tests/fact-provenance-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-02"
+      ]
+    },
+    {
+      "file": "tests/fact-verification-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-02"
+      ]
+    },
+    {
+      "file": "tests/field-registration-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-OFF-05"
+      ]
+    },
+    {
+      "file": "tests/field-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/fixture-migration-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-11"
+      ]
+    },
+    {
+      "file": "tests/fourth-review-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-INT-06"
+      ]
+    },
+    {
+      "file": "tests/governance-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AG-01",
+        "BR-AG-02",
+        "BR-AG-03",
+        "BR-AG-04",
+        "BR-AG-05",
+        "BR-AG-06",
+        "BR-AG-07",
+        "BR-AG-08",
+        "BR-AG-09",
+        "BR-AG-10",
+        "BR-AG-12",
+        "BR-AI-01",
+        "BR-AI-02",
+        "BR-AI-04",
+        "BR-AI-05",
+        "BR-AI-06",
+        "BR-AI-07",
+        "BR-AI-08",
+        "BR-AI-09",
+        "BR-AI-10",
+        "BR-AI-11",
+        "BR-AI-12",
+        "BR-CARE-01",
+        "BR-CARE-03",
+        "BR-CARE-04",
+        "BR-CARE-05",
+        "BR-CARE-06",
+        "BR-CARE-07",
+        "BR-CARE-08",
+        "BR-CLIN-04",
+        "BR-CLIN-05",
+        "BR-CLIN-08",
+        "BR-DATA-01",
+        "BR-DATA-02",
+        "BR-DATA-03",
+        "BR-DATA-04",
+        "BR-DATA-05",
+        "BR-DATA-06",
+        "BR-DATA-07",
+        "BR-DATA-09",
+        "BR-DATA-10",
+        "BR-DATA-11",
+        "BR-PROG-01",
+        "BR-PROG-02",
+        "BR-PROG-03",
+        "BR-PROG-04",
+        "BR-PROG-05",
+        "BR-PROG-06",
+        "BR-PROG-07",
+        "BR-PROG-08",
+        "BR-RULE-01",
+        "BR-RULE-02",
+        "BR-RULE-03",
+        "BR-RULE-04",
+        "BR-RULE-05",
+        "BR-RULE-06",
+        "BR-RULE-07",
+        "BR-RULE-08",
+        "NFR-03",
+        "NFR-16",
+        "NFR-17"
+      ]
+    },
+    {
+      "file": "tests/household-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-PROG-05"
+      ]
+    },
+    {
+      "file": "tests/household-visit-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-05",
+        "BR-PROG-05"
+      ]
+    },
+    {
+      "file": "tests/identifier-search-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-ID-05",
+        "BR-ID-08",
+        "BR-INT-14"
+      ]
+    },
+    {
+      "file": "tests/incentive-claims-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-08"
+      ]
+    },
+    {
+      "file": "tests/indicator-freshness-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-REP-03"
+      ]
+    },
+    {
+      "file": "tests/indicator-registry-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AG-11",
+        "BR-REP-02",
+        "BR-REP-04"
+      ]
+    },
+    {
+      "file": "tests/indicators-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-REP-03"
+      ]
+    },
+    {
+      "file": "tests/language-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-UX-05"
+      ]
+    },
+    {
+      "file": "tests/media-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/member-names-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/merge-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/mis-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/note-answer-signoff-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-02"
+      ]
+    },
+    {
+      "file": "tests/notification-channel-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-04",
+        "BR-OPS-04",
+        "NFR-18"
+      ]
+    },
+    {
+      "file": "tests/operations-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-OPS-01",
+        "BR-OPS-02",
+        "BR-OPS-03",
+        "BR-OPS-04",
+        "BR-OPS-05",
+        "BR-OPS-06",
+        "BR-OPS-07",
+        "BR-OPS-08",
+        "BR-REP-01",
+        "BR-REP-02",
+        "BR-REP-03",
+        "BR-REP-04",
+        "BR-REP-05",
+        "BR-REP-06",
+        "BR-REP-07",
+        "NFR-18",
+        "NFR-21"
+      ]
+    },
+    {
+      "file": "tests/outreach-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-01",
+        "BR-CARE-03",
+        "BR-CARE-04",
+        "BR-CARE-05",
+        "BR-CARE-06",
+        "BR-CARE-07",
+        "BR-CARE-08"
+      ]
+    },
+    {
+      "file": "tests/pack-installation-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-PROG-08"
+      ]
+    },
+    {
+      "file": "tests/partition-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/patient-directory-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "NFR-24"
+      ]
+    },
+    {
+      "file": "tests/patient-import-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-11"
+      ]
+    },
+    {
+      "file": "tests/pilot-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-OPS-01",
+        "BR-OPS-02",
+        "BR-OPS-03",
+        "BR-OPS-04",
+        "BR-OPS-05",
+        "BR-OPS-06",
+        "BR-OPS-07",
+        "BR-OPS-08"
+      ]
+    },
+    {
+      "file": "tests/plan-dependencies-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-01",
+        "BR-CARE-04",
+        "BR-CARE-05"
+      ]
+    },
+    {
+      "file": "tests/programme-migration-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-PROG-07"
+      ]
+    },
+    {
+      "file": "tests/programme-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-PROG-01",
+        "BR-PROG-02",
+        "BR-PROG-03",
+        "BR-PROG-04",
+        "BR-PROG-05",
+        "BR-PROG-06",
+        "BR-PROG-07",
+        "BR-PROG-08"
+      ]
+    },
+    {
+      "file": "tests/provider-sandbox-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AI-11",
+        "BR-ID-09"
+      ]
+    },
+    {
+      "file": "tests/read-audit-completion-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-SEC-08"
+      ]
+    },
+    {
+      "file": "tests/record-import-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-11"
+      ]
+    },
+    {
+      "file": "tests/referral-request-queue-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-04",
+        "BR-OFF-05"
+      ]
+    },
+    {
+      "file": "tests/referral-request-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-OFF-05"
+      ]
+    },
+    {
+      "file": "tests/referral-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/report-export-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-REP-05"
+      ]
+    },
+    {
+      "file": "tests/retention-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/reuse-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/rights-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": []
+    },
+    {
+      "file": "tests/roster-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-ID-01"
+      ]
+    },
+    {
+      "file": "tests/safe-logs-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-SEC-07"
+      ]
+    },
+    {
+      "file": "tests/send-gate-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-02"
+      ]
+    },
+    {
+      "file": "tests/shadow-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-AI-04",
+        "BR-AI-10"
+      ]
+    },
+    {
+      "file": "tests/sixth-review-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-INT-14"
+      ]
+    },
+    {
+      "file": "tests/trace-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-REP-01",
+        "NFR-18"
+      ]
+    },
+    {
+      "file": "tests/value-override-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-05"
+      ]
+    },
+    {
+      "file": "tests/visit-import-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-DATA-11"
+      ]
+    },
+    {
+      "file": "tests/worker-activity-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-08"
+      ]
+    },
+    {
+      "file": "tests/workforce-import-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-ID-01"
+      ]
+    },
+    {
+      "file": "tests/worklists-smoke.mjs",
+      "via": "tests/run-api-smoke.mjs",
+      "requirementsCited": [
+        "BR-CARE-04",
+        "NFR-24"
+      ]
+    }
+  ],
+  "support": [
+    "tests/api-smoke.mjs",
+    "tests/database-fixtures.mjs",
+    "tests/lib/report.mjs",
+    "tests/lib/worker.mjs"
+  ]
+}

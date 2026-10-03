@@ -161,7 +161,9 @@
     "REMAINING-RELEASES.md"
   ],
   "NFR-02": [
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "tests/nfr/performance-budgets.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
   ],
   "NFR-03": [
     "lib/saha/agent.ts",
@@ -183,7 +185,9 @@
     "tests/evidence/slice-7d/replay-soak-10000.json",
     "docs/current/SLICE-7D-REPLAY-SOAK.md",
     "app/api/mis/callback/route.ts",
-    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+    "tests/nfr/load-burst.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
   ],
   "NFR-06": [
     "scripts/recovery.mjs",
@@ -194,11 +198,16 @@
     "tests/api-smoke.mjs"
   ],
   "NFR-08": [
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "tests/nfr/authorisation-matrix.mjs",
+    "tests/nfr/identity-hardening.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
   ],
   "NFR-09": [
     "lib/saha/access.ts",
-    "tests/api-smoke.mjs"
+    "tests/api-smoke.mjs",
+    "tests/nfr/authorisation-matrix.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
   ],
   "NFR-10": [
     "lib/saha/store.ts",
@@ -210,7 +219,9 @@
     "lib/saha/export-audit.ts",
     "tests/access-audit-contract.mjs",
     "tests/access-audit-smoke.mjs",
-    "docs/current/SLICE-6T-ACCESS-AUDIT.md"
+    "docs/current/SLICE-6T-ACCESS-AUDIT.md",
+    "tests/nfr/load-burst.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
   ],
   "NFR-11": [
     "lib/saha/field.ts",
@@ -242,7 +253,9 @@
     "docs/current/SLICE-6F-FIELD-ACCESSIBILITY.md",
     "docs/current/SLICE-6X-POPULATED-ACCESSIBILITY.md",
     "tests/evidence/slice-6x/a11y-audit-result.json",
-    "components/ui/return-focus.ts"
+    "components/ui/return-focus.ts",
+    "tests/ui/phone.spec.mjs",
+    "tests/ui/support/fixtures.mjs"
   ],
   "NFR-14": [
     "REMAINING-RELEASES.md"
@@ -251,7 +264,8 @@
     "REMAINING-RELEASES.md",
     "lib/saha/messages.ts",
     "tests/i18n-contract.mjs",
-    "docs/current/SLICE-10J-HINDI-WORKSPACE.md"
+    "docs/current/SLICE-10J-HINDI-WORKSPACE.md",
+    "tests/ui/hindi.spec.mjs"
   ],
   "NFR-16": [
     "REMAINING-RELEASES.md",
@@ -361,7 +375,10 @@
     "tests/worklists-smoke.mjs",
     "tests/evidence/slice-0b4/load-envelope-0b4.json",
     "tests/fifth-review-fixes-contract.mjs",
-    "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md"
+    "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md",
+    "tests/nfr/performance-budgets.mjs",
+    "tests/nfr/memory-growth.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
   ],
   "NFR-25": [
     "lib/saha/fhir-document.ts",
@@ -1021,7 +1038,10 @@
     "docs/current/SLICE-6P-REVIEW-FIXES.md",
     "lib/saha/audit-chain.ts",
     "lib/saha/shadow.ts",
-    "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+    "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+    "tests/nfr/authorisation-matrix.mjs",
+    "tests/ui/roles.spec.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
   ],
   "BR-ID-09": [
     "lib/saha/continuity.ts",
@@ -1434,6 +1454,31 @@
     "tests/i18n-contract.mjs",
     "tests/language-smoke.mjs",
     "tests/a11y-audit.mjs",
-    "docs/current/SLICE-10J-HINDI-WORKSPACE.md"
+    "docs/current/SLICE-10J-HINDI-WORKSPACE.md",
+    "tests/ui/hindi.spec.mjs"
+  ],
+  "BR-SEC-06": [
+    "lib/saha/server.ts",
+    "lib/saha/access.ts",
+    "lib/saha/store.ts",
+    "REMAINING-RELEASES.md",
+    "tests/nfr/authorisation-matrix.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+  ],
+  "BR-ID-03": [
+    "lib/saha/continuity.ts",
+    "lib/saha/platform.ts",
+    "tests/continuity-smoke.mjs",
+    "CORE-CONTINUITY.md",
+    "tests/nfr/identity-hardening.mjs",
+    "tests/smoke/hosted-smoke.mjs",
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+  ],
+  "BR-UX-01": [
+    "app/workspace.tsx",
+    "app/continuity-panel.tsx",
+    "tests/api-smoke.mjs",
+    "tests/smoke/local-smoke.mjs",
+    "tests/ui/asha-visit.spec.mjs"
   ]
 }

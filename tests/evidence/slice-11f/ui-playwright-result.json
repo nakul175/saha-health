@@ -1,0 +1,1341 @@
+{
+  "config": {
+    "configFile": "/home/claude/saha-health/tests/ui/playwright.config.mjs",
+    "rootDir": "/home/claude/saha-health/tests/ui",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "/home/claude/saha-health/tests/ui/support/global-setup.mjs",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/claude/saha-health/test-results/ui",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/home/claude/saha-health/tests/ui",
+        "testIgnore": [
+          "/phone\\.spec\\.mjs$/"
+        ],
+        "testMatch": [
+          "*.spec.mjs"
+        ],
+        "timeout": 180000
+      },
+      {
+        "outputDir": "/home/claude/saha-health/test-results/ui",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone",
+        "name": "phone",
+        "testDir": "/home/claude/saha-health/tests/ui",
+        "testIgnore": [],
+        "testMatch": [
+          "/phone\\.spec\\.mjs$/"
+        ],
+        "timeout": 180000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.56.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "asha-visit.spec.mjs",
+      "file": "asha-visit.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "ASHA visit with a danger sign: assistant, urgent finding, confirmation, programme plan and receipts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 63058,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "start a visit for the assigned person",
+                      "duration": 6621
+                    },
+                    {
+                      "title": "the visit assistant extracts fields from the note and the worker reviews them",
+                      "duration": 7105
+                    },
+                    {
+                      "title": "the worker adds a temperature and saves the draft",
+                      "duration": 219
+                    },
+                    {
+                      "title": "the clinical review shows the urgent finding and names the CHC/FRU referral",
+                      "duration": 11670
+                    },
+                    {
+                      "title": "the visit form as saved",
+                      "duration": 11552
+                    },
+                    {
+                      "title": "review the recorded facts and confirm the visit",
+                      "duration": 6388
+                    },
+                    {
+                      "title": "prepare, approve and run the programme plan",
+                      "duration": 6791
+                    },
+                    {
+                      "title": "receipts: one accepted, one uncertain",
+                      "duration": 11522
+                    },
+                    {
+                      "title": "look up the uncertain receipt: found, and nothing is sent again",
+                      "duration": 204
+                    },
+                    {
+                      "title": "the server records one attempt per destination and two accepted receipts",
+                      "duration": 39
+                    }
+                  ],
+                  "startTime": "2026-10-03T04:22:04.900Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiQVNIQSDCtyB2aXNpdCBmb3JtLCBlbXB0eSIsCiAgICAicGFzc2VzIjogMzEsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfSwKICB7CiAgICAic2NyZWVuIjogIkFTSEEgwrcgdmlzaXQgYXNzaXN0YW50LCBleHRyYWN0aW9uIHVuZGVyIHJldmlldyIsCiAgICAicGFzc2VzIjogMzEsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfSwKICB7CiAgICAic2NyZWVuIjogIkFTSEEgwrcgY2xpbmljYWwgcmV2aWV3IHdpdGggdGhlIHVyZ2VudCBmaW5kaW5nIiwKICAgICJwYXNzZXMiOiAzMSwKICAgICJ2aW9sYXRpb25zIjogW10KICB9LAogIHsKICAgICJzY3JlZW4iOiAiQVNIQSDCtyB2aXNpdCBmb3JtLCBmaWxsZWQiLAogICAgInBhc3NlcyI6IDMxLAogICAgInZpb2xhdGlvbnMiOiBbXQogIH0sCiAgewogICAgInNjcmVlbiI6ICJBU0hBIMK3IHJldmlldyB0aGUgcmVjb3JkZWQgZmFjdHMiLAogICAgInBhc3NlcyI6IDMxLAogICAgInZpb2xhdGlvbnMiOiBbXQogIH0sCiAgewogICAgInNjcmVlbiI6ICJBU0hBIMK3IHByb2dyYW1tZSBwbGFuIHByZXBhcmVkIiwKICAgICJwYXNzZXMiOiAzMSwKICAgICJ2aW9sYXRpb25zIjogW10KICB9LAogIHsKICAgICJzY3JlZW4iOiAiQVNIQSDCtyByZWNlaXB0cywgb25lIHVuY2VydGFpbiIsCiAgICAicGFzc2VzIjogMzEsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfQpd"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "260961f788c843dc75dc-f91b0cd7e247c4c74d95",
+          "file": "asha-visit.spec.mjs",
+          "line": 7,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "errors.spec.mjs",
+      "file": "errors.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "a stranger who opens another organisation is refused, with no patient data and no crash",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2085,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T04:23:08.049Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbCiAgICB7CiAgICAgICJraW5kIjogImNvbnNvbGUiLAogICAgICAid2hvIjogInN0cmFuZ2VyIiwKICAgICAgInRleHQiOiAiRmFpbGVkIHRvIGxvYWQgcmVzb3VyY2U6IHRoZSBzZXJ2ZXIgcmVzcG9uZGVkIHdpdGggYSBzdGF0dXMgb2YgNDAzIChGb3JiaWRkZW4pIiwKICAgICAgInVybCI6ICJodHRwOi8vMTI3LjAuMC4xOjg4MjEvYXBpL3dvcmtzcGFjZSIsCiAgICAgICJhbGxvd2VkQmVjYXVzZSI6ICJ0aGUgcmVmdXNhbCB1bmRlciB0ZXN0OiB0aGUgc2VydmVyIGFuc3dlcnMgNDAzIGZvciBhbiBvcmdhbmlzYXRpb24gdGhpcyBhY2NvdW50IGRvZXMgbm90IGJlbG9uZyB0byIKICAgIH0sCiAgICB7CiAgICAgICJraW5kIjogImNvbnNvbGUiLAogICAgICAid2hvIjogInN0cmFuZ2VyIiwKICAgICAgInRleHQiOiAiRmFpbGVkIHRvIGxvYWQgcmVzb3VyY2U6IHRoZSBzZXJ2ZXIgcmVzcG9uZGVkIHdpdGggYSBzdGF0dXMgb2YgNDAzIChGb3JiaWRkZW4pIiwKICAgICAgInVybCI6ICJodHRwOi8vMTI3LjAuMC4xOjg4MjEvYXBpL3dvcmtzcGFjZSIsCiAgICAgICJhbGxvd2VkQmVjYXVzZSI6ICJ0aGUgcmVmdXNhbCB1bmRlciB0ZXN0OiB0aGUgc2VydmVyIGFuc3dlcnMgNDAzIGZvciBhbiBvcmdhbmlzYXRpb24gdGhpcyBhY2NvdW50IGRvZXMgbm90IGJlbG9uZyB0byIKICAgIH0KICBdCn0="
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiU3RyYW5nZXIgwrcgcmVmdXNhbCIsCiAgICAicGFzc2VzIjogMjUsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfQpd"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fa0dbaa9813d666fc13b-0c0436dcc0f78b8b91fb",
+          "file": "errors.spec.mjs",
+          "line": 6,
+          "column": 1
+        },
+        {
+          "title": "an invitation code that does not exist is refused with a clear message",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6807,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T04:23:10.141Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbCiAgICB7CiAgICAgICJraW5kIjogImNvbnNvbGUiLAogICAgICAid2hvIjogImFzaGEiLAogICAgICAidGV4dCI6ICJGYWlsZWQgdG8gbG9hZCByZXNvdXJjZTogdGhlIHNlcnZlciByZXNwb25kZWQgd2l0aCBhIHN0YXR1cyBvZiA0MDQgKE5vdCBGb3VuZCkiLAogICAgICAidXJsIjogImh0dHA6Ly8xMjcuMC4wLjE6ODgyMS9hcGkvY29tbWFuZHMiLAogICAgICAiYWxsb3dlZEJlY2F1c2UiOiAidGhlIHJlZnVzYWwgdW5kZXIgdGVzdDogYW4gdW5rbm93biBpbnZpdGF0aW9uIGNvZGUgYW5zd2VycyA0MDQiCiAgICB9CiAgXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiQVNIQSDCtyBvcmdhbmlzYXRpb24gcGFnZSBhZnRlciBhIHJlZnVzZWQgY29kZSIsCiAgICAicGFzc2VzIjogMzIsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfQpd"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fa0dbaa9813d666fc13b-394293d981a46a767679",
+          "file": "errors.spec.mjs",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "an address that is not a page shows a not-found page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1315,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-03T04:23:16.956Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbCiAgICB7CiAgICAgICJraW5kIjogImNvbnNvbGUiLAogICAgICAid2hvIjogImFzaGEiLAogICAgICAidGV4dCI6ICJGYWlsZWQgdG8gbG9hZCByZXNvdXJjZTogdGhlIHNlcnZlciByZXNwb25kZWQgd2l0aCBhIHN0YXR1cyBvZiA0MDQgKE5vdCBGb3VuZCkiLAogICAgICAidXJsIjogImh0dHA6Ly8xMjcuMC4wLjE6ODgyMS9kb2VzLW5vdC1leGlzdCIsCiAgICAgICJhbGxvd2VkQmVjYXVzZSI6ICJ0aGUgcmVmdXNhbCB1bmRlciB0ZXN0OiBhbiB1bmtub3duIGFkZHJlc3MgYW5zd2VycyA0MDQiCiAgICB9CiAgXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiTm90IGZvdW5kIHBhZ2UiLAogICAgInBhc3NlcyI6IDcsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfQpd"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fa0dbaa9813d666fc13b-6197b2a665b553f5107a",
+          "file": "errors.spec.mjs",
+          "line": 67,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "governance.spec.mjs",
+      "file": "governance.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "owner sees the demonstration protocols and the source library",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3342,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "protocols",
+                      "duration": 1856
+                    },
+                    {
+                      "title": "source library",
+                      "duration": 908
+                    }
+                  ],
+                  "startTime": "2026-10-03T04:23:18.309Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiT3duZXIgwrcgZ292ZXJuYW5jZSwgcHJvdG9jb2xzIiwKICAgICJwYXNzZXMiOiAyOSwKICAgICJ2aW9sYXRpb25zIjogW10KICB9LAogIHsKICAgICJzY3JlZW4iOiAiT3duZXIgwrcgZ292ZXJuYW5jZSwgc291cmNlIGxpYnJhcnkiLAogICAgInBhc3NlcyI6IDMwLAogICAgInZpb2xhdGlvbnMiOiBbXQogIH0KXQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3903bd22bda38acfd685-f8109e2b6caf1394cbc1",
+          "file": "governance.spec.mjs",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "harness.spec.mjs",
+      "file": "harness.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "the checks can fail",
+          "file": "harness.spec.mjs",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "the axe scan fails on inaccessible markup",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "an image without a text alternative, an unlabelled field and an empty button must be reported as serious or critical",
+                      "location": {
+                        "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                        "line": 8,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1242,
+                      "error": {
+                        "message": "Error: Accessibility on \"harness · inaccessible markup\": serious or critical axe violations\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"critical button-name x1: button\",\u001b[39m\n\u001b[31m+   \"critical image-alt x1: img\",\u001b[39m\n\u001b[31m+   \"critical label x1: input\",\u001b[39m\n\u001b[31m+   \"serious target-size x1: button\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: Accessibility on \"harness · inaccessible markup\": serious or critical axe violations\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"critical button-name x1: button\",\u001b[39m\n\u001b[31m+   \"critical image-alt x1: img\",\u001b[39m\n\u001b[31m+   \"critical label x1: input\",\u001b[39m\n\u001b[31m+   \"serious target-size x1: button\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at Lab.scan (/home/claude/saha-health/tests/ui/support/fixtures.mjs:69:156)\n    at /home/claude/saha-health/tests/ui/harness.spec.mjs:11:5",
+                        "location": {
+                          "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                          "column": 156,
+                          "line": 69
+                        },
+                        "snippet": "   at support/fixtures.mjs:69\n\n  67 |     this.a11y.push({ screen, passes: result.passes.length, violations: found });\n  68 |     const blocking = found.filter(v => BLOCKING.has(v.impact));\n> 69 |     expect.soft(blocking.map(v => `${v.impact} ${v.id} x${v.nodes}: ${v.targets[0]}`), `Accessibility on \"${screen}\": serious or critical axe violations`).toEqual([]);\n     |                                                                                                                                                            ^\n  70 |     return found;\n  71 |   }\n  72 |   /** Locators for text that changes from run to run, to hide in screenshots. */"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                            "column": 156,
+                            "line": 69
+                          },
+                          "message": "Error: Accessibility on \"harness · inaccessible markup\": serious or critical axe violations\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 6\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"critical button-name x1: button\",\u001b[39m\n\u001b[31m+   \"critical image-alt x1: img\",\u001b[39m\n\u001b[31m+   \"critical label x1: input\",\u001b[39m\n\u001b[31m+   \"serious target-size x1: button\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:69\n\n  67 |     this.a11y.push({ screen, passes: result.passes.length, violations: found });\n  68 |     const blocking = found.filter(v => BLOCKING.has(v.impact));\n> 69 |     expect.soft(blocking.map(v => `${v.impact} ${v.id} x${v.nodes}: ${v.targets[0]}`), `Accessibility on \"${screen}\": serious or critical axe violations`).toEqual([]);\n     |                                                                                                                                                            ^\n  70 |     return found;\n  71 |   }\n  72 |   /** Locators for text that changes from run to run, to hide in screenshots. */\n    at Lab.scan (/home/claude/saha-health/tests/ui/support/fixtures.mjs:69:156)\n    at /home/claude/saha-health/tests/ui/harness.spec.mjs:11:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-03T04:23:21.668Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "an image without a text alternative, an unlabelled field and an empty button must be reported as serious or critical",
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                            "line": 8,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "browser-problems.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                        },
+                        {
+                          "name": "a11y.json",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJzY3JlZW4iOiAiaGFybmVzcyDCtyBpbmFjY2Vzc2libGUgbWFya3VwIiwKICAgICJwYXNzZXMiOiA4LAogICAgInZpb2xhdGlvbnMiOiBbCiAgICAgIHsKICAgICAgICAic2NyZWVuIjogImhhcm5lc3MgwrcgaW5hY2Nlc3NpYmxlIG1hcmt1cCIsCiAgICAgICAgImlkIjogImJ1dHRvbi1uYW1lIiwKICAgICAgICAiaW1wYWN0IjogImNyaXRpY2FsIiwKICAgICAgICAiaGVscCI6ICJCdXR0b25zIG11c3QgaGF2ZSBkaXNjZXJuaWJsZSB0ZXh0IiwKICAgICAgICAibm9kZXMiOiAxLAogICAgICAgICJ0YXJnZXRzIjogWwogICAgICAgICAgImJ1dHRvbiIKICAgICAgICBdCiAgICAgIH0sCiAgICAgIHsKICAgICAgICAic2NyZWVuIjogImhhcm5lc3MgwrcgaW5hY2Nlc3NpYmxlIG1hcmt1cCIsCiAgICAgICAgImlkIjogImltYWdlLWFsdCIsCiAgICAgICAgImltcGFjdCI6ICJjcml0aWNhbCIsCiAgICAgICAgImhlbHAiOiAiSW1hZ2VzIG11c3QgaGF2ZSBhbHRlcm5hdGl2ZSB0ZXh0IiwKICAgICAgICAibm9kZXMiOiAxLAogICAgICAgICJ0YXJnZXRzIjogWwogICAgICAgICAgImltZyIKICAgICAgICBdCiAgICAgIH0sCiAgICAgIHsKICAgICAgICAic2NyZWVuIjogImhhcm5lc3MgwrcgaW5hY2Nlc3NpYmxlIG1hcmt1cCIsCiAgICAgICAgImlkIjogImxhYmVsIiwKICAgICAgICAiaW1wYWN0IjogImNyaXRpY2FsIiwKICAgICAgICAiaGVscCI6ICJGb3JtIGVsZW1lbnRzIG11c3QgaGF2ZSBsYWJlbHMiLAogICAgICAgICJub2RlcyI6IDEsCiAgICAgICAgInRhcmdldHMiOiBbCiAgICAgICAgICAiaW5wdXQiCiAgICAgICAgXQogICAgICB9LAogICAgICB7CiAgICAgICAgInNjcmVlbiI6ICJoYXJuZXNzIMK3IGluYWNjZXNzaWJsZSBtYXJrdXAiLAogICAgICAgICJpZCI6ICJ0YXJnZXQtc2l6ZSIsCiAgICAgICAgImltcGFjdCI6ICJzZXJpb3VzIiwKICAgICAgICAiaGVscCI6ICJBbGwgdG91Y2ggdGFyZ2V0cyBtdXN0IGJlIDI0cHggbGFyZ2UsIG9yIGxlYXZlIHN1ZmZpY2llbnQgc3BhY2UiLAogICAgICAgICJub2RlcyI6IDEsCiAgICAgICAgInRhcmdldHMiOiBbCiAgICAgICAgICAiYnV0dG9uIgogICAgICAgIF0KICAgICAgfQogICAgXQogIH0KXQ=="
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/home/claude/saha-health/test-results/ui/harness-the-checks-can-fai-95348-ails-on-inaccessible-markup-desktop/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                        "column": 156,
+                        "line": 69
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "899473dcb8af65808dad-8384421d1cc202871c9f",
+              "file": "harness.spec.mjs",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "an uncaught page error fails the journey",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "a thrown error in the page must be collected and fail the test",
+                      "location": {
+                        "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                        "line": 15,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 282,
+                      "error": {
+                        "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 7\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"pageerror\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: uncaught error\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 7\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"pageerror\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: uncaught error\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)",
+                        "location": {
+                          "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                          "column": 129,
+                          "line": 108
+                        },
+                        "snippet": "   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                            "column": 129,
+                            "line": 108
+                          },
+                          "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 7\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"pageerror\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: uncaught error\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-03T04:23:22.921Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "a thrown error in the page must be collected and fail the test",
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                            "line": 15,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/claude/saha-health/test-results/ui/harness-the-checks-can-fai-7d64a-age-error-fails-the-journey-desktop/test-failed-1.png"
+                        },
+                        {
+                          "name": "browser-problems.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJ1bmV4cGVjdGVkIjogWwogICAgewogICAgICAia2luZCI6ICJwYWdlZXJyb3IiLAogICAgICAid2hvIjogImFub255bW91cyIsCiAgICAgICJ0ZXh0IjogImhhcm5lc3M6IHVuY2F1Z2h0IGVycm9yIgogICAgfQogIF0sCiAgImFsbG93ZWQiOiBbXQp9"
+                        },
+                        {
+                          "name": "a11y.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                        "column": 129,
+                        "line": 108
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "899473dcb8af65808dad-7d1262f86c0f28c891ec",
+              "file": "harness.spec.mjs",
+              "line": 14,
+              "column": 3
+            },
+            {
+              "title": "a console error fails the journey",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "console.error in the page must be collected and fail the test",
+                      "location": {
+                        "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                        "line": 23,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 95,
+                      "error": {
+                        "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: unexpected console error\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: unexpected console error\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)",
+                        "location": {
+                          "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                          "column": 129,
+                          "line": 108
+                        },
+                        "snippet": "   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                            "column": 129,
+                            "line": 108
+                          },
+                          "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: unexpected console error\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-03T04:23:23.210Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "console.error in the page must be collected and fail the test",
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                            "line": 23,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/claude/saha-health/test-results/ui/harness-the-checks-can-fai-88cc2-ole-error-fails-the-journey-desktop/test-failed-1.png"
+                        },
+                        {
+                          "name": "browser-problems.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJ1bmV4cGVjdGVkIjogWwogICAgewogICAgICAia2luZCI6ICJjb25zb2xlIiwKICAgICAgIndobyI6ICJhbm9ueW1vdXMiLAogICAgICAidGV4dCI6ICJoYXJuZXNzOiB1bmV4cGVjdGVkIGNvbnNvbGUgZXJyb3IiLAogICAgICAidXJsIjogIiIKICAgIH0KICBdLAogICJhbGxvd2VkIjogW10KfQ=="
+                        },
+                        {
+                          "name": "a11y.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                        "column": 129,
+                        "line": 108
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "899473dcb8af65808dad-c77b3630e2a2d26b3ad3",
+              "file": "harness.spec.mjs",
+              "line": 22,
+              "column": 3
+            },
+            {
+              "title": "an HTTP 5xx answer fails the journey",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "a 5xx response must be collected and fail the test",
+                      "location": {
+                        "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                        "line": 30,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 299,
+                      "error": {
+                        "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"http5xx\",\u001b[39m\n\u001b[31m+     \"text\": \"500 GET /harness-boom\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"Failed to load resource: the server responded with a status of 500 (Internal Server Error)\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"http5xx\",\u001b[39m\n\u001b[31m+     \"text\": \"500 GET /harness-boom\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"Failed to load resource: the server responded with a status of 500 (Internal Server Error)\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)",
+                        "location": {
+                          "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                          "column": 129,
+                          "line": 108
+                        },
+                        "snippet": "   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                            "column": 129,
+                            "line": 108
+                          },
+                          "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"http5xx\",\u001b[39m\n\u001b[31m+     \"text\": \"500 GET /harness-boom\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"Failed to load resource: the server responded with a status of 500 (Internal Server Error)\",\u001b[39m\n\u001b[31m+     \"url\": \"http://127.0.0.1:1/harness-boom\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-03T04:23:23.313Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "a 5xx response must be collected and fail the test",
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                            "line": 30,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/claude/saha-health/test-results/ui/harness-the-checks-can-fai-925d9-xx-answer-fails-the-journey-desktop/test-failed-1.png"
+                        },
+                        {
+                          "name": "browser-problems.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJ1bmV4cGVjdGVkIjogWwogICAgewogICAgICAia2luZCI6ICJodHRwNXh4IiwKICAgICAgIndobyI6ICJhbm9ueW1vdXMiLAogICAgICAidGV4dCI6ICI1MDAgR0VUIC9oYXJuZXNzLWJvb20iLAogICAgICAidXJsIjogImh0dHA6Ly8xMjcuMC4wLjE6MS9oYXJuZXNzLWJvb20iCiAgICB9LAogICAgewogICAgICAia2luZCI6ICJjb25zb2xlIiwKICAgICAgIndobyI6ICJhbm9ueW1vdXMiLAogICAgICAidGV4dCI6ICJGYWlsZWQgdG8gbG9hZCByZXNvdXJjZTogdGhlIHNlcnZlciByZXNwb25kZWQgd2l0aCBhIHN0YXR1cyBvZiA1MDAgKEludGVybmFsIFNlcnZlciBFcnJvcikiLAogICAgICAidXJsIjogImh0dHA6Ly8xMjcuMC4wLjE6MS9oYXJuZXNzLWJvb20iCiAgICB9CiAgXSwKICAiYWxsb3dlZCI6IFtdCn0="
+                        },
+                        {
+                          "name": "a11y.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                        "column": 129,
+                        "line": 108
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "899473dcb8af65808dad-48bf7e90b283ab57b945",
+              "file": "harness.spec.mjs",
+              "line": 29,
+              "column": 3
+            },
+            {
+              "title": "an allow-list entry that does not match does not hide the message",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "description": "an allow entry for another message must not hide this one",
+                      "location": {
+                        "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                        "line": 40,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 75,
+                      "error": {
+                        "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: a message that is not allowed\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: a message that is not allowed\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)",
+                        "location": {
+                          "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                          "column": 129,
+                          "line": 108
+                        },
+                        "snippet": "   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                            "column": 129,
+                            "line": 108
+                          },
+                          "message": "Error: uncaught page errors, console errors or HTTP 5xx during the journey\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 8\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"kind\": \"console\",\u001b[39m\n\u001b[31m+     \"text\": \"harness: a message that is not allowed\",\u001b[39m\n\u001b[31m+     \"url\": \"\",\u001b[39m\n\u001b[31m+     \"who\": \"anonymous\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n   at support/fixtures.mjs:108\n\n  106 |     const unexpected = await lab.dispose();\n  107 |     // A browser problem fails an otherwise passing test; if the test already failed its own error is the one to read.\n> 108 |     if (testInfo.errors.length === 0) expect(unexpected, 'uncaught page errors, console errors or HTTP 5xx during the journey').toEqual([]);\n      |                                                                                                                                 ^\n  109 |   },\n  110 | });\n  111 | export { expect };\n    at Object.lab (/home/claude/saha-health/tests/ui/support/fixtures.mjs:108:129)"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-03T04:23:23.619Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "description": "an allow entry for another message must not hide this one",
+                          "location": {
+                            "file": "/home/claude/saha-health/tests/ui/harness.spec.mjs",
+                            "line": 40,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/claude/saha-health/test-results/ui/harness-the-checks-can-fai-81f03-h-does-not-hide-the-message-desktop/test-failed-1.png"
+                        },
+                        {
+                          "name": "browser-problems.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJ1bmV4cGVjdGVkIjogWwogICAgewogICAgICAia2luZCI6ICJjb25zb2xlIiwKICAgICAgIndobyI6ICJhbm9ueW1vdXMiLAogICAgICAidGV4dCI6ICJoYXJuZXNzOiBhIG1lc3NhZ2UgdGhhdCBpcyBub3QgYWxsb3dlZCIsCiAgICAgICJ1cmwiOiAiIgogICAgfQogIF0sCiAgImFsbG93ZWQiOiBbXQp9"
+                        },
+                        {
+                          "name": "a11y.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/claude/saha-health/tests/ui/support/fixtures.mjs",
+                        "column": 129,
+                        "line": 108
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "899473dcb8af65808dad-cc1e9172bb69395a9417",
+              "file": "harness.spec.mjs",
+              "line": 39,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "the checks that must pass",
+          "file": "harness.spec.mjs",
+          "line": 48,
+          "column": 6,
+          "specs": [
+            {
+              "title": "an allow-list entry with a reason lets exactly that message through, and it is listed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 282,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-03T04:23:23.703Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "browser-problems.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbCiAgICB7CiAgICAgICJraW5kIjogImNvbnNvbGUiLAogICAgICAid2hvIjogImFub255bW91cyIsCiAgICAgICJ0ZXh0IjogImhhcm5lc3M6IGtub3duIGhhcm1sZXNzIG1lc3NhZ2UiLAogICAgICAidXJsIjogIiIsCiAgICAgICJhbGxvd2VkQmVjYXVzZSI6ICJoYXJuZXNzOiBwcm92ZXMgdGhlIGFsbG93LWxpc3Qgd29ya3MgYW5kIGlzIHJlY29yZGVkIgogICAgfQogIF0KfQ=="
+                        },
+                        {
+                          "name": "a11y.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "899473dcb8af65808dad-4c798297455e34023284",
+              "file": "harness.spec.mjs",
+              "line": 49,
+              "column": 3
+            },
+            {
+              "title": "screenshot masks hide dates, receipt numbers and codes; unmasked, the same page differs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop",
+                  "projectName": "desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 232,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-03T04:23:23.992Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "browser-problems.json",
+                          "contentType": "application/json",
+                          "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                        },
+                        {
+                          "name": "a11y.json",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "899473dcb8af65808dad-7381188d3d365ad9a85a",
+              "file": "harness.spec.mjs",
+              "line": 59,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "hindi.spec.mjs",
+      "file": "hindi.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Hindi: My work shows Hindi text with lang=\"hi\", the choice is saved, and English comes back",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8089,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "English by default",
+                      "duration": 37
+                    },
+                    {
+                      "title": "choose Hindi",
+                      "duration": 5296
+                    },
+                    {
+                      "title": "the patient page and its danger sign in Hindi",
+                      "duration": 1407
+                    },
+                    {
+                      "title": "the choice is saved for her: it survives a reload and the server holds it",
+                      "duration": 255
+                    },
+                    {
+                      "title": "back to English",
+                      "duration": 220
+                    }
+                  ],
+                  "startTime": "2026-10-03T04:23:24.242Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiQVNIQSDCtyBNeSB3b3JrIChIaW5kaSkiLAogICAgInBhc3NlcyI6IDI4LAogICAgInZpb2xhdGlvbnMiOiBbXQogIH0sCiAgewogICAgInNjcmVlbiI6ICJBU0hBIMK3IHBhdGllbnQgcGFnZSAoSGluZGkpIiwKICAgICJwYXNzZXMiOiAzMSwKICAgICJ2aW9sYXRpb25zIjogW10KICB9Cl0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "75192a3e1f04c38b03c5-35e4e13a76029e01cb7f",
+          "file": "hindi.spec.mjs",
+          "line": 7,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "owner-setup.spec.mjs",
+      "file": "owner-setup.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "owner sets a name, invites an ASHA by account code and assigns one person; the ASHA sees only that person",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17166,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "the owner sees the whole demonstration caseload",
+                      "duration": 1588
+                    },
+                    {
+                      "title": "the owner sets a display name",
+                      "duration": 6464
+                    },
+                    {
+                      "title": "the ASHA reads her account code on her own screen",
+                      "duration": 201
+                    },
+                    {
+                      "title": "the owner invites her by that code",
+                      "duration": 1814
+                    },
+                    {
+                      "title": "the ASHA joins the organisation with the invitation code",
+                      "duration": 556
+                    },
+                    {
+                      "title": "before any assignment the ASHA has nobody in her visit list",
+                      "duration": 265
+                    },
+                    {
+                      "title": "the owner assigns Meena Devi to her",
+                      "duration": 4018
+                    },
+                    {
+                      "title": "the ASHA now sees that one person and nobody else",
+                      "duration": 1581
+                    },
+                    {
+                      "title": "the server agrees with the screen",
+                      "duration": 80
+                    }
+                  ],
+                  "startTime": "2026-10-03T04:23:32.346Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiT3duZXIgwrcgaG9tZSIsCiAgICAicGFzc2VzIjogMjgsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfSwKICB7CiAgICAic2NyZWVuIjogIk93bmVyIMK3IG9yZ2FuaXNhdGlvbiBwYWdlIiwKICAgICJwYXNzZXMiOiAzMiwKICAgICJ2aW9sYXRpb25zIjogW10KICB9LAogIHsKICAgICJzY3JlZW4iOiAiT3duZXIgwrcgaW52aXRlIGRpYWxvZyIsCiAgICAicGFzc2VzIjogMjQsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfSwKICB7CiAgICAic2NyZWVuIjogIk93bmVyIMK3IGFzc2lnbm1lbnQgZGlhbG9nIiwKICAgICJwYXNzZXMiOiAyMywKICAgICJ2aW9sYXRpb25zIjogW10KICB9LAogIHsKICAgICJzY3JlZW4iOiAiQVNIQSDCtyBob21lIHdpdGggb25lIGFzc2lnbmVkIHBlcnNvbiIsCiAgICAicGFzc2VzIjogMjgsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfQpd"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5ee9532e377951af6dd3-4d8075ab057fb68c503e",
+          "file": "owner-setup.spec.mjs",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "roles.spec.mjs",
+      "file": "roles.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "supervisor sees Operations and alerts and no administration menus; an ASHA menu is care work only",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5472,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "the owner sees every menu entry (control: the absences below can fail)",
+                      "duration": 28
+                    },
+                    {
+                      "title": "the supervisor menu has Operations and none of the administration entries",
+                      "duration": 49
+                    },
+                    {
+                      "title": "Operations shows the alert for the unconfirmed programme receipt",
+                      "duration": 2490
+                    },
+                    {
+                      "title": "the ASHA menu holds care work only",
+                      "duration": 964
+                    },
+                    {
+                      "title": "the server also refuses an ASHA the operations read",
+                      "duration": 71
+                    }
+                  ],
+                  "startTime": "2026-10-03T04:23:49.526Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiU3VwZXJ2aXNvciDCtyBvcGVyYXRpb25zIiwKICAgICJwYXNzZXMiOiAzMiwKICAgICJ2aW9sYXRpb25zIjogW10KICB9LAogIHsKICAgICJzY3JlZW4iOiAiQVNIQSDCtyBtZW51IGFuZCBob21lIiwKICAgICJwYXNzZXMiOiAyOCwKICAgICJ2aW9sYXRpb25zIjogW10KICB9Cl0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9d084807527e43e2a823-1416c8feca37c8293127",
+          "file": "roles.spec.mjs",
+          "line": 6,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "phone.spec.mjs",
+      "file": "phone.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "phone: the visit list and the visit form are usable at 390x844 with no sideways scroll",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8764,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "the visit list",
+                      "duration": 1676
+                    },
+                    {
+                      "title": "the menu opens from the menu button and lists care work",
+                      "duration": 454
+                    },
+                    {
+                      "title": "the visit form: fields fit, accept input and save",
+                      "duration": 5921
+                    },
+                    {
+                      "title": "the server holds what was typed on the phone",
+                      "duration": 34
+                    }
+                  ],
+                  "startTime": "2026-10-03T04:23:55.827Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiUGhvbmUgwrcgTXkgd29yayIsCiAgICAicGFzc2VzIjogMjEsCiAgICAidmlvbGF0aW9ucyI6IFtdCiAgfSwKICB7CiAgICAic2NyZWVuIjogIlBob25lIMK3IHZpc2l0IGZvcm0iLAogICAgInBhc3NlcyI6IDI1LAogICAgInZpb2xhdGlvbnMiOiBbXQogIH0KXQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2bc8be37b0ab92331cdb-27be79ebd3043d3b9002",
+          "file": "phone.spec.mjs",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "phone: the clinical review, the review step and the receipts of a sent visit also fit the width",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13360,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "clinical review with the urgent finding",
+                      "duration": 6187
+                    },
+                    {
+                      "title": "review & act",
+                      "duration": 41
+                    },
+                    {
+                      "title": "receipts",
+                      "duration": 6089
+                    }
+                  ],
+                  "startTime": "2026-10-03T04:24:04.680Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "browser-problems.json",
+                      "contentType": "application/json",
+                      "body": "ewogICJ1bmV4cGVjdGVkIjogW10sCiAgImFsbG93ZWQiOiBbXQp9"
+                    },
+                    {
+                      "name": "a11y.json",
+                      "contentType": "application/json",
+                      "body": "WwogIHsKICAgICJzY3JlZW4iOiAiUGhvbmUgwrcgY2xpbmljYWwgcmV2aWV3IiwKICAgICJwYXNzZXMiOiAyNCwKICAgICJ2aW9sYXRpb25zIjogW10KICB9LAogIHsKICAgICJzY3JlZW4iOiAiUGhvbmUgwrcgcmVjZWlwdHMiLAogICAgInBhc3NlcyI6IDI1LAogICAgInZpb2xhdGlvbnMiOiBbXQogIH0KXQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2bc8be37b0ab92331cdb-1c9b14e543652c52a540",
+          "file": "phone.spec.mjs",
+          "line": 72,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-03T04:22:00.734Z",
+    "duration": 137429.791,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

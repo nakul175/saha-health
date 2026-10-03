@@ -1,0 +1,171 @@
+{
+  "slice": "11f",
+  "label": "Round 11 \u2014 full regression run (every layer) on the integrated testing ecosystem",
+  "environment": "local built Worker, local D1/SQLite, Miniflare, Chromium 1194 (Playwright 1.56.1), synthetic data, shared 2-core machine",
+  "note": "Fresh run of node scripts/test.mjs regression --update-baseline on commit 4b42b1ed. Unit, integration and resilience result files are summarised in summary-regression.json; their per-suite files are the tracked tests/*-result.json reports, which the runner restores after a run.",
+  "summary": {
+    "startedAt": "2026-10-03T04:15:16.022Z",
+    "layers": [
+      {
+        "layer": "build",
+        "status": "passed",
+        "suites": 1,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 11425,
+        "failedSuites": 0
+      },
+      {
+        "layer": "static",
+        "status": "passed",
+        "suites": 4,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 4139,
+        "failedSuites": 0
+      },
+      {
+        "layer": "unit",
+        "status": "passed",
+        "suites": 106,
+        "passed": 7193,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 138595,
+        "failedSuites": 0
+      },
+      {
+        "layer": "integration",
+        "status": "passed",
+        "suites": 2,
+        "passed": 4607,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 229920,
+        "failedSuites": 0
+      },
+      {
+        "layer": "resilience",
+        "status": "passed",
+        "suites": 1,
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 4109,
+        "failedSuites": 0
+      },
+      {
+        "layer": "smoke",
+        "status": "passed",
+        "suites": 2,
+        "passed": 36,
+        "failed": 0,
+        "skipped": 1,
+        "durationMs": 14042,
+        "failedSuites": 0
+      },
+      {
+        "layer": "ui",
+        "status": "passed",
+        "suites": 1,
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 138191,
+        "failedSuites": 0
+      },
+      {
+        "layer": "nfr",
+        "status": "passed",
+        "suites": 5,
+        "passed": 254,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 194928,
+        "failedSuites": 0
+      },
+      {
+        "layer": "uat",
+        "status": "passed",
+        "suites": 3,
+        "passed": 63,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 1557,
+        "failedSuites": 0
+      }
+    ],
+    "totals": {
+      "suites": 120,
+      "passed": 12191,
+      "failed": 0,
+      "skipped": 1,
+      "failedSuites": 0,
+      "durationMs": 738740
+    }
+  },
+  "reports": {
+    "authorisation-matrix-result.json": {
+      "sha256": "7ce8cb51595a986ea88b20bfce6d6a6af858e7abe7f89312a26663b828477d59",
+      "passed": 51,
+      "completedAt": "2026-10-03T04:24:42.597Z"
+    },
+    "coverage-map-result.json": {
+      "sha256": "4680cc603f232a74bd6a8d01d1f4721ea3dd202a31a722cdfe04f3bf7a51f303",
+      "passed": 9,
+      "completedAt": "2026-10-03T04:27:34.147Z"
+    },
+    "identity-hardening-result.json": {
+      "sha256": "91a4b1eff745dbcc17b2a386fa55d82707ec33c4836d1bf5db0519d3f3fe903e",
+      "passed": 29,
+      "completedAt": "2026-10-03T04:24:52.600Z"
+    },
+    "load-burst-result.json": {
+      "sha256": "6e783e15b3bb4a461be422aee4e3f0c07057a22f6616a65cae9fe999a5b2fa25",
+      "passed": 15,
+      "completedAt": "2026-10-03T04:25:13.904Z"
+    },
+    "memory-growth-result.json": {
+      "sha256": "37861a9a9fb62ff4cf48d0dcaff78a099f516d45e7d96ea2be3ee8913248db9b",
+      "passed": 14,
+      "completedAt": "2026-10-03T04:26:29.375Z"
+    },
+    "performance-budgets-result.json": {
+      "sha256": "7529bbc97b9d8d37049e00ab5e4babfb0e4df16de8ffc0809bcaf77504dab69a",
+      "passed": 145,
+      "completedAt": "2026-10-03T04:27:33.023Z"
+    },
+    "smoke-hosted-selftest-result.json": {
+      "sha256": "a8b2f447f90fb82d5ff2bdb3c3da6e21680686098cca497826dfa4f709974f2d",
+      "passed": 8,
+      "completedAt": "2026-10-03T04:21:53.335Z"
+    },
+    "smoke-local-result.json": {
+      "sha256": "ef3c4eb8461234f5bee275e8e1bb1da94fab50c0fb240a6d237d79ff4364f5f0",
+      "passed": 28,
+      "completedAt": "2026-10-03T04:21:59.907Z"
+    },
+    "summary-regression.json": {
+      "sha256": "ee8babb19e57d81aaa105aab0d15c659e6676bec75337955ba3f782af0cfb07b",
+      "passed": null,
+      "completedAt": "see file"
+    },
+    "uat-pack-result.json": {
+      "sha256": "3f97ef5eef8944379883f1ca2a865dbedda472ffec0c389ef8cfad43b872e0f9",
+      "passed": 10,
+      "completedAt": "2026-10-03T04:27:34.697Z"
+    },
+    "uat-register-result.json": {
+      "sha256": "24da83ce082f5e6a6927dc32fff00568d7a54ce10528565b1ae433c318da69a5",
+      "passed": 44,
+      "completedAt": "2026-10-03T04:27:33.625Z"
+    },
+    "ui-playwright-result.json": {
+      "sha256": "5d71d4b1294f36f51775a8b8745596d852db303f6a4cc74c5a42a10af9f8422c",
+      "passed": null,
+      "completedAt": "see file"
+    }
+  }
+}

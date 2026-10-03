@@ -1,0 +1,35 @@
+# Slice 11g (test review H2): pull requests that change only Markdown or docs/ skip engineering-checks (ci.yml) to save
+# Actions minutes, but they can still change files that checks validate: the generated documentation, requirement records,
+# the UAT results register (docs/testing/uat/uat-results.csv) and the generated UAT pack and coverage map. This short job
+# runs those checks only. No build, no Worker, no secrets.
+name: documentation-checks
+on:
+  pull_request:
+    paths:
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: documentation-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Before install, as in ci.yml: install rewrites checkout-local files that the documentation check pins.
+      - name: Documentation, requirements and test catalogue
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: UAT register and generated documents
+        run: node scripts/test.mjs uat --fast
