@@ -28,7 +28,7 @@
 
 ## Limits
 
-- The Cloudflare Access answer to an anonymous cross-origin request still reflects the `Origin` with credentials allowed; that answer never reaches the Worker, so the hosted smoke check (slice 11h) may still fail. With `SameSite=Lax`, a cross-site request carries no Access cookie and receives only that anonymous answer; this has not been verified with a signed-in browser on the hosted site at the time of writing.
+- The Cloudflare Access answer to an anonymous cross-origin request still reflects the `Origin` with credentials allowed; that answer never reaches the Worker, so the hosted smoke check (slice 11h) may still fail. With `SameSite=Lax`, a cross-site request carries no Access cookie and receives only that anonymous answer. After the sponsor signed in again on 4 October 2026, a script on another site could not read `/api/workspace` from staging, with or without credentials, while Saha's own page could; this was checked against the code deployed before this slice.
 - `Sec-Fetch-Site` is sent by current browsers; a very old browser that sends neither it nor `Origin` on a cross-site read is not caught by this rule (the SameSite cookie still applies).
 - A purpose is a label over the flows this release has, not a clinically approved data-use policy, and the mapping is by command; a new flow command must be added to `COMMAND_PURPOSE` (the contract checks only that every mapped command exists).
 - Members added during a command, and states built without `readState` or `scope`, are not bound until the next read.

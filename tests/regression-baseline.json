@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4648
+      "minPassed": 4701
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -87,6 +87,11 @@
       "layer": "unit",
       "file": "tests/access-audit-contract.mjs",
       "minPassed": 35
+    },
+    "unit/access-scope-contract": {
+      "layer": "unit",
+      "file": "tests/access-scope-contract.mjs",
+      "minPassed": 8
     },
     "unit/action-plan-contract": {
       "layer": "unit",
