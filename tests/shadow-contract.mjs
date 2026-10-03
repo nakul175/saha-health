@@ -63,7 +63,7 @@ try{
 
  // The managers' report: counts only.
  const report=S.shadowReport(s,sh(),at(6000));
- check(()=>{assert.equal(report.state,'active');assert.deepEqual(report.visits,{total:6,compared:1,unable:1,notRun:{'no-source':1,consent:1,restricted:1,'outside-scope':1}});assert.equal(report.pending,0);assert.equal(report.startedBy,'Synthetic manager');});
+ check(()=>{assert.equal(report.state,'active');assert.deepEqual(report.visits,{total:6,compared:1,unable:1,notRun:{'no-source':1,consent:1,restricted:1,'outside-scope':1},recomputed:0,excluded:0});assert.equal(report.pending,0);assert.equal(report.startedBy,'Synthetic manager');});
  check(()=>assert.deepEqual(report.fields.map(f=>[f.field,f.agreement,f.disagreement,f.missing,f['not-recorded'],f.unable]),[['systolic',1,0,0,0,0],['diastolic',0,1,0,0,0],['weight',1,0,0,0,1],['temperature',0,0,0,1,0],['coughDays',0,0,1,0,0]]));
  check(()=>{const text=JSON.stringify(report);for(const leak of ['"v1"','"p1"','Weight 60','"120"','"37.5"','proposals','visitId','personId','"results"'])assert.ok(!text.includes(leak),leak);});
  check(()=>assert.equal(S.compare({facts:facts({temperature:'37.0'})},{proposals:[{field:'temperature',value:'37'}],highlights:[]})[0].outcome,'agreement','numeric comparison'));

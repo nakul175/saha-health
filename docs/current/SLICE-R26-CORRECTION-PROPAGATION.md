@@ -9,7 +9,7 @@ An agent review of the 15-slice integration found that nothing recomputed what t
 - A shadow comparison of an amended or voided visit is an **open review task** again (`action: review`), with the visit it scored as its source and an instruction to exclude or note it in Clinical governance. It carries no `output.recomputed`.
 - The indicator-releases task stays **open for review** when any release was recorded since the visit's confirmation (the affected figures are still marked on it), and asks a person to decide whether a reissued figure is needed; with no release since confirmation it is recorded as done.
 
-The sections below describe the slice as built; where they say "recomputed" for these two outputs, the paragraph above applies. Both contracts were updated (correction tasks: 13 checks, 15 open tasks; R26: 8 checks).
+Slice 13c ([corrected shadow comparisons recomputed on read](SLICE-13C-SHADOW-RECOMPUTE.md)) then wired `recompareShadow` into the shadow and drift reports, so a shadow comparison task is again recorded as recomputed or invalidated, as built here. The sections below describe the slice as built; where they say "recomputed" for these two outputs, the paragraph above applies. Both contracts were updated (correction tasks: 13 checks, 15 open tasks; R26: 8 checks).
 
 ## What changed (as built)
 
@@ -34,5 +34,5 @@ The sections below describe the slice as built; where they say "recomputed" for 
 - The affected-figure mark uses the release's time and hashed series key only; a release has no patient link, so the mark is a "released at or after confirmation" heuristic, exactly as the slice 2j count was.
 - Follow-ups still do not record the visit that created them; the episode and capture-visit link is the best available source, and a follow-up with neither falls back to the "possible dependant" wording.
 - Corrections made before this slice keep their original tasks; nothing is backfilled. Task reassignment, notification and a unified identity-merge/correction reconciliation view remain open (R27).
-- Wiring `recompareShadow` into the shadow summary and drift report (so a corrected comparison is re-derived or excluded on read) is the follow-up that would let these tasks close themselves.
+- Wiring `recompareShadow` into the shadow summary and drift report was left for a follow-up; slice 13c did it.
 - These changes have not been independently reviewed. BR-DATA-06 keeps its status; its text and evidence are updated.

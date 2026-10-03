@@ -11,6 +11,7 @@
 // A count is only ever the recipient's own view (slice 6v/10b). Nothing here contacts an address or number and nothing
 // is persisted by this module: it is pure, and the server (notification-channel-server.ts) reads it and commits messages.
 import { driftReport } from './drift';
+import { currentFields } from './shadow';
 import { timedOut } from './task-limits';
 import { exceptionQueue } from './exceptions';
 import { referralRequestQueue } from './referral-request-queue';
@@ -29,7 +30,7 @@ export function channelSources(s: OrgState, now = new Date().toISOString()): Sou
   const out: SourcePresent[] = [];
 
   // BR-AI-10: drift — capability revisions with an agreement drop over the last periods, counted only.
-  const drops = driftReport(s, s.governance?.shadows ?? [], now).filter(r => r.status === 'drop');
+  const drops = driftReport(s, s.governance?.shadows ?? [], now, r => currentFields(s, r)).filter(r => r.status === 'drop');
   if (drops.length) {
     const openedAt = earliest(drops.flatMap(d => d.changes.filter(c => c.status === 'drop').map(c => c.to))) ?? now;
     out.push({ kind: 'drift', scopeKey: 'org', severity: 'high', title: `AI capability drift: ${drops.length} revision${drops.length === 1 ? '' : 's'} with an agreement drop`, openedAt, recipients: orgRecipients(s, 'owners', drops.length) });

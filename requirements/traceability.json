@@ -723,7 +723,7 @@
       "sourceTextLine": 213,
       "implementation": "partial",
       "target": "R12",
-      "current": "Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task).",
+      "current": "Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task). Slice 13c: the shadow and drift reports recompute a corrected comparison on read (or leave it out for a void or an unconfirmed correction), so shadow-comparison correction tasks are recorded as recomputed or invalidated; released indicator figures stay open review tasks.",
       "remaining": "Recomputation of shadow comparisons and released indicator figures, follow-up source links (follow-ups are listed as possible dependants), task reassignment and notification, tasks for corrections made before slice 2j, and identity-merge and correction tasks in one reconciliation view.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -742,7 +742,9 @@
         "tests/correction-tasks-contract.mjs",
         "tests/correction-tasks-smoke.mjs",
         "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md",
-        "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
+        "tests/shadow-recompute-contract.mjs",
+        "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1779,7 +1781,7 @@
       "sourceTextLine": 327,
       "implementation": "partial",
       "target": "R11",
-      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers. Slice 5i: drift monitoring per capability revision from shadow comparisons: agreement rate per 7-day period by visit confirmation date over the last four periods, and a flag when the rate drops by more than 10 percentage points between consecutive periods with at least 10 rated fields each, counts only, to governance managers on the Clinical governance page; nothing is suspended automatically. Slice 6q: shadow comparisons (the drift input) no longer include teams outside the revision's reviewed teams or patients outside the runner's care scope.",
+      "current": "Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers. Slice 5i: drift monitoring per capability revision from shadow comparisons: agreement rate per 7-day period by visit confirmation date over the last four periods, and a flag when the rate drops by more than 10 percentage points between consecutive periods with at least 10 rated fields each, counts only, to governance managers on the Clinical governance page; nothing is suspended automatically. Slice 6q: shadow comparisons (the drift input) no longer include teams outside the revision's reviewed teams or patients outside the runner's care scope. Slice 13c: shadow and drift counts use the comparison as it stands now: recomputed against a confirmed correction, left out for a voided visit or an unconfirmed correction.",
       "remaining": "Representative quality monitoring on live, representative data rather than local-rules shadow comparisons, configurable drift thresholds, drift from synthetic evaluations, independent ground-truth annotation and adjudication, delivered alerting and clinical response operations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1801,7 +1803,9 @@
         "lib/saha/drift.ts",
         "tests/drift-contract.mjs",
         "docs/current/SLICE-5I-DRIFT-MONITORING.md",
-        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+        "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
+        "tests/shadow-recompute-contract.mjs",
+        "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md"
       ],
       "automatedAcceptanceClaim": false
     },

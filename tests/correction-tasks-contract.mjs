@@ -69,12 +69,12 @@ try {
     assert.equal(by('pl').action, 'invalidated'); assert.equal(by('c1').action, 'review'); assert.equal(by('c2').action, 'invalidated');
     assert.equal(by('a1').action, 'review'); assert.equal(by('a2').action, 'invalidated'); assert.equal(by('ai1').action, 'review');
     assert.equal(by('r1').action, 'review'); assert.equal(by('r3').action, 'review'); assert.equal(by('f1').action, 'review');
-    assert.equal(by('sh1').action, 'review'); assert.equal(by('sh1').state, 'open'); assert.equal(by('sh1').output.recomputed, undefined, 'nothing recomputes a shadow comparison on read yet, so a person reviews it (integration of #144)');
+    assert.equal(by('sh1').action, 'recomputed'); assert.equal(by('sh1').state, 'done'); assert.deepEqual(by('sh1').output.recomputed, { outcome: 'recomputed', visitId: 'v1b' }, 'slice 13c: the reports re-derive it on read');
     const wa = tasks.find(t => t.output.kind === 'worker-activity'), ir = tasks.find(t => t.output.kind === 'indicator-releases');
     assert.equal(wa.action, 'recomputed'); assert.equal(wa.state, 'done'); assert.match(wa.instruction, /corrected/);
     assert.equal(ir.output.count, 1, 'counts only the release after confirmation'); assert.equal(ir.action, 'review', 'a released figure is not recalled; a person decides whether to reissue it'); assert.equal(ir.state, 'open');
     assert.deepEqual(ir.output.releases, [{ at: after, k: null }], 'the affected released figure is marked by its ledger identity only'); assert.doesNotMatch(JSON.stringify(ir), /indicatorReleases|"f":/);
-    assert.equal(tasks.filter(t => t.state === 'open').length, 15); assert.equal(tasks.filter(t => t.state === 'done').length, 5);
+    assert.equal(tasks.filter(t => t.state === 'open').length, 14); assert.equal(tasks.filter(t => t.state === 'done').length, 6);
   });
   // 3b. Slice R26 source links: a referral names the visit that made it or a linked source; a follow-up names its episode.
   check(() => {
@@ -88,7 +88,7 @@ try {
     const s1 = vt.find(t => t.output.refId === 's1');
     assert.equal(s1.action, 'manual-correction'); assert.match(s1.instruction, /reverse or void/); assert.equal(vt.find(t => t.output.kind === 'worker-activity').instruction.includes('wrong-patient'), true);
     const vsh = vt.find(t => t.output.kind === 'shadow-comparison');
-    assert.equal(vsh.action, 'review', 'a shadow comparison of a wrong-patient visit is excluded by a person in Clinical governance'); assert.equal(vsh.output.recomputed, undefined); assert.match(vsh.instruction, /wrong patient/);
+    assert.equal(vsh.action, 'invalidated', 'a shadow comparison of a wrong-patient visit is left out of the reports'); assert.deepEqual(vsh.output.recomputed, { outcome: 'invalidated', visitId: null }); assert.match(vsh.instruction, /wrong patient/);
     assert.ok(vt.every(t => t.cause === 'void' && t.correctionVisitId === null));
     const none = fresh(); none.operations = {}; const nt = x.correctionTasks(none, none.workspace.visits[0], 'amend', u('doc'), now, 'v1b');
     assert.equal(nt.find(t => t.output.kind === 'indicator-releases').state, 'done', 'no release, nothing to review');
@@ -100,7 +100,7 @@ try {
   // 5. Action plan: one item per open task with owner, age, link and close permission; external first.
   check(() => {
     const plan = actionPlan(s, m('sup'), p1, now), items = plan.items.filter(i => i.kind === 'correction');
-    assert.equal(items.length, 15, 'the shadow comparison and the affected indicator release stay open for review');
+    assert.equal(items.length, 14, 'the affected indicator release stays open for review; the shadow comparison is recomputed on read');
     assert.ok(items.every(i => i.owner.userId === 'doc' && i.owner.eligible && !i.ownershipGap && i.correction.canClose && i.correction.ageDays === 0 && i.correction.href === '/?patient=p1&visit=v1'));
     const firstInternal = items.findIndex(i => !i.correction.external), lastExternal = items.map(i => i.correction.external).lastIndexOf(true);
     assert.ok(lastExternal < firstInternal, 'external tasks (urgent) are listed before internal ones');
@@ -119,9 +119,9 @@ try {
   // 7. Exception queue: rows with owner, age, recovery and link; external rows high severity; rules 1.3.0; care workers refused.
   check(() => {
     const q = exceptionQueue(s, m('sup'), '2026-10-03T06:00:00.000Z'), rows = q.items.filter(r => r.kind === 'correction-task');
-    assert.equal(EXCEPTION_RULES_VERSION, '1.3.0'); assert.equal(q.rulesVersion, '1.3.0'); assert.equal(rows.length, 15); assert.equal(q.counts['correction-task'], 15);
+    assert.equal(EXCEPTION_RULES_VERSION, '1.3.0'); assert.equal(q.rulesVersion, '1.3.0'); assert.equal(rows.length, 14); assert.equal(q.counts['correction-task'], 14);
     assert.ok(rows.every(r => r.owner === 'DOC' && r.ageDays === 2 && r.link.href === '/?patient=p1&visit=v1' && /Close it from the patient's action plan/.test(r.recovery)));
-    assert.equal(rows.filter(r => r.severity === 'high').length, 7); assert.equal(rows.filter(r => r.severity === 'normal').length, 8);
+    assert.equal(rows.filter(r => r.severity === 'high').length, 7); assert.equal(rows.filter(r => r.severity === 'normal').length, 7);
     const adm = exceptionQueue(s, m('adm'), now); assert.equal(adm.items.some(r => r.kind === 'correction-task'), false, 'administrators see delivery rows only');
     status(() => exceptionQueue(s, m('asha'), now), 403);
   });
@@ -166,8 +166,8 @@ try {
     s.workspace.submissions.find(y => y.id === 's5').state = 'cancelled';
     assert.equal(close('doc', { taskId: by('s5').id, reason: 'Unsent delivery cancelled.' }).state, 'closed');
     assert.equal(close('asha', { taskId: by('f1').id, reason: 'Follow-up still applies after the correction.' }).state, 'closed');
-    assert.equal(actionPlan(s, m('sup'), p1, now).items.filter(i => i.kind === 'correction').length, 11);
-    assert.equal(exceptionQueue(s, m('sup'), now).items.filter(i => i.kind === 'correction-task').length, 11);
+    assert.equal(actionPlan(s, m('sup'), p1, now).items.filter(i => i.kind === 'correction').length, 10);
+    assert.equal(exceptionQueue(s, m('sup'), now).items.filter(i => i.kind === 'correction-task').length, 10);
     assert.equal(x.correctionsOf(s, 'v1').map(v => v.id).join(), 'v1b');
   });
   // 12. Too many downstream outputs. Slice 6ad (ninth review, finding 9) replaced the expected 422 refusal ("ask an

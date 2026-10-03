@@ -1299,3 +1299,12 @@ Part of the sponsor's "fix all" ([slice 13b](docs/current/SLICE-13B-FRONTLINE-HA
 - **Receipts checked against what was sent.** The frontline contract now has 109 checks (99 before). Five receipts re-signed with the correct key but altered (observations, evidence text, rule prompt, an extra key, provenance wording) are each left uncertain with nothing stored; removing the checks makes the first fail.
 - **Local results** (Node 22.22.2, Linux container, synthetic data): `tsc --noEmit` clean; unit 125 suites, 8,006 checks; UI 26 Playwright tests. The HTTP, NFR and UAT tiers were not rerun for this slice: no route they cover changed. They run on the top of the stack.
 - No independent review; requirement counts unchanged.
+
+## Development slice 13c — corrected shadow comparisons recomputed on read — 4 October 2026 IST
+
+Part of the sponsor's "fix all" ([slice 13c](docs/current/SLICE-13C-SHADOW-RECOMPUTE.md)); on a branch stacked on 13b, not merged. Closes the last open medium finding of the review of #144.
+
+- **`recompareShadow` wired into the reads.** The shadow report, the drift report and the drift-drop notification source take each comparison as it stands now: recompared against a confirmed correction, left out while a correction is a draft or when the visit was voided, otherwise as stored. Nothing stored is rewritten. Shadow-comparison correction tasks are again done (recomputed or invalidated).
+- **New contract** `tests/shadow-recompute-contract.mjs`, 3 checks over five synthetic results; making `currentFields` return the stored fields fails it. The correction-task (13) and R26 (8) contracts return to the slice R26 expectations.
+- **Local results** (built Worker, Node 22.22.2, Linux container, synthetic data): `tsc --noEmit` clean; unit 126 suites, 8,009 checks; HTTP/D1 4,701; scheduled check 8. The first run failed two suites that compared the report's visit counts exactly (the shadow contract and the HTTP shadow smoke); both now expect the two new counts. NFR, UAT and UI were not rerun for this slice; they run on the top of the stack.
+- No independent review; requirement counts unchanged (BR-DATA-06 and BR-AI-10 stay partial).

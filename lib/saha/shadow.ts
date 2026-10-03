@@ -148,10 +148,22 @@ export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, no
   audit(s, u, m, c.type, sh.entryId, `Shadow run of revision ${sh.revision}: ${batch.length} confirmed visit(s) processed (${counts.compared} compared, ${counts.unable} unable to assess, ${counts.notRun} not run); ${pending.length - batch.length} remaining. Nothing was shown to field workers or applied.${outsideCareScope ? ` ${outsideCareScope} visit(s) outside the runner's care scope were skipped and left for a runner whose scope includes them.` : ''}`, now);
   return { shadowId: sh.id, processed: batch.length, ...counts, remaining: pending.length - batch.length, ...(outsideCareScope ? { outsideCareScope } : {}) };
 }
+// Slice 13c: the comparison as it stands now. A compared result whose visit was later amended is re-derived on read against the
+// current confirmed visit of its amendment chain (recompareShadow); one whose chain ends in a voided visit, or in a correction
+// not yet confirmed, is left out (null). A result whose visit is not in this state (a scoped read) keeps its stored fields.
+// Nothing stored is rewritten.
+export function currentFields(s: OrgState, r: ShadowResult): ShadowResult['fields'] | null {
+  if (r.status !== 'compared') return r.fields ?? null;
+  const v = s.workspace.visits.find(x => x.id === r.visitId);
+  if (!v || (!v.supersededBy && !v.voidedAt)) return r.fields ?? null;
+  const rc = recompareShadow(s, r);
+  return rc.outcome === 'recomputed' ? rc.fields : null;
+}
 // Governance managers' report: counts only, no visit, person or value.
 export function shadowReport(s: OrgState, sh: Shadow, now = new Date().toISOString()) {
-  const fields = FIELDS.map(f => { const row: Record<ShadowOutcome, number> = { agreement: 0, disagreement: 0, missing: 0, 'not-recorded': 0, unable: 0 }; for (const r of sh.results) for (const x of r.fields ?? []) if (x.field === f) row[x.outcome]++; return { field: f, label: FIELD_LABEL[f], ...row }; }).filter(r => OUTCOMES.some(o => r[o] > 0));
+  const current = sh.results.map(r => ({ r, fields: currentFields(s, r), corrected: r.status === 'compared' && !!s.workspace.visits.find(x => x.id === r.visitId && (x.supersededBy || x.voidedAt)) }));
+  const fields = FIELDS.map(f => { const row: Record<ShadowOutcome, number> = { agreement: 0, disagreement: 0, missing: 0, 'not-recorded': 0, unable: 0 }; for (const c of current) for (const x of c.fields ?? []) if (x.field === f) row[x.outcome]++; return { field: f, label: FIELD_LABEL[f], ...row }; }).filter(r => OUTCOMES.some(o => r[o] > 0));
   const notRun: Partial<Record<NotRunReason, number>> = {}; for (const r of sh.results) if (r.reason) notRun[r.reason] = (notRun[r.reason] ?? 0) + 1;
   const state = shadowState(s, sh, now);
-  return { id: sh.id, entryId: sh.entryId, revision: sh.revision, key: sh.key, scope: sh.scope, teamIds: sh.teamIds, startedAt: sh.startedAt, until: sh.until, startedBy: s.members.find(x => x.userId === sh.startedBy)?.displayName ?? 'Former member', reason: sh.reason, state, version: sh.version, stopReason: sh.stopReason ?? null, visits: { total: sh.results.length, compared: sh.results.filter(r => r.status === 'compared').length, unable: sh.results.filter(r => r.status === 'unable').length, notRun }, pending: state === 'active' ? eligibleVisits(s, sh).length : 0, fields };
+  return { id: sh.id, entryId: sh.entryId, revision: sh.revision, key: sh.key, scope: sh.scope, teamIds: sh.teamIds, startedAt: sh.startedAt, until: sh.until, startedBy: s.members.find(x => x.userId === sh.startedBy)?.displayName ?? 'Former member', reason: sh.reason, state, version: sh.version, stopReason: sh.stopReason ?? null, visits: { total: sh.results.length, compared: sh.results.filter(r => r.status === 'compared').length, unable: sh.results.filter(r => r.status === 'unable').length, notRun, recomputed: current.filter(c => c.corrected && c.fields).length, excluded: current.filter(c => c.corrected && !c.fields).length }, pending: state === 'active' ? eligibleVisits(s, sh).length : 0, fields };
 }
