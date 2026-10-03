@@ -41,7 +41,7 @@ Results go to `tests/reports/` (not tracked): one JSON report per suite, `summar
 
 ## When tests run on GitHub
 
-- **Pull requests** (`ci.yml`): static, unit, integration, resilience, smoke (local and the hosted self-test), the two security suites and the UAT checks, all through `scripts/test.mjs` with the regression guard. About 12 minutes, of which about 3 are new in round 11 (estimate from the 9-minute job measured before this round).
+- **Pull requests** (`ci.yml`): static, unit, integration, resilience, smoke (local and the hosted self-test), the two security suites and the UAT checks, all through `scripts/test.mjs` with the regression guard. Measured on GitHub on 3 October 2026: 9 min 46 s for the top of the round-11 stack (#125), against 9 min 3 s for the job before round 11.
 - **Documentation-only pull requests** (`docs-checks.yml`): `ci.yml` skips them to save minutes, so this short job runs the documentation and requirement checks, the test catalogue check, the UAT register validator and the drift checks of the generated UAT pack and coverage map. No build, no Worker.
 - **After every deploy** (`deploy-staging.yml`): the hosted smoke against the live site. A failed check fails the deploy job; an unreachable site is a warning.
 - **Weekly and on demand** (`regression.yml`, Actions tab, "Run workflow"): every layer including UI, performance, memory and load, then the regression guard; reports are uploaded as an artifact. About 15–20 minutes.
