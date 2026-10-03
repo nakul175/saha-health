@@ -13,7 +13,7 @@ export async function valueOverrideSmoke({get,post,check,accounts,org,sql}){
  // Refusals store nothing: an unusual value without a reason, a short reason, a reason for a usual value, an unstated or
  // unsupported unit, and a base value that disagrees with the entered one.
  await save({...blank,weight:'180'},422);await save({...blank,weight:'180',unusual:{weight:'short'}},422);await save({...blank,weight:'60',unusual:{weight:'Reason for a usual synthetic value'}},422);
- await save({...blank,entered:{weight:{value:'154',unit:'kg'}}},422);await save({...blank,entered:{systolic:{value:'16',unit:'kPa'}}},422);await save({...blank,weight:'70',entered:{weight:{value:'154',unit:'lb'}}},422);
+ await save({...blank,entered:{weight:{value:'154',unit:'kg'}}},422);await save({...blank,entered:{systolic:{value:'16',unit:'psi'}}},422);await save({...blank,weight:'70',entered:{weight:{value:'154',unit:'lb'}}},422);
  await get(o,'/api/workspace',200,org);check(()=>{assert.equal(vis(o).version,1);assert.equal(vis(o).facts.weight,'');assert.equal(vis(o).valueOverrides,undefined);});
  // Stated alternative units are converted on the server and the entered value is kept.
  await save({...blank,entered:{weight:{value:'154',unit:'lb'},temperature:{value:'98.6',unit:'degF'},coughDays:{value:'2',unit:'wk'}}});

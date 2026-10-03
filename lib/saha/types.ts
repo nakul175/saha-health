@@ -74,10 +74,18 @@ export type SendBlockRecord={kind:'dispute'|'sign-off';stage:'checkpoint';at:str
 // did not record the value confirms one outside the wider confirmation range.
 export type ValueField='systolic'|'diastolic'|'weight'|'temperature'|'weeks'|'coughDays';
 export type ConvertibleField='weight'|'temperature'|'coughDays';
+// Slice r24 (BR-DATA-05): further alternative units — blood pressure (systolic/diastolic) in kPa and gestational age
+// in weeks + days — converted on the server with the entered value kept. Together with ConvertibleField these cover
+// every ValueField, so `entered` is keyed by the same six names as the values themselves.
+export type ExtraConvertibleField='systolic'|'diastolic'|'weeks';
+export type AllConvertibleField=ConvertibleField|ExtraConvertibleField;
 export type EnteredValue={value:string;unit:string};
+// Slice r24 (BR-DATA-05): the optional context that keys the placeholder value ranges by age, sex and pregnancy.
+// When it is absent, or no population group matches, the slice 2i ranges apply unchanged.
+export type RangeContext={age?:number;sex?:'Female'|'Male'|'Other'|'Unknown';pregnant?:boolean};
 export type ValueOverride={id:string;field:ValueField;value:string;unit:string;entered?:EnteredValue;reason:string;tier:'reason'|'clinician';expected:[number,number];confirm:[number,number];rangesVersion:string;by:FactAuthor;at:string;visitId:string};
 export type OverrideConfirmation={id:string;overrideId:string;field:ValueField;by:string;byName:string;accountCode:string;at:string;visitId:string;note?:string};
-export type Facts = {date:string; systolic:string; diastolic:string; weight:string; temperature:string; weeks:string; coughDays:string; notes:string; source:'measured'|'reported'; provenance?:Partial<Record<Measure,FactProvenance>>; entered?:Partial<Record<ConvertibleField,EnteredValue>>; unusual?:Partial<Record<ValueField,string>>;};
+export type Facts = {date:string; systolic:string; diastolic:string; weight:string; temperature:string; weeks:string; coughDays:string; notes:string; source:'measured'|'reported'; provenance?:Partial<Record<Measure,FactProvenance>>; entered?:Partial<Record<AllConvertibleField,EnteredValue>>; unusual?:Partial<Record<ValueField,string>>;};
 // Slice 2j: one downstream output of a confirmed visit version that was later amended or voided, as an owned task.
 // External outputs are never corrected automatically; closing needs a verified correction receipt or a reason.
 export type CorrectionTask={id:string;visitId:string;correctionVisitId:string|null;cause:'amend'|'void';createdAt:string;createdBy:string;ownerId:string|null;state:'open'|'closed'|'done';

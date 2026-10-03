@@ -2,8 +2,8 @@ import { misOperation, operationRefusal, refusalOf } from './adapter-operations'
 import { mappedPayload } from './mis';
 import { captureFor, unresolved, type Pack } from './programmes';
 import { z } from 'zod';
-import { PROGRAMMES, type Workspace, type Person, type Visit, type Integration, type Facts, type Measure } from './types';
-import { ALT_UNITS, FACT_SOURCES, MEASURES, MEASURE_LABEL, VALUE_FIELDS, VALUE_RANGES, factProvenance, measureValue, normaliseUnits, rangeProblem, unconfirmedValues } from './fact-provenance';
+import { PROGRAMMES, type Workspace, type Person, type Visit, type Integration, type Facts, type Measure, type RangeContext } from './types';
+import { ALT_UNITS, EXTRA_UNITS, FACT_SOURCES, MEASURES, MEASURE_LABEL, VALUE_FIELDS, VALUE_RANGES, WEEKS_DAYS, factProvenance, measureValue, normaliseUnits, rangeProblem, unconfirmedValues } from './fact-provenance';
 export class AppError extends Error { constructor(public status:number,message:string){super(message);} }
 export function fail(status:number,message:string):never {throw new AppError(status,message)}
 export const uuid=()=>crypto.randomUUID();
@@ -15,12 +15,14 @@ const minute=z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/).refine(x=>!isNa
 const provenanceSchema=z.object({source:z.enum(FACT_SOURCES),at:minute.optional()}).strict();
 export const factsSchema=z.object({date:minute,systolic:numeric,diastolic:numeric,weight:numeric,temperature:numeric,weeks:numeric,coughDays:numeric,notes:z.string().trim().max(3000),source:z.enum(['measured','reported']),provenance:z.object(Object.fromEntries(MEASURES.map(m=>[m,provenanceSchema.optional()])) as Record<Measure,z.ZodOptional<typeof provenanceSchema>>).strict().optional(),
  // Slice 2i: a value entered in an alternative unit (converted on the server) and reasons for unusual values.
- entered:z.object({weight:z.object({value:z.string().trim().max(12),unit:z.literal(ALT_UNITS.weight.unit)}).strict().optional(),temperature:z.object({value:z.string().trim().max(12),unit:z.literal(ALT_UNITS.temperature.unit)}).strict().optional(),coughDays:z.object({value:z.string().trim().max(12),unit:z.literal(ALT_UNITS.coughDays.unit)}).strict().optional()}).strict().optional(),
+ entered:z.object({weight:z.object({value:z.string().trim().max(12),unit:z.literal(ALT_UNITS.weight.unit)}).strict().optional(),temperature:z.object({value:z.string().trim().max(12),unit:z.literal(ALT_UNITS.temperature.unit)}).strict().optional(),coughDays:z.object({value:z.string().trim().max(12),unit:z.literal(ALT_UNITS.coughDays.unit)}).strict().optional(),systolic:z.object({value:z.string().trim().max(12),unit:z.literal(EXTRA_UNITS.systolic.unit)}).strict().optional(),diastolic:z.object({value:z.string().trim().max(12),unit:z.literal(EXTRA_UNITS.diastolic.unit)}).strict().optional(),weeks:z.object({value:z.string().trim().max(12),unit:z.literal(WEEKS_DAYS.unit)}).strict().optional()}).strict().optional(),
  unusual:z.object(Object.fromEntries(VALUE_FIELDS.map(k=>[k,z.string().trim().max(500).optional()])) as Record<(typeof VALUE_FIELDS)[number],z.ZodOptional<z.ZodString>>).strict().optional()}).strict();
 // Shared checks for every path that stores visit facts (online save, field sync, field registration).
 // Slice 2i: returns the facts to store, with values entered in an alternative unit converted (original kept) and
 // values outside the placeholder expected range refused unless the recorder gave a reason.
-export function checkFacts(input:Facts,now=Date.now()):Facts{
+// Slice r24: also converts kilopascals (blood pressure) and weeks + days (gestational age), and accepts an optional
+// age/sex/pregnancy context so the placeholder ranges can be population-specific; without it the default ranges apply.
+export function checkFacts(input:Facts,now=Date.now(),context?:RangeContext):Facts{
  const units=normaliseUnits(input);if(units.problem)fail(422,units.problem);const f=units.facts;
  if(f.unusual){const kept=Object.fromEntries(Object.entries(f.unusual).filter(([,r])=>r!==undefined));if(Object.keys(kept).length)f.unusual=kept;else delete f.unusual;}
  if(Date.parse(f.date+'Z')>now+300000)fail(422,'Observation time cannot be in the future.');
@@ -30,7 +32,7 @@ export function checkFacts(input:Facts,now=Date.now()):Facts{
   if(!value&&recorded)fail(422,`${label}: enter the value, or choose why it is missing.`);
   if(p.at&&!value)fail(422,`${label}: a time applies only to a recorded value.`);
   if(p.at&&Date.parse(p.at+'Z')>now+300000)fail(422,`${label}: observation time cannot be in the future.`);}
- const range=rangeProblem(f);if(range)fail(422,range);
+ const range=rangeProblem(f,context);if(range)fail(422,range);
  return f;
 }
 export const commandSchema=z.discriminatedUnion('type',[
