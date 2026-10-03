@@ -1,0 +1,14 @@
+{
+  "slice": "r37",
+  "label": "Development slice r37 \u2014 destination enrolment request/rejection/acceptance lifecycle against a mock programme destination",
+  "environment": "local Node 24 contract harness (typescript transpiled modules), synthetic fixtures",
+  "totalPassed": 45,
+  "note": "Contract test only, as the brief directs (the full HTTP/UI suite is not run by an individual slice agent). The module is exercised directly with an injected compare-and-swap store and mock transport; no network I/O and no real partner. The additive platform.ts/server.ts dispatch wiring is described in the slice document for the integrator.",
+  "reports": {
+    "destination-enrolment-contract-result.json": {
+      "sha256": "49d45d966e9f5461a879b44db8722e151e0387709a4d3a7133863a1adcba200b",
+      "passed": 45,
+      "completedAt": "2026-10-03T08:49:02.164Z"
+    }
+  }
+}

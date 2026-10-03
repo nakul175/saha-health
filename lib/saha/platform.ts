@@ -51,6 +51,7 @@ import { agentSchema } from './agent';
 import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
 import { factReuseSchema, applyFactReuse } from './fact-reuse';
+import { destinationEnrolmentSchema } from './destination-enrolment';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
 import type { Actor } from './store';
@@ -116,6 +117,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...programmeSchema.options,
  // Slice R33 (BR-DATA-12): cross-visit reuse of a recorded measurement with its provenance (lib/saha/fact-reuse.ts).
  ...factReuseSchema.options,
+ // Slice r37: destination enrolment request/rejection/acceptance lifecycle (mock destination; lib/saha/destination-enrolment.ts).
+ ...destinationEnrolmentSchema.options,
  // Slice 9a: owner-only installation of the demonstration clinical package (synthetic environment only; lib/saha/demonstration.ts).
  z.object({type:z.literal('installDemonstrationPackage')}).strict(),
  z.object({type:z.literal('createOrganisation'),name:str}),
