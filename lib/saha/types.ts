@@ -80,8 +80,13 @@ export type OverrideConfirmation={id:string;overrideId:string;field:ValueField;b
 export type Facts = {date:string; systolic:string; diastolic:string; weight:string; temperature:string; weeks:string; coughDays:string; notes:string; source:'measured'|'reported'; provenance?:Partial<Record<Measure,FactProvenance>>; entered?:Partial<Record<ConvertibleField,EnteredValue>>; unusual?:Partial<Record<ValueField,string>>;};
 // Slice 2j: one downstream output of a confirmed visit version that was later amended or voided, as an owned task.
 // External outputs are never corrected automatically; closing needs a verified correction receipt or a reason.
+// Slice R26 (BR-DATA-06): a source that links an internal output to the corrected visit (a referral's own or linked
+// visit, or the episode that scheduled a follow-up), and a released indicator figure marked affected. The recompute
+// summary records how a shadow comparison was re-derived (recomputed or invalidated) without rewriting the
+// governance record from a patient-scoped commit.
+export type CorrectionSource={kind:'visit'|'protocol-evaluation'|'programme-episode'|'enrolment';refId:string;visitId?:string;label?:string};
 export type CorrectionTask={id:string;visitId:string;correctionVisitId:string|null;cause:'amend'|'void';createdAt:string;createdBy:string;ownerId:string|null;state:'open'|'closed'|'done';
- output:{kind:'programme-submission'|'ehr-publication'|'plan'|'referral'|'follow-up'|'protocol-evaluation'|'assistant-result'|'shadow-comparison'|'worker-activity'|'indicator-releases';refId:string|null;label:string;stateAtCorrection:string;destination?:{id:string;name:string};receipt?:string|null;count?:number};
+ output:{kind:'programme-submission'|'ehr-publication'|'plan'|'referral'|'follow-up'|'protocol-evaluation'|'assistant-result'|'shadow-comparison'|'worker-activity'|'indicator-releases';refId:string|null;label:string;stateAtCorrection:string;destination?:{id:string;name:string};receipt?:string|null;count?:number;sources?:CorrectionSource[];releases?:{at:string;k:string|null}[];recomputed?:{outcome:'recomputed'|'invalidated';visitId:string|null}};
  external:boolean;action:'send-correction'|'manual-correction'|'look-up-first'|'cancel-unsent'|'review'|'invalidated'|'recomputed';instruction:string;
  closed?:{by:string;byName:string;at:string;verified:boolean;receiptId?:string;reference?:string;reason?:string}};
 // Slice 10i: lineage of a visit created by the historical visit import (kind 'visits' of the record import). The visit is a confirmed

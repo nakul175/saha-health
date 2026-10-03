@@ -143,6 +143,17 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  return {result,series:[...series.values()]};
 }
 export function indicatorQuery(s:OrgState,m:Member,q:Query,now=new Date()){return indicatorRun(s,m,q,now).result;}
+// Slice R26 (BR-DATA-06): the released indicator figures a correction may have affected. The differencing ledger
+// (slices 6w/6aa) stores hashed series and cells with no patient link, so a release recorded at or after the
+// corrected visit's confirmation is marked as affected. Only the release identity (its time and hashed series key)
+// is returned — never a cell value — so a patient-scoped correction task can name the affected figures without
+// rewriting the organisation-wide ledger it cannot write.
+export type AffectedRelease={at:string;k:string|null};
+export function affectedReleases(s:OrgState,confirmedAt?:string):AffectedRelease[]{
+ const releases=((s.operations as any)?.indicatorReleases??[]) as {at?:string;k?:string|null}[];
+ if(!confirmedAt)return [];
+ return releases.filter(r=>typeof r?.at==='string'&&r.at>=confirmedAt).map(r=>({at:r.at!,k:typeof r.k==='string'?r.k:null}));
+}
 // Slice 6aa (seventh review): the releases a query records and the population they are checked against. Labels and
 // filter values are hashed by `h` (organisation-salted on the server), so the ledger holds no names or identifiers.
 export type Hash=(x:string)=>Promise<string>;
