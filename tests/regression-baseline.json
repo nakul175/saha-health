@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4620
+      "minPassed": 4648
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -71,7 +71,7 @@
     "ui/playwright.config": {
       "layer": "ui",
       "file": "tests/ui/playwright.config.mjs",
-      "minPassed": 17
+      "minPassed": 23
     },
     "unit/abdm-contract": {
       "layer": "unit",
@@ -341,7 +341,7 @@
     "unit/i18n-contract": {
       "layer": "unit",
       "file": "tests/i18n-contract.mjs",
-      "minPassed": 4108
+      "minPassed": 4318
     },
     "unit/identifier-crosswalk-contract": {
       "layer": "unit",
@@ -557,6 +557,11 @@
       "layer": "unit",
       "file": "tests/sixth-review-fixes-contract.mjs",
       "minPassed": 41
+    },
+    "unit/speech-contract": {
+      "layer": "unit",
+      "file": "tests/speech-contract.mjs",
+      "minPassed": 19
     },
     "unit/storage-contract": {
       "layer": "unit",
