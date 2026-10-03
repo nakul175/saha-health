@@ -1,0 +1,39 @@
+{
+  "tool": "axe-core 4.13.0 (via @axe-core/playwright)",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa"
+  ],
+  "screens": 16,
+  "screensWithErrors": 0,
+  "violationsByRule": {},
+  "totalViolationNodes": 0,
+  "dialogFocusChecks": {
+    "total": 4,
+    "failed": 0,
+    "note": "Each opened dialog (correction/amend and wrong-patient/void, at desktop and phone widths) was checked to move keyboard focus inside the visible [role=dialog]; all 4 passed."
+  },
+  "results": [
+    { "screen": "ASHA · visit confirmation · desktop", "violations": [] },
+    { "screen": "ASHA · confirmed visit · desktop", "violations": [] },
+    { "screen": "ASHA · correction (amend) dialog · desktop", "violations": [] },
+    { "screen": "ASHA · wrong-patient (void) dialog · desktop", "violations": [] },
+    { "screen": "ASHA · visit confirmation · phone", "violations": [] },
+    { "screen": "ASHA · confirmed visit · phone", "violations": [] },
+    { "screen": "ASHA · correction (amend) dialog · phone", "violations": [] },
+    { "screen": "ASHA · wrong-patient (void) dialog · phone", "violations": [] },
+    { "screen": "ASHA · My work (Hindi) · desktop", "violations": [] },
+    { "screen": "ASHA · patient page (Hindi) · desktop", "violations": [] },
+    { "screen": "ASHA · review & act (Hindi) · desktop", "violations": [] },
+    { "screen": "ASHA · receipts (Hindi) · desktop", "violations": [] },
+    { "screen": "ASHA · My work (Hindi) · phone", "violations": [] },
+    { "screen": "ASHA · patient page (Hindi) · phone", "violations": [] },
+    { "screen": "ASHA · review & act (Hindi) · phone", "violations": [] },
+    { "screen": "ASHA · receipts (Hindi) · phone", "violations": [] }
+  ],
+  "limits": "Automated rules find a subset of WCAG failures. This run covers the visit confirmation step, the correction (amend) and wrong-patient (void) dialogs and the Hindi workspace screens at desktop (1280x720) and phone (390x844) widths. It does not cover screen-reader, zoom/reflow, high-contrast or reduced-motion modes, and no independent human or accessibility-specialist review was done. The wcag22a (WCAG 2.2 level A) tag is not included in the shared scan tag list (tests/ui/support/fixtures.mjs), matching the existing UI setup.",
+  "completedAt": "2026-10-03T08:03:40.300Z"
+}
