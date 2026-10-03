@@ -2,16 +2,48 @@ import { createBackup, restoreBackup, inventory } from '../scripts/recovery.mjs'
 import { globSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync, existsSync } from 'node:fs';
 import { join, dirname, relative } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { randomBytes } from 'node:crypto';
+import { createDecipheriv, pbkdf2Sync, randomBytes } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import assert from 'node:assert/strict';
 const source=globSync('.wrangler/test-state/v3/d1/**/*.sqlite').find(p=>!p.endsWith('/metadata.sqlite'));if(!source)throw Error('Run local API/database tests first.');
 const temp=mkdtempSync(join(process.cwd(),'.wrangler/recovery-drill-')),file=join(temp,'snapshot.sahabackup'),state=join(temp,'restored'),target=join(state,relative('.wrangler/test-state',source)),pass=randomBytes(32).toString('hex');let passed=0,worker,output='';const check=fn=>{fn();passed++};
+// Plaintext must be absent from the backup's structured metadata and present only after the
+// passphrase authenticates the ciphertext. Salt, IV, tag and ciphertext are high-entropy: a short
+// word such as "Meena" can occur in their base64 text, or in the decoded ciphertext bytes, by chance.
+// CI run 36949357077 failed on readFileSync(file).includes('Meena') and passed on a rerun.
+function assertEnvelopeHidesPlaintext(snapshot, baseline){
+ assert.ok(readFileSync(source).includes('Meena'), 'the source database contains the plaintext name this check guards');
+ const env=JSON.parse(readFileSync(snapshot,'utf8'));
+ assert.deepEqual(Object.keys(env).sort(),['ciphertext','format','iterations','iv','kdf','salt','tag']);
+ assert.equal(env.format,'saha-recovery-v1');assert.equal(env.kdf,'PBKDF2-SHA256');
+ assert.equal(Buffer.from(env.salt,'base64').length,32);assert.equal(Buffer.from(env.iv,'base64').length,12);assert.equal(Buffer.from(env.tag,'base64').length,16);
+ const clear=JSON.stringify({format:env.format,kdf:env.kdf,iterations:env.iterations});
+ for(const word of ['Meena','schemaSha256',baseline.schemaSha256])assert.equal(clear.includes(word),false,word);
+ const key=pbkdf2Sync(pass,Buffer.from(env.salt,'base64'),env.iterations,32,'sha256');
+ try{
+  const decipher=createDecipheriv('aes-256-gcm',key,Buffer.from(env.iv,'base64'));decipher.setAAD(Buffer.from('saha-recovery-v1'));decipher.setAuthTag(Buffer.from(env.tag,'base64'));
+  const payload=JSON.parse(Buffer.concat([decipher.update(Buffer.from(env.ciphertext,'base64')),decipher.final()]).toString());
+  assert.equal(payload.manifest.schemaSha256,baseline.schemaSha256);
+  assert.ok(Buffer.from(payload.database,'base64').includes('Meena'), 'the plaintext name is inside the authenticated ciphertext');
+ }finally{key.fill(0);}
+}
 try{
- const baseline=inventory(source),created=await createBackup(source,file,pass);passed++;
- // Slice 9a: the ciphertext is stored as base64 text, so a plaintext word can occur in it by chance (a first run failed
- // that way). Check the decoded ciphertext bytes and every other envelope field instead of the raw file text.
- check(()=>{assert.equal(created.tables,Object.keys(baseline.tables).length);const env=JSON.parse(readFileSync(file,'utf8')),cipher=Buffer.from(env.ciphertext,'base64'),rest=JSON.stringify({...env,ciphertext:null});for(const word of ['Meena','schemaSha256']){assert.ok(!cipher.includes(Buffer.from(word)));assert.ok(!rest.includes(word));}});
+ const baseline=inventory(source);
+ const leakTrials=Number(process.env.SAHA_LEAK_TRIALS||0);
+ if(leakTrials>0){
+  let rawHits=0;
+  for(let i=0;i<leakTrials;i++){
+   const trial=join(temp,`trial-${i}.sahabackup`);
+   await createBackup(source,trial,pass);
+   assertEnvelopeHidesPlaintext(trial,baseline);
+   const raw=readFileSync(trial,'utf8');
+   if(raw.includes('Meena')||raw.includes('schemaSha256'))rawHits++;
+   rmSync(trial);
+  }
+  console.log(JSON.stringify({trials:leakTrials,deterministicPasses:leakTrials,rawFileSubstringHits:rawHits}));
+ }else{
+ const created=await createBackup(source,file,pass);passed++;
+ check(()=>{assert.equal(created.tables,Object.keys(baseline.tables).length);assertEnvelopeHidesPlaintext(file,baseline);});
  await assert.rejects(()=>createBackup(source,file,pass),/already exists/);passed++;
  await assert.rejects(()=>restoreBackup(file,join(temp,'wrong.sqlite'),'incorrect-backup-passphrase'),/authenticate/);passed++;
  const tampered=JSON.parse(readFileSync(file,'utf8')),bytes=Buffer.from(tampered.ciphertext,'base64');bytes[10]^=1;tampered.ciphertext=bytes.toString('base64');writeFileSync(join(temp,'tampered.sahabackup'),JSON.stringify(tampered));await assert.rejects(()=>restoreBackup(join(temp,'tampered.sahabackup'),join(temp,'tampered.sqlite'),pass));passed++;
@@ -29,4 +61,4 @@ try{
  const governanceResponse=await fetch('http://127.0.0.1:8788/api/governance',{headers}),governanceRestored=await governanceResponse.json();check(()=>{assert.equal(governanceResponse.status,200);assert.deepEqual(governanceRestored.entries.map(({issues,usable,lifecycle,replacedByRevision,usage,impact,...e})=>e),governanceBefore.entries);assert.deepEqual(governanceRestored.evaluations,governanceBefore.evaluations);assert.deepEqual(governanceRestored.safety.map(({personName,ownerAvailable,...c})=>c),governanceBefore.safety)});
  const ops=await fetch('http://127.0.0.1:8788/api/operations',{headers});check(()=>assert.equal(ops.status,200));const stateAfter=new DatabaseSync(target,{readOnly:true});check(()=>assert.equal(stateAfter.prepare('SELECT count(*) AS n FROM command_receipts WHERE org_id=?').get(actor.active_org_id).n,oldReceipt));stateAfter.close();
  const report={passed,release:'11 / v1.3-readiness',source:'isolated synthetic local D1',tables:created.tables,byteCount:created.size,checks:['governance manifests, synthetic evaluation results and safety cases survive restore','consistent SQLite snapshot','encrypted manifest and database','wrong key and ciphertext tamper rejection','fresh destination required','all table counts and digests match','schema digest and integrity checks','append-only history constraints survive','built Worker opens restored database','restored records and receipts accessible','pilot training, decisions and version survive restore','outreach receipt history and expansion evidence survive restore','resolved identities, handover acknowledgements and positive patient checks survive restore','reading restored workspace does not resend actions'],limitations:'No hosted backup, scheduled retention, infrastructure cutover or production RPO/RTO claim. Device-only drafts excluded.',completedAt:new Date().toISOString()};writeFileSync('tests/recovery-result.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
-}finally{if(worker){worker.kill('SIGTERM');await new Promise(r=>worker.once('exit',r));}rmSync(temp,{recursive:true,force:true});}
+}}finally{if(worker){worker.kill('SIGTERM');await new Promise(r=>worker.once('exit',r));}rmSync(temp,{recursive:true,force:true});}
