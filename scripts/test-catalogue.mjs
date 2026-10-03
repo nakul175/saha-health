@@ -20,7 +20,7 @@ export const FILE_LAYERS = LAYERS.filter(l => l !== 'static');
 export const GUARDED_LAYERS = ['unit', 'integration', 'resilience', 'smoke', 'ui', 'nfr', 'uat'];
 
 const SOURCE_EXT = /\.(mjs|cjs|js|mts|cts|ts|tsx)$/;
-const SKIPPED_DIRS = new Set(['evidence', 'reports', 'node_modules', 'playwright-report', 'test-results', '.git']);
+const SKIPPED_DIRS = new Set(['fixtures', 'evidence', 'reports', 'node_modules', 'playwright-report', 'test-results', '.git']);
 // The anaemia-provider demonstration (pull request #126) added an adapter suite that runs the real consumer code in workerd (Miniflare)
 // against a deterministic local peer; it needs no build or network, so it is a unit suite.
 const UNIT_NAMED = new Set(['tests/field-shell.mjs', 'tests/ehr-execution.mjs', 'tests/mis-delivery.mjs', 'tests/anaemia-worker-transport.mjs']);
@@ -34,6 +34,7 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/frontline-provider-contract.mjs': ['tests/evidence/frontline-eight/contract.json'],
   'tests/smoke/hosted-smoke.mjs': ['tests/reports/smoke-hosted-selftest-result.json'],
 };
 const MANUAL = {

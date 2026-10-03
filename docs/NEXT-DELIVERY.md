@@ -155,3 +155,5 @@ This is a proposed implementation slice derived from the existing R12 plan, not 
 | R16 field acceptance | Approved study scope, trained participants, accountable reviewers and baseline | Outcomes including failures/exclusions, remediation and signed requirement decisions |
 
 Do not close an older gap merely because a later engineering release exists. Identity, consent, sensitive-data segmentation, programme semantics and scale risks cut across these batches. See each row's remaining-work statement.
+
+| Eight independent frontline apps | 3 October 2026 | Eight private ASHA speech/OCR workflow providers, independent stores and Saha customer integration; synthetic-only | [Scope and evidence](current/FRONTLINE-EIGHT-APPS.md) |

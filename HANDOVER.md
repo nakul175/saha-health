@@ -96,3 +96,7 @@ Approve clinical content, provide partner and provider credentials, choose the C
 ## Outside the repository
 
 Cloudflare account settings, Access policy and the `CLOUDFLARE_API_TOKEN` secret are in the Cloudflare dashboard and GitHub settings. A presenter run-of-show for the government demonstration and a narrated training video (recorded on synthetic data, 2 October 2026) were shared with the sponsor outside Git.
+
+## Eight independent frontline apps (3 October 2026)
+
+The owner-private Sites demonstration now has eight independent speech/OCR workflow providers and Saha integration. Read [scope and evidence](docs/current/FRONTLINE-EIGHT-APPS.md). Source remains on a draft branch until sponsor-authorised merge. Four method/route handlers added; no certified command or migration. Synthetic-only; clinical use disabled.
