@@ -37,6 +37,6 @@ The providers are independently built and published before Saha. Their source is
 
 ## Evidence and remaining work
 
-199 provider handler/SQLite checks and 82 Saha-to-provider contract checks passed. Type checking and the Saha production build passed. The existing anaemia contract passed 58 checks. Eight affected governance/access/identity contract suites passed. Live deployment diagnostics are recorded separately after publishing.
+199 provider handler/SQLite checks and 82 Saha-to-provider contract checks passed. Type checking and the Saha production build passed. The existing anaemia contract passed 58 checks. Eight affected governance/access/identity contract suites passed. All eight deployed Saha-to-provider connections passed 72 live checks for signed results, independent persisted receipt lookup and invalid-credential refusal; no patient records were affected. Reproduction uses `scripts/check-frontline-connections.mjs` with server-only configuration through secure stdin.
 
 Browser access was refused because the computer-use tool could not verify its admin-enforced security policy. No bypass was attempted. Real-browser upload/model execution, model accuracy, Hindi in the embedded Saha capture, handset performance, accessibility review, representative clinical evaluation, approved clinical content, retention administration and real provider agreements remain pending. Documentation integrity and the 176-requirement audit passed after restoring unchanged source and screenshot baselines from current GitHub main. Formal acceptance remains unchanged.
