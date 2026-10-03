@@ -35,7 +35,7 @@ try {
   check(() => assert.equal(C.checkFacts({ ...base, weight: '69.85', entered: { weight: { value: '154', unit: 'lb' } } }, at).weight, '69.85', 'a matching base value is accepted'));
   refuses(() => C.checkFacts({ ...base, weight: '70', entered: { weight: { value: '154', unit: 'lb' } } }, at), 422, /does not match the entered 154 lb/);
   refuses(() => C.checkFacts({ ...base, entered: { weight: { value: 'heavy', unit: 'lb' } } }, at), 422, /enter a positive number in lb/);
-  check(() => { assert.equal(C.factsSchema.safeParse({ ...base, entered: { weight: { value: '154', unit: 'kg' } } }).success, false); assert.equal(C.factsSchema.safeParse({ ...base, entered: { systolic: { value: '16', unit: 'kPa' } } }).success, false, 'no alternative unit for blood pressure'); assert.equal(C.factsSchema.safeParse({ ...base, unusual: { pulse: 'Synthetic reason text' } }).success, false); });
+  check(() => { assert.equal(C.factsSchema.safeParse({ ...base, entered: { weight: { value: '154', unit: 'kg' } } }).success, false); assert.equal(C.factsSchema.safeParse({ ...base, entered: { systolic: { value: '16', unit: 'psi' } } }).success, false, 'an unknown unit for blood pressure is refused (kPa is accepted since slice r24)'); assert.equal(C.factsSchema.safeParse({ ...base, unusual: { pulse: 'Synthetic reason text' } }).success, false); });
   const legacy = { ...base, weight: '60', systolic: '120', diastolic: '80' };
   check(() => assert.deepEqual(C.checkFacts(structuredClone(legacy), at), legacy, 'facts without units or reasons are stored as sent'));
   // 3. Range refusals and reasons.
