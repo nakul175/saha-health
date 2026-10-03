@@ -71,7 +71,7 @@ function recordOverrides(v:Visit,base:Visit|undefined,old:Visit|undefined,actor:
  if(!old&&base&&!v.valueOverrides){if(base.valueOverrides)v.valueOverrides=structuredClone(base.valueOverrides);if(base.overrideConfirmations)v.overrideConfirmations=structuredClone(base.overrideConfirmations);}
  const added:string[]=[];
  for(const field of VALUE_FIELDS){const reason=v.facts.unusual?.[field],value=v.facts[field];if(!reason||!value)continue;const tier=valueTier(field,value);if(tier==='expected')continue;
-  const entered=v.facts.entered?.[field as 'weight'],last=[...(v.valueOverrides??[])].reverse().find(o=>o.field===field);
+  const entered=v.facts.entered?.[field],last=[...(v.valueOverrides??[])].reverse().find(o=>o.field===field);
   if(last&&last.value===value&&last.reason===reason&&JSON.stringify(last.entered??null)===JSON.stringify(entered??null))continue;
   const r=VALUE_RANGES.fields[field];const o:ValueOverride={id:uuid(),field,value,unit:r.unit,...(entered?{entered:{...entered}}:{}),reason,tier,expected:[...r.expected],confirm:[...r.confirm],rangesVersion:VALUE_RANGES.version,by:{...actor},at:now,visitId:v.id};
   (v.valueOverrides??=[]).push(o);added.push(`${r.label} ${value} ${r.unit}${entered?` (entered as ${entered.value} ${entered.unit})`:''} outside ${rangeText(field,r.expected)}${tier==='clinician'?`, beyond ${rangeText(field,r.confirm)} so a clinician must confirm it`:''}; reason: ${reason}`);}

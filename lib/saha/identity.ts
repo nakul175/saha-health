@@ -93,3 +93,33 @@ export async function principalFromHeaders(h: HeaderSource, config: IdentityConf
 }
 
 export function clearAccessKeyCache() { jwksCache.clear(); }
+
+// Slice feat/r13 (BR-ID-09): managed service identities for connectors and agents.
+//
+// A ServiceIdentity is a machine credential, distinct from the human Principal above: it is not
+// resolved from a sign-in header and never signs in. An organisation owner creates one naming a
+// single connector or agent it may act for, an accountable (named) owner and an expiry. The
+// helpers here only judge an identity record's validity; enforcement against a live organisation
+// (target scope, ownership, expiry) lives in lib/saha/service-identity.ts. Resolution of human
+// principals above is unchanged.
+export type ServiceIdentityScope = 'connector' | 'agent';
+export type ServiceIdentity = {
+  id: string;
+  name: string;
+  kind: ServiceIdentityScope;
+  targetId: string;   // integration id of the connector (mis/ehr/abdm) or agent (ai) it may act for
+  ownerId: string;    // accountable owner (member userId)
+  ownerName: string;  // the named owner, captured at creation
+  createdAt: string;
+  createdBy: string;
+  expiresAt: string;  // ISO date/time; invalid at or after this instant
+  revokedAt?: string;
+  revokedBy?: string;
+  status: 'active' | 'revoked';
+};
+// A service identity is usable only while active and before its expiry.
+export function serviceIdentityIsValid(si: ServiceIdentity, now: number | string = Date.now()): boolean {
+  const nowMs = typeof now === 'number' ? now : Date.parse(now);
+  const expiresMs = Date.parse(si.expiresAt);
+  return si.status === 'active' && Number.isFinite(expiresMs) && expiresMs > nowMs;
+}

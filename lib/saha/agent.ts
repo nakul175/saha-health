@@ -5,6 +5,7 @@ import { digest, fail, uuid, visit } from './core';
 import { questions, unresolved } from './programmes';
 import { measureOf, rangeProblem } from './fact-provenance';
 import { normallyAllowed } from './access';
+import { checkAgentSource } from './agent-minimisation';
 import type { Actor } from './store';
 import type { Facts, OrgState, Member, Visit, Integration, TraceStep } from './types';
 // 1.2.0 (slice 5c): explicit unable-to-assess outcome in the output contract.
@@ -55,6 +56,9 @@ export async function agentApply(s:OrgState,input:unknown,u:Actor,m:Member,ps:Ag
   if(v.agentRuns.length>=30)fail(429,'This visit reached the 30-request limit. Continue with structured capture.');const recent=s.workspace.visits.flatMap(v=>v.agentRuns??[]).filter(r=>r.actorId===u.userId&&r.createdAt.slice(0,10)===new Date().toISOString().slice(0,10));if(recent.length>=60)fail(429,'Daily assistant limit reached for this organisation.');
   const source=c.task==='extract'?c.input:c.task==='summary'?[...Object.entries(v.facts).filter(([,value])=>typeof value==='string'&&value).map(([key,value])=>`${key}: ${value}`),...Object.entries(v.programmeCapture?.answers??{}).map(([key,value])=>`${key}: ${value}`)].join('\n'):JSON.stringify(unresolved(v).map(q=>q.label));
   if(provider.mode!=='local'&&(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(source)||(source.match(/\+?\d[\d ()-]{8,}\d/g)??[]).some(x=>x.replace(/\D/g,'').length>=10)||[p.name,p.village].filter(x=>x.length>=3).some(x=>source.toLowerCase().includes(x.toLowerCase()))))fail(422,'Remove names, village names, contact details and identifiers from the external AI source before preparing it. This check is a safeguard, not a de-identification guarantee.');
+  // Slice R42: comprehensive minimisation — refuse any patient identifier, name, village, ABHA or crosswalk
+  // identifier anywhere in the organisation (not only this patient) before the request is prepared.
+  if(provider.mode!=='local')checkAgentSource(source,s);
   const inputHash=await digest({actor:u.userId,visit:v.id,version:v.version,personVersion:p.version,consent:p.consentVersion,provider,task:c.task,input:source,context,governance,agent:AGENT_VERSION});const now=new Date().toISOString();
   const run:AgentRun={context,...(governance?{governance}:{}),id:uuid(),actorId:u.userId,task:c.task,status:'pending',createdAt:now,expiresAt:new Date(Date.now()+expiryMinutes(limits)*60000).toISOString(),...(limits?{limits}:{}),version:AGENT_VERSION,provider,visitVersion:v.version,personVersion:p.version,consentVersion:p.consentVersion,inputHash,input:source,warnings:[],message:'Review the exact source and provider before approving.',callCount:0,steps:[{name:'Check scope and permission',state:'done',detail:'Current visit, worker and patient permission checked.'},{name:c.task==='review'?'Check programme requirements':'Extract source evidence',state:'pending',detail:provider.name},{name:'Human review',state:'pending',detail:'No automatic record changes or external programme writes.'}]};v.agentRuns.push(run);auditAgent(s,u,m,v,c.type,`${run.task} proposed using ${provider.name}; ${AGENT_VERSION}.`);return {runId:run.id};
  }

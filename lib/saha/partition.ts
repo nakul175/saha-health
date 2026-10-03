@@ -47,6 +47,8 @@ export const PATIENT_COMMANDS = new Set<string>([
   'confirmUnusualValue',
   // slice 2j: closing one correction task of one patient's corrected or voided visit
   'closeCorrectionTask',
+  // slice R33 (BR-DATA-12): reuse of a recorded measurement from an earlier visit of the same person
+  'reuseFact',
 ]);
 
 // Rows a patient-scoped commit may write. Any other table makes the commit organisation-wide.

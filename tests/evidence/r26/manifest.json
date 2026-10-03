@@ -1,0 +1,34 @@
+{
+  "slice": "r26",
+  "label": "Development slice R26 \u2014 correction propagation: recomputed shadow comparisons and released figures, follow-up source links",
+  "environment": "local built Worker, local D1/SQLite, synthetic fixtures",
+  "totalPassed": 100,
+  "note": "Fresh runs on the slice R26 source (clean worktree from origin/main 4108e6ce). Only the suites that touch the changed modules were run: correction-tasks (updated assertions), the new r26 contract, and the shadow, drift and indicator contracts. The R11 results in tests/ are unchanged historical evidence.",
+  "reports": {
+    "correction-tasks-contract-result.json": {
+      "sha256": "05fafb7963781d93481a99e0e467dde7da46ba18057e1c18ef4005a8b4e992e7",
+      "passed": 13,
+      "completedAt": "2026-10-03T08:02:49.368Z"
+    },
+    "r26-correction-propagation-contract-result.json": {
+      "sha256": "dad5f371dd47176679a9b149afd53309829a2ed38e44e3425b08c632ca14a478",
+      "passed": 8,
+      "completedAt": "2026-10-03T08:04:51.922Z"
+    },
+    "shadow-contract-result.json": {
+      "sha256": "d357e4ec261e7ec54537942d1dc3c2360e23b7e8210407c5f07fe3d22aeec354",
+      "passed": 55,
+      "completedAt": "2026-10-03T08:05:08.387Z"
+    },
+    "drift-contract-result.json": {
+      "sha256": "6f3c2a981c531e8cc7066d210b5587c0ed464f21b3f2b22972cecca7db4f4246",
+      "passed": 15,
+      "completedAt": "2026-10-03T08:05:08.521Z"
+    },
+    "indicators-contract-result.json": {
+      "sha256": "23626a01561dee3f7dbd43a48e22d70e5593bdea9331f5b993aaa2f519f196c2",
+      "passed": 9,
+      "completedAt": "2026-10-03T08:05:08.724Z"
+    }
+  }
+}

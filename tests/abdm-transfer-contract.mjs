@@ -10,7 +10,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, code) => { try { await fn(); } catch (e) { assert.equal(e.status, code, e.message); passed++; return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm-transfer', 'abdm', 'fhir', 'fhir-document', 'fhir-validate', 'adapter-operations','core', 'fact-provenance', 'mis', 'programmes', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const t = await import(pathToFileURL(join(dir, 'abdm-transfer.js')));
   const A = await import(pathToFileURL(join(dir, 'abdm.js')));
@@ -58,7 +58,7 @@ try {
   // Slice 7c: a deliberate violation in the HIP document (negative weight) is refused with the rule set and reason before encryption; nothing is stored.
   const vIn = s.workspace.visits[0], keepWeight = vIn.facts.weight, beforeT = P().abdmTransfers.length, beforeR = P().abdmReceived.length; vIn.facts.weight = '-5';
   const bad = await rejects(() => run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid }), 422);
-  check(() => { assert.match(bad.message, /saha-fhir-r4-document-structure 1\.0\.0: Observation units or values/); assert.equal(P().abdmTransfers.length, beforeT); assert.equal(P().abdmReceived.length, beforeR); });
+  check(() => { assert.match(bad.message, /saha-fhir-r4-document-structure 1\.1\.0: Observation units or values/); assert.equal(P().abdmTransfers.length, beforeT); assert.equal(P().abdmReceived.length, beforeR); });
   vIn.facts.weight = keepWeight;
   // Review, then revocation and relinking stop further transfers.
   const rid = P().abdmReceived[0].id;

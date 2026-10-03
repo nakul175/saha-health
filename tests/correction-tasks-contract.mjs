@@ -12,7 +12,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const status = (fn, code) => { try { fn(); } catch (e) { assert.equal(e.status, code, e.message); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['correction-tasks', 'action-plan', 'exceptions', 'operations', 'referrals', 'referral-rules', 'access', 'delegation', 'adapter-operations', 'core', 'fact-provenance', 'mis', 'programmes', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'correction-tasks', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'indicators', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const x = await import(pathToFileURL(join(dir, 'correction-tasks.js')));
   const { actionPlan } = await import(pathToFileURL(join(dir, 'action-plan.js')));
@@ -68,17 +68,27 @@ try {
   check(() => {
     assert.equal(by('pl').action, 'invalidated'); assert.equal(by('c1').action, 'review'); assert.equal(by('c2').action, 'invalidated');
     assert.equal(by('a1').action, 'review'); assert.equal(by('a2').action, 'invalidated'); assert.equal(by('ai1').action, 'review');
-    assert.equal(by('r1').action, 'review'); assert.equal(by('r3').action, 'review'); assert.equal(by('f1').action, 'review'); assert.equal(by('sh1').action, 'review');
+    assert.equal(by('r1').action, 'review'); assert.equal(by('r3').action, 'review'); assert.equal(by('f1').action, 'review');
+    assert.equal(by('sh1').action, 'review'); assert.equal(by('sh1').state, 'open'); assert.equal(by('sh1').output.recomputed, undefined, 'nothing recomputes a shadow comparison on read yet, so a person reviews it (integration of #144)');
     const wa = tasks.find(t => t.output.kind === 'worker-activity'), ir = tasks.find(t => t.output.kind === 'indicator-releases');
     assert.equal(wa.action, 'recomputed'); assert.equal(wa.state, 'done'); assert.match(wa.instruction, /corrected/);
-    assert.equal(ir.output.count, 1, 'counts only the release after confirmation'); assert.equal(ir.state, 'open'); assert.doesNotMatch(JSON.stringify(ir), /indicatorReleases|"f":/);
+    assert.equal(ir.output.count, 1, 'counts only the release after confirmation'); assert.equal(ir.action, 'review', 'a released figure is not recalled; a person decides whether to reissue it'); assert.equal(ir.state, 'open');
+    assert.deepEqual(ir.output.releases, [{ at: after, k: null }], 'the affected released figure is marked by its ledger identity only'); assert.doesNotMatch(JSON.stringify(ir), /indicatorReleases|"f":/);
     assert.equal(tasks.filter(t => t.state === 'open').length, 15); assert.equal(tasks.filter(t => t.state === 'done').length, 5);
+  });
+  // 3b. Slice R26 source links: a referral names the visit that made it or a linked source; a follow-up names its episode.
+  check(() => {
+    assert.deepEqual(by('r1').output.sources, [{ kind: 'visit', refId: 'v1', visitId: 'v1', label: 'the visit that made the referral' }]);
+    assert.deepEqual(by('r3').output.sources, [{ kind: 'visit', refId: 'v1', visitId: 'v1', label: 'a visit named as a source' }]);
+    assert.deepEqual(by('f1').output.sources, [], 'a follow-up with no recorded episode or capture visit has no source link');
   });
   // 4. A void has no correction path: the accepted submission becomes a manual reversal; nothing is recomputed as corrected.
   check(() => {
     const vt = x.correctionTasks(fresh(), fresh().workspace.visits[0], 'void', u('doc'), now, null);
     const s1 = vt.find(t => t.output.refId === 's1');
     assert.equal(s1.action, 'manual-correction'); assert.match(s1.instruction, /reverse or void/); assert.equal(vt.find(t => t.output.kind === 'worker-activity').instruction.includes('wrong-patient'), true);
+    const vsh = vt.find(t => t.output.kind === 'shadow-comparison');
+    assert.equal(vsh.action, 'review', 'a shadow comparison of a wrong-patient visit is excluded by a person in Clinical governance'); assert.equal(vsh.output.recomputed, undefined); assert.match(vsh.instruction, /wrong patient/);
     assert.ok(vt.every(t => t.cause === 'void' && t.correctionVisitId === null));
     const none = fresh(); none.operations = {}; const nt = x.correctionTasks(none, none.workspace.visits[0], 'amend', u('doc'), now, 'v1b');
     assert.equal(nt.find(t => t.output.kind === 'indicator-releases').state, 'done', 'no release, nothing to review');
@@ -90,7 +100,7 @@ try {
   // 5. Action plan: one item per open task with owner, age, link and close permission; external first.
   check(() => {
     const plan = actionPlan(s, m('sup'), p1, now), items = plan.items.filter(i => i.kind === 'correction');
-    assert.equal(items.length, 15);
+    assert.equal(items.length, 15, 'the shadow comparison and the affected indicator release stay open for review');
     assert.ok(items.every(i => i.owner.userId === 'doc' && i.owner.eligible && !i.ownershipGap && i.correction.canClose && i.correction.ageDays === 0 && i.correction.href === '/?patient=p1&visit=v1'));
     const firstInternal = items.findIndex(i => !i.correction.external), lastExternal = items.map(i => i.correction.external).lastIndexOf(true);
     assert.ok(lastExternal < firstInternal, 'external tasks (urgent) are listed before internal ones');

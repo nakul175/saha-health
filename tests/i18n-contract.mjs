@@ -57,7 +57,7 @@ try {
   const labelPairs = (text, pattern) => [...text.matchAll(pattern)].map(m => [m[1], m[2]]);
   const measureLabels = labelPairs(fp.match(/MEASURE_LABEL:Record<Measure,string>=\{([^}]*)\}/)[1], /(\w+):'([^']+)'/g);
   const sourceLabels = labelPairs(fp.match(/SOURCE_LABEL:Record<FactSource,string>=\{([^}]*)\}/)[1], /'?([\w-]+)'?:'([^']+)'/g);
-  const rangeLabels = labelPairs(fp.slice(fp.indexOf('fields:{')), /(\w+):\{label:'([^']+)',unit:/g);
+  const rangeLabels = labelPairs(fp.slice(fp.indexOf('fields:{'), fp.indexOf('}} as const')), /(\w+):\{label:'([^']+)',unit:/g);
   check(() => assert.equal(measureLabels.length, 5));
   check(() => assert.equal(sourceLabels.length, 6));
   check(() => assert.deepEqual(rangeLabels.map(([k]) => k), ['systolic', 'diastolic', 'weight', 'temperature', 'weeks', 'coughDays']));

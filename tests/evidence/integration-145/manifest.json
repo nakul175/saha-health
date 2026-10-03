@@ -1,0 +1,28 @@
+{
+ "integration": "145",
+ "label": "Integration of the eight frontline provider apps (#145) with main after #144, with review fixes",
+ "environment": "local built Worker, local D1/SQLite, Miniflare, Chromium (Playwright), Node 22.22.2, synthetic data, shared Linux container; no provider contacted",
+ "note": "Unit 124 suites 7,988; NFR 191; UAT steps 63 (summary-unit-nfr-uat.json); UI 25 (summary-ui.json). HTTP/D1 4,648, scheduled check 8, restore drill 21 and smoke 36 passed with 1 skipped in the earlier full run on the same merge (its summary was overwritten by the rerun; figures from its log). Frontline contract 99; crosswalk correction contract 48 after reading the working tree. No formal acceptance criterion promoted.",
+ "reports": {
+  "crosswalk-correction-contract-result.json": {
+   "sha256": "8b22417e86ce6022341a31ac803368813691ed3ad50065466f1cafd63c20ac35",
+   "passed": 48,
+   "completedAt": "2026-10-03T13:50:10.390Z"
+  },
+  "frontline-provider-contract-result.json": {
+   "sha256": "d90883d4fdbc9b94f49069c4e948bcdc9c89d82a18b76959a87b5ee874f9f70f",
+   "passed": 99,
+   "completedAt": null
+  },
+  "summary-ui.json": {
+   "sha256": "9f929109dea06c5226fd73d2878074577677930424cdb21c5f5c9791a7e6b241",
+   "passed": 25,
+   "completedAt": "2026-10-03T13:48:29.947Z"
+  },
+  "summary-unit-nfr-uat.json": {
+   "sha256": "82c3db505dc0f71cfb92e68027119335e229d80f1eda93f6dbc5a017336655b2",
+   "passed": 8242,
+   "completedAt": "2026-10-03T13:43:00.482Z"
+  }
+ }
+}

@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **63 HTTP method/route pairs** and **211 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **66 HTTP method/route pairs** and **228 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -24,6 +24,7 @@ Generated from source: **63 HTTP method/route pairs** and **211 command schema d
 | GET | `/api/exceptional` | [app/api/exceptional/route.ts](../../app/api/exceptional/route.ts) |
 | GET | `/api/exceptions` | [app/api/exceptions/route.ts](../../app/api/exceptions/route.ts) |
 | GET | `/api/expansion` | [app/api/expansion/route.ts](../../app/api/expansion/route.ts) |
+| GET | `/api/facility-scope` | [app/api/facility-scope/route.ts](../../app/api/facility-scope/route.ts) |
 | GET | `/api/fhir/[id]` | [app/api/fhir/[id]/route.ts](../../app/api/fhir/[id]/route.ts) |
 | GET | `/api/fixture-migration` | [app/api/fixture-migration/route.ts](../../app/api/fixture-migration/route.ts) |
 | POST | `/api/frontline-assessments` | [app/api/frontline-assessments/route.ts](../../app/api/frontline-assessments/route.ts) |
@@ -55,6 +56,8 @@ Generated from source: **63 HTTP method/route pairs** and **211 command schema d
 | GET | `/api/pilot` | [app/api/pilot/route.ts](../../app/api/pilot/route.ts) |
 | GET | `/api/programme-migration` | [app/api/programme-migration/route.ts](../../app/api/programme-migration/route.ts) |
 | GET | `/api/provider-sandbox` | [app/api/provider-sandbox/route.ts](../../app/api/provider-sandbox/route.ts) |
+| GET | `/api/purpose-scope` | [app/api/purpose-scope/route.ts](../../app/api/purpose-scope/route.ts) |
+| GET | `/api/reassignment` | [app/api/reassignment/route.ts](../../app/api/reassignment/route.ts) |
 | POST | `/api/record-import` | [app/api/record-import/route.ts](../../app/api/record-import/route.ts) |
 | POST | `/api/record-opened` | [app/api/record-opened/route.ts](../../app/api/record-opened/route.ts) |
 | GET | `/api/referral-escalations` | [app/api/referral-escalations/route.ts](../../app/api/referral-escalations/route.ts) |

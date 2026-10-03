@@ -1,4 +1,5 @@
 import type {FrontlineAgreement} from './frontline';
+import type {SpeechPolicy} from './speech';
 import type {AnaemiaProvider} from './anaemia';
 import { z } from 'zod';
 import { fail, uuid } from './core';
@@ -11,6 +12,10 @@ import type { AlertAck } from './alerts';
 import type { Delegation } from './delegation';
 import type { PackId } from './programmes';
 import type { InstalledPack } from './pack-installation';
+import type { AccessScope } from './facility-scope';
+import type { PurposeGrant } from './purpose-scope';
+import { applyServiceIdentity, serviceIdentitySchema } from './service-identity';
+import type { ServiceIdentity } from './identity';
 export type Incident={id:string;title:string;severity:'critical'|'high'|'normal';state:'open'|'investigating'|'resolved';ownerId:string;createdAt:string;updatedAt:string;resolution?:string;evidence?:string};
 // Slice 5a: monthly cost budgets per capability key (estimates from `rates`, not invoices).
 export type CapabilityBudget={capabilityKey:string;monthlyUsd:number;setBy:string;setAt:string;reason:string};
@@ -18,7 +23,7 @@ export type CapabilityBudget={capabilityKey:string;monthlyUsd:number;setBy:strin
 export type FixtureBatch={id:string;migration:string;planHash:string;at:string;by:string;reason:string;examined:number;marked:number;rejected:number;alreadyMarked:number;outOfScope:number;revertedAt?:string;revertedBy?:string;revertReason?:string;reverted?:number;reverts?:{at:string;by:string;reason:string;reverted:number;outOfScope:number}[]};
 // Slice 4e: reviewed programme-pack migration batches (counts, versions and plan hash only; episodes carry the batch id).
 export type ProgrammeMigrationBatch={id:string;packId:PackId;fromVersions:number[];toVersion:number;planHash:string;at:string;by:string;reason:string;examined:number;migrated:number;blocked:number;outOfScope:number;adopted:boolean;previousAdopted:number};
-export type Operations={frontlineProviders?:Record<string,FrontlineAgreement>;anaemiaProvider?:AnaemiaProvider;anaemiaDemoVisitId?:string;version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[];fixtureBatches?:FixtureBatch[];delegations?:Delegation[];packVersions?:Partial<Record<PackId,number>>;programmeMigrations?:ProgrammeMigrationBatch[];installedPacks?:InstalledPack[];memberNames?:Record<string,{name:string;version:number;at:string}>;staffIds?:Record<string,{id:string;batchId:string}>;memberLanguages?:Record<string,{language:'en'|'hi';version:number;at:string}>};
+export type Operations={frontlineProviders?:Record<string,FrontlineAgreement>;speechPolicy?:SpeechPolicy;anaemiaProvider?:AnaemiaProvider;anaemiaDemoVisitId?:string;version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[];fixtureBatches?:FixtureBatch[];delegations?:Delegation[];packVersions?:Partial<Record<PackId,number>>;programmeMigrations?:ProgrammeMigrationBatch[];installedPacks?:InstalledPack[];memberNames?:Record<string,{name:string;version:number;at:string}>;staffIds?:Record<string,{id:string;batchId:string}>;memberLanguages?:Record<string,{language:'en'|'hi';version:number;at:string}>;accessScope?:AccessScope;purposeGrants?:PurposeGrant[];serviceIdentities?:ServiceIdentity[]};
 export const defaultOperations=():Operations=>({version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null});
 export const GATES=[
  {id:'clinical',label:'Clinical and programme approval',state:'external',detail:'Named clinical owners, approved programme content and deployment-specific safety evidence required.'},
@@ -36,13 +41,15 @@ export const operationsSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('opsIncident'),version,title:z.string().trim().min(5).max(120),severity:z.enum(['critical','high','normal']),ownerId:id}).strict(),
  z.object({type:z.literal('opsUpdateIncident'),version,id,state:z.enum(['investigating','resolved']),ownerId:id,resolution:note,evidence:z.string().trim().max(200)}).strict(),
  z.object({type:z.literal('opsRates'),version,input:z.number().min(0).max(10000),output:z.number().min(0).max(10000)}).strict(),
- z.object({type:z.literal('opsBudget'),version,capabilityKey:z.string().regex(/^[a-z][a-z0-9-]{2,60}$/),monthlyUsd:z.number().min(0.01).max(1000000).nullable(),reason:note}).strict()
+ z.object({type:z.literal('opsBudget'),version,capabilityKey:z.string().regex(/^[a-z][a-z0-9-]{2,60}$/),monthlyUsd:z.number().min(0.01).max(1000000).nullable(),reason:note}).strict(),
+ // Slice feat/r13 (BR-ID-09): owner-managed service identities for connectors and agents.
+ ...serviceIdentitySchema.options
 ]);
 export function operator(m:Member){return m.isOwner||m.role==='admin';}
 export function requireReporting(m:Member){if(!operator(m)&&m.role!=='supervisor')fail(403,'Supervisor or operations access required.');}
 export function maintenanceAllows(c:any){return c.type==='opsAcknowledgeAlert'||c.type==='alertInboxMarkRead'||c.type==='cancelEvaluation'||c.type==='reportSafety'||c.type==='resolveSafety'||c.type==='assignSafety'||c.type==='saveClinicalConcern'||c.type==='checkProtocol'||c.type==='reviewProtocol'||(c.type==='transitionGovernance'&&c.state!=='active')||c.type.startsWith('ops')||c.type==='messageCancel'||c.type==='messageResolve'||(c.type==='setContactPreferences'&&c.preferences.permission===false)||(c.type==='messageTemplateReview'&&c.state==='suspended')||(c.type==='outreachTransition'&&c.state==='cancelled')||(c.type==='pilotTransition'&&c.stage==='paused')||['switchOrganisation','lookupSubmission','lookupEhrPublish','lookupAggregateReport','reconcile','cancelAgent','closeTimedOutAgent','cancelSubmission','revokeFieldLease','revokeInvite'].includes(c.type)||(c.type==='setConsent'&&c.active===false)||c.type==='withdrawConsent'||(c.type==='updateMember'&&c.status==='suspended')||(c.type==='revokeEhrPermission')||c.type==='delegationRevoke';}
 export function ensureOperating(s:OrgState,c:any){if(s.operations?.maintenance&&!maintenanceAllows(c))fail(423,'This organisation is paused for maintenance. Your draft is preserved. Receipt lookup and safety controls remain available.');}
-export function applyOperations(s:OrgState,input:unknown,u:Actor,m:Member){const parsed=operationsSchema.safeParse(input);if(!parsed.success)return null;if(!operator(m))fail(403,'Operations access required.');const c=parsed.data,ops=s.operations??=defaultOperations();if(c.version!==ops.version)fail(409,'Operations changed. Refresh and review the latest state.');const now=new Date().toISOString();let result:any={ok:true};
+export function applyOperations(s:OrgState,input:unknown,u:Actor,m:Member){const parsed=operationsSchema.safeParse(input);if(!parsed.success)return null;if(!operator(m))fail(403,'Operations access required.');const c=parsed.data,ops=s.operations??=defaultOperations();if(c.version!==ops.version)fail(409,'Operations changed. Refresh and review the latest state.');if(c.type==='serviceIdentityCreate'||c.type==='serviceIdentityRevoke')return applyServiceIdentity(s,c,u,m);const now=new Date().toISOString();let result:any={ok:true};
  if(c.type==='opsMaintenance'){if(!m.isOwner)fail(403,'Only an owner can pause or resume the organisation.');ops.maintenance=c.active;ops.reason=c.reason;}
  else if(c.type==='opsRates'){if(!m.isOwner)fail(403,'Only an owner can set cost assumptions.');ops.rates={input:c.input,output:c.output,at:now};}
  else if(c.type==='opsBudget'){if(!m.isOwner)fail(403,'Only an owner can set cost budgets.');if(!(s.governance?.entries??[]).some(e=>e.spec.kind==='capability'&&e.spec.key===c.capabilityKey))fail(404,'Capability not found.');const kept=(ops.budgets??[]).filter(b=>b.capabilityKey!==c.capabilityKey);if(c.monthlyUsd===null&&kept.length===(ops.budgets??[]).length)fail(409,'This capability has no budget to clear.');ops.budgets=c.monthlyUsd===null?kept:[...kept,{capabilityKey:c.capabilityKey,monthlyUsd:Math.round(c.monthlyUsd*100)/100,setBy:u.userId,setAt:now,reason:c.reason}];if(ops.budgets.length>50)fail(422,'At most 50 capability budgets.');}

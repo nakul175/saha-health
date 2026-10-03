@@ -83,15 +83,21 @@
       "sourceTextLine": 143,
       "implementation": "partial",
       "target": "R14",
-      "current": "Structured/text capture and gated on-device speech transcript review. Slices 2b and 3a: attached voice notes play back in the visit and can be deleted from drafts or discarded from the device queue. Slice 3d: voice notes recorded in the field notebook (24 kbps, up to 60 s) and queued offline.",
-      "remaining": "Real-device recording quality and interruption handling, supported-device speech and complete common workflow coverage.",
+      "current": "Structured/text capture and gated on-device speech transcript review. Slices 2b and 3a: attached voice notes play back in the visit and can be deleted from drafts or discarded from the device queue. Slice 3d: voice notes recorded in the field notebook (24 kbps, up to 60 s) and queued offline. Slice 12a: a microphone on every text and number field of the workspace and the field notebook; one tap listens once, what was heard is reviewed and inserted only on request, and nothing is saved by speaking. On-device speech where the browser has it; the browser speech service only when an owner allows it in the synthetic or training environment.",
+      "remaining": "Real-device recording quality and interruption handling, recognizer accuracy in Hindi and English on field phones, and complete common workflow coverage with representative workers.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "app/workspace.tsx",
         "app/continuity-panel.tsx",
         "tests/api-smoke.mjs",
         "docs/current/SLICE-3D-VOICE-RECORDING.md",
-        "tests/field-recording-client.mjs"
+        "tests/field-recording-client.mjs",
+        "lib/saha/speech.ts",
+        "app/voice-input.tsx",
+        "tests/speech-contract.mjs",
+        "tests/speech-smoke.mjs",
+        "tests/ui/voice.spec.mjs",
+        "docs/current/SLICE-12A-VOICE-INPUT.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -618,7 +624,7 @@
       "sourceTextLine": 204,
       "implementation": "partial",
       "target": "R11",
-      "current": "Grounded field extraction checks exact quotes, full-clause ambiguity and field/value alignment; synthetic language-specific scoring.",
+      "current": "Grounded field extraction checks exact quotes, full-clause ambiguity and field/value alignment; synthetic language-specific scoring. Slice 12a: dictated values go into a draft field only after review; a measurement box takes the first number heard and names the others, and when no digit is heard nothing is inserted.",
       "remaining": "Representative mixed-language/noisy-speaker corpus, broad ambiguity handling and correction-burden acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -629,7 +635,13 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/speech.ts",
+        "app/voice-input.tsx",
+        "tests/speech-contract.mjs",
+        "tests/speech-smoke.mjs",
+        "tests/ui/voice.spec.mjs",
+        "docs/current/SLICE-12A-VOICE-INPUT.md"
       ],
       "automatedAcceptanceClaim": false
     },

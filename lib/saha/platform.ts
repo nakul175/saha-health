@@ -17,8 +17,10 @@ import { signOffSchema } from './visit-signoff';
 import { patientImportSchema } from './patient-import';
 import { recordImportSchema } from './record-import';
 import { crosswalkSchema } from './crosswalk';
+import { crosswalkCorrectionSchema } from './crosswalk-correction';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
+import { reassignmentSchema } from './reassignment';
 import { correctionTaskSchema, correctionTasks } from './correction-tasks';
 import { rosterSchema } from './roster';
 import { workforceImportSchema } from './workforce-import';
@@ -32,10 +34,13 @@ import { pilotSchema } from './pilot';
 import { outreachSchema } from './outreach';
 import { expansionSchema } from './expansion';
 import { defaultOperations, operationsSchema } from './operations';
+import { facilityScopeSchema } from './facility-scope';
+import { purposeScopeSchema } from './purpose-scope';
 import { chooseLanguage } from './messages';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
 import { notificationChannelSchema } from './notification-channel';
+import { speechPolicySchema } from './speech';
 import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
 import { fieldRegistrationSchema } from './field-registration';
@@ -48,6 +53,8 @@ import { incentiveSchema } from './incentives';
 import { agentSchema } from './agent';
 import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
+import { factReuseSchema, applyFactReuse } from './fact-reuse';
+import { destinationEnrolmentSchema } from './destination-enrolment';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
 import type { Actor } from './store';
@@ -76,9 +83,11 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...patientImportSchema.options,
  ...recordImportSchema.options,
  ...crosswalkSchema.options,
+ ...crosswalkCorrectionSchema.options,
  ...referralSchema.options,
  ...programmeReferralSchema.options,
  ...actionPlanSchema.options,
+ ...reassignmentSchema.options,
  ...correctionTaskSchema.options,
  ...rosterSchema.options,
  ...workforceImportSchema.options,
@@ -89,9 +98,14 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...sandboxSchema.options,
  ...shadowSchema.options,
  ...operationsSchema.options,
+ // Slice feat/r08 (BR-ID-02/BR-OPS-01): facility and geography/locality access policy.
+ ...facilityScopeSchema.options,
+ // Slice r09: owner-managed programme/purpose dimensions in the access policy (lib/saha/purpose-scope.ts).
+ ...purposeScopeSchema.options,
  ...alertAckSchema.options,
  ...inboxSchema.options,
  ...notificationChannelSchema.options,
+ ...speechPolicySchema.options,
  ...invoiceSchema.options,
  ...pilotSchema.options,
  ...outreachSchema.options,
@@ -107,6 +121,10 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...ehrSchema.options,
  ...agentSchema.options,
  ...programmeSchema.options,
+ // Slice R33 (BR-DATA-12): cross-visit reuse of a recorded measurement with its provenance (lib/saha/fact-reuse.ts).
+ ...factReuseSchema.options,
+ // Slice r37: destination enrolment request/rejection/acceptance lifecycle (mock destination; lib/saha/destination-enrolment.ts).
+ ...destinationEnrolmentSchema.options,
  // Slice 9a: owner-only installation of the demonstration clinical package (synthetic environment only; lib/saha/demonstration.ts).
  z.object({type:z.literal('installDemonstrationPackage')}).strict(),
  z.object({type:z.literal('createOrganisation'),name:str}),
@@ -123,7 +141,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('createInvite'),accountCode:z.string().trim().regex(/^[A-F0-9]{24}$/,'Use the 24-character account code shown in your teammate’s account.'),label:str,role,teamIds}),
  z.object({type:z.literal('revokeInvite'),inviteId:str}),
  z.object({type:z.literal('updateMember'),userId:str,version:ver,role:z.enum(['asha','clinician','supervisor','admin','provider']),teamIds,isOwner:z.boolean(),status:z.enum(['active','suspended']),reason}),
- z.object({type:z.literal('assignPatient'),personId:str,version:ver,teamId:str,assignedTo:z.string().nullable(),reason}),
+ z.object({type:z.literal('assignPatient'),personId:str,version:ver,teamId:str,assignedTo:z.string().nullable(),facilityId:z.string().nullable().optional(),localityId:z.string().nullable().optional(),reason}),
  z.object({type:z.literal('correctIdentity'),personId:str,version:ver,name:str,age:z.number().int().min(0).max(120),sex:z.enum(['Female','Male','Other','Unknown']),village:str,reason}),
  z.object({type:z.literal('amendVisit'),visitId:str,version:ver,reason}),
  z.object({type:z.literal('voidVisit'),visitId:str,version:ver,reason}),
@@ -136,6 +154,7 @@ const taskSummary=(t:{state:string}[])=>`${t.length} downstream output${t.length
 function clinical(member:Member){if(!['asha','clinician'].includes(member.role))fail(403,'A care role is required for this action.');}
 export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:Member):Promise<{handled:boolean;result?:any}>{
  const programmeResult=programmeApply(state,c,u,m);if(programmeResult)return {handled:true,result:programmeResult};
+ const factReuseResult=applyFactReuse(state,c,u,m);if(factReuseResult)return {handled:true,result:factReuseResult};
  const w=state.workspace,now=new Date().toISOString();let subject=state.organisation.id,detail='',patientId:string|undefined,result:any={ok:true};
  switch(c.type){
  case 'renameOrganisation':manage(m);if(c.version!==state.organisation.revision)fail(409,'Organisation settings changed. Refresh and try again.');state.organisation.name=c.name;detail='Organisation name updated.';break;
@@ -147,7 +166,7 @@ export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:M
  case 'updateMember':{manage(m);const target=state.members.find(x=>x.userId===c.userId);if(!target)fail(404,'Member not found.');if(target.version!==c.version)fail(409,'Membership changed. Refresh before editing it.');if(target.status==='removed')fail(409,'A removed membership cannot be edited. Issue a new invitation to restore access.');if(target.userId.startsWith('fixture:'))fail(409,'Demonstration fixture clinicians belong to the demonstration clinical package and cannot be edited. Suspend or retire the package entries under Clinical governance instead.');validTeams(state,c.teamIds,c.role);if(target.userId===u.userId&&c.status==='suspended')fail(422,'Another owner must suspend your account.');if(target.isOwner&&target.status==='active'&&(!c.isOwner||c.status!=='active')&&state.members.filter(x=>x.isOwner&&x.status==='active').length===1)fail(409,'Keep at least one active organisation owner.');const priorAccess={role:target.role,status:target.status,isOwner:target.isOwner,teams:target.teamIds.map(id=>state.teams.find(t=>t.id===id)?.name??id).join(', ')};Object.assign(target,{role:c.role,isOwner:c.isOwner,status:c.status,teamIds:c.teamIds,version:target.version+1});subject=target.userId;detail=`${target.displayName}: role ${priorAccess.role} → ${c.role}; ${priorAccess.status} → ${c.status}; owner ${priorAccess.isOwner} → ${c.isOwner}; teams ${priorAccess.teams||'none'} → ${c.teamIds.map(id=>state.teams.find(t=>t.id===id)?.name??id).join(', ')||'none'}. Reason: ${c.reason}`;break;}
  case 'assignPatient':{const own=m.isOwner||m.role==='supervisor';if(!own&&!heldBy(state,m,'team-supervision',now).length)fail(403,'An owner with patient access or a team supervisor must manage assignments.');const p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient assignment changed. Refresh before assigning.');if(!m.teamIds.includes(c.teamId)||!state.teams.some(t=>t.id===c.teamId))fail(403,'The destination team is outside your care scope.');
   // Slice 1e: a supervision delegate may move assignments only within teams delegated to them.
-  if(!own&&!(supervises(state,m,p.teamId,now,false)&&supervises(state,m,c.teamId,now,false)))fail(403,'Your supervision delegation does not cover this patient\'s team and the destination team.');if(!own){supervises(state,m,p.teamId,now);supervises(state,m,c.teamId,now);}if(c.assignedTo){const target=state.members.find(x=>x.userId===c.assignedTo&&x.status==='active');if(!target||!['asha','clinician'].includes(target.role)||!target.teamIds.includes(c.teamId))fail(422,'Choose an active care worker in the destination team.');}transferPatientWork(state,p,c,u,now);p.teamId=c.teamId;p.assignedTo=c.assignedTo;p.version++;for(const v of w.visits.filter(v=>v.personId===p.id))if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';patientId=subject=p.id;detail=`Patient assignment updated. Reason: ${c.reason}`;break;}
+  if(!own&&!(supervises(state,m,p.teamId,now,false)&&supervises(state,m,c.teamId,now,false)))fail(403,'Your supervision delegation does not cover this patient\'s team and the destination team.');if(!own){supervises(state,m,p.teamId,now);supervises(state,m,c.teamId,now);}if(c.assignedTo){const target=state.members.find(x=>x.userId===c.assignedTo&&x.status==='active');if(!target||!['asha','clinician'].includes(target.role)||!target.teamIds.includes(c.teamId))fail(422,'Choose an active care worker in the destination team.');}transferPatientWork(state,p,c,u,now);p.teamId=c.teamId;p.assignedTo=c.assignedTo;if(c.facilityId!==undefined||c.localityId!==undefined){const sc=state.operations?.accessScope;if(c.facilityId&&sc&&!sc.facilities.some(f=>f.id===c.facilityId))fail(422,'Choose a facility in this organisation.');if(c.localityId&&sc&&!sc.localities.some(l=>l.id===c.localityId))fail(422,'Choose a locality in this organisation.');if(c.facilityId!==undefined)p.facilityId=c.facilityId??undefined;if(c.localityId!==undefined)p.localityId=c.localityId??undefined;}p.version++;for(const v of w.visits.filter(v=>v.personId===p.id))if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';patientId=subject=p.id;detail=`Patient assignment updated. Reason: ${c.reason}`;break;}
  case 'correctIdentity':{clinical(m);const p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient details changed. Refresh and compare before correcting.');if(p.name===c.name&&p.age===c.age&&p.sex===c.sex&&p.village===c.village)fail(422,'Change at least one identity detail.');Object.assign(p,{name:c.name,age:c.age,sex:c.sex,village:c.village,version:p.version+1});for(const v of w.visits.filter(v=>v.personId===p.id))if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';subject=patientId=p.id;detail=`Identity corrected. Earlier revisions and completed outputs retained. Reason: ${c.reason}`;break;}
  case 'amendVisit':{clinical(m);const v=visit(w,c.visitId);if(v.recordVersion!==c.version)fail(409,'This visit changed. Refresh before creating a correction.');if(v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(409,'Choose a current confirmed visit to correct.');const newVisit={id:uuid(),personId:v.personId,version:1,recordVersion:1,state:'draft' as const,facts:structuredClone(v.facts),programmeCapture:v.programmeCapture?structuredClone(v.programmeCapture):undefined,aiResults:[],createdAt:now,amendsVisitId:v.id};
   // Slice 2j: every downstream output of the earlier version becomes an explicit task, computed before anything changes.

@@ -9,11 +9,11 @@ For each of the 176 requirements: its assessment status, the test files its evid
 ## Read this first
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
-- **72 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 46 of 218 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **71 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
+- **The map is incomplete in both directions.** 61 of 237 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
-- **20 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
+- **22 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
 
 ## Summary
 
@@ -33,29 +33,29 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 135 | 88 | 111 | 23 |
-| integration | 113 | 69 | 83 | 14 |
+| unit | 135 | 90 | 127 | 37 |
+| integration | 113 | 70 | 84 | 14 |
 | resilience | 2 | 1 | 1 | 0 |
 | smoke | 2 | 2 | 2 | 0 |
-| ui | 5 | 6 | 14 | 8 |
+| ui | 7 | 7 | 16 | 9 |
 | nfr | 10 | 6 | 7 | 1 |
 
 ### Layer combinations
 
 | Layers cited | Requirements |
 | --- | ---: |
-| unit + integration | 97 |
+| unit + integration | 95 |
 | unit | 32 |
 | none | 22 |
 | integration | 9 |
 | nfr | 4 |
+| unit + integration + ui | 3 |
 | resilience | 2 |
 | unit + integration + nfr | 2 |
 | integration + nfr | 1 |
 | integration + smoke + nfr | 1 |
 | integration + smoke + ui | 1 |
 | ui | 1 |
-| unit + integration + ui | 1 |
 | unit + integration + ui + nfr | 1 |
 | unit + nfr | 1 |
 | unit + ui | 1 |
@@ -131,7 +131,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (46 of 218)
+## Test files cited by no requirement (61 of 237)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -139,15 +139,22 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | --- | --- |
 | tests/abdm-contract.mjs | unit |
 | tests/abdm-transfer-smoke.mjs | integration |
+| tests/agent-minimisation-contract.mjs | unit |
 | tests/anaemia-connected-worker.mjs | unit |
 | tests/anaemia-hosted-connection.mjs | unit |
 | tests/anaemia-worker-transport.mjs | unit |
+| tests/audit-checkpoint-contract.mjs | unit |
 | tests/continuity-contract.mjs | unit |
+| tests/crosswalk-correction-contract.mjs | unit |
 | tests/delta-smoke.mjs | integration |
 | tests/demonstration-contract.mjs | unit |
 | tests/demonstration-smoke.mjs | integration |
+| tests/destination-enrolment-contract.mjs | unit |
 | tests/exceptional-contract.mjs | unit |
 | tests/exceptional-smoke.mjs | integration |
+| tests/facility-scope-contract.mjs | unit |
+| tests/fact-reuse-contract.mjs | unit |
+| tests/fhir-provenance-contract.mjs | unit |
 | tests/field-smoke.mjs | integration |
 | tests/identity-contract.mjs | unit |
 | tests/indicators-contract.mjs | unit |
@@ -158,10 +165,15 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/merge-contract.mjs | unit |
 | tests/merge-smoke.mjs | integration |
 | tests/mis-smoke.mjs | integration |
+| tests/notification-sources-contract.mjs | unit |
 | tests/operations-contract.mjs | unit |
 | tests/outreach-contract.mjs | unit |
 | tests/partition-smoke.mjs | integration |
 | tests/pilot-contract.mjs | unit |
+| tests/purpose-scope-contract.mjs | unit |
+| tests/r26-correction-propagation-contract.mjs | unit |
+| tests/reason-codes-contract.mjs | unit |
+| tests/reassignment-contract.mjs | unit |
 | tests/referral-contract.mjs | unit |
 | tests/referral-smoke.mjs | integration |
 | tests/retention-contract.mjs | unit |
@@ -172,9 +184,11 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/rights-smoke.mjs | integration |
 | tests/run-anaemia-http.mjs | unit |
 | tests/scoped-read-contract.mjs | unit |
+| tests/service-identity-contract.mjs | unit |
 | tests/storage-contract.mjs | unit |
 | tests/tenth-review-fixes-contract.mjs | unit |
 | tests/test-runner-contract.mjs | unit |
+| tests/ui/confirm-correct-hindi.spec.mjs | ui |
 | tests/ui/errors.spec.mjs | ui |
 | tests/ui/governance.spec.mjs | ui |
 | tests/ui/harness.spec.mjs | ui |
@@ -183,6 +197,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/ui/support/flows.mjs | ui |
 | tests/ui/support/global-setup.mjs | ui |
 | tests/ui/support/reporter.mjs | ui |
+| tests/value-ranges-context-contract.mjs | unit |
 
 ## Layer rules
 
@@ -213,7 +228,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | BR-UX-01 | partial | own | 0 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-UX-02 | implemented-local | area | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
-| BR-UX-03 | partial | own | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-UX-03 | partial | own | 2 | 2 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-04 | partial | area | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-05 | partial | own | 1 | 2 | 0 | 0 | 2 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-06 | implemented-local | area | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
@@ -232,7 +247,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-ID-10 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-DATA-01 | implemented-local | area | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-DATA-02 | partial | own | 7 | 6 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
-| BR-DATA-03 | partial | area | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-DATA-03 | partial | own | 2 | 3 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-DATA-04 | partial | area | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-DATA-05 | partial | own | 5 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-DATA-06 | partial | own | 2 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
@@ -268,11 +283,11 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-AI-04 | partial | own | 4 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-AI-05 | partial | area | 3 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-AI-06 | partial | own | 4 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
-| BR-AI-07 | partial | own | 4 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-AI-07 | partial | own | 5 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-AI-08 | partial | area | 3 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-AI-09 | partial | area | 3 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-AI-10 | partial | own | 4 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
-| BR-AI-11 | partial | own | 4 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-AI-11 | partial | own | 5 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-AI-12 | partial | own | 5 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-CLIN-01 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-CLIN-02 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
