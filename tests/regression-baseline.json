@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4599
+      "minPassed": 4620
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -132,6 +132,16 @@
       "layer": "unit",
       "file": "tests/alerts-contract.mjs",
       "minPassed": 25
+    },
+    "unit/anaemia-provider-contract": {
+      "layer": "unit",
+      "file": "tests/anaemia-provider-contract.mjs",
+      "minPassed": 58
+    },
+    "unit/anaemia-worker-transport": {
+      "layer": "unit",
+      "file": "tests/anaemia-worker-transport.mjs",
+      "minPassed": 7
     },
     "unit/audit-chain-contract": {
       "layer": "unit",
@@ -566,7 +576,7 @@
     "unit/test-runner-contract": {
       "layer": "unit",
       "file": "tests/test-runner-contract.mjs",
-      "minPassed": 26
+      "minPassed": 27
     },
     "unit/trace-contract": {
       "layer": "unit",

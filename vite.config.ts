@@ -16,7 +16,9 @@ const managedLinux = readExecutionProfile() === "managed-linux";
 const localBindingConfig = {
   // Slice 10a: the Worker entry delegates to vinext's fetch handler and adds the scheduled (Cron Trigger) handler.
   main: "./worker/index.ts",
-  compatibility_flags: ["nodejs_compat"],
+  // The independent provider shares the demo hosting zone. Resolve approved
+  // service URLs through their public front door, including private dispatch auth.
+  compatibility_flags: ["nodejs_compat", "global_fetch_strictly_public"],
   d1_databases: d1
     ? [
         {

@@ -19,7 +19,7 @@ const tmp = () => { const d = mkdtempSync(join(tmpdir(), 'saha-runner-')); made.
 const put = (root, file, text = '') => { mkdirSync(dirname(join(root, file)), { recursive: true }); writeFileSync(join(root, file), text); };
 /** The named files the catalogue insists on, so a fixture only has to add what a case is about. */
 const baseline = root => {
-  for (const f of ['tests/run-api-smoke.mjs', 'tests/recovery-drill.mjs', 'tests/a11y-audit.mjs', 'tests/load-envelope.mjs', 'tests/adapter-overhead-bench.mjs']) put(root, f, '// stub\n');
+  for (const f of ['tests/run-api-smoke.mjs', 'tests/recovery-drill.mjs', 'tests/a11y-audit.mjs', 'tests/load-envelope.mjs', 'tests/adapter-overhead-bench.mjs', 'tests/run-anaemia-http.mjs', 'tests/anaemia-ui.cjs', 'tests/anaemia-connected-worker.mjs', 'tests/anaemia-hosted-connection.mjs']) put(root, f, '// stub\n');
   put(root, 'tests/api-smoke.mjs', "await import('./one-smoke.mjs');\n"); put(root, 'tests/one-smoke.mjs', '// component\n');
 };
 const errorsOf = root => buildCatalogue(root).errors;
@@ -207,6 +207,11 @@ try {
     assert.equal(x.code, 1); const s = find(x.summary, 'unit/delta-contract');
     assert.deepEqual([s.status, s.exitCode, s.passed], ['failed', 3, null]); assert.match(x.out, /boom/);
     assert.equal(x.summary.totals.failedSuites, 1);
+  });
+  await r.check('runner: a manual suite that reads credentials on stdin is blocked with a reason, never started (pull request #126)', () => {
+    const d = fixture(); put(d, 'tests/anaemia-hosted-connection.mjs', "import {writeFileSync} from 'node:fs';writeFileSync('started.txt','yes');\n");
+    const x = run(d, 'manual', '--only', 'manual/anaemia-hosted-connection'); const s = find(x.summary, 'manual/anaemia-hosted-connection');
+    assert.equal(s.status, 'blocked'); assert.match(s.reason, /run it directly/); assert.equal(existsSync(join(d, 'started.txt')), false);
   });
   await r.check('runner: a report written by an earlier suite is never counted for a later one, however close in time (slice 11h, the GitHub flake)', () => {
     // On GitHub's runners a suite sometimes started within 5 ms of the previous suite's report write, and the old time-window

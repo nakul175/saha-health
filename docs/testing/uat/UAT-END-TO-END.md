@@ -75,7 +75,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-UX-01:** One authenticated patient workspace with programme and agent panels.
+- **BR-UX-01:** One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen.
 - **BR-DATA-01:** Pinned programme questions deduplicate shared concepts and preserve distinct answers.
 - **BR-PROG-05:** Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview. Slice 10f adds a household visit plan (each in-scope member's open follow-ups, referrals and routine visit in one place; members outside the worker's scope are counted, never named) and household visit slots (householdVisitSchedule, householdVisitCancel) that cover chosen items of several members without changing any due date, owner or completion condition: an item stays open until its own record is resolved, items due before the slot date are shown as late, one item sits in one planned slot, and a slot holds only references, a date and a window (no free text). A confirmed visit's programme episodes can raise referral needs (createProgrammeReferrals): the same need, facility, person and visit become one referral that links every asking pack as a source and records which packs asked; a different need or facility stays a separate referral.
 - **BR-INT-05:** Independent destination states preserve accepted receipts during partial failure.
@@ -123,8 +123,8 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-AI-02:** Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable.
-- **BR-AI-06:** Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently. Slice 5c: an explicit unable-to-assess outcome (noisy input, unsupported case, insufficient input) with a retry instruction and no values, shown as such and never applied.
+- **BR-AI-02:** Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable. Independent anaemia demo: explicitly synthetic environment and patient, normal care-role/team scope and per-image synthetic approval.
+- **BR-AI-06:** Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently. Slice 5c: an explicit unable-to-assess outcome (noisy input, unsupported case, insufficient input) with a retry instruction and no values, shown as such and never applied. Independent anaemia demo: technical-quality unable_to_assess has no score; unknown outcomes remain unresolved without inference retry.
 - **BR-CLIN-03:** Model-independent urgent-review findings cite current sources and service contacts; unknowns remain explicit.
 
 </details>
@@ -268,7 +268,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-AI-01:** Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required.
+- **BR-AI-01:** Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required. Independent anaemia demo: separate provider organisation, customer agreement revision and independent administration; demo agreement only.
 - **BR-AI-04:** Draft/reviewed/active/suspended/retired revisions, replacement history and scoped affected-encounter views. Slice 5d: BRD lifecycle stages derived per package (registered, technically verified, approved for scope, active, suspended, retired, replaced), replacement recorded on activation, use counted per exact version, and in-progress work of an unusable capability identified with its required action (cancel, withheld, review, check applied values) on the governance page and in the audit line. Slice 5f: shadow operation of a reviewed revision for named teams or the whole organisation over at most 30 days; runs on confirmed visits (local rules provider only) without showing, applying or planning its output; consent, restriction, budget and lifecycle respected. Slice 6q (second independent review): a shadow's teams are limited to the revision's reviewed teams (organisation scope is the overlap); running and stopping need an owner or a member of every shadow team, also on replay; visits outside the runner's normal care scope are skipped and counted.
 - **BR-AI-10:** Versioned fixture scores by field/language/group, scoped related records, safety cases and immediate capability hold. Slice 5f: shadow outputs compared per field with clinician-confirmed values (agreement, disagreement, missing, not recorded, unable to assess), counts only to governance managers. Slice 5i: drift monitoring per capability revision from shadow comparisons: agreement rate per 7-day period by visit confirmation date over the last four periods, and a flag when the rate drops by more than 10 percentage points between consecutive periods with at least 10 rated fields each, counts only, to governance managers on the Clinical governance page; nothing is suspended automatically. Slice 6q: shadow comparisons (the drift input) no longer include teams outside the revision's reviewed teams or patients outside the runner's care scope.
 
@@ -409,7 +409,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
-- **BR-AI-09:** Original outputs, model/provider, versioned source and reasoned human decisions are retained.
+- **BR-AI-09:** Original outputs, model/provider, versioned source and reasoned human decisions are retained. Independent anaemia demo: saved signed result, consent/visit/agreement versions and reasoned staff acknowledgement or rejection; no automatic clinical record update.
 - **BR-CLIN-05:** Reasoned accept/reject/override decisions retain original assistant and protocol evidence; clinician-only protocol decisions.
 - **BR-INT-21:** Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.
 

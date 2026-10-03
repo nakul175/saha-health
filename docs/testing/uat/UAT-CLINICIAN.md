@@ -420,7 +420,7 @@ Exact field evidence plus saved protocol findings with source edition/link and s
 
 <details><summary>What the build does today (assessment, current state of BR-AI-02)</summary>
 
-Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable.
+Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable. Independent anaemia demo: explicitly synthetic environment and patient, normal care-role/team scope and per-image synthetic approval.
 
 </details>
 
@@ -454,7 +454,7 @@ Documentary capabilities enforce age, role/team, language, setting, device and t
 
 <details><summary>What the build does today (assessment, current state of BR-AI-05)</summary>
 
-Strict documentary output contracts, exact evidence/field checks and checkpointed failed results.
+Strict documentary output contracts, exact evidence/field checks and checkpointed failed results. Independent anaemia demo: strict versioned image/result contract, HMAC and input binding, one-call durable checkpoint and receipt-only recovery.
 
 </details>
 
@@ -488,7 +488,7 @@ Strict documentary output contracts, exact evidence/field checks and checkpointe
 
 <details><summary>What the build does today (assessment, current state of BR-AI-06)</summary>
 
-Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently. Slice 5c: an explicit unable-to-assess outcome (noisy input, unsupported case, insufficient input) with a retry instruction and no values, shown as such and never applied.
+Invalid/unavailable results stay separate; extraction uncertainty is withheld and language gates fail independently. Slice 5c: an explicit unable-to-assess outcome (noisy input, unsupported case, insufficient input) with a retry instruction and no values, shown as such and never applied. Independent anaemia demo: technical-quality unable_to_assess has no score; unknown outcomes remain unresolved without inference retry.
 
 </details>
 
@@ -522,7 +522,7 @@ Invalid/unavailable results stay separate; extraction uncertainty is withheld an
 
 <details><summary>What the build does today (assessment, current state of BR-AI-09)</summary>
 
-Original outputs, model/provider, versioned source and reasoned human decisions are retained.
+Original outputs, model/provider, versioned source and reasoned human decisions are retained. Independent anaemia demo: saved signed result, consent/visit/agreement versions and reasoned staff acknowledgement or rejection; no automatic clinical record update.
 
 </details>
 

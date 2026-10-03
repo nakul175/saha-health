@@ -22,7 +22,7 @@
 | UAT | People, not code: role scripts built from the 364-case acceptance catalogue, run on the hosted site, recorded in a register a validator checks | `docs/testing/uat/` (plan, six scripts, `uat-results.csv`), `tests/uat/generate-uat-pack.mjs`, `tests/uat/check-uat-register.mjs` | 158 cases, 0 executed | Register validated on every pull request |
 | Regression | Every layer above together, plus a guard: a suite that disappears or reports fewer passed assertions than its baseline fails the run unless it is quarantined with a reason | `scripts/test.mjs regression`, `tests/regression-baseline.json`, `tests/quarantine.json` | 120 suites guarded, about 12 min locally | Weekly (Mondays 02:30 UTC) and on demand; the guard also runs on every suite pull-request CI starts |
 
-Manual suites, run on purpose: `tests/a11y-audit.mjs` (66 screens), `tests/load-envelope.mjs`, `tests/adapter-overhead-bench.mjs`.
+Manual suites, run on purpose: `tests/a11y-audit.mjs` (66 screens), `tests/load-envelope.mjs`, `tests/adapter-overhead-bench.mjs`, and from the anaemia-provider demonstration (pull request #126) `tests/run-anaemia-http.mjs`. Three more are never started by the runner, which reports them blocked with the reason: `tests/anaemia-ui.cjs` (needs jsdom and @napi-rs/canvas, which are not project dependencies) and `tests/anaemia-connected-worker.mjs` and `tests/anaemia-hosted-connection.mjs` (they read the private demonstration's service credentials on hidden stdin and write tracked evidence; only the credential holder runs them, directly). The two anaemia unit suites, `tests/anaemia-provider-contract.mjs` and `tests/anaemia-worker-transport.mjs` (the real adapter in workerd against a local peer), run with the unit layer.
 
 ## Running tests
 

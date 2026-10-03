@@ -21,7 +21,9 @@ export const GUARDED_LAYERS = ['unit', 'integration', 'resilience', 'smoke', 'ui
 
 const SOURCE_EXT = /\.(mjs|cjs|js|mts|cts|ts|tsx)$/;
 const SKIPPED_DIRS = new Set(['evidence', 'reports', 'node_modules', 'playwright-report', 'test-results', '.git']);
-const UNIT_NAMED = new Set(['tests/field-shell.mjs', 'tests/ehr-execution.mjs', 'tests/mis-delivery.mjs']);
+// The anaemia-provider demonstration (pull request #126) added an adapter suite that runs the real consumer code in workerd (Miniflare)
+// against a deterministic local peer; it needs no build or network, so it is a unit suite.
+const UNIT_NAMED = new Set(['tests/field-shell.mjs', 'tests/ehr-execution.mjs', 'tests/mis-delivery.mjs', 'tests/anaemia-worker-transport.mjs']);
 /** Slice 11f: arguments a suite needs when the runner starts it. Generators run in their drift-check mode so a test run never rewrites
  * tracked documents; the hosted smoke runs its local self-test (the real hosted check runs after each deploy in deploy-staging.yml). */
 export const SUITE_ARGS = {
@@ -38,6 +40,11 @@ const MANUAL = {
   'tests/a11y-audit.mjs': { needsEnv: ['SAHA_A11Y_MODULES', 'SAHA_A11Y_CHROMIUM', 'SAHA_A11Y_ORIGIN'], note: 'axe over 66 screens; needs Playwright and axe-core installed outside the project and a running synthetic Worker (docs/current/DEVELOPMENT-AND-CI.md)' },
   'tests/load-envelope.mjs': { needsEnv: [], note: 'local load probe toward the BRD planning envelope; builds its own large synthetic database and takes many minutes; needs dist/' },
   'tests/adapter-overhead-bench.mjs': { needsEnv: [], note: 'local benchmark of per-adapter overhead; in-process, no Worker' },
+  // Pull request #126 (independent anaemia-provider demonstration). Run on purpose by someone who has what each needs.
+  'tests/run-anaemia-http.mjs': { needsEnv: [], note: 'reruns only the anaemia HTTP module against the existing .wrangler/test-state; the same checks run inside tests/run-api-smoke.mjs; needs dist/' },
+  'tests/anaemia-ui.cjs': { needsEnv: [], directOnly: true, note: 'jsdom and canvas component checks of the anaemia panel; jsdom and @napi-rs/canvas are not project dependencies, so run it directly: node tests/anaemia-ui.cjs <path to jsdom> <path to @napi-rs/canvas>' },
+  'tests/anaemia-connected-worker.mjs': { needsEnv: [], directOnly: true, note: 'built local Worker against the separately hosted private anaemia provider; reads service credentials on hidden stdin and writes tracked evidence, so only the credential holder runs it directly, never CI' },
+  'tests/anaemia-hosted-connection.mjs': { needsEnv: [], directOnly: true, note: 'diagnostic of the two separately hosted private demonstrations; reads service credentials on hidden stdin and writes tracked evidence, so only the credential holder runs it directly, never CI' },
 };
 
 /** Files under tests/ that look like code, as sorted repository-relative POSIX paths. */

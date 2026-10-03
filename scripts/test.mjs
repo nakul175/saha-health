@@ -228,6 +228,8 @@ function findPlaywright() {
 }
 
 async function blockedReason(suite) {
+  // Manual suites that need credentials on stdin or packages outside the project are never started by the runner (pull request #126).
+  if (suite.layer === 'manual' && suite.directOnly) return `run it directly, not through the runner: ${suite.note}`;
   if (suite.needs?.includes('build') && !(await ensureBuild()).ok) return 'the build failed';
   if (suite.layer === 'manual') { const miss = (suite.needsEnv ?? []).filter(k => !env[k]); if (miss.length) return `set ${miss.join(', ')} (${suite.note})`; }
   if (suite.runner === 'playwright' && !findPlaywright()) return 'Playwright is not installed (install it in tests/ui or set SAHA_PLAYWRIGHT_MODULES to a directory with node_modules, then playwright install chromium)';

@@ -474,7 +474,7 @@ Pinned agent/model and immutable capability revisions; independent review, retir
 
 <details><summary>What the build does today (assessment, current state of BR-AI-01)</summary>
 
-Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required.
+Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required. Independent anaemia demo: separate provider organisation, customer agreement revision and independent administration; demo agreement only.
 
 </details>
 
@@ -508,7 +508,7 @@ Versioned capability manifest records owner, model/task/context scope, support a
 
 <details><summary>What the build does today (assessment, current state of BR-AI-03)</summary>
 
-Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use.
+Version-bound synthetic evaluation, separate clinical review and owner activation are persisted and checked at use. Independent anaemia demo remains outside clinical activation and carries clinicalUse:false; real model use is engineering-only.
 
 </details>
 
@@ -576,7 +576,7 @@ Draft/reviewed/active/suspended/retired revisions, replacement history and scope
 
 <details><summary>What the build does today (assessment, current state of BR-AI-07)</summary>
 
-Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled. Slice 5g: provider and model history per capability key (pinned provider, model and agent version per revision, changes from the previous revision, activity period, stage and request counts) for governance managers.
+Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled. Slice 5g: provider and model history per capability key (pinned provider, model and agent version per revision, changes from the previous revision, activity period, stage and request counts) for governance managers. Independent anaemia demo: pinned provider, ONNX model/hash and contract retained per request.
 
 </details>
 
@@ -610,7 +610,7 @@ Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disab
 
 <details><summary>What the build does today (assessment, current state of BR-AI-08)</summary>
 
-Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference.
+Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference. Independent anaemia demo: cropped RGB only, no identity/notes/EXIF, no stored image pixels in either request ledger.
 
 </details>
 
