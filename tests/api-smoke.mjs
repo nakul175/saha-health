@@ -116,6 +116,7 @@ const {caseloadScheduleSmoke}=await import('./caseload-schedule-smoke.mjs');awai
 const {mergeSmoke}=await import('./merge-smoke.mjs');await mergeSmoke({get,post,check,accounts,org,sql,base});
 const {exceptionalSmoke}=await import('./exceptional-smoke.mjs');await exceptionalSmoke({get,post,check,accounts,org,sql,base});
 const {rightsSmoke}=await import('./rights-smoke.mjs');await rightsSmoke({get,post,check,accounts,org,sql,base});
+await globalThis.sahaRecycleWorker?.(); // slice 10k: fresh Worker isolate, same D1 state (see run-api-smoke.mjs)
 const {retentionSmoke}=await import('./retention-smoke.mjs');await retentionSmoke({get,post,check,accounts,org,sql,base});
 const {fourthReviewSmoke}=await import('./fourth-review-smoke.mjs');await fourthReviewSmoke({check,org,base});
 const {indicatorsSmoke}=await import('./indicators-smoke.mjs');await indicatorsSmoke({get,post,check,accounts,org,base});
@@ -141,6 +142,7 @@ const {accessAuditSmoke}=await import('./access-audit-smoke.mjs');await accessAu
 // Slice 10h: workspace loads, record opens, patient searches and lists, and aggregate views are audited the same way.
 const {readAuditCompletionSmoke}=await import('./read-audit-completion-smoke.mjs');await readAuditCompletionSmoke({get,post,check,accounts,org,sql,base});
 const {aiBudgetSmoke}=await import('./ai-budget-smoke.mjs');await aiBudgetSmoke({get,post,check,accounts,org});
+await globalThis.sahaRecycleWorker?.(); // slice 10k: fresh Worker isolate, same D1 state (see run-api-smoke.mjs)
 const {aiInvoiceSmoke}=await import('./ai-invoice-smoke.mjs');await aiInvoiceSmoke({get,post,check,accounts,org});
 const {safeLogsSmoke}=await import('./safe-logs-smoke.mjs');await safeLogsSmoke({get,post,check,accounts,org,sql,base});
 const {providerSandboxSmoke}=await import('./provider-sandbox-smoke.mjs');await providerSandboxSmoke({get,post,check,accounts,org});
@@ -158,6 +160,7 @@ const {delegationSmoke}=await import('./delegation-smoke.mjs');await delegationS
 const {workerActivitySmoke}=await import('./worker-activity-smoke.mjs');await workerActivitySmoke({get,post,check,accounts,org,base});
 // Slice 10c: synthetic worker incentive claims (schedule, claim, verification, approval into a digest chain, correction, CSV).
 const {incentiveClaimsSmoke}=await import('./incentive-claims-smoke.mjs');await incentiveClaimsSmoke({get,post,check,accounts,org,sql,base});
+await globalThis.sahaRecycleWorker?.(); // slice 10k: fresh Worker isolate, same D1 state (see run-api-smoke.mjs)
 const {correctionTasksSmoke}=await import('./correction-tasks-smoke.mjs');await correctionTasksSmoke({get,post,check,accounts,org,sql,base});
 const {referralRequestQueueSmoke}=await import('./referral-request-queue-smoke.mjs');await referralRequestQueueSmoke({get,post,check,accounts,org,sql,base});
 const {patientDirectorySmoke}=await import('./patient-directory-smoke.mjs');await patientDirectorySmoke({get,post,check,sql,base});

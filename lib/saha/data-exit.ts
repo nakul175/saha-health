@@ -49,7 +49,7 @@ export const TABLES: TableSpec[] = [
   { table: 'request_metrics', order: 'bucket,route,status', scope: 'org' },
   { table: 'alert_occurrences', order: 'opened_at,id', scope: 'org', note: 'Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only.' },
   { table: 'alert_notifications', order: 'delivered_at,id', scope: 'self', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter\'s own notifications; other members\' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows).' },
-  { table: 'notification_messages', order: 'sent_at,id', scope: 'org', note: 'Slice 10b: simulated out-of-app messages (demonstration simulator) with their receipts; alert ids, titles, counts and member ids only, no patient names, identifiers or contact details. The channel settings are in the operations row.' },
+  { table: 'notification_messages', order: 'sent_at,id', scope: 'self', note: 'Slice 10b: simulated out-of-app messages (demonstration simulator) with their receipts; alert ids, titles, counts and member ids only, no patient names, identifiers or contact detail. Slice 10k: only the exporter\'s own messages, as for in-app notifications (6z): other members\' messages carry counts from their own care scopes. The channel settings are in the operations row.' },
   { table: 'patients', order: 'id', scope: 'person' },
   { table: 'visits', order: 'id', scope: 'person' },
   { table: 'plans', order: 'id', scope: 'visit' },

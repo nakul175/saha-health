@@ -135,4 +135,7 @@ export async function incentiveClaimsSmoke({ get, post, check, accounts, org, sq
   await as(o, { ...schedule, expectedVersion: 1, label: 'Second placeholder schedule', lines: [{ kind: 'visit-confirmed', amount: 12 }], reason: 'A second set of placeholder amounts' });
   v = await view(o); check(() => { assert.equal(v.schedule.current.version, 2); assert.equal(v.schedule.history.length, 2); assert.equal(v.claims.find(r => r.id === third.claimId).scheduleVersion, 1); assert.equal(v.claims.find(r => r.id === third.claimId).lines.length, claim3.lines.length) });
   assert.equal((await view(s)).schedule.history, undefined, 'the schedule history is the owner\'s');
+  // Slice 10k (combined review, finding H1): the Operations view returns an allow-list of the operations document, so an
+  // administrator (no patient scope) and an owner never receive the claims, their patient ids or evidence visit ids there.
+  for (const who of [o, a]) { const ops = await get(who, '/api/operations?format=json', 200, org); check(() => { assert.equal(ops.operations.incentives, undefined, 'claims are read through their own scoped route'); assert.equal(JSON.stringify(ops.operations).includes(pid), false, 'no patient id in the operations document'); assert.deepEqual(Object.keys(ops.operations).filter(k => !['version', 'maintenance', 'reason', 'updatedAt', 'incidents', 'rates', 'budgets', 'staffIds'].includes(k)), []); }); }
 }
