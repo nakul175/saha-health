@@ -17,6 +17,7 @@ import { signOffSchema } from './visit-signoff';
 import { patientImportSchema } from './patient-import';
 import { recordImportSchema } from './record-import';
 import { crosswalkSchema } from './crosswalk';
+import { crosswalkCorrectionSchema } from './crosswalk-correction';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
 import { reassignmentSchema } from './reassignment';
@@ -81,6 +82,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...patientImportSchema.options,
  ...recordImportSchema.options,
  ...crosswalkSchema.options,
+ ...crosswalkCorrectionSchema.options,
  ...referralSchema.options,
  ...programmeReferralSchema.options,
  ...actionPlanSchema.options,

@@ -30,7 +30,7 @@ class D1 {
 }
 
 try {
-  for (const f of ['demonstration', 'governance', 'capability-lifecycle', 'ai-budget', 'agent', 'agent-minimisation', 'task-limits', 'evaluation', 'environment', 'identity', 'store', 'partition', 'access', 'adapter-operations', 'core', 'fact-provenance', 'delegation', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'ehr', 'fhir-document', 'fhir-validate', 'roster'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'demonstration', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'roster', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const D = await import(pathToFileURL(join(dir, 'demonstration.js')));
   const G = await import(pathToFileURL(join(dir, 'governance.js')));
