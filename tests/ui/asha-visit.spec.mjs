@@ -1,8 +1,8 @@
 // Journey (b): an ASHA records a visit with a danger sign, from the first field to the receipts.
 // Assistant on a note with BP 152/114, reviewed fields applied, draft saved, urgent finding naming the CHC/FRU referral,
 // confirm, prepare / approve / run the programme plan, and resolve the uncertain receipt by lookup without a resend.
-import { test, expect, RECEIPT_ROW_STYLE } from './fixtures.mjs';
-import { team, load, openPatient, field, MEENA, DANGER_NOTE } from './flows.mjs';
+import { test, expect, RECEIPT_ROW_STYLE } from './support/fixtures.mjs';
+import { team, load, openPatient, field, MEENA, DANGER_NOTE } from './support/flows.mjs';
 
 test('ASHA visit with a danger sign: assistant, urgent finding, confirmation, programme plan and receipts', async ({ lab }) => {
   const t = await team(lab);

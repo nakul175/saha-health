@@ -9,7 +9,7 @@
 import { test as base, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { fileURLToPath } from 'node:url';
-import { identity, client } from '../lib/worker.mjs';
+import { identity, client } from '../../lib/worker.mjs';
 
 // Messages that are known and harmless in every journey. Each needs a reason. Nothing is listed yet: no journey produced one.
 // A journey that deliberately provokes a refusal allows its own message with lab.allow() and says why.

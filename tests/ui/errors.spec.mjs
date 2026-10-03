@@ -1,8 +1,8 @@
 // Journey (g): refusals read as refusals. A stranger who opens another organisation, a worker who types an invitation code that does not
 // exist, and an address that is not a page each get a clear message and no crash. The browser console reports the refused request
 // ("Failed to load resource"); each test allows exactly that message and says why.
-import { test, expect } from './fixtures.mjs';
-import { team, load, menu, MEENA } from './flows.mjs';
+import { test, expect } from './support/fixtures.mjs';
+import { team, load, menu, MEENA } from './support/flows.mjs';
 
 test('a stranger who opens another organisation is refused, with no patient data and no crash', async ({ lab }) => {
   const t = await team(lab);

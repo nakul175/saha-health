@@ -1,7 +1,7 @@
 // Journey (c): what each role sees. A supervisor gets Operations and its alerts but not the administration menus; an ASHA's menu is
 // care work only (slice 9b rules). The menu is display only; the server checks every read, so one server answer is cross-checked.
-import { test, expect } from './fixtures.mjs';
-import { team, sentVisit, load, menu, menuEntries } from './flows.mjs';
+import { test, expect } from './support/fixtures.mjs';
+import { team, sentVisit, load, menu, menuEntries } from './support/flows.mjs';
 
 test('supervisor sees Operations and alerts and no administration menus; an ASHA menu is care work only', async ({ lab }) => {
   const t = await team(lab, { supervisor: true });

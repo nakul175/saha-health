@@ -25,10 +25,10 @@ export default defineConfig({
     timeout: 10_000,
     toHaveScreenshot: { maxDiffPixelRatio: 0.02, animations: 'disabled', caret: 'hide', scale: 'css' },
   },
-  globalSetup: './global-setup.mjs',
+  globalSetup: './support/global-setup.mjs',
   reporter: [
     ['list'],
-    ['./reporter.mjs'],                          // writes tests/reports/ui-result.json in the tests/lib/report.mjs shape
+    ['./support/reporter.mjs'],                          // writes tests/reports/ui-result.json in the tests/lib/report.mjs shape
   ],
   use: {
     baseURL,

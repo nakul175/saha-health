@@ -1,8 +1,8 @@
 // Journey (f): an ASHA switches the workspace to Hindi (slice 10j). My work reads in Hindi inside lang="hi", the page itself stays lang="en",
 // the choice is saved for her in the organisation, record values stay as recorded, and the danger sign stays bilingual.
 // The Hindi text is a draft translation not reviewed by a native speaker; this checks that it is shown and labelled, not that it is right.
-import { test, expect } from './fixtures.mjs';
-import { team, savedVisit, load, openPatient, MEENA } from './flows.mjs';
+import { test, expect } from './support/fixtures.mjs';
+import { team, savedVisit, load, openPatient, MEENA } from './support/flows.mjs';
 
 test('Hindi: My work shows Hindi text with lang="hi", the choice is saved, and English comes back', async ({ lab }) => {
   const t = await team(lab);

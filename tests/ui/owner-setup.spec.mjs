@@ -1,7 +1,7 @@
 // Journey (a): an owner sets up the team on screen. Display name, invitation by account code, the ASHA joins in her own browser,
 // the owner assigns one person, and the ASHA then sees that person and nobody else.
-import { test, expect } from './fixtures.mjs';
-import { menu, menuEntries, MEENA } from './flows.mjs';
+import { test, expect } from './support/fixtures.mjs';
+import { menu, menuEntries, MEENA } from './support/flows.mjs';
 
 test('owner sets a name, invites an ASHA by account code and assigns one person; the ASHA sees only that person', async ({ lab }) => {
   const owner = lab.who('owner'), asha = lab.who('asha');             // email-only sign-ins: no full name in the header

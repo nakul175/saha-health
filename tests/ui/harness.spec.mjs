@@ -1,7 +1,7 @@
 // Harness self-checks. Each test here is marked test.fail(): it passes only when the check under it really fails, so a green run
 // proves the accessibility scan, the browser-problem collector, the allow-list and the screenshot masks can all do their job.
 // They need no Worker data: the pages are written in place.
-import { test, expect } from './fixtures.mjs';
+import { test, expect } from './support/fixtures.mjs';
 
 test.describe('the checks can fail', () => {
   test('the axe scan fails on inaccessible markup', async ({ lab }) => {

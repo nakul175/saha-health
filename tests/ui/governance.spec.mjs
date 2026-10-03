@@ -1,6 +1,6 @@
 // Journey (d): the owner opens Clinical governance and finds the demonstration protocols and the sources they cite.
-import { test, expect } from './fixtures.mjs';
-import { load, menu } from './flows.mjs';
+import { test, expect } from './support/fixtures.mjs';
+import { load, menu } from './support/flows.mjs';
 
 test('owner sees the demonstration protocols and the source library', async ({ lab }) => {
   const owner = lab.who('owner', 'Dr Priya Rao');

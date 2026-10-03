@@ -1,7 +1,7 @@
 // Journey (e): the ASHA's visit list and visit form at 390x844 (the "phone" project). The page must not scroll sideways:
 // document scrollWidth <= innerWidth on every screen of the visit, and every control the worker types into or taps must sit inside the width.
-import { test, expect } from './fixtures.mjs';
-import { team, sentVisit, load, openPatient, field } from './flows.mjs';
+import { test, expect } from './support/fixtures.mjs';
+import { team, sentVisit, load, openPatient, field } from './support/flows.mjs';
 
 async function fitsWidth(page, screen) {
   const m = await page.evaluate(() => ({ doc: document.documentElement.scrollWidth, body: document.body.scrollWidth, inner: window.innerWidth }));
