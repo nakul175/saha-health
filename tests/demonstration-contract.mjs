@@ -30,7 +30,7 @@ class D1 {
 }
 
 try {
-  for (const f of ['demonstration', 'governance', 'capability-lifecycle', 'ai-budget', 'agent', 'task-limits', 'evaluation', 'environment', 'identity', 'store', 'partition', 'access', 'adapter-operations', 'core', 'fact-provenance', 'delegation', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'ehr', 'fhir-document', 'fhir-validate', 'roster'])
+  for (const f of ['demonstration', 'governance', 'capability-lifecycle', 'ai-budget', 'agent', 'agent-minimisation', 'task-limits', 'evaluation', 'environment', 'identity', 'store', 'partition', 'access', 'adapter-operations', 'core', 'fact-provenance', 'delegation', 'mis', 'programmes', 'seed', 'types', 'audit-chain', 'ehr', 'fhir-document', 'fhir-validate', 'roster'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const D = await import(pathToFileURL(join(dir, 'demonstration.js')));
   const G = await import(pathToFileURL(join(dir, 'governance.js')));

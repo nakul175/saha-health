@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';import ts from 'typescript';import {read
 const dir=mkdtempSync(join(process.cwd(),'.shadow-contract-'));let passed=0;const check=fn=>{fn();passed++};
 const status=(fn,code,pattern)=>{try{fn();}catch(e){assert.equal(e.status,code,e.message);if(pattern)assert.match(e.message,pattern);passed++;return e;}assert.fail(`expected ${code}`);};
 try{
- for(const file of ['types','programmes','mis','adapter-operations','core','fact-provenance','delegation','agent','task-limits','governance','capability-lifecycle','access','evaluation','ai-budget','referral-rules','shadow'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ for(const file of ['types','programmes','mis','adapter-operations','core','fact-provenance','delegation','agent','agent-minimisation','task-limits','governance','capability-lifecycle','access','evaluation','ai-budget','referral-rules','shadow'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const S=await import(pathToFileURL(join(dir,'shadow.js'))),{providers,AGENT_VERSION}=await import(pathToFileURL(join(dir,'agent.js')));
  const t0=Date.now(),at=ms=>new Date(t0+ms).toISOString(),now=at(0),today=now.slice(0,10),day=n=>new Date(t0+n*86400000).toISOString().slice(0,10);
  const base={status:'active',version:1,isOwner:false};
