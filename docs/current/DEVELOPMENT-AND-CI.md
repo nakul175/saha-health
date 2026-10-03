@@ -1,6 +1,6 @@
 # Development and CI
 
-Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f, and the later slices and review fixes 3g–6r (#36–#70), since 30 September 2026, and the overnight slices and review fixes 0b-4 to 6ae (#74–#99) and the demonstration slices 9a–9c (#101–#103) since 2 October 2026.
+Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f, and the later slices and review fixes 3g–6r (#36–#70), since 30 September 2026, and the overnight slices and review fixes 0b-4 to 6ae (#74–#99) and the demonstration slices 9a–9c (#101–#103) since 2 October 2026, and the round-10 slices 10a–10k (#105–#115) since 3 October 2026. Start with [HANDOVER.md](../../HANDOVER.md).
 
 ## Environment
 
@@ -20,7 +20,7 @@ External APIs default to disabled in [.env.example](../../.env.example). Do not 
 
 ## Local database and application checks
 
-Build before the HTTP suite. Apply the six migrations in order to **disposable local test state**, using the built Worker config and its DB binding. The current test harness expects `.wrangler/test-state`; reserve that directory for synthetic fixtures. Never point these commands at a hosted database or real records.
+Build before the HTTP suite. Apply every migration file in `drizzle/` in order (sixteen after slice 10b) to **disposable local test state**, using the built Worker config and its DB binding. The current test harness expects `.wrangler/test-state`; reserve that directory for synthetic fixtures. Never point these commands at a hosted database or real records.
 
 The initialization below refuses an existing test-state directory. For an existing test database, inspect its schema and apply only new migration files; do not rerun the entire sequence or delete it blindly. The built config does not set Wrangler's migration directory, so use the repository's actual Drizzle SQL files explicitly.
 
@@ -36,7 +36,7 @@ node tests/run-api-smoke.mjs
 node tests/recovery-drill.mjs
 ```
 
-The API runner copies the built Worker to a temporary directory and isolates its registry. Ports 8787 and 8788 must be available for API and restore checks respectively. Fixture constructors use synthetic accounts and local dispatcher-model headers. Recovery runs after successful API checks and needs the populated synthetic database. Review the resulting reports; do not claim these commands were run merely because this guide contains them.
+The API runner copies the built Worker to a temporary directory and isolates its registry. Since slice 10k it restarts the local Worker three times on the same D1 state during the suite, because the local development runtime's memory grows with every request. Ports 8787 and 8788 must be available for API and restore checks respectively. Fixture constructors use synthetic accounts and local dispatcher-model headers. Recovery runs after successful API checks and needs the populated synthetic database. Review the resulting reports; do not claim these commands were run merely because this guide contains them.
 
 The accessibility audit (`tests/a11y-audit.mjs`, slices 6e, 6f and 6x) runs outside CI because Playwright and axe-core are not project dependencies. Install them in a separate directory and start a built Worker with fresh local synthetic state on a free port. Then run `SAHA_A11Y_MODULES=<that directory> SAHA_A11Y_CHROMIUM=<chromium executable> SAHA_A11Y_ORIGIN=http://127.0.0.1:<port> node tests/a11y-audit.mjs`. It creates synthetic accounts and records on that Worker, so never point it at hosted staging. See [slice 6x](SLICE-6X-POPULATED-ACCESSIBILITY.md) for what it checks.
 

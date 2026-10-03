@@ -33,6 +33,9 @@ Since slice 10a the hosted configuration carries a Cloudflare Cron Trigger. `scr
 
 Live since 2 October 2026 at `https://saha-staging.nakul17.workers.dev`. The first deploy (workflow run 36967401955, started by hand after the `CLOUDFLARE_API_TOKEN` secret was added) passed every step, and the address answered only "Sign-in required" before Access was configured. The same day Cloudflare Access was turned on for all traffic to the Worker (team domain `aged-pond-c865.cloudflareaccess.com`), with one reusable allow policy listing named email addresses, a one-time code sent by email and a 24-hour session. Who may sign in is kept in the Cloudflare policy, not in Git. `deploy/cloudflare-staging.json` records the account ID, team domain and audience tag (identifiers, not secrets).
 
+
+On 3 October 2026 IST the merge of round 10 (slices 10a–10k, #105–#115) deployed successfully (workflow run 37086154679): migration `0015_notification_channel.sql` was applied and the five-minute Cron Trigger of slice 10a was registered with that deploy. No scheduled run has yet been confirmed in the Worker log, and the account's Workers plan was not checked (see the scheduled job section above).
+
 ## Fails closed until sign-in is set up
 
 `deploy/cloudflare-staging.json` holds the Access team domain and audience tag. Until both are filled in, the deployed Worker shows only "Sign-in required" and refuses every API call with 503 ("Sign-in is not configured for this deployment"). The deploy check accepts that state only while the two values are empty; once they are set it requires a Cloudflare Access redirect on both the page and the API.

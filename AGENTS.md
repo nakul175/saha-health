@@ -1,5 +1,7 @@
 # Saha development workflow
 
+Every coding agent (Claude, GPT/Codex, Cursor) and every person continuing this repository starts with [HANDOVER.md](HANDOVER.md): current state, how to verify a change, open defects and the next work. [CLAUDE.md](CLAUDE.md) holds the same project rules for Claude.
+
 The user has requested that all ongoing code changes be committed and pushed to GitHub.
 
 - GitHub source repository: https://github.com/nakul175/saha-health (private).
@@ -11,3 +13,11 @@ The user has requested that all ongoing code changes be committed and pushed to 
 - Retain Sites hosting configuration. GitHub source publication does not move or redeploy the running application.
 
 The initial GitHub source import is the complete Release 3 working tree. Earlier development history remains in the Sites-managed repository.
+
+## Project rules for every agent
+
+- Branch from GitHub `main`, open a pull request into `main`, and merge only when the sponsor says so. Every merge into `main` deploys the hosted synthetic staging Worker unless the repository variable `SAHA_DEPLOY_FREEZE` is `true` ([hosted synthetic staging](docs/current/HOSTED-STAGING.md)).
+- Keep application authorisation on the server. Owner authority does not override patient scope. Identity comes only from the trusted provider in `lib/saha/identity.ts`; never trust public identity headers directly.
+- Preserve confirmed records, revisions, audit, receipts, applied migrations and legacy source. Corrections append evidence; uncertainty never authorises a blind external retry.
+- Synthetic data only. Do not turn on providers or message real recipients.
+- For code changes, run the affected checks and record the real results, with dates and limits, in `VALIDATION.md`. Update the implementation boundary, requirement assessments, next-delivery row and evidence together, and never promote an acceptance case because a related unit check passes. For documentation changes run `python3 scripts/check-documentation.py` and `node scripts/audit-requirements.mjs --check`.
