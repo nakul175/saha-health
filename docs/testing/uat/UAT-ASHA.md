@@ -145,7 +145,7 @@ Patient-scoped views, dirty-form guards and version-bound confirmation; switchin
 - **Catalogue:** Functional, fixture FX-UX-03, catalogue owner "QA with Frontline worker".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-UX; catalogue owner "QA with Frontline worker").
 - **Default result:** Not run
-- **Start from:** Care handover. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
+- **Start from:** Care handover, My work, Person page and visit, Organisation & team. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -159,11 +159,11 @@ Patient-scoped views, dirty-form guards and version-bound confirmation; switchin
 
 **Expected result** (catalogue): A user completes each pilot journey without using a microphone and can review or correct a voice-derived value before confirmation.
 
-**Known gaps** (assessment, remaining work for BR-UX-03): Real-device recording quality and interruption handling, supported-device speech and complete common workflow coverage.
+**Known gaps** (assessment, remaining work for BR-UX-03): Real-device recording quality and interruption handling, recognizer accuracy in Hindi and English on field phones, and complete common workflow coverage with representative workers.
 
 <details><summary>What the build does today (assessment, current state of BR-UX-03)</summary>
 
-Structured/text capture and gated on-device speech transcript review. Slices 2b and 3a: attached voice notes play back in the visit and can be deleted from drafts or discarded from the device queue. Slice 3d: voice notes recorded in the field notebook (24 kbps, up to 60 s) and queued offline.
+Structured/text capture and gated on-device speech transcript review. Slices 2b and 3a: attached voice notes play back in the visit and can be deleted from drafts or discarded from the device queue. Slice 3d: voice notes recorded in the field notebook (24 kbps, up to 60 s) and queued offline. Slice 12a: a microphone on every text and number field of the workspace and the field notebook; one tap listens once, what was heard is reviewed and inserted only on request, and nothing is saved by speaking. On-device speech where the browser has it; the browser speech service only when an owner allows it in the synthetic or training environment.
 
 </details>
 
@@ -519,7 +519,7 @@ Pinned programme questions deduplicate shared concepts and preserve distinct ans
 - **Catalogue:** Functional, fixture FX-DATA-03, catalogue owner "QA with Frontline worker and programme data owner".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-DATA; catalogue owner "QA with Frontline worker and programme data owner").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-DATA-03: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** My work, Person page and visit, Organisation & team. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -537,7 +537,7 @@ Pinned programme questions deduplicate shared concepts and preserve distinct ans
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-03)</summary>
 
-Grounded field extraction checks exact quotes, full-clause ambiguity and field/value alignment; synthetic language-specific scoring.
+Grounded field extraction checks exact quotes, full-clause ambiguity and field/value alignment; synthetic language-specific scoring. Slice 12a: dictated values go into a draft field only after review; a measurement box takes the first number heard and names the others, and when no digit is heard nothing is inserted.
 
 </details>
 

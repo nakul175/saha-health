@@ -2,3 +2,9 @@
 .media{margin:18px 0;padding:14px;border:1px solid #d6e0e4;border-radius:8px}.media h3{margin:0 0 6px}.media-item{padding:8px 0;border-top:1px solid #e3eaee}.media-item p,.media .conflict p{margin:4px 0}
 /* Slice 6f: keep the focus outline while focus is inside a date-time field's calendar button. */
 input:focus-within{outline:3px solid #e4b851;outline-offset:2px}
+/* Slice 12a: a microphone on every text box; the review box stays at the bottom of the screen. */
+.mic{margin-top:6px;padding:4px 12px;font-size:14px;background:transparent;color:#0f766e;border:1px solid #0f766e}
+.voice-box{position:fixed;left:12px;right:12px;bottom:12px;z-index:20;background:#fff;color:#111;border:2px solid #0f766e;border-radius:12px;padding:12px;display:grid;gap:8px;box-shadow:0 8px 28px rgba(0,0,0,.25);max-height:70vh;overflow:auto}
+.voice-box[hidden]{display:none}
+.voice-box button{width:auto}
+.voice-live{font-weight:700;color:#b42318}

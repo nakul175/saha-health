@@ -1,0 +1,48 @@
+{
+ "slice": "12a",
+ "label": "Slice 12a — voice input on every text and number field",
+ "environment": "local built Worker, local D1/SQLite, Miniflare, Chromium (Playwright 1.56.1) with a stand-in SpeechRecognition, synthetic data, shared 2-core machine",
+ "note": "Unit 109 suites 7,489 passed; HTTP suite 4,648 and restore drill 21; smoke, security and UAT step 179 passed and 1 skipped; UI 23 Playwright tests (6 of them voice input, desktop and phone) passed; regression guard passed on every run. No real speech recognizer ran.",
+ "reports": {
+  "api-smoke-result.json": {
+   "sha256": "aa68cd1721f519f48219b993c981a35a910de78e17ff549e118caf7e6ddbd6f2",
+   "passed": 4648,
+   "completedAt": "2026-10-03T09:24:17.434Z"
+  },
+  "i18n-contract-result.json": {
+   "sha256": "11de8d2c11bb89f5f2de68be6d6cfb9fb578eee2a5453355d81f7d8daff1b02f",
+   "passed": 4318,
+   "completedAt": "2026-10-03T09:32:20.818Z"
+  },
+  "speech-contract-result.json": {
+   "sha256": "4905ad936c9fc8bd7cd86f8ed7e5cdd39dd57d070dac71e72b331a04b68db86c",
+   "passed": 19,
+   "completedAt": null
+  },
+  "summary-integration+resilience-only.json": {
+   "sha256": "8da1676e3442c57a837c80bc192a463a791dc29271d9df1fd96a809df04475bd",
+   "passed": 4669,
+   "completedAt": "2026-10-03T09:24:21.656Z"
+  },
+  "summary-smoke+nfr+uat-only.json": {
+   "sha256": "0ddb6cc26009559ea5b789afeaea063a8111b6f2b2abd2887cb7f754d9375a27",
+   "passed": 179,
+   "completedAt": "2026-10-03T09:25:13.703Z"
+  },
+  "summary-ui.json": {
+   "sha256": "44fc5e3a91fa54f8a574bbe94549d668a6d67058a6b1adb60a1b4c5b9031573a",
+   "passed": 23,
+   "completedAt": "2026-10-03T09:36:12.752Z"
+  },
+  "summary-unit.json": {
+   "sha256": "020fa7e346fd43ce25e14cfa69896b3f00760a0c456bf9eab277ddc2441e6824",
+   "passed": 7489,
+   "completedAt": "2026-10-03T09:33:28.780Z"
+  },
+  "ui-result.json": {
+   "sha256": "9532421086cae54c7b362dd68e73ebe485564ab1a2dc34a64792319efa5a7c8d",
+   "passed": 23,
+   "completedAt": "2026-10-03T09:36:12.675Z"
+  }
+ }
+}
