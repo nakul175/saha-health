@@ -31,7 +31,7 @@ export function guarded(db:D1Database,orgId:string,token:string,rows:Row[]){
  }
  return statements;
 }
-export function scope(state:OrgState,userId:string){const m=state.members.find(x=>x.userId===userId&&x.status==='active');if(!m)fail(403,'Your organisation membership is inactive or unavailable.');state.workspace.role=m.role;for(const p of state.workspace.people)p.assigned=allowed(m,p);return m;}
+export function scope(state:OrgState,userId:string){const m=state.members.find(x=>x.userId===userId&&x.status==='active');if(!m)fail(403,'Your organisation membership is inactive or unavailable.');state.workspace.role=m.role;for(const p of state.workspace.people)p.assigned=allowed(m,p,undefined,state.operations?.accessScope);return m;}
 // Reads organisation-level state and either every patient (personIds omitted) or only the
 // named patients (slice 0a partition). Lookups are indexed maps so reading grows linearly.
 // Slice 0b-2: the patients one viewer may see, as an SQL predicate on patients p, mirroring access.ts:
