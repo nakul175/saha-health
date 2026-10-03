@@ -32,6 +32,7 @@ import { pilotSchema } from './pilot';
 import { outreachSchema } from './outreach';
 import { expansionSchema } from './expansion';
 import { defaultOperations, operationsSchema } from './operations';
+import { purposeScopeSchema } from './purpose-scope';
 import { chooseLanguage } from './messages';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
@@ -89,6 +90,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...sandboxSchema.options,
  ...shadowSchema.options,
  ...operationsSchema.options,
+ // Slice r09: owner-managed programme/purpose dimensions in the access policy (lib/saha/purpose-scope.ts).
+ ...purposeScopeSchema.options,
  ...alertAckSchema.options,
  ...inboxSchema.options,
  ...notificationChannelSchema.options,
