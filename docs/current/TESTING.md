@@ -16,11 +16,11 @@
 | UI, screenshots | Eight stable screens compared with committed baselines (dynamic text masked, 2% tolerance) | `tests/ui/baselines/` | 8 images | Weekly and on demand |
 | UI, accessibility | axe (serious and critical) on 25 screens reached by the journeys | inside the UI specs | 25 screens, 0 violations | Weekly and on demand |
 | Non-functional, security | Authorisation matrix: every GET route by every role (anonymous, stranger, owner, admin, supervisor, two ASHAs, clinician), cross-patient and cross-organisation requests, admin never sees patient names, revocation on the next request. Identity hardening: Cloudflare Access tokens in the real runtime, forged, malformed, wrongly signed, `fixture:` principals | `tests/nfr/authorisation-matrix.mjs`, `tests/nfr/identity-hardening.mjs` | 51 and 29 checks, about 35 s | Every pull request |
-| Non-functional, performance | p50/p95 of the main routes and commands at about 200 patients, response sizes, generous budgets that only catch large regressions | `tests/nfr/performance-budgets.mjs` | 145 checks (94 real assertions; the rest are recorded measurements), 1 min | Weekly and on demand |
-| Non-functional, memory and load | Worker memory growth per workspace load without an inspector (Miniflare); eight concurrent clients with idempotent replays, no lost or duplicated commands | `tests/nfr/memory-growth.mjs`, `tests/nfr/load-burst.mjs` | 14 and 15 checks, about 1.5 min | Weekly and on demand |
+| Non-functional, performance | p50/p95 of the main routes and commands at about 200 patients, response sizes, generous budgets that only catch large regressions | `tests/nfr/performance-budgets.mjs` | 94 checks plus recorded measurements, 1 min | Weekly and on demand |
+| Non-functional, memory and load | Worker memory growth per workspace load without an inspector (Miniflare); eight concurrent clients with idempotent replays, no lost or duplicated commands | `tests/nfr/memory-growth.mjs`, `tests/nfr/load-burst.mjs` | 4 and 13 checks plus recorded measurements, about 1.5 min | Weekly and on demand |
 | Functional coverage | For each of the 176 requirements: the test files that cite it, by layer; the acceptance catalogue cases by type and how many were formally executed; gap flags | `tests/uat/coverage-map.mjs` → `docs/testing/COVERAGE.md`, `coverage.csv` | 176 rows | Drift check on every pull request |
 | UAT | People, not code: role scripts built from the 364-case acceptance catalogue, run on the hosted site, recorded in a register a validator checks | `docs/testing/uat/` (plan, six scripts, `uat-results.csv`), `tests/uat/generate-uat-pack.mjs`, `tests/uat/check-uat-register.mjs` | 158 cases, 0 executed | Register validated on every pull request |
-| Regression | Every layer above together, plus a guard: a suite that disappears or reports fewer passed assertions than its baseline fails the run unless it is quarantined with a reason | `scripts/test.mjs regression`, `tests/regression-baseline.json`, `tests/quarantine.json` | about 12 min locally | Weekly (Mondays 02:30 UTC) and on demand |
+| Regression | Every layer above together, plus a guard: a suite that disappears or reports fewer passed assertions than its baseline fails the run unless it is quarantined with a reason | `scripts/test.mjs regression`, `tests/regression-baseline.json`, `tests/quarantine.json` | 120 suites guarded, about 12 min locally | Weekly (Mondays 02:30 UTC) and on demand; the guard also runs on every suite pull-request CI starts |
 
 Manual suites, run on purpose: `tests/a11y-audit.mjs` (66 screens), `tests/load-envelope.mjs`, `tests/adapter-overhead-bench.mjs`.
 
@@ -41,7 +41,8 @@ Results go to `tests/reports/` (not tracked): one JSON report per suite, `summar
 
 ## When tests run on GitHub
 
-- **Pull requests** (`ci.yml`, skipped for documentation-only changes): static, unit, integration, resilience, smoke (local and the hosted self-test), the two security suites and the UAT checks. About 12 minutes, of which about 3 are new in round 11 (estimate from the 9-minute job measured before this round).
+- **Pull requests** (`ci.yml`): static, unit, integration, resilience, smoke (local and the hosted self-test), the two security suites and the UAT checks, all through `scripts/test.mjs` with the regression guard. About 12 minutes, of which about 3 are new in round 11 (estimate from the 9-minute job measured before this round).
+- **Documentation-only pull requests** (`docs-checks.yml`): `ci.yml` skips them to save minutes, so this short job runs the documentation and requirement checks, the test catalogue check, the UAT register validator and the drift checks of the generated UAT pack and coverage map. No build, no Worker.
 - **After every deploy** (`deploy-staging.yml`): the hosted smoke against the live site. A failed check fails the deploy job; an unreachable site is a warning.
 - **Weekly and on demand** (`regression.yml`, Actions tab, "Run workflow"): every layer including UI, performance, memory and load, then the regression guard; reports are uploaded as an artifact. About 15–20 minutes.
 
@@ -52,6 +53,7 @@ GitHub Actions minutes are limited on this account, which is why the browser and
 - Put it where its layer lives: `tests/<name>-contract.mjs` for a unit suite, a module imported by `tests/api-smoke.mjs` for integration, `tests/smoke/`, `tests/ui/*.spec.mjs`, `tests/nfr/` or `tests/uat/`. Helpers go in a `lib/` or `support/` folder. `node scripts/test.mjs --check-catalogue` fails if a file is unclassified or an integration module is not imported, so nothing is silently left out.
 - New suites use `tests/lib/worker.mjs` (a fresh local Worker and database, synthetic identities) and `tests/lib/report.mjs` (one result format).
 - Write the failing test before the fix, and make sure the test can fail: several suites include checks that deliberately break the system or the harness and expect a failure.
+- A measurement (`measure()`) counts as a check only when it has a budget; without one it is recorded, not counted. A UI test that passes only on its retry counts as failed and is named flaky in `tests/reports/ui-result.json`.
 - When a suite's count changes on purpose, update the baseline deliberately: `node scripts/test.mjs <layers> --update-baseline --reason "..."` after a green run. A flaky suite goes in `tests/quarantine.json` with a reason and date, never silently.
 - Cite a new suite in `requirements/evidence-map.json` for the requirements it gives evidence about, then regenerate the coverage map (`node tests/uat/coverage-map.mjs`). A citation is context, not acceptance.
 
@@ -67,7 +69,8 @@ UAT is done by people on the hosted synthetic site, following [the UAT plan](../
 ## Limits
 
 - Everything automated runs locally on synthetic data; local timings are from a shared 2-core machine and say nothing about Cloudflare latency or capacity.
-- The regression guard counts passed assertions; it cannot tell a weak test from a strong one. No person has reviewed the test code.
+- The regression guard counts passed assertions; it cannot tell a weak test from a strong one. One agent reviewed the test code (slice 11g fixed what it found); no person has.
+- The hosted smoke cannot see a broken Worker without an Access service token, and the app refuses service tokens; there is no test yet of applying new migrations to a populated database with the deploy command. Both are listed in [slice 11g](SLICE-11G-TEST-REVIEW-FIXES.md).
 - Screenshot baselines were rendered on one container's fonts and may need regenerating on GitHub's runner (`npx playwright test -c tests/ui/playwright.config.mjs --update-snapshots`).
 - The coverage map shows citations, not proof; 72 requirements inherit their area's citations, and some test files cite no requirement.
 - Formal execution of the acceptance catalogue is 0 of 364. Until people run the UAT pack, the automated layers are engineering evidence only.

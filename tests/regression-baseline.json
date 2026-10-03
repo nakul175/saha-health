@@ -26,17 +26,17 @@
     "nfr/load-burst": {
       "layer": "nfr",
       "file": "tests/nfr/load-burst.mjs",
-      "minPassed": 15
+      "minPassed": 13
     },
     "nfr/memory-growth": {
       "layer": "nfr",
       "file": "tests/nfr/memory-growth.mjs",
-      "minPassed": 14
+      "minPassed": 4
     },
     "nfr/performance-budgets": {
       "layer": "nfr",
       "file": "tests/nfr/performance-budgets.mjs",
-      "minPassed": 145
+      "minPassed": 94
     },
     "resilience/recovery-drill": {
       "layer": "resilience",
@@ -604,5 +604,25 @@
       "minPassed": 111
     }
   },
-  "log": []
+  "log": [
+    {
+      "date": "2026-10-03",
+      "reason": "Slice 11g: measurements without a budget no longer count as passed checks; flaky UI tests count as failed; smoke 4xx are failures",
+      "lowered": {
+        "nfr/load-burst": [
+          15,
+          13
+        ],
+        "nfr/memory-growth": [
+          14,
+          4
+        ],
+        "nfr/performance-budgets": [
+          145,
+          94
+        ]
+      },
+      "removed": []
+    }
+  ]
 }

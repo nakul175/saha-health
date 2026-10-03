@@ -19,6 +19,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 11d](SLICE-11D-NON-FUNCTIONAL.md) | Authorisation matrix, identity hardening, performance budgets, memory growth, load burst |
 | [Development slice 11e](SLICE-11E-UAT-COVERAGE.md) | UAT pack, results register and validator, functional coverage map |
 | [Development slice 11f](SLICE-11F-TESTING-INTEGRATION.md) | Integration of round 11, provider calls fixed for the Workers runtime, CI wiring, open findings |
+| [Development slice 11g](SLICE-11G-TEST-REVIEW-FIXES.md) | Fixes from an independent review of the round-11 test code: guard over every layer, documentation-only checks, stricter counting |
 | [Development slice 9a](SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md) | Demonstration clinical package for synthetic organisations (two cited demonstration protocols, not clinically approved) |
 | [Development slice 10j](SLICE-10J-HINDI-WORKSPACE.md) | Hindi (draft translation) for the ASHA journey in the workspace: message catalogue, per-member language choice, notice on every Hindi screen; not reviewed by a qualified translator |
 | [Development slice 9b](SLICE-9B-DEMONSTRATION-SCREENS.md) | Screens ready for a presenter-led demonstration: menu by role, visit first, member names, no build labels |
