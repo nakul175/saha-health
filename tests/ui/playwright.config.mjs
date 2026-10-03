@@ -19,7 +19,7 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   retries: process.env.CI ? 1 : 0,
-  timeout: 120_000,
+  timeout: 180_000, // slice 11f: the ASHA journey took over 120 s once on a loaded 2-core machine
   forbidOnly: !!process.env.CI,
   expect: {
     timeout: 10_000,

@@ -6,8 +6,8 @@ import { menu, menuEntries, MEENA } from './support/flows.mjs';
 test('owner sets a name, invites an ASHA by account code and assigns one person; the ASHA sees only that person', async ({ lab }) => {
   const owner = lab.who('owner'), asha = lab.who('asha');             // email-only sign-ins: no full name in the header
   const ownerPage = await lab.open(owner), ashaPage = await lab.open(asha);   // two browser contexts, two people
-  await ownerPage.goto('/', { waitUntil: 'networkidle' });
-  await ashaPage.goto('/', { waitUntil: 'networkidle' });
+  await ownerPage.goto('/', { waitUntil: 'load' });
+  await ashaPage.goto('/', { waitUntil: 'load' });
 
   await test.step('the owner sees the whole demonstration caseload', async () => {
     await expect(ownerPage.getByRole('heading', { level: 1, name: 'Today’s work' })).toBeVisible();

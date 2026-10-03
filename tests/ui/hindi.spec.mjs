@@ -49,7 +49,7 @@ test('Hindi: My work shows Hindi text with lang="hi", the choice is saved, and E
   });
 
   await test.step('the choice is saved for her: it survives a reload and the server holds it', async () => {
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await expect(h1.first()).toHaveText(/./);
     await page.getByRole('button', { name: /मेरा कार्य/ }).first().click();
     await expect(h1).toHaveText('आज का कार्य');

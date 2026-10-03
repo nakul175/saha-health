@@ -11,6 +11,14 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 10b](SLICE-10B-NOTIFICATION-CHANNEL.md) | Out-of-app notification channel: owner-managed recipient tiers, escalation of unacknowledged alerts, demonstration simulator only (synthetic and training environments; no address or number contacted), message log with receipts and audit |
 | [Development slice 10a](SLICE-10A-SCHEDULED-TRIGGER.md) | Scheduled trigger (Cron) foundation: due caseload transfers, review marks on requests past their time limit and alert evaluation every five minutes in the hosted configuration |
 | [Development slice 10k](SLICE-10K-COMBINED-REVIEW-FIXES.md) | Fixes from the independent review of the combined slices 10a–10j: the operations view returns an allow-list (no incentive claims or patient ids), simulated messages exported per member, two panels marked English in the Hindi workspace, HTTP suite restarts the local Worker between module groups; open findings listed |
+| [Testing Saha](TESTING.md) | The testing ecosystem: static, unit, integration, resilience, smoke, UI, non-functional, functional coverage, UAT and regression layers; what each proves, how to run it, when it runs on GitHub |
+| [UAT plan and scripts](../testing/uat/UAT-PLAN.md) and [coverage map](../testing/COVERAGE.md) | User acceptance testing on the hosted synthetic site (generated from the acceptance catalogue) and requirement-to-test coverage (generated) |
+| [Development slice 11a](SLICE-11A-TEST-RUNNER.md) | Unified test runner, suite catalogue, regression guard and tiered CI |
+| [Development slice 11b](SLICE-11B-SMOKE.md) | Local smoke and post-deploy hosted smoke |
+| [Development slice 11c](SLICE-11C-UI-E2E.md) | Browser end-to-end journeys, screenshot regression and accessibility (Playwright) |
+| [Development slice 11d](SLICE-11D-NON-FUNCTIONAL.md) | Authorisation matrix, identity hardening, performance budgets, memory growth, load burst |
+| [Development slice 11e](SLICE-11E-UAT-COVERAGE.md) | UAT pack, results register and validator, functional coverage map |
+| [Development slice 11f](SLICE-11F-TESTING-INTEGRATION.md) | Integration of round 11, provider calls fixed for the Workers runtime, CI wiring, open findings |
 | [Development slice 9a](SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md) | Demonstration clinical package for synthetic organisations (two cited demonstration protocols, not clinically approved) |
 | [Development slice 10j](SLICE-10J-HINDI-WORKSPACE.md) | Hindi (draft translation) for the ASHA journey in the workspace: message catalogue, per-member language choice, notice on every Hindi screen; not reviewed by a qualified translator |
 | [Development slice 9b](SLICE-9B-DEMONSTRATION-SCREENS.md) | Screens ready for a presenter-led demonstration: menu by role, visit first, member names, no build labels |

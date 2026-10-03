@@ -29,6 +29,11 @@ export const SUITE_ARGS = {
   'tests/uat/coverage-map.mjs': ['--check'],
   'tests/smoke/hosted-smoke.mjs': ['--self-test'],
 };
+/** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
+ * scenarios it expects to fail; only its own verdict counts. */
+export const SUITE_RESULTS = {
+  'tests/smoke/hosted-smoke.mjs': ['tests/reports/smoke-hosted-selftest-result.json'],
+};
 const MANUAL = {
   'tests/a11y-audit.mjs': { needsEnv: ['SAHA_A11Y_MODULES', 'SAHA_A11Y_CHROMIUM', 'SAHA_A11Y_ORIGIN'], note: 'axe over 66 screens; needs Playwright and axe-core installed outside the project and a running synthetic Worker (docs/current/DEVELOPMENT-AND-CI.md)' },
   'tests/load-envelope.mjs': { needsEnv: [], note: 'local load probe toward the BRD planning envelope; builds its own large synthetic database and takes many minutes; needs dist/' },
@@ -152,7 +157,7 @@ export function buildCatalogue(root = process.cwd()) {
       if (e.file === 'tests/run-api-smoke.mjs') from = [e.file, 'tests/api-smoke.mjs', ...components.map(c => c.file)];
       if (e.runner === 'playwright') from = [e.file, ...specs.map(c => c.file)];
       e.requirements = [...new Set(from.flatMap(cited))].sort();
-      e.results = resultHints(root, e.file === 'tests/run-api-smoke.mjs' ? [e.file, 'tests/api-smoke.mjs'] : [e.file]);
+      e.results = SUITE_RESULTS[e.file] ?? resultHints(root, e.file === 'tests/run-api-smoke.mjs' ? [e.file, 'tests/api-smoke.mjs'] : [e.file]);
       if (e.layer === 'manual') Object.assign(e, MANUAL[e.file]);
       // Suites that start the built Worker need dist/; unit suites, UAT generators, the in-process benchmark and the accessibility audit (which talks to a Worker you started) do not.
       e.needs = ['unit', 'uat'].includes(e.layer) || ['tests/adapter-overhead-bench.mjs', 'tests/a11y-audit.mjs'].includes(e.file) ? [] : ['build'];

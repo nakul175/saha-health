@@ -56,7 +56,7 @@ export async function sentVisit(lab, t) {
 /** Open the workspace as `who` and wait until it has loaded (the heading of the first view is on screen). */
 export async function load(lab, who, options) {
   const page = await lab.open(who, options);
-  await page.goto('/', { waitUntil: 'networkidle' });
+  await page.goto('/', { waitUntil: 'load' });
   await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
   return page;
 }

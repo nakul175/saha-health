@@ -9,7 +9,7 @@ test('a stranger who opens another organisation is refused, with no patient data
   const stranger = lab.who('stranger', 'Stranger Ray');
   lab.allow(/status of 403 \(Forbidden\) \S*\/api\/workspace$/, 'the refusal under test: the server answers 403 for an organisation this account does not belong to');
   const page = await lab.open(stranger, { headers: { 'x-saha-organisation': t.org } });
-  await page.goto('/', { waitUntil: 'networkidle' });
+  await page.goto('/', { waitUntil: 'load' });
 
   const alert = page.getByRole('alert');
   await expect(alert).toContainText('Workspace unavailable');
@@ -47,7 +47,7 @@ test('an address that is not a page shows a not-found page', async ({ lab }) => 
   const asha = lab.who('asha');
   lab.allow(/status of 404 \(Not Found\) \S*\/does-not-exist$/, 'the refusal under test: an unknown address answers 404');
   const page = await lab.open(asha);
-  const response = await page.goto('/does-not-exist', { waitUntil: 'networkidle' });
+  const response = await page.goto('/does-not-exist', { waitUntil: 'load' });
   expect(response.status()).toBe(404);
   await expect(page.getByText('This page could not be found.')).toBeVisible();
   await lab.scan(page, 'Not found page');

@@ -92,7 +92,8 @@ class Lab {
 
 /** Wait until the page is quiet: network idle, fonts loaded, transitions finished, toasts gone. */
 export async function settle(page) {
-  await page.waitForLoadState('networkidle').catch(() => {});
+  // Slice 11f: bounded; under load the workspace's background requests can keep the network busy for longer than a test should wait.
+  await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
   await page.evaluate(() => document.fonts?.ready).catch(() => {});
   await page.waitForFunction(() => !document.querySelector('[data-sonner-toast]'), null, { timeout: 8000 }).catch(() => {});
   await page.waitForTimeout(250);
