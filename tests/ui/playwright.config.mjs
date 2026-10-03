@@ -44,6 +44,6 @@ export default defineConfig({
   },
   projects: [
     { name: 'desktop', testIgnore: /phone\.spec\.mjs$/, use: { viewport: { width: 1280, height: 720 } } },
-    { name: 'phone', testMatch: /phone\.spec\.mjs$/, use: { viewport: { width: 390, height: 844 } } },
+    { name: 'phone', testMatch: /(phone|voice)\.spec\.mjs$/, use: { viewport: { width: 390, height: 844 } } }, // slice 12a: voice input runs at phone size too
   ],
 });

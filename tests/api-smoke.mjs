@@ -191,6 +191,8 @@ const {demonstrationSmoke}=await import('./demonstration-smoke.mjs');await demon
 const {memberNamesSmoke}=await import('./member-names-smoke.mjs');await memberNamesSmoke({get,post,check,accounts,org,sql});
 // Slice 10j: the member's language choice (English or draft Hindi) for the workspace.
 const {languageSmoke}=await import('./language-smoke.mjs');await languageSmoke({get,post,check,accounts,org,sql});
+// Slice 12a: the owner setting for voice input's browser speech service (left off).
+const {speechSmoke}=await import('./speech-smoke.mjs');await speechSmoke({get,post,check,accounts,org,sql});
 // Slice 6ab: runs last because it leaves the synthetic worker throttled for ABHA links for a day.
 const {eighthReviewSmoke}=await import('./eighth-review-smoke.mjs');await eighthReviewSmoke({get,post,check,accounts,org,sql});
 await globalThis.sahaRecycleWorker?.();
