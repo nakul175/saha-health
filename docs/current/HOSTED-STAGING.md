@@ -36,6 +36,9 @@ Live since 2 October 2026 at `https://saha-staging.nakul17.workers.dev`. The fir
 
 On 3 October 2026 IST the merge of round 10 (slices 10a–10k, #105–#115) deployed successfully (workflow run 37086154679): migration `0015_notification_channel.sql` was applied and the five-minute Cron Trigger of slice 10a was registered with that deploy. No scheduled run has yet been confirmed in the Worker log, and the account's Workers plan was not checked (see the scheduled job section above).
 
+
+**Sign-in did not work until slice 0c-1.** From the day Access was turned on (2 October 2026) until the deploy that carries slice 0c-1, a person who passed Cloudflare Access was still refused by the Worker with 401: the Worker fetched Access's signing keys with a redirect mode (`error`) that the Workers runtime rejects ("won't be implemented since it does not make sense at the edge"), so no token could be verified. It failed closed; no one got in without a valid Access sign-in. Confirm sign-in in a browser after that deploy.
+
 ## Fails closed until sign-in is set up
 
 `deploy/cloudflare-staging.json` holds the Access team domain and audience tag. Until both are filled in, the deployed Worker shows only "Sign-in required" and refuses every API call with 503 ("Sign-in is not configured for this deployment"). The deploy check accepts that state only while the two values are empty; once they are set it requires a Cloudflare Access redirect on both the page and the API.
