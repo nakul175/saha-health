@@ -29,6 +29,9 @@ jobs:
         run: |
           python3 scripts/check-documentation.py
           node scripts/audit-requirements.mjs --check
+      # Slice 11a: fails when a test file is not classified into a layer, or a *-smoke.mjs module is not imported by tests/api-smoke.mjs.
+      - name: Test catalogue
+        run: node scripts/test.mjs --check-catalogue
       - name: Install pinned dependencies
         run: npm run install:ci
       - name: Type check
@@ -44,15 +47,21 @@ jobs:
           done
       - name: HTTP and database suite
         run: node tests/run-api-smoke.mjs
-      - name: Contract suites
-        run: for t in read-audit-completion-contract identifier-crosswalk-contract incentive-claims-contract workforce-import-contract household-visit-contract send-gate-contract visit-import-contract i18n-contract demonstration-contract tenth-review-fixes-contract ninth-review-fixes-contract eighth-review-fixes-contract caseload-schedule-contract indicator-freshness-contract aggregate-delivery-contract correction-tasks-contract sixth-review-fixes-contract seventh-review-fixes-contract replay-soak-contract ehr-resolution-contract adapter-operations-contract value-override-contract value-override-agent-contract field-units-client fifth-review-fixes-contract fourth-review-fixes-contract pack-installation-contract alert-delivery-contract notification-channel-contract note-answer-signoff-contract access-audit-contract indicator-registry-contract cloudflare-staging-contract scheduled-job-contract programme-migration-contract main-review-fixes-contract review-fixes-contract drift-contract ai-invoice-contract plan-dependencies-contract patient-import-contract record-import-contract fact-verification-contract field-capacity-client field-media-capacity-client referral-request-queue-contract patient-directory-contract worklists-contract agent-contract task-limits-contract shadow-contract provider-history-contract provider-sandbox-contract agent-quality-contract capability-lifecycle-contract action-plan-contract exceptions-contract trace-contract report-export-contract audit-chain-contract ai-budget-contract safe-logs-contract data-exit-contract environment-contract fixture-migration-contract consent-contract delegation-contract worker-activity-contract continuity-contract ehr-contract ehr-execution field-client field-media-client field-storage-client field-recording-client field-registration-client field-provenance-client fhir-validate-contract fact-provenance-contract alerts-contract photo-contract field-contract field-shell governance-contract mis-contract mis-delivery operations-contract outreach-contract pilot-contract storage-contract identity-contract household-contract caseload-contract merge-contract exceptional-contract rights-contract scoped-read-contract retention-contract indicators-contract referral-contract reuse-contract roster-contract abdm-contract abdm-transfer-contract media-contract; do node tests/$t.mjs; done
+      # Slice 11a: the runner finds every unit suite itself (tests/*-contract.mjs, *-client.mjs and three named suites), so a
+      # new suite is never left out of CI. --guard fails when a suite reports fewer passed assertions than tests/regression-baseline.json.
+      - name: Unit suites
+        run: node scripts/test.mjs unit --guard
       - name: Encrypted restore drill
         run: node tests/recovery-drill.mjs
+      # Slice 11a: smoke suites under tests/smoke/ (each starts its own local Worker with fresh synthetic state). Reports "not present" when there are none.
+      - name: Smoke suites
+        run: node scripts/test.mjs smoke --fast
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: engineering-evidence
           path: |
             tests/*-result.json
+            tests/reports/
             dist/sbom.cdx.json
             dist/security-gate.json

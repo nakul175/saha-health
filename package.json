@@ -11,7 +11,19 @@
     "build": "node scripts/run-framework.mjs build",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "test": "node scripts/test.mjs pr",
+    "test:static": "node scripts/test.mjs static",
+    "test:unit": "node scripts/test.mjs unit",
+    "test:integration": "node scripts/test.mjs integration",
+    "test:resilience": "node scripts/test.mjs resilience",
+    "test:smoke": "node scripts/test.mjs smoke",
+    "test:ui": "node scripts/test.mjs ui",
+    "test:nfr": "node scripts/test.mjs nfr",
+    "test:uat": "node scripts/test.mjs uat",
+    "test:full": "node scripts/test.mjs full",
+    "test:regression": "node scripts/test.mjs regression",
+    "test:catalogue": "node scripts/test.mjs --check-catalogue"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
