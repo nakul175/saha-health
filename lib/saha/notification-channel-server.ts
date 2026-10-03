@@ -12,8 +12,8 @@ import { ACCESS_AUDIT } from './audit-chain';
 import { persist, scope, type Actor, type Row } from './store';
 import { evaluateIfDue } from './alert-delivery-server';
 import { fail, uuid } from './core';
-import { ALERT_OWNERS } from './alerts';
-import { ALERT_IDS, CHANNELS, CHANNEL_RULES_VERSION, DEFAULT_ESCALATE_MINUTES, LOG_LIMIT, MAX_ESCALATE_MINUTES, MAX_RECIPIENTS, MAX_SENDS_PER_EVALUATION, MIN_ESCALATE_MINUTES, SIMULATOR_NOTICE, TIERS, channelOf, demoAddress, kindsFor, ladderFor, messageKey, planNotifications, redactFor, simulatorRefusal, type ChannelOccurrence, type ChannelPresent, type PlannedMessage } from './notification-channel';
+import { CHANNELS, CHANNEL_RULES_VERSION, DEFAULT_ESCALATE_MINUTES, LOG_LIMIT, MAX_ESCALATE_MINUTES, MAX_RECIPIENTS, MAX_SENDS_PER_EVALUATION, MIN_ESCALATE_MINUTES, NOTIFIABLE_KINDS, NOTIFIABLE_OWNERS, SIMULATOR_NOTICE, SOURCE_KINDS, TIERS, channelOf, demoAddress, ladderFor, messageKey, notifiableKindsFor, planNotifications, planSourceNotifications, redactFor, simulatorRefusal, sourceKey, type ChannelOccurrence, type ChannelPresent, type PlannedMessage } from './notification-channel';
+import { channelSources, SOURCE_RULES_VERSION } from './notification-sources';
 import type { Audit, OrgState, Role } from './types';
 
 // The simulator is not a person: its messages and audit events are written under a fixed system identity.
@@ -50,6 +50,27 @@ export async function evaluateChannel(d: D1Database, s: OrgState, present: Chann
   return result;
 }
 
+// Slice r03: plans and sends the additional sources (drift, timed-out requests, exception items, referral requests)
+// through the same demonstration simulator and message table. Called at the end of `evaluateDelivery` beside
+// `evaluateChannel`, so it runs on the same reads, organisation-wide commands and scheduled triggers. A failure is
+// reported and never undoes the in-app delivery or blocks the read/command; the unique key makes repeats harmless.
+export async function evaluateChannelSources(d: D1Database, s: OrgState, now = new Date().toISOString()) {
+  const config = channelOf(s), result = { sent: 0, planned: 0, refused: null as string | null, skipped: 0 };
+  if (!config?.enabled || !config.recipients.length) return result;
+  const environment = environmentOf(rawRuntime()).name;
+  result.refused = simulatorRefusal(environment);
+  if (result.refused) return result;
+  const sources = channelSources(s, now);
+  if (!sources.length) return result;
+  const ids = sources.map(x => sourceKey(x.kind, x.scopeKey));
+  const sent = new Set((await d.prepare(`SELECT occurrence_id,tier,user_id FROM notification_messages WHERE org_id=? AND occurrence_id IN (${ids.map(() => '?').join(',')})`).bind(s.organisation.id, ...ids).all<{ occurrence_id: string; tier: number; user_id: string }>()).results.map(r => messageKey(r.occurrence_id, r.tier, r.user_id)));
+  const plan = planSourceNotifications({ config, environment, sources, sent, members: s.members, now });
+  result.planned = plan.messages.length; result.skipped = plan.skipped.length;
+  const due = plan.messages.slice(0, MAX_SENDS_PER_EVALUATION);
+  for (let i = 0; i < due.length; i += CHUNK) { const part = due.slice(i, i + CHUNK); await commit(d, s, part, now, config.version); result.sent += part.length; }
+  return result;
+}
+
 const iso = (v: string | null) => v ?? null;
 // GET /api/notification-channel: owners only. Reads current settings, the members who may be listed, the open alerts
 // with their escalation schedule, and the message log. Counts that belong to another person's care scope are withheld.
@@ -69,10 +90,10 @@ export async function notificationChannelRead(request: Request) {
     const ladder = config ? ladderFor(config, { alertId: o.alert_id, scopeKey: o.scope_key, openedAt: o.opened_at }, s.members) : { rungs: [], skipped: [] };
     return { occurrenceId: o.id as string, alertId: o.alert_id as string, severity: o.severity as string, title: o.title as string, openedAt: o.opened_at as string, scope: o.owner_role === 'supervisors' ? named.get(o.scope_key)?.displayName ?? 'a supervisor' : 'organisation', acknowledged: o.active === 0, escalatedInApp: !!o.escalated_at, rungs: ladder.rungs.map(r => { const all = r.recipients.map(x => sentKeys.has(messageKey(o.id, r.tier, x.member.userId))); return { tier: r.tier, dueAt: r.dueAt, recipients: r.recipients.length, state: all.every(Boolean) ? 'sent' : all.some(Boolean) ? 'partly sent' : Date.parse(r.dueAt) <= Date.parse(now) ? 'due' : 'scheduled' }; }) };
   });
-  const members = s.members.filter(x => x.status === 'active').map(x => ({ userId: x.userId, displayName: x.displayName, role: x.role, isOwner: x.isOwner, kinds: kindsFor(x) })).filter(x => x.kinds.length);
+  const members = s.members.filter(x => x.status === 'active').map(x => ({ userId: x.userId, displayName: x.displayName, role: x.role, isOwner: x.isOwner, kinds: notifiableKindsFor(x) })).filter(x => x.kinds.length);
   const body = config ?? { version: 0, enabled: false, escalateAfterMinutes: DEFAULT_ESCALATE_MINUTES, recipients: [], setBy: '', setAt: '', reason: '', history: [] };
   return json({
-    rules: { version: CHANNEL_RULES_VERSION, escalateMinutes: { min: MIN_ESCALATE_MINUTES, max: MAX_ESCALATE_MINUTES, default: DEFAULT_ESCALATE_MINUTES }, tiers: TIERS, channels: CHANNELS, maxRecipients: MAX_RECIPIENTS, kinds: ALERT_IDS.map(id => ({ id, owner: ALERT_OWNERS[id] })), notice: SIMULATOR_NOTICE },
+    rules: { version: CHANNEL_RULES_VERSION, sourceRules: SOURCE_RULES_VERSION, escalateMinutes: { min: MIN_ESCALATE_MINUTES, max: MAX_ESCALATE_MINUTES, default: DEFAULT_ESCALATE_MINUTES }, tiers: TIERS, channels: CHANNELS, maxRecipients: MAX_RECIPIENTS, kinds: NOTIFIABLE_KINDS.map(id => ({ id, owner: NOTIFIABLE_OWNERS[id], source: (SOURCE_KINDS as readonly string[]).includes(id) })), notice: SIMULATOR_NOTICE },
     environment, available: !refusal, refusal,
     channel: { ...body, setByName: named.get(body.setBy)?.displayName ?? null, recipients: body.recipients.map(r => ({ ...r, displayName: named.get(r.userId)?.displayName ?? 'Former member', role: named.get(r.userId)?.role ?? null, status: named.get(r.userId)?.status ?? 'removed', address: demoAddress(r.channel, r.userId) })) },
     members, open, messages, total,
