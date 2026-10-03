@@ -22,6 +22,13 @@ export const GUARDED_LAYERS = ['unit', 'integration', 'resilience', 'smoke', 'ui
 const SOURCE_EXT = /\.(mjs|cjs|js|mts|cts|ts|tsx)$/;
 const SKIPPED_DIRS = new Set(['evidence', 'reports', 'node_modules', 'playwright-report', 'test-results', '.git']);
 const UNIT_NAMED = new Set(['tests/field-shell.mjs', 'tests/ehr-execution.mjs', 'tests/mis-delivery.mjs']);
+/** Slice 11f: arguments a suite needs when the runner starts it. Generators run in their drift-check mode so a test run never rewrites
+ * tracked documents; the hosted smoke runs its local self-test (the real hosted check runs after each deploy in deploy-staging.yml). */
+export const SUITE_ARGS = {
+  'tests/uat/generate-uat-pack.mjs': ['--check'],
+  'tests/uat/coverage-map.mjs': ['--check'],
+  'tests/smoke/hosted-smoke.mjs': ['--self-test'],
+};
 const MANUAL = {
   'tests/a11y-audit.mjs': { needsEnv: ['SAHA_A11Y_MODULES', 'SAHA_A11Y_CHROMIUM', 'SAHA_A11Y_ORIGIN'], note: 'axe over 66 screens; needs Playwright and axe-core installed outside the project and a running synthetic Worker (docs/current/DEVELOPMENT-AND-CI.md)' },
   'tests/load-envelope.mjs': { needsEnv: [], note: 'local load probe toward the BRD planning envelope; builds its own large synthetic database and takes many minutes; needs dist/' },

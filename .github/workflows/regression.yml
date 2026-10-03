@@ -47,14 +47,10 @@ jobs:
         run: npm run install:ci
       - name: Build
         run: npm run build
-      # Playwright is not a project dependency. A UI suite that needs it declares it in tests/ui/package.json; this step
-      # installs it and Chromium only when that file exists, so the workflow still runs on a tree without browser tests.
-      - name: Browser tooling for UI tests
-        if: hashFiles('tests/ui/package.json') != ''
-        working-directory: tests/ui
-        run: |
-          npm install --no-audit --no-fund
-          npx playwright install --with-deps chromium
+      # Slice 11c pins @playwright/test as a dev dependency (installed above); this step adds Chromium and its system libraries.
+      - name: Browser for UI tests
+        if: hashFiles('tests/ui/playwright.config.mjs') != ''
+        run: npx playwright install --with-deps chromium
       # The runner builds the local D1 state for the HTTP/D1 suite itself, runs each layer in order, copies every result
       # to tests/reports/, restores the checkout and, for regression, compares each suite with tests/regression-baseline.json.
       # The static layer is skipped here: the documentation checks ran above, and the type check ran in the pull request.

@@ -86,3 +86,18 @@ jobs:
         run: |
           sleep 10
           node scripts/cloudflare-staging.mjs check "$STAGING_URL"
+      # Slice 11f: post-deploy smoke (tests/smoke/hosted-smoke.mjs, slice 11b). Without a Cloudflare Access service token it checks
+      # only what an anonymous visitor may see (Access redirect, forged identity headers refused, TLS, response headers); with
+      # CF_ACCESS_CLIENT_ID and CF_ACCESS_CLIENT_SECRET repository secrets it also reports how the app answers the service token.
+      # Exit 1 (a check failed) fails the job; exit 2 (the site could not be reached) is a warning, not a pass.
+      - name: Hosted smoke
+        if: steps.creds.outputs.configured == 'true'
+        env:
+          SAHA_HOSTED_URL: ${{ env.STAGING_URL }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        run: |
+          set +e
+          node tests/smoke/hosted-smoke.mjs; code=$?
+          if [ "$code" = "2" ]; then echo "::warning::Hosted smoke could not reach $SAHA_HOSTED_URL; nothing was checked."; exit 0; fi
+          exit $code

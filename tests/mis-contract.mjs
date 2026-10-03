@@ -41,8 +41,10 @@ try{
  check(()=>assert.throws(()=>mappedPayload({...i,mis:{...i.mis,corrections:false}},{...v,amendsVisitId:'v'},corrected),/correction support/));
  corrected.workspace.visits.push({...v,id:'v2',amendsVisitId:'v'});check(()=>assert.equal(mappedPayload(i,{...v,id:'v3',amendsVisitId:'v2'},corrected).replaces.receipt,'PARTNER-1'));
  corrected.workspace.submissions[0].state='uncertain';check(()=>assert.throws(()=>mappedPayload(i,{...v,amendsVisitId:'v'},corrected),/Resolve/));
- let sent=0;await misRequest(i,'org',env,payload,'stable-key',async(url,init)=>{sent++;check(()=>{assert.equal(init.redirect,'error');assert.equal(init.headers['Idempotency-Key'],'stable-key');assert.equal(JSON.parse(init.body).environment,'synthetic');assert.equal(init.headers.Authorization,'Bearer test-secret')});return Response.json(receipt)});check(()=>assert.equal(sent,1));
+ let sent=0;await misRequest(i,'org',env,payload,'stable-key',async(url,init)=>{sent++;check(()=>{assert.equal(init.redirect,'manual');assert.equal(init.headers['Idempotency-Key'],'stable-key');assert.equal(JSON.parse(init.body).environment,'synthetic');assert.equal(init.headers.Authorization,'Bearer test-secret')});return Response.json(receipt)});check(()=>assert.equal(sent,1));
  await rejects(()=>misRequest(i,'org',env,{},'key',async()=>Response.json({}, {status:429})),/429/);
+ // Slice 11f: redirect mode 'manual' (workerd rejects 'error'); a redirect is refused as an unconfirmed receipt and never followed.
+ let hops=0;await rejects(()=>misRequest(i,'org',env,{},'key',async()=>{hops++;return new Response(null,{status:302,headers:{location:'https://elsewhere.example/'}});}),/HTTP 302. Receipt is unconfirmed/);check(()=>assert.equal(hops,1));
  await rejects(()=>misRequest(i,'org',env,{},'key',async()=>new Response('x'.repeat(16001))),/size/);
  await rejects(()=>misRequest(i,'org',env,{},'key',async()=>new Response('bad')),/invalid JSON/);
  await rejects(()=>misRequest(i,'org',env,{},'key',async()=>{throw Error('timeout')}),/timeout/);

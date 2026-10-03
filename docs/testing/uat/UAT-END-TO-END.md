@@ -42,7 +42,7 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 - **Requirements:** BR-UX-01 (partial); BR-DATA-01 (implemented-local); BR-PROG-05 (partial); BR-INT-05 (implemented-local). Priority Must, catalogue release R1.
 - **Catalogue:** End to end, fixture FX-J01, catalogue owner "Product QA and programme owner".
 - **Default result:** Not run
-- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path. An entry a role does not see in its navigation is not available to that role.
+- **Start from:** Care handover, Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path. An entry a role does not see in its navigation is not available to that role.
 - **Preconditions:** Catalogue precondition (target design): "Synthetic environment; role ASHA worker; journey-specific providers and destinations configured as test adapters; no live clinical data." On hosted staging the "test adapters" are the seeded demonstration connectors (plan section 7); real providers, programme destinations, facilities and patients are not available. Sign in as each role the journey names (plan section 6); fixture FX-J01 cannot be loaded, so use synthetic records and note which.
 
 **Journey steps** (catalogue wording; record what you observed under each)

@@ -2,20 +2,20 @@
 // Starts the built Worker (dist/) under `wrangler dev` on a chosen port with its own local D1 state, applies every
 // migration to a fresh state, and returns helpers for synthetic identities, reads and commands. Synthetic data only:
 // the identity headers below model the trusted dispatcher in an isolated local process and must never be sent to a hosted Site.
-import { spawn, execFileSync } from 'node:child_process';
-import { cpSync, mkdtempSync, rmSync, readdirSync, existsSync } from 'node:fs';
+import { spawn } from 'node:child_process';
+import { cpSync, mkdtempSync, rmSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { connect } from 'node:net';
+import { migrateOnce } from './migrate.mjs';
 
 const WRANGLER = ['--import', './scripts/sites-env.mjs', './node_modules/wrangler/bin/wrangler.js'];
 const portFree = port => new Promise(r => { const c = connect(+port, '127.0.0.1'); c.once('connect', () => { c.destroy(); r(false); }); c.once('error', () => r(true)); });
 
-/** Apply every migration in drizzle/ to a fresh local D1 directory (refuses to reuse an existing one unless asked). */
+/** Recreate a local D1 directory and apply every migration in drizzle/ (slice 11f: one wrangler call through
+ * tests/lib/migrate.mjs; one process per file failed 4 of 6 trials on a loaded machine, see that file). */
 export function freshDatabase(state, config = 'dist/server/wrangler.json') {
-  rmSync(state, { recursive: true, force: true });
-  for (const m of readdirSync('drizzle').filter(f => /^\d{4}_.*\.sql$/.test(f)).sort())
-    execFileSync(process.execPath, [...WRANGLER, 'd1', 'execute', 'DB', '--local', '--config', config, '--persist-to', state, '--file', join('drizzle', m)], { stdio: 'ignore' });
+  migrateOnce(state, config);
 }
 
 /**

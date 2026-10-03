@@ -56,6 +56,11 @@ jobs:
       # Slice 11a: smoke suites under tests/smoke/ (each starts its own local Worker with fresh synthetic state). Reports "not present" when there are none.
       - name: Smoke suites
         run: node scripts/test.mjs smoke --fast
+      # Slice 11f: the two security suites run on every pull request (about 2 minutes): the authorisation matrix over every
+      # GET route and role, and identity hardening under Cloudflare Access (signed, forged and fixture principals). The UAT
+      # register check and the drift checks of the generated UAT pack and coverage map take seconds.
+      - name: Security suites and UAT checks
+        run: node scripts/test.mjs nfr uat --only nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast
       - uses: actions/upload-artifact@v4
         if: always()
         with:
