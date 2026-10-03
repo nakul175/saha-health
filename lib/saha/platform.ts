@@ -19,6 +19,7 @@ import { recordImportSchema } from './record-import';
 import { crosswalkSchema } from './crosswalk';
 import { referralSchema } from './referrals';
 import { actionPlanSchema } from './action-plan';
+import { reassignmentSchema } from './reassignment';
 import { correctionTaskSchema, correctionTasks } from './correction-tasks';
 import { rosterSchema } from './roster';
 import { workforceImportSchema } from './workforce-import';
@@ -83,6 +84,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...referralSchema.options,
  ...programmeReferralSchema.options,
  ...actionPlanSchema.options,
+ ...reassignmentSchema.options,
  ...correctionTaskSchema.options,
  ...rosterSchema.options,
  ...workforceImportSchema.options,
