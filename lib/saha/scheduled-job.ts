@@ -9,6 +9,7 @@ import { environmentOf } from './environment';
 import { defaultOperations } from './operations';
 import { linkTrace } from './trace';
 import { JOB_ACTOR, markTimedOut, REVIEW_ACTION, timedOutRequests } from './scheduled-review';
+import { planScheduledVerification, verifyChain, type ScheduledVerificationRecord } from './audit-chain';
 import type { OrgState, Role } from './types';
 // Slice 10a: scheduled trigger (Cloudflare Cron) foundation (BR-ID-04, BR-OPS-04, NFR-18).
 //
@@ -47,6 +48,7 @@ export type OrganisationOutcome = {
   transfers: { applied: number; held: number; deferred: number } | null;
   reviews: { marked: number; deferred: number } | null;
   alerts: { opened: number; closed: number; escalated: number; recipients: number } | null;
+  chain: { verified: boolean; status: string | null; events: number; recorded: boolean } | null;
   recorded: boolean; problems: string[];
 };
 export type JobRun = { refused: string | null; at: string; stoppedBy: 'complete' | 'organisations' | 'queries' | 'time' | 'refused'; organisations: OrganisationOutcome[]; notReached: number; queries: number };
@@ -77,7 +79,7 @@ export async function organisationQueue(d: D1Database, now: string, perRun: numb
 const problem = (step: string, e: unknown) => `${step}: ${e instanceof AppError ? (e.status === 409 ? 'conflict, retried next run' : `refused (${e.status})`) : e instanceof Error ? e.name : 'unknown'}`;
 
 async function processOrganisation(d: D1Database, orgId: string, now: string, lim: JobLimits): Promise<OrganisationOutcome> {
-  const out: OrganisationOutcome = { organisationId: orgId, maintenance: false, transfers: null, reviews: null, alerts: null, recorded: false, problems: [] };
+  const out: OrganisationOutcome = { organisationId: orgId, maintenance: false, transfers: null, reviews: null, alerts: null, chain: null, recorded: false, problems: [] };
   let s: OrgState;
   try { s = await readState(d, orgId); } catch (e) { out.problems.push(problem('read', e)); return out; }
   // Maintenance pauses automatic application (slice 1f) and every write to the organisation record; alerts are still evaluated.
@@ -123,6 +125,16 @@ async function processOrganisation(d: D1Database, orgId: string, now: string, li
     const because = !previous ? 'first' : changed ? 'changed' : Date.parse(now) - Date.parse(previous.evaluatedAt) >= lim.heartbeatMinutes * 60000 ? 'heartbeat' : null;
     if (because && !out.maintenance) out.recorded = await recordEvaluation(d, orgId, { version: SCHEDULED_JOB_VERSION, evaluatedAt: now, alertRules: ALERT_RULES_VERSION, deliveryRules: DELIVERY_RULES_VERSION, opened: ev.opened, closed: ev.closed, escalated: ev.escalated, recipients: ev.recipients, recordedBecause: because });
   } catch (e) { out.problems.push(problem('alerts', e)); }
+  // 4. Audit chain verification from the stored anchor (slice r06, BR-SEC-08): a tampered suffix is found without
+  // traffic, and the intact head is advanced as the anchor for the next run. Recording follows the planner (first,
+  // break, status change, or hourly heartbeat), so a steady intact state does not move the revision every run.
+  try {
+    const previous = (s.operations as { auditChain?: ScheduledVerificationRecord } | undefined)?.auditChain;
+    const verification = await verifyChain(d, orgId, undefined, now, previous?.anchor ?? null);
+    const { record, recordNow } = planScheduledVerification(previous, verification, now, lim.heartbeatMinutes * 60000);
+    out.chain = { verified: true, status: verification.status, events: verification.events, recorded: false };
+    if (recordNow && !out.maintenance) out.chain.recorded = await recordChainVerification(d, orgId, record);
+  } catch (e) { out.problems.push(problem('chain', e)); }
   return out;
 }
 
@@ -136,6 +148,23 @@ async function recordEvaluation(d: D1Database, orgId: string, record: JobRecord)
   const n = record.recipients;
   fresh.workspace.audit.push({ id: uuid(), at: record.evaluatedAt, actorId: JOB_ACTOR.userId, actor: JOB_ACTOR.displayName, role: 'system' as Role, action: 'scheduledAlertEvaluation', subject: orgId, detail: `Operational alerts evaluated by the scheduled job (alert rules ${record.alertRules}, delivery rules ${record.deliveryRules}): ${record.opened} opened, ${record.closed} closed, ${record.escalated} escalated for ${n} recipient${n === 1 ? '' : 's'}. Recorded because ${record.recordedBecause === 'first' ? 'this was the first scheduled evaluation' : record.recordedBecause === 'changed' ? 'alerts changed' : 'the previous record was an hour old'}. In-app only; nothing was sent outside Saha.` });
   await persist(d, before, fresh, JOB_ACTOR, { type: 'scheduledAlertEvaluation' }, `scheduled-alerts-${uuid()}`, await digest(record), record);
+  return true;
+}
+
+// Slice r06: the scheduled audit-chain verification record (operations.auditChain). Written through the normal commit
+// when the planner says so, it stores the verified chain head as the anchor the next run starts from, so each run only
+// walks events after the previous record. A broken chain is recorded immediately; its detail carries the first break.
+async function recordChainVerification(d: D1Database, orgId: string, record: ScheduledVerificationRecord) {
+  const fresh = await readState(d, orgId);
+  if (fresh.operations?.maintenance) return false;
+  const before = structuredClone(fresh), ops = (fresh.operations ??= defaultOperations()) as { auditChain?: ScheduledVerificationRecord };
+  ops.auditChain = record;
+  const n = record.events;
+  const detail = record.status === 'broken'
+    ? `Audit chain scheduled verification: BROKEN${record.firstBreak ? ` at event ${record.firstBreak.seq} (${record.firstBreak.reason})` : ''}.`
+    : `Audit chain scheduled verification: ${record.status}, ${n} chained event${n === 1 ? '' : 's'}${record.verifiedFrom ? ` from the stored anchor at event ${record.verifiedFrom.seq}` : ' from the start'}, head at event ${record.head?.seq ?? 'none'}.`;
+  fresh.workspace.audit.push({ id: uuid(), at: record.verifiedAt, actorId: JOB_ACTOR.userId, actor: JOB_ACTOR.displayName, role: 'system' as Role, action: 'auditChainScheduledVerification', subject: orgId, detail });
+  await persist(d, before, fresh, JOB_ACTOR, { type: 'auditChainScheduledVerification' }, `scheduled-chain-${uuid()}`, await digest(record), record);
   return true;
 }
 
