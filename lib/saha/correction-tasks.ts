@@ -24,10 +24,11 @@ import type { CorrectionSource, CorrectionTask, Member, OrgState, Person, Visit 
 //   EHR publications, open assistant requests) is recorded as invalidated; worker-activity evidence and
 //   indicators are recomputed on every read and recorded as such. Outputs a person must judge (referrals and
 //   follow-ups created from the visit, protocol evaluations, applied assistant results) become review tasks.
-//   Slice R26 (BR-DATA-06): shadow comparisons and released indicator figures are recomputed (or invalidated for
-//   a wrong-patient visit) instead of reviewed — the task records the recompute outcome and marks the affected
-//   released figures — and referral/follow-up tasks link their sources. Internal outputs past the task cap that
-//   are already recomputed or invalidated stay recomputed rather than being folded into a review.
+//   Slice R26 (BR-DATA-06): the indicator task marks the released figures that may have counted the visit, and
+//   referral/follow-up tasks link their sources. Internal outputs past the task cap that are already recomputed or
+//   invalidated stay recomputed rather than being folded into a review. Integration of #144 (review finding): shadow
+//   comparisons, and released figures (never recalled), remain review tasks, because nothing recomputes a shadow
+//   comparison on read yet and only a person can decide whether a released figure must be reissued.
 //
 // Closing an open task needs evidence: a Saha receipt id of the accepted correction (checked against the
 // destination and the correction chain) or a reason of at least 10 characters, with an optional destination
@@ -98,19 +99,21 @@ export function correctionTasks(s:OrgState,v:Visit,cause:'amend'|'void',u:Actor,
   else if(['pending','running','review'].includes(r.status))add({output,external:false,action:'invalidated',state:'done',instruction:'The request can no longer be approved or applied: the server refuses assistant work on a visit that is not current.'});
  }
  for(const r of v.aiResults??[])if(r.reviewed)add({output:{kind:'assistant-result',refId:r.id,label:`Reviewed AI result (${r.providerName})`,stateAtCorrection:'reviewed'},external:false,action:'review',instruction:'A reviewed AI result was based on the earlier facts. Check whether anything was decided from it.'});
- // Shadow comparisons that used this version's confirmed values (governance evidence). Slice R26: the comparison
- // is recomputed on read — re-derived from the stored assistant output against the corrected facts once the
- // correction visit is confirmed — or invalidated for a wrong-patient visit. No governance record is rewritten
- // from a patient-scoped commit; the task records the recompute outcome for the Clinical governance review.
+ // Shadow comparisons that used this version's confirmed values (governance evidence). No governance record is
+ // rewritten from a patient-scoped commit. Slice R26 marked these recomputed; integration of #144 (review finding):
+ // nothing recomputes or excludes a shadow comparison on read yet (shadow.recompareShadow has no caller and drift.ts
+ // counts every result), so this stays an open review task for Clinical governance, as before slice R26.
  for(const sh of s.governance?.shadows??[])for(const r of sh.results)if(r.visitId===v.id&&r.status==='compared')
-  add({output:{kind:'shadow-comparison',refId:sh.id,label:'Shadow comparison',stateAtCorrection:`compared at visit version ${r.visitVersion}`,sources:[{kind:'visit',refId:v.id,visitId:v.id,label:'the visit the comparison scored'}],recomputed:{outcome:amend?'recomputed':'invalidated',visitId:amend?correctionVisitId:null}},external:false,action:amend?'recomputed':'invalidated',state:'done',
-   instruction:amend?'This shadow comparison scored the assistant against values that were later corrected. It is recomputed against the correction visit once that visit is confirmed; until then the earlier comparison is excluded from shadow and drift counts.':'This shadow comparison scored the assistant against a visit recorded against the wrong patient. It is excluded from shadow and drift counts.'});
+  add({output:{kind:'shadow-comparison',refId:sh.id,label:'Shadow comparison',stateAtCorrection:`compared at visit version ${r.visitVersion}`,sources:[{kind:'visit',refId:v.id,visitId:v.id,label:'the visit the comparison scored'}]},external:false,action:'review',
+   instruction:amend?'This shadow comparison scored the assistant against values that were later corrected. Exclude or note it when the shadow operation is reviewed in Clinical governance.':'This shadow comparison scored the assistant against a visit recorded against the wrong patient. Exclude it when the shadow operation is reviewed in Clinical governance.'});
  // Worker-activity evidence is recomputed from record revisions on every read.
  add({output:{kind:'worker-activity',refId:null,label:'Worker activity evidence',stateAtCorrection:'performed'},external:false,action:'recomputed',state:'done',instruction:`Worker activity is computed on each read; this visit now shows as ${amend?'corrected':'wrong-patient'}.`});
  // Indicator releases that may have counted this version. Slice R26: the figures released since confirmation are
- // recomputed on read and marked affected on this task (their ledger identity only, never a cell value).
+ // marked affected on this task (their ledger identity only, never a cell value). Indicators are recomputed on read,
+ // but a released figure is not recalled, so (integration of #144) the task stays open for a person to decide
+ // whether a reissued figure is needed; with no release since confirmation there is nothing to decide.
  const affected=affectedReleases(s,v.confirmedAt);
- add({output:{kind:'indicator-releases',refId:null,label:'Indicator releases',stateAtCorrection:`${affected.length} release${affected.length===1?'':'s'} since confirmation`,count:affected.length,releases:affected},external:false,action:'recomputed',state:'done',
+ add({output:{kind:'indicator-releases',refId:null,label:'Indicator releases',stateAtCorrection:`${affected.length} release${affected.length===1?'':'s'} since confirmation`,count:affected.length,releases:affected},external:false,action:affected.length?'review':'recomputed',state:affected.length?'open':'done',
   instruction:affected.length?`${affected.length} released indicator figure${affected.length===1?'':'s'} recorded since this visit was confirmed may have counted it and are marked affected on this task. Indicators are recomputed on each read; figures already released are not recalled. Decide whether a reissued figure is needed.`:'No indicator release is recorded since confirmation; indicators are recomputed on each read.'});
  // Slice 6ad (ninth review, finding 9): a visit with more downstream outputs than MAX_TASKS can still be corrected
  // (there is no administrator path, so refusing could make a wrong-patient visit impossible to void). Every external

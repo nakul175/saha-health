@@ -58,7 +58,7 @@ try {
   // Slice 7c: a deliberate violation in the HIP document (negative weight) is refused with the rule set and reason before encryption; nothing is stored.
   const vIn = s.workspace.visits[0], keepWeight = vIn.facts.weight, beforeT = P().abdmTransfers.length, beforeR = P().abdmReceived.length; vIn.facts.weight = '-5';
   const bad = await rejects(() => run('doc', { type: 'abdmFetch', personId: 'p1', version: P().version, consentId: cid }), 422);
-  check(() => { assert.match(bad.message, /saha-fhir-r4-document-structure 1\.0\.0: Observation units or values/); assert.equal(P().abdmTransfers.length, beforeT); assert.equal(P().abdmReceived.length, beforeR); });
+  check(() => { assert.match(bad.message, /saha-fhir-r4-document-structure 1\.1\.0: Observation units or values/); assert.equal(P().abdmTransfers.length, beforeT); assert.equal(P().abdmReceived.length, beforeR); });
   vIn.facts.weight = keepWeight;
   // Review, then revocation and relinking stop further transfers.
   const rid = P().abdmReceived[0].id;

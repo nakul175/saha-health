@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fail, uuid } from './core';
+import { fail, person, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
 import { supervises } from './delegation';
 import { TERMINAL, type Urgency } from './referral-rules';
@@ -164,6 +164,9 @@ export function authorizeReassignment(s: OrgState, m: Member, c: any) {
   if (new Set(c.targets.map((t: { kind: QueueKind; id: string }) => t.kind + ':' + t.id)).size !== c.targets.length) fail(422, 'List each item once.');
   const rows = c.targets.map((t: { kind: QueueKind; id: string }) => resolveQueueItem(s, t));
   for (const { p, kind, record } of rows) {
+    // Integration of #144 (review finding): owner or steward authority never overrides patient scope. The patient must be in
+    // the actor's own care scope (as assignSafety requires through person()) before any steward rule applies.
+    person(s.workspace, p.id);
     if (steward(s, m, p)) continue;
     if (!careWorker(m, p)) fail(403, 'A supervisor or owner of the patient\'s team, or a care worker with current access, is required.');
     if (c.ownerId !== m.userId) fail(403, 'Care workers can take ownership for themselves only. Ask a supervisor to assign someone else.');

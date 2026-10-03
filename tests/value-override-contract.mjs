@@ -99,7 +99,7 @@ try {
   // 8. FHIR: notes carry the entered unit and the override; the pinned rule set still passes; visits without either are unchanged.
   const doc = D.fhirDocument(person, conf.workspace.visits[0], 'Synthetic organisation', 'Synthetic confirmer');
   const stamp = V.validateOutbound(doc, person.id);
-  check(() => { assert.equal(stamp.ruleset, 'saha-fhir-r4-document-structure'); assert.equal(stamp.version, '1.0.0'); });
+  check(() => { assert.equal(stamp.ruleset, 'saha-fhir-r4-document-structure'); assert.equal(stamp.version, '1.1.0'); });
   const res = doc.entry.map(e => e.resource), wt = res.find(x => x.resourceType === 'Observation' && x.code.coding[0].code === '29463-7');
   check(() => { assert.equal(wt.valueQuantity.value, 400.07); assert.equal(wt.valueQuantity.code, 'kg'); assert.match(wt.note[0].text, /Entered as 882 lb; converted by Saha\. Unusual value \(saha-value-ranges-0\.1\.0, engineering placeholder — not clinically approved\): outside 2–150 kg; reason: Synthetic scale reading repeated twice\. Confirmed by Name clin-1 \(clinician\), 2026-10-01 06:00 UTC\./); });
   check(() => { const sys = res.find(x => x.resourceType === 'Observation' && x.code.coding[0].code === '8480-6'); assert.match(sys.note[0].text, /Unusual value .*outside 70–200 mmHg; reason: Third reading/); assert.doesNotMatch(sys.note[0].text, /Confirmed by|pending/); });

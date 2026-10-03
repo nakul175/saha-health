@@ -122,6 +122,17 @@ try {
   // identifierLink / identifierWithdraw semantics are unchanged: the slice 10e module is untouched by this slice.
   check(() => { const src = readFileSync('lib/saha/crosswalk.ts', 'utf8'); assert.match(src, /identifierLink/); assert.match(src, /identifierWithdraw/); assert.equal(src.includes('prepareIdentifierCorrection'), false, 'the crosswalk module itself is not extended'); });
   check(() => { const a = CC.authorizeCrosswalkCorrection(state(), asha, { type: 'prepareIdentifierCorrection', verification: 'unverified' }); assert.equal(a, undefined); assert.throws(() => CC.authorizeCrosswalkCorrection(state(), admin, { type: 'prepareIdentifierCorrection' }), e => e.status === 403); CC.authorizeCrosswalkCorrection(state(), owner, { type: 'other' }); });
+  // Integration of #144 (review findings): approving, sending and looking up need the patient in the actor's care scope, and only
+  // a send whose outcome is uncertain can be looked up (a lookup of a prepared or approved correction recorded a receipt).
+  { const s = state(), r = await run(s, owner, prep('p1')), north = member('north-clin', 'clinician', { teamIds: ['north'] });
+    await rejects(() => run(s, north, { type: 'approveIdentifierCorrection', correctionId: r.correctionId, payloadSha256: r.payloadSha256 }), 403, /outside your care scope/);
+    await rejects(() => run(s, clin, { type: 'lookupIdentifierCorrection', correctionId: r.correctionId }), 409, /uncertain/);
+    check(() => { const c = find(s, r.correctionId); assert.equal(c.state, 'prepared', 'a refused lookup changes nothing'); assert.equal(c.receipt, undefined); });
+    await run(s, clin, { type: 'approveIdentifierCorrection', correctionId: r.correctionId, payloadSha256: r.payloadSha256 });
+    await rejects(() => run(s, clin, { type: 'lookupIdentifierCorrection', correctionId: r.correctionId }), 409, /uncertain/);
+    await rejects(() => run(s, north, { type: 'sendIdentifierCorrection', correctionId: r.correctionId }), 403, /outside your care scope/);
+    check(() => assert.equal(find(s, r.correctionId).state, 'approved'));
+  }
 } finally { rmSync(dir, { recursive: true, force: true }); }
 writeFileSync('tests/crosswalk-correction-contract-result.json', JSON.stringify({ passed, completedAt: new Date().toISOString(), coverage: 'Correction of imported identifiers and destination-specific identifier correction through the approval path (slice r17): schema and authority; imported (slice 2h) identifier correction and withdrawal with provenance (who, when, origin, verification, evidence) as an append-only ledger entry that leaves the imported entry untouched and is followed by currentIdentifiers; destination checks (programme, demonstration-only, active, correction support, update operation); the prepare -> approve -> send -> lookup approval path (a different authorised person approves, the preparer or approver sends inside the window, a lost response stays uncertain and a lookup resolves it without a resend); masking of the identifier value in results, views and audit lines; the downstream repair list; the open-correction limit and expiry; the receipt contract; and that identifierLink/identifierWithdraw are unchanged.' }, null, 2) + '\n');
 console.log(`${passed} crosswalk correction contract checks passed`);

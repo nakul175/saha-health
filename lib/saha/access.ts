@@ -21,11 +21,17 @@ export function programmeScopeOf(m:Member,grants:readonly PurposeGrant[]|undefin
 // widens `allowed`, and with no grant it behaves exactly as `allowed` did before this slice.
 // `purpose` is the data-flow context; on an ordinary record read pass no purpose, so a
 // purpose-only grant leaves the member's record scope unchanged.
+// Integration of #144 (review finding): the programme part also narrows the workspace scope gate (store.ts scope),
+// so it applies to the snapshot and to every command that resolves the patient through core.person().
+export function programmeAllows(m:Member,p:Person,grants:readonly PurposeGrant[]|undefined):boolean{
+  const programme=programmeScopeOf(m,grants);
+  return !programme||(p.programmes??[]).includes(programme);
+}
 export function allowedFor(m:Member,p:Person,grants:readonly PurposeGrant[]|undefined,purpose?:AccessPurpose):boolean{
   if(!allowed(m,p))return false;
   const g=purposeGrantFor(m,grants);
   if(!g)return true;
-  if(g.programme&&!p.programmes.includes(g.programme))return false;
+  if(!programmeAllows(m,p,grants))return false;
   if(purpose&&g.purposes.length&&!g.purposes.includes(purpose))return false;
   return true;
 }

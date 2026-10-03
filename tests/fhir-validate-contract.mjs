@@ -16,10 +16,10 @@ try {
   const person = { id: 'p_1', name: 'Validation Synthetic', sex: 'Female' };
   const visit = { id: 'v1', facts: { date: '2026-09-01T09:30', source: 'measured', notes: 'Synthetic note', weight: '61.5', systolic: '118', diastolic: '76', temperature: '37.1', weeks: '', coughDays: '' } };
   const make = () => D.fhirDocument(person, visit, 'Synthetic organisation', 'Synthetic clinician', 'doc-1', 'ext-1');
-  check(() => assert.deepEqual([V.VALIDATION_RULESET.id, V.VALIDATION_RULESET.version, V.VALIDATION_RULESET.fhirVersion], ['saha-fhir-r4-document-structure', '1.0.0', '4.0.1']));
+  check(() => assert.deepEqual([V.VALIDATION_RULESET.id, V.VALIDATION_RULESET.version, V.VALIDATION_RULESET.fhirVersion], ['saha-fhir-r4-document-structure', '1.1.0', '4.0.1']));
   check(() => { assert.equal(V.VALIDATION_RULESET.profilePackage, null); assert.equal(V.VALIDATION_RULESET.terminology, null); });
   const stamp = V.validateOutbound(make(), 'ext-1', '2026-09-30T00:00:00.000Z');
-  check(() => assert.deepEqual({ ...stamp, warnings: undefined }, { ruleset: 'saha-fhir-r4-document-structure', version: '1.0.0', fhirVersion: '4.0.1', checkedAt: '2026-09-30T00:00:00.000Z', warnings: undefined }));
+  check(() => assert.deepEqual({ ...stamp, warnings: undefined }, { ruleset: 'saha-fhir-r4-document-structure', version: '1.1.0', fhirVersion: '4.0.1', checkedAt: '2026-09-30T00:00:00.000Z', warnings: undefined }));
   check(() => assert.ok(stamp.warnings.some(w => /Full FHIR and ABDM profile validation has not been performed/.test(w))));
   const obs = b => b.entry.find(e => e.resource.resourceType === 'Observation');
   const corpus = [
@@ -41,7 +41,7 @@ try {
   for (const [name, mutate, reason] of corpus) {
     const b = make(); mutate(b);
     let error; try { V.validateOutbound(b, 'ext-1'); } catch (e) { error = e; }
-    check(() => { assert.ok(error, name + ' must be refused'); assert.equal(error.status, 422, name); assert.match(error.message, /^Document failed saha-fhir-r4-document-structure 1\.0\.0: /, name); assert.match(error.message, reason, name); assert.match(error.message, /Nothing was sent\.$/, name); });
+    check(() => { assert.ok(error, name + ' must be refused'); assert.equal(error.status, 422, name); assert.match(error.message, /^Document failed saha-fhir-r4-document-structure 1\.1\.0: /, name); assert.match(error.message, reason, name); assert.match(error.message, /Nothing was sent\.$/, name); });
   }
   let mismatch; try { V.validateOutbound(make(), 'someone-else'); } catch (e) { mismatch = e; }
   check(() => assert.match(mismatch.message, /Document patient does not match/));

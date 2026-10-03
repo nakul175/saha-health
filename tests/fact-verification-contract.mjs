@@ -86,7 +86,7 @@ try {
   const v = s.workspace.visits[0];
   const doc = D.fhirDocument(person, v, 'Synthetic organisation', 'Synthetic confirmer');
   const stamp = V.validateOutbound(doc, person.id);
-  check(() => { assert.equal(stamp.ruleset, 'saha-fhir-r4-document-structure'); assert.equal(stamp.version, '1.0.0'); });
+  check(() => { assert.equal(stamp.ruleset, 'saha-fhir-r4-document-structure'); assert.equal(stamp.version, '1.1.0'); });
   const res = doc.entry.map(e => e.resource), byUrl = new Map(doc.entry.map(e => [e.fullUrl, e.resource]));
   const weight = res.find(r => r.resourceType === 'Observation' && r.code.coding[0].code === '29463-7');
   check(() => { const perf = byUrl.get(weight.performer[0].reference); assert.equal(perf.resourceType, 'Practitioner'); assert.equal(perf.name[0].text, 'Synthetic ASHA'); });

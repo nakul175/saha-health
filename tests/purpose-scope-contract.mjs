@@ -41,6 +41,26 @@ try {
     assert.equal(A.programmeScopeOf(worker, grants), 'Maternal care');
     assert.equal(A.programmeScopeOf(supervisor, grants), null);
   });
+  // Integration of #144 (review finding): the programme tag reaches the workspace scope gate, so the snapshot and every
+  // command that resolves a patient through core.person() are narrowed, not only the ?check query.
+  await check('programme tag narrows the workspace scope gate and core.person()', async () => {
+    const S = await imp('store'), C = await imp('core');
+    const s = state([owner, worker]);
+    s.workspace.people = [person('p1', 't1', ['Maternal care', 'General care']), person('p2', 't1', ['TB screening', 'General care'])];
+    S.scope(s, 'worker');
+    assert.deepEqual(s.workspace.people.map(p => p.assigned), [true, true], 'no grant: the existing team scope');
+    s.operations = { purposeGrants: [{ id: 'g1', memberId: 'worker', programme: 'Maternal care', purposes: [], version: 1, setBy: 'own', setAt: 'now', reason: 'x'.repeat(12) }] };
+    S.scope(s, 'worker');
+    assert.deepEqual(s.workspace.people.map(p => p.assigned), [true, false]);
+    assert.equal(C.person(s.workspace, 'p1').id, 'p1');
+    assert.throws(() => C.person(s.workspace, 'p2'), e => e.status === 403);
+    s.operations.purposeGrants[0].revokedAt = 'later';
+    S.scope(s, 'worker');
+    assert.deepEqual(s.workspace.people.map(p => p.assigned), [true, true], 'a revoked grant no longer narrows');
+    s.operations.purposeGrants = [{ id: 'g2', memberId: 'worker', programme: null, purposes: ['reporting'], version: 1, setBy: 'own', setAt: 'now', reason: 'x'.repeat(12) }];
+    S.scope(s, 'worker');
+    assert.deepEqual(s.workspace.people.map(p => p.assigned), [true, true], 'a purpose-only grant leaves record scope unchanged');
+  });
   await check('purpose tag narrows data flows only', () => {
     const grants = [{ id: 'g2', memberId: 'worker', programme: null, purposes: ['ai-assistance'], version: 1, setBy: 'own', setAt: 'now', reason: 'x'.repeat(12) }];
     const p = person('p1', 't1', ['General care']);

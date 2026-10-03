@@ -1,7 +1,8 @@
 // Slice r21 contract (BR-DATA-02, BR-DATA-05, BR-INT-11): coded FHIR provenance for the server-recorded
 // measurement author, clinician review and supervisor sign-off, and the structured (non-note) extension that
 // carries unusual-value overrides — all inside a document that still passes the pinned rule set
-// `saha-fhir-r4-document-structure` (id, version, basis and regression corpus unchanged).
+// `saha-fhir-r4-document-structure` (id and regression corpus unchanged; version 1.1.0 since the integration of #144,
+// because accepting Provenance changed what the rule set accepts).
 import assert from 'node:assert/strict';
 import ts from 'typescript';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
@@ -22,8 +23,8 @@ try {
   const person = { id: 'psyn', name: 'Synthetic Provenance Person', sex: 'Female' };
   const visit = (facts, extra = {}) => ({ id: 'v-syn', personId: person.id, version: 3, state: 'confirmed', facts, recordVersion: 2, aiResults: [], ...extra });
 
-  // 1. The pinned rule set is unchanged.
-  check(() => assert.deepEqual([V.VALIDATION_RULESET.id, V.VALIDATION_RULESET.version, V.VALIDATION_RULESET.fhirVersion], ['saha-fhir-r4-document-structure', '1.0.0', '4.0.1']));
+  // 1. The pinned rule set: same id, version 1.1.0 (it now accepts Provenance), FHIR 4.0.1.
+  check(() => assert.deepEqual([V.VALIDATION_RULESET.id, V.VALIDATION_RULESET.version, V.VALIDATION_RULESET.fhirVersion], ['saha-fhir-r4-document-structure', '1.1.0', '4.0.1']));
   check(() => assert.equal(V.VALIDATION_RULESET.profilePackage, null));
 
   // 2. Synchronous sign-off resolution: current, withdrawn, stale version, non-confirmed.
@@ -66,7 +67,7 @@ try {
   const doc = D.fhirDocument(person, rich, 'Synthetic organisation', 'Synthetic confirmer');
   const stamp = V.validateOutbound(doc, person.id);
   check(() => assert.equal(stamp.ruleset, 'saha-fhir-r4-document-structure'));
-  check(() => assert.equal(stamp.version, '1.0.0'));
+  check(() => assert.equal(stamp.version, '1.1.0'));
   const res = doc.entry.map(e => e.resource);
   const wt = res.find(r => r.resourceType === 'Observation' && r.code.coding[0].code === '29463-7');
   const sys = res.find(r => r.resourceType === 'Observation' && r.code.coding[0].code === '8480-6');
@@ -133,7 +134,7 @@ try {
   const bad = structuredClone(doc);
   bad.entry.push({ fullUrl: 'urn:uuid:00000000-0000-4000-8000-000000000000', resource: { resourceType: 'MedicationRequest', id: 'm1' } });
   let error; try { V.validateOutbound(bad, person.id); } catch (e) { error = e; }
-  check(() => { assert.ok(error, 'an unsupported resource type is still refused'); assert.equal(error.status, 422); assert.match(error.message, /^Document failed saha-fhir-r4-document-structure 1\.0\.0: Unsupported document resource/); });
+  check(() => { assert.ok(error, 'an unsupported resource type is still refused'); assert.equal(error.status, 422); assert.match(error.message, /^Document failed saha-fhir-r4-document-structure 1\.1\.0: Unsupported document resource/); });
 
   // An unresolved Provenance target is still refused (references must resolve).
   const dangling = structuredClone(doc);
@@ -142,5 +143,5 @@ try {
   let derror; try { V.validateOutbound(dangling, person.id); } catch (e) { derror = e; }
   check(() => { assert.ok(derror); assert.match(derror.message, /not resolved inside the bundle/); });
 } finally { rmSync(dir, { recursive: true, force: true }); }
-writeFileSync('tests/fhir-provenance-contract-result.json', JSON.stringify({ passed, completedAt: new Date().toISOString(), coverage: 'Coded FHIR provenance (slice r21): the pinned rule set is unchanged; the sync sign-off resolution (current, withdrawn, stale, non-confirmed); observation agents (author + latest verifier with state and reason); the structured override extension (entered value/unit, reason, tier, ranges version and ranges, recorder, confirmation) for an unusual value and none for an in-range one; a document with per-observation Provenance (author reusing the performer, verifier as an identifier+display reference, coded verification state) and a visit-level sign-off Provenance targeting the Composition, all passing the unchanged validator; ordinary visits unchanged; and the rule set still refusing unsupported and unresolved resources.' }, null, 2) + '\n');
+writeFileSync('tests/fhir-provenance-contract-result.json', JSON.stringify({ passed, completedAt: new Date().toISOString(), coverage: 'Coded FHIR provenance (slice r21): the pinned rule set (1.1.0, which accepts Provenance); the sync sign-off resolution (current, withdrawn, stale, non-confirmed); observation agents (author + latest verifier with state and reason); the structured override extension (entered value/unit, reason, tier, ranges version and ranges, recorder, confirmation) for an unusual value and none for an in-range one; a document with per-observation Provenance (author reusing the performer, verifier as an identifier+display reference, coded verification state) and a visit-level sign-off Provenance targeting the Composition, all passing the validator; ordinary visits unchanged; and the rule set still refusing unsupported and unresolved resources.' }, null, 2) + '\n');
 console.log(`${passed} fhir provenance contract checks passed`);

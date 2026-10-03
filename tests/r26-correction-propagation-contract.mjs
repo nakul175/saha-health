@@ -1,5 +1,7 @@
-// Slice R26 (BR-DATA-06) correction propagation: shadow comparisons are recomputed (amended) or invalidated
-// (voided) instead of reviewed; released indicator figures are recomputed and marked affected; referral and
+// Slice R26 (BR-DATA-06) correction propagation. Integration of #144 (review finding): nothing recomputes a shadow
+// comparison on read yet (recompareShadow has no caller and drift counts every result), so a shadow comparison stays
+// an open review task, and a correction with released indicator figures since confirmation leaves an open review
+// task that marks them affected (a released figure is not recalled). Referral and
 // follow-up tasks link their sources; internal outputs past the task cap that the server already recomputes stay
 // recomputed (not reviewed); open correction tasks expose their follow-up/referral source links. External
 // corrections are still never sent automatically.
@@ -41,17 +43,16 @@ try {
     },
   });
 
-  // 1. Shadow comparison: recomputed for an amendment, invalidated for a void.
+  // 1. Shadow comparison: an open review task for an amendment or a void; the task never claims a recompute.
   check(() => {
     const amend = C.correctionTasks(fresh(), fresh().workspace.visits[0], 'amend', actor('doc'), now, 'v1b');
     const sh = amend.find(t => t.output.kind === 'shadow-comparison');
-    assert.equal(sh.action, 'recomputed'); assert.equal(sh.state, 'done');
-    assert.deepEqual(sh.output.recomputed, { outcome: 'recomputed', visitId: 'v1b' });
-    assert.match(sh.instruction, /recomputed against the correction visit/);
+    assert.equal(sh.action, 'review'); assert.equal(sh.state, 'open'); assert.equal(sh.output.recomputed, undefined);
+    assert.match(sh.instruction, /Clinical governance/); assert.doesNotMatch(sh.instruction, /recomputed|excluded from shadow and drift counts/);
+    assert.deepEqual(sh.output.sources, [{ kind: 'visit', refId: 'v1', visitId: 'v1', label: 'the visit the comparison scored' }]);
     const voided = C.correctionTasks(fresh(), fresh().workspace.visits[0], 'void', actor('doc'), now, null);
     const vsh = voided.find(t => t.output.kind === 'shadow-comparison');
-    assert.equal(vsh.action, 'invalidated'); assert.equal(vsh.state, 'done');
-    assert.deepEqual(vsh.output.recomputed, { outcome: 'invalidated', visitId: null });
+    assert.equal(vsh.action, 'review'); assert.equal(vsh.state, 'open'); assert.match(vsh.instruction, /wrong patient/);
   });
 
   // 2. recompareShadow follows the amendment chain and invalidates a voided or missing visit.
@@ -77,11 +78,12 @@ try {
     assert.deepEqual(I.affectedReleases({ operations: {} }, confirmedAt), []);
   });
 
-  // 4. The indicator-releases task is recomputed and marks the affected figures (ledger identity only).
+  // 4. The indicator-releases task marks the affected figures (ledger identity only) and stays open: indicators are
+  // recomputed on read, but a figure already released is not recalled, so a person decides whether to reissue it.
   check(() => {
     const tasks = C.correctionTasks(fresh(), fresh().workspace.visits[0], 'amend', actor('doc'), now, 'v1b');
     const ir = tasks.find(t => t.output.kind === 'indicator-releases');
-    assert.equal(ir.action, 'recomputed'); assert.equal(ir.state, 'done');
+    assert.equal(ir.action, 'review'); assert.equal(ir.state, 'open'); assert.match(ir.instruction, /Decide whether a reissued figure is needed/);
     assert.equal(ir.output.count, 2);
     assert.deepEqual(ir.output.releases, [{ at: after, k: 'series-hash-1' }, { at: confirmedAt, k: 'series-hash-2' }]);
     assert.doesNotMatch(JSON.stringify(ir), /"n"|"d"|"c"|"m"|"f":/, 'no cell or filter value leaks onto the task');
@@ -121,10 +123,12 @@ try {
     assert.match(folded[0].instruction, /need review/);
     const listed = tasks.filter(t => t.output.kind === 'referral' && t.output.refId).length;
     assert.equal(listed + folded[0].output.count, s.workspace.referrals.filter(r => r.visitId === 'v1').length);
-    const doneFold = tasks.filter(t => !t.output.refId && t.output.kind === 'shadow-comparison');
-    assert.equal(doneFold.length, 1, 'the already-recomputed shadow comparison is folded as done, not review');
+    const doneFold = tasks.filter(t => !t.output.refId && t.output.kind === 'worker-activity');
+    assert.equal(doneFold.length, 1, 'worker activity, recomputed on every read, is folded as done, not review');
     assert.equal(doneFold[0].state, 'done'); assert.equal(doneFold[0].action, 'recomputed');
     assert.match(doneFold[0].instruction, /need no review/);
+    const shFold = tasks.filter(t => !t.output.refId && t.output.kind === 'shadow-comparison');
+    assert.equal(shFold.length, 1); assert.equal(shFold[0].state, 'open', 'a shadow comparison past the cap still needs review'); assert.equal(shFold[0].action, 'review');
   });
 
   // 8. External corrections are still never sent automatically.

@@ -7,11 +7,13 @@ import { inspectDocument } from './fhir-document';
 // terminology server or ABDM validator is installed.
 export const VALIDATION_RULESET={
  id:'saha-fhir-r4-document-structure',
- version:'1.0.0',
+ // 1.1.0 (integration of #144, review finding): Provenance became a permitted resource type in slice R21, so the
+ // rule set accepts documents 1.0.0 refused; a stamp names the version that checked the document.
+ version:'1.1.0',
  fhirVersion:'4.0.1',
  basis:[
   'HL7 FHIR R4 Bundle invariants bdl-7 (unique fullUrl), bdl-9 (document identifier with system and value), bdl-10 (document timestamp) and bdl-11 (Composition first)',
-  'Saha structural subset: permitted resource types, one Composition and one Patient, every reference resolved inside the bundle, final Composition with type, title and author, dated observations with time zone, UCUM units for the supported LOINC vital signs',
+  'Saha structural subset: permitted resource types (Composition, Patient, Encounter, Observation, Organization, Practitioner and, from 1.1.0, Provenance), one Composition and one Patient, every reference resolved inside the bundle, final Composition with type, title and author, dated observations with time zone, UCUM units for the supported LOINC vital signs',
  ],
  profilePackage:null,
  terminology:null,

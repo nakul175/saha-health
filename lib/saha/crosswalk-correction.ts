@@ -138,6 +138,9 @@ export async function applyCrosswalkCorrection(s: OrgState, input: unknown, u: A
   compactCorrections(s, now);
   if (c.type === 'prepareIdentifierCorrection') return prepare(s, c, u, m, now);
   const corr = findCorrection(s, c.correctionId);
+  // Integration of #144 (review finding): approving, sending or looking up a correction needs the patient in the actor's care
+  // scope, exactly as preparing it does; a care role alone is not enough.
+  if (!normallyAllowed(m, person(s.workspace, corr.personId))) fail(403, 'This patient is outside your care scope.');
   if (c.type === 'approveIdentifierCorrection') return approve(s, corr, c, u, m, now);
   if (c.type === 'sendIdentifierCorrection') return send(s, corr, u, m, now);
   return lookup(s, corr, u, m, now);
@@ -211,6 +214,9 @@ function send(s: OrgState, corr: CrosswalkCorrection, u: Actor, m: Member, now: 
 
 function lookup(s: OrgState, corr: CrosswalkCorrection, u: Actor, m: Member, now: string): any {
   if (corr.state === 'accepted') return { correctionId: corr.id, state: corr.state };
+  // Integration of #144 (review finding): only a send whose outcome is uncertain can be looked up. A lookup of a prepared,
+  // approved, rejected or expired correction would record a receipt for something that was never approved or sent.
+  if (corr.state !== 'uncertain') fail(409, 'Only a correction whose outcome is uncertain can be looked up. Approve and send it first.');
   const i = recheckDestination(s, corr);
   applyReceipt(corr, demoCorrectionTransport(i, corr, true), true, now);
   s.workspace.audit.push({ id: uuid(), at: now, actorId: u.userId, actor: u.displayName, role: m.role, action: 'lookupIdentifierCorrection', subject: corr.id, personId: corr.personId, detail: `Identifier correction ${corr.id} outcome looked up at ${corr.destinationName}: ${corr.state}${corr.receipt ? ` (receipt ${corr.receipt})` : ''}. Nothing was resent.` });

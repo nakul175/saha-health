@@ -7,8 +7,8 @@ const coding=(code:string,display:string)=>({coding:[{system:'http://loinc.org',
 // Slice r21 (BR-DATA-02, BR-DATA-05, BR-INT-11): coded FHIR provenance for the server-recorded
 // measurement author, clinician review and supervisor sign-off, and a structured (non-note) extension
 // carrying unusual-value overrides. The helpers live beside the document builder so every existing
-// contract harness that transpiles fhir-document.ts keeps working; the pinned rule set
-// `saha-fhir-r4-document-structure` is unchanged.
+// contract harness that transpiles fhir-document.ts keeps working. The pinned rule set
+// `saha-fhir-r4-document-structure` moved to 1.1.0 when it began to accept Provenance (integration of #144).
 export const FHIR_ROLE_SYSTEM='urn:saha:role';
 export const FHIR_USER_SYSTEM='urn:saha:user';
 export const FHIR_PARTICIPANT_SYSTEM='http://terminology.hl7.org/CodeSystem/provenance-participant-type';
@@ -66,7 +66,7 @@ const supported:Record<string,{label:string;unit:string}>={'29463-7':{label:'Bod
 export function inspectDocument(raw:unknown,expectedPatientId?:string):DocumentSummary{
  const b=raw as any;if(!b||b.resourceType!=='Bundle'||b.type!=='document'||typeof b.identifier?.system!=='string'||!b.identifier.system||typeof b.identifier?.value!=='string'||!b.identifier.value||typeof b.timestamp!=='string'||!Number.isFinite(Date.parse(b.timestamp)))fail(422,'Use a FHIR R4 document Bundle with identifier and timestamp.');
  if(!Array.isArray(b.entry)||!b.entry.length||b.entry.length>40)fail(422,'Document must contain between 1 and 40 resources.');
- // Slice r21: Provenance is additionally permitted (the product emits it for author/review/sign-off); the rule set id, version and basis are unchanged.
+ // Slice r21: Provenance is additionally permitted (the product emits it for author/review/sign-off); rule set 1.1.0 (integration of #144).
  const byRef=new Map<string,any>(),ids=new Set<string>(),allowed=new Set(['Composition','Patient','Encounter','Observation','Organization','Practitioner','Provenance']);
  for(const e of b.entry){if(!e||typeof e.fullUrl!=='string'||!/^[a-z][a-z0-9+.-]*:/i.test(e.fullUrl)||!e.resource||typeof e.resource.id!=='string'||!e.resource.id||!allowed.has(e.resource.resourceType)||e.request||e.response||e.resource.contained||e.resource.modifierExtension)fail(422,'Unsupported document resource or entry. Contained resources and modifier extensions require partner mapping.');const key=e.resource.resourceType+'/'+e.resource.id;if(byRef.has(e.fullUrl)||ids.has(key))fail(422,'Duplicate document resource references.');ids.add(key);byRef.set(e.fullUrl,e.resource);}
  const resolve=(reference:any)=>{if(typeof reference!=='string')fail(422,'Missing document reference.');const r=byRef.get(reference)??b.entry.find((e:any)=>e.resource.resourceType+'/'+e.resource.id===reference)?.resource;if(!r)fail(422,'Document reference is not resolved inside the bundle.');return r;};

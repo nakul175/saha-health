@@ -138,6 +138,16 @@ try {
     status(() => run('sup', cmd({ targets: [{ kind: 'referral', id: 'r2', version: 1 }], ownerId: 'asha', reason: 'Already the owner' })), 409, 'a referral already owned by the target is refused');
     status(() => run('sup', cmd({ targets: [{ kind: 'safety-case', id: 'sc2', version: 1 }], ownerId: 'doc', reason: 'Already the safety-case owner' })), 409);
   });
+  // Integration of #144 (review finding): owner authority never overrides patient scope. An owner whose role is ASHA and who is
+  // in the team, but to whom the patient is not assigned (the server loads the patient with assigned: false for them), cannot
+  // reassign that patient's safety case, as assignSafety already refused.
+  check(() => {
+    const ownAsha = member('ownasha', 'asha', { isOwner: true });
+    const scoped = structuredClone(s); scoped.members.push(ownAsha); scoped.workspace.role = 'asha';
+    for (const p of scoped.workspace.people) p.assigned = false;
+    const e = status(() => x.authorizeReassignment(scoped, ownAsha, { type: 'assignQueueItem', targets: [{ kind: 'safety-case', id: 'sc1', version: 1 }], ownerId: 'doc', reason: 'Reassigning outside my care scope' }), 403);
+    assert.match(e.message, /not assigned to this worker/);
+  });
   writeFileSync('tests/reassignment-contract-result.json', JSON.stringify({ suite: 'reassignment contract (slice r74)', passed, completedAt: new Date().toISOString() }, null, 2) + '\n');
   console.log(JSON.stringify({ passed }));
 } finally { rmSync(dir, { recursive: true, force: true }); }

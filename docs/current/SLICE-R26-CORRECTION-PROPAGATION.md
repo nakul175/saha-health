@@ -2,7 +2,16 @@
 
 3 October 2026 (UTC). Builds on slices 2j, 5f, 6d and 6ad. Synthetic data only; formal acceptance unchanged. No command, route or migration is added; the route count and certified patient-command count are unchanged.
 
-## What changed
+## Integration of #144 (3 October 2026, IST)
+
+An agent review of the 15-slice integration found that nothing recomputed what this slice marked recomputed: `recompareShadow` has no caller, the shadow summary and `drift.ts` count every compared result, and a figure already released is never recalled. A task closed as `recomputed` would therefore have hidden work a person still had to do. The integration keeps `recompareShadow`, `affectedReleases`, the source links and the split fold, and changes two outcomes back:
+
+- A shadow comparison of an amended or voided visit is an **open review task** again (`action: review`), with the visit it scored as its source and an instruction to exclude or note it in Clinical governance. It carries no `output.recomputed`.
+- The indicator-releases task stays **open for review** when any release was recorded since the visit's confirmation (the affected figures are still marked on it), and asks a person to decide whether a reissued figure is needed; with no release since confirmation it is recorded as done.
+
+The sections below describe the slice as built; where they say "recomputed" for these two outputs, the paragraph above applies. Both contracts were updated (correction tasks: 13 checks, 15 open tasks; R26: 8 checks).
+
+## What changed (as built)
 
 `lib/saha/correction-tasks.ts` (BR-DATA-06) now recomputes two downstream outputs that slice 2j only flagged for review, and links the sources of two more. External outputs are still never corrected automatically: the manual-with-evidence rule (verified correction receipt or a reason) is unchanged.
 
@@ -25,4 +34,5 @@
 - The affected-figure mark uses the release's time and hashed series key only; a release has no patient link, so the mark is a "released at or after confirmation" heuristic, exactly as the slice 2j count was.
 - Follow-ups still do not record the visit that created them; the episode and capture-visit link is the best available source, and a follow-up with neither falls back to the "possible dependant" wording.
 - Corrections made before this slice keep their original tasks; nothing is backfilled. Task reassignment, notification and a unified identity-merge/correction reconciliation view remain open (R27).
+- Wiring `recompareShadow` into the shadow summary and drift report (so a corrected comparison is re-derived or excluded on read) is the follow-up that would let these tasks close themselves.
 - These changes have not been independently reviewed. BR-DATA-06 keeps its status; its text and evidence are updated.
