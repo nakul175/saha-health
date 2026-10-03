@@ -33,6 +33,7 @@ import { outreachSchema } from './outreach';
 import { expansionSchema } from './expansion';
 import { defaultOperations, operationsSchema } from './operations';
 import { facilityScopeSchema } from './facility-scope';
+import { purposeScopeSchema } from './purpose-scope';
 import { chooseLanguage } from './messages';
 import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
@@ -93,6 +94,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...operationsSchema.options,
  // Slice feat/r08 (BR-ID-02/BR-OPS-01): facility and geography/locality access policy.
  ...facilityScopeSchema.options,
+ // Slice r09: owner-managed programme/purpose dimensions in the access policy (lib/saha/purpose-scope.ts).
+ ...purposeScopeSchema.options,
  ...alertAckSchema.options,
  ...inboxSchema.options,
  ...notificationChannelSchema.options,

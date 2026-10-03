@@ -11,6 +11,7 @@ import type { Delegation } from './delegation';
 import type { PackId } from './programmes';
 import type { InstalledPack } from './pack-installation';
 import type { AccessScope } from './facility-scope';
+import type { PurposeGrant } from './purpose-scope';
 export type Incident={id:string;title:string;severity:'critical'|'high'|'normal';state:'open'|'investigating'|'resolved';ownerId:string;createdAt:string;updatedAt:string;resolution?:string;evidence?:string};
 // Slice 5a: monthly cost budgets per capability key (estimates from `rates`, not invoices).
 export type CapabilityBudget={capabilityKey:string;monthlyUsd:number;setBy:string;setAt:string;reason:string};
@@ -18,7 +19,7 @@ export type CapabilityBudget={capabilityKey:string;monthlyUsd:number;setBy:strin
 export type FixtureBatch={id:string;migration:string;planHash:string;at:string;by:string;reason:string;examined:number;marked:number;rejected:number;alreadyMarked:number;outOfScope:number;revertedAt?:string;revertedBy?:string;revertReason?:string;reverted?:number;reverts?:{at:string;by:string;reason:string;reverted:number;outOfScope:number}[]};
 // Slice 4e: reviewed programme-pack migration batches (counts, versions and plan hash only; episodes carry the batch id).
 export type ProgrammeMigrationBatch={id:string;packId:PackId;fromVersions:number[];toVersion:number;planHash:string;at:string;by:string;reason:string;examined:number;migrated:number;blocked:number;outOfScope:number;adopted:boolean;previousAdopted:number};
-export type Operations={anaemiaProvider?:AnaemiaProvider;anaemiaDemoVisitId?:string;version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[];fixtureBatches?:FixtureBatch[];delegations?:Delegation[];packVersions?:Partial<Record<PackId,number>>;programmeMigrations?:ProgrammeMigrationBatch[];installedPacks?:InstalledPack[];memberNames?:Record<string,{name:string;version:number;at:string}>;staffIds?:Record<string,{id:string;batchId:string}>;memberLanguages?:Record<string,{language:'en'|'hi';version:number;at:string}>;accessScope?:AccessScope};
+export type Operations={anaemiaProvider?:AnaemiaProvider;anaemiaDemoVisitId?:string;version:number;maintenance:boolean;reason:string;updatedAt:string;incidents:Incident[];rates:{input:number;output:number;at:string}|null;acknowledgements?:AlertAck[];budgets?:CapabilityBudget[];fixtureBatches?:FixtureBatch[];delegations?:Delegation[];packVersions?:Partial<Record<PackId,number>>;programmeMigrations?:ProgrammeMigrationBatch[];installedPacks?:InstalledPack[];memberNames?:Record<string,{name:string;version:number;at:string}>;staffIds?:Record<string,{id:string;batchId:string}>;memberLanguages?:Record<string,{language:'en'|'hi';version:number;at:string}>;accessScope?:AccessScope;purposeGrants?:PurposeGrant[]};
 export const defaultOperations=():Operations=>({version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null});
 export const GATES=[
  {id:'clinical',label:'Clinical and programme approval',state:'external',detail:'Named clinical owners, approved programme content and deployment-specific safety evidence required.'},
