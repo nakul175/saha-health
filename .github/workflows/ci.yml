@@ -3,9 +3,18 @@
 name: engineering-checks
 on:
   pull_request:
+    # A pull request that changes only Markdown or docs/ does not start this suite.
+    # Any other path still runs it, including the documentation integrity step.
+    # workflow_dispatch always runs the full suite.
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: engineering-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   checks:
     runs-on: ubuntu-latest

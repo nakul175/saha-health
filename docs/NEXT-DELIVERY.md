@@ -102,7 +102,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 | 9 | Demonstration readiness for an external (government) audience | In progress: 9a–9c merged into `main` on 2 October 2026; the hosted site is live behind Cloudflare Access; rehearsals remain |
 | 9a | Demonstration clinical package: a new synthetic organisation gets two cited demonstration protocols (antenatal blood pressure, presumptive TB) authored, reviewed and activated through ordinary governance by synthetic fixture clinicians; owner command for existing synthetic organisations | Delivered (see [slice 9a](current/SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md)); not clinically approved |
 | 9b | Demonstration screens: menu by role (display only), visit first on the patient page, tidy record tools, member names instead of email addresses with a self-set name, no build numbers on screens, styled photo picker, one main landmark | Delivered (see [slice 9b](current/SLICE-9B-DEMONSTRATION-SCREENS.md)) |
-| 9c | Demo freeze: merges into `main` stop redeploying the hosted site while the repository variable `SAHA_DEPLOY_FREEZE` is `true`; a hand-started run deploys a chosen tag | Delivered (see [hosted synthetic staging](current/HOSTED-STAGING.md#freezing-the-site-for-a-demonstration)) |
+| 9c | Demo freeze: merges into `main` stop redeploying the hosted site while the repository variable `SAHA_DEPLOY_FREEZE` is `true`; a frozen push skips the deploy job before a runner starts; a hand-started run deploys a chosen tag | Delivered (see [hosted synthetic staging](current/HOSTED-STAGING.md#freezing-the-site-for-a-demonstration)) |
 
 The external dependencies below are unchanged by this order; slices do not pass any acceptance gate.
 

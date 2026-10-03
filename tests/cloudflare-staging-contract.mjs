@@ -37,12 +37,14 @@ check(() => { const o = hostedWorkerConfig(built, readConfig(text({})), ID); ass
 refuses(() => hostedWorkerConfig(built, readConfig(text({})), ''), /D1 database ID/);
 refuses(() => hostedWorkerConfig(built, readConfig(text({})), 'not-a-uuid'), /D1 database ID/);
 
-// Slice 9c: demo freeze. A merge (push) deploys nothing while SAHA_DEPLOY_FREEZE is "true"; a hand-started run still deploys.
+// Slice 9c: demo freeze. A push skips the job before a runner starts while the repository variable
+// SAHA_DEPLOY_FREEZE is true. workflow_dispatch still deploys. The name is vars.SAHA_DEPLOY_FREEZE;
+// the deploy credential is the CLOUDFLARE_API_TOKEN secret, which a job-level if cannot read.
 const workflow = readFileSync('.github/workflows/deploy-staging.yml', 'utf8');
-check(() => assert.match(workflow, /SAHA_DEPLOY_FREEZE: \$\{\{ vars\.SAHA_DEPLOY_FREEZE \}\}/));
-check(() => assert.match(workflow, /\[ "\$TRIGGER" = "push" \] && \[ "\$SAHA_DEPLOY_FREEZE" = "true" \]/));
-check(() => assert.match(workflow, /workflow_dispatch:/));
-check(() => { const freeze = workflow.indexOf('SAHA_DEPLOY_FREEZE" = "true"'), creds = workflow.indexOf('configured=true'); assert.ok(freeze > 0 && freeze < creds); });
+check(() => assert.match(workflow, /cancel-in-progress: true/));
+check(() => assert.match(workflow, /if: github\.event_name == 'workflow_dispatch' \|\| vars\.SAHA_DEPLOY_FREEZE != 'true'/));
+check(() => assert.doesNotMatch(workflow, /SAHA_DEPLOY_FREEZE" = "true"/));
+check(() => assert.match(workflow, /CLOUDFLARE_API_TOKEN is not set; nothing was deployed/));
 
 const result = { suite: 'Hosted synthetic staging configuration contract', passed, completedAt: new Date().toISOString() };
 writeFileSync('tests/cloudflare-staging-contract-result.json', JSON.stringify(result, null, 2) + '\n');
