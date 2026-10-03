@@ -1,0 +1,482 @@
+{
+  "slice": "independent anaemia provider",
+  "date": "2026-10-03",
+  "base": "9e55ac3ab1e5ece31c926a868d32726275b521a9",
+  "scope": "synthetic engineering; no formal acceptance or clinical validation",
+  "checks": {
+    "httpD1": 4620,
+    "contracts": 7227,
+    "restore": 21,
+    "jsdom": 8,
+    "workerTransport": 7
+  },
+  "providerWorkerHttpChecks": 28,
+  "note": "Fresh reports copied before restoring historical root reports. Some legacy suites print counts rather than emit JSON. The full HTTP run passed 4617 and all 106 earlier CI suites passed 7216; late service diagnostics add three HTTP and four contract assertions. The updated 58-check adapter contract was rerun after the redirect fix, and the newly added seventh-assertion actual-workerd transport suite passed, for coverage of all 107 final CI suites.",
+  "reports": {
+    "abdm-contract-result.json": {
+      "sha256": "701ce44e18f3a077ea2b0194950f3ef100c425c9c9ce179f923d739acd355c7c",
+      "passed": 14
+    },
+    "abdm-transfer-contract-result.json": {
+      "sha256": "20833d6e81833f012472ecf430adeda24c35dc7e274b826cd9cef0c58c6cd301",
+      "passed": 21
+    },
+    "access-audit-contract-result.json": {
+      "sha256": "6797f79a540de66e1ab1e148c2304c1f206423aa998d4df0c6fc54f23d1410e0",
+      "passed": 35
+    },
+    "action-plan-contract-result.json": {
+      "sha256": "5f03cb4cf0acec7a8f4c1e7760795c079143dbbc85e41b7c7a4d39f0799a6460",
+      "passed": 8
+    },
+    "adapter-operations-contract-result.json": {
+      "sha256": "7de3f293eb3d04210059af9d9f8e511b5dbeadffe424ebd408ed816259fc9d02",
+      "passed": 14
+    },
+    "agent-contract-result.json": {
+      "sha256": "5fda3b6d56655bb91ba57230d04bbfd421f6c88fc89e224b90873d0c934581da",
+      "passed": 23
+    },
+    "agent-quality-contract-result.json": {
+      "sha256": "b6448814335ebd9879903585fa7dea3d1fbbcd5dbfad16aaf3145a7af363eef4",
+      "passed": 50
+    },
+    "aggregate-delivery-contract-result.json": {
+      "sha256": "5dd5f02db5eb53c12629d33e96d11424c52ec3d4db6ed3f58295dd2f8aacf729",
+      "passed": 12
+    },
+    "ai-budget-contract-result.json": {
+      "sha256": "99eeb3ded68c03610bccf16de8b04196e5aaa5a83f1986f985aeeab76bab1abc",
+      "passed": 41
+    },
+    "ai-invoice-contract-result.json": {
+      "sha256": "9d4a8a7141b9f2f241c62e7dd57c379fdfb5bb020e39b1e801331c2519d9800e",
+      "passed": 54
+    },
+    "alert-delivery-contract-result.json": {
+      "sha256": "0f234592657101ed8007179043adae62dad3d13513350b7b417335e25863a554",
+      "passed": 23
+    },
+    "alerts-contract-result.json": {
+      "sha256": "a9c6af2c761973bee7c737cb6db60de9ea4b063d1df904d576c23474c420a484",
+      "passed": 25
+    },
+    "anaemia-http-result.json": {
+      "sha256": "4e44f07ad6da12f5acffc5a19553594aa3c55400311eac29bc94bf861fbb030f",
+      "passed": 21
+    },
+    "anaemia-provider-contract-result.json": {
+      "sha256": "bc6af4b2f67e68a567d1011f5b047def72f2c73859456091afc3c283dffdd967",
+      "passed": 58
+    },
+    "anaemia-ui-result.json": {
+      "sha256": "22135f3062a1fea4143c3019fea7211fe0c116267a29e19caf0fb16d16b63dc0",
+      "passed": 8
+    },
+    "audit-chain-contract-result.json": {
+      "sha256": "86b8d494643657f81320caeb605bd88ce97ab52fb12cc5c88b61791d62fc7dcf",
+      "passed": 48
+    },
+    "capability-lifecycle-contract-result.json": {
+      "sha256": "7763536a47186bb85fa7777ddfae1f75bd8ed6a9f5e4752c167c52ef8bd77d97",
+      "passed": 25
+    },
+    "caseload-contract-result.json": {
+      "sha256": "40e70529cc9e78c6d531c9a5570675ae3f5107104e9ba57bc009ed85ba3939cc",
+      "passed": 30
+    },
+    "caseload-schedule-contract-result.json": {
+      "sha256": "c62bed660874244364088a5a2811d3754fee2d4acb26d63bd483ba34b5baf41a",
+      "passed": 33
+    },
+    "cloudflare-staging-contract-result.json": {
+      "sha256": "3767f0b75001e10220a92f3024b269e5571437552ab46d3d534b36772fb1c758",
+      "passed": 39
+    },
+    "consent-contract-result.json": {
+      "sha256": "5ab799e539666bed9db05520f0332179ac376f09007f205bd1ca2cf66fe72f0c",
+      "passed": 25
+    },
+    "continuity-contract-result.json": {
+      "sha256": "b9f14e5986df285d8e3e210e82195546bb0b558d91fe644ac58dea89b64e7256",
+      "passed": 29
+    },
+    "correction-tasks-contract-result.json": {
+      "sha256": "208058033471e53e0762ad3d4747627a2cf8e22ee8c24b88aa0f2ed27c838eb5",
+      "passed": 12
+    },
+    "data-exit-contract-result.json": {
+      "sha256": "40d70cfdea0b3bff70d0c27154f0b037fb31963ee4512b6a7b141975050dd6d9",
+      "passed": 39
+    },
+    "delegation-contract-result.json": {
+      "sha256": "d4a5167994f8c37c7c04dbbcd2839795b39485d222847857df05e2fa835f8e5a",
+      "passed": 22
+    },
+    "demonstration-contract-result.json": {
+      "sha256": "ae850b01dfaa828c05edc33c0cfa271662fc313d0d3a860e1dbaf13d9c2c62f1",
+      "passed": 52
+    },
+    "drift-contract-result.json": {
+      "sha256": "0f5447062c770b9d13dee6dc96179787fd54749c8afb9866f72b34be5c7ebd5b",
+      "passed": 15
+    },
+    "ehr-contract-result.json": {
+      "sha256": "b9be0a8bc47d3d83b9d29c8a54896d8b10ead55f30ba64549beca8504587e392",
+      "passed": 46
+    },
+    "ehr-execution-result.json": {
+      "sha256": "d2cc77e8cc642a59235845949d2da633a907a9debcc91bcd0640131623b3486f",
+      "passed": 9
+    },
+    "ehr-resolution-result.json": {
+      "sha256": "1377c06b2a80dbfcb1e95663cfda362af5b3122285a1967bc7f3de4f60ca2981",
+      "passed": 13
+    },
+    "eighth-review-fixes-contract-result.json": {
+      "sha256": "d8175c53ff468fadc67722d462d24aa9717291fd4103f2d1086df6f40b51f368",
+      "passed": 18
+    },
+    "environment-contract-result.json": {
+      "sha256": "d9d04fd602b994605143ebb00b42e9672f5a52ccb7df6435f414a6d0cb6127ca",
+      "passed": 26
+    },
+    "exceptional-contract-result.json": {
+      "sha256": "8d201a7019ee80003f4e9f45ee7508c52b4b2d541b185d9bdb05bc8782b510ba",
+      "passed": 19
+    },
+    "exceptions-contract-result.json": {
+      "sha256": "05031c686f6284f2d27d180d79143170f1dab6253c9a48c4472f650d512d48bc",
+      "passed": 8
+    },
+    "fact-provenance-contract-result.json": {
+      "sha256": "71ffeef9ab46b5d979a8261ea0026f8005f9b1acbdc8a6ed63c9f2629f2ddb9c",
+      "passed": 41
+    },
+    "fact-verification-contract-result.json": {
+      "sha256": "2b385301cf925da0af93d9d957987cd9f40ad973222b713bbcf34520590018e7",
+      "passed": 37
+    },
+    "fhir-validate-contract-result.json": {
+      "sha256": "7dd5e58ebceda5c41d9c7932784a7a35c67444a05b33f222fcdd67db26131f49",
+      "passed": 20
+    },
+    "field-capacity-client-result.json": {
+      "sha256": "fd7e939c68aba9774c413873fc49682819b23b7dafdcca8ab72efab97acb5787",
+      "passed": 15
+    },
+    "field-client-result.json": {
+      "sha256": "4cc95f479e3d3e313e8e052bf3a0c5c74222321248d8fe169976b7f4704b8104",
+      "passed": 23
+    },
+    "field-contract-result.json": {
+      "sha256": "1aae03abf1eec66d5001e10965a4b2b3d855a9c4a8803f7820676b7857b823b8",
+      "passed": 38
+    },
+    "field-media-capacity-client-result.json": {
+      "sha256": "bfd928c985cd163e95164f748ac68d021e46042f1e5d838cea8ce7be53a81670",
+      "passed": 30
+    },
+    "field-media-client-result.json": {
+      "sha256": "1700e5f4f0f41191054da0b9c38f9b9b607319031e2c926b10b005a5dff84c6f",
+      "passed": 97
+    },
+    "field-provenance-client-result.json": {
+      "sha256": "44030998b9eb7aa90fbfe6df610e69e3e2db83a88d3ef547822c0658e80418ae",
+      "passed": 17
+    },
+    "field-recording-client-result.json": {
+      "sha256": "ffb6598e3901ed7c4f673ebf10f52ccdde8e367016f9c91a40ae45d605140238",
+      "passed": 28
+    },
+    "field-registration-client-result.json": {
+      "sha256": "12be8ce5122549abe8bff108ba436a4a4a01349e8737e3dcf26d954120f2c334",
+      "passed": 65
+    },
+    "field-shell-result.json": {
+      "sha256": "5f9c45d61264d630eebef7756758cc53337f4e6acbb1b3ea57e98c831422ec02",
+      "passed": 11
+    },
+    "field-storage-client-result.json": {
+      "sha256": "d1c38f1b18e7547c95890b44ffb42f12de410657646d7d24a5cf72f00dfceef8",
+      "passed": 30
+    },
+    "field-units-client-result.json": {
+      "sha256": "34c58f8fc1f26a4a51373ddd60a775baccea52dbf1987e82f48ed6ceb9af54c3",
+      "passed": 14
+    },
+    "fifth-review-fixes-contract-result.json": {
+      "sha256": "1920eecaf635e89021c3cb79272705a744febb452f6556b3412cc9eecbe835ee",
+      "passed": 33
+    },
+    "fixture-migration-contract-result.json": {
+      "sha256": "5ec00cf46a130d3581d36f42078fecb01135476af7607363fe58bd8d71fe4b02",
+      "passed": 22
+    },
+    "fourth-review-fixes-contract-result.json": {
+      "sha256": "a939d8b72d8fe79538746860f018e6052f7ca4d7ad89d02020b1610012470745",
+      "passed": 32
+    },
+    "governance-contract-result.json": {
+      "sha256": "3ccf7053f1fc9edbc8f8e0a243ebcd3d43dd3233d18aecfa3354f7dfb0814245",
+      "passed": 27
+    },
+    "hosted-provider-result.json": {
+      "sha256": "e47e7df6bff4be055a4dd8eb61d1701b657692b7959bf3920e9eba94dc7440eb",
+      "passed": 4
+    },
+    "household-contract-result.json": {
+      "sha256": "6e941fc30fe5b7fb686179373ad5236443656972ec366bc03d56b313094c0656",
+      "passed": 12
+    },
+    "household-visit-contract-result.json": {
+      "sha256": "04d2dfc50ed3c2edba2df1eb7ab73739ea01f1b4153032f35dd385e7a9df2fe6",
+      "passed": 19
+    },
+    "i18n-contract-result.json": {
+      "sha256": "ed0e93368b2c6f11b535e394a03dbe5f8b9024f7b768ecc16c42b0dbae328450",
+      "passed": 4108
+    },
+    "identifier-crosswalk-contract-result.json": {
+      "sha256": "7a75e074b5327d8df98e545fae18f4d9b5c140b979b8b41fbdde0565c3d54587",
+      "passed": 84
+    },
+    "identity-contract-result.json": {
+      "sha256": "3c2b45e513f1a6c0d389d44785f7e72b1af7298f11db1f1b131ec16825488e06",
+      "passed": 18
+    },
+    "incentive-claims-contract-result.json": {
+      "sha256": "62a9e9541ebe2cc5503a7725dbd2f2fce41666497e73b8abb43705b7969b884d",
+      "passed": 35
+    },
+    "indicator-freshness-contract-result.json": {
+      "sha256": "ab2458668566fd925c5c5f6b31b1aa33889f685e64e8a8d22173825769f4c36f",
+      "passed": 9
+    },
+    "indicator-registry-contract-result.json": {
+      "sha256": "dba8da0d368665a735c9881306ebe8ffeea03631ffabbdf93fde679eb0f9715a",
+      "passed": 12
+    },
+    "indicators-contract-result.json": {
+      "sha256": "66774f6a1f93759a2f23b0bd375af04467f3483848cdc4f264b50e3febd98a68",
+      "passed": 9
+    },
+    "latest-result.json": {
+      "sha256": "d0f2cd1c533cfe7764ec7efc6601c0882ddacb4006d307104e9a5ac019bcd671",
+      "passed": 4617
+    },
+    "main-review-fixes-contract-result.json": {
+      "sha256": "cb943b543e85cd43ca768028b7bb7045f30ccb2bdf233e9c40bc66549243d4ed",
+      "passed": 25
+    },
+    "media-contract-result.json": {
+      "sha256": "472c18a951a3fb9dad4747ea3257466eee784560bf38f9b94a871a2d413b661f",
+      "passed": 5
+    },
+    "merge-contract-result.json": {
+      "sha256": "57d5ad4d398c52d4cffee116df53660f9773ffe3488a78254ab9b539297986ee",
+      "passed": 27
+    },
+    "mis-contract-result.json": {
+      "sha256": "5d9ac9ed8344ff7937b176aa5b039f85e802762e47d1b18af5a3656dc8159a2b",
+      "passed": 43
+    },
+    "mis-delivery-result.json": {
+      "sha256": "6955153795577fb61e4410492c548a19b53df3183be32b0c710b6283d8cfcf2a",
+      "passed": 10
+    },
+    "ninth-review-fixes-contract-result.json": {
+      "sha256": "df5e429c2067b3791314cd469689530c4f48dc11f6509d726a0835824b6e3f2c",
+      "passed": 13
+    },
+    "note-answer-signoff-contract-result.json": {
+      "sha256": "b26e41010760f180e241858d87cbaf1d51dd71fc54bf54e1af4e9e364f393abc",
+      "passed": 52
+    },
+    "notification-channel-contract-result.json": {
+      "sha256": "446c3131fb422eefe5af0cdd962a0053577e5e9431f998ee3015617928b59df5",
+      "passed": 24
+    },
+    "operations-contract-result.json": {
+      "sha256": "95b362dc144341d9ad46e036b7888d72e8ba9338b9d2cd017cc58bef64d5e3bd",
+      "passed": 24
+    },
+    "operations-load-result.json": {
+      "sha256": "bd23fbd60ce15a26a8047c0d5a35d574a8c34825d15dd3944d3da34a58edeaf6",
+      "passed": 0
+    },
+    "outreach-contract-result.json": {
+      "sha256": "bbb3760d423527edef12fbeb335a3185892c55c0eb0beeecc6af717f11d1e93d",
+      "passed": 55
+    },
+    "pack-installation-contract-result.json": {
+      "sha256": "1c6da61c1f7e1eb02e1111eed5f6367cb4bdf25b658b1b6643300ff68fb58d17",
+      "passed": 52
+    },
+    "patient-directory-contract-result.json": {
+      "sha256": "0f4e083e38fac5f5f8155124ac95d095f323e6a74e3444b23defac3a7e8e9664",
+      "passed": 56
+    },
+    "patient-import-contract-result.json": {
+      "sha256": "94a3ed5c66a5253caaf6442f1a356f180252339f0e659da4c8849ff8eb262796",
+      "passed": 38
+    },
+    "photo-contract-result.json": {
+      "sha256": "870c0eb58a7f554f0499f2ebe8e3d4fab8450c78dfa17da68c2c2c4b149f62c7",
+      "passed": 10
+    },
+    "pilot-contract-result.json": {
+      "sha256": "bbbadcd2518333e55f1a0acf25312478918a8c2b2264fba6519b7ea6b16f53b1",
+      "passed": 24
+    },
+    "plan-dependencies-contract-result.json": {
+      "sha256": "b5db32efaa483e9a6e59b05502e30f6e2e78cd8000d6e9a0d8caf92cc3f5ee25",
+      "passed": 9
+    },
+    "programme-migration-contract-result.json": {
+      "sha256": "ab5ee9d53230c8736337ab36c649bf2ef34db9737092b52c5714de7602a9f156",
+      "passed": 32
+    },
+    "provider-history-contract-result.json": {
+      "sha256": "20a13043a69f4671921d838cda39027ef0e3ca00d24f38194ee056b89fab2270",
+      "passed": 13
+    },
+    "provider-sandbox-result.json": {
+      "sha256": "23ee711a21b8ff29d889ec28e73b50635dfb2b4d555a802b81aef01175a49eca",
+      "passed": 75
+    },
+    "read-audit-completion-contract-result.json": {
+      "sha256": "793756c620db7a05ebc3c0c77ad2af717965ff22e3daecb592aa4e1dfc87b0c7",
+      "passed": 52
+    },
+    "record-import-contract-result.json": {
+      "sha256": "1df51fb34415220bf80c14bc1a699f0f3184ef5f7fa35bb12ced6303451b84e1",
+      "passed": 49
+    },
+    "recovery-result.json": {
+      "sha256": "ae4216e160331d80dd0716d6cf6293495fee26a8cad1bf19a36e6fcc57e89e07",
+      "passed": 21
+    },
+    "referral-contract-result.json": {
+      "sha256": "4e58e37d10b2598e3eec3fdb81afd20bd9f1abeb876fc7ffaa61edc404efcbb7",
+      "passed": 10
+    },
+    "referral-request-queue-contract-result.json": {
+      "sha256": "1db109d4a2d362d13929bfffcf3ece04783cbc086d4521c79b4b41b054dc8c1b",
+      "passed": 21
+    },
+    "replay-soak-result.json": {
+      "sha256": "67fa3e465048c1554162ccf85f3d8bc0135a53af99e410c2c66e6251d5ce9240",
+      "passed": 8
+    },
+    "report-export-contract-result.json": {
+      "sha256": "0e5ed6f82abd70dc07c70026baf6ce77d49f0ddbb9f9a70f19ae4ccd39ada08b",
+      "passed": 7
+    },
+    "retention-contract-result.json": {
+      "sha256": "31ec135048e4a196c4ca3466aa9b9bd10e8259cc9104bdf09a5e057f5944d6ba",
+      "passed": 11
+    },
+    "reuse-contract-result.json": {
+      "sha256": "3867f656c950c609fe503dfa2457206b1168f0d048b5626390c98197ae526797",
+      "passed": 7
+    },
+    "review-fixes-contract-result.json": {
+      "sha256": "1f1db13222d9cc28f7a6f23ffb000ba7a5f80ad28952a9c41697df717e6a8583",
+      "passed": 41
+    },
+    "rights-contract-result.json": {
+      "sha256": "f32959d37ab463c9ea7f931690f4ea127f4bd5ab4e76b6d4d5ef35665d79479d",
+      "passed": 17
+    },
+    "roster-contract-result.json": {
+      "sha256": "e4aa8e15fb3435e6f48bec60c66b2e188e04f340aff2fe5afe18c51fec5de8f9",
+      "passed": 13
+    },
+    "safe-logs-contract-result.json": {
+      "sha256": "d0a1ce5169fad3ff2648091b088b8754055664c5c157f5c68c9a16cc4a6351f9",
+      "passed": 13
+    },
+    "sbom.cdx.json": {
+      "sha256": "fe727ade12e6f500132b54e510f978635609610f2b91db020c03de004ab376cb",
+      "passed": 0
+    },
+    "scheduled-job-contract-result.json": {
+      "sha256": "a0a3e1463609bb3a9613d3be815791a72635b6a7203ebd74feac59623497099f",
+      "passed": 32
+    },
+    "scoped-read-contract-result.json": {
+      "sha256": "e3b6a755fd10440038ad95f61467e094167c755b6834009bfe0a229fda1ccc74",
+      "passed": 27
+    },
+    "security-gate.json": {
+      "sha256": "14cea1e842f87174f6061d5eac37d7b2a41cde14e99aa980610a895047ee4659",
+      "passed": 0
+    },
+    "send-gate-contract-result.json": {
+      "sha256": "ee7f86dac7193c363bf34d9ec8b123ffe0607ce54422747ea5f37c964b922409",
+      "passed": 28
+    },
+    "seventh-review-fixes-contract-result.json": {
+      "sha256": "c85ddeabff269d871dc796c46d971c4d4acbb124c34ac42c8d6b0312e2f4d2b9",
+      "passed": 30
+    },
+    "shadow-contract-result.json": {
+      "sha256": "bb4044a4db7a440cb3a10b01bb1531c1e965e4ea7355032a2df5e6e893ec3a3c",
+      "passed": 55
+    },
+    "sixth-review-fixes-contract-result.json": {
+      "sha256": "2758c60d19702864e3e68ca82178bc26d8e2138a80756984e81c5bd2e88e0465",
+      "passed": 41
+    },
+    "storage-contract-result.json": {
+      "sha256": "413a2f2b118912c9e2567e45637c278e03b6c0e109ef436b557e08c659a14877",
+      "passed": 19
+    },
+    "task-limits-contract-result.json": {
+      "sha256": "eb7fd4f668ee2537cb37fb77535bbfca83292d5933ff1d8d5279c7146c858c7a",
+      "passed": 39
+    },
+    "tenth-review-fixes-contract-result.json": {
+      "sha256": "68cf3e7705d5f0b08f9318f58ed35f823b96be13c368f7d80456fafe4c79109c",
+      "passed": 12
+    },
+    "trace-contract-result.json": {
+      "sha256": "da09216c9a1c88d8c15fc4a3fd316df53b3d0b0218bea9f79bb135f8fbc1b54f",
+      "passed": 27
+    },
+    "value-override-agent-contract-result.json": {
+      "sha256": "37e5babd3cd2b5be4828da2289b903c2984b1d14e985d51cd34102988044e14c",
+      "passed": 4
+    },
+    "value-override-contract-result.json": {
+      "sha256": "667bfad603df1775fa20339cbf92342d8a8bbfdf07a24a7391402d9680cbca2d",
+      "passed": 53
+    },
+    "visit-import-contract-result.json": {
+      "sha256": "093a8fdd57b5c92c0b57d7e1e7828f0dc3da7f57d87d37b4398ab2addd77b814",
+      "passed": 54
+    },
+    "worker-activity-contract-result.json": {
+      "sha256": "212fa8ebb5b27b427bf1b7d015d77f3cfd25a7e6ae81f416f42a36497307f69b",
+      "passed": 12
+    },
+    "workforce-import-contract-result.json": {
+      "sha256": "7b8c31f56ac0255bcc3aaf6346d6e29a4e3334cff0095348d21397a3d03d3eb0",
+      "passed": 68
+    },
+    "worklists-contract-result.json": {
+      "sha256": "e9a26dd56dc3461518635fb0b800fb54ca00545fa4e5ad2fff38157c24202e03",
+      "passed": 111
+    },
+    "anaemia-worker-transport-result.json": {
+      "sha256": "6ddb2bb61d93515f194e18f34bcd2e2bef2560e18bdcd2598f488b8fbe5b9be4",
+      "passed": 7
+    },
+    "hosted-connection-result.json": {
+      "sha256": "bc7c5f92d93ae0efb0990ffe65fac45de902bb9ea630d26c1c430e2185d8bae3",
+      "passed": 8
+    }
+  },
+  "hostedConnectionChecks": 8
+}

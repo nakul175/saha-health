@@ -6,6 +6,7 @@ The sponsor chose to finish buildable product work before the partner track clos
 
 | Slice | Scope | Status |
 | --- | --- | --- |
+| Independent anaemia provider | Separate provider API/model/ledger and Saha image consent, checkpoint, signed receipt and staff review; private synthetic demonstration | Implemented on feature branch; private Sites demo; main/staging await sponsor merge. See [demonstration](current/INDEPENDENT-ANAEMIA-PROVIDER.md) |
 | 0a | Load probe, linear diffing, patient-partitioned loads and per-patient commit guards | Delivered (see [slice 0a](current/SLICE-0A-STORAGE.md)) |
 | 0b | Scoped command responses (partition deltas) merged by the workspace | Delivered (see [slice 0b](current/SLICE-0B-DELTAS.md)) |
 | 0b-2 | Viewer-scoped workspace reads (ASHA reads independent of organisation size) | Delivered (see [slice 0b-2](current/SLICE-0B2-SCOPED-READS.md)) |

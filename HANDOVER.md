@@ -2,6 +2,15 @@
 
 3 October 2026 (IST). Written for whichever agent continues Saha next (GPT/Codex, Cursor, Claude or a person). It is self-contained: read it, then [AGENTS.md](AGENTS.md), then follow the links. Nothing here changes the status of any requirement.
 
+## Independent-provider feature (3 October 2026)
+
+The current feature adds an independent Anaemia Screen service adapter, not clinical AI approval. The runnable private Sites demonstration and provider console have separate deployments/databases. GitHub main and Cloudflare staging remain at their existing state until a sponsor-approved merge. See [demonstration and ownership](docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md).
+
+The hosted service-to-service diagnostic also passed eight checks against the actual independent provider model and quality refusal, without patient context.
+
+Feature validation: 4,620 HTTP/D1, 7,227 contract/client with coverage of all 107 final CI suites, 21 quiescent local restore and 8 jsdom component checks. Provider Worker/model checks are separate. Evidence: `tests/evidence/independent-anaemia-provider/`; all formal acceptances remain pending. The default environment template keeps the image service disabled; only the owner-private Sites demo holds its server secrets. Read `VALIDATION.md` for exact limits.
+
+
 ## Where things stand
 
 - **Source:** GitHub `nakul175/saha-health`, branch `main`. Round 10 (slices 10a–10k, pull requests #105–#115) was merged on 3 October 2026 IST at the sponsor's instruction, on top of #116 (CI minutes and a deterministic restore check). Every pull request since #1 was merged without independent human review; agent reviews found defects that later slices fixed, and some findings remain open (below).
