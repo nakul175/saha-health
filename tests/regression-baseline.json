@@ -13,10 +13,65 @@
       "file": "tests/scheduled-local-check.mjs",
       "minPassed": 8
     },
+    "nfr/authorisation-matrix": {
+      "layer": "nfr",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "minPassed": 51
+    },
+    "nfr/identity-hardening": {
+      "layer": "nfr",
+      "file": "tests/nfr/identity-hardening.mjs",
+      "minPassed": 29
+    },
+    "nfr/load-burst": {
+      "layer": "nfr",
+      "file": "tests/nfr/load-burst.mjs",
+      "minPassed": 15
+    },
+    "nfr/memory-growth": {
+      "layer": "nfr",
+      "file": "tests/nfr/memory-growth.mjs",
+      "minPassed": 14
+    },
+    "nfr/performance-budgets": {
+      "layer": "nfr",
+      "file": "tests/nfr/performance-budgets.mjs",
+      "minPassed": 145
+    },
     "resilience/recovery-drill": {
       "layer": "resilience",
       "file": "tests/recovery-drill.mjs",
       "minPassed": 21
+    },
+    "smoke/hosted-smoke": {
+      "layer": "smoke",
+      "file": "tests/smoke/hosted-smoke.mjs",
+      "minPassed": 8
+    },
+    "smoke/local-smoke": {
+      "layer": "smoke",
+      "file": "tests/smoke/local-smoke.mjs",
+      "minPassed": 28
+    },
+    "uat/check-uat-register": {
+      "layer": "uat",
+      "file": "tests/uat/check-uat-register.mjs",
+      "minPassed": 44
+    },
+    "uat/coverage-map": {
+      "layer": "uat",
+      "file": "tests/uat/coverage-map.mjs",
+      "minPassed": 9
+    },
+    "uat/generate-uat-pack": {
+      "layer": "uat",
+      "file": "tests/uat/generate-uat-pack.mjs",
+      "minPassed": 10
+    },
+    "ui/playwright.config": {
+      "layer": "ui",
+      "file": "tests/ui/playwright.config.mjs",
+      "minPassed": 17
     },
     "unit/abdm-contract": {
       "layer": "unit",
@@ -46,7 +101,7 @@
     "unit/agent-contract": {
       "layer": "unit",
       "file": "tests/agent-contract.mjs",
-      "minPassed": 23
+      "minPassed": 25
     },
     "unit/agent-quality-contract": {
       "layer": "unit",
@@ -141,7 +196,7 @@
     "unit/ehr-contract": {
       "layer": "unit",
       "file": "tests/ehr-contract.mjs",
-      "minPassed": 46
+      "minPassed": 48
     },
     "unit/ehr-execution": {
       "layer": "unit",
@@ -326,7 +381,7 @@
     "unit/mis-contract": {
       "layer": "unit",
       "file": "tests/mis-contract.mjs",
-      "minPassed": 43
+      "minPassed": 45
     },
     "unit/mis-delivery": {
       "layer": "unit",
