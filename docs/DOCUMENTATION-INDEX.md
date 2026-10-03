@@ -9,11 +9,11 @@ This pack follows the TolaData handover approach: current implementation, preser
 3. [Qualification](QUALIFICATION.md): historical engineering evidence and unpassed acceptance gates.
 4. [Current document index](current/DOCUMENTATION-INDEX.md): specifications, operating guides and registers.
 
-[CLAUDE.md](../CLAUDE.md) is the entry point for a developer or coding agent. [AGENTS.md](../AGENTS.md) remains the repository workflow authority.
+[HANDOVER.md](../HANDOVER.md) is the entry point for a developer or coding agent (written 3 October 2026 for the hand-over to the next agent); [CLAUDE.md](../CLAUDE.md) carries the same rules for Claude. [AGENTS.md](../AGENTS.md) remains the repository workflow authority.
 
 The source baseline is GitHub commit `c60c717a3b9ed48df1b918606e33e35412e1b373` on `release-11-ai-clinical-governance`, with tree `230f0744a621891c057b53118eab5d39c0c54ee7`. The equivalent Sites checkout commit is `f7f834524a9dc4a6f0388f5d82f313d2e4ef9bce`. Commit IDs differ because the two repositories have different histories. The documentation publication does not redeploy the application.
 
-All 176 BRD acceptance criteria remain pending. The audited implementation counts were 14 implemented-local, 134 partial, 19 not-built and 9 unverified at R11; after development slice 10g they are 14, 151, 2 and 9. The remaining plan contains five future engineering batches, R12–R16, plus open R11 provider and clinical follow-through. Counts are not completion percentages.
+All 176 BRD acceptance criteria remain pending. The audited implementation counts were 14 implemented-local, 134 partial, 19 not-built and 9 unverified at R11; after development slice 10k they are 14, 151, 2 and 9. The remaining plan contains five future engineering batches, R12–R16, plus open R11 provider and clinical follow-through. Counts are not completion percentages.
 
 ## Document authority
 

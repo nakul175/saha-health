@@ -32,6 +32,10 @@ The independent agent grouped the buildable items into slices of the size alread
 
 Share of feature work since the slice programme began that is done: 75 of 150 (50%) with generous grouping, 75 of 178 (42%) with strict grouping. Work in releases R1–R11 is not counted in slices, so this is not a share of all code ever written. The overnight build of 1–2 October delivered 19 feature slices; at that pace the remaining buildable work is roughly four to six further nights of the same kind, before human review.
 
+## Update after round 10 (3 October 2026 IST)
+
+Since the estimate above, `main` gained the demonstration slices 9a–9c (built for the sponsor's demonstration, not on the proposed list), round 10 (feature slices 10a–10j) and the review-fix slice 10k. By name, eight of the round-10 slices close proposed slices R01, R02, R07, R10, R16 (without the ABHA checksum), R20, R31 and R36; 10c (incentive claims) and 10j (Hindi workspace) cover requirement work without a single matching row. On that reading about 67 proposed slices remain with generous grouping and about 95 with strict grouping, and, counting only those eight, the share of feature work since the slice programme began rises to about 55% (83 of 150) or 47% (83 of 178). Requirement counts are unchanged (14 / 151 / 2 / 9), because every round-10 requirement still has remaining work. The mapping was made by name by the agent that integrated round 10 and was not checked by anyone else.
+
 ## Limits
 
 - Judgement from one-line remaining-work text, without reading the code. Slice size varies widely (3f is small, 4f is large); this alone could move the count by about 15.
