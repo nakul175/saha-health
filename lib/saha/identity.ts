@@ -49,7 +49,9 @@ const JWKS_TTL_MS = 10 * 60 * 1000, SKEW_S = 60;
 async function jwks(teamDomain: string, deps: Deps, force = false): Promise<(JsonWebKey & { kid?: string })[]> {
   const cached = jwksCache.get(teamDomain), now = (deps.now ?? Date.now)();
   if (!force && cached && now - cached.fetchedAt < JWKS_TTL_MS) return cached.keys;
-  const response = await (deps.fetch ?? fetch)(`https://${teamDomain}/cdn-cgi/access/certs`, { redirect: 'error', signal: AbortSignal.timeout(5000) });
+  // Slice 11d: workerd (and so Cloudflare Workers) throws a TypeError for the redirect mode 'error', which made every key fetch fail and every Access sign-in 401.
+  // The 'manual' mode returns a redirect as an unfollowed 3xx, which `response.ok` below refuses, so a redirect is still never followed or trusted.
+  const response = await (deps.fetch ?? fetch)(`https://${teamDomain}/cdn-cgi/access/certs`, { redirect: 'manual', signal: AbortSignal.timeout(5000) });
   if (!response.ok) throw new Error('Access keys unavailable');
   const body = await response.json() as { keys?: JsonWebKey[] };
   if (!Array.isArray(body.keys)) throw new Error('Access keys malformed');
