@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import type { Person, Snapshot } from '@/lib/saha/types';
+import { useI18n } from './i18n';
 type Command=(c:any,s?:string)=>Promise<any>;
 function Field({label,children}:{label:string;children:React.ReactNode}){return <label className="field"><span>{label}</span>{children}</label>}
 function Pick({label,value,set,items}:{label:string;value:string;set:(s:string)=>void;items:{id:string;name:string}[]}){return <Select value={value} onValueChange={set}><SelectTrigger aria-label={label}><SelectValue placeholder={label}/></SelectTrigger><SelectContent>{items.map(x=><SelectItem key={x.id} value={x.id}>{x.name}</SelectItem>)}</SelectContent></Select>}
@@ -13,7 +14,7 @@ const KINDS=[['access','Access to records'],['correction','Correction'],['restri
 const OUTCOMES=[['fulfilled','Fulfilled'],['partially-fulfilled','Partially fulfilled'],['refused','Refused'],['withdrawn','Withdrawn by requester']];
 const day=(s:string)=>new Date(s).toLocaleDateString();
 
-export function RestrictionNotice({p}:{p:Person}){return (p.restrictions??[]).some(r=>!r.liftedAt)?<div className="notice amber-notice" role="status">Processing is restricted under a rights request. Record care as usual; external sharing, programme sending, reminders and optional AI are paused until the restriction is lifted.</div>:null;}
+export function RestrictionNotice({p}:{p:Person}){const {t}=useI18n();return (p.restrictions??[]).some(r=>!r.liftedAt)?<div className="notice amber-notice" role="status">{t('patient.restricted')}</div>:null;}
 function RequestCard({r,view,busy,run}:{r:any;view:any;busy:boolean;run:(b:any,ok:string)=>Promise<any>}){
  const [owner,setOwner]=useState(''),[note,setNote]=useState(''),[outcome,setOutcome]=useState('fulfilled'),[response,setResponse]=useState(''),[evidence,setEvidence]=useState(''),[itemNotes,setItemNotes]=useState<Record<string,string>>({});
  return <section className="stack-form merge-case"><h3>{KINDS.find(k=>k[0]===r.kind)?.[1]} · {r.state==='open'?(r.overdue?'overdue':`due ${day(r.dueAt)}`):r.closed.outcome}</h3>

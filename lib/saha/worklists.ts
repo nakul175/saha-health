@@ -56,7 +56,7 @@ export async function worklistData(db: D1Database, orgId: string, member: Member
   const permitted = `SELECT p.id FROM patients p WHERE p.org_id=? AND ${where}`;
   const statements = [
     db.prepare(`SELECT p.id,p.team_id,p.assigned_to,json_extract(p.data,'$.name') AS name,json_extract(p.data,'$.age') AS age,json_extract(p.data,'$.sex') AS sex,json_extract(p.data,'$.village') AS village,json_extract(p.data,'$.programmes') AS programmes,json_extract(p.data,'$.task') AS task,json_extract(p.data,'$.due') AS due,json_extract(p.data,'$.status') AS status,json_extract(p.data,'$.followUps') AS follow_ups,json_extract(p.data,'$.exceptionalAccess') AS grants,json_extract(p.data,'$.mergedInto') AS merged FROM patients p WHERE p.org_id=? AND ${where} ORDER BY p.id`).bind(orgId, ...binds),
-    need.visits ? db.prepare(`SELECT person_id,json_extract(data,'$.state') AS state,json_extract(data,'$.voidedAt') AS voided_at,json_extract(data,'$.supersededBy') AS superseded_by FROM visits WHERE org_id=? AND person_id IN (${permitted})`).bind(orgId, orgId, ...binds) : null,
+    need.visits ? db.prepare(`SELECT person_id,json_extract(data,'$.state') AS state,json_extract(data,'$.voidedAt') AS voided_at,json_extract(data,'$.supersededBy') AS superseded_by,json_extract(data,'$.imported.batchId') AS imported FROM visits WHERE org_id=? AND person_id IN (${permitted})`).bind(orgId, orgId, ...binds) : null,
     need.submissions === 'state' ? db.prepare(`SELECT person_id,json_extract(data,'$.state') AS state FROM submissions WHERE org_id=? AND person_id IN (${permitted})`).bind(orgId, orgId, ...binds)
       : need.submissions === 'full' ? db.prepare(`SELECT person_id,data FROM submissions WHERE org_id=? AND person_id IN (${permitted}) ORDER BY id`).bind(orgId, orgId, ...binds) : null,
     need.referrals ? db.prepare(`SELECT person_id,data FROM referrals WHERE org_id=? AND person_id IN (${permitted}) ORDER BY id`).bind(orgId, orgId, ...binds) : null,
@@ -73,7 +73,7 @@ export async function worklistData(db: D1Database, orgId: string, member: Member
   const ids = new Set(people.map(p => p.id)), mine = (r: Record<string, any>) => ids.has(r.person_id);
   const submissions = need.submissions === 'full' ? at(2).filter(mine).map(r => JSON.parse(r.data) as Submission) : at(2).filter(mine).map(r => ({ state: r.state }) as Submission);
   const referrals = at(3).filter(mine).map(r => JSON.parse(r.data) as Referral);
-  const stats = need.visits ? workStats(people, at(1).filter(mine).map(v => ({ state: v.state, voidedAt: v.voided_at ?? undefined, supersededBy: v.superseded_by ?? undefined })), submissions) : undefined;
+  const stats = need.visits ? workStats(people, at(1).filter(mine).map(v => ({ state: v.state, voidedAt: v.voided_at ?? undefined, supersededBy: v.superseded_by ?? undefined, imported: v.imported ?? undefined })), submissions) : undefined;
   return { people, stats, submissions, referrals };
 }
 

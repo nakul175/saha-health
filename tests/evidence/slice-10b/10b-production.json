@@ -1,0 +1,22 @@
+{
+ "expected": "production",
+ "incidentStatus": 200,
+ "notice": "Demonstration simulator. Messages are stored and shown inside Saha. Nothing is sent to any email address or phone number, and recipients hold no contact details.",
+ "refusalShown": true,
+ "refusalText": "The demonstration notification simulator runs only in the synthetic and training environments; this deployment is production. No message is created.",
+ "saveDisabled": true,
+ "api": {
+  "status": 200,
+  "available": false,
+  "refusal": "The demonstration notification simulator runs only in the synthetic and training environments; this deployment is production. No message is created.",
+  "environment": "production"
+ },
+ "command": {
+  "status": 409,
+  "error": "The demonstration notification simulator runs only in the synthetic and training environments; this deployment is production. No message is created."
+ },
+ "messagesStored": 0,
+ "passed": true,
+ "errors": [],
+ "completedAt": "2026-10-02T14:08:31.951Z"
+}

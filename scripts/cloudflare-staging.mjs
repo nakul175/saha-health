@@ -8,12 +8,17 @@
 // synthetic or training environment, keeps external APIs off and serves only its workers.dev address.
 // Until the Access team domain and audience are recorded in deploy/cloudflare-staging.json the Worker
 // answers 503 "Sign-in is not configured" (slice 0c fails closed), so a first deploy exposes no data.
+// Slice 10a: the hosted Worker also carries a Cloudflare Cron Trigger (`triggers.crons`, every five minutes unless
+// `scheduledCron` in deploy/cloudflare-staging.json says otherwise; an empty value turns the trigger off) that runs the
+// scheduled job (worker/index.ts, lib/saha/scheduled-job.ts). The job never calls an external service.
 import { execFileSync } from 'node:child_process';
 import { appendFileSync, readFileSync, writeFileSync } from 'node:fs';
 
 const CONFIG = 'deploy/cloudflare-staging.json';
 const BUILT = 'dist/server/wrangler.json';
 const WRANGLER = ['node_modules/wrangler/bin/wrangler.js'];
+export const SCHEDULED_CRON = '*/5 * * * *';
+const CRON_FIELD = /^[0-9*/,-]+( [0-9*/,-]+){4}$/;
 const fail = message => { console.error(`cloudflare-staging: ${message}`); process.exit(1); };
 
 export function readConfig(text = readFileSync(CONFIG, 'utf8')) {
@@ -26,7 +31,10 @@ export function readConfig(text = readFileSync(CONFIG, 'utf8')) {
   if (team && !/^[a-z0-9-]+\.cloudflareaccess\.com$/.test(team)) throw new Error('accessTeamDomain must be <team>.cloudflareaccess.com.');
   if (aud && !/^[a-f0-9]{32,128}$/.test(aud)) throw new Error('accessAud must be the Access application audience tag.');
   if (!!team !== !!aud) throw new Error('Set accessTeamDomain and accessAud together.');
-  return { ...c, accessTeamDomain: team, accessAud: aud };
+  // Slice 10a: the scheduled job's cron expression; absent means every five minutes, an empty string means no trigger.
+  const cron = c.scheduledCron === undefined ? SCHEDULED_CRON : String(c.scheduledCron).trim();
+  if (cron && !CRON_FIELD.test(cron)) throw new Error('scheduledCron must be a five-field cron expression, or empty for no trigger.');
+  return { ...c, accessTeamDomain: team, accessAud: aud, scheduledCron: cron };
 }
 
 export function hostedWorkerConfig(built, c, databaseId) {
@@ -43,6 +51,8 @@ export function hostedWorkerConfig(built, c, databaseId) {
     SAHA_MIS_CONNECTIONS: '[]',
     SAHA_EHR_CONNECTIONS: '[]',
   };
+  // Slice 10a: the Cron Trigger that runs the scheduled job; the built configuration carries no trigger of its own.
+  out.triggers = { crons: c.scheduledCron ? [c.scheduledCron] : [] };
   if (c.accountId) out.account_id = c.accountId;
   return out;
 }
@@ -87,7 +97,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       const c = readConfig();
       const out = hostedWorkerConfig(JSON.parse(readFileSync(BUILT, 'utf8')), c, process.env.SAHA_D1_DATABASE_ID);
       writeFileSync(BUILT, JSON.stringify(out, null, 2) + '\n');
-      console.log(`Configured ${out.name}: environment ${c.environment}, identity cloudflare-access${c.accessAud ? '' : ' (not configured yet: every request gets 503)'}.`);
+      console.log(`Configured ${out.name}: environment ${c.environment}, identity cloudflare-access${c.accessAud ? '' : ' (not configured yet: every request gets 503)'}, scheduled job ${c.scheduledCron ? `on cron "${c.scheduledCron}"` : 'off'}.`);
     } else if (command === 'check') {
       await check(arg);
     } else {

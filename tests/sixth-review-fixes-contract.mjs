@@ -50,6 +50,7 @@ try {
 export async function identity() { return harness.user; }
 export async function activeOrg() { return harness.orgId; }
 export function db() { return harness.d1; }
+export async function loadFor() { throw new Error('loadFor is not used by this harness'); }
 export function rawRuntime() { return {}; }
 export function runtime() { return {}; }
 export function json(body, status = 200) { return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } }); }`);

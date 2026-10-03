@@ -71,7 +71,8 @@ export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOStri
   const owner=who(r.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner),e=escalation(r as any,!!owner?.eligible,now),d=dated(r.due??null,now);
   base.set('referral:'+r.id,r.reason);
   // Slice 4d: the referral's own visit is its first source; further linked sources follow in link order.
-  const sources=[{kind:'referral' as const,id:r.id,label:'Referral',visitId:r.visitId,link:'visit',at:r.createdAt},...(r.sources??[]).map(x=>({kind:'referral' as const,id:x.refId,label:`${SOURCE_LABEL[x.kind]} · ${x.sourceAt.slice(0,10)}`,visitId:x.visitId,link:x.kind,at:x.sourceAt}))];
+  // Slice 10f: a source linked because a programme pack asked for the referral says which pack asked.
+  const sources=[{kind:'referral' as const,id:r.id,label:'Referral',visitId:r.visitId,link:'visit',at:r.createdAt},...(r.sources??[]).map(x=>({kind:'referral' as const,id:x.refId,label:`${(r.packRequests??[]).filter(q=>q.sourceId===x.id).map(q=>`Asked by ${q.packName} v${q.packVersion}`)[0]??SOURCE_LABEL[x.kind]} · ${x.sourceAt.slice(0,10)}`,visitId:x.visitId,link:x.kind,at:x.sourceAt}))];
   items.push({key:'referral:'+r.id,kind:'referral',title:`Referral to ${r.facility}`,reason:r.reason+(e.reasons.length?` · ${e.reasons.join('; ')}`:''),sources,owner,queue:gap?`Supervisors of ${team}`:null,ownershipGap:gap,due:r.due??null,urgency:r.urgency??'routine',
    status:STATE_LABEL[r.state as ReferralState]??r.state,daysOverdue:e.daysOverdue||d.daysOverdue,attention:gap||e.level==='escalated'?'escalated':d.attention,assignVia:'action-plan',targets:[{kind:'referral',id:r.id,version:r.version??1}],canAssign:lead,canClaim:!!gap&&care,refs:[{kind:'referral',id:r.id}],waitingOn:[],blocks:[]});
  }

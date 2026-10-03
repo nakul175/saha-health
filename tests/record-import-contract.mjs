@@ -14,7 +14,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['record-import', 'import-rejections', 'operations', 'report-export', 'patient-import', 'adapter-operations','core', 'access', 'continuity', 'delegation', 'environment', 'identity', 'referral-rules', 'fact-provenance', 'mis', 'programmes', 'types', 'abdm'])
+  for (const f of ['record-import', 'visit-import', 'import-rejections', 'operations', 'report-export', 'patient-import', 'adapter-operations','core', 'access', 'continuity', 'delegation', 'environment', 'identity', 'referral-rules', 'fact-provenance', 'mis', 'programmes', 'types', 'abdm'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const R = await import(pathToFileURL(join(dir, 'record-import.js')));
   const X = await import(pathToFileURL(join(dir, 'import-rejections.js')));
@@ -37,7 +37,7 @@ try {
       person('p4', 'Synthetic Merged', 'default', { mergedInto: { personId: 'p1', caseId: 'c1', at: now, by: 'owner' } }),
       person('p5', 'Synthetic Person Five', 'default', { identifiers: [ident('rch', '555566667777')] })], visits: [], integrations: [], submissions: [], referrals: [], audit: [], receipts: {} } });
   // 1. Schema, header and size rules.
-  check(() => { assert.equal(R.recordImportInput.safeParse({ kind: 'visits', csv: 'a' }).success, false, 'visits are not an import kind'); assert.equal(R.recordImportInput.safeParse({ kind: 'enrolments', csv: 'x'.repeat(16001) }).success, false); assert.equal(R.recordImportSchema.safeParse({ type: 'recordImportApply', kind: 'identifiers', csv: 'a', planHash: 'a'.repeat(64), reason: 'short' }).success, false); });
+  check(() => { assert.equal(R.recordImportInput.safeParse({ kind: 'notes', csv: 'a' }).success, false, 'an unknown kind is refused (visits became a kind in slice 10i; see visit-import-contract.mjs)'); assert.equal(R.recordImportInput.safeParse({ kind: 'enrolments', csv: 'x'.repeat(16001) }).success, false); assert.equal(R.recordImportSchema.safeParse({ type: 'recordImportApply', kind: 'identifiers', csv: 'a', planHash: 'a'.repeat(64), reason: 'short' }).success, false); });
   const EH = 'person,pack,version,episode_label,start_date', IH = 'person,issuer,identifier';
   await rejects(() => R.planRecordImport(state(), owner, 'enrolments', 'person,pack,version,episode_label\np1,tb,,Label', 'synthetic', now), 422, /Missing: start_date/);
   await rejects(() => R.planRecordImport(state(), owner, 'identifiers', IH + ',name\np1,rch,1,x', 'synthetic', now), 422, /Not recognised: 1 column/);

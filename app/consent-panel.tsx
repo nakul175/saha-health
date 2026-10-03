@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import type { Person, Snapshot } from '@/lib/saha/types';
 import type { ConsentEvent, ConsentPurpose, Disposition } from '@/lib/saha/consent';
+import { useI18n } from './i18n';
 type Command=(c:any,s?:string)=>Promise<any>;
 // Slice 6o: permission withdrawal with its downstream record, and the patient's consent history.
 const LABEL:Record<ConsentPurpose,string>={ai:'Optional AI assistance',exchange:'External record sharing',contact:'Automated contact'};
@@ -22,8 +23,8 @@ function EventCard({e}:{e:ConsentEvent}){
 }
 // Shown on the patient screen while a withdrawal left deliveries without a confirmed outcome.
 export function ConsentNotice({p}:{p:Person}){
- const open=(p.consentHistory??[]).filter(e=>e.action==='withdrawn').flatMap(e=>e.items).filter(i=>i.disposition==='in-flight').length;
- return open?<div className="notice amber-notice" role="status">A permission was withdrawn while {open} {open===1?'delivery was':'deliveries were'} awaiting a receipt. Look up each receipt; nothing is resent under the withdrawn permission.</div>:null;
+ const {n}=useI18n(),open=(p.consentHistory??[]).filter(e=>e.action==='withdrawn').flatMap(e=>e.items).filter(i=>i.disposition==='in-flight').length;
+ return open?<div className="notice amber-notice" role="status">{n('patient.consentWithdrawn',open)}</div>:null;
 }
 export function ConsentPatient({data,p,busy,command}:{data:Snapshot;p:Person;busy:boolean;command:Command}){
  const [open,setOpen]=useState(false),[purpose,setPurpose]=useState(''),[channel,setChannel]=useState('in-person'),[reference,setReference]=useState(''),[reason,setReason]=useState('');

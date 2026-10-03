@@ -1,7 +1,8 @@
 import { identity, loadFor, json, db } from './server';
 import { fail, person } from './core';
 import { scope } from './store';
-import { householdView, PURPOSES, type Purpose } from './household';
+import { householdOf, householdView, PURPOSES, type Purpose } from './household';
+import { householdVisitPlan } from './household-visit';
 // Slice 1: worker-facing household view and sharing preview. Loads only the household's members.
 export async function householdRead(request:Request){
  const u=await identity(),url=new URL(request.url),personId=url.searchParams.get('personId')??'',recipient=url.searchParams.get('recipient'),purpose=(url.searchParams.get('purpose')??'care-coordination') as Purpose;
@@ -15,5 +16,7 @@ export async function householdRead(request:Request){
   return [...new Set([personId,...members])].slice(0,40);
  });
  const m=scope(s,u.userId);if(m.role==='admin')fail(403,'Patient access is required.');
- return json(householdView(s,m,person(s.workspace,personId),recipient,purpose));
+ const p=person(s.workspace,personId),view=householdView(s,m,p,recipient,purpose),h=householdOf(s,p);
+ // Slice 10f: the household visit plan (each in-scope member's open items and the planned slots) rides on the same scoped read.
+ return json(h?{...view,visitPlan:householdVisitPlan(s,m,h)}:view);
 }

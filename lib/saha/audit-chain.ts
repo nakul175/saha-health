@@ -23,6 +23,14 @@ export const SKEW_MS = 5 * 60 * 1000;
 // Slice 6t: the command type of an access-audit commit. It appends audit events only (no receipt, no
 // record rows) and does not move the organisation or patient revisions; see lib/saha/access-audit.ts.
 export const ACCESS_AUDIT = 'recordAccess';
+// Slice 10h: access events that summarise a whole read (a workspace load, a search, a list page, an aggregate view) rather
+// than name one patient. They carry no patient id, so only owners and administrators see them in the Activity log, and the
+// default log page leaves them out (`GET /api/audit?summaries=1` asks for them) so routine loads do not bury other events.
+// They stay in the audit chain and in every export of it. Kept here (not in types.ts) so the store needs no new module.
+export const SUMMARY_ACCESS_ACTIONS: readonly string[] = ['viewWorkspace', 'searchPatients', 'listPatients', 'viewAggregate'];
+// Slice 10b: side tables an access-audit commit may also append to in the same batch (the notification message log: one
+// message row per audit event, committed together so a message never exists without its audit event, or the reverse).
+export const ACCESS_SIDE_TABLES: ReadonlySet<string> = new Set(['notification_messages']);
 type Value = string | number | null;
 export type ChainRow = { table: string; values: Record<string, Value>; keys: string[]; append?: boolean };
 export type EventRow = { org_id: string; id: string; person_id: string | null; actor_id: string; actor_name: string; role: string; action: string; subject: string; detail: string; at: string; seq?: number | null; prev_hash?: string | null; hash?: string | null };

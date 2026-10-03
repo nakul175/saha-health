@@ -5,15 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Person, Snapshot } from '@/lib/saha/types';
+import { useI18n } from './i18n';
 type Command=(c:any,s?:string)=>Promise<any>;
 function Field({label,children}:{label:string;children:React.ReactNode}){return <label className="field"><span>{label}</span>{children}</label>}
 const time=(s:string)=>new Date(s).toLocaleString();
 
 // Slice 6a: a notice on a patient opened through emergency access.
 export function ExceptionalNotice({data,p}:{data:Snapshot;p:Person}){
- const now=new Date().toISOString(),g=(p.exceptionalAccess??[]).find(x=>x.userId===data.user.userId&&!x.closedAt&&x.until>now);
+ const {t}=useI18n(),now=new Date().toISOString(),g=(p.exceptionalAccess??[]).find(x=>x.userId===data.user.userId&&!x.closedAt&&x.until>now);
  const normal=data.membership.teamIds.includes(p.teamId)&&(data.role!=='asha'||p.assignedTo===data.user.userId);
- return g&&!normal?<div className="notice amber-notice" role="status">Emergency access until {time(g.until)}. You may read this record and record urgent care. Sharing, consent, identity and assignment changes are not available. This access will be reviewed.</div>:null;
+ return g&&!normal?<div className="notice amber-notice" role="status">{t('patient.emergency',{time:time(g.until)})}</div>:null;
 }
 // Slice 6a: open, close and review emergency access.
 export function ExceptionalPanel({data,busy,command}:{data:Snapshot;busy:boolean;command:Command}){

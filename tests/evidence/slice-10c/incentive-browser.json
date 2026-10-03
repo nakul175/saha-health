@@ -1,0 +1,141 @@
+{
+ "check": "slice-10c synthetic worker incentive claims on the Care handover page",
+ "at": "2026-10-02T14:35:20.623Z",
+ "completedAt": "2026-10-02T14:35:20.623Z",
+ "viewport": "1280x1500",
+ "results": [
+  {
+   "name": "setup: ASHA and supervisor join, a patient is assigned, the ASHA confirms two visits",
+   "ok": true,
+   "value": "4235d75b-2c8a-4a18-bb04-2e7b21da12e2"
+  },
+  {
+   "name": "owner sees the synthetic notice, no schedule and no claims",
+   "ok": true
+  },
+  {
+   "name": "owner sets the placeholder schedule",
+   "ok": true
+  },
+  {
+   "name": "ASHA previews eligible activity (two visits, 20 SYN)",
+   "ok": true,
+   "value": "2 lines · 20 SYN"
+  },
+  {
+   "name": "ASHA submits the claim",
+   "ok": true
+  },
+  {
+   "name": "no second claim: the preview shows nothing left",
+   "ok": true
+  },
+  {
+   "name": "ASHA is not offered verify or approve",
+   "ok": true,
+   "value": 1
+  },
+  {
+   "name": "axe: ASHA panel",
+   "ok": true,
+   "value": 0
+  },
+  {
+   "name": "supervisor verifies the claim",
+   "ok": true
+  },
+  {
+   "name": "supervisor cannot approve",
+   "ok": true
+  },
+  {
+   "name": "supervisor sees the CSV export but no approved claim yet (404 message)",
+   "ok": true
+  },
+  {
+   "name": "owner approves; the claim is stored in the chain",
+   "ok": true,
+   "value": "8a72b4fd2a420d3d0fa256b8dc31bd1ab5fa6f9708bb7b1a7edbcf9a50679eed"
+  },
+  {
+   "name": "approved claim offers the owner no verify, approve or withdraw (a correction only as a supervisor of the team)",
+   "ok": true,
+   "value": 1
+  },
+  {
+   "name": "owner downloads the CSV; digest in the file, no patient name",
+   "ok": true,
+   "value": "saha-synthetic-incentive-claims.csv 14 lines"
+  },
+  {
+   "name": "axe: owner panel",
+   "ok": true,
+   "value": 0
+  },
+  {
+   "name": "ASHA prepares a correction of one line; it is a new linked claim",
+   "ok": true
+  },
+  {
+   "name": "axe: ASHA panel with the correction",
+   "ok": true,
+   "value": 0
+  },
+  {
+   "name": "every refused or missing response is an expected one",
+   "ok": true,
+   "value": 5
+  },
+  {
+   "name": "no console errors beyond the failed responses",
+   "ok": true,
+   "value": 5
+  }
+ ],
+ "axeViolations": {
+  "asha": [],
+  "owner": [],
+  "asha-correction": []
+ },
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+  "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+ ],
+ "failedResponses": [
+  {
+   "who": "asha",
+   "status": 403,
+   "method": "GET",
+   "url": "/api/worker-activity?days=30"
+  },
+  {
+   "who": "asha",
+   "status": 403,
+   "method": "GET",
+   "url": "/api/worker-activity?days=30"
+  },
+  {
+   "who": "sup",
+   "status": 404,
+   "method": "GET",
+   "url": "/api/incentive-claims?format=csv"
+  },
+  {
+   "who": "asha",
+   "status": 403,
+   "method": "GET",
+   "url": "/api/worker-activity?days=30"
+  },
+  {
+   "who": "asha",
+   "status": 403,
+   "method": "GET",
+   "url": "/api/worker-activity?days=30"
+  }
+ ],
+ "passed": 19,
+ "failed": 0
+}

@@ -4,8 +4,17 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 
 | Document | Purpose |
 | --- | --- |
+| [Development slice 10h](SLICE-10H-READ-AUDIT-COMPLETION.md) | Audit of the remaining read paths: workspace loads, record opens, searches, list pages and aggregate views as chained fail-closed events, with membership role, version and delegated authority on every access event |
+| [Development slice 10c](SLICE-10C-INCENTIVE-CLAIMS.md) | Worker incentive claims on a synthetic placeholder schedule: ASHA claim from her own confirmed activity, supervisor verification, owner approval, immutable hash-chained record, linked corrections, CSV (no payment) |
+| [Development slice 10d](SLICE-10D-WORKFORCE-IMPORT.md) | Workforce roster import from a CSV file for owners: dry run with plan hash, rejection report and apply of exactly the previewed plan (slice 1d rules reused; BR-ID-01 stays partial) |
+| [Development slice 10f](SLICE-10F-HOUSEHOLD-SCHEDULING.md) | Household visit plan and visit slots (per-member scope, no free text, due dates and completion conditions unchanged, late items shown) and one referral for programme episodes that raise the same need, with every asking pack linked and recorded |
+| [Development slice 10b](SLICE-10B-NOTIFICATION-CHANNEL.md) | Out-of-app notification channel: owner-managed recipient tiers, escalation of unacknowledged alerts, demonstration simulator only (synthetic and training environments; no address or number contacted), message log with receipts and audit |
+| [Development slice 10a](SLICE-10A-SCHEDULED-TRIGGER.md) | Scheduled trigger (Cron) foundation: due caseload transfers, review marks on requests past their time limit and alert evaluation every five minutes in the hosted configuration |
+| [Development slice 10k](SLICE-10K-COMBINED-REVIEW-FIXES.md) | Fixes from the independent review of the combined slices 10a–10j: the operations view returns an allow-list (no incentive claims or patient ids), simulated messages exported per member, two panels marked English in the Hindi workspace, HTTP suite restarts the local Worker between module groups; open findings listed |
 | [Development slice 9a](SLICE-9A-DEMONSTRATION-CLINICAL-PACKAGE.md) | Demonstration clinical package for synthetic organisations (two cited demonstration protocols, not clinically approved) |
+| [Development slice 10j](SLICE-10J-HINDI-WORKSPACE.md) | Hindi (draft translation) for the ASHA journey in the workspace: message catalogue, per-member language choice, notice on every Hindi screen; not reviewed by a qualified translator |
 | [Development slice 9b](SLICE-9B-DEMONSTRATION-SCREENS.md) | Screens ready for a presenter-led demonstration: menu by role, visit first, member names, no build labels |
+| [Development slice 10e](SLICE-10E-IDENTIFIER-SEARCH.md) | Issuer-identifier search within the care scope, ABHA number format checks (no checksum found) and programme identity crosswalks with provenance |
 | [Development slice 6ae](SLICE-6AE-HELD-TRANSFER-ATOMICITY.md) | Automatic caseload transfers applied all-or-nothing (tenth independent review) |
 | [Remaining work estimate](REMAINING-WORK-ESTIMATE.md) | Share of development done on 2 October 2026: requirement classes by who can close them, and remaining buildable slices (estimate, not acceptance) |
 | [Hosted synthetic staging](HOSTED-STAGING.md) | Cloudflare Worker, D1 and Access hosting of the synthetic workspace; deploy on merge into main; limits |
@@ -51,7 +60,9 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Development slice 4f](SLICE-4F-PACK-INSTALLATION.md) | Governed installation of a programme pack or a new pack version (not clinically approved content) |
 | [Development slice 2e](SLICE-2E-OBSERVATION-VERIFICATION.md) | Author and clinician verification for each measurement |
 | [Development slice 2g](SLICE-2G-NOTE-ANSWER-SIGNOFF.md) | Author and clinician verification for visit notes and programme answers; optional supervisor sign-off before programme submissions are sent |
+| [Development slice 10g](SLICE-10G-DISPUTES-SIGNOFF.md) | Disputes on a confirmed fact or answer that block programme and EHR sending until a clinician resolves them, sign-off rules per programme and per destination, supervisor sign-off withdrawal; checks repeated inside the execution checkpoint |
 | [Development slice 2h](SLICE-2H-ENROLMENT-IDENTIFIER-IMPORT.md) | Controlled import of programme enrolments and external identifiers for existing people, and a downloadable rejection report for import dry runs |
+| [Development slice 10i](SLICE-10I-VISIT-IMPORT.md) | Controlled import of historical visits with clinical content (owners and clinicians), imported visits as read-only history with source lineage |
 | [Development slice 2f](SLICE-2F-IMPORT-DRY-RUN.md) | Controlled patient import with a dry run |
 | [Development slice 6p](SLICE-6P-REVIEW-FIXES.md) | Fixes for defects found by an independent review of slices 6m, 6j/6k, 2d, 5b and 1e |
 | [Development slice 6q](SLICE-6Q-SECOND-REVIEW-FIXES.md) | Fixes for defects found by a second independent review of slices 5f, 0b-3, 2f and 6p |

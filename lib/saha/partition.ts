@@ -23,6 +23,8 @@ export const PATIENT_COMMANDS = new Set<string>([
   'assignPlanItem',
   // slice 4d: dependencies between one patient's plan items and further sources of one referral
   'linkPlanItems', 'unlinkPlanItems', 'linkReferralSource',
+  // slice 10f: one referral for the programme episodes of one confirmed visit that raised the same need
+  'createProgrammeReferrals',
   // identity review and handover acknowledgement
   'resolvePatientIdentity', 'acknowledgeAssignment',
   // clinical review on one encounter
@@ -39,6 +41,8 @@ export const PATIENT_COMMANDS = new Set<string>([
   'verifyFact',
   // slice 2g: clinician review of notes and programme answers, and supervisor sign-off of one confirmed visit
   'verifyEntry', 'signOffVisit',
+  // slice 10g: an enforced dispute and its resolution on one confirmed visit, and withdrawal of that visit's sign-off
+  'raiseDispute', 'resolveDispute', 'withdrawSignOff',
   // slice 2i: clinician confirmation of an unusual value on one draft visit
   'confirmUnusualValue',
   // slice 2j: closing one correction task of one patient's corrected or voided visit

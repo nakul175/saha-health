@@ -194,12 +194,13 @@ export const RULES=`Urgent means open work overdue or due within ${URGENT_DAYS} 
 // same revision cannot commit a second application.
 export const SCHEDULER:Actor={userId:'system',displayName:'Saha scheduled transfer',email:''};
 export function dueTransfers(s:OrgState,now:string){return (s.caseloads??[]).filter(t=>t.state==='scheduled'&&t.effectiveAt<=now).sort((a,b)=>a.effectiveAt.localeCompare(b.effectiveAt)||a.createdAt.localeCompare(b.createdAt)||a.id.localeCompare(b.id));}
-export function applyDueTransfers(s:OrgState,now:string){
+export function applyDueTransfers(s:OrgState,now:string,limit=Infinity){
  const out:{transferId:string;state:'applied'|'held';moved:number;skipped:number;reason?:string}[]=[];
  const audit=(t:CaseloadTransfer,action:string,detail:string)=>s.workspace.audit.push({id:uuid(),at:now,actorId:SCHEDULER.userId,actor:SCHEDULER.displayName,role:'system' as Role,action,subject:t.id,detail});
  // Slice 6ae (tenth review, finding 1): the state is copied before each transfer is applied; a refusal part-way through
  // restores the copy, so every assignment is exactly as it was, and the transfer is held on the restored state.
- for(const id of dueTransfers(s,now).map(x=>x.id)){
+ // Slice 10a: the scheduled job bounds its work per run; the rest stay scheduled (oldest first) for the next run.
+ for(const id of dueTransfers(s,now).slice(0,limit).map(x=>x.id)){
   const t=(s.caseloads??[]).find(x=>x.id===id)!;
   const creator=s.members.find(x=>x.userId===t.createdBy&&x.status==='active');
   let reason='';

@@ -21,7 +21,9 @@ export type AbdmConfig={environment:'mock';modules:{abha:boolean;hip:boolean;hiu
 export type Abha={state:'linked'|'declined'|'none';number?:string;address?:string;verification?:'mock-otp';at:string;by:string;history:{at:string;by:string;action:string;number?:string;reason?:string}[]};
 export type AbdmConsent={id:string;purpose:typeof PURPOSES[number];hiTypes:(typeof HI_TYPES[number])[];from:string;to:string;expiresAt:string;status:'REQUESTED'|'GRANTED'|'DENIED'|'REVOKED';requestedBy:string;requestedAt:string;decidedAt?:string;revokedAt?:string;revokeReason?:string;abhaNumber:string};
 const id=z.string().trim().min(1).max(200),version=z.number().int().positive(),reason=z.string().trim().min(10).max(1000),day=z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
-const abhaNumber=z.string().trim().regex(/^\d{2}-?\d{4}-?\d{4}-?\d{4}$/,'Enter the 14-digit ABHA number.').transform(x=>x.replace(/-/g,'').replace(/^(\d{2})(\d{4})(\d{4})(\d{4})$/,'$1-$2-$3-$4'));
+// Slice 10e: format only (14 digits, or hyphenated 2-4-4-4; mixed grouping is refused). No checksum is applied because no official
+// ABDM or NHA specification of one was found; see lib/saha/identifier-search.ts, whose parseAbha is the same rule.
+const abhaNumber=z.string().trim().regex(/^(\d{14}|\d{2}-\d{4}-\d{4}-\d{4})$/,'Enter the 14-digit ABHA number, as 14 digits or grouped 2-4-4-4 with hyphens (for example 91-1234-5678-9012).').transform(x=>x.replace(/-/g,'').replace(/^(\d{2})(\d{4})(\d{4})(\d{4})$/,'$1-$2-$3-$4'));
 export const abdmSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('abdmConfigure'),environment:z.enum(['mock','sandbox','production']),modules:z.object({abha:z.boolean(),hip:z.boolean(),hiu:z.boolean()}).strict(),facilityId:z.string().trim().min(3).max(100),approvals:z.array(z.object({module:z.enum(['abha','hip','hiu']),reference:z.string().trim().min(3).max(200)}).strict()).max(3),reason}).strict(),
  z.object({type:z.literal('abhaLink'),personId:id,version,abhaNumber,abhaAddress:z.string().trim().regex(/^[a-z0-9._]{3,40}@(abdm|sbx)$/i,'Use an ABHA address such as name@abdm.').optional(),otp:z.string().trim().regex(/^\d{6}$/)}).strict(),

@@ -5,7 +5,7 @@ import { digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
-import { ACCESS_AUDIT, chainMoved, linkRows } from './audit-chain';
+import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
 type Value=string|number|null;
 export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
@@ -141,7 +141,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  const access=command.type===ACCESS_AUDIT;
  if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true));rows.push(...extraRows);
  const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
- if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events')||!rows.length))throw new Error('An access-audit commit may only append audit events.');
+ if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events'&&!ACCESS_SIDE_TABLES.has(r.table))||!rows.length))throw new Error('An access-audit commit may only append audit events.');
  const plan=access?{patients:null,reason:'access audit only'}:commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
  // Slice 6j: audit rows are linked to the chain head read just before the batch. The unique
  // (org_id, seq) index refuses a second commit built on the same head; nothing of that batch
@@ -219,8 +219,10 @@ export async function createState(db:D1Database,state:OrgState,u:Actor,action:st
 }
 export async function history(db:D1Database,orgId:string,personId:string,cursor:[string,string]|null=null){const r=await db.prepare(`SELECT * FROM record_revisions WHERE org_id=? AND person_id=?${cursor?' AND (created_at<? OR (created_at=? AND id<?))':''} ORDER BY created_at DESC,id DESC LIMIT 51`).bind(orgId,personId,...(cursor?[cursor[0],cursor[0],cursor[1]]:[])).all<Record<string,any>>();const rows=r.results.slice(0,50),last=rows.at(-1);return {revisions:rows.map(r=>({id:r.id,personId:r.person_id,entityType:r.entity_type,entityId:r.entity_id,version:r.version,actorId:r.actor_id,actorName:r.actor_name,action:r.action,reason:r.reason,data:JSON.parse(r.data),changes:JSON.parse(r.changes),createdAt:r.created_at})) as RecordRevision[],nextCursor:r.results.length>50?j([last!.created_at,last!.id]):null};}
 export function parseCursor(value:string|null){if(!value)return null;if(value.length>500)fail(400,'Invalid history cursor.');try{const c=JSON.parse(value);if(!Array.isArray(c)||c.length!==2||c.some(x=>typeof x!=='string'||x.length>200))fail(400,'Invalid history cursor.');return c as [string,string];}catch{fail(400,'Invalid history cursor.');}}
-export async function auditPage(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null){
- const q=`SELECT a.* FROM audit_events a JOIN memberships m ON m.org_id=a.org_id AND m.user_id=? AND m.status='active' WHERE a.org_id=? AND ((a.person_id IS NULL AND (m.is_owner=1 OR m.role='admin')) OR EXISTS (SELECT 1 FROM patients p JOIN team_members t ON t.org_id=p.org_id AND t.team_id=p.team_id AND t.user_id=m.user_id WHERE p.org_id=a.org_id AND p.id=a.person_id AND m.role NOT IN ('admin','provider') AND (m.role!='asha' OR p.assigned_to=m.user_id)))${cursor?' AND (a.at<? OR (a.at=? AND a.id<?))':''} ORDER BY a.at DESC,a.id DESC LIMIT 101`;
+// Slice 10h: summary access events (workspace loads, searches, list pages, aggregate views) are left out of the default Activity
+// log page so that routine loads do not bury other events; `summaries` asks for them. The audit chain and its exports always hold them.
+export async function auditPage(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
+ const q=`SELECT a.* FROM audit_events a JOIN memberships m ON m.org_id=a.org_id AND m.user_id=? AND m.status='active' WHERE a.org_id=? AND ((a.person_id IS NULL AND (m.is_owner=1 OR m.role='admin')) OR EXISTS (SELECT 1 FROM patients p JOIN team_members t ON t.org_id=p.org_id AND t.team_id=p.team_id AND t.user_id=m.user_id WHERE p.org_id=a.org_id AND p.id=a.person_id AND m.role NOT IN ('admin','provider') AND (m.role!='asha' OR p.assigned_to=m.user_id)))${summaries?'':` AND a.action NOT IN (${SUMMARY_ACCESS_ACTIONS.map(x=>`'${x}'`).join(',')})`}${cursor?' AND (a.at<? OR (a.at=? AND a.id<?))':''} ORDER BY a.at DESC,a.id DESC LIMIT 101`;
  const result=await db.prepare(q).bind(userId,orgId,...(cursor?[cursor[0],cursor[0],cursor[1]]:[])).all<Record<string,any>>();
  const rows=result.results.slice(0,100),last=rows.at(-1);return {events:rows.map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id})) as Audit[],nextCursor:result.results.length>100?j([last!.at,last!.id]):null};
 }

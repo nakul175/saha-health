@@ -34,6 +34,10 @@ The Worker has no background timer in this deployment (the same constraint as sl
 - Each application or hold is one organisation-wide commit; in a busy organisation it may make a concurrent command retry, as any organisation-wide command does.
 
 
+## Update — 2 October 2026 (slice 10a)
+
+Where a Cron Trigger is configured (the hosted staging Worker, `scheduledCron` in `deploy/cloudflare-staging.json`), a scheduled job now also applies due transfers every five minutes whether or not anyone is using Saha, through the same path. Everywhere else, and for as long as no trigger has run, application time still depends on use as described above. See [slice 10a](SLICE-10A-SCHEDULED-TRIGGER.md).
+
 ## Correction — 2 October 2026 (slice 6ae)
 
 A tenth independent review found that an automatic application refused part-way through left the patients already moved with the receiving worker while the transfer was marked held. Slice 6ae applies each due transfer to a copy of the state and keeps it only if the whole transfer succeeds. See [slice 6ae](SLICE-6AE-HELD-TRANSFER-ATOMICITY.md).
