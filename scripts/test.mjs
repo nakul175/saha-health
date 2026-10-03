@@ -250,7 +250,14 @@ async function runSuite(suite) {
   records.push(rec);
   const count = rec.passed === null ? 'no count' : `${rec.passed} passed${rec.failed ? `, ${rec.failed} failed` : ''}${rec.skipped ? `, ${rec.skipped} skipped` : ''}`;
   console.log(`  ${rec.status === 'passed' ? 'ok     ' : rec.status.toUpperCase().padEnd(7)}  ${suite.id}  ${count}  ${fmtMs(rec.durationMs)}${rec.reason ? `  [${rec.reason}]` : ''}`);
-  if (rec.status === 'failed') console.log(r.output.split('\n').filter(Boolean).slice(-25).map(l => '      | ' + l.slice(0, 220)).join('\n'));
+  if (rec.status === 'failed') {
+    // Slice 11h: the HTTP suite interleaves the Worker's request log with its own output, so the last lines are usually request
+    // log lines. Show the suite's own error lines first (the first CI failure after round 11 showed only Worker log lines).
+    const lines = r.output.split('\n').filter(Boolean);
+    const errors = lines.filter(l => !/^\[wrangler:|^\{"event":"saha_/.test(l) && /Error|assert|FAIL|expected|actual|Expected|Received|exceeded|refused|Cannot|undefined/.test(l)).slice(0, 40);
+    if (errors.length) console.log(['      | error lines:', ...errors.map(l => '      |   ' + l.slice(0, 300))].join('\n'));
+    console.log(lines.filter(l => !/^\[wrangler:|^\{"event":"saha_/.test(l)).slice(-25).map(l => '      | ' + l.slice(0, 220)).join('\n'));
+  }
   return rec;
 }
 
