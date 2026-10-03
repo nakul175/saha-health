@@ -1,3 +1,16 @@
+## Integration of 15 parallel slices — 3 October 2026
+
+Built 15 buildable slices in parallel (R03, R06, R08, R09, R13, R17, R21, R23, R24, R26, R33, R37, R42, R74, R96), each on its own branch off `main` (`4108e6ce`), integrated on `int/15-slices` (draft PR #144; per-slice draft PRs #129–#143). Additive-only; `main` untouched; nothing merged.
+
+Verification (synthetic data, macOS, Node 24.21, 3 October 2026):
+- `tsc --noEmit`: clean. `npm run build`: succeeds (62 routes, 227 command discriminators).
+- Integration HTTP/D1: **4,620 passed** plus 8 scheduled-local-check, against the built Worker.
+- Unit contracts: **116/118 passed**; `report-export-contract` and `ehr-resolution-contract` fail identically on clean `main` (macOS GNU `head -n -2`, and a Node-version-specific assertion), so they are pre-existing and environment-specific, not regressions.
+- Resilience: 21 passed. Smoke: 36 passed.
+- Documentation: `build-documentation.py` regenerated 38 inventories; baseline `application-r15-slices-sha256.json` recorded; `check-documentation.py` and `audit-requirements.mjs --check` pass.
+
+No formal acceptance criterion is promoted; all 176 remain pending. Deferred wiring and limits are recorded in each slice's `docs/current/SLICE-*.md`.
+
 # Current validation — Release 9 / v1.1-readiness
 
 27 September 2026 (UTC). **1,007 automated checks passed** against synthetic data:
