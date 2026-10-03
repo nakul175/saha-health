@@ -1,0 +1,43 @@
+{
+  "slice": "11g",
+  "label": "Slice 11g \u2014 smoke, UI, non-functional and UAT layers after the test-review fixes",
+  "environment": "local built Worker, local D1/SQLite, Miniflare, Chromium 1194 (Playwright 1.56.1), synthetic data, shared 2-core machine",
+  "note": "node scripts/test.mjs smoke ui nfr uat --fast --update-baseline: 307 passed, 0 failed, 1 skipped; baseline lowered for load-burst 15->13, memory-growth 14->4, performance-budgets 145->94 because measurements without a budget no longer count as checks.",
+  "reports": {
+    "identity-hardening-result.json": {
+      "sha256": "2c75017be67fe99ac917019f4a099e44ba3c940044bcff7372e0e5caefec8b38",
+      "passed": 29,
+      "completedAt": "2026-10-03T04:34:39.121Z"
+    },
+    "load-burst-result.json": {
+      "sha256": "bce8bba9d512a94f45941edf7d8d1dd58ea241eee387d69fb2dcc599b67194fc",
+      "passed": 13,
+      "completedAt": "2026-10-03T04:35:00.223Z"
+    },
+    "memory-growth-result.json": {
+      "sha256": "0fa79ee15d4c8718099b4546a914821828472928cacddf7efb0470c14080973a",
+      "passed": 4,
+      "completedAt": "2026-10-03T04:36:15.781Z"
+    },
+    "performance-budgets-result.json": {
+      "sha256": "c92a33b7e14e6ca794e00b61dd4823d4403c8cb6ca09de8c1a7ea994dd2c9430",
+      "passed": 94,
+      "completedAt": "2026-10-03T04:37:19.215Z"
+    },
+    "smoke-local-result.json": {
+      "sha256": "829b5cb437604e638a322a281912336c3798536f95752894fe9683ad7ecf5455",
+      "passed": 28,
+      "completedAt": "2026-10-03T04:31:46.916Z"
+    },
+    "summary-smoke-ui-nfr-uat.json": {
+      "sha256": "c6e2f9615d107e4b5160c243ee6d52ed640bba5ed3e63582bd55630937d5d10d",
+      "passed": null,
+      "completedAt": "2026-10-03T04:37:21.009Z"
+    },
+    "ui-result.json": {
+      "sha256": "1726732287061d0b5e747175eef6c91b202317b40bbcad216968b90d647b31cc",
+      "passed": 17,
+      "completedAt": "2026-10-03T04:34:05.286Z"
+    }
+  }
+}

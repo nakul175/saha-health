@@ -1,0 +1,64 @@
+# Slice 11a: the heavier test tiers (browser UI, non-functional, regression guard) on demand and once a week.
+# Pull requests do not start this workflow: GitHub Actions minutes are limited, and ci.yml already runs the pull-request tier
+# (documentation, type check, build, supply-chain gate, HTTP/D1 suite, unit suites, restore drill, smoke suites).
+# It never uses secrets, live providers, hosted databases or real patient records, and it does not deploy the Site.
+# Everything runs against a local Worker with synthetic data. See docs/current/SLICE-11A-TEST-RUNNER.md.
+name: regression-checks
+on:
+  workflow_dispatch:
+    inputs:
+      tier:
+        description: 'What to run (regression = every layer plus the regression guard)'
+        type: choice
+        default: regression
+        options:
+          - regression
+          - full
+          - ui
+          - nfr
+          - smoke
+          - uat
+  schedule:
+    # Mondays 02:30 UTC. Scheduled workflows run from the default branch only.
+    - cron: '30 2 * * 1'
+permissions:
+  contents: read
+concurrency:
+  group: regression-checks
+  cancel-in-progress: false
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      TIER: ${{ inputs.tier || 'regression' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Before install, as in ci.yml: install and test runs rewrite checkout-local files that the documentation check pins.
+      - name: Documentation, requirements and test catalogue
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Build
+        run: npm run build
+      # Slice 11c pins @playwright/test as a dev dependency (installed above); this step adds Chromium and its system libraries.
+      - name: Browser for UI tests
+        if: hashFiles('tests/ui/playwright.config.mjs') != ''
+        run: npx playwright install --with-deps chromium
+      # The runner builds the local D1 state for the HTTP/D1 suite itself, runs each layer in order, copies every result
+      # to tests/reports/, restores the checkout and, for regression, compares each suite with tests/regression-baseline.json.
+      # The static layer is skipped here: the documentation checks ran above, and the type check ran in the pull request.
+      - name: Run tier
+        run: node scripts/test.mjs "$TIER" --skip static --fast
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: regression-evidence
+          path: tests/reports/
+          if-no-files-found: warn

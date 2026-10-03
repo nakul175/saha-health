@@ -1,0 +1,161 @@
+{
+  "suite": "UI journeys, screenshot regression and accessibility (Playwright, Chromium)",
+  "layer": "ui",
+  "passed": 17,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-03T04:31:51.415Z",
+  "completedAt": "2026-10-03T04:34:05.286Z",
+  "durationMs": 133870,
+  "environment": "local built Worker, local D1, synthetic data, headless Chromium (Playwright 1.56.1), axe-core 4.13.0",
+  "limits": [
+    "Desktop 1280x720 and phone 390x844 viewports in Chromium only; no Firefox or WebKit, no real phone, no screen reader.",
+    "Screenshot baselines were rendered on one machine; fonts on another host (for example GitHub ubuntu runners) can differ. Regenerate with --update-snapshots.",
+    "Axe finds a subset of accessibility failures; the Hindi text is a draft translation and no Devanagari font is installed on the machine that made the baselines, so no Hindi screenshot is compared."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "desktop · asha-visit.spec.mjs › ASHA visit with a danger sign: assistant, urgent finding, confirmation, programme plan and receipts",
+      "ok": true,
+      "ms": 63356
+    },
+    {
+      "label": "desktop · errors.spec.mjs › a stranger who opens another organisation is refused, with no patient data and no crash",
+      "ok": true,
+      "ms": 2045
+    },
+    {
+      "label": "desktop · errors.spec.mjs › an invitation code that does not exist is refused with a clear message",
+      "ok": true,
+      "ms": 6815
+    },
+    {
+      "label": "desktop · errors.spec.mjs › an address that is not a page shows a not-found page",
+      "ok": true,
+      "ms": 1252
+    },
+    {
+      "label": "desktop · governance.spec.mjs › owner sees the demonstration protocols and the source library",
+      "ok": true,
+      "ms": 3286
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › the axe scan fails on inaccessible markup",
+      "ok": true,
+      "ms": 1213
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an uncaught page error fails the journey",
+      "ok": true,
+      "ms": 290
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › a console error fails the journey",
+      "ok": true,
+      "ms": 89
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an HTTP 5xx answer fails the journey",
+      "ok": true,
+      "ms": 291
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks can fail › an allow-list entry that does not match does not hide the message",
+      "ok": true,
+      "ms": 75
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks that must pass › an allow-list entry with a reason lets exactly that message through, and it is listed",
+      "ok": true,
+      "ms": 278
+    },
+    {
+      "label": "desktop · harness.spec.mjs › the checks that must pass › screenshot masks hide dates, receipt numbers and codes; unmasked, the same page differs",
+      "ok": true,
+      "ms": 240
+    },
+    {
+      "label": "desktop · hindi.spec.mjs › Hindi: My work shows Hindi text with lang=\"hi\", the choice is saved, and English comes back",
+      "ok": true,
+      "ms": 7855
+    },
+    {
+      "label": "desktop · owner-setup.spec.mjs › owner sets a name, invites an ASHA by account code and assigns one person; the ASHA sees only that person",
+      "ok": true,
+      "ms": 17137
+    },
+    {
+      "label": "desktop · roles.spec.mjs › supervisor sees Operations and alerts and no administration menus; an ASHA menu is care work only",
+      "ok": true,
+      "ms": 5236
+    },
+    {
+      "label": "phone · phone.spec.mjs › phone: the visit list and the visit form are usable at 390x844 with no sideways scroll",
+      "ok": true,
+      "ms": 8915
+    },
+    {
+      "label": "phone · phone.spec.mjs › phone: the clinical review, the review step and the receipts of a sent visit also fit the width",
+      "ok": true,
+      "ms": 13364
+    }
+  ],
+  "flaky": [],
+  "projects": [
+    "desktop",
+    "phone"
+  ],
+  "workers": 1,
+  "retries": 0,
+  "screenshotBaselines": 8,
+  "accessibility": {
+    "screensScanned": 25,
+    "violationsFound": 0,
+    "blocking": 0,
+    "violations": []
+  },
+  "browserMessagesAllowed": [
+    {
+      "test": "desktop · errors.spec.mjs › a stranger who opens another organisation is refused, with no patient data and no crash",
+      "kind": "console",
+      "who": "stranger",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:8821/api/workspace",
+      "allowedBecause": "the refusal under test: the server answers 403 for an organisation this account does not belong to"
+    },
+    {
+      "test": "desktop · errors.spec.mjs › a stranger who opens another organisation is refused, with no patient data and no crash",
+      "kind": "console",
+      "who": "stranger",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "url": "http://127.0.0.1:8821/api/workspace",
+      "allowedBecause": "the refusal under test: the server answers 403 for an organisation this account does not belong to"
+    },
+    {
+      "test": "desktop · errors.spec.mjs › an invitation code that does not exist is refused with a clear message",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:8821/api/commands",
+      "allowedBecause": "the refusal under test: an unknown invitation code answers 404"
+    },
+    {
+      "test": "desktop · errors.spec.mjs › an address that is not a page shows a not-found page",
+      "kind": "console",
+      "who": "asha",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:8821/does-not-exist",
+      "allowedBecause": "the refusal under test: an unknown address answers 404"
+    },
+    {
+      "test": "desktop · harness.spec.mjs › the checks that must pass › an allow-list entry with a reason lets exactly that message through, and it is listed",
+      "kind": "console",
+      "who": "anonymous",
+      "text": "harness: known harmless message",
+      "url": "",
+      "allowedBecause": "harness: proves the allow-list works and is recorded"
+    }
+  ],
+  "playwrightStatus": "passed"
+}

@@ -1,0 +1,167 @@
+{
+  "suite": "Identity hardening (non-functional: security)",
+  "layer": "non-functional",
+  "passed": 29,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-03T04:34:29.513Z",
+  "completedAt": "2026-10-03T04:34:39.121Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Local Workers only. A real Cloudflare Access application, its identity providers and its published keys are not exercised; the key endpoint is a local stand-in (Miniflare outbound service) serving a locally generated RSA key.",
+    "Signature, issuer, audience and expiry checks run the real lib/saha/identity.ts inside the built Worker; the unit-level contract (tests/identity-contract.mjs) covers the same rules with an injected fetch.",
+    "Only the Cf-Access-Jwt-Assertion header is honoured; this suite shows the Authorization header and the CF_Authorization cookie are not, which matches the Access model where Access sets the header after sign-in.",
+    "Principals whose id starts `fixture:` are the only reserved prefix (open finding L3 of slice 10k); other reserved-looking ids are not refused."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "setup: the organisation holds real fixture: members created by the demonstration package",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "control: an ordinary Sites principal signs in (so the refusals below are caused by the id, not the request)",
+      "ok": true,
+      "ms": 59
+    },
+    {
+      "label": "a real fixture member id cannot sign in: workspace, patient list and a command are refused 401 (2 fixture ids)",
+      "ok": true,
+      "ms": 73
+    },
+    {
+      "label": "made-up fixture: ids, the bare prefix and an id ending in the prefix are handled: prefixed ids are refused; an id that merely contains the prefix is an ordinary id",
+      "ok": true,
+      "ms": 90
+    },
+    {
+      "label": "partial or empty identity headers are refused: id without email, email without id, empty id, empty email",
+      "ok": true,
+      "ms": 26
+    },
+    {
+      "label": "on the Sites provider a stray Cf-Access-Jwt-Assertion is not an identity",
+      "ok": true,
+      "ms": 4
+    },
+    {
+      "label": "the refused fixture requests changed nothing: the fixture members still exist and no fixture account was signed in as",
+      "ok": true,
+      "ms": 47
+    },
+    {
+      "label": "B wrangler dev, Access provider: Sites identity headers are ignored (valid-looking id and email, no token) -> 401",
+      "ok": true,
+      "ms": 45
+    },
+    {
+      "label": "B wrangler dev, Access provider: no token, an empty token and anonymous POST /api/commands are refused -> 401",
+      "ok": true,
+      "ms": 20
+    },
+    {
+      "label": "B wrangler dev, Access provider: malformed tokens are refused -> 401 (7 shapes)",
+      "ok": true,
+      "ms": 39
+    },
+    {
+      "label": "B wrangler dev, Access provider: a well-formed token signed with an unknown key is refused -> 401 (the key endpoint is unreachable here, so verification fails closed)",
+      "ok": true,
+      "ms": 67
+    },
+    {
+      "label": "runtime premise: the Workers runtime refuses fetch redirect mode 'error' with a TypeError, and returns a redirect unfollowed (not ok) in mode 'manual'",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "OPEN FINDING D-1: no Worker-side fetch in lib/saha passes redirect mode 'error' (the runtime refuses it, so the call would throw before sending)",
+      "ok": true,
+      "ms": 4
+    },
+    {
+      "label": "C control: a properly signed token is accepted; the principal is access:<subject> and carries the token's name",
+      "ok": true,
+      "ms": 78
+    },
+    {
+      "label": "C control: a properly signed token also authorises a command (POST /api/commands)",
+      "ok": true,
+      "ms": 83
+    },
+    {
+      "label": "C the key endpoint answers are cached: repeated valid tokens do not refetch the keys on every request",
+      "ok": true,
+      "ms": 130
+    },
+    {
+      "label": "C Miniflare, Access provider: Sites identity headers are ignored (valid-looking id and email, no token) -> 401",
+      "ok": true,
+      "ms": 10
+    },
+    {
+      "label": "C Miniflare, Access provider: no token, an empty token and anonymous POST /api/commands are refused -> 401",
+      "ok": true,
+      "ms": 8
+    },
+    {
+      "label": "C Miniflare, Access provider: malformed tokens are refused -> 401 (7 shapes)",
+      "ok": true,
+      "ms": 19
+    },
+    {
+      "label": "C every wrong token is refused -> 401, with no workspace data (14 cases)",
+      "ok": true,
+      "ms": 49
+    },
+    {
+      "label": "C the token is honoured only in Cf-Access-Jwt-Assertion: Authorization bearer and the CF_Authorization cookie are not identities",
+      "ok": true,
+      "ms": 7
+    },
+    {
+      "label": "C a valid token with Sites headers naming someone else signs in as the token's subject, never as the header identity",
+      "ok": true,
+      "ms": 28
+    },
+    {
+      "label": "C a token whose subject starts fixture: signs in only as access:fixture:<…>, which is no fixture member id",
+      "ok": true,
+      "ms": 40
+    },
+    {
+      "label": "C key rotation: a token with a new key id is accepted after one refresh of the keys",
+      "ok": true,
+      "ms": 151
+    },
+    {
+      "label": "C the key endpoint failing closes the door for unknown keys (503 from the endpoint -> 401) while a cached key still verifies",
+      "ok": true,
+      "ms": 31
+    },
+    {
+      "label": "C refused requests create no account: only the principals that presented a valid token exist",
+      "ok": true,
+      "ms": 191
+    },
+    {
+      "label": "D Access provider without team domain or audience: 503 for valid Sites headers and for a signed token; never a fallback to Sites headers",
+      "ok": true,
+      "ms": 22
+    },
+    {
+      "label": "D Access provider with a team domain outside cloudflareaccess.com: 503 for valid Sites headers and for a signed token; never a fallback to Sites headers",
+      "ok": true,
+      "ms": 19
+    },
+    {
+      "label": "D an unknown provider name: 503 for valid Sites headers and for a signed token; never a fallback to Sites headers",
+      "ok": true,
+      "ms": 19
+    }
+  ],
+  "durationMs": 9607,
+  "team": "synthetic-team.cloudflareaccess.com",
+  "audienceLength": 64
+}

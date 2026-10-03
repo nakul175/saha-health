@@ -1,0 +1,17 @@
+{
+  "slice": "11a",
+  "label": "Development slice 11a \u2014 unified test runner, suite catalogue, regression guard and tiered CI",
+  "environment": "local built Worker, local D1/SQLite, synthetic fixtures; Node 22.22.2 on a 2-core machine shared with other agents, through the shared heavy-job queue (durations include contention)",
+  "totalPassed": 11815,
+  "note": "Runner summary of node scripts/test.mjs static unit integration resilience --fast --guard --update-baseline on the committed 11a source, and the suite catalogue it ran from. The static documentation step failed in this run because package.json, tests/recovery-drill.mjs and .gitignore are pinned in the verification baseline and changed on purpose; the integrator refreshes that baseline. totalPassed is the sum of per-suite passed counts in the summary; the reports below carry no passed field so the documentation check does not count them twice. The R11 results in tests/ are unchanged historical evidence.",
+  "reports": {
+    "runner-summary-pr.json": {
+      "sha256": "58c7e5ed0a04b697d2cf2da9efa996987b4e8530b5466fb01cddbfb8c26f8761",
+      "completedAt": "2026-10-03T03:13:03.456Z"
+    },
+    "catalogue.json": {
+      "sha256": "800165b26c27f01736a223f18e8892a0cd1c50ed3eb7ad5b7976f86339c6db33",
+      "completedAt": "2026-10-03T03:04:43.449Z"
+    }
+  }
+}

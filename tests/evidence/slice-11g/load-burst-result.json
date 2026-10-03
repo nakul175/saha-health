@@ -1,0 +1,144 @@
+{
+  "suite": "Load burst (non-functional)",
+  "layer": "non-functional",
+  "passed": 13,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-03T04:34:39.182Z",
+  "completedAt": "2026-10-03T04:35:00.223Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "One local wrangler dev Worker (one isolate) and a local D1 on a 2-core machine shared with other jobs; eight clients is a bounded burst, not a capacity or soak test.",
+    "A 409 conflict is retried up to six times with the same Idempotency-Key (safe by design); the suite reports how many retries were needed and how many writes still ended in 409 (\"exhausted\": the documented try-again answer, nothing saved). A command that never succeeds is checked to be absent from the final state; any other refusal stops the client.",
+    "Latencies under load are recorded for information with a generous ceiling that only catches a hang."
+  ],
+  "measures": [
+    {
+      "label": "writes still in conflict after 6 attempts (documented try-again answer, nothing saved)",
+      "value": 0,
+      "unit": "writes",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p50 ms across 546 requests under 8 concurrent clients",
+      "value": 200,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms across 546 requests under 8 concurrent clients",
+      "value": 334,
+      "unit": "ms",
+      "budget": 10000,
+      "ok": true
+    },
+    {
+      "label": "max ms (a hang detector)",
+      "value": 522,
+      "unit": "ms",
+      "budget": 30000,
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "label": "every client completed all of its slots without an unexpected response",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "no unhandled 5xx in 546 requests (statuses {\"200\":454,\"409\":92}); a 503 is allowed only as the documented audit fail-closed refusal of a read",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "audit refusals under contention: 0 of 298 reads refused (fail closed), each carried no patient data and succeeded on retry, share at most 5%",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "the Worker logged no unexpected failure while serving the burst",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "idempotency: every replay returned the first result with replayed=true, a changed body under the same key got 409, racing pairs created one person",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "no lost command: all 60 acknowledged registrations exist in the final state",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "no duplicated command: no registered name appears twice, replays and racing pairs created exactly one person each",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "no phantom command: 0 registrations that were never acknowledged are absent from the final state",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "final counts match: patients = initial + acknowledged registrations; confirmed visits = initial + acknowledged confirmations",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "the final state is the same through other roles: the supervisor and clinician see the same patients, the admin sees none",
+      "ok": true,
+      "ms": 100
+    },
+    {
+      "label": "the Worker is healthy after the burst (workspace loads, a new command succeeds)",
+      "ok": true,
+      "ms": 84
+    },
+    {
+      "label": "p95 ms across 546 requests under 8 concurrent clients within budget",
+      "ok": true
+    },
+    {
+      "label": "max ms (a hang detector) within budget",
+      "ok": true
+    }
+  ],
+  "clients": 8,
+  "slotsPerClient": 50,
+  "httpCalls": 546,
+  "statusCounts": {
+    "200": 454,
+    "409": 92
+  },
+  "auditRefusedReads": [],
+  "auditWriteFailuresByReason": {},
+  "fiveXxCount": 0,
+  "counters": {
+    "conflicts": 62,
+    "retries": 62,
+    "exhausted": 0,
+    "replays": 30,
+    "races": 30,
+    "reads": 298,
+    "creates": 30,
+    "visitSteps": 12,
+    "auditRefusedReads": 0
+  },
+  "acknowledgedRegistrations": 60,
+  "unacknowledgedRegistrations": 0,
+  "confirmedVisits": 12,
+  "burstMs": 14926,
+  "initial": {
+    "people": 9,
+    "confirmedVisits": 2
+  },
+  "final": {
+    "people": 69,
+    "confirmedVisits": 14
+  },
+  "durationMs": 21039
+}

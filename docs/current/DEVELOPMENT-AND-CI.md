@@ -1,6 +1,6 @@
 # Development and CI
 
-Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f, and the later slices and review fixes 3g–6r (#36–#70), since 30 September 2026, and the overnight slices and review fixes 0b-4 to 6ae (#74–#99) and the demonstration slices 9a–9c (#101–#103) since 2 October 2026, and the round-10 slices 10a–10k (#105–#115) since 3 October 2026. Start with [HANDOVER.md](../../HANDOVER.md).
+Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f, and the later slices and review fixes 3g–6r (#36–#70), since 30 September 2026, and the overnight slices and review fixes 0b-4 to 6ae (#74–#99) and the demonstration slices 9a–9c (#101–#103) since 2 October 2026, and the round-10 slices 10a–10k (#105–#115) since 3 October 2026. Start with [HANDOVER.md](../../HANDOVER.md). Test layers, commands and CI tiers are in [Testing Saha](TESTING.md).
 
 ## Environment
 

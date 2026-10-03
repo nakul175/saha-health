@@ -1,0 +1,628 @@
+{
+  "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
+  "updatedAt": "2026-10-03",
+  "node": "v22.22.2",
+  "suites": {
+    "integration/run-api-smoke": {
+      "layer": "integration",
+      "file": "tests/run-api-smoke.mjs",
+      "minPassed": 4599
+    },
+    "integration/scheduled-local-check": {
+      "layer": "integration",
+      "file": "tests/scheduled-local-check.mjs",
+      "minPassed": 8
+    },
+    "nfr/authorisation-matrix": {
+      "layer": "nfr",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "minPassed": 51
+    },
+    "nfr/identity-hardening": {
+      "layer": "nfr",
+      "file": "tests/nfr/identity-hardening.mjs",
+      "minPassed": 29
+    },
+    "nfr/load-burst": {
+      "layer": "nfr",
+      "file": "tests/nfr/load-burst.mjs",
+      "minPassed": 13
+    },
+    "nfr/memory-growth": {
+      "layer": "nfr",
+      "file": "tests/nfr/memory-growth.mjs",
+      "minPassed": 4
+    },
+    "nfr/performance-budgets": {
+      "layer": "nfr",
+      "file": "tests/nfr/performance-budgets.mjs",
+      "minPassed": 94
+    },
+    "resilience/recovery-drill": {
+      "layer": "resilience",
+      "file": "tests/recovery-drill.mjs",
+      "minPassed": 21
+    },
+    "smoke/hosted-smoke": {
+      "layer": "smoke",
+      "file": "tests/smoke/hosted-smoke.mjs",
+      "minPassed": 8
+    },
+    "smoke/local-smoke": {
+      "layer": "smoke",
+      "file": "tests/smoke/local-smoke.mjs",
+      "minPassed": 28
+    },
+    "uat/check-uat-register": {
+      "layer": "uat",
+      "file": "tests/uat/check-uat-register.mjs",
+      "minPassed": 44
+    },
+    "uat/coverage-map": {
+      "layer": "uat",
+      "file": "tests/uat/coverage-map.mjs",
+      "minPassed": 9
+    },
+    "uat/generate-uat-pack": {
+      "layer": "uat",
+      "file": "tests/uat/generate-uat-pack.mjs",
+      "minPassed": 10
+    },
+    "ui/playwright.config": {
+      "layer": "ui",
+      "file": "tests/ui/playwright.config.mjs",
+      "minPassed": 17
+    },
+    "unit/abdm-contract": {
+      "layer": "unit",
+      "file": "tests/abdm-contract.mjs",
+      "minPassed": 14
+    },
+    "unit/abdm-transfer-contract": {
+      "layer": "unit",
+      "file": "tests/abdm-transfer-contract.mjs",
+      "minPassed": 21
+    },
+    "unit/access-audit-contract": {
+      "layer": "unit",
+      "file": "tests/access-audit-contract.mjs",
+      "minPassed": 35
+    },
+    "unit/action-plan-contract": {
+      "layer": "unit",
+      "file": "tests/action-plan-contract.mjs",
+      "minPassed": 8
+    },
+    "unit/adapter-operations-contract": {
+      "layer": "unit",
+      "file": "tests/adapter-operations-contract.mjs",
+      "minPassed": 14
+    },
+    "unit/agent-contract": {
+      "layer": "unit",
+      "file": "tests/agent-contract.mjs",
+      "minPassed": 25
+    },
+    "unit/agent-quality-contract": {
+      "layer": "unit",
+      "file": "tests/agent-quality-contract.mjs",
+      "minPassed": 50
+    },
+    "unit/aggregate-delivery-contract": {
+      "layer": "unit",
+      "file": "tests/aggregate-delivery-contract.mjs",
+      "minPassed": 12
+    },
+    "unit/ai-budget-contract": {
+      "layer": "unit",
+      "file": "tests/ai-budget-contract.mjs",
+      "minPassed": 41
+    },
+    "unit/ai-invoice-contract": {
+      "layer": "unit",
+      "file": "tests/ai-invoice-contract.mjs",
+      "minPassed": 54
+    },
+    "unit/alert-delivery-contract": {
+      "layer": "unit",
+      "file": "tests/alert-delivery-contract.mjs",
+      "minPassed": 23
+    },
+    "unit/alerts-contract": {
+      "layer": "unit",
+      "file": "tests/alerts-contract.mjs",
+      "minPassed": 25
+    },
+    "unit/audit-chain-contract": {
+      "layer": "unit",
+      "file": "tests/audit-chain-contract.mjs",
+      "minPassed": 48
+    },
+    "unit/capability-lifecycle-contract": {
+      "layer": "unit",
+      "file": "tests/capability-lifecycle-contract.mjs",
+      "minPassed": 25
+    },
+    "unit/caseload-contract": {
+      "layer": "unit",
+      "file": "tests/caseload-contract.mjs",
+      "minPassed": 30
+    },
+    "unit/caseload-schedule-contract": {
+      "layer": "unit",
+      "file": "tests/caseload-schedule-contract.mjs",
+      "minPassed": 33
+    },
+    "unit/cloudflare-staging-contract": {
+      "layer": "unit",
+      "file": "tests/cloudflare-staging-contract.mjs",
+      "minPassed": 39
+    },
+    "unit/consent-contract": {
+      "layer": "unit",
+      "file": "tests/consent-contract.mjs",
+      "minPassed": 25
+    },
+    "unit/continuity-contract": {
+      "layer": "unit",
+      "file": "tests/continuity-contract.mjs",
+      "minPassed": 29
+    },
+    "unit/correction-tasks-contract": {
+      "layer": "unit",
+      "file": "tests/correction-tasks-contract.mjs",
+      "minPassed": 12
+    },
+    "unit/data-exit-contract": {
+      "layer": "unit",
+      "file": "tests/data-exit-contract.mjs",
+      "minPassed": 39
+    },
+    "unit/delegation-contract": {
+      "layer": "unit",
+      "file": "tests/delegation-contract.mjs",
+      "minPassed": 22
+    },
+    "unit/demonstration-contract": {
+      "layer": "unit",
+      "file": "tests/demonstration-contract.mjs",
+      "minPassed": 52
+    },
+    "unit/drift-contract": {
+      "layer": "unit",
+      "file": "tests/drift-contract.mjs",
+      "minPassed": 15
+    },
+    "unit/ehr-contract": {
+      "layer": "unit",
+      "file": "tests/ehr-contract.mjs",
+      "minPassed": 48
+    },
+    "unit/ehr-execution": {
+      "layer": "unit",
+      "file": "tests/ehr-execution.mjs",
+      "minPassed": 9
+    },
+    "unit/ehr-resolution-contract": {
+      "layer": "unit",
+      "file": "tests/ehr-resolution-contract.mjs",
+      "minPassed": 13
+    },
+    "unit/eighth-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/eighth-review-fixes-contract.mjs",
+      "minPassed": 18
+    },
+    "unit/environment-contract": {
+      "layer": "unit",
+      "file": "tests/environment-contract.mjs",
+      "minPassed": 26
+    },
+    "unit/exceptional-contract": {
+      "layer": "unit",
+      "file": "tests/exceptional-contract.mjs",
+      "minPassed": 19
+    },
+    "unit/exceptions-contract": {
+      "layer": "unit",
+      "file": "tests/exceptions-contract.mjs",
+      "minPassed": 8
+    },
+    "unit/fact-provenance-contract": {
+      "layer": "unit",
+      "file": "tests/fact-provenance-contract.mjs",
+      "minPassed": 41
+    },
+    "unit/fact-verification-contract": {
+      "layer": "unit",
+      "file": "tests/fact-verification-contract.mjs",
+      "minPassed": 37
+    },
+    "unit/fhir-validate-contract": {
+      "layer": "unit",
+      "file": "tests/fhir-validate-contract.mjs",
+      "minPassed": 20
+    },
+    "unit/field-capacity-client": {
+      "layer": "unit",
+      "file": "tests/field-capacity-client.mjs",
+      "minPassed": 15
+    },
+    "unit/field-client": {
+      "layer": "unit",
+      "file": "tests/field-client.mjs",
+      "minPassed": 23
+    },
+    "unit/field-contract": {
+      "layer": "unit",
+      "file": "tests/field-contract.mjs",
+      "minPassed": 38
+    },
+    "unit/field-media-capacity-client": {
+      "layer": "unit",
+      "file": "tests/field-media-capacity-client.mjs",
+      "minPassed": 30
+    },
+    "unit/field-media-client": {
+      "layer": "unit",
+      "file": "tests/field-media-client.mjs",
+      "minPassed": 97
+    },
+    "unit/field-provenance-client": {
+      "layer": "unit",
+      "file": "tests/field-provenance-client.mjs",
+      "minPassed": 17
+    },
+    "unit/field-recording-client": {
+      "layer": "unit",
+      "file": "tests/field-recording-client.mjs",
+      "minPassed": 28
+    },
+    "unit/field-registration-client": {
+      "layer": "unit",
+      "file": "tests/field-registration-client.mjs",
+      "minPassed": 65
+    },
+    "unit/field-shell": {
+      "layer": "unit",
+      "file": "tests/field-shell.mjs",
+      "minPassed": 11
+    },
+    "unit/field-storage-client": {
+      "layer": "unit",
+      "file": "tests/field-storage-client.mjs",
+      "minPassed": 30
+    },
+    "unit/field-units-client": {
+      "layer": "unit",
+      "file": "tests/field-units-client.mjs",
+      "minPassed": 14
+    },
+    "unit/fifth-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/fifth-review-fixes-contract.mjs",
+      "minPassed": 33
+    },
+    "unit/fixture-migration-contract": {
+      "layer": "unit",
+      "file": "tests/fixture-migration-contract.mjs",
+      "minPassed": 22
+    },
+    "unit/fourth-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/fourth-review-fixes-contract.mjs",
+      "minPassed": 32
+    },
+    "unit/governance-contract": {
+      "layer": "unit",
+      "file": "tests/governance-contract.mjs",
+      "minPassed": 27
+    },
+    "unit/household-contract": {
+      "layer": "unit",
+      "file": "tests/household-contract.mjs",
+      "minPassed": 12
+    },
+    "unit/household-visit-contract": {
+      "layer": "unit",
+      "file": "tests/household-visit-contract.mjs",
+      "minPassed": 19
+    },
+    "unit/i18n-contract": {
+      "layer": "unit",
+      "file": "tests/i18n-contract.mjs",
+      "minPassed": 4108
+    },
+    "unit/identifier-crosswalk-contract": {
+      "layer": "unit",
+      "file": "tests/identifier-crosswalk-contract.mjs",
+      "minPassed": 84
+    },
+    "unit/identity-contract": {
+      "layer": "unit",
+      "file": "tests/identity-contract.mjs",
+      "minPassed": 18
+    },
+    "unit/incentive-claims-contract": {
+      "layer": "unit",
+      "file": "tests/incentive-claims-contract.mjs",
+      "minPassed": 35
+    },
+    "unit/indicator-freshness-contract": {
+      "layer": "unit",
+      "file": "tests/indicator-freshness-contract.mjs",
+      "minPassed": 9
+    },
+    "unit/indicator-registry-contract": {
+      "layer": "unit",
+      "file": "tests/indicator-registry-contract.mjs",
+      "minPassed": 12
+    },
+    "unit/indicators-contract": {
+      "layer": "unit",
+      "file": "tests/indicators-contract.mjs",
+      "minPassed": 9
+    },
+    "unit/main-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/main-review-fixes-contract.mjs",
+      "minPassed": 25
+    },
+    "unit/media-contract": {
+      "layer": "unit",
+      "file": "tests/media-contract.mjs",
+      "minPassed": 5
+    },
+    "unit/merge-contract": {
+      "layer": "unit",
+      "file": "tests/merge-contract.mjs",
+      "minPassed": 27
+    },
+    "unit/mis-contract": {
+      "layer": "unit",
+      "file": "tests/mis-contract.mjs",
+      "minPassed": 45
+    },
+    "unit/mis-delivery": {
+      "layer": "unit",
+      "file": "tests/mis-delivery.mjs",
+      "minPassed": 10
+    },
+    "unit/ninth-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/ninth-review-fixes-contract.mjs",
+      "minPassed": 13
+    },
+    "unit/note-answer-signoff-contract": {
+      "layer": "unit",
+      "file": "tests/note-answer-signoff-contract.mjs",
+      "minPassed": 52
+    },
+    "unit/notification-channel-contract": {
+      "layer": "unit",
+      "file": "tests/notification-channel-contract.mjs",
+      "minPassed": 24
+    },
+    "unit/operations-contract": {
+      "layer": "unit",
+      "file": "tests/operations-contract.mjs",
+      "minPassed": 24
+    },
+    "unit/outreach-contract": {
+      "layer": "unit",
+      "file": "tests/outreach-contract.mjs",
+      "minPassed": 55
+    },
+    "unit/pack-installation-contract": {
+      "layer": "unit",
+      "file": "tests/pack-installation-contract.mjs",
+      "minPassed": 52
+    },
+    "unit/patient-directory-contract": {
+      "layer": "unit",
+      "file": "tests/patient-directory-contract.mjs",
+      "minPassed": 56
+    },
+    "unit/patient-import-contract": {
+      "layer": "unit",
+      "file": "tests/patient-import-contract.mjs",
+      "minPassed": 38
+    },
+    "unit/photo-contract": {
+      "layer": "unit",
+      "file": "tests/photo-contract.mjs",
+      "minPassed": 10
+    },
+    "unit/pilot-contract": {
+      "layer": "unit",
+      "file": "tests/pilot-contract.mjs",
+      "minPassed": 24
+    },
+    "unit/plan-dependencies-contract": {
+      "layer": "unit",
+      "file": "tests/plan-dependencies-contract.mjs",
+      "minPassed": 9
+    },
+    "unit/programme-migration-contract": {
+      "layer": "unit",
+      "file": "tests/programme-migration-contract.mjs",
+      "minPassed": 32
+    },
+    "unit/provider-history-contract": {
+      "layer": "unit",
+      "file": "tests/provider-history-contract.mjs",
+      "minPassed": 13
+    },
+    "unit/provider-sandbox-contract": {
+      "layer": "unit",
+      "file": "tests/provider-sandbox-contract.mjs",
+      "minPassed": 75
+    },
+    "unit/read-audit-completion-contract": {
+      "layer": "unit",
+      "file": "tests/read-audit-completion-contract.mjs",
+      "minPassed": 52
+    },
+    "unit/record-import-contract": {
+      "layer": "unit",
+      "file": "tests/record-import-contract.mjs",
+      "minPassed": 49
+    },
+    "unit/referral-contract": {
+      "layer": "unit",
+      "file": "tests/referral-contract.mjs",
+      "minPassed": 10
+    },
+    "unit/referral-request-queue-contract": {
+      "layer": "unit",
+      "file": "tests/referral-request-queue-contract.mjs",
+      "minPassed": 21
+    },
+    "unit/replay-soak-contract": {
+      "layer": "unit",
+      "file": "tests/replay-soak-contract.mjs",
+      "minPassed": 8
+    },
+    "unit/report-export-contract": {
+      "layer": "unit",
+      "file": "tests/report-export-contract.mjs",
+      "minPassed": 7
+    },
+    "unit/retention-contract": {
+      "layer": "unit",
+      "file": "tests/retention-contract.mjs",
+      "minPassed": 11
+    },
+    "unit/reuse-contract": {
+      "layer": "unit",
+      "file": "tests/reuse-contract.mjs",
+      "minPassed": 7
+    },
+    "unit/review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/review-fixes-contract.mjs",
+      "minPassed": 41
+    },
+    "unit/rights-contract": {
+      "layer": "unit",
+      "file": "tests/rights-contract.mjs",
+      "minPassed": 17
+    },
+    "unit/roster-contract": {
+      "layer": "unit",
+      "file": "tests/roster-contract.mjs",
+      "minPassed": 13
+    },
+    "unit/safe-logs-contract": {
+      "layer": "unit",
+      "file": "tests/safe-logs-contract.mjs",
+      "minPassed": 13
+    },
+    "unit/scheduled-job-contract": {
+      "layer": "unit",
+      "file": "tests/scheduled-job-contract.mjs",
+      "minPassed": 32
+    },
+    "unit/scoped-read-contract": {
+      "layer": "unit",
+      "file": "tests/scoped-read-contract.mjs",
+      "minPassed": 27
+    },
+    "unit/send-gate-contract": {
+      "layer": "unit",
+      "file": "tests/send-gate-contract.mjs",
+      "minPassed": 28
+    },
+    "unit/seventh-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/seventh-review-fixes-contract.mjs",
+      "minPassed": 30
+    },
+    "unit/shadow-contract": {
+      "layer": "unit",
+      "file": "tests/shadow-contract.mjs",
+      "minPassed": 55
+    },
+    "unit/sixth-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/sixth-review-fixes-contract.mjs",
+      "minPassed": 41
+    },
+    "unit/storage-contract": {
+      "layer": "unit",
+      "file": "tests/storage-contract.mjs",
+      "minPassed": 19
+    },
+    "unit/task-limits-contract": {
+      "layer": "unit",
+      "file": "tests/task-limits-contract.mjs",
+      "minPassed": 39
+    },
+    "unit/tenth-review-fixes-contract": {
+      "layer": "unit",
+      "file": "tests/tenth-review-fixes-contract.mjs",
+      "minPassed": 12
+    },
+    "unit/test-runner-contract": {
+      "layer": "unit",
+      "file": "tests/test-runner-contract.mjs",
+      "minPassed": 25
+    },
+    "unit/trace-contract": {
+      "layer": "unit",
+      "file": "tests/trace-contract.mjs",
+      "minPassed": 27
+    },
+    "unit/value-override-agent-contract": {
+      "layer": "unit",
+      "file": "tests/value-override-agent-contract.mjs",
+      "minPassed": 4
+    },
+    "unit/value-override-contract": {
+      "layer": "unit",
+      "file": "tests/value-override-contract.mjs",
+      "minPassed": 53
+    },
+    "unit/visit-import-contract": {
+      "layer": "unit",
+      "file": "tests/visit-import-contract.mjs",
+      "minPassed": 54
+    },
+    "unit/worker-activity-contract": {
+      "layer": "unit",
+      "file": "tests/worker-activity-contract.mjs",
+      "minPassed": 12
+    },
+    "unit/workforce-import-contract": {
+      "layer": "unit",
+      "file": "tests/workforce-import-contract.mjs",
+      "minPassed": 68
+    },
+    "unit/worklists-contract": {
+      "layer": "unit",
+      "file": "tests/worklists-contract.mjs",
+      "minPassed": 111
+    }
+  },
+  "log": [
+    {
+      "date": "2026-10-03",
+      "reason": "Slice 11g: measurements without a budget no longer count as passed checks; flaky UI tests count as failed; smoke 4xx are failures",
+      "lowered": {
+        "nfr/load-burst": [
+          15,
+          13
+        ],
+        "nfr/memory-growth": [
+          14,
+          4
+        ],
+        "nfr/performance-budgets": [
+          145,
+          94
+        ]
+      },
+      "removed": []
+    }
+  ]
+}

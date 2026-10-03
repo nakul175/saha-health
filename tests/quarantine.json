@@ -1,0 +1,4 @@
+{
+  "description": "Suites excused from the regression guard (node scripts/test.mjs ... --guard). Each entry is { \"reason\": \"...\", \"date\": \"YYYY-MM-DD\" } keyed by suite id, for example \"smoke/local\". A quarantine excuses a drop in the passed-assertion count, a missing count or a missing suite; it never excuses a suite that fails. Entries older than 30 days are flagged for review. Currently empty.",
+  "suites": {}
+}

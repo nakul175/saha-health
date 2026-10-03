@@ -1,0 +1,1646 @@
+{
+  "suite": "Performance budgets (non-functional)",
+  "layer": "non-functional",
+  "passed": 94,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-03T04:36:15.892Z",
+  "completedAt": "2026-10-03T04:37:19.215Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Local wrangler dev Worker (workerd) with a local D1 on a 2-core machine shared with other jobs; these are not Cloudflare numbers and not service levels. Budgets guard against large regressions only.",
+    "One organisation of about 209 patients; Cloudflare D1 round trips from the edge, cold starts, concurrent users and the 128 MB isolate limit are not represented.",
+    "30 sequential requests per measurement after 3 warm-up requests; p95 of 30 samples is the second-slowest request, so it is a noisy statistic on a shared machine.",
+    "The first reads of a request path also write read-audit events, as in normal use; they are part of the measured cost."
+  ],
+  "measures": [
+    {
+      "label": "p50 ms GET /api/workspace as owner",
+      "value": 35,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/workspace as owner",
+      "value": 46,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/workspace as asha1",
+      "value": 25,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/workspace as asha1",
+      "value": 62,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/workspace as supervisor",
+      "value": 32,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/workspace as supervisor",
+      "value": 51,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/workspace as admin",
+      "value": 23,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/workspace as admin",
+      "value": 31,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/patients as owner",
+      "value": 16,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/patients as owner",
+      "value": 30,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/patients as asha1",
+      "value": 17,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/patients as asha1",
+      "value": 31,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/patients/detail?personId=<id> as owner",
+      "value": 22,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/patients/detail?personId=<id> as owner",
+      "value": 42,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/worklists?view=work as owner",
+      "value": 18,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=work as owner",
+      "value": 29,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/worklists?view=work as asha1",
+      "value": 16,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=work as asha1",
+      "value": 18,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/worklists?view=followups as owner",
+      "value": 17,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=followups as owner",
+      "value": 28,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/worklists?view=submissions as owner",
+      "value": 17,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=submissions as owner",
+      "value": 25,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/worklists?view=referrals as owner",
+      "value": 16,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=referrals as owner",
+      "value": 26,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/history?personId=<id> as owner",
+      "value": 25,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/history?personId=<id> as owner",
+      "value": 32,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/action-plan?personId=<id> as owner",
+      "value": 13,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/action-plan?personId=<id> as owner",
+      "value": 17,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/household?personId=<id> as owner",
+      "value": 12,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/household?personId=<id> as owner",
+      "value": 18,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/rights?personId=<id> as owner",
+      "value": 13,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/rights?personId=<id> as owner",
+      "value": 24,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/identity-cases?personId=<id> as owner",
+      "value": 14,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/identity-cases?personId=<id> as owner",
+      "value": 23,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/trace?visit=<id> as owner",
+      "value": 23,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/trace?visit=<id> as owner",
+      "value": 31,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/governance?visitId=<id> as owner",
+      "value": 20,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/governance?visitId=<id> as owner",
+      "value": 36,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/fhir/<id>?organisationId=<org> as asha1",
+      "value": 23,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/fhir/<id>?organisationId=<org> as asha1",
+      "value": 30,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/audit as owner",
+      "value": 22,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/audit as owner",
+      "value": 29,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/audit/chain as owner",
+      "value": 44,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/audit/chain as owner",
+      "value": 50,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/operations as owner",
+      "value": 28,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/operations as owner",
+      "value": 48,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/indicators as owner",
+      "value": 21,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/indicators as owner",
+      "value": 33,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/caseload as owner",
+      "value": 20,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/caseload as owner",
+      "value": 24,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/continuity as owner",
+      "value": 22,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/continuity as owner",
+      "value": 26,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/referral-requests as owner",
+      "value": 22,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/referral-requests as owner",
+      "value": 26,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/referral-escalations as owner",
+      "value": 22,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/referral-escalations as owner",
+      "value": 29,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/exceptions as owner",
+      "value": 21,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/exceptions as owner",
+      "value": 26,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/outreach as owner",
+      "value": 21,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/outreach as owner",
+      "value": 32,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/pilot as owner",
+      "value": 20,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/pilot as owner",
+      "value": 30,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/delegations as owner",
+      "value": 19,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/delegations as owner",
+      "value": 32,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/alerts as owner",
+      "value": 14,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/alerts as owner",
+      "value": 59,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/aggregate-reports as owner",
+      "value": 23,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/aggregate-reports as owner",
+      "value": 29,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/incentive-claims as owner",
+      "value": 19,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/incentive-claims as owner",
+      "value": 23,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/worker-activity as owner",
+      "value": 22,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/worker-activity as owner",
+      "value": 26,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/provider-sandbox as owner",
+      "value": 20,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/provider-sandbox as owner",
+      "value": 24,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms GET /api/data-exit as owner",
+      "value": 137,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms GET /api/data-exit as owner",
+      "value": 157,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    },
+    {
+      "label": "bytes /api/workspace as owner (209 people, 33 visits)",
+      "value": 293027,
+      "unit": "bytes",
+      "budget": 4194304,
+      "ok": true
+    },
+    {
+      "label": "bytes /api/workspace as owner gzip",
+      "value": 25646,
+      "unit": "bytes",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "bytes /api/workspace as asha1 (31 people, 31 visits)",
+      "value": 129616,
+      "unit": "bytes",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "bytes /api/workspace as asha1 gzip",
+      "value": 11883,
+      "unit": "bytes",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "bytes /api/workspace as admin (0 people, 0 visits)",
+      "value": 39904,
+      "unit": "bytes",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "bytes /api/workspace as admin gzip",
+      "value": 9462,
+      "unit": "bytes",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST createPerson (owner)",
+      "value": 65,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST createPerson (owner)",
+      "value": 123,
+      "unit": "ms",
+      "budget": 2500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST startVisit (owner)",
+      "value": 53,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST startVisit (owner)",
+      "value": 67,
+      "unit": "ms",
+      "budget": 2500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST saveVisit (owner)",
+      "value": 56,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST saveVisit (owner)",
+      "value": 71,
+      "unit": "ms",
+      "budget": 2500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST confirmVisit (owner)",
+      "value": 58,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST confirmVisit (owner)",
+      "value": 80,
+      "unit": "ms",
+      "budget": 2500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST createReferral (owner)",
+      "value": 54,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST createReferral (owner)",
+      "value": 68,
+      "unit": "ms",
+      "budget": 2500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST replay of a saved command (same Idempotency-Key)",
+      "value": 40,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST replay of a saved command (same Idempotency-Key)",
+      "value": 50,
+      "unit": "ms",
+      "budget": 2500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST /api/patient-import dry run, 100 rows (owner)",
+      "value": 42,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST /api/patient-import dry run, 100 rows (owner)",
+      "value": 49,
+      "unit": "ms",
+      "budget": 2500,
+      "ok": true
+    },
+    {
+      "label": "p50 ms POST /api/patients search by name (owner)",
+      "value": 17,
+      "unit": "ms",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "p95 ms POST /api/patients search by name (owner)",
+      "value": 26,
+      "unit": "ms",
+      "budget": 1500,
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "label": "seed: the organisation holds at least 200 patients and 30 confirmed visits",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "GET /api/workspace as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/workspace as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/workspace as asha1: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/workspace as asha1 within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/workspace as supervisor: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/workspace as supervisor within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/workspace as admin: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/workspace as admin within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/patients as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/patients as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/patients as asha1: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/patients as asha1 within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/patients/detail?personId=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/patients/detail?personId=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/worklists?view=work as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=work as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/worklists?view=work as asha1: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=work as asha1 within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/worklists?view=followups as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=followups as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/worklists?view=submissions as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=submissions as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/worklists?view=referrals as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/worklists?view=referrals as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/history?personId=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/history?personId=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/action-plan?personId=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/action-plan?personId=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/household?personId=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/household?personId=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/rights?personId=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/rights?personId=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/identity-cases?personId=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/identity-cases?personId=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/trace?visit=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/trace?visit=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/governance?visitId=<id> as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/governance?visitId=<id> as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/fhir/<id>?organisationId=<org> as asha1: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/fhir/<id>?organisationId=<org> as asha1 within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/audit as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/audit as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/audit/chain as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/audit/chain as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/operations as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/operations as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/indicators as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/indicators as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/caseload as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/caseload as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/continuity as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/continuity as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/referral-requests as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/referral-requests as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/referral-escalations as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/referral-escalations as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/exceptions as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/exceptions as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/outreach as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/outreach as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/pilot as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/pilot as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/delegations as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/delegations as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/alerts as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/alerts as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/aggregate-reports as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/aggregate-reports as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/incentive-claims as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/incentive-claims as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/worker-activity as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/worker-activity as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/provider-sandbox as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/provider-sandbox as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "GET /api/data-exit as owner: every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms GET /api/data-exit as owner within budget",
+      "ok": true
+    },
+    {
+      "label": "bytes /api/workspace as owner (209 people, 33 visits) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST createPerson (owner): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST createPerson (owner) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST startVisit (owner): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST startVisit (owner) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST saveVisit (owner): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST saveVisit (owner) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST confirmVisit (owner): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST confirmVisit (owner) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST createReferral (owner): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST createReferral (owner) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST replay of a saved command (same Idempotency-Key): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST replay of a saved command (same Idempotency-Key) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST /api/patient-import dry run, 100 rows (owner): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST /api/patient-import dry run, 100 rows (owner) within budget",
+      "ok": true
+    },
+    {
+      "label": "POST /api/patients search by name (owner): every one of 30 requests succeeded (status 200)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "p95 ms POST /api/patients search by name (owner) within budget",
+      "ok": true
+    }
+  ],
+  "people": 209,
+  "visits": 33,
+  "samplesPerMeasurement": 30,
+  "budgets": {
+    "readP95Ms": 1500,
+    "commandP95Ms": 2500,
+    "workspaceOwnerBytes": 4194304
+  },
+  "latency": [
+    {
+      "label": "GET /api/workspace as owner",
+      "kind": "read",
+      "p50": 35,
+      "p95": 46,
+      "max": 55,
+      "bytes": 274871,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/workspace as asha1",
+      "kind": "read",
+      "p50": 25,
+      "p95": 62,
+      "max": 71,
+      "bytes": 115564,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/workspace as supervisor",
+      "kind": "read",
+      "p50": 32,
+      "p95": 51,
+      "max": 54,
+      "bytes": 273181,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/workspace as admin",
+      "kind": "read",
+      "p50": 23,
+      "p95": 31,
+      "max": 32,
+      "bytes": 20698,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/patients as owner",
+      "kind": "read",
+      "p50": 16,
+      "p95": 30,
+      "max": 46,
+      "bytes": 14919,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/patients as asha1",
+      "kind": "read",
+      "p50": 17,
+      "p95": 31,
+      "max": 57,
+      "bytes": 9880,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/patients/detail?personId=<id> as owner",
+      "kind": "read",
+      "p50": 22,
+      "p95": 42,
+      "max": 54,
+      "bytes": 46201,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/worklists?view=work as owner",
+      "kind": "read",
+      "p50": 18,
+      "p95": 29,
+      "max": 69,
+      "bytes": 12026,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/worklists?view=work as asha1",
+      "kind": "read",
+      "p50": 16,
+      "p95": 18,
+      "max": 63,
+      "bytes": 7756,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/worklists?view=followups as owner",
+      "kind": "read",
+      "p50": 17,
+      "p95": 28,
+      "max": 34,
+      "bytes": 68,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/worklists?view=submissions as owner",
+      "kind": "read",
+      "p50": 17,
+      "p95": 25,
+      "max": 40,
+      "bytes": 82,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/worklists?view=referrals as owner",
+      "kind": "read",
+      "p50": 16,
+      "p95": 26,
+      "max": 26,
+      "bytes": 58,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/history?personId=<id> as owner",
+      "kind": "read",
+      "p50": 25,
+      "p95": 32,
+      "max": 39,
+      "bytes": 15291,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/action-plan?personId=<id> as owner",
+      "kind": "read",
+      "p50": 13,
+      "p95": 17,
+      "max": 18,
+      "bytes": 1222,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/household?personId=<id> as owner",
+      "kind": "read",
+      "p50": 12,
+      "p95": 18,
+      "max": 76,
+      "bytes": 18,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/rights?personId=<id> as owner",
+      "kind": "read",
+      "p50": 13,
+      "p95": 24,
+      "max": 33,
+      "bytes": 651,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/identity-cases?personId=<id> as owner",
+      "kind": "read",
+      "p50": 14,
+      "p95": 23,
+      "max": 27,
+      "bytes": 367,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/trace?visit=<id> as owner",
+      "kind": "read",
+      "p50": 23,
+      "p95": 31,
+      "max": 31,
+      "bytes": 446,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/governance?visitId=<id> as owner",
+      "kind": "read",
+      "p50": 20,
+      "p95": 36,
+      "max": 38,
+      "bytes": 14018,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/fhir/<id>?organisationId=<org> as asha1",
+      "kind": "read",
+      "p50": 23,
+      "p95": 30,
+      "max": 34,
+      "bytes": 4174,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/audit as owner",
+      "kind": "read",
+      "p50": 22,
+      "p95": 29,
+      "max": 33,
+      "bytes": 45231,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/audit/chain as owner",
+      "kind": "read",
+      "p50": 44,
+      "p95": 50,
+      "max": 79,
+      "bytes": 367,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/operations as owner",
+      "kind": "read",
+      "p50": 28,
+      "p95": 48,
+      "max": 101,
+      "bytes": 6253,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/indicators as owner",
+      "kind": "read",
+      "p50": 21,
+      "p95": 33,
+      "max": 90,
+      "bytes": 19663,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/caseload as owner",
+      "kind": "read",
+      "p50": 20,
+      "p95": 24,
+      "max": 25,
+      "bytes": 2105,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/continuity as owner",
+      "kind": "read",
+      "p50": 22,
+      "p95": 26,
+      "max": 31,
+      "bytes": 25766,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/referral-requests as owner",
+      "kind": "read",
+      "p50": 22,
+      "p95": 26,
+      "max": 31,
+      "bytes": 244,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/referral-escalations as owner",
+      "kind": "read",
+      "p50": 22,
+      "p95": 29,
+      "max": 34,
+      "bytes": 280,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/exceptions as owner",
+      "kind": "read",
+      "p50": 21,
+      "p95": 26,
+      "max": 28,
+      "bytes": 236,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/outreach as owner",
+      "kind": "read",
+      "p50": 21,
+      "p95": 32,
+      "max": 46,
+      "bytes": 48830,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/pilot as owner",
+      "kind": "read",
+      "p50": 20,
+      "p95": 30,
+      "max": 32,
+      "bytes": 5120,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/delegations as owner",
+      "kind": "read",
+      "p50": 19,
+      "p95": 32,
+      "max": 33,
+      "bytes": 882,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/alerts as owner",
+      "kind": "read",
+      "p50": 14,
+      "p95": 59,
+      "max": 84,
+      "bytes": 420,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/aggregate-reports as owner",
+      "kind": "read",
+      "p50": 23,
+      "p95": 29,
+      "max": 30,
+      "bytes": 1306,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/incentive-claims as owner",
+      "kind": "read",
+      "p50": 19,
+      "p95": 23,
+      "max": 79,
+      "bytes": 1586,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/worker-activity as owner",
+      "kind": "read",
+      "p50": 22,
+      "p95": 26,
+      "max": 28,
+      "bytes": 10321,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/provider-sandbox as owner",
+      "kind": "read",
+      "p50": 20,
+      "p95": 24,
+      "max": 28,
+      "bytes": 425,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "GET /api/data-exit as owner",
+      "kind": "read",
+      "p50": 137,
+      "p95": 157,
+      "max": 171,
+      "bytes": 2250162,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST createPerson (owner)",
+      "kind": "command",
+      "p50": 65,
+      "p95": 123,
+      "max": 169,
+      "bytes": 308390,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST startVisit (owner)",
+      "kind": "command",
+      "p50": 53,
+      "p95": 67,
+      "max": 68,
+      "bytes": 317134,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST saveVisit (owner)",
+      "kind": "command",
+      "p50": 56,
+      "p95": 71,
+      "max": 114,
+      "bytes": 332871,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST confirmVisit (owner)",
+      "kind": "command",
+      "p50": 58,
+      "p95": 80,
+      "max": 115,
+      "bytes": 339356,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST createReferral (owner)",
+      "kind": "command",
+      "p50": 54,
+      "p95": 68,
+      "max": 80,
+      "bytes": 350978,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST replay of a saved command (same Idempotency-Key)",
+      "kind": "command",
+      "p50": 40,
+      "p95": 50,
+      "max": 102,
+      "bytes": 351106,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST /api/patient-import dry run, 100 rows (owner)",
+      "kind": "command",
+      "p50": 42,
+      "p95": 49,
+      "max": 52,
+      "bytes": 6700,
+      "statuses": [
+        200
+      ]
+    },
+    {
+      "label": "POST /api/patients search by name (owner)",
+      "kind": "read",
+      "p50": 17,
+      "p95": 26,
+      "max": 75,
+      "bytes": 15121,
+      "statuses": [
+        200
+      ]
+    }
+  ],
+  "durationMs": 63321
+}

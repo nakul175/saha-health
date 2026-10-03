@@ -62,7 +62,7 @@ export function applyReceipt(sub:Submission,raw:unknown,lookup=false){const p=re
 }
 export async function misRequest(i:Integration,orgId:string,env:Record<string,string|undefined>,body:unknown,key:string,send:typeof fetch=fetch){
  const secret=misCredential(i,orgId,env);const timeout=AbortSignal.timeout(15000);
- const response=await send(i.endpoint!,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${secret}`,'Idempotency-Key':key},body:JSON.stringify(body),redirect:'error',signal:timeout});
+ const response=await send(i.endpoint!,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${secret}`,'Idempotency-Key':key},body:JSON.stringify(body),redirect:'manual',signal:timeout});
  if(!response.ok)fail(502,`Programme returned HTTP ${response.status}. Receipt is unconfirmed.`);
  const reader=response.body?.getReader();if(!reader)fail(502,'Empty programme response.');let size=0;const chunks:Uint8Array[]=[];
  while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>16000){await reader.cancel();fail(502,'Programme response exceeded its size limit.');}chunks.push(value);}
