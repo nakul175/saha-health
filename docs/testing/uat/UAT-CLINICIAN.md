@@ -420,7 +420,7 @@ Exact field evidence plus saved protocol findings with source edition/link and s
 
 <details><summary>What the build does today (assessment, current state of BR-AI-02)</summary>
 
-Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable. Independent anaemia demo: explicitly synthetic environment and patient, normal care-role/team scope and per-image synthetic approval.
+Documentary capabilities enforce age, role/team, language, setting, device and task scope; clinical generation remains unavailable. Independent anaemia demo: explicitly synthetic environment and patient, normal care-role/team scope and per-image synthetic approval. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 
 </details>
 
@@ -454,7 +454,7 @@ Documentary capabilities enforce age, role/team, language, setting, device and t
 
 <details><summary>What the build does today (assessment, current state of BR-AI-05)</summary>
 
-Strict documentary output contracts, exact evidence/field checks and checkpointed failed results. Independent anaemia demo: strict versioned image/result contract, HMAC and input binding, one-call durable checkpoint and receipt-only recovery.
+Strict documentary output contracts, exact evidence/field checks and checkpointed failed results. Independent anaemia demo: strict versioned image/result contract, HMAC and input binding, one-call durable checkpoint and receipt-only recovery. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 
 </details>
 
@@ -522,7 +522,7 @@ Invalid/unavailable results stay separate; extraction uncertainty is withheld an
 
 <details><summary>What the build does today (assessment, current state of BR-AI-09)</summary>
 
-Original outputs, model/provider, versioned source and reasoned human decisions are retained. Independent anaemia demo: saved signed result, consent/visit/agreement versions and reasoned staff acknowledgement or rejection; no automatic clinical record update.
+Original outputs, model/provider, versioned source and reasoned human decisions are retained. Independent anaemia demo: saved signed result, consent/visit/agreement versions and reasoned staff acknowledgement or rejection; no automatic clinical record update. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 
 </details>
 

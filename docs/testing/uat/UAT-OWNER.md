@@ -474,7 +474,7 @@ Pinned agent/model and immutable capability revisions; independent review, retir
 
 <details><summary>What the build does today (assessment, current state of BR-AI-01)</summary>
 
-Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required. Independent anaemia demo: separate provider organisation, customer agreement revision and independent administration; demo agreement only.
+Versioned capability manifest records owner, model/task/context scope, support and data terms; reviewed activation required. Independent anaemia demo: separate provider organisation, customer agreement revision and independent administration; demo agreement only. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 
 </details>
 
@@ -576,7 +576,7 @@ Draft/reviewed/active/suspended/retired revisions, replacement history and scope
 
 <details><summary>What the build does today (assessment, current state of BR-AI-07)</summary>
 
-Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled. Slice 5g: provider and model history per capability key (pinned provider, model and agent version per revision, changes from the previous revision, activity period, stage and request counts) for governance managers. Independent anaemia demo: pinned provider, ONNX model/hash and contract retained per request.
+Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disabled. Slice 5g: provider and model history per capability key (pinned provider, model and agent version per revision, changes from the previous revision, activity period, stage and request counts) for governance managers. Independent anaemia demo: pinned provider, ONNX model/hash and contract retained per request. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 
 </details>
 
@@ -610,7 +610,7 @@ Agent/model/capability/corpus versions are bound; legacy HTTP AI bypass is disab
 
 <details><summary>What the build does today (assessment, current state of BR-AI-08)</summary>
 
-Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference. Independent anaemia demo: cropped RGB only, no identity/notes/EXIF, no stored image pixels in either request ledger.
+Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference. Independent anaemia demo: cropped RGB only, no identity/notes/EXIF, no stored image pixels in either request ledger. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 
 </details>
 
@@ -678,7 +678,7 @@ Versioned fixture scores by field/language/group, scoped related records, safety
 
 <details><summary>What the build does today (assessment, current state of BR-AI-11)</summary>
 
-Slice 5b: provider sandbox organisations (no patient records, one provider) with a provider-only role limited to its own documentation, credential references, capability proposals and synthetic evaluations; owner import into production as a draft that must pass production evaluation, independent review and owner activation. Slice 6p (independent review): the sandbox import no longer reads another organisation before checking ownership, and gives one 404 for not found, not a sandbox and not the importer's own.
+Slice 5b: provider sandbox organisations (no patient records, one provider) with a provider-only role limited to its own documentation, credential references, capability proposals and synthetic evaluations; owner import into production as a draft that must pass production evaluation, independent review and owner activation. Slice 6p (independent review): the sandbox import no longer reads another organisation before checking ownership, and gives one 404 for not found, not a sandbox and not the importer's own. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 
 </details>
 

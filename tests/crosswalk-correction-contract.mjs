@@ -6,16 +6,15 @@
 import assert from 'node:assert/strict';
 import ts from 'typescript';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 const dir = mkdtempSync(join(process.cwd(), '.crosswalk-correction-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 const rejects = async (fn, status, pattern) => { await assert.rejects(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
-// Dependency sources are read from the committed baseline (HEAD) so this slice's contract does not depend on
-// other agents' uncommitted edits to shared modules; the slice's own module is read from the working tree.
-const src = f => f === 'crosswalk-correction' ? readFileSync(`lib/saha/${f}.ts`, 'utf8') : execFileSync('git', ['show', `HEAD:lib/saha/${f}.ts`], { encoding: 'utf8' });
+// Every module is read from the working tree, like every other contract (integration of #145: reading dependencies from
+// git HEAD, as the parallel build did, tested committed code rather than the code under test and failed during a merge).
+const src = f => readFileSync(`lib/saha/${f}.ts`, 'utf8');
 try {
   for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'crosswalk', 'crosswalk-correction', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identifier-search', 'identity', 'import-rejections', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'patient-import', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'record-import', 'referral-needs', 'referral-request', 'referral-rules', 'report-export', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types', 'visit-import'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(src(f), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));

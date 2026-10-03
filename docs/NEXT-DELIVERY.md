@@ -9,6 +9,7 @@ The 15 buildable slices R03, R06, R08, R09, R13, R17, R21, R23, R24, R26, R33, R
 | Slice | Scope | Status |
 | --- | --- | --- |
 | Independent anaemia provider | Separate provider API/model/ledger and Saha image consent, checkpoint, signed receipt and staff review; private synthetic demonstration | Delivered (pull request #126, integrated with `main` on 3 October 2026 at the sponsor's instruction); private Sites demo; disabled on hosted staging. See [demonstration](current/INDEPENDENT-ANAEMIA-PROVIDER.md) |
+| Eight independent frontline apps | Eight independently operated synthetic ASHA speech/OCR provider apps (separate Sites, stores and keys) with Saha request checkpoint, signed receipt, receipt-only recovery and staff review | Delivered (pull request #145, integrated with `main` on 3 October 2026 at the sponsor's instruction, with review fixes); private Sites demo; disabled on hosted staging. See [scope and evidence](current/FRONTLINE-EIGHT-APPS.md) |
 | 0a | Load probe, linear diffing, patient-partitioned loads and per-patient commit guards | Delivered (see [slice 0a](current/SLICE-0A-STORAGE.md)) |
 | 0b | Scoped command responses (partition deltas) merged by the workspace | Delivered (see [slice 0b](current/SLICE-0B-DELTAS.md)) |
 | 0b-2 | Viewer-scoped workspace reads (ASHA reads independent of organisation size) | Delivered (see [slice 0b-2](current/SLICE-0B2-SCOPED-READS.md)) |

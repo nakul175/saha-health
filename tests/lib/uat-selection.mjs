@@ -133,7 +133,7 @@ const PERSON = 'Person page and visit';
 export const PANEL_HOME = {
   'app/abdm-panel.tsx': [PERSON, 'Connections'], 'app/action-plan-panel.tsx': [PERSON], 'app/activity.tsx': ['Activity log'], 'app/adapter-operations-panel.tsx': ['Connections'],
   'app/agent-panel.tsx': [PERSON, 'AI tools'], 'app/aggregate-reports-panel.tsx': ['Connections'], 'app/ai-budget-panel.tsx': ['Operations'], 'app/ai-invoice-panel.tsx': ['Operations'],
-  'app/alert-inbox.tsx': ['Alert bell (page header)'], 'app/anaemia-panel.tsx': [PERSON, 'Connections'], 'app/voice-input.tsx': ['My work', PERSON, 'Organisation & team'], 'app/audit-chain-panel.tsx': ['Activity log'], 'app/caseload-panel.tsx': ['Care handover'], 'app/clinical-panel.tsx': [PERSON],
+  'app/alert-inbox.tsx': ['Alert bell (page header)'], 'app/anaemia-panel.tsx': [PERSON, 'Connections'], 'app/frontline-panel.tsx': [PERSON, 'Connections'], 'app/voice-input.tsx': ['My work', PERSON, 'Organisation & team'], 'app/audit-chain-panel.tsx': ['Activity log'], 'app/caseload-panel.tsx': ['Care handover'], 'app/clinical-panel.tsx': [PERSON],
   'app/consent-panel.tsx': [PERSON], 'app/continuity-panel.tsx': ['Care handover'], 'app/data-exit-panel.tsx': ['Organisation & team'], 'app/delegation-panel.tsx': ['Organisation & team'],
   'app/dispute-panel.tsx': [PERSON, 'Organisation & team'], 'app/ehr-panel.tsx': [PERSON, 'Connections'], 'app/entry-verification-panel.tsx': [PERSON, 'Organisation & team'],
   'app/environment-panel.tsx': ['Organisation & team'], 'app/exceptional-panel.tsx': [PERSON, 'Care handover'], 'app/exceptions-panel.tsx': ['Operations'], 'app/expansion-panel.tsx': ['Expansion'],

@@ -1,0 +1,328 @@
+[
+  {
+    "id": "oral-saathi",
+    "name": "Oral Saathi",
+    "organisation": "Mukha Digital Health",
+    "color": "#175cba",
+    "topic": "Oral lesion assessment",
+    "description": "Document a persistent mouth sore and arrange clinical review.",
+    "input": "symptoms",
+    "model": "Whisper tiny multilingual",
+    "modelRole": "Speech-to-text for worker-reviewed oral symptoms; no image-based cancer prediction.",
+    "source": "https://github.com/openai/whisper",
+    "fields": [
+      [
+        "duration",
+        "Sore present for (days)",
+        "number",
+        0,
+        365
+      ],
+      [
+        "difficulty",
+        "Difficulty swallowing or opening the mouth",
+        "boolean"
+      ],
+      [
+        "bleeding",
+        "Unexplained bleeding",
+        "boolean"
+      ],
+      [
+        "tobacco",
+        "Tobacco use reported",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "duration": 21,
+      "difficulty": false,
+      "bleeding": false,
+      "tobacco": true
+    },
+    "note": "A mouth sore has persisted for three weeks. Tobacco use reported. No difficulty swallowing.",
+    "guidance": "https://www.mohfw.gov.in/sites/default/files/NP-NCD%20Operational%20Guidelines.pdf",
+    "origin": "https://oral-saathi.nakul1729233.chatgpt.site"
+  },
+  {
+    "id": "skin-saathi",
+    "name": "Skin Saathi",
+    "organisation": "Twacha Community Systems",
+    "color": "#7c3c96",
+    "topic": "Skin concern documentation",
+    "description": "Record a rash, wound or persistent patch for an ANM or clinician.",
+    "input": "symptoms",
+    "model": "Whisper tiny multilingual",
+    "modelRole": "Speech-to-text for worker-reviewed symptoms; no skin-disease image classifier.",
+    "source": "https://github.com/openai/whisper",
+    "fields": [
+      [
+        "duration",
+        "Concern present for (days)",
+        "number",
+        0,
+        365
+      ],
+      [
+        "fever",
+        "Fever reported",
+        "boolean"
+      ],
+      [
+        "spreading",
+        "Rapidly spreading redness or swelling",
+        "boolean"
+      ],
+      [
+        "numbness",
+        "Loss of sensation reported",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "duration": 10,
+      "fever": false,
+      "spreading": false,
+      "numbness": true
+    },
+    "note": "A persistent skin patch has reduced sensation. Arrange clinical assessment.",
+    "guidance": "https://nhm.gov.in/images/pdf/communitisation/asha/Notes_for_ASHA_Trainers_Part-1_English.pdf",
+    "origin": "https://skin-saathi.nakul1729233.chatgpt.site"
+  },
+  {
+    "id": "shishu-breath",
+    "name": "Shishu Breath",
+    "organisation": "Prana Child Health",
+    "color": "#007c88",
+    "topic": "Infant breathing assessment",
+    "description": "Support a full-minute breathing count and document danger signs.",
+    "input": "symptoms",
+    "model": "Whisper tiny multilingual",
+    "modelRole": "Speech-to-text for breathing observations; respiratory rate is manually counted, not inferred from video.",
+    "source": "https://github.com/openai/whisper",
+    "fields": [
+      [
+        "ageMonths",
+        "Age in completed months",
+        "number",
+        0,
+        11
+      ],
+      [
+        "breaths",
+        "Breaths counted over a full minute",
+        "number",
+        1,
+        150
+      ],
+      [
+        "danger",
+        "Unable to feed, convulsions, severe breathing difficulty or unusual unresponsiveness",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "ageMonths": 4,
+      "breaths": 58,
+      "danger": false
+    },
+    "note": "Four-month-old infant. Fifty-eight breaths counted over a full minute. No general danger signs reported.",
+    "guidance": "https://nhm.gov.in/New-Update-2024-26/SAANS%202024-25%20Guidance%20Note_08112024.pdf",
+    "origin": "https://shishu-breath.nakul1729233.chatgpt.site"
+  },
+  {
+    "id": "matri-check",
+    "name": "Matri Check",
+    "organisation": "Janani Care Technologies",
+    "color": "#b22c64",
+    "topic": "Maternal danger-sign assessment",
+    "description": "Record symptoms during pregnancy or after birth and support referral.",
+    "input": "symptoms",
+    "model": "Whisper tiny multilingual",
+    "modelRole": "Speech-to-text for confirmed maternal symptoms; referral prompts are explicit rules, not predictive diagnosis.",
+    "source": "https://github.com/openai/whisper",
+    "fields": [
+      [
+        "bleeding",
+        "Vaginal bleeding reported",
+        "boolean"
+      ],
+      [
+        "convulsions",
+        "Convulsions or loss of consciousness reported",
+        "boolean"
+      ],
+      [
+        "headache",
+        "Severe headache with blurred vision reported",
+        "boolean"
+      ],
+      [
+        "breathing",
+        "Severe breathing difficulty reported",
+        "boolean"
+      ],
+      [
+        "fever",
+        "Fever reported",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "bleeding": false,
+      "convulsions": false,
+      "headache": true,
+      "breathing": false,
+      "fever": false
+    },
+    "note": "Pregnant woman reports severe headache with blurred vision. No bleeding reported.",
+    "guidance": "https://nhm.gov.in/images/pdf/communitisation/asha/Notes_for_ASHA_Trainers_Part-1_English.pdf",
+    "origin": "https://matri-check.nakul1729233.chatgpt.site"
+  },
+  {
+    "id": "poshan-check",
+    "name": "Poshan Check",
+    "organisation": "BalPoshan Analytics",
+    "color": "#a7550d",
+    "topic": "Child nutrition assessment",
+    "description": "Record measured MUAC and swelling for children aged 6–59 months.",
+    "input": "symptoms",
+    "model": "Whisper tiny multilingual",
+    "modelRole": "Speech-to-text for measured observations; MUAC classification uses WHO thresholds, not a photo estimate.",
+    "source": "https://github.com/openai/whisper",
+    "fields": [
+      [
+        "ageMonths",
+        "Age in completed months",
+        "number",
+        6,
+        59
+      ],
+      [
+        "muac",
+        "Measured MUAC (mm)",
+        "number",
+        70,
+        250
+      ],
+      [
+        "oedema",
+        "Swelling of both feet confirmed by a trained worker",
+        "boolean"
+      ],
+      [
+        "danger",
+        "Unable to feed or another general danger sign",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "ageMonths": 24,
+      "muac": 112,
+      "oedema": false,
+      "danger": false
+    },
+    "note": "Child aged two years. Measured MUAC is 112 millimetres. No swelling of both feet.",
+    "guidance": "https://www.who.int/tools/elena/interventions/sam-identification",
+    "origin": "https://poshan-check.nakul1729233.chatgpt.site"
+  },
+  {
+    "id": "teeka-reader",
+    "name": "Teeka Reader",
+    "organisation": "Raksha Immunisation Tools",
+    "color": "#17663f",
+    "topic": "Immunisation-card assistance",
+    "description": "Read printed card text and prepare a worker-verified vaccination history.",
+    "input": "document",
+    "model": "Tesseract LSTM OCR",
+    "modelRole": "Extract printed vaccination-card text; an ANM confirms doses and schedules. No automatic vaccine eligibility decision.",
+    "source": "https://github.com/tesseract-ocr/tesseract",
+    "fields": [
+      [
+        "unclear",
+        "Any dose or date unclear",
+        "boolean"
+      ],
+      [
+        "missed",
+        "Caregiver reports a missed appointment",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "unclear": true,
+      "missed": true
+    },
+    "note": "SYNTHETIC IMMUNISATION CARD\nBCG 12 Jan 2026\nOPV 0 12 Jan 2026\nNext visit: date unclear",
+    "guidance": "https://nhm.gov.in/index1.php?lang=1&level=3&sublinkid=947&lid=379",
+    "origin": "https://teeka-reader.nakul1729233.chatgpt.site"
+  },
+  {
+    "id": "dawa-follow",
+    "name": "Dawa Follow",
+    "organisation": "Sehat Continuity Labs",
+    "color": "#3e5598",
+    "topic": "Medicine follow-up",
+    "description": "Read a printed medicine list and record barriers to the prescribed plan.",
+    "input": "document",
+    "model": "Tesseract LSTM OCR",
+    "modelRole": "Extract printed prescription text for worker confirmation; no prescribing, dose changes or adherence prediction.",
+    "source": "https://github.com/tesseract-ocr/tesseract",
+    "fields": [
+      [
+        "missed",
+        "Missed prescribed doses reported",
+        "boolean"
+      ],
+      [
+        "supply",
+        "Medicine unavailable or finished",
+        "boolean"
+      ],
+      [
+        "reaction",
+        "New concerning symptom or suspected medicine reaction",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "missed": true,
+      "supply": true,
+      "reaction": false
+    },
+    "note": "SYNTHETIC MEDICINE LIST\nPrescribed medicine: SAMPLE ONLY\nFollow-up with ANM. Do not change a dose.",
+    "guidance": "https://www.mohfw.gov.in/sites/default/files/NP-NCD%20Operational%20Guidelines.pdf",
+    "origin": "https://dawa-follow.nakul1729233.chatgpt.site"
+  },
+  {
+    "id": "report-reader",
+    "name": "Report Reader",
+    "organisation": "Swasthya Record Systems",
+    "color": "#066a9e",
+    "topic": "Lab-report reading",
+    "description": "Read a printed report and prepare verified values for clinical review.",
+    "input": "document",
+    "model": "Tesseract LSTM OCR",
+    "modelRole": "Extract printed report text; no clinical interpretation or automatic insertion of unverified values.",
+    "source": "https://github.com/tesseract-ocr/tesseract",
+    "fields": [
+      [
+        "critical",
+        "Report explicitly marked critical by the laboratory",
+        "boolean"
+      ],
+      [
+        "unclear",
+        "Test name, value, unit or date unclear",
+        "boolean"
+      ]
+    ],
+    "sample": {
+      "critical": false,
+      "unclear": false
+    },
+    "note": "SYNTHETIC LAB REPORT\nReport date: 03 Oct 2026\nGlucose: 126 mg/dL\nSample context must be checked by clinician.",
+    "guidance": "https://www.mohfw.gov.in/sites/default/files/NP-NCD%20Operational%20Guidelines.pdf",
+    "origin": "https://report-reader.nakul1729233.chatgpt.site"
+  }
+]
