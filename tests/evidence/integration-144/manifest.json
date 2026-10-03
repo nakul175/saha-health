@@ -1,0 +1,53 @@
+{
+ "integration": "144",
+ "label": "Integration of the 15 parallel R-slices (#129–#143) with main after slice 12a, with review fixes",
+ "environment": "local built Worker, local D1/SQLite, Miniflare, Chromium (Playwright), Node v22.22.2, synthetic data, shared Linux container",
+ "note": "Unit 123 suites 7,889 passed; HTTP suite 4,648 and scheduled check 8; restore drill 21; smoke 36 passed and 1 skipped; NFR 191; UAT steps 63; UI 25 Playwright tests passed. Review-fix contracts kept here. No formal acceptance criterion promoted.",
+ "reports": {
+  "correction-tasks-contract-result.json": {
+   "sha256": "29034e89df7b2feab27a7ff89f4924e4639d13bce2557a46f8a881f149a5f152",
+   "passed": 13,
+   "completedAt": "2026-10-03T11:17:19.596Z"
+  },
+  "crosswalk-correction-contract-result.json": {
+   "sha256": "4ec92da3eb5013cdadfe4baa5a9c8ba3f886d6873f4d13a18a75cc8fc599ff89",
+   "passed": 48,
+   "completedAt": "2026-10-03T11:17:14.144Z"
+  },
+  "fhir-provenance-contract-result.json": {
+   "sha256": "8fa179bd28b1c2c1cbf41d21bfd59ada0dfc374a0829db22cf9753328666d568",
+   "passed": 51,
+   "completedAt": "2026-10-03T11:17:27.951Z"
+  },
+  "fhir-validate-contract-result.json": {
+   "sha256": "af5ee27dafac4c128c7b191bdaf088ddf624f554702185c51944a041080f3a83",
+   "passed": 20,
+   "completedAt": "2026-10-03T11:17:25.109Z"
+  },
+  "purpose-scope-contract-result.json": {
+   "sha256": "4c8915c9efe92c960920f0c53eb4276df09f2594139b27477412af6b20f7f0d0",
+   "passed": 11,
+   "completedAt": null
+  },
+  "r26-correction-propagation-contract-result.json": {
+   "sha256": "df26b383c48cfad3afd897fbc8e8c9a47e2b687c39758c0afae0ed66adcc78e0",
+   "passed": 8,
+   "completedAt": "2026-10-03T11:17:21.716Z"
+  },
+  "reassignment-contract-result.json": {
+   "sha256": "0bf181347c32dd645271e30ff8ffe789b7544a1212c8c7bbe417d9c2680c2ba6",
+   "passed": 10,
+   "completedAt": "2026-10-03T11:17:16.789Z"
+  },
+  "summary-non-ui.json": {
+   "sha256": "4c18cd57c36bd1de075345c5a6ffb8aa298ecd31a1093dae8fc5b066f3707edc",
+   "passed": 12856,
+   "completedAt": "2026-10-03T11:15:44.261Z"
+  },
+  "summary-ui.json": {
+   "sha256": "1cc5c4985b8c942774e55f4246dd9926ffbee3f50d4648d75061cb32f2c97774",
+   "passed": 25,
+   "completedAt": "2026-10-03T11:21:00.130Z"
+  }
+ }
+}

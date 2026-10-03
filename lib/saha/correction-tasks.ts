@@ -4,8 +4,9 @@ import { normallyAllowed } from './access';
 import { supervises } from './delegation';
 import { operationRefusal } from './adapter-operations';
 import { TERMINAL } from './referral-rules';
+import { affectedReleases } from './indicators';
 import type { Actor } from './store';
-import type { CorrectionTask, Member, OrgState, Person, Visit } from './types';
+import type { CorrectionSource, CorrectionTask, Member, OrgState, Person, Visit } from './types';
 
 // Slice 2j: correction propagation (BR-DATA-06, BR-RULE-04).
 //
@@ -22,8 +23,12 @@ import type { CorrectionTask, Member, OrgState, Person, Visit } from './types';
 // - Internal outputs. Work the server already refuses on a superseded or voided visit (pending plans, prepared
 //   EHR publications, open assistant requests) is recorded as invalidated; worker-activity evidence and
 //   indicators are recomputed on every read and recorded as such. Outputs a person must judge (referrals and
-//   follow-ups created from the visit, protocol evaluations, applied assistant results, shadow comparisons and
-//   indicator figures already released) become review tasks.
+//   follow-ups created from the visit, protocol evaluations, applied assistant results) become review tasks.
+//   Slice R26 (BR-DATA-06): the indicator task marks the released figures that may have counted the visit, and
+//   referral/follow-up tasks link their sources. Internal outputs past the task cap that are already recomputed or
+//   invalidated stay recomputed rather than being folded into a review. Integration of #144 (review finding): shadow
+//   comparisons, and released figures (never recalled), remain review tasks, because nothing recomputes a shadow
+//   comparison on read yet and only a person can decide whether a released figure must be reissued.
 //
 // Closing an open task needs evidence: a Saha receipt id of the accepted correction (checked against the
 // destination and the correction chain) or a reason of at least 10 characters, with an optional destination
@@ -63,13 +68,24 @@ export function correctionTasks(s:OrgState,v:Visit,cause:'amend'|'void',u:Actor,
  }
  // The visit's sharing plan.
  if(v.plan&&v.plan.state!=='completed')add({output:{kind:'plan',refId:v.plan.id,label:'Sharing plan',stateAtCorrection:v.plan.state},external:false,action:'invalidated',state:'done',instruction:'The plan was blocked and cannot be approved or executed.'});
- // Referrals created from this visit, or naming it as a source, that are still open.
- for(const r of w.referrals)if(r.personId===p.id&&!TERMINAL.has(r.state)&&(r.visitId===v.id||r.sources?.some(x=>x.visitId===v.id)))
-  add({output:{kind:'referral',refId:r.id,label:`Referral to ${r.facility}`,stateAtCorrection:r.state},external:false,action:'review',instruction:amend?'Check that the referral still follows from the corrected facts; record a referral event or close it with a reason. If the facility was told, tell them of the correction.':'This referral was made from a visit recorded against the wrong patient. Cancel it or confirm it applies, and tell the facility if it was contacted.'});
+ // Referrals created from this visit, or naming it as a source, that are still open. Slice R26: the task links
+ // the source(s) that tie the referral to this visit (its own visit, or a linked visit/protocol/episode source).
+ for(const r of w.referrals)if(r.personId===p.id&&!TERMINAL.has(r.state)&&(r.visitId===v.id||r.sources?.some(x=>x.visitId===v.id))){
+  const sources:CorrectionSource[]=r.visitId===v.id
+   ?[{kind:'visit',refId:r.visitId,visitId:r.visitId,label:'the visit that made the referral'}]
+   :(r.sources??[]).filter(x=>x.visitId===v.id).map(x=>({kind:x.kind as CorrectionSource['kind'],refId:x.refId,visitId:x.visitId,label:x.kind==='visit'?'a visit named as a source':`a ${x.kind} named as a source`}));
+  add({output:{kind:'referral',refId:r.id,label:`Referral to ${r.facility}`,stateAtCorrection:r.state,sources},external:false,action:'review',instruction:amend?'Check that the referral still follows from the corrected facts; record a referral event or close it with a reason. If the facility was told, tell them of the correction.':'This referral was made from a visit recorded against the wrong patient. Cancel it or confirm it applies, and tell the facility if it was contacted.'});
+ }
  // Open follow-ups created between this visit's confirmation and the correction. Follow-ups do not record the
- // visit that created them, so these are listed as possible dependants for review.
- for(const f of p.followUps??[])if(f.state==='open'&&v.confirmedAt&&f.createdAt>=v.confirmedAt&&f.createdAt<=now)
-  add({output:{kind:'follow-up',refId:f.id,label:`Follow-up "${f.title}"`,stateAtCorrection:f.state},external:false,action:'review',instruction:'Created after this visit was confirmed, so it may depend on it. Keep it, reschedule it or close it with a reason.'});
+ // visit that created them; slice R26 links each to its source — the episode that scheduled it and any visit
+ // whose programme capture includes that episode — so a concrete dependant is told apart from a possible one.
+ for(const f of p.followUps??[])if(f.state==='open'&&v.confirmedAt&&f.createdAt>=v.confirmedAt&&f.createdAt<=now){
+  const captureVisits=w.visits.filter(x=>x.personId===p.id&&x.programmeCapture?.packs.some(k=>k.enrolmentId===f.enrolmentId));
+  const sources:CorrectionSource[]=[
+   ...(f.enrolmentId?[{kind:'enrolment' as const,refId:f.enrolmentId,label:`${f.packId} episode`}]:[]),
+   ...captureVisits.map(x=>({kind:'visit' as const,refId:x.id,visitId:x.id,label:x.id===v.id?'the visit that captured this episode':`visit ${x.id}`}))];
+  add({output:{kind:'follow-up',refId:f.id,label:`Follow-up "${f.title}"`,stateAtCorrection:f.state,sources},external:false,action:'review',instruction:captureVisits.some(x=>x.id===v.id)?`This follow-up belongs to an episode captured by this visit, so it depends on it. Keep it, reschedule it or close it with a reason.`:'Created after this visit was confirmed, so it may depend on it. Keep it, reschedule it or close it with a reason.'});
+ }
  // Protocol evaluations of this version.
  for(const c of v.protocolChecks??[]){
   const output={kind:'protocol-evaluation' as const,refId:c.id,label:`Protocol evaluation (${c.findings.length} finding${c.findings.length===1?'':'s'})`,stateAtCorrection:c.decision?`decided: ${c.decision.decision}`:'undecided'};
@@ -83,28 +99,41 @@ export function correctionTasks(s:OrgState,v:Visit,cause:'amend'|'void',u:Actor,
   else if(['pending','running','review'].includes(r.status))add({output,external:false,action:'invalidated',state:'done',instruction:'The request can no longer be approved or applied: the server refuses assistant work on a visit that is not current.'});
  }
  for(const r of v.aiResults??[])if(r.reviewed)add({output:{kind:'assistant-result',refId:r.id,label:`Reviewed AI result (${r.providerName})`,stateAtCorrection:'reviewed'},external:false,action:'review',instruction:'A reviewed AI result was based on the earlier facts. Check whether anything was decided from it.'});
- // Shadow comparisons that used this version's confirmed values (governance evidence; not recomputed here).
+ // Shadow comparisons that used this version's confirmed values (governance evidence). No governance record is
+ // rewritten from a patient-scoped commit. Slice R26 marked these recomputed; integration of #144 (review finding):
+ // nothing recomputes or excludes a shadow comparison on read yet (shadow.recompareShadow has no caller and drift.ts
+ // counts every result), so this stays an open review task for Clinical governance, as before slice R26.
  for(const sh of s.governance?.shadows??[])for(const r of sh.results)if(r.visitId===v.id&&r.status==='compared')
-  add({output:{kind:'shadow-comparison',refId:sh.id,label:'Shadow comparison',stateAtCorrection:`compared at visit version ${r.visitVersion}`},external:false,action:'review',instruction:'This shadow comparison scored the assistant against values that were later corrected. Exclude or note it when the shadow operation is reviewed in Clinical governance.'});
+  add({output:{kind:'shadow-comparison',refId:sh.id,label:'Shadow comparison',stateAtCorrection:`compared at visit version ${r.visitVersion}`,sources:[{kind:'visit',refId:v.id,visitId:v.id,label:'the visit the comparison scored'}]},external:false,action:'review',
+   instruction:amend?'This shadow comparison scored the assistant against values that were later corrected. Exclude or note it when the shadow operation is reviewed in Clinical governance.':'This shadow comparison scored the assistant against a visit recorded against the wrong patient. Exclude it when the shadow operation is reviewed in Clinical governance.'});
  // Worker-activity evidence is recomputed from record revisions on every read.
  add({output:{kind:'worker-activity',refId:null,label:'Worker activity evidence',stateAtCorrection:'performed'},external:false,action:'recomputed',state:'done',instruction:`Worker activity is computed on each read; this visit now shows as ${amend?'corrected':'wrong-patient'}.`});
- // Indicator releases that may have counted this version: counts only.
- const releases=((s.operations as any)?.indicatorReleases??[]) as {at:string}[];
- const counted=v.confirmedAt?releases.filter(r=>typeof r?.at==='string'&&r.at>=v.confirmedAt!).length:0;
- add({output:{kind:'indicator-releases',refId:null,label:'Indicator releases',stateAtCorrection:`${counted} release${counted===1?'':'s'} since confirmation`,count:counted},external:false,action:counted?'review':'recomputed',state:counted?'open':'done',
-  instruction:counted?`${counted} indicator release${counted===1?'':'s'} recorded since this visit was confirmed may have counted it. Indicators are recomputed on each read; figures already released are not recalled. Decide whether a reissued figure is needed.`:'No indicator release is recorded since confirmation; indicators are recomputed on each read.'});
+ // Indicator releases that may have counted this version. Slice R26: the figures released since confirmation are
+ // marked affected on this task (their ledger identity only, never a cell value). Indicators are recomputed on read,
+ // but a released figure is not recalled, so (integration of #144) the task stays open for a person to decide
+ // whether a reissued figure is needed; with no release since confirmation there is nothing to decide.
+ const affected=affectedReleases(s,v.confirmedAt);
+ add({output:{kind:'indicator-releases',refId:null,label:'Indicator releases',stateAtCorrection:`${affected.length} release${affected.length===1?'':'s'} since confirmation`,count:affected.length,releases:affected},external:false,action:affected.length?'review':'recomputed',state:affected.length?'open':'done',
+  instruction:affected.length?`${affected.length} released indicator figure${affected.length===1?'':'s'} recorded since this visit was confirmed may have counted it and are marked affected on this task. Indicators are recomputed on each read; figures already released are not recalled. Decide whether a reissued figure is needed.`:'No indicator release is recorded since confirmation; indicators are recomputed on each read.'});
  // Slice 6ad (ninth review, finding 9): a visit with more downstream outputs than MAX_TASKS can still be corrected
  // (there is no administrator path, so refusing could make a wrong-patient visit impossible to void). Every external
- // output keeps its own task; internal outputs past the cap are folded into one review task per kind with the count.
+ // output keeps its own task; internal outputs past the cap are folded per kind. Slice R26 (BR-DATA-06): the ones
+ // the server already recomputes or invalidates (state 'done') are folded into one 'done' task per kind — recomputed,
+ // not reviewed — and only the open ones fold into one review task per kind, so nothing that needs a person's
+ // judgement is silently dropped and nothing that does not is kept open.
  if(tasks.length<=MAX_TASKS)return tasks;
  const ext=tasks.filter(t=>t.external);
  if(ext.length>MAX_TASKS)fail(422,`This visit has more than ${MAX_TASKS} deliveries to external destinations. Resolve or look up the open deliveries first; nothing was changed.`);
  const internal=tasks.filter(t=>!t.external),kept=internal.slice(0,MAX_TASKS-ext.length),rest=internal.slice(MAX_TASKS-ext.length),folded=new Map<CorrectionTask['output']['kind'],CorrectionTask[]>();
  for(const t of rest)folded.set(t.output.kind,[...(folded.get(t.output.kind)??[]),t]);
  const out=[...ext,...kept];
- for(const [kind,ts] of folded){const open=ts.filter(t=>t.state==='open').length;
-  out.push({...ts[0],id:uuid(),output:{kind,refId:null,label:`${ts.length} further ${CORRECTION_KIND_LABEL[kind].toLowerCase()} outputs`,stateAtCorrection:`${ts.length} not listed one by one`,count:ts.length},state:open?'open':'done',action:open?'review':ts[0].action,
-   instruction:`This visit has more than ${MAX_TASKS} downstream outputs, so ${ts.length} ${CORRECTION_KIND_LABEL[kind].toLowerCase()} outputs are listed here as one task${open?`; ${open} of them need review. Review them from the patient's record`:''}.`});}
+ for(const ts of folded.values()){
+  const open=ts.filter(t=>t.state==='open'),done=ts.filter(t=>t.state==='done'),kind=ts[0].output.kind;
+  if(open.length)out.push({...open[0],id:uuid(),output:{kind,refId:null,label:`${open.length} further ${CORRECTION_KIND_LABEL[kind].toLowerCase()} output${open.length===1?'':'s'}`,stateAtCorrection:`${open.length} not listed one by one`,count:open.length},state:'open',action:'review',
+   instruction:`This visit has more than ${MAX_TASKS} downstream outputs, so ${open.length} ${CORRECTION_KIND_LABEL[kind].toLowerCase()} output${open.length===1?'':'s'} are listed here as one task and need review. Review them from the patient's record.`});
+  if(done.length)out.push({...done[0],id:uuid(),output:{kind,refId:null,label:`${done.length} further ${CORRECTION_KIND_LABEL[kind].toLowerCase()} output${done.length===1?'':'s'}`,stateAtCorrection:`${done.length} recomputed or invalidated`,count:done.length},state:'done',action:'recomputed',
+   instruction:`This visit has more than ${MAX_TASKS} downstream outputs; ${done.length} ${CORRECTION_KIND_LABEL[kind].toLowerCase()} output${done.length===1?'':'s'} were already recomputed or invalidated by the server and need no review.`});
+ }
  return out;
 }
 
@@ -143,9 +172,19 @@ export function applyCorrectionTask(s:OrgState,input:unknown,u:Actor,m:Member,no
  return {taskId:t!.id,state:'closed',verified};
 }
 
-// Open tasks of one patient, newest visit first, for the action plan (4b) and exception queue (6i).
+// Open tasks of one patient, newest visit first, for the action plan (4b) and exception queue (6i). Slice R26:
+// each item carries the task's follow-up/referral source links (resolved to a display label where the record still
+// exists), so a viewer can open the source without another lookup.
 export function openCorrectionTasks(s:OrgState,p:Person){
- const out:{task:CorrectionTask;visit:Visit}[]=[];
- for(const v of s.workspace.visits)if(v.personId===p.id)for(const t of v.correctionTasks??[])if(t.state==='open')out.push({task:t,visit:v});
+ const out:{task:CorrectionTask;visit:Visit;sources:{kind:CorrectionSource['kind'];refId:string;visitId:string|null;label:string}[]}[]=[];
+ for(const v of s.workspace.visits)if(v.personId===p.id)for(const t of v.correctionTasks??[])if(t.state==='open'){
+  const sources=(t.output.sources??[]).map(src=>{
+   let label=src.label??src.kind;
+   if(src.kind==='visit'){const x=s.workspace.visits.find(y=>y.id===src.refId);if(x)label=`Visit of ${(x.confirmedAt??x.createdAt).slice(0,10)}`;}
+   else if(src.kind==='enrolment'){const e=p.enrolments?.find(y=>y.id===src.refId);if(e)label=`${e.packId} episode`;}
+   return {kind:src.kind,refId:src.refId,visitId:src.visitId??null,label};
+  });
+  out.push({task:t,visit:v,sources});
+ }
  return out;
 }

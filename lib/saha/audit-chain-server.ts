@@ -4,19 +4,20 @@ import { accountCode, scope } from './store';
 import { recordExportAudit, sameCareScope } from './export-audit';
 import { digest, fail, uuid } from './core';
 import { operator } from './operations';
-import { CHAIN_VERSION, CHECKPOINT_FORMAT, EXPORT_LIMIT, HASHING, checkCheckpoint, checkpointDigest, exportRows, parseCheckpointRef, sha256, verifyChain, lastRecordedCheckpoint } from './audit-chain';
+import { CHAIN_VERSION, CHECKPOINT_FORMAT, EXPORT_LIMIT, HASHING, SIGNED_CHECKPOINT_FORMAT, checkCheckpoint, checkpointDigest, exportRows, parseCheckpointRef, sha256, signCheckpoint, verifyChain, lastRecordedCheckpoint } from './audit-chain';
 // Slice 6j: chain verification and the auditor export, for owners and administrators only.
 // Verification returns sequence numbers, hashes and reasons, never event content.
 export async function auditChainRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);
  if(!operator(m))fail(403,'Owner or administrator access is required to verify the audit chain.');
  const url=new URL(request.url),format=url.searchParams.get('format')??'verify';
- if(!['verify','jsonl','checkpoint'].includes(format))fail(422,'Unsupported audit chain format.');
+ if(!['verify','jsonl','checkpoint','signed-checkpoint'].includes(format))fail(422,'Unsupported audit chain format.');
  const ref=url.searchParams.get('checkpoint'),expected=ref===null?null:parseCheckpointRef(ref);if(ref!==null&&!expected)fail(422,'Give a checkpoint as sequence:hash (64 lowercase hexadecimal characters).');
  const verification=await verifyChain(db(),s.organisation.id);
  // Slice 6t: verification can also check a checkpoint kept outside Saha.
  if(format==='verify')return json(expected?{...verification,checkpoint:await checkCheckpoint(db(),s.organisation.id,expected.seq,expected.hash)}:verification);
  if(format==='checkpoint')return checkpointResponse(s,u,m,verification,expected);
+  if(format==='signed-checkpoint')return signedCheckpointResponse(s,u,m,verification,expected);
  const fromText=url.searchParams.get('from')??'0';if(!/^\d{1,9}$/.test(fromText))fail(422,'Choose a starting sequence number.');const from=Number(fromText);
  const page=await exportRows(db(),s.organisation.id,{userId:u.userId,role:m.role},from);
  if(!page.lines.length)fail(404,'No chained audit events from that sequence number.');
@@ -49,4 +50,25 @@ async function checkpointResponse(s:Awaited<ReturnType<typeof loadFor>>,u:Awaite
  await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:eventId,at:issuedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'auditChainCheckpoint',subject:orgId,detail}),actor:u,type:'auditChainCheckpoint',key:'checkpoint_'+uuid(),hash:await digest(point)});
  const body={format:CHECKPOINT_FORMAT,chainVersion:CHAIN_VERSION,organisationId:orgId,head:{seq:head.seq,hash:head.hash,at:head.at},eventsVerified:verification.events,verifiedFrom:verification.fromAnchor??null,issuedAt,issuedBy:{accountCode:await accountCode(u.userId),role:m.role,owner:m.isOwner},checkpointSha256,digestRule:`checkpointSha256 = SHA-256 of JSON.stringify(['${CHECKPOINT_FORMAT}',organisationId,head.seq,head.hash,head.at,issuedAt])`,recordedAs:eventId,anchoring:'Keep this file, or its checkpointSha256, somewhere the people who run this Saha database cannot change (for example a ticket, a signed email or a public log). Later, check it against the chain: the same hash at the same sequence number proves nothing up to it has changed. Saha does not sign this file.'};
  return new Response(JSON.stringify(body,null,2)+'\n',{headers:{'Content-Type':'application/json; charset=utf-8','Content-Disposition':`attachment; filename="saha-audit-checkpoint-${head.seq}.json"`,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
+}
+// Slice r06 (BR-SEC-08): a signed chain-head checkpoint. Identical to the unsigned checkpoint except the head summary
+// is signed with the deployment's signing key (SAHA_AUDIT_SIGNING_KEY), so a copy kept outside Saha can be checked
+// against that key without trusting the transport. Without a key the request fails closed; the unsigned checkpoint
+// still works. Issuing it is recorded in the chain under a distinct action, whose detail carries the key id and the
+// signature.
+async function signedCheckpointResponse(s:Awaited<ReturnType<typeof loadFor>>,u:Awaited<ReturnType<typeof identity>>,m:ReturnType<typeof scope>,full:Awaited<ReturnType<typeof verifyChain>>,named:{seq:number;hash:string}|null){
+  let verification=full;
+  if(full.status==='incomplete'){const anchor=named??await lastRecordedCheckpoint(db(),s.organisation.id);if(anchor)verification=await verifyChain(db(),s.organisation.id,undefined,undefined,anchor);}
+  if(verification.status!=='intact'||!verification.head)fail(409,`The audit chain is ${verification.status}, so no checkpoint is issued. Verify the chain to see why.`);
+  const secret=String(rawRuntime().SAHA_AUDIT_SIGNING_KEY??'').trim();
+  if(!secret)fail(503,'No audit signing key is provisioned (SAHA_AUDIT_SIGNING_KEY), so no signed checkpoint can be issued. Use the unsigned checkpoint or set the key.');
+  const orgId=s.organisation.id,issuedAt=new Date().toISOString(),head=verification.head!,eventId=uuid();
+  const point={organisationId:orgId,seq:head.seq,hash:head.hash,at:head.at,issuedAt};
+  const signed=await signCheckpoint(point,secret);
+  const from=verification.fromAnchor?` from the anchor at event ${verification.fromAnchor.seq}`:'';
+  const detail=`Signed chain head checkpoint issued for external anchoring: event ${head.seq}, hash ${head.hash}, ${verification.events} chained events verified intact${from}; key ${signed.keyId}, signature ${signed.signature}.`;
+  const again=(x:typeof s)=>{const o=scope(x,u.userId);if(!operator(o))fail(403,'Owner or administrator access is required to verify the audit chain.');if(o.role!==m.role)fail(409,'Your role changed while the checkpoint was prepared. Try again.');return o;};
+  await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:eventId,at:issuedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'auditChainSignedCheckpoint',subject:orgId,detail}),actor:u,type:'auditChainSignedCheckpoint',key:'checkpoint_'+uuid(),hash:await digest(point)});
+  const body={format:SIGNED_CHECKPOINT_FORMAT,chainVersion:CHAIN_VERSION,organisationId:orgId,head:{seq:head.seq,hash:head.hash,at:head.at},eventsVerified:verification.events,verifiedFrom:verification.fromAnchor??null,issuedAt,issuedBy:{accountCode:await accountCode(u.userId),role:m.role,owner:m.isOwner},keyId:signed.keyId,signature:signed.signature,signatureRule:`signature = HMAC-SHA256(SAHA_AUDIT_SIGNING_KEY, JSON.stringify(['${SIGNED_CHECKPOINT_FORMAT}', organisationId, head.seq, head.hash, head.at, issuedAt])); key id ${signed.keyId}.`,recordedAs:eventId,anchoring:'Keep this file, or its signature and key id, somewhere the people who run this Saha database cannot change. Later, check the signature against the deployment key and the head hash against the chain (GET /api/audit/chain?checkpoint=<seq>:<hash>). The same hash at the same sequence number proves nothing up to it has changed. The signature proves Saha issued this checkpoint.'};
+  return new Response(JSON.stringify(body,null,2)+'\n',{headers:{'Content-Type':'application/json; charset=utf-8','Content-Disposition':`attachment; filename="saha-audit-checkpoint-signed-${head.seq}.json"`,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 }

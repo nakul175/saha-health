@@ -13,7 +13,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const refuses = (fn, status, pattern) => { assert.throws(fn, e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['fact-verification', 'fact-provenance', 'core','adapter-operations', 'access', 'mis', 'programmes', 'types', 'fhir-document', 'fhir-validate', 'fhir'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fact-verification', 'fhir', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const F = await import(pathToFileURL(join(dir, 'fact-verification.js')));
   const P = await import(pathToFileURL(join(dir, 'fact-provenance.js')));
@@ -35,7 +35,7 @@ try {
   check(() => assert.equal(C.checkFacts({ ...base, weight: '69.85', entered: { weight: { value: '154', unit: 'lb' } } }, at).weight, '69.85', 'a matching base value is accepted'));
   refuses(() => C.checkFacts({ ...base, weight: '70', entered: { weight: { value: '154', unit: 'lb' } } }, at), 422, /does not match the entered 154 lb/);
   refuses(() => C.checkFacts({ ...base, entered: { weight: { value: 'heavy', unit: 'lb' } } }, at), 422, /enter a positive number in lb/);
-  check(() => { assert.equal(C.factsSchema.safeParse({ ...base, entered: { weight: { value: '154', unit: 'kg' } } }).success, false); assert.equal(C.factsSchema.safeParse({ ...base, entered: { systolic: { value: '16', unit: 'kPa' } } }).success, false, 'no alternative unit for blood pressure'); assert.equal(C.factsSchema.safeParse({ ...base, unusual: { pulse: 'Synthetic reason text' } }).success, false); });
+  check(() => { assert.equal(C.factsSchema.safeParse({ ...base, entered: { weight: { value: '154', unit: 'kg' } } }).success, false); assert.equal(C.factsSchema.safeParse({ ...base, entered: { systolic: { value: '16', unit: 'psi' } } }).success, false, 'an unknown unit for blood pressure is refused (kPa is accepted since slice r24)'); assert.equal(C.factsSchema.safeParse({ ...base, unusual: { pulse: 'Synthetic reason text' } }).success, false); });
   const legacy = { ...base, weight: '60', systolic: '120', diastolic: '80' };
   check(() => assert.deepEqual(C.checkFacts(structuredClone(legacy), at), legacy, 'facts without units or reasons are stored as sent'));
   // 3. Range refusals and reasons.
@@ -99,7 +99,7 @@ try {
   // 8. FHIR: notes carry the entered unit and the override; the pinned rule set still passes; visits without either are unchanged.
   const doc = D.fhirDocument(person, conf.workspace.visits[0], 'Synthetic organisation', 'Synthetic confirmer');
   const stamp = V.validateOutbound(doc, person.id);
-  check(() => { assert.equal(stamp.ruleset, 'saha-fhir-r4-document-structure'); assert.equal(stamp.version, '1.0.0'); });
+  check(() => { assert.equal(stamp.ruleset, 'saha-fhir-r4-document-structure'); assert.equal(stamp.version, '1.1.0'); });
   const res = doc.entry.map(e => e.resource), wt = res.find(x => x.resourceType === 'Observation' && x.code.coding[0].code === '29463-7');
   check(() => { assert.equal(wt.valueQuantity.value, 400.07); assert.equal(wt.valueQuantity.code, 'kg'); assert.match(wt.note[0].text, /Entered as 882 lb; converted by Saha\. Unusual value \(saha-value-ranges-0\.1\.0, engineering placeholder — not clinically approved\): outside 2–150 kg; reason: Synthetic scale reading repeated twice\. Confirmed by Name clin-1 \(clinician\), 2026-10-01 06:00 UTC\./); });
   check(() => { const sys = res.find(x => x.resourceType === 'Observation' && x.code.coding[0].code === '8480-6'); assert.match(sys.note[0].text, /Unusual value .*outside 70–200 mmHg; reason: Third reading/); assert.doesNotMatch(sys.note[0].text, /Confirmed by|pending/); });

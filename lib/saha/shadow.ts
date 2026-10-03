@@ -67,6 +67,19 @@ export function compare(v: Visit, out: AgentOutput): NonNullable<ShadowResult['f
   }
   return rows;
 }
+// Slice R26 (BR-DATA-06): recompute a shadow comparison for a corrected visit. The shadow result keeps its stored
+// output; the comparison is re-derived against the current facts of the visit chain (following the amendment chain
+// to the newest visit). A voided visit, or a visit with no current confirmed replacement, leaves the comparison
+// invalidated. Pure: it never rewrites the governance record, so a patient-scoped correction commit can use it.
+export function recompareShadow(s: OrgState, r: ShadowResult): { outcome: 'recomputed' | 'invalidated'; visitId: string | null; fields: NonNullable<ShadowResult['fields']> | null } {
+  const root = s.workspace.visits.find(v => v.id === r.visitId);
+  if (!root) return { outcome: 'invalidated', visitId: null, fields: null };
+  let cur: Visit = root;
+  const seen = new Set([cur.id]);
+  while (cur.supersededBy) { const next = s.workspace.visits.find(v => v.id === cur.supersededBy); if (!next || seen.has(next.id)) break; seen.add(next.id); cur = next; }
+  if (cur.voidedAt || cur.state !== 'confirmed' || !r.output) return { outcome: 'invalidated', visitId: cur.id, fields: null };
+  return { outcome: 'recomputed', visitId: cur.id, fields: compare(cur, r.output) };
+}
 function notRunReason(s: OrgState, e: GovernanceEntry, p: Person, v: Visit, now: string): NotRunReason | null {
   const spec = e.spec as Extract<GovernanceEntry['spec'], { kind: 'capability' }>;
   if (!p.aiConsent) return 'consent';

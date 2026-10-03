@@ -71,7 +71,7 @@
     "ui/playwright.config": {
       "layer": "ui",
       "file": "tests/ui/playwright.config.mjs",
-      "minPassed": 23
+      "minPassed": 25
     },
     "unit/abdm-contract": {
       "layer": "unit",
@@ -102,6 +102,11 @@
       "layer": "unit",
       "file": "tests/agent-contract.mjs",
       "minPassed": 25
+    },
+    "unit/agent-minimisation-contract": {
+      "layer": "unit",
+      "file": "tests/agent-minimisation-contract.mjs",
+      "minPassed": 38
     },
     "unit/agent-quality-contract": {
       "layer": "unit",
@@ -148,6 +153,11 @@
       "file": "tests/audit-chain-contract.mjs",
       "minPassed": 48
     },
+    "unit/audit-checkpoint-contract": {
+      "layer": "unit",
+      "file": "tests/audit-checkpoint-contract.mjs",
+      "minPassed": 15
+    },
     "unit/capability-lifecycle-contract": {
       "layer": "unit",
       "file": "tests/capability-lifecycle-contract.mjs",
@@ -181,7 +191,12 @@
     "unit/correction-tasks-contract": {
       "layer": "unit",
       "file": "tests/correction-tasks-contract.mjs",
-      "minPassed": 12
+      "minPassed": 13
+    },
+    "unit/crosswalk-correction-contract": {
+      "layer": "unit",
+      "file": "tests/crosswalk-correction-contract.mjs",
+      "minPassed": 48
     },
     "unit/data-exit-contract": {
       "layer": "unit",
@@ -197,6 +212,11 @@
       "layer": "unit",
       "file": "tests/demonstration-contract.mjs",
       "minPassed": 52
+    },
+    "unit/destination-enrolment-contract": {
+      "layer": "unit",
+      "file": "tests/destination-enrolment-contract.mjs",
+      "minPassed": 45
     },
     "unit/drift-contract": {
       "layer": "unit",
@@ -238,15 +258,30 @@
       "file": "tests/exceptions-contract.mjs",
       "minPassed": 8
     },
+    "unit/facility-scope-contract": {
+      "layer": "unit",
+      "file": "tests/facility-scope-contract.mjs",
+      "minPassed": 38
+    },
     "unit/fact-provenance-contract": {
       "layer": "unit",
       "file": "tests/fact-provenance-contract.mjs",
       "minPassed": 41
     },
+    "unit/fact-reuse-contract": {
+      "layer": "unit",
+      "file": "tests/fact-reuse-contract.mjs",
+      "minPassed": 21
+    },
     "unit/fact-verification-contract": {
       "layer": "unit",
       "file": "tests/fact-verification-contract.mjs",
       "minPassed": 37
+    },
+    "unit/fhir-provenance-contract": {
+      "layer": "unit",
+      "file": "tests/fhir-provenance-contract.mjs",
+      "minPassed": 51
     },
     "unit/fhir-validate-contract": {
       "layer": "unit",
@@ -413,6 +448,11 @@
       "file": "tests/notification-channel-contract.mjs",
       "minPassed": 24
     },
+    "unit/notification-sources-contract": {
+      "layer": "unit",
+      "file": "tests/notification-sources-contract.mjs",
+      "minPassed": 19
+    },
     "unit/operations-contract": {
       "layer": "unit",
       "file": "tests/operations-contract.mjs",
@@ -468,10 +508,30 @@
       "file": "tests/provider-sandbox-contract.mjs",
       "minPassed": 75
     },
+    "unit/purpose-scope-contract": {
+      "layer": "unit",
+      "file": "tests/purpose-scope-contract.mjs",
+      "minPassed": 11
+    },
+    "unit/r26-correction-propagation-contract": {
+      "layer": "unit",
+      "file": "tests/r26-correction-propagation-contract.mjs",
+      "minPassed": 8
+    },
     "unit/read-audit-completion-contract": {
       "layer": "unit",
       "file": "tests/read-audit-completion-contract.mjs",
       "minPassed": 52
+    },
+    "unit/reason-codes-contract": {
+      "layer": "unit",
+      "file": "tests/reason-codes-contract.mjs",
+      "minPassed": 61
+    },
+    "unit/reassignment-contract": {
+      "layer": "unit",
+      "file": "tests/reassignment-contract.mjs",
+      "minPassed": 10
     },
     "unit/record-import-contract": {
       "layer": "unit",
@@ -543,6 +603,11 @@
       "file": "tests/send-gate-contract.mjs",
       "minPassed": 28
     },
+    "unit/service-identity-contract": {
+      "layer": "unit",
+      "file": "tests/service-identity-contract.mjs",
+      "minPassed": 10
+    },
     "unit/seventh-review-fixes-contract": {
       "layer": "unit",
       "file": "tests/seventh-review-fixes-contract.mjs",
@@ -597,6 +662,11 @@
       "layer": "unit",
       "file": "tests/value-override-contract.mjs",
       "minPassed": 53
+    },
+    "unit/value-ranges-context-contract": {
+      "layer": "unit",
+      "file": "tests/value-ranges-context-contract.mjs",
+      "minPassed": 24
     },
     "unit/visit-import-contract": {
       "layer": "unit",

@@ -4,6 +4,8 @@
 
 The sponsor chose to finish buildable product work before the partner track closes. Decisions taken: keep the encrypted browser field notebook and add native Android only if a buyer requires it; keep the current sign-in and hosting during development behind a swappable identity layer; start with the storage foundation. Each slice ships on its own branch and draft pull request; slices reach GitHub main only when the sponsor instructs a merge (slices 0a–3f and 3g–6r were merged on 30 September 2026, and 0b-4 to 6ae and 9a–9c on 2 October 2026, without independent human review).
 
+The 15 buildable slices R03, R06, R08, R09, R13, R17, R21, R23, R24, R26, R33, R37, R42, R74 and R96 were built in parallel (one agent each) on 3 October 2026 and integrated on the `int/15-slices` branch (pull request #144; one draft pull request per slice, #129–#143). At the sponsor's instruction ("merge all") they were merged into `main` the same day through #144, without independent human review, after an agent review of the integration and fixes for its high findings and three of its four medium findings (`VALIDATION.md`, integration of #144). Each slice is partial; its limits are in its `docs/current/SLICE-R*.md`. All 176 acceptance criteria remain pending.
+
 | Slice | Scope | Status |
 | --- | --- | --- |
 | Independent anaemia provider | Separate provider API/model/ledger and Saha image consent, checkpoint, signed receipt and staff review; private synthetic demonstration | Delivered (pull request #126, integrated with `main` on 3 October 2026 at the sponsor's instruction); private Sites demo; disabled on hosted staging. See [demonstration](current/INDEPENDENT-ANAEMIA-PROVIDER.md) |
