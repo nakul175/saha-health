@@ -14,7 +14,7 @@ import { budgetView } from './ai-budget';
 import { invoiceAlertInputs } from './ai-invoice';
 import { fail, uuid } from './core';
 import { CLEARED_DAYS, DELIVERY_RULES_VERSION, ESCALATE_AFTER_MINUTES, ESCALATION_LADDER, EVALUATE_EVERY_SECONDS, INBOX_LIMIT, mayHold, planDelivery, presentFrom, type OpenOccurrence, type OwnerRole } from './alert-delivery';
-import { evaluateChannel } from './notification-channel-server';
+import { evaluateChannel, evaluateChannelSources } from './notification-channel-server';
 import { authorizeChannelCommand } from './notification-channel';
 import type { Member, OrgState } from './types';
 const last = new Map<string, { basis: string; at: number }>();
@@ -72,7 +72,11 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   // undoes or blocks the in-app delivery above; the next evaluation tries again (messages are unique per occurrence, tier and recipient).
   let channel: Awaited<ReturnType<typeof evaluateChannel>> | { error: string } | null = null;
   try { channel = await evaluateChannel(d, s, present, now); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
-  return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes, channel };
+  // Slice r03: additional sources (drift, timed-out requests, exception items, referral requests) in the same
+  // demonstration-simulator channel. Isolated so a failure never undoes or blocks the in-app delivery above.
+  let sources: Awaited<ReturnType<typeof evaluateChannelSources>> | { error: string } | null = null;
+  try { sources = await evaluateChannelSources(d, s, now); } catch (e) { sources = { error: e instanceof Error ? e.name : 'unknown' }; }
+  return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes, channel, sources };
 }
 // Reads: evaluate when the organisation changed since the last evaluation, or a minute has passed. Best effort:
 // a failed evaluation never blocks the read; existing notifications are still shown.
