@@ -49,6 +49,7 @@ import { incentiveSchema } from './incentives';
 import { agentSchema } from './agent';
 import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
+import { factReuseSchema, applyFactReuse } from './fact-reuse';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
 import type { Actor } from './store';
@@ -110,6 +111,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...ehrSchema.options,
  ...agentSchema.options,
  ...programmeSchema.options,
+ // Slice R33 (BR-DATA-12): cross-visit reuse of a recorded measurement with its provenance (lib/saha/fact-reuse.ts).
+ ...factReuseSchema.options,
  // Slice 9a: owner-only installation of the demonstration clinical package (synthetic environment only; lib/saha/demonstration.ts).
  z.object({type:z.literal('installDemonstrationPackage')}).strict(),
  z.object({type:z.literal('createOrganisation'),name:str}),
@@ -139,6 +142,7 @@ const taskSummary=(t:{state:string}[])=>`${t.length} downstream output${t.length
 function clinical(member:Member){if(!['asha','clinician'].includes(member.role))fail(403,'A care role is required for this action.');}
 export async function platformApply(state:OrgState,c:PlatformCommand,u:Actor,m:Member):Promise<{handled:boolean;result?:any}>{
  const programmeResult=programmeApply(state,c,u,m);if(programmeResult)return {handled:true,result:programmeResult};
+ const factReuseResult=applyFactReuse(state,c,u,m);if(factReuseResult)return {handled:true,result:factReuseResult};
  const w=state.workspace,now=new Date().toISOString();let subject=state.organisation.id,detail='',patientId:string|undefined,result:any={ok:true};
  switch(c.type){
  case 'renameOrganisation':manage(m);if(c.version!==state.organisation.revision)fail(409,'Organisation settings changed. Refresh and try again.');state.organisation.name=c.name;detail='Organisation name updated.';break;
