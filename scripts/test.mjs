@@ -181,22 +181,29 @@ async function populatedState() {
   try { const { DatabaseSync } = await import('node:sqlite'); const db = new DatabaseSync(found[0], { readOnly: true }); const n = db.prepare('SELECT count(*) AS n FROM command_receipts').get().n; db.close(); return n > 0; } catch { return false; }
 }
 
-function changedReportFiles(startMs, exclude = new Set()) {
-  const out = [];
-  const consider = f => { if (!exclude.has(f) && existsSync(f) && statSync(f).mtimeMs >= startMs - 5) out.push(f); };
-  if (existsSync(REPORTS)) for (const e of readdirSync(REPORTS, { withFileTypes: true })) if (e.isFile() && e.name.endsWith('.json') && !['summary.json', 'catalogue.json'].includes(e.name)) consider(`${REPORTS}/${e.name}`);
-  for (const e of readdirSync('tests', { withFileTypes: true })) if (e.isFile() && /-result\.json$/.test(e.name)) consider(`tests/${e.name}`);
-  return out;
+// Slice 11h: which report files a suite wrote is decided against a snapshot of every candidate file (size, modification time,
+// inode) taken just before the suite starts: a file is the suite's only if it is new or changed since then. The earlier rule
+// (modified at or after the start, less 5 ms) also counted the previous suite's report when the next suite started within a
+// few milliseconds of it, which happened on GitHub's runners and failed four runner checks.
+function reportCandidates(extra = []) {
+  const out = new Set(extra);
+  if (existsSync(REPORTS)) for (const e of readdirSync(REPORTS, { withFileTypes: true })) if (e.isFile() && e.name.endsWith('.json') && !['summary.json', 'catalogue.json'].includes(e.name)) out.add(`${REPORTS}/${e.name}`);
+  for (const e of readdirSync('tests', { withFileTypes: true })) if (e.isFile() && /-result\.json$/.test(e.name)) out.add(`tests/${e.name}`);
+  return [...out];
 }
+const reportSignature = f => { try { const s = statSync(f); return s.isFile() ? `${s.mtimeMs}:${s.size}:${s.ino}` : null; } catch { return null; } };
+const snapshotReports = (extra = []) => new Map(reportCandidates(extra).map(f => [f, reportSignature(f)]));
+const writtenSince = (f, before) => { const now = reportSignature(f); return now !== null && now !== (before.get(f) ?? null); };
+function changedReportFiles(before) { return reportCandidates().filter(f => writtenSince(f, before)); }
 
-function collect(suite, startMs, output) {
-  const fresh = f => existsSync(f) && statSync(f).mtimeMs >= startMs - 5;
+function collect(suite, before, output) {
+  const fresh = f => writtenSince(f, before);
   // A suite writes one result file. Its own conventional name wins; otherwise the first fresh file named in its source.
   const conventional = `tests/${suite.file.split('/').pop().replace(/\.[^.]+$/, '')}-result.json`;
   let files = [...(suite.results ?? [])].sort((a, b) => (b === conventional) - (a === conventional)).filter(fresh).slice(0, 1);
   if (!files.length) {
     // New-style suites choose their own file name under tests/reports/. Prefer files named after the suite; otherwise take what changed during the run.
-    const stem = suite.file.split('/').pop().replace(/\.[^.]+$/, ''), changed = changedReportFiles(startMs), named = changed.filter(f => f.split('/').pop().includes(stem));
+    const stem = suite.file.split('/').pop().replace(/\.[^.]+$/, ''), changed = changedReportFiles(before), named = changed.filter(f => f.split('/').pop().includes(stem));
     files = named.length ? named : changed;
   }
   let total = null;
@@ -234,25 +241,34 @@ async function runSuite(suite) {
   const rec = { id: suite.id, layer: suite.layer, kind: 'suite', file: suite.file, tier: suite.tier, status: null, passed: null, failed: null, skipped: null, durationMs: 0, exitCode: null, countSource: 'none', resultFiles: [], requirementsCited: suite.requirements.length };
   const why = await blockedReason(suite);
   if (why) { Object.assign(rec, { status: 'blocked', reason: why, failed: null }); records.push(rec); console.log(`  BLOCKED  ${suite.id}: ${why}`); return rec; }
-  const started = Date.now(), isApi = suite.file === 'tests/run-api-smoke.mjs';
+  const isApi = suite.file === 'tests/run-api-smoke.mjs';
   if (suite.layer !== 'unit') console.log(`  running  ${suite.id} ...`);
   if (isApi) {
     try { await prepareIntegrationState(); } catch (e) { Object.assign(rec, { status: 'blocked', reason: `could not build the local D1 state: ${String(e.message).split('\n')[0]}` }); records.push(rec); console.log(`  BLOCKED  ${suite.id}: ${rec.reason}`); return rec; }
   }
   const pw = suite.runner === 'playwright';
   const pwOut = resolve(`${REPORTS}/ui-playwright-result.json`);
+  const resultFiles = pw ? [`${REPORTS}/ui-playwright-result.json`] : (suite.results ?? []);
+  const before = snapshotReports(resultFiles);
   const r = await runCommand({
     cmd: pw ? findPlaywright() : process.execPath, args: pw ? ['test', '--config', suite.file, '--reporter=list,json,./tests/ui/support/reporter.mjs'] : [suite.file, ...(SUITE_ARGS[suite.file] ?? [])],
     env: { ...env, ...(pw ? { PLAYWRIGHT_JSON_OUTPUT_NAME: pwOut } : {}) }, timeoutMs: (args.timeout ?? TIMEOUT_MIN[suite.layer] ?? 20) * 60000, logId: suite.id,
   });
-  const got = collect({ ...suite, results: pw ? [`${REPORTS}/ui-playwright-result.json`] : suite.results }, started, r.output);
+  const got = collect({ ...suite, results: resultFiles }, before, r.output);
   const decided = decideStatus(r.exitCode, got.counts, { timedOut: r.timedOut });
   Object.assign(rec, { status: decided.status, reason: decided.reason, durationMs: r.durationMs, exitCode: r.exitCode, countSource: got.source, resultFiles: got.files, log: `${REPORTS}/logs/${slug(suite.id)}.log` });
   if (got.counts) Object.assign(rec, { passed: got.counts.passed, failed: got.counts.failed ?? (decided.status === 'failed' ? null : 0), skipped: got.counts.skipped ?? 0 });
   records.push(rec);
   const count = rec.passed === null ? 'no count' : `${rec.passed} passed${rec.failed ? `, ${rec.failed} failed` : ''}${rec.skipped ? `, ${rec.skipped} skipped` : ''}`;
   console.log(`  ${rec.status === 'passed' ? 'ok     ' : rec.status.toUpperCase().padEnd(7)}  ${suite.id}  ${count}  ${fmtMs(rec.durationMs)}${rec.reason ? `  [${rec.reason}]` : ''}`);
-  if (rec.status === 'failed') console.log(r.output.split('\n').filter(Boolean).slice(-25).map(l => '      | ' + l.slice(0, 220)).join('\n'));
+  if (rec.status === 'failed') {
+    // Slice 11h: the HTTP suite interleaves the Worker's request log with its own output, so the last lines are usually request
+    // log lines. Show the suite's own error lines first (the first CI failure after round 11 showed only Worker log lines).
+    const lines = r.output.split('\n').filter(Boolean);
+    const errors = lines.filter(l => !/^\[wrangler:|^\{"event":"saha_/.test(l) && /Error|assert|FAIL|expected|actual|Expected|Received|exceeded|refused|Cannot|undefined/.test(l)).slice(0, 40);
+    if (errors.length) console.log(['      | error lines:', ...errors.map(l => '      |   ' + l.slice(0, 300))].join('\n'));
+    console.log(lines.filter(l => !/^\[wrangler:|^\{"event":"saha_/.test(l)).slice(-25).map(l => '      | ' + l.slice(0, 220)).join('\n'));
+  }
   return rec;
 }
 

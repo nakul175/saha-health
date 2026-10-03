@@ -15,7 +15,7 @@ Feature validation: 4,620 HTTP/D1, 7,227 contract/client with coverage of all 10
 
 - **Source:** GitHub `nakul175/saha-health`, branch `main`. Round 10 (slices 10a–10k, pull requests #105–#115) was merged on 3 October 2026 IST at the sponsor's instruction, on top of #116 (CI minutes and a deterministic restore check). Every pull request since #1 was merged without independent human review; agent reviews found defects that later slices fixed, and some findings remain open (below).
 - **Product:** a synthetic health workspace for ASHA workers, supervisors, clinicians and programme leads. Cloudflare Worker with D1 (SQLite), Vinext/React front end, TypeScript throughout. One organisation's state is loaded per request; mutations go through `POST /api/commands` with server-side authorisation.
-- **Size:** 54 HTTP method/route handlers, 56 certified per-patient commands, 16 migrations (`drizzle/0000`–`0015`).
+- **Size:** 59 HTTP method/route handlers (five from the anaemia-provider demonstration, #126), 56 certified per-patient commands, 16 migrations (`drizzle/0000`–`0015`).
 - **Acceptance:** all 176 BRD v1.1 acceptance criteria are pending. Audited counts: 14 implemented-local, 151 partial, 2 not-built, 9 unverified. `main` is not accepted for production or real patient use.
 - **Hosted copy:** `https://saha-staging.nakul17.workers.dev`, synthetic data only, behind Cloudflare Access (email one-time code, named addresses only). Round 10 deployed on 3 October 2026 (workflow run 37086154679, success). See [hosted synthetic staging](docs/current/HOSTED-STAGING.md).
 

@@ -213,6 +213,19 @@ try {
     const x = run(d, 'manual', '--only', 'manual/anaemia-hosted-connection'); const s = find(x.summary, 'manual/anaemia-hosted-connection');
     assert.equal(s.status, 'blocked'); assert.match(s.reason, /run it directly/); assert.equal(existsSync(join(d, 'started.txt')), false);
   });
+  await r.check('runner: a report written by an earlier suite is never counted for a later one, however close in time (slice 11h, the GitHub flake)', () => {
+    // On GitHub's runners a suite sometimes started within 5 ms of the previous suite's report write, and the old time-window
+    // rule counted that report twice. Here the earlier report's time is set into the future, which made the old rule count it
+    // every time; the snapshot rule must still give the later suite no count.
+    const d = fixture();
+    put(d, 'tests/early-contract.mjs', "import {mkdirSync,utimesSync,writeFileSync} from 'node:fs';mkdirSync('tests/reports',{recursive:true});const f='tests/reports/early-out.json';writeFileSync(f,JSON.stringify({passed:2}));const t=new Date(Date.now()+600000);utimesSync(f,t,t);\n");
+    put(d, 'tests/later-contract.mjs', "console.error('later wrote nothing');process.exit(3);\n");
+    const x = run(d, 'unit'); assert.equal(x.code, 1);
+    const early = find(x.summary, 'unit/early-contract'), later = find(x.summary, 'unit/later-contract');
+    assert.deepEqual([early.status, early.passed], ['passed', 2]);
+    assert.deepEqual([later.status, later.exitCode, later.passed, later.countSource, later.resultFiles], ['failed', 3, null, 'none', []]);
+    assert.equal(find(x.summary, 'unit/beta-client').passed, 2, 'the report library suite still counts only its own report');
+  });
   await r.check('runner: a suite that exits 0 but checks nothing is a failure, not a pass', () => {
     const d = fixture(); put(d, 'tests/empty-contract.mjs', "import {suite} from './lib/report.mjs';const r=suite('empty','tests/reports/empty-result.json',{layer:'unit'});await r.finish();\n");
     const x = run(d, 'unit'); assert.equal(x.code, 1); assert.match(find(x.summary, 'unit/empty-contract').reason, /no assertion passed/);
