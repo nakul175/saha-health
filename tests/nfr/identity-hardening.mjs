@@ -208,8 +208,11 @@ for (const [label, bindings] of [['Access provider without team domain or audien
     await r.check(`D ${label}: 503 for valid Sites headers and for a signed token; never a fallback to Sites headers`, async () => {
       const sites = await get(m.base, '/api/workspace', { 'oai-authenticated-user-id': 'fallback-user', 'oai-authenticated-user-email': 'fallback@example.invalid' });
       if (sites.status !== 503) throw new Error(`Sites headers: expected 503, got ${sites.status} ${sites.text.slice(0, 100)}`);
+      // Slice 11g (test review M1): any failure on the unmigrated database is also a 503, so require the configuration refusal itself.
+      if (!/Sign-in is not configured/.test(sites.text)) throw new Error(`Sites headers: 503 was not the configuration refusal: ${sites.text.slice(0, 160)}`);
       const tk = await get(m.base, '/api/workspace', { 'cf-access-jwt-assertion': await sign(claims(), { key: pair.privateKey }) });
       if (tk.status !== 503) throw new Error(`token: expected 503, got ${tk.status}`);
+      if (!/Sign-in is not configured/.test(tk.text)) throw new Error(`token: 503 was not the configuration refusal: ${tk.text.slice(0, 160)}`);
       if (/"people"|"organisation"/.test(sites.text + tk.text)) throw new Error('error body carried workspace data');
     });
   } finally { await m.stop(); }

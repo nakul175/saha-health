@@ -31,6 +31,7 @@ export async function startWorker({ port = process.env.SAHA_TEST_PORT ?? '8790',
   let output = '', proc = null;
   const launch = () => new Promise(async (ready, failed) => {
     for (let i = 0; i < 40 && !(await portFree(port)); i++) await new Promise(r => setTimeout(r, 250));
+    if (!(await portFree(port))) return failed(new Error(`Port ${port} is still in use; another Worker (or an orphaned one) is listening there.`));
     const varArgs = Object.entries(vars).flatMap(([k, v]) => ['--var', `${k}:${v}`]);
     const p = spawn(process.execPath, [...WRANGLER, 'dev', '--config', join(isolated, 'dist/server/wrangler.json'), '--local', '--persist-to', state, '--name', name, ...varArgs, '--ip', '127.0.0.1', '--port', String(port), '--inspector-port', '0'],
       { stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, WRANGLER_REGISTRY_PATH: join(isolated, 'registry'), MINIFLARE_REGISTRY_PATH: join(isolated, 'miniflare') } });
@@ -40,7 +41,8 @@ export async function startWorker({ port = process.env.SAHA_TEST_PORT ?? '8790',
     p.stdout.on('data', take); p.stderr.on('data', take);
     p.on('exit', () => { clearTimeout(timer); if (!done) { done = true; failed(new Error('Worker exited before it was ready:\n' + output.slice(-2000))); } });
   });
-  const halt = p => new Promise(r => { if (!p || p.exitCode !== null || p.signalCode) return r(); p.once('exit', () => r()); p.kill('SIGTERM'); });
+  // Slice 11g (test review L4): SIGTERM, then SIGKILL after 10 s, so a stuck Worker is not left running.
+  const halt = p => new Promise(r => { if (!p || p.exitCode !== null || p.signalCode) return r(); const k = setTimeout(() => { try { p.kill('SIGKILL'); } catch {} }, 10000); p.once('exit', () => { clearTimeout(k); r(); }); p.kill('SIGTERM'); });
   proc = await launch();
   return {
     base: `http://127.0.0.1:${port}`,

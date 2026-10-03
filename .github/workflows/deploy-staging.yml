@@ -94,6 +94,7 @@ jobs:
         if: steps.creds.outputs.configured == 'true'
         env:
           SAHA_HOSTED_URL: ${{ env.STAGING_URL }}
+          CLOUDFLARE_API_TOKEN: ''   # slice 11g (test review M4): the smoke never needs the deploy token
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: |

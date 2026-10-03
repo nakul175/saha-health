@@ -7,7 +7,7 @@ import { dirname } from 'node:path';
  * const r = suite('Smoke (local)', 'tests/reports/smoke-local-result.json', { layer: 'smoke', limits: ['...'] });
  * await r.check('workspace loads', async () => { ... });  // throws → failed
  * r.skip('hosted sign-in', 'no service token configured');
- * r.measure('p95 ms /api/workspace', 412, { budget: 1500 });  // recorded, and failed when over budget
+ * r.measure('p95 ms /api/workspace', 412, { budget: 1500 });  // recorded; a check (failed when over budget) only when a budget is given
  * await r.finish();  // writes the report and sets process.exitCode on failure
  */
 export function suite(name, file, { layer, limits = [], environment = 'local built Worker, local D1, synthetic data' } = {}) {
@@ -22,7 +22,8 @@ export function suite(name, file, { layer, limits = [], environment = 'local bui
     measure(label, value, { unit = 'ms', budget } = {}) {
       const ok = budget === undefined || value <= budget;
       measures.push({ label, value, unit, budget: budget ?? null, ok });
-      checks.push({ label: `${label} within budget`, ok: budget === undefined ? true : ok, ...(ok ? {} : { error: `${value} ${unit} over budget ${budget} ${unit}` }) });
+      // Slice 11g (test review M2): only a measurement with a budget is a check; one without is recorded in `measures` and not counted as passed.
+      if (budget !== undefined) checks.push({ label: `${label} within budget`, ok, ...(ok ? {} : { error: `${value} ${unit} over budget ${budget} ${unit}` }) });
     },
     get failed() { return checks.filter(c => c.ok === false).length; },
     async finish(extra = {}) {

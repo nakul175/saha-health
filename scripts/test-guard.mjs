@@ -26,7 +26,8 @@ export function countsFromReport(json) {
   if (!json || typeof json !== 'object') return null;
   if (json.stats && typeof json.stats === 'object' && num(json.stats.expected) !== null) {
     const s = json.stats; // Playwright JSON reporter
-    return { passed: s.expected + (s.flaky ?? 0), failed: s.unexpected ?? 0, skipped: s.skipped ?? 0 };
+    // Slice 11g (test review M3): a test that passed only on retry failed once; it is counted as failed and named as flaky, not hidden in passed.
+    return { passed: s.expected, failed: (s.unexpected ?? 0) + (s.flaky ?? 0), skipped: s.skipped ?? 0, flaky: s.flaky ?? 0 };
   }
   if (num(json.passed) === null) return null;
   return { passed: json.passed, failed: num(json.failed), skipped: num(json.skipped) };

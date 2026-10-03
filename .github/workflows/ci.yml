@@ -40,27 +40,19 @@ jobs:
         run: npm run build
       - name: Supply-chain gate (SBOM and audit)
         run: node scripts/security-gate.mjs
-      - name: Disposable local database
-        run: |
-          for m in drizzle/[0-9][0-9][0-9][0-9]_*.sql; do
-            node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/test-state --file "$m"
-          done
-      - name: HTTP and database suite
-        run: node tests/run-api-smoke.mjs
-      # Slice 11a: the runner finds every unit suite itself (tests/*-contract.mjs, *-client.mjs and three named suites), so a
-      # new suite is never left out of CI. --guard fails when a suite reports fewer passed assertions than tests/regression-baseline.json.
+      # Slice 11g (test review M7, H1): every suite runs through scripts/test.mjs. It builds the HTTP suite's local D1 in one
+      # wrangler call (one process per migration failed 4 of 6 trials on a loaded machine), runs the restore drill on the
+      # database the HTTP suite populated, and --guard fails when a suite disappears or reports fewer passed assertions than
+      # tests/regression-baseline.json.
+      - name: HTTP and database suite, restore drill
+        run: node scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard
+      # Slice 11a: the runner finds every unit suite itself, so a new suite is never left out of CI.
       - name: Unit suites
-        run: node scripts/test.mjs unit --guard
-      - name: Encrypted restore drill
-        run: node tests/recovery-drill.mjs
-      # Slice 11a: smoke suites under tests/smoke/ (each starts its own local Worker with fresh synthetic state). Reports "not present" when there are none.
-      - name: Smoke suites
-        run: node scripts/test.mjs smoke --fast
-      # Slice 11f: the two security suites run on every pull request (about 2 minutes): the authorisation matrix over every
-      # GET route and role, and identity hardening under Cloudflare Access (signed, forged and fixture principals). The UAT
-      # register check and the drift checks of the generated UAT pack and coverage map take seconds.
-      - name: Security suites and UAT checks
-        run: node scripts/test.mjs nfr uat --only nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast
+        run: node scripts/test.mjs unit --fast --guard
+      # Slices 11b and 11f: local smoke and the hosted smoke's self-test; the authorisation matrix over every GET route and role,
+      # and identity hardening under Cloudflare Access; the UAT register check and the drift checks of the generated documents.
+      - name: Smoke, security suites and UAT checks
+        run: node scripts/test.mjs smoke nfr uat --only smoke/local-smoke,smoke/hosted-smoke,nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast --guard
       - uses: actions/upload-artifact@v4
         if: always()
         with:

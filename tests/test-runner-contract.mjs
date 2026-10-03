@@ -104,7 +104,7 @@ try {
   await r.check('counts are read from the existing result files, the report library, Playwright and the last JSON line of output', () => {
     assert.deepEqual(countsFromReport({ passed: 23, completedAt: 'x' }), { passed: 23, failed: null, skipped: null });
     assert.deepEqual(countsFromReport({ suite: 's', passed: 4, failed: 1, skipped: 2, checks: [] }), { passed: 4, failed: 1, skipped: 2 });
-    assert.deepEqual(countsFromReport({ stats: { expected: 7, unexpected: 1, flaky: 1, skipped: 2 } }), { passed: 8, failed: 1, skipped: 2 });
+    assert.deepEqual(countsFromReport({ stats: { expected: 7, unexpected: 1, flaky: 1, skipped: 2 } }), { passed: 7, failed: 2, skipped: 2, flaky: 1 }, 'slice 11g: a test that passed only on retry is counted as failed and named flaky');
     assert.equal(countsFromReport({ requests: 5 }), null); assert.equal(countsFromReport(null), null); assert.equal(countsFromReport({ passed: '12' }), null);
     assert.deepEqual(countsFromOutput('noise\n{"suite":"s","passed":9,"failed":0}\n'), { passed: 9, failed: 0, skipped: null });
     assert.equal(countsFromOutput('no json here\n{broken'), null);
@@ -245,11 +245,16 @@ try {
     const d = fixture(); put(d, 'tests/ui/playwright.config.mjs', 'export default {};\n'); put(d, 'tests/ui/login.spec.ts'); put(d, 'dist/server/wrangler.json', '{}\n');
     const blocked = run(d, 'ui', '--fast'); assert.equal(blocked.code, 1); assert.equal(find(blocked.summary, 'ui/playwright.config').status, 'blocked'); assert.match(blocked.out, /Playwright is not installed/);
     const bin = join(d, 'tests/ui/node_modules/.bin/playwright');
-    put(d, 'tests/ui/node_modules/.bin/playwright', "#!/usr/bin/env node\nrequire('fs').writeFileSync(process.env.PLAYWRIGHT_JSON_OUTPUT_NAME, JSON.stringify({stats:{expected:4,unexpected:0,flaky:1,skipped:1}}));console.log('fake playwright '+process.argv.slice(2).join(' '));\n");
+    put(d, 'tests/ui/node_modules/.bin/playwright', "#!/usr/bin/env node\nrequire('fs').writeFileSync(process.env.PLAYWRIGHT_JSON_OUTPUT_NAME, JSON.stringify({stats:{expected:4,unexpected:0,flaky:0,skipped:1}}));console.log('fake playwright '+process.argv.slice(2).join(' '));\n");
     chmodSync(bin, 0o755);
     const ok = run(d, 'ui', '--fast'); assert.equal(ok.code, 0, ok.out);
-    const s = find(ok.summary, 'ui/playwright.config'); assert.deepEqual([s.status, s.passed, s.failed, s.skipped], ['passed', 5, 0, 1]);
+    const s = find(ok.summary, 'ui/playwright.config'); assert.deepEqual([s.status, s.passed, s.failed, s.skipped], ['passed', 4, 0, 1]);
     assert.match(readFileSync(join(d, 'tests/reports/logs/ui__playwright.config.log'), 'utf8'), /fake playwright test --config tests\/ui\/playwright\.config\.mjs/);
+    // Slice 11g (test review M3): a test that passed only on retry fails the suite instead of counting as passed.
+    put(d, 'tests/ui/node_modules/.bin/playwright', "#!/usr/bin/env node\nrequire('fs').writeFileSync(process.env.PLAYWRIGHT_JSON_OUTPUT_NAME, JSON.stringify({stats:{expected:4,unexpected:0,flaky:1,skipped:1}}));\n");
+    chmodSync(bin, 0o755);
+    const flaky = run(d, 'ui', '--fast'); assert.notEqual(flaky.code, 0, flaky.out);
+    const f = find(flaky.summary, 'ui/playwright.config'); assert.deepEqual([f.status, f.passed, f.failed], ['failed', 4, 1]);
     put(d, 'tests/ui/node_modules/.bin/playwright', "#!/usr/bin/env node\nrequire('fs').writeFileSync(process.env.PLAYWRIGHT_JSON_OUTPUT_NAME, JSON.stringify({stats:{expected:4,unexpected:2,flaky:0,skipped:0}}));process.exit(1);\n");
     const bad = run(d, 'ui', '--fast'); assert.equal(bad.code, 1); assert.deepEqual([find(bad.summary, 'ui/playwright.config').status, find(bad.summary, 'ui/playwright.config').failed], ['failed', 2]);
   });

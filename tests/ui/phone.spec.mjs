@@ -40,7 +40,6 @@ test('phone: the visit list and the visit form are usable at 390x844 with no sid
     await expect(page.getByRole('button', { name: 'Care handover' }).first()).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.getByRole('button', { name: 'Care handover' })).toBeHidden();
-    expect(await nav.count()).toBeGreaterThanOrEqual(0);
   });
 
   await test.step('the visit form: fields fit, accept input and save', async () => {

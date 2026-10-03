@@ -233,7 +233,8 @@ try {
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
       if (res.status >= 500) bad.push(`${res.status} ${route}`);
-      else if (res.status !== 200 && !(route in unsuppliable) && !(route in query)) sweep.at(-1).skipped = `answered ${res.status} without parameters`;
+      // Slice 11g (test review M6): an owner 4xx on a route that needs no parameters is a failure, not a skip.
+      else if (res.status !== 200 && !(route in unsuppliable) && !(route in query)) bad.push(`${res.status} (expected 200 without parameters) ${route} ${res.json?.error ?? ''}`);
       else if (res.status !== 200 && !(route in unsuppliable)) bad.push(`${res.status} (expected 200) ${route} ${res.json?.error ?? ''}`);
     }
     assert.equal(bad.length, 0, `routes that failed: ${bad.join('; ')}`);
@@ -246,7 +247,8 @@ try {
     assert.ok(!/Workspace operation failed|Uncaught|Unhandled/.test(log), 'unexpected error text in the Worker output');
   });
 
-  await r.check('the whole run, Worker start included, finished within the 90 second target', async () => assert.ok(seconds() <= 90, `${seconds()} s`));
+  // Slice 11g (test review M6): the target stays 90 s; the check fails only beyond 180 s so a loaded runner does not fail a functional smoke.
+  r.measure('whole run, Worker start included (target 90 s)', seconds(), { unit: 's', budget: 180 });
   timings.totalSeconds = seconds();
   await r.finish({ timings, migrations, workerVars: vars, sweep, skippedRoutes: [...sweep.filter(x => x.skipped).map(x => ({ route: x.route, reason: x.skipped })), ...gets.filter(x => x in unsuppliable).map(x => ({ route: x, reason: unsuppliable[x] }))] });
   console.log(`SMOKE (local) ${r.failed ? 'FAIL' : 'PASS'} in ${timings.totalSeconds} s (migrate ${timings.migrateMs} ms, Worker start ${timings.workerStartMs} ms)`);

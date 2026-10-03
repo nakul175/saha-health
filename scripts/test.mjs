@@ -240,7 +240,7 @@ async function runSuite(suite) {
   const pw = suite.runner === 'playwright';
   const pwOut = resolve(`${REPORTS}/ui-playwright-result.json`);
   const r = await runCommand({
-    cmd: pw ? findPlaywright() : process.execPath, args: pw ? ['test', '--config', suite.file, '--reporter=list,json'] : [suite.file, ...(SUITE_ARGS[suite.file] ?? [])],
+    cmd: pw ? findPlaywright() : process.execPath, args: pw ? ['test', '--config', suite.file, '--reporter=list,json,./tests/ui/support/reporter.mjs'] : [suite.file, ...(SUITE_ARGS[suite.file] ?? [])],
     env: { ...env, ...(pw ? { PLAYWRIGHT_JSON_OUTPUT_NAME: pwOut } : {}) }, timeoutMs: (args.timeout ?? TIMEOUT_MIN[suite.layer] ?? 20) * 60000, logId: suite.id,
   });
   const got = collect({ ...suite, results: pw ? [`${REPORTS}/ui-playwright-result.json`] : suite.results }, started, r.output);
