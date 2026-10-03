@@ -1,0 +1,34 @@
+{
+  "slice": "r21",
+  "label": "Development slice r21 \u2014 coded FHIR provenance for authors, reviews and sign-off, and structured (non-note) overrides",
+  "environment": "local Node contract harness, synthetic fixtures, no D1/HTTP",
+  "totalPassed": 202,
+  "note": "Slice r21 ran its own contract plus the four FHIR regression contracts (the pinned rule set and the 2c/2e/2i FHIR assertions) to show the pinned validator and existing output are unchanged. The full HTTP/D1 and UI suites were not run for this slice (reserved for the integrator).",
+  "reports": {
+    "fhir-provenance-contract-result.json": {
+      "sha256": "65d06a310fb835978cca0225d44794914abd68f3eb9ad1aa3e91619ae737f069",
+      "passed": 51,
+      "completedAt": "2026-10-03T08:05:10.302Z"
+    },
+    "fhir-validate-contract-result.json": {
+      "sha256": "66a61fff0a6379d20398c5a8f5e9184bb9da95bd6f0786200cabdcac29bba2c0",
+      "passed": 20,
+      "completedAt": "2026-10-03T08:05:26.673Z"
+    },
+    "fact-provenance-contract-result.json": {
+      "sha256": "fe1c0b5353b007a127228e703ecfd492de2e22439e063613678e7b7e673f0ac9",
+      "passed": 41,
+      "completedAt": "2026-10-03T08:05:26.866Z"
+    },
+    "fact-verification-contract-result.json": {
+      "sha256": "fe54fc0f939696b2fb566d25a577773934f99ce47be4b4b8f86537b36d969012",
+      "passed": 37,
+      "completedAt": "2026-10-03T08:05:27.069Z"
+    },
+    "value-override-contract-result.json": {
+      "sha256": "b44b35179ff6590e9a76af97aecbbcc533d5a659385f63271cdc197eda09eef0",
+      "passed": 53,
+      "completedAt": "2026-10-03T08:05:27.270Z"
+    }
+  }
+}
