@@ -18,7 +18,7 @@
 
 ## Limits
 
-- The **purpose** check is exposed only through `allowedFor` and the read path's `check` query: no data-flow executor (MIS, EHR, AI, aggregate reports, household previews) asks `allowedFor(..., purpose)` yet, so a purpose tag does not yet stop any flow, and no already-prepared payload is re-checked. The **programme** tag narrows the workspace scope gate (integration of #144), but, as with slice R08's facility scope, the SQL pre-filter (`viewerScope`), the auxiliary read routes (patient page, worklists, exception queue, household previews) and the command checks that call `normallyAllowed` directly still apply team scope only.
+- As built, the **purpose** check was exposed only through `allowedFor` and the `?check` query, and the **programme** tag (after the integration of #144) did not reach the SQL pre-filter, the auxiliary read routes or the direct `normallyAllowed` checks. Slice 13a ([access scope everywhere](SLICE-13A-ACCESS-SCOPE.md)) closes both: purposes are checked at each data-flow checkpoint (`COMMAND_PURPOSE` and the route checks), and the programme tag reaches every check and the SQL pre-filter. No already-prepared payload is re-checked when a grant changes.
 - The purpose vocabulary is an access-policy label over the flows this release already has; it is illustrative and not clinically approved, and it is not a per-destination mapping (that stays with slice 7e's operation permissions).
 - A `General care` programme tag is a weak restriction, because every person is recorded in `General care`.
 - BR-ID-02 and BR-DATA-10 stay partial: the unified purpose-specific policy across every channel is not yet enforced at every data-flow checkpoint, and none of this is accepted for production.

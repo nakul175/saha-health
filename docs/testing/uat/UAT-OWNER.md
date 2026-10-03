@@ -134,11 +134,11 @@ Account-bound invitations, role/team changes, suspension and immediate online ac
 
 **Expected result** (catalogue): Negative tests cover each boundary and prove that hidden screens or manipulated requests cannot expand access.
 
-**Known gaps** (assessment, remaining work for BR-ID-02): Programme, facility, purpose and geography policy dimensions across every channel.
+**Known gaps** (assessment, remaining work for BR-ID-02): Validated facility and geography directories, locality-based caseload transfer, and acceptance with named reviewers.
 
 <details><summary>What the build does today (assessment, current state of BR-ID-02)</summary>
 
-Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope. Slice 6q: stored delegation records are capped at 1,000 (kept as evidence); export retries re-check care scope; shadow runs are limited to the runner's care scope.
+Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope. Slice 6q: stored delegation records are capped at 1,000 (kept as evidence); export retries re-check care scope; shadow runs are limited to the runner's care scope. Slices R08 and R09 added owner-managed facility/locality scope and programme grants; slice 13a applies both in every normallyAllowed check and in the SQL pre-filter (viewer-scoped reads, patient list and detail, work lists, identifier search), and refuses API requests another website started.
 
 </details>
 
@@ -234,11 +234,11 @@ MIS mapping versions and selected field allowlists are bound to submissions.
 
 **Expected result** (catalogue): A fact approved for one task is excluded from another provider's payload when that second use lacks the required permission.
 
-**Known gaps** (assessment, remaining work for BR-DATA-10): Unified purpose-specific authorisation and reuse policy across all data flows.
+**Known gaps** (assessment, remaining work for BR-DATA-10): Approved purpose vocabulary and per-destination reuse policy; re-checking already prepared payloads when a grant changes.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-10)</summary>
 
-Per-connector mapping allowlists, AI permission and scoped EHR permissions.
+Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure).
 
 </details>
 

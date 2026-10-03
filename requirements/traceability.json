@@ -297,8 +297,8 @@
       "sourceTextLine": 169,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope. Slice 6q: stored delegation records are capped at 1,000 (kept as evidence); export retries re-check care scope; shadow runs are limited to the runner's care scope.",
-      "remaining": "Programme, facility, purpose and geography policy dimensions across every channel.",
+      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope. Slice 6q: stored delegation records are capped at 1,000 (kept as evidence); export retries re-check care scope; shadow runs are limited to the runner's care scope. Slices R08 and R09 added owner-managed facility/locality scope and programme grants; slice 13a applies both in every normallyAllowed check and in the SQL pre-filter (viewer-scoped reads, patient list and detail, work lists, identifier search), and refuses API requests another website started.",
+      "remaining": "Validated facility and geography directories, locality-based caseload transfer, and acceptance with named reviewers.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -318,7 +318,14 @@
         "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
         "tests/nfr/authorisation-matrix.mjs",
         "tests/ui/roles.spec.mjs",
-        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
+        "lib/saha/access.ts",
+        "lib/saha/cross-site.ts",
+        "lib/saha/purpose-scope.ts",
+        "lib/saha/facility-scope.ts",
+        "tests/access-scope-contract.mjs",
+        "tests/access-scope-smoke.mjs",
+        "docs/current/SLICE-13A-ACCESS-SCOPE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -819,8 +826,8 @@
       "sourceTextLine": 225,
       "implementation": "partial",
       "target": "R12",
-      "current": "Per-connector mapping allowlists, AI permission and scoped EHR permissions.",
-      "remaining": "Unified purpose-specific authorisation and reuse policy across all data flows.",
+      "current": "Per-connector mapping allowlists, AI permission and scoped EHR permissions. Slice R09 added purpose-limited grants; slice 13a checks them at every data-flow checkpoint (plans, submissions, destination enrolment, identifier corrections, incentive claims, EHR and ABDM flows, assistant runs, anaemia and frontline providers, aggregate reports and indicator figures, household disclosure).",
+      "remaining": "Approved purpose vocabulary and per-destination reuse policy; re-checking already prepared payloads when a grant changes.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -830,7 +837,14 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/purpose-scope.ts",
+        "lib/saha/access.ts",
+        "tests/purpose-scope-contract.mjs",
+        "docs/current/SLICE-R09-PURPOSE-SCOPE.md",
+        "tests/access-scope-contract.mjs",
+        "tests/access-scope-smoke.mjs",
+        "docs/current/SLICE-13A-ACCESS-SCOPE.md"
       ],
       "automatedAcceptanceClaim": false
     },

@@ -293,7 +293,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
     assert.ok(!/externalCall|executeMis|executeEhr|executeAgent|executeAggregate|misRequest|ehrRequest/.test(jobText + reviewText));
   });
   check('7 the Worker entry keeps the fetch handler and adds scheduled; the build entry is the Worker entry', () => {
-    assert.match(entry, /import handler from 'vinext\/server\/fetch-handler'/); assert.match(entry, /fetch: \(request: Request, env: unknown, ctx: ExecutionContext\) => handler\.fetch\(request, env, ctx\)/); assert.match(entry, /async scheduled\(controller: ScheduledController/);
+    assert.match(entry, /import handler from 'vinext\/server\/fetch-handler'/); assert.match(entry, /fetch: async \(request: Request, env: unknown, ctx: ExecutionContext\) => \(await crossSiteRefusal\(request\)\) \?\? handler\.fetch\(request, env, ctx\)/, 'slice 13a: every request still reaches the application unless another website started an API request'); assert.match(entry, /async scheduled\(controller: ScheduledController/);
     assert.match(readFileSync('vite.config.ts', 'utf8'), /main: "\.\/worker\/index\.ts"/);
   });
   check('7 defaults: every five minutes, bounded work', () => {

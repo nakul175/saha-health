@@ -4,11 +4,13 @@
 // configured this handler is never called and the Worker behaves as before.
 import handler from 'vinext/server/fetch-handler';
 import { runScheduled } from '../lib/saha/scheduled-job';
+import { crossSiteRefusal } from '../lib/saha/cross-site';
 
 type ScheduledEnv = { DB?: D1Database } & Record<string, unknown>;
 
 export default {
-  fetch: (request: Request, env: unknown, ctx: ExecutionContext) => handler.fetch(request, env, ctx),
+  // Slice 13a: API requests another website started are refused before the application runs (lib/saha/cross-site.ts).
+  fetch: async (request: Request, env: unknown, ctx: ExecutionContext) => (await crossSiteRefusal(request)) ?? handler.fetch(request, env, ctx),
   async scheduled(controller: ScheduledController, env: ScheduledEnv, ctx: ExecutionContext) {
     ctx.waitUntil((async () => {
       const started = Date.now();

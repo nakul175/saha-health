@@ -1,4 +1,5 @@
 import { identity, loadFor, json, db } from './server';
+import { ensurePurpose } from './purpose-scope';
 import { fail, uuid } from './core';
 import type { Member } from './types';
 import { boundedJsonBody } from './request-body';
@@ -31,6 +32,7 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  const s=await loadFor(u,request.headers.get('x-saha-organisation'),undefined,true),m=scope(s,u.userId);manager(m);
  const question=p.get('question');
  if(question!==null){if(question.length>300)fail(422,'Keep the question under 300 characters.');return json({interpretation:interpret(question,s)});}
+ ensurePurpose(m,'reporting'); // slice 13a: computing and releasing indicator figures is a reporting flow
  const ids=(p.get('ids')??'').split(',').map(x=>x.trim()).filter(Boolean);
  // Slice 6s: the catalogue read also carries every recorded version and the definition vocabulary.
  if(!ids.length)return json({catalogue:catalogue(s),registry:registryRecords(s).map(r=>({id:r.id,version:r.version,status:r.status,title:r.spec.title,spec:r.spec,reason:r.reason,by:r.byName,at:r.at,builtIn:!!r.builtIn})),vocabulary:vocabulary(),canMaintain:m.isOwner,protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});

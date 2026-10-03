@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { withinPolicy } from './access';
 import { fail, person, visit, uuid } from './core';
 import { ABSENCE, adoptedVersion, enrollableAt, own, questions } from './programmes';
 import type { OrgState, Member } from './types';
@@ -33,7 +34,7 @@ export function programmeApply(state:OrgState,input:unknown,u:Actor,m:Member):an
    const e=p.enrolments.find(e=>e.id===c.enrolmentId);if(!e||e.state!=='active')fail(409,'Choose an active episode.');if(w.visits.some(v=>v.personId===p.id&&v.state==='draft'&&!v.voidedAt&&!v.supersededBy&&v.programmeCapture?.packs.some(x=>x.enrolmentId===e.id)))fail(409,'Finish the open programme visit before closing this episode.');e.state='closed';e.closedAt=now;e.outcome=c.outcome;
    for(const t of p.followUps.filter(t=>t.enrolmentId===e.id&&t.state==='open')){t.state='cancelled';t.closedAt=now;t.resolution='Episode closed: '+c.outcome;}detail='Episode closed; open follow-ups cancelled and history retained. '+c.outcome;
   }else if(c.type==='scheduleFollowUp'){
-   const e=p.enrolments.find(e=>e.id===c.enrolmentId&&e.state==='active');if(!e)fail(409,'Follow-ups require an active episode.');const owner=state.members.find(x=>x.userId===c.ownerId&&x.status==='active'&&['asha','clinician'].includes(x.role)&&x.teamIds.includes(p.teamId));if(!owner||(owner.role==='asha'&&p.assignedTo!==owner.userId))fail(422,'Choose a care worker with access to this patient.');if(p.followUps.some(t=>t.enrolmentId===e.id&&t.title===c.title&&t.due===c.due&&t.state==='open'))fail(409,'This follow-up is already open.');const t={id:uuid(),enrolmentId:e.id,packId:e.packId,title:c.title,due:c.due,ownerId:c.ownerId,state:'open' as const,createdAt:now,createdBy:u.userId};p.followUps.push(t);detail='Worker-reviewed follow-up scheduled: '+c.title;result={taskId:t.id};
+   const e=p.enrolments.find(e=>e.id===c.enrolmentId&&e.state==='active');if(!e)fail(409,'Follow-ups require an active episode.');const owner=state.members.find(x=>x.userId===c.ownerId&&x.status==='active'&&['asha','clinician'].includes(x.role)&&x.teamIds.includes(p.teamId)&&withinPolicy(x,p));if(!owner||(owner.role==='asha'&&p.assignedTo!==owner.userId))fail(422,'Choose a care worker with access to this patient.');if(p.followUps.some(t=>t.enrolmentId===e.id&&t.title===c.title&&t.due===c.due&&t.state==='open'))fail(409,'This follow-up is already open.');const t={id:uuid(),enrolmentId:e.id,packId:e.packId,title:c.title,due:c.due,ownerId:c.ownerId,state:'open' as const,createdAt:now,createdBy:u.userId};p.followUps.push(t);detail='Worker-reviewed follow-up scheduled: '+c.title;result={taskId:t.id};
   }else{
    const t=p.followUps.find(t=>t.id===c.taskId);if(!t||t.state!=='open')fail(409,'Choose an open follow-up.');t.state=c.state;t.resolution=c.resolution;t.closedAt=now;detail=`Follow-up ${c.state}: ${c.resolution}`;
   }
