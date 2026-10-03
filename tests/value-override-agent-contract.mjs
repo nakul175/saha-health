@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';import ts from 'typescript';import {read
 const dir=mkdtempSync(join(process.cwd(),'.value-override-agent-contract-'));let passed=0;const check=fn=>{fn();passed++};
 const status=async(fn,code,pattern)=>{try{await fn();}catch(e){assert.equal(e.status,code,e.message);if(pattern)assert.match(e.message,pattern);passed++;return e;}assert.fail(`expected ${code}`);};
 try{
- for(const file of ['types','programmes','mis','core','adapter-operations','delegation','fact-provenance','agent','task-limits','governance','capability-lifecycle','access','evaluation','ai-budget','operations','referral-rules','agent-provider','action-plan'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
+ for(const file of ['types','programmes','mis','core','adapter-operations','delegation','fact-provenance','agent','agent-minimisation','task-limits','governance','capability-lifecycle','access','evaluation','ai-budget','operations','referral-rules','agent-provider','action-plan'])writeFileSync(join(dir,file+'.js'),ts.transpileModule(readFileSync(`lib/saha/${file}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'"));
  const {markConflicts,agentApply,providers}=await import(pathToFileURL(join(dir,'agent.js')));
  const {invokeAgent}=await import(pathToFileURL(join(dir,'agent-provider.js')));
  const now=new Date().toISOString();
