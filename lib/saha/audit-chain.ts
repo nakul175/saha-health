@@ -177,3 +177,72 @@ export async function checkCheckpoint(db: D1Database, orgId: string, seq: number
   const meaning = { matches: 'The chain still holds this hash at this sequence number: nothing up to the checkpoint has changed since it was taken.', differs: 'The chain holds a different hash at this sequence number: events up to the checkpoint were changed, removed or replaced since it was taken.', 'not-reached': 'The chain has no event with this sequence number: it was never reached, or later events were removed.' }[result];
   return { seq, hash, result, meaning };
 }
+
+// Slice r06 (BR-SEC-08): a signed chain-head checkpoint and a scheduled chain verification.
+//
+// The unsigned checkpoint (CHECKPOINT_FORMAT, slice 6t) proves the head to someone who trusts that they
+// downloaded it from Saha. The signed checkpoint adds an HMAC-SHA256 signature over the compact head summary
+// (organisation + sequence + head hash), so a copy kept outside Saha can be checked against the deployment's
+// signing secret without trusting the transport. The key is a server secret (SAHA_AUDIT_SIGNING_KEY); the key
+// id is fixed until a rotation scheme exists. The signature is over the same fields the unsigned checkpoint
+// hashes, so a signed checkpoint still names exactly one chain head.
+export const SIGNED_CHECKPOINT_FORMAT = 'saha-audit-checkpoint-signed-v1';
+export const SIGNED_CHECKPOINT_KEY_ID = 'saha-audit-signing-key-v1';
+export type SignedCheckpoint = Checkpoint & { keyId: string; signature: string };
+// The exact bytes signed: the compact summary only, so the signature never covers itself or the key id.
+export const signedCheckpointContent = (c: Checkpoint) => JSON.stringify([SIGNED_CHECKPOINT_FORMAT, c.organisationId, c.seq, c.hash, c.at, c.issuedAt]);
+async function hmacHex(secret: string, text: string): Promise<string> {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  return hex(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(text)));
+}
+export async function signCheckpoint(c: Checkpoint, secret: string, keyId = SIGNED_CHECKPOINT_KEY_ID): Promise<SignedCheckpoint> {
+  return { ...c, keyId, signature: await hmacHex(secret, signedCheckpointContent(c)) };
+}
+export async function verifyCheckpointSignature(signed: SignedCheckpoint, secret: string): Promise<boolean> {
+  return (await hmacHex(secret, signedCheckpointContent(signed))) === signed.signature;
+}
+
+// The scheduled (cron) chain verification. It recomputes the chain from a stored anchor (the head of the last
+// recorded verification) rather than from the genesis every time, so a busy organisation is verified cheaply and
+// a tampered suffix is found even when nobody uses Saha. The result is recorded in the organisation's operations
+// record (operations.auditChain) through the normal commit; the anchor is advanced when it is recorded, so each
+// recorded run only walks events after the previous record.
+export const SCHEDULED_VERIFY_VERSION = '1.0.0';
+export type ScheduledVerificationRecord = {
+  version: string;
+  verifiedFrom: { seq: number; hash: string } | null;
+  anchor: { seq: number; hash: string } | null;
+  verifiedAt: string;
+  status: 'intact' | 'broken' | 'not-started' | 'incomplete';
+  events: number;
+  priorEvents: number;
+  head: { seq: number; hash: string; at: string } | null;
+  firstBreak: Break | null;
+  recordedBecause: 'first' | 'break' | 'changed' | 'heartbeat';
+};
+// Decides whether to record this verification and builds the record. A record is written on the first run, when a
+// break first appears, when the status changes, and otherwise at most once per heartbeat; a steady intact state
+// does not move the organisation revision or lengthen the chain every run. `recordNow` is false when the anchor
+// should be kept as it is (the next run re-verifies the same range, which is still bounded and correct).
+export function planScheduledVerification(previous: ScheduledVerificationRecord | undefined, verification: Verification, now: string, heartbeatMs: number): { record: ScheduledVerificationRecord; recordNow: boolean } {
+  const head = verification.head;
+  const anchor = previous?.anchor ?? null;
+  let because: ScheduledVerificationRecord['recordedBecause'] | null = null;
+  if (!previous) because = 'first';
+  else if (verification.status === 'broken' && previous.status !== 'broken') because = 'break';
+  else if (verification.status !== previous.status) because = 'changed';
+  else if (Date.parse(now) - Date.parse(previous.verifiedAt) >= heartbeatMs) because = 'heartbeat';
+  const record: ScheduledVerificationRecord = {
+    version: SCHEDULED_VERIFY_VERSION,
+    verifiedFrom: anchor,
+    anchor: head ? { seq: head.seq, hash: head.hash } : null,
+    verifiedAt: now,
+    status: verification.status,
+    events: verification.events,
+    priorEvents: verification.priorEvents,
+    head,
+    firstBreak: verification.firstBreak,
+    recordedBecause: because ?? 'heartbeat',
+  };
+  return { record, recordNow: because !== null };
+}
