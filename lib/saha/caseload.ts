@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { AppError, fail, uuid } from './core';
-import { allowed } from './access';
+import { allowed, withinPolicy } from './access';
 import { openPatientWork, transferPatientWork, type AssignmentEvent } from './continuity';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Role } from './types';
@@ -69,13 +69,16 @@ function reassign(s:OrgState,p:Person,t:CaseloadTransfer,u:Actor,now:string):Ass
 // `mayAccess` is the applying steward's patient scope: the requester's for a manual application, the scheduling
 // steward's (re-checked) for an automatic one.
 function applyTransfer(s:OrgState,t:CaseloadTransfer,u:Actor,now:string,mayAccess:(p:Person)=>boolean=p=>!!p.assigned){
- receiver(s,t.toUserId,t.teamId);
+ const to=receiver(s,t.toUserId,t.teamId);
  const moved:string[]=[],skipped:{personId:string;reason:string}[]=[],assignments:Record<string,string>={};
  const household=t.householdId?(s.households??[]).find(h=>h.id===t.householdId):undefined;
  for(const pid of t.personIds){
   const p=s.workspace.people.find(x=>x.id===pid);
   if(!p){skipped.push({personId:pid,reason:'Patient record not found.'});continue;}
   if(!mayAccess(p)){skipped.push({personId:pid,reason:'Outside your current patient scope.'});continue;}
+  // Slice 13f (review finding 6): the receiving worker must be able to see the patient under the facility, locality and
+  // programme policy (R08, R09), or the patient would drop out of every caseload; such a patient stays where they are.
+  if(!withinPolicy(to,{...p,teamId:t.teamId,assignedTo:to.userId})){skipped.push({personId:pid,reason:'Outside the receiving worker\'s facility, locality or programme assignment.'});continue;}
   if(p.teamId!==t.teamId||p.assignedTo!==t.fromUserId){skipped.push({personId:pid,reason:'Assignment changed after the transfer was scheduled.'});continue;}
   if(t.householdId&&!household?.members.some(x=>x.personId===pid&&!x.to)){skipped.push({personId:pid,reason:'Left the household after the transfer was scheduled.'});continue;}
   const event=reassign(s,p,t,u,now);moved.push(pid);if(event)assignments[pid]=event.id;

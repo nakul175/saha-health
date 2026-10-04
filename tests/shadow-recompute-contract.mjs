@@ -69,6 +69,19 @@ try {
     assert.deepEqual([sum(current, 'visits'), sum(current, 'agreement'), sum(current, 'disagreement')], [3, 2, 1], 'with it: c and d left out, b recomputed');
   });
 
+  // Slice 13f (review of 13a–13e, finding 2): the confirmed correction b2 is itself eligible and has its own result in the
+  // same shadow, so the recomputed original b is left out and the corrected visit counts once.
+  check(() => {
+    const s = fresh(), sh = shadow(s); sh.results.push(result('b2', '61'));
+    assert.equal(S.currentFields(s, sh.results[1], sh), null, 'b is left out: b2 has its own result');
+    assert.notEqual(S.currentFields(s, sh.results[1]), null, 'without the shadow, b is recomputed as before');
+    const report = S.shadowReport(s, sh, now), weight = report.fields.find(r => r.field === 'weight');
+    assert.equal(weight.disagreement, 1, 'one disagreement for one corrected visit, not two');
+    assert.equal(weight.agreement, 2);
+    const drift = D.driftReport(s, [sh], now, (r, x) => S.currentFields(s, r, x)), sum = k => drift[0].periods.reduce((n, p) => n + p[k], 0);
+    assert.deepEqual([sum('visits'), sum('disagreement')], [3, 1]);
+  });
+
   writeFileSync('tests/shadow-recompute-contract-result.json', JSON.stringify({ passed, suite: 'shadow-recompute-contract', completedAt: new Date().toISOString() }, null, 2) + '\n');
   console.log(JSON.stringify({ passed, suite: 'shadow-recompute-contract' }));
 } finally { rmSync(dir, { recursive: true, force: true }); }

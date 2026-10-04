@@ -36,8 +36,12 @@ try {
   check(() => {
     for (const [path, headers] of [['/api/workspace', { 'Sec-Fetch-Site': 'cross-site' }], ['/api/workspace', { 'Sec-Fetch-Site': 'same-site' }], ['/api/patients', { Origin: 'https://evil.example' }], ['/api/media/x', { Origin: 'null' }], ['/api/commands', { Origin: 'http://saha.example.invalid' }]])
       assert.ok(X.crossSiteReason(req(path, headers)), `${path} ${JSON.stringify(headers)} is refused`);
-    for (const [path, headers] of [['/api/workspace', {}], ['/api/workspace', { 'Sec-Fetch-Site': 'same-origin' }], ['/api/workspace', { 'Sec-Fetch-Site': 'none' }], ['/api/workspace', { Origin: 'https://saha.example.invalid' }], ['/', { 'Sec-Fetch-Site': 'cross-site' }], ['/field/', { Origin: 'https://evil.example' }]])
+    for (const [path, headers] of [['/api/workspace', {}], ['/api/workspace', { 'Sec-Fetch-Site': 'same-origin' }], ['/api/workspace', { 'Sec-Fetch-Site': 'none' }], ['/api/workspace', { Origin: 'https://saha.example.invalid' }], ['/', { 'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'navigate' }], ['/field/', { 'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'navigate' }]])
       assert.equal(X.crossSiteReason(req(path, headers)), null, `${path} ${JSON.stringify(headers)} is allowed`);
+    // Slice 13f (review finding 1): however the path is spelled, and whatever the path, only a page navigation is let through.
+    for (const [path, headers, method] of [['/%61pi/workspace', { 'Sec-Fetch-Site': 'cross-site' }], ['/ap%69/patients', { Origin: 'https://evil.example' }], ['/API/workspace', { 'Sec-Fetch-Site': 'cross-site' }], ['//api//workspace', { 'Sec-Fetch-Site': 'same-site' }], ['/x/../api/workspace', { 'Sec-Fetch-Site': 'cross-site' }], ['/%2e%2e/api/workspace', { 'Sec-Fetch-Site': 'cross-site' }], ['/api%2Fworkspace', { 'Sec-Fetch-Site': 'cross-site' }], ['/%E0%A4%A/api', { 'Sec-Fetch-Site': 'cross-site' }], ['/%61pi/workspace', { 'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'navigate' }], ['/', { 'Sec-Fetch-Site': 'cross-site' }], ['/field/', { Origin: 'https://evil.example' }], ['/', { 'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'navigate' }, 'POST'], ['/%61pi/mis/callback', { 'Sec-Fetch-Site': 'cross-site' }, 'POST']])
+      assert.ok(X.crossSiteReason(req(path, headers, method)), `${method ?? 'GET'} ${path} ${JSON.stringify(headers)} is refused`);
+    assert.equal(X.routePath('/%61pi//x/./y/../workspace'), '/api/x/workspace');
     for (const path of ['/api/mis/callback', '/api/anaemia-connection-test', '/api/frontline-connection-test']) assert.equal(X.crossSiteReason(req(path, { 'Sec-Fetch-Site': 'cross-site', Origin: 'https://partner.example' }, 'POST')), null, `${path} keeps its own authentication`);
   });
   await checkAsync(async () => {

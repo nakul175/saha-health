@@ -14,6 +14,11 @@ export async function reviewLeftoversSmoke({ get, post, check, base, sql }) {
   const total = await query({ ids: 'visits-confirmed', days: '30', group: 'none' }, 200);
   check(() => assert.equal(total.cohort.people, 9));
   check(() => assert.equal(refusals().length, 0, 'a released query is not a refusal'));
+  // Slice 13f (review finding 3): results withheld because a definition sets its own higher minimum cohort are not refusals.
+  await post(o, { type: 'addIndicatorDefinition', id: `strict-${run}`, spec: { title: `Strict ${run}`, unit: 'count', numerator: 'patients', denominator: null, filters: {}, exclude: [], exclusionsNote: 'None', owner: 'Programme manager', cadence: 'Monthly', minimumCohort: 50 }, reason: 'A definition with its own high minimum cohort' }, 200, crypto.randomUUID(), org);
+  const strict = await query({ ids: `strict-${run}`, days: '30', group: 'none' }, 200);
+  check(() => assert.ok(strict.results.length === 1 && strict.results[0].refused && strict.results[0].refused !== 'differencing', JSON.stringify(strict.results.map(r => r.refused ?? 'released'))));
+  check(() => assert.equal(refusals().length, 0, "a definition's own minimum cohort is not counted as a refusal"));
   const north = await query({ ids: 'visits-confirmed', days: '30', group: 'none', village: `Left North ${run}` }, 422);
   check(() => assert.match(north.error, /Together with your indicator queries .* fewer than 5 people/));
   check(() => { const e = refusals(); assert.equal(e.length, 1, 'the combination refusal is recorded'); assert.match(e[0].detail, /^Indicator query refused whole: .*Filters set: village; nothing was shown\. Authority: /); assert.ok(!e[0].detail.includes('Left North'), 'no filter value'); });

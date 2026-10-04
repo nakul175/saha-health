@@ -15,6 +15,9 @@ const j=(x:unknown)=>JSON.stringify(x);
 // The indicator differencing ledger kept in the same row has its own writer and bound (indicator-differencing, 1 MB) and is not
 // counted. A change that would take the rest past the bound, and grow it, is refused; a change that shrinks it never is.
 export const OPERATIONS_BYTES=1_000_000;
+// Slice 13f (review finding 7): safety actions are never refused by the bound, even when they grow a full document: pausing
+// for maintenance, revoking a purpose grant or a delegation, and recording an aggregate send's outcome or lookup.
+export const OPERATIONS_BOUND_EXEMPT:ReadonlySet<string>=new Set(['opsMaintenance','revokeAccessPurpose','delegationRevoke','sendAggregateReport','lookupAggregateReport']);
 export const OPERATIONS_FULL='The organisation\'s settings document is full, so this change was not saved. Remove settings that are no longer needed, or ask for help.';
 export function operationsBytes(ops:unknown){if(!ops||typeof ops!=='object')return 0;const {indicatorReleases:_,...rest}=ops as Record<string,unknown>;return new TextEncoder().encode(JSON.stringify(rest)).length;}
 const same=(a:unknown,b:unknown)=>j(a)===j(b);
@@ -132,7 +135,7 @@ export function rowsForState(state:OrgState,previous:OrgState|null,actor:Actor,a
  if(state.outreach&&!same(state.outreach,previous?.outreach))rows.push(row('outreach',{org_id:orgId,data:j(state.outreach)},['org_id']));
  if(state.expansions&&!same(state.expansions,previous?.expansions))rows.push(row('expansions',{org_id:orgId,data:j(state.expansions)},['org_id']));
  if(state.pilot&&!same(state.pilot,previous?.pilot))rows.push(row('pilot',{org_id:orgId,data:j(state.pilot)},['org_id']));
- if(state.operations&&!same(state.operations,previous?.operations)){const data=j(state.operations);if(operationsBytes(state.operations)>OPERATIONS_BYTES&&operationsBytes(state.operations)>operationsBytes(previous?.operations))fail(413,OPERATIONS_FULL);rows.push(row('operations',{org_id:orgId,data},['org_id']));}
+ if(state.operations&&!same(state.operations,previous?.operations)){const data=j(state.operations);if(!OPERATIONS_BOUND_EXEMPT.has(action)&&operationsBytes(state.operations)>OPERATIONS_BYTES&&operationsBytes(state.operations)>operationsBytes(previous?.operations))fail(413,OPERATIONS_FULL);rows.push(row('operations',{org_id:orgId,data},['org_id']));}
  const prevHouseholds=byId(previous?.households,h=>h.id);for(const h of state.households??[]){if(!same(h,prevHouseholds.get(h.id)))rows.push(row('households',{org_id:orgId,id:h.id,version:h.version,team_id:h.teamId,data:j(h)}));}
  const prevRights=byId(previous?.rightsRequests,r=>r.id);for(const r of state.rightsRequests??[]){if(!same(r,prevRights.get(r.id)))rows.push(row('rights_requests',{org_id:orgId,id:r.id,version:r.version,state:r.state,person_id:r.personId,due_at:r.dueAt,created_at:r.receivedAt,data:j(r)}));}
  const prevCases=byId(previous?.identityCases,k=>k.id);for(const k of state.identityCases??[]){if(!same(k,prevCases.get(k.id)))rows.push(row('identity_cases',{org_id:orgId,id:k.id,version:k.version,state:k.state,survivor_id:k.survivorId,duplicate_id:k.duplicateId,created_at:k.proposedAt,data:j(k)}));}

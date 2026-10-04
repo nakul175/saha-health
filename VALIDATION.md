@@ -1328,3 +1328,22 @@ Part of the sponsor's "fix all" ([slice 13e](docs/current/SLICE-13E-PERFORMANCE.
 - **O-2 open.** Worker memory grew 356.5 MB over 4,000 loads without the migration and 380.0 MB with it (KB per load by round 235, 71, 30, 29 against 228, 69, 55, 37): not explained by the audit log, not levelled off, not measured on Cloudflare.
 - **Local results on the top of the stack (13a–13e)** (built Worker, Node 22.22.2, Linux container, synthetic data): `tsc --noEmit` clean; unit 130 suites, 8,040 checks; HTTP/D1 4,746 and scheduled check 8; restore drill 21; smoke 36 passed, 1 skipped; UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
 - No independent review of this slice alone; requirement counts unchanged (NFR-10 and NFR-24 texts updated, both still partial).
+
+## Development slice 13f — fixes from the review of 13a–13e — 4 October 2026 IST
+
+Before the "fix all" branches were offered for merge, an agent that had not seen the work reviewed slices 13a–13e (commit 5505e37d against `main`). It reported one high, three medium and three low defects, all fixed here ([slice 13f](docs/current/SLICE-13F-REVIEW-FIXES.md)); on a branch stacked on 13e, not merged.
+
+- **High: the cross-site gate could be bypassed** by percent-encoding the path (`/%61pi/workspace` reached the workspace read cross-site; the reviewer reproduced it). A request another site starts is now refused unless it is a plain page navigation to a non-API path once decoded. The contract covers 13 more spellings; the HTTP suite checks encoded paths over the wire, and checks a real navigation with `node:http`, because `fetch()` always sends its own `Sec-Fetch-Mode`. The first HTTP run failed on that navigation check until it was sent this way.
+- **Medium:**
+  - A corrected visit counted twice in shadow and drift reports; it now counts once (new check).
+  - The indicator refusal limit counted withholds caused by a definition's own minimum cohort, which could lock a manager out. Only differencing refusals count now, CSV exports included (new HTTP check with a minimum cohort of 50).
+- **Low:**
+  - The rotation cursor now moves only to the processed prefix, and an organisation in maintenance is not queued first (2 new checks).
+  - Receivers and assignees must be inside the facility, locality and programme policy (new HTTP check).
+  - Safety actions are exempt from the operations bound (new check).
+- **Local results on the top of the stack (13a–13f)** (built Worker, Node 22.22.2, Linux container, synthetic data):
+  - `tsc --noEmit` clean;
+  - unit 130 suites, 8,044 checks; HTTP/D1 4,758; scheduled check 8;
+  - restore drill 21; smoke 36 passed, 1 skipped;
+  - UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
+- The partial-differencing path has no HTTP test of its own. The fixes were written by the agent that built 13a–13e; no person has reviewed them. Requirement counts are unchanged; the BR-ID-02 text is updated and it stays partial.

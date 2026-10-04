@@ -72,15 +72,17 @@ export function counted(d: D1Database, tally: { queries: number }): D1Database {
 // actually reached, table scheduled_cursor) instead of moving with the clock, so a run stopped early by its statement or
 // time bound leaves no organisation behind, and it pages by id with no upper bound (the earlier query read at most 1,000).
 export const CURSOR_JOB = 'scheduled-job';
-export async function organisationQueue(d: D1Database, now: string, perRun: number): Promise<{ ids: string[]; rotation: Set<string> }> {
-  const due = ((await d.prepare("SELECT org_id AS id,min(json_extract(data,'$.effectiveAt')) AS due FROM caseload_transfers WHERE state='scheduled' AND json_extract(data,'$.effectiveAt')<=? GROUP BY org_id ORDER BY due,org_id LIMIT ?").bind(now, perRun).all()).results as { id: string; due: string }[]).map(r => r.id);
+export async function organisationQueue(d: D1Database, now: string, perRun: number): Promise<{ ids: string[]; rotation: string[] }> {
+  // Slice 13f (review finding 5): an organisation in maintenance is not due: its transfers wait, so it would otherwise stay
+  // first in every queue and could use up the run without the rotation moving.
+  const due = ((await d.prepare("SELECT org_id AS id,min(json_extract(data,'$.effectiveAt')) AS due FROM caseload_transfers WHERE state='scheduled' AND json_extract(data,'$.effectiveAt')<=? AND NOT EXISTS (SELECT 1 FROM operations o WHERE o.org_id=caseload_transfers.org_id AND json_extract(o.data,'$.maintenance')=1) GROUP BY org_id ORDER BY due,org_id LIMIT ?").bind(now, perRun).all()).results as { id: string; due: string }[]).map(r => r.id);
   let cursor = '';
   try { cursor = ((await d.prepare('SELECT last_org FROM scheduled_cursor WHERE job=?').bind(CURSOR_JOB).first()) as { last_org?: string } | null)?.last_org ?? ''; } catch { cursor = ''; }
   const ids = async (sql: string, n: number) => n > 0 ? ((await d.prepare(sql).bind(cursor, n).all()).results as { id: string }[]).map(r => r.id) : [];
   const after = await ids('SELECT id FROM organisations WHERE id>? ORDER BY id LIMIT ?', perRun);
   const rotation = [...after, ...(after.length < perRun ? await ids('SELECT id FROM organisations WHERE id<=? ORDER BY id LIMIT ?', perRun - after.length) : [])];
   const first = new Set(due);
-  return { ids: [...due, ...rotation.filter(id => !first.has(id))], rotation: new Set(rotation) };
+  return { ids: [...due, ...rotation.filter(id => !first.has(id))], rotation };
 }
 
 const problem = (step: string, e: unknown) => `${step}: ${e instanceof AppError ? (e.status === 409 ? 'conflict, retried next run' : `refused (${e.status})`) : e instanceof Error ? e.name : 'unknown'}`;
@@ -179,8 +181,11 @@ export async function runScheduled(database: D1Database, env: Env, now = new Dat
     if (run.organisations.length && tally.queries >= lim.queries) { run.stoppedBy = 'queries'; break; }
     if (run.organisations.length && clock() - started >= lim.milliseconds) { run.stoppedBy = 'time'; break; }
     run.organisations.push(await processOrganisation(d, orgId, now, lim, env));
-    if (rotation.has(orgId)) reached = orgId;
   }
+  // Slice 13f (review finding 5): the cursor moves to the end of the rotation's processed prefix, in rotation order, so an
+  // organisation that was also due (processed first) cannot move it past rotation members this run did not reach.
+  const processed = new Set(run.organisations.map(o => o.organisationId));
+  for (const id of rotation) { if (!processed.has(id)) break; reached = id; }
   // The cursor moves only past organisations this run actually reached.
   if (reached) { try { await d.prepare('INSERT INTO scheduled_cursor (job,last_org,updated_at) VALUES (?,?,?) ON CONFLICT(job) DO UPDATE SET last_org=excluded.last_org,updated_at=excluded.updated_at').bind(CURSOR_JOB, reached, now).run(); } catch { console.error('Scheduled job cursor not saved'); } }
   const total = ((await d.prepare('SELECT count(*) AS n FROM organisations').first()) as { n?: number } | null)?.n ?? queue.length;
