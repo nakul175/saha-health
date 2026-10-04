@@ -1,0 +1,94 @@
+{
+  "at": "2026-10-04T12:30:11.896Z",
+  "steps": [
+    {
+      "name": "notebook prepared one draft",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sync refused after revocation",
+      "ok": true,
+      "detail": "Field grant expired, revoked or already synced. Reconcile before continuing."
+    },
+    {
+      "name": "Load online workspace removed the revoked draft",
+      "ok": true,
+      "detail": "Removed from this device at Saha's instruction (the field grant was revoked / फील्ड अनुमति रद्द हुई): 1 visit draft (1 not synced), 0 photo or voice notes, 0 registration copies. Tell your supervisor what the unsynced drafts held; they cannot be recovered. / बिना सिंक हुए ड्राफ़्ट की जानकारी अपने पर्यवेक्षक को बताएँ; वे वापस नहीं मिल सकते। / Saha के निर्देश पर इस डिवाइस से हटाया गया।"
+    },
+    {
+      "name": "the drafts list says what was removed in the last 7 days",
+      "ok": true,
+      "detail": "Removed at Saha's instruction in the last 7 days: 1 visit draft (1 not synced), 0 registration copies. / पिछले 7 दिनों में Saha के निर्देश पर हटाए गए।"
+    },
+    {
+      "name": "the server holds the notebook's receipt",
+      "ok": true,
+      "detail": "{\"id\":\"c055ac30-19aa-493a-a82a-953e8915e95e\",\"at\":\"2026-10-04T12:30:17.845Z\",\"drafts\":1,\"unsynced\":1,\"media\":0,\"registrations\":0,\"appVersion\":\"field-14e\"}"
+    },
+    {
+      "name": "the notebook reported its sync failure",
+      "ok": true,
+      "detail": "[[\"draft\",\"conflict\",1]]"
+    },
+    {
+      "name": "Field devices panel shows the removal and the report",
+      "ok": true,
+      "detail": "Field devices | Refresh |  | Every field notebook in this organisation; patients are named only where your care scope includes them. |  | Removal is confirmed by a notebook when it contacts Saha. A device that never reconnects keeps its encrypted copy and stays pending here. Saha does not register devices: a "
+    },
+    {
+      "name": "axe: Field devices panel has no serious or critical violations",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "axe: Withdrawal notices dialog has no serious or critical violations",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "maternal register acknowledged the notice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "community MIS left the outcome unknown, with only a lookup offered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "the lookup found the receipt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "axe": [
+    {
+      "screen": "Operations · Field devices",
+      "violations": []
+    },
+    {
+      "screen": "Patient · Withdrawal notices",
+      "violations": []
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "allowed": {
+    "message": "Failed to load resource: the server responded with a status of 409 (Conflict)",
+    "url": "http://127.0.0.1:8853/api/commands",
+    "reason": "the deliberate sync of a revoked grant"
+  },
+  "passed": 14,
+  "failed": 0
+}

@@ -1247,11 +1247,11 @@ Assignment, identity, membership, consent and visit versions rechecked at sync. 
 
 **Expected result** (catalogue): A second user cannot view the first user's cached records, and a reported lost device loses server access on its next contact.
 
-**Known gaps** (assessment, remaining work for BR-OFF-07): Main-workspace shared-device protection, native keystore/MDM and lost-device exercises.
+**Known gaps** (assessment, remaining work for BR-OFF-07): Main-workspace shared-device protection, native keystore/MDM and lost-device exercises; a suspended or removed worker's notebook cannot fetch removal orders, and a device that never reconnects keeps its encrypted copy.
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-07)</summary>
 
-Encrypted per-user notebook, inactivity lock, grants and reconnect denial.
+Encrypted per-user notebook, inactivity lock, grants and reconnect denial. Slice 14e: a revoked grant, ended access, a merged record or a processing restriction orders removal of the device copy, done by the notebook and confirmed with a receipt when it next contacts Saha; pending removals are listed.
 
 </details>
 
@@ -1417,11 +1417,11 @@ Optional AI can be declined; contact preferences and EHR scopes are recorded.
 
 **Expected result** (catalogue): Revocation blocks a queued provider upload and produces a traceable disposition record; the system does not claim to erase an external record without evidence.
 
-**Known gaps** (assessment, remaining work for BR-SEC-03): Destination notification with verified external outcomes, offline device copies, real ABDM consent-manager revocation and approved policy for retained completed transactions.
+**Known gaps** (assessment, remaining work for BR-SEC-03): Verified outcomes from real destinations (notices to HTTP programme and EHR connections are manual until the slice 14c path is used; only the demonstration simulators answer), removal from devices that never reconnect, real ABDM consent-manager revocation and approved policy for retained completed transactions.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-03)</summary>
 
-Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain.
+Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. Slice 14e: AI and sharing withdrawals list open field-notebook copies (kept: they cannot sync under the old permission version); a copy on a worker's device is removed on the notebook's next contact when its grant is revoked, the worker's access ended, the record was merged or processing is restricted, confirmed by a counts-only receipt, with pending removals listed; a sharing withdrawal creates one notice per destination holding the person's records, sent to the demonstration simulators with their receipts (an unknown outcome is looked up, never resent), recorded with the mock ABDM gateway, or told by hand and recorded with a reference for HTTP programme and EHR connections.
 
 </details>
 

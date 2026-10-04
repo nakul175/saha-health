@@ -1,13 +1,39 @@
 import { installedPacks } from './programmes';
 import { z } from 'zod';
-import { withinPolicy } from './access';
+import { allowed, withinPolicy } from './access';
 import { apply, digest, factsSchema, fail, person, uuid, visit } from './core';
 import { programmeApply } from './programme-commands';
 import { ABSENCE } from './programmes';
-import type { OrgState, Member } from './types';
+import type { OrgState, Member, Person } from './types';
 import { NEXT, REFERRAL_EVENTS, TERMINAL, URGENCIES } from './referral-rules';
 import type { Actor } from './store';
-export type FieldLease={id:string;actorId:string;memberVersion:number;visitId:string;visitVersion:number;identityHash:string;consentVersion:number;expiresAt:string;status:'active'|'revoked'|'synced';packageHash:string;createdAt:string};
+// Slice 14e (R73; BR-SEC-03, BR-OFF-07): when the copy a grant put on a worker's device is due for removal. It is due when
+//   - the grant was revoked (`revokeFieldLease` stores the order on the grant),
+//   - the worker no longer has access to the patient (care transferred, team or membership changed, emergency access over),
+//   - the record was merged into another record, or
+//   - processing is restricted under a rights request (slice 6b) and the grant can no longer sync (synced, revoked or
+//     expired); an open, current grant may still sync first, because recording care continues under a restriction.
+// The last three are computed from the current record on every read, so every transfer, merge, suspension and restriction
+// path is covered without a stored order. `removal` also holds the notebook's receipt once it has removed the copy
+// (lib/saha/field-device.ts). A device that never contacts Saha again keeps its encrypted copy; its grant stays pending.
+export const REMOVAL_REASONS=['grant-revoked','access-ended','record-merged','processing-restricted'] as const;
+export type RemovalReason=typeof REMOVAL_REASONS[number];
+export type RemovalReceipt={id:string;at:string;drafts:number;unsynced:number;media:number;registrations:number;appVersion:string};
+export type FieldRemoval={reason:RemovalReason;orderedAt?:string;orderedBy?:string;confirmedAt?:string;receipt?:RemovalReceipt;receipts?:number;lastReceiptAt?:string};
+// Grants kept on the record only because their device copy is still awaiting removal (beyond the 20 current grants).
+export const HELD_REMOVALS=50;
+// The same test as rights.activeRestriction, kept here so this module needs no new dependency.
+export const restrictedNow=(p:Person)=>(p.restrictions??[]).find(r=>!r.liftedAt);
+export const mergedNow=(p:Person)=>!!p.mergedInto&&!p.mergedInto.unmergedAt;
+export function removalDue(s:OrgState,p:Person,l:FieldLease,now:string):RemovalReason|null{
+ if(l.removal?.orderedAt)return l.removal.reason;
+ if(mergedNow(p))return 'record-merged';
+ const m=s.members.find(x=>x.userId===l.actorId);if(!m||!allowed(m,p,now))return 'access-ended';
+ if(restrictedNow(p)&&(l.status!=='active'||l.expiresAt<=now))return 'processing-restricted';
+ return null;
+}
+export const pendingRemoval=(s:OrgState,p:Person,l:FieldLease,now:string)=>!l.removal?.confirmedAt&&removalDue(s,p,l,now)!==null;
+export type FieldLease={id:string;actorId:string;memberVersion:number;visitId:string;visitVersion:number;identityHash:string;consentVersion:number;expiresAt:string;status:'active'|'revoked'|'synced';packageHash:string;createdAt:string;removal?:FieldRemoval};
 const id=z.string().min(1).max(200),ver=z.number().int().positive(),note=z.string().trim().min(5).max(1000);
 export const fieldSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('prepareFieldVisit'),personId:id,version:ver}).strict(),
@@ -43,10 +69,15 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   const p=person(w,c.personId);subject=p.id;p.fieldLeases??=[];
   if(c.type==='prepareFieldVisit'){
    if(p.version!==c.version)fail(409,'Patient changed. Refresh before preparing field work.');
+   // Slice 14e: while processing is restricted no new device copy is issued; recording care online continues.
+   if(restrictedNow(p))fail(409,'Processing is restricted for this patient under a rights request, so no offline copy is issued to a device. Record the visit online.');
    const started=await apply(w,{type:'startVisit',personId:p.id},u.userId,{call:async()=>fail(409,'External calls unavailable'),packs:installedPacks(state)},now);const v=visit(w,started.visitId);
    // A new grant replaces this worker's active grant for this visit; old ciphertext is retained locally for review.
    for(const l of p.fieldLeases)if(l.actorId===u.userId&&l.visitId===v.id&&l.status==='active')l.status='revoked';
-   p.fieldLeases=p.fieldLeases.filter(l=>l.expiresAt>now).slice(-19);
+   // Slice 14e: an expired grant whose device copy is still awaiting removal stays on the record (at most HELD_REMOVALS), so
+   // the order reaches the notebook and the pending removal stays visible.
+   const live=p.fieldLeases.filter(l=>l.expiresAt>now).slice(-19),held=p.fieldLeases.filter(l=>!live.includes(l)&&pendingRemoval(state,p,l,now)).slice(-HELD_REMOVALS);
+   p.fieldLeases=p.fieldLeases.filter(l=>live.includes(l)||held.includes(l));
    const lease:FieldLease={id:uuid(),actorId:u.userId,memberVersion:m.version,visitId:v.id,visitVersion:v.version,identityHash:await fieldIdentity(p),consentVersion:p.consentVersion,expiresAt:new Date(Date.parse(now)+24*3600000).toISOString(),status:'active',packageHash:'',createdAt:now};
    const payload={schema:1,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null};
    const keys=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
@@ -56,7 +87,10 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   }else{
    const l=p.fieldLeases.find(x=>x.id===c.leaseId);if(!l)fail(404,'Field grant not found.');
    if(l.actorId!==u.userId&&!m.isOwner)fail(403,'This field grant belongs to another worker.');
-   if(c.type==='revokeFieldLease'){if(l.status!=='active')fail(409,'Grant is no longer active.');l.status='revoked';detail='Field grant revoked. Offline copies cannot be remotely erased.';}
+   // Slice 14e: revoking orders the removal of the grant's copy from the worker's device; a grant that already ended (synced,
+   // replaced or revoked by a handover) can still be given that order, for example for a lost device.
+   if(c.type==='revokeFieldLease'){if(l.removal?.confirmedAt)fail(409,'A notebook already confirmed removing this grant\'s copy from the device.');if(l.removal?.orderedAt)fail(409,'Removal of this grant\'s device copy is already ordered.');const was=l.status;if(l.status==='active')l.status='revoked';l.removal={reason:'grant-revoked',orderedAt:now,orderedBy:u.userId};result={ok:true,removalOrdered:true};
+    detail=`Field grant ${was==='active'?'revoked':`(already ${was}) given a removal order`}. The notebook removes this grant's copy from the device and confirms with a receipt when it next contacts Saha online; a device that never reconnects keeps its encrypted copy until the notebook is deleted on that device.`;}
    else{
     if(l.actorId!==u.userId||l.memberVersion!==m.version)fail(403,'The worker or membership changed. Prepare a new field grant.');
     if(l.status!=='active'||l.expiresAt<=now)fail(409,'Field grant expired, revoked or already synced. Reconcile before continuing.');

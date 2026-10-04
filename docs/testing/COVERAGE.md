@@ -9,8 +9,8 @@ For each of the 176 requirements: its assessment status, the test files its evid
 ## Read this first
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
-- **70 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 62 of 246 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **69 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
+- **The map is incomplete in both directions.** 62 of 249 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
 - **23 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
@@ -33,8 +33,8 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 136 | 96 | 133 | 37 |
-| integration | 113 | 72 | 86 | 14 |
+| unit | 136 | 98 | 135 | 37 |
+| integration | 114 | 73 | 87 | 14 |
 | resilience | 2 | 1 | 1 | 0 |
 | smoke | 2 | 2 | 2 | 0 |
 | ui | 7 | 7 | 17 | 10 |
@@ -44,8 +44,8 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layers cited | Requirements |
 | --- | ---: |
-| unit + integration | 95 |
-| unit | 32 |
+| unit + integration | 96 |
+| unit | 31 |
 | none | 22 |
 | integration | 9 |
 | nfr | 3 |
@@ -65,7 +65,7 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 | Flag | Requirements | Of 176 |
 | --- | ---: | ---: |
 | No automated test cited in the evidence map | 22 | 13% |
-| Tests cited in one layer only | 47 | 27% |
+| Tests cited in one layer only | 46 | 26% |
 | No UAT case (no catalogue Functional or End to end case in the UAT scripts) | 30 | 17% |
 | No formally executed catalogue case | 176 | 100% |
 
@@ -94,7 +94,7 @@ An End to end case names several requirements and is counted under each, so that
 | BR-AI | 12 | 0 | 12 | 0 | 0 | 0 | 1 | 0 |
 | BR-CLIN | 8 | 0 | 6 | 2 | 0 | 5 | 0 | 2 |
 | BR-INT | 24 | 2 | 22 | 0 | 0 | 4 | 15 | 0 |
-| BR-OFF | 8 | 0 | 8 | 0 | 0 | 0 | 7 | 0 |
+| BR-OFF | 8 | 0 | 8 | 0 | 0 | 0 | 6 | 0 |
 | BR-CARE | 8 | 0 | 8 | 0 | 0 | 1 | 0 | 0 |
 | BR-REP | 7 | 0 | 7 | 0 | 0 | 0 | 2 | 0 |
 | BR-OPS | 8 | 0 | 8 | 0 | 0 | 0 | 3 | 0 |
@@ -131,7 +131,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (62 of 246)
+## Test files cited by no requirement (62 of 249)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -328,7 +328,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-OFF-04 | partial | own | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | one layer only |
 | BR-OFF-05 | partial | own | 5 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-OFF-06 | partial | area | 3 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
-| BR-OFF-07 | partial | area | 3 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
+| BR-OFF-07 | partial | own | 5 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-OFF-08 | partial | own | 6 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-CARE-01 | partial | own | 3 | 5 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-CARE-02 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
@@ -338,7 +338,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-CARE-06 | partial | area | 1 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-CARE-07 | partial | area | 1 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-CARE-08 | partial | own | 3 | 5 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
-| BR-REP-01 | partial | own | 3 | 4 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-REP-01 | partial | own | 5 | 5 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-REP-02 | partial | own | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-REP-03 | partial | own | 1 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-REP-04 | partial | own | 4 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
@@ -355,7 +355,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-OPS-08 | partial | own | 1 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-SEC-01 | partial | area | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-SEC-02 | partial | area | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
-| BR-SEC-03 | partial | own | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
+| BR-SEC-03 | partial | own | 3 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-SEC-04 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-SEC-05 | partial | area | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-SEC-06 | partial | own | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |

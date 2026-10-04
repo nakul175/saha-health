@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4758
+      "minPassed": 4881
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -322,6 +322,16 @@
       "layer": "unit",
       "file": "tests/field-contract.mjs",
       "minPassed": 38
+    },
+    "unit/field-device-client": {
+      "layer": "unit",
+      "file": "tests/field-device-client.mjs",
+      "minPassed": 26
+    },
+    "unit/field-device-contract": {
+      "layer": "unit",
+      "file": "tests/field-device-contract.mjs",
+      "minPassed": 99
     },
     "unit/field-media-capacity-client": {
       "layer": "unit",

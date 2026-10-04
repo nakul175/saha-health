@@ -46,6 +46,7 @@ import { applyInvoiceReconciliation } from './ai-invoice';
 import { ALERT_OWNERS, applyAlertAck, canAcknowledge } from './alerts';
 import { authorizeInboxReplay, evaluateAfterCommand, markRead } from './alert-delivery-server';
 import { applyField } from './field';
+import { applyWithdrawalNotice } from './withdrawal-notices';
 import { applyFieldRegistration, authorizeFieldRegistration } from './field-registration';
 import { applyReferralRequest, authorizeReferralRequest } from './referral-request';
 import { applyEhr, ehrReadiness } from './ehr';
@@ -175,7 +176,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const agent=await agentApply(state,c,u,m,providers(state.workspace.integrations,runtime()));
   const mis=['configureMis','activateMis','cancelSubmission'].includes(c.type)?await configureMis(state,c as any,u,m,runtime()):null;
   const ehr=c.type.includes('Ehr')?await applyEhr(state,c as any,u,m,runtime()):null;
-  const field=await applyField(state,c,u,m)??await applyFieldRegistration(state,c,u,m)??await applyReferralRequest(state,c,u,m);
+  const field=await applyField(state,c,u,m)??await applyFieldRegistration(state,c,u,m)??await applyReferralRequest(state,c,u,m)??await applyWithdrawalNotice(state,c,u,m); // slice 14e: consent-withdrawal notices
   const pilot=await applyPilot(state,c,u,m);
   const outreach=await applyOutreach(state,c,u,m);
   const expansion=await applyExpansion(state,c,u,m);

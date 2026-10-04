@@ -45,6 +45,7 @@ import { speechPolicySchema } from './speech';
 import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
 import { fieldRegistrationSchema } from './field-registration';
+import { noticeSchema } from './withdrawal-notices';
 import { referralRequestSchema } from './referral-request';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
@@ -113,6 +114,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...expansionSchema.options,
  ...fieldSchema.options,
  ...fieldRegistrationSchema.options,
+ // Slice 14e: sending, looking up and recording consent-withdrawal notices to destinations (lib/saha/withdrawal-notices.ts).
+ ...noticeSchema.options,
  ...referralRequestSchema.options,
  ...misSchema.options,
  adapterOperationsSchema.innerType(),
