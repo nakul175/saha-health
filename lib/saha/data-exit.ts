@@ -3,6 +3,7 @@ import { fail } from './core';
 import { CHAIN_VERSION, HASHING, chainHead, contentDigest, verifyChain, type EventRow } from './audit-chain';
 import { fhirDocument } from './fhir-document';
 import { TERMINAL } from './referral-rules';
+import { contentDigest as registerDigest, type RegisterEntry } from './disposal-effects';
 import type { Member } from './types';
 // Slice 6m: organisation data exit (BR-OPS-07, NFR-22).
 //
@@ -23,14 +24,15 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0020_field_device';
+export const SCHEMA_MIGRATION = '0021_disposal';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
 type Value = string | number | null;
 type Row = Record<string, Value>;
 // Slice 6z: 'self' rows are one member's own (their in-app alert inbox); only the exporter's own rows are exported.
-type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit' | 'self';
+// Slice 14f: 'disposal' rows are disposal register entries; exported for patients in scope or disposed from it.
+type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit' | 'self' | 'disposal';
 export type TableSpec = { table: string; order: string; scope: Scope; omit?: string[]; note?: string };
 export const TABLES: TableSpec[] = [
   { table: 'organisations', order: 'id', scope: 'org' },
@@ -65,6 +67,7 @@ export const TABLES: TableSpec[] = [
   { table: 'rights_requests', order: 'id', scope: 'person' },
   { table: 'command_receipts', order: 'created_at,actor_id,key', scope: 'receipt', omit: ['result'], note: 'The stored result is left out: it can carry a newly issued invitation token.' },
   { table: 'audit_events', order: '(seq IS NOT NULL),seq,at,id', scope: 'audit', note: 'Events without seq were written before the chain and are sealed by the genesis marker (seq 0).' },
+  { table: 'disposals', order: 'seq', scope: 'disposal', note: 'Slice 14f: the disposal register. One chained entry per disposed record: identifiers, time, rule, authority and the SHA-256 of the content removed, never the content. Disposed records are not in their own tables (media rows and revision rows remain as tombstones); entries for records outside the exporter\'s care scope are digests only.' },
 ];
 export const EXCLUDED = [
   { what: 'workspaces', why: 'Release 0.1 per-account source kept unchanged for rollback; its migrated content is in the organisation tables and legacy_migrations records the source hash.' },
@@ -144,19 +147,28 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   const people = new Set(data.patients.filter(inScope).map(p => String(p.id)));
   const visits = new Set(data.visits.filter(v => people.has(String(v.person_id))).map(v => String(v.id)));
   const teamScope = (r: Row) => m.status === 'active' && !noPatients && m.role !== 'asha' && m.teamIds.includes(String(r.team_id));
-  const allowed = (spec: TableSpec, r: Row) => spec.scope === 'org' ? true : spec.scope === 'person' ? people.has(String(r.person_id ?? r.id)) : spec.scope === 'visit' ? visits.has(String(r.visit_id)) : spec.scope === 'team' ? teamScope(r) : spec.scope === 'identity' ? people.has(String(r.survivor_id)) && people.has(String(r.duplicate_id)) : r.person_id == null || people.has(String(r.person_id));
+  // Slice 14f: patients disposed from the exporter's care scope (by the team recorded in the register; ASHA-role exporters
+  // have none, since the assignee is not recorded). Their revision tombstones, media tombstones, receipts and register
+  // entries are exported; their audit events are exported as content digests only; their records no longer exist.
+  const disposedPeople = new Set(data.disposals.filter(r => r.table_name === 'patients' && m.status === 'active' && !noPatients && m.role !== 'asha' && m.teamIds.includes(String(r.team_id))).map(r => String(r.record_id)));
+  const known = (id: unknown) => people.has(String(id)) || disposedPeople.has(String(id));
+  const allowed = (spec: TableSpec, r: Row) => spec.scope === 'org' ? true : spec.scope === 'person' ? (['record_revisions', 'media'].includes(spec.table) ? known(r.person_id) : people.has(String(r.person_id ?? r.id))) : spec.scope === 'visit' ? visits.has(String(r.visit_id)) : spec.scope === 'team' ? teamScope(r) : spec.scope === 'identity' ? people.has(String(r.survivor_id)) && people.has(String(r.duplicate_id)) : spec.scope === 'disposal' || spec.scope === 'receipt' ? r.person_id == null || known(r.person_id) : r.person_id == null || people.has(String(r.person_id));
   const files: ExportFile[] = [];
-  let totalRows = 0, totalWithheld = 0, totalEntries = 0;
+  let totalRows = 0, totalWithheld = 0, totalEntries = 0, totalDisposed = 0;
   const media: ExportFile[] = [];
   for (const spec of TABLES) {
     const rows = data[spec.table], lines: unknown[] = [];
-    let withheld = 0, entries = 0, others = 0;
+    let withheld = 0, entries = 0, others = 0, disposed = 0;
     for (const r of rows) {
       if (spec.scope === 'self' && String(r.user_id) !== m.userId) { others++; continue; }
+      // Slice 14f: an audit event about a patient disposed from the exporter's scope keeps its place in the chain as a digest.
+      if (spec.scope === 'audit' && r.person_id != null && disposedPeople.has(String(r.person_id))) { disposed++; lines.push({ org_id: r.org_id, id: r.id, seq: r.seq ?? null, prev_hash: r.prev_hash ?? null, hash: r.hash ?? null, content: await contentDigest(r as unknown as EventRow), withheld: 'Event about a disposed patient record; content digest only.' }); continue; }
       if (spec.table === 'patients' ? !people.has(String(r.id)) : !allowed(spec, r)) {
         withheld++;
         // Audit events outside scope keep their place in the chain as digests.
         if (spec.scope === 'audit') lines.push({ org_id: r.org_id, id: r.id, seq: r.seq ?? null, prev_hash: r.prev_hash ?? null, hash: r.hash ?? null, content: await contentDigest(r as unknown as EventRow), withheld: 'Patient-linked event outside the exporter\'s care scope; content digest only.' });
+        // Slice 14f: so do register entries, so the register chain still verifies.
+        if (spec.scope === 'disposal') lines.push({ org_id: r.org_id, seq: r.seq, prev_hash: r.prev_hash, hash: r.hash, content: await registerDigest(r as unknown as RegisterEntry), withheld: 'Disposal of a record outside the exporter\'s care scope; entry digest only.' });
         continue;
       }
       if (spec.table === 'media' && !r.deleted_at && typeof r.data === 'string' && r.data) media.push({ path: `media/${r.id}.${MEDIA_EXT[String(r.mime)] ?? 'bin'}`, bytes: fromB64(r.data), note: `Media ${r.id} for visit ${r.visit_id}` });
@@ -167,7 +179,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       // the exporter's patient scope is left out of the row's data, with its relationship and any end reason.
       if ((spec.scope === 'org' || spec.scope === 'team') && typeof r.data === 'string' && r.data) {
         let doc: unknown = null; try { doc = JSON.parse(r.data); } catch { doc = null; }
-        if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, id => people.has(id)); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
+        if (doc && typeof doc === 'object') { const scoped = spec.scope === 'team' ? scopeEntries(doc, id => people.has(id), PATIENT_ID_LISTS, PATIENT_ID_MAPS) : scopeEntries(doc, known); if (scoped.withheld) { out.data = JSON.stringify(scoped.value); entries += scoped.withheld; } }
       }
       // Slice 6w (fifth review, finding 6): the indicator differencing ledger is server-side protection state
       // (hashed filters and unsuppressed per-cell counts from every viewer's queries); it is not exported.
@@ -177,9 +189,9 @@ export async function buildExport(db: D1Database, input: ExportInput) {
       }
       lines.push(out);
     }
-    totalRows += lines.length; totalWithheld += withheld; totalEntries += entries;
+    totalRows += lines.length; totalWithheld += withheld; totalEntries += entries; totalDisposed += disposed;
     const stored = rows.length ? Object.keys(rows[0]) : [];
-    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, ...(spec.scope === 'self' ? { otherMembersRows: others } : {}), ...(spec.scope === 'org' || spec.scope === 'team' ? { withheldEntries: entries } : {}), columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: entries ? `${spec.note ? spec.note + ' ' : ''}${entries} patient-linked entries inside data are left out (outside the exporter's care scope); data is re-serialised without them.` : spec.note });
+    files.push({ path: `tables/${spec.table}.jsonl`, bytes: jsonl(lines), table: spec.table, rows: lines.length, withheld, ...(disposed ? { disposed } : {}), ...(spec.scope === 'self' ? { otherMembersRows: others } : {}), ...(spec.scope === 'org' || spec.scope === 'team' ? { withheldEntries: entries } : {}), columns: stored.filter(c => !(spec.omit ?? []).includes(c)), omitted: spec.omit ?? [], note: entries ? `${spec.note ? spec.note + ' ' : ''}${entries} patient-linked entries inside data are left out (outside the exporter's care scope); data is re-serialised without them.` : spec.note });
   }
   // Member accounts: identifiers and names only.
   const accounts = (await db.prepare('SELECT user_id,account_code,display_name,created_at FROM accounts WHERE user_id IN (SELECT user_id FROM memberships WHERE org_id=?) ORDER BY user_id').bind(orgId).all<Row>()).results;
@@ -243,6 +255,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     totals: { files: described.length, rows: totalRows, withheld: totalWithheld, withheldEntries: totalEntries, bytes },
     files: described,
     auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },
+    disposal: { registerEntries: data.disposals.length, head: data.disposals.length ? { seq: Number(data.disposals.at(-1)!.seq), hash: String(data.disposals.at(-1)!.hash) } : null, disposedPatientsInScope: disposedPeople.size, auditDigestsOfDisposedPatients: totalDisposed, note: 'Slice 14f: disposed records are not in their own tables. tables/disposals.jsonl lists each one with its disposal time, rule, authority and content SHA-256 (chained like the audit log, with the disposal-chain label); revision rows of disposed patients carry a tombstone instead of content, their media rows keep metadata without content, and their audit events are content digests. References to a disposed record resolve to its register entry.' },
     handover: { externalActions: handover.length - tasks.length, patientTasks: tasks.length, withoutActiveOwner: tasks.filter(t => t.ownerStatus !== 'active').length },
     fhir: { included: input.includeFhir, documents: fhirCount, note: input.includeFhir ? 'One FHIR R4 document Bundle per current confirmed visit in scope. Structural subset only; not profile-validated.' : 'Not requested.' },
     excluded: EXCLUDED,
@@ -277,6 +290,15 @@ Relationships
   media, rights_requests, audit_events and command_receipts; visits.id by visit_id in plans,
   ai_results, submissions and media; teams.id by team_id; accounts.user_id by user_id,
   actor_id, created_by and assigned_to. Columns named data, changes, counts and team_ids are JSON text.
+
+Disposed records (slice 14f)
+  tables/disposals.jsonl is the disposal register: one entry per record disposed under the
+  retention schedule (identifiers, time, rule, authority and the SHA-256 of the content removed).
+  Disposed patients, visits, plans, AI results, submissions and referrals are not in their tables;
+  their media rows have no content and their revision rows carry a tombstone. content =
+  SHA-256(JSON.stringify([org_id,id,batch_id,record_class,table_name,record_id,person_id,team_id,
+  disposed_at,rule,authority,content_sha256])); hash = SHA-256(JSON.stringify(
+  ['saha-disposal-chain-v1',seq,prev_hash,content])); seq 0 links to 64 zeros.
 
 Audit chain
   audit_events rows with seq form one chain. content = SHA-256 of

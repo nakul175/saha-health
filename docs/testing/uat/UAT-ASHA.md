@@ -703,11 +703,11 @@ Version/CAS conflicts and field comparison preserve both versions. Slice 0a: edi
 
 **Expected result** (catalogue): A low-quality image cannot silently generate confirmed values; deleting an unsubmitted recording removes the associated draft references.
 
-**Known gaps** (assessment, remaining work for BR-DATA-08): Object storage and larger media, clinical quality assessment of reduced photos, and a retention lifecycle for media on the server (offline queueing: slice 3a, BR-OFF-04).
+**Known gaps** (assessment, remaining work for BR-DATA-08): Object storage and larger media, clinical quality assessment of reduced photos, an approved media retention period and backup retention (offline queueing: slice 3a, BR-OFF-04).
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-08)</summary>
 
-Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata.
+Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata. Slice 14f: server media has a retention class (visit media, from upload); a two-owner disposal erases content past the schedule, keeps the media row as a tombstone, marks the visit's reference removed and records it in the disposal register; disposed media answers 410 and a restore re-applies it.
 
 </details>
 

@@ -1486,3 +1486,32 @@ Round 14, remaining-work rows R73 and R91 ([slice 14e](docs/current/SLICE-14E-WI
 - **Mutations.** Three deliberate mutations (the access rule removed; a second send of an uncertain notice allowed; the media sweep removed) each failed their suite.
 - **Open.** Devices that never reconnect; suspended workers' notebooks; unsynced observations discarded under an order (counted); manual notices for HTTP and EHR connections; notices paused during maintenance.
 - No independent review. BR-REP-01, BR-SEC-03 and BR-OFF-07 texts updated; all stay partial; requirement counts unchanged.
+## Development slice 14f — disposal execution — 4 October 2026 IST
+
+Round 14, requirement slice R30 ([slice 14f](docs/current/SLICE-14F-DISPOSAL.md)); on a branch from `main` (2adfbde1), draft pull request, not merged.
+
+- **Built.**
+  - A retention rule may allow disposal of patient records and visit media. One owner prepares a dry-run plan (identifiers, counts, plan hash); a second owner applies exactly that plan, recomputed at its preparation time over current records.
+  - Held records, records outside either owner's care scope, classes whose rule keeps them, and patients linked to open work or referenced by any other record are never disposed.
+  - Disposed rows are deleted, with an append-only, chained register entry as their tombstone (migration 0021). Media content is erased (row kept) and revision content tombstoned under a narrowed revision trigger. Audit events and receipts are kept.
+  - Owners download the register; `scripts/recovery.mjs restore` re-applies it, or must be told explicitly to restore without it. The data exit and its offline verifier mark disposed records.
+  - Synthetic and training environments only; the periods are placeholders.
+- **Local results** (built Worker, Node 22.22.2, Linux container, shared 2-core machine, synthetic data):
+  - `tsc --noEmit` clean; build clean;
+  - unit 131 suites, 8,083 checks, all passed (new disposal contract, 39), before a final wording change to two messages. On the final build the unit layer passed 130 suites (8,080 checks). `audit-contention-contract` (slice 13e, a timing model) refused 1 of 120 reads while other agents' suites loaded the machine (load average about 7). It passed alone three times in a row. The only change to `persist` adds statements when a hook is passed, which that model never does;
+  - HTTP/D1 4,810 (new disposal smoke in its own organisation; before this slice 4,758); restore drill 21;
+  - smoke 36 passed, 1 skipped; security NFR 80 (authorisation matrix 51, with the new register route in its grid; identity 29); UAT 63 after the documentation was regenerated;
+  - regression guard passed; baseline raised for the HTTP suite and the new contract.
+
+  The retention panel was rendered in Chrome against the local database after a disposal: no console errors.
+- **Found while testing:**
+  - The first restore check found the disposed patient's name still in the restored SQLite file, in free pages, although no row held it. The restore tool now zeroes deleted content and rebuilds the file after re-applying the register. The same question for D1 is open (below).
+  - Existing tests whose counts this slice changes were updated: 7 record classes in the retention smoke; 33 exported tables and the verifier's new check in the data exit contract.
+  - The first HTTP run expected exactly one new audit event after the apply, but command responses add read-audit events; the check now compares event ids (none removed, one `disposalApply`).
+- **Not established:**
+  - whether deleted rows remain recoverable in D1 storage, Time Travel or Cloudflare backups;
+  - backup retention, so backups keep disposed content until destroyed;
+  - a hosted D1 restore re-applying the register;
+  - disposal of the other record classes and of audit free text;
+  - an approved schedule.
+- The register download is complete for every owner (identifiers outside the owner's care scope included, no content), by design for restore safety; it needs review. Built by one agent; no independent review. BR-SEC-09, BR-SEC-10 and BR-DATA-08 stay partial; requirement counts unchanged.
