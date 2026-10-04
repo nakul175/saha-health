@@ -91,6 +91,13 @@ export async function chainMoved(db: D1Database, orgId: string, base: Head) {
   return (now?.seq ?? -1) !== (base?.seq ?? -1);
 }
 
+// Slice 13e (round-11 O-1): a commit that lost the race for the chain head waits before it is rebuilt on the new head: a random
+// time up to 10 ms x 2^attempt (20, 40, 80, 160, 320 ms), so a burst of readers on one organisation does not retry in lockstep
+// and exhaust its attempts. Bounded: at most about 620 ms in all before a commit gives up.
+export const CHAIN_BACKOFF_MAX_MS = 320;
+export const chainBackoffMs = (attempt: number) => Math.floor(Math.random() * (Math.min(CHAIN_BACKOFF_MAX_MS, 10 * 2 ** attempt) + 1));
+export const chainBackoff = (attempt: number) => new Promise<void>(resolve => setTimeout(resolve, chainBackoffMs(attempt)));
+
 // Walks the chain in sequence order and reports the first break. Content is never returned.
 // Slice 6w (fifth review, finding 8): verification can start from an anchor (a checkpoint the owner kept, or the
 // last checkpoint issued and recorded in the chain): the event at the anchor must still hold the anchor's hash,

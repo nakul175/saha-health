@@ -3705,7 +3705,8 @@
         "app/api/record-opened/route.ts",
         "tests/read-audit-completion-contract.mjs",
         "tests/read-audit-completion-smoke.mjs",
-        "docs/current/SLICE-10H-READ-AUDIT-COMPLETION.md"
+        "docs/current/SLICE-10H-READ-AUDIT-COMPLETION.md",
+        "tests/audit-contention-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4091,7 +4092,8 @@
       "evidenceContext": [
         "REMAINING-RELEASES.md",
         "tests/nfr/performance-budgets.mjs",
-        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
+        "tests/audit-query-plan-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4254,7 +4256,7 @@
       "sourceTextLine": 717,
       "implementation": "partial",
       "target": "R15",
-      "current": "Audit/receipts committed atomically; external calls use durable checkpoints. Slice 6j: audit events are chained in commit order under a unique sequence, so recovery preserves order independently of timestamps; verification reports clock regressions. Slice 6t: fault-injected audit-store failures (contract and local D1) refuse audited reads, commands, privileged changes, exports and external AI/EHR-retrieval requests with nothing written or sent; reads and exports fail closed with a clear message.",
+      "current": "Audit/receipts committed atomically; external calls use durable checkpoints. Slice 6j: audit events are chained in commit order under a unique sequence, so recovery preserves order independently of timestamps; verification reports clock regressions. Slice 6t: fault-injected audit-store failures (contract and local D1) refuse audited reads, commands, privileged changes, exports and external AI/EHR-retrieval requests with nothing written or sent; reads and exports fail closed with a clear message. Slice 13e: chain retries back off randomly, so a burst of audited reads on one organisation no longer exhausts its attempts in a local contention model (50 of 120 refused before, none after); not measured on hosted D1.",
       "remaining": "Hosted D1 fault and outage testing, the EHR capability probe (calls before its audit), an emergency read path during audit outages, and every designated external/privileged action reviewed against the rule.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4269,7 +4271,9 @@
         "tests/access-audit-smoke.mjs",
         "docs/current/SLICE-6T-ACCESS-AUDIT.md",
         "tests/nfr/load-burst.mjs",
-        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
+        "tests/audit-contention-contract.mjs",
+        "docs/current/SLICE-13E-PERFORMANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4616,7 +4620,7 @@
       "sourceTextLine": 759,
       "implementation": "unverified",
       "target": "R16",
-      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured. Slice 6w: work-list cursors carry the view's total as well as the offset; when the total has changed the server restarts at the first page and the panel replaces its rows instead of appending.",
+      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured. Slice 6w: work-list cursors carry the view's total as well as the offset; when the total has changed the server restarts at the first page and the panel replaces its rows instead of appending. Slice 13e: with audit indexes (migration 0017), 1,000 workspace loads took 23.8 s then 24.3 s over 4,000 loads (24.9 s then 32.1 s without them) in Miniflare; Worker memory growth is unchanged and remains open.",
       "remaining": "Partitioned architecture, topology/load/support/cost review before 10000-worker or five-million-person expansion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4637,7 +4641,9 @@
         "docs/current/SLICE-6W-FIFTH-REVIEW-FIXES.md",
         "tests/nfr/performance-budgets.mjs",
         "tests/nfr/memory-growth.mjs",
-        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
+        "tests/audit-query-plan-contract.mjs",
+        "docs/current/SLICE-13E-PERFORMANCE.md"
       ],
       "automatedAcceptanceClaim": false
     },
