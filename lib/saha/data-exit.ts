@@ -23,7 +23,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0016_scheduled_cursor';
+export const SCHEMA_MIGRATION = '0017_audit_time_indexes';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;

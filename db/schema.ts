@@ -65,7 +65,10 @@ export const auditEvents = sqliteTable('audit_events', {
   // Slice 6j: per-organisation hash chain. Null on events written before the chain started;
   // those are sealed by the organisation's genesis event (seq 0) instead of being rewritten.
   seq:integer('seq'), prevHash:text('prev_hash'), hash:text('hash'),
-},t=>[primaryKey({columns:[t.orgId,t.id]}),index('audit_org_person_time').on(t.orgId,t.personId,t.at),uniqueIndex('audit_org_seq').on(t.orgId,t.seq)]);
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('audit_org_person_time').on(t.orgId,t.personId,t.at),uniqueIndex('audit_org_seq').on(t.orgId,t.seq),
+  // Slice 13e (round-11 O-4): the newest events of an organisation, and one person's recent events of one kind (rate limits,
+  // repeat-read windows), without scanning the organisation's whole log.
+  index('audit_org_time').on(t.orgId,t.at),index('audit_org_actor_action_time').on(t.orgId,t.actorId,t.action,t.at)]);
 export const commandReceipts = sqliteTable('command_receipts', {
   actorId:text('actor_id').notNull(), key:text('key').notNull(), orgId:text('org_id').notNull().references(()=>organisations.id), hash:text('hash').notNull(), result:text('result').notNull(), personId:text('person_id'), createdAt:text('created_at').notNull(),
 },t=>[primaryKey({columns:[t.actorId,t.key]})]);

@@ -5,7 +5,7 @@ import { digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
-import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, chainMoved, linkRows } from './audit-chain';
+import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, chainBackoff, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
 type Value=string|number|null;
 export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
@@ -184,7 +184,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
   if(m.teamIds.length)stmts.push(...guarded(db,orgId,token,m.teamIds.map(t=>row('team_members',{org_id:orgId,team_id:t,user_id:m.userId},['org_id','team_id','user_id']))));
  }
  if(switchOrg)stmts.push(db.prepare('UPDATE accounts SET active_org_id=? WHERE user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,actor.userId,orgId,token));
- let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS)continue;fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
+ let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
  if(saved[0].meta.changes!==1)fail(409,plan.patients?'A teammate changed this patient record. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.':'A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.');
  return {...plan,attempts:attempt};
  }
@@ -206,7 +206,7 @@ export async function persistScheduledRecord(db:D1Database,orgId:string,key:type
    db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND NOT EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.maintenance')=1) AND COALESCE((SELECT json(json_extract(data,'${path}')) FROM operations WHERE org_id=?),'')=?`).bind(token,orgId,orgId,orgId,prior),
    db.prepare(`INSERT INTO operations (org_id,data) SELECT ?,? WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?) ON CONFLICT(org_id) DO UPDATE SET data=json_set(operations.data,'${path}',json(?))`).bind(orgId,j({...NEW_OPERATIONS,[key]:record}),orgId,token,j(record)),
    ...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)];
-  let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS)continue;return false;}
+  let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}return false;}
   return saved[0].meta.changes===1;
  }
 }
