@@ -2,7 +2,7 @@
   "version": "6",
   "dialect": "sqlite",
   "id": "f8eb794b-cfdc-493a-915e-4bd6d819f322",
-  "prevId": "149cfc9d-b0e3-4f41-9a59-f903b9c0e092",
+  "prevId": "7a460d9f-6e6a-4ec1-8355-512c6da7301e",
   "tables": {
     "accounts": {
       "name": "accounts",
@@ -1428,6 +1428,82 @@
         }
       },
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "limit_slots": {
+      "name": "limit_slots",
+      "columns": {
+        "org_id": {
+          "name": "org_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "actor_id": {
+          "name": "actor_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slot_key": {
+          "name": "slot_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "at": {
+          "name": "at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "limit_slots_org_id_organisations_id_fk": {
+          "name": "limit_slots_org_id_organisations_id_fk",
+          "tableFrom": "limit_slots",
+          "tableTo": "organisations",
+          "columnsFrom": [
+            "org_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "limit_slots_org_id_actor_id_kind_slot_key_pk": {
+          "columns": [
+            "org_id",
+            "actor_id",
+            "kind",
+            "slot_key"
+          ],
+          "name": "limit_slots_org_id_actor_id_kind_slot_key_pk"
+        }
+      },
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
