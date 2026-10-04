@@ -1,0 +1,19 @@
+{
+  "build": "/tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/14a/before-root",
+  "passed": 19,
+  "failed": 11,
+  "failures": [
+    "exactly 3 review events under the race, not 6\n\n6 !== 3\n",
+    "no such table: limit_slots",
+    "a throttled refusal records nothing\n\n6 !== 3\n",
+    "no such table: limit_slots",
+    "[\"090ee153-aaef-4a6e-bc0d-90146be3d941\",\"28423734-e3b8-41c6-8c77-57f7a48ce107\",\"daf3fdf8-c155-4bbd-b4b0-798dc9eaadc0\",\"b5d945ee-af57-47d4-b7d8-774c805bd0da\"]",
+    "exactly three refusals answered under the race: {\"422\":8}\n+ actual - expected\n\n  {\n+   '422': 8\n-   '422': 3,\n-   '429': 5\n  }\n",
+    "the refusal events stop at 20\n\n25 !== 20\n",
+    "no such table: limit_slots",
+    "Expected values to be strictly equal:\n\n25 !== 20\n",
+    "no such table: limit_slots",
+    "no such table: limit_slots"
+  ],
+  "seconds": 7
+}

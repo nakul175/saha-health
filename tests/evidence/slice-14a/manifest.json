@@ -1,0 +1,93 @@
+{
+ "slice": "14a",
+ "label": "Slice 14a: atomic review and refusal limits, partial-withhold HTTP test, O-2 investigation",
+ "environment": "local built Worker (wrangler dev and Miniflare), local D1/SQLite, Node 22.22.2, shared 2-core Linux container, synthetic data, 4 October 2026",
+ "note": "pr tier (node scripts/test.mjs pr --fast --guard, SAHA_TEST_PORT=8810) before the generated documentation and baseline were rebuilt: unit 131 suites 8,059 passed; HTTP/D1 4,864 passed (tests/limit-race-smoke.mjs included); restore drill 21; smoke 36 passed, 1 skipped; static failed only on generated documentation and requirement files, rebuilt afterwards (see VALIDATION.md for the checks run after). limit-slots-contract 15. Race runs: tests/limit-race-smoke.mjs alone against a wrangler dev Worker, on a build of main 2adfbde1 (19 of 30) and on this slice (30 of 30, three runs). memory-growth: SAHA_NFR_HEAP=1 (5 passed, levels off after a collection) and default mode (4 passed; 232, 66, 39 KB per load). o2-*.json: the O-2 investigation (heap probe with an inspector, with and without collections; heap snapshot summaries of the application isolate after 201 and 401 loads; controls without an inspector).",
+ "reports": {
+  "summary-pr.json": {
+   "sha256": "6e2e12e30dde6f33b763957a184156ae968a624e45a68d64406d318ee5f77029",
+   "passed": 12980,
+   "completedAt": "2026-10-04T11:21:57.103Z"
+  },
+  "api-smoke-result.json": {
+   "sha256": "8424f7e60b685bb367ba157e453ae2b2d261abe657fd9265d1ce52400a490457",
+   "passed": 4864,
+   "completedAt": "2026-10-04T11:21:31.840Z"
+  },
+  "limit-slots-contract-result.json": {
+   "sha256": "1b03b7d6ed35d31033f4e0ae09e87acbd8df89fba22f3deb1609a3f8bf879d40",
+   "passed": 15,
+   "completedAt": "2026-10-04T11:13:36.973Z"
+  },
+  "memory-growth-heap-result.json": {
+   "sha256": "b3a3967babc2cea6ebc09f7e83085c379cde1632e93fe9baee79f2eb9be2b92d",
+   "passed": 5,
+   "completedAt": "2026-10-04T11:07:21.678Z"
+  },
+  "memory-growth-default-result.json": {
+   "sha256": "2854bd5c490b7de022ab5fe3bfdcc9b122901140ecb464d5b0a66a6f3dce3c51",
+   "passed": 4,
+   "completedAt": "2026-10-04T11:09:48.282Z"
+  },
+  "race-before-main-2adfbde1.json": {
+   "sha256": "faf2a2d7302acdc3e3f6bf23e19c561ab8afa0894f3b39ffdf2ae09a7d288df7",
+   "passed": 19,
+   "completedAt": null
+  },
+  "race-after-run1.json": {
+   "sha256": "9bb557c55960e7c1a2e10ffafea46a5164620b828734483f871f7b643aa39fdf",
+   "passed": 30,
+   "completedAt": null
+  },
+  "race-after-run2.json": {
+   "sha256": "11639a8e1befd98589323bd4e67a3e9f202e0c79f242f2613a076c48f97b6563",
+   "passed": 30,
+   "completedAt": null
+  },
+  "race-after-run3.json": {
+   "sha256": "9bb557c55960e7c1a2e10ffafea46a5164620b828734483f871f7b643aa39fdf",
+   "passed": 30,
+   "completedAt": null
+  },
+  "o2-collected-each-round.json": {
+   "sha256": "281306c9115fc0756f36324ff694f63334b9aee56aa814a3fbbbd19135005118",
+   "passed": null,
+   "completedAt": null
+  },
+  "o2-no-collection.json": {
+   "sha256": "9ddceac5d780553680ff8e5447c611ec2c50ef232d706d24fde67b19e0e5bab9",
+   "passed": null,
+   "completedAt": null
+  },
+  "o2-snapshot-r0.json": {
+   "sha256": "958f123b161d3658b7f3a602316ad25e131febdfd3a4e41c56bc30b6641e0bfe",
+   "passed": null,
+   "completedAt": null
+  },
+  "o2-snapshot-r1.json": {
+   "sha256": "a0c1c32a3aed02db743fcb137160834f8ce076f7d84efba65544e058404d05b8",
+   "passed": null,
+   "completedAt": null
+  },
+  "o2-control-inline.json": {
+   "sha256": "ed6e41169853ed8a2f0b226bf1a28840ac0a97be642af5564adc6ead214d5554",
+   "passed": null,
+   "completedAt": null
+  },
+  "o2-control-inline-quiet.json": {
+   "sha256": "f3af73a4155901da5c5569729ea59d0dd9e155ba137850b482eea83b414b79fa",
+   "passed": null,
+   "completedAt": null
+  },
+  "o2-control-d1.json": {
+   "sha256": "0002ea18aaa72a0178a46288fccb1c1bfbf50a36549a94599aa78edf3866573f",
+   "passed": null,
+   "completedAt": null
+  },
+  "o2-control-saha-401.json": {
+   "sha256": "0c813d3f3730c085715a40388dc7c193c40443f1f17a276d729fe7afbee5682e",
+   "passed": null,
+   "completedAt": null
+  }
+ }
+}

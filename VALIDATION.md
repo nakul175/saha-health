@@ -1347,3 +1347,33 @@ Before the "fix all" branches were offered for merge, an agent that had not seen
   - restore drill 21; smoke 36 passed, 1 skipped;
   - UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
 - The partial-differencing path has no HTTP test of its own. The fixes were written by the agent that built 13a–13e; no person has reviewed them. Requirement counts are unchanged; the BR-ID-02 text is updated and it stays partial.
+
+## Development slice 14a — atomic review and refusal limits, partial-withhold HTTP test, O-2 investigation — 4 October 2026 IST
+
+Round 14, close the open defects ([slice 14a](docs/current/SLICE-14A-ATOMIC-LIMITS.md)); on a branch from `main` 2adfbde1, not merged.
+
+- **ABHA review throttle race (review 10) and indicator refusal limit race (13d/13f): fixed.**
+  - Each `abhaLink` and each indicator query now reserves a slot in `limit_slots` (migration 0018) before the duplicate lookup or the query. One guarded SQL statement inserts it only while fewer than the limit (3 reviews, 20 refusals) are counted or in progress.
+  - Measured with `tests/limit-race-smoke.mjs` run on its own against a local `wrangler dev` Worker:
+    - On a build of `main` 2adfbde1: six parallel links for six held numbers wrote 6 review events, and a mixed burst wrote 4. Eight parallel refused queries after 17 refusals were all answered as refusals (25 in the day). 19 of 30 checks passed; the 11 failures are the races and the missing table.
+    - On this slice: 3 review events, at most 3 in the mixed burst, and 3 refusals plus five 429s (20 in the day). 30 of 30, three runs.
+- **Partial differencing withhold over HTTP (13f limit): covered.** A query for "everyone" and "women" in an organisation of 7 women and 2 men releases the first and withholds the second. It is recorded as an `indicator refusal` event and counted, on screen and in the CSV export, and it reaches the 20-a-day limit.
+- **O-2 investigated: not an application leak.** Measured in Miniflare with a V8 inspector, 1,000 owner workspace loads per round at concurrency 4:
+  - The application isolate's live heap after a full collection stayed at 10.98 → 11.55, 11.59, 11.60, 11.61 MB over 4,000 loads (about 0.02 KB per load after the first round).
+  - Without collections, workerd RSS grew from 269 to 551 MB (the O-2 shape). One forced collection of every isolate brought it to 322 MB within five seconds.
+  - With a collection before each sample, RSS levelled at 249–266 MB.
+  - Heap snapshots over 200 loads grew 0.2 MB, in compiled code and strings (JIT warm-up).
+  - Controls without an inspector: a one-file Worker writing and reading D1 grew 107, 46, 24 KB per request; a 30 KB JSON Worker grew 13, 6, 11 (12, 6, 10 without `console.log`); the Saha bundle answering 401 grew 80, 35, 38.
+  - `SAHA_NFR_HEAP=1 node tests/nfr/memory-growth.mjs` (3 rounds): 5 checks passed. Live heap 11.66, 11.58, 11.60 MB; RSS after a collection 260.8, 264.1, 262.3 MB; verdict "levels off" (rounds 2–3, 0.75 KB per load).
+  - The default run (no inspector, no collection), on the same build, is unchanged: 4 checks passed; 232, 66 and 39 KB per load by round, 204 → 533 MB, "slowing but not levelled off".
+  - Nothing in the application was changed for O-2. Cloudflare isolate memory is still not measured; the memory a collection did not return was not traced inside workerd.
+- **Local results** (built Worker, Node 22.22.2, shared 2-core Linux container, synthetic data):
+  - `tsc --noEmit` clean; `npm run build` clean.
+  - `node scripts/test.mjs pr --fast --guard` before the documentation was regenerated: unit 131 suites, 8,059 checks; HTTP/D1 4,864; restore 21; smoke 36 passed, 1 skipped; regression guard passed. The same totals in a second run. Static failed only on the generated documentation and requirement files, which were rebuilt afterwards; the four documentation, requirement and UAT checks then passed. Reports and the manifest are in `tests/evidence/slice-14a/`; the regression baseline adds `unit/limit-slots-contract` (15) and raises `integration/run-api-smoke` to 4,864.
+  - New `tests/limit-slots-contract.mjs` 15; `tests/eighth-review-fixes-contract.mjs` 18 and `tests/audit-query-plan-contract.mjs` 12 with their source patterns updated (same counts); `tests/data-exit-contract.mjs` 39, following migration 0018.
+- Limits:
+  - A fourth concurrent ABHA link (or a 21st indicator query) by one person is refused while the others are in progress.
+  - An abandoned reservation counts for 10 minutes.
+  - Hosted D1 was not tested.
+  - Requirement counts are unchanged; the BR-INT-14, BR-REP-04 and NFR-24 texts are updated, and each keeps its status.
+  - Built by one agent; no independent review.

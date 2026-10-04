@@ -78,7 +78,9 @@ try {
     await check('2 the access action text names the holding record only', () => { assert.doesNotMatch(readFileSync('lib/saha/access-audit.ts', 'utf8'), /recorded on\s*\n?\s*\/\/\s*both records/); assert.match(AA.ACCESS_ACTIONS.abhaLinkReview, /holding record only/); });
     await check('2 source: one review event per requester and holding record a day, and a daily limit on refused links', () => {
       const src = readFileSync('lib/saha/server.ts', 'utf8'); assert.equal(Bm.ABHA_REVIEW_LIMIT, 3);
-      assert.match(src, /action='abhaLinkReview' AND at>=\?/); assert.match(src, /if\(!\(await reviews\(\)\)\.includes\(e\.heldBy\)\)await recordAccesses/); assert.match(src, /\(await reviews\(\)\)\.length>=ABHA_REVIEW_LIMIT/);
+      // Slice 14a: the throttle reserves a limit_slots row before the lookup (one per requester and holding record a day, three a
+      // day, an event exactly a day old still counting as before); the review is recorded only for a newly counted holder.
+      assert.match(src, /const ABHA_REVIEW_SLOTS=\{kind:'abhaReview',limit:ABHA_REVIEW_LIMIT,inclusive:true\}/); assert.match(src, /review=await slot\.use\(e\.heldBy\);\}catch\{[^}]*\}\s*if\(review\)try\{await recordAccesses/); assert.match(src, /withLimitSlot\(db\(\),\{orgId:state\.organisation\.id,actorId:u\.userId,\.\.\.ABHA_REVIEW_SLOTS\}/);
     });
 
     // 4a. Consent request governed by lookup; revocation always applies.

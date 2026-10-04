@@ -1,0 +1,225 @@
+{
+  "suite": "Memory growth per workspace load (non-functional)",
+  "layer": "non-functional",
+  "passed": 5,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-04T11:04:34.493Z",
+  "completedAt": "2026-10-04T11:07:21.678Z",
+  "environment": "built Worker in Miniflare with a V8 inspector; every isolate garbage-collected before each sample; local D1, synthetic data",
+  "limits": [
+    "Resident memory of the local workerd process(es) of one Miniflare instance, not Cloudflare isolate memory (128 MB limit) which has not been measured.",
+    "One identity loading one route (GET /api/workspace) in a six-patient organisation; other routes and larger organisations are not covered.",
+    "RSS is noisy (allocator and garbage-collection timing; V8 collects when it needs to, so a growing resident size is not by itself a leak). The suite fails only on a growth above the threshold in the last round, and it states \"levels off\" only when rounds 2 onward averaged no more than 10 KB per load.",
+    "The sponsor-facing figure for `wrangler dev` (about 270 KB per load) is the inspector retaining request data, which this suite deliberately excludes.",
+    "Heap mode: the inspector and the forced collections change what is measured (resident memory after a full collection, not in ordinary running); live heap is V8 heap only, not native memory held by the runtime."
+  ],
+  "measures": [
+    {
+      "label": "KB per load, round 1 (1000 loads)",
+      "value": 90.88,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 2 (1000 loads)",
+      "value": 3.39,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 3 (1000 loads)",
+      "value": -1.89,
+      "unit": "KB",
+      "budget": 150,
+      "ok": true
+    },
+    {
+      "label": "anonymous (heap and native) KB per load, last round",
+      "value": -1.89,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "file-backed KB per load, last round",
+      "value": 0,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "local database KB written per load, last round",
+      "value": 1.1,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "mean KB per load over rounds 2 to the last",
+      "value": 0.75,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "seconds for 1,000 loads, round 1",
+      "value": 41.4,
+      "unit": "s",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "seconds for 1,000 loads, last round",
+      "value": 61.7,
+      "unit": "s",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "workerd RSS after the last round",
+      "value": 262.3,
+      "unit": "MB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "application isolate live heap growth, KB per load, last round (after a full collection)",
+      "value": 0.02,
+      "unit": "KB",
+      "budget": 2,
+      "ok": true
+    },
+    {
+      "label": "application isolate live heap after the last round",
+      "value": 11.6,
+      "unit": "MB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "live heap of every isolate after the last round",
+      "value": 19.69,
+      "unit": "MB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "application isolate live heap after warm-up",
+      "value": 10.65,
+      "unit": "MB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "total RSS growth over 3 rounds",
+      "value": 90.2,
+      "unit": "MB",
+      "budget": null,
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "label": "the Worker's own workerd process was identified by parent pid (19963), not by name",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "the first workspace load succeeds (the local organisation is created)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "all 3101 workspace loads returned 200",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "KB per load, round 3 (1000 loads) within budget",
+      "ok": true
+    },
+    {
+      "label": "application isolate live heap growth, KB per load, last round (after a full collection) within budget",
+      "ok": true
+    }
+  ],
+  "heapMode": true,
+  "appHeapAfterWarmupMb": 10.65,
+  "allHeapsAfterWarmupMb": 18.46,
+  "verdict": "levels off: rounds 2 to 3 grew 0.75 KB per load on average (round 1: 90.88)",
+  "levelsOff": true,
+  "slowing": true,
+  "tailMeanKbPerLoad": 0.75,
+  "thresholdKbPerLoad": 150,
+  "plateauKbPerLoad": 10,
+  "rounds": [
+    {
+      "round": 1,
+      "loads": 1000,
+      "rssStartMb": 172.1,
+      "rssEndMb": 260.8,
+      "growthKb": 90884,
+      "kbPerLoad": 90.88,
+      "anonKbPerLoad": 90.4,
+      "fileKbPerLoad": 0.48,
+      "databaseKbPerLoad": 1.12,
+      "anonEndMb": 207.7,
+      "fileEndMb": 53.1,
+      "databaseEndMb": 5.7,
+      "failedLoads": 0,
+      "seconds": 41.4,
+      "appHeapEndMb": 11.66,
+      "appHeapKbPerLoad": 1.034,
+      "allHeapsEndMb": 19.74
+    },
+    {
+      "round": 2,
+      "loads": 1000,
+      "rssStartMb": 260.8,
+      "rssEndMb": 264.1,
+      "growthKb": 3392,
+      "kbPerLoad": 3.39,
+      "anonKbPerLoad": 3.39,
+      "fileKbPerLoad": 0,
+      "databaseKbPerLoad": 1.08,
+      "anonEndMb": 211,
+      "fileEndMb": 53.1,
+      "databaseEndMb": 6.7,
+      "failedLoads": 0,
+      "seconds": 42.1,
+      "appHeapEndMb": 11.58,
+      "appHeapKbPerLoad": -0.082,
+      "allHeapsEndMb": 19.68
+    },
+    {
+      "round": 3,
+      "loads": 1000,
+      "rssStartMb": 264.1,
+      "rssEndMb": 262.3,
+      "growthKb": -1892,
+      "kbPerLoad": -1.89,
+      "anonKbPerLoad": -1.89,
+      "fileKbPerLoad": 0,
+      "databaseKbPerLoad": 1.1,
+      "anonEndMb": 209.2,
+      "fileEndMb": 53.1,
+      "databaseEndMb": 7.8,
+      "failedLoads": 0,
+      "seconds": 61.7,
+      "appHeapEndMb": 11.6,
+      "appHeapKbPerLoad": 0.02,
+      "allHeapsEndMb": 19.69
+    }
+  ],
+  "rssAfterFirstLoadMb": 99.5,
+  "rssAfterWarmupMb": 172.1,
+  "workspaceBytes": 16635,
+  "concurrency": 4,
+  "workerdPids": [
+    19963
+  ],
+  "durationMs": 167181
+}

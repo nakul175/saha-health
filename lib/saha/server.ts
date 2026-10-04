@@ -40,6 +40,7 @@ import { applyOutreach, authorizeOutreach } from './outreach';
 import { applyExpansion, authorizeExpansion } from './expansion';
 import { boundedJsonBody } from './request-body';
 import { accessRoute, recordAccess, recordAccesses } from './access-audit';
+import { withLimitSlot } from './limit-slots';
 import { applyOperations, ensureOperating, operator } from './operations';
 import { applyFacilityScope, authorizeFacilityScope } from './facility-scope';
 import { applyInvoiceReconciliation } from './ai-invoice';
@@ -123,13 +124,21 @@ async function parseRequest(request:Request){const origin=request.headers.get('o
 // successful link by someone who enters that code. The oracle is bounded: one review event per requester and holding
 // record a day (repeats add nothing), and a requester with ABHA_REVIEW_LIMIT such refusals in the last day has every
 // further link refused the same way until the day has passed, so repeated probing reveals nothing more.
+// Slice 14a (review 10): the bound holds under races. Every link first reserves a slot (limit-slots.ts) in one statement that
+// succeeds only while fewer than ABHA_REVIEW_LIMIT are reviewed or in progress; the duplicate lookup runs only with a slot.
+// A lookup that finds a record outside the scope keeps the slot under that record's id (one per requester and record a
+// day) and records the review; any other outcome gives the slot back. Without a slot the link is refused as before.
+const ABHA_REVIEW_SLOTS={kind:'abhaReview',limit:ABHA_REVIEW_LIMIT,inclusive:true} as const;
 async function abdmWithStewardReview(state:OrgState,c:any,u:Actor,m:Member){
- const since=new Date(Date.now()-86400000).toISOString(),reviews=async()=>c?.type==='abhaLink'?(await db().prepare("SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='abhaLinkReview' AND at>=?").bind(state.organisation.id,u.userId,since).all<{person_id:string}>()).results.map(r=>r.person_id):[];
- if(c?.type==='abhaLink'&&(await reviews()).length>=ABHA_REVIEW_LIMIT){try{applyAbdm(structuredClone(state),{...c,otp:'000000'},u,m);}catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;}fail(422,LINK_REFUSED);}
- try{return applyAbdm(state,c,u,m);}
- catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;
-  try{if(!(await reviews()).includes(e.heldBy))await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal. Recorded on this record only; repeats by the same requester within a day are not recorded again.`}]);}catch{/* recordAccesses has logged the failure without content */}
-  fail(422,LINK_REFUSED);}
+ if(c?.type!=='abhaLink')return applyAbdm(state,c,u,m);
+ const throttled=():never=>{try{applyAbdm(structuredClone(state),{...c,otp:'000000'},u,m);}catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;}fail(422,LINK_REFUSED);};
+ return withLimitSlot(db(),{orgId:state.organisation.id,actorId:u.userId,...ABHA_REVIEW_SLOTS},async slot=>{
+  try{return applyAbdm(state,c,u,m);}
+  catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;
+   let review=false;try{review=await slot.use(e.heldBy);}catch{/* the reservation stays counted until it expires */}
+   if(review)try{await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal. Recorded on this record only; repeats by the same requester within a day are not recorded again.`}]);}catch{/* recordAccesses has logged the failure without content */}
+   fail(422,LINK_REFUSED);}
+ },throttled);
 }
 async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof parseRequest>>){
  const u=await identity(),{key,c}=parsed,hash=await digest(c);await ensureHome(u);
