@@ -1411,3 +1411,27 @@ Requirement slice R90 (BR-SEC-02), on a branch from `main` 2adfbde1, built in pa
   - A lapse is derived on read, not written as an event.
   - Built by one agent; no person has reviewed it.
 - BR-SEC-02 stays partial with its remaining work restated. Requirement counts are unchanged.
+## Development slice 14b — proxy authority — 4 October 2026 IST
+
+Round 14, privacy and safety batch ([slice 14b](docs/current/SLICE-14B-PROXY-AUTHORITY.md)): requirement slice R12 with the part of R11 it needs. On a branch from `main` 2adfbde1; draft pull request, not merged.
+
+- **What it adds.**
+  - Each proxy grant records a typed relationship between two people, an authority (parent of a person under 18, legal guardian, nominated by the person, capacity representative), a start and an expiry. A grant may cover consent decisions and rights requests.
+  - Every reliance is checked on the server at the time of use and refused when the grant is:
+    - revoked, not started or expired;
+    - out of purpose, or without relationship or authority;
+    - under a parent's authority once the recorded age is 18;
+    - under a capacity representative whose person is not, or no longer, recorded as lacking capacity.
+  - Clinicians record capacity (`capacityRecord`, the only new command; no route, no migration).
+  - Consent events and rights requests name the representative's record, relationship, authority and grant period. Each use is a `proxyUse` audit event with no representative name in audit text.
+- **Grants recorded before this slice are no longer in force** (no authority). Five existing test files had their grant fixtures given an authority; no assertion was removed and no expected count changed.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data, ports 8820–8823):
+  - `tsc --noEmit` clean;
+  - unit: 131 suites, 8,066 checks (new: proxy-authority contract, 22; removing the age-18 rule fails it);
+  - HTTP/D1: 4,842, of which 84 in the new proxy-authority module; scheduled check 8;
+  - restore drill 21; smoke 36 passed, 1 skipped; NFR security suites (authorisation matrix 51, identity hardening 29);
+  - a headless Chrome check of the three changed dialogs (8 checks; no console errors, page errors or 5xx). This was a one-off script, not a committed suite.
+  - The first static run failed only on the generated documentation, before it was regenerated; the static and UAT checks pass after regeneration.
+  - Not run for this slice: UI (Playwright journeys; none covers these dialogs), performance, memory and load.
+- **Requirements.** Counts unchanged. BR-ID-07, BR-SEC-02 and BR-SEC-04 have updated texts and stay partial.
+- Built by one agent; no independent review. Reports in `tests/evidence/slice-14b/`.

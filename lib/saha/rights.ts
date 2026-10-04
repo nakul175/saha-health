@@ -1,18 +1,22 @@
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
-import { normallyAllowed } from './access';
+import { allowed, normallyAllowed } from './access';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 import { supervises } from './delegation';
+import { grantState, recordProxyUse, representativeRef, representativeText, requireProxy, type ProxyGrant, type RepresentativeRef } from './household';
 
 // Slice 6b: rights and grievance requests (BR-SEC-10). A request is recorded against one patient
 // with how the requester's identity (or a representative's authority) was checked, gets a due date
 // and a named owner, and closes with an outcome, a response and evidence. Where data already left
 // Saha, each destination becomes an item someone must mark as notified. A fulfilled restriction
 // request pauses external sharing and optional AI for the patient until it is lifted.
+// Slice 14b (R12): a representative's request is accepted only under a proxy grant in force under its authority that covers
+// rights requests (`requireProxy`); the request records the representative's record, relationship, authority and grant
+// period, and the reliance is its own `proxyUse` audit event.
 export type RightsKind='access'|'correction'|'restriction'|'deletion'|'grievance';
 export type RightsItem={id:string;kind:'programme-destination'|'ehr-destination';ref:string;detail:string;state:'open'|'notified'|'not-required';note?:string;by?:string;at?:string};
-export type RightsRequest={id:string;version:number;personId:string;kind:RightsKind;channel:'in-person'|'phone'|'written';requester:'self'|'proxy';proxyGrantId?:string;identityCheck:string;detail:string;receivedAt:string;dueAt:string;createdBy:string;ownerId:string;state:'open'|'closed';
+export type RightsRequest={id:string;version:number;personId:string;kind:RightsKind;channel:'in-person'|'phone'|'written';requester:'self'|'proxy';proxyGrantId?:string;representative?:RepresentativeRef;identityCheck:string;detail:string;receivedAt:string;dueAt:string;createdBy:string;ownerId:string;state:'open'|'closed';
  closed?:{by:string;at:string;outcome:'fulfilled'|'partially-fulfilled'|'refused'|'withdrawn';response:string;evidence:string};items:RightsItem[];history:{at:string;by:string;action:string;note:string}[]};
 export type Restriction={requestId:string;from:string;by:string;liftedAt?:string;liftedBy?:string;liftReason?:string};
 export const DUE_DAYS=30,MAX_OPEN_PER_PERSON=10;
@@ -56,15 +60,15 @@ function destinations(s:OrgState,p:Person,now:string):RightsItem[]{
 }
 export function applyRights(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
  const parsed=rightsSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeRights(s,m,c,now);
- s.rightsRequests??=[];const w=s.workspace;let r:RightsRequest,detail='',result:any={ok:true};
+ s.rightsRequests??=[];const w=s.workspace;let r:RightsRequest,detail='',result:any={ok:true},grant:ProxyGrant|null=null;
  if(c.type==='rightsCreate'){
   const p=person(w,c.personId);
-  if(c.requester==='proxy'){const g=(p.proxies??[]).find(x=>x.id===c.proxyGrantId);if(!g||g.revokedAt||g.expiresAt<=now)fail(422,'A representative needs a current proxy grant recorded on this patient. Record one first.');}
+  if(c.requester==='proxy')grant=requireProxy(p,c.proxyGrantId,'rights-requests',now);
   else if(c.proxyGrantId)fail(422,'A proxy grant applies only to a representative\'s request.');
   if(s.rightsRequests.filter(x=>x.personId===p.id&&x.state==='open').length>=MAX_OPEN_PER_PERSON)fail(422,'Too many open requests for this patient. Close some first.');
   const dueAt=new Date(Date.parse(now)+DUE_DAYS*86400000).toISOString();
-  r={id:uuid(),version:1,personId:p.id,kind:c.kind,channel:c.channel,requester:c.requester,...(c.proxyGrantId?{proxyGrantId:c.proxyGrantId}:{}),identityCheck:c.identityCheck,detail:c.detail,receivedAt:now,dueAt,createdBy:u.userId,ownerId:u.userId,state:'open',items:['correction','restriction','deletion'].includes(c.kind)?destinations(s,p,now):[],history:[{at:now,by:u.userId,action:'received',note:`Identity checked: ${c.identityCheck}`}]};
-  s.rightsRequests.push(r);detail=`${c.kind} request received (${c.channel}, ${c.requester==='proxy'?'representative with a current proxy grant':'the patient'}); due ${dueAt.slice(0,10)}; ${r.items.length} destinations to notify.`;result={requestId:r.id,dueAt,items:r.items.length};
+  r={id:uuid(),version:1,personId:p.id,kind:c.kind,channel:c.channel,requester:c.requester,...(c.proxyGrantId?{proxyGrantId:c.proxyGrantId}:{}),...(grant?{representative:representativeRef(grant)}:{}),identityCheck:c.identityCheck,detail:c.detail,receivedAt:now,dueAt,createdBy:u.userId,ownerId:u.userId,state:'open',items:['correction','restriction','deletion'].includes(c.kind)?destinations(s,p,now):[],history:[{at:now,by:u.userId,action:'received',note:`Identity checked: ${c.identityCheck}`}]};
+  s.rightsRequests.push(r);detail=`${c.kind} request received (${c.channel}, ${grant?`made by ${representativeText(representativeRef(grant))}`:'the patient'}); due ${dueAt.slice(0,10)}; ${r.items.length} destinations to notify.`;result={requestId:r.id,dueAt,items:r.items.length,...(r.representative?{representative:r.representative}:{})};
  }
  else {
   r=request(s,c.requestId,c.version);const p=person(w,r.personId);
@@ -84,12 +88,14 @@ export function applyRights(s:OrgState,input:unknown,u:Actor,m:Member,now=new Da
  }
  r.version=c.type==='rightsCreate'?1:r.version+1;
  w.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:r.id,personId:r.personId,detail});
+ if(grant)recordProxyUse(s,person(w,r.personId),grant,'rights-requests',c.type,r.id,u,m,now);
  return result;
 }
 export function rightsView(s:OrgState,m:Member,personId:string|null,now=new Date().toISOString()){
  const name=(id:string)=>s.members.find(x=>x.userId===id)?.displayName??'Former member';
  const row=(r:RightsRequest)=>{const p=s.workspace.people.find(x=>x.id===r.personId)!;return {...r,personName:p.name,owner:name(r.ownerId),overdue:r.state==='open'&&r.dueAt<now,openItems:r.items.filter(i=>i.state==='open').length,canAssign:steward(s,m,p,now),canClose:r.state==='open'&&(r.ownerId===m.userId||steward(s,m,p,now)),restriction:activeRestriction(p)?.requestId===r.id,canLift:activeRestriction(p)?.requestId===r.id&&(r.ownerId===m.userId||steward(s,m,p,now)),history:r.history.map(h=>({...h,by:name(h.by)}))};};
- if(personId){const p=person(s.workspace,personId);return {personId:p.id,restricted:!!activeRestriction(p),requests:(s.rightsRequests??[]).filter(r=>r.personId===p.id).sort((a,b)=>b.receivedAt.localeCompare(a.receivedAt)).map(row),owners:s.members.filter(x=>staff(x)&&normallyAllowed(x,p)).map(x=>({userId:x.userId,displayName:x.displayName})),proxies:(p.proxies??[]).filter(g=>!g.revokedAt&&g.expiresAt>now).map(g=>({id:g.id,name:s.workspace.people.find(x=>x.id===g.proxyPersonId)?.name??'Registered person',relationship:g.relationship})),dueDays:DUE_DAYS};}
+ if(personId){const p=person(s.workspace,personId);return {personId:p.id,restricted:!!activeRestriction(p),requests:(s.rightsRequests??[]).filter(r=>r.personId===p.id).sort((a,b)=>b.receivedAt.localeCompare(a.receivedAt)).map(row),owners:s.members.filter(x=>staff(x)&&normallyAllowed(x,p)).map(x=>({userId:x.userId,displayName:x.displayName})),// Slice 14b: only grants in force that cover rights requests; the representative is named only to a viewer who may see their record.
+ proxies:(p.proxies??[]).filter(g=>grantState(p,g,now)==='in-force'&&g.purposes.includes('rights-requests')).map(g=>{const q=s.workspace.people.find(x=>x.id===g.proxyPersonId);return {id:g.id,proxyPersonId:g.proxyPersonId,name:q&&allowed(m,q,now)?q.name:null,relationship:g.relationship,authority:g.authority,from:g.from,expiresAt:g.expiresAt};}),dueDays:DUE_DAYS};}
  const open=(s.rightsRequests??[]).filter(r=>r.state==='open'&&s.workspace.people.find(x=>x.id===r.personId)?.assigned).sort((a,b)=>a.dueAt.localeCompare(b.dueAt)).slice(0,100).map(row);
  return {open,overdue:open.filter(r=>r.overdue).length,dueDays:DUE_DAYS};
 }

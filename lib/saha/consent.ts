@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { CONSENT_PERIOD_DAYS, consentStanding, fail, noticeInForce, noticesOf, person, uuid, type NoticeRef, type StandingState } from './core';
 import { effective } from './abdm';
+import { capacityOf, recordProxyUse, representativeRef, representativeText, requireProxy, type ProxyGrant, type RepresentativeRef } from './household';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Role } from './types';
 
@@ -9,22 +10,31 @@ import type { Member, OrgState, Person, Role } from './types';
 // Saha without claiming to recall it, and appends one traceable event to the patient's consent
 // history: who, when, how it was recorded, which permission version, and what happened to each item.
 // The existing permission switch (setConsent) and contact-preference changes use the same record.
+//
+// Slice 14b (R12, BR-SEC-02, BR-SEC-04): a decision may be recorded as made by a representative. The command names the
+// proxy grant and the representative's record; the server checks that grant at the time of the decision (in force under
+// its authority, covering consent decisions) and records on the event who decided (`decidedBy`) and the representative's
+// record, relationship, authority and grant period, plus a `proxyUse` audit event. A person recorded as lacking capacity
+// cannot give a permission themselves (a representative must); a withdrawal is always recorded, because stopping is the
+// safe direction.
 export type ConsentPurpose='ai'|'exchange'|'contact';
 export type Disposition='stopped'|'in-flight'|'already-sent'|'kept';
 export type DownstreamKind='programme-plan'|'programme-submission'|'ehr-permission'|'ehr-publication'|'abdm-consent'|'abdm-care-context'|'abdm-received'|'ai-request'|'ai-result'|'outreach-message';
 export type DownstreamItem={kind:DownstreamKind;ref:string;before:string;after:string;disposition:Disposition;detail:string};
 export type ConsentChannel='in-person'|'phone'|'written'|'switch'|'contact-preferences';
-export type ConsentEvent={id:string;purpose:ConsentPurpose;action:'granted'|'withdrawn';at:string;by:string;byName:string;role:Role;channel:ConsentChannel;reference:string;reason:string;fromVersion:number;toVersion:number;items:DownstreamItem[];omitted?:number;notice?:NoticeRef|null;expiresAt?:string;renews?:{eventId:string;state:StandingState}};
+export type ConsentEvent={id:string;purpose:ConsentPurpose;action:'granted'|'withdrawn';at:string;by:string;byName:string;role:Role;channel:ConsentChannel;reference:string;reason:string;fromVersion:number;toVersion:number;items:DownstreamItem[];omitted?:number;notice?:NoticeRef|null;expiresAt?:string;renews?:{eventId:string;state:StandingState};decidedBy?:'person'|'representative';representative?:RepresentativeRef};
 // Bounds on the copy kept on the patient record. Every event is also in the audit chain, and every
 // patient change writes a record revision holding the full patient document at that version.
 export const MAX_ITEMS=100,MAX_HISTORY=100;
 export const PURPOSE_LABEL:Record<ConsentPurpose,string>={ai:'Optional AI assistance',exchange:'External record sharing',contact:'Automated contact'};
 const id=z.string().trim().min(1).max(200);
+// Slice 14b: the grant a representative acts under and the representative's own record (both checked on the server).
+export const representativeSchema=z.object({grantId:id,proxyPersonId:id}).strict();
 export const consentSchema=z.discriminatedUnion('type',[
- z.object({type:z.literal('withdrawConsent'),personId:id,version:z.number().int().positive(),purpose:z.enum(['ai','exchange','contact']),channel:z.enum(['in-person','phone','written']),reference:z.string().trim().min(3,'Give a reference of at least 3 characters.').max(200),reason:z.string().trim().min(10,'Write at least 10 characters.').max(1000)}).strict(),
+ z.object({type:z.literal('withdrawConsent'),personId:id,version:z.number().int().positive(),purpose:z.enum(['ai','exchange','contact']),channel:z.enum(['in-person','phone','written']),reference:z.string().trim().min(3,'Give a reference of at least 3 characters.').max(200),reason:z.string().trim().min(10,'Write at least 10 characters.').max(1000),representative:representativeSchema.optional()}).strict(),
 ]);
 // Same shape as the core setConsent command; this module handles it so the switch cannot skip the downstream stop.
-const setConsentSchema=z.object({type:z.enum(['setConsent']),personId:z.string().trim().min(1).max(200),purpose:z.enum(['ai','exchange']),active:z.boolean(),version:z.number().int().positive()});
+const setConsentSchema=z.object({type:z.enum(['setConsent']),personId:z.string().trim().min(1).max(200),purpose:z.enum(['ai','exchange']),active:z.boolean(),version:z.number().int().positive(),representative:representativeSchema.optional()});
 const care=(m:Member)=>m.status==='active'&&['asha','clinician'].includes(m.role);
 export function authorizeConsent(s:OrgState,m:Member,c:any){
  // Slice 14d: publishing a consent notice version is an owner decision (lib/saha/consent-notices.ts), checked on replay too.
@@ -121,31 +131,39 @@ export function contactWithdrawalItems(s:OrgState,p:Person,now:string,reason:str
 }
 const summary=(items:DownstreamItem[])=>{const n=(d:Disposition)=>items.filter(i=>i.disposition===d).length;return `${n('stopped')} stopped, ${n('in-flight')} awaiting a receipt, ${n('already-sent')} already sent (not recalled), ${n('kept')} kept.`;};
 // Withdraws one permission and applies its downstream effects. Returns the recorded event.
-function withdraw(s:OrgState,p:Person,purpose:ConsentPurpose,u:Actor,m:Member,now:string,channel:ConsentChannel,reference:string,reason:string){
+function withdraw(s:OrgState,p:Person,purpose:ConsentPurpose,u:Actor,m:Member,now:string,channel:ConsentChannel,reference:string,reason:string,g:ProxyGrant|null){
  const from=version(p,purpose),items:DownstreamItem[]=[];
  if(purpose==='contact'){const c=p.contactPreferences;if(c){c.permission=false;c.version++;c.updatedAt=now;c.by=u.userId;}items.push(...contactWithdrawalItems(s,p,now,'Contact permission withdrawn.'));}
  else {if(purpose==='ai')p.aiConsent=false;else p.exchangeConsent=false;p.consentVersion++;(purpose==='ai'?ai:exchange)(s,p,now,items);}
- return recordConsent(p,{purpose,action:'withdrawn',at:now,by:u.userId,byName:u.displayName,role:m.role,channel,reference,reason,fromVersion:from,toVersion:version(p,purpose),items});
+ return recordConsent(p,{purpose,action:'withdrawn',at:now,by:u.userId,byName:u.displayName,role:m.role,channel,reference,reason,fromVersion:from,toVersion:version(p,purpose),items,...decider(g)});
 }
+// Slice 14b: who made the decision, as recorded on the event.
+const decider=(g:ProxyGrant|null)=>g?{decidedBy:'representative' as const,representative:representativeRef(g)}:{decidedBy:'person' as const};
+const CAPACITY_REFUSAL='This person is recorded as lacking capacity to decide, so a permission cannot be recorded as their own. Record the decision of a representative whose grant covers consent decisions.';
 export function applyConsent(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
  const t=(input as any)?.type;if(t!=='withdrawConsent'&&t!=='setConsent')return null;
- authorizeConsent(s,m,input);const w=s.workspace;let e:ConsentEvent,action=t;
+ authorizeConsent(s,m,input);const w=s.workspace;let e:ConsentEvent,action=t,g:ProxyGrant|null=null,subject:Person;
  if(t==='withdrawConsent'){
   const parsed=consentSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid permission withdrawal.');const c=parsed.data,p=person(w,c.personId);
   if(p.version!==c.version)fail(409,'This patient record has changed. Refresh before recording the withdrawal.');
   if(!granted(p,c.purpose))fail(409,`${PURPOSE_LABEL[c.purpose]} is not currently permitted, so there is nothing to withdraw.`);
   if(c.purpose==='contact'&&!p.contactPreferences)fail(409,'No contact preferences are recorded for this patient.');
-  e=withdraw(s,p,c.purpose,u,m,now,c.channel,c.reference,c.reason);
+  g=c.representative?requireProxy(p,c.representative.grantId,'consent-decisions',now,c.representative.proxyPersonId):null;subject=p;
+  e=withdraw(s,p,c.purpose,u,m,now,c.channel,c.reference,c.reason,g);
  } else {
   const parsed=setConsentSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data,p=person(w,c.personId);
   if(p.version!==c.version)fail(409,'This patient record has changed. Refresh before updating permission.');
-  if(c.active){const from=p.consentVersion;if(c.purpose==='ai')p.aiConsent=true;else p.exchangeConsent=true;p.consentVersion++;const items:DownstreamItem[]=[];plans(s,p,items);e=recordConsent(p,{purpose:c.purpose,action:'granted',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:'switch',reference:'',reason:'',fromVersion:from,toVersion:p.consentVersion,items});}
-  else e=withdraw(s,p,c.purpose,u,m,now,'switch','','Recorded with the permission switch.');
+  g=c.representative?requireProxy(p,c.representative.grantId,'consent-decisions',now,c.representative.proxyPersonId):null;subject=p;
+  if(c.active&&!g&&capacityOf(p)==='lacks-capacity')fail(422,CAPACITY_REFUSAL);
+  if(c.active){const from=p.consentVersion;if(c.purpose==='ai')p.aiConsent=true;else p.exchangeConsent=true;p.consentVersion++;const items:DownstreamItem[]=[];plans(s,p,items);e=recordConsent(p,{purpose:c.purpose,action:'granted',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:'switch',reference:'',reason:'',fromVersion:from,toVersion:p.consentVersion,items,...decider(g)});}
+  else e=withdraw(s,p,c.purpose,u,m,now,'switch','','Recorded with the permission switch.',g);
   action='setConsent';
   // Slice 14d: a permission given records the notice it was given under and its expiry (grantTerms above).
   if(e.action==='granted')recordTerms(s,p,e,(input as any).notice,u,m,now);
  }
- const label=PURPOSE_LABEL[e.purpose];
- w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action,subject:(input as any).personId,personId:(input as any).personId,detail:e.action==='granted'?`${label} permission recorded (version ${e.fromVersion} to ${e.toVersion}).`:`${label} permission withdrawn (version ${e.fromVersion} to ${e.toVersion}${e.channel!=='switch'?`, ${e.channel}, reference ${e.reference}`:''}). ${summary(e.items)} Already shared records are not recalled.`});
- return {eventId:e.id,purpose:e.purpose,action:e.action,version:e.toVersion,items:e.items.length,stopped:e.items.filter(i=>i.disposition==='stopped').length,inFlight:e.items.filter(i=>i.disposition==='in-flight').length,alreadySent:e.items.filter(i=>i.disposition==='already-sent').length};
+ const label=PURPOSE_LABEL[e.purpose],who=` Decided by ${e.representative?representativeText(e.representative):'the person'}.`;
+ w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action,subject:(input as any).personId,personId:(input as any).personId,detail:(e.action==='granted'?`${label} permission recorded (version ${e.fromVersion} to ${e.toVersion}).`:`${label} permission withdrawn (version ${e.fromVersion} to ${e.toVersion}${e.channel!=='switch'?`, ${e.channel}, reference ${e.reference}`:''}). ${summary(e.items)} Already shared records are not recalled.`)+who});
+ // Slice 14b: the reliance on the grant is its own audit event.
+ if(g)recordProxyUse(s,subject!,g,'consent-decisions',action,e.id,u,m,now);
+ return {eventId:e.id,purpose:e.purpose,action:e.action,version:e.toVersion,items:e.items.length,stopped:e.items.filter(i=>i.disposition==='stopped').length,inFlight:e.items.filter(i=>i.disposition==='in-flight').length,alreadySent:e.items.filter(i=>i.disposition==='already-sent').length,decidedBy:e.decidedBy,...(e.representative?{representative:e.representative}:{})};
 }
