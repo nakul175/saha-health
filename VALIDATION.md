@@ -1290,3 +1290,12 @@ At the sponsor's request ("fix all", 4 October 2026, 03:10 IST) this slice close
   - smoke: 36 passed, 1 skipped;
   - NFR: 191; UAT steps: 63; UI: 25 Playwright tests.
 - Requirement counts unchanged (14 implemented-local, 151 partial, 2 not-built, 9 unverified); BR-ID-02 and BR-DATA-10 texts updated, both still partial. No independent review.
+
+## Development slice 13b — frontline provider hardening — 4 October 2026 IST
+
+Part of the sponsor's "fix all" ([slice 13b](docs/current/SLICE-13B-FRONTLINE-HARDENING.md)); on a branch stacked on 13a, not merged.
+
+- **Open-model libraries isolated.** Each on-device read runs in a fresh `sandbox="allow-scripts"` frame, an opaque origin with no same-origin access. A Chromium test with a stand-in for the CDN library shows the frame cannot read the parent page, cookies or storage, and its request to Saha carries `Origin: null` (refused by slice 13a). No real model ran.
+- **Receipts checked against what was sent.** The frontline contract now has 109 checks (99 before). Five receipts re-signed with the correct key but altered (observations, evidence text, rule prompt, an extra key, provenance wording) are each left uncertain with nothing stored; removing the checks makes the first fail.
+- **Local results** (Node 22.22.2, Linux container, synthetic data): `tsc --noEmit` clean; unit 125 suites, 8,006 checks; UI 26 Playwright tests. The HTTP, NFR and UAT tiers were not rerun for this slice: no route they cover changed. They run on the top of the stack.
+- No independent review; requirement counts unchanged.
