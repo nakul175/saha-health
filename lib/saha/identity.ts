@@ -30,11 +30,14 @@ export function signOutPath(config: IdentityConfig): string {
   return config.provider === 'cloudflare-access' && config.teamDomain ? `https://${config.teamDomain}/cdn-cgi/access/logout` : '/signout-with-chatgpt?return_to=%2F';
 }
 
+export const RESERVED_IDENTITY = (userId: string) => userId.startsWith('fixture:') || userId === 'system' || userId.startsWith('system:');
 export function sitesPrincipal(h: HeaderSource): Principal | null {
   const userId = h.get('oai-authenticated-user-id'), email = h.get('oai-authenticated-user-email');
   // Slice 9a: ids beginning `fixture:` are reserved for synthetic demonstration fixture members (lib/saha/demonstration.ts);
-  // no one can sign in as one. Cloudflare Access ids always begin `access:`.
-  if (!userId || !email || userId.startsWith('fixture:')) return null;
+  // no one can sign in as one. Cloudflare Access ids always begin `access:`. Slice 13d (round-10 review L3): `system` and ids
+  // beginning `system:` are reserved too: automated audit rows use them (the scheduled job, caseload scheduler and
+  // notification simulator), so no one can sign in under, or be mistaken for, an automated actor.
+  if (!userId || !email || RESERVED_IDENTITY(userId)) return null;
   const encoded = h.get('oai-authenticated-user-full-name');
   let fullName: string | null = null;
   if (encoded && h.get('oai-authenticated-user-full-name-encoding') === 'percent-encoded-utf-8') { try { fullName = decodeURIComponent(encoded); } catch { fullName = null; } }

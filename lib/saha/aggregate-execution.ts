@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, fail, uuid } from './core';
-import { persist, readState, type Actor } from './store';
+import { persist, readState, scope, type Actor } from './store';
 import { linkTrace } from './trace';
 import { recordAccess } from './access-audit';
 import { operationRefusal, refusalOf, type Refusal } from './adapter-operations';
@@ -101,6 +101,9 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
   else if(latest.operations?.maintenance){withdrawn='the organisation was paused for maintenance.';refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'maintenance'};}
   else {const x=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(x){withdrawn=x.text;refusal=x.refusal;}
    else {check=minimisationCheck(stored?.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed){withdrawn=`the payload failed the minimisation check (${check.problems[0]})`;refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'minimisation'};}}
+   // Slice 13d (tenth review): the population screen counts the people in the sender's scope, as at preparation. The state read
+   // inside the checkpoint is unscoped (every person unassigned), which made the population empty and the screen pass trivially.
+   if(!withdrawn){try{scope(latest,m.userId);}catch{withdrawn='the sender\'s membership is no longer active.';refusal=refusalOf(li,'aggregate','checkpoint');}}
    if(!withdrawn)withdrawn=await recordReleases(db,latest,releases,now);
    if(withdrawn&&!refusal&&li)refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'differencing'};}}
  let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch{}

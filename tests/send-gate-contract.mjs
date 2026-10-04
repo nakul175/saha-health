@@ -240,6 +240,14 @@ try {
     await refuses(() => G.ensureCanSend(s, { type: 'executePlan', visitId: 'v1', planId: 'plan1' }, owner), 409, generic);
     await refuses(() => G.ensureCanSend(s, { type: 'preparePlan', visitId: 'v1', recipients: ['mis_demo'] }, clin1), 409, /Open dispute on Weight.*copied from another patient.*Register page 14/);
   });
+  // Slice 13d (round-10 review L5): an assistant run stops on any open dispute of the confirmed visit.
+  await check('prepareAgent and executeAgent stop on an open dispute; without one they pass', async () => {
+    const clear = planned(['mis_demo']);
+    for (const type of ['prepareAgent', 'executeAgent']) assert.equal(await G.ensureCanSend(clear, { type, visitId: 'v1' }), null, `${type} with no dispute`);
+    const s = planned(['mis_demo']); await run(s, dispute({ target: 'notes', reason: 'The notes describe another patient.', reference: 'Visit sheet 3' }), asha);
+    for (const type of ['prepareAgent', 'executeAgent']) await refuses(() => G.ensureCanSend(s, { type, visitId: 'v1' }, clin1), 409, /Open dispute on .*notes describe another patient.*An assistant run would read the disputed values/i);
+    await refuses(() => G.ensureCanSend(s, { type: 'prepareAgent', visitId: 'v1' }, owner), 409, /^Sending is blocked for this visit\./);
+  });
   await check('preparePlan, approvePlan and executePlan stop on a carried dispute with its reason', async () => {
     const s = planned(['mis_demo']); await run(s, dispute(), asha);
     for (const type of ['preparePlan', 'approvePlan', 'executePlan']) {

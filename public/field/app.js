@@ -183,11 +183,11 @@ async function syncAll(){const e=epoch,done={registered:0,drafts:0,media:0,revie
  try{
   // Slice 3k: a step the server confirmed counts as activity, so a long run keeps the notebook open while it progresses;
   // the two-minute idle lock still applies when nothing completes (a stalled request) and hiding the page still locks it.
-  for(const r of regs().filter(r=>r.state==='queued')){const out=await syncRegistration(r);if(e!==epoch||out===null)return done;if(out==='synced')done.registered++;else done.review++;touch();}
+  for(const r of regs().filter(r=>r.state==='queued')){const out=await syncRegistration(r);if(e!==epoch||out===null)return done;if(out==='synced'){done.registered++;touch();}else done.review++;} // slice 13d: only a step that synced keeps the notebook unlocked
   // Slice 3j: one workspace read per organisation per run (not one per draft); the server still authorises every command.
   const read=new Map(),current=async org=>{if(!read.has(org))read.set(org,await loadWorkspace(org));return read.get(org);};
   for(const d of (book?.drafts??[]).filter(d=>d.state==='draft'&&!d.conflict&&!d.comparison&&(d.pending||Date.parse(d.packet.payload.expiresAt)>Date.now()))){
-   try{await sync(d,false,await current(d.packet.payload.organisationId));}catch(err){if(e!==epoch)return done;if(d.conflict&&!d.pending){done.review++;continue;}throw err;}if(e!==epoch)return done;if(d.state==='synced')done.drafts++;touch();}
+   try{await sync(d,false,await current(d.packet.payload.organisationId));}catch(err){if(e!==epoch)return done;if(d.conflict&&!d.pending){done.review++;continue;}throw err;}if(e!==epoch)return done;if(d.state==='synced'){done.drafts++;touch();}}
   for(const d of (book?.drafts??[]).filter(d=>d.state==='synced'&&(d.media??[]).some(x=>x.state==='queued'))){done.media+=await uploadMedia(d);if(e!==epoch)return done;}
  }catch(err){throw Error(summary()+' Stopped: '+err.message);}
  status(summary());return done;}

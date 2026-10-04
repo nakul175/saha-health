@@ -191,7 +191,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
     const occ = sql("SELECT * FROM alert_occurrences WHERE org_id=? AND alert_id='incident-critical-open'", D); assert.equal(occ.length, 1); assert.equal(occ[0].opened_at, T4); assert.equal(occ[0].closed_at, null);
     const n = sql("SELECT * FROM alert_notifications WHERE org_id=? AND alert_id='incident-critical-open'", D); assert.ok(n.length >= 1); assert.ok(n.every(x => x.delivered_at === T4 && x.user_id === 'owner'));
   });
-  await checkAsync('4 the evaluation time is recorded in the organisation record through the normal commit, with an audit event', async () => {
+  await checkAsync('4 the evaluation time is recorded in the organisation record with an audit event', async () => {
     const s = await state(D); assert.equal(s.operations.scheduledJob.evaluatedAt, T4); assert.equal(s.operations.scheduledJob.recordedBecause, 'first'); assert.equal(s.operations.scheduledJob.version, '1.0.0');
     assert.equal(s.operations.scheduledJob.alertRules, '1.2.0'); assert.equal(s.operations.scheduledJob.deliveryRules, '1.0.0');
     const a = audits(D, 'scheduledAlertEvaluation'); assert.equal(a.length, 1); assert.equal(a[0].actor_id, 'system'); assert.equal(a[0].actor_name, 'Saha scheduled job'); assert.match(a[0].detail, /In-app only; nothing was sent outside Saha/);
@@ -213,6 +213,32 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
   await checkAsync('4 the record is refreshed when the previous one is an hour old', async () => {
     const r = await J.runScheduled(d1, env, min(92, T4)), o = r.organisations.find(o => o.organisationId === D); assert.equal(o.recorded, true);
     const s = await state(D); assert.equal(s.operations.scheduledJob.recordedBecause, 'heartbeat'); assert.equal(s.operations.scheduledJob.evaluatedAt, min(92, T4)); assert.equal(audits(D, 'scheduledAlertEvaluation').length, 3);
+  });
+
+  // Slice 13d (round-10 L1): the record is written without moving the organisation revision, by compare-and-set on the
+  // record the run read, and never in maintenance; an ordinary operations write built on an older read keeps it.
+  await checkAsync('4 (13d) the record does not move the revision: a command prepared just before it still commits and keeps it', async () => {
+    const prepared = await state(D), rev = revision(D), stored = prepared.operations.scheduledJob;
+    const r = await J.runScheduled(d1, env, min(160, T4)), o = r.organisations.find(o => o.organisationId === D); assert.equal(o.recorded, true);
+    assert.equal(revision(D), rev, 'the organisation revision is not moved by the record');
+    const after = structuredClone(prepared); after.operations = { ...after.operations, reason: 'Synthetic note', version: after.operations.version + 1 };
+    after.workspace.audit.push({ id: 'l1-command', at: min(161, T4), actorId: 'owner', actor: 'Synthetic owner', role: 'admin', action: 'opsNote', subject: D, detail: 'Synthetic organisation-wide command.' });
+    await store.persist(d1, prepared, after, { userId: 'owner', displayName: 'Synthetic owner', email: '' }, { type: 'opsNote' }, 'l1-key', 'l1-hash', {});
+    const s = await state(D); assert.equal(s.operations.reason, 'Synthetic note'); assert.ok(revision(D) > rev);
+    assert.equal(s.operations.scheduledJob.evaluatedAt, min(160, T4), 'the command built on the older read did not roll the record back'); assert.notDeepEqual(s.operations.scheduledJob, stored);
+    assert.equal(s.operations.auditChain.recordedBecause !== undefined, true, 'the chain record is kept too');
+  });
+  await checkAsync('4 (13d) nothing is written when another run recorded first or the organisation is in maintenance', async () => {
+    const s = await state(D), rev = revision(D), n = audits(D, 'scheduledAlertEvaluation').length, current = s.operations.scheduledJob;
+    const ev = id => ({ id, at: min(170, T4), actorId: 'system', actor: 'Saha scheduled job', role: 'system', action: 'scheduledAlertEvaluation', subject: D, detail: 'Synthetic record.' });
+    assert.equal(await store.persistScheduledRecord(d1, D, 'scheduledJob', { ...current, evaluatedAt: min(1, T4) }, { ...current, evaluatedAt: min(170, T4) }, ev('l1-a')), false, 'the stored record is not the one read');
+    d1.db.prepare("UPDATE operations SET data=json_set(data,'$.maintenance',json('true')) WHERE org_id=?").run(D);
+    assert.equal(await store.persistScheduledRecord(d1, D, 'scheduledJob', current, { ...current, evaluatedAt: min(171, T4) }, ev('l1-b')), false, 'maintenance began after the read');
+    d1.db.prepare("UPDATE operations SET data=json_set(data,'$.maintenance',json('false')) WHERE org_id=?").run(D);
+    assert.equal(audits(D, 'scheduledAlertEvaluation').length, n); assert.deepEqual((await state(D)).operations.scheduledJob, current); assert.equal(revision(D), rev);
+    assert.equal(await store.persistScheduledRecord(d1, D, 'scheduledJob', current, { ...current, evaluatedAt: min(172, T4) }, ev('l1-c')), true);
+    assert.equal((await state(D)).operations.scheduledJob.evaluatedAt, min(172, T4)); assert.equal(audits(D, 'scheduledAlertEvaluation').length, n + 1); assert.equal(revision(D), rev);
+    await assert.rejects(() => store.persistScheduledRecord(d1, D, 'maintenance', false, true, ev('l1-d')), /Not a scheduled record/);
   });
 
   // ---- 5. A misconfigured environment is refused; maintenance pauses writes ----
@@ -253,8 +279,8 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
   // Organisations with a due transfer are visited first, oldest effective time first.
   const F1 = await org('org_z_due_late', { transfers: [{ people: ['p1'], effectiveAt: ms(9 * day) }] }), F2 = await org('org_a_idle'), F3 = await org('org_m_due_early', { transfers: [{ people: ['p1'], effectiveAt: ms(8 * day) }] });
   await checkAsync('6 the queue puts due transfers first, oldest first, then the rest', async () => {
-    const q = await J.organisationQueue(d1, ms(10 * day), 20); assert.deepEqual(q.slice(0, 2), [F3, F1]); assert.equal(q.length, sql('SELECT id FROM organisations').length);
-    const none = await J.organisationQueue(d1, ms(day - 1), 20); assert.ok(!none.slice(0, 1).includes(F1));
+    const q = await J.organisationQueue(d1, ms(10 * day), 20); assert.deepEqual(q.ids.slice(0, 2), [F3, F1]); assert.equal(q.ids.length, sql('SELECT id FROM organisations').length); assert.equal(new Set(q.ids).size, q.ids.length, 'a due organisation is not listed twice');
+    const none = await J.organisationQueue(d1, ms(day - 1), 20); assert.ok(!none.ids.slice(0, 1).includes(F1));
   });
   await checkAsync('6 organisations per run are bounded and the unreached ones are still due next run', async () => {
     const r = await J.runScheduled(d1, env, ms(10 * day), { organisations: 1 });
@@ -267,6 +293,20 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
     const all = sql('SELECT id FROM organisations').map(x => x.id), seen = new Set();
     for (let i = 0; i < all.length; i++) { const r = await J.runScheduled(d1, env, min(5 * i, ms(20 * day)), { organisations: 2 }); for (const o of r.organisations) seen.add(o.organisationId); }
     assert.deepEqual([...seen].sort(), all.sort());
+  });
+  // Slice 13d (round-10 review M2): the rotation continues from the last organisation a run actually reached.
+  await checkAsync('6 a run stopped early leaves no organisation behind: the next run continues after the last one reached', async () => {
+    const all = sql('SELECT id FROM organisations ORDER BY id').map(x => x.id), at = ms(30 * day);
+    sql("DELETE FROM scheduled_cursor"); sql("INSERT INTO scheduled_cursor (job,last_org,updated_at) VALUES ('scheduled-job',?,?)", all[0], at);
+    const stopped = await J.runScheduled(d1, env, at, { organisations: 3, queries: 1 });
+    assert.equal(stopped.stoppedBy, 'queries'); assert.deepEqual(stopped.organisations.map(o => o.organisationId), [all[1]], 'one organisation reached before the statement bound');
+    assert.equal(sql("SELECT last_org FROM scheduled_cursor WHERE job='scheduled-job'")[0].last_org, all[1], 'the cursor moved only past it');
+    const next = await J.runScheduled(d1, env, at, { organisations: 2 });
+    assert.deepEqual(next.organisations.map(o => o.organisationId), [all[2], all[3]], 'the next run starts with the organisation after it (the clock-based rotation skipped ahead)');
+    sql("UPDATE scheduled_cursor SET last_org=? WHERE job='scheduled-job'", all.at(-1));
+    const wrapped = await J.runScheduled(d1, env, at, { organisations: 2 });
+    assert.deepEqual(wrapped.organisations.map(o => o.organisationId), [all[0], all[1]], 'after the last organisation it wraps to the first');
+    assert.equal(wrapped.notReached, all.length - 2, 'not reached counts every organisation not visited this run');
   });
   await checkAsync('6 database statements per run are bounded and counted', async () => {
     const r = await J.runScheduled(d1, env, plus(100), { queries: 1 });

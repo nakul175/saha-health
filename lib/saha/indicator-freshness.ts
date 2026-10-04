@@ -67,7 +67,9 @@ export function lateSinceRelease(s:OrgState,people:Person[],def:DefLike,since:st
  const sp=def.spec;if(!lateSensitive(sp.numerator)&&!(sp.denominator&&lateSensitive(sp.denominator)))return {applicable:false as const,note:'This indicator has no visit-based source, so late arrivals do not change it.'};
  if(!lastRelease)return {applicable:true as const,since:null,count:null,note:'No earlier release of this figure to you in the last seven days.'};
  const f=sp.filters,cohort=new Map(people.filter(p=>(!f.programme||p.programmes.includes(f.programme as any))&&(!f.ageBand||ageBandOf(p.age)===f.ageBand)&&(!f.sex||p.sex===f.sex)&&!(sp.exclude.includes('identity-provisional')&&p.identityReview?.state==='provisional')&&!(sp.exclude.includes('no-programme')&&!p.programmes.length)).map(p=>[p.id,p]));
- let n=0;for(const v of s.workspace.visits){if(!cohort.has(v.personId)||!live(v)||v.state!=='confirmed')continue;const arrival=v.confirmedAt??v.createdAt,rec={arrival,described:describedTime(v.facts?.date)};
+ // Slice 13d (tenth review): a correction of an earlier visit (amendsVisitId) is not a late arrival: it keeps the original visit's
+ // described time but was confirmed later. Its effect on released figures is reported by the correction's own task (slice 2j).
+ let n=0;for(const v of s.workspace.visits){if(!cohort.has(v.personId)||!live(v)||v.state!=='confirmed'||v.amendsVisitId)continue;const arrival=v.confirmedAt??v.createdAt,rec={arrival,described:describedTime(v.facts?.date)};
   if(arrival>lastRelease&&arrival>=since&&arrival<=until&&isLate(rec))n++;}
  return {applicable:true as const,since:hour(lastRelease),count:band(n),note:`Late visits confirmed since your previous release of this figure (${band(n)}), counted in this result's window and cohort.`};
 }

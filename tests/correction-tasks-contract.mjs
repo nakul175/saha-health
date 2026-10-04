@@ -72,8 +72,10 @@ try {
     assert.equal(by('sh1').action, 'recomputed'); assert.equal(by('sh1').state, 'done'); assert.deepEqual(by('sh1').output.recomputed, { outcome: 'recomputed', visitId: 'v1b' }, 'slice 13c: the reports re-derive it on read');
     const wa = tasks.find(t => t.output.kind === 'worker-activity'), ir = tasks.find(t => t.output.kind === 'indicator-releases');
     assert.equal(wa.action, 'recomputed'); assert.equal(wa.state, 'done'); assert.match(wa.instruction, /corrected/);
-    assert.equal(ir.output.count, 1, 'counts only the release after confirmation'); assert.equal(ir.action, 'review', 'a released figure is not recalled; a person decides whether to reissue it'); assert.equal(ir.state, 'open');
-    assert.deepEqual(ir.output.releases, [{ at: after, k: null }], 'the affected released figure is marked by its ledger identity only'); assert.doesNotMatch(JSON.stringify(ir), /indicatorReleases|"f":/);
+    assert.equal(ir.action, 'review', 'a released figure is not recalled; a person decides whether to reissue it'); assert.equal(ir.state, 'open');
+    // Slice 13d (ninth review, finding 9): the task says only that figures were released since confirmation, not how many or which.
+    assert.equal(ir.output.count, undefined); assert.equal(ir.output.releases, undefined); assert.match(ir.output.stateAtCorrection, /^figures released since confirmation \(2026-09-28\)$/);
+    assert.doesNotMatch(JSON.stringify(ir), /indicatorReleases|"f":|\b1 release|\d+ released/);
     assert.equal(tasks.filter(t => t.state === 'open').length, 14); assert.equal(tasks.filter(t => t.state === 'done').length, 6);
   });
   // 3b. Slice R26 source links: a referral names the visit that made it or a linked source; a follow-up names its episode.

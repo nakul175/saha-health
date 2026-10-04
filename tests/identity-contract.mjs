@@ -47,6 +47,8 @@ try {
   await check(async () => assert.equal(await id.principalFromHeaders(headers(sitesHeaders), cfg, deps), null));
   await check(async () => { const p = await id.principalFromHeaders(headers({ ...sitesHeaders, 'cf-access-jwt-assertion': await sign(base) }), id.identityConfig({}), deps); assert.equal(p.userId, 'spoofed'); assert.equal(p.provider, 'sites-chatgpt'); });
   await check(async () => { const p = id.sitesPrincipal(headers({ ...sitesHeaders, 'oai-authenticated-user-full-name': 'Synthetic%20Name', 'oai-authenticated-user-full-name-encoding': 'percent-encoded-utf-8' })); assert.equal(p.displayName, 'Synthetic Name'); assert.equal(id.sitesPrincipal(headers({})), null); });
+  // Slice 13d (round-10 review L3): automated actors' ids are reserved, as fixture ids are.
+  await check(() => { for (const reserved of ['system', 'system:notification-simulator', 'system:anything', 'fixture:org:author']) assert.equal(id.sitesPrincipal(headers({ ...sitesHeaders, 'oai-authenticated-user-id': reserved })), null, reserved); for (const ok of ['systemic', 'sys', 'r1-system']) assert.equal(id.sitesPrincipal(headers({ ...sitesHeaders, 'oai-authenticated-user-id': ok })).userId, ok, ok); });
   // Key endpoint failure fails closed.
   await check(async () => { id.clearAccessKeyCache(); assert.equal(await id.principalFromHeaders(headers({ 'cf-access-jwt-assertion': await sign(base) }), cfg, { now: () => now, fetch: async () => new Response('down', { status: 503 }) }), null); });
   await check(() => { assert.equal(id.signOutPath(cfg), `https://${team}/cdn-cgi/access/logout`); assert.equal(id.signOutPath(id.identityConfig({})), '/signout-with-chatgpt?return_to=%2F'); });

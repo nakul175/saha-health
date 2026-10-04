@@ -14,7 +14,9 @@ import { AppError, digest, uuid } from './core';
 import { persist, readState } from './store';
 import { applyDueTransfers, SCHEDULER } from './caseload';
 export async function applyDueCaseloads(d: D1Database, orgId: string, userId: string, now = new Date().toISOString()) {
-  const due = await d.prepare("SELECT 1 AS due FROM caseload_transfers WHERE org_id=? AND state='scheduled' AND json_extract(data,'$.effectiveAt')<=? AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status='active') LIMIT 1").bind(orgId, now, orgId, userId).first();
+  // Slice 13d (tenth review): maintenance is checked in the same indexed question, so a due transfer during maintenance no longer
+  // makes every request read the whole organisation only to stop.
+  const due = await d.prepare("SELECT 1 AS due FROM caseload_transfers WHERE org_id=? AND state='scheduled' AND json_extract(data,'$.effectiveAt')<=? AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status='active') AND NOT EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.maintenance')=1) LIMIT 1").bind(orgId, now, orgId, userId, orgId).first();
   if (!due) return null;
   try {
     const state = await readState(d, orgId), before = structuredClone(state);

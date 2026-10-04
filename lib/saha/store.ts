@@ -11,6 +11,12 @@ type Value=string|number|null;
 export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
 const row=(table:string,values:Record<string,Value>,keys=['org_id','id'],append=false):Row=>({table,values,keys,append});
 const j=(x:unknown)=>JSON.stringify(x);
+// Slice 13d (round-10 review L6): an overall bound on the organisation's operations document, beside the per-collection caps.
+// The indicator differencing ledger kept in the same row has its own writer and bound (indicator-differencing, 1 MB) and is not
+// counted. A change that would take the rest past the bound, and grow it, is refused; a change that shrinks it never is.
+export const OPERATIONS_BYTES=1_000_000;
+export const OPERATIONS_FULL='The organisation\'s settings document is full, so this change was not saved. Remove settings that are no longer needed, or ask for help.';
+export function operationsBytes(ops:unknown){if(!ops||typeof ops!=='object')return 0;const {indicatorReleases:_,...rest}=ops as Record<string,unknown>;return new TextEncoder().encode(JSON.stringify(rest)).length;}
 const same=(a:unknown,b:unknown)=>j(a)===j(b);
 export const accountCode=async(id:string)=>(await digest(`saha-account:${id}`)).slice(0,24).toUpperCase();
 export const homeOrg=async(id:string)=>`org_${(await digest(`saha-home:${id}`)).slice(0,32)}`;
@@ -19,7 +25,10 @@ export const homeOrg=async(id:string)=>`org_${(await digest(`saha-home:${id}`)).
 // Slice 6w: the indicator differencing ledger in the operations row is written only by its own statement
 // (indicators-server). A command that saves the operations row keeps the ledger as currently stored, so a
 // command built on an older read never drops releases recorded since.
-const KEEP_LEDGER="data=CASE WHEN json_type(operations.data,'$.indicatorReleases') IS NULL THEN json_remove(excluded.data,'$.indicatorReleases') ELSE json_set(excluded.data,'$.indicatorReleases',json(json_extract(operations.data,'$.indicatorReleases'))) END";
+// Slice 13d (round-10 L1): the scheduled job's own records (`scheduledJob`, `auditChain`) are kept the same way, because they
+// are written by `persistScheduledRecord` below without moving the organisation revision.
+export const SCHEDULED_RECORD_KEYS=['scheduledJob','auditChain'] as const;
+const KEEP_LEDGER='data='+['indicatorReleases',...SCHEDULED_RECORD_KEYS].reduce((x,k)=>`CASE WHEN json_type(operations.data,'$.${k}') IS NULL THEN json_remove(${x},'$.${k}') ELSE json_set(${x},'$.${k}',json(json_extract(operations.data,'$.${k}'))) END`,'excluded.data');
 export function guarded(db:D1Database,orgId:string,token:string,rows:Row[]){
  const groups=new Map<string,Row[]>();for(const r of rows){const key=r.table+'|'+Object.keys(r.values).join(',')+'|'+r.append;groups.set(key,[...(groups.get(key)??[]),r]);}
  const statements=[];
@@ -123,7 +132,7 @@ export function rowsForState(state:OrgState,previous:OrgState|null,actor:Actor,a
  if(state.outreach&&!same(state.outreach,previous?.outreach))rows.push(row('outreach',{org_id:orgId,data:j(state.outreach)},['org_id']));
  if(state.expansions&&!same(state.expansions,previous?.expansions))rows.push(row('expansions',{org_id:orgId,data:j(state.expansions)},['org_id']));
  if(state.pilot&&!same(state.pilot,previous?.pilot))rows.push(row('pilot',{org_id:orgId,data:j(state.pilot)},['org_id']));
- if(state.operations&&!same(state.operations,previous?.operations))rows.push(row('operations',{org_id:orgId,data:j(state.operations)},['org_id']));
+ if(state.operations&&!same(state.operations,previous?.operations)){const data=j(state.operations);if(operationsBytes(state.operations)>OPERATIONS_BYTES&&operationsBytes(state.operations)>operationsBytes(previous?.operations))fail(413,OPERATIONS_FULL);rows.push(row('operations',{org_id:orgId,data},['org_id']));}
  const prevHouseholds=byId(previous?.households,h=>h.id);for(const h of state.households??[]){if(!same(h,prevHouseholds.get(h.id)))rows.push(row('households',{org_id:orgId,id:h.id,version:h.version,team_id:h.teamId,data:j(h)}));}
  const prevRights=byId(previous?.rightsRequests,r=>r.id);for(const r of state.rightsRequests??[]){if(!same(r,prevRights.get(r.id)))rows.push(row('rights_requests',{org_id:orgId,id:r.id,version:r.version,state:r.state,person_id:r.personId,due_at:r.dueAt,created_at:r.receivedAt,data:j(r)}));}
  const prevCases=byId(previous?.identityCases,k=>k.id);for(const k of state.identityCases??[]){if(!same(k,prevCases.get(k.id)))rows.push(row('identity_cases',{org_id:orgId,id:k.id,version:k.version,state:k.state,survivor_id:k.survivorId,duplicate_id:k.duplicateId,created_at:k.proposedAt,data:j(k)}));}
@@ -178,6 +187,27 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS)continue;fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
  if(saved[0].meta.changes!==1)fail(409,plan.patients?'A teammate changed this patient record. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.':'A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.');
  return {...plan,attempts:attempt};
+ }
+}
+// Slice 13d (round-10 L1): the scheduled job's evaluation and audit-chain verification records were organisation-wide commits,
+// so a command a person prepared just before one got a 409. They are now written like the indicator ledger: one targeted,
+// compare-and-set write of that key (the stored value must still be the one the job read) and its chained audit event, in one
+// batch that takes the batch token without moving either revision. Ordinary operations writes keep these keys as stored
+// (KEEP_LEDGER), so a command built on an older read cannot roll them back. Nothing is written while the organisation is in
+// maintenance or when another run recorded first; the caller is told it was not recorded.
+// The same fields as operations.defaultOperations(), not imported so the store keeps no dependency on the operations module.
+const NEW_OPERATIONS={version:0,maintenance:false,reason:'',updatedAt:'',incidents:[],rates:null};
+export async function persistScheduledRecord(db:D1Database,orgId:string,key:typeof SCHEDULED_RECORD_KEYS[number],previous:unknown,record:unknown,event:Audit):Promise<boolean>{
+ if(!SCHEDULED_RECORD_KEYS.includes(key))throw new Error('Not a scheduled record.');
+ const now=new Date().toISOString(),path=`$.${key}`,prior=previous==null?'':j(previous);
+ for(let attempt=1;;attempt++){
+  const token=uuid(),rows=[row('audit_events',{org_id:orgId,id:event.id,person_id:null,actor_id:event.actorId??'system',actor_name:event.actor,role:event.role,action:event.action,subject:event.subject,detail:event.detail,at:event.at},['org_id','id'],true)],chain=await linkRows(db,orgId,rows,now);
+  const stmts=[
+   db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND NOT EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.maintenance')=1) AND COALESCE((SELECT json(json_extract(data,'${path}')) FROM operations WHERE org_id=?),'')=?`).bind(token,orgId,orgId,orgId,prior),
+   db.prepare(`INSERT INTO operations (org_id,data) SELECT ?,? WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?) ON CONFLICT(org_id) DO UPDATE SET data=json_set(operations.data,'${path}',json(?))`).bind(orgId,j({...NEW_OPERATIONS,[key]:record}),orgId,token,j(record)),
+   ...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)];
+  let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS)continue;return false;}
+  return saved[0].meta.changes===1;
  }
 }
 // Decides whether a commit can use the patient-scoped guard. Every condition must hold;

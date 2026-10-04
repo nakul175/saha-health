@@ -80,14 +80,14 @@ try {
     assert.deepEqual(I.affectedReleases({ operations: {} }, confirmedAt), []);
   });
 
-  // 4. The indicator-releases task marks the affected figures (ledger identity only) and stays open: indicators are
+  // 4. The indicator-releases task states only that figures were released since confirmation (slice 13d) and stays open: indicators are
   // recomputed on read, but a figure already released is not recalled, so a person decides whether to reissue it.
   check(() => {
     const tasks = C.correctionTasks(fresh(), fresh().workspace.visits[0], 'amend', actor('doc'), now, 'v1b');
     const ir = tasks.find(t => t.output.kind === 'indicator-releases');
-    assert.equal(ir.action, 'review'); assert.equal(ir.state, 'open'); assert.match(ir.instruction, /Decide whether a reissued figure is needed/);
-    assert.equal(ir.output.count, 2);
-    assert.deepEqual(ir.output.releases, [{ at: after, k: 'series-hash-1' }, { at: confirmedAt, k: 'series-hash-2' }]);
+    assert.equal(ir.action, 'review'); assert.equal(ir.state, 'open'); assert.match(ir.instruction, /decides, from the releases in Indicators, whether a reissued figure is needed/);
+    // Slice 13d (ninth review, finding 9): no count or ledger identities on a patient-scoped task (they revealed query volume).
+    assert.equal(ir.output.count, undefined); assert.equal(ir.output.releases, undefined); assert.doesNotMatch(JSON.stringify(ir), /series-hash/);
     assert.doesNotMatch(JSON.stringify(ir), /"n"|"d"|"c"|"m"|"f":/, 'no cell or filter value leaks onto the task');
   });
 

@@ -18,6 +18,8 @@ const reviewed = [
   "lib/saha/alert-delivery-server.ts: console.error('Alert delivery evaluation failed', e instanceof Error ? e.name : 'unknown')",
   "lib/saha/caseload-schedule.ts: console.error('Scheduled caseload application failed', e instanceof Error ? e.name : 'unknown')",
   "lib/saha/export-audit.ts: console.error('Export audit not recorded', e instanceof Error ? e.name : 'unknown')",
+  // Slice 13d: the scheduled job's rotation cursor failed to save; a fixed message, no organisation.
+  "lib/saha/scheduled-job.ts: console.error('Scheduled job cursor not saved')",
   // Slice 10a: the Worker entry's scheduled handler logs fixed counts and an error class only, never an organisation, a patient or a message.
   "worker/index.ts: console.error('Scheduled job not run: no database binding')",
   "worker/index.ts: console.error('Scheduled job refused: environment is not configured correctly')",

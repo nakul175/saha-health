@@ -30,7 +30,7 @@ export async function memberViews(d: D1Database, s: OrgState, now: string) {
   return recipients.map(m => { const report = m.role === 'admin' ? null : careReport(s, m, 7, new Date(now), reportingScope(s, m, now).include); return { member: m, alerts: alertsFor({ budgets: operator(m) ? budgets : null, invoices: operator(m) ? invoices : null, report, telemetry: operator(m) ? telemetry : null, operations: operator(m) ? ops : null, acknowledgements: ops.acknowledgements ?? [], viewerId: m.userId, now }) }; });
 }
 // One evaluation: read open occurrences, plan, write. Every write is idempotent (unique keys, guarded updates).
-export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Date().toISOString()) {
+export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Date().toISOString(), env?: Record<string, string | undefined>) {
   const orgId = s.organisation.id, views = await memberViews(d, s, now), present = presentFrom(views);
   const open = (await d.prepare('SELECT id,alert_id,scope_key,owner_role,severity,title,opened_at,escalated_at FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL').bind(orgId).all<any>()).results.map((r): OpenOccurrence => ({ id: r.id, alertId: r.alert_id, scopeKey: r.scope_key, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at, escalatedAt: r.escalated_at }));
   const plan = planDelivery({ present, open, acknowledgements: s.operations?.acknowledgements ?? [], members: s.members, now });
@@ -71,11 +71,11 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   // Slice 10b: out-of-app messages (demonstration simulator) for what is now open. A failure here is reported in the result and never
   // undoes or blocks the in-app delivery above; the next evaluation tries again (messages are unique per occurrence, tier and recipient).
   let channel: Awaited<ReturnType<typeof evaluateChannel>> | { error: string } | null = null;
-  try { channel = await evaluateChannel(d, s, present, now); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
+  try { channel = await evaluateChannel(d, s, present, now, env); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
   // Slice r03: additional sources (drift, timed-out requests, exception items, referral requests) in the same
   // demonstration-simulator channel. Isolated so a failure never undoes or blocks the in-app delivery above.
   let sources: Awaited<ReturnType<typeof evaluateChannelSources>> | { error: string } | null = null;
-  try { sources = await evaluateChannelSources(d, s, now); } catch (e) { sources = { error: e instanceof Error ? e.name : 'unknown' }; }
+  try { sources = await evaluateChannelSources(d, s, now, env); } catch (e) { sources = { error: e instanceof Error ? e.name : 'unknown' }; }
   return { opened: plan.open.length, closed: plan.close.length, escalated: plan.escalate.length, recipients: views.length, writes, channel, sources };
 }
 // Reads: evaluate when the organisation changed since the last evaluation, or a minute has passed. Best effort:

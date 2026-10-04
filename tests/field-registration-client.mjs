@@ -100,7 +100,10 @@ check(()=>{const last=bodies.at(-1);assert.equal(last.body.registrationId,C);ass
 check(()=>{const r=run('book.registrations[2]');assert.equal(r.state,'synced');assert.equal(r.matches,null);assert.equal(r.decision,null);});
 // 4. A refusal routes to review; only the worker's explicit resend sends it again, with a new key and the same registration id.
 context.x={name:'Synthetic Registration Delta'};run('fill(x)');await run('queueRegistration()');refuseOnce.set('Synthetic Registration Delta',[403,'Choose a care team you belong to.']);
+let locks=0;context.setTimeout=(fn,ms)=>{if(ms===120000)locks++;return 0;};
 await run('syncAll()');const D=run('book.registrations[3]');check(()=>{assert.equal(D.state,'review');assert.match(D.reason,/care team.*Nothing was created/);});
+// Slice 13d (tenth review): a refused step does not reset the notebook's idle lock timer; only a step that synced does.
+check(()=>assert.equal(locks,0,'the refused registration did not extend the unlock'));context.setTimeout=()=>0;
 from=calls.length;await run('syncAll()');check(()=>assert.equal(order(from).length,0));
 await run('requeueRegistration(book.registrations[3])');await run('syncAll()');
 check(()=>{const sent=bodies.filter(b=>b.body.registrationId===D.id);assert.equal(sent.length,2);assert.notEqual(sent[0].key,sent[1].key);assert.equal(run('book.registrations[3].state'),'synced');});

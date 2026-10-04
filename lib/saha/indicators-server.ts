@@ -1,6 +1,6 @@
 import { identity, loadFor, json, db } from './server';
 import { ensurePurpose } from './purpose-scope';
-import { fail, uuid } from './core';
+import { AppError, fail, uuid } from './core';
 import type { Member } from './types';
 import { boundedJsonBody } from './request-body';
 import { scope } from './store';
@@ -26,6 +26,13 @@ export async function indicatorsPost(request:Request){
  return indicatorsFor(request,p);
 }
 const RELEASE_ATTEMPTS=3;
+export const REFUSAL_SUBJECT='indicator refusal',REFUSALS_PER_DAY=20;
+export const REFUSAL_LIMIT_MESSAGE=`Indicator queries that were refused or partly withheld to protect small groups reached ${REFUSALS_PER_DAY} in the last 24 hours, so no more can be run until the oldest leave that window. Use the same filters as before or widen them.`;
+async function refusalLimit(orgId:string,userId:string){
+ const since=new Date(Date.now()-86400000).toISOString();
+ const row=await db().prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewAggregate' AND at>? AND (subject=? OR (subject='indicator results' AND detail NOT LIKE '%released, 0 withheld%'))").bind(orgId,userId,since,REFUSAL_SUBJECT).first<{n:number}>();
+ if((row?.n??0)>=REFUSALS_PER_DAY)fail(429,REFUSAL_LIMIT_MESSAGE);
+}
 export const DIFFERENCING_MESSAGE='Together with your indicator queries of the last seven days, this result would reveal a group of fewer than 5 people. Use the same filters as before or widen them.';
 async function indicatorsFor(request:Request,p:URLSearchParams){
  const u=await identity();
@@ -36,9 +43,17 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  const ids=(p.get('ids')??'').split(',').map(x=>x.trim()).filter(Boolean);
  // Slice 6s: the catalogue read also carries every recorded version and the definition vocabulary.
  if(!ids.length)return json({catalogue:catalogue(s),registry:registryRecords(s).map(r=>({id:r.id,version:r.version,status:r.status,title:r.spec.title,spec:r.spec,reason:r.reason,by:r.byName,at:r.at,builtIn:!!r.builtIn})),vocabulary:vocabulary(),canMaintain:m.isOwner,protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});
+ // Slice 13d (ninth review, finding 8): each refusal tells the viewer that a combination would reveal a small group, so refused
+ // and partly withheld queries are recorded (below and in recordRelease) and limited per viewer per day.
+ await refusalLimit(s.organisation.id,u.userId);
  const text=(k:string)=>{const v=p.get(k);if(v&&v.length>200)fail(422,'Filter value too long.');return v||null;};
  const q={ids,days:Number(p.get('days')??30),group:(p.get('group')??'none') as Group,team:text('team'),village:text('village'),programme:text('programme')};
- const {result,series}=indicatorRun(s,m,q);
+ // A cohort below the minimum is refused by indicatorRun; that refusal also tells the viewer something (the group has 0 to 4
+ // people), so it is recorded and counted toward the same limit (slice 13d).
+ const filtersSet=[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean).join(', ')||'none';
+ let run:ReturnType<typeof indicatorRun>;
+ try{run=indicatorRun(s,m,q);}catch(e){if(e instanceof AppError&&e.status===422&&/^This cohort has fewer than/.test(e.message))await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query refused: the cohort is below the minimum of 5 people. Filters set: ${filtersSet}; nothing was shown.`);throw e;}
+ const {result,series}=run;
  // Results whose series would allow differencing are withheld whole; nothing of them is returned.
  const shape=(released:Set<string>)=>({...result,results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.',limits:RESIDUAL_RISK}});
  // Slice 6ac: the viewer's previous release of each figure is read before this one is recorded (read only).
@@ -81,7 +96,7 @@ async function recordRelease(u:{userId:string;displayName:string;email:string},o
   const {ledger,text}=await readLedger(db(),orgId);
   // The cohort is checked first; if it alone would reveal a small group, nothing is returned.
   const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at,population);
-  if(refused.some(c=>c.isCohort))fail(422,DIFFERENCING_MESSAGE);
+  if(refused.some(c=>c.isCohort)){await recordAggregateView(db(),state,u,m,REFUSAL_SUBJECT,`Indicator query refused whole: together with this viewer's queries of the last seven days it would reveal a group of fewer than 5 people. Filters set: ${[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean).join(', ')||'none'}; nothing was shown.`);fail(422,DIFFERENCING_MESSAGE);}
   const withheld=new Set(refused.flatMap(c=>c.ids));released=new Set(accepted.flatMap(c=>c.ids).filter(id=>!withheld.has(id)));
   if(ledgerFull(ledger,accepted.map(c=>c.release),at))fail(429,LEDGER_FULL_MESSAGE);
   // Slice 6aa (finding 4): a write D1 refuses (for example a value over its size limit) is refused as a full ledger.

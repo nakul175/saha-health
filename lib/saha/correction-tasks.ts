@@ -114,8 +114,12 @@ export function correctionTasks(s:OrgState,v:Visit,cause:'amend'|'void',u:Actor,
  // but a released figure is not recalled, so (integration of #144) the task stays open for a person to decide
  // whether a reissued figure is needed; with no release since confirmation there is nothing to decide.
  const affected=affectedReleases(s,v.confirmedAt);
- add({output:{kind:'indicator-releases',refId:null,label:'Indicator releases',stateAtCorrection:`${affected.length} release${affected.length===1?'':'s'} since confirmation`,count:affected.length,releases:affected},external:false,action:affected.length?'review':'recomputed',state:affected.length?'open':'done',
-  instruction:affected.length?`${affected.length} released indicator figure${affected.length===1?'':'s'} recorded since this visit was confirmed may have counted it and are marked affected on this task. Indicators are recomputed on each read; figures already released are not recalled. Decide whether a reissued figure is needed.`:'No indicator release is recorded since confirmation; indicators are recomputed on each read.'});
+ // Slice 13d (ninth review, finding 9, second part): the task is part of the patient's record, which every member of the care
+ // team reads, so it states only whether any figure was released since confirmation: neither how many nor which. The count and
+ // the ledger identities, organisation-wide, revealed the organisation's query volume to a care worker. A supervisor or owner
+ // sees the releases themselves in Indicators.
+ add({output:{kind:'indicator-releases',refId:null,label:'Indicator releases',stateAtCorrection:affected.length?`figures released since confirmation (${v.confirmedAt?.slice(0,10)??'date unknown'})`:'no release since confirmation'},external:false,action:affected.length?'review':'recomputed',state:affected.length?'open':'done',
+  instruction:affected.length?'Indicator figures were released since this visit was confirmed and may have counted it. Indicators are recomputed on each read; figures already released are not recalled. A supervisor or owner decides, from the releases in Indicators, whether a reissued figure is needed.':'No indicator release is recorded since confirmation; indicators are recomputed on each read.'});
  // Slice 6ad (ninth review, finding 9): a visit with more downstream outputs than MAX_TASKS can still be corrected
  // (there is no administrator path, so refusing could make a wrong-patient visit impossible to void). Every external
  // output keeps its own task; internal outputs past the cap are folded per kind. Slice R26 (BR-DATA-06): the ones

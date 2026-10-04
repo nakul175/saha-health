@@ -34,10 +34,12 @@ async function commit(d: D1Database, s: OrgState, messages: PlannedMessage[], no
 
 // Plans and sends what is due. `present` is the evaluation's own view of the alerts (slice 6v `presentFrom`). Never throws for
 // a refusal; a storage failure throws to the caller, which records it without failing the read or command.
-export async function evaluateChannel(d: D1Database, s: OrgState, present: ChannelPresent[], now = new Date().toISOString()) {
+// Slice 13d (round-10 review L4): `env` is the caller's environment (the scheduled job passes the one its handler received);
+// without it, the request's runtime environment is used, as before.
+export async function evaluateChannel(d: D1Database, s: OrgState, present: ChannelPresent[], now = new Date().toISOString(), env?: Record<string, string | undefined>) {
   const config = channelOf(s), result = { sent: 0, planned: 0, refused: null as string | null, skipped: 0 };
   if (!config?.enabled || !config.recipients.length) return result;
-  const orgId = s.organisation.id, environment = environmentOf(rawRuntime()).name;
+  const orgId = s.organisation.id, environment = environmentOf(env ?? rawRuntime()).name;
   result.refused = simulatorRefusal(environment);
   if (result.refused) return result;
   const occurrences = (await d.prepare('SELECT id,alert_id,scope_key,owner_role,severity,title,opened_at FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL').bind(orgId).all<any>()).results.map((r): ChannelOccurrence => ({ id: r.id, alertId: r.alert_id, scopeKey: r.scope_key, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at }));
@@ -54,10 +56,10 @@ export async function evaluateChannel(d: D1Database, s: OrgState, present: Chann
 // through the same demonstration simulator and message table. Called at the end of `evaluateDelivery` beside
 // `evaluateChannel`, so it runs on the same reads, organisation-wide commands and scheduled triggers. A failure is
 // reported and never undoes the in-app delivery or blocks the read/command; the unique key makes repeats harmless.
-export async function evaluateChannelSources(d: D1Database, s: OrgState, now = new Date().toISOString()) {
+export async function evaluateChannelSources(d: D1Database, s: OrgState, now = new Date().toISOString(), env?: Record<string, string | undefined>) {
   const config = channelOf(s), result = { sent: 0, planned: 0, refused: null as string | null, skipped: 0 };
   if (!config?.enabled || !config.recipients.length) return result;
-  const environment = environmentOf(rawRuntime()).name;
+  const environment = environmentOf(env ?? rawRuntime()).name;
   result.refused = simulatorRefusal(environment);
   if (result.refused) return result;
   const sources = channelSources(s, now);
