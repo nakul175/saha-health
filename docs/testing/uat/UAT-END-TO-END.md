@@ -405,13 +405,13 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 - BR-AI-09 (partial): Complete legacy provenance, end-to-end input-time semantics and external-provider acceptance.
 - BR-CLIN-05 (partial): Verified clinical authority and acceptance across all consequential task types and corrections.
-- BR-INT-21 (partial): EHR updates/amendments, destination version conflicts and recording a conflict's resolution in Saha.
+- BR-INT-21 (partial): EHR amendment and withdrawal against a real EHR (tested only with an injected FHIR transport; the slice 7f authoritative-search resolution is not applied to them), destination version conflicts and recording a conflict's resolution in Saha.
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
 - **BR-AI-09:** Original outputs, model/provider, versioned source and reasoned human decisions are retained. Independent anaemia demo: saved signed result, consent/visit/agreement versions and reasoned staff acknowledgement or rejection; no automatic clinical record update. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.
 - **BR-CLIN-05:** Reasoned accept/reject/override decisions retain original assistant and protocol evidence; clinician-only protocol decisions.
-- **BR-INT-21:** Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.
+- **BR-INT-21:** Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows. Slice 14c: an accepted EHR publication can be withdrawn (a conditional-create notice, `entered-in-error`, that replaces its identifier) or amended (the confirmed correction visit's document replacing it), each through approval with its own receipt and an identifier lookup for an unknown outcome; the published record is not edited.
 
 </details>
 
@@ -550,13 +550,13 @@ Each journey names the roles it needs. Sign in as each in turn (plan section 6).
 
 - BR-PROG-04 (partial): Approved measurement/adherence context, schedules, escalation and independent clinical evidence.
 - BR-CARE-05 (partial): No dependency is derived automatically; packs do not declare their own referral needs (the worker names the need and the server matches it), referrals made before slice 10f carry no need and are never merged, and the need catalogue is a local default; programme pack migration and installation; dependencies are not applied to reminders, the escalation queue or caseload counts.
-- BR-INT-21 (partial): EHR updates/amendments, destination version conflicts and recording a conflict's resolution in Saha.
+- BR-INT-21 (partial): EHR amendment and withdrawal against a real EHR (tested only with an injected FHIR transport; the slice 7f authoritative-search resolution is not applied to them), destination version conflicts and recording a conflict's resolution in Saha.
 
 <details><summary>What the build does today (assessment, current state)</summary>
 
 - **BR-PROG-04:** BP and medicine-access capture plus bounded, reviewed observation rules; no prescribing path.
 - **BR-CARE-05:** Shared visit facts and duplicate patient/day reminder suppression. Slice 4b: one ordered per-patient action plan across programme follow-ups, referrals, protocol reviews, safety cases and outreach, each with its source; follow-ups with the same title, due date and owner from several programme episodes shown once with every source. Slice 4d: recorded, audited dependencies between one patient's follow-ups, referrals and protocol reviews (self, cycle, closed-item and cross-patient links refused; removal needs a reason and keeps the record); a referral links further visits, protocol evaluations and programme episodes of the same patient, each with its kind and time, shown in the referral view and the action plan; single-source referrals are unchanged. Slice 10f: a referral can be created from several programme packs at once (createProgrammeReferrals): programme episodes on one confirmed visit that raise the same need for the same facility share one referral that links each asking episode as a source (slice 4d) and records which packs asked; the action plan names the asking packs on the referral's sources. Slice 13d: the household view records one read-audit event per member shown.
-- **BR-INT-21:** Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.
+- **BR-INT-21:** Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows. Slice 14c: an accepted EHR publication can be withdrawn (a conditional-create notice, `entered-in-error`, that replaces its identifier) or amended (the confirmed correction visit's document replacing it), each through approval with its own receipt and an identifier lookup for an unknown outcome; the published record is not edited.
 
 </details>
 

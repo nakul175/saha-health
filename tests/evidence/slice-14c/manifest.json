@@ -1,0 +1,53 @@
+{
+ "slice": "14c",
+ "label": "Slice 14c — withdrawal (void) of programme submissions and EHR withdrawal or amendment through approval (mock partners)",
+ "environment": "local built Worker, local D1/SQLite, Node 22.22.2, shared 2-core Linux container with other agents, synthetic data; demonstration simulators and injected HTTP/FHIR transports only",
+ "note": "Runner layers unit, integration, resilience and smoke: unit 131 suites 8,104 passed with one suite failed under load (audit-contention-contract, 1 of 120 reads refused, the open O-1 condition; passed 3 of 3 rerun alone); HTTP/D1 4,855 (97 new); scheduled check 8; restore 21; smoke 36 passed, 1 skipped. New unit suite withdrawal-contract 63. Browser check is a one-off script. No real partner, no live call. After the documentation was regenerated: unit --fast --guard 131 suites 8,107 passed, guard passed; smoke, security (authorisation matrix 51, identity hardening 29) and UAT --guard 179 passed, 1 skipped, guard passed.",
+ "reports": {
+  "withdrawal-contract-result.json": {
+   "sha256": "906e4ba5c5bda1237918659dd062744c74cb37f4b2a573b40a73c36ffe53fdbd",
+   "passed": 63,
+   "completedAt": "2026-10-04T10:56:54.159Z"
+  },
+  "api-smoke-result.json": {
+   "sha256": "b0e1a0e96b11e6097e95397c87a3293a96862eeba951bf0eb62fa70f21007e9e",
+   "passed": 4855,
+   "completedAt": "2026-10-04T11:02:04.426Z"
+  },
+  "correction-tasks-contract-result.json": {
+   "sha256": "af562fa6b7ba417d823415bb821937e850f4c0f25d0b12cc97304a0a46c57ca6",
+   "passed": 13,
+   "completedAt": "2026-10-04T10:51:29.708Z"
+  },
+  "trace-contract-result.json": {
+   "sha256": "2f15e6173059cebdbd5b155d75fb054bcddfc4f21d42dbf196f8e3c9f36d809c",
+   "passed": 27,
+   "completedAt": "2026-10-04T10:56:43.642Z"
+  },
+  "recovery-result.json": {
+   "sha256": "4615a9669b885ad58a1dbb545546545f403a2b819fb87dbb932a0f5ac0cd53cb",
+   "passed": 21,
+   "completedAt": "2026-10-04T11:03:21.497Z"
+  },
+  "summary-unit-integration-resilience-smoke.json": {
+   "sha256": "c5503f4a0ee2c2652509dffc88302b3e96ea553b24ab820b424c4d455344d972",
+   "passed": 13024,
+   "completedAt": "2026-10-04T11:03:40.336Z"
+  },
+  "browser-withdrawal.json": {
+   "sha256": "b0b70bdca55b16d204575fc248b53abd57d99e8674859afb7df0a02f1a1f97f0",
+   "passed": 6,
+   "completedAt": null
+  },
+  "summary-unit-guard.json": {
+   "sha256": "aa26710f29224963127bf34534a12847c412076c07bc7bd6f78abf28a74f0610",
+   "passed": 8107,
+   "completedAt": "2026-10-04T11:17:47.098Z"
+  },
+  "summary-smoke-nfr-uat-guard.json": {
+   "sha256": "058b57b72a714ebd4a00287bd51641804b37e588f23dc8e4ece0bb9c6c39fcda",
+   "passed": 179,
+   "completedAt": "2026-10-04T11:11:52.894Z"
+  }
+ }
+}

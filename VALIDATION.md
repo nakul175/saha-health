@@ -1347,3 +1347,36 @@ Before the "fix all" branches were offered for merge, an agent that had not seen
   - restore drill 21; smoke 36 passed, 1 skipped;
   - UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
 - The partial-differencing path has no HTTP test of its own. The fixes were written by the agent that built 13a–13e; no person has reviewed them. Requirement counts are unchanged; the BR-ID-02 text is updated and it stays partial.
+
+## Development slice 14c — withdrawal and EHR amendment through approval — 4 October 2026 IST
+
+Remaining-work row R58 (BR-INT-02, BR-RULE-04, BR-INT-21), on branch `slice-14c-withdrawal` from `main` 2adfbde1; not merged ([slice 14c](docs/current/SLICE-14C-WITHDRAWAL.md)).
+
+- **What was built.**
+  - A withdrawal (void) of an accepted programme submission, and a withdrawal or amendment of an accepted EHR publication. Each is prepared, approved for the exact payload hash (15 minutes) and sent once by the approver, with its own receipt recorded against the original (never edited).
+  - The destination must permit `delete` (`update` for an amendment), otherwise the correction task stays manual. Unknown outcomes are resolved only by a lookup under the withdrawal's own key.
+  - The two demonstration simulators answer withdrawals (the community MIS loses the response). The HTTP programme adapter carries an explicit `withdraw` payload. A confirmed withdrawal completes the wrong-patient visit's correction tasks. A Receipts tab panel and trace threads (trace 1.2.0) show them.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data; `SAHA_TEST_PORT=8830`):
+  - `tsc --noEmit` clean; `npm run build` passed.
+  - New unit suite `tests/withdrawal-contract.mjs`: 63 checks, all passed. Two deliberate mutations (supervisors allowed to act; the lost response removed) each made it fail.
+  - New HTTP module `tests/withdrawal-smoke.mjs`: 97 assertions, all passed alone and inside the suite.
+  - Runner, layers unit, integration, resilience and smoke (`node scripts/test.mjs unit integration resilience smoke`):
+    - unit 131 suites, 8,104 checks passed; one suite failed: `audit-contention-contract` saw 1 of 120 reads refused (the open O-1 condition) while other agents loaded the machine. It passed 3 of 3 runs when rerun alone straight after; this slice does not touch the audit chain.
+    - HTTP/D1 4,855 (4,758 at 13f plus the 97 new); scheduled check 8; restore drill 21; smoke 36 passed, 1 skipped.
+  - An earlier pass of every unit suite, one by one (130 files), had all passed.
+  - After the documentation was regenerated:
+    - `node scripts/test.mjs unit --fast --guard`: 131 suites, 8,107 checks passed; regression guard passed.
+    - `node scripts/test.mjs smoke nfr uat --only` the pull-request smoke, security and UAT suites `--fast --guard`: 179 passed, 1 skipped (authorisation matrix 51, identity hardening 29); guard passed.
+    - Static layer passed (catalogue, type check, documentation, requirements). `node scripts/audit-requirements.mjs --check`, `node tests/uat/coverage-map.mjs --check` and `node tests/uat/generate-uat-pack.mjs --check` also passed.
+- **Counts:** five commands added (`prepareWithdrawal`, `approveWithdrawal`, `executeWithdrawal`, `lookupWithdrawal`, `cancelWithdrawal`; command discriminators 228 to 233). No route added (66 method/route handlers), no certified patient command added (57 in `lib/saha/partition.ts`, unchanged) and no migration: withdrawals are stored in the visit's record.
+- **Existing test changed:** `tests/trace-smoke.mjs` expects trace version 1.2.0. The regression baseline gained `unit/withdrawal-contract` (63) with `--update-baseline`; nothing was raised or lowered (the HTTP suite's minimum stays 4,758).
+- **Not run:**
+  - a real programme system or EHR: mock partners and injected transports only;
+  - EHR withdrawal or amendment over HTTP: external services are off locally, so an EHR publication cannot be accepted there;
+  - the UI and weekly suites.
+- **Browser check** (a one-off Playwright script with Chromium 1194 against a built local Worker, not a repository suite; `tests/evidence/slice-14c/browser-withdrawal.json`):
+  - On a wrong-patient visit, the Receipts tab panel was used to prepare, approve and send a withdrawal to the maternal register, which confirmed it.
+  - The same was done for the community MIS: its outcome was unknown, and the panel's lookup found the receipt.
+  - The forms disappeared once each withdrawal was confirmed; there were no console errors.
+  - The panel's layout was adjusted (form fields, hiding settled targets) after the runner pass above. The final build was checked this way and by `tsc`. No axe audit was run.
+- **Status.** Built by one agent; no independent review. Requirement statuses are unchanged: BR-INT-02, BR-INT-21 and BR-RULE-04 stay partial, with their texts updated. Evidence: `tests/evidence/slice-14c/`.

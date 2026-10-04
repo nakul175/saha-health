@@ -1553,11 +1553,11 @@ R10 version-bound positive patient check; provisional identity blocks consequent
 
 **Expected result** (catalogue): Cancellation after submission reports the actual destination state and generates any remaining reversal task.
 
-**Known gaps** (assessment, remaining work for BR-RULE-04): Correction or reversal support from real partners (no destination declares void support and Saha has no EHR amendment or withdrawal path, so these stay manual), partner-confirmed reversal receipts, and acceptance with a real destination.
+**Known gaps** (assessment, remaining work for BR-RULE-04): Correction or reversal support from real partners (slice 14c withdrawals and EHR amendments are tested only against demonstration simulators and injected transports, and the release default permits neither, so tasks stay manual until an owner permits the operation), partner-confirmed reversal receipts, and acceptance with a real destination.
 
 <details><summary>What the build does today (assessment, current state of BR-RULE-04)</summary>
 
-Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason.
+Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason. Slice 14c: where a destination permits `delete` (or an EHR connection `update` for an amended visit), the task is completed through Saha: a withdrawal or amendment prepared, approved for the exact payload and sent with its own receipt recorded against the original receipt, which is never edited; an unknown outcome is resolved only by lookup; the destination's confirmation closes the task with the verified receipt. Both demonstration simulators answer withdrawals (one loses the response).
 
 </details>
 

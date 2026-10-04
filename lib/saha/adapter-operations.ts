@@ -28,10 +28,11 @@ export const OPERATIONS_POLICY_VERSION='1.0.0';
 export const HISTORY_LIMIT=20;
 export const LABEL:Record<AdapterOperation,string>={create:'Create',update:'Update',delete:'Delete or void',lookup:'Lookup',aggregate:'Aggregate reports'};
 const VERB:Record<AdapterOperation,string>={create:'create records',update:'update records',delete:'delete or void records',lookup:'look up records or receipts',aggregate:'receive aggregate reports'};
-// Where this release uses each operation; an empty string means Saha has no path for it.
+// Where this release uses each operation; an empty string means Saha has no path for it. Slice 14c added the withdrawal (void)
+// of an accepted programme submission and the withdrawal or amendment of a published EHR document (withdrawal.ts).
 export const OPERATION_PATHS:Record<GovernedKind,Record<AdapterOperation,string>>={
- mis:{create:'Send a confirmed visit as a new submission',update:'Send the correction of an accepted submission',delete:'',lookup:'Look up a delivery receipt',aggregate:''},
- ehr:{create:'Publish a confirmed visit document',update:'',delete:'',lookup:'Look up a publication receipt',aggregate:''},
+ mis:{create:'Send a confirmed visit as a new submission',update:'Send the correction of an accepted submission',delete:'Withdraw (void) an accepted submission, through approval',lookup:'Look up a delivery or withdrawal receipt',aggregate:''},
+ ehr:{create:'Publish a confirmed visit document',update:'Amend a published document with the correction visit\'s document, through approval',delete:'Withdraw a published document (an entered-in-error notice), through approval',lookup:'Look up a publication, withdrawal or amendment receipt',aggregate:''},
  abdm:{create:'Link an ABHA or care contexts on the mock gateway',update:'',delete:'Unlink an ABHA on the mock gateway (a consent revocation always applies in Saha; this decides whether the gateway is told)',lookup:'Request consent and fetch records under a granted consent (mock HIU)',aggregate:''},
 };
 export const NO_PATH='No path in this release. Changes of this kind need a separate process agreed with the partner.';
@@ -53,8 +54,8 @@ export function operationRefusal(i:Integration,op:AdapterOperation,carries:Carri
  return null;
 }
 export function refusalOf(i:Integration,op:AdapterOperation,stage:Refusal['stage'],now=new Date().toISOString()):Refusal{const o=operationsOf(i);return {operation:op,settingVersion:o.version,aggregateOnly:o.aggregateOnly,stage,at:now};}
-// MIS payloads say whether they create a record or correct an accepted one.
-export const misOperation=(payload:any):AdapterOperation=>payload?.operation==='correct'?'update':'create';
+// MIS payloads say whether they create a record, correct an accepted one or (slice 14c) withdraw an accepted one.
+export const misOperation=(payload:any):AdapterOperation=>payload?.operation==='correct'?'update':payload?.operation==='withdraw'?'delete':'create';
 
 const id=z.string().min(1).max(200);
 export const adapterOperationsSchema=z.object({type:z.literal('setAdapterOperations'),integrationId:id,version:z.number().int().min(0),allowed:z.array(z.enum(ADAPTER_OPERATIONS)).max(ADAPTER_OPERATIONS.length).refine(x=>new Set(x).size===x.length,'List each operation once.'),aggregateOnly:z.boolean(),reason:z.string().trim().min(5).max(500)}).strict()
