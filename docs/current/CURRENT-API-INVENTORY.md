@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **66 HTTP method/route pairs** and **228 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **68 HTTP method/route pairs** and **228 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -24,6 +24,8 @@ Generated from source: **66 HTTP method/route pairs** and **228 command schema d
 | GET | `/api/exceptional` | [app/api/exceptional/route.ts](../../app/api/exceptional/route.ts) |
 | GET | `/api/exceptions` | [app/api/exceptions/route.ts](../../app/api/exceptions/route.ts) |
 | GET | `/api/expansion` | [app/api/expansion/route.ts](../../app/api/expansion/route.ts) |
+| GET | `/api/exports` | [app/api/exports/route.ts](../../app/api/exports/route.ts) |
+| POST | `/api/exports` | [app/api/exports/route.ts](../../app/api/exports/route.ts) |
 | GET | `/api/facility-scope` | [app/api/facility-scope/route.ts](../../app/api/facility-scope/route.ts) |
 | GET | `/api/fhir/[id]` | [app/api/fhir/[id]/route.ts](../../app/api/fhir/[id]/route.ts) |
 | GET | `/api/fixture-migration` | [app/api/fixture-migration/route.ts](../../app/api/fixture-migration/route.ts) |
