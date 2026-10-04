@@ -299,7 +299,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-CLIN-07 | not-built | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 0 | no automated test cited; no UAT case |
 | BR-CLIN-08 | partial | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-INT-01 | partial | area | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
-| BR-INT-02 | partial | own | 4 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-INT-02 | partial | own | 5 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-INT-03 | partial | area | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-INT-04 | partial | own | 5 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | one layer only |
 | BR-INT-05 | implemented-local | area | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | one layer only |
@@ -318,7 +318,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-INT-18 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | no automated test cited |
 | BR-INT-19 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | no automated test cited |
 | BR-INT-20 | partial | area | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | one layer only |
-| BR-INT-21 | partial | own | 3 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 2 | 0 | 3 | - |
+| BR-INT-21 | partial | own | 4 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 2 | 0 | 3 | - |
 | BR-INT-22 | partial | area | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-INT-23 | partial | area | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-INT-24 | implemented-local | area | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
@@ -370,7 +370,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-RULE-01 | partial | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-RULE-02 | partial | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-RULE-03 | implemented-local | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
-| BR-RULE-04 | partial | own | 2 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-RULE-04 | partial | own | 3 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-RULE-05 | implemented-local | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-RULE-06 | implemented-local | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-RULE-07 | partial | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |

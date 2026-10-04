@@ -2087,8 +2087,8 @@
       "sourceTextLine": 369,
       "implementation": "partial",
       "target": "R12",
-      "current": "EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read.",
-      "remaining": "Live partner adapters configured and tested with narrowed operations; void and aggregate report paths; AI providers are not covered; production acceptance.",
+      "current": "EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read. Slice 14c: `delete` now governs a withdrawal (void) of an accepted programme submission or EHR publication and `update` an EHR amendment, each prepared, approved for the exact payload hash and sent once by the approver with its own receipt; the operation is checked when preparing, approving, before the checkpoint and inside it, and a withdrawn permission closes the withdrawal as not sent.",
+      "remaining": "Live partner adapters configured and tested with narrowed operations; void (withdrawal) and aggregate report paths with real partners (slice 14c withdrawals are tested only against demonstration simulators and injected transports); AI providers are not covered; production acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
@@ -2104,7 +2104,12 @@
         "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md",
         "lib/saha/abdm.ts",
         "tests/eighth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+        "lib/saha/withdrawal.ts",
+        "lib/saha/withdrawal-execution.ts",
+        "tests/withdrawal-contract.mjs",
+        "tests/withdrawal-smoke.mjs",
+        "docs/current/SLICE-14C-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2546,8 +2551,8 @@
       "sourceTextLine": 431,
       "implementation": "partial",
       "target": "R12",
-      "current": "Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.",
-      "remaining": "EHR updates/amendments, destination version conflicts and recording a conflict's resolution in Saha.",
+      "current": "Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows. Slice 14c: an accepted EHR publication can be withdrawn (a conditional-create notice, `entered-in-error`, that replaces its identifier) or amended (the confirmed correction visit's document replacing it), each through approval with its own receipt and an identifier lookup for an unknown outcome; the published record is not edited.",
+      "remaining": "EHR amendment and withdrawal against a real EHR (tested only with an injected FHIR transport; the slice 7f authoritative-search resolution is not applied to them), destination version conflicts and recording a conflict's resolution in Saha.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
@@ -2560,7 +2565,12 @@
         "lib/saha/exceptions.ts",
         "tests/ehr-resolution-contract.mjs",
         "tests/ehr-smoke.mjs",
-        "docs/current/SLICE-7F-EHR-RESOLUTION.md"
+        "docs/current/SLICE-7F-EHR-RESOLUTION.md",
+        "lib/saha/withdrawal.ts",
+        "lib/saha/withdrawal-execution.ts",
+        "tests/withdrawal-contract.mjs",
+        "tests/withdrawal-smoke.mjs",
+        "docs/current/SLICE-14C-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3952,8 +3962,8 @@
       "sourceTextLine": 604,
       "implementation": "partial",
       "target": "R12",
-      "current": "Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason.",
-      "remaining": "Correction or reversal support from real partners (no destination declares void support and Saha has no EHR amendment or withdrawal path, so these stay manual), partner-confirmed reversal receipts, and acceptance with a real destination.",
+      "current": "Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason. Slice 14c: where a destination permits `delete` (or an EHR connection `update` for an amended visit), the task is completed through Saha: a withdrawal or amendment prepared, approved for the exact payload and sent with its own receipt recorded against the original receipt, which is never edited; an unknown outcome is resolved only by lookup; the destination's confirmation closes the task with the verified receipt. Both demonstration simulators answer withdrawals (one loses the response).",
+      "remaining": "Correction or reversal support from real partners (slice 14c withdrawals and EHR amendments are tested only against demonstration simulators and injected transports, and the release default permits neither, so tasks stay manual until an owner permits the operation), partner-confirmed reversal receipts, and acceptance with a real destination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -3970,7 +3980,12 @@
         "app/action-plan-panel.tsx",
         "tests/correction-tasks-contract.mjs",
         "tests/correction-tasks-smoke.mjs",
-        "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md"
+        "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md",
+        "lib/saha/withdrawal.ts",
+        "lib/saha/withdrawal-execution.ts",
+        "tests/withdrawal-contract.mjs",
+        "tests/withdrawal-smoke.mjs",
+        "docs/current/SLICE-14C-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
