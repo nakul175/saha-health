@@ -26,9 +26,9 @@ import type { CorrectionSource, CorrectionTask, Member, OrgState, Person, Visit 
 //   follow-ups created from the visit, protocol evaluations, applied assistant results) become review tasks.
 //   Slice R26 (BR-DATA-06): the indicator task marks the released figures that may have counted the visit, and
 //   referral/follow-up tasks link their sources. Internal outputs past the task cap that are already recomputed or
-//   invalidated stay recomputed rather than being folded into a review. Integration of #144 (review finding): shadow
-//   comparisons, and released figures (never recalled), remain review tasks, because nothing recomputes a shadow
-//   comparison on read yet and only a person can decide whether a released figure must be reissued.
+//   invalidated stay recomputed rather than being folded into a review. Shadow comparisons are recomputed or left
+//   out on read (slice 13c) and recorded as done; released figures (never recalled) remain review tasks, because only a
+//   person can decide whether a released figure must be reissued (integration of #144).
 //
 // Closing an open task needs evidence: a Saha receipt id of the accepted correction (checked against the
 // destination and the correction chain) or a reason of at least 10 characters, with an optional destination
@@ -100,12 +100,13 @@ export function correctionTasks(s:OrgState,v:Visit,cause:'amend'|'void',u:Actor,
  }
  for(const r of v.aiResults??[])if(r.reviewed)add({output:{kind:'assistant-result',refId:r.id,label:`Reviewed AI result (${r.providerName})`,stateAtCorrection:'reviewed'},external:false,action:'review',instruction:'A reviewed AI result was based on the earlier facts. Check whether anything was decided from it.'});
  // Shadow comparisons that used this version's confirmed values (governance evidence). No governance record is
- // rewritten from a patient-scoped commit. Slice R26 marked these recomputed; integration of #144 (review finding):
- // nothing recomputes or excludes a shadow comparison on read yet (shadow.recompareShadow has no caller and drift.ts
- // counts every result), so this stays an open review task for Clinical governance, as before slice R26.
+ // rewritten from a patient-scoped commit. Slice 13c: the shadow report and the drift report now re-derive such a comparison
+ // on read (shadow.currentFields): against the correction visit once it is confirmed, and left out until then or for a
+ // wrong-patient visit. So the task records that outcome as done, as slice R26 intended; the integration of #144 had kept it
+ // an open review task because nothing recomputed it yet.
  for(const sh of s.governance?.shadows??[])for(const r of sh.results)if(r.visitId===v.id&&r.status==='compared')
-  add({output:{kind:'shadow-comparison',refId:sh.id,label:'Shadow comparison',stateAtCorrection:`compared at visit version ${r.visitVersion}`,sources:[{kind:'visit',refId:v.id,visitId:v.id,label:'the visit the comparison scored'}]},external:false,action:'review',
-   instruction:amend?'This shadow comparison scored the assistant against values that were later corrected. Exclude or note it when the shadow operation is reviewed in Clinical governance.':'This shadow comparison scored the assistant against a visit recorded against the wrong patient. Exclude it when the shadow operation is reviewed in Clinical governance.'});
+  add({output:{kind:'shadow-comparison',refId:sh.id,label:'Shadow comparison',stateAtCorrection:`compared at visit version ${r.visitVersion}`,sources:[{kind:'visit',refId:v.id,visitId:v.id,label:'the visit the comparison scored'}],recomputed:{outcome:amend?'recomputed':'invalidated',visitId:amend?correctionVisitId:null}},external:false,action:amend?'recomputed':'invalidated',state:'done',
+   instruction:amend?'This shadow comparison scored the assistant against values that were later corrected. The shadow and drift reports recompute it against the correction visit once that visit is confirmed; until then it is left out of them.':'This shadow comparison scored the assistant against a visit recorded against the wrong patient. The shadow and drift reports leave it out.'});
  // Worker-activity evidence is recomputed from record revisions on every read.
  add({output:{kind:'worker-activity',refId:null,label:'Worker activity evidence',stateAtCorrection:'performed'},external:false,action:'recomputed',state:'done',instruction:`Worker activity is computed on each read; this visit now shows as ${amend?'corrected':'wrong-patient'}.`});
  // Indicator releases that may have counted this version. Slice R26: the figures released since confirmation are

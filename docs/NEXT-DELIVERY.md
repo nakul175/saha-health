@@ -130,6 +130,7 @@ The 15 buildable slices R03, R06, R08, R09, R13, R17, R21, R23, R24, R26, R33, R
 | 12a | Voice input on every text and number field (workspace and field notebook): listen once on tap, review, insert; on-device speech, or the browser speech service when an owner allows it in a practice environment | Delivered (merged in pull request #146 on 3 October 2026 at the sponsor's instruction) (see [slice 12a](current/SLICE-12A-VOICE-INPUT.md)) |
 | 13a | Access scope everywhere: cross-site API requests refused (reads included); facility, locality and programme scope in every check and in the SQL pre-filter; purpose grants checked at each data-flow checkpoint | Delivered on a branch (see [slice 13a](current/SLICE-13A-ACCESS-SCOPE.md)); not merged |
 | 13b | Frontline provider hardening: open-model libraries run in a sandboxed opaque-origin frame; provider receipts must answer exactly the request sent and follow the shared rules | Delivered on a branch (see [slice 13b](current/SLICE-13B-FRONTLINE-HARDENING.md)); not merged |
+| 13c | Corrected shadow comparisons recomputed on read: the shadow and drift reports recompare against a confirmed correction and leave out voided visits and draft corrections; shadow correction tasks recorded as recomputed or invalidated | Delivered on a branch (see [slice 13c](current/SLICE-13C-SHADOW-RECOMPUTE.md)); not merged |
 
 The external dependencies below are unchanged by this order; slices do not pass any acceptance gate.
 

@@ -28,7 +28,7 @@ export async function shadowSmoke({get,post,check,accounts,org}){
  await post(c,{type:'runShadow',shadowId,version:g.shadows[0].version},200,undefined,org);
  await post(o,{type:'runShadow',shadowId,version:g.shadows[0].version},409,undefined,org);
  await read();
- check(()=>{const x=g.shadows[0];assert.equal(x.state,'active');assert.deepEqual(x.visits,{total:1,compared:1,unable:0,notRun:{}});assert.deepEqual(x.fields.map(f=>[f.field,f.agreement,f.disagreement]),[['weight',1,0],['temperature',0,1]]);assert.equal(x.pending,0)});
+ check(()=>{const x=g.shadows[0];assert.equal(x.state,'active');assert.deepEqual(x.visits,{total:1,compared:1,unable:0,notRun:{},recomputed:0,excluded:0});assert.deepEqual(x.fields.map(f=>[f.field,f.agreement,f.disagreement]),[['weight',1,0],['temperature',0,1]]);assert.equal(x.pending,0)});
  check(()=>{const text=JSON.stringify(g.shadows);assert.ok(!text.includes(visitId)&&!text.includes(personId)&&!text.includes('Weight 58'),'counts only')});
  // Slice 5i: drift rows for the shadowed revision, counts only; one visit is too few rated fields to compare periods.
  check(()=>{const d=g.drift.rows.find(r=>r.entryId===g.shadows[0].entryId),last=d.periods.at(-1),text=JSON.stringify(g.drift);assert.equal(d.status,'insufficient');assert.deepEqual([last.visits,last.rated,last.agreement,last.disagreement,last.rate],[1,2,1,1,50]);assert.ok(!text.includes(visitId)&&!text.includes(personId)&&!text.includes('Weight 58'));assert.match(g.drift.notice,/Nothing is suspended automatically/)});

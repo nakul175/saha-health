@@ -20,7 +20,9 @@ export function periods(now: string) {
   return Array.from({ length: DRIFT_PERIODS }, (_, i) => { const to = end - (DRIFT_PERIODS - 1 - i) * DRIFT_PERIOD_DAYS * DAY; return { from: new Date(to - DRIFT_PERIOD_DAYS * DAY).toISOString(), to: new Date(to).toISOString() }; });
 }
 const round1 = (n: number) => Math.round(n * 10) / 10;
-export function driftReport(s: OrgState, shadows: Shadow[], now = new Date().toISOString()): DriftRow[] {
+// Slice 13c: `fieldsOf` gives a result's comparison as it stands now (shadow.currentFields: re-derived for an amended visit, null
+// for a voided one, which is then left out); the default keeps the stored fields, as before this slice.
+export function driftReport(s: OrgState, shadows: Shadow[], now = new Date().toISOString(), fieldsOf: (r: Shadow['results'][number]) => Shadow['results'][number]['fields'] | null = r => r.fields ?? null): DriftRow[] {
   const visits = new Map<string, Visit>(s.workspace.visits.map(v => [v.id, v]));
   const entries = ((s.governance?.entries ?? []) as unknown as { id: string; revision: number; state: string; spec: { key: string; title: string } }[]);
   const bounds = periods(now), byEntry = new Map<string, Shadow[]>();
@@ -30,10 +32,11 @@ export function driftReport(s: OrgState, shadows: Shadow[], now = new Date().toI
     const rows = bounds.map(b => ({ ...b, visits: 0, rated: 0, rate: null as number | null, agreement: 0, disagreement: 0, missing: 0, notRecorded: 0, unable: 0 }));
     for (const r of list.flatMap(sh => sh.results)) {
       if (r.status === 'not-run') continue;
+      const fields = r.status === 'compared' ? fieldsOf(r) : null; if (r.status === 'compared' && !fields) continue;
       const at = visits.get(r.visitId)?.confirmedAt ?? r.at, p = rows.find(x => at >= x.from && at < x.to); if (!p) continue;
       p.visits++;
       if (r.status === 'unable') { p.unable++; continue; }
-      for (const f of r.fields ?? []) { if (f.outcome === 'not-recorded') p.notRecorded++; else if (f.outcome === 'unable') p.unable++; else p[f.outcome]++; }
+      for (const f of fields ?? []) { if (f.outcome === 'not-recorded') p.notRecorded++; else if (f.outcome === 'unable') p.unable++; else p[f.outcome]++; }
     }
     for (const p of rows) { p.rated = p.agreement + p.disagreement + p.missing; p.rate = p.rated ? round1(p.agreement / p.rated * 100) : null; }
     const changes = rows.slice(1).map((p, i) => { const q = rows[i], ok = q.rated >= DRIFT_MIN_FIELDS && p.rated >= DRIFT_MIN_FIELDS; const points = ok ? round1(p.rate! - q.rate!) : null; return { from: q.from, to: p.to, points, status: (points === null ? 'insufficient' : points < -DRIFT_DROP_POINTS ? 'drop' : 'stable') as 'drop' | 'stable' | 'insufficient' }; });

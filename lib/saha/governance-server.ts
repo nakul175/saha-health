@@ -5,7 +5,7 @@ import { visit, person } from './core';
 import { providers, AGENT_VERSION } from './agent';
 import { governanceState, entryScope, entryIssues, activeEntry, governanceManager, protocolPreview } from './governance';
 import { CORPUS_VERSION } from './evaluation';
-import { shadowManager, shadowReport, shadowsOf } from './shadow';
+import { currentFields, shadowManager, shadowReport, shadowsOf } from './shadow';
 import { DRIFT_NOTICE, driftReport } from './drift';
 import { capabilityHistories, capabilityImpact, capabilityUsage, lifecycleStage, replacementOf, requiredAction } from './capability-lifecycle';
 export async function governanceRead(request:Request){
@@ -21,5 +21,5 @@ export async function governanceRead(request:Request){
   // Slice 5f: shadow comparisons, counts only, to owners and clinician governance managers within the capability's scope.
   shadows:shadowManager(m)?shadowsOf(s).filter(x=>ids.has(x.entryId)).map(x=>shadowReport(s,x)):[],
   // Slice 5i: drift of shadow agreement across consecutive 7-day periods, counts only, same visibility as shadows.
-  drift:shadowManager(m)?{notice:DRIFT_NOTICE,rows:driftReport(s,shadowsOf(s).filter(x=>ids.has(x.entryId)))}:null,clinicalDeployment:false,affected:s.workspace.visits.filter(v=>permitted.has(v.personId)).flatMap(v=>[...(v.agentRuns??[]).filter(r=>r.governance&&ids.has(r.governance.id)).map(r=>({entryId:r.governance!.id,visitId:v.id,personId:v.personId,personName:patients.find(p=>p.id===v.personId)?.name,kind:'agent',state:r.status,runId:r.id,action:unusable.has(r.governance!.id)?requiredAction(v,r):null})),...(v.protocolChecks??[]).flatMap(c=>c.protocols.filter(p=>ids.has(p.id)).map(p=>({entryId:p.id,visitId:v.id,personId:v.personId,personName:patients.find(p=>p.id===v.personId)?.name,kind:'protocol',state:c.decision?.decision??'unreviewed'})))]),scope:'Synthetic evaluation and workflow rehearsal. Local reviews do not establish clinical approval or production readiness.'});
+  drift:shadowManager(m)?{notice:DRIFT_NOTICE,rows:driftReport(s,shadowsOf(s).filter(x=>ids.has(x.entryId)),undefined,r=>currentFields(s,r))}:null,clinicalDeployment:false,affected:s.workspace.visits.filter(v=>permitted.has(v.personId)).flatMap(v=>[...(v.agentRuns??[]).filter(r=>r.governance&&ids.has(r.governance.id)).map(r=>({entryId:r.governance!.id,visitId:v.id,personId:v.personId,personName:patients.find(p=>p.id===v.personId)?.name,kind:'agent',state:r.status,runId:r.id,action:unusable.has(r.governance!.id)?requiredAction(v,r):null})),...(v.protocolChecks??[]).flatMap(c=>c.protocols.filter(p=>ids.has(p.id)).map(p=>({entryId:p.id,visitId:v.id,personId:v.personId,personName:patients.find(p=>p.id===v.personId)?.name,kind:'protocol',state:c.decision?.decision??'unreviewed'})))]),scope:'Synthetic evaluation and workflow rehearsal. Local reviews do not establish clinical approval or production readiness.'});
 }
