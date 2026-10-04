@@ -30,3 +30,7 @@
 ## Correction — 2 October 2026 (slice 6ad)
 
 A ninth independent review found that a visit with more than 60 downstream outputs could not be amended or voided: the refusal said to ask an administrator, but no administrator path exists. Slice 6ad corrects such a visit, keeps a task for every external output and folds internal outputs past the cap into one review task per kind with the count. The organisation-wide indicator-release count on the correction task is not changed. See [SLICE-6AD-NINTH-REVIEW-FIXES.md](SLICE-6AD-NINTH-REVIEW-FIXES.md).
+
+## Correction — 4 October 2026 (slice 14c)
+
+The first limit above no longer holds in full. Saha now has a withdrawal (void) path for accepted programme submissions and a withdrawal and amendment path for accepted EHR publications, each through approval with its own receipt. A wrong-patient visit's accepted output whose destination permits `delete` gets the task `send-withdrawal`, and an amended visit's accepted EHR publication whose connection permits `update` gets `send-correction`; the destination's confirmation completes the task with the verified receipt. Destinations without that permission, which is every destination under the release default, keep the manual correction. See [SLICE-14C-WITHDRAWAL.md](SLICE-14C-WITHDRAWAL.md).

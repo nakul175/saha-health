@@ -810,11 +810,11 @@ MIS/EHR configuration, capability probes and scoped credential gates.
 
 **Expected result** (catalogue): A read-only connector exposes no active write path and clearly states when programme updates require a separate process.
 
-**Known gaps** (assessment, remaining work for BR-INT-02): Live partner adapters configured and tested with narrowed operations; void and aggregate report paths; AI providers are not covered; production acceptance.
+**Known gaps** (assessment, remaining work for BR-INT-02): Live partner adapters configured and tested with narrowed operations; void (withdrawal) and aggregate report paths with real partners (slice 14c withdrawals are tested only against demonstration simulators and injected transports); AI providers are not covered; production acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-INT-02)</summary>
 
-EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read.
+EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read. Slice 14c: `delete` now governs a withdrawal (void) of an accepted programme submission or EHR publication and `update` an EHR amendment, each prepared, approved for the exact payload hash and sent once by the approver with its own receipt; the operation is checked when preparing, approving, before the checkpoint and inside it, and a withdrawn permission closes the withdrawal as not sent.
 
 </details>
 
@@ -1216,11 +1216,11 @@ Native FHIR capability profile gates document retrieval/publication.
 
 **Expected result** (catalogue): Concurrent-update tests preserve both versions, prevent silent loss and route unresolved conflicts to the named operational owner.
 
-**Known gaps** (assessment, remaining work for BR-INT-21): EHR updates/amendments, destination version conflicts and recording a conflict's resolution in Saha.
+**Known gaps** (assessment, remaining work for BR-INT-21): EHR amendment and withdrawal against a real EHR (tested only with an injected FHIR transport; the slice 7f authoritative-search resolution is not applied to them), destination version conflicts and recording a conflict's resolution in Saha.
 
 <details><summary>What the build does today (assessment, current state of BR-INT-21)</summary>
 
-Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.
+Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows. Slice 14c: an accepted EHR publication can be withdrawn (a conditional-create notice, `entered-in-error`, that replaces its identifier) or amended (the confirmed correction visit's document replacing it), each through approval with its own receipt and an identifier lookup for an unknown outcome; the published record is not edited.
 
 </details>
 

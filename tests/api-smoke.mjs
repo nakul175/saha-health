@@ -162,6 +162,8 @@ const {workerActivitySmoke}=await import('./worker-activity-smoke.mjs');await wo
 const {incentiveClaimsSmoke}=await import('./incentive-claims-smoke.mjs');await incentiveClaimsSmoke({get,post,check,accounts,org,sql,base});
 await globalThis.sahaRecycleWorker?.(); // slice 10k: fresh Worker isolate, same D1 state (see run-api-smoke.mjs)
 const {correctionTasksSmoke}=await import('./correction-tasks-smoke.mjs');await correctionTasksSmoke({get,post,check,accounts,org,sql,base});
+// Slice 14c: withdrawal (void) of accepted programme submissions through approval, against the demonstration simulators (own organisation).
+const {withdrawalSmoke}=await import('./withdrawal-smoke.mjs');await withdrawalSmoke({get,post,check,sql,base});
 const {referralRequestQueueSmoke}=await import('./referral-request-queue-smoke.mjs');await referralRequestQueueSmoke({get,post,check,accounts,org,sql,base});
 const {patientDirectorySmoke}=await import('./patient-directory-smoke.mjs');await patientDirectorySmoke({get,post,check,sql,base});
 const {worklistsSmoke}=await import('./worklists-smoke.mjs');await worklistsSmoke({get,post,check,sql,base});
