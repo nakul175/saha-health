@@ -151,3 +151,10 @@ export const media = sqliteTable('media', {
 export const scheduledCursor = sqliteTable('scheduled_cursor', {
  job:text('job').primaryKey(), lastOrg:text('last_org').notNull(), updatedAt:text('updated_at').notNull(),
 });
+// Slice 14a: reservations that make two per-requester daily limits hold under races (the ABHA review throttle, slice 6ab, and
+// the indicator refusal limit, slices 13d/13f). A request reserves a row before it can learn anything ('pending'); the insert
+// succeeds only while fewer than the limit are counted, in one statement. The row then becomes 'used' (under the holding
+// record's id for an ABHA review, so one per requester and record) or is deleted. Ids and times only; no patient content.
+export const limitSlots = sqliteTable('limit_slots', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), actorId:text('actor_id').notNull(), kind:text('kind').notNull(), slotKey:text('slot_key').notNull(), state:text('state').notNull(), at:text('at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.kind,t.slotKey]})]);

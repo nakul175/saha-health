@@ -8,7 +8,11 @@
 // threshold, so a large new leak is caught. It never claims a plateau it did not see.
 // Limits: resident memory of a local workerd process, a seeded six-patient organisation, one identity, one route. It does not measure Cloudflare's
 // 128 MB isolate limit and cannot prove the absence of a leak.
-import { startMiniflare } from '../lib/miniflare.mjs';
+// Slice 14a (O-2): with SAHA_NFR_HEAP=1 the Worker runs with a V8 inspector (port SAHA_TEST_PORT2, default 8835) and, before each
+// sample, every isolate's garbage is collected and its live V8 heap read. That separates what the application keeps (its isolate's
+// live heap) from what the runtime holds until garbage is collected; a budget then applies to the application's live heap growth.
+// The default run (no inspector, no forced collection) is unchanged.
+import { isolateHeaps, startMiniflare } from '../lib/miniflare.mjs';
 import { identity } from '../lib/worker.mjs';
 import { suite } from '../lib/report.mjs';
 import { existsSync } from 'node:fs';
@@ -17,27 +21,32 @@ const PORT = process.env.SAHA_TEST_PORT ?? '8834';
 const ROUNDS = +(process.env.SAHA_NFR_ROUNDS ?? 3), LOADS = +(process.env.SAHA_NFR_LOADS ?? 1000), CONCURRENCY = +(process.env.SAHA_NFR_CONCURRENCY ?? 4), WARMUP = 100;
 const THRESHOLD_KB_PER_LOAD = 150; // fail only when the last round grows by more than this per request
 const PLATEAU_KB_PER_LOAD = 10;    // "levels off" means the last round grew by no more than this per load
+const HEAP = process.env.SAHA_NFR_HEAP === '1', INSPECTOR = process.env.SAHA_TEST_PORT2 ?? '8835';
+const LIVE_HEAP_KB_PER_LOAD = 2;   // heap mode: the application isolate's live heap may grow by at most this per load in the last round
 const r = suite('Memory growth per workspace load (non-functional)', 'tests/reports/memory-growth-result.json', {
   layer: 'non-functional',
-  environment: 'built Worker in Miniflare (no inspector), local D1, synthetic data',
+  environment: HEAP ? 'built Worker in Miniflare with a V8 inspector; every isolate garbage-collected before each sample; local D1, synthetic data' : 'built Worker in Miniflare (no inspector), local D1, synthetic data',
   limits: [
     'Resident memory of the local workerd process(es) of one Miniflare instance, not Cloudflare isolate memory (128 MB limit) which has not been measured.',
     'One identity loading one route (GET /api/workspace) in a six-patient organisation; other routes and larger organisations are not covered.',
     'RSS is noisy (allocator and garbage-collection timing; V8 collects when it needs to, so a growing resident size is not by itself a leak). The suite fails only on a growth above the threshold in the last round, and it states "levels off" only when rounds 2 onward averaged no more than 10 KB per load.',
     'The sponsor-facing figure for `wrangler dev` (about 270 KB per load) is the inspector retaining request data, which this suite deliberately excludes.',
+    ...(HEAP ? ['Heap mode: the inspector and the forced collections change what is measured (resident memory after a full collection, not in ordinary running); live heap is V8 heap only, not native memory held by the runtime.'] : []),
   ],
 });
 
 if (!existsSync('/proc/self/status')) { r.skip('memory growth', 'no /proc on this platform; resident memory is read from /proc/<pid>/status'); await r.finish(); process.exit(0); }
 
 const t0 = performance.now();
-const m = await startMiniflare({ port: PORT, name: 'nfr-memory', bindings: { SAHA_ENVIRONMENT: 'synthetic' } });
+const m = await startMiniflare({ port: PORT, name: 'nfr-memory', bindings: { SAHA_ENVIRONMENT: 'synthetic' }, ...(HEAP ? { inspectorPort: INSPECTOR } : {}) });
 try {
   const who = identity('owner', crypto.randomUUID().slice(0, 8));
   const load = async () => { const x = await fetch(m.base + '/api/workspace', { headers: who.headers }); const body = await x.arrayBuffer(); return { status: x.status, bytes: body.byteLength }; };
   const burst = async (n) => { let i = 0, bad = 0, bytes = 0; await Promise.all(Array.from({ length: CONCURRENCY }, async () => { while (i < n) { i++; const x = await load(); if (x.status !== 200) bad++; bytes = Math.max(bytes, x.bytes); } })); return { bad, bytes }; };
   // median of three samples after a short idle, per component
-  const sample = async () => { const xs = []; for (let i = 0; i < 3; i++) { await new Promise(res => setTimeout(res, 400)); xs.push({ ...m.workerdMemKb(), db: Math.round(m.stateBytes() / 1024) }); } const med = k => xs.map(x => x[k]).sort((a, b) => a - b)[1]; return { rss: med('rss'), anon: med('anon'), file: med('file'), db: med('db') }; };
+  // Heap mode: collect every isolate's garbage first (a cheap authenticated request lets each isolate answer), then read its live heap.
+  const heaps = async () => { if (!HEAP) return {}; const h = await isolateHeaps(INSPECTOR, async () => { const x = await fetch(m.base + '/api/environment', { headers: who.headers }); await x.arrayBuffer(); }); const app = h['core:user:']?.usedMb ?? 0; return { app, all: +Object.values(h).reduce((a, x) => a + (x.usedMb ?? 0), 0).toFixed(2), collected: Object.entries(h).filter(([, x]) => x.collected).map(([k]) => k) }; };
+  const sample = async () => { const hp = await heaps(); const xs = []; for (let i = 0; i < 3; i++) { await new Promise(res => setTimeout(res, 400)); xs.push({ ...m.workerdMemKb(), db: Math.round(m.stateBytes() / 1024) }); } const med = k => xs.map(x => x[k]).sort((a, b) => a - b)[1]; return { rss: med('rss'), anon: med('anon'), file: med('file'), db: med('db'), ...(HEAP ? { app: hp.app, all: hp.all, collected: hp.collected } : {}) }; };
   const mb = kb => +(kb / 1024).toFixed(1);
 
   const pids = m.workerdPids();
@@ -52,9 +61,9 @@ try {
   for (let k = 1; k <= ROUNDS; k++) {
     const tr = performance.now(), res = await burst(LOADS), end = await sample();
     const per = key => +((end[key] - prev[key]) / LOADS).toFixed(2);
-    rounds.push({ round: k, loads: LOADS, rssStartMb: mb(prev.rss), rssEndMb: mb(end.rss), growthKb: end.rss - prev.rss, kbPerLoad: per('rss'), anonKbPerLoad: per('anon'), fileKbPerLoad: per('file'), databaseKbPerLoad: per('db'), anonEndMb: mb(end.anon), fileEndMb: mb(end.file), databaseEndMb: mb(end.db), failedLoads: res.bad, seconds: +((performance.now() - tr) / 1000).toFixed(1) });
+    rounds.push({ round: k, loads: LOADS, rssStartMb: mb(prev.rss), rssEndMb: mb(end.rss), growthKb: end.rss - prev.rss, kbPerLoad: per('rss'), anonKbPerLoad: per('anon'), fileKbPerLoad: per('file'), databaseKbPerLoad: per('db'), anonEndMb: mb(end.anon), fileEndMb: mb(end.file), databaseEndMb: mb(end.db), failedLoads: res.bad, seconds: +((performance.now() - tr) / 1000).toFixed(1), ...(HEAP ? { appHeapEndMb: end.app, appHeapKbPerLoad: +((end.app - prev.app) * 1024 / LOADS).toFixed(3), allHeapsEndMb: end.all } : {}) });
     const x = rounds.at(-1);
-    console.log(`round ${k}: ${LOADS} loads in ${x.seconds} s, RSS ${x.rssStartMb} -> ${x.rssEndMb} MB, growth ${x.kbPerLoad} KB per load (anon ${x.anonKbPerLoad}, file-backed ${x.fileKbPerLoad}; local database ${x.databaseKbPerLoad} KB per load, now ${x.databaseEndMb} MB), ${res.bad} failed`);
+    console.log(`round ${k}: ${LOADS} loads in ${x.seconds} s, RSS ${x.rssStartMb} -> ${x.rssEndMb} MB, growth ${x.kbPerLoad} KB per load (anon ${x.anonKbPerLoad}, file-backed ${x.fileKbPerLoad}; local database ${x.databaseKbPerLoad} KB per load, now ${x.databaseEndMb} MB), ${res.bad} failed${HEAP ? `; application live heap ${x.appHeapEndMb} MB (${x.appHeapKbPerLoad} KB per load), all isolates ${x.allHeapsEndMb} MB` : ''}`);
     prev = end;
   }
   // Round 1 includes heap warm-up, so the verdict reads the rounds after it: "levels off" needs their mean growth to be 10 KB per load or less.
@@ -75,8 +84,14 @@ try {
   r.measure('seconds for 1,000 loads, round 1', firstRound.seconds, { unit: 's' });
   r.measure('seconds for 1,000 loads, last round', last.seconds, { unit: 's' });
   r.measure('workerd RSS after the last round', last.rssEndMb, { unit: 'MB' });
+  if (HEAP) {
+    r.measure('application isolate live heap growth, KB per load, last round (after a full collection)', last.appHeapKbPerLoad, { unit: 'KB', budget: LIVE_HEAP_KB_PER_LOAD });
+    r.measure('application isolate live heap after the last round', last.appHeapEndMb, { unit: 'MB' });
+    r.measure('live heap of every isolate after the last round', last.allHeapsEndMb, { unit: 'MB' });
+    r.measure('application isolate live heap after warm-up', start.app, { unit: 'MB' });
+  }
   r.measure(`total RSS growth over ${ROUNDS} rounds`, +(last.rssEndMb - rounds[0].rssStartMb).toFixed(1), { unit: 'MB' });
-  await r.finish({ verdict, levelsOff, slowing, tailMeanKbPerLoad: tailMean, thresholdKbPerLoad: THRESHOLD_KB_PER_LOAD, plateauKbPerLoad: PLATEAU_KB_PER_LOAD, rounds, rssAfterFirstLoadMb: mb(cold.rss), rssAfterWarmupMb: mb(start.rss), workspaceBytes: first.bytes, concurrency: CONCURRENCY, workerdPids: pids, durationMs: Math.round(performance.now() - t0) });
+  await r.finish({ heapMode: HEAP, ...(HEAP ? { appHeapAfterWarmupMb: start.app, allHeapsAfterWarmupMb: start.all } : {}), verdict, levelsOff, slowing, tailMeanKbPerLoad: tailMean, thresholdKbPerLoad: THRESHOLD_KB_PER_LOAD, plateauKbPerLoad: PLATEAU_KB_PER_LOAD, rounds, rssAfterFirstLoadMb: mb(cold.rss), rssAfterWarmupMb: mb(start.rss), workspaceBytes: first.bytes, concurrency: CONCURRENCY, workerdPids: pids, durationMs: Math.round(performance.now() - t0) });
 } catch (e) {
   console.error(e); await r.check('suite setup', () => { throw e; }); await r.finish();
 } finally { await m.stop(); }

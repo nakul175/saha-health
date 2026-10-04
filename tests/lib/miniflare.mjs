@@ -37,7 +37,7 @@ export const memKb = pid => {
  * Start the built Worker in Miniflare. Options: port, name, state (D1 directory), fresh (default true), bindings (Worker variables),
  * outboundService (function (Request) => Response for the Worker's own fetches). Returns { base, stop, workerdPids, workerdRssKb, mf }.
  */
-export async function startMiniflare({ port = 8834, name = 'nfr-mf', state, fresh = true, bindings = {}, outboundService } = {}) {
+export async function startMiniflare({ port = 8834, name = 'nfr-mf', state, fresh = true, bindings = {}, outboundService, inspectorPort } = {}) {
   const config = 'dist/server/wrangler.json';
   if (!existsSync(config)) throw new Error('Build first: npm run build');
   state = resolve(state ?? `.wrangler/${name}-state`);
@@ -53,6 +53,8 @@ export async function startMiniflare({ port = 8834, name = 'nfr-mf', state, fres
     // The Worker must run ahead of the static assets (wrangler does this for `run_worker_first`), or every /api/* request is answered 404 by the assets router.
     assets: { directory: 'dist/client', binding: 'ASSETS', routerConfig: { has_user_worker: true, invoke_user_worker_ahead_of_assets: true } },
     ...(outboundService ? { outboundService } : {}),
+    // Slice 14a (O-2): a V8 inspector for heap measurements (tests/nfr/memory-growth.mjs with SAHA_NFR_HEAP=1); off unless asked for.
+    ...(inspectorPort !== undefined ? { inspectorPort: +inspectorPort } : {}),
   });
   await mf.ready;
   const workerdPids = () => descendants().filter(p => /workerd/.test(comm(p)));
@@ -76,4 +78,30 @@ export async function startInline({ port = 8833, script, outboundService } = {})
   const mf = new Miniflare({ modules: true, script, host: '127.0.0.1', port: +port, compatibilityDate: wr.compatibility_date ?? '2026-05-01', compatibilityFlags: wr.compatibility_flags ?? [], ...(outboundService ? { outboundService } : {}) });
   await mf.ready;
   return { base: `http://127.0.0.1:${port}`, stop: async () => { await mf.dispose(); } };
+}
+
+/**
+ * Slice 14a (O-2): force a full garbage collection in every isolate of a Miniflare instance started with `inspectorPort`, then
+ * return each isolate's V8 heap in MB ({ used, total } after the collection, keyed by worker name). workerd answers an inspector
+ * command that needs the isolate (a collection) only when that isolate next runs, so `poke` (a cheap request) is sent every
+ * 100 ms until the answer arrives; isolates that never run (asset and cache services) are reported without a collection.
+ */
+export async function isolateHeaps(inspectorPort, poke, waitMs = 3000) {
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const targets = await (await fetch(`http://127.0.0.1:${inspectorPort}/json/list`)).json(), out = {};
+  for (const t of targets) {
+    const name = String(t.title ?? t.id).replace(/^workerd: worker /, ''), ws = new WebSocket(t.webSocketDebuggerUrl), pending = new Map(); let id = 0;
+    ws.onmessage = ev => { const m = JSON.parse(ev.data); if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } };
+    const send = method => new Promise(r => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method })); });
+    try {
+      await new Promise((ok, bad) => { ws.onopen = ok; ws.onerror = () => bad(new Error('inspector connection failed')); });
+      let answered = false; const gc = send('HeapProfiler.collectGarbage').then(() => { answered = true; });
+      for (const end = Date.now() + waitMs; !answered && Date.now() < end;) { await poke().catch(() => {}); await sleep(100); }
+      if (answered) await gc;
+      const u = (await send('Runtime.getHeapUsage')).result ?? {};
+      out[name] = { usedMb: +((u.usedSize ?? 0) / 1048576).toFixed(2), totalMb: +((u.totalSize ?? 0) / 1048576).toFixed(2), collected: answered };
+    } catch (e) { out[name] = { error: e.message }; }
+    finally { try { ws.close(); } catch { /* closed */ } }
+  }
+  return out;
 }

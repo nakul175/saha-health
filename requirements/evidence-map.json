@@ -384,7 +384,8 @@
     "tests/nfr/memory-growth.mjs",
     "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
     "tests/audit-query-plan-contract.mjs",
-    "docs/current/SLICE-13E-PERFORMANCE.md"
+    "docs/current/SLICE-13E-PERFORMANCE.md",
+    "docs/current/SLICE-14A-ATOMIC-LIMITS.md"
   ],
   "NFR-25": [
     "lib/saha/fhir-document.ts",
@@ -518,7 +519,11 @@
     "lib/saha/identifier-search.ts",
     "tests/identifier-crosswalk-contract.mjs",
     "tests/identifier-search-smoke.mjs",
-    "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
+    "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md",
+    "lib/saha/limit-slots.ts",
+    "tests/limit-slots-contract.mjs",
+    "tests/limit-race-smoke.mjs",
+    "docs/current/SLICE-14A-ATOMIC-LIMITS.md"
   ],
   "BR-INT-15": [
     "REMAINING-RELEASES.md"
@@ -1258,7 +1263,11 @@
     "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
     "tests/review-leftovers-smoke.mjs",
     "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
-    "docs/current/SLICE-13F-REVIEW-FIXES.md"
+    "docs/current/SLICE-13F-REVIEW-FIXES.md",
+    "lib/saha/limit-slots.ts",
+    "tests/limit-slots-contract.mjs",
+    "tests/limit-race-smoke.mjs",
+    "docs/current/SLICE-14A-ATOMIC-LIMITS.md"
   ],
   "BR-OPS-08": [
     "lib/saha/operations.ts",
