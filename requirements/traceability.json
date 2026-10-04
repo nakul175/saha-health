@@ -451,8 +451,8 @@
       "sourceTextLine": 184,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted.",
-      "remaining": "Household relationships and purpose-limited, expiring proxy authority.",
+      "current": "Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted. Slice 14b: each grant also records a typed relationship between the two people (household roles refused), an authority (parent of a person under 18, legal guardian, nominated by the person, representative of an adult a clinician recorded as lacking capacity), a start and an expiry; two acting purposes (consent decisions, rights requests) beside the four sharing purposes; every reliance is checked on the server at the time of use and refused when revoked, not started, expired, out of purpose, without relationship or authority (all grants recorded before 14b), under a parent's authority once the recorded age is 18, or under a capacity representative without a current lack-of-capacity record or after capacity was recorded as regained; each use is its own audit event.",
+      "remaining": "A relationship register between people beyond proxy grants; jurisdiction-approved authority rules (age of majority, mature minors, verification of guardianship evidence); representatives acting through their own channel; acceptance with named testers.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -462,7 +462,11 @@
         "REMAINING-RELEASES.md",
         "lib/saha/household.ts",
         "tests/main-review-fixes-contract.mjs",
-        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+        "lib/saha/household-constants.ts",
+        "tests/proxy-authority-contract.mjs",
+        "tests/proxy-authority-smoke.mjs",
+        "docs/current/SLICE-14B-PROXY-AUTHORITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3215,8 +3219,8 @@
       "sourceTextLine": 508,
       "implementation": "partial",
       "target": "R15",
-      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out. Slice 6aa (seventh independent review): differencing is also checked through the people behind each release rather than by key: every measure release of the viewer's last seven days is re-evaluated against the people in scope now and split into atoms (people, and window-to-window increments for windowed measures, in exactly the same shown cells); a result that would create or split an atom of 1 to 4 is withheld, so a different grouping, an exclusion definition or a different window no longer bypasses it; the window is part of each release's identity; the ledger is bounded by size (1 MB organisation, 250 KB per viewer, 429 when full); a property test over random synthetic query sequences finds no released nested pair differing by 1 to 4; the remaining limits (two viewers combining results, changes between queries, releases older than seven days, unrelated measures) are stated to owners. Slice 6ad (ninth review): a release for a window that ended in the past records its end, used in the window key, the ledger prune identity and the population check, which counts each window to its own end and falls back to whole-person profiles when windows do not nest. Slice 13d: refused indicator queries (combination or cohort below 5) are recorded with filter names only and limited to 20 per viewer per day. Slice 14a: the refusal limit holds under parallel queries (each query reserves a slot before it is run; a refusal or partial withhold keeps it); over HTTP, eight parallel refused queries after 17 refusals are answered as three refusals and five 429s; a partial differencing withhold is recorded as an indicator refusal and counted, on screen and in a CSV export.",
-      "remaining": "Differencing across viewers, non-nested filters, groupings and definitions, suppression on the operational export and other report paths, and a separate purpose for patient exports.",
+      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out. Slice 6aa (seventh independent review): differencing is also checked through the people behind each release rather than by key: every measure release of the viewer's last seven days is re-evaluated against the people in scope now and split into atoms (people, and window-to-window increments for windowed measures, in exactly the same shown cells); a result that would create or split an atom of 1 to 4 is withheld, so a different grouping, an exclusion definition or a different window no longer bypasses it; the window is part of each release's identity; the ledger is bounded by size (1 MB organisation, 250 KB per viewer, 429 when full); a property test over random synthetic query sequences finds no released nested pair differing by 1 to 4; the remaining limits (two viewers combining results, changes between queries, releases older than seven days, unrelated measures) are stated to owners. Slice 6ad (ninth review): a release for a window that ended in the past records its end, used in the window key, the ledger prune identity and the population check, which counts each window to its own end and falls back to whole-person profiles when windows do not nest. Slice 13d: refused indicator queries (combination or cohort below 5) are recorded with filter names only and limited to 20 per viewer per day. Slice 14a: the refusal limit holds under parallel queries (each query reserves a slot before it is run; a refusal or partial withhold keeps it); over HTTP, eight parallel refused queries after 17 refusals are answered as three refusals and five 429s; a partial differencing withhold is recorded as an indicator refusal and counted, on screen and in a CSV export. Slice 14g: the operational report CSV (the one count-bearing file that had no suppression) now shows counts of 1 to 4 as <5, withholds every count when the report covers 1 to 4 people, withholds one further cell where a breakdown with a shown total would reveal a suppressed one, and states the rule and the number of cells in the file; control totals over a suppressed breakdown are withheld. Every route handler, Content-Disposition source, file-saving screen and outbound command is classified in an inventory, and a contract fails when a new one is not. Patient-level files (FHIR download, data exit) are a separate patient-export purpose; the operational CSV needs the reporting purpose.",
+      "remaining": "Differencing across viewers, non-nested filters, groupings and definitions; differencing across operational report exports (two files with different filters, windows or teams can be subtracted; the indicator ledger is not applied to the operational report); the in-app aggregate views (operations JSON view, worker activity, alerts, caseload) are not suppressed, by decision pending; the data-exit purpose check cannot restrict owners, who cannot be purpose-limited.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3241,7 +3245,14 @@
         "lib/saha/limit-slots.ts",
         "tests/limit-slots-contract.mjs",
         "tests/limit-race-smoke.mjs",
-        "docs/current/SLICE-14A-ATOMIC-LIMITS.md"
+        "docs/current/SLICE-14A-ATOMIC-LIMITS.md",
+        "lib/saha/export-suppression.ts",
+        "lib/saha/export-routes.ts",
+        "lib/saha/held-exports.ts",
+        "lib/saha/held-exports-server.ts",
+        "tests/export-suppression-contract.mjs",
+        "tests/export-suppression-smoke.mjs",
+        "docs/current/SLICE-14G-EXPORT-SUPPRESSION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3255,8 +3266,8 @@
       "sourceTextLine": 511,
       "implementation": "partial",
       "target": "R15",
-      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen. Slice 6ab: aggregate reports are screened with the population check, as indicator queries are. Slice 6ad (ninth review): aggregate report cells are never shown to people (they were screened for the destination only); a report period ending in the past records its window end so it never replaces or escapes an earlier release to the same destination. Slice 13d: the send checkpoint applies the sender's scope before the population screen (it saw an empty population before).",
-      "remaining": "Protected expiry of downloaded files, filters beyond window and team, and an official reviewed-submission lifecycle distinct from draft export. Aggregate reports go to demonstration destinations only; there is no official reviewed-submission lifecycle with the programme, no reporting calendar or scheduled report, and no snapshot of the records behind a sent report.",
+      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen. Slice 6ab: aggregate reports are screened with the population check, as indicator queries are. Slice 6ad (ninth review): aggregate report cells are never shown to people (they were screened for the destination only); a report period ending in the past records its window end so it never replaces or escapes an earlier release to the same destination. Slice 13d: the send checkpoint applies the sender's scope before the population screen (it saw an empty population before). Slice 14g: the CSV is suppressed (definition 1.2.0); the operational report takes team and programme filters inside the viewer's reporting reach; a prepared report can be held for one download (POST /api/exports, GET /api/exports?id=): 15-minute expiry, delivered once to the member who prepared it, refused on replay, on another member, after a change of role, reach or purpose, content blanked after delivery or expiry, and each download audited.",
+      "remaining": "Expiry applies to the operational CSV only (the indicator CSV, data exit, audit export, incentive CSV and rejection report are delivered directly, not held); filters beyond window, team and programme (village, age band, sex) on the operational report; no screen for held exports or filters; and an official reviewed-submission lifecycle distinct from draft export. Aggregate reports go to demonstration destinations only; there is no official reviewed-submission lifecycle with the programme, no reporting calendar or scheduled report, and no snapshot of the records behind a sent report.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3276,7 +3287,14 @@
         "tests/ninth-review-fixes-contract.mjs",
         "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
         "tests/aggregate-checkpoint-population-contract.mjs",
-        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md"
+        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
+        "lib/saha/export-suppression.ts",
+        "lib/saha/export-routes.ts",
+        "lib/saha/held-exports.ts",
+        "lib/saha/held-exports-server.ts",
+        "tests/export-suppression-contract.mjs",
+        "tests/export-suppression-smoke.mjs",
+        "docs/current/SLICE-14G-EXPORT-SUPPRESSION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3585,8 +3603,8 @@
       "sourceTextLine": 551,
       "implementation": "partial",
       "target": "R15",
-      "current": "Optional AI can be declined; contact preferences and EHR scopes are recorded. Slice 14d: owners publish versioned notices for AI assistance and external sharing (English and/or Hindi text, effective time, change summary, reviewer, material flag; never edited); a permission given records the notice version and language it was shown in (a stale or missing notice is refused) and an end date set by the server (AI 365 days, sharing 180, contact 365); a permission whose end has passed, or that was given before a material notice version took effect, stops authorising AI use, programme delivery, EHR exchange and reminders when checked, is shown as expired or needing renewal with a renewal path, and its terms, renewal and lapse are in the consent history and audit trail.",
-      "remaining": "Reviewed multilingual notice content (Saha holds none; the reviewer field is the owner's statement and Hindi is unchecked); notices for automated contact; representative authority on notices (slice 14b, not merged); an end date for permissions recorded before slice 14d; periods approved by a privacy officer; formal acceptance.",
+      "current": "Optional AI can be declined; contact preferences and EHR scopes are recorded. Slice 14b: a consent decision (permission switch or withdrawal) records whether the person or a representative decided; a representative's decision names their record, relationship, authority and grant period on the consent event, the command result and the audit event, and is accepted only under a grant in force that covers consent decisions; a person recorded as lacking capacity cannot give a permission as their own (a withdrawal is always recorded). Slice 14d: owners publish versioned notices for AI assistance and external sharing (English and/or Hindi text, effective time, change summary, reviewer, material flag; never edited); a permission given records the notice version and language it was shown in (a stale or missing notice is refused) and an end date set by the server (AI 365 days, sharing 180, contact 365); a permission whose end has passed, or that was given before a material notice version took effect, stops authorising AI use, programme delivery, EHR exchange and reminders when checked, is shown as expired or needing renewal with a renewal path, and its terms, renewal and lapse are in the consent history and audit trail.",
+      "remaining": "Reviewed multilingual notice content (Saha holds none; the reviewer field is the owner's statement and Hindi is unchecked); notices for automated contact; a representative on contact-preference permissions; a representative's permission ending when their authority ends (consentStanding does not yet check decidedBy); an end date for permissions recorded before slice 14d; periods approved by a privacy officer; formal acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/consent-notices.ts",
@@ -3595,7 +3613,11 @@
         "tests/consent-notices-contract.mjs",
         "tests/consent-notices-smoke.mjs",
         "tests/ui/consent-notices.spec.mjs",
-        "docs/current/SLICE-14D-NOTICES-CONSENT-EXPIRY.md"
+        "docs/current/SLICE-14D-NOTICES-CONSENT-EXPIRY.md",
+        "lib/saha/rights.ts",
+        "tests/proxy-authority-contract.mjs",
+        "tests/proxy-authority-smoke.mjs",
+        "docs/current/SLICE-14B-PROXY-AUTHORITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3642,11 +3664,15 @@
       "sourceTextLine": 557,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads.",
-      "remaining": "Jurisdiction-specific sensitivity restrictions and relationship/authority/expiry enforcement.",
+      "current": "Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads. Slice 14b: relationship, authority and expiry are recorded separately on each grant and enforced at every use (household sharing preview, consent decisions, rights requests), with the authority's age and capacity conditions checked at that time.",
+      "remaining": "Jurisdiction-specific sensitivity restrictions; evaluation in notifications, exports, reports and model payloads.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/household.ts",
+        "tests/proxy-authority-contract.mjs",
+        "tests/proxy-authority-smoke.mjs",
+        "docs/current/SLICE-14B-PROXY-AUTHORITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
