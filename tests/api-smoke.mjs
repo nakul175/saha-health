@@ -197,6 +197,8 @@ const {speechSmoke}=await import('./speech-smoke.mjs');await speechSmoke({get,po
 const {reviewLeftoversSmoke}=await import('./review-leftovers-smoke.mjs');await reviewLeftoversSmoke({get,post,check,base,sql});
 // Slice 13a: cross-site refusal, facility and programme scope in reads and commands, purpose checkpoints (own organisation).
 const {accessScopeSmoke}=await import('./access-scope-smoke.mjs');await accessScopeSmoke({get,post,check,base});
+// Slice 14f: disposal execution, register, data exit and restore with the register (own organisation; backs up the local D1 file).
+const {disposalSmoke}=await import('./disposal-smoke.mjs');await disposalSmoke({get,post,check,sql,base});
 // Slice 6ab: runs last because it leaves the synthetic worker throttled for ABHA links for a day.
 const {eighthReviewSmoke}=await import('./eighth-review-smoke.mjs');await eighthReviewSmoke({get,post,check,accounts,org,sql});
 await globalThis.sahaRecycleWorker?.();

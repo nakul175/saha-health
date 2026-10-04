@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **66 HTTP method/route pairs** and **228 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **67 HTTP method/route pairs** and **231 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -62,6 +62,7 @@ Generated from source: **66 HTTP method/route pairs** and **228 command schema d
 | POST | `/api/record-opened` | [app/api/record-opened/route.ts](../../app/api/record-opened/route.ts) |
 | GET | `/api/referral-escalations` | [app/api/referral-escalations/route.ts](../../app/api/referral-escalations/route.ts) |
 | GET | `/api/referral-requests` | [app/api/referral-requests/route.ts](../../app/api/referral-requests/route.ts) |
+| GET | `/api/retention/disposal-register` | [app/api/retention/disposal-register/route.ts](../../app/api/retention/disposal-register/route.ts) |
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |

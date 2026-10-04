@@ -6,7 +6,7 @@ export async function retentionSmoke({get,post,check,accounts,org,sql,base}){
  const counts=()=>['patients','visits','submissions','record_revisions'].map(t=>sql.prepare(`SELECT count(*) AS n FROM ${t} WHERE org_id=?`).get(org).n);
  await view(s,403);await view(w,403);await view(a,403);
  let v=await view(o);
- check(()=>{assert.equal(v.policy,null);assert.equal(v.review.length,6);assert.match(v.disposal,/never deletes/);});
+ check(()=>{assert.equal(v.policy,null);assert.equal(v.review.length,7,'six record classes and, since slice 14f, visit media');assert.match(v.disposal,/never deletes/);});
  const rules=v.classes.map(c=>({recordClass:c.recordClass,years:7}));
  await post(s,{type:'retentionPolicySet',rules,basis:'Synthetic records policy for the test'},403);
  await post(o,{type:'retentionPolicySet',rules:[{recordClass:'audit-event',years:60}],basis:'Synthetic records policy for the test'},422);

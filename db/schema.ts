@@ -146,6 +146,16 @@ export const media = sqliteTable('media', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(),
   mime:text('mime').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), purpose:text('purpose').notNull(), createdAt:text('created_at').notNull(), deletedAt:text('deleted_at'), data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('media_org_visit').on(t.orgId,t.visitId),index('media_org_person').on(t.orgId,t.personId)]);
+// Slice 14f: the disposal register. One append-only, hash-chained row per disposed record (patient records, their visits,
+// plans, AI results, submissions, referrals and media, and one row for the patient's revision history) or per disposed visit
+// media item. It holds identifiers, the time, the rule and authority and the SHA-256 of the content removed, never the content.
+// Migration 0021 also lets a record revision's content be replaced by a disposal tombstone (row kept) when this register
+// holds that patient's entry; every other update of a revision is still refused.
+export const disposals = sqliteTable('disposals', {
+  orgId:text('org_id').notNull().references(()=>organisations.id), seq:integer('seq').notNull(), id:text('id').notNull(), batchId:text('batch_id').notNull(),
+  recordClass:text('record_class').notNull(), tableName:text('table_name').notNull(), recordId:text('record_id').notNull(), personId:text('person_id'), teamId:text('team_id'),
+  disposedAt:text('disposed_at').notNull(), rule:text('rule').notNull(), authority:text('authority').notNull(), contentSha256:text('content_sha256').notNull(), prevHash:text('prev_hash').notNull(), hash:text('hash').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.seq]}),uniqueIndex('disposals_record').on(t.orgId,t.tableName,t.recordId),uniqueIndex('disposals_entry').on(t.orgId,t.id),index('disposals_person').on(t.orgId,t.personId)]);
 // Slice 13d (round-10 review M2): where the scheduled job's organisation rotation stopped, so the next run continues from
 // the organisation after it (wrapping at the end). One row per job; holds an organisation id and a time, nothing else.
 export const scheduledCursor = sqliteTable('scheduled_cursor', {

@@ -1,0 +1,48 @@
+{
+ "slice": "14f",
+ "label": "Slice 14f — disposal execution",
+ "environment": "local built Worker, local D1/SQLite, Miniflare, Node 22.22.2, shared 2-core machine with other agents running, synthetic data only",
+ "note": "Unit: first full run 131 suites 8,083 passed (summary-unit-first-run.json); after a final wording change the unit layer passed 130 of 131 suites (8,080) and audit-contention-contract (a timing model from slice 13e) refused 1 of 120 reads under machine load, then passed alone three times (summary-unit.json). HTTP/D1 4,810 and restore drill 21 on the final build; smoke 36 passed and 1 skipped, security NFR 80, UAT 63. Disposal contract 39; data exit contract 39. No hosted run; no UI test drives the new panel (rendered once in Chrome against local D1 with no console errors).",
+ "reports": {
+  "api-smoke-result.json": {
+   "sha256": "7af8ede9b8e810d5003951ac926b0b00aa29980e9f2f8e52e8307ba4a450df64",
+   "passed": 4810,
+   "completedAt": "2026-10-04T12:42:44.271Z"
+  },
+  "data-exit-contract-result.json": {
+   "sha256": "bf2ce025ea0b79ad06f24bb487306ed6cf4a7f78ed13dff796ae1ad3d0a72661",
+   "passed": 39,
+   "completedAt": "2026-10-04T12:29:13.591Z"
+  },
+  "disposal-contract-result.json": {
+   "sha256": "08b73ef6d8727f17e25852c43f6c55654afa303d096e926da560e691a2c6d0ee",
+   "passed": 39,
+   "completedAt": "2026-10-04T12:52:02.276Z"
+  },
+  "recovery-result.json": {
+   "sha256": "3141ab2d140ef9ea31869d99bc3f4f917bb2e6b8267c3d341b8ffa21a46b48de",
+   "passed": 21,
+   "completedAt": "2026-10-04T12:42:53.756Z"
+  },
+  "summary-integration+resilience-only.json": {
+   "sha256": "3f05ca7a88fa1eebb1ffc75e5de30479114071cc8ff50b0d1cb8489ed1665f95",
+   "passed": 4831,
+   "completedAt": "2026-10-04T12:42:54.002Z"
+  },
+  "summary-smoke+nfr+uat-only.json": {
+   "sha256": "9d303163649034198f8b8882546af539ed8672736e9b42d101a75733f403cfe8",
+   "passed": 179,
+   "completedAt": "2026-10-04T12:54:19.417Z"
+  },
+  "summary-unit-first-run.json": {
+   "sha256": "0fff01607c31b9db0da9327d46dab211382a85d28c443f4708f956e79a531007",
+   "passed": 8083,
+   "completedAt": "2026-10-04T12:27:49.944Z"
+  },
+  "summary-unit.json": {
+   "sha256": "26c4ec795648367e8d36023f76e801c97d7d3d11b9cbfd0442cf58a82dbf8598",
+   "passed": 8080,
+   "completedAt": "2026-10-04T12:51:09.852Z"
+  }
+ }
+}

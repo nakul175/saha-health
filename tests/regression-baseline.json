@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4758
+      "minPassed": 4810
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -237,6 +237,11 @@
       "layer": "unit",
       "file": "tests/destination-enrolment-contract.mjs",
       "minPassed": 45
+    },
+    "unit/disposal-contract": {
+      "layer": "unit",
+      "file": "tests/disposal-contract.mjs",
+      "minPassed": 39
     },
     "unit/drift-contract": {
       "layer": "unit",
