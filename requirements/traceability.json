@@ -2793,14 +2793,21 @@
       "sourceTextLine": 465,
       "implementation": "partial",
       "target": "R14",
-      "current": "Encrypted per-user notebook, inactivity lock, grants and reconnect denial.",
-      "remaining": "Main-workspace shared-device protection, native keystore/MDM and lost-device exercises.",
+      "current": "Encrypted per-user notebook, inactivity lock, grants and reconnect denial. Slice 14e: a revoked grant, ended access, a merged record or a processing restriction orders removal of the device copy, done by the notebook and confirmed with a receipt when it next contacts Saha; pending removals are listed.",
+      "remaining": "Main-workspace shared-device protection, native keystore/MDM and lost-device exercises; a suspended or removed worker's notebook cannot fetch removal orders, and a device that never reconnects keeps its encrypted copy.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
         "tests/field-contract.mjs",
         "tests/field-client.mjs",
-        "tests/field-shell.mjs"
+        "tests/field-shell.mjs",
+        "lib/saha/field-device.ts",
+        "lib/saha/field-device-server.ts",
+        "public/field/app.js",
+        "tests/field-device-contract.mjs",
+        "tests/field-device-client.mjs",
+        "tests/field-device-smoke.mjs",
+        "docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3106,8 +3113,8 @@
       "sourceTextLine": 499,
       "implementation": "partial",
       "target": "R15",
-      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events.",
-      "remaining": "Assignment from the queue itself, device-side sync failures not reported to the server, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
+      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events. Slice 14e: field notebooks report their sync failures as counts (step, error class, grant, first and last time; no patient details), listed for supervisors and owners in a Field devices panel on the Operations page and, for grants still open, as exception rows owned by the worker with a recovery action; device copies awaiting removal and consent-withdrawal notices not yet sent, uncertain or to be told by hand are exception rows too.",
+      "remaining": "Assignment from the queue itself, sync failures on a device that never reconnects (reports are sent only when the notebook is next online), notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3127,7 +3134,15 @@
         "app/trace-panel.tsx",
         "tests/trace-contract.mjs",
         "tests/trace-smoke.mjs",
-        "docs/current/SLICE-6Y-TASK-TRACE.md"
+        "docs/current/SLICE-6Y-TASK-TRACE.md",
+        "lib/saha/field-device.ts",
+        "lib/saha/field-device-server.ts",
+        "lib/saha/withdrawal-notices.ts",
+        "public/field/app.js",
+        "tests/field-device-contract.mjs",
+        "tests/field-device-client.mjs",
+        "tests/field-device-smoke.mjs",
+        "docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3589,8 +3604,8 @@
       "sourceTextLine": 554,
       "implementation": "partial",
       "target": "R15",
-      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain.",
-      "remaining": "Destination notification with verified external outcomes, offline device copies, real ABDM consent-manager revocation and approved policy for retained completed transactions.",
+      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. Slice 14e: AI and sharing withdrawals list open field-notebook copies (kept: they cannot sync under the old permission version); a copy on a worker's device is removed on the notebook's next contact when its grant is revoked, the worker's access ended, the record was merged or processing is restricted, confirmed by a counts-only receipt, with pending removals listed; a sharing withdrawal creates one notice per destination holding the person's records, sent to the demonstration simulators with their receipts (an unknown outcome is looked up, never resent), recorded with the mock ABDM gateway, or told by hand and recorded with a reference for HTTP programme and EHR connections.",
+      "remaining": "Verified outcomes from real destinations (notices to HTTP programme and EHR connections are manual until the slice 14c path is used; only the demonstration simulators answer), removal from devices that never reconnect, real ABDM consent-manager revocation and approved policy for retained completed transactions.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3600,7 +3615,15 @@
         "lib/saha/consent.ts",
         "tests/consent-contract.mjs",
         "tests/consent-smoke.mjs",
-        "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md"
+        "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md",
+        "lib/saha/field-device.ts",
+        "lib/saha/field-device-server.ts",
+        "lib/saha/withdrawal-notices.ts",
+        "public/field/app.js",
+        "tests/field-device-contract.mjs",
+        "tests/field-device-client.mjs",
+        "tests/field-device-smoke.mjs",
+        "docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },

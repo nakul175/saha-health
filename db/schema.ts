@@ -158,3 +158,11 @@ export const scheduledCursor = sqliteTable('scheduled_cursor', {
 export const limitSlots = sqliteTable('limit_slots', {
  orgId:text('org_id').notNull().references(()=>organisations.id), actorId:text('actor_id').notNull(), kind:text('kind').notNull(), slotKey:text('slot_key').notNull(), state:text('state').notNull(), at:text('at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.actorId,t.kind,t.slotKey]})]);
+// Slice 14e: field notebooks' sync failure reports (step, error class, count, first and last time, notebook version). The only
+// reference a device sends is its own field grant id; the patient id is resolved on the server from that grant, for scope.
+// No patient name, record content or free text. One audit event per report (audit_id); report_key is the request key.
+export const fieldSyncReports = sqliteTable('field_sync_reports', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), actorId:text('actor_id').notNull(), personId:text('person_id'), leaseId:text('lease_id'),
+ step:text('step').notNull(), errorClass:text('error_class').notNull(), count:integer('count').notNull(), firstAt:text('first_at').notNull(), lastAt:text('last_at').notNull(), appVersion:text('app_version').notNull(),
+ reportKey:text('report_key').notNull(), receivedAt:text('received_at').notNull(), auditId:text('audit_id').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('field_sync_reports_received').on(t.orgId,t.receivedAt),index('field_sync_reports_actor').on(t.orgId,t.actorId,t.receivedAt)]);

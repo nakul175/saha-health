@@ -1,0 +1,40 @@
+{
+  "slice": "14e",
+  "label": "Development slice 14e — field device reports, removal of device copies and withdrawal notices (R73, R91)",
+  "environment": "local built Worker and local D1 under wrangler dev, Node 22.22.2, Linux container shared with other agents, synthetic data only, ports 8850-8853",
+  "note": "Fresh runs on the slice 14e source. The first HTTP run (not kept) stopped in the new field device module because the test reused a stale patient version; the run kept here is the rerun after that test fix. The R11 results in tests/ are unchanged historical evidence.",
+  "reports": {
+    "field-device-contract-result.json": {
+      "sha256": "d2e6b18dca0ab03f7126bc07602f70219479d208c7f229b22e5cd99ece0b8dd7",
+      "passed": 99,
+      "completedAt": "2026-10-04T12:50:02.021Z",
+      "note": "unit contract of lib/saha/field.ts removal rules, field-device.ts and withdrawal-notices.ts"
+    },
+    "field-device-client-result.json": {
+      "sha256": "5f6c8bbc4b594a25f907de672cc4f019f1a9c23fb5abb742c76e3a799c826d27",
+      "passed": 26,
+      "completedAt": "2026-10-04T12:50:07.685Z",
+      "note": "public/field/app.js device contact in Node with real Web Crypto and injected storage and network"
+    },
+    "run-unit-integration-resilience-smoke.json": {
+      "sha256": "5b366bf192ae1be30a1e7c40d92675c54bb76e0ab3f42e7e54cdd0d0a56a6077",
+      "passed": 13115,
+      "failed": 0,
+      "note": "node scripts/test.mjs unit integration resilience smoke: unit 132 suites, HTTP/D1 4881 (field device module 123), scheduled check, restore drill, local and hosted-self-test smoke"
+    },
+    "run-nfr-security.json": {
+      "sha256": "577002ea7ebd62ef62f886bf9d148e03fe08e5cf3f85c23c37e7752b8590ce52",
+      "passed": 80,
+      "failed": 0,
+      "note": "authorisation matrix (GET /api/field-device classified, bare and ?view=operations) and identity hardening"
+    },
+    "browser-check.json": {
+      "sha256": "c45029de8e46c48cc564595ac76ac3f9055429930e810ee4957a4cca4e86578a",
+      "passed": 14,
+      "failed": 0,
+      "completedAt": "2026-10-04T12:30:11.896Z",
+      "note": "one-off headless Chromium check of the notebook removal, the Field devices panel and the Withdrawal notices dialog, with axe; not a committed suite"
+    }
+  },
+  "totalPassed": 13334
+}

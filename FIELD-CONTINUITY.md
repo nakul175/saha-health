@@ -16,7 +16,7 @@
 
 `syncFieldVisit {personId, leaseId, packageHash, facts, answers, absence}` uses the normal authenticated, CSRF-checked command endpoint and `Idempotency-Key`. Persist the frozen command/key before sending. All data and receipt writes use the existing organisation CAS/D1 transaction. A duplicate exact command replays the committed receipt after current access checks; altered input with the same key is rejected. Expired/revoked grants cannot authorize a new write. The client clock is only a convenience check; the server enforces expiry at sync.
 
-`revokeFieldLease {personId, leaseId}` is available to the preparing worker or an organisation owner with patient/care access. It prevents new sync; it cannot erase disconnected ciphertext. Preparing another grant for the same worker/visit revokes their old active grant. Active-grant metadata is bounded to 20 unexpired entries per patient; eviction can require a new comparison/renewal. Existing audit and record revision retention are unchanged.
+`revokeFieldLease {personId, leaseId}` is available to the preparing worker or an organisation owner with patient/care access. It prevents new sync and, since slice 14e, orders the removal of that grant's device copy (also for a grant that already ended, for example for a lost device); it cannot erase disconnected ciphertext. Preparing another grant for the same worker/visit revokes their old active grant. Active-grant metadata is bounded to 20 unexpired entries per patient; eviction can require a new comparison/renewal. Existing audit and record revision retention are unchanged.
 
 ## Device boundaries
 
@@ -26,6 +26,13 @@
 - Browser quota/eviction, data clearing, OS termination during a pending save and forgotten passphrases can lose unsynced data. A failed save blocks sending; this is not a backup service. A successful save message means the IndexedDB transaction committed, not an OS-level durability guarantee.
 - Service worker scope is `/field/`. Cache allowlist contains only index.html, app.js, vault.js and style.css. No API, auth, patient response, query-bearing URL or normal workspace page is cached. The dedicated shell is empty until unlocked. Network responses refresh cached shell assets; deployments must retain schema compatibility.
 - Main workspace sign-out does not delete the notebook. Lock it explicitly before handing over a device. Notebook lock does not lock the main online workspace. Forgotten passphrases require deleting local data after understanding the loss.
+
+## Device removal and sync failure reports (slice 14e)
+
+- **Removal orders.** A device copy is due for removal when its grant is revoked, the worker no longer has access to the patient (care transferred, team or membership changed, emergency access ended), the record was merged, or processing is restricted and the grant can no longer sync. No new grant is issued while processing is restricted.
+- **On contact.** After "Load online workspace" and after every "Sync all", the notebook asks for its orders, removes those drafts, their queued photos and voice notes and synced registration copies, and confirms with a counts-only receipt. It tells the worker what was removed. If unsynced drafts were removed, it asks the worker to tell their supervisor what they held: they cannot be recovered.
+- **What it cannot do.** A device that never contacts Saha again keeps its encrypted copy and stays listed as pending. A suspended worker cannot sign in to receive orders.
+- **Sync failure reports.** The notebook counts its failed sync steps (step, error class, grant id, first and last time; no patient details or free text) and sends the counts when it is next online. Supervisors and owners see removals and reports in the Field devices panel on the Operations page. See [slice 14e](docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md).
 
 ## Speech and language
 

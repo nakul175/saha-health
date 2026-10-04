@@ -4,14 +4,18 @@ import { operator, requireReporting } from './operations';
 import { activeOwner } from './referrals';
 import { escalation } from './referral-rules';
 import { PACKS } from './programmes';
+import { fieldDeviceExceptions, type SyncReportRow } from './field-device';
+import { noticeExceptions } from './withdrawal-notices';
 import type { Member, OrgState, Person } from './types';
 
 // Slice 6i: item-level operational exception queue (BR-REP-01; item links for NFR-18). Computed on read
 // from the records that hold each problem. Supervisors and owners see rows for patients in their care
 // scope with a link that opens the patient and visit. Operations members (owners, administrators) also see
 // destination-delivery rows for patients outside that scope, without patient details or links.
-export const EXCEPTION_RULES_VERSION='1.3.0';
-export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting'|'operation-refused'|'correction-task';
+// Slice 14e (rules 1.4.0): device copies awaiting removal, sync failures a field notebook reported for a grant still open, and
+// consent-withdrawal notices not yet sent, uncertain or to be told by hand.
+export const EXCEPTION_RULES_VERSION='1.4.0';
+export type ExceptionKind='safety-case'|'submission'|'ehr-publication'|'referral-overdue'|'emergency-access-unreviewed'|'protocol-review'|'follow-up-overdue'|'identity-provisional'|'field-grant-expired'|'abdm-received'|'referral-request-waiting'|'operation-refused'|'correction-task'|'field-copy-removal'|'field-sync-failure'|'withdrawal-notice';
 export type ExceptionRow={id:string;kind:ExceptionKind;severity:'critical'|'high'|'normal';what:string;since:string;ageDays:number;owner:string;recovery:string;patient:{id:string;name:string}|null;link:{personId:string;visitId:string|null;href:string}|null;trace:{query:'submission'|'publication';id:string}|null};
 const RANK={critical:0,high:1,normal:2} as const;
 // Destination-delivery problems are operations work: shown, redacted, to operations members for any patient.
@@ -22,7 +26,8 @@ export const REQUEST_WAIT_HOURS=48;
 const day=86400000;
 export const href=(personId:string,visitId:string|null)=>`/?patient=${encodeURIComponent(personId)}${visitId?`&visit=${encodeURIComponent(visitId)}`:''}`;
 
-export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString()){
+// `syncReports` are the field notebooks' sync failure reports (slice 14e, read from D1 by the route); without them those rows are absent.
+export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString(),syncReports:readonly SyncReportRow[]=[]){
  requireReporting(m);if(m.status!=='active')fail(403,'Your membership is inactive.');
  const today=now.slice(0,10),members=new Map(s.members.map(x=>[x.userId,x])),rows:ExceptionRow[]=[];
  const name=(id?:string|null)=>id?members.get(id)?.displayName??'Former member':null;
@@ -105,6 +110,9 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
   // Field grants that expired without a sync: offline work on that device cannot be accepted on this grant.
   for(const l of p.fieldLeases??[])if(l.status==='active'&&l.expiresAt<=now)
    add({id:'field-grant-expired:'+l.id,kind:'field-grant-expired',severity:'normal',what:'Field visit grant expired without a sync',since:l.expiresAt,owner:name(l.actorId)??`Supervisors of ${team(p)}`,recovery:'Ask the worker whether anything was captured offline; prepare a new field visit to sync it, otherwise revoke the grant.'},l.visitId);
+  // Slice 14e: field device copies and sync failures, and consent-withdrawal notices.
+  for(const r of fieldDeviceExceptions(s,p,syncReports,now))add(r,null);
+  for(const r of noticeExceptions(p,team(p)))add(r,null);
   // ABDM records received and not yet reviewed.
   for(const r of p.abdmReceived??[])if(r.state==='review')
    add({id:'abdm-received:'+r.id,kind:'abdm-received',severity:'normal',what:`Received ABDM record (${r.hiType}) awaiting review`,since:r.receivedAt,owner:`Clinicians of ${team(p)}`,recovery:'A clinician with access accepts or rejects the record on the patient screen.'},null);

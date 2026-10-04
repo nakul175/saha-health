@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { CONSENT_PERIOD_DAYS, consentStanding, fail, noticeInForce, noticesOf, person, uuid, type NoticeRef, type StandingState } from './core';
+import { createWithdrawalNotices } from './withdrawal-notices';
 import { effective } from './abdm';
 import { capacityOf, recordProxyUse, representativeRef, representativeText, requireProxy, type ProxyGrant, type RepresentativeRef } from './household';
 import type { Actor } from './store';
@@ -19,7 +20,7 @@ import type { Member, OrgState, Person, Role } from './types';
 // safe direction.
 export type ConsentPurpose='ai'|'exchange'|'contact';
 export type Disposition='stopped'|'in-flight'|'already-sent'|'kept';
-export type DownstreamKind='programme-plan'|'programme-submission'|'ehr-permission'|'ehr-publication'|'abdm-consent'|'abdm-care-context'|'abdm-received'|'ai-request'|'ai-result'|'outreach-message';
+export type DownstreamKind='programme-plan'|'programme-submission'|'ehr-permission'|'ehr-publication'|'abdm-consent'|'abdm-care-context'|'abdm-received'|'ai-request'|'ai-result'|'outreach-message'|'field-copy';
 export type DownstreamItem={kind:DownstreamKind;ref:string;before:string;after:string;disposition:Disposition;detail:string};
 export type ConsentChannel='in-person'|'phone'|'written'|'switch'|'contact-preferences';
 export type ConsentEvent={id:string;purpose:ConsentPurpose;action:'granted'|'withdrawn';at:string;by:string;byName:string;role:Role;channel:ConsentChannel;reference:string;reason:string;fromVersion:number;toVersion:number;items:DownstreamItem[];omitted?:number;notice?:NoticeRef|null;expiresAt?:string;renews?:{eventId:string;state:StandingState};decidedBy?:'person'|'representative';representative?:RepresentativeRef};
@@ -84,6 +85,13 @@ export function recordTerms(s:OrgState,p:Person,e:ConsentEvent,choice:unknown,u:
  s.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:'consentTerms',subject:p.id,personId:p.id,detail:`${PURPOSE_LABEL[e.purpose]} permission: ${under}; expires ${day(e.expiresAt!)} (${CONSENT_PERIOD_DAYS[e.purpose]} days)${renewal}.`});
 }
 const day=(s?:string)=>(s??'').slice(0,10);
+// Slice 14e (R73): copies a field grant put on a worker's device are cached data a withdrawal must identify. A grant binds the
+// permission version, so after an AI or sharing permission change the copy cannot sync until the worker compares it with the
+// server and renews the grant. The copy holds care observations only and the device neither shares it nor sends it for AI,
+// so it is kept, not removed (removal orders are in lib/saha/field.ts and field-device.ts).
+function fieldCopyItems(s:OrgState,p:Person):DownstreamItem[]{
+ return (p.fieldLeases??[]).filter(l=>l.status==='active').map(l=>({kind:'field-copy',ref:l.id,before:'active',after:'active',disposition:'kept',detail:`Field notebook copy of the visit draft on ${s.members.find(m=>m.userId===l.actorId)?.displayName??'a former member'}'s device (grant from ${day(l.createdAt)}): it cannot sync under the earlier permission version, so the worker compares it with the server and renews the grant. It holds care observations only and the device neither shares it nor sends it for AI.`}));
+}
 // Unexecuted plans carry the permission version; any permission change leaves them unusable.
 function plans(s:OrgState,p:Person,items:DownstreamItem[]){
  for(const v of s.workspace.visits)if(v.personId===p.id&&v.plan&&['proposed','approved'].includes(v.plan.state)){const before=v.plan.state;v.plan.state='blocked';items.push({kind:'programme-plan',ref:v.plan.id,before,after:'blocked',disposition:'stopped',detail:`Unexecuted sharing plan from ${day(v.plan.createdAt)} blocked. A new plan needs current permission.`});}
@@ -108,6 +116,9 @@ function exchange(s:OrgState,p:Person,now:string,items:DownstreamItem[]){
  for(const a of p.abdmConsents??[]){const st=effective(a,now);if(st==='GRANTED'||st==='REQUESTED'){a.status='REVOKED';a.revokedAt=now;a.revokeReason='Sharing permission withdrawn in Saha.';items.push({kind:'abdm-consent',ref:a.id,before:st,after:'REVOKED',disposition:'stopped',detail:`ABDM ${a.purpose} consent artefact (mock) revoked; further health-information fetches under it are refused.`});}}
  for(const c of p.careContexts??[])items.push({kind:'abdm-care-context',ref:c.id,before:'linked',after:'linked',disposition:'kept',detail:`Care context "${c.display}" stays linked with the mock gateway. Another facility still needs its own ABDM consent to fetch it; unlinking is not available in this build.`});
  for(const r of p.abdmReceived??[])items.push({kind:'abdm-received',ref:r.id,before:r.state,after:r.state,disposition:'kept',detail:`${r.hiType} received on ${day(r.receivedAt)} stays in the record under the retention policy; it is not deleted.`});
+ // Slice 14e (R73, R91): device copies held under a field grant are listed (kept: they cannot sync under the old permission
+ // version), and each destination that holds the person's records gets a withdrawal notice (lib/saha/withdrawal-notices.ts).
+ items.push(...fieldCopyItems(s,p));createWithdrawalNotices(s,p,now,items.filter(i=>i.kind==='abdm-consent').map(i=>i.ref));
 }
 function ai(s:OrgState,p:Person,now:string,items:DownstreamItem[]){
  plans(s,p,items);
@@ -119,6 +130,8 @@ function ai(s:OrgState,p:Person,now:string,items:DownstreamItem[]){
   }
   for(const r of v.aiResults)items.push({kind:'ai-result',ref:r.id,before:r.reviewed?'reviewed':'unreviewed',after:r.reviewed?'reviewed':'unreviewed',disposition:'kept',detail:`${r.providerName} output from ${day(r.createdAt)} stays with the visit as a record of what was shown. ${r.mode==='demo'?'Demo output; no data left Saha.':'The provider already received the input; it is not recalled.'}`});
  }
+ // Slice 14e (R73): device copies held under a field grant are listed (kept: they cannot sync under the old permission version).
+ items.push(...fieldCopyItems(s,p));
 }
 export function contactWithdrawalItems(s:OrgState,p:Person,now:string,reason:string):DownstreamItem[]{
  const items:DownstreamItem[]=[];

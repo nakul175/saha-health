@@ -23,7 +23,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0018_limit_slots';
+export const SCHEMA_MIGRATION = '0020_field_device';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -50,6 +50,7 @@ export const TABLES: TableSpec[] = [
   { table: 'alert_occurrences', order: 'opened_at,id', scope: 'org', note: 'Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only.' },
   { table: 'alert_notifications', order: 'delivered_at,id', scope: 'self', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter\'s own notifications; other members\' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows).' },
   { table: 'notification_messages', order: 'sent_at,id', scope: 'self', note: 'Slice 10b: simulated out-of-app messages (demonstration simulator) with their receipts; alert ids, titles, counts and member ids only, no patient names, identifiers or contact detail. Slice 10k: only the exporter\'s own messages, as for in-app notifications (6z): other members\' messages carry counts from their own care scopes. The channel settings are in the operations row.' },
+  { table: 'field_sync_reports', order: 'received_at,id', scope: 'org', omit: ['person_id'], note: 'Slice 14e: field notebook sync failure counts (step, error class, times, notebook version); no patient name, content or free text. The patient id resolved on the server is left out; the grant id links a row to a record for members who may see it.' },
   { table: 'patients', order: 'id', scope: 'person' },
   { table: 'visits', order: 'id', scope: 'person' },
   { table: 'plans', order: 'id', scope: 'visit' },
