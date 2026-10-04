@@ -110,6 +110,9 @@ export async function ensureCanSend(s:OrgState,c:{type:string;visitId?:unknown;p
  const integration=(id:unknown)=>s.workspace.integrations.find(x=>x.id===id),pt=s.workspace.people.find(x=>x.id===v.personId);
  const stop=(b:SendBlock)=>fail(409,!m||(pt&&normallyAllowed(m,pt))||b.kind==='sign-off'?b.text:GENERIC);
  if(c.type==='preparePlan'&&Array.isArray(c.recipients)){for(const id of c.recipients){const i=integration(id);const b=i?disputeBlock(v,i):null;if(b)stop(b);}return null;}
+ // Slice 13d (round-10 review L5): an assistant run reads the visit's confirmed facts (and may send them to an external
+ // provider), so an open dispute on a confirmed visit stops preparing or running one, as it stops sending.
+ if(c.type==='prepareAgent'||c.type==='executeAgent'){const open=openDisputes(v);if(open.length){const d=open[0];stop({kind:'dispute',disputeIds:open.map(x=>x.id),text:`Open dispute on ${disputeLabel(d.target)}: “${quote(d.reason)}” (reference ${quote(d.reference)}), raised by ${d.byName} on ${day(d.at)}${open.length>1?` and ${open.length-1} more open dispute${open.length>2?'s':''}`:''}. An assistant run would read the disputed values, so nothing is prepared or run until the dispute is resolved.`});}return null;}
  if(c.type==='prepareEhrPublish'){const i=integration(pt?.ehr?.links.find(l=>l.id===c.linkId)?.integrationId);const b=i?disputeBlock(v,i):null;if(b)stop(b);return null;}
  if((c.type==='approvePlan'||c.type==='executePlan')&&v.plan&&v.plan.id===c.planId){
   if(c.type==='executePlan'&&v.plan.state==='completed')return null;

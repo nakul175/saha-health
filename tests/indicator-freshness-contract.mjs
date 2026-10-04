@@ -111,6 +111,11 @@ try {
     assert.equal(x.lateSinceRelease(s3, people, def('visits-confirmed', null, { sex: 'Male' }), since, until, last).count, 'fewer than 5', 'the definition cohort narrows the count');
     assert.equal(x.lateSinceRelease(s3, people, def('visits-confirmed'), '2026-09-26T00:00:00.000Z', until, last).count, 'fewer than 5', 'only arrivals inside the window');
   });
+  // Slice 13d (tenth review): a correction of an earlier visit keeps the old described time but is not a late arrival.
+  check(() => {
+    const corrected = { ...s3, workspace: { ...s3.workspace, visits: s3.workspace.visits.map(v => ['lv0', 'lv1'].includes(v.id) ? { ...v, amendsVisitId: 'original-' + v.id } : v) } };
+    assert.equal(x.lateSinceRelease(corrected, people, def('visits-confirmed'), since, until, last).count, 'fewer than 5', 'six late visits, two of them corrections: four count');
+  });
   const result = { suite: 'indicator freshness contract (slice 6ac)', passed, completedAt: new Date().toISOString() };
   writeFileSync('tests/indicator-freshness-contract-result.json', JSON.stringify(result, null, 2) + '\n');
   console.log(JSON.stringify(result));

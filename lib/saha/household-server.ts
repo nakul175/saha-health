@@ -4,6 +4,7 @@ import { fail, person } from './core';
 import { scope } from './store';
 import { householdOf, householdView, PURPOSES, type Purpose } from './household';
 import { householdVisitPlan } from './household-visit';
+import { accessRoute, recordAccesses } from './access-audit';
 // Slice 1: worker-facing household view and sharing preview. Loads only the household's members.
 export async function householdRead(request:Request){
  const u=await identity(),url=new URL(request.url),personId=url.searchParams.get('personId')??'',recipient=url.searchParams.get('recipient'),purpose=(url.searchParams.get('purpose')??'care-coordination') as Purpose;
@@ -21,5 +22,10 @@ export async function householdRead(request:Request){
  if(recipient)ensurePurpose(m,'household-sharing');
  const p=person(s.workspace,personId),view=householdView(s,m,p,recipient,purpose),h=householdOf(s,p);
  // Slice 10f: the household visit plan (each in-scope member's open items and the planned slots) rides on the same scoped read.
- return json(h?{...view,visitPlan:householdVisitPlan(s,m,h)}:view);
+ const plan=h?householdVisitPlan(s,m,h):null;
+ // Slice 13d (round-10 review M3): one read-audit event per in-scope member shown, before anything is returned; if they cannot be
+ // written the read is refused (503), as for every other audited read.
+ if(h&&'members' in view&&view.members?.length){const shown=view.members as {personId:string}[],items=plan?plan.members.reduce((n,x)=>n+x.items.length,0):0;
+  await recordAccesses(db(),s,u,m,shown.map(x=>{const q=s.workspace.people.find(y=>y.id===x.personId)!;return {action:'viewHousehold' as const,subject:h.id,personId:q.id,detail:`Household view: ${shown.length} member${shown.length===1?'':'s'} in scope shown${recipient?`, sharing preview for ${purpose}`:''}${plan?`; visit plan with ${items} open item${items===1?'':'s'}`:''}.${accessRoute(m,q)}`};}));}
+ return json(h?{...view,visitPlan:plan}:view);
 }

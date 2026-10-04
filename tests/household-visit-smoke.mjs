@@ -18,6 +18,10 @@ export async function householdVisitSmoke({get,post,check,accounts,org,sql,base}
  const follow=async(id,enrolmentId,title,due,ownerId)=>(await send(o,{type:'scheduleFollowUp',personId:id,version:person(id).version,enrolmentId,title,due,ownerId})).result.taskId;
  const fA1=await follow(A,e1,'Weigh and blood pressure',day(-2),w.id),fA2=await follow(A,e2,'Sputum test follow-up',day(3),w.id),fB=await follow(B,eB,'Child contact check',day(1),w.id),fC=await follow(C,eC,'Charlie private follow-up',day(2),o.id);
  await get(w,'/api/workspace',200,org);
+ // Slice 13d (round-10 review M3): the household read records one viewHousehold event per in-scope member shown, never for C.
+ {const n=()=>sql.prepare("SELECT person_id,detail,actor_id FROM audit_events WHERE org_id=? AND action='viewHousehold' AND subject=? ORDER BY at").all(org,hid),before=n().length;
+  await view(w,A);const rows=n().slice(before);
+  check(()=>{assert.deepEqual(rows.map(r=>r.person_id).sort(),[A,B].sort(),'one event per member the ASHA can see');assert.ok(rows.every(r=>r.actor_id===w.id));assert.ok(rows.every(r=>/^Household view: 2 members in scope shown; visit plan with \d+ open items?\./.test(r.detail)),rows[0]?.detail);assert.doesNotMatch(JSON.stringify(rows),/SECRETNAME/);});}
  // ---- The household visit plan, as the ASHA: A and B in one place, C counted and never named.
  let hw=await view(w,A);
  check(()=>{const p=hw.visitPlan;assert.deepEqual(p.members.map(m=>m.personId).sort(),[A,B].sort());assert.equal(p.outsideScope,1);assert.ok(!/SECRETNAME|Charlie private/.test(JSON.stringify(hw)),'the out-of-scope member is not named or itemised');

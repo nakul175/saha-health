@@ -1,12 +1,12 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-03",
+  "updatedAt": "2026-10-04",
   "node": "v22.22.2",
   "suites": {
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4701
+      "minPassed": 4746
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -117,6 +117,11 @@
       "layer": "unit",
       "file": "tests/agent-quality-contract.mjs",
       "minPassed": 50
+    },
+    "unit/aggregate-checkpoint-population-contract": {
+      "layer": "unit",
+      "file": "tests/aggregate-checkpoint-population-contract.mjs",
+      "minPassed": 4
     },
     "unit/aggregate-delivery-contract": {
       "layer": "unit",
@@ -331,7 +336,7 @@
     "unit/field-registration-client": {
       "layer": "unit",
       "file": "tests/field-registration-client.mjs",
-      "minPassed": 65
+      "minPassed": 66
     },
     "unit/field-shell": {
       "layer": "unit",
@@ -396,7 +401,7 @@
     "unit/identity-contract": {
       "layer": "unit",
       "file": "tests/identity-contract.mjs",
-      "minPassed": 18
+      "minPassed": 19
     },
     "unit/incentive-claims-contract": {
       "layer": "unit",
@@ -406,7 +411,7 @@
     "unit/indicator-freshness-contract": {
       "layer": "unit",
       "file": "tests/indicator-freshness-contract.mjs",
-      "minPassed": 9
+      "minPassed": 10
     },
     "unit/indicator-registry-contract": {
       "layer": "unit",
@@ -462,6 +467,11 @@
       "layer": "unit",
       "file": "tests/notification-sources-contract.mjs",
       "minPassed": 19
+    },
+    "unit/operations-bound-contract": {
+      "layer": "unit",
+      "file": "tests/operations-bound-contract.mjs",
+      "minPassed": 5
     },
     "unit/operations-contract": {
       "layer": "unit",
@@ -601,7 +611,7 @@
     "unit/scheduled-job-contract": {
       "layer": "unit",
       "file": "tests/scheduled-job-contract.mjs",
-      "minPassed": 32
+      "minPassed": 35
     },
     "unit/scoped-read-contract": {
       "layer": "unit",
@@ -611,7 +621,7 @@
     "unit/send-gate-contract": {
       "layer": "unit",
       "file": "tests/send-gate-contract.mjs",
-      "minPassed": 28
+      "minPassed": 29
     },
     "unit/service-identity-contract": {
       "layer": "unit",

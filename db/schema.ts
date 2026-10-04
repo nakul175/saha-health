@@ -143,3 +143,8 @@ export const media = sqliteTable('media', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(),
   mime:text('mime').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), purpose:text('purpose').notNull(), createdAt:text('created_at').notNull(), deletedAt:text('deleted_at'), data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('media_org_visit').on(t.orgId,t.visitId),index('media_org_person').on(t.orgId,t.personId)]);
+// Slice 13d (round-10 review M2): where the scheduled job's organisation rotation stopped, so the next run continues from
+// the organisation after it (wrapping at the end). One row per job; holds an organisation id and a time, nothing else.
+export const scheduledCursor = sqliteTable('scheduled_cursor', {
+ job:text('job').primaryKey(), lastOrg:text('last_org').notNull(), updatedAt:text('updated_at').notNull(),
+});

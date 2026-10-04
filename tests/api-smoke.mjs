@@ -193,6 +193,8 @@ const {memberNamesSmoke}=await import('./member-names-smoke.mjs');await memberNa
 const {languageSmoke}=await import('./language-smoke.mjs');await languageSmoke({get,post,check,accounts,org,sql});
 // Slice 12a: the owner setting for voice input's browser speech service (left off).
 const {speechSmoke}=await import('./speech-smoke.mjs');await speechSmoke({get,post,check,accounts,org,sql});
+// Slice 13d: review leftovers (indicator refusals recorded and limited), own organisation.
+const {reviewLeftoversSmoke}=await import('./review-leftovers-smoke.mjs');await reviewLeftoversSmoke({get,post,check,base,sql});
 // Slice 13a: cross-site refusal, facility and programme scope in reads and commands, purpose checkpoints (own organisation).
 const {accessScopeSmoke}=await import('./access-scope-smoke.mjs');await accessScopeSmoke({get,post,check,base});
 // Slice 6ab: runs last because it leaves the synthetic worker throttled for ABHA links for a day.
