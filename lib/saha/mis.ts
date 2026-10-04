@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { digest, fail, person, uuid, visit } from './core';
+import { consentStanding, digest, fail, lapseMessage, noticesOf, person, uuid, visit } from './core';
 import { PROGRAMMES, type Integration, type Member, type OrgState, type Submission, type TraceRef, type Visit } from './types';
 import type { Actor } from './store';
 export const MIS_FIELDS=['personId','visitId','date','source','systolic','diastolic','weight','temperature','weeks','coughDays','notes'] as const;
@@ -50,7 +50,7 @@ export async function configureMis(s:OrgState,c:MisCommand,u:Actor,m:Member,env:
 }
 export function deliveryCurrent(s:OrgState,sub:Submission,u:Actor,m:Member,env:Record<string,string|undefined>){
  if(!['asha','clinician'].includes(m.role))fail(403,'A care role is required to send records.');const p=person(s.workspace,sub.personId),v=visit(s.workspace,sub.visitId),d=sub.delivery!;
- if(!p.exchangeConsent||p.consentVersion!==d.consentVersion||p.version!==d.personVersion||v.version!==d.visitVersion||v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(409,'Record or sharing permission changed. Cancel this unsent delivery and review a fresh plan.');
+ const standing=consentStanding(p,'exchange',new Date().toISOString(),noticesOf(s));if(standing.state!=='in-force'||p.consentVersion!==d.consentVersion||p.version!==d.personVersion||v.version!==d.visitVersion||v.state!=='confirmed'||v.voidedAt||v.supersededBy)fail(409,lapseMessage(standing)??'Record or sharing permission changed. Cancel this unsent delivery and review a fresh plan.');
  if(d.actorId!==u.userId||d.expiresAt<new Date().toISOString())fail(409,'The original approving worker must send within the approval window. Cancel unsent delivery and prepare a fresh plan.');
  const i=misIntegration(s,sub.connectorId);if(i.status!=='active'||i.version!==d.connectorVersion)fail(409,'Connection changed. Review a fresh plan.');misCredential(i,s.organisation.id,env);return i;
 }

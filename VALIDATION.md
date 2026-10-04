@@ -1347,3 +1347,38 @@ Before the "fix all" branches were offered for merge, an agent that had not seen
   - restore drill 21; smoke 36 passed, 1 skipped;
   - UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
 - The partial-differencing path has no HTTP test of its own. The fixes were written by the agent that built 13a–13e; no person has reviewed them. Requirement counts are unchanged; the BR-ID-02 text is updated and it stays partial.
+
+## Development slice 14d — notice versions and permission expiry (R90) — 4 October 2026 IST
+
+Requirement slice R90 (BR-SEC-02), on a branch from `main` 2adfbde1, built in parallel with 14a–14c; draft pull request, not merged ([slice 14d](docs/current/SLICE-14D-NOTICES-CONSENT-EXPIRY.md)).
+
+- **What changed:**
+  - Owners publish never-edited notice versions for AI assistance and external sharing (`publishConsentNotice`, `operations.consentNotices`).
+  - A permission given names the version in force and the language it was shown in, and gets a server-set end (AI 365, sharing 180, contact 365 days), recorded on the consent event and in a `consentTerms` audit event.
+  - `consentStanding` decides on every check, with no timer, whether a permission is in force, expired, or needs renewal after a material version. The enforcement points are listed in the slice document.
+  - Permissions dialog, patient notice, consent history and an Organisation registry panel.
+  - No migration, route or certified patient command.
+- **New tests:**
+  - `tests/consent-notices-contract.mjs`, 26 checks. It fails with the expiry rule or the stale-notice check disabled (tried).
+  - `tests/consent-notices-smoke.mjs`, 80 HTTP assertions inside the HTTP suite.
+  - `tests/ui/consent-notices.spec.mjs`, 1 browser journey with 2 screens scanned by axe.
+  - The HTTP module's first full runs failed on the test's own mistakes, which were corrected:
+    - the shared owner already owned the most organisations allowed, so the module now uses its own synthetic owner;
+    - a replay sent a different body.
+  - One earlier full run failed at the long-standing concurrent-save check (`tests/api-smoke.mjs` line 61, 503 instead of 409) while the machine was loaded by other agents (load average about 7 on 2 cores). That check is outside this slice and passed on every later run; it matches open defect O-1.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data, ports 8840–8843). Unit, HTTP, restore and smoke ran together on the final source, 12,973 passed and 0 failed:
+  - `tsc --noEmit` clean; build ok;
+  - unit 131 suites, 8,070 checks, 0 failed;
+  - HTTP/D1 4,838 (4,758 before) and scheduled check 8;
+  - restore drill 21; smoke 36 passed, 1 skipped;
+  - NFR security 80 (authorisation matrix 51, identity hardening 29), run before two screen-text changes, with the same server code;
+  - the new UI journey 1 passed, 0 axe violations. The rest of the UI tier and the performance, memory and load suites were not run.
+- **Merging with 14b:** a trial merge of this slice into 14b (#153) conflicted only on the two lines where both slices add optional fields (`ConsentEvent`, the `setConsent` schema) and in the shared documents. With those resolved by keeping both, `tsc` was clean and the 14d, 14b and 6o consent contracts passed (26, 22 and 25). After the merge, 14b's representative form must also name the notice in force.
+- **Limits:**
+  - Notices only for AI assistance and sharing; contact has an end date only.
+  - No reviewed notice content exists.
+  - The periods are fixed in code and not approved by a privacy officer.
+  - Permissions recorded before 14d have no end.
+  - A lapse is derived on read, not written as an event.
+  - Built by one agent; no person has reviewed it.
+- BR-SEC-02 stays partial with its remaining work restated. Requirement counts are unchanged.

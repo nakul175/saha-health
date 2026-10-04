@@ -42,6 +42,7 @@ import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
 import { notificationChannelSchema } from './notification-channel';
 import { speechPolicySchema } from './speech';
+import { consentNoticeSchema } from './consent-notices';
 import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
 import { fieldRegistrationSchema } from './field-registration';
@@ -107,6 +108,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...inboxSchema.options,
  ...notificationChannelSchema.options,
  ...speechPolicySchema.options,
+ // Slice 14d: owner-published consent notice versions (lib/saha/consent-notices.ts).
+ ...consentNoticeSchema.options,
  ...invoiceSchema.options,
  ...pilotSchema.options,
  ...outreachSchema.options,

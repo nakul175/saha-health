@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import type { Person, Snapshot } from '@/lib/saha/types';
 import type { ConsentEvent, ConsentPurpose, Disposition } from '@/lib/saha/consent';
 import { useI18n } from './i18n';
+import { EventTerms } from './consent-terms-panel';
 type Command=(c:any,s?:string)=>Promise<any>;
 // Slice 6o: permission withdrawal with its downstream record, and the patient's consent history.
 const LABEL:Record<ConsentPurpose,string>={ai:'Optional AI assistance',exchange:'External record sharing',contact:'Automated contact'};
@@ -17,6 +18,7 @@ function Pick({label,value,set,items}:{label:string;value:string;set:(s:string)=
 function EventCard({e}:{e:ConsentEvent}){
  return <li className="stack-form merge-case"><strong>{LABEL[e.purpose]} {e.action}</strong> <span className="muted">· {new Date(e.at).toLocaleString()} · {e.byName} ({e.role}) · recorded {CHANNEL[e.channel]??e.channel}{e.reference?` · reference ${e.reference}`:''} · version {e.fromVersion} to {e.toVersion}</span>
   {e.reason&&<p className="muted">{e.reason}</p>}
+  <EventTerms e={e}/>
   {e.items.length>0?<ul className="revision-list">{e.items.map(i=><li key={i.kind+i.ref}>{i.detail} <span className="tag">{DISPOSITION[i.disposition]}</span></li>)}</ul>:e.action==='withdrawn'&&<p className="muted">Nothing was waiting on this permission.</p>}
   {!!e.omitted&&<p className="muted">{e.omitted} further items are in the audit record and patient revision history.</p>}
  </li>;

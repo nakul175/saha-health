@@ -1,0 +1,40 @@
+{
+  "suite": "UI journeys, screenshot regression and accessibility (Playwright, Chromium)",
+  "layer": "ui",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-04T12:40:26.008Z",
+  "completedAt": "2026-10-04T12:40:48.229Z",
+  "durationMs": 22221,
+  "environment": "local built Worker, local D1, synthetic data, headless Chromium (Playwright 1.56.1), axe-core 4.13.0",
+  "limits": [
+    "Desktop 1280x720 and phone 390x844 viewports in Chromium only; no Firefox or WebKit, no real phone, no screen reader.",
+    "Screenshot baselines were rendered on one machine; fonts on another host (for example GitHub ubuntu runners) can differ. Regenerate with --update-snapshots.",
+    "Axe finds a subset of accessibility failures; the Hindi text is a draft translation and no Devanagari font is installed on the machine that made the baselines, so no Hindi screenshot is compared."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "desktop · consent-notices.spec.mjs › owner publishes a notice; permission is given under it and asks for renewal after a material change",
+      "ok": true,
+      "ms": 20826
+    }
+  ],
+  "flaky": [],
+  "projects": [
+    "desktop",
+    "phone"
+  ],
+  "workers": 1,
+  "retries": 0,
+  "screenshotBaselines": 8,
+  "accessibility": {
+    "screensScanned": 2,
+    "violationsFound": 0,
+    "blocking": 0,
+    "violations": []
+  },
+  "browserMessagesAllowed": [],
+  "playwrightStatus": "passed"
+}
