@@ -44,7 +44,8 @@ export const commandSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('approvePlan'),visitId:str,planId:str,payloadHash:str}),
  z.object({type:z.literal('executePlan'),visitId:str,planId:str}),
  z.object({type:z.literal('reconcile'),submissionId:str}),
- z.object({type:z.literal('setConsent'),personId:str,purpose:z.enum(['ai','exchange']),active:z.boolean(),version:z.number().int().positive()}),
+ // Slice 14b: an optional representative (grant and record) is checked and recorded by lib/saha/consent.ts, which handles this command.
+ z.object({type:z.literal('setConsent'),personId:str,purpose:z.enum(['ai','exchange']),active:z.boolean(),version:z.number().int().positive(),representative:z.object({grantId:str,proxyPersonId:str}).strict().optional()}),
  z.object({type:z.literal('runAI'),visitId:str,providerId:str,version:z.number().int(),consentVersion:z.number().int(),approved:z.literal(true)}),
  z.object({type:z.literal('reviewAI'),visitId:str,resultId:str}),
  z.object({type:z.literal('createReferral'),visitId:str,facility:str,reason:z.string().trim().min(1).max(1000)}),

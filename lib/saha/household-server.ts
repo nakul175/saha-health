@@ -2,14 +2,15 @@ import { identity, loadFor, json, db } from './server';
 import { ensurePurpose } from './purpose-scope';
 import { fail, person } from './core';
 import { scope } from './store';
-import { householdOf, householdView, PURPOSES, type Purpose } from './household';
+import { householdOf, householdView, SHARING_PURPOSES, type SharingPurpose } from './household';
 import { householdVisitPlan } from './household-visit';
 import { accessRoute, recordAccesses } from './access-audit';
 // Slice 1: worker-facing household view and sharing preview. Loads only the household's members.
 export async function householdRead(request:Request){
- const u=await identity(),url=new URL(request.url),personId=url.searchParams.get('personId')??'',recipient=url.searchParams.get('recipient'),purpose=(url.searchParams.get('purpose')??'care-coordination') as Purpose;
+ const u=await identity(),url=new URL(request.url),personId=url.searchParams.get('personId')??'',recipient=url.searchParams.get('recipient'),purpose=(url.searchParams.get('purpose')??'care-coordination') as SharingPurpose;
  if(!personId||personId.length>100||(recipient&&recipient.length>100))fail(422,'Choose a person.');
- if(!PURPOSES.includes(purpose))fail(422,'Choose a sharing purpose.');
+ // Slice 14b: only the four sharing purposes have a preview; the acting purposes (consent decisions, rights requests) disclose nothing.
+ if(!SHARING_PURPOSES.includes(purpose))fail(422,'Choose a sharing purpose.');
  const s=await loadFor(u,request.headers.get('x-saha-organisation'),async orgId=>{
   const row=await db().prepare("SELECT json_extract(data,'$.householdId') AS h FROM patients WHERE org_id=? AND id=?").bind(orgId,personId).first<{h:string|null}>();
   if(!row?.h)return [personId];
