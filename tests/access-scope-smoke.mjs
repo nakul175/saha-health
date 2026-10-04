@@ -35,8 +35,20 @@ export async function accessScopeSmoke({ get, post, check, base }) {
   }
   const callback = await raw(null, '/api/mis/callback', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Sec-Fetch-Site': 'cross-site' }, body: '{}' });
   check(() => { assert.ok(callback.status >= 400); assert.doesNotMatch(JSON.stringify(callback.json ?? {}), /another website/, 'the signed MIS callback keeps its own checks'); });
-  const page = await raw(c, '/', { headers: { 'Sec-Fetch-Site': 'cross-site' } });
-  check(() => assert.notEqual(page.status, 403, 'pages are not API routes; following a link to the workspace still works'));
+  // fetch() always sends its own Sec-Fetch-Mode (cors), so a browser navigation is sent with node:http.
+  const { request: httpRequest } = await import('node:http');
+  const navigate = path => new Promise((resolve, reject) => { const q = httpRequest(base + path, { headers: { ...c.headers, 'x-saha-organisation': org, 'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Dest': 'document' } }, res => { res.resume(); res.on('end', () => resolve(res.statusCode)); }); q.on('error', reject); q.end(); });
+  const page = await navigate('/');
+  check(() => assert.notEqual(page, 403, 'following a link to the workspace from another site still works'));
+  const apiNav = await navigate('/%61pi/workspace');
+  check(() => assert.equal(apiNav, 403, 'a navigation to an encoded API path is refused'));
+  // Slice 13f (review finding 1): an encoded API path is refused too; the router would have decoded it to /api/workspace.
+  for (const path of ['/%61pi/workspace', '/ap%69/workspace', '/x/../api/workspace']) {
+    const r = await raw(c, path, { headers: { 'Sec-Fetch-Site': 'cross-site' } });
+    check(() => { assert.equal(r.status, 403, path); assert.doesNotMatch(JSON.stringify(r.json ?? {}), /p_meena|Meena/, path); });
+  }
+  const encodedSame = await raw(c, '/%61pi/workspace', { headers: { 'Sec-Fetch-Site': 'same-origin' } });
+  check(() => assert.notEqual(encodedSame.status, 403, 'the same encoded path from Saha itself is not refused by this gate'));
 
   // 2. Facility scope: Meena is at the team's facility, Rajesh at another, the rest have none.
   let v = 0;
@@ -56,6 +68,10 @@ export async function accessScopeSmoke({ get, post, check, base }) {
   await post(c, { type: 'startVisit', personId: 'p_farida' }, 403, undefined, org);
   const detail = await raw(c, '/api/patients/detail?personId=p_rajesh');
   check(() => assert.notEqual(detail.status, 200, 'patient detail outside the facility is refused'));
+  // Slice 13f (review finding 6): a patient cannot be assigned to a worker whose facility does not cover them.
+  // (Meena is the one patient the owner sees here; moving her to the other facility while assigning her to a worker at this
+  // facility would leave her assigned to someone who cannot see her.)
+  { await get(o, '/api/workspace', 200, org); const p = o.state.people.find(x => x.id === 'p_meena'); const r = await post(o, { type: 'assignPatient', personId: 'p_meena', version: p.version, teamId: 'default', assignedTo: c.id, facilityId: f2, reason: 'Synthetic out-of-facility assignment' }, 422, undefined, org); check(() => assert.match(r.error, /facility, locality or programme assignment/)); }
   await scopeCmd({ type: 'setAccessScope', enforceFacility: false, enforceLocality: false });
   await get(c, '/api/workspace', 200, org);
   check(() => assert.deepEqual(ids(c), all, 'turning enforcement off restores the team scope'));

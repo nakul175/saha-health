@@ -152,16 +152,21 @@ export function applyShadow(s: OrgState, input: unknown, u: Actor, m: Member, no
 // current confirmed visit of its amendment chain (recompareShadow); one whose chain ends in a voided visit, or in a correction
 // not yet confirmed, is left out (null). A result whose visit is not in this state (a scoped read) keeps its stored fields.
 // Nothing stored is rewritten.
-export function currentFields(s: OrgState, r: ShadowResult): ShadowResult['fields'] | null {
+// Slice 13f (review of 13a–13e, finding 2): a confirmed correction is itself eligible for the shadow, so when the same shadow
+// already holds a result for the visit the chain now ends in, that result counts and the recomputed original is left out;
+// otherwise one corrected visit would be counted twice.
+export function currentFields(s: OrgState, r: ShadowResult, sh?: Shadow): ShadowResult['fields'] | null {
   if (r.status !== 'compared') return r.fields ?? null;
   const v = s.workspace.visits.find(x => x.id === r.visitId);
   if (!v || (!v.supersededBy && !v.voidedAt)) return r.fields ?? null;
   const rc = recompareShadow(s, r);
-  return rc.outcome === 'recomputed' ? rc.fields : null;
+  if (rc.outcome !== 'recomputed') return null;
+  if (sh && rc.visitId && rc.visitId !== r.visitId && sh.results.some(x => x.visitId === rc.visitId && (x.status === 'compared' || x.status === 'unable'))) return null;
+  return rc.fields;
 }
 // Governance managers' report: counts only, no visit, person or value.
 export function shadowReport(s: OrgState, sh: Shadow, now = new Date().toISOString()) {
-  const current = sh.results.map(r => ({ r, fields: currentFields(s, r), corrected: r.status === 'compared' && !!s.workspace.visits.find(x => x.id === r.visitId && (x.supersededBy || x.voidedAt)) }));
+  const current = sh.results.map(r => ({ r, fields: currentFields(s, r, sh), corrected: r.status === 'compared' && !!s.workspace.visits.find(x => x.id === r.visitId && (x.supersededBy || x.voidedAt)) }));
   const fields = FIELDS.map(f => { const row: Record<ShadowOutcome, number> = { agreement: 0, disagreement: 0, missing: 0, 'not-recorded': 0, unable: 0 }; for (const c of current) for (const x of c.fields ?? []) if (x.field === f) row[x.outcome]++; return { field: f, label: FIELD_LABEL[f], ...row }; }).filter(r => OUTCOMES.some(o => r[o] > 0));
   const notRun: Partial<Record<NotRunReason, number>> = {}; for (const r of sh.results) if (r.reason) notRun[r.reason] = (notRun[r.reason] ?? 0) + 1;
   const state = shadowState(s, sh, now);

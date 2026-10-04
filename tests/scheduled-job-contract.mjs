@@ -308,6 +308,24 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
     assert.deepEqual(wrapped.organisations.map(o => o.organisationId), [all[0], all[1]], 'after the last organisation it wraps to the first');
     assert.equal(wrapped.notReached, all.length - 2, 'not reached counts every organisation not visited this run');
   });
+  // Slice 13f (review of 13a–13e, finding 5): the cursor moves only to the end of the rotation's processed prefix, and an
+  // organisation in maintenance is not put first as due.
+  await checkAsync('6 (13f) a due organisation processed first does not move the cursor past rotation members not reached', async () => {
+    const Z = await org('org_zzz_due', { transfers: [{ people: ['p1'], effectiveAt: ms(day) }] });
+    const all = sql('SELECT id FROM organisations ORDER BY id').map(x => x.id), i = all.indexOf(Z), at = ms(40 * day);
+    sql("UPDATE scheduled_cursor SET last_org=? WHERE job='scheduled-job'", all[i - 2]);
+    const r = await J.runScheduled(d1, env, at, { organisations: 3, queries: 1 });
+    assert.deepEqual(r.organisations.map(o => o.organisationId), [Z], 'the due organisation runs first and the statement bound stops the run');
+    assert.equal(sql("SELECT last_org FROM scheduled_cursor WHERE job='scheduled-job'")[0].last_org, all[i - 2], 'the organisation before it was not reached, so the cursor stays');
+    const next = await J.runScheduled(d1, env, at, { organisations: 2 });
+    assert.equal(next.organisations[0].organisationId, all[i - 1], 'the next run reaches it');
+  });
+  await checkAsync('6 (13f) an organisation in maintenance is not queued first as due', async () => {
+    const Y = await org('org_zzy_maint', { transfers: [{ people: ['p1'], effectiveAt: ms(day) }], operations: ops({ maintenance: true, reason: 'Synthetic maintenance window' }) });
+    const q = await J.organisationQueue(d1, ms(40 * day), 5);
+    assert.ok(!q.ids.slice(0, 1).includes(Y)); assert.ok(Array.isArray(q.rotation));
+    d1.db.prepare("UPDATE caseload_transfers SET state='cancelled' WHERE org_id=?").run(Y);
+  });
   await checkAsync('6 database statements per run are bounded and counted', async () => {
     const r = await J.runScheduled(d1, env, plus(100), { queries: 1 });
     assert.equal(r.stoppedBy, 'queries'); assert.equal(r.organisations.length, 1); assert.ok(r.queries >= 20, 'a full organisation read is more than twenty statements');

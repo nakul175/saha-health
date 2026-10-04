@@ -27,10 +27,14 @@ export async function indicatorsPost(request:Request){
 }
 const RELEASE_ATTEMPTS=3;
 export const REFUSAL_SUBJECT='indicator refusal',REFUSALS_PER_DAY=20;
-export const REFUSAL_LIMIT_MESSAGE=`Indicator queries that were refused or partly withheld to protect small groups reached ${REFUSALS_PER_DAY} in the last 24 hours, so no more can be run until the oldest leave that window. Use the same filters as before or widen them.`;
+// Slice 13f (review of 13a–13e, findings 3 and 4): only refusals that protect against differencing count (a whole refusal, a
+// cohort below 5, or results withheld because they would combine with the viewer's recent queries). Results withheld because a
+// definition sets its own higher minimum cohort do not count, so a strict definition cannot lock a manager out. CSV exports
+// record the same marker as views.
+export const REFUSAL_LIMIT_MESSAGE=`Indicator queries refused or partly withheld to protect small groups reached ${REFUSALS_PER_DAY} in the last 24 hours, so no more indicator figures can be run until the oldest of those leave that window. The catalogue stays available; ask a supervisor or owner if figures are needed sooner.`;
 async function refusalLimit(orgId:string,userId:string){
  const since=new Date(Date.now()-86400000).toISOString();
- const row=await db().prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewAggregate' AND at>? AND (subject=? OR (subject='indicator results' AND detail NOT LIKE '%released, 0 withheld%'))").bind(orgId,userId,since,REFUSAL_SUBJECT).first<{n:number}>();
+ const row=await db().prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewAggregate' AND at>? AND subject=?").bind(orgId,userId,since,REFUSAL_SUBJECT).first<{n:number}>();
  if((row?.n??0)>=REFUSALS_PER_DAY)fail(429,REFUSAL_LIMIT_MESSAGE);
 }
 export const DIFFERENCING_MESSAGE='Together with your indicator queries of the last seven days, this result would reveal a group of fewer than 5 people. Use the same filters as before or widen them.';
@@ -59,6 +63,8 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  // Slice 6ac: the viewer's previous release of each figure is read before this one is recorded (read only).
  const previous=p.get('format')==='csv'?null:await previousReleases(s.organisation.id,u.userId,q,series,result.computedAt);
  const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null,s);
+ // Slice 13f: results withheld for differencing are recorded as a refusal and counted toward the limit, on screen and in CSV.
+ {const diff=shape(released).results.filter((r:any)=>r.refused==='differencing').length;if(diff)await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query partly withheld${file?' (CSV export)':''}: ${diff} result${diff===1?'':'s'} withheld because, together with this viewer's queries of the last seven days, ${diff===1?'it':'they'} would reveal a group of fewer than 5 people. Filters set: ${filtersSet}.`);}
  // Slice 10h: an on-screen indicator view (not the CSV, which records indicatorExport) is an aggregate view: recorded before the results are returned. Which filters were set is recorded, not their values.
  if(!file){const shown=shape(released).results,withheld=shown.filter((r:any)=>r.refused).length,filters=[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean);await recordAggregateView(db(),s,u,m,'indicator results',`Indicator results viewed: ${shown.map((r:any)=>`${r.id} v${r.version}${r.refused?' withheld':''}`).join(', ')}; ${shown.length-withheld} released, ${withheld} withheld; grouped by ${q.group}; ${q.days}-day window; filters set: ${filters.length?filters.join(', '):'none'}. No cell values recorded.`);}
  if(previous){const shaped=shape(released),people=s.workspace.people.filter(x=>x.assigned&&!x.mergedInto&&(!q.team||x.teamId===q.team)&&(!q.village||x.village===q.village)&&(!q.programme||x.programmes.includes(q.programme as any)));

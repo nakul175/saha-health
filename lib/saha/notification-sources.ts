@@ -30,7 +30,7 @@ export function channelSources(s: OrgState, now = new Date().toISOString()): Sou
   const out: SourcePresent[] = [];
 
   // BR-AI-10: drift — capability revisions with an agreement drop over the last periods, counted only.
-  const drops = driftReport(s, s.governance?.shadows ?? [], now, r => currentFields(s, r)).filter(r => r.status === 'drop');
+  const drops = driftReport(s, s.governance?.shadows ?? [], now, (r, sh) => currentFields(s, r, sh)).filter(r => r.status === 'drop');
   if (drops.length) {
     const openedAt = earliest(drops.flatMap(d => d.changes.filter(c => c.status === 'drop').map(c => c.to))) ?? now;
     out.push({ kind: 'drift', scopeKey: 'org', severity: 'high', title: `AI capability drift: ${drops.length} revision${drops.length === 1 ? '' : 's'} with an agreement drop`, openedAt, recipients: orgRecipients(s, 'owners', drops.length) });

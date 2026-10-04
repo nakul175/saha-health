@@ -53,6 +53,12 @@ try {
     assert.ok(S.operationsBytes(ops(ledger)) < 1000, 'the differencing ledger is not counted');
     assert.equal(refused(() => rows(ops({ ...ledger, reason: 'note' }), ops(ledger))), null);
   });
+  // Slice 13f (review finding 7): safety actions are never refused by the bound.
+  check(() => {
+    const big = ops(filler(S.OPERATIONS_BYTES + 10)), bigger = ops({ ...filler(S.OPERATIONS_BYTES + 10), reason: 'grows' });
+    for (const a of ['opsMaintenance', 'revokeAccessPurpose', 'delegationRevoke', 'sendAggregateReport', 'lookupAggregateReport']) assert.equal(refused(() => S.rowsForState(state(bigger), state(big), actor, a, '', now)), null, a);
+    assert.ok(refused(() => S.rowsForState(state(bigger), state(big), actor, 'setAccessPurpose', '', now)), 'other actions are still bounded');
+  });
   check(() => {
     const out = rows(ops({ reason: 'Synthetic note' }), ops());
     const row = out.find(r => r.table === 'operations'); assert.ok(row); assert.equal(JSON.parse(row.values.data).reason, 'Synthetic note');

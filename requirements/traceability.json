@@ -297,7 +297,7 @@
       "sourceTextLine": 169,
       "implementation": "partial",
       "target": "R15",
-      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope. Slice 6q: stored delegation records are capped at 1,000 (kept as evidence); export retries re-check care scope; shadow runs are limited to the runner's care scope. Slices R08 and R09 added owner-managed facility/locality scope and programme grants; slice 13a applies both in every normallyAllowed check and in the SQL pre-filter (viewer-scoped reads, patient list and detail, work lists, identifier search), and refuses API requests another website started.",
+      "current": "Organisation, team, role and direct-worker scope enforced on reads/writes/exports. Slice 1e: time-limited, revocable delegation of team supervision (assignment, rights, action-plan and referral stewardship) and of reporting-only aggregates, enforced on the server, ineffective once either party stops qualifying, each use audited. Slice 6p (independent review): the delegation limit counts only delegations still in force, so ended and revoked records no longer block grants; the audit-chain export and data exit give the sandbox provider role no patient scope. Slice 6q: stored delegation records are capped at 1,000 (kept as evidence); export retries re-check care scope; shadow runs are limited to the runner's care scope. Slices R08 and R09 added owner-managed facility/locality scope and programme grants; slice 13a applies both in every normallyAllowed check and in the SQL pre-filter (viewer-scoped reads, patient list and detail, work lists, identifier search), and refuses API requests another website started. Slice 13f: the cross-site gate no longer depends on how the path is spelled (an encoded /api/ path was let through), and receiving workers and assignees must be inside the facility, locality and programme policy.",
       "remaining": "Validated facility and geography directories, locality-based caseload transfer, and acceptance with named reviewers.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -325,7 +325,8 @@
         "lib/saha/facility-scope.ts",
         "tests/access-scope-contract.mjs",
         "tests/access-scope-smoke.mjs",
-        "docs/current/SLICE-13A-ACCESS-SCOPE.md"
+        "docs/current/SLICE-13A-ACCESS-SCOPE.md",
+        "docs/current/SLICE-13F-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -847,7 +848,8 @@
         "docs/current/SLICE-R09-PURPOSE-SCOPE.md",
         "tests/access-scope-contract.mjs",
         "tests/access-scope-smoke.mjs",
-        "docs/current/SLICE-13A-ACCESS-SCOPE.md"
+        "docs/current/SLICE-13A-ACCESS-SCOPE.md",
+        "docs/current/SLICE-13F-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1806,7 +1808,8 @@
         "docs/current/SLICE-5I-DRIFT-MONITORING.md",
         "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md",
         "tests/shadow-recompute-contract.mjs",
-        "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md"
+        "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md",
+        "docs/current/SLICE-13F-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3199,7 +3202,8 @@
         "tests/ninth-review-fixes-contract.mjs",
         "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
         "tests/review-leftovers-smoke.mjs",
-        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md"
+        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
+        "docs/current/SLICE-13F-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3402,7 +3406,8 @@
         "scripts/cloudflare-staging.mjs",
         "tests/cloudflare-staging-contract.mjs",
         "docs/current/HOSTED-STAGING.md",
-        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md"
+        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
+        "docs/current/SLICE-13F-REVIEW-FIXES.md"
       ],
       "automatedAcceptanceClaim": false
     },
