@@ -32,7 +32,7 @@ try {
   {
     const ashaA = member({ userId: 'ashaA', role: 'asha', teamIds: ['t1'] }), ashaB = member({ userId: 'ashaB', role: 'asha', teamIds: ['t1'] });
     const mother = P('mother', { assignedTo: 'ashaA', householdId: 'h1' });
-    const daughter = P('daughter', { assignedTo: 'ashaB', householdId: 'h1', age: 25, programmes: ['TB screening'], followUps: [{ id: 'f1', state: 'open', title: 'TB sputum re-test', due: '2026-10-02', packId: 'tb' }], proxies: [{ id: 'g1', proxyPersonId: 'mother', relationship: 'parent', purposes: ['care-coordination'], classes: ['tb'], evidence: 'SYNTH', from: '2026-01-01T00:00:00.000Z', expiresAt: later, grantedBy: 'ashaB', grantedAt: now }] });
+    const daughter = P('daughter', { assignedTo: 'ashaB', householdId: 'h1', age: 25, programmes: ['TB screening'], followUps: [{ id: 'f1', state: 'open', title: 'TB sputum re-test', due: '2026-10-02', packId: 'tb' }], proxies: [{ id: 'g1', proxyPersonId: 'mother', relationship: 'parent', authority: 'nominated', purposes: ['care-coordination'], classes: ['tb'], evidence: 'SYNTH', from: '2026-01-01T00:00:00.000Z', expiresAt: later, grantedBy: 'ashaB', grantedAt: now }] });
     const s = { members: [ashaA, ashaB], households: [{ id: 'h1', version: 2, label: 'Home', teamId: 't1', createdAt: now, createdBy: 'ashaA', members: [{ personId: 'mother', relationship: 'self', from: '2026-01-01' }, { personId: 'daughter', relationship: 'child', from: '2026-01-01' }] }], workspace: { people: [mother, daughter], visits: [], referrals: [], submissions: [], audit: [] } };
     const v = H.householdView(s, ashaA, mother, 'mother', 'care-coordination');
     check('household view names only visible members', () => assert.deepEqual(v.members.map(x => x.personId), ['mother']));

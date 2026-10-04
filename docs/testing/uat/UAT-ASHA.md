@@ -431,11 +431,11 @@ Local registration and visits do not require ABHA, phone or biometrics.
 
 **Expected result** (catalogue): A caregiver and household head can receive only the information permitted by the relevant relationship and authorisation rules.
 
-**Known gaps** (assessment, remaining work for BR-ID-07): Household relationships and purpose-limited, expiring proxy authority.
+**Known gaps** (assessment, remaining work for BR-ID-07): A relationship register between people beyond proxy grants; jurisdiction-approved authority rules (age of majority, mature minors, verification of guardianship evidence); representatives acting through their own channel; acceptance with named testers.
 
 <details><summary>What the build does today (assessment, current state of BR-ID-07)</summary>
 
-Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted.
+Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted. Slice 14b: each grant also records a typed relationship between the two people (household roles refused), an authority (parent of a person under 18, legal guardian, nominated by the person, representative of an adult a clinician recorded as lacking capacity), a start and an expiry; two acting purposes (consent decisions, rights requests) beside the four sharing purposes; every reliance is checked on the server at the time of use and refused when revoked, not started, expired, out of purpose, without relationship or authority (all grants recorded before 14b), under a parent's authority once the recorded age is 18, or under a capacity representative without a current lack-of-capacity record or after capacity was recorded as regained; each use is its own audit event.
 
 </details>
 
@@ -1383,11 +1383,11 @@ Explicit synthetic contact ownership, language, privacy, hours and withdrawal co
 
 **Expected result** (catalogue): Declining an optional AI recording leaves the approved non-AI care workflow available and prevents that media from being sent.
 
-**Known gaps** (assessment, remaining work for BR-SEC-02): Reviewed multilingual notices, notice versions, representative authority and full expiry semantics.
+**Known gaps** (assessment, remaining work for BR-SEC-02): Reviewed multilingual notices, notice versions and full expiry semantics (R90); a representative on contact-preference permissions.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-02)</summary>
 
-Optional AI can be declined; contact preferences and EHR scopes are recorded.
+Optional AI can be declined; contact preferences and EHR scopes are recorded. Slice 14b: a consent decision (permission switch or withdrawal) records whether the person or a representative decided; a representative's decision names their record, relationship, authority and grant period on the consent event, the command result and the audit event, and is accepted only under a grant in force that covers consent decisions; a person recorded as lacking capacity cannot give a permission as their own (a withdrawal is always recorded).
 
 </details>
 
@@ -1451,11 +1451,11 @@ Revocation blocks pending use; contact changes cancel reminders; receipts remain
 
 **Expected result** (catalogue): A household member cannot infer restricted information through summaries, notifications, shared schedules or access to another member's encounter.
 
-**Known gaps** (assessment, remaining work for BR-SEC-04): Jurisdiction-specific sensitivity restrictions and relationship/authority/expiry enforcement.
+**Known gaps** (assessment, remaining work for BR-SEC-04): Jurisdiction-specific sensitivity restrictions; evaluation in notifications, exports, reports and model payloads.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-04)</summary>
 
-Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads.
+Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads. Slice 14b: relationship, authority and expiry are recorded separately on each grant and enforced at every use (household sharing preview, consent decisions, rights requests), with the authority's age and capacity conditions checked at that time.
 
 </details>
 

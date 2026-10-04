@@ -22,7 +22,7 @@ try {
     members: [member('doc', 'clinician', ['t1']), member('doc2', 'clinician', ['t1']), member('asha', 'asha', ['t1']), member('sup', 'supervisor', ['t1']), member('sup2', 'supervisor', ['t2']), member('adm', 'admin', [], { isOwner: true })],
     workspace: { schemaVersion: 1, revision: 1, role: 'clinician', integrations: [], receipts: {}, audit: [], referrals: [],
       people: [
-        { ...base, id: 'P', name: 'Patient P', teamId: 't1', assignedTo: 'asha', proxies: [{ id: 'g1', proxyPersonId: 'H', relationship: 'spouse', expiresAt: future }, { id: 'g2', proxyPersonId: 'H', relationship: 'spouse', expiresAt: future, revokedAt: now }], ehr: { links: [], permissions: [], documents: [], operations: [{ id: 'op1', state: 'accepted', at: now }, { id: 'op2', state: 'blocked', at: now }] } },
+        { ...base, id: 'P', name: 'Patient P', teamId: 't1', assignedTo: 'asha', proxies: [{ id: 'g1', proxyPersonId: 'H', relationship: 'spouse', authority: 'nominated', purposes: ['rights-requests'], from: now, grantedAt: now, expiresAt: future }, { id: 'g2', proxyPersonId: 'H', relationship: 'spouse', authority: 'nominated', purposes: ['rights-requests'], from: now, grantedAt: now, expiresAt: future, revokedAt: now }], ehr: { links: [], permissions: [], documents: [], operations: [{ id: 'op1', state: 'accepted', at: now }, { id: 'op2', state: 'blocked', at: now }] } },
         { ...base, id: 'H', name: 'Husband H', teamId: 't1', assignedTo: 'asha' },
         { ...base, id: 'Q', name: 'Patient Q', teamId: 't2', assignedTo: null },
       ],
