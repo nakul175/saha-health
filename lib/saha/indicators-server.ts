@@ -5,6 +5,7 @@ import type { Member } from './types';
 import { boundedJsonBody } from './request-body';
 import { scope } from './store';
 import { recordAccess } from './access-audit';
+import { withLimitSlot } from './limit-slots';
 import { recordAggregateView } from './read-audit';
 import { csvLines } from './operations';
 import { candidateReleases, ledgerHash, readLedger, writeLedger } from './indicator-ledger';
@@ -32,11 +33,11 @@ export const REFUSAL_SUBJECT='indicator refusal',REFUSALS_PER_DAY=20;
 // definition sets its own higher minimum cohort do not count, so a strict definition cannot lock a manager out. CSV exports
 // record the same marker as views.
 export const REFUSAL_LIMIT_MESSAGE=`Indicator queries refused or partly withheld to protect small groups reached ${REFUSALS_PER_DAY} in the last 24 hours, so no more indicator figures can be run until the oldest of those leave that window. The catalogue stays available; ask a supervisor or owner if figures are needed sooner.`;
-async function refusalLimit(orgId:string,userId:string){
- const since=new Date(Date.now()-86400000).toISOString();
- const row=await db().prepare("SELECT count(*) AS n FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewAggregate' AND at>? AND subject=?").bind(orgId,userId,since,REFUSAL_SUBJECT).first<{n:number}>();
- if((row?.n??0)>=REFUSALS_PER_DAY)fail(429,REFUSAL_LIMIT_MESSAGE);
-}
+// Slice 14a: the limit holds under races. Each indicator query reserves a slot before it is run (limit-slots.ts), in one
+// statement that succeeds only while fewer than REFUSALS_PER_DAY refusals are counted or in progress; a refusal or partial
+// withhold keeps the slot, anything else gives it back. Without a slot the query is refused with 429, as before.
+export const REFUSAL_SLOTS={kind:'indicatorRefusal',limit:REFUSALS_PER_DAY,inclusive:false} as const;
+const refusalLimit=():never=>fail(429,REFUSAL_LIMIT_MESSAGE);
 export const DIFFERENCING_MESSAGE='Together with your indicator queries of the last seven days, this result would reveal a group of fewer than 5 people. Use the same filters as before or widen them.';
 async function indicatorsFor(request:Request,p:URLSearchParams){
  const u=await identity();
@@ -49,22 +50,25 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  if(!ids.length)return json({catalogue:catalogue(s),registry:registryRecords(s).map(r=>({id:r.id,version:r.version,status:r.status,title:r.spec.title,spec:r.spec,reason:r.reason,by:r.byName,at:r.at,builtIn:!!r.builtIn})),vocabulary:vocabulary(),canMaintain:m.isOwner,protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});
  // Slice 13d (ninth review, finding 8): each refusal tells the viewer that a combination would reveal a small group, so refused
  // and partly withheld queries are recorded (below and in recordRelease) and limited per viewer per day.
- await refusalLimit(s.organisation.id,u.userId);
+ return withLimitSlot(db(),{orgId:s.organisation.id,actorId:u.userId,...REFUSAL_SLOTS},async slot=>{
+ // Slice 14a: a refusal is counted (its slot kept) before it is recorded or shown; a slot that can no longer be kept refuses the query.
+ const counted=async()=>{if(!await slot.use())refusalLimit();};
  const text=(k:string)=>{const v=p.get(k);if(v&&v.length>200)fail(422,'Filter value too long.');return v||null;};
  const q={ids,days:Number(p.get('days')??30),group:(p.get('group')??'none') as Group,team:text('team'),village:text('village'),programme:text('programme')};
  // A cohort below the minimum is refused by indicatorRun; that refusal also tells the viewer something (the group has 0 to 4
  // people), so it is recorded and counted toward the same limit (slice 13d).
  const filtersSet=[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean).join(', ')||'none';
  let run:ReturnType<typeof indicatorRun>;
- try{run=indicatorRun(s,m,q);}catch(e){if(e instanceof AppError&&e.status===422&&/^This cohort has fewer than/.test(e.message))await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query refused: the cohort is below the minimum of 5 people. Filters set: ${filtersSet}; nothing was shown.`);throw e;}
+ try{run=indicatorRun(s,m,q);}catch(e){if(e instanceof AppError&&e.status===422&&/^This cohort has fewer than/.test(e.message)){await counted();await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query refused: the cohort is below the minimum of 5 people. Filters set: ${filtersSet}; nothing was shown.`);}throw e;}
  const {result,series}=run;
  // Results whose series would allow differencing are withheld whole; nothing of them is returned.
  const shape=(released:Set<string>)=>({...result,results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.',limits:RESIDUAL_RISK}});
  // Slice 6ac: the viewer's previous release of each figure is read before this one is recorded (read only).
  const previous=p.get('format')==='csv'?null:await previousReleases(s.organisation.id,u.userId,q,series,result.computedAt);
- const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null,s);
  // Slice 13f: results withheld for differencing are recorded as a refusal and counted toward the limit, on screen and in CSV.
- {const diff=shape(released).results.filter((r:any)=>r.refused==='differencing').length;if(diff)await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query partly withheld${file?' (CSV export)':''}: ${diff} result${diff===1?'':'s'} withheld because, together with this viewer's queries of the last seven days, ${diff===1?'it':'they'} would reveal a group of fewer than 5 people. Filters set: ${filtersSet}.`);}
+ // Slice 14a: counted and recorded as soon as the releases are screened, before a CSV file is made or anything is returned.
+ const csv=p.get('format')==='csv',partly=async(released:Set<string>)=>{const diff=shape(released).results.filter((r:any)=>r.refused==='differencing').length;if(diff){await counted();await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query partly withheld${csv?' (CSV export)':''}: ${diff} result${diff===1?'':'s'} withheld because, together with this viewer's queries of the last seven days, ${diff===1?'it':'they'} would reveal a group of fewer than 5 people. Filters set: ${filtersSet}.`);}};
+ const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,csv?shape:null,s,counted,partly);
  // Slice 10h: an on-screen indicator view (not the CSV, which records indicatorExport) is an aggregate view: recorded before the results are returned. Which filters were set is recorded, not their values.
  if(!file){const shown=shape(released).results,withheld=shown.filter((r:any)=>r.refused).length,filters=[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean);await recordAggregateView(db(),s,u,m,'indicator results',`Indicator results viewed: ${shown.map((r:any)=>`${r.id} v${r.version}${r.refused?' withheld':''}`).join(', ')}; ${shown.length-withheld} released, ${withheld} withheld; grouped by ${q.group}; ${q.days}-day window; filters set: ${filters.length?filters.join(', '):'none'}. No cell values recorded.`);}
  if(previous){const shaped=shape(released),people=s.workspace.people.filter(x=>x.assigned&&!x.mergedInto&&(!q.team||x.teamId===q.team)&&(!q.village||x.village===q.village)&&(!q.programme||x.programmes.includes(q.programme as any)));
@@ -72,6 +76,7 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
   return json({...shaped,freshness:teamFreshness(s,m,q,result.window,new Date(result.computedAt)),results:shaped.results.map((r:any)=>r.refused?r:{...r,lateArrivals:lateSinceRelease(s,people,resolveDefinition(s,`${r.id}@${r.version}`),result.window.since,result.window.until,previous.get(r.id+'@'+r.version)??null)})});}
  if(file)return new Response(file.csv,{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="saha-indicators.csv"','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Saha-Export-Id':file.exportId,'X-Saha-Content-SHA256':file.sha256}});
  return json(shape(released));
+ },refusalLimit);
 }
 // Slice 6s: record what this viewer was given (hashed filters and per-cell counts only) and refuse
 // anything that, nested with the viewer's recent releases, would reveal a remainder of 1 to 4.
@@ -92,7 +97,7 @@ async function previousReleases(orgId:string,userId:string,q:{team:string|null;v
 }
 type Shaped={computedAt:string;results:any[]};
 export const LEDGER_FULL_MESSAGE='You have run many different indicator queries in the last seven days. To keep small groups protected, Saha cannot record more until older queries leave the seven-day window. Repeat an earlier query or try again later.';
-async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,m:Member,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string,csvOf:((released:Set<string>)=>Shaped)|null,state:Parameters<typeof recordAccess>[1]):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{
+async function recordRelease(u:{userId:string;displayName:string;email:string},orgId:string,m:Member,q:{team:string|null;village:string|null;programme:string|null},series:Series[],at:string,csvOf:((released:Set<string>)=>Shaped)|null,state:Parameters<typeof recordAccess>[1],counted:()=>Promise<void>,partly:(released:Set<string>)=>Promise<void>):Promise<{released:Set<string>;file:{csv:string;sha256:string;rows:number;exportId:string}|null}>{
  // Slice 7g: candidate releases and ledger storage are shared with aggregate report delivery (indicator-ledger.ts).
  const cands=await candidateReleases(orgId,`viewer:${u.userId}`,q,series,at);
  // Slice 6aa (seventh review): every measure release is also checked against the people in the viewer's scope now.
@@ -102,7 +107,7 @@ async function recordRelease(u:{userId:string;displayName:string;email:string},o
   const {ledger,text}=await readLedger(db(),orgId);
   // The cohort is checked first; if it alone would reveal a small group, nothing is returned.
   const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at,population);
-  if(refused.some(c=>c.isCohort)){await recordAggregateView(db(),state,u,m,REFUSAL_SUBJECT,`Indicator query refused whole: together with this viewer's queries of the last seven days it would reveal a group of fewer than 5 people. Filters set: ${[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean).join(', ')||'none'}; nothing was shown.`);fail(422,DIFFERENCING_MESSAGE);}
+  if(refused.some(c=>c.isCohort)){await counted();await recordAggregateView(db(),state,u,m,REFUSAL_SUBJECT,`Indicator query refused whole: together with this viewer's queries of the last seven days it would reveal a group of fewer than 5 people. Filters set: ${[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean).join(', ')||'none'}; nothing was shown.`);fail(422,DIFFERENCING_MESSAGE);}
   const withheld=new Set(refused.flatMap(c=>c.ids));released=new Set(accepted.flatMap(c=>c.ids).filter(id=>!withheld.has(id)));
   if(ledgerFull(ledger,accepted.map(c=>c.release),at))fail(429,LEDGER_FULL_MESSAGE);
   // Slice 6aa (finding 4): a write D1 refuses (for example a value over its size limit) is refused as a full ledger.
@@ -110,6 +115,7 @@ async function recordRelease(u:{userId:string;displayName:string;email:string},o
   if(written)break;
   if(attempt>=RELEASE_ATTEMPTS)fail(409,'Many indicator queries are being recorded in this organisation at once. Nothing was shown. Please try again.');
  }
+ await partly(released);
  if(!csvOf)return {released,file:null};
  const shaped=csvOf(released),exportId=uuid(),file={...await indicatorCsv(shaped,{exportId,by:u.displayName,role:m.role}),exportId};
  await recordAccess(db(),state,u,m,{action:'indicatorExport',subject:exportId,detail:`Indicator CSV ${exportId}: ${shaped.results.map((r:any)=>`${r.id} v${r.version}${r.refused?' withheld':''}`).join(', ')}; ${file.rows} data rows; SHA-256 ${file.sha256}. Draft export with small cells suppressed.`},at);

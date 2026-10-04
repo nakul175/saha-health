@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4758
+      "minPassed": 4864
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -432,6 +432,11 @@
       "layer": "unit",
       "file": "tests/indicators-contract.mjs",
       "minPassed": 9
+    },
+    "unit/limit-slots-contract": {
+      "layer": "unit",
+      "file": "tests/limit-slots-contract.mjs",
+      "minPassed": 15
     },
     "unit/main-review-fixes-contract": {
       "layer": "unit",

@@ -25,9 +25,7 @@ const QUERIES = {
   repeatReadWindow: ['lib/saha/access-audit.ts', "FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewPatientRecord' AND at>=? AND person_id IN", "SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewPatientRecord' AND at>=? AND person_id IN (?,?,?)", ['org', 'u1', 'S', 'p1', 'p2', 'p3']],
   searchLimit: ['lib/saha/identifier-search-server.ts', "FROM audit_events WHERE org_id=? AND actor_id=? AND action IN ('identifierSearch','identifierSearchMiss') AND at>=?", "SELECT count(*) AS n FROM audit_events WHERE org_id=? AND actor_id=? AND action IN ('identifierSearch','identifierSearchMiss') AND at>=?", ['org', 'u1', 'S']],
   missLimit: ['lib/saha/identifier-search-server.ts', "FROM audit_events WHERE org_id=? AND actor_id=? AND action='identifierSearchMiss' AND at>=?", "SELECT count(*) AS n FROM audit_events WHERE org_id=? AND actor_id=? AND action='identifierSearchMiss' AND at>=?", ['org', 'u1', 'S']],
-  abhaReviews: ['lib/saha/server.ts', "FROM audit_events WHERE org_id=? AND actor_id=? AND action='abhaLinkReview' AND at>=?", "SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='abhaLinkReview' AND at>=?", ['org', 'u1', 'S']],
   conflictReviews: ['lib/saha/crosswalk-server.ts', "FROM audit_events WHERE org_id=? AND actor_id=? AND action='identifierConflictReview' AND at>=?", "SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='identifierConflictReview' AND at>=?", ['org', 'u1', 'S']],
-  aggregateViews: ['lib/saha/indicators-server.ts', "FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewAggregate' AND at>?", "SELECT count(*) AS n FROM audit_events WHERE org_id=? AND actor_id=? AND action='viewAggregate' AND at>? AND (subject=? OR (subject='indicator results' AND detail NOT LIKE '%released, 0 withheld%'))", ['org', 'u1', 'S', 'x']],
   retentionDue: ['lib/saha/retention-server.ts', "FROM audit_events WHERE org_id=? AND at<?", "SELECT count(*) AS n FROM audit_events WHERE org_id=? AND at<?", ['org', 'S']],
 };
 const plan = q => db.prepare('EXPLAIN QUERY PLAN ' + q).all().map(r => r.detail);
@@ -46,8 +44,13 @@ for (const [name, [file, inSource, q]] of Object.entries(QUERIES)) check(`${name
 check('the newest-events read and the search limit use the new indexes', () => {
   assert.ok(plan(QUERIES.newestEvents[2]).some(d => d.includes('INDEX audit_org_time')));
   assert.ok(plan(QUERIES.searchLimit[2]).some(d => d.includes('INDEX audit_org_actor_action_time')));
-  assert.ok(plan(QUERIES.abhaReviews[2]).some(d => d.includes('INDEX audit_org_actor_action_time')));
+  assert.ok(plan(QUERIES.conflictReviews[2]).some(d => d.includes('INDEX audit_org_actor_action_time')));
 });
+// Slice 14a: the ABHA review throttle and the indicator refusal limit no longer count audit events. Each request reserves a row in
+// limit_slots in one guarded statement before it runs (limit-slots-contract.mjs checks that statement and its plan), so their
+// two audit counts (abhaReviews and aggregateViews, listed here until slice 14a) are gone from the source.
+for (const [file, gone] of [['lib/saha/server.ts', "action='abhaLinkReview' AND at>=?"], ['lib/saha/indicators-server.ts', "action='viewAggregate' AND at>?"]])
+  check(`${file}: the daily limit no longer counts audit events (slice 14a)`, () => assert.ok(!readFileSync(file, 'utf8').includes(gone), gone));
 
 // 3. Cost against log size.
 const cols = db.prepare('PRAGMA table_info(audit_events)').all().map(c => c.name);
