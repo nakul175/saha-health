@@ -1273,3 +1273,20 @@ At the sponsor's instruction ("merge all"), #145 (built by another agent on `mai
 Still open (see `docs/current/FRONTLINE-EIGHT-APPS.md`): the inference libraries are imported from a CDN at run time with no integrity check and Saha sends no Content-Security-Policy (only where the demonstration is enabled); receipts are not compared with what was sent, and one key is credential, signer and diagnostic credential; the 199 provider-side checks cannot be reproduced from this repository.
 
 Verification on the merged tree (local built Worker, Node 22.22.2, Linux container, synthetic data): `tsc --noEmit` clean; build 66 HTTP method/route handlers, 228 command discriminators; unit 124 suites, 7,988 checks; HTTP/D1 4,648 and scheduled check 8; restore drill 21; smoke 36 passed, 1 skipped; NFR 191; UAT steps 63. The first NFR run had two failures: the authorisation matrix (the connection diagnostic answered an anonymous POST with 422, fixed above) and one 503 on a concurrent command in the load burst, the open round-11 finding O-1; the rerun after the fix passed both. The container restarted once during the runs; the HTTP suite was rerun in full afterwards. Reports: `tests/evidence/integration-145/`. UI 25 Playwright tests passed. Requirement counts unchanged; no acceptance criterion promoted.
+
+## Development slice 13a — access scope everywhere — 4 October 2026 IST
+
+At the sponsor's request ("fix all", 4 October 2026, 03:10 IST) this slice closes the access findings the integration of #144 left open and adds a server-side backstop for the cross-origin answer of Cloudflare Access on hosted staging ([slice 13a](docs/current/SLICE-13A-ACCESS-SCOPE.md)). On a branch; not merged.
+
+- **Cross-site API requests refused, reads included** (`lib/saha/cross-site.ts`, first in `worker/index.ts`). The first HTTP run failed after a refused cross-site upload: the unread request body turned the next request into a 503 ("Your worker restarted mid-request" in the local runtime), the failure slice 0c had found for `measured()`. The gate now drains the body first; reproduced with the anaemia HTTP suite alone before and after.
+- **Facility, locality and programme scope in every check and in the SQL pre-filter** (`bindAccessPolicy`, `withinPolicy`, `policySql`). The new contract compares the SQL predicate with the JavaScript policy on a real SQLite database over 48 policy, grant and member combinations and 45 patients. Deliberately breaking either side fails it.
+- **Purpose grants checked at each data-flow checkpoint** (`COMMAND_PURPOSE`, `ensurePurpose`, and the anaemia, frontline, indicator and household routes).
+- **Hosted configuration (not code).** On the sponsor's instruction, the agent set the staging Access application's cookie **Same Site Attribute to Lax** in the Cloudflare dashboard (4 October 2026, about 03:20 IST), saved it and reopened the page to confirm. The CORS settings were already all off and were left so; nothing else was changed. A first attempt toggled "Return 401 Response" by a mis-click; that edit was discarded without saving. After the sponsor signed in again (04:01 IST), a script on another site (example.com) in the agent's browser could not read `/api/workspace` from staging, with or without credentials, while the same request from Saha's own page returned 200. This is the deployed code, before this slice. The cookie is `HttpOnly`, so its attribute itself was not read.
+- **Local results** (built Worker, Node 22.22.2, Linux container, synthetic data):
+  - `tsc --noEmit` clean;
+  - unit: 125 suites, 7,996 checks (new: access-scope contract, 8);
+  - HTTP/D1: 4,701 (new access-scope smoke: 53), plus the scheduled check, 8;
+  - restore drill: 21;
+  - smoke: 36 passed, 1 skipped;
+  - NFR: 191; UAT steps: 63; UI: 25 Playwright tests.
+- Requirement counts unchanged (14 implemented-local, 151 partial, 2 not-built, 9 unverified); BR-ID-02 and BR-DATA-10 texts updated, both still partial. No independent review.

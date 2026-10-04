@@ -1,5 +1,6 @@
 import { installedPacks } from './programmes';
 import { z } from 'zod';
+import { withinPolicy } from './access';
 import { apply, digest, factsSchema, fail, person, uuid, visit } from './core';
 import { programmeApply } from './programme-commands';
 import { ABSENCE } from './programmes';
@@ -26,11 +27,11 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   if((r.version??1)!==c.version)fail(409,'Referral changed. Refresh before continuing.');
   if(TERMINAL.has(r.state))fail(409,`A ${r.state} referral is closed; its evidence is immutable.`);
   if(c.type==='assignReferral'){
-   const owner=state.members.find(x=>x.userId===c.ownerId&&x.status==='active'&&['asha','clinician'].includes(x.role)&&x.teamIds.includes(p.teamId)&&(x.role!=='asha'||p.assignedTo===x.userId));if(!owner)fail(422,'Choose a care worker with current patient access.');
+   const owner=state.members.find(x=>x.userId===c.ownerId&&x.status==='active'&&['asha','clinician'].includes(x.role)&&x.teamIds.includes(p.teamId)&&(x.role!=='asha'||p.assignedTo===x.userId)&&withinPolicy(x,p));if(!owner)fail(422,'Choose a care worker with current patient access.');
    r.ownerId=owner.userId;r.due=c.due;if(c.urgency)r.urgency=c.urgency;detail=`Referral owner and due date recorded${c.urgency?`; urgency ${c.urgency}`:''}. `+c.reason;
   }else{
    if(!r.ownerId||!r.due)fail(409,'Assign an owner and due date first.');
-   const owner=state.members.find(x=>x.userId===r.ownerId&&x.status==='active'&&x.teamIds.includes(p.teamId)&&['asha','clinician'].includes(x.role)&&(x.role!=='asha'||p.assignedTo===x.userId));if(!owner)fail(409,'Reassign this referral to an active care worker.');
+   const owner=state.members.find(x=>x.userId===r.ownerId&&x.status==='active'&&x.teamIds.includes(p.teamId)&&['asha','clinician'].includes(x.role)&&(x.role!=='asha'||p.assignedTo===x.userId)&&withinPolicy(x,p));if(!owner)fail(409,'Reassign this referral to an active care worker.');
    if(r.ownerId!==u.userId&&!m.isOwner)fail(403,'Only the referral owner or organisation owner can record its outcome.');
    if(!(NEXT as any)[r.state]?.includes(c.event))fail(409,`A referral that is ${r.state} cannot move to ${c.event}. Record referral events in order.`);
    if(c.event==='scheduled'){if(!c.appointmentAt)fail(422,'Record the appointment time for a scheduled referral.');r.appointmentAt=new Date(c.appointmentAt).toISOString();}else if(c.appointmentAt)fail(422,'An appointment time applies only to a scheduled referral.');

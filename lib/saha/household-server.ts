@@ -1,4 +1,5 @@
 import { identity, loadFor, json, db } from './server';
+import { ensurePurpose } from './purpose-scope';
 import { fail, person } from './core';
 import { scope } from './store';
 import { householdOf, householdView, PURPOSES, type Purpose } from './household';
@@ -16,6 +17,8 @@ export async function householdRead(request:Request){
   return [...new Set([personId,...members])].slice(0,40);
  });
  const m=scope(s,u.userId);if(m.role==='admin')fail(403,'Patient access is required.');
+ // Slice 13a: previewing what one member's details would disclose to another is a household-sharing flow.
+ if(recipient)ensurePurpose(m,'household-sharing');
  const p=person(s.workspace,personId),view=householdView(s,m,p,recipient,purpose),h=householdOf(s,p);
  // Slice 10f: the household visit plan (each in-scope member's open items and the planned slots) rides on the same scoped read.
  return json(h?{...view,visitPlan:householdVisitPlan(s,m,h)}:view);

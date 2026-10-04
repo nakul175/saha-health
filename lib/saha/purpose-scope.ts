@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { fail, uuid } from './core';
+import { purposePermits } from './access';
 import type { Actor } from './store';
 import type { Member, OrgState, Programme } from './types';
 
@@ -32,6 +33,30 @@ export const ACCESS_PURPOSE_LABEL: Record<AccessPurpose, string> = {
   'reporting': 'Reporting and aggregate care reports',
   'household-sharing': 'Household sharing',
 };
+// Slice 13a: the data-flow checkpoints. Each command or route that starts an outbound flow (or, for household
+// sharing, discloses one member's details to another) names its purpose; a member whose active grant lists purposes
+// may start only flows of those purposes. Lookups that resolve an uncertain outcome of a flow already started are
+// not listed: refusing them could leave an outcome unknown, and they send no new data.
+export const COMMAND_PURPOSE: Readonly<Record<string, AccessPurpose>> = {
+  preparePlan: 'programme-delivery', approvePlan: 'programme-delivery', executePlan: 'programme-delivery', sendSubmission: 'programme-delivery',
+  requestDestinationEnrolment: 'programme-delivery', activateDestinationEnrolment: 'programme-delivery',
+  prepareIdentifierCorrection: 'programme-delivery', approveIdentifierCorrection: 'programme-delivery', sendIdentifierCorrection: 'programme-delivery',
+  prepareIncentiveClaim: 'programme-delivery', prepareIncentiveCorrection: 'programme-delivery',
+  prepareEhrPublish: 'care-coordination', executeEhrPublish: 'care-coordination', retrieveEhrDocument: 'care-coordination', importEhrDocument: 'care-coordination',
+  linkEhr: 'care-coordination', grantEhrPermission: 'care-coordination', abdmConsentRequest: 'care-coordination', abdmCareContextLink: 'care-coordination', abdmFetch: 'care-coordination',
+  prepareAgent: 'ai-assistance', executeAgent: 'ai-assistance', applyAgent: 'ai-assistance',
+  prepareAggregateReport: 'reporting', approveAggregateReport: 'reporting', sendAggregateReport: 'reporting',
+  householdAddMember: 'household-sharing', householdVisitSchedule: 'household-sharing', proxyGrant: 'household-sharing',
+};
+export function purposeRefusal(m: Member, purpose: AccessPurpose, grants?: readonly PurposeGrant[]): string | null {
+  if (purposePermits(m, purpose, grants)) return null;
+  return `Your organisation limits your access to named purposes, and ${ACCESS_PURPOSE_LABEL[purpose].toLowerCase()} is not one of them. Ask an owner to change your access.`;
+}
+export function ensurePurpose(m: Member, purpose: AccessPurpose | undefined, grants?: readonly PurposeGrant[]) {
+  if (!purpose) return;
+  const why = purposeRefusal(m, purpose, grants);
+  if (why) fail(403, why);
+}
 export const PROGRAMME_NAMES = ['Maternal care', 'Chronic care', 'TB screening', 'Child health', 'General care'] as const;
 
 export type PurposeGrant = {

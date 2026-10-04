@@ -19,7 +19,7 @@
 
 ## Limits
 
-- **Read-path threading is partial.** The authoritative gate (`store.ts` `scope`) is wired, so the workspace snapshot, commands and patient detail are correctly constrained. The SQL pre-filters (`viewerScope`) and the per-row re-checks in a few auxiliary read routes (`patientPage`, worklists, the exception queue, household previews, the responsibility-gap view) still apply team scope only until those call sites pass the policy; a follow-on should thread the access scope through them, exactly as `scope` was threaded here.
+- **Read-path threading** was partial as built: the SQL pre-filter, several auxiliary read routes and the command checks that call `normallyAllowed` directly applied team scope only. Slice 13a ([access scope everywhere](SLICE-13A-ACCESS-SCOPE.md)) binds the policy to the organisation's members and adds it to the SQL pre-filter, so it now reaches all of them.
 - **Locality transfer of caseloads is not implemented.** BR-ID-04's "locality transfer" (bulk caseload transfer keyed by locality) is a follow-on; the existing slice 1b/1f bulk transfer remains team/keyed and unchanged.
 - **No migration.** The configuration and the patient `facilityId`/`localityId` live in JSON (`operations.accessScope` and the patient document), so there is no new table or SQL migration; this slice does not alter `db/schema.ts` or `drizzle/`.
 - Facility and locality names are free text, not a federated directory; matching is by the organisation's own identifiers only.
