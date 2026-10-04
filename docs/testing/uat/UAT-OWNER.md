@@ -1720,11 +1720,11 @@ Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-org
 
 **Expected result** (catalogue): Test data expires according to its configured schedule, while held records remain protected and identifiable; backup restoration does not silently revive deleted operational data.
 
-**Known gaps** (assessment, remaining work for BR-SEC-09): Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports.
+**Known gaps** (assessment, remaining work for BR-SEC-09): Approved record-class schedule with purpose, location and jurisdiction; disposal of the other classes (programme receipts, audit events and their free-text content, outreach messages, rights requests, field packages, transcripts, model outputs, local caches); backup retention and destruction; hosted D1 restore with the register; physical deletion on D1 not established; scheduled disposal; human review.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-09)</summary>
 
-Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners.
+Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners. Slice 14f: a rule may allow disposal of patient records and visit media; one owner prepares a dry-run plan (identifiers, counts, plan hash) and a second owner applies exactly that plan, recomputed at its preparation time over current records; held records, records outside either owner's normal care scope, classes whose rule keeps them, and patients linked to open work or referenced by any other record are never disposed; disposed rows are deleted with a chained, append-only register entry as tombstone (identifier, time, rule, authority, content SHA-256), media content erased, revision content replaced by a tombstone, audit events and receipts kept (chain verifies); the restore tool re-applies a downloaded register before writing a restored database (zeroed, vacuumed), and the data exit and its verifier mark disposed records. Synthetic and training environments only; periods are placeholders.
 
 </details>
 
@@ -1754,11 +1754,11 @@ Slice 6c: owner-set, versioned retention schedules for six record classes, patie
 
 **Expected result** (catalogue): A test request reaches the responsible organisation, has a due date under its approved policy and closes only with an evidence-backed outcome.
 
-**Known gaps** (assessment, remaining work for BR-SEC-10): Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation and retention-based deletion.
+**Known gaps** (assessment, remaining work for BR-SEC-10): Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation, and a deletion request that triggers or expedites disposal with its outcome evidence.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-10)</summary>
 
-Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too.
+Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too. Slice 14f: retention-based deletion exists for patient records past an owner-set placeholder schedule, by two owners; a patient referenced by a rights request is kept.
 
 </details>
 

@@ -785,13 +785,18 @@
       "sourceTextLine": 219,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata.",
-      "remaining": "Object storage and larger media, clinical quality assessment of reduced photos, and a retention lifecycle for media on the server (offline queueing: slice 3a, BR-OFF-04).",
+      "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata. Slice 14f: server media has a retention class (visit media, from upload); a two-owner disposal erases content past the schedule, keeps the media row as a tombstone, marks the visit's reference removed and records it in the disposal register; disposed media answers 410 and a restore re-applies it.",
+      "remaining": "Object storage and larger media, clinical quality assessment of reduced photos, an approved media retention period and backup retention (offline queueing: slice 3a, BR-OFF-04).",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md",
         "lib/saha/photo.ts",
-        "tests/photo-contract.mjs"
+        "tests/photo-contract.mjs",
+        "lib/saha/disposal-effects.ts",
+        "lib/saha/media-server.ts",
+        "tests/disposal-contract.mjs",
+        "tests/disposal-smoke.mjs",
+        "docs/current/SLICE-14F-DISPOSAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3725,8 +3730,8 @@
       "sourceTextLine": 572,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners.",
-      "remaining": "Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports.",
+      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners. Slice 14f: a rule may allow disposal of patient records and visit media; one owner prepares a dry-run plan (identifiers, counts, plan hash) and a second owner applies exactly that plan, recomputed at its preparation time over current records; held records, records outside either owner's normal care scope, classes whose rule keeps them, and patients linked to open work or referenced by any other record are never disposed; disposed rows are deleted with a chained, append-only register entry as tombstone (identifier, time, rule, authority, content SHA-256), media content erased, revision content replaced by a tombstone, audit events and receipts kept (chain verifies); the restore tool re-applies a downloaded register before writing a restored database (zeroed, vacuumed), and the data exit and its verifier mark disposed records. Synthetic and training environments only; periods are placeholders.",
+      "remaining": "Approved record-class schedule with purpose, location and jurisdiction; disposal of the other classes (programme receipts, audit events and their free-text content, outreach messages, rights requests, field packages, transcripts, model outputs, local caches); backup retention and destruction; hosted D1 restore with the register; physical deletion on D1 not established; scheduled disposal; human review.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3736,7 +3741,14 @@
         "lib/saha/retention.ts",
         "app/retention-panel.tsx",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "lib/saha/disposal.ts",
+        "lib/saha/disposal-execution.ts",
+        "lib/saha/disposal-effects.ts",
+        "scripts/recovery.mjs",
+        "tests/disposal-contract.mjs",
+        "tests/disposal-smoke.mjs",
+        "docs/current/SLICE-14F-DISPOSAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3750,8 +3762,8 @@
       "sourceTextLine": 575,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too.",
-      "remaining": "Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation and retention-based deletion.",
+      "current": "Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too. Slice 14f: retention-based deletion exists for patient records past an owner-set placeholder schedule, by two owners; a patient referenced by a rights request is kept.",
+      "remaining": "Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation, and a deletion request that triggers or expedites disposal with its outcome evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3763,7 +3775,10 @@
         "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
         "app/api/fhir/[id]/route.ts",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "lib/saha/disposal.ts",
+        "tests/disposal-contract.mjs",
+        "docs/current/SLICE-14F-DISPOSAL.md"
       ],
       "automatedAcceptanceClaim": false
     },

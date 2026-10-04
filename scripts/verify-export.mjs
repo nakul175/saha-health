@@ -12,6 +12,9 @@ import { pathToFileURL } from 'node:url';
 
 const sha = b => createHash('sha256').update(b).digest('hex');
 const CHAIN = 'saha-audit-chain-v1', ZERO = '0'.repeat(64), PRIOR_PAGE = 500;
+// Slice 14f: the disposal register chain (lib/saha/disposal-effects.ts; restated here so this checker needs only Node).
+const DISPOSAL_CHAIN = 'saha-disposal-chain-v1';
+export const registerContent = e => sha(JSON.stringify([e.org_id, e.id, e.batch_id, e.record_class, e.table_name, e.record_id, e.person_id ?? null, e.team_id ?? null, e.disposed_at, e.rule, e.authority, e.content_sha256]));
 
 export function readTar(buf) {
   const files = new Map();
@@ -80,7 +83,11 @@ export function verifyFiles(files) {
   if (foreign.length || t('organisations').some(o => o.id !== orgId)) bad('organisation', `Rows from another organisation in ${[...new Set(foreign)].join(', ')}.`); else pass('organisation', orgId);
   // Relationships: each reference resolves inside the export (withheld audit rows carry no reference).
   const ids = (name, key = 'id') => new Set(t(name).map(r => r[key]));
-  const patients = ids('patients'), visits = ids('visits'), teams = ids('teams'), accounts = ids('accounts', 'user_id');
+  // Slice 14f: a reference to a disposed patient or visit resolves to its disposal register entry.
+  const register = t('disposals'), disposedOf = table => new Set(register.filter(e => !e.withheld && e.table_name === table).map(e => e.record_id));
+  const disposedPatients = disposedOf('patients'), disposedVisits = disposedOf('visits');
+  const live = { patients: ids('patients'), visits: ids('visits') }, either = (a, b) => ({ has: x => a.has(x) || b.has(x) });
+  const patients = either(live.patients, disposedPatients), visits = either(live.visits, disposedVisits), teams = ids('teams'), accounts = ids('accounts', 'user_id');
   const rel = [
     ['visits', 'person_id', patients], ['submissions', 'person_id', patients], ['submissions', 'visit_id', visits], ['referrals', 'person_id', patients],
     ['record_revisions', 'person_id', patients], ['media', 'person_id', patients], ['media', 'visit_id', visits], ['plans', 'visit_id', visits], ['ai_results', 'visit_id', visits],
@@ -100,7 +107,28 @@ export function verifyFiles(files) {
   // assignments keys) must be exported patients.
   const caseloadIds = d => [...(d?.personIds ?? []), ...(d?.applied?.moved ?? []), ...Object.keys(d?.applied?.assignments ?? {})];
   for (const name of ['households', 'caseload_transfers']) for (const r of t(name)) { let doc = null; try { doc = typeof r.data === 'string' ? JSON.parse(r.data) : null; } catch { doc = null; } for (const id of [...personIds(doc), ...(name === 'caseload_transfers' ? caseloadIds(doc) : [])]) { references++; if (!patients.has(id)) dangling.push(`${name}.data personId=${id}`); } }
-  if (dangling.length) bad('relationships', `${dangling.length} references do not resolve: ${dangling.slice(0, 10).join(', ')}`); else pass('relationships', `${references} references resolve`);
+  if (dangling.length) bad('relationships', `${dangling.length} references do not resolve: ${dangling.slice(0, 10).join(', ')}`); else pass('relationships', `${references} references resolve${disposedPatients.size || disposedVisits.size ? ` (to records or to disposal register entries of ${disposedPatients.size} patients and ${disposedVisits.size} visits)` : ''}`);
+  // Slice 14f: the disposal register chain, and that disposed records carry no content.
+  if (files.has('tables/disposals.jsonl')) {
+    let problem = null, prev = ZERO;
+    const entries = [...register].sort((a, b) => a.seq - b.seq);
+    for (let i = 0; i < entries.length && !problem; i++) {
+      const e = entries[i];
+      if (e.seq !== i) { problem = `entry ${i} is missing`; break; }
+      if (e.prev_hash !== prev) { problem = `entry ${i}: link to the previous entry does not match`; break; }
+      const c = e.withheld ? e.content : registerContent(e);
+      if (e.withheld && !/^[0-9a-f]{64}$/.test(c ?? '')) { problem = `entry ${i}: withheld without a digest`; break; }
+      if (sha(JSON.stringify([DISPOSAL_CHAIN, e.seq, prev, c])) !== e.hash) { problem = `entry ${i}: content or hash altered`; break; }
+      prev = e.hash;
+    }
+    const head = entries.at(-1), expected = manifest.disposal?.head;
+    if (!problem && expected !== undefined && (expected === null ? !!head : !head || head.seq !== expected.seq || head.hash !== expected.hash)) problem = 'the register does not end at the head recorded in the manifest';
+    const residue = [...live.patients].filter(x => disposedPatients.has(x)).map(x => `patient ${x}`).concat([...live.visits].filter(x => disposedVisits.has(x)).map(x => `visit ${x}`));
+    for (const e of register.filter(e => !e.withheld && e.table_name === 'media')) if ([...files.keys()].some(p => p.startsWith(`media/${e.record_id}.`))) residue.push(`media ${e.record_id}`);
+    for (const r of t('record_revisions').filter(r => disposedPatients.has(r.person_id))) { let d = null; try { d = JSON.parse(r.data); } catch { d = null; } if (d?.disposed !== true || Object.keys(d).length !== 4) residue.push(`revision ${r.id}`); }
+    if (problem) bad('disposal-register', problem); else if (residue.length) bad('disposal-register', `Disposed records still carry content: ${residue.slice(0, 10).join(', ')}`);
+    else pass('disposal-register', entries.length ? `${entries.length} entries, head ${head.seq} ${head.hash.slice(0, 12)}; ${disposedPatients.size} disposed patients and their records carry no content` : 'no disposals');
+  }
   // Slice 6w: the indicator differencing ledger is server-side protection state and is never exported.
   const ledgerRows = t('operations').filter(r => { try { return typeof r.data === 'string' && 'indicatorReleases' in (JSON.parse(r.data) ?? {}); } catch { return false; } });
   if (ledgerRows.length) bad('protection-state', 'operations.data carries the indicator differencing ledger, which an export must leave out'); else pass('protection-state', 'no indicator differencing ledger in the operations document');

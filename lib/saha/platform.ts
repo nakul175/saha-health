@@ -10,6 +10,7 @@ import { consentSchema } from './consent';
 import { delegationSchema, heldBy, supervises } from './delegation';
 import { indicatorRegistrySchema } from './indicator-registry';
 import { retentionSchema } from './retention';
+import { disposalSchema } from './disposal';
 import { fixtureMarkSchema } from './fixture-migration';
 import { programmeMigrationSchema } from './programme-migration';
 import { packInstallationSchema } from './pack-installation';
@@ -76,6 +77,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...delegationSchema.options,
  ...indicatorRegistrySchema.options,
  ...retentionSchema.options,
+ ...disposalSchema.options,
  ...fixtureMarkSchema.options,
  ...programmeMigrationSchema.options,
  ...packInstallationSchema.options,
