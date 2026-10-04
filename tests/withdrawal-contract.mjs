@@ -201,6 +201,36 @@ export async function persist(db,before,after,u,c,key){if(before.organisation.re
     assert.equal(w.visitId, 'v1', 'recorded against the original visit and receipt'); assert.equal(w.bound.correctionVisitId, 'v2'); assert.equal(w.bound.correctionVersion, 2); assert.equal(w.bound.permissionId, 'g1'); });
   await run('asha', { type: 'approveWithdrawal', personId: 'p1', withdrawalId: r8.withdrawalId, payloadHash: r8.payloadHash });
   await check(async () => { store.edit(s => { s.workspace.visits[1].version = 3; }); await status(() => exec('asha', { type: 'executeWithdrawal', personId: 'p1', withdrawalId: r8.withdrawalId }, {}, env), 409, /correction visit changed/); store.edit(s => { s.workspace.visits[1].version = 2; }); });
+  // Integration 14 seam (14c with 14d): a sharing permission that has expired, or was given under an earlier material notice, no
+  // longer authorises an EHR amendment at approve or execute (the raw exchangeConsent flag is not enough).
+  await check(async () => {
+    const lapse = (expiresAt, notice) => store.edit(s => { s.workspace.people[0].consentHistory = [{ id: 'ce1', purpose: 'exchange', action: 'granted', at: past, by: 'doc', byName: 'DOC', role: 'clinician', channel: 'switch', reference: '', reason: '', fromVersion: 1, toVersion: 2, items: [], expiresAt, ...(notice ? { notice } : {}) }]; });
+    const w = () => wd(r8.withdrawalId);
+    assert.equal(await W.bindingProblem(store.saved, w()), null, 'in force: no problem');
+    lapse('2026-09-29T00:00:00.000Z');
+    assert.match(await W.bindingProblem(store.saved, w()), /sharing permission is no longer in force \(expired\)/);
+    await status(() => exec('asha', { type: 'executeWithdrawal', personId: 'p1', withdrawalId: r8.withdrawalId }, {}, env), 409, /no longer in force/);
+    lapse(new Date(Date.now() + 86400000).toISOString());
+    assert.equal(await W.bindingProblem(store.saved, w()), null, 'a renewed permission is in force again');
+    store.edit(s => { s.workspace.people[0].consentHistory = [{ id: 'ce2', purpose: 'exchange', action: 'granted', at: past, by: 'doc', byName: 'DOC', role: 'clinician', channel: 'switch', reference: '', reason: '', fromVersion: 1, toVersion: 2, items: [], expiresAt: new Date(Date.now() + 86400000).toISOString(), notice: { id: 'n1', version: 1, language: 'en' } }]; s.operations = { ...(s.operations ?? {}), consentNotices: [{ id: 'n2', purpose: 'exchange', version: 2, effectiveFrom: past, material: true, texts: { en: 'x' } }] }; });
+    assert.match(await W.bindingProblem(store.saved, w()), /needs renewal/);
+    await status(() => exec('asha', { type: 'executeWithdrawal', personId: 'p1', withdrawalId: r8.withdrawalId }, {}, env), 409, /needs renewal/);
+    store.edit(s => { delete s.workspace.people[0].consentHistory; delete s.operations; });
+  });
+  // Integration 14 seam (14c with the processing restriction, review finding): an EHR amendment writes a new document to an outside
+  // system, so prepare, approve and execute are refused while a restriction is in force; a plain withdrawal or retraction continues.
+  await check(async () => {
+    store.edit(s => { s.workspace.people[0].restrictions = [{ requestId: 'rr1', from: past, by: 'own' }]; });
+    assert.match(await W.bindingProblem(store.saved, wd(r8.withdrawalId)), /restricted/);
+    await status(() => exec('asha', { type: 'executeWithdrawal', personId: 'p1', withdrawalId: r8.withdrawalId }, {}, env), 409, /restricted/);
+    await status(() => ehrPrep('doc', { operation: 'amend', reasonCode: 'corrected', reason: 'Weight entered in the wrong field' }), 409, /Processing is restricted.*amendment/);
+    // a withdrawal (retraction) of the same publication can still be prepared
+    const keep = structuredClone(store.saved.workspace.visits[0].withdrawals); store.edit(s => { s.workspace.visits[0].withdrawals = s.workspace.visits[0].withdrawals.filter(x => x.id !== r8.withdrawalId); });
+    const r = await ehrPrep('doc'); assert.equal(r.state, 'prepared'); assert.equal(wd(r.withdrawalId).operation, 'withdraw');
+    const a = await run('asha', { type: 'approveWithdrawal', personId: 'p1', withdrawalId: r.withdrawalId, payloadHash: r.payloadHash }); assert.equal(a.state, 'approved', 'a retraction is approved under a restriction');
+    await run('asha', { type: 'cancelWithdrawal', personId: 'p1', withdrawalId: r.withdrawalId });
+    store.edit(s => { s.workspace.visits[0].withdrawals = keep; delete s.workspace.people[0].restrictions; });
+  });
   {
     const calls = [], fhir = async (i, orgId, e, path, init) => { calls.push({ path, init }); return { ...JSON.parse(init.body), id: 'srv-2' }; };
     const r = await exec('asha', { type: 'executeWithdrawal', personId: 'p1', withdrawalId: r8.withdrawalId }, { fhir }, env);

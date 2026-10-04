@@ -1,9 +1,10 @@
 import { z } from 'zod';
-import { digest, fail, person, uuid } from './core';
+import { consentStanding, digest, fail, noticesOf, person, uuid } from './core';
 import { normallyAllowed } from './access';
 import { operationRefusal, operationsOf, type Refusal } from './adapter-operations';
 import { receiptSchema } from './mis';
 import { ehrAccess, ehrState, identityHash, withinPermission } from './ehr';
+import { activeRestriction } from './rights';
 import { fhirDocument, inspectDocument } from './fhir-document';
 import { publicationReceipt } from './ehr-provider';
 import { validateOutbound } from './fhir-validate';
@@ -138,9 +139,15 @@ function ehrTarget(s:OrgState,p:Person,refId:string){
 const currentWritePermission=(p:Person,linkId:string,now:string)=>ehrState(p).permissions.filter(g=>g.linkId===linkId&&g.direction==='write'&&g.status==='active'&&g.purpose==='care-coordination'&&g.expiresAt>now).at(-1);
 
 // Null when everything the withdrawal was prepared against is unchanged; otherwise what changed.
+// Slice 14 integration (review finding): an EHR amendment writes a corrected document to an outside system, which a processing
+// restriction pauses (rights.ts PAUSED_WHEN_RESTRICTED covers executeEhrPublish the same way). A withdrawal or retraction only
+// withdraws what was sent, so it continues.
+export const AMEND_RESTRICTED='Processing is restricted for this patient under a rights request: an amendment writes a new document to the EHR, so it is paused. A plain withdrawal or retraction can still be recorded.';
+export const amendRestricted=(p:Person,w:{operation:string})=>w.operation==='amend'&&!!activeRestriction(p);
 export async function bindingProblem(s:OrgState,w:Withdrawal,now=new Date().toISOString()):Promise<string|null>{
  const p=s.workspace.people.find(x=>x.id===w.personId),v=s.workspace.visits.find(x=>x.id===w.visitId),b=w.bound;
  if(!p||!v)return 'the patient or visit is no longer available';
+ if(amendRestricted(p,w))return 'processing was restricted for the patient';
  if(p.version!==b.personVersion||p.consentVersion!==b.consentVersion)return 'the patient record or sharing permission changed';
  if(v.version!==b.visitVersion||visitStatus(v)!==b.visitStatus)return 'the visit changed (amended, marked wrong-patient or edited)';
  const i=s.workspace.integrations.find(x=>x.id===w.destination.id);
@@ -150,6 +157,8 @@ export async function bindingProblem(s:OrgState,w:Withdrawal,now=new Date().toIS
  if(w.kind==='programme-submission'){const sub=s.workspace.submissions.find(x=>x.id===w.original.id);if(!sub||sub.state!=='accepted'||sub.receipt!==w.original.receipt)return 'the original submission changed';return null;}
  const op=p.ehr?.operations.find(o=>o.id===w.original.id);if(!op||op.state!=='accepted'||op.receipt!==w.original.receipt)return 'the original publication changed';
  if(w.operation==='amend'){
+  // Slice 14 integration: a sharing permission that has lapsed (expired, or given under an earlier material notice) no longer authorises the write.
+  {const st=consentStanding(p,'exchange',now,noticesOf(s));if(st.state==='expired'||st.state==='renewal-needed')return `the sharing permission is no longer in force (${st.state==='expired'?'expired':'needs renewal under the current notice'})`;}
   const cv=s.workspace.visits.find(x=>x.id===b.correctionVisitId);if(!currentConfirmed(cv)||cv.version!==b.correctionVersion)return 'the correction visit changed';
   const link=p.ehr?.links.find(l=>l.id===b.linkId),g=p.ehr?.permissions.find(x=>x.id===b.permissionId);
   if(!p.exchangeConsent||!link||link.status!=='active'||link.identityHash!==b.identityHash||b.identityHash!==await identityHash(p)||!g||g.status!=='active'||g.expiresAt<=now)return 'the patient link, identity or EHR write permission changed';
@@ -159,6 +168,7 @@ export async function bindingProblem(s:OrgState,w:Withdrawal,now=new Date().toIS
 
 async function prepare(s:OrgState,c:Extract<WithdrawalCommand,{type:'prepareWithdrawal'}>,u:Actor,m:Member,now:string){
  const p=withdrawalActor(s,m,c.personId),wid=uuid();
+ if(amendRestricted(p,c))fail(409,AMEND_RESTRICTED);
  let v:Visit,i:Integration,payload:any,original:{id:string;receipt:string},adapter:'delete'|'update',bound:Omit<WithdrawalBound,'personVersion'|'consentVersion'|'visitVersion'|'visitStatus'|'integrationVersion'|'operationsVersion'>={};
  if(c.target==='programme-submission'){
   if(c.operation!=='withdraw')fail(422,'A programme submission is corrected through the correction visit\'s plan; here it can only be withdrawn.');

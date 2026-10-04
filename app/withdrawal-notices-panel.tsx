@@ -8,7 +8,7 @@ import type { NoticeHolder, NoticeState, WithdrawalNotice } from '@/lib/saha/wit
 type Command=(c:any,s?:string)=>Promise<any>;
 // Slice 14e (R91): the notices that tell each destination holding a person's records that the sharing permission was
 // withdrawn, with the outcome per destination. English only.
-const NOTICE_OPEN:NoticeState[]=['due','uncertain','manual'],noticesOf=(p:Person)=>(p as NoticeHolder).withdrawalNotices??[];
+const NOTICE_OPEN:NoticeState[]=['due','uncertain','manual'],withdrawalNoticesOf=(p:Person)=>(p as NoticeHolder).withdrawalNotices??[];
 const STATE:Record<string,string>={due:'not yet sent',uncertain:'sent, outcome unknown',acknowledged:'acknowledged',recorded:'recorded with the gateway',manual:'tell by hand',told:'told by hand','not-required':'not required'};
 const HOLD:Record<string,string>={'programme-submission':'submission','ehr-publication':'EHR publication','abdm-consent':'consent artefact','abdm-care-context':'care context','abdm-transfer':'records delivered'};
 function NoticeCard({n,p,care,busy,command}:{n:WithdrawalNotice;p:Person;care:boolean;busy:boolean;command:Command}){
@@ -30,7 +30,7 @@ function NoticeCard({n,p,care,busy,command}:{n:WithdrawalNotice;p:Person;care:bo
  </li>;
 }
 export function WithdrawalNoticesPatient({data,p,busy,command}:{data:Snapshot;p:Person;busy:boolean;command:Command}){
- const [open,setOpen]=useState(false),notices=[...noticesOf(p)].reverse(),pending=notices.filter(n=>NOTICE_OPEN.includes(n.state)).length;
+ const [open,setOpen]=useState(false),notices=[...withdrawalNoticesOf(p)].reverse(),pending=notices.filter(n=>NOTICE_OPEN.includes(n.state)).length;
  if(!notices.length)return null;
  const care=['asha','clinician'].includes(data.role);
  return <><Button variant="outline" onClick={()=>setOpen(true)}>Withdrawal notices{pending?` (${pending} open)`:''}</Button><Dialog open={open} onOpenChange={setOpen}><DialogContent className="wide-dialog"><DialogHeader><DialogTitle>Withdrawal notices · {p.name}</DialogTitle><DialogDescription>Each destination that holds this person&apos;s records is told that the sharing permission was withdrawn. Saha does not recall or erase what a destination already holds; it records each destination&apos;s answer, and an unknown outcome is looked up, never sent again.</DialogDescription></DialogHeader>

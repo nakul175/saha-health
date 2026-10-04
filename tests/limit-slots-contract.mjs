@@ -53,16 +53,16 @@ try {
   const org = (db, id) => db.prepare("INSERT INTO organisations (id,name,revision,last_command,created_at) VALUES (?,?,1,'createOrganisation',?)").run(id, 'Synthetic ' + id, now);
 
   // 1. Migration 0018 and its carry-over of the last day's events.
-  await check('migration 0018 is the last migration, makes limit_slots and carries the last day of counted events into it', () => {
-    assert.equal(migrations.at(-1), '0018_limit_slots.sql');
-    const db = new DatabaseSync(':memory:'); migrate(db, migrations.slice(0, -1)); org(db, 'org_m');
+  await check('migration 0018 (the last one on its own branch; 0020-0022 follow it in integration 14) makes limit_slots and carries the last day of counted events into it', () => {
+    const at18 = migrations.indexOf('0018_limit_slots.sql'); assert.ok(at18 > 0, '0018 exists');
+    const db = new DatabaseSync(':memory:'); migrate(db, migrations.slice(0, at18)); org(db, 'org_m');
     const cols = db.prepare('PRAGMA table_info(audit_events)').all().map(c => c.name);
     const ev = (id, action, subject, personId, actor, at) => { const v = { org_id: 'org_m', id, person_id: personId, actor_id: actor, actor_name: 'Synthetic', role: 'asha', action, subject, detail: 'Synthetic event', at }; db.prepare(`INSERT INTO audit_events (${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`).run(...cols.map(c => v[c] ?? null)); };
     ev('e1', 'abhaLinkReview', 'h1', 'h1', 'u1', ago(3600000)); ev('e2', 'abhaLinkReview', 'h1', 'h1', 'u1', ago(1800000)); ev('e3', 'abhaLinkReview', 'h2', 'h2', 'u1', ago(7200000));
     ev('e4', 'abhaLinkReview', 'h3', 'h3', 'u1', ago(2 * 86400000)); ev('e5', 'abhaLinkReview', 'h4', 'h4', 'u2', ago(60000));
     for (let i = 0; i < 3; i++) ev('r' + i, 'viewAggregate', 'indicator refusal', null, 'u1', ago(600000 * (i + 1)));
     ev('r9', 'viewAggregate', 'indicator refusal', null, 'u1', ago(90000000)); ev('v1', 'viewAggregate', 'indicator results', null, 'u1', ago(60000));
-    migrate(db, migrations.slice(-1));
+    migrate(db, [migrations[at18]]);
     const rows = db.prepare('SELECT actor_id,kind,slot_key,state,at FROM limit_slots ORDER BY actor_id,kind,slot_key').all();
     assert.deepEqual(rows.filter(r => r.kind === 'abhaReview').map(r => [r.actor_id, r.slot_key, r.state]), [['u1', 'h1', 'used'], ['u1', 'h2', 'used'], ['u2', 'h4', 'used']]);
     assert.equal(rows.find(r => r.slot_key === 'h1').at, ago(1800000), 'the latest review of a holder');

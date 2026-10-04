@@ -49,7 +49,7 @@ export type WithdrawalNotice = {
 // Stored on the patient record (patients.data) as `withdrawalNotices`. Declared here rather than in types.ts' Person so this
 // slice merges beside slice 14b's change to that line; Person is assignable to it because the field is optional.
 export type NoticeHolder = Person & { withdrawalNotices?: WithdrawalNotice[] };
-export const noticesOf = (p: Person): WithdrawalNotice[] => (p as NoticeHolder).withdrawalNotices ?? [];
+export const withdrawalNoticesOf = (p: Person): WithdrawalNotice[] => (p as NoticeHolder).withdrawalNotices ?? [];
 
 const id = z.string().trim().min(1).max(200), version = z.number().int().positive();
 export const noticeSchema = z.discriminatedUnion('type', [
@@ -133,7 +133,7 @@ export async function applyWithdrawalNotice(s: OrgState, input: unknown, u: Acto
   if (!NOTICE_TYPES.has((input as any)?.type)) return null;
   const parsed = noticeSchema.safeParse(input);if (!parsed.success) fail(422, parsed.error.issues[0]?.message ?? 'Invalid withdrawal notice command.');
   const c = parsed.data;authorizeWithdrawalNotice(s, m, c);
-  const p = person(s.workspace, c.personId), n = noticesOf(p).find(x => x.id === c.noticeId);if (!n) fail(404, 'Withdrawal notice not found for this patient.');
+  const p = person(s.workspace, c.personId), n = withdrawalNoticesOf(p).find(x => x.id === c.noticeId);if (!n) fail(404, 'Withdrawal notice not found for this patient.');
   if (n.version !== c.version) fail(409, 'This notice changed since you opened it. Refresh and review it again.');
   const i = s.workspace.integrations.find(x => x.id === n.destination.id);let detail = '', result: any;
   if (c.type === 'sendWithdrawalNotice') {
@@ -168,7 +168,7 @@ export async function applyWithdrawalNotice(s: OrgState, input: unknown, u: Acto
 
 // Exception-queue rows (slice 6i rules 1.4.0) for a patient's open notices.
 export function noticeExceptions(p: Person, team: string) {
-  return noticesOf(p).filter(n => NOTICE_OPEN.includes(n.state)).map(n => ({
+  return withdrawalNoticesOf(p).filter(n => NOTICE_OPEN.includes(n.state)).map(n => ({
     id: 'withdrawal-notice:' + n.id, kind: 'withdrawal-notice' as const, severity: n.state === 'uncertain' ? 'high' as const : 'normal' as const,
     what: `${n.destination.name}: sharing withdrawal of ${day(n.withdrawnAt)} ${n.state === 'due' ? 'not yet sent' : n.state === 'uncertain' ? 'sent, outcome unknown' : 'to be told through its own process'}`,
     since: n.withdrawnAt, owner: `Care workers of ${team}`,

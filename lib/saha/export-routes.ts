@@ -36,6 +36,7 @@ export const ROUTES: Record<string, RouteClass> = {
   'POST /api/indicators': { kind: 'file-export', content: 'aggregate', suppression: 'applied', purpose: 'reporting', audit: 'indicatorExport', evidence: { file: 'lib/saha/indicators.ts', text: 'function suppress' }, note: 'Query results and the CSV (format=csv) share the suppression, minimum cohorts and differencing ledger (slices 6d, 6s, 6w, 6aa).' },
   'GET /api/aggregate-reports': { kind: 'aggregate-view', content: 'aggregate', suppression: 'applied', purpose: 'reporting', evidence: { file: 'lib/saha/aggregate-delivery.ts', text: 'MIN_CELL' }, note: 'History of reports prepared for aggregate-only destinations; cells are the suppressed indicator cells (slice 7g).' },
   // ---- files carrying records, configuration or audit evidence -----------------------------------------------------
+  'GET /api/retention/disposal-register': { kind: 'file-export', content: 'audit', suppression: 'record-level', audit: 'disposalRegisterExport', evidence: { file: 'lib/saha/disposal-server.ts', text: 'disposalRegisterExport' }, note: 'Slice 14f: owner only; the register holds identifiers, counts, rule, authority and content hashes of disposed records, never their content. One audit event with the register head per download.' },
   'GET /api/data-exit': { kind: 'file-export', content: 'record', suppression: 'record-level', purpose: 'patient-export', audit: 'organisationExport', evidence: { file: 'lib/saha/data-exit.ts', text: 'withheld' }, note: 'Owner only; patient-linked rows outside the owner\'s care scope are withheld and counted (slice 6m). Patient-export purpose added in 14g.' },
   'GET /api/fhir/[id]': { kind: 'file-export', content: 'record', suppression: 'record-level', purpose: 'patient-export', audit: 'downloadFhir', evidence: { file: 'app/api/fhir/[id]/route.ts', text: 'ensureNotRestricted' }, note: 'One confirmed visit as a FHIR document; scope, restriction and exceptional-access checks apply. Patient-export purpose added in 14g.' },
   'GET /api/audit/chain': { kind: 'file-export', content: 'audit', suppression: 'record-level', audit: 'auditChainExport', evidence: { file: 'lib/saha/audit-chain.ts', text: 'redacted' }, note: 'Owners and administrators; patient-linked events are exported as digests only. Checkpoints carry a hash and sequence number.' },
@@ -52,6 +53,7 @@ export const ROUTES: Record<string, RouteClass> = {
   'GET /api/retention': config('Retention schedules and holds for owners; review only.'),
   'GET /api/environment': config(), 'GET /api/delegations': config(), 'GET /api/facility-scope': config(), 'GET /api/purpose-scope': config(), 'GET /api/notification-channel': config(),
   'GET /api/pack-installations': config(), 'GET /api/programme-migration': config(), 'GET /api/fixture-migration': config(), 'GET /api/provider-sandbox': config(), 'GET /api/frontline-providers': config(), 'POST /api/frontline-providers': mutation('Owner configuration of a provider.'),
+  'GET /api/field-device': config('Slice 14e: removal orders for the caller\'s own notebook and, for the Operations view, counts of field devices and sync failures; no patient content.'), 'POST /api/field-device': mutation('Slice 14e: a notebook\'s counts-only removal receipt or sync failure report (step, error class, counts); the patient is resolved on the server from the grant.'),
   'GET /api/anaemia-provider': config(), 'POST /api/anaemia-provider': mutation('Owner configuration of the demonstration provider.'),
   // ---- record views for authorised viewers ------------------------------------------------------------------------
   'GET /api/workspace': view('Scoped, paged workspace snapshot; recorded as viewWorkspace.'), 'GET /api/patients': view('Scoped list; recorded as listPatients.'), 'POST /api/patients': view('Search; recorded as searchPatients.'),
@@ -91,6 +93,7 @@ export const DISPOSITION_SOURCES: Record<string, string[]> = {
   'lib/saha/indicators-server.ts': ['POST /api/indicators'],
   'lib/saha/media-server.ts': ['GET /api/media/[id]'],
   'lib/saha/operations-server.ts': ['GET /api/operations'],
+  'lib/saha/disposal-server.ts': ['GET /api/retention/disposal-register'],
   'lib/saha/outreach-server.ts': ['GET /api/expansion'],
   'lib/saha/pilot-server.ts': ['GET /api/pilot'],
   'lib/saha/record-import-server.ts': ['POST /api/import-rejections'],
@@ -106,5 +109,19 @@ export const CLIENT_DOWNLOADS: Record<string, string[]> = {
   'app/operations-panel.tsx': ['GET /api/operations'],
   'app/pilot-panel.tsx': ['GET /api/pilot'],
   'app/record-import-panel.tsx': ['POST /api/import-rejections'],
+  'app/retention-panel.tsx': ['GET /api/retention/disposal-register'],
   'app/anaemia-panel.tsx': [],  // previews the member's own chosen image; nothing leaves
+};
+// Slices 14c and 14e: commands that can send one person's data, or a notice about it, to a destination but are not keyed in
+// COMMAND_PURPOSE (a withdrawal or retraction is not a disclosure of new content; an EHR amendment checks care-coordination itself,
+// withdrawal.ts ensureAmendPurpose). Listed so the inventory is complete; the integration contract checks every name is a real command.
+export const OTHER_OUTBOUND_COMMANDS: Record<string, { carries: 'record' | 'none'; note: string }> = {
+  prepareWithdrawal: { carries: 'none', note: 'Slice 14c: prepares a programme withdrawal or an EHR withdrawal or amendment; nothing leaves. An amendment is refused under a processing restriction.' },
+  approveWithdrawal: { carries: 'none', note: 'Slice 14c: approval of the exact payload hash.' },
+  executeWithdrawal: { carries: 'record', note: 'Slice 14c: sends the approved withdrawal (identifiers and a reason code) or amendment (the correction visit\'s document) to the original destination.' },
+  lookupWithdrawal: { carries: 'none', note: 'Slice 14c: looks up an unknown outcome; never resends.' },
+  cancelWithdrawal: { carries: 'none', note: 'Slice 14c: cancels one that was never sent.' },
+  sendWithdrawalNotice: { carries: 'record', note: 'Slice 14e: tells a destination holding the person\'s records that sharing was withdrawn (identifiers and the withdrawal date), to a demonstration simulator or the mock ABDM gateway only.' },
+  lookupWithdrawalNotice: { carries: 'none', note: 'Slice 14e: looks up an unknown notice outcome; never resends.' },
+  recordWithdrawalNotice: { carries: 'none', note: 'Slice 14e: records a notice told by hand to an HTTP destination, with a reference.' },
 };

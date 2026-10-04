@@ -164,7 +164,7 @@ try {
     const sync = { type: 'syncFieldVisit', personId: 'P', leaseId: grant.packet.payload.leaseId, packageHash: grant.packageHash, facts: grant.packet.payload.facts, answers: {}, absence: {} };
     await statusAsync(() => F.applyField(s, sync, actor('asha'), as(s, 'asha'), now), 409, /permission changed/);
     C.applyConsent(s, { type: 'withdrawConsent', personId: 'P', version: p.version, purpose: 'exchange', channel: 'phone', reference: 'CALL-2', reason: 'Patient asked to stop sharing records' }, actor('asha'), as(s, 'asha'), now);
-    check(() => { assert.equal(p.consentHistory.at(-1).items.filter(i => i.kind === 'field-copy').length, 1);assert.deepEqual(N.noticesOf(p), [], 'nothing left Saha: no notice'); });
+    check(() => { assert.equal(p.consentHistory.at(-1).items.filter(i => i.kind === 'field-copy').length, 1);assert.deepEqual(N.withdrawalNoticesOf(p), [], 'nothing left Saha: no notice'); });
   }
 
   // 8. Consent-withdrawal notices to destinations.
@@ -183,7 +183,7 @@ try {
     p.abdmConsents = [{ id: 'a1', purpose: 'CAREMGT', hiTypes: ['OPConsultation'], from: '2026-01-01', to: '2026-12-31', expiresAt: at(30), status: 'GRANTED', requestedBy: 'doc', requestedAt: earlier, abhaNumber: '91-0000-0000-0001' }];
     p.careContexts = [{ id: 'cc1', visitId: 'v1', display: 'Visit', hiType: 'OPConsultation', recordDate: earlier, linkedAt: earlier, linkedBy: 'doc', abhaNumber: 'x' }];
     C.applyConsent(s, { type: 'withdrawConsent', personId: 'P', version: p.version, purpose: 'exchange', channel: 'written', reference: 'FORM-9', reason: 'Patient withdrew permission to share records' }, actor('asha'), as(s, 'asha'), now);
-    const list = N.noticesOf(p), by = id => list.find(n => n.destination.id === id);
+    const list = N.withdrawalNoticesOf(p), by = id => list.find(n => n.destination.id === id);
     check(() => assert.deepEqual(list.map(n => [n.destination.id, n.path, n.state]).sort(), [['abdm_mock', 'gateway-record', 'recorded'], ['ehr_http', 'manual', 'manual'], ['mis_community', 'simulator', 'due'], ['mis_http', 'manual', 'manual'], ['mis_maternal', 'simulator', 'due']]));
     check(() => { assert.deepEqual(by('mis_maternal').holds.map(h => [h.ref, h.receipt]), [['s1', 'SIM-1']], 'only this person\'s records');assert.deepEqual(by('mis_http').holds.map(h => h.ref), ['s3'], 'a cancelled unsent delivery needs no notice');assert.deepEqual(by('ehr_http').holds.map(h => h.ref), ['o1']);assert.deepEqual(by('abdm_mock').holds.map(h => h.kind).sort(), ['abdm-care-context', 'abdm-consent']); });
     check(() => { const pl = by('mis_maternal').payload;assert.deepEqual(Object.keys(pl).sort(), ['contract', 'environment', 'noticeId', 'notifies', 'operation', 'permissionVersion', 'purpose', 'withdrawnAt']);assert.equal(pl.operation, 'consent-withdrawn');assert.deepEqual(pl.notifies, [{ submissionKey: 's1', receipt: 'SIM-1' }]);assert.ok(!JSON.stringify(list).includes('Pesh'), 'no name in any notice'); });
@@ -227,18 +227,18 @@ try {
     s.workspace.submissions.push(sub('s6', 'mis_maternal', 'accepted', { receipt: 'SIM-6' }), sub('s7', 'mis_http', 'accepted', { receipt: 'HTTP-7' }));
     s.workspace.integrations.find(i => i.id === 'abdm_mock').operations = { version: 2, allowed: ['create', 'update', 'lookup'], aggregateOnly: false, setBy: 'own', setAt: now, reason: 'Synthetic: delete withdrawn', history: [] };
     C.applyConsent(s, { type: 'withdrawConsent', personId: 'P', version: p.version, purpose: 'exchange', channel: 'phone', reference: 'CALL-3', reason: 'Patient again withdrew sharing permission' }, actor('asha'), as(s, 'asha'), at(0.01));
-    const again = N.noticesOf(p);
+    const again = N.withdrawalNoticesOf(p);
     check(() => { const maternal = again.filter(n => n.destination.id === 'mis_maternal');assert.equal(maternal.length, 2, 'the acknowledged notice stays; a new one covers both deliveries');assert.deepEqual(maternal[1].holds.map(h => h.ref), ['s1', 's6']);assert.equal(maternal[1].state, 'due'); });
     check(() => { const abdm = again.filter(n => n.destination.id === 'abdm_mock').at(-1);assert.equal(abdm.state, 'manual', 'the gateway\'s delete operation withdrawn: a manual notice');assert.match(abdm.message, /was not told/); });
     // A due notice brought up to date by a later withdrawal changes version, so an earlier review no longer sends.
     const due = again.filter(n => n.destination.id === 'mis_maternal')[1], v0 = due.version;
     C.applyConsent(s, { type: 'setConsent', personId: 'P', version: p.version, purpose: 'exchange', active: true }, actor('asha'), as(s, 'asha'), now);
     C.applyConsent(s, { type: 'setConsent', personId: 'P', version: p.version, purpose: 'exchange', active: false }, actor('asha'), as(s, 'asha'), at(0.02));
-    check(() => { assert.equal(N.noticesOf(p).filter(n => n.destination.id === 'mis_maternal').length, 2, 'the open notice is updated, not duplicated');assert.ok(due.version > v0);assert.match(due.message, /Updated by a later withdrawal/); });
+    check(() => { assert.equal(N.withdrawalNoticesOf(p).filter(n => n.destination.id === 'mis_maternal').length, 2, 'the open notice is updated, not duplicated');assert.ok(due.version > v0);assert.match(due.message, /Updated by a later withdrawal/); });
     await statusAsync(() => run('asha', send(due, { version: v0 })), 409, /changed since you opened/);
     // Lookup refused when the destination's lookup operation is withdrawn: the outcome stays unknown.
-    await run('asha', send(N.noticesOf(p).filter(n => n.destination.id === 'mis_community').at(-1) ?? due));
-    const unknown = N.noticesOf(p).find(n => n.state === 'uncertain');
+    await run('asha', send(N.withdrawalNoticesOf(p).filter(n => n.destination.id === 'mis_community').at(-1) ?? due));
+    const unknown = N.withdrawalNoticesOf(p).find(n => n.state === 'uncertain');
     if (unknown) {
       s.workspace.integrations.find(i => i.id === 'mis_community').operations = { version: 2, allowed: ['create'], aggregateOnly: false, setBy: 'own', setAt: now, reason: 'Synthetic: lookup withdrawn', history: [] };
       await statusAsync(() => run('asha', { type: 'lookupWithdrawalNotice', personId: 'P', noticeId: unknown.id, version: unknown.version }), 409, /outcome stays unknown/);
