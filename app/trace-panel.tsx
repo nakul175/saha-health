@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { RefreshCw, Route } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-const KIND:Record<string,string>={submission:'Programme submission','ehr-publication':'EHR publication',assistant:'Assistant request'};
+const KIND:Record<string,string>={submission:'Programme submission','ehr-publication':'EHR publication',assistant:'Assistant request',withdrawal:'Withdrawal or amendment'};
 const SOURCE:Record<string,string>={command:'User command',destination:'Destination or provider response',callback:'Destination callback','not linked':'Not linked'};
 const when=(x:string|null)=>x?new Date(x).toLocaleString():'—';
 // Slice 6y: read-only trace from the user commands to execution checkpoints, receipts and audit events.
@@ -16,7 +16,7 @@ export function TracePanel({organisationId,query,revision,title='Trace of extern
  return <section className="trace-panel" aria-labelledby={head}><div className="trace-heading"><h3 id={head}><Route size={17}/>{title}</h3><Button variant="outline" size="sm" onClick={load} disabled={loading}><RefreshCw size={15}/>Refresh trace</Button></div>
   {error&&<p role="alert" className="notice amber-notice">{error}</p>}
   {value&&<><p className="muted text-sm">{value.note}{value.notLinked?` ${value.notLinked} step${value.notLinked===1?' is':'s are'} not linked.`:''} Trace {value.traceVersion}.{value.truncated?' This history is long: only the most recent events are listed.':''}</p>
-   {!value.threads.length&&<p className="muted text-sm">No programme submission, EHR publication or assistant request on this visit.</p>}
+   {!value.threads.length&&<p className="muted text-sm">No programme submission, EHR publication, withdrawal or assistant request on this visit.</p>}
    {value.threads.map((t:any)=><div key={t.id} className={`trace-thread${value.focus===t.id?' trace-focus':''}`}>
     <p><span className="tag">{KIND[t.kind]??t.kind}</span> <strong>{t.destination}</strong> · <span className={`tag ${['accepted','review','applied'].includes(t.state)?'success':['uncertain','running','sending','retryable','blocked','failed','rejected','conflict','not-stored'].includes(t.state)?'amber':''}`}>{t.state}</span>{t.timedOut&&<> <span className="tag amber">timed out, outcome uncertain</span></>}</p>
     <p className="muted text-sm">Record {t.recordId} · Destination receipt: {t.receipt??(t.receiptExists?'recorded (not shown outside your care scope)':'none')} · Attempts {t.attempts.used}{t.attempts.limit!=null?` of ${t.attempts.limit}`:''}{t.taskAttempt!=null?` · Task attempt ${t.taskAttempt}${t.limits?.attempts?` of ${t.limits.attempts}`:''} on this visit`:''}{t.limits?.timeMinutes?` · Time limit ${t.limits.timeMinutes} min`:''}. {t.attempts.rule}</p>

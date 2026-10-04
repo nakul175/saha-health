@@ -10,6 +10,7 @@ import { consentSchema } from './consent';
 import { delegationSchema, heldBy, supervises } from './delegation';
 import { indicatorRegistrySchema } from './indicator-registry';
 import { retentionSchema } from './retention';
+import { disposalSchema } from './disposal';
 import { fixtureMarkSchema } from './fixture-migration';
 import { programmeMigrationSchema } from './programme-migration';
 import { packInstallationSchema } from './pack-installation';
@@ -42,9 +43,11 @@ import { alertAckSchema } from './alerts';
 import { inboxSchema } from './alert-delivery';
 import { notificationChannelSchema } from './notification-channel';
 import { speechPolicySchema } from './speech';
+import { consentNoticeSchema } from './consent-notices';
 import { invoiceSchema } from './ai-invoice';
 import { fieldSchema } from './field';
 import { fieldRegistrationSchema } from './field-registration';
+import { noticeSchema } from './withdrawal-notices';
 import { referralRequestSchema } from './referral-request';
 import { ehrSchema } from './ehr';
 import { misSchema } from './mis';
@@ -56,6 +59,7 @@ import { shadowSchema } from './shadow';
 import { programmeSchema, programmeApply } from './programme-commands';
 import { factReuseSchema, applyFactReuse } from './fact-reuse';
 import { destinationEnrolmentSchema } from './destination-enrolment';
+import { withdrawalSchema } from './withdrawal';
 import { z } from 'zod';
 import { commandSchema, digest, fail, person, visit, uuid } from './core';
 import type { Actor } from './store';
@@ -76,6 +80,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...delegationSchema.options,
  ...indicatorRegistrySchema.options,
  ...retentionSchema.options,
+ ...disposalSchema.options,
  ...fixtureMarkSchema.options,
  ...programmeMigrationSchema.options,
  ...packInstallationSchema.options,
@@ -107,12 +112,16 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...inboxSchema.options,
  ...notificationChannelSchema.options,
  ...speechPolicySchema.options,
+ // Slice 14d: owner-published consent notice versions (lib/saha/consent-notices.ts).
+ ...consentNoticeSchema.options,
  ...invoiceSchema.options,
  ...pilotSchema.options,
  ...outreachSchema.options,
  ...expansionSchema.options,
  ...fieldSchema.options,
  ...fieldRegistrationSchema.options,
+ // Slice 14e: sending, looking up and recording consent-withdrawal notices to destinations (lib/saha/withdrawal-notices.ts).
+ ...noticeSchema.options,
  ...referralRequestSchema.options,
  ...misSchema.options,
  adapterOperationsSchema.innerType(),
@@ -126,6 +135,8 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...factReuseSchema.options,
  // Slice r37: destination enrolment request/rejection/acceptance lifecycle (mock destination; lib/saha/destination-enrolment.ts).
  ...destinationEnrolmentSchema.options,
+ // Slice 14c: withdrawal (void) of an accepted programme submission and withdrawal or amendment of a published EHR document (lib/saha/withdrawal.ts).
+ ...withdrawalSchema.options,
  // Slice 9a: owner-only installation of the demonstration clinical package (synthetic environment only; lib/saha/demonstration.ts).
  z.object({type:z.literal('installDemonstrationPackage')}).strict(),
  z.object({type:z.literal('createOrganisation'),name:str}),

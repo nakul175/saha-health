@@ -11,6 +11,8 @@ import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';
 import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';
 import { applyRights, authorizeRights, ensureNotRestricted } from './rights';
 import { applyRetention, authorizeRetention } from './retention';
+import { applyDisposal, authorizeDisposal } from './disposal';
+import { executeDisposal } from './disposal-execution';
 import { applyFixtureMark, authorizeFixtureMark } from './fixture-migration';
 import { applyProgrammeMigration, authorizeProgrammeMigration } from './programme-migration';
 import { applyPackInstallation, authorizePackInstallation } from './pack-installation';
@@ -40,18 +42,22 @@ import { applyOutreach, authorizeOutreach } from './outreach';
 import { applyExpansion, authorizeExpansion } from './expansion';
 import { boundedJsonBody } from './request-body';
 import { accessRoute, recordAccess, recordAccesses } from './access-audit';
+import { withLimitSlot } from './limit-slots';
 import { applyOperations, ensureOperating, operator } from './operations';
 import { applyFacilityScope, authorizeFacilityScope } from './facility-scope';
 import { applyInvoiceReconciliation } from './ai-invoice';
 import { ALERT_OWNERS, applyAlertAck, canAcknowledge } from './alerts';
 import { authorizeInboxReplay, evaluateAfterCommand, markRead } from './alert-delivery-server';
 import { applyField } from './field';
+import { applyWithdrawalNotice } from './withdrawal-notices';
 import { applyFieldRegistration, authorizeFieldRegistration } from './field-registration';
 import { applyReferralRequest, authorizeReferralRequest } from './referral-request';
 import { applyEhr, ehrReadiness } from './ehr';
 import { executeEhr } from './ehr-execution';
 import { configureMis, misReadiness } from './mis';
 import { executeMis } from './mis-execution';
+import { applyWithdrawal, authorizeWithdrawal } from './withdrawal';
+import { executeWithdrawal } from './withdrawal-execution';
 import { authorizeDestinationEnrolment } from './destination-enrolment';
 import { executeDestinationEnrolment } from './destination-enrolment-execution';
 import { providers, agentApply } from './agent';
@@ -61,6 +67,7 @@ import { applyAdapterOperations } from './adapter-operations';
 import { applyPurposeScope, authorizePurposeScope, COMMAND_PURPOSE, ensurePurpose } from './purpose-scope';
 import { applyNotificationChannel } from './notification-channel';
 import { applySpeechPolicy, speechPolicyView } from './speech';
+import { applyConsentNotice, noticesView } from './consent-notices';
 import { authorizeAggregate } from './aggregate-delivery';
 import { applyIncentives, authorizeIncentives } from './incentives';
 import { executeAggregate } from './aggregate-execution';
@@ -71,7 +78,7 @@ import { headers } from 'next/headers';
 import { identityConfig, principalFromHeaders, signOutPath } from './identity';
 import { seedWorkspace } from './seed';
 import { effectiveRuntime, ensureEnvironment, environmentOf, ENVIRONMENT_LABEL, fixturesFor } from './environment';
-import { AppError, apply, digest, fail, person, uuid, type Command } from './core';
+import { AppError, apply, digest, fail, noticesOf, person, uuid, type Command } from './core';
 import { platformApply, platformSchema, validTeams } from './platform';
 import { languageOf } from './messages';
 import { patientTargets } from './partition';
@@ -110,7 +117,7 @@ export async function snapshotFor(state:OrgState,u:Actor):Promise<Snapshot>{
  const migration=await db().prepare('SELECT migrated_at,counts FROM legacy_migrations WHERE org_id=?').bind(state.organisation.id).first<{migrated_at:string;counts:string}>();
  const {receipts,...base}=w;
  const activity=await auditPage(db(),state.organisation.id,u.userId);
- return {...base,programmePacks:catalogueOf(state).map(p=>({id:p.id,version:p.version,name:p.name,enrollable:!!enrollableAt(p.id,p.version,state),installed:!!p.installed})),role:m.role,people:w.people.filter(p=>permitted.has(p.id)).map(redactAbha),visits:w.visits.filter(v=>permitted.has(v.personId)),submissions:w.submissions.filter(s=>permitted.has(s.personId)),referrals:w.referrals.filter(r=>permitted.has(r.personId)),audit:activity.events,auditCursor:activity.nextCursor,user:{userId:u.userId,displayName:u.displayName,accountCode:await accountCode(u.userId)},maintenance:{active:!!state.operations?.maintenance,reason:state.operations?.reason??''},environment:environmentOf(rawRuntime()).name,environmentLabel:ENVIRONMENT_LABEL[environmentOf(rawRuntime()).name],externalApisEnabled:externalEnabled(),agentProviders:providers(w.integrations,runtime()),ehrReadiness:w.integrations.filter(i=>i.kind==='ehr'&&i.mode==='http').map(i=>ehrReadiness(i,state.organisation.id,runtime())),misReadiness:w.integrations.filter(i=>i.kind==='mis'&&i.mode==='http').map(i=>misReadiness(i,state.organisation.id,runtime())),organisation:state.organisation,organisations:orgs.results.map(o=>({id:o.id,name:o.name,role:o.role,isOwner:!!o.is_owner})),membership:{...m,...(({language,version})=>({language,languageVersion:version}))(languageOf(state.operations?.memberLanguages,u.userId))},members:state.members.filter(x=>m.isOwner||m.role==='admin'||x.userId===m.userId||x.teamIds.some(t=>m.teamIds.includes(t))),teams:state.teams.filter(t=>m.isOwner||m.role==='admin'||m.teamIds.includes(t.id)),invitations:m.isOwner?state.invitations.map(({tokenHash,...i})=>i):[],canManage:m.isOwner,speechPolicy:speechPolicyView(state,environmentOf(rawRuntime()).name),signOffPolicy:{required:signOffPolicy(state).required,version:signOffPolicy(state).version,...(signOffPolicy(state).rules?{rules:signOffPolicy(state).rules}:{})},canAssign:(m.isOwner||m.role==='supervisor'||heldBy(state,m,'team-supervision').length>0)&&m.role!=='admin',delegatedAuthority:heldBy(state,m,'team-supervision').concat(heldBy(state,m,'reporting')).map(d=>({id:d.id,kind:d.kind,teamIds:d.teamIds,until:d.until,grantorId:d.grantorId})),signOutPath:signOutPath(identityConfig(runtime())),migration:migration?{migratedAt:migration.migrated_at,counts:JSON.parse(migration.counts)}:null,...(state.paging?{patientPaging:{...state.paging,window:w.people.filter(p=>permitted.has(p.id)).map(p=>p.id)}}:{})};
+ return {...base,programmePacks:catalogueOf(state).map(p=>({id:p.id,version:p.version,name:p.name,enrollable:!!enrollableAt(p.id,p.version,state),installed:!!p.installed})),role:m.role,people:w.people.filter(p=>permitted.has(p.id)).map(redactAbha),visits:w.visits.filter(v=>permitted.has(v.personId)),submissions:w.submissions.filter(s=>permitted.has(s.personId)),referrals:w.referrals.filter(r=>permitted.has(r.personId)),audit:activity.events,auditCursor:activity.nextCursor,user:{userId:u.userId,displayName:u.displayName,accountCode:await accountCode(u.userId)},maintenance:{active:!!state.operations?.maintenance,reason:state.operations?.reason??''},environment:environmentOf(rawRuntime()).name,environmentLabel:ENVIRONMENT_LABEL[environmentOf(rawRuntime()).name],externalApisEnabled:externalEnabled(),agentProviders:providers(w.integrations,runtime()),ehrReadiness:w.integrations.filter(i=>i.kind==='ehr'&&i.mode==='http').map(i=>ehrReadiness(i,state.organisation.id,runtime())),misReadiness:w.integrations.filter(i=>i.kind==='mis'&&i.mode==='http').map(i=>misReadiness(i,state.organisation.id,runtime())),organisation:state.organisation,organisations:orgs.results.map(o=>({id:o.id,name:o.name,role:o.role,isOwner:!!o.is_owner})),membership:{...m,...(({language,version})=>({language,languageVersion:version}))(languageOf(state.operations?.memberLanguages,u.userId))},members:state.members.filter(x=>m.isOwner||m.role==='admin'||x.userId===m.userId||x.teamIds.some(t=>m.teamIds.includes(t))),teams:state.teams.filter(t=>m.isOwner||m.role==='admin'||m.teamIds.includes(t.id)),invitations:m.isOwner?state.invitations.map(({tokenHash,...i})=>i):[],canManage:m.isOwner,speechPolicy:speechPolicyView(state,environmentOf(rawRuntime()).name),consentNotices:noticesView(state),signOffPolicy:{required:signOffPolicy(state).required,version:signOffPolicy(state).version,...(signOffPolicy(state).rules?{rules:signOffPolicy(state).rules}:{})},canAssign:(m.isOwner||m.role==='supervisor'||heldBy(state,m,'team-supervision').length>0)&&m.role!=='admin',delegatedAuthority:heldBy(state,m,'team-supervision').concat(heldBy(state,m,'reporting')).map(d=>({id:d.id,kind:d.kind,teamIds:d.teamIds,until:d.until,grantorId:d.grantorId})),signOutPath:signOutPath(identityConfig(runtime())),migration:migration?{migratedAt:migration.migrated_at,counts:JSON.parse(migration.counts)}:null,...(state.paging?{patientPaging:{...state.paging,window:w.people.filter(p=>permitted.has(p.id)).map(p=>p.id)}}:{})};
 }
 export async function snapshot(request?:Request){const u=await identity();return snapshotFor(await loadFor(u,request?.headers.get('x-saha-organisation'),undefined,true,pagingRequest(request),'workspace load'),u);}
 // Slice 0b-3: the snapshot returned after a command follows the same paging request as the workspace read.
@@ -123,18 +130,26 @@ async function parseRequest(request:Request){const origin=request.headers.get('o
 // successful link by someone who enters that code. The oracle is bounded: one review event per requester and holding
 // record a day (repeats add nothing), and a requester with ABHA_REVIEW_LIMIT such refusals in the last day has every
 // further link refused the same way until the day has passed, so repeated probing reveals nothing more.
+// Slice 14a (review 10): the bound holds under races. Every link first reserves a slot (limit-slots.ts) in one statement that
+// succeeds only while fewer than ABHA_REVIEW_LIMIT are reviewed or in progress; the duplicate lookup runs only with a slot.
+// A lookup that finds a record outside the scope keeps the slot under that record's id (one per requester and record a
+// day) and records the review; any other outcome gives the slot back. Without a slot the link is refused as before.
+const ABHA_REVIEW_SLOTS={kind:'abhaReview',limit:ABHA_REVIEW_LIMIT,inclusive:true} as const;
 async function abdmWithStewardReview(state:OrgState,c:any,u:Actor,m:Member){
- const since=new Date(Date.now()-86400000).toISOString(),reviews=async()=>c?.type==='abhaLink'?(await db().prepare("SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='abhaLinkReview' AND at>=?").bind(state.organisation.id,u.userId,since).all<{person_id:string}>()).results.map(r=>r.person_id):[];
- if(c?.type==='abhaLink'&&(await reviews()).length>=ABHA_REVIEW_LIMIT){try{applyAbdm(structuredClone(state),{...c,otp:'000000'},u,m);}catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;}fail(422,LINK_REFUSED);}
- try{return applyAbdm(state,c,u,m);}
- catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;
-  try{if(!(await reviews()).includes(e.heldBy))await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal. Recorded on this record only; repeats by the same requester within a day are not recorded again.`}]);}catch{/* recordAccesses has logged the failure without content */}
-  fail(422,LINK_REFUSED);}
+ if(c?.type!=='abhaLink')return applyAbdm(state,c,u,m);
+ const throttled=():never=>{try{applyAbdm(structuredClone(state),{...c,otp:'000000'},u,m);}catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;}fail(422,LINK_REFUSED);};
+ return withLimitSlot(db(),{orgId:state.organisation.id,actorId:u.userId,...ABHA_REVIEW_SLOTS},async slot=>{
+  try{return applyAbdm(state,c,u,m);}
+  catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;
+   let review=false;try{review=await slot.use(e.heldBy);}catch{/* the reservation stays counted until it expires */}
+   if(review)try{await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal. Recorded on this record only; repeats by the same requester within a day are not recorded again.`}]);}catch{/* recordAccesses has logged the failure without content */}
+   fail(422,LINK_REFUSED);}
+ },throttled);
 }
 async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof parseRequest>>){
  const u=await identity(),{key,c}=parsed,hash=await digest(c);await ensureHome(u);
  const old=await db().prepare('SELECT org_id,hash,result,person_id FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;hash:string;result:string;person_id:string|null}>();
- if(old){if(old.hash!==hash)fail(409,'This operation key was already used for different input.');if(!['switchOrganisation','joinOrganisation','createOrganisation'].includes(c.type)&&request.headers.get('x-saha-organisation')&&old.org_id!==request.headers.get('x-saha-organisation'))fail(409,'This operation key belongs to a different organisation.');const state=await loadFor(u,old.org_id);const m=scope(state,u.userId);if(old.person_id)person(state.workspace,old.person_id);authorizePilotCommand(state,m,c);authorizeOutreach(state,m,c);authorizeExpansion(state,m,c);authorizeContinuity(state,m,c);authorizeFieldRegistration(state,m,c);authorizeReferralRequest(state,m,c);authorizeActionPlan(state,m,c);authorizeCorrectionTask(state,m,c);authorizeReferralSource(state,m,c);authorizeProgrammeReferrals(state,m,c);authorizeHousehold(state,m,c);authorizeHouseholdVisit(state,m,c);authorizeCaseload(state,m,c);authorizeMerge(state,m,c);authorizeCrosswalk(state,m,c);authorizeCrosswalkCorrection(state,m,c);authorizeFacilityScope(state,m,c);authorizePurposeScope(state,m,c);authorizeExceptional(state,m,c);authorizeRights(state,m,c);authorizeConsent(state,m,c);authorizeDelegation(state,m,c);authorizeReassignment(state,m,c);authorizeIndicatorRegistry(state,m,c);authorizeAggregate(state,m,c);authorizeIncentives(state,m,c);authorizeRetention(state,m,c);authorizeFixtureMark(state,m,c);authorizeProgrammeMigration(state,m,c);authorizePackInstallation(state,m,c);authorizeFactReview(state,m,c);authorizeSignOff(state,m,c);authorizePatientImport(state,m,c);authorizeRecordImport(state,m,c);authorizeWorkforceImport(state,m,c);authorizeAbdm(state,m,c);authorizeTransfer(state,m,c);authorizeSandbox(state,m,c);authorizeShadow(state,m,c);authorizeGovernance(state,m,c);authorizeEvaluation(state,m,c);authorizeDemonstration(m,c,environmentOf(rawRuntime()).name);authorizeDestinationEnrolment(m,c);await authorizeInboxReplay(state,m,c);if(c.type==='opsAcknowledgeAlert'){if(!canAcknowledge(m,ALERT_OWNERS[c.alertId]))fail(403,'Your current membership cannot acknowledge this alert.');}else if(c.type.startsWith('ops')&&!operator(m))fail(403,'Operations access required.');if(['opsMaintenance','opsRates','opsBudget','opsInvoiceReconcile'].includes(c.type)&&!m.isOwner)fail(403,'Owner access required.');if(['createInvite','revokeInvite','updateMember','rosterApply','createTeam','renameOrganisation','enableAgentContract','configureMis','activateMis','testMis','configureEhr','activateEhr','probeEhr','setAdapterOperations','setEhrLookupPolicy'].includes(c.type)&&!m.isOwner)fail(403,'Your current membership cannot access this action.');await recordWorkspaceLoad(db(),state,u,m,'replay of a saved command',null);return {result:JSON.parse(old.result),snapshot:await snapshotFor(state,u),replayed:true};}
+ if(old){if(old.hash!==hash)fail(409,'This operation key was already used for different input.');if(!['switchOrganisation','joinOrganisation','createOrganisation'].includes(c.type)&&request.headers.get('x-saha-organisation')&&old.org_id!==request.headers.get('x-saha-organisation'))fail(409,'This operation key belongs to a different organisation.');const state=await loadFor(u,old.org_id);const m=scope(state,u.userId);if(old.person_id)person(state.workspace,old.person_id);authorizePilotCommand(state,m,c);authorizeOutreach(state,m,c);authorizeExpansion(state,m,c);authorizeContinuity(state,m,c);authorizeFieldRegistration(state,m,c);authorizeReferralRequest(state,m,c);authorizeActionPlan(state,m,c);authorizeCorrectionTask(state,m,c);authorizeWithdrawal(state,m,c);authorizeReferralSource(state,m,c);authorizeProgrammeReferrals(state,m,c);authorizeHousehold(state,m,c);authorizeHouseholdVisit(state,m,c);authorizeCaseload(state,m,c);authorizeMerge(state,m,c);authorizeCrosswalk(state,m,c);authorizeCrosswalkCorrection(state,m,c);authorizeFacilityScope(state,m,c);authorizePurposeScope(state,m,c);authorizeExceptional(state,m,c);authorizeRights(state,m,c);authorizeConsent(state,m,c);authorizeDelegation(state,m,c);authorizeReassignment(state,m,c);authorizeIndicatorRegistry(state,m,c);authorizeAggregate(state,m,c);authorizeIncentives(state,m,c);authorizeRetention(state,m,c);authorizeDisposal(state,m,c);authorizeFixtureMark(state,m,c);authorizeProgrammeMigration(state,m,c);authorizePackInstallation(state,m,c);authorizeFactReview(state,m,c);authorizeSignOff(state,m,c);authorizePatientImport(state,m,c);authorizeRecordImport(state,m,c);authorizeWorkforceImport(state,m,c);authorizeAbdm(state,m,c);authorizeTransfer(state,m,c);authorizeSandbox(state,m,c);authorizeShadow(state,m,c);authorizeGovernance(state,m,c);authorizeEvaluation(state,m,c);authorizeDemonstration(m,c,environmentOf(rawRuntime()).name);authorizeDestinationEnrolment(m,c);await authorizeInboxReplay(state,m,c);if(c.type==='opsAcknowledgeAlert'){if(!canAcknowledge(m,ALERT_OWNERS[c.alertId]))fail(403,'Your current membership cannot acknowledge this alert.');}else if(c.type.startsWith('ops')&&!operator(m))fail(403,'Operations access required.');if(['opsMaintenance','opsRates','opsBudget','opsInvoiceReconcile'].includes(c.type)&&!m.isOwner)fail(403,'Owner access required.');if(['createInvite','revokeInvite','updateMember','rosterApply','createTeam','renameOrganisation','enableAgentContract','configureMis','activateMis','testMis','configureEhr','activateEhr','probeEhr','setAdapterOperations','setEhrLookupPolicy'].includes(c.type)&&!m.isOwner)fail(403,'Your current membership cannot access this action.');await recordWorkspaceLoad(db(),state,u,m,'replay of a saved command',null);return {result:JSON.parse(old.result),snapshot:await snapshotFor(state,u),replayed:true};}
  if(c.type==='createOrganisation'){
   const count=await db().prepare('SELECT count(*) AS n FROM memberships WHERE user_id=? AND is_owner=1 AND status=?').bind(u.userId,'active').first<{n:number}>();if((count?.n??0)>=10)fail(422,'This release supports up to 10 organisations owned by one account.');
   const now=new Date().toISOString(),orgId=`org_${(await digest(`${u.userId}:${key}`)).slice(0,32)}`,w=fixturesFor(rawRuntime(),seedWorkspace(now));w.people=[];
@@ -160,10 +175,14 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  const signedOff=await ensureSignOff(state,c,m);
  if(c.type==='probeEhr'||c.type==='retrieveEhrDocument'||c.type==='executeEhrPublish'||c.type==='lookupEhrPublish'){const result=await executeEhr(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
  if(c.type==='testMis'||c.type==='sendSubmission'||c.type==='lookupSubmission'){const result=await executeMis(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
+ // Slice 14c: sending and looking up a withdrawal or EHR amendment have their own checkpointed execution.
+ if(c.type==='executeWithdrawal'||c.type==='lookupWithdrawal'){const result=await executeWithdrawal(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
  // Slice r37: destination enrolment request/lookup/activation against a mock programme destination.
  if(c.type==='requestDestinationEnrolment'||c.type==='lookupDestinationEnrolment'||c.type==='activateDestinationEnrolment'){const result=await executeDestinationEnrolment(db(),state,c,u,m,key,hash,environmentOf(rawRuntime()).name);return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
  // Slice 7g: aggregate report delivery (prepare, approve, send, lookup) has its own checkpointed execution.
  if(c.type==='prepareAggregateReport'||c.type==='approveAggregateReport'||c.type==='sendAggregateReport'||c.type==='lookupAggregateReport'){authorizeAggregate(state,m,c);const result=await executeAggregate(db(),state,c,u,m,key,hash);return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
+ // Slice 14f: a second owner applies a waiting disposal plan (register rows and their effects in one guarded commit).
+ if(c.type==='disposalApply'){const result=await executeDisposal(db(),state,c,u,m,key,hash,environmentOf(rawRuntime()).name);return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
  if(c.type==='runEvaluationCase'){const result=await executeEvaluation(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
  if(c.type==='runAI'&&state.workspace.integrations.find(i=>i.id===c.providerId)?.mode==='http')fail(409,'Use the governed evidence assistant for external AI. Legacy free-text AI execution is unavailable.');
  if(c.type==='executeAgent'){const result=await executeAgent(db(),state,c,u,m,key,hash,runtime());return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};}
@@ -175,7 +194,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const agent=await agentApply(state,c,u,m,providers(state.workspace.integrations,runtime()));
   const mis=['configureMis','activateMis','cancelSubmission'].includes(c.type)?await configureMis(state,c as any,u,m,runtime()):null;
   const ehr=c.type.includes('Ehr')?await applyEhr(state,c as any,u,m,runtime()):null;
-  const field=await applyField(state,c,u,m)??await applyFieldRegistration(state,c,u,m)??await applyReferralRequest(state,c,u,m);
+  const field=await applyField(state,c,u,m)??await applyFieldRegistration(state,c,u,m)??await applyReferralRequest(state,c,u,m)??await applyWithdrawalNotice(state,c,u,m); // slice 14e: consent-withdrawal notices
   const pilot=await applyPilot(state,c,u,m);
   const outreach=await applyOutreach(state,c,u,m);
   const expansion=await applyExpansion(state,c,u,m);
@@ -199,6 +218,8 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   // Slice 6s: owner-maintained indicator definitions (append-only versions).
   const registry=applyIndicatorRegistry(state,c,u,m);
   const retention=applyRetention(state,c,u,m);
+  // Slice 14f: disposal plans (prepare, cancel); applying a plan is executed above.
+  const disposal=await applyDisposal(state,c,u,m,environmentOf(rawRuntime()).name);
   const fixture=await applyFixtureMark(state,c,u,m);
   // Slice 4e: reviewed migration of open programme episodes to a newer pack version.
   const packMigration=await applyProgrammeMigration(state,c,u,m);
@@ -215,12 +236,14 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const crosswalkCorrection=await applyCrosswalkCorrection(state,c,u,m);
   // Slice 10d: owner workforce roster import from a CSV file (invitations, memberships, external staff ids).
   const workforce=await applyWorkforceImport(state,c,u,m,rawRuntime());
+  // Slice 14c: preparing, approving and cancelling a withdrawal or EHR amendment.
+  const withdrawal=await applyWithdrawal(state,c,u,m);
   // Slice 2j: closing a correction task with evidence.
   const referral=applyReferral(state,c,u,m)??applyActionPlan(state,c,u,m)??applyReassignment(state,c,u,m)??applyCorrectionTask(state,c,u,m)??applyProgrammeReferrals(state,c,u,m);
   const roster=await applyRoster(state,c,u,m);
   const abdm=await abdmWithStewardReview(state,c,u,m);
   const transfer=await applyTransfer(state,c,u,m);
-  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m)??applyNotificationChannel(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid)??applySpeechPolicy(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid); // slice 10b: owner-managed notification channel (demonstration simulator); slice 12a: voice input setting
+  const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m)??applyNotificationChannel(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid)??applySpeechPolicy(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid)??applyConsentNotice(state,c,u,m,fail,uuid); // slice 10b: owner-managed notification channel (demonstration simulator); slice 12a: voice input setting; slice 14d: consent notice versions
  // Slice feat/r08 (BR-ID-02/BR-OPS-01): facility and geography/locality access policy (owner-managed, versioned, audited).
  const facilityScope=applyFacilityScope(state,c,u,m);
   // Slice 7e: owner-managed, versioned operation permissions for record adapters.
@@ -229,11 +252,11 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const purposeScope=applyPurposeScope(state,c,u,m);
   // Slice 10c: synthetic worker incentive claims (schedule, prepare, verify, approve, correct); stored in the operations document.
   const incentives=await applyIncentives(state,c,u,m);
-  const platform=incentives?{handled:true,result:incentives}:demonstration?{handled:true,result:demonstration}:adapterOps?{handled:true,result:adapterOps}:facilityScope?{handled:true,result:facilityScope}:purposeScope?{handled:true,result:purposeScope}:shadow?{handled:true,result:shadow}:sandbox?{handled:true,result:sandbox}:transfer?{handled:true,result:transfer}:abdm?{handled:true,result:abdm}:roster?{handled:true,result:roster}:referral?{handled:true,result:referral}:retention?{handled:true,result:retention}:fixture?{handled:true,result:fixture}:packMigration?{handled:true,result:packMigration}:packInstall?{handled:true,result:packInstall}:factReview?{handled:true,result:factReview}:signOff?{handled:true,result:signOff}:patientImport?{handled:true,result:patientImport}:crosswalk?{handled:true,result:crosswalk}:crosswalkCorrection?{handled:true,result:crosswalkCorrection}:recordImport?{handled:true,result:recordImport}:workforce?{handled:true,result:workforce}:rights?{handled:true,result:rights}:consent?{handled:true,result:consent}:registry?{handled:true,result:registry}:delegation?{handled:true,result:delegation}:exceptional?{handled:true,result:exceptional}:merge?{handled:true,result:merge}:caseload?{handled:true,result:caseload}:household?{handled:true,result:household}:evaluation?{handled:true,result:evaluation}:governance?{handled:true,result:governance}:continuity?{handled:true,result:continuity}:expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
+  const platform=withdrawal?{handled:true,result:withdrawal}:incentives?{handled:true,result:incentives}:demonstration?{handled:true,result:demonstration}:adapterOps?{handled:true,result:adapterOps}:facilityScope?{handled:true,result:facilityScope}:purposeScope?{handled:true,result:purposeScope}:shadow?{handled:true,result:shadow}:sandbox?{handled:true,result:sandbox}:transfer?{handled:true,result:transfer}:abdm?{handled:true,result:abdm}:roster?{handled:true,result:roster}:referral?{handled:true,result:referral}:retention?{handled:true,result:retention}:disposal?{handled:true,result:disposal}:fixture?{handled:true,result:fixture}:packMigration?{handled:true,result:packMigration}:packInstall?{handled:true,result:packInstall}:factReview?{handled:true,result:factReview}:signOff?{handled:true,result:signOff}:patientImport?{handled:true,result:patientImport}:crosswalk?{handled:true,result:crosswalk}:crosswalkCorrection?{handled:true,result:crosswalkCorrection}:recordImport?{handled:true,result:recordImport}:workforce?{handled:true,result:workforce}:rights?{handled:true,result:rights}:consent?{handled:true,result:consent}:registry?{handled:true,result:registry}:delegation?{handled:true,result:delegation}:exceptional?{handled:true,result:exceptional}:merge?{handled:true,result:merge}:caseload?{handled:true,result:caseload}:household?{handled:true,result:household}:evaluation?{handled:true,result:evaluation}:governance?{handled:true,result:governance}:continuity?{handled:true,result:continuity}:expansion?{handled:true,result:expansion}:outreach?{handled:true,result:outreach}:pilot?{handled:true,result:pilot}:ops?{handled:true,result:ops}:field?{handled:true,result:field}:ehr?{handled:true,result:ehr}:mis?{handled:true,result:mis}:agent?{handled:true,result:agent}:await platformApply(state,c,u,m);
   if(platform.handled)result=platform.result;
   else {const oldRole=state.workspace.role;
    if(['toggleIntegration','registerIntegration'].includes(c.type)&&m.isOwner)state.workspace.role='admin';
-   result=await apply(state.workspace,c as Command,u.userId,{call:(i,p)=>externalCall(i,p,key,()=>externalRequestAudit(state,u,m,c,i)),packs:installedPacks(state)});
+   result=await apply(state.workspace,c as Command,u.userId,{call:(i,p)=>externalCall(i,p,key,()=>externalRequestAudit(state,u,m,c,i)),packs:installedPacks(state),notices:noticesOf(state)});
    state.workspace.role=oldRole;const a=state.workspace.audit.at(-1);if(a&&!before.workspace.audit.some(x=>x.id===a.id)){a.actorId=u.userId;a.actor=u.displayName;a.role=m.role;}
    if(c.type==='createPerson'){const p=state.workspace.people.find(x=>x.id===result.personId)!;p.assignedTo=u.userId;if(registration)p.identityReview=registration;}
   }

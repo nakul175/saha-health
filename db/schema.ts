@@ -146,8 +146,41 @@ export const media = sqliteTable('media', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(),
   mime:text('mime').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), purpose:text('purpose').notNull(), createdAt:text('created_at').notNull(), deletedAt:text('deleted_at'), data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('media_org_visit').on(t.orgId,t.visitId),index('media_org_person').on(t.orgId,t.personId)]);
+// Slice 14f: the disposal register. One append-only, hash-chained row per disposed record (patient records, their visits,
+// plans, AI results, submissions, referrals and media, and one row for the patient's revision history) or per disposed visit
+// media item. It holds identifiers, the time, the rule and authority and the SHA-256 of the content removed, never the content.
+// Migration 0021 also lets a record revision's content be replaced by a disposal tombstone (row kept) when this register
+// holds that patient's entry; every other update of a revision is still refused.
+export const disposals = sqliteTable('disposals', {
+  orgId:text('org_id').notNull().references(()=>organisations.id), seq:integer('seq').notNull(), id:text('id').notNull(), batchId:text('batch_id').notNull(),
+  recordClass:text('record_class').notNull(), tableName:text('table_name').notNull(), recordId:text('record_id').notNull(), personId:text('person_id'), teamId:text('team_id'),
+  disposedAt:text('disposed_at').notNull(), rule:text('rule').notNull(), authority:text('authority').notNull(), contentSha256:text('content_sha256').notNull(), prevHash:text('prev_hash').notNull(), hash:text('hash').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.seq]}),uniqueIndex('disposals_record').on(t.orgId,t.tableName,t.recordId),uniqueIndex('disposals_entry').on(t.orgId,t.id),index('disposals_person').on(t.orgId,t.personId)]);
 // Slice 13d (round-10 review M2): where the scheduled job's organisation rotation stopped, so the next run continues from
 // the organisation after it (wrapping at the end). One row per job; holds an organisation id and a time, nothing else.
 export const scheduledCursor = sqliteTable('scheduled_cursor', {
  job:text('job').primaryKey(), lastOrg:text('last_org').notNull(), updatedAt:text('updated_at').notNull(),
 });
+// Slice 14a: reservations that make two per-requester daily limits hold under races (the ABHA review throttle, slice 6ab, and
+// the indicator refusal limit, slices 13d/13f). A request reserves a row before it can learn anything ('pending'); the insert
+// succeeds only while fewer than the limit are counted, in one statement. The row then becomes 'used' (under the holding
+// record's id for an ABHA review, so one per requester and record) or is deleted. Ids and times only; no patient content.
+export const limitSlots = sqliteTable('limit_slots', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), actorId:text('actor_id').notNull(), kind:text('kind').notNull(), slotKey:text('slot_key').notNull(), state:text('state').notNull(), at:text('at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.kind,t.slotKey]})]);
+// Slice 14e: field notebooks' sync failure reports (step, error class, count, first and last time, notebook version). The only
+// reference a device sends is its own field grant id; the patient id is resolved on the server from that grant, for scope.
+// No patient name, record content or free text. One audit event per report (audit_id); report_key is the request key.
+export const fieldSyncReports = sqliteTable('field_sync_reports', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), actorId:text('actor_id').notNull(), personId:text('person_id'), leaseId:text('lease_id'),
+ step:text('step').notNull(), errorClass:text('error_class').notNull(), count:integer('count').notNull(), firstAt:text('first_at').notNull(), lastAt:text('last_at').notNull(), appVersion:text('app_version').notNull(),
+ reportKey:text('report_key').notNull(), receivedAt:text('received_at').notNull(), auditId:text('audit_id').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('field_sync_reports_received').on(t.orgId,t.receivedAt),index('field_sync_reports_actor').on(t.orgId,t.actorId,t.receivedAt)]);
+
+// Slice 14g (BR-REP-05): a suppressed aggregate export held for one download by the member who prepared it. The file expires
+// (expires_at), is delivered once (downloaded_at) and its content is blanked after delivery or expiry; only the checksum and times stay.
+export const heldExports = sqliteTable('held_exports', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), userId:text('user_id').notNull(), kind:text('kind').notNull(),
+ createdAt:text('created_at').notNull(), expiresAt:text('expires_at').notNull(), downloadedAt:text('downloaded_at'), sha256:text('sha256').notNull(), bytes:integer('bytes').notNull(),
+ fingerprint:text('fingerprint').notNull(), content:text('content').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('held_exports_org_user').on(t.orgId,t.userId,t.createdAt)]);

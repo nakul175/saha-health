@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-10-04T12:49:37.856Z",
+  "startedAt": "2026-10-04T12:48:05.189Z",
+  "command": "node scripts/test.mjs nfr --only nfr/authorisation-matrix --only nfr/identity-hardening --report /tmp/claude-0/-home-claude-saha-health/4b2c6184-be8b-5ce4-9d32-ce764e9e5aa8/scratchpad/14e/run-nfr.json",
+  "node": "v22.22.2",
+  "layers": [
+    {
+      "layer": "build",
+      "status": "passed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 21748,
+      "failedSuites": 0
+    },
+    {
+      "layer": "nfr",
+      "status": "passed",
+      "suites": 2,
+      "passed": 80,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 70788,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 80,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 92667
+  },
+  "suites": [
+    {
+      "id": "build",
+      "layer": "build",
+      "kind": "step",
+      "file": "npm run build",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 21748,
+      "exitCode": 0,
+      "log": "tests/reports/logs/build.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 53757,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    },
+    {
+      "id": "nfr/identity-hardening",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/identity-hardening.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 17031,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/identity-hardening-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__identity-hardening.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 132,
+        "components": 0,
+        "suitesCitingNoRequirement": 34,
+        "requirementsCited": 136
+      },
+      "integration": {
+        "suites": 2,
+        "components": 85,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 116
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 2,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "ui": {
+        "suites": 1,
+        "components": 11,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 7
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 7,
+        "components": 0,
+        "suitesCitingNoRequirement": 5,
+        "requirementsCited": 3
+      }
+    },
+    "supportFiles": 13,
+    "suites": 153,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 154,
+    "suitesCitingNoRequirement": 42,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 154
+  }
+}

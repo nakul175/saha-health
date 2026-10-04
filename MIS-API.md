@@ -56,6 +56,16 @@ POST `{"contract":"saha-mis-v1","operation":"lookup","key":"submission-uuid","pa
 
 After an original accepted delivery, confirm an amendment and review a new plan. An opted-in partner receives `operation:"correct"` and `replaces:{submissionKey,receipt}`, plus corrected mapped fields, under a new key. Original receipts remain visible. An unresolved original blocks correction. The partner must implement correction semantics and receipt linkage; Saha does not silently overwrite remote records. Wrong-patient retraction and demographic corrections require partner handling.
 
+## Withdrawal (slice 14c)
+
+A destination whose operation setting permits `delete` can be asked to withdraw (void) a submission it accepted. A care worker prepares the withdrawal on the visit's Receipts tab; a care worker approves the exact payload hash for 15 minutes; the approver sends it. Saha POSTs, under a new idempotency key (the withdrawal id):
+
+```json
+{"contract":"saha-mis-v1","environment":"synthetic","operation":"withdraw","withdraws":{"submissionKey":"original-submission-key","receipt":"original-receipt"},"reason":"wrong-patient","key":"withdrawal-uuid","payloadHash":"64-character-sha256"}
+```
+
+`reason` is one of `wrong-patient`, `entered-in-error` or `corrected`; no visit fields and no free-text reason are sent. The response uses the receipt schema above, with `key` and `payloadHash` of the withdrawal. An unknown outcome is looked up with `operation:"lookup"` and the withdrawal's key; a definitive `not_found` ends that withdrawal without a resend, and a new one must be prepared and approved. The original submission and its receipt are never changed. This is Saha's proposed contract: no partner has agreed or tested it, and the release default does not permit `delete`. See [slice 14c](docs/current/SLICE-14C-WITHDRAWAL.md).
+
 ## Signed callback receiver
 
 POST `/api/mis/callback` with JSON `{organisationId,integrationId,submissionId,receipt}`. Header `X-Saha-Timestamp` is current Unix **milliseconds** as a 13-digit string. `X-Saha-Signature` is lowercase hex HMAC-SHA256 of `timestamp + "." + exactRawBody`, signed with that connection's separately provisioned callback secret. Five-minute skew allowed. Signature uses constant-time Web Crypto verification; body capped at 16 KB. Receipt must match submission key/hash and an attempted delivery. Callbacks cannot return `not_found` or authorize a retry. Duplicate receipts are idempotent and terminal conflicts are rejected. Callback events use the organisation transaction and append-only audit.

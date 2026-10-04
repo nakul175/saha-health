@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **66 HTTP method/route pairs** and **228 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **71 HTTP method/route pairs** and **241 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -24,8 +24,12 @@ Generated from source: **66 HTTP method/route pairs** and **228 command schema d
 | GET | `/api/exceptional` | [app/api/exceptional/route.ts](../../app/api/exceptional/route.ts) |
 | GET | `/api/exceptions` | [app/api/exceptions/route.ts](../../app/api/exceptions/route.ts) |
 | GET | `/api/expansion` | [app/api/expansion/route.ts](../../app/api/expansion/route.ts) |
+| GET | `/api/exports` | [app/api/exports/route.ts](../../app/api/exports/route.ts) |
+| POST | `/api/exports` | [app/api/exports/route.ts](../../app/api/exports/route.ts) |
 | GET | `/api/facility-scope` | [app/api/facility-scope/route.ts](../../app/api/facility-scope/route.ts) |
 | GET | `/api/fhir/[id]` | [app/api/fhir/[id]/route.ts](../../app/api/fhir/[id]/route.ts) |
+| GET | `/api/field-device` | [app/api/field-device/route.ts](../../app/api/field-device/route.ts) |
+| POST | `/api/field-device` | [app/api/field-device/route.ts](../../app/api/field-device/route.ts) |
 | GET | `/api/fixture-migration` | [app/api/fixture-migration/route.ts](../../app/api/fixture-migration/route.ts) |
 | POST | `/api/frontline-assessments` | [app/api/frontline-assessments/route.ts](../../app/api/frontline-assessments/route.ts) |
 | POST | `/api/frontline-connection-test` | [app/api/frontline-connection-test/route.ts](../../app/api/frontline-connection-test/route.ts) |
@@ -62,6 +66,7 @@ Generated from source: **66 HTTP method/route pairs** and **228 command schema d
 | POST | `/api/record-opened` | [app/api/record-opened/route.ts](../../app/api/record-opened/route.ts) |
 | GET | `/api/referral-escalations` | [app/api/referral-escalations/route.ts](../../app/api/referral-escalations/route.ts) |
 | GET | `/api/referral-requests` | [app/api/referral-requests/route.ts](../../app/api/referral-requests/route.ts) |
+| GET | `/api/retention/disposal-register` | [app/api/retention/disposal-register/route.ts](../../app/api/retention/disposal-register/route.ts) |
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |

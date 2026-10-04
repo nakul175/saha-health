@@ -10,7 +10,7 @@ export async function rightsSmoke({get,post,check,accounts,org,sql,base}){
  const R=await make('Rights Requester',34),H=await make('Rights Relative',38);
  const hh=await post(o,{type:'householdCreate',personId:R,version:person(R).version,label:'Rights synthetic household',relationship:'head'});
  await post(o,{type:'householdAddMember',householdId:hh.result.householdId,version:1,personId:H,personVersion:person(H).version,relationship:'spouse'});
- const grant=await post(o,{type:'proxyGrant',personId:R,version:person(R).version,proxyPersonId:H,relationship:'spouse',purposes:['care-coordination'],classes:[],evidence:'SYNTH-PROXY-R',expiresAt:new Date(Date.now()+30*86400000).toISOString()});
+ const grant=await post(o,{type:'proxyGrant',personId:R,version:person(R).version,proxyPersonId:H,relationship:'spouse',authority:'nominated',purposes:['care-coordination','rights-requests'],classes:[],evidence:'SYNTH-PROXY-R',expiresAt:new Date(Date.now()+30*86400000).toISOString()});
  const create=(over={})=>({type:'rightsCreate',personId:R,kind:'access',channel:'in-person',requester:'self',identityCheck:'Synthetic ID card seen',detail:'Asks for a copy of her records',...over});
  await post(a,create(),403);await post(w,create(),403);
  await post(o,create({requester:'proxy'}),422);

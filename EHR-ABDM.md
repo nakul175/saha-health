@@ -37,6 +37,10 @@ Import is deliberately narrow: one final Composition, one matching Patient, reso
 
 These are structural subset checks, **not full FHIR validation or NRCeS profile validation**. No ABDM `meta.profile` assertion is added. The official validator, terminology validation and authenticated partner round-trip remain acceptance requirements. Synthetic imported documents are limited to 12,000 JSON characters, 40 entries, 20 documents and 20 publication operations per patient; up to 20 links and 30 permission records. Structured state uses existing patient JSON and append-only revisions in D1; no SQL migration. Retained snapshots can grow and need production retention/partitioning work. Revocation blocks new exchange and review; previously stored records remain visible to currently authorised care members for provenance, rather than being recalled or silently erased. This is not ABDM data-erasure policy implementation.
 
+## Withdrawal and amendment (slice 14c)
+
+An accepted publication can be withdrawn when the connection permits `delete`: Saha conditionally creates a notice document (identifier `urn:saha:withdrawals|<withdrawal id>`) whose Composition has status `entered-in-error` and `relatesTo` `replaces` the published document's identifier; it names the external patient by id only and carries no visit content. A publication of an amended visit can be amended when the connection permits `update`: the confirmed correction visit's document (identifier `urn:saha:documents|<withdrawal id>`) `replaces` the published one, under the same permission, identity, date-range, rule-set, dispute and sign-off checks as a publication. Each is prepared, approved for the exact payload hash and sent by the approver with its own receipt; an unknown outcome is looked up by its own identifier, never published again. The published record is not edited. Tested only with an injected FHIR transport; no EHR has agreed or tested these documents. See [slice 14c](docs/current/SLICE-14C-WITHDRAWAL.md).
+
 ## ABDM: implementation is still pending
 
 | Workflow | Current evidence | Remaining implementation / external dependency |

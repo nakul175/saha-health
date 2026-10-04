@@ -810,11 +810,11 @@ MIS/EHR configuration, capability probes and scoped credential gates.
 
 **Expected result** (catalogue): A read-only connector exposes no active write path and clearly states when programme updates require a separate process.
 
-**Known gaps** (assessment, remaining work for BR-INT-02): Live partner adapters configured and tested with narrowed operations; void and aggregate report paths; AI providers are not covered; production acceptance.
+**Known gaps** (assessment, remaining work for BR-INT-02): Live partner adapters configured and tested with narrowed operations; void (withdrawal) and aggregate report paths with real partners (slice 14c withdrawals are tested only against demonstration simulators and injected transports); AI providers are not covered; production acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-INT-02)</summary>
 
-EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read.
+EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read. Slice 14c: `delete` now governs a withdrawal (void) of an accepted programme submission or EHR publication and `update` an EHR amendment, each prepared, approved for the exact payload hash and sent once by the approver with its own receipt; the operation is checked when preparing, approving, before the checkpoint and inside it, and a withdrawn permission closes the withdrawal as not sent.
 
 </details>
 
@@ -1216,11 +1216,11 @@ Native FHIR capability profile gates document retrieval/publication.
 
 **Expected result** (catalogue): Concurrent-update tests preserve both versions, prevent silent loss and route unresolved conflicts to the named operational owner.
 
-**Known gaps** (assessment, remaining work for BR-INT-21): EHR updates/amendments, destination version conflicts and recording a conflict's resolution in Saha.
+**Known gaps** (assessment, remaining work for BR-INT-21): EHR amendment and withdrawal against a real EHR (tested only with an injected FHIR transport; the slice 7f authoritative-search resolution is not applied to them), destination version conflicts and recording a conflict's resolution in Saha.
 
 <details><summary>What the build does today (assessment, current state of BR-INT-21)</summary>
 
-Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.
+Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows. Slice 14c: an accepted EHR publication can be withdrawn (a conditional-create notice, `entered-in-error`, that replaces its identifier) or amended (the confirmed correction visit's document replacing it), each through approval with its own receipt and an identifier lookup for an unknown outcome; the published record is not edited.
 
 </details>
 
@@ -1720,11 +1720,11 @@ Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-org
 
 **Expected result** (catalogue): Test data expires according to its configured schedule, while held records remain protected and identifiable; backup restoration does not silently revive deleted operational data.
 
-**Known gaps** (assessment, remaining work for BR-SEC-09): Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports.
+**Known gaps** (assessment, remaining work for BR-SEC-09): Approved record-class schedule with purpose, location and jurisdiction; disposal of the other classes (programme receipts, audit events and their free-text content, outreach messages, rights requests, field packages, transcripts, model outputs, local caches); backup retention and destruction; hosted D1 restore with the register; physical deletion on D1 not established; scheduled disposal; human review.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-09)</summary>
 
-Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners.
+Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners. Slice 14f: a rule may allow disposal of patient records and visit media; one owner prepares a dry-run plan (identifiers, counts, plan hash) and a second owner applies exactly that plan, recomputed at its preparation time over current records; held records, records outside either owner's normal care scope, classes whose rule keeps them, and patients linked to open work or referenced by any other record are never disposed; disposed rows are deleted with a chained, append-only register entry as tombstone (identifier, time, rule, authority, content SHA-256), media content erased, revision content replaced by a tombstone, audit events and receipts kept (chain verifies); the restore tool re-applies a downloaded register before writing a restored database (zeroed, vacuumed), and the data exit and its verifier mark disposed records. Synthetic and training environments only; periods are placeholders.
 
 </details>
 
@@ -1754,11 +1754,11 @@ Slice 6c: owner-set, versioned retention schedules for six record classes, patie
 
 **Expected result** (catalogue): A test request reaches the responsible organisation, has a due date under its approved policy and closes only with an evidence-backed outcome.
 
-**Known gaps** (assessment, remaining work for BR-SEC-10): Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation and retention-based deletion.
+**Known gaps** (assessment, remaining work for BR-SEC-10): Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation, and a deletion request that triggers or expedites disposal with its outcome evidence.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-10)</summary>
 
-Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too.
+Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too. Slice 14f: retention-based deletion exists for patient records past an owner-set placeholder schedule, by two owners; a patient referenced by a rights request is kept.
 
 </details>
 

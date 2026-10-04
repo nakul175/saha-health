@@ -34,12 +34,14 @@ const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identit
 const ROUTE_PARAMS = {
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
   '/api/rights': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
+  // Slice 14e: the notebook's own removal orders (bare) and the Operations view of field devices.
+  '/api/field-device': () => [{ q: '' }, { q: '?view=operations' }],
   '/api/trace': w => [{ q: `?visit=${w.visits.v2}`, kind: 'visit' }],
   '/api/governance': w => [{ q: '' }, { q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/fhir/[id]': w => [{ path: `/api/fhir/${w.visits.v2}`, q: `?organisationId=${w.org}`, kind: 'visit' }],
   '/api/media/[id]': w => [{ path: `/api/media/${w.mediaId}`, q: `?organisationId=${w.org}`, kind: 'media' }],
   // Routes with no resource parameter (or only optional filters): requested bare.
-  ...Object.fromEntries(['/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
+  ...Object.fromEntries(['/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/exports', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/retention/disposal-register', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
 };
 const PRINCIPALS = ['anonymous', ...ROLES];
 const ABBR = { anonymous: 'anon', owner: 'owner', admin: 'admin', supervisor: 'super', asha1: 'asha1', asha2: 'asha2', clinician: 'clin', stranger: 'strngr' };

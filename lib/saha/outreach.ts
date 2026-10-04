@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { digest, fail, person, uuid } from './core';
+import { consentStanding, digest, fail, lapseMessage, person, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
 import { operator } from './operations';
-import { contactWithdrawalItems, recordConsent } from './consent';
+import { contactWithdrawalItems, recordConsent, recordTerms } from './consent';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 
@@ -45,7 +45,8 @@ function messageFor(s:OrgState,id:string){const v=s.outreach?.messages.find(v=>v
 function templateFor(s:OrgState,id:string){const t=s.outreach?.templates.find(t=>t.id===id);if(!t)fail(404,'Template not found.');return t;}
 function scheduled(s:string,now:string){const at=Date.parse(s);if(at<Date.parse(now)-300000||at>Date.parse(now)+30*86400000)fail(422,'Schedule within the next 30 days.');}
 export function inContactWindow(p:ContactPreferences,at:string){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:p.timezone,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(at)),clock=parts.find(x=>x.type==='hour')!.value+':'+parts.find(x=>x.type==='minute')!.value;return clock>=p.from&&clock<p.to;}
-function safeContact(p:Person,at:string){const c=p.contactPreferences;if(!c||c.method!=='sms'||!c.permission||c.ownership!=='personal'||c.privateContact||!c.destination)fail(409,'Automated contact is not permitted. Use the agreed private or in-person contact route.');if(!inContactWindow(c,at))fail(409,'The message is outside the permitted local contact hours.');return c;}
+// Slice 14d: `now` decides whether the contact permission is still in force (it expires; see core.ts consentStanding).
+function safeContact(p:Person,at:string,now:string){const c=p.contactPreferences;if(!c||c.method!=='sms'||!c.permission||c.ownership!=='personal'||c.privateContact||!c.destination)fail(409,'Automated contact is not permitted. Use the agreed private or in-person contact route.');const standing=consentStanding(p,'contact',now);if(standing.state!=='in-force')fail(409,lapseMessage(standing)??'Automated contact is not permitted. Use the agreed private or in-person contact route.');if(!inContactWindow(c,at))fail(409,'The message is outside the permitted local contact hours.');return c;}
 function approvedTemplate(s:OrgState,id:string){const t=templateFor(s,id),reviewer=t.reviewedBy?member(s,t.reviewedBy):undefined;if(t.state!=='approved'||!reviewer||!operator(reviewer)||reviewer.version!==t.reviewerVersion)fail(409,'The neutral template needs current independent operations approval.');return t;}
 export function outreachEvidenceCurrent(s:OrgState,i:OutreachItem){const event=i.events.filter(e=>e.state==='completed').at(-1);return i.state!=='completed'||!!s.workspace.visits.find(v=>v.id===event?.visitId&&v.personId===i.personId&&v.state==='confirmed'&&!v.voidedAt&&!v.supersededBy);}
 export function authorizeOutreach(s:OrgState,m:Member,c:any){
@@ -62,7 +63,7 @@ export function authorizeOutreach(s:OrgState,m:Member,c:any){
 export async function messageReview(s:OrgState,v:OutreachMessage,now=new Date().toISOString()){
  const p=s.workspace.people.find(p=>p.id===v.personId);if(!p)fail(404,'Patient unavailable.');const plan=planFor(s,v.planId),item=plan.items.find(i=>i.id===v.itemId);if(!item||['cancelled','completed'].includes(item.state)||plan.state!=='scheduled')fail(409,'An active scheduled outreach item is required.');
  const author=member(s,v.createdBy);if(!author||author.version!==v.authorVersion||!allowed(author,p))fail(409,'The message author no longer has the same patient access. Prepare a new message.');
- owner(s,p,item.ownerId);const t=approvedTemplate(s,v.templateId),contact=safeContact(p,v.scheduledAt);if(t.version!==v.templateVersion||t.body!==v.body||t.language!==contact.language)fail(409,'Template or contact language changed. Cancel and prepare a new message.');
+ owner(s,p,item.ownerId);const t=approvedTemplate(s,v.templateId),contact=safeContact(p,v.scheduledAt,now);if(t.version!==v.templateVersion||t.body!==v.body||t.language!==contact.language)fail(409,'Template or contact language changed. Cancel and prepare a new message.');
  return {hash:await digest({id:v.id,identity:{name:p.name,age:p.age,sex:p.sex,village:p.village,teamId:p.teamId,assignedTo:p.assignedTo},contact,template:t,authorVersion:author.version,planVersion:plan.version,item,scheduledAt:v.scheduledAt}),destination:contact.destination,language:t.language,body:t.body,now};
 }
 export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
@@ -70,9 +71,12 @@ export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,no
  if(c.type==='setContactPreferences'){
   const p=person(s.workspace,c.personId);personId=p.id;current(p.version,c.version);if(c.preferences.from>=c.preferences.to)fail(422,'Contact hours must start before they end on the same local day.');if(c.preferences.method==='sms'&&!c.preferences.destination)fail(422,'Enter a synthetic contact identifier.');
   const was=!!p.contactPreferences?.permission,from=p.contactPreferences?.version??0;
+  // Slice 14d: a permission that is still on but has expired is renewed by saving the preferences with permission.
+  const lapsed=was&&c.preferences.permission&&consentStanding(p,'contact',now).state!=='in-force';
   p.contactPreferences={...c.preferences,version:from+1,updatedAt:now,by:u.userId};p.version++;
   // Slice 6o: a permission change is recorded in the patient's consent history with what it stopped.
-  if(was!==c.preferences.permission){const items=was?contactWithdrawalItems(s,p,now,'Contact permission withdrawn.'):[];recordConsent(p,{purpose:'contact',action:was?'withdrawn':'granted',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:'contact-preferences',reference:c.preferences.reference,reason:was?'Recorded with contact preferences.':'',fromVersion:from,toVersion:from+1,items});}
+  // Slice 14d: a permission given (or renewed) records its expiry (consent.ts recordTerms).
+  if(was!==c.preferences.permission||lapsed){const give=c.preferences.permission,items=give?[]:contactWithdrawalItems(s,p,now,'Contact permission withdrawn.');const e=recordConsent(p,{purpose:'contact',action:give?'granted':'withdrawn',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:'contact-preferences',reference:c.preferences.reference,reason:give?'':'Recorded with contact preferences.',fromVersion:from,toVersion:from+1,items});if(give)recordTerms(s,p,e,undefined,u,m,now);}
   // Revocation and preference changes cancel pending work, never silently re-address it.
   for(const v of out.messages.filter(v=>v.personId===p.id&&['draft','approved','failed'].includes(v.state))){v.state='cancelled';v.cancelReason='Contact preferences changed; review before preparing new work.';v.version++;}
  }else if(c.type==='outreachCreate'){
@@ -108,7 +112,7 @@ export async function applyOutreach(s:OrgState,input:unknown,u:Actor,m:Member,no
   }else if(c.type==='messageSimulate'){
    if(v.state!=='approved')fail(409,'Approve the current message before simulation.');const review=await messageReview(s,v,now),approver=member(s,v.approval!.by),p=person(s.workspace,v.personId);
    if(!approver||!['clinician','supervisor'].includes(approver.role)||!allowed(approver,p)||approver.version!==v.approval!.memberVersion||review.hash!==v.approval!.hash||Date.parse(now)-Date.parse(v.approval!.at)>86400000)fail(409,'Message approval expired or access/context changed. Cancel and prepare a new message.');
-   if(now<v.scheduledAt)fail(409,'This message is not due yet.');safeContact(p,now);if(v.attempts.length>=3)fail(409,'Retry limit reached. Resolve this through the outreach follow-up.');
+   if(now<v.scheduledAt)fail(409,'This message is not due yet.');safeContact(p,now,now);if(v.attempts.length>=3)fail(409,'Retry limit reached. Resolve this through the outreach follow-up.');
    const receipt='SIM-MSG-'+uuid();v.attempts.push({at:now,by:u.userId,result:c.outcome,receipt});v.state=c.outcome;if(c.outcome==='failed')v.recovery={ownerId:planFor(s,v.planId).items.find(i=>i.id===v.itemId)!.ownerId,state:'open'};result={receipt,state:v.state,realMessageSent:false};
   }else if(c.type==='messageRetry'){
    if(v.state!=='failed'||v.attempts.length>=3)fail(409,'Only a failed message below the attempt limit can be retried.');scheduled(c.scheduledAt,now);if(out.messages.some(x=>x.id!==v.id&&x.personId===v.personId&&x.state!=='cancelled'&&x.scheduledAt.slice(0,10)===c.scheduledAt.slice(0,10)))fail(409,'Another message already occupies this UTC day.');v.scheduledAt=c.scheduledAt;v.state='draft';v.approval=undefined;await messageReview(s,v,now);

@@ -44,8 +44,10 @@ Node 24 was used for the drill. A runtime exposing `node:sqlite` and its `backup
 
 ```sh
 node scripts/recovery.mjs backup /secure/source.sqlite /secure/new-backup.sahabackup --passphrase-stdin
-node scripts/recovery.mjs restore /secure/new-backup.sahabackup /secure/isolated-new.sqlite --passphrase-stdin
+node scripts/recovery.mjs restore /secure/new-backup.sahabackup /secure/isolated-new.sqlite --passphrase-stdin --disposal-register /secure/register-org-a.json
 ```
+
+Since slice 14f a restore must say what happens to disposals. Download each organisation's disposal register (an owner, `GET /api/retention/disposal-register`, or "Download disposal register" on the Organisation page) and keep it with the backups; pass it with `--disposal-register FILE` (once per organisation). Disposals recorded after the backup are then re-applied, and the database rebuilt with deleted content zeroed, before the restored file is written. `--without-disposal-register` restores without it, and records disposed since the backup come back. A backup taken before migration 0021 must be migrated first. The backup file itself still holds content disposed after it was taken until it is destroyed; backup retention is not built ([slice 14f](docs/current/SLICE-14F-DISPOSAL.md)).
 
 Supply the passphrase from an approved secret-manager pipe, with terminal echo disabled if entering interactively. Do not commit it or put it in shell history. Use an independent retained copy in approved encrypted storage and keep the recovery secret separately. Backup locations, scheduling, rotation, retention, owners and production recovery objectives must be agreed for the actual deployment. GitHub contains source and test evidence only; it is not the patient database backup.
 

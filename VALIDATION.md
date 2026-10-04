@@ -1347,3 +1347,210 @@ Before the "fix all" branches were offered for merge, an agent that had not seen
   - restore drill 21; smoke 36 passed, 1 skipped;
   - UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
 - The partial-differencing path has no HTTP test of its own. The fixes were written by the agent that built 13a–13e; no person has reviewed them. Requirement counts are unchanged; the BR-ID-02 text is updated and it stays partial.
+
+## Development slice 14a — atomic review and refusal limits, partial-withhold HTTP test, O-2 investigation — 4 October 2026 IST
+
+Round 14, close the open defects ([slice 14a](docs/current/SLICE-14A-ATOMIC-LIMITS.md)); on a branch from `main` 2adfbde1, not merged.
+
+- **ABHA review throttle race (review 10) and indicator refusal limit race (13d/13f): fixed.**
+  - Each `abhaLink` and each indicator query now reserves a slot in `limit_slots` (migration 0018) before the duplicate lookup or the query. One guarded SQL statement inserts it only while fewer than the limit (3 reviews, 20 refusals) are counted or in progress.
+  - Measured with `tests/limit-race-smoke.mjs` run on its own against a local `wrangler dev` Worker:
+    - On a build of `main` 2adfbde1: six parallel links for six held numbers wrote 6 review events, and a mixed burst wrote 4. Eight parallel refused queries after 17 refusals were all answered as refusals (25 in the day). 19 of 30 checks passed; the 11 failures are the races and the missing table.
+    - On this slice: 3 review events, at most 3 in the mixed burst, and 3 refusals plus five 429s (20 in the day). 30 of 30, three runs.
+- **Partial differencing withhold over HTTP (13f limit): covered.** A query for "everyone" and "women" in an organisation of 7 women and 2 men releases the first and withholds the second. It is recorded as an `indicator refusal` event and counted, on screen and in the CSV export, and it reaches the 20-a-day limit.
+- **O-2 investigated: not an application leak.** Measured in Miniflare with a V8 inspector, 1,000 owner workspace loads per round at concurrency 4:
+  - The application isolate's live heap after a full collection stayed at 10.98 → 11.55, 11.59, 11.60, 11.61 MB over 4,000 loads (about 0.02 KB per load after the first round).
+  - Without collections, workerd RSS grew from 269 to 551 MB (the O-2 shape). One forced collection of every isolate brought it to 322 MB within five seconds.
+  - With a collection before each sample, RSS levelled at 249–266 MB.
+  - Heap snapshots over 200 loads grew 0.2 MB, in compiled code and strings (JIT warm-up).
+  - Controls without an inspector: a one-file Worker writing and reading D1 grew 107, 46, 24 KB per request; a 30 KB JSON Worker grew 13, 6, 11 (12, 6, 10 without `console.log`); the Saha bundle answering 401 grew 80, 35, 38.
+  - `SAHA_NFR_HEAP=1 node tests/nfr/memory-growth.mjs` (3 rounds): 5 checks passed. Live heap 11.66, 11.58, 11.60 MB; RSS after a collection 260.8, 264.1, 262.3 MB; verdict "levels off" (rounds 2–3, 0.75 KB per load).
+  - The default run (no inspector, no collection), on the same build, is unchanged: 4 checks passed; 232, 66 and 39 KB per load by round, 204 → 533 MB, "slowing but not levelled off".
+  - Nothing in the application was changed for O-2. Cloudflare isolate memory is still not measured; the memory a collection did not return was not traced inside workerd.
+- **Local results** (built Worker, Node 22.22.2, shared 2-core Linux container, synthetic data):
+  - `tsc --noEmit` clean; `npm run build` clean.
+  - `node scripts/test.mjs pr --fast --guard` before the documentation was regenerated: unit 131 suites, 8,059 checks; HTTP/D1 4,864; restore 21; smoke 36 passed, 1 skipped; regression guard passed. The same totals in a second run. Static failed only on the generated documentation and requirement files, which were rebuilt afterwards; the four documentation, requirement and UAT checks then passed. Reports and the manifest are in `tests/evidence/slice-14a/`; the regression baseline adds `unit/limit-slots-contract` (15) and raises `integration/run-api-smoke` to 4,864.
+  - New `tests/limit-slots-contract.mjs` 15; `tests/eighth-review-fixes-contract.mjs` 18 and `tests/audit-query-plan-contract.mjs` 12 with their source patterns updated (same counts); `tests/data-exit-contract.mjs` 39, following migration 0018.
+- Limits:
+  - A fourth concurrent ABHA link (or a 21st indicator query) by one person is refused while the others are in progress.
+  - An abandoned reservation counts for 10 minutes.
+  - Hosted D1 was not tested.
+  - Requirement counts are unchanged; the BR-INT-14, BR-REP-04 and NFR-24 texts are updated, and each keeps its status.
+  - Built by one agent; no independent review.
+
+## Development slice 14d — notice versions and permission expiry (R90) — 4 October 2026 IST
+
+Requirement slice R90 (BR-SEC-02), on a branch from `main` 2adfbde1, built in parallel with 14a–14c; draft pull request, not merged ([slice 14d](docs/current/SLICE-14D-NOTICES-CONSENT-EXPIRY.md)).
+
+- **What changed:**
+  - Owners publish never-edited notice versions for AI assistance and external sharing (`publishConsentNotice`, `operations.consentNotices`).
+  - A permission given names the version in force and the language it was shown in, and gets a server-set end (AI 365, sharing 180, contact 365 days), recorded on the consent event and in a `consentTerms` audit event.
+  - `consentStanding` decides on every check, with no timer, whether a permission is in force, expired, or needs renewal after a material version. The enforcement points are listed in the slice document.
+  - Permissions dialog, patient notice, consent history and an Organisation registry panel.
+  - No migration, route or certified patient command.
+- **New tests:**
+  - `tests/consent-notices-contract.mjs`, 26 checks. It fails with the expiry rule or the stale-notice check disabled (tried).
+  - `tests/consent-notices-smoke.mjs`, 80 HTTP assertions inside the HTTP suite.
+  - `tests/ui/consent-notices.spec.mjs`, 1 browser journey with 2 screens scanned by axe.
+  - The HTTP module's first full runs failed on the test's own mistakes, which were corrected:
+    - the shared owner already owned the most organisations allowed, so the module now uses its own synthetic owner;
+    - a replay sent a different body.
+  - One earlier full run failed at the long-standing concurrent-save check (`tests/api-smoke.mjs` line 61, 503 instead of 409) while the machine was loaded by other agents (load average about 7 on 2 cores). That check is outside this slice and passed on every later run; it matches open defect O-1.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data, ports 8840–8843). Unit, HTTP, restore and smoke ran together on the final source, 12,973 passed and 0 failed:
+  - `tsc --noEmit` clean; build ok;
+  - unit 131 suites, 8,070 checks, 0 failed;
+  - HTTP/D1 4,838 (4,758 before) and scheduled check 8;
+  - restore drill 21; smoke 36 passed, 1 skipped;
+  - NFR security 80 (authorisation matrix 51, identity hardening 29), run before two screen-text changes, with the same server code;
+  - the new UI journey 1 passed, 0 axe violations. The rest of the UI tier and the performance, memory and load suites were not run.
+- **Merging with 14b:** a trial merge of this slice into 14b (#153) conflicted only on the two lines where both slices add optional fields (`ConsentEvent`, the `setConsent` schema) and in the shared documents. With those resolved by keeping both, `tsc` was clean and the 14d, 14b and 6o consent contracts passed (26, 22 and 25). After the merge, 14b's representative form must also name the notice in force.
+- **Limits:**
+  - Notices only for AI assistance and sharing; contact has an end date only.
+  - No reviewed notice content exists.
+  - The periods are fixed in code and not approved by a privacy officer.
+  - Permissions recorded before 14d have no end.
+  - A lapse is derived on read, not written as an event.
+  - Built by one agent; no person has reviewed it.
+- BR-SEC-02 stays partial with its remaining work restated. Requirement counts are unchanged.
+
+## Development slice 14b — proxy authority — 4 October 2026 IST
+
+Round 14, privacy and safety batch ([slice 14b](docs/current/SLICE-14B-PROXY-AUTHORITY.md)): requirement slice R12 with the part of R11 it needs. On a branch from `main` 2adfbde1; draft pull request, not merged.
+
+- **What it adds.**
+  - Each proxy grant records a typed relationship between two people, an authority (parent of a person under 18, legal guardian, nominated by the person, capacity representative), a start and an expiry. A grant may cover consent decisions and rights requests.
+  - Every reliance is checked on the server at the time of use and refused when the grant is:
+    - revoked, not started or expired;
+    - out of purpose, or without relationship or authority;
+    - under a parent's authority once the recorded age is 18;
+    - under a capacity representative whose person is not, or no longer, recorded as lacking capacity.
+  - Clinicians record capacity (`capacityRecord`, the only new command; no route, no migration).
+  - Consent events and rights requests name the representative's record, relationship, authority and grant period. Each use is a `proxyUse` audit event with no representative name in audit text.
+- **Grants recorded before this slice are no longer in force** (no authority). Five existing test files had their grant fixtures given an authority; no assertion was removed and no expected count changed.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data, ports 8820–8823):
+  - `tsc --noEmit` clean;
+  - unit: 131 suites, 8,066 checks (new: proxy-authority contract, 22; removing the age-18 rule fails it);
+  - HTTP/D1: 4,842, of which 84 in the new proxy-authority module; scheduled check 8;
+  - restore drill 21; smoke 36 passed, 1 skipped; NFR security suites (authorisation matrix 51, identity hardening 29);
+  - a headless Chrome check of the three changed dialogs (8 checks; no console errors, page errors or 5xx). This was a one-off script, not a committed suite.
+  - The first static run failed only on the generated documentation, before it was regenerated; the static and UAT checks pass after regeneration.
+  - Not run for this slice: UI (Playwright journeys; none covers these dialogs), performance, memory and load.
+- **Requirements.** Counts unchanged. BR-ID-07, BR-SEC-02 and BR-SEC-04 have updated texts and stay partial.
+- Built by one agent; no independent review. Reports in `tests/evidence/slice-14b/`.
+
+## Development slice 14c — withdrawal and EHR amendment through approval — 4 October 2026 IST
+
+Remaining-work row R58 (BR-INT-02, BR-RULE-04, BR-INT-21), on branch `slice-14c-withdrawal` from `main` 2adfbde1; not merged ([slice 14c](docs/current/SLICE-14C-WITHDRAWAL.md)).
+
+- **What was built.**
+  - A withdrawal (void) of an accepted programme submission, and a withdrawal or amendment of an accepted EHR publication. Each is prepared, approved for the exact payload hash (15 minutes) and sent once by the approver, with its own receipt recorded against the original (never edited).
+  - The destination must permit `delete` (`update` for an amendment), otherwise the correction task stays manual. Unknown outcomes are resolved only by a lookup under the withdrawal's own key.
+  - The two demonstration simulators answer withdrawals (the community MIS loses the response). The HTTP programme adapter carries an explicit `withdraw` payload. A confirmed withdrawal completes the wrong-patient visit's correction tasks. A Receipts tab panel and trace threads (trace 1.2.0) show them.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data; `SAHA_TEST_PORT=8830`):
+  - `tsc --noEmit` clean; `npm run build` passed.
+  - New unit suite `tests/withdrawal-contract.mjs`: 63 checks, all passed. Two deliberate mutations (supervisors allowed to act; the lost response removed) each made it fail.
+  - New HTTP module `tests/withdrawal-smoke.mjs`: 97 assertions, all passed alone and inside the suite.
+  - Runner, layers unit, integration, resilience and smoke (`node scripts/test.mjs unit integration resilience smoke`):
+    - unit 131 suites, 8,104 checks passed; one suite failed: `audit-contention-contract` saw 1 of 120 reads refused (the open O-1 condition) while other agents loaded the machine. It passed 3 of 3 runs when rerun alone straight after; this slice does not touch the audit chain.
+    - HTTP/D1 4,855 (4,758 at 13f plus the 97 new); scheduled check 8; restore drill 21; smoke 36 passed, 1 skipped.
+  - An earlier pass of every unit suite, one by one (130 files), had all passed.
+  - After the documentation was regenerated:
+    - `node scripts/test.mjs unit --fast --guard`: 131 suites, 8,107 checks passed; regression guard passed.
+    - `node scripts/test.mjs smoke nfr uat --only` the pull-request smoke, security and UAT suites `--fast --guard`: 179 passed, 1 skipped (authorisation matrix 51, identity hardening 29); guard passed.
+    - Static layer passed (catalogue, type check, documentation, requirements). `node scripts/audit-requirements.mjs --check`, `node tests/uat/coverage-map.mjs --check` and `node tests/uat/generate-uat-pack.mjs --check` also passed.
+- **Counts:** five commands added (`prepareWithdrawal`, `approveWithdrawal`, `executeWithdrawal`, `lookupWithdrawal`, `cancelWithdrawal`; command discriminators 228 to 233). No route added (66 method/route handlers), no certified patient command added (57 in `lib/saha/partition.ts`, unchanged) and no migration: withdrawals are stored in the visit's record.
+- **Existing test changed:** `tests/trace-smoke.mjs` expects trace version 1.2.0. The regression baseline gained `unit/withdrawal-contract` (63) with `--update-baseline`; nothing was raised or lowered (the HTTP suite's minimum stays 4,758).
+- **Not run:**
+  - a real programme system or EHR: mock partners and injected transports only;
+  - EHR withdrawal or amendment over HTTP: external services are off locally, so an EHR publication cannot be accepted there;
+  - the UI and weekly suites.
+- **Browser check** (a one-off Playwright script with Chromium 1194 against a built local Worker, not a repository suite; `tests/evidence/slice-14c/browser-withdrawal.json`):
+  - On a wrong-patient visit, the Receipts tab panel was used to prepare, approve and send a withdrawal to the maternal register, which confirmed it.
+  - The same was done for the community MIS: its outcome was unknown, and the panel's lookup found the receipt.
+  - The forms disappeared once each withdrawal was confirmed; there were no console errors.
+  - The panel's layout was adjusted (form fields, hiding settled targets) after the runner pass above. The final build was checked this way and by `tsc`. No axe audit was run.
+- **Status.** Built by one agent; no independent review. Requirement statuses are unchanged: BR-INT-02, BR-INT-21 and BR-RULE-04 stay partial, with their texts updated. Evidence: `tests/evidence/slice-14c/`.
+
+## Development slice 14e — field device reports, removal of device copies and withdrawal notices — 4 October 2026 IST
+
+Round 14, remaining-work rows R73 and R91 ([slice 14e](docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md)); on a branch from `main` 2adfbde1, not merged. Migration `0020_field_device`; route `GET`/`POST /api/field-device`; three certified notice commands and the route-only `confirmFieldRemoval`.
+
+- **Sync failure reports.** The field notebook counts failed sync steps (step, error class, grant, first and last time; no patient details) and sends them when next online. Stored per entry with one chained audit event, refused for another worker's grant, bounded per report and per day, replayed by key; shown in the new Field devices panel and, for open grants, the exception queue.
+- **Removal of device copies.** Revocation orders removal. A copy is also due when the worker's access ended, the record was merged, or processing is restricted and the grant can no longer sync; no new grant is issued while restricted. The notebook removes the copies on contact and confirms with a counts-only receipt stored on the grants. A device that never reconnects stays pending.
+- **Withdrawals.** AI and sharing withdrawals list open device copies (kept). A sharing withdrawal creates one notice per destination holding the person's records: sent to the demonstration simulators (acknowledged, or uncertain and resolved only by lookup), recorded with the mock ABDM gateway, or told by hand with a reference for HTTP programme and EHR connections. These wait for the slice 14c seam.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data, ports 8850–8853):
+  - `tsc --noEmit` clean;
+  - unit 132 suites, 8,169 checks (new: field device contract 99, notebook client 26);
+  - HTTP/D1 4,881 (new field device module 123) and the scheduled check 8;
+  - restore drill 21; smoke 36 passed, 1 skipped;
+  - security 80 (authorisation matrix 51 with the new route classified, identity hardening 29);
+  - browser check 14 steps (notebook removal in Chromium, Field devices panel, Withdrawal notices dialog; axe found no serious or critical violations);
+  - static and UAT checks after the documentation was regenerated.
+- **First runs.** The first HTTP run stopped in the new module, because the test reused a stale patient version after a receipt; it was rerun after the fix. The first contract run failed three suites that expected exception rules 1.3.0 (eight test files carry that expectation; all were updated) and the catalogue check, run before the new HTTP module was imported.
+- **Mutations.** Three deliberate mutations (the access rule removed; a second send of an uncertain notice allowed; the media sweep removed) each failed their suite.
+- **Open.** Devices that never reconnect; suspended workers' notebooks; unsynced observations discarded under an order (counted); manual notices for HTTP and EHR connections; notices paused during maintenance.
+- No independent review. BR-REP-01, BR-SEC-03 and BR-OFF-07 texts updated; all stay partial; requirement counts unchanged.
+
+## Development slice 14f — disposal execution — 4 October 2026 IST
+
+Round 14, requirement slice R30 ([slice 14f](docs/current/SLICE-14F-DISPOSAL.md)); on a branch from `main` (2adfbde1), draft pull request, not merged.
+
+- **Built.**
+  - A retention rule may allow disposal of patient records and visit media. One owner prepares a dry-run plan (identifiers, counts, plan hash); a second owner applies exactly that plan, recomputed at its preparation time over current records.
+  - Held records, records outside either owner's care scope, classes whose rule keeps them, and patients linked to open work or referenced by any other record are never disposed.
+  - Disposed rows are deleted, with an append-only, chained register entry as their tombstone (migration 0021). Media content is erased (row kept) and revision content tombstoned under a narrowed revision trigger. Audit events and receipts are kept.
+  - Owners download the register; `scripts/recovery.mjs restore` re-applies it, or must be told explicitly to restore without it. The data exit and its offline verifier mark disposed records.
+  - Synthetic and training environments only; the periods are placeholders.
+- **Local results** (built Worker, Node 22.22.2, Linux container, shared 2-core machine, synthetic data):
+  - `tsc --noEmit` clean; build clean;
+  - unit 131 suites, 8,083 checks, all passed (new disposal contract, 39), before a final wording change to two messages. On the final build the unit layer passed 130 suites (8,080 checks). `audit-contention-contract` (slice 13e, a timing model) refused 1 of 120 reads while other agents' suites loaded the machine (load average about 7). It passed alone three times in a row. The only change to `persist` adds statements when a hook is passed, which that model never does;
+  - HTTP/D1 4,810 (new disposal smoke in its own organisation; before this slice 4,758); restore drill 21;
+  - smoke 36 passed, 1 skipped; security NFR 80 (authorisation matrix 51, with the new register route in its grid; identity 29); UAT 63 after the documentation was regenerated;
+  - regression guard passed; baseline raised for the HTTP suite and the new contract.
+
+  The retention panel was rendered in Chrome against the local database after a disposal: no console errors.
+- **Found while testing:**
+  - The first restore check found the disposed patient's name still in the restored SQLite file, in free pages, although no row held it. The restore tool now zeroes deleted content and rebuilds the file after re-applying the register. The same question for D1 is open (below).
+  - Existing tests whose counts this slice changes were updated: 7 record classes in the retention smoke; 33 exported tables and the verifier's new check in the data exit contract.
+  - The first HTTP run expected exactly one new audit event after the apply, but command responses add read-audit events; the check now compares event ids (none removed, one `disposalApply`).
+- **Not established:**
+  - whether deleted rows remain recoverable in D1 storage, Time Travel or Cloudflare backups;
+  - backup retention, so backups keep disposed content until destroyed;
+  - a hosted D1 restore re-applying the register;
+  - disposal of the other record classes and of audit free text;
+  - an approved schedule.
+- The register download is complete for every owner (identifiers outside the owner's care scope included, no content), by design for restore safety; it needs review. Built by one agent; no independent review. BR-SEC-09, BR-SEC-10 and BR-DATA-08 stay partial; requirement counts unchanged.
+
+## Development slice 14g — suppression on every export path — 4 October 2026 IST
+
+Requirement R81 (BR-REP-04, BR-REP-05), on a branch from `main` 2adfbde1, not merged ([slice 14g](docs/current/SLICE-14G-EXPORT-SUPPRESSION.md)). Built by one agent; no independent review.
+
+- **Inventory first.** 68 route handlers, 11 sources that set `Content-Disposition`, 9 screens that save a file and 29 outbound commands are classified in `lib/saha/export-routes.ts`; a contract fails when a new one is added without a line. Of the count-bearing files and sends, the indicator CSV and the aggregate report already suppressed; the operational report CSV did not and is now suppressed (definition 1.2.0: counts of 1 to 4 as `<5`, a report over 1 to 4 people fully withheld, one further cell withheld under a shown total, control totals over a suppressed breakdown withheld).
+- **Also built:** `team` and `programme` filters on the operational report; a `patient-export` access purpose for the FHIR download and the data exit and the `reporting` purpose on the operational CSV; held operational CSV downloads (migration 0022, `POST` and `GET /api/exports`): 15 minutes, delivered once to the preparing member, refused on replay, on another member and after a change of role, reach or purpose, content blanked after delivery or expiry.
+- **Local results** (built Worker, Node 22.22.2, Linux container, synthetic data): `tsc --noEmit` clean; unit 131 suites, 8,058 checks (14 new); HTTP/D1 4,822 (64 new) and scheduled check 8; restore drill 21; smoke 36 passed, 1 skipped; authorisation matrix 51. Existing tests changed on purpose: report-export contract and smoke (definition 1.2.0, totals may be withheld, small counts suppressed), purpose-scope contract (six purposes), access-scope contract (`patient-export` is a route checkpoint). UI, performance and hosted smoke not run.
+- **Open:** differencing across operational exports is not blocked; in-app aggregate views are unsuppressed; expiry covers only the operational CSV; owners cannot be purpose-limited so the data-exit purpose check cannot refuse an owner; no screen for held exports or filters; no drizzle snapshot for migration 0022. BR-REP-04 and BR-REP-05 stay partial; requirement counts unchanged.
+
+## Integration 14 — slices 14a to 14g combined — 4 October 2026 IST
+
+The sponsor said "merge all" for round 14; the seven slice branches were combined on `int-14` in the order 14a, 14d, 14b, 14c, 14e, 14f, 14g with merge commits, as a draft pull request, not merged into `main` ([integration 14](docs/current/SLICE-14-INTEGRATION.md)).
+
+- **Local results** (built Worker, Node 22.22.2, shared 2-core Linux container, synthetic data, ports 8860–8869), on the merged tree after the seam fixes:
+  - `tsc --noEmit` clean; `npm run build` clean.
+  - `node scripts/test.mjs pr --update-baseline`: static 4 steps passed; unit 139 suites, 8,364 checks; HTTP/D1 5,364 (the extended scheduled check, 8, run separately in the integration layer); restore drill 21; smoke 36 passed, 1 skipped (the hosted self-test and the local smoke). Regression guard: 7 suites added, 2 raised, none lowered or removed.
+  - Authorisation matrix 51; identity hardening 29; UAT checks 63.
+  - New `tests/integration-14-contract.mjs` 14; `tests/withdrawal-contract.mjs` 65 (63 before the two seam groups, 2 more checks).
+  - Existing counts changed by the union, not by weakened checks: `tests/data-exit-contract.mjs` expects 34 tables (14e and 14f each add one); `tests/limit-slots-contract.mjs` finds migration 0018 by name (it assumed 0018 was the last migration).
+  - The slices' own contracts and smoke modules all run and pass. No timing failure in `audit-contention-contract` and no concurrent-save 503 occurred in the final runs, so nothing was rerun alone.
+  - The first run of the authorisation matrix on the merged tree failed one check: an anonymous `POST /api/exports` answered 422 (body validated before the caller was identified). Fixed in `heldExportsPost`; the matrix then passed 51. The 14g branch's own matrix run had passed; why it did not see this was not traced.
+  - Not re-run on the merged tree: the UI end-to-end, screenshot, accessibility, performance, memory and load layers, and the hosted deploy.
+- **Seam fixes** (each with a test; see the integration document): a lapsed sharing permission (expired, or given under an earlier material notice) blocks approve and execute of an EHR amendment (14c with 14d); an active processing restriction refuses prepare, approve and execute of an amendment while plain withdrawals continue (14c, review finding); the representative form shows the notice and sends it (14b with 14d); `withdrawalNoticesOf` replaces the second `noticesOf`; the outbound commands and routes of 14a–14f are classified for 14g's completeness contract.
+- **Migrations:** one ordered journal (22 entries), a repaired snapshot chain 0017, 0018, 0020, 0021, 0022 (38 tables) checked against `db/schema.ts` with `drizzle-kit generate` in a scratch folder, and `SCHEMA_MIGRATION` `0022_export_suppression`.
+- **Open defects and risks from the independent agent reviews of the seven slices (recorded, not fixed here; a fix round follows):**
+  - 14g: complementary suppression is incomplete when two or more cells are hidden or when the total is shown; and differencing across exports can still reveal a suppressed cell.
+  - 14f: the disposal register is an unkeyed SHA-256 chain, so a forged register can make a restore delete records; visit-media disposal ignores the patient's blockers (restriction, merge, open work, references); disposal is allowed when `SAHA_ENVIRONMENT` is unset; disposing a visit's media and then its patient returns 500 (a unique index).
+  - 14e: a removal receipt from any device, or an empty one, marks all of the person's grants confirmed; a repeated withdrawal duplicates or overwrites notices, and a second notice goes to a destination that already has an uncertain one.
+  - 14d and 14b: a representative's permission persists after the representative's authority ends, because `consentStanding` ignores `decidedBy`.
+  - 14d: the material flag is single-owner and the notice registry is capped at 20 versions.
+  - 14c: an uncertain EHR withdrawal cannot be closed; `BLOCKED_WHEN_MERGED` has no entries for the withdrawal commands.
+  - 14a: the O-2 evidence rests on one route only.
+- Limits: built by one agent; no independent review of the merge; requirement counts are unchanged (14 implemented-local, 151 partial, 2 not-built, 9 unverified) and every acceptance criterion remains pending.

@@ -11,14 +11,27 @@ import { alertsFor, ALERT_RULES_VERSION } from './alerts';
 import { evaluateIfDue } from './alert-delivery-server';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
 import { invoiceAlertInputs, invoiceView } from './ai-invoice';
+import { ensurePurpose } from './purpose-scope';
+import { PROGRAMMES } from './types';
 const currentMonth=()=>new Date().toISOString().slice(0,7);
 export async function operationsRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);const reach=reportingScope(s,m);
  // Slice 6v: an operations read also evaluates in-app alert delivery when due, on the state it already loaded.
  await evaluateIfDue(s.organisation.id,s);
  const url=new URL(request.url),days=Number(url.searchParams.get('days')??30);if(![7,30,90].includes(days))fail(422,'Choose 7, 30 or 90 days.');const format=url.searchParams.get('format')??'json';if(!['json','csv','support'].includes(format))fail(422,'Unsupported report format.');
- const report=m.role==='admin'?null:careReport(s,m,days,undefined,reach.include);
- if(report){const rows=await db().prepare(`SELECT count(DISTINCT a.actor_id) AS n FROM audit_events a JOIN patients p ON p.org_id=a.org_id AND p.id=a.person_id WHERE a.org_id=? AND p.team_id IN (${reach.teams.map(()=>'?').join(',')||'NULL'}) AND a.at>=? AND a.at<=?`).bind(s.organisation.id,...reach.teams,report.since,report.until).first<{n:number}>();report.activeWorkers=rows?.n??0;report.activeWorkersCoverage='Distinct actors on authorised patient activity in the selected window.';}
+ // Slice 14g (BR-REP-05): filters beyond window and team. `team` narrows to one team inside the viewer's reporting reach and
+ // `programme` to people recorded in that programme (person.programmes, as the indicator filters and the programme access grant use); neither can widen the reach. A team outside the reach is refused (403), an
+ // unknown programme is refused (422).
+ const teamFilter=url.searchParams.get('team')||null,programmeFilter=url.searchParams.get('programme')||null;
+ if(programmeFilter&&!(PROGRAMMES as string[]).includes(programmeFilter))fail(422,'Unknown programme filter.');
+ if(m.role!=='admin'&&teamFilter&&!reach.teams.includes(teamFilter))fail(403,'That team is outside your reporting scope.');
+ const filtered=(p:Parameters<typeof reach.include>[0])=>reach.include(p)&&(!teamFilter||p.teamId===teamFilter)&&(!programmeFilter||(p.programmes??[]).includes(programmeFilter as any));
+ const report=m.role==='admin'?null:careReport(s,m,days,undefined,filtered);
+ const reportTeams=teamFilter&&m.role!=='admin'?[teamFilter]:reach.teams;
+ if(report){
+  if(programmeFilter){const ids=new Set(s.workspace.people.filter(filtered).map(p=>p.id)),rows=await db().prepare(`SELECT DISTINCT a.actor_id AS actor,a.person_id AS person FROM audit_events a JOIN patients p ON p.org_id=a.org_id AND p.id=a.person_id WHERE a.org_id=? AND p.team_id IN (${reportTeams.map(()=>'?').join(',')||'NULL'}) AND a.at>=? AND a.at<=?`).bind(s.organisation.id,...reportTeams,report.since,report.until).all<{actor:string;person:string}>();report.activeWorkers=new Set(rows.results.filter(r=>ids.has(r.person)).map(r=>r.actor)).size;}
+  else{const rows=await db().prepare(`SELECT count(DISTINCT a.actor_id) AS n FROM audit_events a JOIN patients p ON p.org_id=a.org_id AND p.id=a.person_id WHERE a.org_id=? AND p.team_id IN (${reportTeams.map(()=>'?').join(',')||'NULL'}) AND a.at>=? AND a.at<=?`).bind(s.organisation.id,...reportTeams,report.since,report.until).first<{n:number}>();report.activeWorkers=rows?.n??0;}
+  report.activeWorkersCoverage='Distinct actors on authorised patient activity in the selected window.';}
  let telemetry:any=null;
  if(operator(m)){const rows=await db().prepare('SELECT route,status,sum(count) AS count,sum(total_ms) AS total_ms,max(max_ms) AS max_ms FROM request_metrics WHERE org_id=? AND bucket>=? GROUP BY route,status ORDER BY route,status').bind(s.organisation.id,new Date(Date.now()-86400000).toISOString()).all<{route:string;status:number;count:number;total_ms:number;max_ms:number}>();const count=rows.results.reduce((n,r)=>n+r.count,0),errors=rows.results.filter(r=>r.status>=500).reduce((n,r)=>n+r.count,0);telemetry={windowHours:24,count,serverErrors:errors,errorRate:count?errors/count:null,meanMs:count?Math.round(rows.results.reduce((n,r)=>n+r.total_ms,0)/count):null,maxMs:rows.results.reduce((n,r)=>Math.max(n,r.max_ms),0),routes:rows.results,coverage:'Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort.'};}
  // Slice 5e: budget rows feed the owner-owned budget alerts as well as the budget table.
@@ -31,13 +44,16 @@ export async function operationsRead(request:Request){
  if(format==='csv'&&!report)fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(m))fail(403,'Operations access required.');
  // Slice 6k: the CSV carries its definition, identifier, exporter, control totals and a checksum manifest;
  // the audit line records the same identifier and checksum so a received file can be matched to its export.
- const exportId=format==='csv'?uuid():null,exported=exportId?await exportCsv(report!,{exportId,generatedBy:u.displayName,role:m.role,teams:reach.teams.map(t=>s.teams.find(x=>x.id===t)?.name??t),days}):null;
+ // Slice 14g: a CSV export is a reporting flow (purpose-limited members need the purpose) and is suppressed before it is built.
+ if(format==='csv')ensurePurpose(m,'reporting');
+ const teamName=(id:string)=>s.teams.find(x=>x.id===id)?.name??id;
+ const exportId=format==='csv'?uuid():null,exported=exportId?await exportCsv(report!,{exportId,generatedBy:u.displayName,role:m.role,teams:reportTeams.map(teamName),days,filters:{team:teamFilter?teamName(teamFilter):null,programme:programmeFilter}}):null;
  // Slice 6p: the audit commit is retried on a fresh read if a command saved meanwhile; the exporter's
  // authority for this format is checked again there (CSV: not an administrator; support: operator).
  // Slice 6q (second review): the retry also refuses the export if the care scope (sorted team ids) or, for the
  // CSV, the reporting reach (teams and delegation ids) changed; nothing is delivered and the exporter retries.
  const orgId=s.organisation.id,again=(x:typeof s)=>{const o=scope(x,u.userId);if(format==='csv'&&o.role==='admin')fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(o))fail(403,'Operations access required.');if(o.role!==m.role)fail(409,'Your role changed while the export was prepared. Export again.');sameCareScope(m,o);if(format==='csv')sameReach(reach,reportingScope(x,o));return o;};
- const auditId=uuid();await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:auditId,at:result.generatedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'opsExport',subject:orgId,detail:exported?`Scoped aggregate report exported; ${days}-day period; definition ${REPORT_DEFINITION.id} ${REPORT_DEFINITION.version}; export ${exportId}; ${exported.rows} data rows; SHA-256 ${exported.sha256}; control totals ${exported.reconciled?'reconciled':'NOT reconciled'}.${reach.delegations.length?` Includes teams under reporting delegation ${reach.delegations.map(d=>d.id).join(', ')}.`:''}`:'Support diagnostic exported without patient records, actor identifiers, credentials or incident free text.'}),actor:u,type:'opsExport',key:'export_'+uuid(),hash:await digest({format,days})});
+ const auditId=uuid();await recordExportAudit(db(),{state:s,reload:()=>loadFor(u,orgId),authorize:again,event:o=>({id:auditId,at:result.generatedAt,actorId:u.userId,actor:u.displayName,role:o.role,action:'opsExport',subject:orgId,detail:exported?`Scoped aggregate report exported; ${days}-day period; definition ${REPORT_DEFINITION.id} ${REPORT_DEFINITION.version}; export ${exportId}; ${exported.rows} data rows; ${exported.suppressedCells} cells suppressed or withheld; filters team ${teamFilter??'all'}, programme ${programmeFilter??'all'}; SHA-256 ${exported.sha256}; control totals ${exported.reconciled?'reconciled':'NOT reconciled'}.${reach.delegations.length?` Includes teams under reporting delegation ${reach.delegations.map(d=>d.id).join(', ')}.`:''}`:'Support diagnostic exported without patient records, actor identifiers, credentials or incident free text.'}),actor:u,type:'opsExport',key:'export_'+uuid(),hash:await digest({format,days})});
  // Support output intentionally excludes organisation, members, free text,
  // clinical counters and connector endpoints. This is safe to inspect, not
  // permission to send it outside the organisation.

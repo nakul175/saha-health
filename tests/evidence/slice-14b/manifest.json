@@ -1,0 +1,51 @@
+{
+  "slice": "14b",
+  "label": "Development slice 14b — proxy authority (R12)",
+  "environment": "local built Worker and local D1 under wrangler dev, Node 22.22.2, Linux container shared with other agents, synthetic data only, ports 8820-8823",
+  "note": "Fresh runs on the slice 14b source before the generated documentation was rebuilt. In run-static-unit-resilience-smoke.json the static layer failed only on generated documentation that was not yet regenerated; the documentation checks were rerun and passed after regeneration. The R11 results in tests/ are unchanged historical evidence.",
+  "reports": {
+    "proxy-authority-contract-result.json": {
+      "sha256": "83aeabf2b0e335862089b6d46ecea2545a6bd8550c459f2982ee5f12e6d25b18",
+      "passed": 22,
+      "completedAt": "2026-10-04T11:00:43.628Z"
+    },
+    "api-smoke-result.json": {
+      "sha256": "7d2b9f02cfc0d6ba0eff4bd9e7882814017849788fb750a59a07512e7de2b025",
+      "passed": 4842,
+      "completedAt": "2026-10-04T10:43:21.367Z",
+      "note": "HTTP/D1 suite (tests/run-api-smoke.mjs) including the new proxy-authority module (84 assertions)"
+    },
+    "run-integration.json": {
+      "sha256": "3dea227da6df9a0ed82ada55992f40b4e301a0e41410491958eb65836ec8cf57",
+      "passed": 4850,
+      "failed": 0,
+      "note": "node scripts/test.mjs integration (HTTP/D1 and the scheduled check)"
+    },
+    "run-static-unit-resilience-smoke.json": {
+      "sha256": "c6eb24172e9ba67ec0728b84d423efedacef76dfc9349f7b9f364ab1aa1bab43",
+      "passed": 8123,
+      "failed": 0,
+      "note": "unit 131 suites, resilience and smoke passed; static failed on generated documentation before regeneration (see note)"
+    },
+    "run-nfr-security.json": {
+      "sha256": "2b473c6567c6d120c58cdd61f12614af0d68631877b43c1eec643f51f1fba0d6",
+      "passed": 80,
+      "failed": 0,
+      "note": "authorisation matrix and identity hardening"
+    },
+    "browser-check.json": {
+      "sha256": "946f78d22b763dd89bc107635ffd96f0dff285e8a4e28b9f94eb5ce6d9e7720e",
+      "passed": 8,
+      "failed": 0,
+      "completedAt": "2026-10-04T10:56:42.133Z",
+      "note": "one-off headless Chrome check of the household, consent and rights dialogs; not a committed suite"
+    },
+    "run-static-uat-after-regeneration.json": {
+      "sha256": "7e811c3ca5ffbf2be81447fac773fe8dfbacfd558c40417fc53383c5e4a85705",
+      "passed": 63,
+      "failed": 0,
+      "note": "static (catalogue, typecheck, documentation, requirements) and UAT checks after the documentation and baseline were regenerated"
+    }
+  },
+  "totalPassed": 4864
+}

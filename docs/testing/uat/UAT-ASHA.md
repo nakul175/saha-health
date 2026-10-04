@@ -431,11 +431,11 @@ Local registration and visits do not require ABHA, phone or biometrics.
 
 **Expected result** (catalogue): A caregiver and household head can receive only the information permitted by the relevant relationship and authorisation rules.
 
-**Known gaps** (assessment, remaining work for BR-ID-07): Household relationships and purpose-limited, expiring proxy authority.
+**Known gaps** (assessment, remaining work for BR-ID-07): A relationship register between people beyond proxy grants; jurisdiction-approved authority rules (age of majority, mature minors, verification of guardianship evidence); representatives acting through their own channel; acceptance with named testers.
 
 <details><summary>What the build does today (assessment, current state of BR-ID-07)</summary>
 
-Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted.
+Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted. Slice 14b: each grant also records a typed relationship between the two people (household roles refused), an authority (parent of a person under 18, legal guardian, nominated by the person, representative of an adult a clinician recorded as lacking capacity), a start and an expiry; two acting purposes (consent decisions, rights requests) beside the four sharing purposes; every reliance is checked on the server at the time of use and refused when revoked, not started, expired, out of purpose, without relationship or authority (all grants recorded before 14b), under a parent's authority once the recorded age is 18, or under a capacity representative without a current lack-of-capacity record or after capacity was recorded as regained; each use is its own audit event.
 
 </details>
 
@@ -703,11 +703,11 @@ Version/CAS conflicts and field comparison preserve both versions. Slice 0a: edi
 
 **Expected result** (catalogue): A low-quality image cannot silently generate confirmed values; deleting an unsubmitted recording removes the associated draft references.
 
-**Known gaps** (assessment, remaining work for BR-DATA-08): Object storage and larger media, clinical quality assessment of reduced photos, and a retention lifecycle for media on the server (offline queueing: slice 3a, BR-OFF-04).
+**Known gaps** (assessment, remaining work for BR-DATA-08): Object storage and larger media, clinical quality assessment of reduced photos, an approved media retention period and backup retention (offline queueing: slice 3a, BR-OFF-04).
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-08)</summary>
 
-Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata.
+Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata. Slice 14f: server media has a retention class (visit media, from upload); a two-owner disposal erases content past the schedule, keeps the media row as a tombstone, marks the visit's reference removed and records it in the disposal register; disposed media answers 410 and a restore re-applies it.
 
 </details>
 
@@ -1247,11 +1247,11 @@ Assignment, identity, membership, consent and visit versions rechecked at sync. 
 
 **Expected result** (catalogue): A second user cannot view the first user's cached records, and a reported lost device loses server access on its next contact.
 
-**Known gaps** (assessment, remaining work for BR-OFF-07): Main-workspace shared-device protection, native keystore/MDM and lost-device exercises.
+**Known gaps** (assessment, remaining work for BR-OFF-07): Main-workspace shared-device protection, native keystore/MDM and lost-device exercises; a suspended or removed worker's notebook cannot fetch removal orders, and a device that never reconnects keeps its encrypted copy.
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-07)</summary>
 
-Encrypted per-user notebook, inactivity lock, grants and reconnect denial.
+Encrypted per-user notebook, inactivity lock, grants and reconnect denial. Slice 14e: a revoked grant, ended access, a merged record or a processing restriction orders removal of the device copy, done by the notebook and confirmed with a receipt when it next contacts Saha; pending removals are listed.
 
 </details>
 
@@ -1383,11 +1383,11 @@ Explicit synthetic contact ownership, language, privacy, hours and withdrawal co
 
 **Expected result** (catalogue): Declining an optional AI recording leaves the approved non-AI care workflow available and prevents that media from being sent.
 
-**Known gaps** (assessment, remaining work for BR-SEC-02): Reviewed multilingual notices, notice versions, representative authority and full expiry semantics.
+**Known gaps** (assessment, remaining work for BR-SEC-02): Reviewed multilingual notice content (Saha holds none; the reviewer field is the owner's statement and Hindi is unchecked); notices for automated contact; a representative on contact-preference permissions; a representative's permission ending when their authority ends (consentStanding does not yet check decidedBy); an end date for permissions recorded before slice 14d; periods approved by a privacy officer; formal acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-02)</summary>
 
-Optional AI can be declined; contact preferences and EHR scopes are recorded.
+Optional AI can be declined; contact preferences and EHR scopes are recorded. Slice 14b: a consent decision (permission switch or withdrawal) records whether the person or a representative decided; a representative's decision names their record, relationship, authority and grant period on the consent event, the command result and the audit event, and is accepted only under a grant in force that covers consent decisions; a person recorded as lacking capacity cannot give a permission as their own (a withdrawal is always recorded). Slice 14d: owners publish versioned notices for AI assistance and external sharing (English and/or Hindi text, effective time, change summary, reviewer, material flag; never edited); a permission given records the notice version and language it was shown in (a stale or missing notice is refused) and an end date set by the server (AI 365 days, sharing 180, contact 365); a permission whose end has passed, or that was given before a material notice version took effect, stops authorising AI use, programme delivery, EHR exchange and reminders when checked, is shown as expired or needing renewal with a renewal path, and its terms, renewal and lapse are in the consent history and audit trail.
 
 </details>
 
@@ -1417,11 +1417,11 @@ Optional AI can be declined; contact preferences and EHR scopes are recorded.
 
 **Expected result** (catalogue): Revocation blocks a queued provider upload and produces a traceable disposition record; the system does not claim to erase an external record without evidence.
 
-**Known gaps** (assessment, remaining work for BR-SEC-03): Destination notification with verified external outcomes, offline device copies, real ABDM consent-manager revocation and approved policy for retained completed transactions.
+**Known gaps** (assessment, remaining work for BR-SEC-03): Verified outcomes from real destinations (notices to HTTP programme and EHR connections are manual until the slice 14c path is used; only the demonstration simulators answer), removal from devices that never reconnect, real ABDM consent-manager revocation and approved policy for retained completed transactions.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-03)</summary>
 
-Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain.
+Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. Slice 14e: AI and sharing withdrawals list open field-notebook copies (kept: they cannot sync under the old permission version); a copy on a worker's device is removed on the notebook's next contact when its grant is revoked, the worker's access ended, the record was merged or processing is restricted, confirmed by a counts-only receipt, with pending removals listed; a sharing withdrawal creates one notice per destination holding the person's records, sent to the demonstration simulators with their receipts (an unknown outcome is looked up, never resent), recorded with the mock ABDM gateway, or told by hand and recorded with a reference for HTTP programme and EHR connections.
 
 </details>
 
@@ -1451,11 +1451,11 @@ Revocation blocks pending use; contact changes cancel reminders; receipts remain
 
 **Expected result** (catalogue): A household member cannot infer restricted information through summaries, notifications, shared schedules or access to another member's encounter.
 
-**Known gaps** (assessment, remaining work for BR-SEC-04): Jurisdiction-specific sensitivity restrictions and relationship/authority/expiry enforcement.
+**Known gaps** (assessment, remaining work for BR-SEC-04): Jurisdiction-specific sensitivity restrictions; evaluation in notifications, exports, reports and model payloads.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-04)</summary>
 
-Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads.
+Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads. Slice 14b: relationship, authority and expiry are recorded separately on each grant and enforced at every use (household sharing preview, consent decisions, rights requests), with the authority's age and capacity conditions checked at that time.
 
 </details>
 
@@ -1553,11 +1553,11 @@ R10 version-bound positive patient check; provisional identity blocks consequent
 
 **Expected result** (catalogue): Cancellation after submission reports the actual destination state and generates any remaining reversal task.
 
-**Known gaps** (assessment, remaining work for BR-RULE-04): Correction or reversal support from real partners (no destination declares void support and Saha has no EHR amendment or withdrawal path, so these stay manual), partner-confirmed reversal receipts, and acceptance with a real destination.
+**Known gaps** (assessment, remaining work for BR-RULE-04): Correction or reversal support from real partners (slice 14c withdrawals and EHR amendments are tested only against demonstration simulators and injected transports, and the release default permits neither, so tasks stay manual until an owner permits the operation), partner-confirmed reversal receipts, and acceptance with a real destination.
 
 <details><summary>What the build does today (assessment, current state of BR-RULE-04)</summary>
 
-Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason.
+Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason. Slice 14c: where a destination permits `delete` (or an EHR connection `update` for an amended visit), the task is completed through Saha: a withdrawal or amendment prepared, approved for the exact payload and sent with its own receipt recorded against the original receipt, which is never edited; an unknown outcome is resolved only by lookup; the destination's confirmation closes the task with the verified receipt. Both demonstration simulators answer withdrawals (one loses the response).
 
 </details>
 

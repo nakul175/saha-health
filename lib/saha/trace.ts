@@ -15,11 +15,12 @@ import { ACCESS_ACTION_NAMES, type Member, type OrgState, type Person, type Trac
 // Content. Ids, states, times, attempt numbers, limits, command types and actor names only: no facts, notes,
 // payloads, document text, audit detail text or credentials.
 // Slice 6aa: 1.1.0 adds receiptExists (a redacted trace no longer carries the receipt itself) and truncated.
-export const TRACE_VERSION='1.1.0';
+// Slice 14c: 1.2.0 adds threads of kind 'withdrawal' (a withdrawal or EHR amendment of a visit's accepted output).
+export const TRACE_VERSION='1.2.0';
 export const MIS_MAX_ATTEMPTS=3;
 // Audit actions that belong to a visit's external work (listed for the visit even when not linked to a step).
-export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused','sendBlocked','scheduledTimeoutReview'] as const;
-const DESTINATION=new Set(['misReceipt','ehrReceipt','agentResult']),CALLBACK=new Set(['misCallback']);
+export const EXECUTION_ACTIONS=['preparePlan','approvePlan','executePlan','sendSubmission','lookupSubmission','cancelSubmission','misReceipt','misCallback','prepareEhrPublish','executeEhrPublish','lookupEhrPublish','ehrReceipt','prepareAgent','executeAgent','cancelAgent','agentResult','closeTimedOutAgent','applyAgent','reviewAgent','adapterOperationRefused','sendBlocked','scheduledTimeoutReview','prepareWithdrawal','approveWithdrawal','cancelWithdrawal','executeWithdrawal','lookupWithdrawal','withdrawalReceipt','withdrawalNotSent'] as const;
+const DESTINATION=new Set(['misReceipt','ehrReceipt','agentResult','withdrawalReceipt']),CALLBACK=new Set(['misCallback']);
 const ID=/^[A-Za-z0-9_-]{1,200}$/;
 
 // ---- stamping (write side) ----
@@ -39,6 +40,9 @@ export function linkTrace(before:OrgState,after:OrgState,command:string,key:stri
   const old=prevOps.get(o.id);if(old&&old.state===o.state&&old.at===o.at)continue;
   (o.events??=[]).push({at:o.at,state:o.state,ref:ref([o.id,o.visitId,p.id])});
  }
+ // Slice 14c: withdrawal and EHR amendment events, kept on the visit whose output they withdraw.
+ const prevWithdrawals=new Map((before.workspace.visits??[]).flatMap(v=>(v.withdrawals??[]).map(w=>[w.id,w] as const)));
+ for(const v of after.workspace.visits??[])for(const w of v.withdrawals??[]){const n=prevWithdrawals.get(w.id)?.events.length??0;for(let i=n;i<w.events.length;i++){const e=w.events[i];if(!e.ref){e.ref=ref([w.id,w.original.id,v.id,v.personId]);e.attempt=w.attempts;}}}
  // Slice 7g: aggregate report events (organisation-level, kept in the operations record).
  const prevReports=new Map((((before.operations as any)?.aggregateReports??[]) as {id:string;events:any[]}[]).map(r=>[r.id,r]));
  for(const r of (((after.operations as any)?.aggregateReports??[]) as {id:string;destinationId:string;attempts:number;events:{ref?:TraceRef;attempt?:number}[]}[])){const n=prevReports.get(r.id)?.events.length??0;for(let i=n;i<r.events.length;i++){const e=r.events[i];if(!e.ref){e.ref=ref([r.id,r.destinationId]);e.attempt=r.attempts;}}}
@@ -78,7 +82,7 @@ export function traceTarget(s:OrgState,m:Member,q:TraceQuery,now=new Date().toIS
 export type TraceAuditRow={id:string;at:string;actor_name:string;role:string;action:string;subject:string;seq:number|null};
 export type TraceReceiptRow={actor_id:string;key:string;created_at:string};
 export type Step={at:string;state:string;attempt:number|null;source:'command'|'destination'|'callback'|'not linked';command:string|null;actor:string|null;receiptId:string|null;receiptAt:string|null;receiptFound:boolean|null;auditId:string|null;auditSeq:number|null;linked:boolean};
-export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant';recordId:string;destination:string;state:string;receipt:string|null;receiptExists?:boolean;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
+export type Thread={id:string;kind:'submission'|'ehr-publication'|'assistant'|'withdrawal';recordId:string;destination:string;state:string;receipt:string|null;receiptExists?:boolean;attempts:{used:number;limit:number|null;rule:string};limits:{timeMinutes:number|null;attempts:number|null}|null;taskAttempt:number|null;timedOut:boolean;steps:Step[];refusal:{operation:string;settingVersion:number;aggregateOnly:boolean;stage:string;at:string}|null};
 type Raw={thread:Thread;steps:{at:string;state:string;attempt?:number;ref?:TraceRef}[]};
 function threads(s:OrgState,t:Target,now:string):Raw[]{
  const out:Raw[]=[],p=t.person,want=(id:string)=>t.scope==='full'||t.threadIds.includes(id);
@@ -96,6 +100,13 @@ function threads(s:OrgState,t:Target,now:string):Raw[]{
   th.attempts={used:o.state==='prepared'?0:1,limit:1,rule:'One publication per approval; an unknown outcome is looked up by document identifier, never published again.'};
   const steps:Raw['steps']=[...(o.events??[])];if(!steps.length||steps.at(-1)!.state!==o.state||steps.at(-1)!.at!==o.at)steps.push({at:o.at,state:o.state});
   out.push({thread:th,steps});
+ }
+ // Slice 14c: withdrawals and EHR amendments. A redacted trace of a submission or publication also shows its withdrawals.
+ for(const v of s.workspace.visits)if(v.personId===p.id&&(!t.visit||v.id===t.visit.id))for(const w of v.withdrawals??[]){
+  if(!want('withdrawal:'+w.id)&&!t.threadIds.some(x=>x.endsWith(':'+w.original.id)))continue;
+  const th=base('withdrawal:'+w.id,'withdrawal',w.id,w.destination.name,w.state);th.receipt=w.receipt??null;th.refusal=w.refusal?{...w.refusal}:null;
+  th.attempts={used:w.attempts,limit:1,rule:`${w.operation==='amend'?'EHR amendment':'Withdrawal'} of receipt ${t.scope==='full'?w.original.receipt:'(not shown)'}: one send per approval; an unknown outcome is looked up under its own key, never sent again.`};
+  out.push({thread:th,steps:w.events.map(e=>({at:e.at,state:e.state,attempt:e.attempt,ref:e.ref}))});
  }
  if(t.scope==='full'&&t.visit){
   const runs=t.visit.agentRuns??[];

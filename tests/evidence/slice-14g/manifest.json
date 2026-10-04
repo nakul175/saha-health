@@ -1,0 +1,39 @@
+{
+  "slice": "14g",
+  "label": "Development slice 14g \u2014 suppression on every export path, patient-export purpose, held expiring downloads, wider filters",
+  "environment": "local built Worker, local D1, Node 22.22.2, synthetic data",
+  "totalPassed": 4913,
+  "note": "Selected results from the full run on 4 October 2026 (unit 131 suites 8,058; HTTP/D1 4,822 + scheduled check 8; resilience 21; smoke 36 passed, 1 skipped) plus the authorisation matrix (51). Built by one agent; no independent review.",
+  "reports": {
+    "integration__run-api-smoke.json": {
+      "sha256": "52d95a02b3b395b3daaa7a67d6fd60900bbdd0abc18dcddfbc84b5559b148a6b",
+      "passed": 4822,
+      "completedAt": "2026-10-04T13:42:18.273Z"
+    },
+    "nfr__authorisation-matrix.json": {
+      "sha256": "1538cf2a88265a1f6f82522f576345c6913628b178e20b486e9113b41fc8ad9c",
+      "passed": 51,
+      "completedAt": "2026-10-04T13:34:33.320Z"
+    },
+    "unit__access-scope-contract.json": {
+      "sha256": "e5e8d6ab73b7a88c175bf740f0b0351a9220391436e6988c701810f2dd152646",
+      "passed": 8,
+      "completedAt": "2026-10-04T13:34:48.894Z"
+    },
+    "unit__export-suppression-contract.json": {
+      "sha256": "b79423aff508b7cf2de0227ce700496bb410f568a3b8c034fd0159a236f64d04",
+      "passed": 14,
+      "completedAt": "2026-10-04T13:35:53.060Z"
+    },
+    "unit__purpose-scope-contract.json": {
+      "sha256": "a82e5b395e624fd00cfc226e7c84c958b4fcdd7b94a473960095e7fdc3fc648c",
+      "passed": 11,
+      "completedAt": null
+    },
+    "unit__report-export-contract.json": {
+      "sha256": "97142c87d3e95ebeb4d36c32cb4b3ebf915190d8451a39ea4215e2608b6471f2",
+      "passed": 7,
+      "completedAt": "2026-10-04T13:37:49.343Z"
+    }
+  }
+}

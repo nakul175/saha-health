@@ -451,8 +451,8 @@
       "sourceTextLine": 184,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted.",
-      "remaining": "Household relationships and purpose-limited, expiring proxy authority.",
+      "current": "Slice 1: households with dated membership history; proxy grants recorded on the subject with relationship, purposes, allowed sensitive classes, evidence and expiry. Membership grants no staff access or disclosure; household sharing previews include only members with a current grant. Slice 6r: the sharing preview names only members inside the viewer's care scope, even when a member has granted the recipient a proxy; others are counted. Slice 14b: each grant also records a typed relationship between the two people (household roles refused), an authority (parent of a person under 18, legal guardian, nominated by the person, representative of an adult a clinician recorded as lacking capacity), a start and an expiry; two acting purposes (consent decisions, rights requests) beside the four sharing purposes; every reliance is checked on the server at the time of use and refused when revoked, not started, expired, out of purpose, without relationship or authority (all grants recorded before 14b), under a parent's authority once the recorded age is 18, or under a capacity representative without a current lack-of-capacity record or after capacity was recorded as regained; each use is its own audit event.",
+      "remaining": "A relationship register between people beyond proxy grants; jurisdiction-approved authority rules (age of majority, mature minors, verification of guardianship evidence); representatives acting through their own channel; acceptance with named testers.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/continuity.ts",
@@ -462,7 +462,11 @@
         "REMAINING-RELEASES.md",
         "lib/saha/household.ts",
         "tests/main-review-fixes-contract.mjs",
-        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md"
+        "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
+        "lib/saha/household-constants.ts",
+        "tests/proxy-authority-contract.mjs",
+        "tests/proxy-authority-smoke.mjs",
+        "docs/current/SLICE-14B-PROXY-AUTHORITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -785,13 +789,18 @@
       "sourceTextLine": 219,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata.",
-      "remaining": "Object storage and larger media, clinical quality assessment of reduced photos, and a retention lifecycle for media on the server (offline queueing: slice 3a, BR-OFF-04).",
+      "current": "Slice 2b: photos and voice notes up to 256 KB on draft visits with type allowlist, signature and size checks, a required purpose, scoped playback and tombstoned deletion from drafts; immutable after confirmation. Slices 3e and 3f: photos reduced in the browser to JPEG under the limit, without embedded location metadata. Slice 14f: server media has a retention class (visit media, from upload); a two-owner disposal erases content past the schedule, keeps the media row as a tombstone, marks the visit's reference removed and records it in the disposal register; disposed media answers 410 and a restore re-applies it.",
+      "remaining": "Object storage and larger media, clinical quality assessment of reduced photos, an approved media retention period and backup retention (offline queueing: slice 3a, BR-OFF-04).",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md",
         "lib/saha/photo.ts",
-        "tests/photo-contract.mjs"
+        "tests/photo-contract.mjs",
+        "lib/saha/disposal-effects.ts",
+        "lib/saha/media-server.ts",
+        "tests/disposal-contract.mjs",
+        "tests/disposal-smoke.mjs",
+        "docs/current/SLICE-14F-DISPOSAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2087,8 +2096,8 @@
       "sourceTextLine": 369,
       "implementation": "partial",
       "target": "R12",
-      "current": "EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read.",
-      "remaining": "Live partner adapters configured and tested with narrowed operations; void and aggregate report paths; AI providers are not covered; production acceptance.",
+      "current": "EHR read/write directions and local scoped permissions are independent. Slice 7e: every programme destination, EHR connection and the mock ABDM gateway has owner-managed, versioned and audited create, update, delete or void, lookup and aggregate permissions, checked on the server before preparation and again inside each external-execution checkpoint; a withdrawal closes the item as not sent, shown on the trace and in the exception queue. Slice 6ab: a correction to a demonstration destination is classified as update by an accepted submission of a visit it corrects; ABDM consent requests are governed by lookup (a revocation always applies; delete decides only whether the mock gateway is told); an EHR publication rechecks create before its Patient read. Slice 14c: `delete` now governs a withdrawal (void) of an accepted programme submission or EHR publication and `update` an EHR amendment, each prepared, approved for the exact payload hash and sent once by the approver with its own receipt; the operation is checked when preparing, approving, before the checkpoint and inside it, and a withdrawn permission closes the withdrawal as not sent.",
+      "remaining": "Live partner adapters configured and tested with narrowed operations; void (withdrawal) and aggregate report paths with real partners (slice 14c withdrawals are tested only against demonstration simulators and injected transports); AI providers are not covered; production acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
@@ -2104,7 +2113,12 @@
         "docs/current/SLICE-7E-ADAPTER-OPERATIONS.md",
         "lib/saha/abdm.ts",
         "tests/eighth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+        "lib/saha/withdrawal.ts",
+        "lib/saha/withdrawal-execution.ts",
+        "tests/withdrawal-contract.mjs",
+        "tests/withdrawal-smoke.mjs",
+        "docs/current/SLICE-14C-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2384,7 +2398,7 @@
       "sourceTextLine": 410,
       "implementation": "partial",
       "target": "R13",
-      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed. Slice 10e: an ABHA number is accepted as 14 digits or grouped 2-4-4-4 with hyphens and refused otherwise, in the link command and in search. No checksum is applied because no official specification of one was found: the PIB explainer and community guides call it a random 14-digit number, and abdm.gov.in and the sandbox documents could not be read from the build environment.",
+      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed. Slice 10e: an ABHA number is accepted as 14 digits or grouped 2-4-4-4 with hyphens and refused otherwise, in the link command and in search. No checksum is applied because no official specification of one was found: the PIB explainer and community guides call it a random 14-digit number, and abdm.gov.in and the sandbox documents could not be read from the build environment. Slice 14a: the bound holds under parallel requests: every link reserves a slot (table limit_slots, migration 0018) in one guarded statement before the duplicate lookup, a slot is kept only for a holding record outside the scope (one per requester and record a day) and given back otherwise, and a request without a slot is refused as before; over HTTP six parallel links for six held numbers record exactly three review events (six before the change).",
       "remaining": "Authorised ABHA creation and verification with ABDM, a checksum if ABDM specifies one, issuer checks, and correction through ABDM.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2408,7 +2422,11 @@
         "lib/saha/identifier-search.ts",
         "tests/identifier-crosswalk-contract.mjs",
         "tests/identifier-search-smoke.mjs",
-        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
+        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md",
+        "lib/saha/limit-slots.ts",
+        "tests/limit-slots-contract.mjs",
+        "tests/limit-race-smoke.mjs",
+        "docs/current/SLICE-14A-ATOMIC-LIMITS.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2542,8 +2560,8 @@
       "sourceTextLine": 431,
       "implementation": "partial",
       "target": "R12",
-      "current": "Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.",
-      "remaining": "EHR updates/amendments, destination version conflicts and recording a conflict's resolution in Saha.",
+      "current": "Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows. Slice 14c: an accepted EHR publication can be withdrawn (a conditional-create notice, `entered-in-error`, that replaces its identifier) or amended (the confirmed correction visit's document replacing it), each through approval with its own receipt and an identifier lookup for an unknown outcome; the published record is not edited.",
+      "remaining": "EHR amendment and withdrawal against a real EHR (tested only with an injected FHIR transport; the slice 7f authoritative-search resolution is not applied to them), destination version conflicts and recording a conflict's resolution in Saha.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
@@ -2556,7 +2574,12 @@
         "lib/saha/exceptions.ts",
         "tests/ehr-resolution-contract.mjs",
         "tests/ehr-smoke.mjs",
-        "docs/current/SLICE-7F-EHR-RESOLUTION.md"
+        "docs/current/SLICE-7F-EHR-RESOLUTION.md",
+        "lib/saha/withdrawal.ts",
+        "lib/saha/withdrawal-execution.ts",
+        "tests/withdrawal-contract.mjs",
+        "tests/withdrawal-smoke.mjs",
+        "docs/current/SLICE-14C-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2779,14 +2802,21 @@
       "sourceTextLine": 465,
       "implementation": "partial",
       "target": "R14",
-      "current": "Encrypted per-user notebook, inactivity lock, grants and reconnect denial.",
-      "remaining": "Main-workspace shared-device protection, native keystore/MDM and lost-device exercises.",
+      "current": "Encrypted per-user notebook, inactivity lock, grants and reconnect denial. Slice 14e: a revoked grant, ended access, a merged record or a processing restriction orders removal of the device copy, done by the notebook and confirmed with a receipt when it next contacts Saha; pending removals are listed.",
+      "remaining": "Main-workspace shared-device protection, native keystore/MDM and lost-device exercises; a suspended or removed worker's notebook cannot fetch removal orders, and a device that never reconnects keeps its encrypted copy.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
         "tests/field-contract.mjs",
         "tests/field-client.mjs",
-        "tests/field-shell.mjs"
+        "tests/field-shell.mjs",
+        "lib/saha/field-device.ts",
+        "lib/saha/field-device-server.ts",
+        "public/field/app.js",
+        "tests/field-device-contract.mjs",
+        "tests/field-device-client.mjs",
+        "tests/field-device-smoke.mjs",
+        "docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3092,8 +3122,8 @@
       "sourceTextLine": 499,
       "implementation": "partial",
       "target": "R15",
-      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events.",
-      "remaining": "Assignment from the queue itself, device-side sync failures not reported to the server, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
+      "current": "Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events. Slice 14e: field notebooks report their sync failures as counts (step, error class, grant, first and last time; no patient details), listed for supervisors and owners in a Field devices panel on the Operations page and, for grants still open, as exception rows owned by the worker with a recovery action; device copies awaiting removal and consent-withdrawal notices not yet sent, uncertain or to be told by hand are exception rows too.",
+      "remaining": "Assignment from the queue itself, sync failures on a device that never reconnects (reports are sent only when the notebook is next online), notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3113,7 +3143,15 @@
         "app/trace-panel.tsx",
         "tests/trace-contract.mjs",
         "tests/trace-smoke.mjs",
-        "docs/current/SLICE-6Y-TASK-TRACE.md"
+        "docs/current/SLICE-6Y-TASK-TRACE.md",
+        "lib/saha/field-device.ts",
+        "lib/saha/field-device-server.ts",
+        "lib/saha/withdrawal-notices.ts",
+        "public/field/app.js",
+        "tests/field-device-contract.mjs",
+        "tests/field-device-client.mjs",
+        "tests/field-device-smoke.mjs",
+        "docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3181,8 +3219,8 @@
       "sourceTextLine": 508,
       "implementation": "partial",
       "target": "R15",
-      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out. Slice 6aa (seventh independent review): differencing is also checked through the people behind each release rather than by key: every measure release of the viewer's last seven days is re-evaluated against the people in scope now and split into atoms (people, and window-to-window increments for windowed measures, in exactly the same shown cells); a result that would create or split an atom of 1 to 4 is withheld, so a different grouping, an exclusion definition or a different window no longer bypasses it; the window is part of each release's identity; the ledger is bounded by size (1 MB organisation, 250 KB per viewer, 429 when full); a property test over random synthetic query sequences finds no released nested pair differing by 1 to 4; the remaining limits (two viewers combining results, changes between queries, releases older than seven days, unrelated measures) are stated to owners. Slice 6ad (ninth review): a release for a window that ended in the past records its end, used in the window key, the ledger prune identity and the population check, which counts each window to its own end and falls back to whole-person profiles when windows do not nest. Slice 13d: refused indicator queries (combination or cohort below 5) are recorded with filter names only and limited to 20 per viewer per day.",
-      "remaining": "Differencing across viewers, non-nested filters, groupings and definitions, suppression on the operational export and other report paths, and a separate purpose for patient exports.",
+      "current": "Current team scope and administrator patient-aggregate denial. Slice 6d indicator queries refuse cohorts under 5 and suppress small and complementary cells. Slice 6s adds per-definition minimum cohorts, differencing protection across one viewer's nested queries over seven days (hashed filters and per-cell people counts only, no patient data), and a CSV of indicator results that keeps the suppression; slice 6s-2 gives that CSV an export identifier, a row-count and SHA-256 manifest and an audit event. Slice 6w (fifth independent review): differencing compares numerators, denominators and denominator minus numerator as well as people; definition filters (sex, age band, programme) are nesting dimensions, so complementary definitions, including several in one query, are compared; the ledger is pruned by time only and refuses new queries at a per-viewer (400) or organisation (4,000) bound instead of evicting; a view moves no revision and writes no command receipt, queries are POST only, and data exit leaves the ledger out. Slice 6aa (seventh independent review): differencing is also checked through the people behind each release rather than by key: every measure release of the viewer's last seven days is re-evaluated against the people in scope now and split into atoms (people, and window-to-window increments for windowed measures, in exactly the same shown cells); a result that would create or split an atom of 1 to 4 is withheld, so a different grouping, an exclusion definition or a different window no longer bypasses it; the window is part of each release's identity; the ledger is bounded by size (1 MB organisation, 250 KB per viewer, 429 when full); a property test over random synthetic query sequences finds no released nested pair differing by 1 to 4; the remaining limits (two viewers combining results, changes between queries, releases older than seven days, unrelated measures) are stated to owners. Slice 6ad (ninth review): a release for a window that ended in the past records its end, used in the window key, the ledger prune identity and the population check, which counts each window to its own end and falls back to whole-person profiles when windows do not nest. Slice 13d: refused indicator queries (combination or cohort below 5) are recorded with filter names only and limited to 20 per viewer per day. Slice 14a: the refusal limit holds under parallel queries (each query reserves a slot before it is run; a refusal or partial withhold keeps it); over HTTP, eight parallel refused queries after 17 refusals are answered as three refusals and five 429s; a partial differencing withhold is recorded as an indicator refusal and counted, on screen and in a CSV export. Slice 14g: the operational report CSV (the one count-bearing file that had no suppression) now shows counts of 1 to 4 as <5, withholds every count when the report covers 1 to 4 people, withholds one further cell where a breakdown with a shown total would reveal a suppressed one, and states the rule and the number of cells in the file; control totals over a suppressed breakdown are withheld. Every route handler, Content-Disposition source, file-saving screen and outbound command is classified in an inventory, and a contract fails when a new one is not. Patient-level files (FHIR download, data exit) are a separate patient-export purpose; the operational CSV needs the reporting purpose.",
+      "remaining": "Differencing across viewers, non-nested filters, groupings and definitions; differencing across operational report exports (two files with different filters, windows or teams can be subtracted; the indicator ledger is not applied to the operational report); the in-app aggregate views (operations JSON view, worker activity, alerts, caseload) are not suppressed, by decision pending; the data-exit purpose check cannot restrict owners, who cannot be purpose-limited.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3203,7 +3241,18 @@
         "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
         "tests/review-leftovers-smoke.mjs",
         "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
-        "docs/current/SLICE-13F-REVIEW-FIXES.md"
+        "docs/current/SLICE-13F-REVIEW-FIXES.md",
+        "lib/saha/limit-slots.ts",
+        "tests/limit-slots-contract.mjs",
+        "tests/limit-race-smoke.mjs",
+        "docs/current/SLICE-14A-ATOMIC-LIMITS.md",
+        "lib/saha/export-suppression.ts",
+        "lib/saha/export-routes.ts",
+        "lib/saha/held-exports.ts",
+        "lib/saha/held-exports-server.ts",
+        "tests/export-suppression-contract.mjs",
+        "tests/export-suppression-smoke.mjs",
+        "docs/current/SLICE-14G-EXPORT-SUPPRESSION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3217,8 +3266,8 @@
       "sourceTextLine": 511,
       "implementation": "partial",
       "target": "R15",
-      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen. Slice 6ab: aggregate reports are screened with the population check, as indicator queries are. Slice 6ad (ninth review): aggregate report cells are never shown to people (they were screened for the destination only); a report period ending in the past records its window end so it never replaces or escapes an earlier release to the same destination. Slice 13d: the send checkpoint applies the sender's scope before the population screen (it saw an empty population before).",
-      "remaining": "Protected expiry of downloaded files, filters beyond window and team, and an official reviewed-submission lifecycle distinct from draft export. Aggregate reports go to demonstration destinations only; there is no official reviewed-submission lifecycle with the programme, no reporting calendar or scheduled report, and no snapshot of the records behind a sent report.",
+      "current": "Audited scoped CSV with generation time/window and formula escaping. Slice 6k: the CSV names its definition and version, export identifier, draft status, exporting member and role, window and teams; control totals tie displayed measures to the sums of their detail rows; a trailing manifest gives the row count and SHA-256 of the content, also recorded in the export's audit line and response headers; administrators and care roles cannot download it. Slice 7g: an aggregate report for an aggregate-only destination is prepared from named definition versions, a period and teams in the preparer's scope, approved by a different authorised person and sent with the same suppression, a manifest (definitions, row count, SHA-256), a release recorded for the destination in the differencing ledger, and the receipt kept in the report history on the destination's screen. Slice 6ab: aggregate reports are screened with the population check, as indicator queries are. Slice 6ad (ninth review): aggregate report cells are never shown to people (they were screened for the destination only); a report period ending in the past records its window end so it never replaces or escapes an earlier release to the same destination. Slice 13d: the send checkpoint applies the sender's scope before the population screen (it saw an empty population before). Slice 14g: the CSV is suppressed (definition 1.2.0); the operational report takes team and programme filters inside the viewer's reporting reach; a prepared report can be held for one download (POST /api/exports, GET /api/exports?id=): 15-minute expiry, delivered once to the member who prepared it, refused on replay, on another member, after a change of role, reach or purpose, content blanked after delivery or expiry, and each download audited.",
+      "remaining": "Expiry applies to the operational CSV only (the indicator CSV, data exit, audit export, incentive CSV and rejection report are delivered directly, not held); filters beyond window, team and programme (village, age band, sex) on the operational report; no screen for held exports or filters; and an official reviewed-submission lifecycle distinct from draft export. Aggregate reports go to demonstration destinations only; there is no official reviewed-submission lifecycle with the programme, no reporting calendar or scheduled report, and no snapshot of the records behind a sent report.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3238,7 +3287,14 @@
         "tests/ninth-review-fixes-contract.mjs",
         "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
         "tests/aggregate-checkpoint-population-contract.mjs",
-        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md"
+        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
+        "lib/saha/export-suppression.ts",
+        "lib/saha/export-routes.ts",
+        "lib/saha/held-exports.ts",
+        "lib/saha/held-exports-server.ts",
+        "tests/export-suppression-contract.mjs",
+        "tests/export-suppression-smoke.mjs",
+        "docs/current/SLICE-14G-EXPORT-SUPPRESSION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3547,14 +3603,21 @@
       "sourceTextLine": 551,
       "implementation": "partial",
       "target": "R15",
-      "current": "Optional AI can be declined; contact preferences and EHR scopes are recorded.",
-      "remaining": "Reviewed multilingual notices, notice versions, representative authority and full expiry semantics.",
+      "current": "Optional AI can be declined; contact preferences and EHR scopes are recorded. Slice 14b: a consent decision (permission switch or withdrawal) records whether the person or a representative decided; a representative's decision names their record, relationship, authority and grant period on the consent event, the command result and the audit event, and is accepted only under a grant in force that covers consent decisions; a person recorded as lacking capacity cannot give a permission as their own (a withdrawal is always recorded). Slice 14d: owners publish versioned notices for AI assistance and external sharing (English and/or Hindi text, effective time, change summary, reviewer, material flag; never edited); a permission given records the notice version and language it was shown in (a stale or missing notice is refused) and an end date set by the server (AI 365 days, sharing 180, contact 365); a permission whose end has passed, or that was given before a material notice version took effect, stops authorising AI use, programme delivery, EHR exchange and reminders when checked, is shown as expired or needing renewal with a renewal path, and its terms, renewal and lapse are in the consent history and audit trail.",
+      "remaining": "Reviewed multilingual notice content (Saha holds none; the reviewer field is the owner's statement and Hindi is unchecked); notices for automated contact; a representative on contact-preference permissions; a representative's permission ending when their authority ends (consentStanding does not yet check decidedBy); an end date for permissions recorded before slice 14d; periods approved by a privacy officer; formal acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/server.ts",
-        "lib/saha/access.ts",
-        "lib/saha/store.ts",
-        "REMAINING-RELEASES.md"
+        "lib/saha/consent-notices.ts",
+        "lib/saha/core.ts",
+        "lib/saha/consent.ts",
+        "tests/consent-notices-contract.mjs",
+        "tests/consent-notices-smoke.mjs",
+        "tests/ui/consent-notices.spec.mjs",
+        "docs/current/SLICE-14D-NOTICES-CONSENT-EXPIRY.md",
+        "lib/saha/rights.ts",
+        "tests/proxy-authority-contract.mjs",
+        "tests/proxy-authority-smoke.mjs",
+        "docs/current/SLICE-14B-PROXY-AUTHORITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3568,8 +3631,8 @@
       "sourceTextLine": 554,
       "implementation": "partial",
       "target": "R15",
-      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain.",
-      "remaining": "Destination notification with verified external outcomes, offline device copies, real ABDM consent-manager revocation and approved policy for retained completed transactions.",
+      "current": "Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. Slice 14e: AI and sharing withdrawals list open field-notebook copies (kept: they cannot sync under the old permission version); a copy on a worker's device is removed on the notebook's next contact when its grant is revoked, the worker's access ended, the record was merged or processing is restricted, confirmed by a counts-only receipt, with pending removals listed; a sharing withdrawal creates one notice per destination holding the person's records, sent to the demonstration simulators with their receipts (an unknown outcome is looked up, never resent), recorded with the mock ABDM gateway, or told by hand and recorded with a reference for HTTP programme and EHR connections.",
+      "remaining": "Verified outcomes from real destinations (notices to HTTP programme and EHR connections are manual until the slice 14c path is used; only the demonstration simulators answer), removal from devices that never reconnect, real ABDM consent-manager revocation and approved policy for retained completed transactions.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3579,7 +3642,15 @@
         "lib/saha/consent.ts",
         "tests/consent-contract.mjs",
         "tests/consent-smoke.mjs",
-        "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md"
+        "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md",
+        "lib/saha/field-device.ts",
+        "lib/saha/field-device-server.ts",
+        "lib/saha/withdrawal-notices.ts",
+        "public/field/app.js",
+        "tests/field-device-contract.mjs",
+        "tests/field-device-client.mjs",
+        "tests/field-device-smoke.mjs",
+        "docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3593,11 +3664,15 @@
       "sourceTextLine": 557,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads.",
-      "remaining": "Jurisdiction-specific sensitivity restrictions and relationship/authority/expiry enforcement.",
+      "current": "Slice 1: sensitive classes (maternal, TB, adolescent, child) derived per person; household sharing withholds items revealing a class the proxy grant does not name, and omits members without a grant. Not yet applied to notifications, exports or model payloads. Slice 14b: relationship, authority and expiry are recorded separately on each grant and enforced at every use (household sharing preview, consent decisions, rights requests), with the authority's age and capacity conditions checked at that time.",
+      "remaining": "Jurisdiction-specific sensitivity restrictions; evaluation in notifications, exports, reports and model payloads.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/household.ts",
+        "tests/proxy-authority-contract.mjs",
+        "tests/proxy-authority-smoke.mjs",
+        "docs/current/SLICE-14B-PROXY-AUTHORITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3725,8 +3800,8 @@
       "sourceTextLine": 572,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners.",
-      "remaining": "Approved record-class schedule, tombstones, restore-safe disposal and coverage of backups and exports.",
+      "current": "Slice 6c: owner-set, versioned retention schedules for six record classes, patient and organisation holds, and a per-class eligibility review. No record is deleted. Slice 6u: the review shows only the id, scope and times of holds on patients outside the viewer's scope (reason, reference and patient withheld), also for administrator-role owners. Slice 14f: a rule may allow disposal of patient records and visit media; one owner prepares a dry-run plan (identifiers, counts, plan hash) and a second owner applies exactly that plan, recomputed at its preparation time over current records; held records, records outside either owner's normal care scope, classes whose rule keeps them, and patients linked to open work or referenced by any other record are never disposed; disposed rows are deleted with a chained, append-only register entry as tombstone (identifier, time, rule, authority, content SHA-256), media content erased, revision content replaced by a tombstone, audit events and receipts kept (chain verifies); the restore tool re-applies a downloaded register before writing a restored database (zeroed, vacuumed), and the data exit and its verifier mark disposed records. Synthetic and training environments only; periods are placeholders.",
+      "remaining": "Approved record-class schedule with purpose, location and jurisdiction; disposal of the other classes (programme receipts, audit events and their free-text content, outreach messages, rights requests, field packages, transcripts, model outputs, local caches); backup retention and destruction; hosted D1 restore with the register; physical deletion on D1 not established; scheduled disposal; human review.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3736,7 +3811,14 @@
         "lib/saha/retention.ts",
         "app/retention-panel.tsx",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "lib/saha/disposal.ts",
+        "lib/saha/disposal-execution.ts",
+        "lib/saha/disposal-effects.ts",
+        "scripts/recovery.mjs",
+        "tests/disposal-contract.mjs",
+        "tests/disposal-smoke.mjs",
+        "docs/current/SLICE-14F-DISPOSAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3750,8 +3832,8 @@
       "sourceTextLine": 575,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too.",
-      "remaining": "Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation and retention-based deletion.",
+      "current": "Slice 6b: access, correction, restriction, deletion and grievance requests with identity or proxy-authority check, 30-day local due date, owner, destination notification items, outcome evidence and an enforced processing restriction. Slice 6r: the restriction also pauses reminder sending and ABDM care-context linking; unsent draft and approved reminders are cancelled with a reason when it takes effect. Slice 6u: FHIR downloads of a restricted patient's visits are paused too. Slice 14f: retention-based deletion exists for patient records past an owner-set placeholder schedule, by two owners; a patient referenced by a rights request is kept.",
+      "remaining": "Legally reviewed policy, verified requester channel, copy-of-record package, grievance escalation, and a deletion request that triggers or expedites disposal with its outcome evidence.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3763,7 +3845,10 @@
         "docs/current/SLICE-6R-MAIN-REVIEW-FIXES.md",
         "app/api/fhir/[id]/route.ts",
         "tests/fourth-review-fixes-contract.mjs",
-        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md"
+        "docs/current/SLICE-6U-FOURTH-REVIEW-FIXES.md",
+        "lib/saha/disposal.ts",
+        "tests/disposal-contract.mjs",
+        "docs/current/SLICE-14F-DISPOSAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3941,8 +4026,8 @@
       "sourceTextLine": 604,
       "implementation": "partial",
       "target": "R12",
-      "current": "Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason.",
-      "remaining": "Correction or reversal support from real partners (no destination declares void support and Saha has no EHR amendment or withdrawal path, so these stay manual), partner-confirmed reversal receipts, and acceptance with a real destination.",
+      "current": "Local/simulator/external outcomes remain distinct and receipts are not silently reversed. Slice 2j turns each external output of an amended or voided visit into an owned task: the destination's correction through the normal approval and execution path when a programme destination supports corrections and permits update, otherwise a manual correction or reversal with the destination; unknown outcomes are looked up first and unsent deliveries cancelled; nothing is sent or recalled automatically and closing needs a verified correction receipt or a reason. Slice 14c: where a destination permits `delete` (or an EHR connection `update` for an amended visit), the task is completed through Saha: a withdrawal or amendment prepared, approved for the exact payload and sent with its own receipt recorded against the original receipt, which is never edited; an unknown outcome is resolved only by lookup; the destination's confirmation closes the task with the verified receipt. Both demonstration simulators answer withdrawals (one loses the response).",
+      "remaining": "Correction or reversal support from real partners (slice 14c withdrawals and EHR amendments are tested only against demonstration simulators and injected transports, and the release default permits neither, so tasks stay manual until an owner permits the operation), partner-confirmed reversal receipts, and acceptance with a real destination.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -3959,7 +4044,12 @@
         "app/action-plan-panel.tsx",
         "tests/correction-tasks-contract.mjs",
         "tests/correction-tasks-smoke.mjs",
-        "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md"
+        "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md",
+        "lib/saha/withdrawal.ts",
+        "lib/saha/withdrawal-execution.ts",
+        "tests/withdrawal-contract.mjs",
+        "tests/withdrawal-smoke.mjs",
+        "docs/current/SLICE-14C-WITHDRAWAL.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4625,7 +4715,7 @@
       "sourceTextLine": 759,
       "implementation": "unverified",
       "target": "R16",
-      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured. Slice 6w: work-list cursors carry the view's total as well as the offset; when the total has changed the server restarts at the first page and the panel replaces its rows instead of appending. Slice 13e: with audit indexes (migration 0017), 1,000 workspace loads took 23.8 s then 24.3 s over 4,000 loads (24.9 s then 32.1 s without them) in Miniflare; Worker memory growth is unchanged and remains open.",
+      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured. Slice 6w: work-list cursors carry the view's total as well as the offset; when the total has changed the server restarts at the first page and the panel replaces its rows instead of appending. Slice 13e: with audit indexes (migration 0017), 1,000 workspace loads took 23.8 s then 24.3 s over 4,000 loads (24.9 s then 32.1 s without them) in Miniflare; Worker memory growth is unchanged and remains open. Slice 14a (O-2): in Miniflare with an inspector, the application isolate's live heap after a full collection stayed at 11.55–11.61 MB over 3,000 workspace loads; resident memory grew to 551 MB without collections and fell to 322 MB after one, and levelled at 249–266 MB with a collection before each sample, so the growth is uncollected garbage and runtime memory, not an application leak; a one-file Worker using D1 grows the same way. Cloudflare isolate memory is still not measured.",
       "remaining": "Partitioned architecture, topology/load/support/cost review before 10000-worker or five-million-person expansion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4648,7 +4738,8 @@
         "tests/nfr/memory-growth.mjs",
         "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
         "tests/audit-query-plan-contract.mjs",
-        "docs/current/SLICE-13E-PERFORMANCE.md"
+        "docs/current/SLICE-13E-PERFORMANCE.md",
+        "docs/current/SLICE-14A-ATOMIC-LIMITS.md"
       ],
       "automatedAcceptanceClaim": false
     },

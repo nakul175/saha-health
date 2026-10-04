@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4758
+      "minPassed": 5364
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -203,6 +203,11 @@
       "file": "tests/consent-contract.mjs",
       "minPassed": 25
     },
+    "unit/consent-notices-contract": {
+      "layer": "unit",
+      "file": "tests/consent-notices-contract.mjs",
+      "minPassed": 26
+    },
     "unit/continuity-contract": {
       "layer": "unit",
       "file": "tests/continuity-contract.mjs",
@@ -237,6 +242,11 @@
       "layer": "unit",
       "file": "tests/destination-enrolment-contract.mjs",
       "minPassed": 45
+    },
+    "unit/disposal-contract": {
+      "layer": "unit",
+      "file": "tests/disposal-contract.mjs",
+      "minPassed": 39
     },
     "unit/drift-contract": {
       "layer": "unit",
@@ -277,6 +287,11 @@
       "layer": "unit",
       "file": "tests/exceptions-contract.mjs",
       "minPassed": 8
+    },
+    "unit/export-suppression-contract": {
+      "layer": "unit",
+      "file": "tests/export-suppression-contract.mjs",
+      "minPassed": 14
     },
     "unit/facility-scope-contract": {
       "layer": "unit",
@@ -322,6 +337,16 @@
       "layer": "unit",
       "file": "tests/field-contract.mjs",
       "minPassed": 38
+    },
+    "unit/field-device-client": {
+      "layer": "unit",
+      "file": "tests/field-device-client.mjs",
+      "minPassed": 26
+    },
+    "unit/field-device-contract": {
+      "layer": "unit",
+      "file": "tests/field-device-contract.mjs",
+      "minPassed": 99
     },
     "unit/field-media-capacity-client": {
       "layer": "unit",
@@ -433,6 +458,16 @@
       "file": "tests/indicators-contract.mjs",
       "minPassed": 9
     },
+    "unit/integration-14-contract": {
+      "layer": "unit",
+      "file": "tests/integration-14-contract.mjs",
+      "minPassed": 14
+    },
+    "unit/limit-slots-contract": {
+      "layer": "unit",
+      "file": "tests/limit-slots-contract.mjs",
+      "minPassed": 15
+    },
     "unit/main-review-fixes-contract": {
       "layer": "unit",
       "file": "tests/main-review-fixes-contract.mjs",
@@ -537,6 +572,11 @@
       "layer": "unit",
       "file": "tests/provider-sandbox-contract.mjs",
       "minPassed": 75
+    },
+    "unit/proxy-authority-contract": {
+      "layer": "unit",
+      "file": "tests/proxy-authority-contract.mjs",
+      "minPassed": 22
     },
     "unit/purpose-scope-contract": {
       "layer": "unit",
@@ -707,6 +747,11 @@
       "layer": "unit",
       "file": "tests/visit-import-contract.mjs",
       "minPassed": 54
+    },
+    "unit/withdrawal-contract": {
+      "layer": "unit",
+      "file": "tests/withdrawal-contract.mjs",
+      "minPassed": 65
     },
     "unit/worker-activity-contract": {
       "layer": "unit",

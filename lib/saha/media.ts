@@ -7,7 +7,8 @@ export const MEDIA_TYPES={'image/jpeg':'photo','image/png':'photo','image/webp':
 export type MediaMime=keyof typeof MEDIA_TYPES;
 export const MEDIA_PURPOSES=['wound-or-skin','document-or-card','medicine-packaging','voice-note','other-clinical'] as const;
 export const MAX_MEDIA_BYTES=256*1024,MIN_MEDIA_BYTES=512,MAX_MEDIA_PER_VISIT=10;
-export type MediaRef={id:string;purpose:typeof MEDIA_PURPOSES[number];mime:MediaMime;size:number;sha256:string;at:string;by:string;removedAt?:string;removedBy?:string;removeReason?:string};
+// Slice 14f: `disposal` marks media whose content was disposed under the retention schedule (removedAt is set with it).
+export type MediaRef={id:string;purpose:typeof MEDIA_PURPOSES[number];mime:MediaMime;size:number;sha256:string;at:string;by:string;removedAt?:string;removedBy?:string;removeReason?:string;disposal?:{at:string;batch:string;entry:string;reason:string}};
 const starts=(b:Uint8Array,sig:number[],at=0)=>sig.every((x,i)=>b[at+i]===x);
 // The declared type must match the file's own signature; a renamed file is refused.
 export function sniff(bytes:Uint8Array,mime:string):boolean{

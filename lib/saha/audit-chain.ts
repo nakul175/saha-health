@@ -30,7 +30,8 @@ export const ACCESS_AUDIT = 'recordAccess';
 export const SUMMARY_ACCESS_ACTIONS: readonly string[] = ['viewWorkspace', 'searchPatients', 'listPatients', 'viewAggregate'];
 // Slice 10b: side tables an access-audit commit may also append to in the same batch (the notification message log: one
 // message row per audit event, committed together so a message never exists without its audit event, or the reverse).
-export const ACCESS_SIDE_TABLES: ReadonlySet<string> = new Set(['notification_messages']);
+// Slice 14e: field notebooks' sync failure reports (rows per report, one audit event per report; lib/saha/field-device-server.ts).
+export const ACCESS_SIDE_TABLES: ReadonlySet<string> = new Set(['notification_messages', 'field_sync_reports']);
 type Value = string | number | null;
 export type ChainRow = { table: string; values: Record<string, Value>; keys: string[]; append?: boolean };
 export type EventRow = { org_id: string; id: string; person_id: string | null; actor_id: string; actor_name: string; role: string; action: string; subject: string; detail: string; at: string; seq?: number | null; prev_hash?: string | null; hash?: string | null };

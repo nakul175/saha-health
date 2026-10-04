@@ -8,7 +8,7 @@ const dir = mkdtempSync(join(process.cwd(), '.purpose-scope-')); let passed = 0;
 const check = async (name, f) => { try { await f(); passed++; } catch (e) { failures.push(name + ': ' + (e?.message ?? e)); } };
 const rejects = async (f, status, re) => { let err; try { await f(); } catch (e) { err = e; } assert.ok(err, 'expected a refusal'); assert.equal(err.status, status, err.message); if (re) assert.match(err.message, re); return err; };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types']) {
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-device', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types', 'withdrawal-notices']) {
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   }
   const imp = f => import(pathToFileURL(join(dir, f + '.js')));
@@ -141,7 +141,7 @@ try {
     const supView = P.purposeScopeView(s, supervisor);
     assert.equal(supView.grants.length, 0, 'an unrelated member sees no grant');
     assert.equal(workerView.programmes.length, 5);
-    assert.equal(workerView.purposes.length, 5);
+    assert.equal(workerView.purposes.length, 6);
   });
   await check('no secrets in the stored setting', () => {
     const s = state([owner, worker]);

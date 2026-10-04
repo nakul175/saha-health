@@ -9,7 +9,7 @@ const dir = mkdtempSync(join(process.cwd(), '.household-contract-'));
 let passed = 0;
 const check = fn => { fn(); passed++; };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-device', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types', 'withdrawal-notices'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   const h = await import(pathToFileURL(join(dir, 'household.js')));
   const now = '2026-09-30T00:00:00.000Z', later = '2026-12-01T00:00:00.000Z', earlier = '2026-09-01T00:00:00.000Z';
@@ -20,7 +20,8 @@ try {
   const child = { ...base, id: 'child', name: 'Child', age: 4, programmes: ['Child health'], status: 'completed' };
   const household = { id: 'h', version: 1, label: 'Synthetic', teamId: 't', createdAt: now, createdBy: 'w', members: ['head', 'mother', 'teen', 'child'].map(personId => ({ personId, relationship: 'other', from: '2026-09-01', addedBy: 'w', addedAt: now })) };
   const state = { workspace: { people: [head, mother, teen, child], visits: [], referrals: [{ id: 'r1', personId: 'teen', visitId: 'v', facility: 'F', reason: 'Synthetic', state: 'sent', createdAt: now }], submissions: [], audit: [] }, households: [household] };
-  const grant = (over = {}) => ({ id: 'g', proxyPersonId: 'head', relationship: 'parent', purposes: ['care-coordination'], classes: [], evidence: 'SYNTH', from: earlier, expiresAt: later, grantedBy: 'w', grantedAt: earlier, ...over });
+  // Slice 14b: a grant needs an authority to be in force; the adult mother nominated the head, and the head is the teen's parent.
+  const grant = (over = {}) => ({ id: 'g', proxyPersonId: 'head', relationship: 'parent', authority: 'nominated', purposes: ['care-coordination'], classes: [], evidence: 'SYNTH', from: earlier, expiresAt: later, grantedBy: 'w', grantedAt: earlier, ...over });
   const members = (purpose = 'care-coordination') => h.shareable(state, household, head, purpose, now).members;
 
   check(() => { assert.deepEqual(h.sensitiveClasses(mother), ['maternal']); assert.deepEqual(h.sensitiveClasses(teen), ['tb', 'adolescent']); assert.deepEqual(h.sensitiveClasses(child), ['child']); assert.deepEqual(h.sensitiveClasses(head), []); });
@@ -37,9 +38,9 @@ try {
   check(() => assert.equal(members().some(m => m.personId === 'mother'), false, 'revoked grants are ignored'));
   mother.proxies = [grant({ classes: ['maternal'], proxyPersonId: 'teen' })];
   check(() => assert.equal(members().some(m => m.personId === 'mother'), false, 'a grant to someone else does not cover the recipient'));
-  teen.proxies = [grant({ classes: ['tb'] })];
+  teen.proxies = [grant({ classes: ['tb'], authority: 'parent-of-minor' })];
   check(() => { const m = members().find(m => m.personId === 'teen'); assert.ok(m); assert.deepEqual(m.items, [], 'adolescent class not granted: teen items withheld'); });
-  teen.proxies = [grant({ classes: ['tb', 'adolescent'] })];
+  teen.proxies = [grant({ classes: ['tb', 'adolescent'], authority: 'parent-of-minor' })];
   check(() => assert.deepEqual(members().find(m => m.personId === 'teen').items.map(i => i.kind).sort(), ['referral', 'visit']));
   household.members.find(x => x.personId === 'teen').to = '2026-09-20';
   check(() => assert.equal(members().some(m => m.personId === 'teen'), false, 'former members are not included'));

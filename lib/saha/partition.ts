@@ -49,6 +49,9 @@ export const PATIENT_COMMANDS = new Set<string>([
   'closeCorrectionTask',
   // slice R33 (BR-DATA-12): reuse of a recorded measurement from an earlier visit of the same person
   'reuseFact',
+  // slice 14e: consent-withdrawal notices to one patient's destinations, and a notebook's receipt for removing one patient's
+  // device copies (route-only: POST /api/field-device)
+  'sendWithdrawalNotice', 'lookupWithdrawalNotice', 'recordWithdrawalNotice', 'confirmFieldRemoval',
 ]);
 
 // Rows a patient-scoped commit may write. Any other table makes the commit organisation-wide.

@@ -1,0 +1,59 @@
+{
+  "slice": "int-14",
+  "label": "Integration 14 \u2014 slices 14a\u201314g combined on one branch",
+  "environment": "local built Worker, local D1, Node 22.22.2, synthetic data",
+  "totalPassed": 5640,
+  "note": "Selected results from the full run on 4 October 2026 (static 4 steps; unit 139 suites 8,364; HTTP/D1 5,364 + scheduled check 8; resilience 21; smoke 36 passed, 1 skipped; authorisation matrix 51; identity hardening 29; UAT checks 63). Built by one agent; no independent review of the merge.",
+  "reports": {
+    "integration__run-api-smoke.json": {
+      "sha256": "38dfd6a7e354f960fb610eec8a5301756de9dc2c785692d99958422dbfc0eba6",
+      "passed": 5364,
+      "completedAt": "2026-10-04T14:55:43.163Z"
+    },
+    "nfr__authorisation-matrix.json": {
+      "sha256": "34b250d24da7cd3d2e040059b68af2a4e32dc08b4c85d7adb4b4ee98dac915df",
+      "passed": 51,
+      "completedAt": "2026-10-04T14:56:46.735Z"
+    },
+    "nfr__identity-hardening.json": {
+      "sha256": "5d39ebe0c61019d9d6c6cbe675beb11d552777da6877937f77cc3411297958a4",
+      "passed": 29,
+      "completedAt": "2026-10-04T14:57:10.226Z"
+    },
+    "resilience__recovery-drill.json": {
+      "sha256": "2320311bea9da0547eb604e178e7f86755a79599ec341b0338f6b516d6b31b9c",
+      "passed": 21,
+      "completedAt": "2026-10-04T14:55:48.106Z"
+    },
+    "smoke__local-smoke.json": {
+      "sha256": "aa332ebc3e2cd6d3e9f3e34dde2ef51ac487111433847be671e7fab6f13bebf2",
+      "passed": 28,
+      "completedAt": "2026-10-04T14:56:03.625Z"
+    },
+    "unit__integration-14-contract.json": {
+      "sha256": "d450b2b5c10558649afe67359e7bd1754ad6ff4ce5851dc4cbec70dc6ec840f2",
+      "passed": 14,
+      "completedAt": "2026-10-04T14:49:47.958Z"
+    },
+    "unit__withdrawal-contract.json": {
+      "sha256": "391ae2a5a02d790bc978edb0d6a031e178123258ccc4350f1053f3c068c4ffdf",
+      "passed": 65,
+      "completedAt": "2026-10-04T14:51:36.500Z"
+    },
+    "unit__data-exit-contract.json": {
+      "sha256": "e6ea53edaa446223b24016a13f20929ed86a31ca85293d8a185a07c733134506",
+      "passed": 39,
+      "completedAt": "2026-10-04T14:48:10.661Z"
+    },
+    "unit__export-suppression-contract.json": {
+      "sha256": "758a52f1fbcf9fa0de2e7d9f25c1ef56ed429068595c75090961e94956f782f2",
+      "passed": 14,
+      "completedAt": "2026-10-04T14:48:34.754Z"
+    },
+    "unit__limit-slots-contract.json": {
+      "sha256": "4c9a00f165174a19e56dc95fc1b873b042ae8e30002e2ab584c62d1246211dcf",
+      "passed": 15,
+      "completedAt": "2026-10-04T14:49:50.614Z"
+    }
+  }
+}

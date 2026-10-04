@@ -30,13 +30,20 @@ import type { CorrectionSource, CorrectionTask, Member, OrgState, Person, Visit 
 //   out on read (slice 13c) and recorded as done; released figures (never recalled) remain review tasks, because only a
 //   person can decide whether a released figure must be reissued (integration of #144).
 //
+// Slice 14c: a destination whose operation setting permits `delete` ("delete or void") can now receive a withdrawal through
+// Saha, and an EHR connection that permits `update` an amendment (withdrawal.ts). For a wrong-patient visit the accepted
+// output's task is then 'send-withdrawal' (prepare, approve and send it from the visit's Receipts tab), and for an amended
+// visit's accepted EHR publication 'send-correction' (an amendment carrying the correction visit's document). The task is
+// completed with the verified receipt when the destination confirms. A destination without that permission keeps the
+// manual correction. A void of an output whose withdrawal the destination already confirmed adds no external task.
+//
 // Closing an open task needs evidence: a Saha receipt id of the accepted correction (checked against the
 // destination and the correction chain) or a reason of at least 10 characters, with an optional destination
 // reference. Closing is audited and never changes the output itself. Tasks are stored on the earlier visit and
 // are never deleted.
 export const CORRECTION_RULES_VERSION='1.0.0';
 export const CORRECTION_KIND_LABEL:Record<CorrectionTask['output']['kind'],string>={'programme-submission':'Programme submission','ehr-publication':'EHR publication',plan:'Sharing plan',referral:'Referral','follow-up':'Follow-up','protocol-evaluation':'Protocol evaluation','assistant-result':'Assistant result','shadow-comparison':'Shadow comparison','worker-activity':'Worker activity','indicator-releases':'Indicator releases'};
-export const CORRECTION_ACTION_LABEL:Record<CorrectionTask['action'],string>={'send-correction':'Send the destination\'s correction','manual-correction':'Manual correction with the destination','look-up-first':'Look up the outcome first','cancel-unsent':'Cancel the unsent delivery',review:'Review',invalidated:'Invalidated',recomputed:'Recomputed on read'};
+export const CORRECTION_ACTION_LABEL:Record<CorrectionTask['action'],string>={'send-correction':'Send the destination\'s correction','send-withdrawal':'Send a withdrawal through Saha','manual-correction':'Manual correction with the destination','look-up-first':'Look up the outcome first','cancel-unsent':'Cancel the unsent delivery',review:'Review',invalidated:'Invalidated',recomputed:'Recomputed on read'};
 const MAX_TASKS=60;
 
 // The visits that correct `id`, directly or through later corrections (the amends chain, newest last).
@@ -52,17 +59,26 @@ export function correctionTasks(s:OrgState,v:Visit,cause:'amend'|'void',u:Actor,
  // Programme submissions of this version.
  for(const x of w.submissions)if(x.visitId===v.id){
   const i=w.integrations.find(y=>y.id===x.connectorId),destination={id:x.connectorId,name:x.connectorName},output={kind:'programme-submission' as const,refId:x.id,label:`${x.connectorName} submission`,stateAtCorrection:x.state,destination,receipt:x.receipt??null};
-  if(x.state==='accepted'){
+  // Slice 14c: an output whose withdrawal the destination already confirmed needs nothing more after a void.
+  const withdrawn=(v.withdrawals??[]).some(y=>y.original.id===x.id&&y.state==='accepted');
+  if(x.state==='accepted'&&!(withdrawn&&!amend)){
    const supports=amend&&!!i?.mis?.corrections&&!operationRefusal(i,'update','patient');
-   if(supports)add({output,external:true,action:'send-correction',instruction:`${x.connectorName} accepted receipt ${x.receipt??'(none recorded)'}. Confirm the correction visit, then prepare, approve and execute its plan: the destination receives a correction replacing that receipt. Nothing is sent automatically.`});
-   else add({output,external:true,action:'manual-correction',instruction:amend?`${x.connectorName} accepted receipt ${x.receipt??'(none recorded)'} and this destination has no correction path enabled in Saha. Correct the record with the destination by its own process and record the outcome here.`:`${x.connectorName} accepted receipt ${x.receipt??'(none recorded)'} for the wrong patient. Saha has no void operation for programme destinations: ask the destination to reverse or void it and record the outcome here.`});
+   const withdraws=!amend&&!!i&&i.status==='active'&&i.mode!=='unconfigured'&&!operationRefusal(i,'delete','patient');
+   if(withdraws)add({output,external:true,action:'send-withdrawal',instruction:`${x.connectorName} accepted receipt ${x.receipt??'(none recorded)'} for the wrong patient. Its operation setting permits withdrawal: from this visit's Receipts tab prepare, approve and send a withdrawal of that receipt. Nothing is sent automatically; the task is completed when ${x.connectorName} confirms the withdrawal.`});
+   else if(supports)add({output,external:true,action:'send-correction',instruction:`${x.connectorName} accepted receipt ${x.receipt??'(none recorded)'}. Confirm the correction visit, then prepare, approve and execute its plan: the destination receives a correction replacing that receipt. Nothing is sent automatically.`});
+   else add({output,external:true,action:'manual-correction',instruction:amend?`${x.connectorName} accepted receipt ${x.receipt??'(none recorded)'} and this destination has no correction path enabled in Saha. Correct the record with the destination by its own process and record the outcome here.`:`${x.connectorName} accepted receipt ${x.receipt??'(none recorded)'} for the wrong patient. This destination is not permitted to withdraw (void) records through Saha: ask the destination to reverse or void it and record the outcome here.`});
   }else if(x.state==='uncertain'||x.state==='sending')add({output,external:true,action:'look-up-first',instruction:`The outcome at ${x.connectorName} is unknown. Look up the receipt first; if it was received, correct or reverse it with the destination. Never resend blindly.`});
   else if(x.state==='queued'||x.state==='retryable')add({output,external:true,action:'cancel-unsent',instruction:`This delivery was not sent and can no longer be sent from the earlier version. Cancel it; ${amend?'the correction visit gets its own plan':'nothing reaches the destination'}.`});
  }
  // EHR publications of this version.
  for(const o of p.ehr?.operations??[])if(o.visitId===v.id){
   const output={kind:'ehr-publication' as const,refId:o.id,label:'EHR publication',stateAtCorrection:o.state,receipt:o.receipt??null};
-  if(o.state==='accepted')add({output,external:true,action:'manual-correction',instruction:`The EHR accepted document ${o.receipt??'(no identifier recorded)'}. Saha has no EHR amendment or void path: ${amend?'amend':'withdraw'} it with the EHR by its own process and record the outcome here.`});
+  // Slice 14c: a withdrawal (delete) or amendment (update) through Saha when the connection permits it.
+  const li=w.integrations.find(y=>y.id===p.ehr?.links.find(l=>l.id===o.linkId)?.integrationId),path=!!li&&li.status==='active'&&!!li.ehr?.write&&!operationRefusal(li,amend?'update':'delete','patient');
+  const withdrawn=(v.withdrawals??[]).some(y=>y.original.id===o.id&&y.state==='accepted');
+  if(o.state==='accepted'&&withdrawn&&!amend){}
+  else if(o.state==='accepted'&&path)add({output,external:true,action:amend?'send-correction':'send-withdrawal',instruction:amend?`The EHR accepted document ${o.receipt??'(no identifier recorded)'}. Its operation setting permits amendment: once the correction visit is confirmed, prepare, approve and send an amendment from this visit's Receipts tab; it replaces that document with the correction visit's document. Nothing is sent automatically.`:`The EHR accepted document ${o.receipt??'(no identifier recorded)'} for the wrong patient. Its operation setting permits withdrawal: prepare, approve and send a withdrawal of that document from this visit's Receipts tab. Nothing is sent automatically.`});
+  else if(o.state==='accepted')add({output,external:true,action:'manual-correction',instruction:`The EHR accepted document ${o.receipt??'(no identifier recorded)'}. This connection is not permitted to ${amend?'amend':'withdraw'} documents through Saha: ${amend?'amend':'withdraw'} it with the EHR by its own process and record the outcome here.`});
   else if(o.state==='uncertain'||o.state==='running')add({output,external:true,action:'look-up-first',instruction:'The EHR outcome is unknown. Look up the document identifier with the EHR first; if it was received, correct or withdraw it there. Never publish again blindly.'});
   else if(o.state==='prepared')add({output,external:false,action:'invalidated',state:'done',instruction:'The prepared publication can no longer be executed: the server refuses publication of a visit that is not current.'});
  }
@@ -164,11 +180,15 @@ export function applyCorrectionTask(s:OrgState,input:unknown,u:Actor,m:Member,no
  let verified=false;
  if(c.receiptId){
   // A receipt id must be an accepted correction from Saha to the same destination, sent from a visit that corrects this one.
-  if(t!.output.kind!=='programme-submission'||t!.action!=='send-correction')fail(422,'A Saha receipt closes only a correction sent through Saha. Record the destination\'s reference and a reason instead.');
+  // Slice 14c: or the receipt of a confirmed withdrawal or EHR amendment of this exact output, sent through Saha.
+  const withdrawal=(v!.withdrawals??[]).find(x=>x.original.id===t!.output.refId&&x.kind===t!.output.kind&&x.state==='accepted'&&x.receipt===c.receiptId&&(x.operation==='withdraw'?t!.action==='send-withdrawal':t!.action==='send-correction'));
+  if(withdrawal)verified=true;
+  else{
+  if(t!.output.kind!=='programme-submission'||t!.action!=='send-correction')fail(422,'A Saha receipt closes only a correction, withdrawal or amendment sent through Saha. Record the destination\'s reference and a reason instead.');
   const chain=new Set(correctionsOf(s,v!.id).map(x=>x.id));
   const sent=w.submissions.find(x=>chain.has(x.visitId)&&x.connectorId===t!.output.destination?.id&&x.state==='accepted'&&x.receipt===c.receiptId);
   if(!sent)fail(422,'This receipt is not an accepted correction to this destination from a visit that corrects this one.');
-  verified=true;
+  verified=true;}
  }
  if(t!.action==='cancel-unsent'){const sub=w.submissions.find(x=>x.id===t!.output.refId);if(sub&&['queued','retryable','sending'].includes(sub.state))fail(409,'Cancel the unsent delivery first; it is still waiting.');}
  if(t!.action==='look-up-first'&&t!.output.kind==='programme-submission'){const sub=w.submissions.find(x=>x.id===t!.output.refId);if(sub&&['uncertain','sending'].includes(sub.state)&&!c.reason)fail(409,'Look up the receipt first, or record what the destination said.');}
