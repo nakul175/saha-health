@@ -37,7 +37,7 @@ Both sides were kept wherever both were additions.
 
 ## Seam fixes
 
-Seven small fixes where the slices meet. Each has a test.
+Eight small fixes where the slices meet. Each has a test.
 
 1. **14c with 14d: a lapsed sharing permission blocks an EHR amendment.** `bindingProblem` in `lib/saha/withdrawal.ts` tested the raw `exchangeConsent` flag. For an amendment it now also asks `consentStanding(p, 'exchange', now, noticesOf(s))` (the organisation's notice registry, as 14d does elsewhere): a permission that has expired, or was given under an earlier material notice, refuses approve and execute with "the sharing permission is no longer in force". A renewed permission works again.
 2. **14c with the processing restriction (review finding, high): an EHR amendment is refused while a restriction is active.** An amendment writes a new document to an outside system, which `PAUSED_WHEN_RESTRICTED` pauses for `executeEhrPublish`. Prepare, approve and execute of an *amendment* now refuse with 409 when `activeRestriction(p)` holds (`amendRestricted`, `AMEND_RESTRICTED` in `withdrawal.ts`; approve and both execute checks go through `bindingProblem`). The command types are not added to `PAUSED_WHEN_RESTRICTED`, because that set is by command type and would also stop plain withdrawals and retractions, which continue and are tested to continue.
@@ -45,7 +45,8 @@ Seven small fixes where the slices meet. Each has a test.
 4. **14e with 14d: the `noticesOf` name collision** (above).
 5. **14g: classification of what 14a–14f added** in `lib/saha/export-routes.ts`: `GET` and `POST /api/field-device` (14e), `GET /api/retention/disposal-register` (a file export, source `disposal-server.ts`, saved by `app/retention-panel.tsx`; 14f), and, in a new `OTHER_OUTBOUND_COMMANDS` table, the 14c and 14e commands that can send a person's data or a notice about it (`executeWithdrawal`, `sendWithdrawalNotice` carry a record; prepare, approve, lookup, cancel and record carry none). They are not keys of `COMMAND_PURPOSE`, so they cannot go in `COMMANDS`.
 6. **Migration chain** (above): journal, snapshots, `SCHEMA_MIGRATION`.
-7. **Older tests that assumed one branch:** `tests/limit-slots-contract.mjs` assumed 0018 was the last migration and now finds it by name; `tests/data-exit-contract.mjs` expects 34 tables (32 + `field_sync_reports` + the disposal register, plus member accounts).
+7. **14g: anonymous `POST /api/exports` was a 422, not a 401.** `heldExportsPost` validated the body before it identified the caller. The authorisation matrix (anonymous on every non-GET route) found it on the merged tree; the caller is now identified first. The defect is in 14g's code as merged; the 14g branch's own matrix run passed 51 checks, and why it did not see this was not traced.
+8. **Older tests that assumed one branch:** `tests/limit-slots-contract.mjs` assumed 0018 was the last migration and now finds it by name; `tests/data-exit-contract.mjs` expects 34 tables (32 + `field_sync_reports` + the disposal register, plus member accounts).
 
 ## Tests
 
