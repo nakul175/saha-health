@@ -1383,11 +1383,11 @@ Explicit synthetic contact ownership, language, privacy, hours and withdrawal co
 
 **Expected result** (catalogue): Declining an optional AI recording leaves the approved non-AI care workflow available and prevents that media from being sent.
 
-**Known gaps** (assessment, remaining work for BR-SEC-02): Reviewed multilingual notices, notice versions, representative authority and full expiry semantics.
+**Known gaps** (assessment, remaining work for BR-SEC-02): Reviewed multilingual notice content (Saha holds none; the reviewer field is the owner's statement and Hindi is unchecked); notices for automated contact; representative authority on notices (slice 14b, not merged); an end date for permissions recorded before slice 14d; periods approved by a privacy officer; formal acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-02)</summary>
 
-Optional AI can be declined; contact preferences and EHR scopes are recorded.
+Optional AI can be declined; contact preferences and EHR scopes are recorded. Slice 14d: owners publish versioned notices for AI assistance and external sharing (English and/or Hindi text, effective time, change summary, reviewer, material flag; never edited); a permission given records the notice version and language it was shown in (a stale or missing notice is refused) and an end date set by the server (AI 365 days, sharing 180, contact 365); a permission whose end has passed, or that was given before a material notice version took effect, stops authorising AI use, programme delivery, EHR exchange and reminders when checked, is shown as expired or needing renewal with a renewal path, and its terms, renewal and lapse are in the consent history and audit trail.
 
 </details>
 

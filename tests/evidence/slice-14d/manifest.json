@@ -1,0 +1,38 @@
+{
+  "slice": "14d",
+  "label": "Development slice 14d — notice versions and permission expiry (R90)",
+  "environment": "local built Worker and local D1 under wrangler dev, Node 22.22.2, Linux container shared with other agents, synthetic data only, ports 8840-8843",
+  "note": "Runs on the slice 14d source before the generated documentation and baseline were rebuilt; the static and UAT checks were run again after regeneration (see VALIDATION.md). The R11 results in tests/ are unchanged historical evidence.",
+  "reports": {
+    "consent-notices-contract-result.json": {
+      "sha256": "88c03a3de33134ab739bb2b771a57cfb29889eba62ca2741a1bdce2c694475f1",
+      "passed": 26,
+      "completedAt": "2026-10-04T12:43:07.616Z"
+    },
+    "api-smoke-result.json": {
+      "sha256": "33a5102f938c700bc1b900f161ef2adb84ee0a9b4b3b1413ab07e8f42035e457",
+      "passed": 4838,
+      "completedAt": "2026-10-04T12:55:18.531Z",
+      "note": "HTTP/D1 suite (tests/run-api-smoke.mjs) including the new consent-notices module (80 assertions)"
+    },
+    "run-unit-integration-resilience-smoke.json": {
+      "sha256": "0d0588e36adb8ef260f382a0646c44505bb3527796f22af1b611ee57b22f22ea",
+      "passed": 12973,
+      "failed": 0,
+      "note": "node scripts/test.mjs unit integration resilience smoke on the final slice source: unit 131 suites 8,070; HTTP/D1 4,838 and scheduled check 8; restore drill 21; smoke 36 passed, 1 skipped"
+    },
+    "run-nfr-security.json": {
+      "sha256": "b6de7db6450e4b7c02e53bc17a59b90c4d450597749c8bfb1a605f095a4e71b1",
+      "passed": 80,
+      "failed": 0,
+      "note": "authorisation matrix (51) and identity hardening (29); run before two screen-text changes in app/consent-terms-panel.tsx, with the same server code"
+    },
+    "ui-consent-notices-result.json": {
+      "sha256": "1b74b6d44d13be2a30a506c359bfc9a5deb465ab47269ead9ee959611b5582d6",
+      "passed": 1,
+      "failed": 0,
+      "completedAt": "2026-10-04T12:40:48.229Z",
+      "note": "Playwright, desktop project, tests/ui/consent-notices.spec.mjs only, on the final source (2 screens scanned by axe, 0 violations); the rest of the UI tier was not run"
+    }
+  }
+}

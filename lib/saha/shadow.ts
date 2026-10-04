@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fail, uuid } from './core';
+import { consentInForce, fail, noticesOf, uuid } from './core';
 import { entryFor, entryIssues, entryScope, governanceState, type GovernanceEntry } from './governance';
 import { checkMonthlyBudget } from './ai-budget';
 import { FIELDS, FIELD_LABEL, localAssess, localExtract, validateOutput, type AgentField, type AgentOutput } from './agent';
@@ -82,7 +82,7 @@ export function recompareShadow(s: OrgState, r: ShadowResult): { outcome: 'recom
 }
 function notRunReason(s: OrgState, e: GovernanceEntry, p: Person, v: Visit, now: string): NotRunReason | null {
   const spec = e.spec as Extract<GovernanceEntry['spec'], { kind: 'capability' }>;
-  if (!p.aiConsent) return 'consent';
+  if (!consentInForce(p, 'ai', now, noticesOf(s))) return 'consent';
   if ((p.restrictions ?? []).some(r => !r.liftedAt)) return 'restricted';
   if (p.age < spec.ageMin || p.age > spec.ageMax) return 'outside-scope';
   if (!v.facts.notes?.trim()) return 'no-source';

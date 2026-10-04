@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { fail, person, uuid } from './core';
+import { CONSENT_PERIOD_DAYS, consentStanding, fail, noticeInForce, noticesOf, person, uuid, type NoticeRef, type StandingState } from './core';
 import { effective } from './abdm';
 import type { Actor } from './store';
 import type { Member, OrgState, Person, Role } from './types';
@@ -14,7 +14,7 @@ export type Disposition='stopped'|'in-flight'|'already-sent'|'kept';
 export type DownstreamKind='programme-plan'|'programme-submission'|'ehr-permission'|'ehr-publication'|'abdm-consent'|'abdm-care-context'|'abdm-received'|'ai-request'|'ai-result'|'outreach-message';
 export type DownstreamItem={kind:DownstreamKind;ref:string;before:string;after:string;disposition:Disposition;detail:string};
 export type ConsentChannel='in-person'|'phone'|'written'|'switch'|'contact-preferences';
-export type ConsentEvent={id:string;purpose:ConsentPurpose;action:'granted'|'withdrawn';at:string;by:string;byName:string;role:Role;channel:ConsentChannel;reference:string;reason:string;fromVersion:number;toVersion:number;items:DownstreamItem[];omitted?:number};
+export type ConsentEvent={id:string;purpose:ConsentPurpose;action:'granted'|'withdrawn';at:string;by:string;byName:string;role:Role;channel:ConsentChannel;reference:string;reason:string;fromVersion:number;toVersion:number;items:DownstreamItem[];omitted?:number;notice?:NoticeRef|null;expiresAt?:string;renews?:{eventId:string;state:StandingState}};
 // Bounds on the copy kept on the patient record. Every event is also in the audit chain, and every
 // patient change writes a record revision holding the full patient document at that version.
 export const MAX_ITEMS=100,MAX_HISTORY=100;
@@ -27,6 +27,8 @@ export const consentSchema=z.discriminatedUnion('type',[
 const setConsentSchema=z.object({type:z.enum(['setConsent']),personId:z.string().trim().min(1).max(200),purpose:z.enum(['ai','exchange']),active:z.boolean(),version:z.number().int().positive()});
 const care=(m:Member)=>m.status==='active'&&['asha','clinician'].includes(m.role);
 export function authorizeConsent(s:OrgState,m:Member,c:any){
+ // Slice 14d: publishing a consent notice version is an owner decision (lib/saha/consent-notices.ts), checked on replay too.
+ if(c?.type==='publishConsentNotice'){if(!m.isOwner||m.status!=='active')fail(403,'Only an organisation owner can publish consent notices.');return;}
  if(c?.type!=='withdrawConsent'&&c?.type!=='setConsent')return;
  if(!care(m))fail(403,'A care role with access to this patient records permission changes.');
  if(typeof c.personId==='string')person(s.workspace,c.personId);
@@ -36,7 +38,40 @@ const version=(p:Person,purpose:ConsentPurpose)=>purpose==='contact'?p.contactPr
 export function recordConsent(p:Person,e:Omit<ConsentEvent,'id'>){
  const items=e.items.slice(0,MAX_ITEMS),omitted=e.items.length-items.length;
  const event:ConsentEvent={id:uuid(),...e,items,...(omitted?{omitted}:{})};
- const h=p.consentHistory??=[];h.push(event);if(h.length>MAX_HISTORY)h.splice(0,h.length-MAX_HISTORY);return event;
+ const h=p.consentHistory??=[];h.push(event);
+ // Slice 14d: the bound drops the oldest events but never the latest decision of a purpose, which decides its standing.
+ if(h.length>MAX_HISTORY){const keep=new Set((['ai','exchange','contact'] as ConsentPurpose[]).map(x=>h.filter(y=>y.purpose===x).at(-1)?.id));let drop=h.length-MAX_HISTORY;for(let i=0;i<h.length&&drop>0;)if(keep.has(h[i].id))i++;else{h.splice(i,1);drop--;}}
+ return event;
+}
+// Slice 14d (R90, BR-SEC-02): the terms a permission is given under (see core.ts consentStanding). When a notice is in force
+// for the purpose, the command must name that version and a language it has text in: the notice the person was shown. An
+// older or unknown version is refused, so a newer notice is never skipped. The expiry is set here from the purpose's period,
+// never by the client. A permission given again while the last decision for its purpose was a grant renews that grant; the
+// event records which one and whether it had lapsed. Automated contact has an expiry but no notice registry in this slice.
+export const noticeChoiceSchema=z.object({id,language:z.enum(['en','hi'])}).strict();
+export const NOTICE_LANGUAGE={en:'English',hi:'Hindi'} as const;
+export function grantTerms(s:OrgState,p:Person,e:ConsentEvent,choice:unknown,now:string):Pick<ConsentEvent,'notice'|'expiresAt'|'renews'>{
+ const notices=noticesOf(s),inForce=noticeInForce(notices,e.purpose,now),what=PURPOSE_LABEL[e.purpose].toLowerCase();let notice:NoticeRef|null|undefined;
+ if(e.purpose==='contact'){if(choice!==undefined)fail(422,'Automated contact has no versioned notice in this build.');}
+ else if(inForce){
+  if(choice===undefined)fail(409,`Show the person the current ${what} notice (version ${inForce.version}) and record the language it was shown in before recording permission.`);
+  const c=noticeChoiceSchema.safeParse(choice);if(!c.success)fail(422,'Name the notice that was shown and its language.');
+  if(c.data.id!==inForce.id)fail(409,`The ${what} notice is now version ${inForce.version}. Show the person the current notice before recording permission.`);
+  if(!inForce.texts[c.data.language])fail(422,`Notice version ${inForce.version} has no ${NOTICE_LANGUAGE[c.data.language]} text.`);
+  notice={id:inForce.id,version:inForce.version,language:c.data.language};
+ }
+ else {if(choice!==undefined)fail(409,`No ${what} notice is in force. Refresh before recording permission.`);notice=null;}
+ const others=(p.consentHistory??[]).filter(x=>x.id!==e.id),prev=others.filter(x=>x.purpose===e.purpose).at(-1);
+ const renews=prev?.action==='granted'?{eventId:prev.id,state:consentStanding({...p,consentHistory:others},e.purpose,now,notices).state}:undefined;
+ return {...(notice!==undefined?{notice}:{}),expiresAt:new Date(Date.parse(now)+CONSENT_PERIOD_DAYS[e.purpose]*86400000).toISOString(),...(renews?{renews}:{})};
+}
+// Stamps the terms on a grant event and writes them to the audit trail as their own event.
+export function recordTerms(s:OrgState,p:Person,e:ConsentEvent,choice:unknown,u:Actor,m:Member,now:string){
+ Object.assign(e,grantTerms(s,p,e,choice,now));
+ const day=(x:string)=>x.slice(0,10),n=e.notice?noticesOf(s).find(x=>x.id===e.notice!.id):undefined,prior=e.renews?p.consentHistory?.find(x=>x.id===e.renews!.eventId):undefined;
+ const under=e.purpose==='contact'?'no versioned notice for this purpose':n?`given under notice version ${n.version} (${NOTICE_LANGUAGE[e.notice!.language]}), in force since ${day(n.effectiveFrom)}`:'no notice is published for this purpose';
+ const renewal=prior?`; renews the permission of ${day(prior.at)}${e.renews!.state==='expired'?', which had expired':e.renews!.state==='renewal-needed'?', which needed renewal after a material notice change':''}`:'';
+ s.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:'consentTerms',subject:p.id,personId:p.id,detail:`${PURPOSE_LABEL[e.purpose]} permission: ${under}; expires ${day(e.expiresAt!)} (${CONSENT_PERIOD_DAYS[e.purpose]} days)${renewal}.`});
 }
 const day=(s?:string)=>(s??'').slice(0,10);
 // Unexecuted plans carry the permission version; any permission change leaves them unusable.
@@ -107,6 +142,8 @@ export function applyConsent(s:OrgState,input:unknown,u:Actor,m:Member,now=new D
   if(c.active){const from=p.consentVersion;if(c.purpose==='ai')p.aiConsent=true;else p.exchangeConsent=true;p.consentVersion++;const items:DownstreamItem[]=[];plans(s,p,items);e=recordConsent(p,{purpose:c.purpose,action:'granted',at:now,by:u.userId,byName:u.displayName,role:m.role,channel:'switch',reference:'',reason:'',fromVersion:from,toVersion:p.consentVersion,items});}
   else e=withdraw(s,p,c.purpose,u,m,now,'switch','','Recorded with the permission switch.');
   action='setConsent';
+  // Slice 14d: a permission given records the notice it was given under and its expiry (grantTerms above).
+  if(e.action==='granted')recordTerms(s,p,e,(input as any).notice,u,m,now);
  }
  const label=PURPOSE_LABEL[e.purpose];
  w.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action,subject:(input as any).personId,personId:(input as any).personId,detail:e.action==='granted'?`${label} permission recorded (version ${e.fromVersion} to ${e.toVersion}).`:`${label} permission withdrawn (version ${e.fromVersion} to ${e.toVersion}${e.channel!=='switch'?`, ${e.channel}, reference ${e.reference}`:''}). ${summary(e.items)} Already shared records are not recalled.`});
