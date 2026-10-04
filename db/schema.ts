@@ -176,3 +176,11 @@ export const fieldSyncReports = sqliteTable('field_sync_reports', {
  step:text('step').notNull(), errorClass:text('error_class').notNull(), count:integer('count').notNull(), firstAt:text('first_at').notNull(), lastAt:text('last_at').notNull(), appVersion:text('app_version').notNull(),
  reportKey:text('report_key').notNull(), receivedAt:text('received_at').notNull(), auditId:text('audit_id').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('field_sync_reports_received').on(t.orgId,t.receivedAt),index('field_sync_reports_actor').on(t.orgId,t.actorId,t.receivedAt)]);
+
+// Slice 14g (BR-REP-05): a suppressed aggregate export held for one download by the member who prepared it. The file expires
+// (expires_at), is delivered once (downloaded_at) and its content is blanked after delivery or expiry; only the checksum and times stay.
+export const heldExports = sqliteTable('held_exports', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), userId:text('user_id').notNull(), kind:text('kind').notNull(),
+ createdAt:text('created_at').notNull(), expiresAt:text('expires_at').notNull(), downloadedAt:text('downloaded_at'), sha256:text('sha256').notNull(), bytes:integer('bytes').notNull(),
+ fingerprint:text('fingerprint').notNull(), content:text('content').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('held_exports_org_user').on(t.orgId,t.userId,t.createdAt)]);

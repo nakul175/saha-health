@@ -50,6 +50,8 @@ export const ACCESS_ACTIONS = {
   identifierConflictReview: 'Identifier link refused: the identifier is recorded on this record. Recorded on the holding record only, for identity steward review.',
   // Slice 10c: an approved synthetic incentive claims export is recorded the same way (no patient name or identifier in the file).
   incentiveExport: 'Synthetic incentive claims exported as CSV (no patient name or identifier).',
+  // Slice 14g: a held aggregate export delivered once to the member who prepared it (the generation is the opsExport event).
+  exportDownload: 'Held aggregate export downloaded once before it expired (small cells suppressed).',
   // Slice 13d (round-10 review M3): the household view and visit plan show each in-scope member's name and open items.
   viewHousehold: 'Household view opened: the in-scope members\' names, relationships and open items (and the visit plan) were shown.',
 } as const;

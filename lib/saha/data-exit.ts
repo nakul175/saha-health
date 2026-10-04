@@ -24,7 +24,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0021_disposal';
+export const SCHEMA_MIGRATION = '0022_export_suppression';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -74,6 +74,7 @@ export const EXCLUDED = [
   { what: 'accounts.email, accounts.active_org_id', why: 'Sign-in contact and a pointer to other organisations; members are identified by user_id, account_code and display_name.' },
   { what: 'invitations.token_hash', why: 'Credential verifier.' },
   { what: 'command_receipts.result', why: 'Can carry a newly issued invitation token.' },
+  { what: 'held_exports', why: 'Slice 14g: short-lived copies of prepared aggregate exports held for one download; the content is blanked after delivery or expiry and the rows are transient delivery state, not records.' },
   { what: 'server configuration and credentials', why: 'Held as deployment secrets, never in the database.' },
   { what: 'limit_slots', why: 'Slice 14a: server-side protection state (per-person reservations for the ABHA review throttle and the indicator refusal limit, kept for one day); the events they bound are in audit_events.' },
 ];

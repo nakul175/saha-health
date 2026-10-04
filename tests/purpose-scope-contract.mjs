@@ -141,7 +141,7 @@ try {
     const supView = P.purposeScopeView(s, supervisor);
     assert.equal(supView.grants.length, 0, 'an unrelated member sees no grant');
     assert.equal(workerView.programmes.length, 5);
-    assert.equal(workerView.purposes.length, 5);
+    assert.equal(workerView.purposes.length, 6);
   });
   await check('no secrets in the stored setting', () => {
     const s = state([owner, worker]);
