@@ -41,7 +41,7 @@ export async function correctionTasksSmoke({get,post,check,accounts,org,sql,base
  check(()=>{assert.equal(items().length,open);const sub=items().find(i=>i.correction.outputKind==='programme-submission');assert.ok(sub);assert.equal(sub.owner.userId,c.id);assert.equal(sub.correction.external,true);assert.equal(sub.correction.canClose,true);assert.equal(sub.correction.ageDays,0);assert.equal(sub.correction.href,`/?patient=${encodeURIComponent(pid)}&visit=${encodeURIComponent(va)}`);assert.equal(sub.urgency,'urgent');});
  let q=await read(s,'/api/exceptions');
  const rows=()=>q.items.filter(r=>r.kind==='correction-task'&&r.patient?.id===pid);
- check(()=>{assert.equal(q.rulesVersion,'1.3.0');assert.equal(rows().length,open);const r=rows().find(y=>y.severity==='high');assert.ok(r,'external task is high severity');assert.equal(r.link.visitId,va);assert.match(r.owner,/./);assert.equal(r.ageDays,0);assert.match(r.recovery,/Close it from the patient's action plan/);});
+ check(()=>{assert.equal(q.rulesVersion,'1.4.0');assert.equal(rows().length,open);const r=rows().find(y=>y.severity==='high');assert.ok(r,'external task is high severity');assert.equal(r.link.visitId,va);assert.match(r.owner,/./);assert.equal(r.ageDays,0);assert.match(r.recovery,/Close it from the patient's action plan/);});
  const adminRows=await read(a,'/api/exceptions');check(()=>assert.equal(adminRows.items.some(r=>r.kind==='correction-task'),false,'administrators see no correction rows'));
  await read(w,'/api/exceptions',403);
  // Closing needs scope and evidence.

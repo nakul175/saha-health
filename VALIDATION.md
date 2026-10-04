@@ -1347,3 +1347,23 @@ Before the "fix all" branches were offered for merge, an agent that had not seen
   - restore drill 21; smoke 36 passed, 1 skipped;
   - UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
 - The partial-differencing path has no HTTP test of its own. The fixes were written by the agent that built 13a–13e; no person has reviewed them. Requirement counts are unchanged; the BR-ID-02 text is updated and it stays partial.
+
+## Development slice 14e — field device reports, removal of device copies and withdrawal notices — 4 October 2026 IST
+
+Round 14, remaining-work rows R73 and R91 ([slice 14e](docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md)); on a branch from `main` 2adfbde1, not merged. Migration `0020_field_device`; route `GET`/`POST /api/field-device`; three certified notice commands and the route-only `confirmFieldRemoval`.
+
+- **Sync failure reports.** The field notebook counts failed sync steps (step, error class, grant, first and last time; no patient details) and sends them when next online. Stored per entry with one chained audit event, refused for another worker's grant, bounded per report and per day, replayed by key; shown in the new Field devices panel and, for open grants, the exception queue.
+- **Removal of device copies.** Revocation orders removal. A copy is also due when the worker's access ended, the record was merged, or processing is restricted and the grant can no longer sync; no new grant is issued while restricted. The notebook removes the copies on contact and confirms with a counts-only receipt stored on the grants. A device that never reconnects stays pending.
+- **Withdrawals.** AI and sharing withdrawals list open device copies (kept). A sharing withdrawal creates one notice per destination holding the person's records: sent to the demonstration simulators (acknowledged, or uncertain and resolved only by lookup), recorded with the mock ABDM gateway, or told by hand with a reference for HTTP programme and EHR connections. These wait for the slice 14c seam.
+- **Local results** (built Worker, Node 22.22.2, Linux container shared with other agents, synthetic data, ports 8850–8853):
+  - `tsc --noEmit` clean;
+  - unit 132 suites, 8,169 checks (new: field device contract 99, notebook client 26);
+  - HTTP/D1 4,881 (new field device module 123) and the scheduled check 8;
+  - restore drill 21; smoke 36 passed, 1 skipped;
+  - security 80 (authorisation matrix 51 with the new route classified, identity hardening 29);
+  - browser check 14 steps (notebook removal in Chromium, Field devices panel, Withdrawal notices dialog; axe found no serious or critical violations);
+  - static and UAT checks after the documentation was regenerated.
+- **First runs.** The first HTTP run stopped in the new module, because the test reused a stale patient version after a receipt; it was rerun after the fix. The first contract run failed three suites that expected exception rules 1.3.0 (eight test files carry that expectation; all were updated) and the catalogue check, run before the new HTTP module was imported.
+- **Mutations.** Three deliberate mutations (the access rule removed; a second send of an uncertain notice allowed; the media sweep removed) each failed their suite.
+- **Open.** Devices that never reconnect; suspended workers' notebooks; unsynced observations discarded under an order (counted); manual notices for HTTP and EHR connections; notices paused during maintenance.
+- No independent review. BR-REP-01, BR-SEC-03 and BR-OFF-07 texts updated; all stay partial; requirement counts unchanged.

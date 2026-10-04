@@ -151,3 +151,11 @@ export const media = sqliteTable('media', {
 export const scheduledCursor = sqliteTable('scheduled_cursor', {
  job:text('job').primaryKey(), lastOrg:text('last_org').notNull(), updatedAt:text('updated_at').notNull(),
 });
+// Slice 14e: field notebooks' sync failure reports (step, error class, count, first and last time, notebook version). The only
+// reference a device sends is its own field grant id; the patient id is resolved on the server from that grant, for scope.
+// No patient name, record content or free text. One audit event per report (audit_id); report_key is the request key.
+export const fieldSyncReports = sqliteTable('field_sync_reports', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), actorId:text('actor_id').notNull(), personId:text('person_id'), leaseId:text('lease_id'),
+ step:text('step').notNull(), errorClass:text('error_class').notNull(), count:integer('count').notNull(), firstAt:text('first_at').notNull(), lastAt:text('last_at').notNull(), appVersion:text('app_version').notNull(),
+ reportKey:text('report_key').notNull(), receivedAt:text('received_at').notNull(), auditId:text('audit_id').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('field_sync_reports_received').on(t.orgId,t.receivedAt),index('field_sync_reports_actor').on(t.orgId,t.actorId,t.receivedAt)]);

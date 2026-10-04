@@ -34,6 +34,8 @@ const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identit
 const ROUTE_PARAMS = {
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
   '/api/rights': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
+  // Slice 14e: the notebook's own removal orders (bare) and the Operations view of field devices.
+  '/api/field-device': () => [{ q: '' }, { q: '?view=operations' }],
   '/api/trace': w => [{ q: `?visit=${w.visits.v2}`, kind: 'visit' }],
   '/api/governance': w => [{ q: '' }, { q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/fhir/[id]': w => [{ path: `/api/fhir/${w.visits.v2}`, q: `?organisationId=${w.org}`, kind: 'visit' }],
