@@ -24,9 +24,11 @@ async function housekeeping(orgId: string, now: string) {
   await db().prepare('DELETE FROM held_exports WHERE org_id=? AND created_at<?').bind(orgId, new Date(Date.parse(now) - KEEP_ROWS_DAYS * 86400000).toISOString()).run();
 }
 export async function heldExportsPost(request: Request) {
+  // Integration 14: identify the caller before reading or validating the body, so an anonymous request is a 401, not a 422 about the input.
+  const u = await identity();
   const raw = await boundedJsonBody(request, 2000), parsed = input.safeParse(raw);
   if (!parsed.success) fail(422, parsed.error.issues[0]?.message ?? 'Invalid export request.');
-  const q = parsed.data!, u = await identity(), orgHeader = request.headers.get('x-saha-organisation');
+  const q = parsed.data!, orgHeader = request.headers.get('x-saha-organisation');
   const s = await loadFor(u, orgHeader), m = scope(s, u.userId), now = new Date().toISOString(), orgId = s.organisation.id;
   ensurePurpose(m, 'reporting');
   await housekeeping(orgId, now);

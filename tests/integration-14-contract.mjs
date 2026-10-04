@@ -99,6 +99,9 @@ try {
   // 6. The withdrawal seams are code, not only tests (the behaviour is in withdrawal-contract.mjs).
   check(() => { const src = readFileSync('lib/saha/withdrawal.ts', 'utf8'); assert.match(src, /consentStanding\(p,'exchange',now,noticesOf\(s\)\)/); assert.match(src, /activeRestriction/); assert.match(src, /amendRestricted\(p,c\)/); });
 
+  // 7. 14g: an anonymous POST /api/exports is a 401 (the authorisation matrix found a 422 about the body), so the caller is identified first.
+  check(() => { const src = readFileSync('lib/saha/held-exports-server.ts', 'utf8'), post = src.slice(src.indexOf('export async function heldExportsPost')); assert.ok(post.indexOf('await identity()') > 0 && post.indexOf('await identity()') < post.indexOf('boundedJsonBody'), 'identity() runs before the body is read'); });
+
   writeFileSync('tests/integration-14-contract-result.json', JSON.stringify({ passed, suite: 'integration-14-contract', completedAt: new Date().toISOString() }, null, 2) + '\n');
   console.log(JSON.stringify({ passed, suite: 'integration-14-contract' }));
 } finally { rmSync(dir, { recursive: true, force: true }); }

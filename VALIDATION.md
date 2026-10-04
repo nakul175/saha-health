@@ -1377,6 +1377,7 @@ Round 14, close the open defects ([slice 14a](docs/current/SLICE-14A-ATOMIC-LIMI
   - Hosted D1 was not tested.
   - Requirement counts are unchanged; the BR-INT-14, BR-REP-04 and NFR-24 texts are updated, and each keeps its status.
   - Built by one agent; no independent review.
+
 ## Development slice 14d — notice versions and permission expiry (R90) — 4 October 2026 IST
 
 Requirement slice R90 (BR-SEC-02), on a branch from `main` 2adfbde1, built in parallel with 14a–14c; draft pull request, not merged ([slice 14d](docs/current/SLICE-14D-NOTICES-CONSENT-EXPIRY.md)).
@@ -1411,6 +1412,7 @@ Requirement slice R90 (BR-SEC-02), on a branch from `main` 2adfbde1, built in pa
   - A lapse is derived on read, not written as an event.
   - Built by one agent; no person has reviewed it.
 - BR-SEC-02 stays partial with its remaining work restated. Requirement counts are unchanged.
+
 ## Development slice 14b — proxy authority — 4 October 2026 IST
 
 Round 14, privacy and safety batch ([slice 14b](docs/current/SLICE-14B-PROXY-AUTHORITY.md)): requirement slice R12 with the part of R11 it needs. On a branch from `main` 2adfbde1; draft pull request, not merged.
@@ -1435,6 +1437,7 @@ Round 14, privacy and safety batch ([slice 14b](docs/current/SLICE-14B-PROXY-AUT
   - Not run for this slice: UI (Playwright journeys; none covers these dialogs), performance, memory and load.
 - **Requirements.** Counts unchanged. BR-ID-07, BR-SEC-02 and BR-SEC-04 have updated texts and stay partial.
 - Built by one agent; no independent review. Reports in `tests/evidence/slice-14b/`.
+
 ## Development slice 14c — withdrawal and EHR amendment through approval — 4 October 2026 IST
 
 Remaining-work row R58 (BR-INT-02, BR-RULE-04, BR-INT-21), on branch `slice-14c-withdrawal` from `main` 2adfbde1; not merged ([slice 14c](docs/current/SLICE-14C-WITHDRAWAL.md)).
@@ -1467,6 +1470,7 @@ Remaining-work row R58 (BR-INT-02, BR-RULE-04, BR-INT-21), on branch `slice-14c-
   - The forms disappeared once each withdrawal was confirmed; there were no console errors.
   - The panel's layout was adjusted (form fields, hiding settled targets) after the runner pass above. The final build was checked this way and by `tsc`. No axe audit was run.
 - **Status.** Built by one agent; no independent review. Requirement statuses are unchanged: BR-INT-02, BR-INT-21 and BR-RULE-04 stay partial, with their texts updated. Evidence: `tests/evidence/slice-14c/`.
+
 ## Development slice 14e — field device reports, removal of device copies and withdrawal notices — 4 October 2026 IST
 
 Round 14, remaining-work rows R73 and R91 ([slice 14e](docs/current/SLICE-14E-WITHDRAWAL-PROPAGATION.md)); on a branch from `main` 2adfbde1, not merged. Migration `0020_field_device`; route `GET`/`POST /api/field-device`; three certified notice commands and the route-only `confirmFieldRemoval`.
@@ -1486,6 +1490,7 @@ Round 14, remaining-work rows R73 and R91 ([slice 14e](docs/current/SLICE-14E-WI
 - **Mutations.** Three deliberate mutations (the access rule removed; a second send of an uncertain notice allowed; the media sweep removed) each failed their suite.
 - **Open.** Devices that never reconnect; suspended workers' notebooks; unsynced observations discarded under an order (counted); manual notices for HTTP and EHR connections; notices paused during maintenance.
 - No independent review. BR-REP-01, BR-SEC-03 and BR-OFF-07 texts updated; all stay partial; requirement counts unchanged.
+
 ## Development slice 14f — disposal execution — 4 October 2026 IST
 
 Round 14, requirement slice R30 ([slice 14f](docs/current/SLICE-14F-DISPOSAL.md)); on a branch from `main` (2adfbde1), draft pull request, not merged.
@@ -1515,6 +1520,7 @@ Round 14, requirement slice R30 ([slice 14f](docs/current/SLICE-14F-DISPOSAL.md)
   - disposal of the other record classes and of audit free text;
   - an approved schedule.
 - The register download is complete for every owner (identifiers outside the owner's care scope included, no content), by design for restore safety; it needs review. Built by one agent; no independent review. BR-SEC-09, BR-SEC-10 and BR-DATA-08 stay partial; requirement counts unchanged.
+
 ## Development slice 14g — suppression on every export path — 4 October 2026 IST
 
 Requirement R81 (BR-REP-04, BR-REP-05), on a branch from `main` 2adfbde1, not merged ([slice 14g](docs/current/SLICE-14G-EXPORT-SUPPRESSION.md)). Built by one agent; no independent review.
