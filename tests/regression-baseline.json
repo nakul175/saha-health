@@ -6,7 +6,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4758
+      "minPassed": 4822
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -277,6 +277,11 @@
       "layer": "unit",
       "file": "tests/exceptions-contract.mjs",
       "minPassed": 8
+    },
+    "unit/export-suppression-contract": {
+      "layer": "unit",
+      "file": "tests/export-suppression-contract.mjs",
+      "minPassed": 14
     },
     "unit/facility-scope-contract": {
       "layer": "unit",

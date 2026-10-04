@@ -151,3 +151,11 @@ export const media = sqliteTable('media', {
 export const scheduledCursor = sqliteTable('scheduled_cursor', {
  job:text('job').primaryKey(), lastOrg:text('last_org').notNull(), updatedAt:text('updated_at').notNull(),
 });
+
+// Slice 14g (BR-REP-05): a suppressed aggregate export held for one download by the member who prepared it. The file expires
+// (expires_at), is delivered once (downloaded_at) and its content is blanked after delivery or expiry; only the checksum and times stay.
+export const heldExports = sqliteTable('held_exports', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), userId:text('user_id').notNull(), kind:text('kind').notNull(),
+ createdAt:text('created_at').notNull(), expiresAt:text('expires_at').notNull(), downloadedAt:text('downloaded_at'), sha256:text('sha256').notNull(), bytes:integer('bytes').notNull(),
+ fingerprint:text('fingerprint').notNull(), content:text('content').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('held_exports_org_user').on(t.orgId,t.userId,t.createdAt)]);

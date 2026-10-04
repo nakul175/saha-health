@@ -4,12 +4,14 @@ import { accountCode, scope } from './store';
 import { recordExportAudit } from './export-audit';
 import { digest, fail, uuid } from './core';
 import { buildExport } from './data-exit';
+import { ensurePurpose } from './purpose-scope';
 // Slice 6m: organisation data exit. Owners only; patient content follows the owner's care scope.
 // Reads are not paused by maintenance (the existing rule pauses commands only), so an exit can run
 // while the organisation is paused. Each export is recorded in the audit chain with its checksums.
 export async function dataExitRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);
  if(!m.isOwner)fail(403,'Only an organisation owner can export the organisation\'s data.');
+ ensurePurpose(m,'patient-export'); // slice 14g: a patient-level file is its own purpose, apart from aggregate reporting
  const url=new URL(request.url),fhir=url.searchParams.get('fhir')??'0';
  if(!['0','1'].includes(fhir))fail(422,'Choose whether to include FHIR documents (fhir=0 or fhir=1).');
  if((url.searchParams.get('format')??'tar')!=='tar')fail(422,'Unsupported export format.');

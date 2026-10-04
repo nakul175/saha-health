@@ -150,6 +150,7 @@ const {agentQualitySmoke}=await import('./agent-quality-smoke.mjs');await agentQ
 const {capabilityLifecycleSmoke}=await import('./capability-lifecycle-smoke.mjs');await capabilityLifecycleSmoke({get,post,check,accounts,org});
 const {shadowSmoke}=await import('./shadow-smoke.mjs');await shadowSmoke({get,post,check,accounts,org});
 const {dataExitSmoke}=await import('./data-exit-smoke.mjs');await dataExitSmoke({get,post,check,accounts,org,sql,base});
+const {exportSuppressionSmoke}=await import('./export-suppression-smoke.mjs');await exportSuppressionSmoke({get,post,check,base,sql});
 const {environmentSmoke}=await import('./environment-smoke.mjs');await environmentSmoke({get,post,check,accounts,org,base});
 const {fixtureMigrationSmoke}=await import('./fixture-migration-smoke.mjs');await fixtureMigrationSmoke({get,post,check,accounts,org,sql,base});
 const {programmeMigrationSmoke}=await import('./programme-migration-smoke.mjs');await programmeMigrationSmoke({get,post,check,accounts,org,sql,base});

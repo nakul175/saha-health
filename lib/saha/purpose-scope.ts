@@ -23,7 +23,7 @@ import type { Member, OrgState, Programme } from './types';
 // surfaced through its own scoped route; it is deliberately absent from the operations
 // allow-list (OPERATOR_FIELDS).
 
-export const ACCESS_PURPOSES = ['care-coordination', 'programme-delivery', 'ai-assistance', 'reporting', 'household-sharing'] as const;
+export const ACCESS_PURPOSES = ['care-coordination', 'programme-delivery', 'ai-assistance', 'reporting', 'household-sharing', 'patient-export'] as const;
 export type AccessPurpose = typeof ACCESS_PURPOSES[number];
 // The data flows this release already has, labelled for the access policy; illustrative, not clinical authority.
 export const ACCESS_PURPOSE_LABEL: Record<AccessPurpose, string> = {
@@ -32,7 +32,10 @@ export const ACCESS_PURPOSE_LABEL: Record<AccessPurpose, string> = {
   'ai-assistance': 'AI assistance',
   'reporting': 'Reporting and aggregate care reports',
   'household-sharing': 'Household sharing',
+  'patient-export': 'Patient-level exports (organisation data exit, FHIR downloads)',
 };
+// Slice 14g (BR-REP-04): patient-level files that leave Saha (the organisation data exit and FHIR downloads) are a purpose of their own, apart
+// from aggregate reporting: a member limited to 'reporting' can export suppressed aggregates but not patient records, and the reverse.
 // Slice 13a: the data-flow checkpoints. Each command or route that starts an outbound flow (or, for household
 // sharing, discloses one member's details to another) names its purpose; a member whose active grant lists purposes
 // may start only flows of those purposes. Lookups that resolve an uncertain outcome of a flow already started are

@@ -132,7 +132,7 @@ try {
     const catalogue = new Set(readFileSync('docs/current/COMMAND-CATALOGUE.csv', 'utf8').trim().split('\n').slice(1).map(l => l.split(',')[0]));
     for (const [command, purpose] of Object.entries(P.COMMAND_PURPOSE)) { assert.ok(catalogue.has(command), `${command} is a real command`); assert.ok(P.ACCESS_PURPOSES.includes(purpose), purpose); }
     for (const command of Object.keys(P.COMMAND_PURPOSE)) assert.doesNotMatch(command, /^lookup/, 'lookups resolve flows already started and are not stopped');
-    for (const purpose of P.ACCESS_PURPOSES) assert.ok(Object.values(P.COMMAND_PURPOSE).includes(purpose) || ['household-sharing'].includes(purpose), `${purpose} has a checkpoint`);
+    for (const purpose of P.ACCESS_PURPOSES) assert.ok(Object.values(P.COMMAND_PURPOSE).includes(purpose) || ['household-sharing', 'patient-export'].includes(purpose), `${purpose} has a checkpoint`)  // household sharing and patient export (slice 14g: data exit, FHIR download) are route checkpoints, not commands;
   });
 
   writeFileSync('tests/access-scope-contract-result.json', JSON.stringify({ passed, suite: 'access-scope-contract', completedAt: new Date().toISOString() }, null, 2) + '\n');
