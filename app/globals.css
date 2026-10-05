@@ -246,3 +246,6 @@ h1:lang(hi),h2:lang(hi),h3:lang(hi),h4:lang(hi),.stat>strong:lang(hi),.assistant
 .voice-note,.voice-hint{margin:0;font-size:13px;line-height:1.4}.voice-hint{color:var(--muted-foreground,#666)}
 .voice-number{font-size:18px;font-variant-numeric:tabular-nums}
 .voice-field{display:grid;gap:4px;font-size:13px}.voice-actions{display:flex;flex-wrap:wrap;gap:8px}
+
+/* Keep the voice microphone gutter stable: content-sized textareas must not shrink on blur between touchend and click. */
+textarea:not([data-voice="off"]):not(:disabled):not([readonly]):not([data-voice-ui] textarea){padding-right:44px}
