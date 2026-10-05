@@ -156,7 +156,20 @@ async function recordReleases(db:D1Database,s:OrgState,releases:Candidate[],at:s
  return 'many indicator releases were being recorded at once, so this release could not be recorded.';
 }
 export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateCommand,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport=demoAggregateTransport){
- let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw Object.assign(e instanceof Error?e:Error(serviceRefusal),{serviceRefusal:true});}return deliver(i,...args);};
+ let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,null,{intent:c.type==='lookupAggregateReport'?'lookup':'send',purpose:'reporting',authorize:(latest,member)=>{
+   if(!('reportId' in c))fail(422,'Unsupported report request.');const prepared=findReport(s,c.reportId),r=findReport(latest,c.reportId);reportingScope(member,r.teamIds);
+   if(r.operationId!==prepared.operationId||r.payloadSha256!==prepared.payloadSha256||!['sending','uncertain'].includes(r.state))fail(409,'Report checkpoint changed.');
+   const li=latest.workspace.integrations.find(x=>x.id===i.id);if(!li||li.version!==i.version)fail(409,'Report destination changed.');
+   if(c.type==='lookupAggregateReport'){const refusal=operationRefusal(li,'lookup','none');if(refusal)fail(409,refusal);return;}
+   aggregateDestination(latest,r.destinationId);const refusal=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(refusal)fail(409,refusal.text);
+   if(JSON.stringify([r.teamIds,r.definitions,r.period,r.group,r.preparedBy,r.approvedBy,r.approvedAt,r.expiresAt])!==JSON.stringify([prepared.teamIds,prepared.definitions,prepared.period,prepared.group,prepared.preparedBy,prepared.approvedBy,prepared.approvedAt,prepared.expiresAt]))fail(409,'Report approval or scope changed.');
+   if(r.state!=='sending'||![r.preparedBy,r.approvedBy].includes(u.userId)||!r.expiresAt||r.expiresAt<new Date().toISOString())fail(409,'Report approval changed or expired.');
+   const check=minimisationCheck(r.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed)fail(409,'Report minimisation changed.');
+   // The ledger already contains this reserved release. Compare its prepared source population
+   // instead of recording or recomputing the same release twice in the audit window.
+   const source=(state:OrgState)=>{const people=state.workspace.people.filter(p=>r.teamIds.includes(p.teamId)),ids=new Set(people.map(p=>p.id));return JSON.stringify({people:people.map(p=>[p.id,p.version,p.consentVersion]).sort(),visits:state.workspace.visits.filter(v=>ids.has(v.personId)).map(v=>[v.id,v.version,v.state,v.voidedAt,v.supersededBy]).sort()});};
+   if(source(s)!==source(latest))fail(409,'Report source records changed during dispatch. Prepare a new report.');
+  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw Object.assign(e instanceof Error?e:Error(serviceRefusal),{serviceRefusal:true});}return deliver(i,...args);};
  if(c.type==='prepareAggregateReport')return prepare(db,s,c,u,m,key,hash);
  if(c.type==='approveAggregateReport'){const before=structuredClone(s),result=approveReport(s,c,u,m,new Date().toISOString());linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,result);return result;}
  return send(db,s,c,u,m,key,hash,transport);

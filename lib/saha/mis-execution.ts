@@ -15,7 +15,15 @@ async function closeRefused(db:D1Database,s:OrgState,sub:Submission,c:MisCommand
  linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,{submissionId:sub.id,state:sub.state,refused:true});return {submissionId:sub.id,state:sub.state,refused:true,message:sub.message};
 }
 export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof misRequest=misRequest){
- let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'submissionId' in c?s.workspace.submissions.find(x=>x.id===c.submissionId)?.personId??null:null);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return send(i,...args);};
+ let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'submissionId' in c?s.workspace.submissions.find(x=>x.id===c.submissionId)?.personId??null:null,{intent:c.type==='lookupSubmission'?'lookup':c.type==='testMis'?'probe':'send',purpose:c.type==='testMis'?undefined:'programme-delivery',authorize:async(latest,member)=>{
+   const li=misIntegration(latest,i.id);if(li.version!==i.version)fail(409,'Programme connection changed.');
+   if(c.type==='testMis'){if(!member.isOwner)fail(403,'Owner access changed.');return;}
+   if(!('submissionId' in c))fail(422,'Unsupported request.');const prepared=s.workspace.submissions.find(x=>x.id===c.submissionId),sub=latest.workspace.submissions.find(x=>x.id===c.submissionId);
+   if(!sub?.delivery||!prepared?.delivery||sub.delivery.operationId!==prepared.delivery.operationId||sub.payloadHash!==prepared.payloadHash)fail(409,'Delivery checkpoint changed.');
+   const lookup=c.type==='lookupSubmission',refused=operationRefusal(li,lookup?'lookup':misOperation(sub.delivery.payload),lookup?'none':'patient');if(refused)fail(409,refused);
+   if(lookup){if(!['sending','uncertain'].includes(sub.state)||li.endpoint!==sub.delivery.endpoint||li.credentialBinding!==sub.delivery.credentialBinding)fail(409,'Receipt route changed.');return;}
+   if(sub.state!=='sending')fail(409,'Delivery is no longer reserved.');deliveryCurrent(latest,sub,u,member,env);const g=await sendBlock(latest,latest.workspace.visits.find(x=>x.id===sub.visitId),li,'checkpoint');if(g.block)fail(409,g.block.text);
+  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return send(i,...args);};
  if(c.type==='testMis'){
   if(!m.isOwner)fail(403,'Only an organisation owner can test a connection.');const i=misIntegration(s,c.integrationId);if(i.version!==c.version||!i.mis)fail(409,'Save a current programme mapping before testing.');misCredential(i,s.organisation.id,env);
   const before=structuredClone(s);misAudit(s,u,m,c.type,i.id,'Synthetic connection probe reserved. No patient data submitted.');await persist(db,before,s,u,c,key,hash,{status:'testing'});

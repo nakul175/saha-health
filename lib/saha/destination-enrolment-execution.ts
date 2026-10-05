@@ -1,6 +1,6 @@
 import {serviceDispatch} from './service-dispatch';
 import { AppError, digest, fail, uuid } from './core';
-import { enrolmentAudit, deliveryEvent, enrolmentRequestBody, requestTarget, applyEnrolmentReceipt, transition, type DestinationEnrolment } from './destination-enrolment';
+import { enrolmentFor, enrolmentProgramme, enrolmentAudit, deliveryEvent, enrolmentRequestBody, requestTarget, applyEnrolmentReceipt, transition, type DestinationEnrolment } from './destination-enrolment';
 import { ENROLMENT_EVENT_LIMIT, ENROLMENT_MAX_ATTEMPTS, enrolmentSimulatorRefusal, mockDestination, mockDestinationAny, mockEnrolmentTransport, type EnrolmentReceipt } from './destination-enrolment-adapter';
 import { persist, readState, scope, type Actor } from './store';
 import { person } from './core';
@@ -52,7 +52,14 @@ async function activate(db: D1Database, s: OrgState, c: { personId: string; vers
 }
 
 export async function executeDestinationEnrolment(db: D1Database, s: OrgState, c: any, u: Actor, m: Member, key: string, hash: string, environment: string, transport: Transport = mockEnrolmentTransport): Promise<any> {
-  let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,c.personId??null);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return deliver(i,...args);};
+  let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,c.personId??null,{intent:c.type==='lookupDestinationEnrolment'?'lookup':'send',purpose:'programme-delivery',authorize:(latest,member)=>{
+    const prepared=findEnrolment(s,c.personId,c.enrolmentId).e.destinationEnrolment,{p,e}=findEnrolment(latest,c.personId,c.enrolmentId),de=e.destinationEnrolment;
+    if(!de?.delivery||!prepared?.delivery||de.delivery.operationId!==prepared.delivery.operationId||de.payloadHash!==prepared.payloadHash||de.delivery.actorId!==u.userId)fail(409,'Enrolment checkpoint changed.');
+    recheckDestination(latest,de,p);
+    if(c.type==='lookupDestinationEnrolment'){if(de.state!=='uncertain')fail(409,'Receipt checkpoint changed.');return;}
+    enrolmentFor(latest,c.personId,c.version,c.enrolmentId,u,member);mockDestination(latest,de.destinationId,enrolmentProgramme(latest,e));
+    if(de.state!=='requested'||de.delivery.expiresAt<=new Date().toISOString())fail(409,'Enrolment approval changed or expired.');
+  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return deliver(i,...args);};
   if (c.type === 'activateDestinationEnrolment') return activate(db, s, c, u, m, key, hash);
 
   const lookup = c.type === 'lookupDestinationEnrolment';
