@@ -1,4 +1,5 @@
 'use client';
+import CompletenessNotice from './reporting-completeness-notice';
 import { useCallback, useEffect, useState } from 'react';
 import { BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -33,6 +34,7 @@ export function IndicatorsPanel({data,command,busy=false}:{data:Snapshot;command
   {error&&<p role="alert" className="notice amber-notice">{error}</p>}
   {exported&&<p role="status" className="notice">{exported}</p>}
   {result&&<><p className="muted text-sm">Computed {new Date(result.computedAt).toLocaleString()} over {result.cohort.people} people · latest source record {result.latestSourceRecord?new Date(result.latestSourceRecord).toLocaleString():'none'} · {result.scope}</p>
+   {result.completeness&&<CompletenessNotice value={result.completeness}/>}
    {result.freshness&&<Freshness f={result.freshness}/>}
    {result.results.map((r:any)=><div key={r.id}><h3>{r.title} <span className="muted text-sm">definition {r.id} v{r.version}</span></h3>{r.lateArrivals&&!r.refused&&<p className="muted text-sm">{r.lateArrivals.applicable&&r.lateArrivals.since?`Since your previous release (${new Date(r.lateArrivals.since).toLocaleString()}): late visits now counted ${r.lateArrivals.count}.`:r.lateArrivals.note}</p>}{r.refused?<p className="notice amber-notice">{r.message}</p>:<Table><TableHeader><TableRow><TableHead>Group</TableHead><TableHead>{r.unit==='proportion'?'Percent':'Count'}</TableHead>{r.unit==='proportion'&&<TableHead>Numerator / denominator</TableHead>}</TableRow></TableHeader><TableBody>{r.rows.map((x:any)=><TableRow key={x.group}><TableCell>{x.group}</TableCell><TableCell>{x.suppressed?<span className="tag">suppressed</span>:r.unit==='proportion'?(x.value===null?'—':`${x.value}%`):x.value}</TableCell>{r.unit==='proportion'&&<TableCell>{x.suppressed?'—':`${x.numerator} / ${x.denominator}`}</TableCell>}</TableRow>)}</TableBody></Table>}</div>)}</>}
   {command&&<IndicatorRegistryPanel cat={cat} busy={busy} command={command} reload={reload} runVersion={ref=>{setIds([ref]);run({ids:[ref],days:Number(days),group});}}/>}

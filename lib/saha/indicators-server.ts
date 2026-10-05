@@ -1,3 +1,5 @@
+import {configuredLiveFreshness} from './reporting-completeness';
+import {reportCompleteness,assertCompletenessCurrent,completenessRow,persistLiveCompleteness} from './reporting-completeness-server';
 import { identity, loadFor, json, db } from './server';
 import { ensurePurpose } from './purpose-scope';
 import { AppError, fail, uuid } from './core';
@@ -60,8 +62,9 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  let run:ReturnType<typeof indicatorRun>;
  try{run=indicatorRun(s,m,q);}catch(e){if(e instanceof AppError&&e.status===422&&/^This cohort has fewer than/.test(e.message))await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query refused: the cohort is below the minimum of 5 people. Filters set: ${filtersSet}; nothing was shown.`);throw e;}
  const {result,series}=run;
+ const definitions=result.results.map(r=>r.id+'@'+r.version),completeness=await reportCompleteness(s,m,result.window,definitions,result.computedAt),snapshot=completenessRow(s.organisation.id,null,completeness);
  // Results whose series would allow differencing are withheld whole; nothing of them is returned.
- const shape=(released:Set<string>)=>({...result,results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.',limits:RESIDUAL_RISK}});
+ const shape=(released:Set<string>)=>({...result,completeness:{...completeness.body,evidenceId:snapshot.values.id,digest:completeness.digest},results:result.results.map(r=>'refused' in r||released.has(r.id+'@'+r.version)?r:{...r,rows:[],refused:'differencing' as const,message:DIFFERENCING_MESSAGE}),differencing:{windowHours:168,note:'Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.',limits:RESIDUAL_RISK}});
  // Slice 6ac: the viewer's previous release of each figure is read before this one is recorded (read only).
  const previous=p.get('format')==='csv'?null:await previousReleases(s.organisation.id,u.userId,q,series,result.computedAt);
  const {released,file}=await recordRelease(u,s.organisation.id,m,q,series,result.computedAt,p.get('format')==='csv'?shape:null,s);
@@ -71,15 +74,17 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  if(!file){const shown=shape(released).results,withheld=shown.filter((r:any)=>r.refused).length,filters=[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean);await recordAggregateView(db(),s,u,m,'indicator results',`Indicator results viewed: ${shown.map((r:any)=>`${r.id} v${r.version}${r.refused?' withheld':''}`).join(', ')}; ${shown.length-withheld} released, ${withheld} withheld; grouped by ${q.group}; ${q.days}-day window; filters set: ${filters.length?filters.join(', '):'none'}. No cell values recorded.`);}
  // Recheck after every required aggregate/export audit. A saved ledger entry is conservative
  // disclosure history, not permission to return figures after care or reporting access changes.
+ await persistLiveCompleteness(s,u,m,completeness,snapshot,definitions);
  const current=await loadFor(u,s.organisation.id,undefined,true),currentMember=scope(current,u.userId);
  manager(currentMember);ensurePurpose(currentMember,'reporting');
+ await assertCompletenessCurrent(current,currentMember,completeness,definitions);
  const visible=(state:typeof s)=>state.workspace.people.filter(person=>person.assigned&&!person.mergedInto).map(person=>person.id).sort();
  if(JSON.stringify(visible(current))!==JSON.stringify(visible(s)))fail(403,'Your current patient scope changed while the report was being recorded. No figures were returned.');
  const currentRun=indicatorRun(current,currentMember,q,new Date(result.computedAt));
  if(JSON.stringify(currentRun)!==JSON.stringify(run))fail(409,'The report source or definition changed while its release was being recorded. No figures were returned. Run a fresh report.');
  if(previous){const shaped=shape(released),people=s.workspace.people.filter(x=>x.assigned&&!x.mergedInto&&(!q.team||x.teamId===q.team)&&(!q.village||x.village===q.village)&&(!q.programme||x.programmes.includes(q.programme as any)));
   // Slice 6ac: freshness per team and late arrivals per released result; withheld results carry nothing more. The CSV is unchanged.
-  return json({...shaped,freshness:teamFreshness(s,m,q,result.window,new Date(result.computedAt)),results:shaped.results.map((r:any)=>r.refused?r:{...r,lateArrivals:lateSinceRelease(s,people,resolveDefinition(s,`${r.id}@${r.version}`),result.window.since,result.window.until,previous.get(r.id+'@'+r.version)??null)})});}
+  return json({...shaped,freshness:configuredLiveFreshness(s,m,q,result.window,result.computedAt,completeness.body),results:shaped.results.map((r:any)=>r.refused?r:{...r,lateArrivals:lateSinceRelease(s,people,resolveDefinition(s,`${r.id}@${r.version}`),result.window.since,result.window.until,previous.get(r.id+'@'+r.version)??null)})});}
  if(file)return new Response(file.csv,{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="saha-indicators.csv"','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','X-Saha-Export-Id':file.exportId,'X-Saha-Content-SHA256':file.sha256}});
  return json(shape(released));
 }
@@ -131,6 +136,7 @@ async function recordRelease(u:{userId:string;displayName:string;email:string},o
 // count and SHA-256 of every line above), so a receiver checks it with head -n -2 file | sha256sum.
 async function indicatorCsv(r:any,meta:{exportId:string;by:string;role:string}){
  const rows:unknown[][]=[['Saha indicator results'],['Export identifier',meta.exportId],['Generated by',meta.by,meta.role],['Computed at',r.computedAt],['Window days',r.window.days],['Cohort people',r.cohort.people],['Grouping',r.group],['Minimum cell',r.minimumCell],['Status','Draft export; not an official or reviewed submission']];
+ if(r.completeness){rows.push(['Source completeness',r.completeness.coverage,'Clinical denominator',r.completeness.clinicalDenominator],['Completeness evidence',r.completeness.evidenceId,r.completeness.digest],['Completeness refresh',r.completeness.evaluatedAt]);for(const c of r.completeness.calendars)rows.push(['Reporting calendar',c.id,c.version,c.digest,c.effectiveAt]);for(const x of r.completeness.sources)rows.push(['Expected source',x.calendarId,x.calendarVersion,x.teamId,x.periodId,x.sourceId,x.status,x.deadline,x.lateHours,x.syncHours,x.coverageTimeliness,x.refreshAt??'',x.evidence?.id??'',x.evidence?.version??'',JSON.stringify(x.affectedOperands),x.warning]);rows.push(['Completeness limits',r.completeness.notice]);}
  for(const x of r.results){rows.push(['Indicator',x.id,'Version',x.version,x.title]);
   if(x.refused){rows.push(['Withheld',x.refused==='cohort'?'Definition cohort below its minimum':'Differencing protection']);continue;}
   rows.push(['Group',x.unit==='proportion'?'Percent':'Count','Numerator','Denominator']);
