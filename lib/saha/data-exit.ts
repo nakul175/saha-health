@@ -55,6 +55,8 @@ export const TABLES: TableSpec[] = [
   { table: 'device_registration_wire_receipts', order: 'actor_id,receipt_key,wire_hash', scope: 'person', note: 'Exact authenticated registration wire digests; no command bodies.' },
   { table: 'device_match_copies', order: 'actor_id,id', scope: 'self', note: 'Only original actor protected candidate ID/version and query hash provenance; whole receipts outside current candidate scope are withheld; no raw search.' },
   { table: 'device_work_events', order: 'at,id', scope: 'self', note: 'Only the exporter\'s redacted diagnostics, deletion instructions and client-attested acknowledgements; server evidence is not pruned.' },
+  { table: 'offline_open_reports', order: 'received_at,id', scope: 'self', note: 'Only this exporter’s fixed historical client-reported metadata and opaque references; no patient pointers or raw material.' },
+  { table: 'offline_open_subjects', order: 'report_id,actor_id,person_id', scope: 'person', note: 'Trusted server-derived subject provenance, filtered by current patient visibility; client occurrence is not proof of authorized access.' },
   { table: 'request_metrics', order: 'bucket,route,status', scope: 'org' },
   { table: 'alert_occurrences', order: 'opened_at,id', scope: 'org', note: 'Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only.' },
   { table: 'alert_notifications', order: 'delivered_at,id', scope: 'self', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter\'s own notifications; other members\' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows).' },

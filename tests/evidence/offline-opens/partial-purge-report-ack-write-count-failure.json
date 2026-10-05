@@ -1,0 +1,15 @@
+{
+  "actualChromium": true,
+  "actualWorkerD1": true,
+  "outcome": "old assertion failed before final report write",
+  "observed": {
+    "hidden": true,
+    "drafts": 1,
+    "deletions": 20,
+    "revision": 6,
+    "beforeRevision": 3,
+    "writes": 3
+  },
+  "cause": "Old test assumed one purge write; bounded21-report historical upload adds two ACK-only writes.",
+  "repair": "Require exact first20-copy purge, every subsequent clinical/tombstone/unknown payload identical, exactly21\u21921\u21920 metadata journal transition and every removed UUID matches actual server ACK."
+}

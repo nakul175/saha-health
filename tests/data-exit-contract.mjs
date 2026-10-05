@@ -99,6 +99,8 @@ try {
     d1.db.prepare('INSERT INTO work_burden_samples VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(A,'owner',entry,person,visit,entry+'-receipt',entry+'-session','capture','segment',12,0,'fixed-input-hash',1,'client-active-v1',JSON.stringify({source:'online',lineage:[visit],programmes:[]}),now);
     d1.db.prepare('INSERT INTO work_support_events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(A,'owner',entry,entry,person,visit,'request','capture','owner',null,1,'fixed-input-hash',1,now);
   }
+  for(const [id,who] of [['open-own','owner'],['open-other','other-user']])d1.db.prepare('INSERT INTO offline_open_reports VALUES (?,?,?,?,?,?,?,?,?,?,?,?)').run(A,who,id,'a'.repeat(64),'local-registration',JSON.stringify({kind:'local-registration',localId:'opaque-form',contentHash:'b'.repeat(64),status:'unknown'}),'field','registration-entry',1,now,now,JSON.stringify({originalRole:null,source:'client reported only'}));
+  for(const [id,person] of [['open-visible','p_meena'],['open-hidden','p_kamla']])d1.db.prepare('INSERT INTO offline_open_subjects VALUES (?,?,?,?,?,?)').run(A,'owner',id,person,null,JSON.stringify({personVersion:1,originalRole:'clinician'}));
   const built = await build(A);
   const files = readTar(Buffer.from(built.archive)), paths = [...files.keys()];
   const manifest = JSON.parse(files.get('manifest.json').toString('utf8'));
@@ -106,7 +108,7 @@ try {
 
   // 1. Archive layout: README, manifest, SHA256SUMS, every table, media content, hand-over list, FHIR documents.
   check(() => { for (const t of exit.TABLES) assert.ok(paths.includes(`tables/${t.table}.jsonl`), t.table); for (const p of ['README.txt', 'manifest.json', 'SHA256SUMS', 'tables/accounts.jsonl', 'handover/open-items.jsonl', 'media/media-1.png', 'fhir/v-meena-1.json']) assert.ok(paths.includes(p), p); assert.equal(paths.at(-1), 'SHA256SUMS'); });
-  check(() => assert.equal(exit.TABLES.length + 1, 41, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
+  check(() => assert.equal(exit.TABLES.length + 1, 43, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
   // 2. The archive opens with standard tools and the receiver recipe `sha256sum -c SHA256SUMS` passes.
   const out = join(dir, 'extract'); mkdirSync(out); writeFileSync(join(dir, 'a.tar'), built.archive);
   check(() => { const listed = execFileSync('tar', ['-tf', join(dir, 'a.tar')], { encoding: 'utf8' }).trim().split('\n'); assert.deepEqual(listed, paths); });
@@ -118,6 +120,8 @@ try {
   check(() => { assert.equal(built.manifestSha256, sha(files.get('manifest.json'))); assert.equal(built.archiveSha256, sha(Buffer.from(built.archive))); });
   // 4. Owner authority does not override patient scope: Kamla's rows are withheld and counted.
   const whole = Buffer.from(built.archive).toString('latin1');
+  check(()=>{assert.deepEqual(table('offline_open_reports').map(r=>r.id),['open-own']);assert.deepEqual(table('offline_open_subjects').map(r=>r.report_id),['open-visible']);assert.ok(table('offline_open_reports').every(r=>!('person_id' in r)));});
+  check(()=>{assert.throws(()=>d1.db.exec("UPDATE offline_open_reports SET count=0"),/immutable/);assert.throws(()=>d1.db.exec("DELETE FROM offline_open_subjects"),/immutable/);});
   check(() => { assert.equal(manifest.scope.patients, 6); assert.equal(manifest.scope.patientsExported, 5); assert.equal(manifest.scope.patientsWithheld, 1); assert.equal(manifest.scope.complete, false); assert.ok(!table('patients').some(p => p.id === 'p_kamla')); assert.ok(!table('visits').some(x => x.person_id === 'p_kamla')); });
   check(() => { assert.equal(whole.includes('Kamla Devi'), false, 'the withheld patient\'s name appears nowhere in the archive'); assert.equal(manifest.files.find(f => f.table === 'patients').withheld, 1); assert.ok(manifest.files.find(f => f.table === 'record_revisions').withheld >= 2); });
   const withheldAudit = table('audit_events').filter(e => e.withheld);
