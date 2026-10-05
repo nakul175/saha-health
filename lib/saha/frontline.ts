@@ -1,4 +1,4 @@
-import {carriesSensitive} from './agent-minimisation';
+import {carriesSensitive,sensitiveText} from './agent-minimisation';
 import {z} from 'zod';
 import {frontlineAgreement as agreement} from './service-identity';
 export {frontlineAgreement as agreement} from './service-identity';
@@ -34,5 +34,5 @@ export async function invoke(run:FrontlineRun,e:Record<string,string|undefined>,
 export function finish(s:OrgState,m:Member,visitId:string,runId:string,e:Record<string,string|undefined>,result:FrontlineReceipt|null){const v=visit(s.workspace,visitId),r=v.frontlineRuns?.find(x=>x.id===runId);if(!r)fail(404,'Request not found.');if(!['running','uncertain'].includes(r.status))return r;try{access(s,m,visitId,e,r.appId,r);}catch{r.status='blocked';r.message='Result withheld after access, permission, visit or agreement changed.';delete r.result;return r;}r.status=result?'review':'uncertain';r.message=result?'Independent provider receipt verified. Worker review required.':'No result confirmed. Check the same receipt; do not resend.';if(result)r.result=result;return r;}
 // Integration of #145 (review finding M3): the same identifier safeguard as other external AI sources (lib/saha/agent.ts):
 // e-mail addresses, phone-like numbers of 10 or more digits, and the patient's name or village. A safeguard, not de-identification.
-export function identifierIn(text:string,p:{name:string;village:string}){const t=text.toLowerCase();return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text)||(text.match(/\+?\d[\d ()-]{8,}\d/g)??[]).some(x=>x.replace(/\D/g,'').length>=10)||[p.name,p.village].filter(x=>typeof x==='string'&&x.length>=3).some(x=>t.includes(x.toLowerCase()));}
+export function identifierIn(text:string,p:{name:string;village:string}){const t=sensitiveText(text);return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(t)||(t.match(/\+?\d[\d ()-]{8,}\d/g)??[]).some(x=>x.replace(/\D/g,'').length>=10)||[p.name,p.village].filter(x=>typeof x==='string'&&x.length>=3).some(x=>t.includes(sensitiveText(x)));}
 export {hash,validateInput};
