@@ -104,7 +104,7 @@ Scoped connector server bindings and grants separate user sessions from provider
 - **Catalogue:** Functional, fixture FX-REP-07, catalogue owner "QA with Supervisor and programme manager".
 - **Run as:** Administrator. Basis: product metrics are operational metadata, which administrators may see.
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-REP-07: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Operations. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Administrator signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -118,11 +118,11 @@ Scoped connector server bindings and grants separate user sessions from provider
 
 **Expected result** (catalogue): Product dashboards can support the Section 6 evaluation and contain no unnecessary patient identifiers or recording content.
 
-**Known gaps** (assessment, remaining work for BR-REP-07): Sync and support burden measurements and pilot evaluation of the reuse and correction figures.
+**Known gaps** (assessment, remaining work for BR-REP-07): Sync and support burden measurements and pilot evaluation of the reuse and correction figures. Full encrypted offline instrumentation, proven uncertain transport-to-receipt recovery linkage, real ticket/intervention linkage, comparable completed-visit timing and pilot evaluation remain.
 
 <details><summary>What the build does today (assessment, current state of BR-REP-07)</summary>
 
-Privacy-safe route metrics, task counts and partial agent usage. Slice 2a adds reuse, blocked reuse, repeated-entry and correction indicators.
+Privacy-safe route metrics, task counts and partial agent usage. Slice 2a adds reuse, blocked reuse, repeated-entry and correction indicators. B26 adds default-disabled count-only sampling, atomic metadata receipts/counters/chained audit, current care authority/configuration guards and separately labelled parsed sync response categories. Weekly human care-active denominator uses durable trusted command-authority events; saved receipt checks do not prove transport recovery. Client metadata retries preserve their original key without repeating clinical saves.
 
 </details>
 

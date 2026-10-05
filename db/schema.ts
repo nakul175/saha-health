@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { sqliteTable, text, integer, primaryKey, index, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, primaryKey, index, uniqueIndex, check } from 'drizzle-orm/sqlite-core';
 // Release 0.1 source is retained unchanged as a migration and rollback reference.
 export const workspaces = sqliteTable('workspaces', {
   ownerId: text('owner_id').primaryKey(), revision: integer('revision').notNull().default(1),
@@ -163,3 +163,15 @@ export const availabilitySamples=sqliteTable('availability_samples',{
  orgId:text('org_id').notNull(),slot:integer('slot').notNull(),source:text('source').notNull(),configVersion:integer('config_version').notNull(),
  core:text('core').notNull(),workflow:text('workflow').notNull(),latencyMs:integer('latency_ms').notNull(),receiptHash:text('receipt_hash').notNull(),recordedAt:text('recorded_at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.slot,t.source]})]);
+
+// Original issuance provenance and redacted device work; no clinical payload.
+export const deviceWorkGrants = sqliteTable('device_work_grants', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), actorId:text('actor_id').notNull(), leaseId:text('lease_id').notNull(),
+ packageHash:text('package_hash').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(), memberVersion:integer('member_version').notNull(),
+ consentVersion:integer('consent_version').notNull(), identityHash:text('identity_hash').notNull(), issuedAt:text('issued_at').notNull(),
+ originalRole:text('original_role'), visitVersion:integer('visit_version').notNull(), expiresAt:text('expires_at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.leaseId]}),check('device_work_grants_original_role',sql`${t.originalRole} IS NULL OR ${t.originalRole} IN ('asha','clinician')`)]);
+export const deviceWorkEvents = sqliteTable('device_work_events', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), actorId:text('actor_id').notNull(), id:text('id').notNull(), kind:text('kind').notNull(),
+ leaseId:text('lease_id'), packageHash:text('package_hash'), inputHash:text('input_hash').notNull(), data:text('data').notNull(), at:text('at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.id]}),index('device_work_events_actor_time').on(t.orgId,t.actorId,t.at),check('device_work_events_kind',sql`${t.kind} IN ('report','instruction','ack')`),check('device_work_events_data',sql`json_valid(${t.data}) AND length(${t.data})<=2048`)]);

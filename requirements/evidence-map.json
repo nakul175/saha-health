@@ -458,7 +458,18 @@
     "tests/photo-contract.mjs"
   ],
   "BR-DATA-12": [
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "app/api/work-burden/route.ts",
+    "lib/saha/work-burden-server.ts",
+    "lib/saha/work-burden-types.ts",
+    "lib/saha/store.ts",
+    "app/work-burden-capture.ts",
+    "app/work-burden-panel.tsx",
+    "tests/work-burden-contract.mjs",
+    "tests/work-burden-http.mjs",
+    "tests/work-burden-browser.mjs",
+    "docs/current/WORK-BURDEN-INSTRUMENTATION.md",
+    "docs/current/WORK-BURDEN-INDEPENDENT-REVIEW.md"
   ],
   "BR-AG-11": [
     "REMAINING-RELEASES.md",
@@ -827,7 +838,23 @@
     "app/trace-panel.tsx",
     "tests/trace-contract.mjs",
     "tests/trace-smoke.mjs",
-    "docs/current/SLICE-6Y-TASK-TRACE.md"
+    "docs/current/SLICE-6Y-TASK-TRACE.md",
+    "app/api/device-work/route.ts",
+    "lib/saha/device-work.ts",
+    "public/field/device-work.js",
+    "public/field/vault.js",
+    "public/field/app.js",
+    "tests/device-work-contract.mjs",
+    "tests/device-work-browser.mjs",
+    "tests/device-work-purge-failure-browser.mjs",
+    "tests/data-exit-contract.mjs",
+    "docs/current/APP-DEVICE-PRIVACY.md",
+    "docs/current/DEVICE-PRIVACY-INDEPENDENT-REVIEW.md",
+    "docs/current/DEVICE-PRIVACY-FIX-INDEPENDENT-REVIEW.md",
+    "docs/current/SCOPE-FOLLOWUP-INDEPENDENT-REVIEW.md",
+    "tests/evidence/device-work-fail-closed",
+    "tests/evidence/device-privacy-fixed-independent-review",
+    "tests/evidence/scope-followup-independent-review"
   ],
   "BR-REP-05": [
     "lib/saha/operations.ts",
@@ -1109,7 +1136,23 @@
     "lib/saha/consent.ts",
     "tests/consent-contract.mjs",
     "tests/consent-smoke.mjs",
-    "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md"
+    "docs/current/SLICE-6O-CONSENT-WITHDRAWAL.md",
+    "app/api/device-work/route.ts",
+    "lib/saha/device-work.ts",
+    "public/field/device-work.js",
+    "public/field/vault.js",
+    "public/field/app.js",
+    "tests/device-work-contract.mjs",
+    "tests/device-work-browser.mjs",
+    "tests/device-work-purge-failure-browser.mjs",
+    "tests/data-exit-contract.mjs",
+    "docs/current/APP-DEVICE-PRIVACY.md",
+    "docs/current/DEVICE-PRIVACY-INDEPENDENT-REVIEW.md",
+    "docs/current/DEVICE-PRIVACY-FIX-INDEPENDENT-REVIEW.md",
+    "docs/current/SCOPE-FOLLOWUP-INDEPENDENT-REVIEW.md",
+    "tests/evidence/device-work-fail-closed",
+    "tests/evidence/device-privacy-fixed-independent-review",
+    "tests/evidence/scope-followup-independent-review"
   ],
   "BR-ID-02": [
     "lib/saha/continuity.ts",
@@ -1745,7 +1788,22 @@
     "tests/app-offline-scope-browser.mjs",
     "tests/app-offline-scope-contract.mjs",
     "tests/app-sw-review-contract.mjs",
-    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md",
+    "app/api/device-work/route.ts",
+    "lib/saha/device-work.ts",
+    "public/field/device-work.js",
+    "public/field/vault.js",
+    "tests/device-work-contract.mjs",
+    "tests/device-work-browser.mjs",
+    "tests/device-work-purge-failure-browser.mjs",
+    "tests/data-exit-contract.mjs",
+    "docs/current/APP-DEVICE-PRIVACY.md",
+    "docs/current/DEVICE-PRIVACY-INDEPENDENT-REVIEW.md",
+    "docs/current/DEVICE-PRIVACY-FIX-INDEPENDENT-REVIEW.md",
+    "docs/current/SCOPE-FOLLOWUP-INDEPENDENT-REVIEW.md",
+    "tests/evidence/device-work-fail-closed",
+    "tests/evidence/device-privacy-fixed-independent-review",
+    "tests/evidence/scope-followup-independent-review"
   ],
   "BR-AG-10": [
     "lib/saha/agent.ts",
@@ -1775,5 +1833,21 @@
     "tests/offline-programme-browser.mjs",
     "docs/current/APP-OFFLINE-PROGRAMME.md",
     "docs/current/OFFLINE-PROGRAMME-INDEPENDENT-REVIEW.md"
+  ],
+  "BR-REP-07": [
+    "lib/saha/operations.ts",
+    "lib/saha/pilot.ts",
+    "tests/operations-smoke.mjs",
+    "app/api/work-burden/route.ts",
+    "lib/saha/work-burden-server.ts",
+    "lib/saha/work-burden-types.ts",
+    "lib/saha/store.ts",
+    "app/work-burden-capture.ts",
+    "app/work-burden-panel.tsx",
+    "tests/work-burden-contract.mjs",
+    "tests/work-burden-http.mjs",
+    "tests/work-burden-browser.mjs",
+    "docs/current/WORK-BURDEN-INSTRUMENTATION.md",
+    "docs/current/WORK-BURDEN-INDEPENDENT-REVIEW.md"
   ]
 }

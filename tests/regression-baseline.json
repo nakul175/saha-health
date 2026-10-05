@@ -16,7 +16,7 @@
     "integration/app-offline-scope-browser": {
       "layer": "integration",
       "file": "tests/app-offline-scope-browser.mjs",
-      "minPassed": 10
+      "minPassed": 15
     },
     "integration/auxiliary-read-http": {
       "layer": "integration",
@@ -32,6 +32,16 @@
       "layer": "integration",
       "file": "tests/delta-read-audit-http.mjs",
       "minPassed": 26
+    },
+    "integration/device-work-browser": {
+      "layer": "integration",
+      "file": "tests/device-work-browser.mjs",
+      "minPassed": 63
+    },
+    "integration/device-work-purge-failure-browser": {
+      "layer": "integration",
+      "file": "tests/device-work-purge-failure-browser.mjs",
+      "minPassed": 49
     },
     "integration/import-unit-parity-browser": {
       "layer": "integration",
@@ -83,6 +93,16 @@
       "file": "tests/touch-units-browser.mjs",
       "minPassed": 20
     },
+    "integration/work-burden-browser": {
+      "layer": "integration",
+      "file": "tests/work-burden-browser.mjs",
+      "minPassed": 12
+    },
+    "integration/work-burden-http": {
+      "layer": "integration",
+      "file": "tests/work-burden-http.mjs",
+      "minPassed": 32
+    },
     "integration/workspace-metadata-smoke": {
       "layer": "integration",
       "file": "tests/workspace-metadata-smoke.mjs",
@@ -91,7 +111,7 @@
     "nfr/authorisation-matrix": {
       "layer": "nfr",
       "file": "tests/nfr/authorisation-matrix.mjs",
-      "minPassed": 54
+      "minPassed": 55
     },
     "nfr/identity-hardening": {
       "layer": "nfr",
@@ -276,7 +296,7 @@
     "unit/app-offline-scope-contract": {
       "layer": "unit",
       "file": "tests/app-offline-scope-contract.mjs",
-      "minPassed": 14
+      "minPassed": 16
     },
     "unit/app-sw-review-contract": {
       "layer": "unit",
@@ -361,7 +381,7 @@
     "unit/data-exit-contract": {
       "layer": "unit",
       "file": "tests/data-exit-contract.mjs",
-      "minPassed": 39
+      "minPassed": 40
     },
     "unit/delegation-contract": {
       "layer": "unit",
@@ -377,6 +397,11 @@
       "layer": "unit",
       "file": "tests/destination-enrolment-contract.mjs",
       "minPassed": 45
+    },
+    "unit/device-work-contract": {
+      "layer": "unit",
+      "file": "tests/device-work-contract.mjs",
+      "minPassed": 46
     },
     "unit/drift-contract": {
       "layer": "unit",
@@ -461,7 +486,7 @@
     "unit/field-client": {
       "layer": "unit",
       "file": "tests/field-client.mjs",
-      "minPassed": 23
+      "minPassed": 25
     },
     "unit/field-contract": {
       "layer": "unit",
@@ -476,7 +501,7 @@
     "unit/field-media-client": {
       "layer": "unit",
       "file": "tests/field-media-client.mjs",
-      "minPassed": 97
+      "minPassed": 117
     },
     "unit/field-provenance-client": {
       "layer": "unit",
@@ -882,6 +907,11 @@
       "layer": "unit",
       "file": "tests/visit-import-contract.mjs",
       "minPassed": 54
+    },
+    "unit/work-burden-contract": {
+      "layer": "unit",
+      "file": "tests/work-burden-contract.mjs",
+      "minPassed": 19
     },
     "unit/worker-activity-contract": {
       "layer": "unit",

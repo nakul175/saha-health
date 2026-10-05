@@ -80,7 +80,7 @@ R10 transfers open patient work atomically, records effective time and receiving
 - **Catalogue:** Functional, fixture FX-DATA-12, catalogue owner "QA with Frontline worker and programme data owner".
 - **Run as:** Supervisor. Basis: reuse indicators are for supervisors and owners (indicators.ts manager()).
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-DATA-12: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Operations. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Supervisor signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -94,11 +94,11 @@ R10 transfers open patient work atomically, records effective time and receiving
 
 **Expected result** (catalogue): Auditors can reproduce a sample reuse calculation from event records and separate avoidable re-entry from clinically required recapture.
 
-**Known gaps** (assessment, remaining work for BR-DATA-12): Cross-visit reuse, time and burden measurement, and validation against observed field practice.
+**Known gaps** (assessment, remaining work for BR-DATA-12): Cross-visit reuse, time and burden measurement, and validation against observed field practice. Completed-visit capture/correction/reconciliation attribution, programme mix, durable field outbox, baseline and observed field practice remain.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-12)</summary>
 
-Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression.
+Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression. B26 adds owner-enabled common-fact capture-session active-time bands with monotonic foreground/idle exclusion, fixed self-reported help counts, and governed count-only weekly reporting. Saved clinical commands are independent of measurement failures. This is sampled session time, not comparable completed-visit total time or observed savings.
 
 </details>
 
@@ -264,11 +264,11 @@ Visit-backed outreach completion and correction-aware evidence. Slice 4c: per-wo
 
 **Expected result** (catalogue): Each seeded failure is discoverable and assignable without searching individual worker transcripts.
 
-**Known gaps** (assessment, remaining work for BR-REP-01): Assignment from the queue itself, device-side sync failures not reported to the server, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.
+**Known gaps** (assessment, remaining work for BR-REP-01): Assignment from the queue itself, scoped device-diagnostic discovery/assignment and recovery queue; reporting while offline/without a trusted notebook organisation, notification of individual exception items (slice 6v notifies alert-level counts in the app only), and seeded-failure acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-REP-01)</summary>
 
-Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events.
+Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i: item-level exception queue on the Operations page for uncertain, retryable or rejected programme submissions, unconfirmed EHR publications, escalated referrals, overdue follow-ups, provisional identities, expired unsynced field grants, received ABDM records and protocol findings awaiting review, open safety cases and unreviewed emergency access, each with patient, problem, age, owner, recovery action and a link to the patient or visit, scoped to the viewer. Slice 6v: the alert counts behind the queue (unconfirmed submissions and EHR publications, overdue referrals and follow-ups, undated referrals) are delivered as in-app notifications to the owning role and escalate to owners when left unacknowledged. Slice 6y: programme submission and EHR publication rows open a trace of that item's commands, checkpoints, receipts and audit events. A06 adds trusted care-worker fixed-code device failure reports with strict bounded counts, stable metadata operations and chained audit; raw errors and patient content are refused.
 
 </details>
 

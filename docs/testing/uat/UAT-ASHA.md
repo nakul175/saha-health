@@ -1417,11 +1417,11 @@ Optional AI can be declined; contact preferences and EHR scopes are recorded.
 
 **Expected result** (catalogue): Revocation blocks a queued provider upload and produces a traceable disposition record; the system does not claim to erase an external record without evidence.
 
-**Known gaps** (assessment, remaining work for BR-SEC-03): Destination notification with verified external outcomes, offline device copies, real ABDM consent-manager revocation and approved policy for retained completed transactions.
+**Known gaps** (assessment, remaining work for BR-SEC-03): Destination notification with verified external outcomes, registration and other local copies beyond prepared grants, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-03)</summary>
 
-Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain.
+Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults.
 
 </details>
 
