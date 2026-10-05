@@ -1,0 +1,26 @@
+{
+  "finding": "P2 closure: distinct action-plan event does not suppress subsequent full-window audit",
+  "beforeDerivedRead": {
+    "status": 200,
+    "people": 0
+  },
+  "actionPlan": {
+    "status": 200
+  },
+  "afterDerivedRead": {
+    "status": 200,
+    "people": 0
+  },
+  "fullRecordAuditFaultActive": true,
+  "events": [
+    {
+      "action": "viewActionPlan",
+      "detail": "Patient work view: action plan; 1 row returned. Authority: [synthetic metadata omitted]"
+    }
+  ],
+  "actualWorker": true,
+  "actualD1": true,
+  "inspector": false,
+  "source": "2a05652f plus lead uncommitted auxiliary read files",
+  "date": "2026-10-05T04:31:46.040Z"
+}
