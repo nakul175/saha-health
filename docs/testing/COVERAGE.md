@@ -10,10 +10,10 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
 - **55 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 588 of 908 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **The map is incomplete in both directions.** 622 of 951 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
-- **29 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
+- **30 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
 
 ## Summary
 
@@ -33,10 +33,10 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 142 | 198 | 757 | 559 |
+| unit | 142 | 207 | 799 | 592 |
 | integration | 116 | 99 | 115 | 16 |
 | resilience | 2 | 1 | 1 | 0 |
-| smoke | 7 | 5 | 6 | 1 |
+| smoke | 7 | 5 | 7 | 2 |
 | ui | 12 | 9 | 20 | 11 |
 | nfr | 11 | 8 | 9 | 1 |
 
@@ -130,7 +130,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (588 of 908)
+## Test files cited by no requirement (622 of 951)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -143,7 +143,9 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/anaemia-hosted-connection.mjs | unit |
 | tests/anaemia-worker-transport.mjs | unit |
 | tests/android-app-contract.mjs | unit |
+| tests/api-privacy-registration-current.mjs | unit |
 | tests/api-reporting-current.mjs | unit |
+| tests/api-verification-programme-current.mjs | unit |
 | tests/app-first-browser.mjs | ui |
 | tests/app-history-contract.mjs | unit |
 | tests/asha-guided-capture-before.mjs | unit |
@@ -193,6 +195,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/contact-import-before.mjs | unit |
 | tests/continuity-contract.mjs | unit |
 | tests/crosswalk-correction-contract.mjs | unit |
+| tests/delegation-privacy-registration-current.mjs | unit |
 | tests/delta-smoke.mjs | integration |
 | tests/demonstration-contract.mjs | unit |
 | tests/demonstration-smoke.mjs | integration |
@@ -230,6 +233,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/guided-programme-reset-original-probe.mjs | unit |
 | tests/guided-programme-reset-uncertainty.mjs | unit |
 | tests/guided-programme-reset-variants.mjs | unit |
+| tests/guided-registration-before-browser.mjs | unit |
 | tests/guided-repair-independent-probe.mjs | unit |
 | tests/guided-repair-independent-repeat.mjs | unit |
 | tests/household-completion-before.mjs | unit |
@@ -274,11 +278,14 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/independent-verification-send-http.mjs | unit |
 | tests/independent-verification-send-legacy-http.mjs | unit |
 | tests/indicator-figures-review-upgrade.mjs | unit |
+| tests/indicator-freshness-privacy-registration-current.mjs | unit |
 | tests/indicator-household-completion-audit.mjs | unit |
 | tests/indicator-household-coverage-independent.mjs | unit |
 | tests/indicator-household-coverage-upgrade.mjs | unit |
+| tests/indicator-registry-privacy-registration-current.mjs | unit |
 | tests/indicator-registry-reporting-current.mjs | unit |
 | tests/indicators-contract.mjs | unit |
+| tests/indicators-privacy-registration-current.mjs | unit |
 | tests/installed-programme-execution-browser.mjs | unit |
 | tests/installed-programme-execution-cold-additional-http.mjs | unit |
 | tests/installed-programme-execution-cold-adversarial.mjs | unit |
@@ -384,11 +391,30 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/offline-sync-hash-device-browser.mjs | unit |
 | tests/offline-sync-hash-parity-browser.mjs | unit |
 | tests/offline-sync-hash-repair-browser.mjs | unit |
+| tests/operational-privacy-before-http.mjs | unit |
+| tests/operational-privacy-browser.mjs | unit |
+| tests/operational-privacy-cold-adverse-http.mjs | unit |
+| tests/operational-privacy-cold-composite-authority-independent-contract.mjs | unit |
+| tests/operational-privacy-cold-composite-independent-contract.mjs | unit |
+| tests/operational-privacy-cold-composite-measures-contract.mjs | unit |
+| tests/operational-privacy-cold-contract.mjs | unit |
+| tests/operational-privacy-cold-http.mjs | unit |
+| tests/operational-privacy-cold-indicator-household-counting-contract.mjs | unit |
+| tests/operational-privacy-cold-indicators-contract.mjs | unit |
+| tests/operational-privacy-cold-ninth-review-fixes-contract.mjs | unit |
+| tests/operational-privacy-cold-operational-privacy-export-current-contract.mjs | unit |
+| tests/operational-privacy-cold-read-audit-completion-contract.mjs | unit |
+| tests/operational-privacy-cold-review-fixes-contract.mjs | unit |
+| tests/operational-privacy-cold-sixth-review-fixes-contract.mjs | unit |
+| tests/operational-privacy-export-current-contract.mjs | unit |
+| tests/operational-privacy-independent-extra-contract.mjs | unit |
 | tests/operations-bound-contract.mjs | unit |
 | tests/operations-contract.mjs | unit |
+| tests/operations-privacy-registration-current.mjs | unit |
 | tests/outreach-contract.mjs | unit |
 | tests/partition-smoke.mjs | integration |
 | tests/pilot-contract.mjs | unit |
+| tests/privacy-api-coherent-focus.mjs | unit |
 | tests/programme-own-cold-effect-contract.mjs | unit |
 | tests/programme-own-cold-extended.mjs | unit |
 | tests/programme-own-cold-original-extended.mjs | unit |
@@ -419,10 +445,12 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/raw-key-independent-repeat-programme-raw-key-http.mjs | unit |
 | tests/raw-key-independent-repeat-programme-raw-key-original-probe.mjs | unit |
 | tests/raw-key-independent-repeat.mjs | unit |
+| tests/read-audit-completion-privacy-registration-current.mjs | unit |
 | tests/reason-codes-contract.mjs | unit |
 | tests/reassignment-contract.mjs | unit |
 | tests/referral-contract.mjs | unit |
 | tests/referral-smoke.mjs | integration |
+| tests/report-export-privacy-registration-current.mjs | unit |
 | tests/report-portability-expanded-http.mjs | unit |
 | tests/report-portability-independent-http.mjs | unit |
 | tests/reporting-completeness-before.mjs | unit |
@@ -456,6 +484,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/retention-contract.mjs | unit |
 | tests/retention-smoke.mjs | integration |
 | tests/reuse-contract.mjs | unit |
+| tests/reuse-privacy-registration-current.mjs | unit |
 | tests/reuse-smoke.mjs | integration |
 | tests/rights-contract.mjs | unit |
 | tests/rights-smoke.mjs | integration |
@@ -566,9 +595,12 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/root-verification-current-worklists-contract.mjs | unit |
 | tests/root-verification-dispute-counted.mjs | unit |
 | tests/run-anaemia-http.mjs | unit |
+| tests/run-api-privacy-registration-current.mjs | unit |
 | tests/run-api-reporting-current.mjs | unit |
+| tests/run-api-verification-programme-current.mjs | unit |
 | tests/scoped-read-contract.mjs | unit |
 | tests/smoke/app-back-guided-browser.mjs | smoke |
+| tests/smoke/local-privacy-current-smoke.mjs | smoke |
 | tests/storage-contract.mjs | unit |
 | tests/sync-receipt-cold-device-contract.mjs | unit |
 | tests/sync-receipt-cold-projection-extra.mjs | unit |
@@ -578,6 +610,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/tenth-review-fixes-contract.mjs | unit |
 | tests/test-runner-contract.mjs | unit |
 | tests/test-runner-current-fixture-contract.mjs | unit |
+| tests/test-runner-privacy-registration-current-contract.mjs | unit |
 | tests/test-runner-reporting-current-contract.mjs | unit |
 | tests/test-runner-verification-current-contract.mjs | unit |
 | tests/ui/confirm-correct-hindi.spec.mjs | ui |
@@ -590,6 +623,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/ui/support/flows.mjs | ui |
 | tests/ui/support/global-setup.mjs | ui |
 | tests/ui/support/reporter.mjs | ui |
+| tests/verification-api-note-answer-signoff-current.mjs | unit |
 | tests/verification-current-abdm-contract.mjs | unit |
 | tests/verification-current-abdm-transfer-contract.mjs | unit |
 | tests/verification-current-access-audit-contract.mjs | unit |
@@ -785,11 +819,11 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 
 | Requirement | Status | Entry | unit | int | res | smoke | ui | nfr | F | N | P | E | Exec | UAT | Gaps |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| BR-UX-01 | partial | own | 1 | 1 | 0 | 1 | 2 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
-| BR-UX-02 | implemented-local | own | 1 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-UX-01 | partial | own | 4 | 1 | 0 | 1 | 2 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
+| BR-UX-02 | implemented-local | own | 2 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-03 | partial | own | 2 | 2 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-04 | partial | area | 2 | 2 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
-| BR-UX-05 | partial | own | 1 | 2 | 0 | 0 | 2 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-UX-05 | partial | own | 3 | 2 | 0 | 0 | 2 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-06 | implemented-local | own | 1 | 0 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-07 | partial | own | 6 | 5 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-UX-08 | partial | area | 2 | 2 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
@@ -899,8 +933,8 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-REP-01 | partial | own | 5 | 6 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-REP-02 | partial | own | 22 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-REP-03 | partial | own | 5 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
-| BR-REP-04 | partial | own | 20 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
-| BR-REP-05 | partial | own | 5 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
+| BR-REP-04 | partial | own | 25 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
+| BR-REP-05 | partial | own | 8 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-REP-06 | partial | area | 0 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | one layer only |
 | BR-REP-07 | partial | own | 2 | 9 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-OPS-01 | partial | own | 2 | 3 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |

@@ -49,7 +49,11 @@
         "tests/app-first-ui.cjs",
         "tests/ui/app-first-phone.spec.mjs",
         "docs/current/APP-FIRST-UI.md",
-        "docs/current/ANDROID-APP.md"
+        "docs/current/ANDROID-APP.md",
+        "app/registration-guidance.tsx",
+        "tests/guided-registration-browser.mjs",
+        "tests/guided-registration-overflow-browser.mjs",
+        "tests/guided-registration-root-independent-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -72,7 +76,9 @@
         "tests/app-first-ui.cjs",
         "tests/ui/app-first-phone.spec.mjs",
         "docs/current/APP-FIRST-UI.md",
-        "docs/current/ANDROID-APP.md"
+        "docs/current/ANDROID-APP.md",
+        "app/registration-guidance.tsx",
+        "tests/guided-registration-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -158,7 +164,9 @@
         "tests/language-smoke.mjs",
         "tests/a11y-audit.mjs",
         "docs/current/SLICE-10J-HINDI-WORKSPACE.md",
-        "tests/ui/hindi.spec.mjs"
+        "tests/ui/hindi.spec.mjs",
+        "tests/guided-registration-overflow-browser.mjs",
+        "tests/guided-registration-root-independent-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3646,7 +3654,14 @@
         "tests/evidence/composite-measures/manifest.json",
         "tests/evidence/composite-independent/manifest.json",
         "tests/evidence/composite-authority-repair/manifest.json",
-        "tests/evidence/composite-authority-independent/manifest.json"
+        "tests/evidence/composite-authority-independent/manifest.json",
+        "lib/saha/operational-disclosure.ts",
+        "tests/operational-privacy-contract.mjs",
+        "tests/operational-privacy-http.mjs",
+        "tests/operational-privacy-adverse-http.mjs",
+        "tests/operational-privacy-independent-extra-http.mjs",
+        "tests/composite-measures-privacy-current-http.mjs",
+        "docs/verification/PRIVACY-REGISTRATION-ROOT-INTEGRATION.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3681,7 +3696,11 @@
         "tests/ninth-review-fixes-contract.mjs",
         "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
         "tests/aggregate-checkpoint-population-contract.mjs",
-        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md"
+        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
+        "lib/saha/operational-disclosure.ts",
+        "tests/operational-privacy-http.mjs",
+        "tests/operational-privacy-cold-browser.mjs",
+        "tests/operational-privacy-independent-extra-http.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

@@ -105,8 +105,8 @@
     },
     "integration/composite-measures-http": {
       "layer": "integration",
-      "file": "tests/composite-measures-http.mjs",
-      "minPassed": 131
+      "file": "tests/composite-measures-privacy-current-http.mjs",
+      "minPassed": 133
     },
     "integration/contact-import-http": {
       "layer": "integration",
@@ -162,6 +162,21 @@
       "layer": "integration",
       "file": "tests/guided-programme-reset-variants.mjs",
       "minPassed": 30
+    },
+    "integration/guided-registration-browser": {
+      "layer": "integration",
+      "file": "tests/guided-registration-browser.mjs",
+      "minPassed": 45
+    },
+    "integration/guided-registration-overflow-browser": {
+      "layer": "integration",
+      "file": "tests/guided-registration-overflow-browser.mjs",
+      "minPassed": 13
+    },
+    "integration/guided-registration-root-independent-browser": {
+      "layer": "integration",
+      "file": "tests/guided-registration-root-independent-browser.mjs",
+      "minPassed": 53
     },
     "integration/guided-repair-independent-probe": {
       "layer": "integration",
@@ -493,6 +508,26 @@
       "file": "tests/offline-sync-hash-repair-browser.mjs",
       "minPassed": 51
     },
+    "integration/operational-privacy-adverse-http": {
+      "layer": "integration",
+      "file": "tests/operational-privacy-adverse-http.mjs",
+      "minPassed": 245
+    },
+    "integration/operational-privacy-browser": {
+      "layer": "integration",
+      "file": "tests/operational-privacy-cold-browser.mjs",
+      "minPassed": 51
+    },
+    "integration/operational-privacy-extra-http": {
+      "layer": "integration",
+      "file": "tests/operational-privacy-independent-extra-http.mjs",
+      "minPassed": 478
+    },
+    "integration/operational-privacy-http": {
+      "layer": "integration",
+      "file": "tests/operational-privacy-http.mjs",
+      "minPassed": 79
+    },
     "integration/programme-raw-key-http": {
       "layer": "integration",
       "file": "tests/programme-raw-key-http.mjs",
@@ -565,8 +600,8 @@
     },
     "integration/run-api-smoke": {
       "layer": "integration",
-      "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4770
+      "file": "tests/run-api-privacy-registration-current.mjs",
+      "minPassed": 5020
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -1358,6 +1393,16 @@
       "file": "tests/offline-programme-contract.mjs",
       "minPassed": 21
     },
+    "unit/operational-privacy-contract": {
+      "layer": "unit",
+      "file": "tests/operational-privacy-contract.mjs",
+      "minPassed": 41
+    },
+    "unit/operational-privacy-extra-contract": {
+      "layer": "unit",
+      "file": "tests/operational-privacy-independent-extra-contract.mjs",
+      "minPassed": 49
+    },
     "unit/operations-bound-contract": {
       "layer": "unit",
       "file": "tests/operations-bound-contract.mjs",
@@ -1665,7 +1710,7 @@
     },
     "unit/test-runner-contract": {
       "layer": "unit",
-      "file": "tests/test-runner-verification-current-contract.mjs",
+      "file": "tests/test-runner-privacy-registration-current-contract.mjs",
       "minPassed": 27
     },
     "unit/trace-contract": {
