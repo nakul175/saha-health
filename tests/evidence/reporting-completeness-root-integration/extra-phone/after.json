@@ -1,0 +1,25 @@
+{
+  "setupPassed": 9,
+  "independentPassed": 18,
+  "failed": 0,
+  "posts": [
+    {
+      "key": "0bdd87a0-0f47-46c5-8432-dbb03b35858a",
+      "body": "{\"type\":\"propose\",\"id\":\"phone-calendar\",\"expectedVersion\":0,\"spec\":{\"title\":\"Synthetic phone calendar\",\"teamIds\":[\"default\"],\"definitions\":[\"visits-confirmed@1\"],\"periods\":[{\"id\":\"period-one\",\"start\":\"2026-09-10T20:19:35.135Z\",\"end\":\"2026-10-04T20:19:35.135Z\",\"deadline\":\"2026-10-05T19:19:35.135Z\"}],\"sources\":[{\"id\":\"phone-source\",\"label\":\"phone-source\",\"kind\":\"mis\",\"integrationId\":\"mis_community\",\"lateHours\":24,\"syncHours\":6,\"affects\":[{\"definitionRef\":\"visits-confirmed@1\",\"component\":\"numerator\"}]}]},\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-e60d148d-calendar-phone-owner\"}"
+    },
+    {
+      "key": "f964d7b6-e494-458d-8466-982a3d561940",
+      "body": "{\"type\":\"review\",\"id\":\"phone-calendar\",\"version\":1,\"expectedSequence\":1,\"decision\":\"approve\",\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-751b43b1-calendar-phone-reviewer\"}"
+    },
+    {
+      "key": "91243352-128c-4a4e-9f88-f7d6c28d2f3a",
+      "body": "{\"type\":\"release\",\"id\":\"phone-calendar\",\"version\":1,\"expectedSequence\":2,\"reviewId\":\"a6655975-3467-4314-9ca4-cae6369e0500\",\"effectiveAt\":\"2026-10-05T20:19:37.715Z\",\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-e60d148d-calendar-phone-owner\"}"
+    },
+    {
+      "key": "416069da-c638-49fc-83c2-89dd3544f571",
+      "body": "{\"type\":\"declare\",\"expectedSourceVersion\":{\"contractVersion\":1,\"kind\":\"mis\",\"integrationId\":\"mis_community\",\"integrationVersion\":1},\"id\":\"phone-calendar\",\"version\":1,\"teamId\":\"default\",\"periodId\":\"period-one\",\"sourceId\":\"phone-source\",\"expectedCoverageVersion\":0,\"status\":\"outage\",\"through\":null,\"evidenceHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-e60d148d-calendar-phone-owner\"}"
+    }
+  ],
+  "rawHash": "680b9064777948f323655473e84f510aec62d2389bba49db9ede3e3351afbd81",
+  "storedHash": "680b9064777948f323655473e84f510aec62d2389bba49db9ede3e3351afbd81"
+}

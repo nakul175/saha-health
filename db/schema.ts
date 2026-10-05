@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { sqliteTable, text, integer, primaryKey, index, uniqueIndex, check } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, primaryKey, index, uniqueIndex, check, foreignKey } from 'drizzle-orm/sqlite-core';
 // Release 0.1 source is retained unchanged as a migration and rollback reference.
 export const workspaces = sqliteTable('workspaces', {
   ownerId: text('owner_id').primaryKey(), revision: integer('revision').notNull().default(1),
@@ -226,3 +226,20 @@ export const indicatorFigureDisclosures=sqliteTable('indicator_figure_disclosure
 export const mediaCustody=sqliteTable('media_custody', {
  orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), actorId:text('actor_id').notNull(), requestKey:text('request_key').notNull(), inputHash:text('input_hash').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(), objectKey:text('object_key').notNull(), state:text('state').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), mime:text('mime').notNull(), objectVersion:text('object_version'), etag:text('etag'), createdAt:text('created_at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('media_custody_request').on(t.orgId,t.actorId,t.requestKey),uniqueIndex('media_custody_key').on(t.objectKey),index('media_custody_pending').on(t.orgId,t.actorId,t.state),check('media_custody_state',sql`${t.state} IN ('staged','quarantined','linked','removed')`)]);
+
+// Immutable reporting calendar/evidence storage mirrors applied migration0030.
+export const reportingCalendars=sqliteTable('reporting_calendars',{
+  orgId:text('org_id').notNull().references(()=>organisations.id),id:text('id').notNull(),version:integer('version').notNull(),authorId:text('author_id').notNull(),authorVersion:integer('author_version').notNull(),createdAt:text('created_at').notNull(),digest:text('digest').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id,t.version]})]);
+export const reportingCalendarEvents=sqliteTable('reporting_calendar_events',{
+  orgId:text('org_id').notNull(),calendarId:text('calendar_id').notNull(),calendarVersion:integer('calendar_version').notNull(),id:text('id').notNull(),sequence:integer('sequence').notNull(),kind:text('kind').notNull(),actorId:text('actor_id').notNull(),memberVersion:integer('member_version').notNull(),role:text('role').notNull(),at:text('at').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('reporting_calendar_event_sequence').on(t.orgId,t.calendarId,t.calendarVersion,t.sequence),foreignKey({columns:[t.orgId,t.calendarId,t.calendarVersion],foreignColumns:[reportingCalendars.orgId,reportingCalendars.id,reportingCalendars.version]})]);
+export const reportingCoverage=sqliteTable('reporting_coverage',{
+  orgId:text('org_id').notNull(),calendarId:text('calendar_id').notNull(),calendarVersion:integer('calendar_version').notNull(),teamId:text('team_id').notNull(),sourceId:text('source_id').notNull(),periodId:text('period_id').notNull(),version:integer('version').notNull(),id:text('id').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('reporting_coverage_version').on(t.orgId,t.calendarId,t.calendarVersion,t.teamId,t.sourceId,t.periodId,t.version),foreignKey({columns:[t.orgId,t.calendarId,t.calendarVersion],foreignColumns:[reportingCalendars.orgId,reportingCalendars.id,reportingCalendars.version]})]);
+export const reportingCompletenessSnapshots=sqliteTable('reporting_completeness_snapshots',{
+  orgId:text('org_id').notNull(),id:text('id').notNull(),figureId:text('figure_id'),createdAt:text('created_at').notNull(),digest:text('digest').notNull(),basis:text('basis').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('reporting_completeness_figure').on(t.orgId,t.figureId)]);
+export const reportingCompletenessReceipts=sqliteTable('reporting_completeness_receipts',{
+  orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),key:text('key').notNull(),bodyHash:text('body_hash').notNull(),calendarId:text('calendar_id').notNull(),calendarVersion:integer('calendar_version').notNull(),result:text('result').notNull(),
+},t=>[primaryKey({columns:[t.actorId,t.key]}),foreignKey({columns:[t.orgId,t.calendarId,t.calendarVersion],foreignColumns:[reportingCalendars.orgId,reportingCalendars.id,reportingCalendars.version]})]);

@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **90 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **92 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -78,6 +78,8 @@ Generated from source: **90 HTTP method/route pairs** and **253 command schema d
 | GET | `/api/referral-requests` | [app/api/referral-requests/route.ts](../../app/api/referral-requests/route.ts) |
 | POST | `/api/reminder-optout/callback` | [app/api/reminder-optout/callback/route.ts](../../app/api/reminder-optout/callback/route.ts) |
 | POST | `/api/reminder-optout` | [app/api/reminder-optout/route.ts](../../app/api/reminder-optout/route.ts) |
+| GET | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
+| POST | `/api/reporting-completeness` | [app/api/reporting-completeness/route.ts](../../app/api/reporting-completeness/route.ts) |
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |

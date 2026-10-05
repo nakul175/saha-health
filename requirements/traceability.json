@@ -3521,8 +3521,8 @@
       "sourceTextLine": 505,
       "implementation": "partial",
       "target": "R15",
-      "current": "Generation window and usage coverage limitations are visible. Slice 6d indicator results state computation time, window, cohort size and latest source record. Slice 6ac adds, per team the viewer belongs to, the latest record time and banded counts of records arriving in the window and arriving more than 72 hours late for online visits, field-notebook syncs, imports and programme receipts, a late share to the nearest 10 points when at least 20 records support it, a data-still-syncing warning for field grants unsynced after 12 hours, and on each released visit-based result the banded number of late visits confirmed since the viewer's previous release of that figure; none of it enters a released cell.",
-      "remaining": "Configurable per-source lateness thresholds and reporting calendars; late arrivals for non-visit measures; freshness on aggregate reports and exports; marking figures already released as affected by later arrivals.",
+      "current": "Generation window and usage coverage limitations are visible. Slice 6d indicator results state computation time, window, cohort size and latest source record. Slice 6ac adds, per team the viewer belongs to, the latest record time and banded counts of records arriving in the window and arriving more than 72 hours late for online visits, field-notebook syncs, imports and programme receipts, a late share to the nearest 10 points when at least 20 records support it, a data-still-syncing warning for field grants unsynced after 12 hours, and on each released visit-based result the banded number of late visits confirmed since the viewer's previous release of that figure; none of it enters a released cell. App-first B28 adds reviewed exact UTC periods/deadlines, per-source lateness/sync thresholds, explicit declaration-only completeness pinned to intended actor and current source version, original/current frozen sidecars and legacy unknown-source-version handling. Whole-team reporting-purpose checks and exact read-only original receipt recovery preserve uncertain outcomes. Combined root419 focused assertions/build/types pass; operational0030 governance portability is independently cleared with private snapshot bodies omitted.",
+      "remaining": "Current privacy-preserving source-completeness contract is partial: late arrivals for wider non-visit/source types and affected downstream released figures beyond the bounded stored edition contract, freshness on all aggregate/operational exports, configured official scheduled submissions, controlled purpose/download access, protected snapshot reconstruction and clinical/source acceptance remain. Full integration/hosted gates remain pending; no denominator is inferred from operator coverage.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3534,7 +3534,15 @@
         "tests/indicator-freshness-contract.mjs",
         "tests/indicator-freshness-smoke.mjs",
         "tests/indicators-smoke.mjs",
-        "docs/current/SLICE-6AC-REPORTING-FRESHNESS.md"
+        "docs/current/SLICE-6AC-REPORTING-FRESHNESS.md",
+        "lib/saha/reporting-completeness.ts",
+        "lib/saha/reporting-completeness-server.ts",
+        "tests/integration-reporting-completeness-current-contract.mjs",
+        "tests/reporting-completeness-repaired-http.mjs",
+        "tests/integration-completeness-extra-authority-http.mjs",
+        "tests/integration-completeness-extra-browser.mjs",
+        "docs/current/REPORTING-COMPLETENESS-AUTHORITY-REPAIR.md",
+        "docs/current/REPORTING-PORTABILITY-ROOT-COLD-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },

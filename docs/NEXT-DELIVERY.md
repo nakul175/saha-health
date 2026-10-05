@@ -25,6 +25,7 @@ Latest local reviewed checkpoint is `4baf4f54`, including independently cleared 
 | B07 mappings | Reviewed lifecycle, deterministic transformation/null/conformance and phone repairs published at a1e08aef; broader external terminology/profile acceptance remains |
 | B08 imports | Documentary answers/media/notes, explicit source review/use and overlap/reversal published; reviewed inbound retrieval/version conflict service repair integrated locally; real partner profile acceptance remains |
 | B27 reporting | Reviewed governance, immutable editions/reissues and bounded owner composite calculations integrated with independently cleared post-audit authority repair; combined188-unit/API4791 pass,100 workflows4048 and final187 pass with one documented skip; documentation/publication pending. Wider impact/clinical reporting acceptance remains |
+| B28 calendar/completeness | Independently reviewed actor/source-version and legacy-upgrade repair plus current whole-team/purpose operational portability integrated locally; root8 suites419/build/types pass. Private snapshot bodies remain withheld; broader privacy/download/scheduled-submission scope remains. B12 execution is held for repair after independent authority observations. |
 | Current publication gate |188-unit10102,API/restore4791,100-workflow4048 and final seven187 pass with one existing skip; supply-chain222/0 blocking passes. Documentation baseline, source publication and exact new hosted follow-up remain |
 
 ## Development-completion order (sponsor decision, 30 September 2026)

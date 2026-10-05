@@ -1,0 +1,270 @@
+{
+  "generatedAt": "2026-10-05T20:18:30.542Z",
+  "startedAt": "2026-10-05T20:18:06.863Z",
+  "command": "node scripts/test.mjs unit integration --only unit/data-exit-contract,unit/reporting-completeness-contract,integration/report-portability-http,integration/reporting-completeness-repaired-http,integration/reporting-completeness-repaired-browser,integration/reporting-completeness-repaired-account-browser,integration/completeness-cold-extra-authority-http,integration/completeness-cold-extra-browser --fast --guard --report tests/evidence/reporting-completeness-root-integration/focused-current.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "failed",
+      "suites": 2,
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1644,
+      "failedSuites": 1
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 6,
+      "passed": 208,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 21755,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 8,
+    "passed": 252,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 1,
+    "durationMs": 23679
+  },
+  "suites": [
+    {
+      "id": "unit/reporting-completeness-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/reporting-completeness-contract.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 816,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/unit__reporting-completeness-contract.log"
+    },
+    {
+      "id": "unit/data-exit-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/reporting-completeness-portability-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 828,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__data-exit-contract.log"
+    },
+    {
+      "id": "integration/completeness-cold-extra-authority-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/completeness-cold-extra-authority-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 2368,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__completeness-cold-extra-authority-http.log"
+    },
+    {
+      "id": "integration/completeness-cold-extra-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/completeness-cold-extra-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 5123,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__completeness-cold-extra-browser.log"
+    },
+    {
+      "id": "integration/report-portability-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-report-portability-completeness-schema-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 79,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1514,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__report-portability-http.log"
+    },
+    {
+      "id": "integration/reporting-completeness-repaired-account-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/reporting-completeness-repaired-account-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4843,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__reporting-completeness-repaired-account-browser.log"
+    },
+    {
+      "id": "integration/reporting-completeness-repaired-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/reporting-completeness-repaired-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5325,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__reporting-completeness-repaired-browser.log"
+    },
+    {
+      "id": "integration/reporting-completeness-repaired-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/reporting-completeness-repaired-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 97,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2582,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__reporting-completeness-repaired-http.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": [
+      "unit/reporting-completeness-contract",
+      "integration/completeness-cold-extra-authority-http",
+      "integration/completeness-cold-extra-browser",
+      "integration/reporting-completeness-repaired-account-browser",
+      "integration/reporting-completeness-repaired-browser",
+      "integration/reporting-completeness-repaired-http"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/reporting-completeness-portability/contract/result.json",
+      "tests/evidence/reporting-completeness-repair-independent/extended-authority/authority.json",
+      "tests/evidence/reporting-completeness-repair-independent/extended-authority/extra-races.json",
+      "tests/evidence/reporting-completeness-repair-independent/extra-phone/503-pending.json",
+      "tests/evidence/reporting-completeness-repair-independent/extra-phone/after.json",
+      "tests/evidence/reporting-completeness-repair-independent/extra-phone/final-guard-recovered.png",
+      "tests/evidence/reporting-completeness-repair/account-transition/after-result.json",
+      "tests/evidence/reporting-completeness-repair/account-transition/observed.json",
+      "tests/evidence/reporting-completeness-repair/phone/browser.json",
+      "tests/evidence/reporting-completeness-repair/phone/phone-frozen-outage.png"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 194,
+        "components": 0,
+        "suitesCitingNoRequirement": 56,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 130,
+        "components": 84,
+        "suitesCitingNoRequirement": 61,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 190,
+        "components": 0,
+        "suitesCitingNoRequirement": 169,
+        "requirementsCited": 29
+      }
+    },
+    "supportFiles": 18,
+    "suites": 530,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 290,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

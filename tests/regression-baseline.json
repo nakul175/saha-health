@@ -78,6 +78,16 @@
       "file": "tests/command-authority-http.mjs",
       "minPassed": 30
     },
+    "integration/completeness-cold-extra-authority-http": {
+      "layer": "integration",
+      "file": "tests/integration-completeness-extra-authority-http.mjs",
+      "minPassed": 89
+    },
+    "integration/completeness-cold-extra-browser": {
+      "layer": "integration",
+      "file": "tests/integration-completeness-extra-browser.mjs",
+      "minPassed": 27
+    },
     "integration/composite-authority-independent-extra-http": {
       "layer": "integration",
       "file": "tests/composite-authority-independent-extra-http.mjs",
@@ -515,8 +525,23 @@
     },
     "integration/report-portability-http": {
       "layer": "integration",
-      "file": "tests/report-portability-http.mjs",
+      "file": "tests/integration-report-portability-completeness-schema-http.mjs",
       "minPassed": 79
+    },
+    "integration/reporting-completeness-repaired-account-browser": {
+      "layer": "integration",
+      "file": "tests/reporting-completeness-repaired-account-browser.mjs",
+      "minPassed": 14
+    },
+    "integration/reporting-completeness-repaired-browser": {
+      "layer": "integration",
+      "file": "tests/reporting-completeness-repaired-browser.mjs",
+      "minPassed": 18
+    },
+    "integration/reporting-completeness-repaired-http": {
+      "layer": "integration",
+      "file": "tests/reporting-completeness-repaired-http.mjs",
+      "minPassed": 97
     },
     "integration/run-api-smoke": {
       "layer": "integration",
@@ -920,7 +945,7 @@
     },
     "unit/data-exit-contract": {
       "layer": "unit",
-      "file": "tests/data-exit-contract.mjs",
+      "file": "tests/reporting-completeness-portability-contract.mjs",
       "minPassed": 44
     },
     "unit/delegation-contract": {
@@ -1477,6 +1502,11 @@
       "layer": "unit",
       "file": "tests/report-export-contract.mjs",
       "minPassed": 7
+    },
+    "unit/reporting-completeness-contract": {
+      "layer": "unit",
+      "file": "tests/integration-reporting-completeness-current-contract.mjs",
+      "minPassed": 51
     },
     "unit/request-body-transport-contract": {
       "layer": "unit",

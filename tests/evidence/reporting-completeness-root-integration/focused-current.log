@@ -1,0 +1,31 @@
+Running unit integration --fast; 8 suite(s).
+
+[unit] 2 suite(s)
+  ok       unit/reporting-completeness-contract  51 passed  827ms
+  ok       unit/data-exit-contract  44 passed  821ms
+
+[integration] 6 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/completeness-cold-extra-authority-http ...
+  ok       integration/completeness-cold-extra-authority-http  89 passed  2.4s
+  running  integration/completeness-cold-extra-browser ...
+  ok       integration/completeness-cold-extra-browser  27 passed  5.1s
+  running  integration/report-portability-http ...
+  ok       integration/report-portability-http  79 passed  1.5s
+  running  integration/reporting-completeness-repaired-account-browser ...
+  ok       integration/reporting-completeness-repaired-account-browser  14 passed  4.9s
+  running  integration/reporting-completeness-repaired-browser ...
+  ok       integration/reporting-completeness-repaired-browser  18 passed  5.4s
+  running  integration/reporting-completeness-repaired-http ...
+  ok       integration/reporting-completeness-repaired-http  97 passed  2.3s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       2      95       0        0   1.6s
+  integration  passed       6     324       0        0  21.6s
+  total        passed       8     419       0        0  23.5s
+
+Restored 5 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).
+  note     6 suite(s) are not in the baseline yet (unit/reporting-completeness-contract, integration/completeness-cold-extra-authority-http, integration/completeness-cold-extra-browser, integration/reporting-completeness-repaired-account-browser, integration/reporting-completeness-repaired-browser, integration/reporting-completeness-repaired-http); add them with --update-baseline.

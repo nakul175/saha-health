@@ -37,6 +37,7 @@ const ROUTE_PARAMS = {
   '/api/media': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/inbound-conflicts': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/indicator-figures': () => [{ q: '' }],
+  '/api/reporting-completeness': () => [{ q: '' }],
   '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/clinical-sources': w => [{q:w.sourceQuery}],
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),

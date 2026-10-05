@@ -115,8 +115,13 @@ for additional_name in ['evidence-source-snapshots-conformance-import.json','evi
                 require(expected not in existing or existing[expected]==entry,'Conflicting historical source snapshot: '+source_path)
                 existing.setdefault(expected,entry)
 slice_total=0
-supplement_path=ROOT/'tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json'
-supplement=json.loads(supplement_path.read_text()).get('files',{}) if supplement_path.exists() else {}
+supplement={}
+for supplement_name in ['tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json','tests/evidence/reporting-completeness-root-integration/author-artifacts.json']:
+    supplement_path=ROOT/supplement_name
+    if supplement_path.exists():
+        for path,expected in json.loads(supplement_path.read_text()).get('files',{}).items():
+            require(path not in supplement or supplement[path]==expected,'Conflicting supplemental artifact: '+path)
+            supplement.setdefault(path,expected)
 for evidence_path,expected in supplement.items():
     path=ROOT/evidence_path
     require(evidence_path.startswith('tests/evidence/') and re.fullmatch(r'[a-f0-9]{64}',str(expected)) and path.is_file() and digest(path)==expected,'Changed supplemental author artifact: '+evidence_path)
@@ -124,7 +129,14 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     manifest=json.loads(manifest_path.read_text())
     # Preserve the authors' immutable manifests, including their existing
     # digest layouts. Only report-level numeric assertion counts are summed.
-    entries=manifest.get('reports',manifest.get('sha256',manifest.get('files')))
+    entries=manifest.get('sha256',manifest.get('files',manifest.get('filesSha256',manifest.get('reports'))))
+    # Descriptive reports without digests require the exact complete root supplement.
+    if entries is None or isinstance(entries,dict) and entries and all(isinstance(v,(int,float)) or isinstance(v,dict) and 'sha256' not in v for v in entries.values()):
+        key=str(manifest_path.relative_to(ROOT))
+        if key in supplement:
+            artifacts=[p for p in manifest_path.parent.rglob('*') if p.is_file()]
+            require(all(str(p.relative_to(ROOT)) in supplement for p in artifacts),'Incomplete supplemental author artifacts: '+key)
+            entries={str(p.relative_to(ROOT)):supplement[str(p.relative_to(ROOT))] for p in artifacts if str(p.relative_to(ROOT)) in supplement}
     # A cold reviewer can retain a list of explicit path/digest records.
     # Validate that schema without rewriting the immutable author/review manifest.
     if isinstance(entries,list):
@@ -134,17 +146,18 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
         entries={meta['path']:meta for meta in entries} if valid else {}
     # These named maps pin application source rather than result reports.
     # Check every source digest, preserving its original layout and source scope.
-    for source_key in ['sourceSha256','sourcePins','applicationSourceUnchanged','unchangedProtectedSources','originalEvidenceSha256']:
+    for source_key in ['sourceSha256','sourcePins','applicationSourceUnchanged','unchangedProtectedSources','unchangedProtectedSource','originalEvidenceSha256']:
         source_entries=manifest.get(source_key)
         if source_entries is None:
             continue
-        valid=isinstance(source_entries,dict) and all(path.startswith(('app/','lib/','public/','db/','drizzle/','scripts/','tests/')) and re.fullmatch(r'[a-f0-9]{64}',str(expected)) for path,expected in source_entries.items())
+        valid=isinstance(source_entries,dict) and all(path.startswith(('app/','lib/','public/','db/','drizzle/','scripts/','tests/')) and re.fullmatch(r'[a-f0-9]{64}',str(expected.get('sha256') if isinstance(expected,dict) else expected)) and (not isinstance(expected,dict) or 'bytes' not in expected or isinstance(expected['bytes'],int) and expected['bytes']>=0) for path,expected in source_entries.items())
         require(valid,'Invalid source digest map: '+str(manifest_path.relative_to(ROOT)))
         if valid:
             entries=entries if isinstance(entries,dict) else {}
             for path,expected in source_entries.items():
                 existing=entries.get(path)
-                require(existing is None or (existing.get('sha256') if isinstance(existing,dict) else existing)==expected,'Conflicting source digest: '+path)
+                expected_digest=expected.get('sha256') if isinstance(expected,dict) else expected
+                require(existing is None or (existing.get('sha256') if isinstance(existing,dict) else existing)==expected_digest,'Conflicting source digest: '+path)
                 entries.setdefault(path,expected)
     # Independent review can name report metadata separately while pinning every
     # actual file in sha256. Preserve that original layout and verify both maps.

@@ -1,5 +1,7 @@
 # Implementation boundary
 
+Reviewed calendar/completeness software now pins UTC periods, per-source thresholds, explicit independently governed declarations, intended actor and current producer versions. Live/current and frozen original sidecars remain distinct; exports preserve governed calendar history under whole-team normal reporting scope and omit private snapshot bodies. Combined419 focused checks/build/types pass; full combined and hosted qualification remain pending. B28 privacy, controlled access/download and official scheduled submission remain residuals; all176 acceptance criteria remain pending. See [reporting review](current/REPORTING-COMPLETENESS-REPAIR-INDEPENDENT-COLD.md) and [export review](current/REPORTING-PORTABILITY-ROOT-COLD-REVIEW.md).
+
 R11 / v1.3-readiness is a private synthetic engineering application. It supports a bounded care-record workflow with human review and per-destination outcomes. It does not deliver the entire original design. All formal BRD acceptances are pending.
 
 | Area | Current implementation | Remaining boundary |
