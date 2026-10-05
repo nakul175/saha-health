@@ -1,0 +1,28 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'org.sahahealth.frontline'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'org.sahahealth.frontline'
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName '0.1.0-demo'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    signingConfigs {
+        // Keep the demonstration key inside ignored build output, never the user's global keystore.
+        debug { storeFile file("${layout.buildDirectory.get()}/debug.keystore") }
+    }
+    buildTypes {
+        release { minifyEnabled false }
+    }
+}
+
+dependencies {
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.7.3'
+}
