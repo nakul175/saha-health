@@ -24,6 +24,7 @@ export function HouseholdVisitPlan({ data, p, busy, command }: { data: Snapshot;
 function PlanDialog({ data, p, busy, command }: { data: Snapshot; p: Person; busy: boolean; command: Command }) {
   const [open, setOpen] = useState(false), [view, setView] = useState<any>(null), [error, setError] = useState(''), [loading, setLoading] = useState(false);
   const [chosen, setChosen] = useState<string[]>([]), [date, setDate] = useState(''), [slotWindow, setSlotWindow] = useState('morning'), [cancelReason, setCancelReason] = useState('rescheduled');
+  const [rescheduling,setRescheduling]=useState<string|null>(null),[rescheduleDate,setRescheduleDate]=useState(''),[rescheduleWindow,setRescheduleWindow]=useState('morning');
   const load = useCallback(async () => {
     setLoading(true); setError('');
     try {
@@ -61,6 +62,14 @@ function PlanDialog({ data, p, busy, command }: { data: Snapshot; p: Person; bus
           <strong>{v.date} · {label(v.window)}</strong> <span className="tag">{v.state === 'cancelled' ? `Cancelled${v.cancelReason ? ` (${label(v.cancelReason).toLowerCase()})` : ''}` : label(v.when)}</span> <span className="muted">· planned by {v.worker}</span>
           {v.covers.map((c: any) => <div key={c.personId}><strong>{c.name}</strong>{c.left ? <span className="muted"> (no longer in the household)</span> : null} <span className="muted">· {c.stillOpen} of {c.items.length} still open</span><ul>{c.items.map((i: any) => <li key={i.kind + i.id}>{i.title}{i.open ? '' : ' · closed'}{i.lateByDays > 0 ? ` · due ${i.due}, ${i.lateByDays} day${i.lateByDays === 1 ? '' : 's'} before this visit` : ''}</li>)}</ul></div>)}
           {v.outsideScopeCovered > 0 && <p className="muted">{v.outsideScopeCovered} covered member{v.outsideScopeCovered > 1 ? 's are' : ' is'} outside your care scope and not shown.</p>}
+          {v.canReschedule && <div className="stack-form">
+            {rescheduling!==v.id ? <Button size="sm" variant="outline" disabled={busy} onClick={()=>{setRescheduling(v.id);setRescheduleDate(v.date);setRescheduleWindow(v.window);}}>Reschedule this visit</Button> : <section aria-label="Reschedule household visit">
+              <div className="form-grid"><label className="field"><span>New visit date</span><Input type="date" min={plan.minDate} max={plan.maxDate} value={rescheduleDate} onChange={e=>setRescheduleDate(e.target.value)}/></label><Pick label="New time of day" value={rescheduleWindow} set={setRescheduleWindow} items={VISIT_WINDOWS.map(x=>({id:x,name:label(x)}))}/></div>
+              <p className="muted">All covered items stay open with their original due dates. The previous slot remains in history.</p>
+              <Button disabled={busy||!rescheduleDate||(rescheduleDate===v.date&&rescheduleWindow===v.window)} onClick={async()=>{const r=await command({type:'householdVisitReschedule',householdId:household.id,version:plan.householdVersion,visitId:v.id,date:rescheduleDate,window:rescheduleWindow,personVersions:v.covers.map((c:any)=>({personId:c.personId,version:c.version}))},'Household visit rescheduled');if(r){setRescheduling(null);await load();}}}>Save new visit time</Button>
+              <Button variant="ghost" disabled={busy} onClick={()=>setRescheduling(null)}>Keep current visit time</Button>
+            </section>}
+          </div>}
           {v.canCancel && <div className="form-grid"><Pick label="Reason for cancelling" value={cancelReason} set={setCancelReason} items={CANCEL_REASONS.map(x => ({ id: x, name: label(x) }))} /><Button size="sm" variant="ghost" disabled={busy} onClick={async () => { const r = await command({ type: 'householdVisitCancel', householdId: household.id, version: plan.householdVersion, visitId: v.id, reason: cancelReason }, 'Household visit cancelled'); if (r) await load(); }}>Cancel this visit</Button></div>}
         </li>)}</ul>}</section>
         <p className="muted text-sm">{plan.rules}</p>
