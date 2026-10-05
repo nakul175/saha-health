@@ -1,5 +1,5 @@
 {
-  "passed": 26,
+  "passed": 29,
   "failed": 2,
   "diagnosticBeforeMode": true,
   "expectedSafeReviewStatus": 409,
@@ -14,8 +14,8 @@
       "sourceHashUnchanged": true,
       "reviewStatus": 200,
       "reviewBody": {
-        "figureId": "73ffc91a-14a4-4fad-b455-de1fd28bf3bd",
-        "eventId": "cbbeaec5-48a2-4d24-890a-9941e4237504",
+        "figureId": "22c7b1c3-ab79-415d-86dd-07a77300c5af",
+        "eventId": "e5f8560b-35a2-4b8c-932f-d9b60c2bdbff",
         "sequence": 2,
         "status": "approved"
       },
@@ -25,5 +25,5 @@
       "externalTransportEnabled": false
     }
   ],
-  "scope": "Diagnostic before snapshot: 26 reproducibility assertions pass, but required safe review and publication both fail (observed200, required409). Not positive product acceptance."
+  "scope": "Historical diagnostic reproduction only: required safe review/publication both fail (observed200, required409); extra legacy figures seed the real preserved-D1 upgrade. Not positive product acceptance."
 }

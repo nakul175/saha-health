@@ -32,5 +32,12 @@ try {
  const published=await post(o,{type:'publish',figureId:approvedDraft.json.figureId,expectedSequence:2,reviewId:approvedBefore.json.eventId,reason});
  equal(beforeUnit.unresolved,1);equal(afterUnit.unresolved,0);equal(beforeUnit.sourceHash===afterUnit.sourceHash,beforeMode);equal(reviewed.status,beforeMode?200:409,reviewed.text);equal(published.status,beforeMode?200:409,published.text);
  observations.push({publishStatus:published.status,beforeUnresolved:beforeUnit.unresolved,afterUnresolved:afterUnit.unresolved,sourceHashUnchanged:beforeUnit.sourceHash===afterUnit.sourceHash,reviewStatus:reviewed.status,reviewBody:reviewed.json,queuedAttempts:sub.attempts,personVersionUnchanged:true,visitVersionUnchanged:true,externalTransportEnabled:false});
+
+ if(beforeMode){
+  const legacyDraft=await post(o,{type:'prepare',query:{ids:['submissions-unresolved@1'],days:30,group:'none'},cutoff:new Date().toISOString(),reason});equal(legacyDraft.status,200);
+  const legacyApproved=await post(o,{type:'prepare',query:{ids:['submissions-unresolved@1'],days:30,group:'none'},cutoff:new Date().toISOString(),reason});equal(legacyApproved.status,200);
+  const legacyReview=await post(r,{type:'review',figureId:legacyApproved.json.figureId,expectedSequence:1,decision:'approve',reason});equal(legacyReview.status,200);
+  writeFileSync('.wrangler/figure-review-upgrade.json',JSON.stringify({o,r,org,reason,publishedId:approvedDraft.json.figureId,draftId:legacyDraft.json.figureId,approvedId:legacyApproved.json.figureId,reviewId:legacyReview.json.eventId}));
+ }
  mkdirSync('tests/evidence/indicator-figures-review',{recursive:true});writeFileSync('tests/evidence/indicator-figures-review/submission-freshness-'+(beforeMode?'before':'after')+'.json',JSON.stringify({passed,failed:beforeMode?2:0,diagnosticBeforeMode:beforeMode,expectedSafeReviewStatus:409,expectedSafePublishStatus:409,actualWorker:true,actualD1:true,observations},null,2)+'\n');console.log(JSON.stringify(observations));
 } finally {await w.stop()}
