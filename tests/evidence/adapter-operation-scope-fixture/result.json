@@ -1,0 +1,7 @@
+{
+  "passed": 14,
+  "failed": 0,
+  "originalFailure": "Not sent: Patient scope changed. Nothing was sent.",
+  "cause": "EHR fixture had no teamId; actual current scope requires worker team t1. Patient GET never occurred, so operation-withdrawal injection was not reached.",
+  "fix": "Add teamId t1 to fixture; assert exactly one authorized Patient GET before withdrawal; preserve all stage, operation, message and trace assertions."
+}

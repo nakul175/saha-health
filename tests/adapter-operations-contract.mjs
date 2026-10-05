@@ -125,7 +125,7 @@ try{
  const ehrI={id:'ehr1',kind:'ehr',mode:'http',name:'District EHR',status:'active',version:1,endpoint:'https://ehr.example/fhir',credentialBinding:'SAHA_EHR_TEST',ehr:{read:true,write:true}};
  const eenv={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_EHR_TEST:'test-secret',SAHA_EHR_CONNECTIONS:JSON.stringify([{organisationId:'org',integrationId:'ehr1',baseUrl:ehrI.endpoint,credentialBinding:ehrI.credentialBinding}])};
  const prepared=async()=>{
-  const p={id:'p',name:'Test Person',sex:'Other',age:30,village:'Test village',version:1,consentVersion:1,exchangeConsent:true,assigned:true},v={id:'v',personId:'p',version:1,state:'confirmed',facts:{date:new Date().toISOString().slice(0,16),source:'reported',weight:'55',notes:'Synthetic visit'}};
+  const p={id:'p',name:'Test Person',sex:'Other',age:30,village:'Test village',version:1,consentVersion:1,exchangeConsent:true,assigned:true,teamId:'t1'},v={id:'v',personId:'p',version:1,state:'confirmed',facts:{date:new Date().toISOString().slice(0,16),source:'reported',weight:'55',notes:'Synthetic visit'}};
   const state={organisation:{id:'org',name:'Test organisation',revision:1},members:[{...worker,isOwner:true}],workspace:{role:'clinician',people:[p],visits:[v],integrations:[structuredClone(ehrI)],submissions:[],audit:[]}};const m=state.members[0];
   await applyEhr(state,{type:'linkEhr',personId:'p',version:1,integrationId:'ehr1',externalId:'external-1',externalName:'Test Person',reason:'Check synthetic ID',confirmed:true},worker,m,eenv);const linkId=p.ehr.links[0].id;
   await applyEhr(state,{type:'grantEhrPermission',personId:'p',linkId,direction:'write',purpose:'care-coordination',from:'2026-01-01T00:00:00.000Z',to:new Date(Date.now()+60000).toISOString(),expiresAt:new Date(Date.now()+600000).toISOString()},worker,m,eenv);
@@ -147,10 +147,10 @@ try{
  });
  await check('EHR withdrawal inside the checkpoint stops the write',async()=>{
   const {state,m,linkId,permissionId}=await prepared();await applyEhr(state,{type:'prepareEhrPublish',personId:'p',linkId,permissionId,visitId:'v'},worker,m,eenv);const op=state.workspace.people[0].ehr.operations[0];
-  store.setup(state);writes=0;
-  const transport=async(_i,_o,_e,path)=>{if(path.startsWith('Patient/')){store.saved.workspace.integrations[0].operations=setting(['lookup']);return remote;}writes++;return {};};
+  store.setup(state);writes=0;let patientReads=0;
+  const transport=async(_i,_o,_e,path)=>{if(path.startsWith('Patient/')){patientReads++;store.saved.workspace.integrations[0].operations=setting(['lookup']);return remote;}writes++;return {};};
   const r=await executeEhr({},structuredClone(state),{type:'executeEhrPublish',personId:'p',operationId:op.id,hash:op.hash},worker,m,'e2','h',eenv,transport);
-  const saved=store.saved.workspace.people[0].ehr.operations[0];assert.equal(writes,0,'no document write');assert.equal(r.state,'blocked');assert.equal(saved.refusal.stage,'checkpoint');assert.equal(saved.refusal.operation,'create');
+  const saved=store.saved.workspace.people[0].ehr.operations[0];assert.equal(patientReads,1,'authorized patient GET reached the operation-withdrawal checkpoint');assert.equal(writes,0,'no document write');assert.equal(r.state,'blocked');assert.equal(saved.refusal.stage,'checkpoint');assert.equal(saved.refusal.operation,'create');
   assert.match(saved.message,/^Not sent: District EHR is not permitted to create records/);assert.deepEqual(saved.events.map(e=>e.state),['running','blocked']);assert.equal(saved.events[1].ref.command,'adapterOperationRefused');
  });
  await check('EHR lookup refused before and inside the checkpoint',async()=>{
