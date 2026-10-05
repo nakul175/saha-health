@@ -1,0 +1,507 @@
+{
+  "source": "65a93a63410c6d9366028447990fab50c0227576",
+  "kind": "documentation/source audit; no counted runtime assertions",
+  "files": {
+    "docs/current/FULL-RESIDUAL-DISPATCH-20261006.md": {
+      "sha256": "f60822a85ab3331143dc255be344dd10332d11e4855612bf61cac0065cead10b",
+      "bytes": 27168
+    },
+    "tests/evidence/full-residual-audit-20261006/audit-result.json": {
+      "sha256": "b19f9b25e922ef0b717825fd76ed9a885074546de86bf9373d40204fb99e6430",
+      "bytes": 1196
+    },
+    "tests/evidence/full-residual-audit-20261006/documentation.log": {
+      "sha256": "3fbb2d5fa7a3f36cd846c4c4e6cb8b1989c5b02e5148afd879795141545dcbc2",
+      "bytes": 311
+    },
+    "tests/evidence/full-residual-audit-20261006/requirements.log": {
+      "sha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+      "bytes": 104
+    },
+    "tests/evidence/full-residual-audit-20261006/rows.json": {
+      "sha256": "4f5edbf9d17ec7591d13368a0c866ef41ef6a9c6683476593248bbcac8b0bb93",
+      "bytes": 35133
+    }
+  },
+  "sourceReferences": {
+    "app/api/fhir/[id]/route.ts": {
+      "sha256": "014bc61836f8cf2829df2de9d758462f784933836cb9466be4bec35eeff5fade",
+      "bytes": 2001
+    },
+    "app/continuity-panel.tsx": {
+      "sha256": "9d6f3cddf58a5bf5a6ce50964007ee68e6d1f783121f63a2ad62331bc278e14a",
+      "bytes": 11108
+    },
+    "app/guided-capture.tsx": {
+      "sha256": "7641db39f51336554a25cab62eb445803a455d3bfc243473ee2fd098f0744bab",
+      "bytes": 6407
+    },
+    "app/programmes.tsx": {
+      "sha256": "fef2d37d9199f6e8210c53a372038d272bfd44395a2b027487270bb43f496b52",
+      "bytes": 14666
+    },
+    "app/workspace.tsx": {
+      "sha256": "d95becbea42c0252c32edde6329499281fe843b0c3dbbfb9bac4a063bec508e1",
+      "bytes": 81775
+    },
+    "docs/current/APP-CLINICAL-SOURCE-RETRIEVAL.md": {
+      "sha256": "70216e06578d3c1ad3939c37b686c9e1582f8a728e5c5a8d116250c3291427cd",
+      "bytes": 5254
+    },
+    "docs/current/APP-DEVICE-PRIVACY-FAIL-CLOSED.md": {
+      "sha256": "2f1386e4ea8727cb16b8b7c2e75a6e21f1ec8629e0dd1bc70c0a5517612086db",
+      "bytes": 3625
+    },
+    "docs/current/APP-DEVICE-PRIVACY.md": {
+      "sha256": "cccfd9001f20498598fa201675b6ad44181a0c80cccd5ce5fef5e43e0ef96671",
+      "bytes": 7630
+    },
+    "docs/current/APP-FIRST-REMAINING-WORK.md": {
+      "sha256": "e27f33ca7b52c90e64957a9581f8bacab7c943b7e1fdec676d594610be3903a3",
+      "bytes": 28367
+    },
+    "docs/current/APP-FIRST-UI.md": {
+      "sha256": "72a5de4542a18c69dbc9266bbe10be7cb7261874c3d75dd08a4e2eb71c5d046a",
+      "bytes": 3861
+    },
+    "docs/current/APP-OFFLINE-PROGRAMME.md": {
+      "sha256": "99b97d750bb37787ca1014c62befacc73ce141458d96a86105dc425669def321",
+      "bytes": 4370
+    },
+    "docs/current/APP-SHARED-OFFLINE.md": {
+      "sha256": "aa96d8308664d5d4206497f79dce48296076e5dffb3705af731bc388145f8c65",
+      "bytes": 4860
+    },
+    "docs/current/APP-VALUE-RANGE-PROTOCOL.md": {
+      "sha256": "26f8feed90ba48eabb04b43fad70db888fe38598a88345fabf4c58b9ab726ef1",
+      "bytes": 5834
+    },
+    "docs/current/CLINICAL-SOURCE-DEPENDENCY-VALIDATION.md": {
+      "sha256": "4dcebac90caf20734d1727b7c7da3ab43bf9593d5a7719daa70d858d3585f8fb",
+      "bytes": 3312
+    },
+    "docs/current/COMMAND-AUTHORITY-EVIDENCE.md": {
+      "sha256": "439e4225e242f99d5dc491ca991b936c722f5eaec794740c0874f751778b2976",
+      "bytes": 7234
+    },
+    "docs/current/CONTACT-IMPORT.md": {
+      "sha256": "5e7a85bb7914a6ce21d86cd859a884e5fd1a9b5f77dc4c1137bd2c3a92807df9",
+      "bytes": 5055
+    },
+    "docs/current/DELTA-RESPONSE-READ-AUDIT.md": {
+      "sha256": "0a1eb6a7f6ad6a6e1f8da74ba9da55ce727d43b7a2e1d1db30dec035cd4673cf",
+      "bytes": 4191
+    },
+    "docs/current/GUIDED-ASHA-VISIT-CAPTURE.md": {
+      "sha256": "65af49f8f5729cf00f7a96734a3eccfbe0d7c2213739f41969ac03880fe66751",
+      "bytes": 7846
+    },
+    "docs/current/HOUSEHOLD-COVERED-COMPLETION.md": {
+      "sha256": "fccc17a5c0a855de96b2c415b19cca11eec03df045557d205a00de84c989d2c2",
+      "bytes": 6739
+    },
+    "docs/current/IMPORTED-EVIDENCE-INDEPENDENT-REVIEW.md": {
+      "sha256": "4fbbb8dfa610ec3879a23aba68863bf20d95ccde61d99e2b3103c26e818f56c3",
+      "bytes": 2306
+    },
+    "docs/current/INBOUND-CLINICAL-CONFLICTS.md": {
+      "sha256": "7f2cae23c64697bdfb76a6fcdb9c81de36f4c14fa50b034221d4fce07808d580",
+      "bytes": 8003
+    },
+    "docs/current/INBOUND-RETRIEVAL-HANDOFF.md": {
+      "sha256": "6f750cedd04d37912f5ebc82866af1fd351bad1ceb86d90f6a3668ad174e2e69",
+      "bytes": 4525
+    },
+    "docs/current/MEMORY-D1-LIFETIMES.md": {
+      "sha256": "4c21d362468c787e23ccff73652ce9acbb239d3b04088b9535ab96dec668c1eb",
+      "bytes": 7882
+    },
+    "docs/current/MEMORY-NATIVE-OWNERSHIP.md": {
+      "sha256": "19724c7f6ed5b970afb59d1b0735a86a4919ff14b987b2076a434e0bd30d8268",
+      "bytes": 6735
+    },
+    "docs/current/MEMORY-RECEIVER-ATTRIBUTION.md": {
+      "sha256": "e0b0681e5ccdb0b67fe21ba65848433cafdb1c6ec8451d415c0b9fa811e9c360",
+      "bytes": 7819
+    },
+    "docs/current/MIS-CONFORMANCE-INDEPENDENT-REVIEW.md": {
+      "sha256": "24a0d45d04c5ab170b4872e3c7523f04e96012e044e2acce1d02db4b050aae11",
+      "bytes": 4981
+    },
+    "docs/current/OBJECT-MEDIA-CUSTODY.md": {
+      "sha256": "b2331898b9b973a695a5b26bf3c7d3de5472bdc1ed05dd83755494f7b361a358",
+      "bytes": 11346
+    },
+    "docs/current/OFFLINE-SYNC-SIGNAL-INDEPENDENT-REVIEW.md": {
+      "sha256": "420f3bec504374a4557863765ecc82a2e1e24edaeb48fea6379ef725c4fec1fd",
+      "bytes": 3142
+    },
+    "docs/current/OWNER-COMPOSITE-MEASURES.md": {
+      "sha256": "6c17a256a5a02fdc683e05f85efb082ce97b58cf0a8c6ce7cd6e1023da55342b",
+      "bytes": 10581
+    },
+    "docs/current/PROVIDER-ENVELOPE-INDEPENDENT-REVIEW.md": {
+      "sha256": "ac88a31f9c200d3dc5d0ab37fb7084e2ddb0a0553bcb508e330ca66b7774313f",
+      "bytes": 3680
+    },
+    "docs/current/SERVICE-DISPATCH-DOMAIN-CHECKPOINT.md": {
+      "sha256": "a9f0cfa28fe98eefe6bd6eefcc0c2ec028798c84bc99063a876cd2ba10bc7b2c",
+      "bytes": 3811
+    },
+    "docs/current/SERVICE-IDENTITY-WIRING.md": {
+      "sha256": "b0ce5cef3c811a08eed3130c8c4a476a4d7583bbc023e6f79731ce5057ebe4db",
+      "bytes": 6266
+    },
+    "docs/current/SLICE-0A-STORAGE.md": {
+      "sha256": "68d985bb918b1f99c1843390da0bde0c56c322128e6885db83743b9dc8e072c1",
+      "bytes": 5294
+    },
+    "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md": {
+      "sha256": "f0047671d07aa1301b1e371a1fe246622fabe1d6e4d72e91d60e568159b5cc2f",
+      "bytes": 9146
+    },
+    "docs/current/SLICE-6Y-TASK-TRACE.md": {
+      "sha256": "627b21efd501bb5d1c15aef7dab70908034a4b11f4d9082358ce5be54af45757",
+      "bytes": 8825
+    },
+    "docs/current/SLICE-7C-OUTBOUND-VALIDATION.md": {
+      "sha256": "047b87bc23862d7dd697ad8383c61fa7c20b106a82b8a4c0bec5bcd957eccf42",
+      "bytes": 4049
+    },
+    "docs/current/SYNTHETIC-AVAILABILITY.md": {
+      "sha256": "cc368a30e5744c926109d13ddfbe34707cfa1d0467c66302e538e441be9535a5",
+      "bytes": 8230
+    },
+    "docs/current/WORK-BURDEN-FIELD-CONTINUATION.md": {
+      "sha256": "2e8a9aa1b65a8cbcf258f8f6d995db3b1a1a69de82b1a6e586750a12f956c40f",
+      "bytes": 3798
+    },
+    "docs/testing/COVERAGE.md": {
+      "sha256": "64583f7d4f97698d06b011dcf89b4818a96eddccf5fc8695a5a3ed7bbfbdd9f5",
+      "bytes": 35960
+    },
+    "docs/testing/coverage.csv": {
+      "sha256": "d9b1a6b8623992638f41a34ce3e1ab27ca8083fec0a36e1de6284c9e7ba01dff",
+      "bytes": 51701
+    },
+    "docs/testing/uat/uat-results.csv": {
+      "sha256": "506f5a24b71252f0ce6e498f7cabbbe7fe9d3d7e37dc1f887adada7c1a2a9fc1",
+      "bytes": 3954
+    },
+    "lib/saha/access-audit.ts": {
+      "sha256": "baab508e35efb3c94b44864d9b77a4b6af5370dcb15e2b14adfd4fc355e5549d",
+      "bytes": 11526
+    },
+    "lib/saha/access.ts": {
+      "sha256": "26f5fdc7fe7bedd29de9f07773e7d2e4d1ba1249503c8a27773f007219c32789",
+      "bytes": 6285
+    },
+    "lib/saha/action-plan.ts": {
+      "sha256": "4c6019d84b70d64db0d9470d01394aa16cd868f0b247ab9b55c02aaa5c4622f6",
+      "bytes": 25813
+    },
+    "lib/saha/agent-execution.ts": {
+      "sha256": "d2122392e5f468f31058d08805e0a0f671019b28f14b6316dc86a9337345837c",
+      "bytes": 5166
+    },
+    "lib/saha/agent-minimisation.ts": {
+      "sha256": "87d919adb16a6220cd6f4e1497b58be0f803a7fea8673d335e13926d507f0117",
+      "bytes": 8196
+    },
+    "lib/saha/aggregate-delivery.ts": {
+      "sha256": "9b43be10d67e2fda886b20574eaffe8de46960ba5d753266992f147137ba0bde",
+      "bytes": 22560
+    },
+    "lib/saha/ai-budget.ts": {
+      "sha256": "d515eb10b91124548ef3c36e7b35a563c414ecb8f128a9cbca6c2a3db51d05de",
+      "bytes": 6283
+    },
+    "lib/saha/ai-invoice.ts": {
+      "sha256": "5b273bc14457f84ed3872b50fb201c18e7d385b1a1eae3cee0767588a70a6c43",
+      "bytes": 15264
+    },
+    "lib/saha/alert-delivery.ts": {
+      "sha256": "005e44db227a93caab9cdf2bd2d3f0f4fc1e55dfd5061e33886be73cd975ed68",
+      "bytes": 9230
+    },
+    "lib/saha/availability-server.ts": {
+      "sha256": "4037a27cb8e890b4b190a34e3b516f7a5e9c1c03c15a83530e15d33af7557a91",
+      "bytes": 2266
+    },
+    "lib/saha/availability.ts": {
+      "sha256": "ee62f40445118aed3e1dc8c6d6be745c4588e11794f4f8a67682084d0fe7fccc",
+      "bytes": 7635
+    },
+    "lib/saha/caseload.ts": {
+      "sha256": "844e87ef2e719d70d9212e17171d9ff415361d35dd497b20ad4db5b597f6ee45",
+      "bytes": 25516
+    },
+    "lib/saha/consent.ts": {
+      "sha256": "77ab29ed73991b8a0bf52522a1d18f63797b558a4d93b123ef66c0e61f573568",
+      "bytes": 13767
+    },
+    "lib/saha/continuity.ts": {
+      "sha256": "545fa6ca6186d0923168d933f068ba6062dc670d27793662d9ede172a7a87c80",
+      "bytes": 9647
+    },
+    "lib/saha/correction-tasks.ts": {
+      "sha256": "6bcf25b69b8b690987206e1b4fd2864798a36d7e39c967ae0ce47bec6875bc84",
+      "bytes": 23317
+    },
+    "lib/saha/data-exit-server.ts": {
+      "sha256": "2f8e2756c871d5b1974ce91b685ca5f507a6007c6d34e559df00a3ec007f28dd",
+      "bytes": 4934
+    },
+    "lib/saha/data-exit.ts": {
+      "sha256": "b1ae4caf1432da0d157591ee40c9587dc789b02a8db724a5dd4e5286f9133c01",
+      "bytes": 37309
+    },
+    "lib/saha/drift.ts": {
+      "sha256": "8946fc1a5a8094ee63e6b4f864fb3df92de471a6b9f3dbab16ce1d30e51e2115",
+      "bytes": 5362
+    },
+    "lib/saha/ehr-execution.ts": {
+      "sha256": "199f070a940b4857ffe58c9ab3e7ff08e009bd1c686ce0f77bb589e5071b3217",
+      "bytes": 20200
+    },
+    "lib/saha/ehr-provider.ts": {
+      "sha256": "17b4a0e68dc1c684e825e25e75d05ab1830e04218a377e45bb95b9513a3026d5",
+      "bytes": 6913
+    },
+    "lib/saha/environment-server.ts": {
+      "sha256": "e8f9db14872cc5f7a6ec618647d0c2d665460397d77668a781cbb6e970bca60a",
+      "bytes": 591
+    },
+    "lib/saha/environment.ts": {
+      "sha256": "14becce152a3e21f552087cbf7a67fea843aaed6635134e87b09f3e23df11bd0",
+      "bytes": 14070
+    },
+    "lib/saha/evaluation-execution.ts": {
+      "sha256": "1fc2cc4adb7ea801c4a8b6e239d2bc7a13ab1133b194465051f2c4d290a536e1",
+      "bytes": 4996
+    },
+    "lib/saha/facility-scope.ts": {
+      "sha256": "c86e12531afefecd667bff1f85b1f49142094b93902e969e3a06e9f5678c7775",
+      "bytes": 11317
+    },
+    "lib/saha/fact-provenance.ts": {
+      "sha256": "6d4bc63c8ecc72a80530e611d1a1051e1a11495ed1cc6129c4c138aeb198c3cb",
+      "bytes": 25041
+    },
+    "lib/saha/fact-verification.ts": {
+      "sha256": "3361d0161153ec1156aa80219e3e46116bb13d4147dee130e0c9732472971226",
+      "bytes": 10654
+    },
+    "lib/saha/fhir-document.ts": {
+      "sha256": "ab9689e349c4d279728c873cda7703f8f5ca12e7889bdceaf2feb3f8d1b50db7",
+      "bytes": 23705
+    },
+    "lib/saha/fhir-validate.ts": {
+      "sha256": "bc0e01e2b746de68c5e0e582b69ef137d5335e620853c0964d6d76f6bc8483fe",
+      "bytes": 2158
+    },
+    "lib/saha/fhir.ts": {
+      "sha256": "a048376116d54efa79289449c3fe1672b667e8b7ae8092df5b8eca542b050532",
+      "bytes": 2683
+    },
+    "lib/saha/field.ts": {
+      "sha256": "6012578a3105e336d80ce91a424a212b718a0f69650c23949e9578426b1b433b",
+      "bytes": 10668
+    },
+    "lib/saha/governance.ts": {
+      "sha256": "79c25780802491bb9d266af34a325e5d381d70ff4776e5a9f0125359060cd3a9",
+      "bytes": 27443
+    },
+    "lib/saha/household-visit-work.ts": {
+      "sha256": "1a978412a40256b443c2e7ede1bc0c7f3a77ef86d6201ba306e9f280e6f28d08",
+      "bytes": 8934
+    },
+    "lib/saha/household-visit.ts": {
+      "sha256": "8979fb3e420c42dbaf71758d813e1c50f54ad0feb47cb96e9b932a5c34bec7ba",
+      "bytes": 19348
+    },
+    "lib/saha/household.ts": {
+      "sha256": "2ab4496ad643d028b443d26309ebcd5054b328a8cd5898994089f5492dce09e9",
+      "bytes": 13395
+    },
+    "lib/saha/identity.ts": {
+      "sha256": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+      "bytes": 9047
+    },
+    "lib/saha/incentives.ts": {
+      "sha256": "64bb11da5380a09caa3efb4f2531e26c7112f7301d377ba0aa2a6b7cf5ae13c1",
+      "bytes": 26359
+    },
+    "lib/saha/indicator-figure-impact.ts": {
+      "sha256": "607d1d0a7263a584c93cd785524f9b185549972d1f8a06a26d5064f925fe307c",
+      "bytes": 2821
+    },
+    "lib/saha/indicator-registry.ts": {
+      "sha256": "170ede89a4fa69771cefdc362f3bdf69cba32a46976f2a56eed444a7ecc365cb",
+      "bytes": 9005
+    },
+    "lib/saha/media-server.ts": {
+      "sha256": "1acd30010883701b7e86d771f9581ae9205076ebcebad65b84da941b85f75512",
+      "bytes": 14656
+    },
+    "lib/saha/media-storage.ts": {
+      "sha256": "61171d1ce545ca35df5c92749684d89e414cb38d258f7c70fc8d128e91ce7c76",
+      "bytes": 4811
+    },
+    "lib/saha/mis.ts": {
+      "sha256": "4fe3e6222f7a277de95aa15ab61acf2ebd395d180ee5eee5108f8dbaba47c6f6",
+      "bytes": 40229
+    },
+    "lib/saha/notification-sources.ts": {
+      "sha256": "f003f6f9e12521f3e88e820226fc1ac956caaf7dba240e3aa32cb3e24869a555",
+      "bytes": 4946
+    },
+    "lib/saha/operations-server.ts": {
+      "sha256": "543a6b39f3c6fbab16768920cc65efbabca61e1c6536a9857dba4da7c0c855a5",
+      "bytes": 9635
+    },
+    "lib/saha/operations.ts": {
+      "sha256": "57a65b3c5cd7586a4564107dd9b355bb2847dc4c969cefb44715f71ab5e0c38b",
+      "bytes": 17669
+    },
+    "lib/saha/pack-installation.ts": {
+      "sha256": "403b520c286c50cfbdcd57c6cb334308fb07bdffc0c62aa2521d2173fe095c69",
+      "bytes": 26525
+    },
+    "lib/saha/partition.ts": {
+      "sha256": "b96f00919b22781ede58080979e123a577c5b86d14acf963d12baad59ea80715",
+      "bytes": 4522
+    },
+    "lib/saha/patient-directory.ts": {
+      "sha256": "c5e6b589f7ff962a2bdfd1b18a358b8de4712a02d4947848c5b0d927e130fc52",
+      "bytes": 7327
+    },
+    "lib/saha/programme-migration.ts": {
+      "sha256": "d036c5d4aba94f674ab608537bfc21662456f5ffcae780a965ae8eadc3758e2a",
+      "bytes": 10356
+    },
+    "lib/saha/record-import.ts": {
+      "sha256": "0e5e6eca6e612b527ebc68626015a106405144cc094fa38949c0165c0f00b03e",
+      "bytes": 16983
+    },
+    "lib/saha/report-export.ts": {
+      "sha256": "6e637f78515756ad60cc8a865b832902f1e53770ad0023316e89dbf0a9bc7539",
+      "bytes": 3926
+    },
+    "lib/saha/retention.ts": {
+      "sha256": "af20d66d31e72bb366226fa73bf6f2fad6b5f2f5eb156674daa516eaf0020d2f",
+      "bytes": 7960
+    },
+    "lib/saha/rights.ts": {
+      "sha256": "37a5904e5b7e21f050c90ea1d9bf4fa355e2b60fecfdcc38e3cc6bdf50cbf83a",
+      "bytes": 12439
+    },
+    "lib/saha/scheduled-job.ts": {
+      "sha256": "ef83d94c8da5e70febf743ed7a3d4aa4507c776c5e2ca8c5ad497d2102e042e1",
+      "bytes": 18134
+    },
+    "lib/saha/scheduled-review.ts": {
+      "sha256": "64e18cd6fd863cd16af4f30ace714ed82674dd4ae4cdd8e3a2f03fdb0574ebe9",
+      "bytes": 6766
+    },
+    "lib/saha/send-gate.ts": {
+      "sha256": "91169f883bbfbae76491dbd53a435e1db388f9c9a919935220600b3cfd5357e8",
+      "bytes": 13372
+    },
+    "lib/saha/service-identity.ts": {
+      "sha256": "ecbf622863be899c0145ca80ee2d9ad416ffdbab7481698b0c3d34a75568e46b",
+      "bytes": 8685
+    },
+    "lib/saha/store.ts": {
+      "sha256": "1e68755d9a8bab0bc9130a3a01a2bf05fc27d68837ceb1ad19182dff8ae6bf5a",
+      "bytes": 50450
+    },
+    "lib/saha/task-limits.ts": {
+      "sha256": "fcf090ac29297d66a8f95ba7bc4d953878ec513f1e636d16fbe5e7e7b45d1beb",
+      "bytes": 3969
+    },
+    "lib/saha/visit-signoff.ts": {
+      "sha256": "8294df608543d1e832a076b7b035a71047471b916d524a8cdbd0b9fbb848f80e",
+      "bytes": 20928
+    },
+    "lib/saha/work-support-server.ts": {
+      "sha256": "fc176b27cd70da6c79323b4e4a5303bd9eb0c13a822bf1d992bc47df6d3cce82",
+      "bytes": 9395
+    },
+    "lib/saha/workforce-import.ts": {
+      "sha256": "a155ae121252144aa62c628a0df5b262e832c2b6dc8d887e1944b7f67426c9f3",
+      "bytes": 16400
+    },
+    "public/field/app.js": {
+      "sha256": "6bb9d7acdcdc1bf82226e68a87d7f624ce1b58b6142da35e6898bfd646bf93ea",
+      "bytes": 106822
+    },
+    "public/field/vault.js": {
+      "sha256": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210",
+      "bytes": 5592
+    },
+    "requirements/assessment.tsv": {
+      "sha256": "eeb3a359a698da84042c2f55812106a5169628e49a8029225ebba5b47d2a4d32",
+      "bytes": 131089
+    },
+    "requirements/brd-v1.1.json": {
+      "sha256": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+      "bytes": 102234
+    },
+    "requirements/evidence-map.json": {
+      "sha256": "c82c5ae337fd70e6f032a90a5167e96e8d2a82a3a8fbe3334fe88eb3c4dc1f11",
+      "bytes": 76955
+    }
+  },
+  "pending": [
+    {
+      "source": "9d4716aef550b72c52b15d3fbe8b23964e4eb315",
+      "path": "docs/current/OFFLINE-GUIDED-ASHA-CAPTURE.md",
+      "state": "author frozen; independent recovery held",
+      "sha256": "8c056f93ab51336fc5aa0baf97bf93a86819b8d3d1787f16cd7d8c2f68b935fe",
+      "bytes": 3365
+    },
+    {
+      "source": "a33e2b4595faa3ae17d5cb30d487e87c66ce879f",
+      "path": "docs/current/REPORTING-CALENDAR-COMPLETENESS.md",
+      "state": "author frozen; cold review active",
+      "sha256": "5b5fb9f3ff7f404ccab1c70b07e952061b8fbe4e1296a071cf8f34304c33ca1b",
+      "bytes": 9909
+    }
+  ],
+  "checks": {
+    "kind": "read-only desk audit; no runtime checks",
+    "source": "65a93a63410c6d9366028447990fab50c0227576",
+    "groups": 41,
+    "requirements": 176,
+    "assessments": {
+      "implemented-local": 14,
+      "not-built": 2,
+      "partial": 151,
+      "unverified": 9
+    },
+    "formalExecutions": 0,
+    "formalCatalogueCases": 364,
+    "allOriginalAcceptanceClausesRetained": true,
+    "allOriginalLedgerRowsRetained": true,
+    "sourcePathsVerifiedUnchanged": 107,
+    "requirementsAudit": "pass176",
+    "documentationCheck": "inherited checker throws AttributeError at line134 before new doc processing",
+    "pending": [
+      {
+        "source": "9d4716aef550b72c52b15d3fbe8b23964e4eb315",
+        "path": "docs/current/OFFLINE-GUIDED-ASHA-CAPTURE.md",
+        "state": "author frozen; independent recovery held",
+        "sha256": "8c056f93ab51336fc5aa0baf97bf93a86819b8d3d1787f16cd7d8c2f68b935fe",
+        "bytes": 3365
+      },
+      {
+        "source": "a33e2b4595faa3ae17d5cb30d487e87c66ce879f",
+        "path": "docs/current/REPORTING-CALENDAR-COMPLETENESS.md",
+        "state": "author frozen; cold review active",
+        "sha256": "5b5fb9f3ff7f404ccab1c70b07e952061b8fbe4e1296a071cf8f34304c33ca1b",
+        "bytes": 9909
+      }
+    ]
+  }
+}

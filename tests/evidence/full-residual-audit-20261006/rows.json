@@ -1,0 +1,441 @@
+[
+  {
+    "group": "A01",
+    "status": "SDK-blocked",
+    "paths": [
+      "android/",
+      "docs/current/APP-FIRST-UI.md"
+    ],
+    "remaining": "Retain Android Browser Helper/TWA; licence approval, signing association, APK/lint/install and physical Back/Access/permission proof remain. Do not redesign as native vault merely to avoid licence wait.",
+    "originalLedgerRow": "| A01 Android demonstrator qualification | Reproducible APK/lint/install evidence, trusted-host association and install/Back/Access/permission/offline fallback tests. BR-UX-01/07, NFR-02/04 | SDK licences/build environment and actual signing certificate; real device/emulator access. Existing Android project is retained. | 3\u20138, plus outside waits |"
+  },
+  {
+    "group": "A02",
+    "status": "Reviewed local + pending held",
+    "paths": [
+      "public/app/offline/",
+      "public/field/app.js",
+      "docs/current/APP-SHARED-OFFLINE.md"
+    ],
+    "remaining": "Prepared encrypted visits reload already works. Full assigned/due caseload is absent; registration remains detailed. Offline9d guided presentation is pending and multi-unit/provenance receipt recovery is held. A deliberate wider signed prepared-task/caseload model is buildable; cannot cache the whole online workspace.",
+    "originalLedgerRow": "| A02 Offline app journey | Deliberate shared vault bridge or native vault architecture; authenticated offline Today/patient/draft reload, bounded grants and patient checks on reconnect. BR-OFF-01/02/07, BR-UX-07 | Decide storage/custody boundary before coding; use existing lease and sync contracts. | 16\u201336 |"
+  },
+  {
+    "group": "A03",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "public/field/vault.js",
+      "docs/current/APP-DEVICE-PRIVACY.md"
+    ],
+    "remaining": "Account-bound purge/lock/recovery is delivered. Native Keystore, trusted device clock, device replacement and durable background upload remain distinct architecture/lifecycle work; physical/MDM qualification external.",
+    "originalLedgerRow": "| A03 Device custody and background work | Keystore integration if native custody is adopted, idle/background lock, trusted-clock strategy, device replacement/revocation, durable background upload/sync with exact replay. BR-OFF-03/04/05/07, NFR-09 | A02; Android lifecycle/fault harness. MDM and production identity policy remain external. | 18\u201340 |"
+  },
+  {
+    "group": "A04",
+    "status": "Reviewed local + buildable",
+    "paths": [
+      "app/guided-capture.tsx",
+      "app/workspace.tsx",
+      "app/programmes.tsx",
+      "docs/current/GUIDED-ASHA-VISIT-CAPTURE.md"
+    ],
+    "remaining": "Online guided observations/current programme questions and secondary panels delivered; programme Load/merge repair independently cleared. Remaining registration guidance, untranslated sign-off/referral/admin/media panels and optional on-demand audio guidance are product work. Hindi/audio content and device interruption quality need human acceptance.",
+    "originalLedgerRow": "| A04 Touch/media/language completion | Progressive disclosure of lower-priority record panels; camera/microphone refusal/interruption; app navigation and remaining panels localised; on-demand audio guidance. BR-UX-03/05/08, R72/B4 | Existing review-before-insert and media size/quality rules; translator/content review and real phones. | 12\u201328 |"
+  },
+  {
+    "group": "A05",
+    "status": "Reviewed local + pending held",
+    "paths": [
+      "public/field/app.js",
+      "lib/saha/field.ts",
+      "docs/current/APP-OFFLINE-PROGRAMME.md"
+    ],
+    "remaining": "Pinned prepared guidance/programme capture and freshness gates delivered. Expand explicit supported offline tasks and provider/media revalidation under original lease guards; 9d presentation cannot imply general offline availability.",
+    "originalLedgerRow": "| A05 Offline guidance and task expansion | Versioned prepared guidance/protocol cache, freshness at queue dispatch; expand approved offline task types and provider/media revalidation. BR-AG-10, BR-OFF-01/06; R45/R68 | A02 interfaces; approved content publication contract. Ship synthetic content without implying clinical approval. | 8\u201318 |"
+  },
+  {
+    "group": "A06",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "docs/current/APP-DEVICE-PRIVACY-FAIL-CLOSED.md",
+      "docs/current/OFFLINE-SYNC-SIGNAL-INDEPENDENT-REVIEW.md"
+    ],
+    "remaining": "Encrypted originating-account purge proof/redacted sync signals delivered. Supervisory recovery/discovery of device failures and wider local-copy inventory remain; physical deletion/hosted privacy evidence external.",
+    "originalLedgerRow": "| A06 Device failure observability | Redacted device sync/storage failures reported online; consent-withdrawal purge of local copies; durable deletion acknowledgements. BR-REP-01, BR-SEC-03; R73/R91 | A02/A03 and notice/consent versions. Never delete confirmed server history. | 8\u201318 |"
+  },
+  {
+    "group": "B01",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "lib/saha/service-identity.ts",
+      "docs/current/SERVICE-IDENTITY-WIRING.md",
+      "docs/current/SERVICE-DISPATCH-DOMAIN-CHECKPOINT.md"
+    ],
+    "remaining": "Opt-in target bindings/execution audits and fresh domain gates delivered; do not redispatch missing-call-site claim from old ledger. Independent credential issuance/rotation and service-owned unattended execution remain; define trusted machine identity contract first.",
+    "originalLedgerRow": "| B01 Service execution authority | BR-ID-09: opt-in integration identity references, expiry/revocation/owner checks at every execution checkpoint, initiating-human/executing-service audit, UI and maintenance-safe revocation. Independent credential rotation/disposition is a second step. | Existing `service-identity.ts`; inventory agent, MIS, EHR, aggregate, independent screening/frontline and legacy dispatch separately. | 6\u201314 |"
+  },
+  {
+    "group": "B02",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/household.ts",
+      "lib/saha/caseload.ts",
+      "lib/saha/facility-scope.ts"
+    ],
+    "remaining": "Typed relationships, purpose/classes/expiry proxy grants exist. Locality-aware transfer and reviewed representative notice/authority vocabulary remain. Audit action-specific proxy purposes before calling household authority complete; verified directories/policy external.",
+    "originalLedgerRow": "| B02 Identity and household authority | BR-ID-02/04: locality-aware transfer; BR-ID-07/SEC-04: typed relationships and purpose/expiry/authority enforcement; BR-SEC-02: representative notices. | Existing scope/caseload/household/proxy model; externally approved relationship policy. R11/R12 are features, not release numbers. | 12\u201326 |"
+  },
+  {
+    "group": "B03",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/workforce-import.ts",
+      "lib/saha/access.ts",
+      "lib/saha/identity.ts"
+    ],
+    "remaining": "Roster dry-run/removal and emergency clinical grants exist. Scheduled/API upstream de-provisioning, task-linked limited support grants and replacement/session controls remain. Trusted step-up capability/provider MFA must be established rather than public-header elevation.",
+    "originalLedgerRow": "| B03 Workforce and privileged support | BR-ID-01/03/10: upstream workforce feed/removal and device replacement mechanisms; BR-SEC-11/OPS-05: step-up, time-limited task-linked support and controlled emergency administration. | Trusted identity provider and session abstraction; no public identity-header trust. MFA/federation policies and provider capability are external. | 16\u201336 |"
+  },
+  {
+    "group": "B04",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "lib/saha/access-audit.ts",
+      "docs/current/DELTA-RESPONSE-READ-AUDIT.md",
+      "docs/current/COMMAND-AUTHORITY-EVIDENCE.md"
+    ],
+    "remaining": "Auxiliary/delta reads, durable offline-open audit and common command envelope delivered. Browser-local uncovered reads/direct operational writers/delegation provenance need call-site inventory; off-system anchor key lifecycle/reconstruction remain distinct governed work.",
+    "originalLedgerRow": "| B04 Audit completeness and anchoring | BR-SEC-08: auxiliary patient queues, delta responses/offline opens and command authority/version fields; R06 automatic off-system checkpoint publication and key lifecycle; NFR-10 capability-probe ordering. | The three auxiliary views now have explicit fail-closed read audits, independently reviewed. Delta/offline opens, command metadata and external anchors remain; R27 itself is audited. External anchor ownership is required before real publication. | 10\u201324 |"
+  },
+  {
+    "group": "B05",
+    "status": "Grounded buildable gap",
+    "paths": [
+      "lib/saha/send-gate.ts",
+      "lib/saha/fact-verification.ts",
+      "lib/saha/visit-signoff.ts"
+    ],
+    "remaining": "send-gate.openDisputes reads v.disputes/resolutions; verifyFact/verifyEntry record separate disputed verification. Unify current-content clinical dispute protection for destinations carrying that item without deleting reviews/history or blocking lookup. Blocked-send exception/notice and answer-aware destination mapping remain.",
+    "originalLedgerRow": "| B05 Clinical review/send semantics | BR-DATA-02: unify verification disputes with send gates, destination-specific answer mappings and blocked-send exception/notice; extend sign-off boundaries to supported remaining actions. | Existing `visit-signoff`/fact review and checkpoint gates; no automated clinical approval. | 10\u201322 |"
+  },
+  {
+    "group": "B06",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "lib/saha/fact-provenance.ts",
+      "lib/saha/fhir-document.ts",
+      "docs/current/APP-VALUE-RANGE-PROTOCOL.md"
+    ],
+    "remaining": "Six-unit online/notebook parity and governed contextual protocol checks delivered. Audit programme-answer ranges and all canonical/media absence/coded-method paths; do not invent clinical thresholds or terminology mappings.",
+    "originalLedgerRow": "| B06 Units, ranges and absence completeness | BR-DATA-05: extend existing kPa/weeks+days pickers and context-aware validation into notebook/programme answers; BR-RULE-01: finish reason/coded-method consistency across resources. | R21/R23/R24 code exists. Clinical thresholds and terminology ownership remain external. | 8\u201318 |"
+  },
+  {
+    "group": "B07",
+    "status": "Reviewed local + external/capacity",
+    "paths": [
+      "lib/saha/mis.ts",
+      "docs/current/MIS-CONFORMANCE-INDEPENDENT-REVIEW.md"
+    ],
+    "remaining": "Reviewed effective mapping, impact, deterministic transformations/null/unit/terminology fixtures delivered. Native partner semantics and external conformance corpus remain; larger retained-history capacity and migration qualification buildable after representative bounds, not a second lifecycle.",
+    "originalLedgerRow": "| B07 Mapping lifecycle | BR-DATA-02/09, BR-INT-23: per-measurement mappings, effective dates, migration impact, terminology deprecation/ambiguity impact reports. | Existing versioned MIS mappings/pack manifests; reviewed mappings before live use. | 10\u201324 |"
+  },
+  {
+    "group": "B08",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "lib/saha/record-import.ts",
+      "docs/current/CONTACT-IMPORT.md",
+      "docs/current/IMPORTED-EVIDENCE-INDEPENDENT-REVIEW.md"
+    ],
+    "remaining": "Contacts/documentary answers/notes/attachments, current review, overlap and batch withdrawal delivered. Larger import quality reporting/history and accepted source contracts remain; new attachment object-store legacy lineage repaired at ca2/65a. Issuer verification external.",
+    "originalLedgerRow": "| B08 Further import workflows | BR-DATA-11: contact, answer/attachment/note imports, imported-visit clinical review, overlap resolution, batch reversal and data-quality reports. | Existing dry-run/hash/apply import and per-visit wrong-patient path; issuer verification remains external. Split by import type. | 14\u201330 |"
+  },
+  {
+    "group": "B09",
+    "status": "Reviewed local + external/capacity",
+    "paths": [
+      "docs/current/INBOUND-CLINICAL-CONFLICTS.md",
+      "docs/current/INBOUND-RETRIEVAL-HANDOFF.md"
+    ],
+    "remaining": "Controlled inbound clinical/version conflict queue, current review/reassignment and retrieval handoff delivered. Wider live partner conflict semantics, corpus and retained capacity remain; never count a review task as automatic clinical merge.",
+    "originalLedgerRow": "| B09 Inbound clinical/version conflict queue | BR-DATA-07, BR-INT-06/21: partner-origin conflict entries, destination-version resolution evidence and controlled accepted-record merge. | Existing optimistic concurrency and EHR resolutions; R27 may link tasks but must not silently merge clinical values. | 10\u201324 |"
+  },
+  {
+    "group": "B10",
+    "status": "Reviewed local + external/capacity",
+    "paths": [
+      "lib/saha/media-storage.ts",
+      "lib/saha/media-server.ts",
+      "docs/current/OBJECT-MEDIA-CUSTODY.md"
+    ],
+    "remaining": "Private object custody/integrity/retrieval/quarantine and bounded export delivered; original imported attachment lineage/current authority repair independently cleared at65a. Retention schedule execution, full backup corpus and larger-scale qualification remain; bucket/provider activation/clinical compression approval external.",
+    "originalLedgerRow": "| B10 Media storage and lifecycle | BR-DATA-08: object-store adapter, bounded larger media, scoped retrieval, quarantine/retention and export integrity. | Current `media.ts` stores limited D1 content; choose storage/key/custody interface first. Clinical adequacy of compression is external. | 12\u201328 |"
+  },
+  {
+    "group": "B11",
+    "status": "Grounded buildable design gap",
+    "paths": [
+      "lib/saha/retention.ts",
+      "lib/saha/rights.ts"
+    ],
+    "remaining": "retentionReview explicitly says no disposal and only counts eligibility. Build reviewed dry-run disposal/tombstone/restore replay model before any execution; copy-of-record and grievance escalation package are distinct. No destructive demo or deletion without legal schedule/authority.",
+    "originalLedgerRow": "| B11 Restore-safe disposal and rights | BR-SEC-09/10: reviewed disposal plan, tombstones, restore replay protection, media/backup/export coverage; copy-of-record and grievance escalation. | `retention.ts` explicitly counts eligibility and deletes nothing. Approved schedules/legal authority required before executing disposal. | 16\u201336 |"
+  },
+  {
+    "group": "B12",
+    "status": "Grounded buildable gap",
+    "paths": [
+      "lib/saha/pack-installation.ts",
+      "lib/saha/programme-migration.ts"
+    ],
+    "remaining": "Installed schedule/escalation are rendered as text; escalation explicitly says nothing automatic. Add deterministic installed-rule due-work/escalation materialisation under pinned versions and current authority; per-team adoption and answer/schedule reverse migration remain. Urgency/protocol values must be explicitly governed examples, not new clinical defaults.",
+    "originalLedgerRow": "| B12 Programme scheduling/adoption | BR-PROG-03/07/08: non-suppressible escalation mechanism, installed-rule schedules, per-team adoption, answer/schedule migration and reverse migration. | Existing installed packs and migration previews; approved clinical rules/urgency values are external. Split scheduling and migration. | 16\u201334 |"
+  },
+  {
+    "group": "B13",
+    "status": "Reviewed local + external/capacity",
+    "paths": [
+      "lib/saha/household-visit.ts",
+      "lib/saha/household-visit-work.ts",
+      "docs/current/HOUSEHOLD-COVERED-COMPLETION.md"
+    ],
+    "remaining": "Atomic reschedule, neutral slot outreach, explicit confirmed-item completion and installed referral compatibility delivered. Void/amend derives unresolved state without rewriting closure, shared V3 reporting count repaired. Wider field timing/privacy/old lineage and physical acceptance remain; do not rebuild slot feature.",
+    "originalLedgerRow": "| B13 Household visit completion | BR-PROG-05: slot rescheduling, slot reminders/outreach, completed covered-item linkage and declared pack referral needs/compatibility. | Existing household plan and cross-pack consolidation; approved privacy/timing policy. | 8\u201318 |"
+  },
+  {
+    "group": "B14",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/pack-installation.ts",
+      "lib/saha/governance.ts",
+      "lib/saha/programme-migration.ts"
+    ],
+    "remaining": "Independent engineering pack activation exists. Clinical sign-off roles/evidence, translations/routing/new categories, per-team adoption and cross-org publication plus unified reviewed rollback remain. Clinical approval cannot follow automatically from independent engineering review.",
+    "originalLedgerRow": "| B14 Governed pack publication | BR-PROG-08/OPS-03/NFR-19: clinical-review workflow, pack translations/new categories/routing and cross-organisation publication; unified reviewed publication/rollback for pack/language/source/model/mapping. | B07/B12; independent clinical/content approval. Do not infer governance approval from a code merge. | 18\u201340 |"
+  },
+  {
+    "group": "B15",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/task-limits.ts",
+      "lib/saha/agent-execution.ts",
+      "lib/saha/action-plan.ts"
+    ],
+    "remaining": "Attempt/time limits and lookup-only uncertain stop exist per run. Multi-step completed/cancelled/unresolved dependency recovery ledger and earlier-confirmed-record comparison/disagreement routing remain; do not introduce automatic clinical composition.",
+    "originalLedgerRow": "| B15 Agent action/dependency recovery | BR-AG-06/07: completed/cancelled/unresolved multi-step stop reporting and recovery; BR-AG-08: earlier-record comparisons and explicit disagreement/risk-routing workflow. | Existing task-limit/execution ledgers; clinical composition policy remains external. | 10\u201324 |"
+  },
+  {
+    "group": "B16",
+    "status": "Grounded buildable gap",
+    "paths": [
+      "lib/saha/drift.ts",
+      "lib/saha/evaluation-execution.ts",
+      "lib/saha/governance.ts"
+    ],
+    "remaining": "Governance/shadow/evaluation exists. drift.ts fixes7-day periods/10-point drop/10-field minimum and derives read-only status. Reviewed configurable thresholds and source-versioned quality taxonomy/quarantine/async-media contracts remain; representative ground truth and live quality acceptance external.",
+    "originalLedgerRow": "| B16 Provider lifecycle and quality | BR-AI-04/05/06/09/10: deployment activation, automatic synthetic shadow/impact queues, async/media contracts, rejected-response quarantine, field-level quality/taxonomy, input-time semantics and configurable drift. | Existing governance/shadow/evaluation and independent providers. Split runtime contracts from evaluation UI. | 18\u201340 |"
+  },
+  {
+    "group": "B17",
+    "status": "Grounded buildable gap",
+    "paths": [
+      "lib/saha/ai-budget.ts",
+      "lib/saha/ai-invoice.ts"
+    ],
+    "remaining": "Capability monthly estimated token budgets exist; BUDGET_NOTICE explicitly excludes evaluations/hosting/other charges. Versioned provider/deployment/evaluation billable-event attribution and historical rates/mock invoice matching remain; real bill API/price/99% attribution acceptance external.",
+    "originalLedgerRow": "| B17 Cost attribution and limits | BR-AI-12/NFR-21: provider/deployment/evaluation budgets, historical rates and monetary limits, billable-event ledger and mock billing reconciliation. | Existing token budgets/invoice summaries; real invoices/prices/terms external. | 10\u201324 |"
+  },
+  {
+    "group": "B18",
+    "status": "Reviewed local + external/corpus",
+    "paths": [
+      "lib/saha/agent-minimisation.ts",
+      "docs/current/PROVIDER-ENVELOPE-INDEPENDENT-REVIEW.md"
+    ],
+    "remaining": "Decoded/path-aware envelope checks and independent transport safeguards delivered. Representative purpose/destination corpus and any unsupported destination contract remain; retention/training/region promises are external enforceable agreements.",
+    "originalLedgerRow": "| B18 Privacy-safe provider envelopes | BR-AG-02/AI-08/INT-09: path-aware allowlists, patient-destination minimisation and representative adversarial corpus. | Existing R42 substring/value safeguards remain; contractual retention/training/region guarantees cannot be coded into a provider. | 6\u201314 |"
+  },
+  {
+    "group": "B19",
+    "status": "Reviewed local + external",
+    "paths": [
+      "docs/current/APP-CLINICAL-SOURCE-RETRIEVAL.md",
+      "docs/current/CLINICAL-SOURCE-DEPENDENCY-VALIDATION.md"
+    ],
+    "remaining": "Versioned digest acquisition/cache/viewing and dependency checks delivered. Licensed publisher-authorised/clinician-approved source corpus and recommendation study remain. Do not acquire or invent approved clinical material.",
+    "originalLedgerRow": "| B19 Clinical source retrieval | BR-CLIN-01/AG-09: versioned document retrieval/cache and source integrity/expiry boundary. | Existing source manifests; acquired/licensed/clinician-approved content external. | 6\u201314 |"
+  },
+  {
+    "group": "B20",
+    "status": "Grounded buildable contract gap",
+    "paths": [
+      "lib/saha/fhir-document.ts",
+      "lib/saha/fhir-validate.ts",
+      "lib/saha/fhir.ts"
+    ],
+    "remaining": "inspectDocument permits only Composition/Patient/Encounter/Observation/Organization/Practitioner/Provenance. Condition/ServiceRequest/Medication/DiagnosticResult and complete device/receipt/effective/transformation lineage require explicit supported input contracts, not inference from free text.",
+    "originalLedgerRow": "| B20 Canonical resources and lineage | BR-INT-11/12/18, NFR-25: condition/service request/medication/diagnostic-result support, remaining authors/device/receipt/effective/transformation lineage, corpus validation. | Existing FHIR observation/provenance helpers; pinned externally approved profiles and supported artefact list. | 16\u201336 |"
+  },
+  {
+    "group": "B21",
+    "status": "Contract-blocked + buildable infrastructure",
+    "paths": [
+      "lib/saha/fhir-validate.ts",
+      "docs/current/SLICE-7C-OUTBOUND-VALIDATION.md"
+    ],
+    "remaining": "Structural ruleset explicitly has profilePackage:null and terminology:null. Pinned validator/package adapter and upgrade corpus tooling buildable; buyer-selected actual NRCeS/HL7 profiles and partner fixtures required before conformance claims.",
+    "originalLedgerRow": "| B21 Profile validation and conformance | BR-INT-10/17/23, NFR-07/25/27: HL7 validator integration, pinned profile/terminology package and upgrade/reconciliation corpus. | B07/B20. Actual selected profile/specification and partner corpus must be supplied rather than invented. | 12\u201328 |"
+  },
+  {
+    "group": "B22",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/ehr-execution.ts",
+      "lib/saha/ehr-provider.ts",
+      "lib/saha/correction-tasks.ts"
+    ],
+    "remaining": "Current checkpoint/receipt and manual correction tasks exist. Explicit mock supported void/amend/withdraw contract, destination-version correction workflow and receipt lineage remain; uncertain write stays lookup-only. Real partner reversal capabilities external.",
+    "originalLedgerRow": "| B22 Exchange correction/withdrawal | BR-INT-02/21, BR-RULE-04: mock supported void/amend/withdrawal contracts, destination-version correction and evidence; preserve uncertain lookup-first rules. | Existing approved checkpoint/receipt path and R27 tasks; real partner capabilities external. | 12\u201328 |"
+  },
+  {
+    "group": "B23",
+    "status": "Grounded buildable gap",
+    "paths": [
+      "lib/saha/scheduled-job.ts",
+      "lib/saha/scheduled-review.ts",
+      "lib/saha/service-identity.ts"
+    ],
+    "remaining": "Scheduler marks timed-out work for review and explicitly never contacts a provider/destination. Opt-in bounded lookup-only reconciliation with trusted service authority/durable cursor/outcomes and assisted batch reconciliation identifiers remain. Hosted timer/search consistency external.",
+    "originalLedgerRow": "| B23 Scheduled reconciliation and assisted delivery | BR-INT-06/08: scheduled lookup-only reconciliation of uncertain work, batch/file delivery with reconciliation identifiers/receipts; NFR-18/26 trace propagation. | Existing scheduler cursor and receipts; never retry an uncertain send merely because a timer fired. | 10\u201324 |"
+  },
+  {
+    "group": "B24",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/action-plan.ts",
+      "lib/saha/continuity.ts",
+      "lib/saha/patient-directory.ts"
+    ],
+    "remaining": "Evidence-aware follow-up reopening shared with household/reporting now exists. Derive installed care dependencies across reminders/escalation/caseload/handover and show explicit urgent facility alternatives; facility availability/urgency acceptance external.",
+    "originalLedgerRow": "| B24 Dependencies and care alternatives | BR-CARE-04/05: dependency-aware reminder/escalation/caseload/handover counts and derivation; BR-CARE-02: verified availability model and urgent alternatives UI. | Existing action-plan dependencies/referral sources and directory. Actual urgent rules/facility availability external. | 8\u201318 |"
+  },
+  {
+    "group": "B25",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/incentives.ts",
+      "lib/saha/alert-delivery.ts",
+      "lib/saha/notification-sources.ts"
+    ],
+    "remaining": "Claims and count-level alert lifecycle exist. Per-item scoped actionable notices plus buyer claim export/reconciliation/mock signing/archive lifecycle remain. Real recipients/payment/rates/qualified signature external.",
+    "originalLedgerRow": "| B25 Individual notifications and claims | BR-CARE-01/04, BR-REP-01: scope-safe per-item queue notices; BR-CARE-08: claim reconciliation, buyer exports, mock signing/archive lifecycle. | Existing R03/R74/R27 notices and incentive claims. Real recipients/rates/payment external. | 10\u201324 |"
+  },
+  {
+    "group": "B26",
+    "status": "Reviewed local + external/residual",
+    "paths": [
+      "lib/saha/work-support-server.ts",
+      "docs/current/WORK-BURDEN-FIELD-CONTINUATION.md"
+    ],
+    "remaining": "Encrypted lifecycle timing, online attribution/internal helper linkage delivered. Actual uncertain transport-to-receipt recovery evidence, external support ticket linkage and comparable observed pilot baseline remain; no telemetry PHI/free-text.",
+    "originalLedgerRow": "| B26 Work-burden instrumentation | BR-DATA-12/REP-07: time-to-capture, sync recovery and support burden counters with exclusions/coverage; no free-text or patient-identifying telemetry. | Existing worker activity, reuse and correction measures. Field usefulness must be evaluated externally. | 4\u201310 |"
+  },
+  {
+    "group": "B27",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "lib/saha/indicator-registry.ts",
+      "lib/saha/indicator-figure-impact.ts",
+      "docs/current/OWNER-COMPOSITE-MEASURES.md"
+    ],
+    "remaining": "Owner expressions, independent/effective governance, protected frozen editions/reissues and automatic impact discovery delivered. Registry-constrained natural-language analysis, downstream official sent-figure lineage, archival capacity and clinical measure validation remain; do not relabel fixed measures as owner-defined.",
+    "originalLedgerRow": "| B27 Indicator governance and historical figures | BR-AG-11/REP-02: approved/effective-dated owner measures and registry-constrained natural-language query; snapshots/reissue lineage for sent/released figures and correction/late-arrival impact. | Existing versioned definitions, differencing ledger and R27 open figure-review tasks. Split registry workflow from immutable snapshots. | 16\u201336 |"
+  },
+  {
+    "group": "B28",
+    "status": "Active unqualified + grounded buildable",
+    "paths": [
+      "lib/saha/operations-server.ts",
+      "lib/saha/report-export.ts",
+      "lib/saha/aggregate-delivery.ts",
+      "pending a33e2b45"
+    ],
+    "remaining": "a33 implements calendar/completeness and unique live thresholds; cold review/integration0030 export pending. Existing operational CSV lacks indicator MIN_CELL/differencing release ledger and labels itself Draft export. Patient-export purpose/download access expiry and reviewed scheduled programme submission remain separate. Old copied downloads cannot be revoked.",
+    "originalLedgerRow": "| B28 Report privacy and submission lifecycle | BR-REP-03/04/05: reporting calendars/source lateness, freshness on exports, cross-viewer/non-nested differencing, operational-export suppression, patient-export purpose, controlled download expiry and reviewed/scheduled submission. | B27; existing aggregate checkpoint screening stays. Expiry cannot revoke a file already copied offline; define achievable access semantics. | 18\u201340 |"
+  },
+  {
+    "group": "B29",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "lib/saha/availability.ts",
+      "lib/saha/availability-server.ts",
+      "docs/current/SYNTHETIC-AVAILABILITY.md"
+    ],
+    "remaining": "Honest synthetic monthly availability/core vs destination status delivered. Full pre-activation facility/jurisdiction/language/provider limits and alert coverage remain; approved targets/hosted detection evidence external.",
+    "originalLedgerRow": "| B29 Availability and configuration checks | NFR-01, BR-OPS-01/04: synthetic availability probes with separate core/destination status, alert coverage and pre-activation eligibility/deployment bounds. | Existing monitoring/alerts/scheduled job; approved service targets and hosting plan external. | 6\u201314 |"
+  },
+  {
+    "group": "B30",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/environment.ts",
+      "lib/saha/environment-server.ts"
+    ],
+    "remaining": "Environment/provider guards exist. Deployment-specific identity/database/credential separation, propagated outbound labels and training competency activation gate remain; provisioned isolated infrastructure and real competency evidence external.",
+    "originalLedgerRow": "| B30 Environment and training activation | BR-OPS-02/06, BR-RULE-07: deployment-specific identities/databases/credentials, outbound environment labels, training records/activation enforcement and experimental-result exclusion. | Existing environment/provider guards; provision infrastructure and approved competency policy separately. | 12\u201328 |"
+  },
+  {
+    "group": "B31",
+    "status": "Reviewed local + residual",
+    "paths": [
+      "lib/saha/data-exit.ts",
+      "lib/saha/data-exit-server.ts",
+      "docs/current/SLICE-6Q-SECOND-REVIEW-FIXES.md"
+    ],
+    "remaining": "Governed operational export/frozen withholding and verifier exist. Full protected report reconstruction archive remains distinct; B28 new0030 needs parent adaptation. Staged large export, provider termination queue disposition and exhaustive units/provenance dictionary remain; independent third-party reimport/buyer scope external.",
+    "originalLedgerRow": "| B31 Portability and termination | BR-OPS-07/08, NFR-22: staged export, provider termination queue disposition, field-level units/provenance format dictionary and reproducible deployment/operating pack. | Existing scoped organisation export/verifier/local encrypted recovery. Buyer scope override and third-party reimport sign-off external. | 10\u201324 |"
+  },
+  {
+    "group": "B32",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/consent.ts",
+      "lib/saha/rights.ts"
+    ],
+    "remaining": "Append consent event/downstream dispositions and originating encrypted-copy purge exist. Immutable multilingual notice publication/full expiry and verified destination withdrawal outcome model remain; real CM/provider notification and retained transaction policy external.",
+    "originalLedgerRow": "| B32 Notice and consent lifecycle | BR-SEC-02/03: immutable notice versions/full expiry, destination withdrawal-outcome records and in-flight disposition; device copies handled by A06. | Existing consent history/withdrawal. Real CM/provider revocation and retained-transaction policy external. | 10\u201322 |"
+  },
+  {
+    "group": "B33",
+    "status": "Partial + buildable",
+    "paths": [
+      "lib/saha/operations-server.ts",
+      "docs/current/SLICE-6Y-TASK-TRACE.md",
+      "app/api/fhir/[id]/route.ts"
+    ],
+    "remaining": "Safe request IDs/support redaction exist. Patient identifiers remain in some material request paths; controlled sensitive diagnostic store and incident impact discovery remain. SBOM controls already exist; hosted logs/analytics/supplier/tabletop acceptance external.",
+    "originalLedgerRow": "| B33 Diagnostic security and incident tooling | BR-SEC-07/12/13: identifiers out of request paths, scoped diagnostic store, SBOM/severity gates and breach-impact discovery. | Existing safe logging/request IDs. Hosted analytics/log retention, supplier assurances and incident policy external. | 10\u201324 |"
+  },
+  {
+    "group": "B34",
+    "status": "Not qualified + architectural",
+    "paths": [
+      "lib/saha/store.ts",
+      "lib/saha/partition.ts",
+      "docs/current/SLICE-0A-STORAGE.md"
+    ],
+    "remaining": "Patient partitions do not route organisations to separate databases. Tenant database routing/cross-partition report/export/migration needs measured topology/cost plan; not a safe short demo patch.",
+    "originalLedgerRow": "| B34 Tenant architecture | NFR-24: organisation-to-database routing, cross-partition reporting/export and controlled partition migration. | Measure limits first; B10/B27/B31 and database/cost/topology plan. Existing per-patient guards are not per-tenant database routing. | 24\u201360 |"
+  },
+  {
+    "group": "B35",
+    "status": "Active investigation + hosted blocked",
+    "paths": [
+      "docs/current/MEMORY-RECEIVER-ATTRIBUTION.md",
+      "docs/current/MEMORY-D1-LIFETIMES.md",
+      "docs/current/MEMORY-NATIVE-OWNERSHIP.md"
+    ],
+    "remaining": "Canonical9ec receiver-lifetime controls narrow native/runtime symptom; O-2 not fixed. Actual D1 adapter/R1 queue/soak/fault and hosted recovery automation remain. Local RSS/snapshot diagnostics neither prove leak mechanism nor hosted128MiB plateau.",
+    "originalLedgerRow": "| B35 Performance/recovery investigation | O-2 memory attribution, ledger/population-check cost, adapter overhead with D1, representative queue/soak/fault harness; production recovery automation supporting NFR-02/06/10/12/28. | Existing extended local RSS evidence does not prove a leak or a plateau. Budget investigation separately from an unknown fix. Hosted access needed for hosted claims. | 12\u201330 investigation; fixes re-estimated |"
+  }
+]
