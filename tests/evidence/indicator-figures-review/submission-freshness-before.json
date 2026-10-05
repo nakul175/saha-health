@@ -1,0 +1,29 @@
+{
+  "passed": 26,
+  "failed": 2,
+  "diagnosticBeforeMode": true,
+  "expectedSafeReviewStatus": 409,
+  "expectedSafePublishStatus": 409,
+  "actualWorker": true,
+  "actualD1": true,
+  "observations": [
+    {
+      "publishStatus": 200,
+      "beforeUnresolved": 1,
+      "afterUnresolved": 0,
+      "sourceHashUnchanged": true,
+      "reviewStatus": 200,
+      "reviewBody": {
+        "figureId": "73ffc91a-14a4-4fad-b455-de1fd28bf3bd",
+        "eventId": "cbbeaec5-48a2-4d24-890a-9941e4237504",
+        "sequence": 2,
+        "status": "approved"
+      },
+      "queuedAttempts": 0,
+      "personVersionUnchanged": true,
+      "visitVersionUnchanged": true,
+      "externalTransportEnabled": false
+    }
+  ],
+  "scope": "Diagnostic before snapshot: 26 reproducibility assertions pass, but required safe review and publication both fail (observed200, required409). Not positive product acceptance."
+}
