@@ -208,17 +208,28 @@ const idOf = (layer, file) => `${layer}/${posix.basename(file).replace(SOURCE_EX
  */
 export function classify(file) {
   const base = posix.basename(file);
+  if (file === 'tests/integration-mapping-review-owned-port.mjs') return { id: 'integration/mapping-lifecycle-review-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Every original12 mapping review assertion retained; own port/output avoid a verified busy original8986 without killing an unrelated process' };
+  if (file === 'tests/mapping-lifecycle-review-browser.mjs') return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable historical fixture; current12-check owned-port adapter retains stable guarded ID/minimum' };
+
+  if (file === 'tests/field-shell-current-assets.mjs') return { id: 'unit/field-shell', layer: 'unit', role: 'suite', tier: 'pr', runner: 'node', reason: 'Every original12 static-shell policy assertion retained; exact twelve fixed public assets include guided presentation and supported receipt projection' };
+  if (file === 'tests/field-shell.mjs') return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable ten-asset historical fixture; original12 guarded assertion minimum retained by current exact public-assets adapter' };
+
   if (file === 'tests/programme-raw-key-contract.mjs') return { layer: 'unit', role: 'suite', tier: 'pr', runner: 'node', reason: 'Raw programme map safety with supported authoritative parse/digest unchanged' };
   if (['tests/programme-raw-key-http.mjs','tests/programme-raw-key-original-probe.mjs','tests/raw-key-independent-authority-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual raw-key refusal before clinical/receipt/audit writes, original before repair probe and distinct current authority controls' };
   if (/^tests\/raw-key-independent-/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable cold repetitions and preceding extended probe; current strongest primary authority gate retained separately' };
 
   const offlineAdapters = {
     'tests/integration-offline-guided-app-browser.mjs': 'integration/app-offline-browser',
+    'tests/integration-offline-guided-device-browser.mjs': 'integration/device-work-browser',
+    'tests/integration-offline-guided-range-browser.mjs': 'integration/range-protocol-browser',
+    'tests/integration-offline-guided-touch-units-browser.mjs': 'integration/touch-units-browser',
+    'tests/integration-offline-guided-purge-failure-browser.mjs': 'integration/device-work-purge-failure-browser',
+    'tests/integration-offline-guided-opens-browser.mjs': 'integration/offline-opens-browser',
     'tests/integration-offline-guided-review-browser.mjs': 'integration/app-offline-review-browser',
     'tests/integration-offline-guided-programme-browser.mjs': 'integration/offline-programme-browser',
   }[file];
   if (offlineAdapters) return { id: offlineAdapters, layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Every original assertion/minimum retained with explicit Show full form navigation and exact newly fixed public asset allowlist; original evidence immutable' };
-  if (['tests/app-offline-browser.mjs','tests/app-offline-review-browser.mjs','tests/offline-programme-browser.mjs'].includes(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable pre-guidance fixtures; all original guarded assertions retained in current guided-shell adapters' };
+  if (['tests/app-offline-browser.mjs','tests/app-offline-review-browser.mjs','tests/offline-programme-browser.mjs','tests/device-work-browser.mjs','tests/device-work-purge-failure-browser.mjs','tests/offline-opens-browser.mjs','tests/range-protocol-browser.mjs','tests/touch-units-browser.mjs'].includes(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable pre-guidance fixtures; all original guarded assertions retained in current guided-shell adapters' };
   if (['tests/sync-receipt-projection.mjs','tests/sync-receipt-device-contract.mjs'].includes(file)) return { layer: 'unit', role: 'suite', tier: 'pr', runner: 'node', reason: 'Supported wire/parsed receipt comparison and encrypted proof custody; server digest unchanged' };
   if (['tests/offline-guided-author-browser.mjs','tests/offline-sync-hash-repair-browser.mjs','tests/offline-sync-hash-device-browser.mjs','tests/offline-sync-hash-cold-extra-browser.mjs','tests/sync-receipt-cold-scope-browser.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual guided phone, exact-key uncertain sync recovery, proof-only purge and current actor/authority controls' };
   if (/^tests\/(?:offline-guided-|offline-sync-hash-|sync-receipt-cold-)/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable before witnesses or cold overlapping repetitions; distinct current primary contracts and phone recovery remain guarded' };

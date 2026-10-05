@@ -1,0 +1,27 @@
+Running unit integration --fast; 7 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/field-shell  12 passed  38ms
+
+[integration] 6 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/mapping-lifecycle-review-browser ...
+  ok       integration/mapping-lifecycle-review-browser  12 passed  4.2s
+  running  integration/device-work-browser ...
+  ok       integration/device-work-browser  64 passed  11.7s
+  running  integration/offline-opens-browser ...
+  ok       integration/offline-opens-browser  49 passed  7.4s
+  running  integration/device-work-purge-failure-browser ...
+  ok       integration/device-work-purge-failure-browser  49 passed  6.2s
+  running  integration/range-protocol-browser ...
+  ok       integration/range-protocol-browser  27 passed  8.5s
+  running  integration/touch-units-browser ...
+  ok       integration/touch-units-browser  20 passed  5.0s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       1      12       0        0   38ms
+  integration  passed       6     221       0        0  43.1s
+  total        passed       7     233       0        0  43.3s
+
+Regression guard: passed (7 baselined suite(s) checked, 0 excused by quarantine).

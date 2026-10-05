@@ -1,0 +1,259 @@
+{
+  "generatedAt": "2026-10-05T20:10:25.497Z",
+  "startedAt": "2026-10-05T20:08:57.911Z",
+  "command": "node scripts/test.mjs unit integration --only unit/field-shell,integration/device-work-browser,integration/device-work-purge-failure-browser,integration/mapping-lifecycle-review-browser,integration/offline-opens-browser,integration/range-protocol-browser,integration/touch-units-browser --fast --guard --report tests/evidence/app-first-offline-rawkey-broad/affected-current.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 38,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 6,
+      "passed": 133,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 87363,
+      "failedSuites": 2
+    }
+  ],
+  "totals": {
+    "suites": 7,
+    "passed": 133,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 2,
+    "durationMs": 87586
+  },
+  "suites": [
+    {
+      "id": "unit/field-shell",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-shell-current-assets.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 38,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-shell.log"
+    },
+    {
+      "id": "integration/mapping-lifecycle-review-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-mapping-review-owned-port.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 4267,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__mapping-lifecycle-review-browser.log"
+    },
+    {
+      "id": "integration/device-work-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-device-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11253,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__device-work-browser.log"
+    },
+    {
+      "id": "integration/offline-opens-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-opens-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 34245,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__offline-opens-browser.log"
+    },
+    {
+      "id": "integration/device-work-purge-failure-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-purge-failure-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 6107,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__device-work-purge-failure-browser.log"
+    },
+    {
+      "id": "integration/range-protocol-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-range-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 26443,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__range-protocol-browser.log"
+    },
+    {
+      "id": "integration/touch-units-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-touch-units-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5048,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__touch-units-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/mapping-lifecycle-review-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/mapping-lifecycle-review-browser reported no assertion count; baseline needs at least 12.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-opens-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-opens-browser reported no assertion count; baseline needs at least 49.",
+        "excused": false
+      },
+      {
+        "id": "integration/range-protocol-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/range-protocol-browser reported no assertion count; baseline needs at least 26.",
+        "excused": false
+      },
+      {
+        "id": "unit/field-shell",
+        "kind": "uncounted",
+        "message": "Suite unit/field-shell reported no assertion count; baseline needs at least 12.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 7,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 193,
+        "components": 0,
+        "suitesCitingNoRequirement": 54,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 125,
+        "components": 84,
+        "suitesCitingNoRequirement": 56,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 155,
+        "components": 0,
+        "suitesCitingNoRequirement": 135,
+        "requirementsCited": 27
+      }
+    },
+    "supportFiles": 18,
+    "suites": 489,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 249,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}
