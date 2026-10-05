@@ -1,0 +1,24 @@
+{
+  "suite": "reconciliation-http",
+  "passed": 16,
+  "checks": [
+    "unified queue contains correction and merge tasks and read audit precedes return",
+    "administrators and ASHAs without assignment cannot read patient tasks",
+    "a merge counterpart outside care scope hides its task and counts",
+    "stale hashed cursors restart the queue without skipping work",
+    "assignment commits once and creates scoped in-app notice",
+    "out-of-scope assignee and stale assignment history are rejected",
+    "only the current recipient acknowledges a notice",
+    "merge assignment requires an eligible steward with access to both records",
+    "cross-site reads are refused",
+    "assigning a task does not close it or modify downstream evidence",
+    "historical preview is read-only and identifies missing obligations",
+    "stale reviewed backfill plans are refused",
+    "reviewed historical apply and new-key retry append one set of tasks without external action",
+    "existing task records are never overwritten by historical backfill",
+    "assignment notices disappear immediately when the recipient loses current patient scope",
+    "a failed read audit refuses the whole queue without returning task details"
+  ],
+  "completedAt": "2026-10-05T02:16:36.626Z",
+  "limits": "Built local Worker and D1; synthetic fixtures, no hosted or real clinical acceptance."
+}

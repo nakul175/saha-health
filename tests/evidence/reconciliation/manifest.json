@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-05",
+  "scope": "Built synthetic local Worker/D1 reconciliation and focused regression; formal acceptance unchanged",
+  "files": [
+    {
+      "path": "correction-tasks-contract-result.json",
+      "sha256": "2d9677e3b832fbb725e2f3c42e06618892465fd8d4316c0a293804e51bda37ee"
+    },
+    {
+      "path": "http.json",
+      "sha256": "a81901f777faa3523502e4d8ac69fd70b4b5b07c6a5710c3666f1ff7b73379f3"
+    },
+    {
+      "path": "merge-contract-result.json",
+      "sha256": "c5a39eabea90521a6d435a59a992880bdf59aba858a7c4a3a519ee83da0c8135"
+    },
+    {
+      "path": "record-import-contract-result.json",
+      "sha256": "f3a030a940f7a976ee11e056eb8dcc9673adca28e62964166cead5e4e3396b46"
+    },
+    {
+      "path": "safe-logs-contract-result.json",
+      "sha256": "69ba8b32156a46c08a016b3a9cef08c6003bb1a123f1e5c53c2dcc513388e432"
+    },
+    {
+      "path": "storage-contract-result.json",
+      "sha256": "d178ba9f07a4dea70d5c8f3feeddbf11842651db637e32f34d055784b707945d"
+    }
+  ],
+  "checks": {
+    "typescript": "passed",
+    "productionBuild": "passed with existing large-chunk warning",
+    "diff": "passed"
+  }
+}

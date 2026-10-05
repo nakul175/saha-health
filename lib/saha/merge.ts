@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { fail, person, uuid } from './core';
 import { TERMINAL } from './referral-rules';
 import type { Actor } from './store';
-import type { Member, OrgState, Person } from './types';
+import type { Member, OrgState, Person, ReconciliationAssignment, ReconciliationNotice } from './types';
 
 // Slice 1c: controlled identity merge and unmerge (BR-ID-08, BR-ID-05, journey J04).
 // A merge is a link, not a data move: the duplicate keeps its visits, receipts and history,
@@ -11,7 +11,7 @@ import type { Member, OrgState, Person } from './types';
 // that software cannot safely repair becomes an item in the impact queue.
 export type Ident={name:string;age:number;sex:string;village:string};
 export type MergeItemKind='programme-record'|'ehr-link'|'referral'|'follow-up'|'enrolment'|'household'|'proxy'|'post-merge-review';
-export type MergeItem={id:string;kind:MergeItemKind;personId:string;ref:string;detail:string;state:'open'|'resolved';createdAt:string;resolved?:{by:string;at:string;note:string}};
+export type MergeItem={ownerId?:string|null;assignmentHistory?:ReconciliationAssignment[];assignmentNotice?:ReconciliationNotice;id:string;kind:MergeItemKind;personId:string;ref:string;detail:string;state:'open'|'resolved';createdAt:string;resolved?:{by:string;at:string;note:string}};
 export type MergeCase={id:string;version:number;survivorId:string;duplicateId:string;state:'proposed'|'merged'|'rejected'|'unmerged';reason:string;evidence:string;snapshot:{survivor:Ident;duplicate:Ident};proposedBy:string;proposedAt:string;
  decided?:{by:string;at:string;decision:'approve'|'reject';reason:string};unmerged?:{by:string;at:string;reason:string};invalidated?:{plans:number;leases:number;messages:number};items:MergeItem[]};
 export type MergeLink={personId:string;caseId:string;at:string;unmergedAt?:string};
