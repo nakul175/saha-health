@@ -6,6 +6,15 @@ import {digest,fail} from './core';
 import {recordAggregateView} from './read-audit';
 const event=z.object({code:z.enum(['capture-30s','capture-2m','capture-5m','capture-15m','capture-over15m','help-request','assisted-completion','client-sync-unknown']),key:z.string().uuid()}).strict();
 const care=(role:string)=>role==='asha'||role==='clinician';
+export async function burdenPolicy(request:Request){
+ if(new URL(request.url).search)fail(422,'Measurement policy query fields are not supported.');
+ const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation'),async()=>[]),m=scope(s,u.userId);if(!care(m.role))fail(403,'Current human care membership required.');
+ // Disabled measurement adds no audit/counter/receipt writes. Enabled policy
+ // access is an aggregate read, and positive authority withdrawal fails closed.
+ if(s.operations?.workBurden?.enabled)await recordAggregateView(db(),s,u,m,'work-burden policy','Fixed opt-in configuration only. No patient or ticket facts.');
+ const fresh=await loadFor(u,s.organisation.id,async()=>[]),current=scope(fresh,u.userId);if(!care(current.role))fail(403,'Current human care membership required.');
+ return json({organisationId:fresh.organisation.id,userId:u.userId,enabled:fresh.operations?.workBurden?.enabled===true,version:fresh.operations?.workBurden?.version??0});
+}
 export async function burdenEvent(request:Request){
  if(new URL(request.url).search)fail(422,'Measurement query fields are not supported.');
  if(request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Same-origin request required.');
