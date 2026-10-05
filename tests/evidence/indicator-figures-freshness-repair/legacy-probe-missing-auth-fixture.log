@@ -1,0 +1,18 @@
+{"event":"saha_request","requestId":"905f3192-9ba1-41d2-8c9c-486d811b2c5b","route":"indicators","status":401,"durationMs":1}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Sign in to use your workspace."}
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-figures/tests/evidence/indicator-figures-freshness-repair/legacy-upgrade-probe.mjs:12:28)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-figures/tests/evidence/indicator-figures-freshness-repair/legacy-upgrade-probe.mjs:23:3
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
