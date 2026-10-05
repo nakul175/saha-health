@@ -1,0 +1,9 @@
+# Reporting cutoff and definition authority
+
+Independent review of354f4507 reproduced an actual Worker/D1 defect: the current released custom definition could run normally, but preparing yesterday's aggregate returned422 while a built-in under the same destination succeeded. The aggregate caller passes the reporting cutoff into `indicatorRun`; treating that cutoff as the governance clock incorrectly required the definition to have been released during the historical period.
+
+The narrow repair separates those clocks. `indicatorRun` and `indicatorQuery` use their existing reporting date only for numerical windows. Definition eligibility and review/release provenance use a separate current server governance date, which deterministic tests can explicitly inject. Existing aggregate callers default to current governance without changing their historical reporting cutoff. Future scheduled definitions remain refused even when a test/report cutoff is later than their release time.
+
+Fresh build and TypeScript checks pass. The lifecycle contract now passes42 checks, preserving the original40 and adding both clock directions. Actual clock HTTP passes18 on Worker/D1: today's reviewed definition and the built-in both prepare yesterday's report, stored measure results match, the reader API still hides destination-screened cells, and tomorrow's scheduled definition stays refused. Existing registry12, indicators9, aggregate delivery12 and aggregate checkpoint4 also pass.
+
+New evidence is isolated under `tests/evidence/indicator-governance-clock/`; author354f4507's original evidence is unchanged. The reviewer's before-proof is retained in its independent review checkout. This repair does not implement immutable released-figure snapshots or clinical approval; that follow-on remains active and separate.

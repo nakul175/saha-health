@@ -117,10 +117,11 @@ export const WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','re
 export function measureValue(s:OrgState,p:Person,id:MeasureId,since:string,now:Date){const today=now.toISOString().slice(0,10);return measure(id).count({s,people:[],since,until:now.toISOString(),today},p);}
 export const ageBandOf=(age:number)=>band(age);
 export const groupLabels=(s:OrgState,p:Person,g:Group)=>keysFor(s,p,g);
-export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
+// Reporting cutoff and current definition authority are separate clocks. Aggregate windows can be historical.
+export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date(),governanceAt=new Date()){
  manager(m);
  if(!q.ids.length||q.ids.length>8)fail(422,'Choose up to eight catalogue indicators.');
- const defs=q.ids.map(ref=>resolveDefinition(s,ref,now));
+ const defs=q.ids.map(ref=>resolveDefinition(s,ref,governanceAt));
  if(!GROUPS.includes(q.group))fail(422,'Choose a grouping from the catalogue.');if(!Number.isInteger(q.days)||q.days<1||q.days>366)fail(422,'Choose a window of 1 to 366 days.');
  if(q.team&&!m.teamIds.includes(q.team))fail(403,'Choose one of your teams.');
  const today=now.toISOString().slice(0,10),ctx0={since:new Date(Date.parse(today+'T00:00:00Z')-(q.days-1)*86400000).toISOString(),until:now.toISOString(),today};
@@ -133,7 +134,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  const cohortCells:Record<string,number>={};for(const p of people)for(const k of keysFor(s,p,'none'))cohortCells[k]=(cohortCells[k]??0)+1;
  series.set('cohort',{key:'cohort',f:{},cells:cohortCells,ids:[],n:'patients',d:null,gd:'none',x:[],w:ctx0.since,shown:Object.keys(cohortCells)});
  const results=defs.map(def=>{const sp=def.spec,f=sp.filters;
-  const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def),governance:{legacy:definitionLifecycle(s,def,now).legacy,reviewEventId:definitionLifecycle(s,def,now).release?.reviewEventId??null,releaseEventId:definitionLifecycle(s,def,now).release?.id??null,effectiveAt:definitionLifecycle(s,def,now).release?.effectiveAt??null}}};
+  const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def),governance:{legacy:definitionLifecycle(s,def,governanceAt).legacy,reviewEventId:definitionLifecycle(s,def,governanceAt).release?.reviewEventId??null,releaseEventId:definitionLifecycle(s,def,governanceAt).release?.id??null,effectiveAt:definitionLifecycle(s,def,governanceAt).release?.effectiveAt??null}}};
   const cohort=people.filter(p=>(!f.programme||p.programmes.includes(f.programme))&&(!f.ageBand||band(p.age)===f.ageBand)&&(!f.sex||p.sex===f.sex)&&!(sp.exclude.includes('identity-provisional')&&p.identityReview?.state==='provisional')&&!(sp.exclude.includes('no-programme')&&!p.programmes.length));
   // Slice 6s: the definition's own minimum cohort, applied after its filters and exclusions.
   if(cohort.length<Math.max(MIN_CELL,sp.minimumCohort))return {...head,rows:[],refused:'cohort' as const,message:`This definition needs a cohort of at least ${Math.max(MIN_CELL,sp.minimumCohort)} people after its own filters. Widen the filters.`};
@@ -150,7 +151,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
   scope:'Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.'};
  return {result,series:[...series.values()]};
 }
-export function indicatorQuery(s:OrgState,m:Member,q:Query,now=new Date()){return indicatorRun(s,m,q,now).result;}
+export function indicatorQuery(s:OrgState,m:Member,q:Query,now=new Date(),governanceAt=new Date()){return indicatorRun(s,m,q,now,governanceAt).result;}
 // Slice R26 (BR-DATA-06): the released indicator figures a correction may have affected. The differencing ledger
 // (slices 6w/6aa) stores hashed series and cells with no patient link, so a release recorded at or after the
 // corrected visit's confirmation is marked as affected. Only the release identity (its time and hashed series key)
