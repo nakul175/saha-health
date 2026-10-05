@@ -1,0 +1,83 @@
+{
+  "actualWorker": true,
+  "actualD1": true,
+  "supportedVoidCommands": 6,
+  "publishedOriginalUnchanged": true,
+  "metadata": {
+    "id": "bc99db7e-f101-47c4-940b-c76b5e92c798",
+    "parentId": null,
+    "digest": "9fc4d284f5d31205208d73b73b3947ce934b38fd2f60e12f55ea9bb4297456fa",
+    "createdAt": "2026-10-05T11:01:35.860Z",
+    "authorId": "t-4cb24bbd-figures-owner",
+    "status": "published",
+    "sequence": 3,
+    "cutoff": "2026-10-05T11:01:35.856Z",
+    "window": {
+      "since": "2026-09-06T00:00:00.000Z",
+      "until": "2026-10-05T11:01:35.856Z",
+      "days": 30
+    },
+    "definitions": [
+      {
+        "id": "visits-confirmed",
+        "version": 1,
+        "title": "Confirmed visits",
+        "spec": {
+          "title": "Confirmed visits",
+          "unit": "count",
+          "numerator": "visits-confirmed",
+          "denominator": null,
+          "filters": {},
+          "exclude": [],
+          "exclusionsNote": "Voided and superseded visits",
+          "owner": "Programme manager",
+          "cadence": "Weekly",
+          "minimumCohort": 5
+        },
+        "definition": {
+          "id": "visits-confirmed",
+          "version": 1,
+          "recordedAt": "2026-09-30T00:00:00.000Z",
+          "canonical": "{\"id\":\"visits-confirmed\",\"version\":1,\"unit\":\"count\",\"numerator\":\"visits-confirmed\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}",
+          "governance": {
+            "legacy": true,
+            "reviewEventId": null,
+            "releaseEventId": null,
+            "effectiveAt": null
+          }
+        }
+      }
+    ],
+    "history": [
+      {
+        "id": "37bfc731-6280-4093-90ff-de8584fd7a1d",
+        "sequence": 1,
+        "kind": "prepared",
+        "actorId": "t-4cb24bbd-figures-owner",
+        "at": "2026-10-05T11:01:35.860Z",
+        "reason": "Synthetic immutable population review and reissue",
+        "reviewId": null
+      },
+      {
+        "id": "f988a0de-9efc-48b3-8ed5-da25c956d2fb",
+        "sequence": 2,
+        "kind": "approved",
+        "actorId": "t-a270176b-figures-reviewer",
+        "at": "2026-10-05T11:01:35.908Z",
+        "reason": "Synthetic immutable population review and reissue",
+        "reviewId": null
+      },
+      {
+        "id": "7609164a-b05a-4229-9e8d-f081a9dde03c",
+        "sequence": 3,
+        "kind": "published",
+        "actorId": "t-4cb24bbd-figures-owner",
+        "at": "2026-10-05T11:01:35.912Z",
+        "reason": "Synthetic immutable population review and reissue",
+        "reviewId": "f988a0de-9efc-48b3-8ed5-da25c956d2fb"
+      }
+    ],
+    "notice": "Synthetic software publication. Clinical denominator and official publication acceptance remain pending."
+  },
+  "automaticImpactMissing": true
+}
