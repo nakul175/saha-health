@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **80 HTTP method/route pairs** and **239 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **83 HTTP method/route pairs** and **240 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -18,6 +18,8 @@ Generated from source: **80 HTTP method/route pairs** and **239 command schema d
 | GET | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
 | POST | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
 | GET | `/api/caseload` | [app/api/caseload/route.ts](../../app/api/caseload/route.ts) |
+| POST | `/api/clinical-sources` | [app/api/clinical-sources/route.ts](../../app/api/clinical-sources/route.ts) |
+| GET | `/api/clinical-sources` | [app/api/clinical-sources/route.ts](../../app/api/clinical-sources/route.ts) |
 | POST | `/api/commands` | [app/api/commands/route.ts](../../app/api/commands/route.ts) |
 | GET | `/api/continuity` | [app/api/continuity/route.ts](../../app/api/continuity/route.ts) |
 | GET | `/api/data-exit` | [app/api/data-exit/route.ts](../../app/api/data-exit/route.ts) |
@@ -48,6 +50,7 @@ Generated from source: **80 HTTP method/route pairs** and **239 command schema d
 | POST | `/api/media` | [app/api/media/route.ts](../../app/api/media/route.ts) |
 | POST | `/api/mis/callback` | [app/api/mis/callback/route.ts](../../app/api/mis/callback/route.ts) |
 | GET | `/api/notification-channel` | [app/api/notification-channel/route.ts](../../app/api/notification-channel/route.ts) |
+| POST | `/api/offline-opens` | [app/api/offline-opens/route.ts](../../app/api/offline-opens/route.ts) |
 | GET | `/api/operations` | [app/api/operations/route.ts](../../app/api/operations/route.ts) |
 | GET | `/api/outreach` | [app/api/outreach/route.ts](../../app/api/outreach/route.ts) |
 | GET | `/api/pack-installations` | [app/api/pack-installations/route.ts](../../app/api/pack-installations/route.ts) |

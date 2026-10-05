@@ -475,7 +475,12 @@
     "app/work-burden-linked.ts",
     "tests/work-burden-ledger-contract.mjs",
     "tests/work-burden-ledger-http.mjs",
-    "tests/work-burden-ledger-browser.mjs"
+    "tests/work-burden-ledger-browser.mjs",
+    "docs/current/WORK-BURDEN-FIELD-CONTINUATION.md",
+    "tests/evidence/app-first-offline-field-source-integration/new-workflows-initial.json",
+    "tests/work-burden-field-hooks-browser.mjs",
+    "tests/work-burden-field-continuation-http.mjs",
+    "tests/work-burden-continuation-adversarial-review.mjs"
   ],
   "BR-AG-11": [
     "REMAINING-RELEASES.md",
@@ -525,7 +530,13 @@
     "docs/current/FRONTLINE-EIGHT-APPS.md"
   ],
   "BR-CLIN-01": [
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "docs/current/APP-CLINICAL-SOURCE-DOCUMENTS.md",
+    "docs/current/APP-CLINICAL-SOURCE-RETRIEVAL.md",
+    "docs/current/CLINICAL-SOURCE-DEPENDENCY-VALIDATION.md",
+    "tests/clinical-source-http.mjs",
+    "tests/clinical-source-retrieval-http.mjs",
+    "tests/clinical-source-dependency-http.mjs"
   ],
   "BR-CLIN-02": [
     "REMAINING-RELEASES.md"
@@ -921,7 +932,16 @@
     "docs/current/COMMAND-AUTHORITY-EVIDENCE.md",
     "docs/current/COMMAND-AUTHORITY-INDEPENDENT-REVIEW.md",
     "tests/nfr/authorisation-matrix.mjs",
-    "tests/evidence/app-first-programme-delta/manifest.json"
+    "tests/evidence/app-first-programme-delta/manifest.json",
+    "docs/current/APP-OFFLINE-OPEN-AUDIT.md",
+    "docs/current/OFFLINE-OPEN-ACTOR-BINDING.md",
+    "docs/current/OFFLINE-OPEN-UNSENT-RETIREMENT.md",
+    "tests/evidence/app-first-offline-field-source-integration/new-workflows-initial.json",
+    "tests/offline-opens-contract.mjs",
+    "tests/offline-opens-http.mjs",
+    "tests/offline-opens-browser.mjs",
+    "tests/offline-open-account-binding-browser.mjs",
+    "tests/offline-open-unsent-pruning-browser.mjs"
   ],
   "BR-AG-07": [
     "lib/saha/agent.ts",
@@ -1469,7 +1489,11 @@
     "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
     "tests/ninth-review-fixes-contract.mjs",
     "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
-    "tests/aggregate-checkpoint-population-contract.mjs"
+    "tests/aggregate-checkpoint-population-contract.mjs",
+    "docs/current/PROVIDER-EHR-HEADERS-INDEPENDENT-REVIEW.md",
+    "tests/evidence/app-first-offline-field-source-integration/header-independent-final.json",
+    "tests/provider-specialised-envelope-contract.mjs",
+    "tests/provider-ehr-headers-independent-contract.mjs"
   ],
   "BR-DATA-05": [
     "lib/saha/core.ts",
@@ -1640,7 +1664,11 @@
     "tests/household-contract.mjs",
     "tests/household-smoke.mjs",
     "docs/current/SLICE-1-HOUSEHOLDS.md",
-    "docs/current/SLICE-10F-HOUSEHOLD-SCHEDULING.md"
+    "docs/current/SLICE-10F-HOUSEHOLD-SCHEDULING.md",
+    "tests/household-reschedule-contract.mjs",
+    "tests/household-reschedule-http.mjs",
+    "tests/household-reschedule-independent-http.mjs",
+    "docs/current/HOUSEHOLD-RESCHEDULE-INDEPENDENT-REVIEW.md"
   ],
   "BR-UX-05": [
     "app/workspace.tsx",
@@ -1773,7 +1801,11 @@
     "tests/app-offline-scope-browser.mjs",
     "tests/app-offline-scope-contract.mjs",
     "tests/app-sw-review-contract.mjs",
-    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md",
+    "docs/current/OFFLINE-OPEN-UNSENT-RETIREMENT.md",
+    "docs/current/WORK-BURDEN-FIELD-CONTINUATION.md",
+    "tests/work-burden-field-identity-review.mjs",
+    "tests/offline-open-account-binding-browser.mjs"
   ],
   "BR-OFF-02": [
     "lib/saha/field.ts",
@@ -1791,7 +1823,11 @@
     "tests/app-offline-scope-browser.mjs",
     "tests/app-offline-scope-contract.mjs",
     "tests/app-sw-review-contract.mjs",
-    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md",
+    "docs/current/OFFLINE-OPEN-ACTOR-BINDING.md",
+    "docs/current/OFFLINE-OPEN-UNSENT-RETIREMENT.md",
+    "tests/offline-open-retirement-writer-contract.mjs",
+    "tests/offline-open-unsent-pruning-browser.mjs"
   ],
   "BR-OFF-07": [
     "lib/saha/field.ts",
@@ -1885,5 +1921,56 @@
     "docs/current/WORK-SUPPORT-CURRENT-SNAPSHOT.md",
     "docs/current/WORK-SUPPORT-FIX-INDEPENDENT-REVIEW.md",
     "docs/current/WORK-SUPPORT-WORKFLOW-RACE-REVIEW.md"
+  ],
+  "BR-AG-02": [
+    "lib/saha/agent.ts",
+    "lib/saha/agent-execution.ts",
+    "tests/agent-contract.mjs",
+    "tests/agent-smoke.mjs",
+    "lib/saha/governance.ts",
+    "tests/governance-smoke.mjs",
+    "tests/governance-contract.mjs",
+    "AI-GOVERNANCE.md",
+    "docs/current/APP-PROVIDER-ENVELOPES.md",
+    "docs/current/PROVIDER-ENVELOPE-DECODED-GUARDS.md",
+    "docs/current/PROVIDER-DESTINATION-INDEPENDENT-REVIEW.md",
+    "tests/provider-agent-decoded-contract.mjs",
+    "tests/provider-mis-execution-review.mjs",
+    "tests/provider-ehr-execution-review.mjs"
+  ],
+  "BR-AI-08": [
+    "lib/saha/agent-provider.ts",
+    "lib/saha/agent.ts",
+    "tests/agent-contract.mjs",
+    "REMAINING-RELEASES.md",
+    "lib/saha/governance.ts",
+    "tests/governance-smoke.mjs",
+    "tests/governance-contract.mjs",
+    "AI-GOVERNANCE.md",
+    "lib/saha/evaluation.ts",
+    "lib/saha/evaluation-execution.ts",
+    "lib/saha/anaemia.ts",
+    "lib/saha/anaemia-server.ts",
+    "app/anaemia-panel.tsx",
+    "tests/anaemia-provider-contract.mjs",
+    "tests/anaemia-http-smoke.mjs",
+    "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md",
+    "docs/current/APP-PROVIDER-ENVELOPES.md",
+    "docs/current/PROVIDER-ENVELOPE-INDEPENDENT-REVIEW.md",
+    "tests/provider-frontline-decoded-contract.mjs",
+    "tests/provider-image-envelope-contract.mjs"
+  ],
+  "BR-AG-09": [
+    "lib/saha/agent.ts",
+    "lib/saha/agent-execution.ts",
+    "tests/agent-contract.mjs",
+    "tests/agent-smoke.mjs",
+    "lib/saha/governance.ts",
+    "tests/governance-smoke.mjs",
+    "tests/governance-contract.mjs",
+    "AI-GOVERNANCE.md",
+    "docs/current/CLINICAL-SOURCE-INDEPENDENT-REVIEW.md",
+    "docs/current/CLINICAL-SOURCE-DEPENDENCY-VALIDATION.md",
+    "tests/clinical-source-dependency-contract.mjs"
   ]
 }

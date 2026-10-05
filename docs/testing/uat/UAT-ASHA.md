@@ -295,11 +295,11 @@ Local, server, queued, uncertain and destination-specific states remain separate
 
 **Expected result** (catalogue): App restart, incoming call and network-loss scenarios retain every field previously shown as durably saved.
 
-**Known gaps** (assessment, remaining work for BR-UX-07): Physical-device crash, incoming-call, eviction and network-loss acceptance.
+**Known gaps** (assessment, remaining work for BR-UX-07): Physical-device crash, incoming-call, eviction and network-loss acceptance; broader offline caseload and native Android qualification remain.
 
 <details><summary>What the build does today (assessment, current state of BR-UX-07)</summary>
 
-Server drafts, local encrypted drafts and command replay support restart recovery. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Independent A02 review fixed actual withdrawn-assignment disclosure: connected unlock and reconnect recheck every current prepared patient in its original organisation; positive refusal/login redirect locks and redacts, while unreachable transport retains only bounded signed offline access.
+Server drafts, local encrypted drafts and command replay support restart recovery. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Independent A02 review fixed actual withdrawn-assignment disclosure: connected unlock and reconnect recheck every current prepared patient in its original organisation; positive refusal/login redirect locks and redacts, while unreachable transport retains only bounded signed offline access. Prepared and registration copy recovery now retains originating-account encrypted proof and exact observed receipt variants without blind clinical resend. Shared field hooks preserve latest-book receipt/tombstone state under queued writes and account transitions.
 
 </details>
 
@@ -839,11 +839,11 @@ BP and medicine-access capture plus bounded, reviewed observation rules; no pres
 
 **Expected result** (catalogue): One visit completes eligible shared tasks, leaves incomplete activities open and does not duplicate a referral merely because two packs identify it.
 
-**Known gaps** (assessment, remaining work for BR-PROG-05): Approved privacy and timing rules (the late flag, the one-slot-per-item rule and the need catalogue are local defaults); packs do not declare referral needs or compatibility, so the worker names the need and the server matches it; referrals created before slice 10f carry no need and are never merged; plans exist only for people in a household; rescheduling a slot, reminders and outreach for a slot, and completing covered items from the visit are not built.
+**Known gaps** (assessment, remaining work for BR-PROG-05): Approved privacy and timing rules (the late flag, the one-slot-per-item rule and the need catalogue are local defaults); packs do not declare referral needs or compatibility, so the worker names the need and the server matches it; referrals created before slice 10f carry no need and are never merged; plans exist only for people in a household; reminders/outreach for a slot and completing covered items from the visit remain separate software; physical/clinical timing acceptance is pending.
 
 <details><summary>What the build does today (assessment, current state of BR-PROG-05)</summary>
 
-Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview. Slice 10f adds a household visit plan (each in-scope member's open follow-ups, referrals and routine visit in one place; members outside the worker's scope are counted, never named) and household visit slots (householdVisitSchedule, householdVisitCancel) that cover chosen items of several members without changing any due date, owner or completion condition: an item stays open until its own record is resolved, items due before the slot date are shown as late, one item sits in one planned slot, and a slot holds only references, a date and a window (no free text). A confirmed visit's programme episodes can raise referral needs (createProgrammeReferrals): the same need, facility, person and visit become one referral that links every asking pack as a source and records which packs asked; a different need or facility stays a separate referral.
+Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview. Slice 10f adds a household visit plan (each in-scope member's open follow-ups, referrals and routine visit in one place; members outside the worker's scope are counted, never named) and household visit slots (householdVisitSchedule, householdVisitCancel) that cover chosen items of several members without changing any due date, owner or completion condition: an item stays open until its own record is resolved, items due before the slot date are shown as late, one item sits in one planned slot, and a slot holds only references, a date and a window (no free text). A confirmed visit's programme episodes can raise referral needs (createProgrammeReferrals): the same need, facility, person and visit become one referral that links every asking pack as a source and records which packs asked; a different need or facility stays a separate referral. Atomic original-planner rescheduling now preserves the prior slot and creates a linked replacement in one version-bound commit, checks every covered current person and purpose, and preserves due dates/owners/completion. Independent real Worker/phone review includes scope changes, role demotion, receipt/audit rollback, replay and slot-capacity checks.
 
 </details>
 
@@ -1077,11 +1077,11 @@ Encrypted bounded draft notebook with unavailable online functions. Slice 3g: ne
 
 **Expected result** (catalogue): Forced restart and low-storage tests preserve acknowledged data or clearly report that saving did not complete.
 
-**Known gaps** (assessment, remaining work for BR-OFF-02): Actual IndexedDB crash/restart/low-storage fault injection on supported devices.
+**Known gaps** (assessment, remaining work for BR-OFF-02): Actual IndexedDB crash/restart/low-storage fault injection on supported physical devices and wider task recovery qualification.
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-02)</summary>
 
-Serialized encrypted writes acknowledge after persistence; recovery logic tested. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache.
+Serialized encrypted writes acknowledge after persistence; recovery logic tested. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Both app/field surfaces preserve latest encrypted book during queued timing/access updates, with originating-account checks and fail-closed CAS. Explicit abandoned unsent links can be retired without deleting accepted/unknown request evidence.
 
 </details>
 

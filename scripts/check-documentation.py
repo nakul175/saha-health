@@ -107,10 +107,21 @@ checks['historicalProductAssertions']=total
 slice_total=0
 for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     manifest=json.loads(manifest_path.read_text())
-    for report,meta in manifest['reports'].items():
-        path=manifest_path.parent/report
-        require(path.is_file() and digest(path)==meta['sha256'],'Changed slice evidence: '+str(path.relative_to(ROOT)))
-        slice_total+=int(meta.get('passed') or 0)
+    # Preserve the authors' immutable manifests, including their three existing
+    # digest layouts. Only report-level numeric assertion counts are summed.
+    entries=manifest.get('reports',manifest.get('sha256',manifest.get('files')))
+    require(isinstance(entries,dict) and bool(entries),'Missing evidence digests: '+str(manifest_path.relative_to(ROOT)))
+    for report,meta in (entries or {}).items():
+        path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','scripts/')) else manifest_path.parent/report
+        expected=meta.get('sha256') if isinstance(meta,dict) else meta
+        require(path.is_relative_to(ROOT) and path.is_file() and digest(path)==expected,'Changed slice evidence: '+str(path))
+        if isinstance(meta,dict):
+            if 'bytes' in meta:
+                require(path.is_file() and path.stat().st_size==meta['bytes'],'Changed evidence size: '+str(path))
+            count=meta.get('passed',0)
+            require(count is None or (type(count) is int and count>=0),'Invalid evidence assertion count: '+str(path))
+            if type(count) is int and count>=0:
+                slice_total+=count
 checks['sliceEvidenceAssertions']=slice_total
 
 # Historical links retain original locations. Check authored current links only.

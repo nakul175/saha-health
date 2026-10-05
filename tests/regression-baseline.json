@@ -23,6 +23,36 @@
       "file": "tests/auxiliary-read-http.mjs",
       "minPassed": 15
     },
+    "integration/clinical-source-browser": {
+      "layer": "integration",
+      "file": "tests/clinical-source-browser.mjs",
+      "minPassed": 9
+    },
+    "integration/clinical-source-dependency-http": {
+      "layer": "integration",
+      "file": "tests/clinical-source-dependency-http.mjs",
+      "minPassed": 31
+    },
+    "integration/clinical-source-http": {
+      "layer": "integration",
+      "file": "tests/clinical-source-http.mjs",
+      "minPassed": 28
+    },
+    "integration/clinical-source-identity-http": {
+      "layer": "integration",
+      "file": "tests/clinical-source-identity-http.mjs",
+      "minPassed": 7
+    },
+    "integration/clinical-source-retrieval-browser": {
+      "layer": "integration",
+      "file": "tests/clinical-source-retrieval-browser.mjs",
+      "minPassed": 9
+    },
+    "integration/clinical-source-retrieval-http": {
+      "layer": "integration",
+      "file": "tests/clinical-source-retrieval-http.mjs",
+      "minPassed": 41
+    },
     "integration/command-authority-http": {
       "layer": "integration",
       "file": "tests/command-authority-http.mjs",
@@ -36,17 +66,57 @@
     "integration/device-work-browser": {
       "layer": "integration",
       "file": "tests/device-work-browser.mjs",
-      "minPassed": 63
+      "minPassed": 64
     },
     "integration/device-work-purge-failure-browser": {
       "layer": "integration",
       "file": "tests/device-work-purge-failure-browser.mjs",
       "minPassed": 49
     },
+    "integration/household-reschedule-http": {
+      "layer": "integration",
+      "file": "tests/household-reschedule-http.mjs",
+      "minPassed": 10
+    },
+    "integration/household-reschedule-independent-http": {
+      "layer": "integration",
+      "file": "tests/household-reschedule-independent-http.mjs",
+      "minPassed": 26
+    },
     "integration/import-unit-parity-browser": {
       "layer": "integration",
       "file": "tests/import-unit-parity-browser.mjs",
       "minPassed": 13
+    },
+    "integration/offline-open-account-binding-browser": {
+      "layer": "integration",
+      "file": "tests/offline-open-account-binding-browser.mjs",
+      "minPassed": 8
+    },
+    "integration/offline-open-unsent-pruning-browser": {
+      "layer": "integration",
+      "file": "tests/offline-open-unsent-pruning-browser.mjs",
+      "minPassed": 13
+    },
+    "integration/offline-opens-auth-first-http": {
+      "layer": "integration",
+      "file": "tests/offline-opens-auth-first-http.mjs",
+      "minPassed": 13
+    },
+    "integration/offline-opens-browser": {
+      "layer": "integration",
+      "file": "tests/offline-opens-browser.mjs",
+      "minPassed": 49
+    },
+    "integration/offline-opens-http": {
+      "layer": "integration",
+      "file": "tests/offline-opens-http.mjs",
+      "minPassed": 39
+    },
+    "integration/offline-opens-transport-http": {
+      "layer": "integration",
+      "file": "tests/offline-opens-transport-http.mjs",
+      "minPassed": 170
     },
     "integration/offline-programme-browser": {
       "layer": "integration",
@@ -61,7 +131,7 @@
     "integration/range-protocol-browser": {
       "layer": "integration",
       "file": "tests/range-protocol-browser.mjs",
-      "minPassed": 25
+      "minPassed": 26
     },
     "integration/reconciliation-http": {
       "layer": "integration",
@@ -118,15 +188,40 @@
       "file": "tests/work-burden-browser.mjs",
       "minPassed": 12
     },
+    "integration/work-burden-continuation-adversarial-review": {
+      "layer": "integration",
+      "file": "tests/work-burden-continuation-adversarial-review.mjs",
+      "minPassed": 21
+    },
+    "integration/work-burden-continuation-phone-review": {
+      "layer": "integration",
+      "file": "tests/work-burden-continuation-phone-review.mjs",
+      "minPassed": 13
+    },
     "integration/work-burden-field-browser": {
       "layer": "integration",
       "file": "tests/work-burden-field-browser.mjs",
       "minPassed": 12
     },
+    "integration/work-burden-field-continuation-http": {
+      "layer": "integration",
+      "file": "tests/work-burden-field-continuation-http.mjs",
+      "minPassed": 15
+    },
+    "integration/work-burden-field-hooks-browser": {
+      "layer": "integration",
+      "file": "tests/work-burden-field-hooks-browser.mjs",
+      "minPassed": 15
+    },
     "integration/work-burden-field-http": {
       "layer": "integration",
       "file": "tests/work-burden-field-http.mjs",
       "minPassed": 13
+    },
+    "integration/work-burden-field-identity-review": {
+      "layer": "integration",
+      "file": "tests/work-burden-field-identity-review.mjs",
+      "minPassed": 19
     },
     "integration/work-burden-http": {
       "layer": "integration",
@@ -393,6 +488,21 @@
       "file": "tests/caseload-schedule-contract.mjs",
       "minPassed": 33
     },
+    "unit/clinical-source-contract": {
+      "layer": "unit",
+      "file": "tests/clinical-source-contract.mjs",
+      "minPassed": 16
+    },
+    "unit/clinical-source-dependency-contract": {
+      "layer": "unit",
+      "file": "tests/clinical-source-dependency-contract.mjs",
+      "minPassed": 10
+    },
+    "unit/clinical-source-fetch-contract": {
+      "layer": "unit",
+      "file": "tests/clinical-source-fetch-contract.mjs",
+      "minPassed": 25
+    },
     "unit/cloudflare-staging-contract": {
       "layer": "unit",
       "file": "tests/cloudflare-staging-contract.mjs",
@@ -426,7 +536,7 @@
     "unit/data-exit-contract": {
       "layer": "unit",
       "file": "tests/data-exit-contract.mjs",
-      "minPassed": 42
+      "minPassed": 44
     },
     "unit/delegation-contract": {
       "layer": "unit",
@@ -608,6 +718,11 @@
       "file": "tests/household-contract.mjs",
       "minPassed": 12
     },
+    "unit/household-reschedule-contract": {
+      "layer": "unit",
+      "file": "tests/household-reschedule-contract.mjs",
+      "minPassed": 35
+    },
     "unit/household-visit-contract": {
       "layer": "unit",
       "file": "tests/household-visit-contract.mjs",
@@ -698,6 +813,21 @@
       "file": "tests/notification-sources-contract.mjs",
       "minPassed": 19
     },
+    "unit/offline-open-retirement-writer-contract": {
+      "layer": "unit",
+      "file": "tests/offline-open-retirement-writer-contract.mjs",
+      "minPassed": 3
+    },
+    "unit/offline-open-unsent-pruning-contract": {
+      "layer": "unit",
+      "file": "tests/offline-open-unsent-pruning-contract.mjs",
+      "minPassed": 20
+    },
+    "unit/offline-opens-contract": {
+      "layer": "unit",
+      "file": "tests/offline-opens-contract.mjs",
+      "minPassed": 64
+    },
     "unit/offline-programme-contract": {
       "layer": "unit",
       "file": "tests/offline-programme-contract.mjs",
@@ -758,15 +888,75 @@
       "file": "tests/programme-migration-contract.mjs",
       "minPassed": 32
     },
+    "unit/provider-agent-decoded-contract": {
+      "layer": "unit",
+      "file": "tests/provider-agent-decoded-contract.mjs",
+      "minPassed": 39
+    },
+    "unit/provider-agent-envelope-contract": {
+      "layer": "unit",
+      "file": "tests/provider-agent-envelope-contract.mjs",
+      "minPassed": 30
+    },
+    "unit/provider-ehr-envelope-contract": {
+      "layer": "unit",
+      "file": "tests/provider-ehr-envelope-contract.mjs",
+      "minPassed": 50
+    },
+    "unit/provider-ehr-execution-review": {
+      "layer": "unit",
+      "file": "tests/provider-ehr-execution-review.mjs",
+      "minPassed": 47
+    },
+    "unit/provider-ehr-headers-contract": {
+      "layer": "unit",
+      "file": "tests/provider-ehr-headers-contract.mjs",
+      "minPassed": 92
+    },
+    "unit/provider-ehr-headers-independent-contract": {
+      "layer": "unit",
+      "file": "tests/provider-ehr-headers-independent-contract.mjs",
+      "minPassed": 81
+    },
+    "unit/provider-frontline-decoded-contract": {
+      "layer": "unit",
+      "file": "tests/provider-frontline-decoded-contract.mjs",
+      "minPassed": 29
+    },
+    "unit/provider-frontline-envelope-contract": {
+      "layer": "unit",
+      "file": "tests/provider-frontline-envelope-contract.mjs",
+      "minPassed": 21
+    },
     "unit/provider-history-contract": {
       "layer": "unit",
       "file": "tests/provider-history-contract.mjs",
       "minPassed": 13
     },
+    "unit/provider-image-envelope-contract": {
+      "layer": "unit",
+      "file": "tests/provider-image-envelope-contract.mjs",
+      "minPassed": 12
+    },
+    "unit/provider-mis-envelope-contract": {
+      "layer": "unit",
+      "file": "tests/provider-mis-envelope-contract.mjs",
+      "minPassed": 41
+    },
+    "unit/provider-mis-execution-review": {
+      "layer": "unit",
+      "file": "tests/provider-mis-execution-review.mjs",
+      "minPassed": 45
+    },
     "unit/provider-sandbox-contract": {
       "layer": "unit",
       "file": "tests/provider-sandbox-contract.mjs",
       "minPassed": 75
+    },
+    "unit/provider-specialised-envelope-contract": {
+      "layer": "unit",
+      "file": "tests/provider-specialised-envelope-contract.mjs",
+      "minPassed": 41
     },
     "unit/purpose-scope-contract": {
       "layer": "unit",
@@ -832,6 +1022,11 @@
       "layer": "unit",
       "file": "tests/report-export-contract.mjs",
       "minPassed": 7
+    },
+    "unit/request-body-transport-contract": {
+      "layer": "unit",
+      "file": "tests/request-body-transport-contract.mjs",
+      "minPassed": 8
     },
     "unit/retention-contract": {
       "layer": "unit",
@@ -963,10 +1158,20 @@
       "file": "tests/work-burden-contract.mjs",
       "minPassed": 19
     },
+    "unit/work-burden-field-capture-contract": {
+      "layer": "unit",
+      "file": "tests/work-burden-field-capture-contract.mjs",
+      "minPassed": 10
+    },
     "unit/work-burden-field-contract": {
       "layer": "unit",
       "file": "tests/work-burden-field-contract.mjs",
       "minPassed": 20
+    },
+    "unit/work-burden-field-writer-contract": {
+      "layer": "unit",
+      "file": "tests/work-burden-field-writer-contract.mjs",
+      "minPassed": 4
     },
     "unit/work-burden-ledger-contract": {
       "layer": "unit",
@@ -977,6 +1182,11 @@
       "layer": "unit",
       "file": "tests/work-burden-policy-checkpoint.mjs",
       "minPassed": 13
+    },
+    "unit/work-burden-session-migration-contract": {
+      "layer": "unit",
+      "file": "tests/work-burden-session-migration-contract.mjs",
+      "minPassed": 8
     },
     "unit/worker-activity-contract": {
       "layer": "unit",

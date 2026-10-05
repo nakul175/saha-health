@@ -144,7 +144,7 @@ try {
   check(() => { const t = src('lib/saha/media-server.ts'); before_(t.slice(t.indexOf('export async function mediaFile')), "action:'viewMedia'", 'return new Response(', 'media'); });
   check(() => { const t = src('lib/saha/abdm-server.ts'); before_(t, "action:'viewExternalRecords'", 'return json(view)', 'ABDM received records'); });
   check(() => { const t = src('app/api/fhir/[id]/route.ts'); before_(t, "action:'downloadFhir'", 'return new Response(', 'FHIR download'); });
-  check(() => { const t = src('lib/saha/server.ts'); before_(t.slice(t.indexOf('export async function externalCall')), 'if(beforeSend)await beforeSend();', 'fetch(i.endpoint', 'external AI request'); assert.match(t, /externalCall\(i,p,key,\(\)=>externalRequestAudit\(state,u,m,c,i\)\)/); });
+  check(() => { const t = src('lib/saha/server.ts'); before_(t.slice(t.indexOf('export async function externalCall')), 'if(beforeSend)await beforeSend();', 'fetch(i.endpoint', 'external AI request'); assert.match(t, /externalCall\(i,p,key,\(\)=>externalRequestAudit\(state,u,m,c,i,sensitive\),sensitive\)/); });
   check(() => { const t = src('lib/saha/ehr-execution.ts'), r = t.slice(t.indexOf("if(c.type==='retrieveEhrDocument')")); before_(r, "action:'externalRequest'", 'await transport(', 'EHR retrieval'); });
 
   // 9. Measured cost on a read (in-memory SQLite, so a lower bound for D1): average milliseconds per audited read.

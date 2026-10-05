@@ -1,0 +1,611 @@
+{
+  "passed": 0,
+  "failed": 1,
+  "actualSQLite": true,
+  "migrations": 27,
+  "tables": 47,
+  "columns": 366,
+  "missingDeclarations": {
+    "accounts": [
+      "account_code",
+      "active_org_id",
+      "created_at",
+      "display_name",
+      "email",
+      "user_id"
+    ],
+    "organisations": [
+      "created_at",
+      "id",
+      "last_command",
+      "name",
+      "patient_revision",
+      "revision"
+    ],
+    "teams": [
+      "created_at",
+      "id",
+      "name",
+      "org_id"
+    ],
+    "operations": [
+      "data",
+      "org_id"
+    ],
+    "request_metrics": [
+      "bucket",
+      "count",
+      "max_ms",
+      "org_id",
+      "route",
+      "status",
+      "total_ms"
+    ],
+    "expansions": [
+      "data",
+      "org_id"
+    ],
+    "outreach": [
+      "data",
+      "org_id"
+    ],
+    "governance": [
+      "data",
+      "org_id"
+    ],
+    "households": [
+      "data",
+      "id",
+      "org_id",
+      "team_id",
+      "version"
+    ],
+    "media": [
+      "created_at",
+      "data",
+      "deleted_at",
+      "id",
+      "mime",
+      "org_id",
+      "person_id",
+      "purpose",
+      "sha256",
+      "size",
+      "visit_id"
+    ],
+    "abha_review_reservations": [
+      "at",
+      "attempt_hash",
+      "org_id",
+      "payload_hash",
+      "probe_hash",
+      "review_event_id",
+      "user_id"
+    ]
+  },
+  "extraDeclarations": {
+    "workspaces": [
+      "account_code",
+      "active_org_id",
+      "created_at",
+      "display_name",
+      "email",
+      "id",
+      "last_command",
+      "name",
+      "org_id",
+      "patient_revision",
+      "user_id"
+    ],
+    "legacy_migrations": [
+      "bucket",
+      "count",
+      "data",
+      "max_ms",
+      "route",
+      "status",
+      "total_ms"
+    ],
+    "pilot": [
+      "id",
+      "team_id",
+      "version"
+    ],
+    "retention": [
+      "created_at",
+      "deleted_at",
+      "id",
+      "mime",
+      "person_id",
+      "purpose",
+      "sha256",
+      "size",
+      "visit_id"
+    ],
+    "scheduled_cursor": [
+      "at",
+      "attempt_hash",
+      "org_id",
+      "payload_hash",
+      "probe_hash",
+      "review_event_id",
+      "user_id"
+    ]
+  },
+  "undeclaredTables": [
+    "abha_review_reservations",
+    "accounts",
+    "expansions",
+    "governance",
+    "households",
+    "media",
+    "operations",
+    "organisations",
+    "outreach",
+    "request_metrics",
+    "teams"
+  ],
+  "sourceOnlyTables": [],
+  "tableColumns": {
+    "workspaces": [
+      "owner_id",
+      "revision",
+      "state",
+      "updated_at"
+    ],
+    "accounts": [
+      "user_id",
+      "account_code",
+      "display_name",
+      "email",
+      "active_org_id",
+      "created_at"
+    ],
+    "ai_results": [
+      "org_id",
+      "id",
+      "visit_id",
+      "data"
+    ],
+    "audit_events": [
+      "org_id",
+      "id",
+      "person_id",
+      "actor_id",
+      "actor_name",
+      "role",
+      "action",
+      "subject",
+      "detail",
+      "at",
+      "seq",
+      "prev_hash",
+      "hash"
+    ],
+    "command_receipts": [
+      "actor_id",
+      "key",
+      "org_id",
+      "hash",
+      "result",
+      "person_id",
+      "created_at",
+      "command_type",
+      "mutation_subject_id",
+      "mutation_event_id",
+      "mutation_context"
+    ],
+    "integrations": [
+      "org_id",
+      "id",
+      "version",
+      "kind",
+      "status",
+      "data"
+    ],
+    "invitations": [
+      "id",
+      "org_id",
+      "token_hash",
+      "account_code",
+      "label",
+      "role",
+      "team_ids",
+      "status",
+      "expires_at",
+      "created_by",
+      "created_at",
+      "accepted_by"
+    ],
+    "legacy_migrations": [
+      "owner_id",
+      "org_id",
+      "source_revision",
+      "source_hash",
+      "counts",
+      "migrated_at"
+    ],
+    "memberships": [
+      "org_id",
+      "user_id",
+      "role",
+      "is_owner",
+      "status",
+      "version",
+      "created_at"
+    ],
+    "organisations": [
+      "id",
+      "name",
+      "revision",
+      "last_command",
+      "created_at",
+      "patient_revision"
+    ],
+    "patients": [
+      "org_id",
+      "id",
+      "version",
+      "name",
+      "team_id",
+      "assigned_to",
+      "data",
+      "rev"
+    ],
+    "plans": [
+      "org_id",
+      "id",
+      "visit_id",
+      "state",
+      "data"
+    ],
+    "record_revisions": [
+      "id",
+      "org_id",
+      "person_id",
+      "entity_type",
+      "entity_id",
+      "version",
+      "actor_id",
+      "actor_name",
+      "action",
+      "reason",
+      "data",
+      "changes",
+      "created_at"
+    ],
+    "referrals": [
+      "org_id",
+      "id",
+      "person_id",
+      "data"
+    ],
+    "submissions": [
+      "org_id",
+      "id",
+      "visit_id",
+      "person_id",
+      "state",
+      "data"
+    ],
+    "team_members": [
+      "org_id",
+      "team_id",
+      "user_id"
+    ],
+    "teams": [
+      "org_id",
+      "id",
+      "name",
+      "created_at"
+    ],
+    "visits": [
+      "org_id",
+      "id",
+      "person_id",
+      "version",
+      "record_version",
+      "state",
+      "data"
+    ],
+    "operations": [
+      "org_id",
+      "data"
+    ],
+    "request_metrics": [
+      "org_id",
+      "bucket",
+      "route",
+      "status",
+      "count",
+      "total_ms",
+      "max_ms"
+    ],
+    "pilot": [
+      "org_id",
+      "data"
+    ],
+    "expansions": [
+      "org_id",
+      "data"
+    ],
+    "outreach": [
+      "org_id",
+      "data"
+    ],
+    "governance": [
+      "org_id",
+      "data"
+    ],
+    "households": [
+      "org_id",
+      "id",
+      "version",
+      "team_id",
+      "data"
+    ],
+    "caseload_transfers": [
+      "org_id",
+      "id",
+      "version",
+      "team_id",
+      "state",
+      "created_at",
+      "data"
+    ],
+    "identity_cases": [
+      "org_id",
+      "id",
+      "version",
+      "state",
+      "survivor_id",
+      "duplicate_id",
+      "created_at",
+      "data"
+    ],
+    "rights_requests": [
+      "org_id",
+      "id",
+      "version",
+      "state",
+      "person_id",
+      "due_at",
+      "created_at",
+      "data"
+    ],
+    "retention": [
+      "org_id",
+      "data"
+    ],
+    "media": [
+      "org_id",
+      "id",
+      "person_id",
+      "visit_id",
+      "mime",
+      "size",
+      "sha256",
+      "purpose",
+      "created_at",
+      "deleted_at",
+      "data"
+    ],
+    "alert_occurrences": [
+      "org_id",
+      "id",
+      "alert_id",
+      "scope_key",
+      "owner_role",
+      "severity",
+      "title",
+      "opened_at",
+      "closed_at",
+      "escalated_at",
+      "escalated_to",
+      "escalation_reason",
+      "escalation_recipients"
+    ],
+    "alert_notifications": [
+      "org_id",
+      "id",
+      "occurrence_id",
+      "user_id",
+      "level",
+      "alert_id",
+      "scope_key",
+      "owner_role",
+      "severity",
+      "title",
+      "count",
+      "detail",
+      "delivered_at",
+      "read_at",
+      "cleared_at",
+      "cleared_reason"
+    ],
+    "notification_messages": [
+      "org_id",
+      "id",
+      "occurrence_id",
+      "alert_id",
+      "scope_key",
+      "tier",
+      "rung",
+      "user_id",
+      "channel",
+      "reason",
+      "severity",
+      "title",
+      "count",
+      "subject",
+      "body",
+      "link",
+      "address",
+      "status",
+      "receipt",
+      "due_at",
+      "sent_at",
+      "audit_id",
+      "config_version"
+    ],
+    "scheduled_cursor": [
+      "job",
+      "last_org",
+      "updated_at"
+    ],
+    "abha_review_reservations": [
+      "org_id",
+      "user_id",
+      "attempt_hash",
+      "payload_hash",
+      "probe_hash",
+      "at",
+      "review_event_id"
+    ],
+    "availability_samples": [
+      "org_id",
+      "slot",
+      "source",
+      "config_version",
+      "core",
+      "workflow",
+      "latency_ms",
+      "receipt_hash",
+      "recorded_at"
+    ],
+    "device_work_grants": [
+      "org_id",
+      "actor_id",
+      "lease_id",
+      "package_hash",
+      "person_id",
+      "visit_id",
+      "member_version",
+      "consent_version",
+      "identity_hash",
+      "issued_at",
+      "original_role",
+      "visit_version",
+      "expires_at"
+    ],
+    "device_work_events": [
+      "org_id",
+      "actor_id",
+      "id",
+      "kind",
+      "lease_id",
+      "package_hash",
+      "input_hash",
+      "data",
+      "at"
+    ],
+    "work_support_events": [
+      "org_id",
+      "actor_id",
+      "id",
+      "request_id",
+      "person_id",
+      "visit_id",
+      "kind",
+      "category",
+      "requester_id",
+      "helper_id",
+      "sequence",
+      "input_hash",
+      "member_version",
+      "at"
+    ],
+    "device_registration_grants": [
+      "org_id",
+      "actor_id",
+      "registration_id",
+      "person_id",
+      "receipt_key",
+      "body_hash",
+      "member_version",
+      "consent_version",
+      "identity_hash",
+      "original_role",
+      "person_version",
+      "issued_at",
+      "legacy"
+    ],
+    "device_registration_receipts": [
+      "org_id",
+      "actor_id",
+      "receipt_key",
+      "registration_id",
+      "body_hash",
+      "person_id"
+    ],
+    "device_match_copies": [
+      "org_id",
+      "actor_id",
+      "id",
+      "member_version",
+      "query_hash",
+      "original_role",
+      "candidate_versions",
+      "issued_at"
+    ],
+    "offline_open_reports": [
+      "org_id",
+      "actor_id",
+      "id",
+      "input_hash",
+      "kind",
+      "reference",
+      "surface",
+      "presentation",
+      "count",
+      "claimed_at",
+      "received_at",
+      "provenance"
+    ],
+    "offline_open_subjects": [
+      "org_id",
+      "actor_id",
+      "report_id",
+      "person_id",
+      "visit_id",
+      "provenance"
+    ],
+    "device_registration_wire_receipts": [
+      "org_id",
+      "actor_id",
+      "receipt_key",
+      "wire_hash",
+      "registration_id",
+      "person_id",
+      "body_hash"
+    ],
+    "clinical_source_documents": [
+      "org_id",
+      "id",
+      "entry_id",
+      "manifest_hash",
+      "reference",
+      "content",
+      "created_by",
+      "created_at"
+    ],
+    "work_burden_samples": [
+      "org_id",
+      "actor_id",
+      "id",
+      "person_id",
+      "visit_id",
+      "receipt_key",
+      "session_id",
+      "stage",
+      "phase",
+      "active_seconds",
+      "complete",
+      "input_hash",
+      "member_version",
+      "provenance",
+      "context",
+      "at"
+    ]
+  }
+}

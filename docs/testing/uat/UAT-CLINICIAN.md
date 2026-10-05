@@ -178,11 +178,11 @@ Closed extraction/summary/review task catalogue and explicit unavailable states.
 
 **Expected result** (catalogue): A cross-patient prompt cannot retrieve another person's information without a separately authorised task and permission check.
 
-**Known gaps** (assessment, remaining work for BR-AG-02): Comprehensive sensitive-data minimisation, representative leak testing and purpose-specific review.
+**Known gaps** (assessment, remaining work for BR-AG-02): Representative sensitive-data leak evaluation across real profiles and purpose-specific review; provider agreements/retention and wider unmapped destination contracts remain external or incomplete.
 
 <details><summary>What the build does today (assessment, current state of BR-AG-02)</summary>
 
-Patient/task-scoped input, exact-source approval and rejection of common identifiers in external narratives.
+Patient/task-scoped input, exact-source approval and rejection of common identifiers in external narratives. Destination-specific structural/path allowlists and exact approved digest/mapping checks repeat at immediate transport for AI, frontline, image, MIS, EHR/ABDM, aggregate and mock enrolment. Decoded-source Unicode/contact guards and unrelated known narrative checks preserve approved body/hash rather than silently rewriting it.
 
 </details>
 
@@ -382,11 +382,11 @@ Conflicting extraction candidates are withheld; original results remain separate
 
 **Expected result** (catalogue): Reviewers can trace each consequential recommendation to its underlying rule or approved output; unsupported answers are withheld or escalated.
 
-**Known gaps** (assessment, remaining work for BR-AG-09): Verified clinical source content and consequential recommendation acceptance on representative scenarios.
+**Known gaps** (assessment, remaining work for BR-AG-09): Verified/licensed clinical source content and consequential recommendation acceptance on representative scenarios.
 
 <details><summary>What the build does today (assessment, current state of BR-AG-09)</summary>
 
-Exact field evidence plus saved protocol findings with source edition/link and service-version attribution.
+Exact field evidence plus saved protocol findings with source edition/link and service-version attribution. Protocols can retain exact acquired document digest alongside edition/link. All acquired dependencies are checked for integrity, source scope and expiry before review/activation; normal expiry and deliberate-corruption defensive tests are distinct.
 
 </details>
 
@@ -552,11 +552,11 @@ Original outputs, model/provider, versioned source and reasoned human decisions 
 
 **Expected result** (catalogue): Superseded or unapproved guidance cannot be offered as current advice, and each displayed recommendation links to its source.
 
-**Known gaps** (assessment, remaining work for BR-CLIN-01): Approved source acquisition/content verification, document retrieval and clinical authorisation.
+**Known gaps** (assessment, remaining work for BR-CLIN-01): Licensed approved clinical content acquisition, publisher/owner verification, clinical authorisation and representative recommendation acceptance; synthetic document transport does not approve content.
 
 <details><summary>What the build does today (assessment, current state of BR-CLIN-01)</summary>
 
-Immutable source metadata retains publisher/edition/link, applicability, owner, effective dates and independent review; protocols cite it.
+Immutable source metadata retains publisher/edition/link, applicability, owner, effective dates and independent review; protocols cite it. Immutable acquired source bytes now support bounded UTF-8/PDF upload, exact digest-pinned scoped download and default-off allowlisted HTTPS retrieval with size/expiry/redirect limits. Independent clinician review and activation remain separate; acquired dependencies must retain exact integrity/scope/expiry before activation.
 
 </details>
 

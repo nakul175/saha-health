@@ -4,20 +4,25 @@
 
 The sponsor requested an installable Android app for ASHA workers with the same journey demonstrable in the browser, and parallel delivery of the remaining buildable scope. Four active agent slots run ten workstreams in successive batches. This supersedes the earlier Android deferral. Source batches are integrated on `app-first/integration-20261005` ([draft PR #161](https://github.com/nakul175/saha-health/pull/161)); main is not merged without sponsor approval. Clinical, external and field acceptance remain pending.
 
+Latest checkpoint: offline access, field timing/continuation, governed source upload/retrieval, provider envelopes, atomic rescheduling and bounded request disposal are integrated locally. Final176-unit regression passes9,500, all51 combined workflows1,247, and fresh final API/database4,758 plus encrypted restore21 pass4,779. Initial fixture/inventory/browser-readiness failures and a local port-conflict attempt are retained separately. Final access/identity/UAT passes184 with one documented local smoke skip; documentation publication remains. Published e89cf6b7 documentation passed; engineering failed its runner fixture, repaired locally. Mapping lifecycle and contact imports are independently reviewed next; indicator-release governance is isolated author work. Historical rows below remain dated delivery evidence.
+
 | Batch | Current delivery and gate |
 | --- | --- |
 | App UI | Authenticated phone presentation, guarded Back and shared-vault offline prepared visits integrated locally; independent offline review in progress |
 | Atomic ABHA review | Local D1 concurrency checks passed; 4,758 combined HTTP regression checks passed before R27/R77 integration |
 | Android | Buildable project and configuration checks; APK/lint pending SDK licence authorisation |
-| Baseline/performance | Existing regressions corrected; 8,101 memory-probe requests succeeded, O-2 remains open |
+| Baseline/performance | Current176-unit9500 passes after preserved fixture/catalogue repairs; reduced database-only native controls reproduce growth, O-2 remains open |
 | R27 / R77 | Integrated locally with focused Worker/D1 evidence; independent review fixes integrated; 105 combined workflow/browser checks pass |
 | A05 / command audit | Signed prepared programme capture, actual command-response reads and authority envelopes validated/pushed; wider audit/clinical acceptance remains |
 | A06 prepared-copy privacy | Local integration, 149-unit/8,684 regression and fail-closed repair checks pass (63 author/49 independent, overlapping); permanent-purge scope journeys pass15 and independent review; full23-workflow/525 and smoke/security/UAT183 checks pass; documentation/publication underway. Registration-copy cleanup is active |
 | Registration recovery | Original-account encrypted registration/candidate cleanup and0024 observed wire receipt mappings integrated locally; root actual46 recovery checks pass; full153-unit/8,767, final32-workflow/709 and smoke/security/UAT184 gates pass; reviewed support races repaired; source2dc0a6f8 published, documentation digest follow-up active |
-| B26 linked work | Account-bound encrypted counter retry, protected online completed-visit stage coverage and internal helper workflow integrated locally; root14 contracts/19HTTP/11phone pass; authorized support queue repair passes11 and independent review found fresh-helper/workflow races, repaired with23 checks; final smoke/security/UAT184 passes; field timing/continuation and lifecycle hooks pass isolated phone review and await integration, observed pilot/external support acceptance pending |
-| B04 offline access | Both-surface durable encrypted material-open audits and historical-upload ordering repaired in isolation; combined integration and current-source independent review remain |
-| B19 clinical sources | Digest-pinned scoped upload/viewing plus default-off approved-origin retrieval implemented in isolation,41 actual retrieval and9 phone checks pass; current-source independent review and combined integration remain |
+| B26 linked work | Account-bound encrypted counter retry, protected online completed-visit stage coverage and internal helper workflow integrated locally; root14 contracts/19HTTP/11phone pass; authorized support queue repair passes11 and independent review found fresh-helper/workflow races, repaired with23 checks; final smoke/security/UAT184 passes; field timing/continuation and lifecycle hooks are independently reviewed and integrated, with combined workflow checks passing, observed pilot/external support acceptance pending |
+| B04 offline access | Original-account-bound durable encrypted material opens and safe abandoned-link retirement independently reviewed/integrated; root combined51-workflow/1,247 gate passes; publication pending; external anchors and wider audit clauses remain |
+| B19 clinical sources | Immutable digest-pinned scoped upload/viewing and default-off approved-origin retrieval integrated with dependency integrity repair; root current-source HTTP/phone checks pass, full51-workflow/1,247 gate passes; publication pending; licensed clinical content remains external |
 
+| B18 provider envelopes | AI/frontline/image/MIS/EHR/ABDM/aggregate/mock-enrolment path/digest/value guards integrated; independent header81/execution47 and root full-unit gates pass; representative real profiles/agreements remain |
+| B13 atomic rescheduling | Original-planner history-preserving atomic replacement independently reviewed; root author10/independent26 HTTP-phone checks pass; reminders/outreach/completion and pack compatibility remain |
+| Next software batch | Mapping lifecycle, contact imports and reviewed indicator definitions are isolated author/review work; not yet included in the published or combined current stack |
 
 ## Development-completion order (sponsor decision, 30 September 2026)
 

@@ -1,0 +1,265 @@
+{
+  "generatedAt": "2026-10-05T07:17:04.707Z",
+  "startedAt": "2026-10-05T07:16:51.982Z",
+  "command": "node scripts/test.mjs unit integration --only unit/field-shell,unit/test-runner-contract,unit/provider-agent-envelope-contract,unit/provider-agent-decoded-contract,unit/provider-frontline-envelope-contract,unit/provider-frontline-decoded-contract,unit/provider-image-envelope-contract,integration/offline-opens-auth-first-http --fast --guard --report tests/reports/offline-provider-repairs-focused.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 7,
+      "passed": 170,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11611,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 924,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 8,
+    "passed": 183,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 12725
+  },
+  "suites": [
+    {
+      "id": "unit/field-shell",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-shell.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 45,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-shell-result.json"
+      ],
+      "requirementsCited": 8,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-shell.log"
+    },
+    {
+      "id": "unit/provider-agent-decoded-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-agent-decoded-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 958,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-agent-decoded-contract.log"
+    },
+    {
+      "id": "unit/provider-agent-envelope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-agent-envelope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 969,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-agent-envelope-contract.log"
+    },
+    {
+      "id": "unit/provider-frontline-decoded-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-frontline-decoded-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 408,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-frontline-decoded-contract.log"
+    },
+    {
+      "id": "unit/provider-frontline-envelope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-frontline-envelope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 415,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-frontline-envelope-contract.log"
+    },
+    {
+      "id": "unit/provider-image-envelope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-image-envelope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 455,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-image-envelope-contract.log"
+    },
+    {
+      "id": "unit/test-runner-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/test-runner-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8361,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/test-runner-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__test-runner-contract.log"
+    },
+    {
+      "id": "integration/offline-opens-auth-first-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-opens-auth-first-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 924,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-opens-auth-first-http.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": [
+      "unit/provider-agent-decoded-contract",
+      "unit/provider-agent-envelope-contract",
+      "unit/provider-frontline-decoded-contract",
+      "unit/provider-frontline-envelope-contract",
+      "unit/provider-image-envelope-contract",
+      "integration/offline-opens-auth-first-http"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/field-shell-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 167,
+        "components": 0,
+        "suitesCitingNoRequirement": 49,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 46,
+        "components": 84,
+        "suitesCitingNoRequirement": 17,
+        "requirementsCited": 122
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 18,
+        "components": 0,
+        "suitesCitingNoRequirement": 14,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 15,
+    "suites": 247,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 156,
+    "suitesCitingNoRequirement": 84,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 156
+  }
+}

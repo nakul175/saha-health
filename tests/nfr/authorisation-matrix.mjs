@@ -1,3 +1,4 @@
+import {acquireSyntheticSource} from '../lib/clinical-source-fixture.mjs';
 import assert from 'node:assert/strict';
 // Slice 11d: authorisation matrix (non-functional: security). One organisation with an owner, an admin, a supervisor, two ASHAs (each
 // assigned different patients), a clinician and a stranger with their own organisation. Every GET route in docs/current/HTTP-ROUTES.csv is
@@ -33,6 +34,7 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/clinical-sources': w => [{q:w.sourceQuery}],
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
   '/api/rights': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/work-burden/support': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
@@ -52,6 +54,7 @@ const worker = await startWorker({ port: PORT, name: 'nfr-authorisation' });
 let world;
 try {
   world = await buildWorld(worker.base);
+  world.sourceQuery=await acquireSyntheticSource(world.api,world.who.owner,world.org,'role-control');
   const { api, who, org } = world;
   console.log(`world built in ${Math.round(performance.now() - t0)} ms (7 roles, 3 patients, 2 confirmed visits, 1 draft visit with media)`);
   const as = l => (l === 'anonymous' ? null : who[l]);

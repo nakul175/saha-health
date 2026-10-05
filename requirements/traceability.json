@@ -190,8 +190,8 @@
       "sourceTextLine": 155,
       "implementation": "partial",
       "target": "R14",
-      "current": "Server drafts, local encrypted drafts and command replay support restart recovery. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Independent A02 review fixed actual withdrawn-assignment disclosure: connected unlock and reconnect recheck every current prepared patient in its original organisation; positive refusal/login redirect locks and redacts, while unreachable transport retains only bounded signed offline access.",
-      "remaining": "Physical-device crash, incoming-call, eviction and network-loss acceptance.",
+      "current": "Server drafts, local encrypted drafts and command replay support restart recovery. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Independent A02 review fixed actual withdrawn-assignment disclosure: connected unlock and reconnect recheck every current prepared patient in its original organisation; positive refusal/login redirect locks and redacts, while unreachable transport retains only bounded signed offline access. Prepared and registration copy recovery now retains originating-account encrypted proof and exact observed receipt variants without blind clinical resend. Shared field hooks preserve latest-book receipt/tombstone state under queued writes and account transitions.",
+      "remaining": "Physical-device crash, incoming-call, eviction and network-loss acceptance; broader offline caseload and native Android qualification remain.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "app/workspace.tsx",
@@ -214,7 +214,11 @@
         "tests/app-offline-scope-browser.mjs",
         "tests/app-offline-scope-contract.mjs",
         "tests/app-sw-review-contract.mjs",
-        "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+        "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md",
+        "docs/current/OFFLINE-OPEN-UNSENT-RETIREMENT.md",
+        "docs/current/WORK-BURDEN-FIELD-CONTINUATION.md",
+        "tests/work-burden-field-identity-review.mjs",
+        "tests/offline-open-account-binding-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -963,8 +967,8 @@
       "sourceTextLine": 231,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression. B26 adds owner-enabled common-fact capture-session active-time bands with monotonic foreground/idle exclusion, fixed self-reported help counts, and governed count-only weekly reporting. Saved clinical commands are independent of measurement failures. This is sampled session time, not comparable completed-visit total time or observed savings. Protected saved-mutation provenance now links online capture/correction/manual reconciliation stages and confirmed-visit totals, pinned programme mix and explicit incomplete coverage. Independent counter bands are excluded from comparable totals; all seconds remain client-reported.",
-      "remaining": "Encrypted field timing and field-to-online continuation are actively being completed; baseline comparability and validation against observed field practice remain. Real pilot time savings are unproven.",
+      "current": "Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression. B26 adds owner-enabled common-fact capture-session active-time bands with monotonic foreground/idle exclusion, fixed self-reported help counts, and governed count-only weekly reporting. Saved clinical commands are independent of measurement failures. This is sampled session time, not comparable completed-visit total time or observed savings. Protected saved-mutation provenance now links online capture/correction/manual reconciliation stages and confirmed-visit totals, pinned programme mix and explicit incomplete coverage. Independent counter bands are excluded from comparable totals; all seconds remain client-reported. Opt-in field timing excludes background/idle intervals and uses serialized latest-book encrypted writes. Exact accepted mutation receipts bind field segments; current online continuation closes saved origins without fabricating unknown history. Migration0026 preserves populated rows and audit evidence while allowing multiple phase/session origins.",
+      "remaining": "Baseline comparability, real transport recovery and external support workflows beyond the bounded internal helper implementation, validation against observed field practice and real pilot time savings remain unproven.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md",
@@ -984,7 +988,12 @@
         "app/work-burden-linked.ts",
         "tests/work-burden-ledger-contract.mjs",
         "tests/work-burden-ledger-http.mjs",
-        "tests/work-burden-ledger-browser.mjs"
+        "tests/work-burden-ledger-browser.mjs",
+        "docs/current/WORK-BURDEN-FIELD-CONTINUATION.md",
+        "tests/evidence/app-first-offline-field-source-integration/new-workflows-initial.json",
+        "tests/work-burden-field-hooks-browser.mjs",
+        "tests/work-burden-field-continuation-http.mjs",
+        "tests/work-burden-continuation-adversarial-review.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1094,8 +1103,8 @@
       "sourceTextLine": 248,
       "implementation": "partial",
       "target": "R14",
-      "current": "Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview. Slice 10f adds a household visit plan (each in-scope member's open follow-ups, referrals and routine visit in one place; members outside the worker's scope are counted, never named) and household visit slots (householdVisitSchedule, householdVisitCancel) that cover chosen items of several members without changing any due date, owner or completion condition: an item stays open until its own record is resolved, items due before the slot date are shown as late, one item sits in one planned slot, and a slot holds only references, a date and a window (no free text). A confirmed visit's programme episodes can raise referral needs (createProgrammeReferrals): the same need, facility, person and visit become one referral that links every asking pack as a source and records which packs asked; a different need or facility stays a separate referral.",
-      "remaining": "Approved privacy and timing rules (the late flag, the one-slot-per-item rule and the need catalogue are local defaults); packs do not declare referral needs or compatibility, so the worker names the need and the server matches it; referrals created before slice 10f carry no need and are never merged; plans exist only for people in a household; rescheduling a slot, reminders and outreach for a slot, and completing covered items from the visit are not built.",
+      "current": "Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview. Slice 10f adds a household visit plan (each in-scope member's open follow-ups, referrals and routine visit in one place; members outside the worker's scope are counted, never named) and household visit slots (householdVisitSchedule, householdVisitCancel) that cover chosen items of several members without changing any due date, owner or completion condition: an item stays open until its own record is resolved, items due before the slot date are shown as late, one item sits in one planned slot, and a slot holds only references, a date and a window (no free text). A confirmed visit's programme episodes can raise referral needs (createProgrammeReferrals): the same need, facility, person and visit become one referral that links every asking pack as a source and records which packs asked; a different need or facility stays a separate referral. Atomic original-planner rescheduling now preserves the prior slot and creates a linked replacement in one version-bound commit, checks every covered current person and purpose, and preserves due dates/owners/completion. Independent real Worker/phone review includes scope changes, role demotion, receipt/audit rollback, replay and slot-capacity checks.",
+      "remaining": "Approved privacy and timing rules (the late flag, the one-slot-per-item rule and the need catalogue are local defaults); packs do not declare referral needs or compatibility, so the worker names the need and the server matches it; referrals created before slice 10f carry no need and are never merged; plans exist only for people in a household; reminders/outreach for a slot and completing covered items from the visit remain separate software; physical/clinical timing acceptance is pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/programmes.ts",
@@ -1117,7 +1126,11 @@
         "tests/household-contract.mjs",
         "tests/household-smoke.mjs",
         "docs/current/SLICE-1-HOUSEHOLDS.md",
-        "docs/current/SLICE-10F-HOUSEHOLD-SCHEDULING.md"
+        "docs/current/SLICE-10F-HOUSEHOLD-SCHEDULING.md",
+        "tests/household-reschedule-contract.mjs",
+        "tests/household-reschedule-http.mjs",
+        "tests/household-reschedule-independent-http.mjs",
+        "docs/current/HOUSEHOLD-RESCHEDULE-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1246,8 +1259,8 @@
       "sourceTextLine": 265,
       "implementation": "partial",
       "target": "R11",
-      "current": "Patient/task-scoped input, exact-source approval and rejection of common identifiers in external narratives.",
-      "remaining": "Comprehensive sensitive-data minimisation, representative leak testing and purpose-specific review.",
+      "current": "Patient/task-scoped input, exact-source approval and rejection of common identifiers in external narratives. Destination-specific structural/path allowlists and exact approved digest/mapping checks repeat at immediate transport for AI, frontline, image, MIS, EHR/ABDM, aggregate and mock enrolment. Decoded-source Unicode/contact guards and unrelated known narrative checks preserve approved body/hash rather than silently rewriting it.",
+      "remaining": "Representative sensitive-data leak evaluation across real profiles and purpose-specific review; provider agreements/retention and wider unmapped destination contracts remain external or incomplete.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
@@ -1257,7 +1270,13 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "docs/current/APP-PROVIDER-ENVELOPES.md",
+        "docs/current/PROVIDER-ENVELOPE-DECODED-GUARDS.md",
+        "docs/current/PROVIDER-DESTINATION-INDEPENDENT-REVIEW.md",
+        "tests/provider-agent-decoded-contract.mjs",
+        "tests/provider-mis-execution-review.mjs",
+        "tests/provider-ehr-execution-review.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1438,8 +1457,8 @@
       "sourceTextLine": 286,
       "implementation": "partial",
       "target": "R11",
-      "current": "Exact field evidence plus saved protocol findings with source edition/link and service-version attribution.",
-      "remaining": "Verified clinical source content and consequential recommendation acceptance on representative scenarios.",
+      "current": "Exact field evidence plus saved protocol findings with source edition/link and service-version attribution. Protocols can retain exact acquired document digest alongside edition/link. All acquired dependencies are checked for integrity, source scope and expiry before review/activation; normal expiry and deliberate-corruption defensive tests are distinct.",
+      "remaining": "Verified/licensed clinical source content and consequential recommendation acceptance on representative scenarios.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent.ts",
@@ -1449,7 +1468,10 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "docs/current/CLINICAL-SOURCE-INDEPENDENT-REVIEW.md",
+        "docs/current/CLINICAL-SOURCE-DEPENDENCY-VALIDATION.md",
+        "tests/clinical-source-dependency-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1786,8 +1808,8 @@
       "sourceTextLine": 321,
       "implementation": "partial",
       "target": "R11",
-      "current": "Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference. Independent anaemia demo: cropped RGB only, no identity/notes/EXIF, no stored image pixels in either request ledger. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval.",
-      "remaining": "Complete minimisation and enforceable provider retention, training, subprocessor and region compliance.",
+      "current": "Structured identity excluded; common free-text identifiers rejected; manifest retains region, retention, training prohibition and agreement reference. Independent anaemia demo: cropped RGB only, no identity/notes/EXIF, no stored image pixels in either request ledger. Eight frontline demo providers: independent apps/stores, speech or printed-text OCR, confirmed synthetic input, checkpointed signed receipts and staff review; no clinical deployment approval. Mapped AI/frontline narratives are checked after decoding; normalization is used only for comparison, retaining the exact approved wire body/hash. Cropped image envelopes require exact RGB dimensions/digest and exclude identity/EXIF. Independent destination/header review retains the original defensive findings and verifies repaired transport boundaries.",
+      "remaining": "Complete representative minimisation assessment and enforceable provider retention, training, subprocessor and region compliance; no clinical or real-provider acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/agent-provider.ts",
@@ -1805,7 +1827,11 @@
         "app/anaemia-panel.tsx",
         "tests/anaemia-provider-contract.mjs",
         "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md",
+        "docs/current/APP-PROVIDER-ENVELOPES.md",
+        "docs/current/PROVIDER-ENVELOPE-INDEPENDENT-REVIEW.md",
+        "tests/provider-frontline-decoded-contract.mjs",
+        "tests/provider-image-envelope-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -1971,11 +1997,17 @@
       "sourceTextLine": 340,
       "implementation": "partial",
       "target": "R11",
-      "current": "Immutable source metadata retains publisher/edition/link, applicability, owner, effective dates and independent review; protocols cite it.",
-      "remaining": "Approved source acquisition/content verification, document retrieval and clinical authorisation.",
+      "current": "Immutable source metadata retains publisher/edition/link, applicability, owner, effective dates and independent review; protocols cite it. Immutable acquired source bytes now support bounded UTF-8/PDF upload, exact digest-pinned scoped download and default-off allowlisted HTTPS retrieval with size/expiry/redirect limits. Independent clinician review and activation remain separate; acquired dependencies must retain exact integrity/scope/expiry before activation.",
+      "remaining": "Licensed approved clinical content acquisition, publisher/owner verification, clinical authorisation and representative recommendation acceptance; synthetic document transport does not approve content.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "docs/current/APP-CLINICAL-SOURCE-DOCUMENTS.md",
+        "docs/current/APP-CLINICAL-SOURCE-RETRIEVAL.md",
+        "docs/current/CLINICAL-SOURCE-DEPENDENCY-VALIDATION.md",
+        "tests/clinical-source-http.mjs",
+        "tests/clinical-source-retrieval-http.mjs",
+        "tests/clinical-source-dependency-http.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2330,8 +2362,8 @@
       "sourceTextLine": 390,
       "implementation": "partial",
       "target": "R12",
-      "current": "Per-destination mapped field allowlists. Slice 7e: aggregate-only programme destinations refuse every patient-level record before preparation and inside the delivery checkpoint. Slice 7g: an aggregate-only demonstration destination receives approved aggregate reports only: suppressed cells from named indicator versions, a definition and version manifest, row count and SHA-256; a payload minimisation check (no patient-level field or identifier value, no released cell from 1 to 4) runs before preparing, before the checkpoint and inside it, and its result is recorded on the report; a failed check closes the report as not sent. Slice 6ab: aggregate report screening also uses the slice 6aa population check (preparation, pre-send recomputation and checkpoint), and a ledger write D1 refuses closes the report as not sent. Slice 6ad (ninth review): aggregate report reads return the manifest and withheld blocks but never the cells (figures go to the destination only); payloads are kept only while a report is open and bounded (150 kB each, 450 kB for all reports beside the 1 MB ledger); only open reports count towards the limit of 20 and unapproved or unsent reports expire after 24 hours; a late destination answer is appended as evidence; receipt lookup stays available in maintenance and the send checkpoint re-checks maintenance.",
-      "remaining": "Aggregate delivery to live HTTP destinations under a partner-agreed aggregate contract, minimisation of patient-level payloads to other destinations beyond their mapped allowlists, and live partner testing.",
+      "current": "Per-destination mapped field allowlists. Slice 7e: aggregate-only programme destinations refuse every patient-level record before preparation and inside the delivery checkpoint. Slice 7g: an aggregate-only demonstration destination receives approved aggregate reports only: suppressed cells from named indicator versions, a definition and version manifest, row count and SHA-256; a payload minimisation check (no patient-level field or identifier value, no released cell from 1 to 4) runs before preparing, before the checkpoint and inside it, and its result is recorded on the report; a failed check closes the report as not sent. Slice 6ab: aggregate report screening also uses the slice 6aa population check (preparation, pre-send recomputation and checkpoint), and a ledger write D1 refuses closes the report as not sent. Slice 6ad (ninth review): aggregate report reads return the manifest and withheld blocks but never the cells (figures go to the destination only); payloads are kept only while a report is open and bounded (150 kB each, 450 kB for all reports beside the 1 MB ledger); only open reports count towards the limit of 20 and unapproved or unsent reports expire after 24 hours; a late destination answer is appended as evidence; receipt lookup stays available in maintenance and the send checkpoint re-checks maintenance. Patient-level destination envelopes now constrain paths/fields/current mapping and exact approved digest, and repeat sensitive checks before immediate send. Aggregate malformed arrays fail closed and suppression repeats even for a rehashed stored body. Validated FHIR headers are materialised without losing conditional-create fields; server credentials are added last, caller credentials refused, uncertain lookup remains body-free.",
+      "remaining": "Live destination contracts, representative real-profile minimisation and partner testing; synthetic boundary evidence does not complete all destination-specific semantics.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
@@ -2354,7 +2386,11 @@
         "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
         "tests/ninth-review-fixes-contract.mjs",
         "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
-        "tests/aggregate-checkpoint-population-contract.mjs"
+        "tests/aggregate-checkpoint-population-contract.mjs",
+        "docs/current/PROVIDER-EHR-HEADERS-INDEPENDENT-REVIEW.md",
+        "tests/evidence/app-first-offline-field-source-integration/header-independent-final.json",
+        "tests/provider-specialised-envelope-contract.mjs",
+        "tests/provider-ehr-headers-independent-contract.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2748,8 +2784,8 @@
       "sourceTextLine": 450,
       "implementation": "partial",
       "target": "R14",
-      "current": "Serialized encrypted writes acknowledge after persistence; recovery logic tested. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache.",
-      "remaining": "Actual IndexedDB crash/restart/low-storage fault injection on supported devices.",
+      "current": "Serialized encrypted writes acknowledge after persistence; recovery logic tested. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Both app/field surfaces preserve latest encrypted book during queued timing/access updates, with originating-account checks and fail-closed CAS. Explicit abandoned unsent links can be retired without deleting accepted/unknown request evidence.",
+      "remaining": "Actual IndexedDB crash/restart/low-storage fault injection on supported physical devices and wider task recovery qualification.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
@@ -2767,7 +2803,11 @@
         "tests/app-offline-scope-browser.mjs",
         "tests/app-offline-scope-contract.mjs",
         "tests/app-sw-review-contract.mjs",
-        "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+        "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md",
+        "docs/current/OFFLINE-OPEN-ACTOR-BINDING.md",
+        "docs/current/OFFLINE-OPEN-UNSENT-RETIREMENT.md",
+        "tests/offline-open-retirement-writer-contract.mjs",
+        "tests/offline-open-unsent-pruning-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3891,8 +3931,8 @@
       "sourceTextLine": 569,
       "implementation": "partial",
       "target": "R15",
-      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events. Slice 6aa: an unpaged workspace read by a non-ASHA viewer above the paging threshold records a viewPatientRecord event for every returned record not recorded in the last 12 hours before returning it (fail closed); the import rejection report is an access-audit event that moves no revision. Slice 10h: the remaining read paths record chained events before the read returns, refused if the event cannot be written: one summarised event per workspace snapshot load (scope size, records returned, paging window; also the snapshot returned with a command and with a replayed command), an explicit record-opened event reported by the workspace (the workspace shows the record only after the server answers; client-reported), patient searches, duplicate checks and patient or work-list pages (kind and result count, never the search text or entered details) and aggregate views (indicator results, the JSON operations and care report, aggregate report history; no cell values). Every access event now carries the acting membership's role, owner flag, membership version and the delegated authority in force inside its hashed detail; the default Activity log page leaves summary events out unless asked. Current app-first integration audits care continuity, referral escalations and action plans before return with count-only fixed labels. Distinct viewActionPlan avoids suppressing full-record access audits; independent actual 507-patient fault/recovery reproduction verifies this. Response metadata batching preserves existing SQL predicates and durable access ordering; independent SQL and Worker review passes. Offline opens, delta responses and external anchor lifecycle remain. Current command deltas append atomic count-only partition and per-record read events before return. Saved receipt replay now uses a fresh scoped/paged material load; per-record audit refusal omits patient data under the existing read-window contract without repeating the saved mutation. New common-persist command events append actor pre-mutation membership/version/owner and server-recorded delegation-use metadata inside their hashed detail; direct untracked uses are explicit, and prior history remains unchanged.",
-      "remaining": "Remaining browser-local search/offline opens and uncovered material-read paths; direct operational writer authority coverage, unknown delegation tracking, external anchor signing/publication/key lifecycle and independent reconstruction; measured cost for added read rows. Common command metadata and delta/replay reads have bounded local software evidence, not complete audit acceptance.",
+      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events. Slice 6aa: an unpaged workspace read by a non-ASHA viewer above the paging threshold records a viewPatientRecord event for every returned record not recorded in the last 12 hours before returning it (fail closed); the import rejection report is an access-audit event that moves no revision. Slice 10h: the remaining read paths record chained events before the read returns, refused if the event cannot be written: one summarised event per workspace snapshot load (scope size, records returned, paging window; also the snapshot returned with a command and with a replayed command), an explicit record-opened event reported by the workspace (the workspace shows the record only after the server answers; client-reported), patient searches, duplicate checks and patient or work-list pages (kind and result count, never the search text or entered details) and aggregate views (indicator results, the JSON operations and care report, aggregate report history; no cell values). Every access event now carries the acting membership's role, owner flag, membership version and the delegated authority in force inside its hashed detail; the default Activity log page leaves summary events out unless asked. Current app-first integration audits care continuity, referral escalations and action plans before return with count-only fixed labels. Distinct viewActionPlan avoids suppressing full-record access audits; independent actual 507-patient fault/recovery reproduction verifies this. Response metadata batching preserves existing SQL predicates and durable access ordering; independent SQL and Worker review passes. At the earlier audit checkpoint, offline opens, delta responses and external anchor lifecycle remained. Current command deltas append atomic count-only partition and per-record read events before return. Saved receipt replay now uses a fresh scoped/paged material load; per-record audit refusal omits patient data under the existing read-window contract without repeating the saved mutation. New common-persist command events append actor pre-mutation membership/version/owner and server-recorded delegation-use metadata inside their hashed detail; direct untracked uses are explicit, and prior history remains unchanged. Encrypted app/field material-open records now capture original grant provenance before plaintext display; metadata-only uploads require the trusted originating account before parsing/replay/writes, retain historical scope, and never renew care authority. Explicitly abandoned never-dispatched links retire only with current encrypted-book proof; unknown and accepted evidence stays retained.",
+      "remaining": "Remaining browser-local search/uncovered material reads, direct operational writer authority coverage, unknown delegation tracking, external anchor signing/publication/key lifecycle, independent reconstruction and measured cost. Durable offline opens have bounded synthetic software evidence; physical-device and complete audit acceptance remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3933,7 +3973,16 @@
         "docs/current/COMMAND-AUTHORITY-EVIDENCE.md",
         "docs/current/COMMAND-AUTHORITY-INDEPENDENT-REVIEW.md",
         "tests/nfr/authorisation-matrix.mjs",
-        "tests/evidence/app-first-programme-delta/manifest.json"
+        "tests/evidence/app-first-programme-delta/manifest.json",
+        "docs/current/APP-OFFLINE-OPEN-AUDIT.md",
+        "docs/current/OFFLINE-OPEN-ACTOR-BINDING.md",
+        "docs/current/OFFLINE-OPEN-UNSENT-RETIREMENT.md",
+        "tests/evidence/app-first-offline-field-source-integration/new-workflows-initial.json",
+        "tests/offline-opens-contract.mjs",
+        "tests/offline-opens-http.mjs",
+        "tests/offline-opens-browser.mjs",
+        "tests/offline-open-account-binding-browser.mjs",
+        "tests/offline-open-unsent-pruning-browser.mjs"
       ],
       "automatedAcceptanceClaim": false
     },

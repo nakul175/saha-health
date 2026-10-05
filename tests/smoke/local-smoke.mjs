@@ -1,3 +1,4 @@
+import {acquireSyntheticSource} from '../lib/clinical-source-fixture.mjs';
 // Slice 11b: local smoke. "Is the build alive and are the main paths intact?" in well under 90 seconds.
 // One built Worker (dist/), one fresh migrated local D1, synthetic people only. It walks the path a new organisation takes:
 // anonymous refusal, a new owner's home organisation and demonstration clinical package, invitations, an ASHA's visit from
@@ -222,7 +223,7 @@ try {
   const csv = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split('\n'), header = csv.shift();
   assert.equal(header, 'method,route,source', 'HTTP-ROUTES.csv columns changed; update the smoke');
   const gets = csv.map(l => l.split(',')).filter(x => x[0] === 'GET').map(x => x[1]);
-  const query = recipes(visitId, org), pathOf = route => route.replace('[id]', visitId) + (query[route] ?? '');
+  const query = {...recipes(visitId, org), '/api/clinical-sources':await acquireSyntheticSource(c,owner,org,'smoke-control')}, pathOf = route => route.replace('[id]', visitId) + (query[route] ?? '');
   const sweep = [];
   await r.check(`all ${gets.length} GET routes in HTTP-ROUTES.csv refuse an anonymous caller (401)`, async () => {
     const wrong = [];

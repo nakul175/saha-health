@@ -13,6 +13,8 @@ GET,/api/audit,app/api/audit/route.ts
 GET,/api/availability,app/api/availability/route.ts
 POST,/api/availability,app/api/availability/route.ts
 GET,/api/caseload,app/api/caseload/route.ts
+POST,/api/clinical-sources,app/api/clinical-sources/route.ts
+GET,/api/clinical-sources,app/api/clinical-sources/route.ts
 POST,/api/commands,app/api/commands/route.ts
 GET,/api/continuity,app/api/continuity/route.ts
 GET,/api/data-exit,app/api/data-exit/route.ts
@@ -43,6 +45,7 @@ DELETE,/api/media/[id],app/api/media/[id]/route.ts
 POST,/api/media,app/api/media/route.ts
 POST,/api/mis/callback,app/api/mis/callback/route.ts
 GET,/api/notification-channel,app/api/notification-channel/route.ts
+POST,/api/offline-opens,app/api/offline-opens/route.ts
 GET,/api/operations,app/api/operations/route.ts
 GET,/api/outreach,app/api/outreach/route.ts
 GET,/api/pack-installations,app/api/pack-installations/route.ts
