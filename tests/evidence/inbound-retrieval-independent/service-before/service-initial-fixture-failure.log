@@ -1,0 +1,37 @@
+{"event":"saha_request","requestId":"3e7dcfea-8d9c-4f72-8416-376270e05455","route":"workspace","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"721a26b2-70ea-4dc2-9489-fb7c06458908","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"f625cbbf-770f-41fe-bb8b-d262aa15c3a9","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"07f28225-a0af-46c8-a71a-36acf14dfce2","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"58a6ee45-fe58-4e97-94e8-3eccb86eb9df","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"f01bf74e-93ea-4ba7-997b-6862603afaf2","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"1ed55e3c-e171-4e2a-9176-fa05ff39c5e8","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"cd514600-419b-470d-b431-ba4edc14a764","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"013c086c-f3a5-4d53-874f-38c843ae6be3","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"407828fe-04d9-4fd9-acf8-70919a504b9b","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"ba228a1d-be86-4f55-979c-f0f2c5688722","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"b046b935-e9f1-4411-bd4b-b0d08e93480f","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"5fff4e10-9d13-40d2-a40c-c5c48e57496c","route":"workspace","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"47f98637-2837-4e22-b9a1-f8a5f073881d","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"0c30b1b2-0a15-4be2-a319-3198012dd5da","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"b310c7a1-f9ab-4d54-8dbe-066b64822471","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"f1447891-2674-4a9a-b1a8-12403ce051f1","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"f7c03788-7aad-4d68-99d8-26b306f91913","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"d6dfa517-6864-4744-932c-785d630da1f7","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"972f67a1-1504-4350-b6cd-602b12b186bf","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"2af81dab-f66b-4e65-92ef-2e71a322a19d","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"86efea1c-0da4-4179-8e29-4328b4baffac","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"9a1cc95a-7d96-435f-a8f3-e5f6e3be5906","route":"workspace","status":200,"durationMs":4}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"bb0629d2-1f8d-44dd-a943-e1811ee1a767","route":"commands","status":503,"durationMs":11}
+{"event":"saha_request","requestId":"241518fc-707b-4161-9e3d-165b08c88799","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"57497052-a6bb-404d-be20-f83653706c21","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"96a977ff-ea87-462e-914e-1a357c0a7e3d","route":"workspace","status":200,"durationMs":3}
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-retrieval-review/tests/inbound-retrieval-service-review.mjs:29
+ snap=(await api.get(owner,'/api/workspace',org)).json;const service=(await cmd(owner,{type:'serviceIdentityCreate',version:snap.operations?.version??0,name:'Synthetic retrieval service',kind:'connector',targetId:i.id,ownerId:owner.id,expiresAt:new Date(Date.now()+86400000).toISOString()})).result;snap=(await api.get(owner,'/api/workspace',org)).json;await cmd(owner,{type:'serviceIdentityBind',version:snap.operations.version,targetId:i.id,serviceIdentityId:service.serviceIdentityId});let serviceRevoked=false;afterBundle=async()=>{const latest=(await api.get(owner,'/api/workspace',org)).json;await cmd(owner,{type:'serviceIdentityRevoke',version:latest.operations.version,id:service.serviceIdentityId});serviceRevoked=true;};const changed=await retrieve(),candidateId=changed.result.inboundCandidateId;afterBundle=null;writeFileSync(ev+'/service-revocation-before.json',JSON.stringify({source:'7fc566be',supportedRevokeDuringBundleResponse:serviceRevoked,retrievalStatus:200,result:changed.result,currentService:(await api.get(owner,'/api/workspace',org)).json.operations.serviceIdentities?.find(x=>x.id===service.serviceIdentityId)},null,2)+'\n');await check(async()=>assert.ok(candidateId));let history=await read(),candidate=history.candidates[0];await check(async()=>assert.equal(candidate.receiptKey,receiptKey));await check(async()=>assert.equal(candidate.receivedBy,owner.id));await check(async()=>assert.deepEqual(candidate.source.bundle,original));await check(async()=>assert.deepEqual(candidate.incoming.bundle,incoming));await check(async()=>assert.equal(candidate.incoming.origin,'ehr'));await check(async()=>assert.equal(candidate.localSnapshots[0].facts.weight,'55'));await check(async()=>assert.equal(history.visits.find(x=>x.id===visitId).facts.weight,'55'));await check(async()=>assert.equal(history.rows.length,0));
+                                                                                                                                                                                                                                                                                                                                                                                                                                     ^
+
+TypeError: Cannot read properties of undefined (reading 'version')
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-retrieval-review/tests/inbound-retrieval-service-review.mjs:29:422
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0
