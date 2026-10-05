@@ -27,6 +27,7 @@ try{
  await nav.getByRole('button',{name:'Sync',exact:true}).click();
  await page.getByRole('heading',{name:'Your sync centre'}).waitFor();passed++;
  check(await page.getByText('Its encrypted queue is not read by this screen.',{exact:false}).isVisible(),'No invented device queue count');
+ await page.getByRole('button',{name:'Open device drafts'}).click();await page.waitForURL('**/app/offline/');check(await page.getByRole('heading',{name:'Your offline app'}).isVisible(),'App Sync reaches shared encrypted device shell');await page.goBack();await nav.getByRole('button',{name:'Sync',exact:true}).click();await page.getByRole('heading',{name:'Your sync centre'}).waitFor();
  await page.getByRole('button',{name:'View submissions'}).click();
  await page.getByRole('heading',{name:'Programme submissions'}).waitFor();passed++;
  await nav.getByRole('button',{name:'More',exact:true}).click();

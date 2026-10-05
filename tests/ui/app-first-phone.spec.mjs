@@ -11,6 +11,7 @@ test('app-first: tabs distinguish device sync, receipts and preserved visit revi
  await nav.getByRole('button',{name:'Sync',exact:true}).click();
  await expect(page.getByRole('heading',{name:'Your sync centre'})).toBeVisible();
  await expect(page.getByText('Its encrypted queue is not read by this screen.',{exact:false})).toBeVisible();
+ await page.getByRole('button',{name:'Open device drafts'}).click();await expect(page).toHaveURL(/\/app\/offline\/$/);await expect(page.getByRole('heading',{name:'Your offline app'})).toBeVisible();await page.goBack();await nav.getByRole('button',{name:'Sync',exact:true}).click();await expect(page.getByRole('heading',{name:'Your sync centre'})).toBeVisible();
  await page.getByRole('button',{name:'View submissions'}).click();
  await expect(page.getByRole('heading',{name:'Programme submissions'})).toBeVisible();
  await nav.getByRole('button',{name:'More',exact:true}).click();
