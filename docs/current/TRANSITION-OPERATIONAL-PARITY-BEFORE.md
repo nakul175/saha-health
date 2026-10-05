@@ -1,0 +1,9 @@
+# Actual transition operational parity before
+
+Isolated combined source: canonical8eedc606 plus exact frozen transition41b7d02d, locally resolved only programme-commands import overlap retaining programmeRecord and transitionSuperseded. No canonical, disclosure ledger or author source was edited. This is a supported synthetic combined-source probe, not a claim that exact41 alone contains current operational privacy.
+
+The actual Worker/D1 driver creates an empty organisation, independent clinician, reviewed installed v1 policy and five distinct people with the same explicit source question/confirmation. It stages/independently reviews/applies an exact v2 transition replacing source-backed open tasks. Confirmed visit bytes remain unchanged and every original escalation remains unresolved. After application, five immutable old tasks retain state open and receive verified supersession; five new tasks are open. Current derived worklist returns five tasks, but current operational backlog and programme detail show ten. Current aggregate privacy projection is unwithheld; its per-person profile uses two tasks per person and CSV control totals reconcile to the incorrect ten. The ledger is not reset and all source/history remains.
+
+Actual56 supported setup/verification assertions pass; the observation is a product defect, not a passing parity assertion. Witness tests/evidence/transition-operational-parity/before/observed.json; driver tests/transition-operational-parity-http.mjs. Original400 for a worklist parameter typo is retained separately; corrected request uses documented view=followups. Source types/build pass.
+
+Root must independently verify any narrow central-selector repair, including the per-person profile path that uses shallow state copies. No client JSON flag can supply authority and no old task/escalation or released figure may be rewritten. Full B12/external acceptance remains open.
