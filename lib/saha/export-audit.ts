@@ -1,6 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, fail } from './core';
 import { persist, type Actor } from './store';
+import type { DelegationUse } from './delegation';
 import type { Audit, Member, OrgState } from './types';
 // Slice 6p (independent review): an export's own audit event is written through `persist`, so the
 // audit hash chain stays intact. The export is built from the state and tables read at its start; a
@@ -13,6 +14,7 @@ export const EXPORT_AUDIT_ATTEMPTS = 3;
 export const EXPORT_REFUSED = 'Saha could not record this export in the audit log, so the export was not delivered. Try again; if this continues, tell your organisation owner.';
 export async function recordExportAudit(db: D1Database, opts: {
   state: OrgState; reload: () => Promise<OrgState>; authorize: (s: OrgState) => Member; event: (m: Member) => Audit;
+  authorityDelegations?: (s: OrgState, m: Member) => readonly DelegationUse[];
   actor: Actor; type: string; key: string; hash: string; result?: unknown; attempts?: number;
 }) {
   const limit = opts.attempts ?? EXPORT_AUDIT_ATTEMPTS;
@@ -20,7 +22,7 @@ export async function recordExportAudit(db: D1Database, opts: {
   for (let attempt = 1; ; attempt++) {
     const m = opts.authorize(s), before = structuredClone(s);
     s.workspace.audit.push(opts.event(m));
-    try { const plan = await persist(db, before, s, opts.actor, { type: opts.type }, opts.key, opts.hash, opts.result ?? { ok: true }); return { ...plan, exportAttempts: attempt }; }
+    try { const plan = await persist(db, before, s, opts.actor, { type: opts.type, authorityDelegations: opts.authorityDelegations?.(s, m) }, opts.key, opts.hash, opts.result ?? { ok: true }); return { ...plan, exportAttempts: attempt }; }
     catch (e) {
       // Slice 6t: an audit store failure (anything not an application error) refuses the export with a clear message.
       if (!(e instanceof AppError)) { console.error('Export audit not recorded', e instanceof Error ? e.name : 'unknown'); fail(503, EXPORT_REFUSED); }

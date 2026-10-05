@@ -97,7 +97,7 @@ try {
   rows = chained(A);
   check(() => { assert.equal(raced.attempts, 2); assert.deepEqual(raced.patients, [pa]); assert.equal(d1.batches - batchesBefore, 3, 'interleaved commit, refused batch, rebuilt batch'); });
   check(() => { assert.equal(rows.at(-1).seq, headBefore + 2); assert.equal(new Set(rows.map(r => r.prev_hash)).size, rows.length, 'no two events share a predecessor'); assert.deepEqual(rows.map(r => r.seq), rows.map((_, i) => i)); });
-  check(() => { assert.equal(rows.at(-2).detail, 'Weight 62'); assert.equal(rows.at(-1).detail, 'Weight 61'); assert.equal(rows.at(-1).prev_hash, rows.at(-2).hash); });
+  check(() => { assert.equal(rows.at(-2).detail.split('\nCommand authority: ')[0], 'Weight 62'); assert.equal(rows.at(-1).detail.split('\nCommand authority: ')[0], 'Weight 61'); for(const r of rows.slice(-2)){const authority=JSON.parse(r.detail.split('\nCommand authority: ')[1]);assert.equal(authority.format,'saha-command-authority-v1');assert.equal(authority.initiatorId,'owner');assert.deepEqual(authority.membership,{role:'clinician',status:'active',version:1,isOwner:true});} assert.equal(rows.at(-1).prev_hash, rows.at(-2).hash); });
   check(() => { const saved = id => JSON.parse(sql('SELECT data FROM visits WHERE org_id=? AND id=?', A, id)[0].data).facts.weight; assert.equal(saved(`${A}-visit-0`), '61'); assert.equal(saved(`${A}-visit-1`), '62'); });
   v = await chain.verifyChain(d1, A); check(() => assert.equal(v.status, 'intact'));
 
@@ -131,13 +131,13 @@ try {
   check(() => { for (let i = 1; i < adminExport.lines.length; i++) assert.equal(adminExport.lines[i].prevHash, adminExport.lines[i - 1].hash); });
   const paged = await chain.exportRows(d1, A, { userId: 'owner', role: 'clinician' }, 2, 3);
   check(() => { assert.equal(paged.lines.length, 3); assert.equal(paged.lines[0].seq, 2); assert.equal(paged.more, true); assert.equal(paged.to, 4); });
-  const altered = structuredClone(ownerExport.lines.find(l => l.event?.detail === 'Weight 61')); altered.event.detail = 'Weight 16';
+  const altered = structuredClone(ownerExport.lines.find(l => l.event?.detail.split('\nCommand authority: ')[0] === 'Weight 61')); altered.event.detail = 'Weight 16';
   check(() => assert.equal(offlineContent({ org_id: A, id: altered.id, person_id: altered.event.personId, actor_id: altered.event.actorId, actor_name: altered.event.actorName, role: altered.event.role, action: altered.event.action, subject: altered.event.subject, detail: altered.event.detail, at: altered.event.at }) === altered.content, false));
   const alteredOk = await chain.checkExportLine(A, altered); check(() => assert.equal(alteredOk, false, 'an edited export line is detected'));
 
   // 9. Deliberate tampering is detected, and the first break is reported.
   // 9a. Altered content.
-  const target = rows.find(r => r.detail === 'Weight 61');
+  const target = rows.find(r => r.detail.split('\nCommand authority: ')[0] === 'Weight 61');
   tamper('UPDATE audit_events SET detail=? WHERE org_id=? AND id=?', 'Weight 16', A, target.id);
   v = await chain.verifyChain(d1, A);
   check(() => { assert.equal(v.status, 'broken'); assert.equal(v.firstBreak.seq, target.seq); assert.equal(v.firstBreak.id, target.id); assert.match(v.firstBreak.reason, /content or its hash was altered/); });
@@ -197,7 +197,7 @@ try {
   d1.beforeBatch = async () => { await commit(g2, event(g2, 'second'), 'opsExport'); };
   await rejects(() => commit(g1, event(g1, 'first'), 'opsExport'), /organisation/);
   rows = chained(C);
-  check(() => { assert.deepEqual(rows.map(r => [r.seq, r.id === chain.GENESIS_ID ? 'genesis' : r.detail]), [[0, 'genesis'], [1, 'second']]); });
+  check(() => { assert.deepEqual(rows.map(r => [r.seq, r.id === chain.GENESIS_ID ? 'genesis' : r.detail.split('\nCommand authority: ')[0]]), [[0, 'genesis'], [1, 'second']]); });
   v = await chain.verifyChain(d1, C); check(() => assert.equal(v.status, 'intact'));
 
   // 12. Clock regressions are reported but are not a break; a verification limit reports incomplete.
@@ -220,7 +220,7 @@ try {
   const loser = await load(E, [ea]); d1.beforeBatch = storm;
   await rejects(() => commit(loser, save(loser, `${E}-visit-0`, 'lost')), /at once/);
   v = await chain.verifyChain(d1, E);
-  check(() => { assert.equal(storms, store.CHAIN_ATTEMPTS); assert.equal(v.status, 'intact'); assert.equal(chained(E).some(r => r.detail === 'Weight lost'), false); assert.equal(JSON.parse(sql('SELECT data FROM visits WHERE org_id=? AND id=?', E, `${E}-visit-0`)[0].data).facts.weight, ''); });
+  check(() => { assert.equal(storms, store.CHAIN_ATTEMPTS); assert.equal(v.status, 'intact'); assert.equal(chained(E).some(r => r.detail.split('\nCommand authority: ')[0] === 'Weight lost'), false); assert.equal(JSON.parse(sql('SELECT data FROM visits WHERE org_id=? AND id=?', E, `${E}-visit-0`)[0].data).facts.weight, ''); });
 
   const result = { suite: 'audit chain contract (slice 6j)', passed, completedAt: new Date().toISOString() };
   writeFileSync('tests/audit-chain-contract-result.json', JSON.stringify(result, null, 2) + '\n');

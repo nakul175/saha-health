@@ -4,6 +4,7 @@ import type { D1Database } from '@cloudflare/workers-types';
 import { digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
+import type { DelegationUse } from './delegation';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
 import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, chainBackoff, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
@@ -153,15 +154,25 @@ export function rowsForState(state:OrgState,previous:OrgState|null,actor:Actor,a
  return rows;
 }
 function auditRow(orgId:string,a:Audit,fallbackActor:string,w:Workspace){const personId=a.personId??(w.people.some(p=>p.id===a.subject)?a.subject:w.visits.find(v=>v.id===a.subject)?.personId??w.submissions.find(s=>s.id===a.subject)?.personId??null);return row('audit_events',{org_id:orgId,id:a.id,person_id:personId,actor_id:a.actorId??fallbackActor,actor_name:a.actor,role:a.role,action:a.action,subject:a.subject,detail:a.detail,at:a.at},['org_id','id'],true);}
+// Append only to new command events before chain hashing. Membership comes from
+// the pre-mutation state, not a self-edited member or the command receipt's actor.
+// Read/system operational writers keep their existing separate evidence semantics.
+export function appendCommandAuthority(rows:Row[],before:OrgState,uses:readonly DelegationUse[]|undefined=undefined,membershipSource:'pre-mutation'|'bootstrap'='pre-mutation',delegationActorId:string|null=null){
+ for(const r of rows){if(r.table!=='audit_events')continue;const v=r.values,member=before.members.find(m=>m.userId===v.actor_id),system=v.role==='system';
+  const envelope={format:'saha-command-authority-v1',initiatorId:v.actor_id,principal:system?'system':member?'member':'non-member',membershipSource,membership:system||!member?null:{role:member.role,status:member.status,version:member.version,isOwner:member.isOwner},delegationEvidence:system?'not-applicable':uses===undefined?'not-tracked':'recorded-uses',delegations:system||!member||member.userId!==delegationActorId?[]:(uses??[]).map(d=>({id:d.id,kind:d.kind,grantorId:d.grantorId,until:d.until}))};
+  v.detail=String(v.detail)+'\nCommand authority: '+j(envelope);
+ }
+}
 // Slice 6j: a commit that loses the audit-chain race is rebuilt on the new head this many times.
 export const CHAIN_ATTEMPTS=6;
-export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
+export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[]},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
  if(before.readOnlyFor)throw new Error('A viewer-scoped read cannot be persisted.');
  const orgId=before.organisation.id,now=new Date().toISOString();const rows=rowsForState(after,before,actor,command.type,command.reason??'',now);
  const actionEvent=after.workspace.audit.find(a=>!before.workspace.audit.some(b=>b.id===a.id));const patientId=actionEvent?.personId??after.workspace.people.find(p=>p.id===actionEvent?.subject)?.id??after.workspace.visits.find(v=>v.id===actionEvent?.subject)?.personId??after.workspace.visits.find(v=>v.id===result?.visitId)?.personId??null;
  // Slice 6t: an access-audit commit appends audit events only: no command receipt (a read is not replayed).
  const access=command.type===ACCESS_AUDIT;
  if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true));rows.push(...extraRows);
+ if(!access)appendCommandAuthority(rows,before,command.authorityDelegations??after.delegationUsed,'pre-mutation',actor.userId);
  const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
  if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events'&&!ACCESS_SIDE_TABLES.has(r.table))||!rows.length))throw new Error('An access-audit commit may only append audit events.');
  const plan=access?{patients:null,reason:'access audit only'}:commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
@@ -251,8 +262,9 @@ export async function ensureAccount(db:D1Database,u:Actor,fixtures:(w:Workspace)
 }
 export async function createState(db:D1Database,state:OrgState,u:Actor,action:string,sourceRevision=0,sourceHash='',legacyReceipts:Workspace['receipts']={},operation?:{key:string;hash:string}){
  const orgId=state.organisation.id,token=uuid(),now=state.organisation.createdAt;
- state.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:'clinician',action,subject:orgId,detail:action==='migrateWorkspace'?'Legacy workspace copied to structured records. Original retained. Old unexecuted approvals require a new review.':'Organisation created with an owner and a care team.'});
+ const baselineEvent={id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:'clinician' as const,action,subject:orgId,detail:action==='migrateWorkspace'?'Legacy workspace copied to structured records. Original retained. Old unexecuted approvals require a new review.':'Organisation created with an owner and a care team.'};state.workspace.audit.push(baselineEvent);
  const rows=rowsForState(state,null,u,action,'Initial baseline; earlier events remain in the activity log.',now);
+ appendCommandAuthority(rows.filter(r=>r.table==='audit_events'&&r.values.id===baselineEvent.id),state,[],'bootstrap');
  rows.push(...state.members.flatMap(m=>m.teamIds.map(t=>row('team_members',{org_id:orgId,team_id:t,user_id:m.userId},['org_id','team_id','user_id']))));
  if(action!=='createOrganisation')rows.push(row('legacy_migrations',{owner_id:u.userId,org_id:orgId,source_revision:sourceRevision,source_hash:sourceHash,counts:j({people:state.workspace.people.length,visits:state.workspace.visits.length,integrations:state.workspace.integrations.length,submissions:state.workspace.submissions.length,referrals:state.workspace.referrals.length,audit:state.workspace.audit.length-1,receipts:Object.keys(legacyReceipts).length}),migrated_at:now},['owner_id'],true));
  for(const [key,r] of Object.entries(legacyReceipts))rows.push(row('command_receipts',{actor_id:u.userId,key,org_id:orgId,hash:r.hash,result:j(r.result),person_id:state.workspace.visits.find(v=>v.id===r.result?.visitId)?.personId??r.result?.personId??null,created_at:now},['actor_id','key'],true));

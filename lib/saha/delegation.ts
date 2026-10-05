@@ -92,8 +92,10 @@ export function applyDelegation(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
 }
 // Audit lines for authority used under a delegation during one command; appended by the dispatcher.
 export function delegationAudit(s:OrgState,u:Actor,m:Member,type:string,personId:string|null,now=new Date().toISOString()){
+ const uses=(s.delegationUsed??[]).map(x=>({...x}));
  for(const x of s.delegationUsed??[])s.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:m.role,action:'delegatedAuthority',subject:x.id,personId,detail:`${type} carried out under ${KIND_LABEL[x.kind].toLowerCase()} delegated by ${member(s,x.grantorId)?.displayName??'a former member'}, in force until ${x.until.slice(0,16).replace('T',' ')} UTC.`});
  delete s.delegationUsed;
+ return uses;
 }
 export function delegationView(s:OrgState,m:Member,now=new Date().toISOString()){
  const name=(id:string)=>member(s,id)?.displayName??'Former member',teamName=(t:string)=>s.teams.find(x=>x.id===t)?.name??t;

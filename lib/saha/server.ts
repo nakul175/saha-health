@@ -262,8 +262,8 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  // Slice 10g: a new correction draft carries the open disputes of the visit it corrects.
  if(c.type==='amendVisit')carryDisputes(before,state,u,m);
  // Slice 1e: record any delegated authority the command relied on.
- if(state.delegationUsed?.length)delegationAudit(state,u,m,c.type,typeof (c as any).personId==='string'?(c as any).personId:null);
- await persist(db(),before,state,u,c,key,hash,result,[],c.type==='switchOrganisation');
+ const authorityDelegations=state.delegationUsed?.length?delegationAudit(state,u,m,c.type,typeof (c as any).personId==='string'?(c as any).personId:null):[];
+ await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result,[],c.type==='switchOrganisation');
  // Slice 6v: an organisation-wide command evaluates alert delivery on the state it loaded (best effort, never fails the command).
  if(c.type!=='switchOrganisation')await evaluateAfterCommand(state);
  // Slice 0b: a partitioned command may answer with the partition snapshot for the client to merge.
