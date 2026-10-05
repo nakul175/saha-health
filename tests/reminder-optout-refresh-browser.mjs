@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {startWorker,identity,client} from './lib/worker.mjs';
+let worker,browser,passed=0;const evidence='tests/evidence/reminder-optout-refresh';const check=f=>{f();passed++;};
+const secret='synthetic-refresh-race-secret-at-least-32-characters',vars={SAHA_ENVIRONMENT:'synthetic',SAHA_EXTERNAL_APIS_ENABLED:'false',SAHA_REMINDER_MOCK_CALLBACK_ENABLED:'true',SAHA_REMINDER_MOCK_CALLBACK_GRANTS:'[]',SAHA_REMINDER_MOCK_RACE_KEY:secret};
+try{
+ worker=await startWorker({port:process.env.SAHA_OPTOUT_REFRESH_PORT??'8858',name:'saha-optout-refresh',vars});const api=client(worker.base),owner=identity('owner',crypto.randomUUID().slice(0,8),'Synthetic Race Owner');
+ const initial=(await api.get(owner,'/api/workspace')).json,org=initial.organisation.id,pid=initial.people.find(p=>p.name==='Meena Devi').id;
+ const command=async(body,organisation=org)=>{const r=await api.command(owner,body,organisation);assert.equal(r.status,200,r.text);return r.json;};
+ const pref={method:'sms',destination:'TEST-REFRESH-001',ownership:'personal',language:'en',timezone:'UTC',from:'00:00',to:'23:59',permission:true,privateContact:false,reference:'SYNTHETIC-RACE'};
+ const person=async()=>(await api.get(owner,'/api/workspace',org)).json.people.find(p=>p.id===pid);
+ const setPrefs=async(destination=pref.destination)=>{const p=await person();await command({type:'setContactPreferences',personId:pid,version:p.version,preferences:{...pref,destination}});};
+ await setPrefs();const second=(await command({type:'createOrganisation',name:'Synthetic Refresh Target'})).result.organisationId;await command({type:'switchOrganisation',organisationId:org},second);
+ const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE);browser=await chromium.launch({headless:true,executablePath:process.env.SAHA_CHROMIUM});const context=await browser.newContext({viewport:{width:1280,height:900},extraHTTPHeaders:owner.headers}),page=await context.newPage();
+ await page.goto(worker.base+'/');await page.getByRole('button',{name:'Outreach',exact:true}).click();await page.getByRole('tab',{name:'Contact preferences',exact:true}).click();await page.getByRole('combobox',{name:'Opt-out simulation patient'}).selectOption(pid);
+ let delayed,release;const intercepted=new Promise(r=>{delayed=r;}),gate=new Promise(r=>{release=r;});let delay=true;
+ await page.route('**/api/workspace',async route=>{if(delay&&route.request().headers()['x-saha-organisation']===org){delay=false;const response=await route.fetch();delayed();await gate;await route.fulfill({response});}else await route.continue();});
+ await page.getByRole('button',{name:'Simulate incoming STOP'}).click();await intercepted;
+ await page.getByRole('combobox',{name:'Current organisation',exact:true}).click();await page.getByRole('option',{name:'Synthetic Refresh Target',exact:true}).click();await page.getByRole('heading',{name:'Organisation & team',exact:true}).waitFor();
+ const lateResponse=page.waitForResponse(r=>r.url().endsWith('/api/workspace')&&r.request().headers()['x-saha-organisation']===org);release();await lateResponse;await page.waitForTimeout(300);
+ const selectedOrg=await page.getByRole('combobox',{name:'Current organisation',exact:true}).textContent();check(()=>assert.equal(selectedOrg,'Synthetic Refresh Target'));
+ const requests=[];page.on('request',r=>{if(r.url().includes('/api/'))requests.push(r);});await page.getByRole('button',{name:'Outreach',exact:true}).click();await page.getByRole('heading',{name:'Plan the next contact',exact:true}).waitFor();
+ check(()=>assert.equal(requests.some(r=>r.headers()['x-saha-organisation']===second),true));const afterUi=await person();check(()=>assert.equal(afterUi.contactPreferences.permission,false));
+ await browser.close();browser=null;
+ vars.SAHA_REMINDER_MOCK_CALLBACK_GRANTS=JSON.stringify([{organisationId:org,provider:'mock-reminder',secretBinding:'SAHA_REMINDER_MOCK_RACE_KEY'}]);await worker.restart();await setPrefs();
+ const eventFor=async(id)=>{const p=await person();return {provider:'mock-reminder',organisationId:org,eventId:id,destination:p.contactPreferences.destination,preferenceVersion:p.contactPreferences.version,occurredAt:new Date().toISOString(),action:'STOP'};};
+ const signed=async body=>{const ts=String(Date.now()),key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign']),signature=Buffer.from(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(ts+'.'+JSON.stringify(body)))).toString('hex');return api.call(null,'/api/reminder-optout/callback',{method:'POST',body,headers:{'x-saha-timestamp':ts,'x-saha-signature':signature}});};
+ const duplicate=await eventFor('concurrent_same_event_001'),both=await Promise.all([signed(duplicate),signed(duplicate)]);check(()=>assert.deepEqual(both.map(r=>r.status),[200,200]));check(()=>assert.equal(both[0].json.receipt,both[1].json.receipt));const afterDuplicate=await person();check(()=>assert.equal(afterDuplicate.reminderOptouts.filter(e=>e.eventId===duplicate.eventId).length,1));
+ await setPrefs();const race=await eventFor('concurrent_contact_edit_001'),before=await person();const outcomes=await Promise.all([signed(race),signed(race),api.command(owner,{type:'setContactPreferences',personId:pid,version:before.version,preferences:{...pref,destination:'TEST-REPLACEMENT-002'}},org)]);
+ check(()=>outcomes.forEach(r=>assert.ok([200,409].includes(r.status),r.text)));const after=await person(),events=after.reminderOptouts.filter(e=>e.eventId===race.eventId),wins=outcomes.slice(0,2).filter(r=>r.status===200);check(()=>assert.equal(events.length,wins.length?1:0));if(wins.length===2)check(()=>assert.equal(wins[0].json.receipt,wins[1].json.receipt));
+ if(outcomes[2].status===200){check(()=>assert.equal(after.contactPreferences.destination,'TEST-REPLACEMENT-002'));check(()=>assert.equal(after.contactPreferences.permission,true));}else {check(()=>assert.equal(after.contactPreferences.destination,pref.destination));check(()=>assert.equal(after.contactPreferences.permission,false));}
+ for(const win of wins){const replay=await signed(race);check(()=>assert.equal(replay.json.receipt,win.json.receipt));}
+ mkdirSync(evidence,{recursive:true});const result={date:'2026-10-05',passed,failed:0,concurrentStatuses:outcomes.map(r=>r.status),scope:'Actual Chromium delayed old-org refresh after switch; actual isolated Worker/D1 simultaneous duplicate callbacks and contact edit; synthetic only'};writeFileSync(evidence+'/result.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
+}finally{await browser?.close();await worker?.stop();}
