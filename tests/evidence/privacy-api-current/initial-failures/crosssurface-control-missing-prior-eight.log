@@ -1,0 +1,58 @@
+AssertionError [ERR_ASSERTION]: {"computedAt":"2026-10-05T21:12:29.810Z","window":{"since":"2026-09-06T00:00:00.000Z","until":"2026-10-05T21:12:29.810Z","days":30},"cohort":{"people":37,"team":null,"village":null,"programme":null},"group":"none","latestSourceRecord":"2026-10-05T21:12:28.798Z","minimumCell":5,"results":[{"id":"reuse-blocked","version":1,"title":"Reuse blocked by a missing shared answer","unit":"count","numerator":"Reuse opportunities where the shared answer was recorded as unknown, declined, not measured or unobtainable","denominator":null,"definition":{"id":"reuse-blocked","version":1,"recordedAt":"2026-09-30T00:00:00.000Z","canonical":"{\"id\":\"reuse-blocked\",\"version\":1,\"unit\":\"count\",\"numerator\":\"reuse-blocked\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}","governance":{"legacy":true,"reviewEventId":null,"releaseEventId":null,"effectiveAt":null}},"rows":[{"group":"All","value":0,"numerator":0,"denominator":null,"suppressed":false}],"lateArrivals":{"applicable":true,"since":null,"count":null,"note":"No earlier release of this figure to you in the last seven days."}},{"id":"repeat-entry","version":1,"title":"Possible repeated entries","unit":"count","numerator":"Confirmed visits repeating the date and core measurements of an earlier confirmed visit for the same person","denominator":null,"definition":{"id":"repeat-entry","version":1,"recordedAt":"2026-09-30T00:00:00.000Z","canonical":"{\"id\":\"repeat-entry\",\"version\":1,\"unit\":\"count\",\"numerator\":\"repeat-entries\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}","governance":{"legacy":true,"reviewEventId":null,"releaseEventId":null,"effectiveAt":null}},"rows":[{"group":"All","value":0,"numerator":0,"denominator":null,"suppressed":false}],"lateArrivals":{"applicable":true,"since":null,"count":null,"note":"No earlier release of this figure to you in the last seven days."}},{"id":"corrections","version":1,"title":"Visit corrections","unit":"count","numerator":"Correction drafts started and visits marked wrong-patient in the window","denominator":null,"definition":{"id":"corrections","version":1,"recordedAt":"2026-09-30T00:00:00.000Z","canonical":"{\"id\":\"corrections\",\"version\":1,\"unit\":\"count\",\"numerator\":\"corrections\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}","governance":{"legacy":true,"reviewEventId":null,"releaseEventId":null,"effectiveAt":null}},"rows":[{"group":"All","value":null,"numerator":null,"denominator":null,"suppressed":true}],"lateArrivals":{"applicable":true,"since":null,"count":null,"note":"No earlier release of this figure to you in the last seven days."}},{"id":"identity-provisional","version":1,"title":"Provisional identities","unit":"count","numerator":"Patients whose identity review is provisional today","denominator":null,"definition":{"id":"identity-provisional","version":1,"recordedAt":"2026-09-30T00:00:00.000Z","canonical":"{\"id\":\"identity-provisional\",\"version\":1,\"unit\":\"count\",\"numerator\":\"identity-provisional\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}","governance":{"legacy":true,"reviewEventId":null,"releaseEventId":null,"effectiveAt":null}},"rows":[{"group":"All","value":0,"numerator":0,"denominator":null,"suppressed":false}],"lateArrivals":{"applicable":false,"note":"This indicator has no visit-based source, so late arrivals do not change it."}}],"scope":"Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.","completeness":{"version":1,"evaluatedAt":"2026-10-05T21:12:29.810Z","window":{"since":"2026-09-06T00:00:00.000Z","until":"2026-10-05T21:12:29.810Z","days":30},"calendars":[],"coverage":"incomplete-or-unknown","clinicalDenominator":"unknown","affectedDenominatorCoverage":[],"affectedSourcePeriods":[],"sources":[],"notice":"Expected-source coverage is distinct from patient/clinical denominator. Observed receipts or activity never establish completeness. No matching released calendar or period means unknown coverage.","evidenceId":"2343f9b3-fec6-44e5-81b3-a6ea238497ed","digest":"2b834e2a589da74402ece343b9587825c905884f863d4c7c21eaceb67c979381"},"differencing":{"windowHours":168,"note":"Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.","limits":"Small-group protection has limits. Saha compares each new indicator result with everything the same person was shown in the last seven days and withholds it if any sum or difference of those results could single out a group of 1 to 4 people, visits or referrals in today's records. It does not protect against two people combining what they were each shown, against changes in the records between two queries (repeating a query after a new visit reveals that visit), against queries older than seven days, or against differences between indicators that measure unrelated things. The check is conservative: for small teams and narrow filters it withholds more results than strictly necessary."},"freshness":{"thresholdHours":72,"syncWarningHours":12,"shareMinimum":20,"note":"Per team you belong to; village and programme filters are not applied. A record is late when it arrived more than 72 hours after the time it describes. Counts are shown in bands and the late share to the nearest 10 percentage points; none of these figures are part of a released result.","teams":[{"team":"Rampur care team","sources":[{"source":"online-visits","label":"Online visits","arrival":"confirmed","described":"visit date entered by the worker","latestAt":"2026-10-05T21:00:00.000Z","arrivals":"5–19","late":"fewer than 5","lateShare":null,"lateShareNote":"Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."},{"source":"field-syncs","label":"Field-notebook syncs","arrival":"synced from the field notebook","described":"visit date entered offline","latestAt":"2026-10-05T21:00:00.000Z","arrivals":"fewer than 5","late":"fewer than 5","lateShare":null,"lateShareNote":"Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."},{"source":"imports","label":"Imports","arrival":"applied from an import batch","described":"enrolment start date (imported patients, identifiers and visits carry no source time)","latestAt":null,"arrivals":"fewer than 5","late":"fewer than 5","lateShare":null,"lateShareNote":"Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."},{"source":"programme-receipts","label":"Programme receipts","arrival":"accepted with a receipt","described":"time the submission was queued","latestAt":"2026-10-05T21:00:00.000Z","arrivals":"fewer than 5","late":"fewer than 5","lateShare":null,"lateShareNote":"Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."}],"syncing":null}]}}
+
+200 !== 422
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/indicators-privacy-registration-current.mjs:8:53
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/api-privacy-registration-current.mjs:10:20)
+    at indicatorsSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/indicators-privacy-registration-current.mjs:8:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/api-privacy-registration-current.mjs:123:87 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 200,
+  expected: 422,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+den (8ms)
+{"event":"saha_request","requestId":"56e5ab85-2a2c-49b7-8551-9e567467f4d1","route":"retention","status":200,"durationMs":6}
+[wrangler:info] GET /api/retention 200 OK (8ms)
+{"event":"saha_request","requestId":"f8096d4b-2117-4432-8d13-ece36d564c78","route":"commands","status":403,"durationMs":14}
+[wrangler:info] POST /api/commands 403 Forbidden (16ms)
+{"event":"saha_request","requestId":"83c71df9-c830-465f-b0c5-24b45c60987a","route":"commands","status":422,"durationMs":0}
+[wrangler:info] POST /api/commands 422 Unprocessable Entity (2ms)
+{"event":"saha_request","requestId":"7bc3894c-aaa6-45dc-84b9-39949ee6e29f","route":"commands","status":422,"durationMs":0}
+[wrangler:info] POST /api/commands 422 Unprocessable Entity (2ms)
+{"event":"saha_request","requestId":"101f100b-0853-47a5-8cc9-0021ee789ab5","route":"commands","status":200,"durationMs":28}
+[wrangler:info] POST /api/commands 200 OK (30ms)
+{"event":"saha_request","requestId":"97cbe0bb-0e17-4f89-856e-35acc1000884","route":"retention","status":200,"durationMs":7}
+[wrangler:info] GET /api/retention 200 OK (10ms)
+{"event":"saha_request","requestId":"c4632d85-3a0f-4e36-a826-f0eca6ecf36e","route":"workspace","status":200,"durationMs":8}
+[wrangler:info] GET /api/workspace 200 OK (9ms)
+{"event":"saha_request","requestId":"feba0690-f9ca-4dcf-8c93-92cae5583afb","route":"commands","status":403,"durationMs":7}
+[wrangler:info] POST /api/commands 403 Forbidden (10ms)
+{"event":"saha_request","requestId":"055f1372-7df9-4255-a38f-c2a81ec971f7","route":"commands","status":422,"durationMs":8}
+[wrangler:info] POST /api/commands 422 Unprocessable Entity (10ms)
+{"event":"saha_request","requestId":"20557a7f-f842-48b0-9204-e99c46c312e3","route":"commands","status":200,"durationMs":20}
+[wrangler:info] POST /api/commands 200 OK (20ms)
+{"event":"saha_request","requestId":"960bcc71-04ce-4073-883f-9cffaa388f73","route":"commands","status":409,"durationMs":9}
+[wrangler:info] POST /api/commands 409 Conflict (11ms)
+{"event":"saha_request","requestId":"594e49b3-e41f-4ccf-92dc-469ceb5c732e","route":"commands","status":200,"durationMs":18}
+[wrangler:info] POST /api/commands 200 OK (20ms)
+{"event":"saha_request","requestId":"e844098d-9845-4431-a0a2-64df5c386dc2","route":"retention","status":200,"durationMs":6}
+[wrangler:info] GET /api/retention 200 OK (8ms)
+{"event":"saha_request","requestId":"8d54e84f-3e6d-4285-bc78-0911bcfc5b39","route":"commands","status":403,"durationMs":8}
+[wrangler:info] POST /api/commands 403 Forbidden (9ms)
+{"event":"saha_request","requestId":"b1f59d49-c0fa-4dc0-a327-54a3d88b3adc","route":"commands","status":200,"durationMs":18}
+[wrangler:info] POST /api/commands 200 OK (20ms)
+{"event":"saha_request","requestId":"46e43cad-8cc1-43a0-a2bc-8ee10dd90e6b","route":"commands","status":409,"durationMs":8}
+[wrangler:info] POST /api/commands 409 Conflict (10ms)
+{"event":"saha_request","requestId":"ed601a7f-1d8a-4c66-ba14-e64dcfec17ab","route":"retention","status":200,"durationMs":9}
+[wrangler:info] GET /api/retention 200 OK (10ms)
+[wrangler:info] POST /api/mis/callback 401 Unauthorized (2ms)
+[wrangler:info] POST /api/mis/callback 401 Unauthorized (1ms)
+{"event":"saha_request","requestId":"7c0712f4-5460-4a36-9eaf-c4d2d4ee624b","route":"indicators","status":200,"durationMs":5}
+[wrangler:info] GET /api/indicators 200 OK (9ms)
+{"event":"saha_request","requestId":"807d9a2c-d101-42d2-8b77-c0ed051067bb","route":"indicators","status":200,"durationMs":17}
+[wrangler:info] POST /api/indicators 200 OK (19ms)
+

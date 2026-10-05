@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {startWorker,client} from './lib/worker.mjs';
+import {coherentReportingFixture} from './lib/privacy-api-coherent-fixture.mjs';
+import {indicatorsCoherentSmoke} from './indicators-privacy-registration-current.mjs';
+import {reuseSmoke} from './reuse-privacy-registration-current.mjs';
+import {reportExportCoherentSmoke} from './report-export-privacy-registration-current.mjs';
+import {globSync,writeFileSync} from 'node:fs';import {DatabaseSync} from 'node:sqlite';
+const state='.wrangler/privacy-coherent-state';const worker=await startWorker({port:21000,state,name:'saha-privacy-coherent'});const c=client(worker.base);let passed=0;const check=fn=>{fn();passed++;};
+async function get(who,path='/api/workspace',status=200,org){const r=await c.get(who,path,org);check(()=>assert.equal(r.status,status,r.text));if(path==='/api/workspace'&&r.status===200)who.state=r.json;return r.json;}
+async function post(who,body,status=200,key=crypto.randomUUID(),org=who.state?.organisation.id){if(body.type==='confirmVisit'&&!Object.hasOwn(body,'patientCheck')){const v=who.state.visits.find(v=>v.id===body.visitId),p=who.state.people.find(p=>p.id===v.personId);body={...body,patientCheck:{personId:p.id,personVersion:p.version,confirmed:true}};}const r=await c.call(who,'/api/commands',{method:'POST',body,org,headers:{'Idempotency-Key':key}});check(()=>assert.equal(r.status,status,r.text));if(r.status===200)who.state=r.json.snapshot;return r.json;}
+try{const a=await coherentReportingFixture({get,post,check},'indicator-focus');await indicatorsCoherentSmoke({get,post,check,...a,base:worker.base});await reuseSmoke({get,post,check,...a,base:worker.base});const b=await coherentReportingFixture({get,post,check},'export-focus');const sql=new DatabaseSync(globSync(state+'/v3/d1/**/*.sqlite').filter(p=>!p.endsWith('metadata.sqlite'))[0]);await reportExportCoherentSmoke({get,check,...b,base:worker.base,sql});sql.close();writeFileSync('tests/evidence/privacy-api-current/coherent-focus-result.json',JSON.stringify({passed},null,2));console.log(JSON.stringify({passed}));}catch(e){console.error(worker.output().slice(-2000));throw e;}finally{await worker.stop();}

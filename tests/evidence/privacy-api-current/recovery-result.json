@@ -1,0 +1,25 @@
+{
+  "passed": 21,
+  "release": "11 / v1.3-readiness",
+  "source": "isolated synthetic local D1",
+  "tables": 60,
+  "byteCount": 20463616,
+  "checks": [
+    "governance manifests, synthetic evaluation results and safety cases survive restore",
+    "consistent SQLite snapshot",
+    "encrypted manifest and database",
+    "wrong key and ciphertext tamper rejection",
+    "fresh destination required",
+    "all table counts and digests match",
+    "schema digest and integrity checks",
+    "append-only history constraints survive",
+    "built Worker opens restored database",
+    "restored records and receipts accessible",
+    "pilot training, decisions and version survive restore",
+    "outreach receipt history and expansion evidence survive restore",
+    "resolved identities, handover acknowledgements and positive patient checks survive restore",
+    "reading restored workspace does not resend actions"
+  ],
+  "limitations": "No hosted backup, scheduled retention, infrastructure cutover or production RPO/RTO claim. Device-only drafts excluded.",
+  "completedAt": "2026-10-05T21:25:28.475Z"
+}

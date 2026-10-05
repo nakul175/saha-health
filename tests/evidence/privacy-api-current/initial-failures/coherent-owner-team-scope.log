@@ -1,0 +1,48 @@
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴──────┴─────────────┘
+⎔ Starting local server...
+[wrangler:info] ✨ Parsed 1 valid header rule.
+[wrangler:info] Ready on http://127.0.0.1:21000
+{"event":"saha_request","requestId":"e6f9ca00-d07c-415e-954f-b5380fdd0b25","route":"workspace","status":200,"durationMs":30}
+[wrangler:info] GET /api/workspace 200 OK (41ms)
+{"event":"saha_request","requestId":"417b1d36-0c14-44cc-a6b8-a8d8944b7d70","route":"workspace","status":200,"durationMs":13}
+[wrangler:info] GET /api/workspace 200 OK (16ms)
+{"event":"saha_request","requestId":"5faaf815-b2b9-46ba-9c45-4e17b24cc6b3","route":"workspace","status":200,"durationMs":12}
+[wrangler:info] GET /api/workspace 200 OK (16ms)
+{"event":"saha_request","requestId":"116fafdb-289a-4634-8bd9-babec2c4ffc1","route":"workspace","status":200,"durationMs":12}
+[wrangler:info] GET /api/workspace 200 OK (15ms)
+{"event":"saha_request","requestId":"75564648-bde1-480d-85b1-fc23cd05419a","route":"workspace","status":200,"durationMs":12}
+[wrangler:info] GET /api/workspace 200 OK (14ms)
+{"event":"saha_request","requestId":"e19e8bc3-bd91-4f7f-bea2-7ce7da274a75","route":"workspace","status":200,"durationMs":12}
+[wrangler:info] GET /api/workspace 200 OK (15ms)
+{"event":"saha_request","requestId":"39216b21-941e-4041-8c09-4dff29aa0daa","route":"commands","status":200,"durationMs":10}
+[wrangler:info] POST /api/commands 200 OK (12ms)
+{"event":"saha_request","requestId":"7f34671d-cccc-4521-89d6-085c1ab4bc15","route":"commands","status":200,"durationMs":21}
+[wrangler:info] POST /api/commands 200 OK (25ms)
+{"event":"saha_request","requestId":"b01ba30a-ee1f-43f5-b877-2b6fd515ad47","route":"commands","status":200,"durationMs":10}
+[wrangler:info] POST /api/commands 200 OK (13ms)
+{"event":"saha_request","requestId":"21267541-f7ea-455b-9605-7eaad07e5549","route":"commands","status":403,"durationMs":5}
+[wrangler:info] POST /api/commands 403 Forbidden (7ms)
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Choose a team within your patient access."}
+
+403 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:9:213
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:7:186)
+    at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:9:196)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async coherentReportingFixture (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/lib/privacy-api-coherent-fixture.mjs:14:23)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:10:13 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 403,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
