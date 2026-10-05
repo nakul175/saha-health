@@ -1,0 +1,53 @@
+{"event":"saha_request","requestId":"6c0bec72-16d2-4be8-a6aa-e5755b37b42d","route":"workspace","status":200,"durationMs":38}
+{"event":"saha_request","requestId":"93db10b9-e197-4977-b1f5-195ceac1ed6b","route":"commands","status":200,"durationMs":31}
+{"event":"saha_request","requestId":"af19df74-b790-4ab7-8c11-cf3d660c887b","route":"workspace","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"0262c6f4-6adf-4e81-9b93-3371f7cdcdcf","route":"commands","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"cc00ba3f-42f3-40a0-a555-a7fbccd5ddd7","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"e88a0081-db30-4051-b35b-5d5b834e4e8a","route":"commands","status":403,"durationMs":6}
+{"event":"saha_request","requestId":"172cbcdd-7b9a-4a1f-a7af-4c43c834c9a2","route":"commands","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"985c5f7e-5542-4300-8fbf-3c4b404bb5de","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"c0afd466-2a50-42f0-9038-d48d90e29dfc","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"0c598c47-e105-4a46-aa10-15b0f74125c2","route":"commands","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"96ffb648-13a0-4014-957f-19b7973b686b","route":"commands","status":200,"durationMs":29}
+{"event":"saha_request","requestId":"27e24498-3f5f-4c00-9cf2-c0cbaf48ded1","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"482352c9-cf85-47fc-95c6-9fe5175fba06","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"307cc9cd-db01-46b2-abd9-b08143f46a2a","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"98ca3e80-117d-499f-b28a-4f6decedde50","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"e49ce746-38d7-468f-ba62-979970ae9a14","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"6bbe6228-b36e-4b8a-8d14-3a31a691caf7","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"268f46db-25dc-4d69-93f5-90eb8e1ebc35","route":"commands","status":200,"durationMs":21}
+{"event":"saha_request","requestId":"3e30815f-1935-487d-8d91-6a3ad4edeb7b","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"fed2b793-ceda-444c-b1ff-cf177512461d","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"fda0e63e-44dc-428e-b4fb-c51c26c24682","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"536613d5-9537-408a-801a-82190de4159d","route":"commands","status":409,"durationMs":4}
+{"event":"saha_request","requestId":"ca444a95-e5be-498e-8674-e6a53e3d8a7f","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"1d7503ab-99a2-4ad3-b50a-44f3743983c8","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"73cbd0fb-cb6d-4527-a260-85097cde3883","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"6e98d104-4a70-400b-938c-c3dd716db27b","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"245893e5-fca9-4d17-b661-6eb3120479d6","route":"commands","status":409,"durationMs":5}
+{"event":"saha_request","requestId":"72c60d8c-121e-4873-9ab6-2f2cc56a4dd5","route":"commands","status":409,"durationMs":3}
+{"event":"saha_request","requestId":"c388eeb3-370e-436a-9875-05d94979b412","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"b0ff0cd8-3e3b-4f7c-8947-f226790637a4","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"d9ef7e1c-9ae6-4bd1-902c-c0460ea29220","route":"commands","status":200,"durationMs":13}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"cbcb0384-88fa-469a-8299-8a7e6fab300f","route":"commands","status":503,"durationMs":7}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"The workspace is unavailable. Your input remains on screen; please try again."}
+
+503 !== 409
+
+    at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:3:402)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:10:397 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 503,
+  expected: 409,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
