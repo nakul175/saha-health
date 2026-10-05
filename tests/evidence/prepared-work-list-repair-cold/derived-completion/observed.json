@@ -1,0 +1,775 @@
+{
+  "passed": 94,
+  "personId": "eabe8ca1-a15e-4c4d-8f74-224f64815d35",
+  "taskIds": [
+    "39373cab-9da2-4c30-a5eb-211e430cad72",
+    "2cdc5942-1189-4f08-ba34-2464f2a1670b"
+  ],
+  "actionPlan": {
+    "personId": "eabe8ca1-a15e-4c4d-8f74-224f64815d35",
+    "personVersion": 13,
+    "generatedAt": "2026-10-05T21:55:07.035Z",
+    "items": [
+      {
+        "key": "referral:5e9577bb-f53d-42a3-a329-c697b88e680d",
+        "kind": "referral",
+        "title": "Referral to Synthetic explicitly named facility",
+        "reason": "Synthetic declared need reviewed with person · Emergency referral not yet accepted; No due date",
+        "sources": [
+          {
+            "kind": "referral",
+            "id": "5e9577bb-f53d-42a3-a329-c697b88e680d",
+            "label": "Referral",
+            "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+            "link": "visit",
+            "at": "2026-10-05T21:55:06.790Z"
+          },
+          {
+            "kind": "referral",
+            "id": "37e7d64c-6335-40a6-bce9-ab737c181f61",
+            "label": "Asked by Synthetic slot Beta v1 · 2026-10-05",
+            "link": "programme-episode",
+            "at": "2026-10-05T21:55:06.276Z"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": null,
+        "urgency": "emergency",
+        "status": "Draft",
+        "daysOverdue": 0,
+        "attention": "escalated",
+        "assignVia": "action-plan",
+        "targets": [
+          {
+            "kind": "referral",
+            "id": "5e9577bb-f53d-42a3-a329-c697b88e680d",
+            "version": 2
+          }
+        ],
+        "canAssign": true,
+        "canClaim": false,
+        "refs": [
+          {
+            "kind": "referral",
+            "id": "5e9577bb-f53d-42a3-a329-c697b88e680d"
+          }
+        ],
+        "waitingOn": [],
+        "blocks": []
+      },
+      {
+        "key": "referral:a901f4c8-a1cb-41fe-9d20-d18c50ba0489",
+        "kind": "referral",
+        "title": "Referral to Synthetic explicitly named facility",
+        "reason": "Synthetic declared need reviewed with person · Emergency referral not yet accepted; No due date",
+        "sources": [
+          {
+            "kind": "referral",
+            "id": "a901f4c8-a1cb-41fe-9d20-d18c50ba0489",
+            "label": "Referral",
+            "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+            "link": "visit",
+            "at": "2026-10-05T21:55:06.772Z"
+          },
+          {
+            "kind": "referral",
+            "id": "8fa351b5-d284-415a-b832-2c6049dbed77",
+            "label": "Asked by Synthetic slot Alpha v1 · 2026-10-05",
+            "link": "programme-episode",
+            "at": "2026-10-05T21:55:06.264Z"
+          },
+          {
+            "kind": "referral",
+            "id": "37e7d64c-6335-40a6-bce9-ab737c181f61",
+            "label": "Asked by Synthetic slot Beta v1 · 2026-10-05",
+            "link": "programme-episode",
+            "at": "2026-10-05T21:55:06.276Z"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": null,
+        "urgency": "emergency",
+        "status": "Draft",
+        "daysOverdue": 0,
+        "attention": "escalated",
+        "assignVia": "action-plan",
+        "targets": [
+          {
+            "kind": "referral",
+            "id": "a901f4c8-a1cb-41fe-9d20-d18c50ba0489",
+            "version": 2
+          }
+        ],
+        "canAssign": true,
+        "canClaim": false,
+        "refs": [
+          {
+            "kind": "referral",
+            "id": "a901f4c8-a1cb-41fe-9d20-d18c50ba0489"
+          }
+        ],
+        "waitingOn": [],
+        "blocks": []
+      },
+      {
+        "key": "follow-up:2cdc5942-1189-4f08-ba34-2464f2a1670b+39373cab-9da2-4c30-a5eb-211e430cad72",
+        "kind": "follow-up",
+        "title": "Shared synthetic eligible review",
+        "reason": "Scheduled by 2 programme episodes (slot_alpha, slot_beta); shown once",
+        "sources": [
+          {
+            "kind": "follow-up",
+            "id": "39373cab-9da2-4c30-a5eb-211e430cad72",
+            "label": "slot_alpha follow-up",
+            "programme": "slot_alpha"
+          },
+          {
+            "kind": "follow-up",
+            "id": "2cdc5942-1189-4f08-ba34-2464f2a1670b",
+            "label": "slot_beta follow-up",
+            "programme": "slot_beta"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": "2026-10-03",
+        "urgency": "routine",
+        "status": "Overdue",
+        "daysOverdue": 2,
+        "attention": "overdue",
+        "assignVia": "action-plan",
+        "targets": [
+          {
+            "kind": "follow-up",
+            "id": "39373cab-9da2-4c30-a5eb-211e430cad72",
+            "version": 13
+          },
+          {
+            "kind": "follow-up",
+            "id": "2cdc5942-1189-4f08-ba34-2464f2a1670b",
+            "version": 13
+          }
+        ],
+        "canAssign": false,
+        "canClaim": false,
+        "refs": [
+          {
+            "kind": "follow-up",
+            "id": "39373cab-9da2-4c30-a5eb-211e430cad72"
+          },
+          {
+            "kind": "follow-up",
+            "id": "2cdc5942-1189-4f08-ba34-2464f2a1670b"
+          }
+        ],
+        "waitingOn": [],
+        "blocks": [
+          {
+            "dependencyId": "7d37c4a6-1b77-44fc-b0f7-3d2dba6fdf0b",
+            "key": "follow-up:48233027-8354-4b18-8543-8715a050027c",
+            "title": "Additional synthetic check remains incomplete"
+          }
+        ]
+      },
+      {
+        "key": "outreach:28c941db-ab43-4eb1-a7cb-71f3562fd427",
+        "kind": "outreach",
+        "title": "Household visit contact follow-up",
+        "reason": "Outreach scheduled; item planned",
+        "sources": [
+          {
+            "kind": "outreach",
+            "id": "28c941db-ab43-4eb1-a7cb-71f3562fd427",
+            "label": "Outreach plan"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": "2026-10-05",
+        "urgency": "routine",
+        "status": "planned",
+        "daysOverdue": 0,
+        "attention": "due-today",
+        "assignVia": "outreach",
+        "targets": [],
+        "canAssign": false,
+        "canClaim": false,
+        "refs": [],
+        "waitingOn": [],
+        "blocks": []
+      },
+      {
+        "key": "correction:251acbe5-9c42-40a4-9c31-1ff06abcbc20",
+        "kind": "correction",
+        "title": "Wrong-patient visit: Referral to Synthetic explicitly named facility",
+        "reason": "This referral was made from a visit recorded against the wrong patient. Cancel it or confirm it applies, and tell the facility if it was contacted.",
+        "sources": [
+          {
+            "kind": "correction",
+            "id": "251acbe5-9c42-40a4-9c31-1ff06abcbc20",
+            "label": "Wrong-patient visit of 2026-10-05",
+            "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+            "link": "visit",
+            "at": "2026-10-05T21:55:06.974Z"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": null,
+        "urgency": "routine",
+        "status": "Open 0 days · draft",
+        "daysOverdue": 0,
+        "attention": "now",
+        "assignVia": "none",
+        "targets": [],
+        "canAssign": false,
+        "canClaim": false,
+        "refs": [],
+        "waitingOn": [],
+        "blocks": [],
+        "correction": {
+          "taskId": "251acbe5-9c42-40a4-9c31-1ff06abcbc20",
+          "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+          "correctionVisitId": null,
+          "cause": "void",
+          "action": "review",
+          "external": false,
+          "outputKind": "referral",
+          "destination": null,
+          "receipt": null,
+          "ageDays": 0,
+          "since": "2026-10-05T21:55:06.974Z",
+          "canClose": true,
+          "receiptCloses": false,
+          "href": "/?patient=eabe8ca1-a15e-4c4d-8f74-224f64815d35&visit=6555a10b-f4f9-4454-a262-f2be4a77d5bf"
+        }
+      },
+      {
+        "key": "correction:aea37a97-6add-47c5-b19a-1e889d50b979",
+        "kind": "correction",
+        "title": "Wrong-patient visit: Referral to Synthetic explicitly named facility",
+        "reason": "This referral was made from a visit recorded against the wrong patient. Cancel it or confirm it applies, and tell the facility if it was contacted.",
+        "sources": [
+          {
+            "kind": "correction",
+            "id": "aea37a97-6add-47c5-b19a-1e889d50b979",
+            "label": "Wrong-patient visit of 2026-10-05",
+            "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+            "link": "visit",
+            "at": "2026-10-05T21:55:06.974Z"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": null,
+        "urgency": "routine",
+        "status": "Open 0 days · draft",
+        "daysOverdue": 0,
+        "attention": "now",
+        "assignVia": "none",
+        "targets": [],
+        "canAssign": false,
+        "canClaim": false,
+        "refs": [],
+        "waitingOn": [],
+        "blocks": [],
+        "correction": {
+          "taskId": "aea37a97-6add-47c5-b19a-1e889d50b979",
+          "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+          "correctionVisitId": null,
+          "cause": "void",
+          "action": "review",
+          "external": false,
+          "outputKind": "referral",
+          "destination": null,
+          "receipt": null,
+          "ageDays": 0,
+          "since": "2026-10-05T21:55:06.974Z",
+          "canClose": true,
+          "receiptCloses": false,
+          "href": "/?patient=eabe8ca1-a15e-4c4d-8f74-224f64815d35&visit=6555a10b-f4f9-4454-a262-f2be4a77d5bf"
+        }
+      },
+      {
+        "key": "correction:daba2291-9333-436a-ba68-ee7091000644",
+        "kind": "correction",
+        "title": "Wrong-patient visit: Referral to Synthetic explicitly named facility",
+        "reason": "This referral was made from a visit recorded against the wrong patient. Cancel it or confirm it applies, and tell the facility if it was contacted.",
+        "sources": [
+          {
+            "kind": "correction",
+            "id": "daba2291-9333-436a-ba68-ee7091000644",
+            "label": "Wrong-patient visit of 2026-10-05",
+            "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+            "link": "visit",
+            "at": "2026-10-05T21:55:06.974Z"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": null,
+        "urgency": "routine",
+        "status": "Open 0 days · draft",
+        "daysOverdue": 0,
+        "attention": "now",
+        "assignVia": "none",
+        "targets": [],
+        "canAssign": false,
+        "canClaim": false,
+        "refs": [],
+        "waitingOn": [],
+        "blocks": [],
+        "correction": {
+          "taskId": "daba2291-9333-436a-ba68-ee7091000644",
+          "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+          "correctionVisitId": null,
+          "cause": "void",
+          "action": "review",
+          "external": false,
+          "outputKind": "referral",
+          "destination": null,
+          "receipt": null,
+          "ageDays": 0,
+          "since": "2026-10-05T21:55:06.974Z",
+          "canClose": true,
+          "receiptCloses": false,
+          "href": "/?patient=eabe8ca1-a15e-4c4d-8f74-224f64815d35&visit=6555a10b-f4f9-4454-a262-f2be4a77d5bf"
+        }
+      },
+      {
+        "key": "referral:65bb7684-4fdd-49f6-ab0f-3ee15c4bbc3f",
+        "kind": "referral",
+        "title": "Referral to Synthetic explicitly named facility",
+        "reason": "Synthetic declared need reviewed with person · No due date",
+        "sources": [
+          {
+            "kind": "referral",
+            "id": "65bb7684-4fdd-49f6-ab0f-3ee15c4bbc3f",
+            "label": "Referral",
+            "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+            "link": "visit",
+            "at": "2026-10-05T21:55:06.790Z"
+          },
+          {
+            "kind": "referral",
+            "id": "8fa351b5-d284-415a-b832-2c6049dbed77",
+            "label": "Asked by Synthetic slot Alpha v1 · 2026-10-05",
+            "link": "programme-episode",
+            "at": "2026-10-05T21:55:06.264Z"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": null,
+        "urgency": "urgent",
+        "status": "Draft",
+        "daysOverdue": 0,
+        "attention": "undated",
+        "assignVia": "action-plan",
+        "targets": [
+          {
+            "kind": "referral",
+            "id": "65bb7684-4fdd-49f6-ab0f-3ee15c4bbc3f",
+            "version": 2
+          }
+        ],
+        "canAssign": true,
+        "canClaim": false,
+        "refs": [
+          {
+            "kind": "referral",
+            "id": "65bb7684-4fdd-49f6-ab0f-3ee15c4bbc3f"
+          }
+        ],
+        "waitingOn": [],
+        "blocks": []
+      },
+      {
+        "key": "message-follow-up:f06e143f-fbaa-4ce7-909c-0ee61644fe0a",
+        "kind": "message-follow-up",
+        "title": "Follow up a failed reminder",
+        "reason": "A simulated reminder failed; the patient has not been reached by message.",
+        "sources": [
+          {
+            "kind": "message-follow-up",
+            "id": "f06e143f-fbaa-4ce7-909c-0ee61644fe0a",
+            "label": "Message follow-up"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": null,
+        "urgency": "routine",
+        "status": "Open",
+        "daysOverdue": 0,
+        "attention": "undated",
+        "assignVia": "outreach",
+        "targets": [],
+        "canAssign": false,
+        "canClaim": false,
+        "refs": [],
+        "waitingOn": [],
+        "blocks": []
+      },
+      {
+        "key": "follow-up:48233027-8354-4b18-8543-8715a050027c",
+        "kind": "follow-up",
+        "title": "Additional synthetic check remains incomplete",
+        "reason": "slot_alpha follow-up · Waiting: not counted as overdue while the blocking item is open.",
+        "sources": [
+          {
+            "kind": "follow-up",
+            "id": "48233027-8354-4b18-8543-8715a050027c",
+            "label": "slot_alpha follow-up",
+            "programme": "slot_alpha"
+          }
+        ],
+        "owner": {
+          "userId": "t-f21eaab4-slot-owner",
+          "displayName": "slot-owner-f21eaab4@example.invalid",
+          "role": "clinician",
+          "eligible": true
+        },
+        "queue": null,
+        "ownershipGap": null,
+        "due": "2026-10-03",
+        "urgency": "routine",
+        "status": "Waiting for Shared synthetic eligible review",
+        "daysOverdue": 0,
+        "attention": "waiting",
+        "assignVia": "action-plan",
+        "targets": [
+          {
+            "kind": "follow-up",
+            "id": "48233027-8354-4b18-8543-8715a050027c",
+            "version": 13
+          }
+        ],
+        "canAssign": true,
+        "canClaim": false,
+        "refs": [
+          {
+            "kind": "follow-up",
+            "id": "48233027-8354-4b18-8543-8715a050027c"
+          }
+        ],
+        "waitingOn": [
+          {
+            "dependencyId": "7d37c4a6-1b77-44fc-b0f7-3d2dba6fdf0b",
+            "key": "follow-up:2cdc5942-1189-4f08-ba34-2464f2a1670b+39373cab-9da2-4c30-a5eb-211e430cad72",
+            "title": "Shared synthetic eligible review",
+            "status": "Overdue",
+            "attention": "overdue",
+            "daysOverdue": 2
+          }
+        ],
+        "blocks": []
+      }
+    ],
+    "unowned": 0,
+    "waiting": 1,
+    "canAssign": true,
+    "canLink": true,
+    "dependencies": [
+      {
+        "id": "7d37c4a6-1b77-44fc-b0f7-3d2dba6fdf0b",
+        "dependent": {
+          "kind": "follow-up",
+          "id": "48233027-8354-4b18-8543-8715a050027c",
+          "title": "Additional synthetic check remains incomplete",
+          "open": true
+        },
+        "blocker": {
+          "kind": "follow-up",
+          "id": "39373cab-9da2-4c30-a5eb-211e430cad72",
+          "title": "Shared synthetic eligible review",
+          "open": true
+        },
+        "at": "2026-10-05T21:55:06.356Z",
+        "by": "slot-owner-f21eaab4@example.invalid",
+        "reason": "Synthetic explicit household evidence and neutral outreach contract",
+        "state": "waiting",
+        "removed": null
+      }
+    ],
+    "eligibleOwners": [
+      {
+        "userId": "fixture:org_58eeb859f7a2206cc1a91a84ac7a8b09:clinician-author",
+        "displayName": "Demonstration clinician — author (synthetic)",
+        "role": "clinician"
+      },
+      {
+        "userId": "fixture:org_58eeb859f7a2206cc1a91a84ac7a8b09:clinician-reviewer",
+        "displayName": "Demonstration clinician — reviewer (synthetic)",
+        "role": "clinician"
+      },
+      {
+        "userId": "t-f21eaab4-slot-owner",
+        "displayName": "slot-owner-f21eaab4@example.invalid",
+        "role": "clinician"
+      },
+      {
+        "userId": "t-b32278f3-slot-reviewer",
+        "displayName": "Synthetic clinician",
+        "role": "clinician"
+      }
+    ],
+    "rules": "Ordered: ownership gaps and escalations first, then overdue, due today, needing review now, undated and upcoming, then items waiting on another open item; within each, higher urgency and longer overdue first. Follow-ups with the same title, due date and owner are shown once with every programme source. A waiting item is not counted as overdue while its blocker is open; the blocker keeps its own order. Computed on read; nothing is sent."
+  },
+  "selectedStatus": 200,
+  "selected": {
+    "format": "saha-prepared-work-list-v1",
+    "expectedActorId": "t-f21eaab4-slot-owner",
+    "organisationId": "org_58eeb859f7a2206cc1a91a84ac7a8b09",
+    "memberVersion": 3,
+    "rows": [
+      {
+        "personId": "01812af1-2ac7-4e63-827d-b82c1b78daf4",
+        "personName": "Synthetic household Bravo worker evidence",
+        "personVersion": 7,
+        "tasks": [
+          {
+            "taskId": "ce9e0d48-fdc8-423f-be89-f273208c2183",
+            "title": "Other member synthetic review",
+            "due": "2026-10-03",
+            "episodeId": "4bfc415e-79e7-4fb6-a14d-5849d527f69c",
+            "packId": "slot_alpha",
+            "packVersion": 1,
+            "hash": "4c14a13defbe83a817dbbf8b587ab3463e9f6511c4739249293ca57337460349"
+          }
+        ],
+        "classification": "declared-due",
+        "canPrepare": true,
+        "reason": null,
+        "planHash": "1f1c392b010bc250cf478ed85d2a462bd1a0490381f819a75f2886ed12575c90"
+      },
+      {
+        "personId": "eabe8ca1-a15e-4c4d-8f74-224f64815d35",
+        "personName": "Synthetic household Alpha worker evidence",
+        "personVersion": 13,
+        "tasks": [
+          {
+            "taskId": "2cdc5942-1189-4f08-ba34-2464f2a1670b",
+            "title": "Shared synthetic eligible review",
+            "due": "2026-10-03",
+            "episodeId": "37e7d64c-6335-40a6-bce9-ab737c181f61",
+            "packId": "slot_beta",
+            "packVersion": 1,
+            "hash": "ea3a92e20a042a9a0adbcc1afa88fe09d277f44b5e72d7709c78c31003832ec2"
+          },
+          {
+            "taskId": "39373cab-9da2-4c30-a5eb-211e430cad72",
+            "title": "Shared synthetic eligible review",
+            "due": "2026-10-03",
+            "episodeId": "8fa351b5-d284-415a-b832-2c6049dbed77",
+            "packId": "slot_alpha",
+            "packVersion": 1,
+            "hash": "85de210128c5191f378b036dda7fc17d121b3562140e2b615220cb37c5a941bd"
+          },
+          {
+            "taskId": "48233027-8354-4b18-8543-8715a050027c",
+            "title": "Additional synthetic check remains incomplete",
+            "due": "2026-10-03",
+            "episodeId": "8fa351b5-d284-415a-b832-2c6049dbed77",
+            "packId": "slot_alpha",
+            "packVersion": 1,
+            "hash": "50e4528ce57f293d0ed4ec5006813fc100a31054196c4ed897831ed537fbea37"
+          }
+        ],
+        "classification": "declared-due",
+        "canPrepare": true,
+        "reason": null,
+        "planHash": "fd74a2e3491292c14d5c2bb284babf52e461929fb2ee497c5a574f37638c6ce1"
+      },
+      {
+        "personId": "p_aarav",
+        "personName": "Aarav Singh",
+        "personVersion": 1,
+        "tasks": [],
+        "classification": "assigned-no-declared-due",
+        "canPrepare": true,
+        "reason": null,
+        "planHash": "e3ecb0dc826e534242538bf89c2a3d22f264e23d702627a277ac1a5328de82f1"
+      },
+      {
+        "personId": "p_farida",
+        "personName": "Farida Begum",
+        "personVersion": 1,
+        "tasks": [],
+        "classification": "assigned-no-declared-due",
+        "canPrepare": true,
+        "reason": null,
+        "planHash": "e2c8f40a8bedd6e8635a10de3a4093b551e8c01db5ed6f6d4b88195ab1544b29"
+      },
+      {
+        "personId": "p_meena",
+        "personName": "Meena Devi",
+        "personVersion": 1,
+        "tasks": [],
+        "classification": "assigned-no-declared-due",
+        "canPrepare": true,
+        "reason": null,
+        "planHash": "d73b4abc4b0f8d33c9cb8c2ca36cfc9848d3ac1d86b39cd926be4c1578cf9d9f"
+      },
+      {
+        "personId": "p_rajesh",
+        "personName": "Rajesh Kumar",
+        "personVersion": 1,
+        "tasks": [],
+        "classification": "assigned-no-declared-due",
+        "canPrepare": true,
+        "reason": null,
+        "planHash": "afde8cc55c4a981dc297a41b6334b1fe214011200a66608e998ab9affe5b5c51"
+      },
+      {
+        "personId": "p_sunita",
+        "personName": "Sunita Bai",
+        "personVersion": 1,
+        "tasks": [],
+        "classification": "assigned-no-declared-due",
+        "canPrepare": true,
+        "reason": null,
+        "planHash": "1093b3cdcef2e0760e38a093e51fff253d07bd31154c18c216ea55d27a3bce07"
+      }
+    ],
+    "moreAvailable": false,
+    "nextOffset": null,
+    "notice": "Only deliberately prepared visits are available offline. No task completion, confirmation or provider operation is performed."
+  },
+  "originalClosure": [
+    {
+      "id": "39373cab-9da2-4c30-a5eb-211e430cad72",
+      "completionContract": {
+        "rule": {
+          "id": "review-complete",
+          "label": "Review evidenced by confirmed answers",
+          "requiredQuestions": [
+            "review_done"
+          ],
+          "when": {
+            "questionId": "review_done",
+            "operator": "eq",
+            "value": "Yes"
+          }
+        },
+        "packId": "slot_alpha",
+        "packVersion": 1,
+        "installationId": "fee74ff3-fa1a-43bf-a444-75945bb18a40",
+        "manifestHash": "a233ad42dbf4ebd226265772d7665630dc3f96aa96bac4f321331c930384dcc5"
+      },
+      "enrolmentId": "8fa351b5-d284-415a-b832-2c6049dbed77",
+      "packId": "slot_alpha",
+      "title": "Shared synthetic eligible review",
+      "due": "2026-10-03",
+      "ownerId": "t-f21eaab4-slot-owner",
+      "state": "completed",
+      "createdAt": "2026-10-05T21:55:06.303Z",
+      "createdBy": "t-f21eaab4-slot-owner",
+      "closedAt": "2026-10-05T21:55:06.877Z",
+      "resolution": "Selected declared requirements met by this person’s confirmed household visit.",
+      "completionEvidence": {
+        "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+        "visitVersion": 4,
+        "recordVersion": 4,
+        "slotId": "d585149c-6e07-43a8-b5fa-b663b61131e3",
+        "at": "2026-10-05T21:55:06.877Z",
+        "by": "t-f21eaab4-slot-owner"
+      }
+    },
+    {
+      "id": "2cdc5942-1189-4f08-ba34-2464f2a1670b",
+      "completionContract": {
+        "rule": {
+          "id": "review-complete",
+          "label": "Review evidenced by confirmed answers",
+          "requiredQuestions": [
+            "review_done"
+          ],
+          "when": {
+            "questionId": "review_done",
+            "operator": "eq",
+            "value": "Yes"
+          }
+        },
+        "packId": "slot_beta",
+        "packVersion": 1,
+        "installationId": "e22a8a5f-9194-443a-b2b1-9874d0284eba",
+        "manifestHash": "47cdfb18ac3d8df83d89a6128bafe85b3a3db42c1558e5954040415ec26c6d81"
+      },
+      "enrolmentId": "37e7d64c-6335-40a6-bce9-ab737c181f61",
+      "packId": "slot_beta",
+      "title": "Shared synthetic eligible review",
+      "due": "2026-10-03",
+      "ownerId": "t-f21eaab4-slot-owner",
+      "state": "completed",
+      "createdAt": "2026-10-05T21:55:06.315Z",
+      "createdBy": "t-f21eaab4-slot-owner",
+      "closedAt": "2026-10-05T21:55:06.877Z",
+      "resolution": "Selected declared requirements met by this person’s confirmed household visit.",
+      "completionEvidence": {
+        "visitId": "6555a10b-f4f9-4454-a262-f2be4a77d5bf",
+        "visitVersion": 4,
+        "recordVersion": 4,
+        "slotId": "d585149c-6e07-43a8-b5fa-b663b61131e3",
+        "at": "2026-10-05T21:55:06.877Z",
+        "by": "t-f21eaab4-slot-owner"
+      }
+    }
+  ]
+}
