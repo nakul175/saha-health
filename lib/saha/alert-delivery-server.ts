@@ -45,7 +45,9 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   if(views.some(v=>v.member.role!=='admin'&&!v.aggregateAvailable))for(const view of views)view.alerts=view.alerts.filter(a=>!clinicalAggregateAlert(a.id));
   const present = presentFrom(views);
   const open = (await d.prepare('SELECT id,alert_id,scope_key,owner_role,severity,title,opened_at,escalated_at FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL').bind(orgId).all<any>()).results.map((r): OpenOccurrence => ({ id: r.id, alertId: r.alert_id, scopeKey: r.scope_key, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at, escalatedAt: r.escalated_at }));
-  const clinicalReady=views.every(v=>v.member.role==='admin'||v.aggregateAvailable);
+  // No eligible reporting recipients means unknown clinical coverage, never resolution.
+  const reportingViews=views.filter(v=>v.member.role!=='admin');
+  const clinicalReady=reportingViews.length>0&&reportingViews.every(v=>v.aggregateAvailable);
   const plan = planDelivery({ present, open:clinicalReady?open:open.filter(o=>!clinicalAggregateAlert(o.alertId)), acknowledgements: s.operations?.acknowledgements ?? [], members: s.members, now });
   // Only changes are written: a steady state (nothing new, cleared or re-opened) costs these reads and no writes.
   const held = open.length ? (await d.prepare('SELECT occurrence_id,user_id,level,cleared_at,cleared_reason FROM alert_notifications WHERE org_id=? AND occurrence_id IN (SELECT id FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL)').bind(orgId, orgId).all<{ occurrence_id: string; user_id: string; level: number; cleared_at: string | null; cleared_reason: string | null }>()).results : [];
