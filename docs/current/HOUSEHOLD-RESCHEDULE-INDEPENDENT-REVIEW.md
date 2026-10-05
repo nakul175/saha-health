@@ -1,0 +1,13 @@
+# Independent atomic household reschedule review
+
+5 October 2026. Reviewed author source11761a9e in an isolated checkout based on fb585412. No production defect was established by this bounded review; no guard was changed.
+
+Executed a fresh framework build, TypeScript check, author contract35, affected household12/household-visit19/purpose11 contracts and real local Worker/D1/phone26 checks. The26 include ten repeated author scenarios and sixteen added adversarial scenarios; these are overlapping software evidence, not formal acceptance cases.
+
+The additional checks exercise anonymous requests and strict-body refusal, retained predecessor lineage, planner demotion to administrator/supervisor/provider and suspension, current purpose/programme withdrawal on both new execution and exact receipt replay, completed home work, merger and departed covered membership, 100 retained slots, duplicate planned work, foreign covered-person versions and a receipt-insertion transaction fault. Every refusal checks exact household history plus reschedule audit/receipt rows remain unchanged. Audit-insertion and receipt-insertion faults also preserve organisation revision. Normal390px touch produces exactly one command request; concurrent same-version replacements yield200/409 and one new linked slot. Clinical patient rows stay byte-equivalent.
+
+Dispatch inspection confirms householdVisitSchema options enter platform parsing automatically, applyHouseholdVisit is reached by existing server dispatch, replay calls authorizeHouseholdVisit and purpose authorization, and the new type stays deliberately outside patient-partition certification. Existing organisation-wide persistence checks both organisation revision and patient_revision, so a concurrent patient-only mutation invalidates the transaction. Its visitId is a household slot, not an imported clinical encounter; imported-visit guards do not authorize or modify that slot. No new HTTP route/migration was introduced.
+
+Two independent fixture mistakes were retained: owner self-narrowing correctly refused422, and a date unchanged from the current slot correctly refused409 before the intended capacity guard. Corrected fixtures use a current non-owner original planner with another approving owner and a genuinely changed date. No production gate was weakened to obtain green evidence.
+
+Limits: synthetic local Worker and Chromium only; no hosted races, physical Android, clinical timing approval, reminder delivery or full B13/formal acceptance closure. Root integration must register this new workflow suite and refresh aggregate documentation, requirement citations and publication baseline together. Evidence is under tests/evidence/household-reschedule-independent/.
