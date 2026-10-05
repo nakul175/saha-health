@@ -1,0 +1,33 @@
+{
+  "reviewedSource": "a28dba6709859436efe9c5cd53d6ef403b715275",
+  "checks": {
+    "programmeDomain": 21,
+    "fieldCrypto": 38,
+    "scopeDomain": 14,
+    "scopeBrowser": 10,
+    "programmeBrowserWithRepresentativeCacheUpgrade": 19
+  },
+  "total": 102,
+  "build": true,
+  "typescript": true,
+  "productionSourceChanges": false,
+  "upgradeFixture": {
+    "initialDocument": "/app/offline/",
+    "setup": "Pause only initial ServiceWorkerContainer.register until ciphertext and representative previous cache namespaces are seeded; restore real register on same document and install unchanged actual new scripts.",
+    "oldCacheNames": [
+      "saha-app-public-shell-v2",
+      "saha-field-shell-v3"
+    ],
+    "newCacheNames": [
+      "saha-app-public-shell-v3",
+      "saha-field-shell-v4"
+    ],
+    "assertions": [
+      "Initial controller registration absent",
+      "Both new workers activated; previous cache names removed",
+      "Encrypted vault record exactly unchanged before unlock",
+      "Actual encrypted network-offline app reload and conditional capture/sync still succeed"
+    ],
+    "limits": "Representative namespace upgrade, not an old app binary or physical Android upgrade."
+  }
+}

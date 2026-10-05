@@ -1,0 +1,42 @@
+{
+  "passed": 8,
+  "failed": 1,
+  "error": "Timeout waiting for navigator.serviceWorker.controller after fixture navigation. No product diagnosis proved.",
+  "state": {
+    "regs": [
+      {
+        "scope": "http://127.0.0.1:8978/app",
+        "active": "http://127.0.0.1:8978/app-sw.js",
+        "state": "activated"
+      },
+      {
+        "scope": "http://127.0.0.1:8978/field/",
+        "active": "http://127.0.0.1:8978/field/sw.js",
+        "state": "activated"
+      }
+    ],
+    "cache": [
+      {
+        "name": "saha-app-public-shell-v3",
+        "keys": [
+          "http://127.0.0.1:8978/app/offline/",
+          "http://127.0.0.1:8978/app/offline/style.css",
+          "http://127.0.0.1:8978/field/app.js",
+          "http://127.0.0.1:8978/field/vault.js",
+          "http://127.0.0.1:8978/field/app-grants.js",
+          "http://127.0.0.1:8978/field/style.css"
+        ]
+      },
+      {
+        "name": "saha-field-shell-v4",
+        "keys": [
+          "http://127.0.0.1:8978/field/",
+          "http://127.0.0.1:8978/field/app.js",
+          "http://127.0.0.1:8978/field/vault.js",
+          "http://127.0.0.1:8978/field/app-grants.js",
+          "http://127.0.0.1:8978/field/style.css"
+        ]
+      }
+    ]
+  }
+}
