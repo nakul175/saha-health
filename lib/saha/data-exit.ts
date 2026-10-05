@@ -23,7 +23,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0022_registration_device_work';
+export const SCHEMA_MIGRATION = '0024_registration_wire_receipts';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -50,6 +50,7 @@ export const TABLES: TableSpec[] = [
   { table: 'device_work_grants', order: 'actor_id,lease_id', scope: 'person', note: 'Immutable original-worker grant metadata; no clinical packet or device fingerprint.' },
   { table: 'device_registration_grants', order: 'actor_id,registration_id', scope: 'person', note: 'Original accepted registration ownership and immutable baseline; legacy history explicitly unavailable.' },
   { table: 'device_registration_receipts', order: 'actor_id,receipt_key', scope: 'person', note: 'Exact accepted original-worker registration receipt bindings.' },
+  { table: 'device_registration_wire_receipts', order: 'actor_id,receipt_key,wire_hash', scope: 'person', note: 'Exact authenticated registration wire digests; no command bodies.' },
   { table: 'device_match_copies', order: 'actor_id,id', scope: 'self', note: 'Only original actor protected candidate ID/version and query hash provenance; whole receipts outside current candidate scope are withheld; no raw search.' },
   { table: 'device_work_events', order: 'at,id', scope: 'self', note: 'Only the exporter\'s redacted diagnostics, deletion instructions and client-attested acknowledgements; server evidence is not pruned.' },
   { table: 'request_metrics', order: 'bucket,route,status', scope: 'org' },

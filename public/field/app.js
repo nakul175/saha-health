@@ -159,7 +159,7 @@ async function queueRegistration(){const f=book.form??=blankForm(),ctx=book.cont
  regs().push(r);book.form=blankForm();selected='reg:'+r.id;
  try{await persist();}catch(err){book.registrations=regs().filter(x=>x!==r);book.form=f;selected='register';throw err;}
  status('Registration saved on this device, encrypted. It syncs before visit drafts. / पंजीकरण डिवाइस पर एन्क्रिप्टेड सहेजा गया।');}
-function registrationBody(r){return {type:'registerFieldPerson',registrationId:r.id,capturedAt:r.capturedAt,...r.person,...(r.facts?{facts:structuredClone(r.facts)}:{}),...(r.referralRequest?{referralRequest:structuredClone(r.referralRequest)}:{}),...(r.decision?{registrationReview:structuredClone(r.decision)}:{})};}
+function registrationBody(r){return {type:'registerFieldPerson',registrationId:r.id,capturedAt:r.capturedAt,...r.person,...(r.decision?{registrationReview:{hash:r.decision.hash,decision:r.decision.decision,reason:r.decision.reason}}:{}),...(r.facts?{facts:structuredClone(r.facts)}:{}),...(r.referralRequest?{referralRequest:{facility:r.referralRequest.facility,reason:r.referralRequest.reason}}:{})};}
 async function findMatches(r){const p=r.person,res=await fetch('/api/patient-matches',{method:'POST',cache:'no-store',redirect:'error',headers:{'Content-Type':'application/json','x-saha-organisation':r.organisationId},body:JSON.stringify({name:p.name,age:p.age,sex:p.sex,village:p.village,teamId:p.teamId})});const j=await res.json();if(!res.ok)throw Error(j.error??'Search failed.');return j;}
 // Returns the new state, or null when the notebook was locked meanwhile. Throws when the outcome is uncertain.
 async function syncRegistration(r){const e=epoch;if(r.state!=='queued')return r.state;

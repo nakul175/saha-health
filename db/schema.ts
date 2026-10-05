@@ -186,3 +186,7 @@ export const deviceRegistrationReceipts=sqliteTable('device_registration_receipt
 export const deviceMatchCopies=sqliteTable('device_match_copies',{
  orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),id:text('id').notNull(),memberVersion:integer('member_version').notNull(),queryHash:text('query_hash').notNull(),originalRole:text('original_role').notNull(),candidateVersions:text('candidate_versions').notNull(),issuedAt:text('issued_at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.actorId,t.id]})]);
+
+export const deviceRegistrationWireReceipts=sqliteTable('device_registration_wire_receipts',{
+ orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),receiptKey:text('receipt_key').notNull(),wireHash:text('wire_hash').notNull(),registrationId:text('registration_id').notNull(),personId:text('person_id').notNull(),bodyHash:text('body_hash').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.receiptKey,t.wireHash]})]);
