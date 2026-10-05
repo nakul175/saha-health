@@ -50,7 +50,7 @@ try {
     const unit = cat.suites.filter(s => s.layer === 'unit');
     assert.ok(unit.length >= 105, `unit suites ${unit.length}`);
     // Playwright specs (tests/ui/*.spec.*) are components of the UI configuration; the rest are the HTTP suite's modules.
-    assert.equal(cat.components.filter(c => !c.file.startsWith('tests/ui/')).length, files.filter(f => /^tests\/[^/]+-smoke\.mjs$/.test(f) && !['tests/api-smoke.mjs', 'tests/run-api-smoke.mjs'].includes(f)).length);
+    assert.equal(cat.components.filter(c => !c.file.startsWith('tests/ui/')).length, files.filter(f => /^tests\/[^/]+-smoke\.mjs$/.test(f) && !['tests/api-smoke.mjs', 'tests/run-api-smoke.mjs', 'tests/workspace-metadata-smoke.mjs'].includes(f)).length);
     assert.ok(cat.suites.some(s => s.id === 'integration/run-api-smoke' && s.results.includes('tests/latest-result.json')), 'the HTTP suite result file is found in its entry module');
     assert.ok(cat.suites.find(s => s.id === 'resilience/recovery-drill').results.includes('tests/recovery-result.json'));
     assert.equal(new Set(cat.suites.map(s => s.id)).size, cat.suites.length, 'suite ids are unique');

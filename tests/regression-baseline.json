@@ -23,6 +23,21 @@
       "file": "tests/auxiliary-read-http.mjs",
       "minPassed": 15
     },
+    "integration/import-unit-parity-browser": {
+      "layer": "integration",
+      "file": "tests/import-unit-parity-browser.mjs",
+      "minPassed": 13
+    },
+    "integration/range-first-tap-browser": {
+      "layer": "integration",
+      "file": "tests/range-first-tap-browser.mjs",
+      "minPassed": 18
+    },
+    "integration/range-protocol-browser": {
+      "layer": "integration",
+      "file": "tests/range-protocol-browser.mjs",
+      "minPassed": 25
+    },
     "integration/reconciliation-http": {
       "layer": "integration",
       "file": "tests/reconciliation-http.mjs",
@@ -127,6 +142,11 @@
       "layer": "uat",
       "file": "tests/uat/generate-uat-pack.mjs",
       "minPassed": 10
+    },
+    "ui/availability": {
+      "layer": "ui",
+      "file": "tests/ui/availability.mjs",
+      "minPassed": 11
     },
     "ui/playwright.config": {
       "layer": "ui",
@@ -272,6 +292,11 @@
       "layer": "unit",
       "file": "tests/audit-query-plan-contract.mjs",
       "minPassed": 12
+    },
+    "unit/availability-contract": {
+      "layer": "unit",
+      "file": "tests/availability-contract.mjs",
+      "minPassed": 20
     },
     "unit/capability-lifecycle-contract": {
       "layer": "unit",
@@ -513,6 +538,11 @@
       "file": "tests/identity-contract.mjs",
       "minPassed": 19
     },
+    "unit/import-unit-parity-contract": {
+      "layer": "unit",
+      "file": "tests/import-unit-parity-contract.mjs",
+      "minPassed": 18
+    },
     "unit/incentive-claims-contract": {
       "layer": "unit",
       "file": "tests/incentive-claims-contract.mjs",
@@ -652,6 +682,11 @@
       "layer": "unit",
       "file": "tests/r26-correction-propagation-contract.mjs",
       "minPassed": 8
+    },
+    "unit/range-protocol-contract": {
+      "layer": "unit",
+      "file": "tests/range-protocol-contract.mjs",
+      "minPassed": 25
     },
     "unit/read-audit-completion-contract": {
       "layer": "unit",

@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **69 HTTP method/route pairs** and **232 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **72 HTTP method/route pairs** and **238 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -15,6 +15,8 @@ Generated from source: **69 HTTP method/route pairs** and **232 command schema d
 | POST | `/api/anaemia-screenings` | [app/api/anaemia-screenings/route.ts](../../app/api/anaemia-screenings/route.ts) |
 | GET | `/api/audit/chain` | [app/api/audit/chain/route.ts](../../app/api/audit/chain/route.ts) |
 | GET | `/api/audit` | [app/api/audit/route.ts](../../app/api/audit/route.ts) |
+| GET | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
+| POST | `/api/availability` | [app/api/availability/route.ts](../../app/api/availability/route.ts) |
 | GET | `/api/caseload` | [app/api/caseload/route.ts](../../app/api/caseload/route.ts) |
 | POST | `/api/commands` | [app/api/commands/route.ts](../../app/api/commands/route.ts) |
 | GET | `/api/continuity` | [app/api/continuity/route.ts](../../app/api/continuity/route.ts) |
@@ -69,6 +71,7 @@ Generated from source: **69 HTTP method/route pairs** and **232 command schema d
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
 | GET | `/api/trace` | [app/api/trace/route.ts](../../app/api/trace/route.ts) |
+| GET | `/api/value-range-protocols` | [app/api/value-range-protocols/route.ts](../../app/api/value-range-protocols/route.ts) |
 | GET | `/api/worker-activity` | [app/api/worker-activity/route.ts](../../app/api/worker-activity/route.ts) |
 | POST | `/api/workforce-import` | [app/api/workforce-import/route.ts](../../app/api/workforce-import/route.ts) |
 | GET | `/api/worklists` | [app/api/worklists/route.ts](../../app/api/worklists/route.ts) |

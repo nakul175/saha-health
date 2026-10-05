@@ -150,6 +150,7 @@ export const PANEL_HOME = {
   'app/record-import-panel.tsx': ['Organisation & team'], 'app/referral-panel.tsx': ['Care handover', 'My work', PERSON], 'app/referral-request-panel.tsx': [PERSON],
   'app/referral-request-queue-panel.tsx': ['Care handover'], 'app/retention-panel.tsx': ['Organisation & team'], 'app/rights-panel.tsx': [PERSON, 'Care handover'], 'app/roster-panel.tsx': ['Organisation & team'],
   'app/shadow-panel.tsx': ['Clinical governance'], 'app/trace-panel.tsx': ['Submissions', 'Operations'], 'app/value-override-panel.tsx': [PERSON, 'Organisation & team'],
+  'app/availability-panel.tsx': ['Operations'], 'app/value-range-protocol-panel.tsx': ['Organisation & team', PERSON],
   'app/worker-activity-panel.tsx': ['Care handover'], 'app/workforce-import-panel.tsx': ['Organisation & team'], 'app/worklist-panel.tsx': ['My work', 'People', 'Submissions'],
 };
 const GENERIC_SHELL = new Set(['app/workspace.tsx', 'app/layout.tsx', 'app/page.tsx', 'app/app/page.tsx', 'app/frontline-navigation.tsx', 'app/i18n.tsx', 'app/chatgpt-auth.ts', 'app/globals.css']);

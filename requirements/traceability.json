@@ -716,8 +716,8 @@
       "sourceTextLine": 210,
       "implementation": "partial",
       "target": "R11",
-      "current": "Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i). Slice 6ab: a clinician confirming an unusual value must not be the measurement's recorded author or the author of any override with the same value (rewording the reason or re-entering the value in another unit no longer lets the recorder confirm it). App-first A04 completes six online/notebook unit pickers, canonical read-only previews and original-quantity/source/override-author/range-version lineage through encrypted reload and draft sync; unknown entered fields now return controlled 422. Independent review reran 20 Chromium journeys and 126 conversion cases. Wider pinned patient-context protocol governance remains required software work; clinical ranges are not approved.",
-      "remaining": "Approved clinical ranges and their governance, age-, sex- and pregnancy-specific ranges, further units (blood pressure kPa, gestational age in weeks and days), range checks for programme answers, and structured (non-note) exchange of overrides.",
+      "current": "Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i). Slice 6ab: a clinician confirming an unusual value must not be the measurement's recorded author or the author of any override with the same value (rewording the reason or re-entering the value in another unit no longer lets the recorder confirm it). App-first A04 completes six online/notebook unit pickers, canonical read-only previews and original-quantity/source/override-author/range-version lineage through encrypted reload and draft sync; unknown entered fields now return controlled 422. Independent review reran 20 Chromium journeys and 126 conversion cases. Wider pinned patient-context protocol governance remains required software work; clinical ranges are not approved. Current governed range publications pin compiled policy/hash/context/intervals on new visits, imports and signed grants with exact-hash independent review, current reviewer authority and explicit stale-context refresh. Existing captures stay immutable; population examples remain synthetic/training only and clinical approval pending. CSV now accepts all six existing alternate units including BP kPa and weeks+days, preserving original/source/file/policy lineage. Phone first-tap Save defect found by independent review is fixed locally and being retested before publishing this batch.",
+      "remaining": "Approved clinical thresholds/terminology and production population policies; programme-answer range coverage and structured exchange of overrides; broader clinical, physical-device and phone accessibility acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -742,7 +742,13 @@
         "tests/touch-units-browser.mjs",
         "tests/value-ranges-context-contract.mjs",
         "docs/current/APP-TOUCH-UNITS.md",
-        "docs/current/APP-TOUCH-UNITS-INDEPENDENT-REVIEW.md"
+        "docs/current/APP-TOUCH-UNITS-INDEPENDENT-REVIEW.md",
+        "tests/range-protocol-contract.mjs",
+        "tests/range-protocol-browser.mjs",
+        "tests/import-unit-parity-contract.mjs",
+        "tests/import-unit-parity-browser.mjs",
+        "docs/current/APP-VALUE-RANGE-PROTOCOL.md",
+        "docs/current/APP-IMPORT-UNIT-PARITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3381,7 +3387,10 @@
         "app/environment-panel.tsx",
         "tests/environment-contract.mjs",
         "tests/environment-smoke.mjs",
-        "docs/current/SLICE-6N-ENVIRONMENTS.md"
+        "docs/current/SLICE-6N-ENVIRONMENTS.md",
+        "tests/availability-contract.mjs",
+        "tests/ui/availability.mjs",
+        "docs/current/SYNTHETIC-AVAILABILITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3759,7 +3768,7 @@
       "sourceTextLine": 569,
       "implementation": "partial",
       "target": "R15",
-      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events. Slice 6aa: an unpaged workspace read by a non-ASHA viewer above the paging threshold records a viewPatientRecord event for every returned record not recorded in the last 12 hours before returning it (fail closed); the import rejection report is an access-audit event that moves no revision. Slice 10h: the remaining read paths record chained events before the read returns, refused if the event cannot be written: one summarised event per workspace snapshot load (scope size, records returned, paging window; also the snapshot returned with a command and with a replayed command), an explicit record-opened event reported by the workspace (the workspace shows the record only after the server answers; client-reported), patient searches, duplicate checks and patient or work-list pages (kind and result count, never the search text or entered details) and aggregate views (indicator results, the JSON operations and care report, aggregate report history; no cell values). Every access event now carries the acting membership's role, owner flag, membership version and the delegated authority in force inside its hashed detail; the default Activity log page leaves summary events out unless asked.",
+      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events. Slice 6aa: an unpaged workspace read by a non-ASHA viewer above the paging threshold records a viewPatientRecord event for every returned record not recorded in the last 12 hours before returning it (fail closed); the import rejection report is an access-audit event that moves no revision. Slice 10h: the remaining read paths record chained events before the read returns, refused if the event cannot be written: one summarised event per workspace snapshot load (scope size, records returned, paging window; also the snapshot returned with a command and with a replayed command), an explicit record-opened event reported by the workspace (the workspace shows the record only after the server answers; client-reported), patient searches, duplicate checks and patient or work-list pages (kind and result count, never the search text or entered details) and aggregate views (indicator results, the JSON operations and care report, aggregate report history; no cell values). Every access event now carries the acting membership's role, owner flag, membership version and the delegated authority in force inside its hashed detail; the default Activity log page leaves summary events out unless asked. Current app-first integration audits care continuity, referral escalations and action plans before return with count-only fixed labels. Distinct viewActionPlan avoids suppressing full-record access audits; independent actual 507-patient fault/recovery reproduction verifies this. Response metadata batching preserves existing SQL predicates and durable access ordering; independent SQL and Worker review passes. Offline opens, delta responses and external anchor lifecycle remain.",
       "remaining": "Audit of partition (delta) command responses, the browser's search over the loaded caseload and offline opens; other patient-level lists and queues (exception queue, referral queues, continuity, household, caseload preview, action plan, identity cases) and the pilot, expansion and worker-activity views; role, version and delegated authority on command events (they are on access events only); signing of checkpoints and automatic external publication; scheduled verification and independent reconstruction; a measured load cost for the added audit rows.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -3787,7 +3796,12 @@
         "tests/read-audit-completion-contract.mjs",
         "tests/read-audit-completion-smoke.mjs",
         "docs/current/SLICE-10H-READ-AUDIT-COMPLETION.md",
-        "tests/audit-contention-contract.mjs"
+        "tests/audit-contention-contract.mjs",
+        "tests/auxiliary-read-http.mjs",
+        "docs/current/AUXILIARY-READ-INDEPENDENT-REVIEW.md",
+        "tests/workspace-metadata-contract.mjs",
+        "tests/workspace-metadata-smoke.mjs",
+        "docs/current/WORKSPACE-METADATA-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4149,11 +4163,15 @@
       "sourceTextLine": 690,
       "implementation": "unverified",
       "target": "R15",
-      "current": "Request telemetry exists; no monthly availability measurement.",
+      "current": "Request telemetry exists; no monthly availability measurement. Current opt-in synthetic local availability ledger uses immutable audited five-minute UTC samples, activation-window denominator and explicit missing coverage, maintenance and dependency gaps; manual HTTP samples are separately labelled. It is a local receipt/readiness contract, not independent hosted/platform uptime or full clinical delivery. Hosted target remains unmeasured.",
       "remaining": "Synthetic probes and transparent core/end-to-end availability reporting against 99.5 percent target.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "lib/saha/availability.ts",
+        "tests/availability-contract.mjs",
+        "tests/ui/availability.mjs",
+        "docs/current/SYNTHETIC-AVAILABILITY.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4332,7 +4350,9 @@
         "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
         "lib/saha/service-dispatch.ts",
         "tests/service-dispatch-contract.mjs",
-        "docs/current/SERVICE-IDENTITY-WIRING.md"
+        "docs/current/SERVICE-IDENTITY-WIRING.md",
+        "docs/current/MEMORY-NATIVE-RETENTION.md",
+        "docs/current/WORKSPACE-METADATA-BATCH.md"
       ],
       "automatedAcceptanceClaim": false
     },

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readdirSync,mkdirSync,writeFileSync} from 'node:fs';import {join,resolve} from 'node:path';import {DatabaseSync} from 'node:sqlite';
 import {startWorker,identity,client} from '../lib/worker.mjs';
-const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'playwright-core'),evidence='tests/evidence/availability',state=resolve('.wrangler/availability-state');mkdirSync(evidence,{recursive:true});
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test'),evidence='tests/evidence/availability',state=resolve('.wrangler/availability-state');mkdirSync(evidence,{recursive:true});
 let worker,browser,sql;const checks=[];const check=async(name,fn)=>{await fn();checks.push(name)};
 try{
  worker=await startWorker({port:process.env.SAHA_AVAILABILITY_PORT??'8963',name:'availability',state,vars:{SAHA_ENVIRONMENT:'synthetic',SAHA_EXTERNAL_APIS_ENABLED:'false'}});

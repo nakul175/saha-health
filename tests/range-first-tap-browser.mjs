@@ -38,5 +38,5 @@ try{
   check(visit.facts.weight==='180'&&visit.facts.unusual.weight===text,'Save preserves the edited value and reason');
   results.push({mode,requests,events,savedVersion:visit.version});await ctx.close();
  }
- writeFileSync(dir+'/first-activation-regression.json',JSON.stringify({passed,failed:0,scope:'Actual Chromium/Worker/D1 first touch, mouse and keyboard activation immediately after editing content-sized unusual-value reason; no preparatory button focus. Synthetic only; emulated phone, not a physical Android keyboard.',results},null,2)+'\n');console.log(`${passed} first activation checks passed`);
+ writeFileSync(dir+'/first-activation-regression.json',JSON.stringify({passed,failed:0,scope:'Actual Chromium/Worker/D1 first touch, mouse and keyboard activation immediately after editing content-sized unusual-value reason; no preparatory button focus. Synthetic only; emulated phone, not a physical Android keyboard.',results},null,2)+'\n');console.log(JSON.stringify({suite:'range-first-tap-browser',passed,failed:0}));
 }catch(e){writeFileSync(dir+'/first-activation-regression.json',JSON.stringify({passed,failed:1,error:String(e),results},null,2)+'\n');throw e;}finally{await browser?.close();await worker?.stop();}

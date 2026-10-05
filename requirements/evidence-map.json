@@ -158,7 +158,11 @@
     "AI-GOVERNANCE.md"
   ],
   "NFR-01": [
-    "REMAINING-RELEASES.md"
+    "REMAINING-RELEASES.md",
+    "lib/saha/availability.ts",
+    "tests/availability-contract.mjs",
+    "tests/ui/availability.mjs",
+    "docs/current/SYNTHETIC-AVAILABILITY.md"
   ],
   "NFR-02": [
     "REMAINING-RELEASES.md",
@@ -217,7 +221,9 @@
     "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
     "lib/saha/service-dispatch.ts",
     "tests/service-dispatch-contract.mjs",
-    "docs/current/SERVICE-IDENTITY-WIRING.md"
+    "docs/current/SERVICE-IDENTITY-WIRING.md",
+    "docs/current/MEMORY-NATIVE-RETENTION.md",
+    "docs/current/WORKSPACE-METADATA-BATCH.md"
   ],
   "NFR-10": [
     "lib/saha/store.ts",
@@ -863,7 +869,12 @@
     "tests/read-audit-completion-contract.mjs",
     "tests/read-audit-completion-smoke.mjs",
     "docs/current/SLICE-10H-READ-AUDIT-COMPLETION.md",
-    "tests/audit-contention-contract.mjs"
+    "tests/audit-contention-contract.mjs",
+    "tests/auxiliary-read-http.mjs",
+    "docs/current/AUXILIARY-READ-INDEPENDENT-REVIEW.md",
+    "tests/workspace-metadata-contract.mjs",
+    "tests/workspace-metadata-smoke.mjs",
+    "docs/current/WORKSPACE-METADATA-INDEPENDENT-REVIEW.md"
   ],
   "BR-AG-07": [
     "lib/saha/agent.ts",
@@ -1018,7 +1029,10 @@
     "app/environment-panel.tsx",
     "tests/environment-contract.mjs",
     "tests/environment-smoke.mjs",
-    "docs/current/SLICE-6N-ENVIRONMENTS.md"
+    "docs/current/SLICE-6N-ENVIRONMENTS.md",
+    "tests/availability-contract.mjs",
+    "tests/ui/availability.mjs",
+    "docs/current/SYNTHETIC-AVAILABILITY.md"
   ],
   "BR-OPS-02": [
     "lib/saha/operations.ts",
@@ -1410,7 +1424,13 @@
     "tests/touch-units-browser.mjs",
     "tests/value-ranges-context-contract.mjs",
     "docs/current/APP-TOUCH-UNITS.md",
-    "docs/current/APP-TOUCH-UNITS-INDEPENDENT-REVIEW.md"
+    "docs/current/APP-TOUCH-UNITS-INDEPENDENT-REVIEW.md",
+    "tests/range-protocol-contract.mjs",
+    "tests/range-protocol-browser.mjs",
+    "tests/import-unit-parity-contract.mjs",
+    "tests/import-unit-parity-browser.mjs",
+    "docs/current/APP-VALUE-RANGE-PROTOCOL.md",
+    "docs/current/APP-IMPORT-UNIT-PARITY.md"
   ],
   "BR-INT-21": [
     "lib/saha/mis.ts",
