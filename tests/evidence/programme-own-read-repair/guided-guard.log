@@ -1,0 +1,19 @@
+Running integration --fast; 3 suite(s).
+
+[integration] 3 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/guided-programme-reset-original-probe ...
+  ok       integration/guided-programme-reset-original-probe  5 passed  3.8s
+  running  integration/guided-programme-reset-variants ...
+  ok       integration/guided-programme-reset-variants  30 passed  8.1s
+  running  integration/guided-repair-independent-probe ...
+  ok       integration/guided-repair-independent-probe  53 passed  10.4s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  integration  passed       3      88       0        0  22.2s
+  total        passed       3      88       0        0  22.4s
+
+Restored 6 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (3 baselined suite(s) checked, 0 excused by quarantine).

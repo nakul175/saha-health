@@ -37,9 +37,9 @@ export function ProgrammeQuestions({visit:v,busy,command,onDirty,savedReadChoice
   let nextAnswers={...(c?.answers??{})},nextAbsence={...(c?.absence??{})};
   if(previous.visitId===v.id&&token!==previous.readToken&&savedReadChoice?.kind==='merge'){
    for(const key of new Set([...Object.keys(previous.answers),...Object.keys(previous.absence),...Object.keys(answers),...Object.keys(absence)])){
-    if(answers[key]===previous.answers[key]&&absence[key]===previous.absence[key])continue;
-    if(answers[key]===undefined)delete nextAnswers[key];else nextAnswers[key]=answers[key];
-    if(absence[key]===undefined)delete nextAbsence[key];else nextAbsence[key]=absence[key];
+    if(own(answers,key)===own(previous.answers,key)&&own(absence,key)===own(previous.absence,key))continue;
+    if(own(answers,key)===undefined)delete nextAnswers[key];else nextAnswers[key]=own(answers,key)!;
+    if(own(absence,key)===undefined)delete nextAbsence[key];else nextAbsence[key]=own(absence,key)!;
    }
    const eligible=questions(c?{...c,answers:nextAnswers,absence:nextAbsence}:undefined),allowed=new Set(eligible.map(q=>q.id));
    nextAnswers=Object.fromEntries(Object.entries(nextAnswers).filter(([key])=>allowed.has(key)));

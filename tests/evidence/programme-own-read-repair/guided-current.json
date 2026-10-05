@@ -1,0 +1,165 @@
+{
+  "generatedAt": "2026-10-05T19:27:57.769Z",
+  "startedAt": "2026-10-05T19:27:35.378Z",
+  "command": "node scripts/test.mjs integration --fast --only integration/guided-programme-reset-original-probe,integration/guided-programme-reset-variants,integration/guided-repair-independent-probe --guard --report tests/evidence/programme-own-read-repair/guided-current.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 3,
+      "passed": 88,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 22232,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 88,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 22391
+  },
+  "suites": [
+    {
+      "id": "integration/guided-programme-reset-original-probe",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-programme-reset-original-probe.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3771,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/guided-programme-reset/programme-current-read/original-probe-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-programme-reset-original-probe.log"
+    },
+    {
+      "id": "integration/guided-programme-reset-variants",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-programme-reset-variants.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8094,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/guided-programme-reset/variants/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-programme-reset-variants.log"
+    },
+    {
+      "id": "integration/guided-repair-independent-probe",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-repair-independent-probe.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 53,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10367,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/guided-repair-independent/probe/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-repair-independent-probe.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/guided-programme-reset/programme-current-read/programme-after-load.json",
+      "tests/evidence/guided-programme-reset/programme-current-read/programme-after-load.png",
+      "tests/evidence/guided-programme-reset/variants/programme-recovery.png",
+      "tests/evidence/guided-programme-reset/variants/result.json",
+      "tests/evidence/guided-repair-independent/probe/programme-recovery.png",
+      "tests/evidence/guided-repair-independent/probe/result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 191,
+        "components": 0,
+        "suitesCitingNoRequirement": 51,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 117,
+        "components": 84,
+        "suitesCitingNoRequirement": 39,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 114,
+        "components": 0,
+        "suitesCitingNoRequirement": 104,
+        "requirementsCited": 12
+      }
+    },
+    "supportFiles": 18,
+    "suites": 438,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 198,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}
