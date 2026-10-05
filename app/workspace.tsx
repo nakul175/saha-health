@@ -152,7 +152,7 @@ export default function WorkspaceApp({appFirst=false}:{appFirst?:boolean}={}){
  </>:<>
  <EnglishOnly>{view==='governance'&&<ProviderSandboxPanel key={'sandbox-'+data.organisation.id} data={data} busy={busy} command={command}/>}{view==='governance'&&<GovernancePanel key={data.organisation.id} data={data} busy={busy} command={command}/>}
  {view==='continuity'&&<ContinuityPanel key={data.organisation.id} data={data} busy={busy} command={command}/>}
- {view==='outreach'&&<OutreachPanel key={data.organisation.id} data={data} busy={busy} command={command}/>}
+ {view==='outreach'&&<OutreachPanel key={data.organisation.id} data={data} busy={busy} command={command} onSnapshot={setData}/>}
  {view==='expansion'&&<ExpansionPanel key={data.organisation.id} data={data} busy={busy} command={command}/>}
  {view==='pilot'&&<PilotPanel key={data.organisation.id} data={data} busy={busy} command={command}/>}
  {view==='operations'&&<OperationsPanel key={data.organisation.id} data={data} busy={busy} command={command} open={(pid,vid)=>navigate(()=>{void openById(pid,vid)})}/>}</EnglishOnly>
