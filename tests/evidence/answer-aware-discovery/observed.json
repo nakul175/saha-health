@@ -1,0 +1,29 @@
+{
+  "passed": 8,
+  "classification": "Pure source-contract discovery, not actual Worker/provider failure proof",
+  "mapping": [
+    {
+      "source": "weight",
+      "target": "weightKg",
+      "required": false
+    }
+  ],
+  "wire": {
+    "contract": "saha-mis-v1",
+    "environment": "synthetic",
+    "operation": "submit",
+    "fields": {
+      "weightKg": "60"
+    }
+  },
+  "answerSourceSchemaAccepted": false,
+  "answerChangeWireEqual": true,
+  "conservativeHold": {
+    "kind": "dispute",
+    "disputeIds": [
+      "8d17e9a3-41c1-4468-badf-5141b5c695cc"
+    ],
+    "text": "Open dispute on Programme answer medication_access: “Synthetic conflicting reported answer” (reference Synthetic source evidence), raised by Synthetic clinician on 2026-10-05. Synthetic mapped destination would receive this item, so nothing is prepared or sent there until a clinician resolves it. Anything already sent is not recalled."
+  },
+  "source": "8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30"
+}
