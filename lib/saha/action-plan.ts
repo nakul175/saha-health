@@ -1,5 +1,5 @@
 import type {InstalledOccurrence} from './installed-pack-work';
-import { followUpOpen } from './programmes';
+import { transitionSuperseded, followUpOpen } from './programmes';
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
 import { allowed, normallyAllowed, allowedFor } from './access';
@@ -170,7 +170,7 @@ export function applyActionPlan(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
  const lead=steward(s,m,p),changed:string[]=[];let personChanged=false;
  for(const t of c.targets){
   if(t.kind==='follow-up'){
-   const f=p.followUps?.find(x=>x.id===t.id);if(!f||f.state!=='open')fail(409,'Choose an open follow-up of this patient.');
+   const f=p.followUps?.find(x=>x.id===t.id);if(!f||f.state!=='open'||transitionSuperseded(s,f))fail(409,'Choose an open follow-up of this patient.');
    if(!lead&&eligibleOwner(s.members.find(x=>x.userId===f.ownerId&&x.status==='active'),p))fail(403,'This follow-up already has an owner with current access. Ask a supervisor to reassign it.');
    if(f.ownerId===owner!.userId)fail(409,'This follow-up already belongs to that care worker.');
    changed.push(`follow-up "${f.title}" from ${f.ownerId||'nobody'}`);f.ownerId=owner!.userId;personChanged=true;

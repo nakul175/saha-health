@@ -1,10 +1,11 @@
+import {adoptedVersionForTeam} from './team-pack-adoption';
 import { CONTACT_COLUMNS, authorizeContactImport, planContactRows, applyContactRows, contactBatch, applyContactReversal } from './contact-import';
 import { z } from 'zod';
 import { digest, fail, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
 import { environmentOf } from './environment';
 import { csvBytes, importsInto, MAX_CSV, MAX_ROWS, mayImport, parseCsv } from './patient-import';
-import { adoptedVersion, catalogueOf, enrollableAt } from './programmes';
+import { catalogueOf, enrollableAt } from './programmes';
 import { currentIdentifiers } from './types';
 import { VISIT_COLUMNS, VISIT_REFUSED, applyVisitRows, fileDigest, mayImportVisits, planVisitRows } from './visit-import';
 import type { Member, OrgState, Person } from './types';
@@ -88,7 +89,7 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
    const packId=col(r,'pack').toLowerCase(),versionText=col(r,'version'),label=col(r,'episode_label'),start=col(r,'start_date');
    let version=0;
    if(!catalogueOf(s).some(x=>x.id===packId))reasons.push('Programme pack is not in this organisation\'s catalogue.');
-   else if(!versionText){version=adoptedVersion(s,packId);if(!version)reasons.push('This programme pack cannot open new episodes.');}
+   else if(!versionText){version=adoptedVersionForTeam(s,packId,p?.teamId??'',now);if(!version)reasons.push('This programme pack cannot open new episodes.');}
    else if(!/^\d{1,4}$/.test(versionText)||!enrollableAt(packId,Number(versionText),s))reasons.push('Pack version must be a compiled or activated version of this pack, or left empty for the adopted version.');
    else version=Number(versionText);
    if(label.length<3||label.length>200)reasons.push('Episode label is required, 3 to 200 characters.');
