@@ -6,6 +6,7 @@ import {pathToFileURL} from 'node:url';
 const dir=mkdtempSync(join(process.cwd(),'.mis-contract-'));let passed=0;
 try{
  for(const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'mis-callback', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'types']){const code=ts.transpileModule(readFileSync(`lib/saha/${f}.ts`,'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/from '(\.\/[^']+)'/g,"from '$1.js'");writeFileSync(join(dir,f+'.js'),code);}
+ const {digest}=await import(pathToFileURL(join(dir,'core.js')));
  const {misCredential,mappedPayload,applyReceipt,misRequest,mappingSchema,deliveryCurrent}=await import(pathToFileURL(join(dir,'mis.js')));
  const {verifyMisSignature}=await import(pathToFileURL(join(dir,'mis-callback.js')));
  const {apply}=await import(pathToFileURL(join(dir,'core.js')));
@@ -41,13 +42,13 @@ try{
  check(()=>assert.throws(()=>mappedPayload({...i,mis:{...i.mis,corrections:false}},{...v,amendsVisitId:'v'},corrected),/correction support/));
  corrected.workspace.visits.push({...v,id:'v2',amendsVisitId:'v'});check(()=>assert.equal(mappedPayload(i,{...v,id:'v3',amendsVisitId:'v2'},corrected).replaces.receipt,'PARTNER-1'));
  corrected.workspace.submissions[0].state='uncertain';check(()=>assert.throws(()=>mappedPayload(i,{...v,amendsVisitId:'v'},corrected),/Resolve/));
- let sent=0;await misRequest(i,'org',env,payload,'stable-key',async(url,init)=>{sent++;check(()=>{assert.equal(init.redirect,'manual');assert.equal(init.headers['Idempotency-Key'],'stable-key');assert.equal(JSON.parse(init.body).environment,'synthetic');assert.equal(init.headers.Authorization,'Bearer test-secret')});return Response.json(receipt)});check(()=>assert.equal(sent,1));
- await rejects(()=>misRequest(i,'org',env,{},'key',async()=>Response.json({}, {status:429})),/429/);
+ const wire={...payload,key:'stable-key',payloadHash:await digest(payload)},probe={contract:'saha-mis-v1',operation:'probe',environment:'synthetic',required:{idempotency:true,lookup:true,corrections:true}};let sent=0;await misRequest(i,'org',env,wire,'stable-key',async(url,init)=>{sent++;check(()=>{assert.equal(init.redirect,'manual');assert.equal(init.headers['Idempotency-Key'],'stable-key');assert.equal(JSON.parse(init.body).environment,'synthetic');assert.equal(init.headers.Authorization,'Bearer test-secret')});return Response.json(receipt)});check(()=>assert.equal(sent,1));
+ await rejects(()=>misRequest(i,'org',env,probe,'key',async()=>Response.json({}, {status:429})),/429/);
  // Slice 11f: redirect mode 'manual' (workerd rejects 'error'); a redirect is refused as an unconfirmed receipt and never followed.
- let hops=0;await rejects(()=>misRequest(i,'org',env,{},'key',async()=>{hops++;return new Response(null,{status:302,headers:{location:'https://elsewhere.example/'}});}),/HTTP 302. Receipt is unconfirmed/);check(()=>assert.equal(hops,1));
- await rejects(()=>misRequest(i,'org',env,{},'key',async()=>new Response('x'.repeat(16001))),/size/);
- await rejects(()=>misRequest(i,'org',env,{},'key',async()=>new Response('bad')),/invalid JSON/);
- await rejects(()=>misRequest(i,'org',env,{},'key',async()=>{throw Error('timeout')}),/timeout/);
+ let hops=0;await rejects(()=>misRequest(i,'org',env,probe,'key',async()=>{hops++;return new Response(null,{status:302,headers:{location:'https://elsewhere.example/'}});}),/HTTP 302. Receipt is unconfirmed/);check(()=>assert.equal(hops,1));
+ await rejects(()=>misRequest(i,'org',env,probe,'key',async()=>new Response('x'.repeat(16001))),/size/);
+ await rejects(()=>misRequest(i,'org',env,probe,'key',async()=>new Response('bad')),/invalid JSON/);
+ await rejects(()=>misRequest(i,'org',env,probe,'key',async()=>{throw Error('timeout')}),/timeout/);
  const raw=JSON.stringify(receipt),timestamp=String(Date.now()),cryptoKey=await crypto.subtle.importKey('raw',new TextEncoder().encode('secret'),{name:'HMAC',hash:'SHA-256'},false,['sign']);
  const signature=Buffer.from(await crypto.subtle.sign('HMAC',cryptoKey,new TextEncoder().encode(timestamp+'.'+raw))).toString('hex');await verifyMisSignature(raw,timestamp,signature,'secret');passed++;
  await rejects(()=>verifyMisSignature(raw+' ',timestamp,signature,'secret'),/Invalid/);await rejects(()=>verifyMisSignature(raw,timestamp,signature,'secret',Date.now()+600000),/expired/);await rejects(()=>verifyMisSignature(raw,timestamp,signature,'wrong'),/Invalid/);

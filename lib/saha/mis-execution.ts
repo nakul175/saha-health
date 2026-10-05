@@ -1,6 +1,6 @@
 import {serviceDispatch} from './service-dispatch';
-import { AppError, fail, uuid } from './core';
-import { applyReceipt, deliveryCurrent, deliveryEvent, misAudit, misCredential, misIntegration, misRequest, type MisCommand } from './mis';
+import { AppError, digest, fail, uuid } from './core';
+import { applyReceipt, deliveryCurrent, deliveryEvent, misAudit, misCredential, misIntegration, misRequest, assertMisEnvelope, mappedPayload, type MisCommand } from './mis';
 import { persist, readState, scope, type Actor } from './store';
 import { person } from './core';
 import { ensureSendSignOff } from './visit-signoff';
@@ -22,8 +22,8 @@ export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m
    if(!sub?.delivery||!prepared?.delivery||sub.delivery.operationId!==prepared.delivery.operationId||sub.payloadHash!==prepared.payloadHash)fail(409,'Delivery checkpoint changed.');
    const lookup=c.type==='lookupSubmission',refused=operationRefusal(li,lookup?'lookup':misOperation(sub.delivery.payload),lookup?'none':'patient');if(refused)fail(409,refused);
    if(lookup){if(!['sending','uncertain'].includes(sub.state)||li.endpoint!==sub.delivery.endpoint||li.credentialBinding!==sub.delivery.credentialBinding)fail(409,'Receipt route changed.');return;}
-   if(sub.state!=='sending')fail(409,'Delivery is no longer reserved.');deliveryCurrent(latest,sub,u,member,env);const g=await sendBlock(latest,latest.workspace.visits.find(x=>x.id===sub.visitId),li,'checkpoint');if(g.block)fail(409,g.block.text);
-  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return send(i,...args);};
+   if(sub.state!=='sending')fail(409,'Delivery is no longer reserved.');deliveryCurrent(latest,sub,u,member,env);if(await digest(sub.delivery.payload)!==sub.payloadHash||await digest(mappedPayload(li,latest.workspace.visits.find(v=>v.id===sub.visitId)!,latest))!==sub.payloadHash)fail(409,'Saved programme envelope differs from the current approved mapping; review or cancel unsent delivery and prepare a fresh plan.');const g=await sendBlock(latest,latest.workspace.visits.find(x=>x.id===sub.visitId),li,'checkpoint');if(g.block)fail(409,g.block.text);
+  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}await assertMisEnvelope(i,args[2],args[3]);return send(i,...args);};
  if(c.type==='testMis'){
   if(!m.isOwner)fail(403,'Only an organisation owner can test a connection.');const i=misIntegration(s,c.integrationId);if(i.version!==c.version||!i.mis)fail(409,'Save a current programme mapping before testing.');misCredential(i,s.organisation.id,env);
   const before=structuredClone(s);misAudit(s,u,m,c.type,i.id,'Synthetic connection probe reserved. No patient data submitted.');await persist(db,before,s,u,c,key,hash,{status:'testing'});
@@ -38,7 +38,7 @@ export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m
   // Slice 7e: only the approving care worker may act on the delivery; a withdrawn operation closes it as not sent.
   if(!['asha','clinician'].includes(m.role))fail(403,'A care role is required to send records.');if(sub.delivery.actorId!==u.userId)fail(409,'The original approving worker must send within the approval window. Cancel unsent delivery and prepare a fresh plan.');
   {const now=misIntegration(s,sub.connectorId),refused=operationRefusal(now,misOperation(sub.delivery.payload),'patient');if(refused)return await closeRefused(db,s,sub,c,u,m,key,hash,refused,refusalOf(now,misOperation(sub.delivery.payload),'before-send'));}
-  i=deliveryCurrent(s,sub,u,m,env);
+  i=deliveryCurrent(s,sub,u,m,env);await assertMisEnvelope(i,{...sub.delivery.payload,key:sub.delivery.key,payloadHash:sub.payloadHash},sub.delivery.key);if(await digest(mappedPayload(i,s.workspace.visits.find(v=>v.id===sub.visitId)!,s))!==sub.payloadHash)fail(409,'Saved programme envelope differs from the approved mapping; review or cancel unsent delivery and prepare a fresh plan.');
   // Slice 2g: a current supervisor sign-off, checked on the state this checkpoint persists (stale ones never authorize a send).
   // Slice 10g: the same call also stops an open dispute on anything this destination carries, a withdrawn sign-off, and a
   // sign-off rule for this destination or programme; the delivery stays queued so it can be sent once that is resolved.

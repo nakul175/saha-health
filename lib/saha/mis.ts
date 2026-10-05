@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { digest, fail, person, uuid, visit } from './core';
-import { PROGRAMMES, type Integration, type Member, type OrgState, type Submission, type TraceRef, type Visit } from './types';
+import { PROGRAMMES, currentIdentifiers, type Integration, type Member, type OrgState, type Submission, type TraceRef, type Visit } from './types';
 import type { Actor } from './store';
 export const MIS_FIELDS=['personId','visitId','date','source','systolic','diastolic','weight','temperature','weeks','coughDays','notes'] as const;
 export type Mapping={source:typeof MIS_FIELDS[number];target:string;required:boolean};
@@ -30,13 +30,15 @@ export function misCredential(i:Integration,orgId:string,env:Record<string,strin
  const binding=callback?grant.callbackBinding:i.credentialBinding;if(typeof binding!=='string'||!/^SAHA_MIS_[A-Z0-9_]+$/.test(binding)||!env[binding])fail(409,'The dedicated programme credential is not configured.');return env[binding]!;
 }
 export function misReadiness(i:Integration,orgId:string,env:Record<string,string|undefined>){try{misCredential(i,orgId,env);return {id:i.id,ready:true,message:'Server grant and credential configured.'};}catch(e){return {id:i.id,ready:false,message:e instanceof Error?e.message:'Connection unavailable.'};}}
+// This destination is authorized for one subject, not unrelated known patient identities in free-text notes.
+export function assertMisPatientNotes(s:OrgState,v:Visit,i:Integration,payload:any){const subjects=s.workspace.people??[],p=subjects.find(p=>p.id===v.personId);if(!p)return;const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase(),values=(p:any)=>[p.id,p.name,p.village,p.abha?.number,p.abha?.number?.replace(/-/g,''),p.abha?.address,...currentIdentifiers(p).map(x=>x.value)].filter(x=>typeof x==='string'&&x.trim().length>=3).map(normalize),own=new Set(values(p)),others=new Set(subjects.filter(x=>x.id!==p.id).flatMap(values).filter(x=>!own.has(x)));for(const map of i.mis?.mapping??[]){if(map.source!=='notes')continue;const text=payload.fields?.[map.target];if(typeof text==='string'&&[...others].some(x=>!/^\d{1,7}$/.test(x)&&normalize(text).includes(x)))fail(409,'Mapped notes contain another known patient identity. Review the patient-specific note before approving delivery; nothing was sent.');}}
 export function mappedPayload(i:Integration,v:Visit,s:OrgState){
  if(!i.mis)fail(409,'Configure and test the programme mapping first.');const fields:Record<string,string>={};
  for(const map of i.mis.mapping){const value=map.source==='personId'?v.personId:map.source==='visitId'?v.id:v.facts[map.source];if(!value&&map.required)fail(422,`${i.name}: required field ${map.target} is missing.`);if(value)fields[map.target]=value;}
  let prior:Submission|undefined,ancestor=v.amendsVisitId;const seen=new Set<string>();
  while(ancestor){if(seen.has(ancestor))fail(409,'Correction history is inconsistent.');seen.add(ancestor);const deliveries=s.workspace.submissions.filter(x=>x.visitId===ancestor&&x.connectorId===i.id);if(deliveries.some(x=>['sending','uncertain','queued','retryable'].includes(x.state)))fail(409,'Resolve the original submission before sending its correction.');prior=deliveries.find(x=>x.state==='accepted');if(prior)break;ancestor=s.workspace.visits.find(x=>x.id===ancestor)?.amendsVisitId;}
  if(prior&&!i.mis.corrections)fail(409,'This destination has not enabled correction support.');
- return {contract:'saha-mis-v1',environment:'synthetic',operation:prior?'correct':'submit',fields,...(prior?{replaces:{submissionKey:prior.delivery?.key,receipt:prior.receipt}}:{})};
+ const payload={contract:'saha-mis-v1',environment:'synthetic',operation:prior?'correct':'submit',fields,...(prior?{replaces:{submissionKey:prior.delivery?.key,receipt:prior.receipt}}:{})};assertMisPatientNotes(s,v,i,payload);return payload;
 }
 export function deliveryEvent(s:Submission,detail:string){s.updatedAt=new Date().toISOString();s.message=detail;s.delivery?.events.push({at:s.updatedAt,state:s.state,detail});}
 export async function configureMis(s:OrgState,c:MisCommand,u:Actor,m:Member,env:Record<string,string|undefined>){
@@ -60,8 +62,16 @@ export function applyReceipt(sub:Submission,raw:unknown,lookup=false){const p=re
  if(sub.state==='cancelled'||!sub.attempts)fail(409,'This submission has not been sent.');
  sub.state=r.status==='accepted'?'accepted':r.status==='rejected'?'rejected':r.status==='not_found'?'retryable':'uncertain';if(r.receipt)sub.receipt=r.receipt;deliveryEvent(sub,r.status==='accepted'?'Programme confirmed acceptance.':r.status==='rejected'?'Programme rejected this payload. Correct the visit and review a new plan.':r.status==='not_found'?'Programme confirmed no record for this key. A retry reuses the same payload and key.':'Programme is still processing. Look up the receipt; do not resend.');
 }
+const wireKey=z.string().min(1).max(200),wireHash=z.string().regex(/^[a-f0-9]{64}$/),wireCommon={contract:z.literal('saha-mis-v1')};
+const misWireSchema=z.discriminatedUnion('operation',[
+ z.object({...wireCommon,operation:z.literal('probe'),environment:z.literal('synthetic'),required:z.object({idempotency:z.literal(true),lookup:z.literal(true),corrections:z.boolean()}).strict()}).strict(),
+ z.object({...wireCommon,operation:z.literal('lookup'),key:wireKey,payloadHash:wireHash}).strict(),
+ z.object({...wireCommon,operation:z.literal('submit'),environment:z.literal('synthetic'),fields:z.record(z.string().max(4000)),key:wireKey,payloadHash:wireHash}).strict(),
+ z.object({...wireCommon,operation:z.literal('correct'),environment:z.literal('synthetic'),fields:z.record(z.string().max(4000)),replaces:z.object({submissionKey:wireKey,receipt:wireKey}).strict(),key:wireKey,payloadHash:wireHash}).strict()
+]);
+export async function assertMisEnvelope(i:Integration,body:unknown,key:string){const parsed=misWireSchema.safeParse(body);if(!parsed.success)fail(409,'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.');const b=parsed.data;if(b.operation==='lookup')return;if(b.operation==='probe'){if(b.required.corrections!==!!i.mis?.corrections)fail(409,'Programme probe configuration changed.');return;}if(!i.mis||b.key!==key||b.operation==='correct'&&!i.mis.corrections)fail(409,'Programme envelope approval changed; review before sending.');const targets=new Set(i.mis.mapping.map(m=>m.target));if(Object.keys(b.fields).some(k=>!targets.has(k))||i.mis.mapping.some(m=>m.required&&!b.fields[m.target]))fail(409,'Programme fields differ from the approved mapping; review or cancel unsent delivery and prepare a fresh plan.');const {key:bodyKey,payloadHash,...payload}=body as any;if(await digest(payload)!==payloadHash)fail(409,'Programme envelope differs from its approved digest; review before sending.');}
 export async function misRequest(i:Integration,orgId:string,env:Record<string,string|undefined>,body:unknown,key:string,send:typeof fetch=fetch){
- const secret=misCredential(i,orgId,env);const timeout=AbortSignal.timeout(15000);
+ const secret=misCredential(i,orgId,env);await assertMisEnvelope(i,body,key);const timeout=AbortSignal.timeout(15000);
  const response=await send(i.endpoint!,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${secret}`,'Idempotency-Key':key},body:JSON.stringify(body),redirect:'manual',signal:timeout});
  if(!response.ok)fail(502,`Programme returned HTTP ${response.status}. Receipt is unconfirmed.`);
  const reader=response.body?.getReader();if(!reader)fail(502,'Empty programme response.');let size=0;const chunks:Uint8Array[]=[];
