@@ -1,3 +1,4 @@
+import {executeEhrProbe} from './ehr-probe';
 import {serviceDispatch} from './service-dispatch';
 import { ensureOperating } from './operations';
 import { AppError, fail, person, uuid, visit } from './core';
@@ -14,8 +15,8 @@ import type { Member, OrgState, Person, SendBlockRecord } from './types';
 export async function publishAuthority(s:OrgState,p:Person,op:EhrOperation,u:Actor){const current=await ehrAccess(s,p,op.linkId,op.permissionId,'write');const v=visit(s.workspace,op.visitId);if(op.actorId!==u.userId||op.approvalUntil<=new Date().toISOString()||op.identityHash!==await identityHash(p)||op.consentVersion!==p.consentVersion||op.visitVersion!==v.version||v.state!=='confirmed'||v.voidedAt||v.supersededBy||current.i.version!==op.integrationVersion||current.i.status!=='active')fail(409,'Publication approval, identity, permission, visit or connection changed.');withinPermission(inspectDocument(op.bundle,current.link.externalId),current.permission);return current;}
 export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof fhirRequest=fhirRequest){
  let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'personId' in c?c.personId:null,{intent:c.type==='lookupEhrPublish'?'lookup':c.type==='probeEhr'?'probe':'send',purpose:c.type==='probeEhr'?undefined:'care-coordination',authorize:async(latest,member)=>{
-   const li=ehrIntegration(latest,i.id);if(li.version!==i.version||li.status!=='active')fail(409,'EHR connection changed before request.');
-   if(c.type==='probeEhr'){if(!member.isOwner)fail(403,'Owner access changed.');return;}
+   const li=ehrIntegration(latest,i.id);if(li.version!==i.version||(c.type==='probeEhr'?li.status!==i.status:li.status!=='active'))fail(409,'EHR connection changed before request.');
+   if(c.type==='probeEhr'){if(!['active','suspended'].includes(li.status)||!li.ehr)fail(409,'Configure this EHR connection before testing.');if(!member.isOwner)fail(403,'Owner access changed.');return;}
    if(!('personId' in c)||!['asha','clinician'].includes(member.role))fail(403,'Care access changed.');const p=person(latest.workspace,c.personId);
    if(c.type!=='lookupEhrPublish'){const prepared=person(s.workspace,c.personId);if(p.version!==prepared.version||p.consentVersion!==prepared.consentVersion)fail(409,'Patient record or permission version changed before request.');}
    if(c.type==='retrieveEhrDocument'){await ehrAccess(latest,p,c.linkId,c.permissionId,'read');return;}
@@ -27,7 +28,7 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
    await publishAuthority(latest,p,op,u);const g=await sendBlock(latest,visit(latest.workspace,op.visitId),li,'checkpoint');if(g.block)fail(409,g.block.text);
    if(Date.now()-Date.parse(op.publishStartedAt!)>EHR_WRITE_DEADLINE_SECONDS*1000)fail(409,'Publication write window expired.');
   }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return send(i,...args);};
- if(c.type==='probeEhr'){if(!m.isOwner)fail(403,'Owner access required.');const i=ehrIntegration(s,c.integrationId);if(i.version!==c.version||!i.ehr)fail(409,'Save current capabilities before testing.');const raw=await transport(i,s.organisation.id,env,'metadata');const caps=capabilities(raw);const after=await readState(db,s.organisation.id),member=scope(after,u.userId);if(!member.isOwner)fail(403,'Owner access changed.');const target=ehrIntegration(after,i.id);if(target.version!==i.version)fail(409,'EHR configuration changed during the test.');const before=structuredClone(after);target.ehr!.test={at:new Date().toISOString(),version:i.version,...caps,message:'CapabilityStatement checked. A partner acceptance test is still required.'};ehrAudit(after,u,member,c.type,i.id,target.ehr!.test.message);await persist(db,before,after,u,c,key,hash,caps);return caps;}
+ if(c.type==='probeEhr')return executeEhrProbe(db,s,c,u,m,key,hash,env,transport);
  if(!('personId' in c)||!['asha','clinician'].includes(m.role))fail(403,'A care role is required.');const p=person(s.workspace,c.personId);
  if(c.type==='retrieveEhrDocument'){const {i,link}=await ehrAccess(s,p,c.linkId,c.permissionId,'read');if(i.status!=='active')fail(409,'Activate this EHR connection before retrieval.');
   // Slice 6t: the partner request is recorded in the audit chain before it is sent; if that fails nothing is requested.

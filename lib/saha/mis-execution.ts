@@ -17,7 +17,7 @@ async function closeRefused(db:D1Database,s:OrgState,sub:Submission,c:MisCommand
 export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof misRequest=misRequest){
  let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'submissionId' in c?s.workspace.submissions.find(x=>x.id===c.submissionId)?.personId??null:null,{intent:c.type==='lookupSubmission'?'lookup':c.type==='testMis'?'probe':'send',purpose:c.type==='testMis'?undefined:'programme-delivery',authorize:async(latest,member)=>{
    const li=misIntegration(latest,i.id);if(li.version!==i.version)fail(409,'Programme connection changed.');
-   if(c.type==='testMis'){if(!member.isOwner)fail(403,'Owner access changed.');return;}
+   if(c.type==='testMis'){if(li.status!==i.status||!['active','suspended'].includes(li.status)||!li.mis)fail(409,'Programme probe configuration changed.');if(!member.isOwner)fail(403,'Owner access changed.');return;}
    if(!('submissionId' in c))fail(422,'Unsupported request.');const prepared=s.workspace.submissions.find(x=>x.id===c.submissionId),sub=latest.workspace.submissions.find(x=>x.id===c.submissionId);
    if(!sub?.delivery||!prepared?.delivery||sub.delivery.operationId!==prepared.delivery.operationId||sub.payloadHash!==prepared.payloadHash)fail(409,'Delivery checkpoint changed.');
    const lookup=c.type==='lookupSubmission',refused=operationRefusal(li,lookup?'lookup':misOperation(sub.delivery.payload),lookup?'none':'patient');if(refused)fail(409,refused);
