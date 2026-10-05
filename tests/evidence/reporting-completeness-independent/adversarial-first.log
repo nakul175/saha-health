@@ -1,0 +1,46 @@
+{"event":"saha_request","requestId":"b810d230-32d6-49bd-b510-59a2107bc3a0","route":"workspace","status":200,"durationMs":23}
+{"event":"saha_request","requestId":"bc20ab68-f15e-4851-a2fc-f1559f6d0413","route":"workspace","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"f4a6f8c5-af79-4738-921f-e83986a085c6","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"a155517d-1edb-47a3-8f65-8607e4cac54e","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"b97eee06-4da6-42fe-9a9e-5532435fa3fd","route":"indicators","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"45df9011-4b50-4685-82a4-2526355e620f","route":"indicators","status":403,"durationMs":5}
+{"event":"saha_request","requestId":"7239269f-4fd2-43e4-9989-71715cb346d2","route":"indicators","status":422,"durationMs":3}
+{"event":"saha_request","requestId":"949bcff9-ce93-40ce-b5cb-ad1b1752265e","route":"indicators","status":422,"durationMs":2}
+{"event":"saha_request","requestId":"bcd24dab-e682-4010-a901-6ee5aae64b3a","route":"indicators","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"47385435-eca1-4ad3-9515-685c90ba369f","route":"indicators","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"85e19276-bef5-4561-b13c-7596a1e09f04","route":"indicators","status":409,"durationMs":2}
+{"event":"saha_request","requestId":"b5b985a2-8f33-4dbf-9077-08ba6ae53446","route":"indicators","status":403,"durationMs":3}
+{"event":"saha_request","requestId":"37a9d103-78b3-4201-a6aa-82b9a3690044","route":"indicators","status":403,"durationMs":6}
+{"event":"saha_request","requestId":"a78dcc88-fc54-4d11-9b60-7a3a8843e334","route":"indicators","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"86a373d2-24dc-4a07-8f98-94e924e47942","route":"indicators","status":403,"durationMs":3}
+{"event":"saha_request","requestId":"75e0586f-01e5-4d0f-9908-6100f99eaa02","route":"indicators","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"bd26cb93-626c-4a31-aca4-042a3bea539f","route":"indicators","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"f58f3063-2139-4dc5-9997-a99a03712cf4","route":"indicators","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"15be9e62-7520-464a-a040-8e383a8a7844","route":"indicators","status":422,"durationMs":4}
+{"event":"saha_request","requestId":"749178ff-9c51-43ac-9ff7-0ff846689a81","route":"indicators","status":422,"durationMs":3}
+{"event":"saha_request","requestId":"94e008fe-3aa0-4799-9d8f-29f1aeb2f845","route":"indicators","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"09cac001-6abd-4a60-82c5-5377f8528df5","route":"indicators","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"7c03852e-b630-482b-8f2f-f4849c9f5152","route":"indicators","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"5dbd8006-a290-471f-8cf4-4b0a98abcf88","route":"indicators","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"ef6a0115-f757-40ae-bae0-57c8df2bc122","route":"indicators","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"7769ac1c-1891-4d46-8573-acba53740b87","route":"indicators","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"08405711-4152-4ed7-83f8-a077a1a411d0","route":"indicators","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"4dce7768-5fb8-4172-a36e-337d38c4eeb2","route":"commands","status":422,"durationMs":2}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Choose an HTTP programme connection."}
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-completeness-review/tests/reporting-completeness-independent-adversarial-http.mjs:2:230)
+    at cmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-completeness-review/tests/reporting-completeness-independent-adversarial-http.mjs:4:74)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-completeness-review/tests/reporting-completeness-independent-adversarial-http.mjs:17:1 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
