@@ -35,12 +35,14 @@ const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identit
 const ROUTE_PARAMS = {
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
   '/api/rights': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
+  '/api/work-burden/support': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
+  '/api/work-burden/attribution': () => [{ q: '' }],
   '/api/trace': w => [{ q: `?visit=${w.visits.v2}`, kind: 'visit' }],
   '/api/governance': w => [{ q: '' }, { q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/fhir/[id]': w => [{ path: `/api/fhir/${w.visits.v2}`, q: `?organisationId=${w.org}`, kind: 'visit' }],
   '/api/media/[id]': w => [{ path: `/api/media/${w.mediaId}`, q: `?organisationId=${w.org}`, kind: 'media' }],
   // Routes with no resource parameter (or only optional filters): requested bare.
-  ...Object.fromEntries(['/api/work-burden', '/api/availability', '/api/value-range-protocols', '/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
+  ...Object.fromEntries(['/api/work-burden/policy', '/api/work-burden', '/api/availability', '/api/value-range-protocols', '/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
 };
 const PRINCIPALS = ['anonymous', ...ROLES];
 const ABBR = { anonymous: 'anon', owner: 'owner', admin: 'admin', supervisor: 'super', asha1: 'asha1', asha2: 'asha2', clinician: 'clin', stranger: 'strngr' };
@@ -118,6 +120,7 @@ try {
   await r.check('(vi) no response carries an invitation token or its stored hash (searched by value, for every principal)', () => none(violations((c, p) => c.cells[p].tokenHash.length ? `invitation secret in the response: ${c.cells[p].tokenHash.join(',')}` : ''), 'token hash'));
   await r.check('(vii) every API response is Cache-Control: no-store', () => none(violations((c, p) => !/no-store/.test(c.cells[p].cache ?? '') ? `cache-control: ${c.cells[p].cache}` : ''), 'caching'));
 
+  await r.check('work-burden policy requires current care membership for every role', () => { const c=cases.find(x=>x.route==='/api/work-burden/policy'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','asha1','asha2','clinician'].includes(p)?200:403,p); });
   await r.check('work-burden report is operations-only for every current role', () => { const c=cases.find(x=>x.route==='/api/work-burden'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','admin'].includes(p)?200:403,p); });
   await r.check('availability report is operations-only for every current role', () => { const c=cases.find(x=>x.route==='/api/availability'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','admin'].includes(p)?200:403,p); });
   await r.check('value range publication report is owner/clinician-only for every current role', () => { const c=cases.find(x=>x.route==='/api/value-range-protocols'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','clinician'].includes(p)?200:403,p); });

@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **75 HTTP method/route pairs** and **239 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **80 HTTP method/route pairs** and **239 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -73,8 +73,13 @@ Generated from source: **75 HTTP method/route pairs** and **239 command schema d
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |
 | GET | `/api/trace` | [app/api/trace/route.ts](../../app/api/trace/route.ts) |
 | GET | `/api/value-range-protocols` | [app/api/value-range-protocols/route.ts](../../app/api/value-range-protocols/route.ts) |
+| POST | `/api/work-burden/attribution` | [app/api/work-burden/attribution/route.ts](../../app/api/work-burden/attribution/route.ts) |
+| GET | `/api/work-burden/attribution` | [app/api/work-burden/attribution/route.ts](../../app/api/work-burden/attribution/route.ts) |
+| GET | `/api/work-burden/policy` | [app/api/work-burden/policy/route.ts](../../app/api/work-burden/policy/route.ts) |
 | GET | `/api/work-burden` | [app/api/work-burden/route.ts](../../app/api/work-burden/route.ts) |
 | POST | `/api/work-burden` | [app/api/work-burden/route.ts](../../app/api/work-burden/route.ts) |
+| GET | `/api/work-burden/support` | [app/api/work-burden/support/route.ts](../../app/api/work-burden/support/route.ts) |
+| POST | `/api/work-burden/support` | [app/api/work-burden/support/route.ts](../../app/api/work-burden/support/route.ts) |
 | GET | `/api/worker-activity` | [app/api/worker-activity/route.ts](../../app/api/worker-activity/route.ts) |
 | POST | `/api/workforce-import` | [app/api/workforce-import/route.ts](../../app/api/workforce-import/route.ts) |
 | GET | `/api/worklists` | [app/api/worklists/route.ts](../../app/api/worklists/route.ts) |

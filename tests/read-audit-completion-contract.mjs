@@ -184,7 +184,7 @@ try {
   const wl = src('lib/saha/worklists-server.ts');
   check(() => assert.ok(at(wl, 'await recordWorkList(') < at(wl, 'return json(page);')));
   const cont = src('lib/saha/continuity-server.ts');
-  check(() => assert.ok(at(cont, 'await recordMatchSearch(') < at(cont, 'return json(result);')));
+  check(() => { assert.ok(at(cont, 'await recordMatchSearch(') < at(cont, 'await registerMatchCopy(')); assert.ok(at(cont, 'await registerMatchCopy(') < at(cont, 'return json({...result,copyId});')); });
   const ind = src('lib/saha/indicators-server.ts');
   check(() => assert.ok(at(ind, "await recordAggregateView(db(),s,u,m,'indicator results'") < at(ind, 'return json(shape(released));') && at(ind, "await recordAggregateView(db(),s,u,m,'indicator results'") < at(ind, 'if(previous){')));
   const ops = src('lib/saha/operations-server.ts');

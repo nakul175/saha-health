@@ -68,6 +68,16 @@
       "file": "tests/reconciliation-http.mjs",
       "minPassed": 16
     },
+    "integration/registration-device-browser": {
+      "layer": "integration",
+      "file": "tests/registration-device-browser.mjs",
+      "minPassed": 32
+    },
+    "integration/registration-wire-receipt-http": {
+      "layer": "integration",
+      "file": "tests/registration-wire-receipt-http.mjs",
+      "minPassed": 46
+    },
     "integration/reminder-optout-http": {
       "layer": "integration",
       "file": "tests/reminder-optout-http.mjs",
@@ -93,15 +103,50 @@
       "file": "tests/touch-units-browser.mjs",
       "minPassed": 20
     },
+    "integration/work-burden-account-transition-review-browser": {
+      "layer": "integration",
+      "file": "tests/work-burden-account-transition-review-browser.mjs",
+      "minPassed": 11
+    },
+    "integration/work-burden-auth-first-http": {
+      "layer": "integration",
+      "file": "tests/work-burden-auth-first-http.mjs",
+      "minPassed": 17
+    },
     "integration/work-burden-browser": {
       "layer": "integration",
       "file": "tests/work-burden-browser.mjs",
       "minPassed": 12
     },
+    "integration/work-burden-field-browser": {
+      "layer": "integration",
+      "file": "tests/work-burden-field-browser.mjs",
+      "minPassed": 12
+    },
+    "integration/work-burden-field-http": {
+      "layer": "integration",
+      "file": "tests/work-burden-field-http.mjs",
+      "minPassed": 13
+    },
     "integration/work-burden-http": {
       "layer": "integration",
       "file": "tests/work-burden-http.mjs",
       "minPassed": 32
+    },
+    "integration/work-burden-ledger-browser": {
+      "layer": "integration",
+      "file": "tests/work-burden-ledger-browser.mjs",
+      "minPassed": 11
+    },
+    "integration/work-burden-ledger-http": {
+      "layer": "integration",
+      "file": "tests/work-burden-ledger-http.mjs",
+      "minPassed": 19
+    },
+    "integration/work-support-visibility-http": {
+      "layer": "integration",
+      "file": "tests/work-support-visibility-http.mjs",
+      "minPassed": 23
     },
     "integration/workspace-metadata-smoke": {
       "layer": "integration",
@@ -111,7 +156,7 @@
     "nfr/authorisation-matrix": {
       "layer": "nfr",
       "file": "tests/nfr/authorisation-matrix.mjs",
-      "minPassed": 55
+      "minPassed": 56
     },
     "nfr/identity-hardening": {
       "layer": "nfr",
@@ -381,7 +426,7 @@
     "unit/data-exit-contract": {
       "layer": "unit",
       "file": "tests/data-exit-contract.mjs",
-      "minPassed": 40
+      "minPassed": 42
     },
     "unit/delegation-contract": {
       "layer": "unit",
@@ -516,7 +561,7 @@
     "unit/field-registration-client": {
       "layer": "unit",
       "file": "tests/field-registration-client.mjs",
-      "minPassed": 66
+      "minPassed": 69
     },
     "unit/field-shell": {
       "layer": "unit",
@@ -768,6 +813,11 @@
       "file": "tests/referral-request-queue-contract.mjs",
       "minPassed": 21
     },
+    "unit/registration-device-contract": {
+      "layer": "unit",
+      "file": "tests/registration-device-contract.mjs",
+      "minPassed": 31
+    },
     "unit/reminder-optout-contract": {
       "layer": "unit",
       "file": "tests/reminder-optout-contract.mjs",
@@ -912,6 +962,21 @@
       "layer": "unit",
       "file": "tests/work-burden-contract.mjs",
       "minPassed": 19
+    },
+    "unit/work-burden-field-contract": {
+      "layer": "unit",
+      "file": "tests/work-burden-field-contract.mjs",
+      "minPassed": 20
+    },
+    "unit/work-burden-ledger-contract": {
+      "layer": "unit",
+      "file": "tests/work-burden-ledger-contract.mjs",
+      "minPassed": 14
+    },
+    "unit/work-burden-policy-checkpoint": {
+      "layer": "unit",
+      "file": "tests/work-burden-policy-checkpoint.mjs",
+      "minPassed": 13
     },
     "unit/worker-activity-contract": {
       "layer": "unit",

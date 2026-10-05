@@ -40,8 +40,9 @@ export async function workSupportWrite(request:Request){
  await authorizeResponse();return json({...response,requestId,sequence});
 }
 export async function workSupportRead(request:Request){
+ const u=await identity();
  const url=new URL(request.url);if([...url.searchParams.keys()].some(k=>k!=='visitId')||url.searchParams.getAll('visitId').length!==1)fail(422,'Choose one visit context.');const visitId=url.searchParams.get('visitId')!;if(!id.safeParse(visitId).success)fail(422,'Choose a valid visit context.');
- const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation'),async org=>{const row=await db().prepare('SELECT person_id FROM visits WHERE org_id=? AND id=?').bind(org,visitId).first<{person_id:string}>();return row?[row.person_id]:[];}),m=scope(s,u.userId),v=s.workspace.visits.find(x=>x.id===visitId),p=s.workspace.people.find(x=>x.id===v?.personId);if(!v||!p||!normallyAllowed(m,p)||!['asha','clinician','supervisor'].includes(m.role))fail(403,'Current scoped support access required.');
+ const s=await loadFor(u,request.headers.get('x-saha-organisation'),async org=>{const row=await db().prepare('SELECT person_id FROM visits WHERE org_id=? AND id=?').bind(org,visitId).first<{person_id:string}>();return row?[row.person_id]:[];}),m=scope(s,u.userId),v=s.workspace.visits.find(x=>x.id===visitId),p=s.workspace.people.find(x=>x.id===v?.personId);if(!v||!p||!normallyAllowed(m,p)||!['asha','clinician','supervisor'].includes(m.role))fail(403,'Current scoped support access required.');
  const latest=(member:typeof m)=>db().prepare('SELECT e.* FROM work_support_events e WHERE org_id=? AND visit_id=? AND (?=1 OR requester_id=? OR helper_id=?) AND sequence=(SELECT max(sequence) FROM work_support_events x WHERE x.org_id=e.org_id AND x.request_id=e.request_id) ORDER BY at DESC,id LIMIT 51').bind(s.organisation.id,visitId,operator(member)?1:0,u.userId,u.userId).all<Event>();
  const rows=await latest(m);
  const visible=rows.results.slice(0,50).map(e=>({requestId:e.request_id,category:e.category,state:e.kind,requesterId:e.requester_id,helperId:e.helper_id,sequence:e.sequence,at:e.at}));

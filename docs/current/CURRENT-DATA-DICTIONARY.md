@@ -1,6 +1,6 @@
 # Current data dictionary
 
-Generated from `db/schema.ts`: **38 application tables** and **272 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
+Generated from `db/schema.ts`: **44 application tables** and **340 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
 
 | Table | Declaration | SQL columns |
 | --- | --- | ---: |
@@ -20,7 +20,7 @@ Generated from `db/schema.ts`: **38 application tables** and **272 declared SQL 
 | `referrals` | `referrals` | 4 |
 | `record_revisions` | `recordRevisions` | 13 |
 | `audit_events` | `auditEvents` | 13 |
-| `command_receipts` | `commandReceipts` | 7 |
+| `command_receipts` | `commandReceipts` | 11 |
 | `legacy_migrations` | `legacyMigrations` | 6 |
 | `operations` | `operations` | 2 |
 | `request_metrics` | `requestMetrics` | 7 |
@@ -42,6 +42,12 @@ Generated from `db/schema.ts`: **38 application tables** and **272 declared SQL 
 | `availability_samples` | `availabilitySamples` | 9 |
 | `device_work_grants` | `deviceWorkGrants` | 13 |
 | `device_work_events` | `deviceWorkEvents` | 9 |
+| `device_registration_grants` | `deviceRegistrationGrants` | 13 |
+| `device_registration_receipts` | `deviceRegistrationReceipts` | 6 |
+| `device_match_copies` | `deviceMatchCopies` | 8 |
+| `device_registration_wire_receipts` | `deviceRegistrationWireReceipts` | 7 |
+| `work_burden_samples` | `workBurdenSamples` | 16 |
+| `work_support_events` | `workSupportEvents` | 14 |
 
 ## JSON document owners
 

@@ -13,7 +13,10 @@ The sponsor requested an installable Android app for ASHA workers with the same 
 | R27 / R77 | Integrated locally with focused Worker/D1 evidence; independent review fixes integrated; 105 combined workflow/browser checks pass |
 | A05 / command audit | Signed prepared programme capture, actual command-response reads and authority envelopes validated/pushed; wider audit/clinical acceptance remains |
 | A06 prepared-copy privacy | Local integration, 149-unit/8,684 regression and fail-closed repair checks pass (63 author/49 independent, overlapping); permanent-purge scope journeys pass15 and independent review; full23-workflow/525 and smoke/security/UAT183 checks pass; documentation/publication underway. Registration-copy cleanup is active |
-| B26 work-burden samples | Default-disabled current-authority counters/reporting and online capture samples integrated; independent 63-check review and root 100-check affected run pass; encrypted field outbox, completed-visit attribution/ticket linkage and pilot remain |
+| Registration recovery | Original-account encrypted registration/candidate cleanup and0024 observed wire receipt mappings integrated locally; root actual46 recovery checks pass; full153-unit/8,767, final32-workflow/709 and smoke/security/UAT184 gates pass; reviewed support races repaired; publication pending |
+| B26 linked work | Account-bound encrypted counter retry, protected online completed-visit stage coverage and internal helper workflow integrated locally; root14 contracts/19HTTP/11phone pass; authorized support queue repair passes11 and independent review found fresh-helper/workflow races, repaired with23 checks; final smoke/security/UAT184 passes; field timing/continuation and lifecycle hooks pass isolated phone review and await integration, observed pilot/external support acceptance pending |
+| B04 offline access | Both-surface durable encrypted material-open audits and historical-upload ordering repaired in isolation; combined integration and current-source independent review remain |
+| B19 clinical sources | Digest-pinned scoped upload/viewing plus default-off approved-origin retrieval implemented in isolation,41 actual retrieval and9 phone checks pass; current-source independent review and combined integration remain |
 
 
 ## Development-completion order (sponsor decision, 30 September 2026)

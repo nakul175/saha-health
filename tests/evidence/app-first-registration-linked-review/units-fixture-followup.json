@@ -1,0 +1,141 @@
+{
+  "generatedAt": "2026-10-05T06:24:20.300Z",
+  "startedAt": "2026-10-05T06:24:19.239Z",
+  "command": "node scripts/test.mjs unit --only unit/read-audit-completion-contract,unit/visit-import-contract --fast --guard --report /private/tmp/saha-registration-linked-fixture-followup.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 2,
+      "passed": 106,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 949,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 106,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 1061
+  },
+  "suites": [
+    {
+      "id": "unit/read-audit-completion-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/read-audit-completion-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 52,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 458,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/read-audit-completion-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__read-audit-completion-contract.log"
+    },
+    {
+      "id": "unit/visit-import-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/visit-import-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 491,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/visit-import-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__visit-import-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": [
+      "tests/read-audit-completion-contract-result.json",
+      "tests/visit-import-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 153,
+        "components": 0,
+        "suitesCitingNoRequirement": 35,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 28,
+        "components": 84,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 121
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 207,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 156,
+    "suitesCitingNoRequirement": 46,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 156
+  }
+}

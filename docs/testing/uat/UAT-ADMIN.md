@@ -118,11 +118,11 @@ Scoped connector server bindings and grants separate user sessions from provider
 
 **Expected result** (catalogue): Product dashboards can support the Section 6 evaluation and contain no unnecessary patient identifiers or recording content.
 
-**Known gaps** (assessment, remaining work for BR-REP-07): Sync and support burden measurements and pilot evaluation of the reuse and correction figures. Full encrypted offline instrumentation, proven uncertain transport-to-receipt recovery linkage, real ticket/intervention linkage, comparable completed-visit timing and pilot evaluation remain.
+**Known gaps** (assessment, remaining work for BR-REP-07): Full encrypted field lifecycle instrumentation and timing continuity are in progress. Proven real uncertain transport-to-receipt recovery, external ticket linkage, comparable observed baseline and pilot evaluation remain. Internal synthetic intervention evidence is not external help-desk acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-REP-07)</summary>
 
-Privacy-safe route metrics, task counts and partial agent usage. Slice 2a adds reuse, blocked reuse, repeated-entry and correction indicators. B26 adds default-disabled count-only sampling, atomic metadata receipts/counters/chained audit, current care authority/configuration guards and separately labelled parsed sync response categories. Weekly human care-active denominator uses durable trusted command-authority events; saved receipt checks do not prove transport recovery. Client metadata retries preserve their original key without repeating clinical saves.
+Privacy-safe route metrics, task counts and partial agent usage. Slice 2a adds reuse, blocked reuse, repeated-entry and correction indicators. B26 adds default-disabled count-only sampling, atomic metadata receipts/counters/chained audit, current care authority/configuration guards and separately labelled parsed sync response categories. Weekly human care-active denominator uses durable trusted command-authority events; saved receipt checks do not prove transport recovery. Client metadata retries preserve their original key without repeating clinical saves. An encrypted fixed-counter outbox retains UUIDs across reload/lost ACK and binds expected originating account to trusted server identity. Current policy reads are audited only when enabled, freeze the resolved organisation and recheck membership/configuration. Protected internal requests, scoped helper assignment, distinct-helper attestation and requester acknowledgement append exact workflow history; actual clinical mutation receipts link bounded online work stages.
 
 </details>
 

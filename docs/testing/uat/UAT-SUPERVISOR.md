@@ -94,11 +94,11 @@ R10 transfers open patient work atomically, records effective time and receiving
 
 **Expected result** (catalogue): Auditors can reproduce a sample reuse calculation from event records and separate avoidable re-entry from clinically required recapture.
 
-**Known gaps** (assessment, remaining work for BR-DATA-12): Cross-visit reuse, time and burden measurement, and validation against observed field practice. Completed-visit capture/correction/reconciliation attribution, programme mix, durable field outbox, baseline and observed field practice remain.
+**Known gaps** (assessment, remaining work for BR-DATA-12): Encrypted field timing and field-to-online continuation are actively being completed; baseline comparability and validation against observed field practice remain. Real pilot time savings are unproven.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-12)</summary>
 
-Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression. B26 adds owner-enabled common-fact capture-session active-time bands with monotonic foreground/idle exclusion, fixed self-reported help counts, and governed count-only weekly reporting. Saved clinical commands are independent of measurement failures. This is sampled session time, not comparable completed-visit total time or observed savings.
+Slice 2a: reuse opportunities, successful reuse and blocked reuse recomputed from stored confirmed visits, plus possible repeated entries and corrections, as versioned catalogue indicators with suppression. B26 adds owner-enabled common-fact capture-session active-time bands with monotonic foreground/idle exclusion, fixed self-reported help counts, and governed count-only weekly reporting. Saved clinical commands are independent of measurement failures. This is sampled session time, not comparable completed-visit total time or observed savings. Protected saved-mutation provenance now links online capture/correction/manual reconciliation stages and confirmed-visit totals, pinned programme mix and explicit incomplete coverage. Independent counter bands are excluded from comparable totals; all seconds remain client-reported.
 
 </details>
 
