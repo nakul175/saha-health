@@ -1,0 +1,25 @@
+{
+  "passed": 18,
+  "failed": 0,
+  "actualWorker": true,
+  "actualChromium": true,
+  "posts": [
+    {
+      "key": "8ae8d5a4-b432-4497-9856-2fdf812f2570",
+      "body": "{\"type\":\"propose\",\"id\":\"phone-calendar\",\"expectedVersion\":0,\"spec\":{\"title\":\"Synthetic phone calendar\",\"teamIds\":[\"default\"],\"definitions\":[\"visits-confirmed@1\"],\"periods\":[{\"id\":\"period-one\",\"start\":\"2026-09-10T19:54:00.425Z\",\"end\":\"2026-10-04T19:54:00.425Z\",\"deadline\":\"2026-10-05T18:54:00.425Z\"}],\"sources\":[{\"id\":\"phone-source\",\"label\":\"phone-source\",\"kind\":\"online-visits\",\"integrationId\":null,\"lateHours\":24,\"syncHours\":6,\"affects\":[{\"definitionRef\":\"visits-confirmed@1\",\"component\":\"numerator\"}]}]},\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-31abf20a-calendar-phone-owner\"}"
+    },
+    {
+      "key": "671a168f-2b75-483c-a65d-2874a64a1472",
+      "body": "{\"type\":\"review\",\"id\":\"phone-calendar\",\"version\":1,\"expectedSequence\":1,\"decision\":\"approve\",\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-9ca3f9e1-calendar-phone-reviewer\"}"
+    },
+    {
+      "key": "78e63bd0-684f-4c67-8b1a-17c116668d3d",
+      "body": "{\"type\":\"release\",\"id\":\"phone-calendar\",\"version\":1,\"expectedSequence\":2,\"reviewId\":\"afc12997-f3ba-4a01-8d8f-06fc9be5ea01\",\"effectiveAt\":\"2026-10-05T19:54:03.000Z\",\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-31abf20a-calendar-phone-owner\"}"
+    },
+    {
+      "key": "a28d0472-d11c-4afe-ae32-b07d3d847659",
+      "body": "{\"type\":\"declare\",\"expectedSourceVersion\":{\"contractVersion\":1,\"kind\":\"online-visits\",\"integrationId\":null,\"integrationVersion\":null},\"id\":\"phone-calendar\",\"version\":1,\"teamId\":\"default\",\"periodId\":\"period-one\",\"sourceId\":\"phone-source\",\"expectedCoverageVersion\":0,\"status\":\"outage\",\"through\":null,\"evidenceHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"reason\":\"Synthetic phone operational calendar review\",\"expectedActorId\":\"t-31abf20a-calendar-phone-owner\"}"
+    }
+  ],
+  "scope": "Synthetic normal phone owner proposal/lost-ACK read-only receipt recovery/independent approval/effective release/outage/frozen sidecar/inspectable original evidence"
+}
