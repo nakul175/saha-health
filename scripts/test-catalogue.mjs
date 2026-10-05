@@ -34,6 +34,43 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/composite-authority-independent-extra-http.mjs': ['tests/evidence/composite-authority-independent/extra-http/http.json'],
+  'tests/composite-measures-contract.mjs': ['tests/evidence/composite-measures/contract.json'],
+  'tests/composite-measures-http.mjs': ['tests/evidence/composite-measures/http.json'],
+  'tests/composite-measures-browser.mjs': ['tests/evidence/composite-measures/browser.json'],
+  'tests/composite-authority-repair-http.mjs': ['tests/evidence/composite-authority-repair/http.json'],
+  'tests/inbound-retrieval-service-independent-http.mjs': ['tests/evidence/inbound-retrieval-service-independent/service-http.json'],
+  'tests/inbound-retrieval-original-race-after.mjs': ['tests/evidence/inbound-retrieval-service-independent/original-race-after/result.json'],
+  'tests/inbound-retrieval-after-browser.mjs': ['tests/evidence/inbound-retrieval-service-independent/browser.json'],
+  'tests/inbound-retrieval-after-http.mjs': ['tests/evidence/inbound-retrieval-service-independent/http.json'],
+  'tests/inbound-retrieval-service-repair-http.mjs': ['tests/evidence/inbound-retrieval-service-repair/service-http.json'],
+  'tests/inbound-retrieval-browser.mjs': ['tests/evidence/inbound-retrieval-service-repair/browser.json'],
+  'tests/inbound-retrieval-http.mjs': ['tests/evidence/inbound-retrieval-service-repair/http.json'],
+  'tests/inbound-retrieval-contract.mjs': ['tests/evidence/inbound-retrieval-service-repair/combined-contract-result.json'],
+  'tests/guided-home-browser.mjs': ['tests/evidence/guided-home/browser-result.json'],
+  'tests/household-completion-contract.mjs': ['tests/evidence/household-completion/contract.json'],
+  'tests/household-completion-http.mjs': ['tests/evidence/household-completion/http.json'],
+  'tests/household-completion-browser.mjs': ['tests/evidence/household-completion/browser.json'],
+  'tests/household-completion-independent-http.mjs': ['tests/evidence/household-completion-independent/http.json'],
+  'tests/household-completion-authority-review.mjs': ['tests/evidence/household-completion-independent/authority.json'],
+  'tests/report-portability-after-http.mjs': ['tests/evidence/report-portability-independent-after/http.json','tests/evidence/report-portability-independent-after/adversarial-after.json'],
+  'tests/indicator-household-counting-contract.mjs': ['tests/evidence/report-household-counting-repair/contract.json'],
+  'tests/indicator-figures-submission-independent.mjs': ['tests/evidence/report-household-counting-independent/submission-freshness-http.json'],
+  'tests/report-portability-http.mjs': ['tests/evidence/report-portability/http.json'],
+  'tests/inbound-conflicts-contract.mjs': ['tests/evidence/inbound-conflicts-assignment-repair/contracts.json'],
+  'tests/inbound-conflicts-http.mjs': ['tests/evidence/inbound-conflicts-assignment-repair/http.json'],
+  'tests/inbound-conflicts-browser.mjs': ['tests/evidence/inbound-conflicts-assignment-repair/browser.json'],
+  'tests/inbound-conflicts-pressure-repair.mjs': ['tests/evidence/inbound-conflicts-assignment-repair/http.json'],
+  'tests/inbound-conflicts-transport-http.mjs': ['tests/evidence/app-first-frozen-figures-integration/inbound-transport.json'],
+  'tests/inbound-conflicts-independent-authority.mjs': ['tests/evidence/app-first-frozen-figures-integration/inbound-authority/http.json'],
+  'tests/inbound-conflicts-independent-handoff.mjs': ['tests/evidence/app-first-frozen-figures-integration/inbound-handoff/http.json'],
+  'tests/indicator-figure-material-contract.mjs': ['tests/evidence/indicator-figures-freshness-repair/material-contract.json'],
+  'tests/indicator-figures-http.mjs': ['tests/evidence/indicator-figures/http.json'],
+  'tests/indicator-figures-edition-http.mjs': ['tests/evidence/indicator-figures/cross-edition-http.json'],
+  'tests/indicator-figures-browser.mjs': ['tests/evidence/indicator-figures/browser.json'],
+  'tests/indicator-figures-submission-http.mjs': ['tests/evidence/indicator-figures-freshness-repair/submission-freshness-http.json'],
+  'tests/indicator-figures-review-authority.mjs': ['tests/evidence/indicator-figures-review/authority-http.json'],
+  'tests/indicator-figures-review-submission.mjs': ['tests/evidence/indicator-figures-review/submission-freshness-after.json'],
   'tests/work-burden-transport-http.mjs': ['tests/evidence/ci-transport-review/burden-after.json'],
   'tests/app-offline-browser.mjs': ['tests/evidence/app-offline/result.json'],
   'tests/mapping-conformance-contract.mjs': ['tests/evidence/mapping-conformance/contract.json'],
@@ -56,6 +93,42 @@ export const SUITE_RESULTS = {
   'tests/provider-ehr-execution-review.mjs': ['tests/evidence/provider-destination-independent/ehr-execution/result.json'],
 };
 const MANUAL = {
+  'tests/composite-authority-independent-author-http.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+  'tests/composite-authority-independent-browser.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+  'tests/composite-authority-independent-compat.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+  'tests/composite-authority-independent-contract.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+  'tests/composite-authority-independent-csv-race.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+  'tests/composite-authority-independent-http.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+  'tests/composite-authority-independent-legacy-http.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+  'tests/composite-authority-independent-live-race.mjs': { needsEnv: [], directOnly: true, note: 'Retained cold repeat against exact7c716b97 with separate evidence; original current primary and extra authority driver remain guarded, avoiding duplicate acceptance counts.' },
+
+  'tests/composite-measures-before-http.mjs': { needsEnv: [], directOnly: true, note: 'Historical original bounded-expression schema gap witness; not a current positive gate.' },
+  'tests/composite-privacy-before-http.mjs': { needsEnv: [], directOnly: true, note: 'Historical primitive-only Boolean and zero-contributor complement disclosure witness with retained preimages; not a current positive gate.' },
+  'tests/composite-measures-compat.mjs': { needsEnv: [], directOnly: true, note: 'Duplicate runner of six existing registered legacy unit suites; preserved author evidence, current originals remain guarded.' },
+  'tests/composite-independent-contract.mjs': { needsEnv: [], directOnly: true, note: 'Independently repeated author contract with separate retained evidence; counted current primary is composite-measures-contract.' },
+  'tests/composite-independent-http.mjs': { needsEnv: [], directOnly: true, note: 'Independently repeated primary composite HTTP baseline; retained original evidence, current primary remains guarded.' },
+  'tests/composite-independent-browser.mjs': { needsEnv: [], directOnly: true, note: 'Independently repeated primary composite phone baseline; retained original evidence, current primary remains guarded.' },
+  'tests/composite-independent-compat.mjs': { needsEnv: [], directOnly: true, note: 'Independent duplicate of six existing legacy unit suites; originals remain guarded.' },
+  'tests/composite-independent-legacy-http.mjs': { needsEnv: [], directOnly: true, note: 'Preserved scoped duplicate legacy HTTP suite; current full API gate runs original assertions.' },
+  'tests/composite-independent-live-race.mjs': { needsEnv: [], directOnly: true, note: 'Historical original after-audit membership disclosure witness with immutable failed evidence; current positive is composite-authority-repair-http.' },
+  'tests/composite-independent-csv-race.mjs': { needsEnv: [], directOnly: true, note: 'Historical original after-audit CSV membership disclosure witness with immutable failed evidence; current positive is composite-authority-repair-http.' },
+
+  'tests/inbound-retrieval-independent-browser.mjs': { needsEnv: [], directOnly: true, note: 'Retained original retrieval diagnostic or duplicate pre-repair review driver; current positive service and actual handoff suites are registered separately.' },
+  'tests/inbound-retrieval-independent-http.mjs': { needsEnv: [], directOnly: true, note: 'Retained original retrieval diagnostic or duplicate pre-repair review driver; current positive service and actual handoff suites are registered separately.' },
+  'tests/inbound-retrieval-purpose-review.mjs': { needsEnv: [], directOnly: true, note: 'Retained original retrieval diagnostic or duplicate pre-repair review driver; current positive service and actual handoff suites are registered separately.' },
+  'tests/inbound-retrieval-service-review.mjs': { needsEnv: [], directOnly: true, note: 'Retained original retrieval diagnostic or duplicate pre-repair review driver; current positive service and actual handoff suites are registered separately.' },
+  'tests/inbound-retrieval-before.mjs': { needsEnv: [], directOnly: true, note: 'Retained original retrieval diagnostic or duplicate pre-repair review driver; current positive service and actual handoff suites are registered separately.' },
+  'tests/household-completion-before.mjs': { needsEnv: [], directOnly: true, note: 'Historical actual a408 missing-contract witness; retains15 diagnostic assertions with zero positive acceptance and must not run against implemented current household commands.' },
+  'tests/report-portability-independent-http.mjs': { needsEnv: [], directOnly: true, note: 'Historical original473 verifier failure diagnostic; asserts unsafe archive acceptance and must never run as positive current regression.' },
+  'tests/report-portability-expanded-http.mjs': { needsEnv: [], directOnly: true, note: 'Historical expanded original473 verifier diagnostic with retained purpose probes; current repaired positive is report-portability-after-http.mjs.' },
+  'tests/household-completion-independent-browser.mjs': { needsEnv: [], directOnly: true, note: 'Retained independently repeated39-check phone driver; active same counted production journey is household-completion-browser.mjs.' },
+  'tests/indicator-household-coverage-upgrade.mjs': { needsEnv: [], directOnly: true, note: 'Actual retained-V2-D1 upgrade requires public fixture creation by separately built V2 source; never synthesize legacy coverage under current V3 Worker. Retained independent before/after evidence is dependency-bound.' },
+  'tests/indicator-household-coverage-independent.mjs': { needsEnv: [], directOnly: true, note: 'Independent actual retained-V2-D1 upgrade requires its separately built old V2 fixture; documented manual dependency, not fresh CI fixture creation.' },
+  'tests/inbound-conflicts-independent-http.mjs': { needsEnv: [], directOnly: true, note: 'Retained original independent handoff review driver; active counted canonical positive is inbound-conflicts-independent-handoff.mjs with separate evidence output.' },
+  'tests/inbound-conflicts-authority-review.mjs': { needsEnv: [], directOnly: true, note: 'Retained original independent authority driver; active counted canonical positive is inbound-conflicts-independent-authority.mjs with separate evidence output.' },
+  'tests/inbound-conflicts-pressure-review.mjs': { needsEnv: [], directOnly: true, note: 'Historical mixed-component blood pressure provenance defect diagnostic against original2158; current positive is inbound-conflicts-pressure-repair.mjs.' },
+  'tests/indicator-household-completion-audit.mjs': { needsEnv: [], directOnly: true, note: 'Historical combined production-function diagnostic imports exact stable B13 modules from its sibling checkout and asserts the pre-repair derived-open counting mismatch; diagnostic only, never a positive feature gate.' },
+  'tests/indicator-figures-review-upgrade.mjs': { needsEnv: [], directOnly: true, note: 'Actual old-D1 upgrade requires the retained pre-repair Worker fixture and .wrangler/figure-review-upgrade.json created against that exact source. Never run against a newly invented legacy fixture; current positive cancellation regression is indicator-figures-review-submission.mjs.' },
   'tests/mapping-remaining-contract-http.mjs': { needsEnv: [], directOnly: true, note: 'Historical mapping contract gap witness; current positive tests are mapping-conformance suites.' },
   'tests/imported-evidence-before.mjs': { needsEnv: [], directOnly: true, note: 'Historical imported evidence gap witness; current positive tests are imported-evidence suites.' },
   'tests/contact-import-before.mjs': { needsEnv: [], directOnly: true, note: 'Historical contacts/reversal schema witness before B08. Positive contacts checks are contract, HTTP/phone and independent review suites.' },
@@ -108,7 +181,13 @@ export function classify(file) {
   const base = posix.basename(file);
   if (isSupport(file)) return { layer: null, role: 'support', tier: null, reason: 'shared helper, fixture or entry module; not a suite' };
   if (file === 'tests/api-smoke.mjs') return { layer: 'integration', role: 'support', tier: null, reason: 'entry module imported by tests/run-api-smoke.mjs; not run on its own' };
+  if (['tests/inbound-retrieval-http.mjs', 'tests/inbound-retrieval-browser.mjs', 'tests/inbound-retrieval-service-repair-http.mjs', 'tests/inbound-retrieval-after-http.mjs', 'tests/inbound-retrieval-after-browser.mjs', 'tests/inbound-retrieval-original-race-after.mjs', 'tests/inbound-retrieval-service-independent-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual retrieved source handoff with immutable first-document preservation, current service/purpose authority, receipt replay and phone tests' };
+  if (['tests/composite-measures-http.mjs','tests/composite-measures-browser.mjs','tests/composite-authority-repair-http.mjs','tests/composite-authority-independent-extra-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual owner-defined expression governance, live/frozen dependency protection, phone workflow and post-audit current report authority' };
+  if (file === 'tests/guided-home-browser.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual guided ASHA Home, compact geometry, current audited navigation, language and unsaved save/review safeguards' };
   if (file === 'tests/run-api-smoke.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'HTTP and D1 suite against the built Worker' };
+  if (['tests/household-completion-http.mjs','tests/household-completion-browser.mjs','tests/household-completion-independent-http.mjs','tests/household-completion-authority-review.mjs','tests/report-portability-after-http.mjs','tests/indicator-figures-submission-independent.mjs','tests/report-portability-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual household completion/outreach authority and phone journey, supported report cancellation and protected metadata-only operational export with verifier tamper checks' };
+  if (['tests/inbound-conflicts-http.mjs','tests/inbound-conflicts-browser.mjs','tests/inbound-conflicts-pressure-repair.mjs','tests/inbound-conflicts-transport-http.mjs','tests/inbound-conflicts-independent-authority.mjs','tests/inbound-conflicts-independent-handoff.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Reviewed inbound clinical-source queue, exact current authority/receipt recovery, coupled pressure provenance and normal no-retry refusal transport' };
+  if (['tests/indicator-figures-http.mjs','tests/indicator-figures-edition-http.mjs','tests/indicator-figures-browser.mjs','tests/indicator-figures-submission-http.mjs','tests/indicator-figures-review-authority.mjs','tests/indicator-figures-review-submission.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual frozen report editions, cross-edition disclosure limits, current authority, submission freshness and phone workflows; default review-submission mode is the positive repaired regression' };
   if (file === 'tests/work-burden-transport-http.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual bounded normal-fetch pooled and streamed refusal transport; unchanged zero clinical/metrics ledgers' };
   if (['tests/mapping-conformance-http.mjs','tests/mapping-conformance-browser.mjs','tests/mapping-conformance-independent-http.mjs','tests/imported-evidence-http.mjs','tests/imported-evidence-browser.mjs','tests/imported-evidence-independent-http.mjs','tests/imported-evidence-independent-browser.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual independently reviewed mapping conformance and retained historical evidence authority and phone checks' };
   if (['tests/contact-import-http.mjs','tests/contact-import-independent-review.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual scoped synthetic contacts import, reversal, current-authority receipt replay and phone workflow' };

@@ -1,0 +1,36 @@
+Running unit integration --fast; 9 suite(s).
+
+[unit] 2 suite(s)
+  ok       unit/household-completion-contract  42 passed  988ms
+  ok       unit/indicator-household-counting-contract  35 passed  978ms
+
+[integration] 7 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/household-completion-authority-review ...
+  ok       integration/household-completion-authority-review  118 passed  2.1s
+  running  integration/household-completion-browser ...
+  ok       integration/household-completion-browser  39 passed  4.5s
+  running  integration/household-completion-http ...
+  ok       integration/household-completion-http  105 passed  3.0s
+  running  integration/household-completion-independent-http ...
+  ok       integration/household-completion-independent-http  105 passed  2.2s
+  running  integration/indicator-figures-submission-independent ...
+  ok       integration/indicator-figures-submission-independent  8 passed  1.2s
+  running  integration/report-portability-after-http ...
+  ok       integration/report-portability-after-http  87 passed  1.6s
+  running  integration/report-portability-http ...
+  ok       integration/report-portability-http  79 passed  1.6s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       2      77       0        0   2.0s
+  integration  passed       7     541       0        0  16.3s
+  total        passed       9     618       0        0  18.5s
+
+Restored 4 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (0 baselined suite(s) checked, 0 excused by quarantine).
+  note     9 suite(s) are not in the baseline yet (unit/household-completion-contract, unit/indicator-household-counting-contract, integration/household-completion-authority-review, integration/household-completion-browser, integration/household-completion-http, integration/household-completion-independent-http, ...); add them with --update-baseline.
+
+Baseline tests/regression-baseline.json updated: 9 added, 0 raised, 0 lowered, 0 removed, 0 unchanged.
+  Review the diff and commit it with the change that justifies it.

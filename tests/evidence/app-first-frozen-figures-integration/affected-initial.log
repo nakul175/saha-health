@@ -1,0 +1,44 @@
+Running unit integration --fast; 7 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/indicator-figure-material-contract  86 passed  938ms
+
+[integration] 6 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/indicator-figures-browser ...
+  FAILED   integration/indicator-figures-browser  no count  1.7s  [exit code 1]
+      | error lines:
+      |     name: 'Error'
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | browserType.launch: Executable doesn't exist at /Users/athena/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell
+      | ╔════════════════════════════════════════════════════════════╗
+      | ║ Looks like Playwright was just installed or updated.       ║
+      | ║ Please run the following command to download new browsers: ║
+      | ║                                                            ║
+      | ║     npx playwright install                                 ║
+      | ║                                                            ║
+      | ║ <3 Playwright Team                                         ║
+      | ╚════════════════════════════════════════════════════════════╝
+      |     at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/indicator-figures-browser.mjs:4:25 {
+      |   log: [],
+      |   name: 'Error'
+      | }
+      | Node.js v24.19.0
+  running  integration/indicator-figures-edition-http ...
+  ok       integration/indicator-figures-edition-http  54 passed  1.5s
+  running  integration/indicator-figures-http ...
+  ok       integration/indicator-figures-http  72 passed  1.6s
+  running  integration/indicator-figures-review-authority ...
+  ok       integration/indicator-figures-review-authority  84 passed  1.7s
+  running  integration/indicator-figures-review-submission ...
+  ok       integration/indicator-figures-review-submission  26 passed  1.2s
+  running  integration/indicator-figures-submission-http ...
+  ok       integration/indicator-figures-submission-http  8 passed  1.2s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       1      86       0        0  938ms
+  integration  failed       6     244       0        0   8.9s
+  total        FAILED       7     330       0        0  10.0s

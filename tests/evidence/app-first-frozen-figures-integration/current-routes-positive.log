@@ -1,0 +1,22 @@
+Running smoke nfr --fast; 2 suite(s).
+
+[smoke] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/local-smoke ...
+  ok       smoke/local-smoke  28 passed, 1 skipped  2.4s
+
+[nfr] 1 suite(s)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  59 passed  9.0s
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  smoke  passed       1      28       0        1   2.4s
+  nfr    passed       1      59       0        0   9.0s
+  total  passed       2      87       0        1  11.6s
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).
+
+Baseline tests/regression-baseline.json updated: 0 added, 1 raised, 0 lowered, 0 removed, 1 unchanged.
+  raised   nfr/authorisation-matrix: 58 -> 59
+  Review the diff and commit it with the change that justifies it.

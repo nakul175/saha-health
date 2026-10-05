@@ -1,0 +1,247 @@
+{
+  "generatedAt": "2026-10-05T09:55:34.709Z",
+  "startedAt": "2026-10-05T09:55:21.284Z",
+  "command": "node scripts/test.mjs unit integration --only unit/inbound-conflicts-contract,integration/inbound-conflicts-http,integration/inbound-conflicts-browser,integration/inbound-conflicts-pressure-repair,integration/inbound-conflicts-transport-http,integration/inbound-conflicts-independent-authority,integration/inbound-conflicts-independent-handoff --fast --report tests/evidence/app-first-frozen-figures-integration/inbound-affected-positive.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 85,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 717,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 6,
+      "passed": 526,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 12437,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 7,
+    "passed": 611,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 13425
+  },
+  "suites": [
+    {
+      "id": "unit/inbound-conflicts-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/inbound-conflicts-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 85,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 717,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/inbound-conflicts-assignment-repair/contracts.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__inbound-conflicts-contract.log"
+    },
+    {
+      "id": "integration/inbound-conflicts-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/inbound-conflicts-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4079,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/inbound-conflicts-assignment-repair/browser.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__inbound-conflicts-browser.log"
+    },
+    {
+      "id": "integration/inbound-conflicts-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/inbound-conflicts-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1741,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/inbound-conflicts-assignment-repair/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__inbound-conflicts-http.log"
+    },
+    {
+      "id": "integration/inbound-conflicts-independent-authority",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/inbound-conflicts-independent-authority.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1609,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/app-first-frozen-figures-integration/inbound-authority/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__inbound-conflicts-independent-authority.log"
+    },
+    {
+      "id": "integration/inbound-conflicts-independent-handoff",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/inbound-conflicts-independent-handoff.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1668,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/app-first-frozen-figures-integration/inbound-handoff/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__inbound-conflicts-independent-handoff.log"
+    },
+    {
+      "id": "integration/inbound-conflicts-pressure-repair",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/inbound-conflicts-pressure-repair.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1767,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/inbound-conflicts-assignment-repair/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__inbound-conflicts-pressure-repair.log"
+    },
+    {
+      "id": "integration/inbound-conflicts-transport-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/inbound-conflicts-transport-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 325,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1573,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/app-first-frozen-figures-integration/inbound-transport.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__inbound-conflicts-transport-http.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/inbound-conflicts-assignment-repair/combined-contract-result.json",
+      "tests/evidence/inbound-conflicts-assignment-repair/intake-phone.png",
+      "tests/evidence/inbound-conflicts-assignment-repair/mixed-pressure-provenance-after.json",
+      "tests/evidence/inbound-conflicts-assignment-repair/reviewer-phone.png"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 184,
+        "components": 0,
+        "suitesCitingNoRequirement": 49,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 79,
+        "components": 84,
+        "suitesCitingNoRequirement": 14,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 29,
+        "components": 0,
+        "suitesCitingNoRequirement": 25,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 308,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 92,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

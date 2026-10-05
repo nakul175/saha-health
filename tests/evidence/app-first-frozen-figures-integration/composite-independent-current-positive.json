@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-05T10:48:04.671Z",
+  "startedAt": "2026-10-05T10:48:01.681Z",
+  "command": "node scripts/test.mjs integration --fast --guard --only integration/composite-authority-independent-extra-http --report tests/evidence/app-first-frozen-figures-integration/composite-independent-current-positive.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 95,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2871,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 95,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 2990
+  },
+  "suites": [
+    {
+      "id": "integration/composite-authority-independent-extra-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/composite-authority-independent-extra-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 95,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2871,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/composite-authority-independent/extra-http/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__composite-authority-independent-extra-http.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 0,
+    "newSuites": [
+      "integration/composite-authority-independent-extra-http"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 188,
+        "components": 0,
+        "suitesCitingNoRequirement": 49,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 98,
+        "components": 84,
+        "suitesCitingNoRequirement": 19,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 7
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 58,
+        "components": 0,
+        "suitesCitingNoRequirement": 54,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 360,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 125,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,35 @@
+Running unit integration --fast; 8 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/inbound-retrieval-contract  115 passed  473ms
+
+[integration] 7 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/inbound-retrieval-after-browser ...
+  ok       integration/inbound-retrieval-after-browser  30 passed  4.5s
+  running  integration/inbound-retrieval-after-http ...
+  ok       integration/inbound-retrieval-after-http  30 passed  1.4s
+  running  integration/inbound-retrieval-browser ...
+  ok       integration/inbound-retrieval-browser  30 passed  4.1s
+  running  integration/inbound-retrieval-http ...
+  ok       integration/inbound-retrieval-http  30 passed  1.4s
+  running  integration/inbound-retrieval-original-race-after ...
+  ok       integration/inbound-retrieval-original-race-after  8 passed  1.4s
+  running  integration/inbound-retrieval-service-independent-http ...
+  ok       integration/inbound-retrieval-service-independent-http  38 passed  7.0s
+  running  integration/inbound-retrieval-service-repair-http ...
+  ok       integration/inbound-retrieval-service-repair-http  30 passed  7.4s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       1     115       0        0  473ms
+  integration  passed       7     196       0        0  27.1s
+  total        passed       8     311       0        0  27.9s
+
+Restored 9 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (0 baselined suite(s) checked, 0 excused by quarantine).
+  note     8 suite(s) are not in the baseline yet (unit/inbound-retrieval-contract, integration/inbound-retrieval-after-browser, integration/inbound-retrieval-after-http, integration/inbound-retrieval-browser, integration/inbound-retrieval-http, integration/inbound-retrieval-original-race-after, ...); add them with --update-baseline.
+
+Baseline tests/regression-baseline.json updated: 8 added, 0 raised, 0 lowered, 0 removed, 0 unchanged.
+  Review the diff and commit it with the change that justifies it.

@@ -38,6 +38,7 @@ const need = (res, status, what) => assert.equal(res.status, status, `${what}: e
 const SIGN_IN = /sign in/i;
 // Query strings the GET routes need so that the owner (and an anonymous caller) reach the handler rather than a missing-parameter answer.
 const recipes = (visitId, org) => ({
+  '/api/inbound-conflicts': '?personId=p_meena',
   '/api/imported-evidence': '?personId=p_meena',
   '/api/abdm': '?personId=p_meena', '/api/action-plan': '?personId=p_meena', '/api/history': '?personId=p_meena', '/api/household': '?personId=p_meena',
   '/api/identity-cases': '?personId=p_meena', '/api/patients/detail': '?personId=p_meena', '/api/trace': `?visit=${visitId}`, '/api/fhir/[id]': `?organisationId=${org}`,

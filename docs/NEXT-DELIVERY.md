@@ -4,11 +4,11 @@
 
 The sponsor requested an installable Android app for ASHA workers with the same journey demonstrable in the browser, and parallel delivery of the remaining buildable scope. Four active agent slots run ten workstreams in successive batches. This supersedes the earlier Android deferral. Source batches are integrated on `app-first/integration-20261005` ([draft PR #161](https://github.com/nakul175/saha-health/pull/161)); main is not merged without sponsor approval. Clinical, external and field acceptance remain pending.
 
-Latest checkpoint: preceding offline/source/provider/rescheduling batch1d57dc2a is published; exact hosted documentation succeeds and engineering failed; original job logs are retained. Reviewed mapping lifecycle, contact imports/reversal and indicator definitions with independent clock repair are integrated locally. Current180-unit9606 passes, no minima reduced;61-workflow1,541,API/restore4,791 and smoke/security/UAT184 gates pass locally; final documentation/publication remain. Hosted failure follow-up remains explicit. Active next software: mapping conformance/terminology semantics, imported evidence/review/conflicts and immutable released-figure snapshots/reissues. Full residual scope is preserved; historical rows remain dated evidence.
+Latest local reviewed checkpoint is `4baf4f54`, including independently cleared composite/report authority repair after frozen editions, inbound conflicts, household completion, V3 counting, protected portability, guided Home and retrieval repairs. Current source:89 HTTP handlers/253 commands/52 tables/402 columns/29 migrations. Fresh combined build/types,188-unit10,102 and API/recovery4,791 pass with original minima retained. Four primary composite suites pass298 and separately registered independent extra95 pass; cold review663 includes overlapping author/setup checks, not663 distinct races. Full100 workflows4048 and final seven smoke/security/UAT187 pass, with one existing documented media skip. Supply-chain222 components/0 critical/0 blocking passes; documentation baseline qualification and publication remain. Exact published `a1e08aef` still has both hosted gates green; later local source is not hosted-qualified. Full guided visit capture and private larger media are separate active author/review work. All14/151/2/9 assessments,176 pending criteria,formal0/364,full41 residual groups and O-2/SDK/external/device limits remain unchanged. This local batch is not published.
 
 | Batch | Current delivery and gate |
 | --- | --- |
-| App UI | Authenticated phone presentation, guarded Back and shared-vault offline prepared visits integrated locally; independent offline review in progress |
+| App UI | First guided ASHA Home integrated locally with59 focused root checks and build/types; full guided visit capture, publication and field usability remain pending |
 | Atomic ABHA review | Local D1 concurrency checks passed; 4,758 combined HTTP regression checks passed before R27/R77 integration |
 | Android | Buildable project and configuration checks; APK/lint pending SDK licence authorisation |
 | Baseline/performance | Current176-unit9500 passes after preserved fixture/catalogue repairs; reduced database-only native controls reproduce growth, O-2 remains open |
@@ -21,11 +21,11 @@ Latest checkpoint: preceding offline/source/provider/rescheduling batch1d57dc2a 
 | B19 clinical sources | Immutable digest-pinned scoped upload/viewing and default-off approved-origin retrieval integrated with dependency integrity repair; root current-source HTTP/phone checks pass, full51-workflow/1,247 gate passes; publication pending; licensed clinical content remains external |
 
 | B18 provider envelopes | AI/frontline/image/MIS/EHR/ABDM/aggregate/mock-enrolment path/digest/value guards integrated; independent header81/execution47 and root full-unit gates pass; representative real profiles/agreements remain |
-| B13 atomic rescheduling | Original-planner history-preserving atomic replacement independently reviewed; root author10/independent26 HTTP-phone checks pass; reminders/outreach/completion and pack compatibility remain |
-| B07 mappings | Reviewed lifecycle and independent applicability/phone fixes integrated; deterministic transformation/null/conformance and richer terminology handling remain active |
-| B08 imports | Reviewed contacts/reversal integrated; answers/media/notes, clinician source review/use and overlap/reversal work active |
-| B27 reporting | Independent proposal/review/effective release and historical-clock repair integrated; immutable figure snapshots/reissues active with reserved0027 |
-| Current publication gate |180-unit9606,61-workflow1541,API/restore4791 and smoke/security/UAT184 pass locally; docs/publication and hosted follow-up remain |
+| B13 household lifecycle | Reviewed replacement, installed selected-pack completion/referrals and neutral slot-linked outreach integrated; root household/counting/portability618 passes. Real reminder provider and broader declared-pack compatibility remain |
+| B07 mappings | Reviewed lifecycle, deterministic transformation/null/conformance and phone repairs published at a1e08aef; broader external terminology/profile acceptance remains |
+| B08 imports | Documentary answers/media/notes, explicit source review/use and overlap/reversal published; reviewed inbound retrieval/version conflict service repair integrated locally; real partner profile acceptance remains |
+| B27 reporting | Reviewed governance, immutable editions/reissues and bounded owner composite calculations integrated with independently cleared post-audit authority repair; combined188-unit/API4791 pass,100 workflows4048 and final187 pass with one documented skip; documentation/publication pending. Wider impact/clinical reporting acceptance remains |
+| Current publication gate |188-unit10102,API/restore4791,100-workflow4048 and final seven187 pass with one existing skip; supply-chain222/0 blocking passes. Documentation baseline, source publication and exact new hosted follow-up remain |
 
 ## Development-completion order (sponsor decision, 30 September 2026)
 

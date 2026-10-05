@@ -1,0 +1,54 @@
+Running unit integration --fast; 9 suite(s).
+
+[unit] 2 suite(s)
+  ok       unit/household-completion-contract  42 passed  832ms
+  ok       unit/indicator-household-counting-contract  35 passed  827ms
+
+[integration] 7 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/household-completion-authority-review ...
+  ok       integration/household-completion-authority-review  118 passed  2.5s
+  running  integration/household-completion-browser ...
+  FAILED   integration/household-completion-browser  no count  2.3s  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'undefined' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/household-completion-browser.mjs
+      | node:internal/modules/package_json_reader:301
+      |   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+      |         ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'undefined' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/household-completion-browser.mjs
+      |     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:301:9)
+      |     at packageResolve (node:internal/modules/esm/resolve:768:81)
+      |     at moduleResolve (node:internal/modules/esm/resolve:859:18)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32 {
+      |   code: 'ERR_MODULE_NOT_FOUND'
+      | }
+      | Node.js v24.19.0
+  running  integration/household-completion-http ...
+  ok       integration/household-completion-http  105 passed  2.1s
+  running  integration/household-completion-independent-http ...
+  ok       integration/household-completion-independent-http  105 passed  1.9s
+  running  integration/indicator-figures-submission-independent ...
+  ok       integration/indicator-figures-submission-independent  8 passed  1.1s
+  running  integration/report-portability-after-http ...
+  ok       integration/report-portability-after-http  87 passed  1.5s
+  running  integration/report-portability-http ...
+  ok       integration/report-portability-http  79 passed  1.4s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       2      77       0        0   1.7s
+  integration  failed       7     502       0        0  12.8s
+  total        FAILED       9     579       0        0  14.7s
+
+Restored 3 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (0 baselined suite(s) checked, 0 excused by quarantine).
+  note     9 suite(s) are not in the baseline yet (unit/household-completion-contract, unit/indicator-household-counting-contract, integration/household-completion-authority-review, integration/household-completion-browser, integration/household-completion-http, integration/household-completion-independent-http, ...); add them with --update-baseline.
+
+Refusing to update the baseline: integration/household-completion-browser did not pass. A baseline must come from a green run.

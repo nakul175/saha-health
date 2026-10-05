@@ -58,6 +58,26 @@
       "file": "tests/command-authority-http.mjs",
       "minPassed": 30
     },
+    "integration/composite-authority-independent-extra-http": {
+      "layer": "integration",
+      "file": "tests/composite-authority-independent-extra-http.mjs",
+      "minPassed": 95
+    },
+    "integration/composite-authority-repair-http": {
+      "layer": "integration",
+      "file": "tests/composite-authority-repair-http.mjs",
+      "minPassed": 86
+    },
+    "integration/composite-measures-browser": {
+      "layer": "integration",
+      "file": "tests/composite-measures-browser.mjs",
+      "minPassed": 24
+    },
+    "integration/composite-measures-http": {
+      "layer": "integration",
+      "file": "tests/composite-measures-http.mjs",
+      "minPassed": 131
+    },
     "integration/contact-import-http": {
       "layer": "integration",
       "file": "tests/contact-import-http.mjs",
@@ -82,6 +102,31 @@
       "layer": "integration",
       "file": "tests/device-work-purge-failure-browser.mjs",
       "minPassed": 49
+    },
+    "integration/guided-home-browser": {
+      "layer": "integration",
+      "file": "tests/guided-home-browser.mjs",
+      "minPassed": 33
+    },
+    "integration/household-completion-authority-review": {
+      "layer": "integration",
+      "file": "tests/household-completion-authority-review.mjs",
+      "minPassed": 118
+    },
+    "integration/household-completion-browser": {
+      "layer": "integration",
+      "file": "tests/household-completion-browser.mjs",
+      "minPassed": 39
+    },
+    "integration/household-completion-http": {
+      "layer": "integration",
+      "file": "tests/household-completion-http.mjs",
+      "minPassed": 105
+    },
+    "integration/household-completion-independent-http": {
+      "layer": "integration",
+      "file": "tests/household-completion-independent-http.mjs",
+      "minPassed": 105
     },
     "integration/household-reschedule-http": {
       "layer": "integration",
@@ -117,6 +162,106 @@
       "layer": "integration",
       "file": "tests/imported-evidence-independent-http.mjs",
       "minPassed": 13
+    },
+    "integration/inbound-conflicts-browser": {
+      "layer": "integration",
+      "file": "tests/inbound-conflicts-browser.mjs",
+      "minPassed": 13
+    },
+    "integration/inbound-conflicts-http": {
+      "layer": "integration",
+      "file": "tests/inbound-conflicts-http.mjs",
+      "minPassed": 48
+    },
+    "integration/inbound-conflicts-independent-authority": {
+      "layer": "integration",
+      "file": "tests/inbound-conflicts-independent-authority.mjs",
+      "minPassed": 49
+    },
+    "integration/inbound-conflicts-independent-handoff": {
+      "layer": "integration",
+      "file": "tests/inbound-conflicts-independent-handoff.mjs",
+      "minPassed": 50
+    },
+    "integration/inbound-conflicts-pressure-repair": {
+      "layer": "integration",
+      "file": "tests/inbound-conflicts-pressure-repair.mjs",
+      "minPassed": 41
+    },
+    "integration/inbound-conflicts-transport-http": {
+      "layer": "integration",
+      "file": "tests/inbound-conflicts-transport-http.mjs",
+      "minPassed": 325
+    },
+    "integration/inbound-retrieval-after-browser": {
+      "layer": "integration",
+      "file": "tests/inbound-retrieval-after-browser.mjs",
+      "minPassed": 30
+    },
+    "integration/inbound-retrieval-after-http": {
+      "layer": "integration",
+      "file": "tests/inbound-retrieval-after-http.mjs",
+      "minPassed": 30
+    },
+    "integration/inbound-retrieval-browser": {
+      "layer": "integration",
+      "file": "tests/inbound-retrieval-browser.mjs",
+      "minPassed": 30
+    },
+    "integration/inbound-retrieval-http": {
+      "layer": "integration",
+      "file": "tests/inbound-retrieval-http.mjs",
+      "minPassed": 30
+    },
+    "integration/inbound-retrieval-original-race-after": {
+      "layer": "integration",
+      "file": "tests/inbound-retrieval-original-race-after.mjs",
+      "minPassed": 8
+    },
+    "integration/inbound-retrieval-service-independent-http": {
+      "layer": "integration",
+      "file": "tests/inbound-retrieval-service-independent-http.mjs",
+      "minPassed": 38
+    },
+    "integration/inbound-retrieval-service-repair-http": {
+      "layer": "integration",
+      "file": "tests/inbound-retrieval-service-repair-http.mjs",
+      "minPassed": 30
+    },
+    "integration/indicator-figures-browser": {
+      "layer": "integration",
+      "file": "tests/indicator-figures-browser.mjs",
+      "minPassed": 15
+    },
+    "integration/indicator-figures-edition-http": {
+      "layer": "integration",
+      "file": "tests/indicator-figures-edition-http.mjs",
+      "minPassed": 54
+    },
+    "integration/indicator-figures-http": {
+      "layer": "integration",
+      "file": "tests/indicator-figures-http.mjs",
+      "minPassed": 72
+    },
+    "integration/indicator-figures-review-authority": {
+      "layer": "integration",
+      "file": "tests/indicator-figures-review-authority.mjs",
+      "minPassed": 84
+    },
+    "integration/indicator-figures-review-submission": {
+      "layer": "integration",
+      "file": "tests/indicator-figures-review-submission.mjs",
+      "minPassed": 26
+    },
+    "integration/indicator-figures-submission-http": {
+      "layer": "integration",
+      "file": "tests/indicator-figures-submission-http.mjs",
+      "minPassed": 8
+    },
+    "integration/indicator-figures-submission-independent": {
+      "layer": "integration",
+      "file": "tests/indicator-figures-submission-independent.mjs",
+      "minPassed": 8
     },
     "integration/indicator-governance-browser": {
       "layer": "integration",
@@ -238,6 +383,16 @@
       "file": "tests/reminder-optout-http.mjs",
       "minPassed": 55
     },
+    "integration/report-portability-after-http": {
+      "layer": "integration",
+      "file": "tests/report-portability-after-http.mjs",
+      "minPassed": 87
+    },
+    "integration/report-portability-http": {
+      "layer": "integration",
+      "file": "tests/report-portability-http.mjs",
+      "minPassed": 79
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
@@ -341,7 +496,7 @@
     "nfr/authorisation-matrix": {
       "layer": "nfr",
       "file": "tests/nfr/authorisation-matrix.mjs",
-      "minPassed": 57
+      "minPassed": 59
     },
     "nfr/identity-hardening": {
       "layer": "nfr",
@@ -603,6 +758,11 @@
       "file": "tests/command-authority-contract.mjs",
       "minPassed": 14
     },
+    "unit/composite-measures-contract": {
+      "layer": "unit",
+      "file": "tests/composite-measures-contract.mjs",
+      "minPassed": 57
+    },
     "unit/consent-contract": {
       "layer": "unit",
       "file": "tests/consent-contract.mjs",
@@ -808,6 +968,11 @@
       "file": "tests/governance-contract.mjs",
       "minPassed": 27
     },
+    "unit/household-completion-contract": {
+      "layer": "unit",
+      "file": "tests/household-completion-contract.mjs",
+      "minPassed": 42
+    },
     "unit/household-contract": {
       "layer": "unit",
       "file": "tests/household-contract.mjs",
@@ -848,10 +1013,25 @@
       "file": "tests/imported-evidence-contract.mjs",
       "minPassed": 26
     },
+    "unit/inbound-conflicts-contract": {
+      "layer": "unit",
+      "file": "tests/inbound-conflicts-contract.mjs",
+      "minPassed": 85
+    },
+    "unit/inbound-retrieval-contract": {
+      "layer": "unit",
+      "file": "tests/inbound-retrieval-contract.mjs",
+      "minPassed": 115
+    },
     "unit/incentive-claims-contract": {
       "layer": "unit",
       "file": "tests/incentive-claims-contract.mjs",
       "minPassed": 35
+    },
+    "unit/indicator-figure-material-contract": {
+      "layer": "unit",
+      "file": "tests/indicator-figure-material-contract.mjs",
+      "minPassed": 86
     },
     "unit/indicator-freshness-contract": {
       "layer": "unit",
@@ -862,6 +1042,11 @@
       "layer": "unit",
       "file": "tests/indicator-governance-contract.mjs",
       "minPassed": 42
+    },
+    "unit/indicator-household-counting-contract": {
+      "layer": "unit",
+      "file": "tests/indicator-household-counting-contract.mjs",
+      "minPassed": 35
     },
     "unit/indicator-registry-contract": {
       "layer": "unit",

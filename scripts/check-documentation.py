@@ -106,13 +106,14 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
-additional_index=ROOT/'docs/verification/evidence-source-snapshots-conformance-import.json'
-if additional_index.exists():
-    for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
-        existing=source_snapshots.setdefault(source_path,{})
-        for expected,entry in versions.items():
-            require(expected not in existing or existing[expected]==entry,'Conflicting historical source snapshot: '+source_path)
-            existing.setdefault(expected,entry)
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json']:
+    additional_index=ROOT/'docs/verification'/additional_name
+    if additional_index.exists():
+        for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
+            existing=source_snapshots.setdefault(source_path,{})
+            for expected,entry in versions.items():
+                require(expected not in existing or existing[expected]==entry,'Conflicting historical source snapshot: '+source_path)
+                existing.setdefault(expected,entry)
 slice_total=0
 for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     manifest=json.loads(manifest_path.read_text())

@@ -34,6 +34,8 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/inbound-conflicts': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
+  '/api/indicator-figures': () => [{ q: '' }],
   '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/clinical-sources': w => [{q:w.sourceQuery}],
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
@@ -114,6 +116,8 @@ try {
   await r.check('control: owner gets 2xx on every route (the requests are well formed, so refusals elsewhere are real refusals)', () => none(violations((c, p) => p === 'owner' && !(c.cells[p].status >= 200 && c.cells[p].status < 300) ? 'expected 2xx' : ''), 'owner control'));
   await r.check('control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1\'s refusal is a scope refusal, not a malformed request)', () => none(violations((c, p) => p === 'asha2' && c.kind !== 'plain' && c.kind !== 'clinical-source-person' && c.cells[p].status !== 200 ? 'expected 200' : ''), 'asha2 control'));
   await r.check('clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA', () => { const c=cases.find(c=>c.route==='/api/imported-evidence');assert.ok(c);for(const p of ['owner','clinician'])assert.equal(c.cells[p].status,200,fmt(c,p));for(const p of ['asha1','asha2'])assert.equal(c.cells[p].status,403,fmt(c,p)); });
+  await r.check('inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator', () => { const c=cases.find(c=>c.route==='/api/inbound-conflicts');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','clinician','supervisor'].includes(p)?200:403,fmt(c,p)); });
+  await r.check('frozen figure metadata permits current reporting owner/supervisor and refuses other roles', () => { const c=cases.find(c=>c.route==='/api/indicator-figures');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','supervisor'].includes(p)?200:403,fmt(c,p)); });
   await r.check('(i) no route returns 5xx for any role or anonymously', () => none(violations((c, p) => c.cells[p].status >= 500 ? 'server error' : ''), '5xx'));
   await r.check('(ii) anonymous gets 401 on every GET /api/ route', () => none(violations((c, p) => p === 'anonymous' && c.cells[p].status !== 401 ? 'expected 401' : ''), 'anonymous'));
   await r.check('(iii-a) the stranger never gets 2xx for this organisation (every GET route refuses with 403)', () => none(violations((c, p) => p === 'stranger' && c.cells[p].status !== 403 ? 'expected 403' : ''), 'stranger status'));

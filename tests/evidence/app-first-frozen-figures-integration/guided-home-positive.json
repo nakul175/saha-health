@@ -1,0 +1,180 @@
+{
+  "generatedAt": "2026-10-05T10:17:30.966Z",
+  "startedAt": "2026-10-05T10:17:15.238Z",
+  "command": "node scripts/test.mjs unit integration smoke --only unit/app-first-ui,integration/guided-home-browser,smoke/app-back-browser --fast --guard --update-baseline --reason Observe actual guided ASHA navigation and geometry; retain existing component and Back minima. --report tests/evidence/app-first-frozen-figures-integration/guided-home-positive.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 218,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9947,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 1,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5270,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 59,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 15728
+  },
+  "suites": [
+    {
+      "id": "unit/app-first-ui",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/app-first-ui.cjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 218,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/unit__app-first-ui.log"
+    },
+    {
+      "id": "integration/guided-home-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-home-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9947,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/guided-home/browser-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-home-browser.log"
+    },
+    {
+      "id": "smoke/app-back-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/app-back-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5270,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__app-back-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": [
+      "integration/guided-home-browser"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/guided-home/phone-review.png",
+      "tests/evidence/guided-home/phone-today.png",
+      "tests/evidence/app-back-navigation/browser-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 186,
+        "components": 0,
+        "suitesCitingNoRequirement": 51,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 87,
+        "components": 84,
+        "suitesCitingNoRequirement": 22,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 34,
+        "components": 0,
+        "suitesCitingNoRequirement": 30,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 323,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 107,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

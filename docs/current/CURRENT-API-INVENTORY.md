@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **85 HTTP method/route pairs** and **251 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **89 HTTP method/route pairs** and **253 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -44,7 +44,11 @@ Generated from source: **85 HTTP method/route pairs** and **251 command schema d
 | POST | `/api/import-rejections` | [app/api/import-rejections/route.ts](../../app/api/import-rejections/route.ts) |
 | GET | `/api/imported-evidence` | [app/api/imported-evidence/route.ts](../../app/api/imported-evidence/route.ts) |
 | POST | `/api/imported-evidence` | [app/api/imported-evidence/route.ts](../../app/api/imported-evidence/route.ts) |
+| GET | `/api/inbound-conflicts` | [app/api/inbound-conflicts/route.ts](../../app/api/inbound-conflicts/route.ts) |
+| POST | `/api/inbound-conflicts` | [app/api/inbound-conflicts/route.ts](../../app/api/inbound-conflicts/route.ts) |
 | GET | `/api/incentive-claims` | [app/api/incentive-claims/route.ts](../../app/api/incentive-claims/route.ts) |
+| GET | `/api/indicator-figures` | [app/api/indicator-figures/route.ts](../../app/api/indicator-figures/route.ts) |
+| POST | `/api/indicator-figures` | [app/api/indicator-figures/route.ts](../../app/api/indicator-figures/route.ts) |
 | GET | `/api/indicators` | [app/api/indicators/route.ts](../../app/api/indicators/route.ts) |
 | POST | `/api/indicators` | [app/api/indicators/route.ts](../../app/api/indicators/route.ts) |
 | GET | `/api/media/[id]` | [app/api/media/[id]/route.ts](../../app/api/media/[id]/route.ts) |

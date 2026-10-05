@@ -406,7 +406,7 @@ Immutable protocol revisions, effective/review dates, dependency invalidation, s
 
 <details><summary>What the build does today (assessment, current state of BR-PROG-08)</summary>
 
-Slice 4f: an owner uploads a size-bounded, strictly validated data-only pack manifest (questions on shared facts with fixed units or options, show-when conditions, follow-up interval, escalation rules in the protocol rule vocabulary, declared mapping from earlier versions); conflicts with compiled and installed packs are refused; a clinician other than the uploader reviews the exact manifest hash; an owner activates; activation, review and retirement are versioned and audited, retirement never deletes; episodes open only on activated versions and slice 4e migration moves open episodes to an installed version through the declared mapping. Synthetic packs only; installed packs are marked not clinically approved. Expansion proposals still describe programmes without installing them. Slice 6z: question ids that name Object.prototype members (constructor, toString and similar) are refused by the manifest schema, and answers and absence reasons are read as own properties only, for installed and compiled packs.
+Slice 4f: an owner uploads a size-bounded, strictly validated data-only pack manifest (questions on shared facts with fixed units or options, show-when conditions, follow-up interval, escalation rules in the protocol rule vocabulary, declared mapping from earlier versions); conflicts with compiled and installed packs are refused; a clinician other than the uploader reviews the exact manifest hash; an owner activates; activation, review and retirement are versioned and audited, retirement never deletes; episodes open only on activated versions and slice 4e migration moves open episodes to an installed version through the declared mapping. Synthetic packs only; installed packs are marked not clinically approved. Expansion proposals still describe programmes without installing them. Slice 6z: question ids that name Object.prototype members (constructor, toString and similar) are refused by the manifest schema, and answers and absence reasons are read as own properties only, for installed and compiled packs. Optional installed reviewed completion/referral declarations pin exact rule/question/version/hash and do not invent rules for legacy compiled packs.
 
 </details>
 
@@ -830,7 +830,7 @@ EHR read/write directions and local scoped permissions are independent. Slice 7e
 - **Catalogue:** Functional, fixture FX-INT-06, catalogue owner "QA with Integration owner".
 - **Run as:** Organisation owner / programme lead. Basis: requirement area default (BR-INT; catalogue owner "QA with Integration owner").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-INT-06: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -848,7 +848,7 @@ EHR read/write directions and local scoped permissions are independent. Slice 7e
 
 <details><summary>What the build does today (assessment, current state of BR-INT-06)</summary>
 
-Receipt callbacks/lookups and staged document imports preserve source data. Slice 6u: programme callbacks are authenticated (server grant and signature) before any organisation data is read, and every authentication failure gets the same 401.
+Receipt callbacks/lookups and staged document imports preserve source data. Slice 6u: programme callbacks are authenticated (server grant and signature) before any organisation data is read, and every authentication failure gets the same 401. Reviewed retrieval handoff and current-service repair retain original records/receipts and refuse revocation during the final response; exact saved history receipt replay performs no external retry or new care write.
 
 </details>
 
@@ -1202,7 +1202,7 @@ Native FHIR capability profile gates document retrieval/publication.
 - **Catalogue:** Functional, fixture FX-INT-21, catalogue owner "QA with Integration owner".
 - **Run as:** Organisation owner / programme lead. Basis: requirement area default (BR-INT; catalogue owner "QA with Integration owner").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-INT-21: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -1220,7 +1220,7 @@ Native FHIR capability profile gates document retrieval/publication.
 
 <details><summary>What the build does today (assessment, current state of BR-INT-21)</summary>
 
-Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows.
+Conditional document creation and duplicate receipt lookup. Slice 7f: a named reconciliation owner (owner or administrator) per EHR connection; publication conflicts (several documents, or a different one, under the publication's identifier with an authoritative search) hold the visit and appear in the exception queue for that owner, who is also named on unknown-outcome rows. Current human purpose/scope and bound service status/expiry/accountable ownership guard retrieved candidate intake and clinical staging; original conflicting documentary versions remain retained.
 
 </details>
 

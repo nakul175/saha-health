@@ -1,0 +1,16 @@
+Running smoke nfr --fast; 2 suite(s).
+
+[smoke] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/local-smoke ...
+  ok       smoke/local-smoke  28 passed, 1 skipped  2.5s
+
+[nfr] 1 suite(s)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  58 passed  11.0s
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  smoke  passed       1      28       0        1   2.5s
+  nfr    passed       1      58       0        0  11.0s
+  total  passed       2      86       0        1  13.7s
