@@ -30,6 +30,7 @@ try{
  const signature=async(body,timestamp)=>{const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign']);return Buffer.from(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(timestamp+'.'+JSON.stringify(body)))).toString('hex');};
  const signed=async(body,status=200,ts=String(Date.now()))=>call(null,body,'/api/reminder-optout/callback',{'x-saha-timestamp':ts,'x-saha-signature':await signature(body,ts)},status);
  await call(null,event,'/api/reminder-optout',{},401);await call(other,event,'/api/reminder-optout',{},403);await call(admin,event,'/api/reminder-optout',{},403);
+ await call(asha,event,'/api/reminder-optout',{Origin:'https://untrusted.example.invalid'},403);await call(asha,event,'/api/reminder-optout',{'sec-fetch-site':'cross-site'},403);
  await call(owner,event,'/api/reminder-optout/callback',{},401);await call(null,event,'/api/reminder-optout/callback',{'x-saha-timestamp':String(Date.now()),'x-saha-signature':'0'.repeat(64)},401);
  await signed({...event,organisationId:'org_unknown'},401);await signed(event,401,String(Date.now()-600000));
  await signed({...event,eventId:'old_event_001',occurredAt:new Date(Date.now()-2*86400000).toISOString()},409);

@@ -61,5 +61,5 @@ try{
   sql.exec("CREATE TRIGGER reconciliation_read_refusal BEFORE INSERT ON audit_events WHEN NEW.action='viewRecordHistory' BEGIN SELECT RAISE(ABORT,'Synthetic read audit failure'); END;");
   try{const r=await queue(o,{},503);assert.equal(r.rows,undefined);}finally{sql.exec('DROP TRIGGER reconciliation_read_refusal');}
  });
- const result={suite:'reconciliation-http',passed:checks.length,checks,completedAt:new Date().toISOString(),limits:'Built local Worker and D1; synthetic fixtures, no hosted or real clinical acceptance.'};mkdirSync('tests/evidence/reconciliation',{recursive:true});writeFileSync('tests/evidence/reconciliation/http.json',JSON.stringify(result,null,2)+'\n');console.log(`Reconciliation HTTP/D1: ${checks.length} checks passed`);
+ const result={suite:'reconciliation-http',passed:checks.length,checks,completedAt:new Date().toISOString(),limits:'Built local Worker and D1; synthetic fixtures, no hosted or real clinical acceptance.'};mkdirSync('tests/evidence/reconciliation',{recursive:true});writeFileSync('tests/evidence/reconciliation/http.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 }finally{sql?.close();await worker.stop();}

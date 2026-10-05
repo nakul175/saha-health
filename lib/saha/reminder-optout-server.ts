@@ -28,6 +28,7 @@ async function commitEvent(e:ReminderOptout,staff?:Actor){
  fail(409,'Opt-out conflict. Retry the same provider event.');
 }
 export async function reminderOptoutSimulate(request:Request){
+ const origin=request.headers.get('origin');if((origin&&origin!==new URL(request.url).origin)||request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-site changes are not allowed.');
  const staff=await identity();requireMockEnvironment(runtime());
  const {body}=await bodyOf(request);
  if(request.headers.get('x-saha-organisation')!==body.organisationId)fail(409,'Choose the active organisation for this simulation.');

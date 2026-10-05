@@ -164,7 +164,13 @@
     "REMAINING-RELEASES.md",
     "tests/nfr/performance-budgets.mjs",
     "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
-    "tests/audit-query-plan-contract.mjs"
+    "tests/audit-query-plan-contract.mjs",
+    "app/app/page.tsx",
+    "app/frontline-navigation.tsx",
+    "tests/app-first-ui.cjs",
+    "tests/ui/app-first-phone.spec.mjs",
+    "docs/current/APP-FIRST-UI.md",
+    "docs/current/ANDROID-APP.md"
   ],
   "NFR-03": [
     "lib/saha/agent.ts",
@@ -384,7 +390,11 @@
     "tests/nfr/memory-growth.mjs",
     "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
     "tests/audit-query-plan-contract.mjs",
-    "docs/current/SLICE-13E-PERFORMANCE.md"
+    "docs/current/SLICE-13E-PERFORMANCE.md",
+    "tests/lib/process-memory.mjs",
+    "tests/process-memory-contract.mjs",
+    "tests/nfr/memory-growth.mjs",
+    "docs/current/APP-FIRST-BASELINE.md"
   ],
   "NFR-25": [
     "lib/saha/fhir-document.ts",
@@ -518,7 +528,11 @@
     "lib/saha/identifier-search.ts",
     "tests/identifier-crosswalk-contract.mjs",
     "tests/identifier-search-smoke.mjs",
-    "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
+    "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md",
+    "lib/saha/abha-review-reservation.ts",
+    "drizzle/0018_abha_review_reservations.sql",
+    "tests/atomic-abha-review-contract.mjs",
+    "docs/current/ATOMIC-ABHA-REVIEW.md"
   ],
   "BR-INT-15": [
     "REMAINING-RELEASES.md"
@@ -1208,7 +1222,11 @@
     "lib/saha/identifier-search-server.ts",
     "tests/identifier-crosswalk-contract.mjs",
     "tests/identifier-search-smoke.mjs",
-    "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
+    "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md",
+    "lib/saha/abha-review-reservation.ts",
+    "drizzle/0018_abha_review_reservations.sql",
+    "tests/atomic-abha-review-contract.mjs",
+    "docs/current/ATOMIC-ABHA-REVIEW.md"
   ],
   "BR-ID-08": [
     "lib/saha/continuity.ts",
@@ -1387,7 +1405,12 @@
     "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md",
     "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
     "tests/shadow-recompute-contract.mjs",
-    "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md"
+    "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md",
+    "lib/saha/reconciliation.ts",
+    "lib/saha/reconciliation-server.ts",
+    "app/reconciliation-panel.tsx",
+    "tests/reconciliation-http.mjs",
+    "docs/current/RECONCILIATION-QUEUE.md"
   ],
   "BR-RULE-04": [
     "lib/saha/core.ts",
@@ -1523,7 +1546,13 @@
     "app/continuity-panel.tsx",
     "tests/api-smoke.mjs",
     "tests/smoke/local-smoke.mjs",
-    "tests/ui/asha-visit.spec.mjs"
+    "tests/ui/asha-visit.spec.mjs",
+    "app/app/page.tsx",
+    "app/frontline-navigation.tsx",
+    "tests/app-first-ui.cjs",
+    "tests/ui/app-first-phone.spec.mjs",
+    "docs/current/APP-FIRST-UI.md",
+    "docs/current/ANDROID-APP.md"
   ],
   "BR-DATA-03": [
     "lib/saha/core.ts",
@@ -1558,5 +1587,29 @@
     "tests/access-scope-smoke.mjs",
     "docs/current/SLICE-13A-ACCESS-SCOPE.md",
     "docs/current/SLICE-13F-REVIEW-FIXES.md"
+  ],
+  "BR-UX-02": [
+    "app/app/page.tsx",
+    "app/frontline-navigation.tsx",
+    "tests/app-first-ui.cjs",
+    "tests/ui/app-first-phone.spec.mjs",
+    "docs/current/APP-FIRST-UI.md",
+    "docs/current/ANDROID-APP.md"
+  ],
+  "BR-UX-06": [
+    "app/app/page.tsx",
+    "app/frontline-navigation.tsx",
+    "tests/app-first-ui.cjs",
+    "tests/ui/app-first-phone.spec.mjs",
+    "docs/current/APP-FIRST-UI.md",
+    "docs/current/ANDROID-APP.md"
+  ],
+  "BR-CARE-07": [
+    "lib/saha/reminder-optout.ts",
+    "lib/saha/reminder-optout-server.ts",
+    "app/reminder-optout-panel.tsx",
+    "tests/reminder-optout-contract.mjs",
+    "tests/reminder-optout-http.mjs",
+    "docs/current/REMINDER-OPTOUT.md"
   ]
 }

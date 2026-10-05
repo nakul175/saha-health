@@ -32,5 +32,5 @@ try{
  check(()=>assert.equal(location.organisationId,'private-org'));
  const text=JSON.stringify(entries);check(()=>assert.ok(!/private-|personId|visitId|organisationId/.test(text),'history markers contain no clinical or account identifiers'));
  mkdirSync('tests/evidence/app-back-navigation',{recursive:true});writeFileSync('tests/evidence/app-back-navigation/contract-result.json',JSON.stringify({passed,completedAt:new Date().toISOString(),limits:'Actual navigation controller with injected asynchronous browser history; real browser results recorded separately. No Android device acceptance.'},null,2)+'\n');
- console.log(`${passed} app navigation history checks passed`);
+ console.log(JSON.stringify({passed}));
 }finally{rmSync(dir,{recursive:true,force:true});}

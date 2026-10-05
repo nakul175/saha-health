@@ -35,7 +35,7 @@
       "sourceTextLine": 137,
       "implementation": "partial",
       "target": "R12",
-      "current": "One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen.",
+      "current": "One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen. App-first slice: authenticated /app reuses the care workspace, with Today, People, Referrals, Sync and More; a browser phone preview is tested with synthetic data. Android Browser Helper source opens the same app, but APK/device verification remains pending.",
       "remaining": "Validate the full journey with two independent real providers and programme destinations.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -43,7 +43,13 @@
         "app/continuity-panel.tsx",
         "tests/api-smoke.mjs",
         "tests/smoke/local-smoke.mjs",
-        "tests/ui/asha-visit.spec.mjs"
+        "tests/ui/asha-visit.spec.mjs",
+        "app/app/page.tsx",
+        "app/frontline-navigation.tsx",
+        "tests/app-first-ui.cjs",
+        "tests/ui/app-first-phone.spec.mjs",
+        "docs/current/APP-FIRST-UI.md",
+        "docs/current/ANDROID-APP.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -57,19 +63,16 @@
       "sourceTextLine": 140,
       "implementation": "implemented-local",
       "target": "R16",
-      "current": "Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state.",
+      "current": "Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state. App-first bottom-tab navigation retains the existing dirty-form guard; browser/Android Back handling is under review and does not count as complete.",
       "remaining": "Representative wrong-person and field usability acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "app/workspace.tsx",
-        "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "app/app/page.tsx",
+        "app/frontline-navigation.tsx",
+        "tests/app-first-ui.cjs",
+        "tests/ui/app-first-phone.spec.mjs",
+        "docs/current/APP-FIRST-UI.md",
+        "docs/current/ANDROID-APP.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -164,19 +167,16 @@
       "sourceTextLine": 152,
       "implementation": "implemented-local",
       "target": "R12",
-      "current": "Local, server, queued, uncertain and destination-specific states remain separate.",
+      "current": "Local, server, queued, uncertain and destination-specific states remain separate. The app sync centre explicitly separates encrypted device drafts from programme submissions and never infers a zero queue from a locked notebook.",
       "remaining": "Real destination and device-state acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "app/workspace.tsx",
-        "app/continuity-panel.tsx",
-        "tests/api-smoke.mjs",
-        "lib/saha/anaemia.ts",
-        "lib/saha/anaemia-server.ts",
-        "app/anaemia-panel.tsx",
-        "tests/anaemia-provider-contract.mjs",
-        "tests/anaemia-http-smoke.mjs",
-        "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md"
+        "app/app/page.tsx",
+        "app/frontline-navigation.tsx",
+        "tests/app-first-ui.cjs",
+        "tests/ui/app-first-phone.spec.mjs",
+        "docs/current/APP-FIRST-UI.md",
+        "docs/current/ANDROID-APP.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -402,7 +402,7 @@
       "sourceTextLine": 178,
       "implementation": "partial",
       "target": "R12",
-      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches. Slice 10e: search by one complete issuer identifier (a linked ABHA number, RCH ID or Ni-kshay ID) inside the searcher's own care scope only; exact whole-value formats, so a partial or wildcard identifier is refused rather than searched; each search is a material read audited before it returns and a search that finds nothing is audited too; per-searcher limits (30 an hour, 8 finding nothing an hour, 24 a day); a record outside the scope gets the same answer as no record. The programme issuer formats are illustrative and unchecked against the registries.",
+      "current": "R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches. Slice 10e: search by one complete issuer identifier (a linked ABHA number, RCH ID or Ni-kshay ID) inside the searcher's own care scope only; exact whole-value formats, so a partial or wildcard identifier is refused rather than searched; each search is a material read audited before it returns and a search that finds nothing is audited too; per-searcher limits (30 an hour, 8 finding nothing an hour, 24 a day); a record outside the scope gets the same answer as no record. The programme issuer formats are illustrative and unchecked against the registries. Atomic-review slice: D1 admission reservations bound concurrent ABHA review probes before lookup; stable retries do not probe again, generic refusal is preserved, and 32 local concurrent attempts admit exactly three. No raw ABHA or patient identifiers enter protection rows.",
       "remaining": "Issuer-registry-backed identifier lookup (nothing contacts an issuer), validated matching performance, timing and enumeration testing by an independent reviewer, and approved wider identity resolution.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -416,7 +416,11 @@
         "lib/saha/identifier-search-server.ts",
         "tests/identifier-crosswalk-contract.mjs",
         "tests/identifier-search-smoke.mjs",
-        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
+        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md",
+        "lib/saha/abha-review-reservation.ts",
+        "drizzle/0018_abha_review_reservations.sql",
+        "tests/atomic-abha-review-contract.mjs",
+        "docs/current/ATOMIC-ABHA-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -725,8 +729,8 @@
       "sourceTextLine": 213,
       "implementation": "partial",
       "target": "R12",
-      "current": "Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task). Slice 13c: the shadow and drift reports recompute a corrected comparison on read (or leave it out for a void or an unconfirmed correction), so shadow-comparison correction tasks are recorded as recomputed or invalidated; released indicator figures stay open review tasks.",
-      "remaining": "Recomputation of shadow comparisons and released indicator figures, follow-up source links (follow-ups are listed as possible dependants), task reassignment and notification, tasks for corrections made before slice 2j, and identity-merge and correction tasks in one reconciliation view.",
+      "current": "Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task). Slice 13c: the shadow and drift reports recompute a corrected comparison on read (or leave it out for a void or an unconfirmed correction), so shadow-comparison correction tasks are recorded as recomputed or invalidated; released indicator figures stay open review tasks. App-first R27: one scoped correction/identity-merge reconciliation queue, audited current-scope assignment history and in-app acknowledgement notices, and deterministic historical backfill preview/apply with stale-plan and replay guards.",
+      "remaining": "Independent representative-scale validation, historical evidence completeness, external correction receipts, released indicator recomputation and formal acceptance remain pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -746,7 +750,12 @@
         "docs/current/SLICE-2J-CORRECTION-PROPAGATION.md",
         "docs/current/SLICE-6AD-NINTH-REVIEW-FIXES.md",
         "tests/shadow-recompute-contract.mjs",
-        "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md"
+        "docs/current/SLICE-13C-SHADOW-RECOMPUTE.md",
+        "lib/saha/reconciliation.ts",
+        "lib/saha/reconciliation-server.ts",
+        "app/reconciliation-panel.tsx",
+        "tests/reconciliation-http.mjs",
+        "docs/current/RECONCILIATION-QUEUE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2384,7 +2393,7 @@
       "sourceTextLine": 410,
       "implementation": "partial",
       "target": "R13",
-      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed. Slice 10e: an ABHA number is accepted as 14 digits or grouped 2-4-4-4 with hyphens and refused otherwise, in the link command and in search. No checksum is applied because no official specification of one was found: the PIB explainer and community guides call it a random 14-digit number, and abdm.gov.in and the sandbox documents could not be read from the build environment.",
+      "current": "Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed. Slice 10e: an ABHA number is accepted as 14 digits or grouped 2-4-4-4 with hyphens and refused otherwise, in the link command and in search. No checksum is applied because no official specification of one was found: the PIB explainer and community guides call it a random 14-digit number, and abdm.gov.in and the sandbox documents could not be read from the build environment. ABHA review reservations apply before linking lookups, including audit-failure retention and rollout coverage; no live ABDM acceptance is implied.",
       "remaining": "Authorised ABHA creation and verification with ABDM, a checksum if ABDM specifies one, issuer checks, and correction through ABDM.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2408,7 +2417,11 @@
         "lib/saha/identifier-search.ts",
         "tests/identifier-crosswalk-contract.mjs",
         "tests/identifier-search-smoke.mjs",
-        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md"
+        "docs/current/SLICE-10E-IDENTIFIER-SEARCH.md",
+        "lib/saha/abha-review-reservation.ts",
+        "drizzle/0018_abha_review_reservations.sql",
+        "tests/atomic-abha-review-contract.mjs",
+        "docs/current/ATOMIC-ABHA-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3027,19 +3040,16 @@
       "sourceTextLine": 491,
       "implementation": "partial",
       "target": "R14",
-      "current": "Independent reminder simulation, receipts, bounded retry and owned failure follow-up.",
-      "remaining": "Approved SMS/IVR/appointment provider, real receipts and incoming opt-outs.",
+      "current": "Independent reminder simulation, receipts, bounded retry and owned failure follow-up. App-first R77: synthetic staff STOP simulation and exact-organisation signed mock callback, stable durable receipts, preference/consent history and unsent reminder cancellation; scope rechecked for staff receipt replay.",
+      "remaining": "Approved SMS/IVR/appointment provider, real incoming events/receipts, channel qualification and formal acceptance remain pending. Mock provider is synthetic/training only.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "lib/saha/continuity.ts",
-        "lib/saha/outreach.ts",
-        "lib/saha/field.ts",
-        "tests/continuity-smoke.mjs",
-        "tests/outreach-smoke.mjs",
-        "lib/saha/governance.ts",
-        "tests/governance-smoke.mjs",
-        "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "lib/saha/reminder-optout.ts",
+        "lib/saha/reminder-optout-server.ts",
+        "app/reminder-optout-panel.tsx",
+        "tests/reminder-optout-contract.mjs",
+        "tests/reminder-optout-http.mjs",
+        "docs/current/REMINDER-OPTOUT.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4091,14 +4101,20 @@
       "sourceTextLine": 693,
       "implementation": "unverified",
       "target": "R14",
-      "current": "Bounded desktop/local report timing only.",
+      "current": "Bounded desktop/local report timing only. An app-first phone journey was checked in local Chromium; no reference Android performance measurement is claimed.",
       "remaining": "Reference Android/network/workload p95 measurements for saves and screens.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "REMAINING-RELEASES.md",
         "tests/nfr/performance-budgets.mjs",
         "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
-        "tests/audit-query-plan-contract.mjs"
+        "tests/audit-query-plan-contract.mjs",
+        "app/app/page.tsx",
+        "app/frontline-navigation.tsx",
+        "tests/app-first-ui.cjs",
+        "tests/ui/app-first-phone.spec.mjs",
+        "docs/current/APP-FIRST-UI.md",
+        "docs/current/ANDROID-APP.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -4625,7 +4641,7 @@
       "sourceTextLine": 759,
       "implementation": "unverified",
       "target": "R16",
-      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured. Slice 6w: work-list cursors carry the view's total as well as the offset; when the total has changed the server restarts at the first page and the panel replaces its rows instead of appending. Slice 13e: with audit indexes (migration 0017), 1,000 workspace loads took 23.8 s then 24.3 s over 4,000 loads (24.9 s then 32.1 s without them) in Miniflare; Worker memory growth is unchanged and remains open.",
+      "current": "Slice 0a adds patient-partitioned loads and per-patient commit guards; slice 0b-2 scopes workspace reads to the viewer, so a local probe measured an ASHA read at 48 ms with 50,006 people (965 ms before). Slice 0b-3 pages non-ASHA scopes above 500 people: the same local probe measured a whole-team supervisor's paged workspace read at 34 ms and 5 KB, a 50-row list page at 38 ms and one patient's detail at 18 ms with 50,006 people, against 1.9 s and 38.6 MB for the unpaged read; search scans the scope (149 ms). Local machine only, not a reference device or hosted D1. Not scale evidence. Slice 6q: the patient-list cursor is opaque and name-free (`after:<id>`, resolved in the viewer's scope) and search text is sent in a POST body. Slice 0b-4: in a paged workspace, My work, follow-ups, the referral tracker and Submissions are built on the server over the whole scope (`GET /api/worklists`, one page per request, same order and counts as the unpaged workspace); on a shared local machine the work view took 557 ms and 11 KB at 20,006 people against 2.3 s and 18.1 MB for the full read, growing with the scope because each page orders the whole scope; the 50,006-person step stalled and was not measured. Slice 6w: work-list cursors carry the view's total as well as the offset; when the total has changed the server restarts at the first page and the panel replaces its rows instead of appending. Slice 13e: with audit indexes (migration 0017), 1,000 workspace loads took 23.8 s then 24.3 s over 4,000 loads (24.9 s then 32.1 s without them) in Miniflare; Worker memory growth is unchanged and remains open. Local macOS process-memory measurement now runs rather than skips: 8,101 synthetic workspace requests returned 200, but post-first mean growth remained 31.86 KiB/load; no plateau or hosted isolate-memory qualification is established.",
       "remaining": "Partitioned architecture, topology/load/support/cost review before 10000-worker or five-million-person expansion.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -4648,7 +4664,11 @@
         "tests/nfr/memory-growth.mjs",
         "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
         "tests/audit-query-plan-contract.mjs",
-        "docs/current/SLICE-13E-PERFORMANCE.md"
+        "docs/current/SLICE-13E-PERFORMANCE.md",
+        "tests/lib/process-memory.mjs",
+        "tests/process-memory-contract.mjs",
+        "tests/nfr/memory-growth.mjs",
+        "docs/current/APP-FIRST-BASELINE.md"
       ],
       "automatedAcceptanceClaim": false
     },

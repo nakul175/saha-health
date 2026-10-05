@@ -1,6 +1,6 @@
 # Current API inventory
 
-Generated from source: **66 HTTP method/route pairs** and **228 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
+Generated from source: **69 HTTP method/route pairs** and **232 command schema discriminators**. Discriminators are not distinct HTTP endpoints or claims that all contexts may execute them. Server authority, state and configuration gates remain decisive. The original 74 proposed REST operations and 16 event types remain target design.
 
 | Method | Route | Handler |
 | --- | --- | --- |
@@ -58,10 +58,13 @@ Generated from source: **66 HTTP method/route pairs** and **228 command schema d
 | GET | `/api/provider-sandbox` | [app/api/provider-sandbox/route.ts](../../app/api/provider-sandbox/route.ts) |
 | GET | `/api/purpose-scope` | [app/api/purpose-scope/route.ts](../../app/api/purpose-scope/route.ts) |
 | GET | `/api/reassignment` | [app/api/reassignment/route.ts](../../app/api/reassignment/route.ts) |
+| POST | `/api/reconciliation` | [app/api/reconciliation/route.ts](../../app/api/reconciliation/route.ts) |
 | POST | `/api/record-import` | [app/api/record-import/route.ts](../../app/api/record-import/route.ts) |
 | POST | `/api/record-opened` | [app/api/record-opened/route.ts](../../app/api/record-opened/route.ts) |
 | GET | `/api/referral-escalations` | [app/api/referral-escalations/route.ts](../../app/api/referral-escalations/route.ts) |
 | GET | `/api/referral-requests` | [app/api/referral-requests/route.ts](../../app/api/referral-requests/route.ts) |
+| POST | `/api/reminder-optout/callback` | [app/api/reminder-optout/callback/route.ts](../../app/api/reminder-optout/callback/route.ts) |
+| POST | `/api/reminder-optout` | [app/api/reminder-optout/route.ts](../../app/api/reminder-optout/route.ts) |
 | GET | `/api/retention` | [app/api/retention/route.ts](../../app/api/retention/route.ts) |
 | GET | `/api/rights` | [app/api/rights/route.ts](../../app/api/rights/route.ts) |
 | POST | `/api/roster` | [app/api/roster/route.ts](../../app/api/roster/route.ts) |

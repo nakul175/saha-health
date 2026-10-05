@@ -151,3 +151,9 @@ export const media = sqliteTable('media', {
 export const scheduledCursor = sqliteTable('scheduled_cursor', {
  job:text('job').primaryKey(), lastOrg:text('last_org').notNull(), updatedAt:text('updated_at').notNull(),
 });
+
+// Internal anti-enumeration reservations. Not patient records and excluded from organisation data exit.
+export const abhaReviewReservations = sqliteTable('abha_review_reservations', {
+ orgId:text('org_id').notNull(), userId:text('user_id').notNull(), attemptHash:text('attempt_hash').notNull(),
+ payloadHash:text('payload_hash').notNull(), probeHash:text('probe_hash').notNull(), at:text('at').notNull(), reviewEventId:text('review_event_id'),
+},t=>[primaryKey({columns:[t.orgId,t.userId,t.attemptHash]}),uniqueIndex('abha_review_probe').on(t.orgId,t.userId,t.probeHash),index('abha_review_time').on(t.orgId,t.userId,t.at)]);

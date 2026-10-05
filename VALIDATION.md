@@ -1347,3 +1347,19 @@ Before the "fix all" branches were offered for merge, an agent that had not seen
   - restore drill 21; smoke 36 passed, 1 skipped;
   - UI 26; NFR 191; UAT 63 steps after the documentation was regenerated.
 - The partial-differencing path has no HTTP test of its own. The fixes were written by the agent that built 13a–13e; no person has reviewed them. Requirement counts are unchanged; the BR-ID-02 text is updated and it stays partial.
+
+## App-first programme, first integrated batches — 5 October 2026 IST
+
+Starting source: GitHub main `2adfbde1369b854d71962918bad3b81fdac746fe` (merged 13a–13f). New integration branch `app-first/integration-20261005`; no sponsor merge and no change to formal acceptance.
+
+- Baseline unit run: 127 of 130 suites passed; the three failures were resolved by an authorised loopback transport rerun (7), portable CSV receiver recipe (7) and equal-millisecond EHR exception ordering correction (13). The original failure record is retained, and this combined evidence is not a new full-suite run.
+- Authenticated app UI: 15 component/policy checks and 16 actual Chromium/D1 phone and desktop journey checks passed. Atomic ABHA review: 14 focused local D1 checks, including 32 concurrent attempts admitting only three reservations. Android packaging: 20 certificate/configuration checks passed; actual Gradle configuration was checked, but APK, lint, host association and physical device execution remain pending SDK licence approval or external qualification.
+- TypeScript and production build passed on app UI + Android + atomic integration. Existing integrated HTTP/D1 regression passed 4,758 checks before R27/R77; evidence `tests/evidence/app-first-baseline/integration-http.json`.
+- Portable process-memory contract passed six checks with actual child processes. Extended memory test returned HTTP 200 for 8,101 workspace requests; final workerd process RSS approximately 661.8 MiB. Seven post-first rounds averaged 31.86 KiB/load against a 10 KiB plateau criterion. O-2 remains open; process RSS does not establish hosted isolate heap usage.
+- R27 isolated feature evidence: 16 built-Worker HTTP/D1 checks plus 121 affected regression checks passed. R77 isolated evidence: 39 core, 53 Worker/D1/browser (2 browser), 55 outreach and 25 consent checks passed. Lead added cross-site refusal to the staff simulator and a root workspace refresh hook; combined feature runs and independent review are separate gates.
+
+Synthetic data only; no provider activation, real messages, partner or clinical/field acceptance. Source and implementation boundaries are recorded in app-first and feature documents.
+
+Combined R27/R77 source typecheck and production build passed. Isolated combined-source actual Worker/D1 reruns passed 16 reconciliation and 53 opt-out checks (the latter includes the two added cross-site guards and omits the optional two browser checks; these are distinct from the earlier 53-check browser-inclusive feature run). Evidence preserves the feature reports and adds `integrated-http.json` beside them.
+
+Browser Back fix: 17 controller checks, 11 real Chromium/D1 Back/Forward/dirty-cancel/discard/opaque-history/boundary-exit checks and the existing 16 app-first browser checks passed on its isolated branch. Combined focused runner passed four suites with 73 counted checks; the 17 history-controller assertions were not parsed by its earlier console output, which is now structured for future runs. Formal physical Android Back acceptance stays pending.

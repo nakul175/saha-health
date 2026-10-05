@@ -17,3 +17,5 @@ An initial local run used three rounds of 500 workspace loads at concurrency fou
 This measures the local workerd process, including runtime and native memory, not the hosted Cloudflare isolate's 128 MiB heap limit. The synthetic organisation is small and there is only one identity and route. Hosted and representative-scale qualification remain pending.
 
 Evidence: `tests/evidence/app-first-baseline/`; dated reports preserve both initial failures and focused follow-ups. No real patient records, messages or partner calls were used.
+
+The extended run used eight rounds of 1,000 loads after 100 warm-up requests. All 8,101 requests returned 200. Growth per round was 264.93, 67.47, 48.99, 32.80, 43.34, 17.65, 13.89 and -1.15 KiB per load. Final RSS was 661.8 MiB; the seven post-first rounds averaged 31.86 KiB per load, above the 10 KiB plateau criterion. Growth slows and the final round falls, but this does not prove a plateau or close O-2. Evidence: `memory-growth-extended.json`.

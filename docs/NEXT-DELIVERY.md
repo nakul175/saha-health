@@ -1,5 +1,17 @@
 # Next delivery
 
+## App-first programme (sponsor decision, 5 October 2026)
+
+The sponsor requested an installable Android app for ASHA workers with the same journey demonstrable in the browser, and parallel delivery of the remaining buildable scope. Four active agent slots run ten workstreams in successive batches. This supersedes the earlier Android deferral. Source batches are integrated on `app-first/integration-20261005`; main is not merged without sponsor approval. Clinical, external and field acceptance remain pending.
+
+| Batch | Current delivery and gate |
+| --- | --- |
+| App UI | Authenticated phone presentation and browser journey checked; guarded Back/Forward fix integrated; browser/controller evidence recorded |
+| Atomic ABHA review | Local D1 concurrency checks passed; 4,758 combined HTTP regression checks passed before R27/R77 integration |
+| Android | Buildable project and configuration checks; APK/lint pending SDK licence authorisation |
+| Baseline/performance | Existing regressions corrected; 8,101 memory-probe requests succeeded, O-2 remains open |
+| R27 / R77 | Integrated locally with focused Worker/D1 evidence; independent review and combined validation underway |
+
 ## Development-completion order (sponsor decision, 30 September 2026)
 
 The sponsor chose to finish buildable product work before the partner track closes. Decisions taken: keep the encrypted browser field notebook and add native Android only if a buyer requires it; keep the current sign-in and hosting during development behind a swappable identity layer; start with the storage foundation. Each slice ships on its own branch and draft pull request; slices reach GitHub main only when the sponsor instructs a merge (slices 0a–3f and 3g–6r were merged on 30 September 2026, and 0b-4 to 6ae and 9a–9c on 2 October 2026, without independent human review).
@@ -165,3 +177,5 @@ This is a proposed implementation slice derived from the existing R12 plan, not 
 | R16 field acceptance | Approved study scope, trained participants, accountable reviewers and baseline | Outcomes including failures/exclusions, remediation and signed requirement decisions |
 
 Do not close an older gap merely because a later engineering release exists. Identity, consent, sensitive-data segmentation, programme semantics and scale risks cut across these batches. See each row's remaining-work statement.
+
+The current residual software dispatch ledger is [app-first remaining engineering work](current/APP-FIRST-REMAINING-WORK.md). Service execution identity wiring is the next active backend batch; physical-device and partner gates are separate.

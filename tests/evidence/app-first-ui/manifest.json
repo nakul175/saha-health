@@ -1,11 +1,51 @@
 {
   "date": "2026-10-05",
   "baseline": "2adfbde1",
-  "component": {"file": "component-result.json", "passed": 15, "failed": 0},
-  "browser": {"file": "browser-result.json", "passed": 16, "failed": 0},
-  "screenshots": ["phone-today.png", "phone-review.png", "desktop-preview.png"],
+  "component": {
+    "file": "component-result.json",
+    "passed": 15,
+    "failed": 0
+  },
+  "browser": {
+    "file": "browser-result.json",
+    "passed": 16,
+    "failed": 0
+  },
+  "screenshots": [
+    "phone-today.png",
+    "phone-review.png",
+    "desktop-preview.png"
+  ],
   "typecheck": "passed",
   "build": "passed; existing large client bundle warning",
   "acceptance": "pending",
-  "limits": ["Synthetic local Worker only", "No Android or physical device validation", "No external provider or clinical approval", "Offline notebook remains separate", "Playwright suite wrapper not run because linked dependencies omit @playwright/test"]
+  "limits": [
+    "Synthetic local Worker only",
+    "No Android or physical device validation",
+    "No external provider or clinical approval",
+    "Offline notebook remains separate",
+    "Playwright suite wrapper not run because linked dependencies omit @playwright/test"
+  ],
+  "reports": {
+    "browser-result.json": {
+      "sha256": "033e9223b1366651a4d318e5533a5a32f3494ea06381b66b316cc39db4229900",
+      "passed": 16
+    },
+    "component-result.json": {
+      "sha256": "5d4f65f99ff0d153cfa5c3594dc857377a6c6032c1f38545cf06037318a291d0",
+      "passed": 15
+    },
+    "desktop-preview.png": {
+      "sha256": "7be1a0c3dc60e0b249e58736dc7ae93945c590ec9f3cd0effa82780748b79c2d",
+      "passed": 0
+    },
+    "phone-review.png": {
+      "sha256": "f30d4712b8e321630760a7a4d98009eb5834a1cd6706adb9d1dc9e8b075b61e9",
+      "passed": 0
+    },
+    "phone-today.png": {
+      "sha256": "a6e5f2aecbcf2dc76ebb119db799a074054fafc0ddb14886fa5ae4bd32985157",
+      "passed": 0
+    }
+  }
 }

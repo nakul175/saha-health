@@ -1,0 +1,168 @@
+{
+  "generatedAt": "2026-10-05T02:21:00.309Z",
+  "startedAt": "2026-10-05T02:20:58.271Z",
+  "command": "node scripts/test.mjs unit --fast --only unit/atomic-abha-review-contract --only unit/android-app-contract --only unit/reminder-optout-contract --only unit/app-history-contract --report tests/reports/app-first-new-contracts.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 4,
+      "passed": 73,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1908,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 73,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 2038
+  },
+  "suites": [
+    {
+      "id": "unit/android-app-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/android-app-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 143,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__android-app-contract.log"
+    },
+    {
+      "id": "unit/app-history-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/app-history-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 153,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__app-history-contract.log"
+    },
+    {
+      "id": "unit/atomic-abha-review-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/atomic-abha-review-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1544,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__atomic-abha-review-contract.log"
+    },
+    {
+      "id": "unit/reminder-optout-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/reminder-optout-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 68,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__reminder-optout-contract.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/android-app/contract-result.json",
+      "tests/evidence/app-back-navigation/contract-result.json",
+      "tests/evidence/atomic-abha-review/contract.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 136,
+        "components": 0,
+        "suitesCitingNoRequirement": 36,
+        "requirementsCited": 137
+      },
+      "integration": {
+        "suites": 4,
+        "components": 84,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 116
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 2
+      },
+      "ui": {
+        "suites": 1,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 3
+      }
+    },
+    "supportFiles": 14,
+    "suites": 161,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 154,
+    "suitesCitingNoRequirement": 46,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 154
+  }
+}

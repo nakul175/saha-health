@@ -17,7 +17,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 VERIFY = ROOT / 'docs/verification'
-RUNTIME = ('app/', 'lib/', 'db/', 'drizzle/', 'public/', 'scripts/', 'tests/', 'components/', 'hooks/', 'build/', 'vendor/', 'examples/')
+RUNTIME = ('app/', 'android/', 'lib/', 'db/', 'drizzle/', 'public/', 'scripts/', 'tests/', 'components/', 'hooks/', 'build/', 'vendor/', 'examples/')
 
 slug, label = sys.argv[1], sys.argv[2]
 pointer = VERIFY / 'current-baseline.json'

@@ -52,4 +52,4 @@ const evidence = {
 };
 mkdirSync('tests/evidence/android-app', { recursive: true });
 writeFileSync('tests/evidence/android-app/contract-result.json', JSON.stringify(evidence, null, 2) + '\n');
-console.log(`${passed} Android packaging and certificate checks passed`);
+console.log(JSON.stringify(evidence));

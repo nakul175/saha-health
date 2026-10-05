@@ -3,13 +3,68 @@
   "baseline": "2adfbde1",
   "requirement": "BR-CARE-07",
   "slice": "R77",
-  "contract": {"file": "contract-result.json", "passed": 39, "failed": 0},
-  "http": {"file": "http-result.json", "passed": 53, "failed": 0, "realBrowserChecksIncluded": 2},
-  "existingOutreach": {"file": "outreach-contract-result.json", "passed": 55},
-  "existingConsent": {"file": "consent-contract-result.json", "passed": 25},
-  "screenshots": ["outreach-optout.png"],
+  "contract": {
+    "file": "contract-result.json",
+    "passed": 39,
+    "failed": 0
+  },
+  "http": {
+    "file": "http-result.json",
+    "passed": 53,
+    "failed": 0,
+    "realBrowserChecksIncluded": 2
+  },
+  "existingOutreach": {
+    "file": "outreach-contract-result.json",
+    "passed": 55
+  },
+  "existingConsent": {
+    "file": "consent-contract-result.json",
+    "passed": 25
+  },
+  "screenshots": [
+    "outreach-optout.png"
+  ],
   "typecheck": "passed",
   "build": "passed; existing client bundle warning",
   "acceptance": "pending",
-  "limits": ["Mock provider only", "Synthetic TEST contacts only", "No real messages", "No external provider, carrier, clinical or field acceptance"]
+  "limits": [
+    "Mock provider only",
+    "Synthetic TEST contacts only",
+    "No real messages",
+    "No external provider, carrier, clinical or field acceptance"
+  ],
+  "integratedHttp": {
+    "file": "integrated-http.json",
+    "passed": 53,
+    "failed": 0,
+    "realBrowserChecksIncluded": 0,
+    "additionalCoverage": "Lead cross-site Origin and Fetch Metadata guards; browser optional run separate"
+  },
+  "reports": {
+    "consent-contract-result.json": {
+      "sha256": "bcef686c32d504e4654c7e08ef2fcca51937c0ac4c4ba23946a53e394ff176d5",
+      "passed": 25
+    },
+    "contract-result.json": {
+      "sha256": "3c22be5f8e8470fe73d3fd34293f2865073ed426079879dfbf3baad7b56fbb79",
+      "passed": 39
+    },
+    "http-result.json": {
+      "sha256": "0f9b71bcea2d2a2cc4039e350f5ef802396df29f6926c8f8ebe65487c4e013df",
+      "passed": 53
+    },
+    "integrated-http.json": {
+      "sha256": "9aad15a3a6f472c02d0202ba3c082e9da9874a59c493ceb20711c706c4d6c49d",
+      "passed": 53
+    },
+    "outreach-contract-result.json": {
+      "sha256": "39ddd389471fae00f70d5bae59cbfb4e1166d3c6374217bec07662b9f52ad757",
+      "passed": 55
+    },
+    "outreach-optout.png": {
+      "sha256": "8d328fa631a97a91276ca28394c245627365abe6727c8f47f700687f95705167",
+      "passed": 0
+    }
+  }
 }

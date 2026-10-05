@@ -94,5 +94,5 @@ try{
  });
  const result={suite:'atomic-abha-review-contract',passed:checks.length,checks,completedAt:new Date().toISOString(),limits:'Local Miniflare D1 concurrency; synthetic data only. Hosted D1 and real ABDM not measured.'};
  mkdirSync('tests/evidence/atomic-abha-review',{recursive:true});writeFileSync('tests/evidence/atomic-abha-review/contract.json',JSON.stringify(result,null,2)+'\n');
- console.log(`Atomic ABHA review: ${checks.length} checks passed on local D1`);
+ console.log(JSON.stringify(result));
 }finally{await mf.dispose();rmSync(dir,{recursive:true,force:true});}
