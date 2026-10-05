@@ -202,3 +202,7 @@ export const offlineOpenReports=sqliteTable('offline_open_reports',{
 export const offlineOpenSubjects=sqliteTable('offline_open_subjects',{
  orgId:text('org_id').notNull().references(()=>organisations.id),actorId:text('actor_id').notNull(),reportId:text('report_id').notNull(),personId:text('person_id').notNull(),visitId:text('visit_id'),provenance:text('provenance').notNull(),
 },t=>[primaryKey({columns:[t.actorId,t.reportId,t.personId]}),index('offline_open_subjects_patient').on(t.orgId,t.personId)]);
+
+export const clinicalSourceDocuments=sqliteTable('clinical_source_documents',{
+ orgId:text('org_id').notNull(),id:text('id').notNull(),entryId:text('entry_id').notNull(),manifestHash:text('manifest_hash').notNull(),reference:text('reference').notNull(),content:text('content').notNull(),createdBy:text('created_by').notNull(),createdAt:text('created_at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]})]);

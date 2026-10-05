@@ -1,0 +1,17 @@
+# Acquired synthetic source documents: first B19 batch
+
+Source manifests previously held publisher/edition/URL/summary only. This batch adds real bounded acquisition/cache and scoped retrieval for uploaded synthetic text or small PDF. No R2 binding exists in the project; migration0025 stores at most8192 decoded bytes per immutable document in D1.
+
+An authenticated source manager uploads against the exact prior revision/version. The same atomic commit creates the document row, exact-key receipt, audit, and a NEW source draft whose manifest pins digest, MIME, byte count, acquisition time, expiry and licensing-evidence reference. A different clinician reviews this exact manifest before owner activation. These are synthetic workflow decisions; clinical/licensing approval remains false. Earlier revisions, source citations and outputs are retained. Ordinary commands cannot forge a document reference.
+
+GET /api/clinical-sources requires current trusted identity/org/team authority plus exact entry/digest. Managers inspect staged content; care workers require active usable source authority. Every returned document has a durable view audit, fresh permission/lifecycle check, row/manifest/reference match and actual SHA256/expiry check. Browser/API responses use private,no-store. The versioned cache is server-side; authenticated API bytes are never put in the public service worker. Source-library usability and source-dependent protocol checks reject unavailable/corrupted acquisitions. Legacy citation-only source outputs retain their original shape/context hashes.
+
+Text is rendered as escaped text. PDF requires PDF MIME, magic, standard base64, decoded size/hash bounds; explicit active-action markers are refused. PDFs download as attachment with nosniff and sandbox/default-srcnone, and are never embedded/executed in the app origin. This is not a general PDF sanitizer or real clinical/licensing acceptance.
+
+Phone source-library controls reach upload and exact acquired content. A lost acknowledgement retains the original upload/key and pauses editing; retry returns the accepted receipt without another revision/object. An uncertain acquisition is held in the current form; keep the page open until its result is known. Patient confirmation and patient authority are not granted by a source.
+
+Verified: fresh build/type; source16 contract,28 actual Worker/D1,9 actual phone Chromium, existing governance27 and data exit41. Evidence tests/evidence/clinical-sources includes actual phone screenshot, storage/audit/fault/digest/expiry/replay results and preserved compatibility checks.
+
+Required next software batch: configured, disabled-by-default approved-origin HTTPS server retrieval with exact allowlist, no redirects, timeout/byte/MIME/hash bounds, explicit licence-evidence lineage and current-authority revalidation. Synthetic controlled-peer tests can prove those gates without real publisher calls. Actual licensed/acquired clinical content, clinician acceptance and physical/device acceptance remain external and pending. Shared prepared/offline source-document distribution requires signed descriptor/expiry and encrypted-vault lineage; it is not supplied by a browser public cache.
+
+Integrator: newGET/POST route, monitoring route name, optional source-document manifest contract,0025 schema declaration/export table. Preserve other authors' server receipt/provenance hooks and migration0021/0023/0024. Regenerate API/schema/test catalogue documentation centrally. No previous migration or confirmed output is modified.

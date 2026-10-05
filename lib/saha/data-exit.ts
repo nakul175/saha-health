@@ -1,3 +1,5 @@
+import {readState} from './store';
+import {entryScope,activeEntry,governanceManager} from './governance';
 import type { D1Database } from '@cloudflare/workers-types';
 import { fail } from './core';
 import { CHAIN_VERSION, HASHING, chainHead, contentDigest, verifyChain, type EventRow } from './audit-chain';
@@ -52,6 +54,7 @@ export const TABLES: TableSpec[] = [
   { table: 'device_work_grants', order: 'actor_id,lease_id', scope: 'person', note: 'Immutable original-worker grant metadata; no clinical packet or device fingerprint.' },
   { table: 'device_registration_grants', order: 'actor_id,registration_id', scope: 'person', note: 'Original accepted registration ownership and immutable baseline; legacy history explicitly unavailable.' },
   { table: 'device_registration_receipts', order: 'actor_id,receipt_key', scope: 'person', note: 'Exact accepted original-worker registration receipt bindings.' },
+  { table: 'clinical_source_documents', order: 'id', scope: 'org', note: 'Immutable bounded synthetic acquired source documents; licensing/clinical acceptance pending.' },
   { table: 'device_registration_wire_receipts', order: 'actor_id,receipt_key,wire_hash', scope: 'person', note: 'Exact authenticated registration wire digests; no command bodies.' },
   { table: 'device_match_copies', order: 'actor_id,id', scope: 'self', note: 'Only original actor protected candidate ID/version and query hash provenance; whole receipts outside current candidate scope are withheld; no raw search.' },
   { table: 'device_work_events', order: 'at,id', scope: 'self', note: 'Only the exporter\'s redacted diagnostics, deletion instructions and client-attested acknowledgements; server evidence is not pruned.' },
@@ -144,6 +147,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // appear in their newer state.
   const chain = await verifyChain(db, orgId, undefined, input.now), cut = await chainHead(db, orgId);
   for (const spec of TABLES) data[spec.table] = await readAll(db, spec, orgId);
+  const sourceState=data.clinical_source_documents.length?await readState(db,orgId,[],m.userId,true):null;
   data.audit_events = data.audit_events.filter(r => r.seq == null || (cut !== null && Number(r.seq) <= cut.seq));
   const org = data.organisations[0];
   if (!org) fail(404, 'Organisation not found.');
@@ -163,6 +167,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     let withheld = 0, entries = 0, others = 0;
     for (const r of rows) {
       if (spec.scope === 'self' && String(r.user_id ?? r.actor_id) !== m.userId) { others++; continue; }
+      if(spec.table==='clinical_source_documents'){const e=sourceState?.governance?.entries.find(e=>e.id===r.entry_id);if(!e||!entryScope(m,e)||!((governanceManager(m)&&m.role!=='provider')||['asha','clinician'].includes(m.role)&&activeEntry(sourceState!,e))){withheld++;continue;}try{await (await import('./clinical-source')).verifiedSourceDocument(db,orgId,e,input.now);}catch{withheld++;continue;}}
       if(spec.table==='device_match_copies'){let candidates:any;try{candidates=JSON.parse(String(r.candidate_versions));}catch{candidates=null;}if(!Array.isArray(candidates)||candidates.some(x=>!people.has(String(x.id)))){withheld++;continue;}}
       if (spec.table === 'patients' ? !people.has(String(r.id)) : !allowed(spec, r)) {
         withheld++;
