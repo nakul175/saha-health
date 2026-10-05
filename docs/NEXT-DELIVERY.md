@@ -2,7 +2,7 @@
 
 ## App-first programme (sponsor decision, 5 October 2026)
 
-The sponsor requested an installable Android app for ASHA workers with the same journey demonstrable in the browser, and parallel delivery of the remaining buildable scope. Four active agent slots run ten workstreams in successive batches. This supersedes the earlier Android deferral. Source batches are integrated on `app-first/integration-20261005`; main is not merged without sponsor approval. Clinical, external and field acceptance remain pending.
+The sponsor requested an installable Android app for ASHA workers with the same journey demonstrable in the browser, and parallel delivery of the remaining buildable scope. Four active agent slots run ten workstreams in successive batches. This supersedes the earlier Android deferral. Source batches are integrated on `app-first/integration-20261005` ([draft PR #161](https://github.com/nakul175/saha-health/pull/161)); main is not merged without sponsor approval. Clinical, external and field acceptance remain pending.
 
 | Batch | Current delivery and gate |
 | --- | --- |
@@ -10,7 +10,7 @@ The sponsor requested an installable Android app for ASHA workers with the same 
 | Atomic ABHA review | Local D1 concurrency checks passed; 4,758 combined HTTP regression checks passed before R27/R77 integration |
 | Android | Buildable project and configuration checks; APK/lint pending SDK licence authorisation |
 | Baseline/performance | Existing regressions corrected; 8,101 memory-probe requests succeeded, O-2 remains open |
-| R27 / R77 | Integrated locally with focused Worker/D1 evidence; independent review and combined validation underway |
+| R27 / R77 | Integrated locally with focused Worker/D1 evidence; independent review fixes integrated; 105 combined workflow/browser checks pass |
 
 ## Development-completion order (sponsor decision, 30 September 2026)
 

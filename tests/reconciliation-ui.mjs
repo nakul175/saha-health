@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
 const require=createRequire(import.meta.url),build=require(require.resolve('esbuild',{paths:[require.resolve('vite')]}));
-const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'playwright-core');
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');
 mkdirSync('.sites-runtime',{recursive:true});
 const panel=process.env.SAHA_RECONCILIATION_COMPONENT??'./app/reconciliation-panel';
 build.buildSync({stdin:{contents:`import React,{useState} from 'react';import {createRoot} from 'react-dom/client';import {ReconciliationPanel} from '${panel}';

@@ -162,7 +162,7 @@ export function json(body, status = 200) { return new Response(JSON.stringify(bo
     check('5 the out-of-scope refusal has the same status and text as a gateway refusal', () => { assert.equal(held.status, badOtp.status); assert.equal(held.message, badOtp.message); assert.equal(held.message, B.LINK_REFUSED); });
     check('5 the refusal carries both record ids for the server only', () => { assert.ok(held instanceof B.AbhaHeldElsewhere); assert.equal(held.personId, 'mine'); assert.equal(held.heldBy, 'theirs'); assert.ok(!held.message.includes('theirs')); });
     check('5 the steward review event is a recorded audit action', () => { assert.ok(AA.ACCESS_ACTIONS.abhaLinkReview); assert.ok(AA.ACCESS_ACTION_NAMES.includes('abhaLinkReview')); });
-    check('5 source: the server records the steward event on the holding record and returns the ordinary refusal', () => { const src = readFileSync('lib/saha/server.ts', 'utf8'); assert.match(src, /const abdm=await abdmWithStewardReview\(state,c,u,m\)/); assert.match(src, /action:'abhaLinkReview',subject:e\.heldBy,personId:e\.heldBy/); assert.match(src, /fail\(422,LINK_REFUSED\)/); });
+    check('5 source: the server records the steward event on the holding record and returns the ordinary refusal', () => { const src = readFileSync('lib/saha/server.ts', 'utf8'); assert.match(src, /const abdm=await abdmWithStewardReview\(state,c,u,m,key\)/); assert.match(src, /action:'abhaLinkReview',subject:e\.heldBy,personId:e\.heldBy/); assert.match(src, /fail\(422,LINK_REFUSED\)/); });
   }
 
   // 6. Data exit and other members' alert notifications.

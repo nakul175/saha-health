@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {startWorker,identity,client} from './lib/worker.mjs';
-const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'playwright-core');
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');
 let worker,browser,passed=0;
 const check=(value,message)=>{assert.ok(value,message);passed++};
 const evidence='tests/evidence/app-first-ui';mkdirSync(evidence,{recursive:true});

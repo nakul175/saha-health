@@ -1,8 +1,18 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-04",
-  "node": "v22.22.2",
+  "updatedAt": "2026-10-05",
+  "node": "v24.19.0",
   "suites": {
+    "integration/reconciliation-http": {
+      "layer": "integration",
+      "file": "tests/reconciliation-http.mjs",
+      "minPassed": 16
+    },
+    "integration/reminder-optout-http": {
+      "layer": "integration",
+      "file": "tests/reminder-optout-http.mjs",
+      "minPassed": 55
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
@@ -43,6 +53,11 @@
       "file": "tests/recovery-drill.mjs",
       "minPassed": 21
     },
+    "smoke/app-back-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/app-back-browser.mjs",
+      "minPassed": 11
+    },
     "smoke/hosted-smoke": {
       "layer": "smoke",
       "file": "tests/smoke/hosted-smoke.mjs",
@@ -52,6 +67,16 @@
       "layer": "smoke",
       "file": "tests/smoke/local-smoke.mjs",
       "minPassed": 28
+    },
+    "smoke/reconciliation-ui": {
+      "layer": "smoke",
+      "file": "tests/reconciliation-ui.mjs",
+      "minPassed": 10
+    },
+    "smoke/reminder-optout-refresh-browser": {
+      "layer": "smoke",
+      "file": "tests/reminder-optout-refresh-browser.mjs",
+      "minPassed": 13
     },
     "uat/check-uat-register": {
       "layer": "uat",

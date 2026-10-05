@@ -75,6 +75,7 @@ export function classify(file) {
   if (file === 'tests/api-smoke.mjs') return { layer: 'integration', role: 'support', tier: null, reason: 'entry module imported by tests/run-api-smoke.mjs; not run on its own' };
   if (file === 'tests/run-api-smoke.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'HTTP and D1 suite against the built Worker' };
   if (['tests/reconciliation-http.mjs', 'tests/reminder-optout-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'isolated synthetic built-Worker and D1 route checks' };
+  if (['tests/reconciliation-ui.mjs', 'tests/reminder-optout-refresh-browser.mjs'].includes(file)) return { layer: 'smoke', role: 'suite', tier: 'pr', runner: 'node', reason: 'Chromium regression for delayed organisation-scope responses' };
   if (file === 'tests/scheduled-local-check.mjs') return { layer: 'integration', role: 'suite', tier: 'extended', runner: 'node', reason: 'served-Worker check of the scheduled handler; needs dist/ and a port, so not a unit test' };
   if (file === 'tests/recovery-drill.mjs') return { layer: 'resilience', role: 'suite', tier: 'pr', runner: 'node', reason: 'encrypted backup and restore against the database the HTTP suite populated' };
   if (MANUAL[file]) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', reason: 'run on purpose, not by default' };

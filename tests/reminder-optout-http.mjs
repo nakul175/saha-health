@@ -44,8 +44,8 @@ try{
  check(()=>assert.equal(patient.contactPreferences.permission,false));check(()=>assert.equal(patient.reminderOptouts.length,1));check(()=>assert.equal(patient.reminderOptouts[0].before.permission,true));check(()=>assert.equal(patient.reminderOptouts[0].after.permission,false));check(()=>assert.equal(patient.consentHistory.at(-1).reference,result.receipt));
  // Saved provider receipts remain replayable after the contact changes; a new stale event cannot withdraw the replacement contact.
  await setPrefs({...preferences,destination:'TEST-REPLACEMENT-001'});const lateReplay=await signed(event);check(()=>assert.equal(lateReplay.receipt,result.receipt));await signed({...event,eventId:'late_old_contact'},409);
- if(process.env.SAHA_BROWSER_PACKAGE){
-  const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE);browser=await chromium.launch({headless:true,...(process.env.SAHA_CHROMIUM?{executablePath:process.env.SAHA_CHROMIUM}:{})});
+ {
+  const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');browser=await chromium.launch({headless:true,...(process.env.SAHA_CHROMIUM?{executablePath:process.env.SAHA_CHROMIUM}:{})});
   const context=await browser.newContext({viewport:{width:1280,height:900},extraHTTPHeaders:asha.headers}),page=await context.newPage();
   await page.goto(worker.base+'/');await page.getByRole('button',{name:'Outreach',exact:true}).click();await page.getByRole('tab',{name:'Contact preferences',exact:true}).click();
   await page.getByRole('combobox',{name:'Opt-out simulation patient'}).selectOption(p.id);await page.getByRole('button',{name:'Simulate incoming STOP'}).click();

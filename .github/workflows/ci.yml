@@ -49,6 +49,10 @@ jobs:
       # Slice 11a: the runner finds every unit suite itself, so a new suite is never left out of CI.
       - name: Unit suites
         run: node scripts/test.mjs unit --fast --guard
+      - name: Install Chromium for app-first regressions
+        run: node_modules/.bin/playwright install --with-deps chromium
+      - name: App-first workflow and scope regressions
+        run: node scripts/test.mjs integration smoke --only integration/reconciliation-http,integration/reminder-optout-http,smoke/app-back-browser,smoke/reconciliation-ui,smoke/reminder-optout-refresh-browser --fast --guard
       # Slices 11b and 11f: local smoke and the hosted smoke's self-test; the authorisation matrix over every GET route and role,
       # and identity hardening under Cloudflare Access; the UAT register check and the drift checks of the generated documents.
       - name: Smoke, security suites and UAT checks

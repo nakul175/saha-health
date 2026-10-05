@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { startWorker, identity, client } from '../lib/worker.mjs';
-const { chromium } = await import(process.env.SAHA_BROWSER_PACKAGE ?? 'playwright-core');
+const { chromium } = await import(process.env.SAHA_BROWSER_PACKAGE ?? '@playwright/test');
 const evidence='tests/evidence/app-back-navigation';
 const checks=[];let worker,browser;
 const check=(name,value)=>{assert.ok(value,name);checks.push(name);};
@@ -56,5 +56,5 @@ try{
  await page.goBack();await page.getByRole('heading',{name:'Today’s work',exact:true}).waitFor();
  check('root Back exits to preceding full workspace without a sentinel trap',new URL(page.url()).pathname==='/');
  writeFileSync(evidence+'/browser-result.json',JSON.stringify({passed:checks.length,checks,completedAt:new Date().toISOString(),limits:'Real cached Chromium/local synthetic D1. TWA uses this browser history; no physical Android system-Back test, hosted Access or clinical acceptance.'},null,2)+'\n');
- console.log(`${checks.length} real browser Back/Forward checks passed`);
+ console.log(JSON.stringify({passed:checks.length}));
 }finally{await browser?.close();await worker?.stop();}

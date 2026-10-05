@@ -1,0 +1,210 @@
+{
+  "generatedAt": "2026-10-05T02:24:56.033Z",
+  "startedAt": "2026-10-05T02:24:42.182Z",
+  "command": "node scripts/test.mjs integration smoke --only integration/reconciliation-http,integration/reminder-optout-http,smoke/app-back-browser,smoke/reconciliation-ui,smoke/reminder-optout-refresh-browser --fast --guard --report tests/reports/app-first-scope-regressions.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 2,
+      "passed": 71,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4901,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 3,
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8758,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 5,
+    "passed": 105,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 13851
+  },
+  "suites": [
+    {
+      "id": "integration/reconciliation-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/reconciliation-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1772,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__reconciliation-http.log"
+    },
+    {
+      "id": "integration/reminder-optout-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/reminder-optout-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3129,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__reminder-optout-http.log"
+    },
+    {
+      "id": "smoke/reconciliation-ui",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/reconciliation-ui.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1367,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__reconciliation-ui.log"
+    },
+    {
+      "id": "smoke/reminder-optout-refresh-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/reminder-optout-refresh-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3433,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__reminder-optout-refresh-browser.log"
+    },
+    {
+      "id": "smoke/app-back-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/app-back-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3958,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__app-back-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 0,
+    "newSuites": [
+      "integration/reconciliation-http",
+      "integration/reminder-optout-http",
+      "smoke/reconciliation-ui",
+      "smoke/reminder-optout-refresh-browser",
+      "smoke/app-back-browser"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/reconciliation/http.json",
+      "tests/evidence/reminder-optout/http-result.json",
+      "tests/evidence/reminder-optout/outreach-optout.png",
+      "tests/evidence/app-back-navigation/browser-result.json",
+      "tests/evidence/reminder-optout-refresh/result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 136,
+        "components": 0,
+        "suitesCitingNoRequirement": 36,
+        "requirementsCited": 137
+      },
+      "integration": {
+        "suites": 4,
+        "components": 84,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 116
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 2
+      },
+      "ui": {
+        "suites": 1,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 3
+      }
+    },
+    "supportFiles": 14,
+    "suites": 163,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 154,
+    "suitesCitingNoRequirement": 48,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 154
+  }
+}
