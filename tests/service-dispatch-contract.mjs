@@ -9,7 +9,7 @@ try{
  writeFileSync(join(dir,'core.js'),`export function fail(status,message){throw Object.assign(Error(message),{status})};export const uuid=()=>crypto.randomUUID();`);
  writeFileSync(join(dir,'store.js'),`export async function readState(db,org){if(org!==db.state.organisation.id)throw Object.assign(Error('wrong organisation'),{status:403});return structuredClone(db.state)};export function scope(s,id){const m=s.members.find(x=>x.userId===id&&x.status==='active');if(!m)throw Object.assign(Error('inactive human'),{status:403});return m}`);
  writeFileSync(join(dir,'access.js'),`export function normallyAllowed(m,p,policy){return m.teamIds.includes(p.teamId)&&(!policy?.denied)&&m.role!=='admin'}`);
- writeFileSync(join(dir,'access-audit.js'),`export async function recordAccess(db,s,u,m,event){if(db.auditFailure)throw Object.assign(Error('audit unavailable'),{status:503});db.audit.push(event);if(db.revokeDuringAudit)db.state.operations.serviceIdentities[0].status='revoked'}`);
+ writeFileSync(join(dir,'access-audit.js'),`export async function recordAccess(db,s,u,m,event){if(db.auditFailure)throw Object.assign(Error('audit unavailable'),{status:503});db.audit.push(event);if(db.revokeDuringAudit)db.state.operations.serviceIdentities[0].status='revoked';if(db.afterAudit)db.afterAudit(db.state)}`);
  const {serviceDispatch}=await import(pathToFileURL(join(dir,'service-dispatch.js'))),{applyServiceIdentity,requireServiceIdentity,independentTargets}=await import(pathToFileURL(join(dir,'service-identity.js')));
  const human={userId:'human',displayName:'Synthetic worker',role:'clinician',status:'active',isOwner:true,version:1,teamIds:['t']},actor={userId:'human',displayName:'Synthetic worker'},service={id:'si',name:'Connector worker',kind:'connector',targetId:'mis',ownerId:'human',status:'active',expiresAt:'2099-01-01T00:00:00Z'};
  for(const file of ['agent-execution','evaluation-execution','ehr-execution','mis-execution','aggregate-execution','destination-enrolment-execution','anaemia-server','frontline-server','server']){assert.match(readFileSync('lib/saha/'+file+'.ts','utf8'),/await serviceDispatch\(/,file+' dispatch boundary missing');passed++;}
@@ -41,9 +41,20 @@ try{
  for(const target of ['openai','independent:anaemia','frontline:vision']){if(target==='frontline:vision')continue;const state=fixture();state.operations.serviceIdentities[0]={...service,kind:'agent',targetId:target};assert.equal(requireServiceIdentity(state,'si','agent',target).id,'si');passed++;}
  for(const target of ['independent:anaemia',...catalog.map(x=>'frontline:'+x.id)]){
   const prepared=fixture();prepared.operations.serviceBindings={[target]:'si'};prepared.operations.serviceIdentities[0]={...service,kind:'agent',targetId:target};
-  if(target==='independent:anaemia')prepared.operations.anaemiaProvider={active:true,version:1};else prepared.operations.frontlineProviders={[target.slice(9)]:{active:true,version:1}};
+  if(target==='independent:anaemia')prepared.operations.anaemiaProvider={active:true,version:1};else prepared.operations.frontlineProviders={[target.slice('frontline:'.length)]:{active:true,version:1}};
   const current=structuredClone(prepared),data={state:current,audit:[]};await serviceDispatch(data,prepared,actor,human,target,'p');passed++;
-  const agreement=target==='independent:anaemia'?current.operations.anaemiaProvider:current.operations.frontlineProviders[target.slice(9)];agreement.active=false;await assert.rejects(()=>serviceDispatch(data,prepared,actor,human,target,'p'),e=>e.status===403);passed++;
+  const agreement=target==='independent:anaemia'?current.operations.anaemiaProvider:current.operations.frontlineProviders[target.slice('frontline:'.length)];agreement.active=false;await assert.rejects(()=>serviceDispatch(data,prepared,actor,human,target,'p'),e=>e.status===403);passed++;
+ }
+ for(const app of catalog){
+  const target='frontline:'+app.id,prepared=fixture();prepared.operations.serviceBindings={[target]:'si'};prepared.operations.serviceIdentities[0]={...service,kind:'agent',targetId:target};
+  // No stored agreement: clinical preparation uses the shared synthetic-bootstrap agreement.
+  const initial={state:structuredClone(prepared),audit:[]};await serviceDispatch(initial,prepared,actor,human,target,'p');passed++;
+  for(const when of ['before','during-audit']){
+   const db={state:structuredClone(prepared),audit:[]},suspend=state=>{state.operations.frontlineProviders={[app.id]:{active:false,version:2}};};
+   if(when==='before')suspend(db.state);else db.afterAudit=suspend;
+   let calls=0;await assert.rejects(async()=>{await serviceDispatch(db,prepared,actor,human,target,'p');calls++;},e=>e.status===403);assert.equal(calls,0);assert.equal(db.audit.length,when==='before'?0:1);passed++;
+  }
+  const configured=structuredClone(prepared);configured.operations.frontlineProviders={[app.id]:{active:true,version:1}};const removed={state:structuredClone(configured),audit:[]};delete removed.state.operations.frontlineProviders;await assert.rejects(()=>serviceDispatch(removed,configured,actor,human,target,'p'),e=>e.status===403);passed++;
  }
  // Replay never relaxes the execution gate: repeating the same checkpoint after revocation still refuses.
  db.state.operations.serviceIdentities[0].status='revoked';for(let n=0;n<2;n++)await assert.rejects(()=>serviceDispatch(db,s,actor,human,'mis','p'),e=>e.status===403);passed++;

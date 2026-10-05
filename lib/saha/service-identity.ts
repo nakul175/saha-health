@@ -31,6 +31,8 @@ export type ServiceIdentityCommand = z.infer<typeof serviceIdentitySchema>;
 const emptyOperations = (): Operations => ({ version: 0, maintenance: false, reason: '', updatedAt: '', incidents: [], rates: null });
 
 export const independentTargets=["openai","independent:anaemia", "frontline:oral-saathi", "frontline:skin-saathi", "frontline:shishu-breath", "frontline:matri-check", "frontline:poshan-check", "frontline:teeka-reader", "frontline:dawa-follow", "frontline:report-reader"];
+// One effective agreement API for clinical preparation and the fresh service checkpoint.
+export function frontlineAgreement(s:OrgState,appId:string){return s.operations?.frontlineProviders?.[appId]??{active:true,version:1,by:'synthetic-bootstrap',at:s.organisation.createdAt};}
 const CONNECTOR_KINDS: readonly string[] = ['mis', 'ehr', 'abdm'];
 
 // The target a service identity may act for: an active connector (programme/EHR/ABDM) or agent (AI).

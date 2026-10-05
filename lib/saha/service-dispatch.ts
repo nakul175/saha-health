@@ -3,7 +3,7 @@ import {fail} from './core';
 import {readState,scope,type Actor} from './store';
 import {normallyAllowed} from './access';
 import {recordAccess} from './access-audit';
-import {independentTargets,requireServiceIdentity} from './service-identity';
+import {frontlineAgreement,independentTargets,requireServiceIdentity} from './service-identity';
 import type {OrgState,Member} from './types';
 // Opt-in authority. A binding cannot be removed/replaced between preparation and dispatch
 // to bypass a revocation. Completed receipts remain evidence and never trigger dispatch.
@@ -33,7 +33,8 @@ export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,
 function assertTarget(prepared:OrgState,current:OrgState,targetId:string){
  const original=prepared.workspace.integrations.find(x=>x.id===targetId),target=current.workspace.integrations.find(x=>x.id===targetId);
  if(original&&(!target||target.version!==original.version||target.status!=='active'))fail(403,'Service connection configuration changed. Nothing was sent.');
- const agreement=(state:OrgState)=>targetId==='independent:anaemia'?state.operations?.anaemiaProvider:targetId.startsWith('frontline:')?state.operations?.frontlineProviders?.[targetId.slice(9)]:undefined;
+ const agreement=(state:OrgState)=>targetId==='independent:anaemia'?state.operations?.anaemiaProvider:targetId.startsWith('frontline:')?frontlineAgreement(state,targetId.slice('frontline:'.length)):undefined;
+ if(targetId.startsWith('frontline:')&&prepared.operations?.frontlineProviders?.[targetId.slice('frontline:'.length)]&&!current.operations?.frontlineProviders?.[targetId.slice('frontline:'.length)])fail(403,'Independent provider agreement removed. Nothing was sent.');
  const old=agreement(prepared),now=agreement(current);
  if(old&&(!now||!now.active||now.version!==old.version))fail(403,'Independent provider agreement changed. Nothing was sent.');
 }
