@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import ts from 'typescript';
+import {createHash} from 'node:crypto';
+const payloadDigest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 import {readFileSync,writeFileSync,mkdtempSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -14,7 +16,7 @@ try{
  writeFileSync(join(dir,'store.js'),`import {AppError} from './core.js'; export let saved;let hook=null;export function setup(s,h=null){saved=structuredClone(s);hook=h}export async function readState(){return structuredClone(saved)}export function scope(s,id){const m=s.members.find(m=>m.userId===id);if(!m||m.status==='suspended')throw new AppError(403,'Member revoked');return m}export async function persist(db,before,after,u,c){if(before.organisation.revision!==saved.organisation.revision)throw new AppError(409,'CAS conflict');saved=structuredClone(after);saved.organisation.revision++;if(hook)hook(saved,c);}`);
  writeFileSync(join(dir,'access-audit.js'),`export async function recordAccess(){}`);
  const imp=f=>import(pathToFileURL(join(dir,f+'.js')));
- const A=await imp('adapter-operations'),store=await imp('store'),{executeMis}=await imp('mis-execution'),{executeEhr}=await imp('ehr-execution'),{applyEhr}=await imp('ehr'),{exceptionQueue}=await imp('exceptions'),{AppError,uuid}=await imp('core');
+ const A=await imp('adapter-operations'),store=await imp('store'),{executeMis}=await imp('mis-execution'),{executeEhr}=await imp('ehr-execution'),{applyEhr}=await imp('ehr'),{exceptionQueue}=await imp('exceptions'),{AppError,uuid}=await imp('core'),{mappedPayload}=await imp('mis');
  const fail=(status,message)=>{throw new AppError(status,message)};
  const owner={userId:'own',displayName:'Owner',role:'clinician',status:'active',isOwner:true,teamIds:['t1']},worker={userId:'worker',displayName:'Synthetic worker',role:'clinician',status:'active',isOwner:false,teamIds:['t1']};
  const setting=(allowed,extra={})=>({version:1,allowed,aggregateOnly:false,setBy:'own',setAt:new Date().toISOString(),reason:'Synthetic test change',history:[],...extra});
@@ -64,11 +66,15 @@ try{
  });
 
  // 4. MIS deliveries: refused before the checkpoint, and withdrawn inside it, are closed as not sent; nothing is requested.
- const i={id:'mis1',kind:'mis',mode:'http',name:'Programme MIS',status:'active',version:1,endpoint:'https://programme.example/api',credentialBinding:'SAHA_MIS_TEST'};
+ const i={id:'mis1',kind:'mis',mode:'http',name:'Programme MIS',status:'active',version:1,endpoint:'https://programme.example/api',credentialBinding:'SAHA_MIS_TEST',mis:{contract:'saha-mis-v1',corrections:true,mapping:[{source:'weight',target:'weight',required:true}]}};
  const env={SAHA_EXTERNAL_APIS_ENABLED:'true',SAHA_MIS_TEST:'test',SAHA_MIS_CONNECTIONS:JSON.stringify([{organisationId:'org',integrationId:'mis1',origin:'https://programme.example',credentialBinding:'SAHA_MIS_TEST'}])};
- const misState=(state='queued',ops,payload={operation:'submit',fields:{weight:'55'}})=>({organisation:{id:'org',revision:1},members:[worker,owner],teams:[{id:'t1',name:'Team'}],workspace:{role:'clinician',people:[{id:'p',name:'Synthetic person',assigned:true,exchangeConsent:true,version:1,consentVersion:1,teamId:'t1'}],visits:[{id:'v',personId:'p',state:'confirmed',version:1}],integrations:[{...i,...(ops?{operations:ops}:{})}],submissions:[{id:'sub',visitId:'v',personId:'p',connectorId:'mis1',connectorName:'Programme MIS',state,attempts:state==='uncertain'?1:0,payloadHash:'a'.repeat(64),createdAt:new Date(Date.now()-60000).toISOString(),updatedAt:new Date().toISOString(),delivery:{endpoint:i.endpoint,credentialBinding:i.credentialBinding,key:'sub',actorId:'worker',connectorVersion:1,personVersion:1,consentVersion:1,visitVersion:1,expiresAt:new Date(Date.now()+60000).toISOString(),startedAt:new Date(Date.now()-60000).toISOString(),payload,events:[]}}],audit:[]}});
- const receipt={contract:'saha-mis-v1',key:'sub',payloadHash:'a'.repeat(64),status:'accepted',receipt:'PARTNER-1'};
- let calls=0;const transport=async()=>{calls++;return receipt};
+ const misState=(state='queued',ops,correction=false)=>{
+  const current={id:'v',personId:'p',state:'confirmed',version:1,facts:{weight:correction?'56':'55'},...(correction?{amendsVisitId:'previous-v'}:{})};
+  const previous=correction?[{id:'previous',visitId:'previous-v',personId:'p',connectorId:'mis1',state:'accepted',receipt:'PREVIOUS-1',delivery:{key:'previous',events:[]}}]:[];
+  const s={organisation:{id:'org',revision:1},members:[worker,owner],teams:[{id:'t1',name:'Team'}],workspace:{role:'clinician',people:[{id:'p',name:'Synthetic person',assigned:true,exchangeConsent:true,version:1,consentVersion:1,teamId:'t1'}],visits:[current],integrations:[{...i,...(ops?{operations:ops}:{})}],submissions:previous,audit:[]}};
+  const payload=mappedPayload(i,current,s);s.workspace.submissions.unshift({id:'sub',visitId:'v',personId:'p',connectorId:'mis1',connectorName:'Programme MIS',state,attempts:state==='uncertain'?1:0,payloadHash:payloadDigest(payload),createdAt:new Date(Date.now()-60000).toISOString(),updatedAt:new Date().toISOString(),delivery:{endpoint:i.endpoint,credentialBinding:i.credentialBinding,key:'sub',actorId:'worker',connectorVersion:1,personVersion:1,consentVersion:1,visitVersion:1,expiresAt:new Date(Date.now()+60000).toISOString(),startedAt:new Date(Date.now()-60000).toISOString(),payload,events:[]}});return s;
+ };
+ let calls=0;const transport=async(_i,_org,_env,body)=>{calls++;return {contract:'saha-mis-v1',key:'sub',payloadHash:body.payloadHash,status:'accepted',receipt:'PARTNER-1'}};
  await check('MIS send refused before the checkpoint',async()=>{
   const s=misState('queued',setting(['update','lookup']));store.setup(s);calls=0;
   const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k1','h',env,transport);
@@ -79,7 +85,7 @@ try{
   assert.equal(store.saved.workspace.audit.at(-1).action,'adapterOperationRefused');assert.equal(sub.delivery.events.at(-1).ref.auditId,store.saved.workspace.audit.at(-1).id);
  });
  await check('MIS correction needs update',async()=>{
-  const s=misState('queued',setting(['create','lookup']),{operation:'correct',fields:{weight:'56'}});store.setup(s);calls=0;
+  const s=misState('queued',setting(['create','lookup']),true);store.setup(s);calls=0;
   const r=await executeMis({},structuredClone(s),{type:'sendSubmission',submissionId:'sub'},worker,worker,'k2','h',env,transport);
   assert.equal(calls,0);assert.equal(r.state,'cancelled');assert.equal(store.saved.workspace.submissions[0].refusal.operation,'update');
  });

@@ -74,7 +74,7 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
  o.state=structuredClone(after);o.state.organisation.revision++;o.receipts.set(u.userId+'|'+key,{hash,response});}`);
  writeFileSync(join(dir,'access-audit.js'),`export async function recordAccess(){}`);
  const store=await import(pathToFileURL(join(dir,'store.js')));
- const {executeMis}=await import(pathToFileURL(join(dir,'mis-execution.js'))),{applyReceipt,misAudit,misRequest}=await import(pathToFileURL(join(dir,'mis.js')));
+ const {executeMis}=await import(pathToFileURL(join(dir,'mis-execution.js'))),{applyReceipt,misAudit,misRequest,mappedPayload}=await import(pathToFileURL(join(dir,'mis.js')));
  const {executeEhr}=await import(pathToFileURL(join(dir,'ehr-execution.js'))),{applyEhr}=await import(pathToFileURL(join(dir,'ehr.js'))),{fhirRequest}=await import(pathToFileURL(join(dir,'ehr-provider.js')));
  const {linkTrace}=await import(pathToFileURL(join(dir,'trace.js'))),{AppError,apply:coreApply}=await import(pathToFileURL(join(dir,'core.js')));
  const {POST:callbackRoute}=await import(pathToFileURL(join(dir,'route.js'))),stub=await import(pathToFileURL(join(dir,'server-stub.js'))),{configureMis}=await import(pathToFileURL(join(dir,'mis.js')));
@@ -147,7 +147,7 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
   if(path.startsWith('Patient/')){const mode=forceDeliver?'ok':pick([['ok',0.9],['timeout',0.05],['http503',0.05]]);bump('ehrPatient:'+mode);if(mode==='timeout'){bump('ehrPatientTimeouts');throw timeout();}if(mode==='http503'){bump('ehrHttpErrors');return jsonResponse({resourceType:'OperationOutcome'},503,type);}return jsonResponse({resourceType:'Patient',id:'external-1',name:[{text:'Soak Person'}]},200,type);}
   if(path==='Bundle'&&init.method==='POST'){
    const doc=JSON.parse(init.body),identifier=doc.identifier.system+'|'+doc.identifier.value,r=ehrRecord(identifier);
-   assert.equal(init.headers['If-None-Exist'],'identifier='+encodeURIComponent(identifier),'Every publication uses conditional create');
+   assert.equal(new Headers(init.headers).get('If-None-Exist'),'identifier='+encodeURIComponent(identifier),'Every publication uses conditional create');
    r.posts++;bump('ehrPostRequests');if(r.posts>1)bump('ehrRepeatPosts');
    const mode=forceDeliver?'accept':pick([['accept',0.35],['reject422',0.1],['timeoutBeforeStore',0.15],['timeoutAfterStore',0.15],['dropAfterStore',0.15],['changedContent',0.1]]);bump('ehrPost:'+mode);
    if(mode==='timeoutBeforeStore'){bump('ehrPostTimeouts');throw timeout();}
@@ -177,11 +177,12 @@ export async function persist(db,before,after,u,c,key,hash,response){await new P
  const misEndpoint='https://programme.example/api';
  async function misOrganisation(n,planned=false){
   const orgId=(planned?'mis-plan-org-':'mis-org-')+n;stub.grants.push({organisationId:orgId,integrationId:'mis1',origin:'https://programme.example',credentialBinding:'SAHA_MIS_SOAK',callbackBinding:'SAHA_MIS_SOAK_CB'});const env=stub.runtime();
-  const i={id:'mis1',kind:'mis',mode:'http',status:'active',version:1,name:'Synthetic programme',endpoint:misEndpoint,credentialBinding:'SAHA_MIS_SOAK',programmes:['General care'],mis:{contract:'saha-mis-v1',mapping:planned?[{source:'personId',target:'patient_reference',required:true},{source:'visitId',target:'visit_reference',required:true},{source:'weight',target:'weight_kg',required:true}]:[],corrections:false,test:{ok:true}}};
+  const i={id:'mis1',kind:'mis',mode:'http',status:'active',version:1,name:'Synthetic programme',endpoint:misEndpoint,credentialBinding:'SAHA_MIS_SOAK',programmes:['General care'],mis:{contract:'saha-mis-v1',mapping:[{source:'personId',target:'patient_reference',required:true},{source:'visitId',target:'visit_reference',required:true},{source:'weight',target:'weight_kg',required:true}],corrections:false,test:{ok:true}}};
   const people=[],visits=[],submissions=[];
   if(planned)for(let j=0;j<3;j++){const pid=`${orgId}-p${j}`;people.push({id:pid,name:'Soak Person',assigned:true,teamId:'default',exchangeConsent:true,version:1,consentVersion:1,programmes:['General care']});visits.push({id:`${orgId}-v${j}`,personId:pid,state:'confirmed',version:1,facts:{weight:String(50+j)}});}
-  else for(let j=0;j<3;j++){const pid=`${orgId}-p${j}`,vid=`${orgId}-v${j}`,key=`${orgId}-s${j}`,payload={contract:'saha-mis-v1',environment:'synthetic',operation:'submit',fields:{patient_reference:pid,weight_kg:String(50+j)}};
-   people.push({id:pid,assigned:true,teamId:'default',exchangeConsent:true,version:1,consentVersion:1});visits.push({id:vid,personId:pid,state:'confirmed',version:1,facts:{}});
+  else for(let j=0;j<3;j++){const pid=`${orgId}-p${j}`,vid=`${orgId}-v${j}`,key=`${orgId}-s${j}`;
+   people.push({id:pid,assigned:true,teamId:'default',exchangeConsent:true,version:1,consentVersion:1});visits.push({id:vid,personId:pid,state:'confirmed',version:1,facts:{weight:String(50+j)}});
+   const payload=mappedPayload(i,visits.at(-1),{workspace:{people,visits,submissions},members:[member]});
    submissions.push({id:key,visitId:vid,personId:pid,connectorId:'mis1',connectorName:i.name,state:'queued',attempts:0,payloadHash:sha(payload),delivery:{endpoint:misEndpoint,credentialBinding:'SAHA_MIS_SOAK',key,actorId:'worker',connectorVersion:1,personVersion:1,consentVersion:1,visitVersion:1,expiresAt:new Date(Date.now()+3600000).toISOString(),payload,events:[]}});}
   store.setup({organisation:{id:orgId,name:'Soak organisation',revision:1},members:[member],workspace:{role:'clinician',people,visits,integrations:[i],submissions,audit:[]}});
   // Slice 6ab: a planned organisation creates (and later re-creates) its submissions through the real plan commands.

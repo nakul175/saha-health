@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-05",
+  "source": "8c867457",
+  "productionChanged": false,
+  "assertionThresholdsChanged": false,
+  "focused": [
+    {
+      "suite": "adapter-operations-contract",
+      "minimum": 14,
+      "passed": 14
+    },
+    {
+      "suite": "send-gate-contract",
+      "minimum": 29,
+      "passed": 29
+    },
+    {
+      "suite": "note-answer-signoff-contract",
+      "minimum": 52,
+      "passed": 52
+    },
+    {
+      "suite": "replay-soak",
+      "minimum": 8,
+      "passed": 8
+    }
+  ],
+  "scope": "Real transpiled production mapping/envelope/signoff/replay code with injected persistence/transports; no live provider or hosted acceptance."
+}
