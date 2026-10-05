@@ -1,0 +1,21 @@
+ // Independent additions: original immutable receipts after later drift and both discovery/read race boundaries.
+ const extraStart=passed,receiptFigures=(await db.prepare('SELECT count(*) n FROM indicator_figures').first()).n;
+ const afterDriftReceipt=await post(o,prepare,200,key);
+ check(afterDriftReceipt.replayed&&afterDriftReceipt.figureId===a.figureId,'Original accepted preparation receipt recovers after source voids');
+ check((await db.prepare('SELECT count(*) n FROM indicator_figures').first()).n===receiptFigures,'Receipt recovery does not add a replacement');
+ const racePatient=await db.prepare('SELECT data FROM patients WHERE org_id=? AND id=?').bind(org,s.people[0].id).first();
+ await db.exec(`CREATE TRIGGER independent_impact_view_source AFTER INSERT ON audit_events WHEN NEW.action='viewAggregate' AND NEW.subject='${a.figureId}' AND NEW.detail LIKE '%current impact basis SHA-256%' BEGIN UPDATE patients SET data=json_set(data,'$.programmes',json('[]')) WHERE org_id=NEW.org_id AND id='${s.people[0].id}'; END`);
+ await post(o,{type:'view',figureId:a.figureId},409);
+ check((await db.prepare('SELECT data FROM patients WHERE org_id=? AND id=?').bind(org,s.people[0].id).first()).data!==racePatient.data,'Protected-view source drift was actually persisted inside its read audit');
+ await db.exec('DROP TRIGGER independent_impact_view_source');await db.prepare('UPDATE patients SET data=? WHERE org_id=? AND id=?').bind(racePatient.data,org,s.people[0].id).run();
+ const catalogueMember=(await snapshot()).members.find(m=>m.userId===o.id);
+ await db.exec("CREATE TRIGGER independent_impact_catalogue_scope AFTER INSERT ON audit_events WHEN NEW.action='viewAggregate' AND NEW.subject='indicator figure catalogue' BEGIN UPDATE memberships SET status='suspended',version=version+1 WHERE org_id=NEW.org_id AND user_id=NEW.actor_id; END");
+ const catalogueDenied=await api.get(o,'/api/indicator-figures',org);
+ check(catalogueDenied.status===403,'Paged discovery refuses membership suspension after required audit');
+ check(!catalogueDenied.json.figures,'Refused discovery exposes no prepared figure metadata');
+ check((await db.prepare('SELECT status FROM memberships WHERE org_id=? AND user_id=?').bind(org,o.id).first()).status==='suspended','Catalogue suspension actually persisted');
+ await db.exec('DROP TRIGGER independent_impact_catalogue_scope');await db.prepare("UPDATE memberships SET status='active',version=? WHERE org_id=? AND user_id=?").bind(catalogueMember.version,org,o.id).run();
+ const restoredCatalogue=await api.get(o,'/api/indicator-figures',org);
+ check(restoredCatalogue.status===200&&restoredCatalogue.json.figures.length>1,'Normal paged discovery still returns multiple authorised editions after fixture restoration');
+ check((await db.prepare('SELECT data FROM indicator_figures WHERE org_id=? AND id=?').bind(org,a.figureId).first()).data===raw.data,'Independent read races and receipt recovery never rewrite original figure bytes');
+ console.log(JSON.stringify({independentExtra:passed-extraStart,overlappingAuthorSetup:extraStart}));
