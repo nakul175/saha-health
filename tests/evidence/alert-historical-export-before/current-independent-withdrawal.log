@@ -1,0 +1,26 @@
+{"event":"saha_request","requestId":"ef073248-9f91-4af8-a9de-49e604f96efb","route":"workspace","status":200,"durationMs":25}
+{"event":"saha_request","requestId":"06dbb8fa-c5e6-43db-874f-40f8bf7eb185","route":"commands","status":200,"durationMs":23}
+{"event":"saha_request","requestId":"4c8e0981-db0a-4663-b26c-20e4242b8638","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"15a59d90-1ec5-415c-ad13-78e2faa29d1a","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"3c3d5cd6-fdea-48c4-a560-95321e15ee1b","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"23520c10-48aa-4a8c-9594-ea4dd7cb4383","route":"alerts","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"17a9ccba-49fa-4f72-ac21-f4aff0c67b15","route":"data-exit","status":200,"durationMs":36}
+{"event":"saha_request","requestId":"a8aefab4-1833-4dee-8331-6101de68bbc4","route":"commands","status":422,"durationMs":7}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Organisation owners keep full access; choose another member."}
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:2:471)
+    at othercmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:5:889)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:5:2452 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

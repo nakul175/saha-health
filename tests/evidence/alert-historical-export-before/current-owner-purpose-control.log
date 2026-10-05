@@ -1,0 +1,28 @@
+{"event":"saha_request","requestId":"44c3bdd1-647d-4faa-9ab9-2c41581cb79b","route":"workspace","status":200,"durationMs":28}
+{"event":"saha_request","requestId":"62678ccb-06fa-4aa6-bc17-4b2d6cbc6c58","route":"commands","status":200,"durationMs":29}
+{"event":"saha_request","requestId":"34b23905-7aad-4965-9e5f-198afbbae7f7","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"cbc46026-d862-419c-82d5-7c1875af9af5","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"900a059c-0762-4377-a2e6-41b09be3338e","route":"commands","status":200,"durationMs":35}
+{"event":"saha_request","requestId":"9dab5156-2f63-420e-9550-8e28b3d4f681","route":"alerts","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"6dfded62-a2eb-4a76-bb84-872a255a5d0d","route":"data-exit","status":200,"durationMs":44}
+{"event":"saha_request","requestId":"ebcf2d3e-7753-4197-8164-b9074e84ad31","route":"commands","status":422,"durationMs":4}
+{"event":"saha_request","requestId":"3211a6ea-25be-4402-b49e-fb8c19210b65","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"d70da474-9b92-4e0c-9efa-a4f89bb82fad","route":"commands","status":422,"durationMs":4}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"A care or supervisor role requires at least one team."}
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:2:471)
+    at othercmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:5:889)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:5:2803 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
