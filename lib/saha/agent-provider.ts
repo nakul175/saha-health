@@ -21,7 +21,7 @@ export async function invokeAgent(r:AgentRun,v:Visit,runtime:Record<string,strin
   }
   // Slice R42: strip anything outside the mapped payload allowlist and refuse (rather than send) when a field
   // still leaks a patient identifier that cannot be reduced.
-  {const reduced=minimiseAgentPayload(body,r.provider.mode==='openai'?'openai':'http',sensitive,'before-send',new Date().toISOString());body=reduced.payload;}
+  {const reduced=minimiseAgentPayload(body,r.provider.mode==='openai'?'openai':'http',sensitive,'before-send',new Date().toISOString(),{instructions:INSTRUCTIONS,schema:OUTPUT_SCHEMA});body=reduced.payload;}
   if(!key)fail(409,'Provider credential is not configured.');let response:Response;try{response=await send(endpoint,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${key}`,'Idempotency-Key':r.id},body:JSON.stringify(body),redirect:'manual',signal:AbortSignal.timeout(20000)});}catch{fail(502,'Provider did not return a confirmed result. No automatic retry was sent.');}
   const received=await boundedJson(response!);if(r.provider.mode==='openai'){const parsed=readOpenAI(received,r.provider.model);raw=parsed.raw;usage=parsed.usage;}else raw=received;
  }
