@@ -1,0 +1,283 @@
+{
+  "source": "68833a2dd683ce0db942485c0166a544cae8c44f",
+  "nextInstall": {
+    "installationId": "3bff73c0-8441-4552-bcc0-60d35ed01ec6",
+    "packId": "synthetic_due",
+    "version": 2,
+    "state": "staged",
+    "manifestHash": "b9fa7f1d0cfc57ef6a5e44836aba5369cef73fe93c551ffbb2b182dc718730f9"
+  },
+  "migrationPlan": {
+    "migration": "programme-pack-version",
+    "packId": "synthetic_due",
+    "name": "Synthetic rule transition v2",
+    "targetVersion": 2,
+    "adoptedVersion": 1,
+    "adopts": true,
+    "adoptionNote": "Applying also opens new episodes on v2.",
+    "examined": 3,
+    "changes": [
+      {
+        "fromVersion": 1,
+        "toVersion": 2,
+        "reviewedMapping": true,
+        "added": [],
+        "removed": [],
+        "renamed": [
+          {
+            "from": "reported_concern",
+            "to": "reviewed_concern",
+            "relabelled": true
+          }
+        ],
+        "redefined": [],
+        "schedule": {
+          "from": "Follow-up within 3 days of each confirmed visit (Synthetic configured interval; not a clinical default). Declared by an installed pack; nothing is scheduled automatically.",
+          "to": "Follow-up within 7 days of each confirmed visit (Synthetic reviewed change from3to7days). Declared by an installed pack; nothing is scheduled automatically.",
+          "changed": true
+        },
+        "escalation": {
+          "from": "Synthetic concern needs review: reported_concern is Yes → urgent clinician review. Declared by an installed pack; nothing is escalated automatically.",
+          "to": "Synthetic concern needs review: reviewed_concern is Yes → urgent clinician review. Declared by an installed pack; nothing is escalated automatically.",
+          "changed": true
+        },
+        "note": "Synthetic forward reviewed rename and schedule transition"
+      }
+    ],
+    "candidates": [
+      {
+        "personId": "5d584d08-9a55-4788-89d1-8b5d285a63e3",
+        "enrolmentId": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+        "version": 6,
+        "fromVersion": 1,
+        "openFollowUps": 1,
+        "keptVisits": 1
+      },
+      {
+        "personId": "7c6cbb36-62fd-4e1a-b238-039b2ca589a8",
+        "enrolmentId": "49aafe25-5f05-484b-a195-ba3063c12468",
+        "version": 10,
+        "fromVersion": 1,
+        "openFollowUps": 0,
+        "keptVisits": 1
+      },
+      {
+        "personId": "c8fbd3be-f39c-4cd7-b5df-8d49ec9ce847",
+        "enrolmentId": "dc8eb7e0-b7e7-483d-a020-43042f7cf6a8",
+        "version": 4,
+        "fromVersion": 1,
+        "openFollowUps": 0,
+        "keptVisits": 1
+      }
+    ],
+    "blocked": [],
+    "outOfScope": 0,
+    "planHash": "82ec8621f4ad064f6c3b60bb830d5ff026e8bde9fee8c6d7a18ea076cd77b6f3"
+  },
+  "forward": {
+    "batchId": "7cd07a93-56ad-462f-a8df-e54c8a91905a",
+    "migrated": 3,
+    "blocked": 0,
+    "outOfScope": 0,
+    "adopted": true
+  },
+  "before": {
+    "episode": {
+      "id": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+      "packId": "synthetic_due",
+      "packVersion": 1,
+      "state": "active",
+      "episodeLabel": "Synthetic scheduled recovery episode",
+      "startDate": null,
+      "createdAt": "2026-10-05T20:14:03.837Z",
+      "createdBy": "t-8131533a-installed-execution-owner",
+      "registration": "not_submitted"
+    },
+    "followUp": {
+      "id": "a10c9d335f06d4435c2ef220dc151fff424d7e8d39c2016c12349b19394e4767",
+      "enrolmentId": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+      "packId": "synthetic_due",
+      "title": "Follow-up: Synthetic explicit rule witness",
+      "due": "2026-10-08",
+      "ownerId": "t-8131533a-installed-execution-owner",
+      "state": "open",
+      "createdAt": "2026-10-05T20:14:03.930Z",
+      "createdBy": "system"
+    },
+    "work": [
+      {
+        "id": "a10c9d335f06d4435c2ef220dc151fff424d7e8d39c2016c12349b19394e4767",
+        "version": 1,
+        "policyId": "ed5d883f-4d39-4072-bd87-25c9f92717e0",
+        "policyHash": "ec1a3572a7679fb1055947644bfea53a40a9d8309c176b11c921569993010f9e",
+        "installationId": "369d7ebe-5fa6-494c-9368-9f5a296673ff",
+        "manifestHash": "f105613baa0caf9a92a798afa74d66fef61876111f3fe61d0057a7e66d0e1b0b",
+        "packId": "synthetic_due",
+        "packVersion": 1,
+        "episodeId": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+        "visitId": "670e0aa6-3c4d-4cf9-b2aa-697dcbf18d58",
+        "visitVersion": 4,
+        "sourceHash": "5713dbeed197b5d2fcf9d34cdecc2a4c6b395c3d01498e43f4fa2a2769d183ac",
+        "sourceHashVersion": 1,
+        "confirmedAt": "2026-10-05T20:14:03.900Z",
+        "kind": "follow-up",
+        "ruleId": "schedule",
+        "title": "Follow-up: Synthetic explicit rule witness",
+        "urgency": "review",
+        "due": "2026-10-08",
+        "ownerId": "t-8131533a-installed-execution-owner",
+        "state": "open",
+        "sourceStatus": "current",
+        "history": [
+          {
+            "id": "727bf64f-4b10-49dc-a73a-0cc14a54bf97",
+            "at": "2026-10-05T20:14:03.930Z",
+            "by": "system",
+            "kind": "created",
+            "reason": "Exact independently reviewed execution policy and captured installed rule."
+          }
+        ]
+      },
+      {
+        "id": "d8e3727306625bc8958aca30d4a37ff9c9afdb1c45cd0aa08ab175aabc363f81",
+        "version": 1,
+        "policyId": "ed5d883f-4d39-4072-bd87-25c9f92717e0",
+        "policyHash": "ec1a3572a7679fb1055947644bfea53a40a9d8309c176b11c921569993010f9e",
+        "installationId": "369d7ebe-5fa6-494c-9368-9f5a296673ff",
+        "manifestHash": "f105613baa0caf9a92a798afa74d66fef61876111f3fe61d0057a7e66d0e1b0b",
+        "packId": "synthetic_due",
+        "packVersion": 1,
+        "episodeId": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+        "visitId": "670e0aa6-3c4d-4cf9-b2aa-697dcbf18d58",
+        "visitVersion": 4,
+        "sourceHash": "5713dbeed197b5d2fcf9d34cdecc2a4c6b395c3d01498e43f4fa2a2769d183ac",
+        "sourceHashVersion": 1,
+        "confirmedAt": "2026-10-05T20:14:03.900Z",
+        "kind": "escalation",
+        "ruleId": "concern-review",
+        "title": "Synthetic concern needs review",
+        "urgency": "urgent_review",
+        "due": "2026-10-05",
+        "ownerId": "t-8131533a-installed-execution-owner",
+        "state": "open",
+        "sourceStatus": "current",
+        "history": [
+          {
+            "id": "a5938aef-19cf-44bd-972a-f8311153e27b",
+            "at": "2026-10-05T20:14:03.930Z",
+            "by": "system",
+            "kind": "created",
+            "reason": "Exact independently reviewed execution policy and captured installed rule."
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "episode": {
+      "id": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+      "packId": "synthetic_due",
+      "packVersion": 2,
+      "state": "active",
+      "episodeLabel": "Synthetic scheduled recovery episode",
+      "startDate": null,
+      "createdAt": "2026-10-05T20:14:03.837Z",
+      "createdBy": "t-8131533a-installed-execution-owner",
+      "registration": "not_submitted",
+      "migrations": [
+        {
+          "batchId": "7cd07a93-56ad-462f-a8df-e54c8a91905a",
+          "from": 1,
+          "to": 2,
+          "at": "2026-10-05T20:14:04.030Z",
+          "by": "t-8131533a-installed-execution-owner",
+          "reason": "Synthetic existing forward episode migration",
+          "planHash": "82ec8621f4ad064f6c3b60bb830d5ff026e8bde9fee8c6d7a18ea076cd77b6f3"
+        }
+      ]
+    },
+    "followUp": {
+      "id": "a10c9d335f06d4435c2ef220dc151fff424d7e8d39c2016c12349b19394e4767",
+      "enrolmentId": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+      "packId": "synthetic_due",
+      "title": "Follow-up: Synthetic explicit rule witness",
+      "due": "2026-10-08",
+      "ownerId": "t-8131533a-installed-execution-owner",
+      "state": "open",
+      "createdAt": "2026-10-05T20:14:03.930Z",
+      "createdBy": "system"
+    },
+    "work": [
+      {
+        "id": "a10c9d335f06d4435c2ef220dc151fff424d7e8d39c2016c12349b19394e4767",
+        "version": 1,
+        "policyId": "ed5d883f-4d39-4072-bd87-25c9f92717e0",
+        "policyHash": "ec1a3572a7679fb1055947644bfea53a40a9d8309c176b11c921569993010f9e",
+        "installationId": "369d7ebe-5fa6-494c-9368-9f5a296673ff",
+        "manifestHash": "f105613baa0caf9a92a798afa74d66fef61876111f3fe61d0057a7e66d0e1b0b",
+        "packId": "synthetic_due",
+        "packVersion": 1,
+        "episodeId": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+        "visitId": "670e0aa6-3c4d-4cf9-b2aa-697dcbf18d58",
+        "visitVersion": 4,
+        "sourceHash": "5713dbeed197b5d2fcf9d34cdecc2a4c6b395c3d01498e43f4fa2a2769d183ac",
+        "sourceHashVersion": 1,
+        "confirmedAt": "2026-10-05T20:14:03.900Z",
+        "kind": "follow-up",
+        "ruleId": "schedule",
+        "title": "Follow-up: Synthetic explicit rule witness",
+        "urgency": "review",
+        "due": "2026-10-08",
+        "ownerId": "t-8131533a-installed-execution-owner",
+        "state": "open",
+        "sourceStatus": "current",
+        "history": [
+          {
+            "id": "727bf64f-4b10-49dc-a73a-0cc14a54bf97",
+            "at": "2026-10-05T20:14:03.930Z",
+            "by": "system",
+            "kind": "created",
+            "reason": "Exact independently reviewed execution policy and captured installed rule."
+          }
+        ]
+      },
+      {
+        "id": "d8e3727306625bc8958aca30d4a37ff9c9afdb1c45cd0aa08ab175aabc363f81",
+        "version": 1,
+        "policyId": "ed5d883f-4d39-4072-bd87-25c9f92717e0",
+        "policyHash": "ec1a3572a7679fb1055947644bfea53a40a9d8309c176b11c921569993010f9e",
+        "installationId": "369d7ebe-5fa6-494c-9368-9f5a296673ff",
+        "manifestHash": "f105613baa0caf9a92a798afa74d66fef61876111f3fe61d0057a7e66d0e1b0b",
+        "packId": "synthetic_due",
+        "packVersion": 1,
+        "episodeId": "cfbfd61a-2828-4ea3-a4ad-ee59daa7f5a5",
+        "visitId": "670e0aa6-3c4d-4cf9-b2aa-697dcbf18d58",
+        "visitVersion": 4,
+        "sourceHash": "5713dbeed197b5d2fcf9d34cdecc2a4c6b395c3d01498e43f4fa2a2769d183ac",
+        "sourceHashVersion": 1,
+        "confirmedAt": "2026-10-05T20:14:03.900Z",
+        "kind": "escalation",
+        "ruleId": "concern-review",
+        "title": "Synthetic concern needs review",
+        "urgency": "urgent_review",
+        "due": "2026-10-05",
+        "ownerId": "t-8131533a-installed-execution-owner",
+        "state": "open",
+        "sourceStatus": "current",
+        "history": [
+          {
+            "id": "a5938aef-19cf-44bd-972a-f8311153e27b",
+            "at": "2026-10-05T20:14:03.930Z",
+            "by": "system",
+            "kind": "created",
+            "reason": "Exact independently reviewed execution policy and captured installed rule."
+          }
+        ]
+      }
+    ]
+  },
+  "reverseStatus": 409,
+  "effectiveTeamStatus": 422,
+  "historicalConfirmedBytesPreserved": true,
+  "limitation": "This is a supported before witness of existing bounded forward episode migration. It does not claim answers should rewrite immutable confirmed visits or that unknown mapping is authorized."
+}
