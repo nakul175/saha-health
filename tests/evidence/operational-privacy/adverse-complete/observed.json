@@ -1,0 +1,75 @@
+{
+  "proof": [
+    {
+      "kind": "Residual separate inbox raw-count contract; not fixed by this bounded live release",
+      "status": 200,
+      "body": {
+        "rules": {
+          "delivery": "1.0.0",
+          "alerts": "1.2.0",
+          "escalateAfterMinutes": {
+            "critical": 30,
+            "high": 240,
+            "normal": 1440
+          },
+          "ladder": {
+            "operations": [
+              "operations",
+              "owners"
+            ],
+            "supervisors": [
+              "supervisors",
+              "owners"
+            ],
+            "owners": [
+              "owners"
+            ]
+          },
+          "evaluateEverySeconds": 60
+        },
+        "owns": [
+          "operations",
+          "supervisors",
+          "owners"
+        ],
+        "evaluated": true,
+        "unread": 2,
+        "items": [
+          {
+            "id": "7e2e5756-74f4-4e10-9b63-381c304640d3",
+            "alertId": "referrals-undated",
+            "level": 1,
+            "kind": "delivery",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "deliveredAt": "2026-10-05T20:46:16.242Z",
+            "readAt": null,
+            "clearedAt": null,
+            "clearedReason": null,
+            "active": true
+          },
+          {
+            "id": "411ba516-04aa-44e2-b731-d3c491424423",
+            "alertId": "incident-critical-open",
+            "level": 1,
+            "kind": "delivery",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "count": 1,
+            "detail": null,
+            "deliveredAt": "2026-10-05T20:46:16.211Z",
+            "readAt": null,
+            "clearedAt": null,
+            "clearedReason": null,
+            "active": true
+          }
+        ],
+        "escalations": [],
+        "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+      }
+    }
+  ],
+  "ledgerHashOnly": true
+}

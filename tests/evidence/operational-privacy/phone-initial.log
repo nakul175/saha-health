@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Error: strict mode violation: getByRole('button', { name: 'Refresh', exact: true }) resolved to 2 elements:
+    1) <button data-slot="button" data-size="default" data-variant="outline" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='si…>…</button> aka getByRole('button', { name: 'Refresh' }).nth(1)
+    2) <button data-size="sm" data-slot="button" data-variant="outline" class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border …>…</button> aka getByLabel('Exception queue').getByRole('button', { name: 'Refresh' })
+
+Call log:
+[2m  - waiting for getByRole('button', { name: 'Refresh', exact: true })[22m
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy/tests/operational-privacy-browser.mjs:3:4002 {
+  log: [
+    "  - waiting for getByRole('button', { name: 'Refresh', exact: true })"
+  ]
+}
+
+Node.js v24.19.0
