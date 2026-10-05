@@ -1,0 +1,271 @@
+{
+  "sourceBase": "67312dd4600ba5aa189277fad51c097eddba019e",
+  "passed": 146,
+  "failed": 0,
+  "overlap": "102 retained-D1 journey includes prior source-version/upgrade setup;44 original export assertions include synthetic1000-person reconstruction.146 overlapping checks, not146 independent races.",
+  "build": "pass",
+  "types": "pass",
+  "requirements": "176 source IDs pass; formal acceptance remains pending",
+  "documentation": "fail: current/inherited source baselines and generated/inventory registration; raw output preserved; root owns reconciliation",
+  "reports": {
+    "retainedD1": {
+      "path": "tests/evidence/reporting-completeness-portability/retained-d1/after.json",
+      "passed": 102,
+      "failed": 0
+    },
+    "originalContract0030Adapter": {
+      "path": "tests/evidence/reporting-completeness-portability/contract/result.json",
+      "passed": 44,
+      "failed": 0
+    }
+  },
+  "sourceSha256": {
+    "lib/saha/data-exit.ts": "41b997c4ec33e8903cdf8055fc0b6e006ed8c71973506f6c096b3b77fb15e52b",
+    "lib/saha/data-exit-server.ts": "36eafde156edbce93084f5008cee2215bbd752d1cdb8ddb94875211a7b2c26c1",
+    "scripts/verify-export.mjs": "1a74e39830e036334b018d0163b091b4e426dd8c7a23c7f3858ee24a2f08f88f"
+  },
+  "unchangedProtectedSource": {
+    "lib/saha/reporting-completeness.ts": "0af88864ddb0503e894d3c52107976114c3c3696ebb42ed55341b6fc77ece9cc",
+    "lib/saha/reporting-completeness-server.ts": "044e7a50d1a5eb1f73ce96527511880c646fdcc8581118186db9b4d4f60c6611",
+    "app/reporting-completeness/page.tsx": "125ea5fcd374538de1ec04e608bf10d9a16bc9dd9cd97d6d8b3afa7768211029",
+    "drizzle/0030_reporting_completeness.sql": "b5bb2ac7f8a19e7a78318105117dad9e07c923fb118260ee569f7798ed8a47d4",
+    "db/schema.ts": "c53b669e1d4d8c9e330ef4fe559048fa6ba00beeeb8cfb88ab4d8fdb1636f6d1",
+    "drizzle/meta/_journal.json": "f1c8fed537762c58f6d71adb871776e27d16dac641d71b98f20ca0f9115ded9c"
+  },
+  "canonicalB10Dependency": {
+    "source": "8536f8f",
+    "identicalAt673": {
+      "lib/saha/data-exit.ts": "b1ae4caf1432da0d157591ee40c9587dc789b02a8db724a5dd4e5286f9133c01",
+      "lib/saha/data-exit-server.ts": "2f8e2756c871d5b1974ce91b685ca5f507a6007c6d34e559df00a3ec007f28dd",
+      "db/schema.ts": "c53b669e1d4d8c9e330ef4fe559048fa6ba00beeeb8cfb88ab4d8fdb1636f6d1",
+      "drizzle/meta/_journal.json": "f1c8fed537762c58f6d71adb871776e27d16dac641d71b98f20ca0f9115ded9c"
+    },
+    "noDependencyImport": true
+  },
+  "rawPreimages": [
+    {
+      "path": "tests/evidence/reporting-completeness-portability/build.log.raw.gz",
+      "uncompressedSha256": "06076c16703a0be8c23027f92d955a9e1d7e52527f85ea45339c9fe8a18917f0",
+      "bytes": 4699
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/types.log.raw.gz",
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/contract.log.raw.gz",
+      "uncompressedSha256": "47be7ba0041a1d5998ef861991105366b6c7a87c02e255ac2483a29c74da0075",
+      "bytes": 265
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/retained-d1.log.raw.gz",
+      "uncompressedSha256": "33fe1b1e823de8acae30c8f1dd9916b4ac49f7e97715fa32fe099163889b8eb0",
+      "bytes": 26
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/normal-scope-before.log.raw.gz",
+      "uncompressedSha256": "aa899e5cbbe08ec792ba0c2e8b26df83d8fc8d3b75a671d86ff3d1031e369dd2",
+      "bytes": 803
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/source-before/data-exit.ts.gz",
+      "uncompressedSha256": "b1ae4caf1432da0d157591ee40c9587dc789b02a8db724a5dd4e5286f9133c01",
+      "bytes": 37309
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/source-before/data-exit-server.ts.gz",
+      "uncompressedSha256": "2f8e2756c871d5b1974ce91b685ca5f507a6007c6d34e559df00a3ec007f28dd",
+      "bytes": 4934
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/source-before/verify-export.mjs.gz",
+      "uncompressedSha256": "053dd23e66bbad55dae308d400744bbd2c17df219cb9d7602926a22a40815596",
+      "bytes": 19832
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/requirements.log.raw.gz",
+      "uncompressedSha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+      "bytes": 104
+    },
+    {
+      "path": "tests/evidence/reporting-completeness-portability/documentation.log.raw.gz",
+      "uncompressedSha256": "49620c23ba974ebffcd4d9faa914cd5ca6ae7e2fe5352e1c2c017a800d654771",
+      "bytes": 3867
+    }
+  ],
+  "actualRetainedD1": true,
+  "legacyPrerequisite": {
+    "source": "a33e2b4595faa3ae17d5cb30d487e87c66ce879f",
+    "environment": "SAHA_COMPLETENESS_LEGACY_DIR",
+    "defaultSibling": "saha-reporting-completeness-legacy-upgrade",
+    "freshBuildRequired": true,
+    "currentPort": 19947,
+    "freshAfter": false
+  },
+  "protectedReconstruction": "Original snapshot.data and counting/figure/disclosure material excluded explicitly; governed full report/completeness fidelity remains open. Only four full governance tables reimported with foreign_keys ON.",
+  "sharedSchemaRemaining": "db/schema.ts lacks five0030 declarations; unchanged old journal ends0017; root owns reconciliation, no migration edits.",
+  "independentReview": "pending for this partition; parent separately received independent673 repair clearance",
+  "files": {
+    "docs/current/REPORTING-COMPLETENESS-PORTABILITY-INTEGRATION.md": {
+      "sha256": "bc53e381e5a5e2470442a9a9c9c7a03fd44059fc75dfbd2a01a12a7b9b8324e3",
+      "bytes": 7796
+    },
+    "tests/evidence/reporting-completeness-portability/build.log": {
+      "sha256": "9ea6d290e735496ce5925b0742c11cb29aea67f1f99698b4af9718fb280fe879",
+      "bytes": 3717
+    },
+    "tests/evidence/reporting-completeness-portability/build.log.raw.gz": {
+      "sha256": "93fe9bf03c54c5c47357147ce1f49c8c614345ca1f773587c52a8af9b15744ad",
+      "bytes": 1376
+    },
+    "tests/evidence/reporting-completeness-portability/contract/result.json": {
+      "sha256": "2c69c2c4364a345bb089efdc9d331f1dfcc41768189535dd39f2e4d94d7617ef",
+      "bytes": 327
+    },
+    "tests/evidence/reporting-completeness-portability/contract.log": {
+      "sha256": "47be7ba0041a1d5998ef861991105366b6c7a87c02e255ac2483a29c74da0075",
+      "bytes": 265
+    },
+    "tests/evidence/reporting-completeness-portability/contract.log.raw.gz": {
+      "sha256": "9bf2a74b52d2e01be0768b992396cbf6bf87c3082530c2789ac16cdd104db39f",
+      "bytes": 222
+    },
+    "tests/evidence/reporting-completeness-portability/documentation.log": {
+      "sha256": "371346102df3dc63893b855542d9cbfb351f27b249da86c93a2b928544390322",
+      "bytes": 3866
+    },
+    "tests/evidence/reporting-completeness-portability/documentation.log.raw.gz": {
+      "sha256": "5cd7691bf3d6430f8d047d634f15b74cd03b7ed52176e3a967551f2ad3a94c5c",
+      "bytes": 612
+    },
+    "tests/evidence/reporting-completeness-portability/first-positive-94.json": {
+      "sha256": "535a1148f8ef0ef92736fab9a6a5a9a306e194053a5a89f736371cada22c5468",
+      "bytes": 1156
+    },
+    "tests/evidence/reporting-completeness-portability/first-positive-94.log": {
+      "sha256": "6d3d49a3faafad1e5d766839cd650271710303cccb37da411575e8206b31796e",
+      "bytes": 25
+    },
+    "tests/evidence/reporting-completeness-portability/initial-owner-purpose-fixture-failure.log": {
+      "sha256": "5cae8dad2ea045efdf9b47ca9d90b31a16cf7683badafcc661a5eb56116a5879",
+      "bytes": 816
+    },
+    "tests/evidence/reporting-completeness-portability/initial-programme-label-fixture-failure.log": {
+      "sha256": "49482bf7264b8e3ad402da16b5ad6621ba76df1256c3634fa9695a3671031cf5",
+      "bytes": 899
+    },
+    "tests/evidence/reporting-completeness-portability/normal-scope-before.log": {
+      "sha256": "aa899e5cbbe08ec792ba0c2e8b26df83d8fc8d3b75a671d86ff3d1031e369dd2",
+      "bytes": 803
+    },
+    "tests/evidence/reporting-completeness-portability/normal-scope-before.log.raw.gz": {
+      "sha256": "f0aa832f4cf7129ee001bf540ecabcac143b176d31f20912cfbdd91e07f258f8",
+      "bytes": 437
+    },
+    "tests/evidence/reporting-completeness-portability/original-schema-table-count-failure.log": {
+      "sha256": "3c5aaa10e4cae1c51ec3c85c01b606d73222a8ca215c913e15ede6d25cae6b9d",
+      "bytes": 868
+    },
+    "tests/evidence/reporting-completeness-portability/original-verifier-check-list-failure.log": {
+      "sha256": "10789ddd2ff27cfcd7f883ede97fb51339f49df148042368796ccc445d799cd8",
+      "bytes": 1632
+    },
+    "tests/evidence/reporting-completeness-portability/requirements.log": {
+      "sha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+      "bytes": 104
+    },
+    "tests/evidence/reporting-completeness-portability/requirements.log.raw.gz": {
+      "sha256": "f59c98b203f38d071690af931eca908b0ecb1d28882a7db8fca300d13085bc75",
+      "bytes": 109
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/after-export.tar": {
+      "sha256": "453c7c16be2bd112628f261fd6777df6839dbfd702e947cb0b000d89acf794c9",
+      "bytes": 322048
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/after.json": {
+      "sha256": "0107427ffdd581ba33cea0e54a0c4a40c51201932443b8516933bcfd5f9bd4c1",
+      "bytes": 1157
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/before-export.json": {
+      "sha256": "e02cdfd8635a94b54b5715fad851e8bf58b2d7fbf3602b24842cb3203ac18a6f",
+      "bytes": 252
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/before-export.tar": {
+      "sha256": "d500da7f1a8f34b17f0f2b6e41eff0e7bf3c5d2d07e2af8804003d9900f23851",
+      "bytes": 299008
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/before.json": {
+      "sha256": "d8c2fde61b3206efe1c817b39a7bfb6397d3fc6d63ce59d2de0919f75ecdd66b",
+      "bytes": 29547
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/normal-scope-after.json": {
+      "sha256": "23386d3dff52668755737bc8741b4af6dc5c8e1cb64a65743af9f1edc9dc65bc",
+      "bytes": 2440
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/normal-scope-after.tar": {
+      "sha256": "d4c0589c20aa02b8bc6bf50c73653787597ff5f18ffd4429eae4349022ebb15c",
+      "bytes": 218112
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/normal-scope-before.json": {
+      "sha256": "a9745101190cd060c3bb938c2aca143b9dd7655fb96656e1f582a39dd85fae9f",
+      "bytes": 30538
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/normal-scope-before.tar": {
+      "sha256": "c91182deb1e3abfba43e3093a0f363aa999dd62556a76f4543b42091451d68fc",
+      "bytes": 166912
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/opened-after.json": {
+      "sha256": "d9a7b813d65cb9862ea0162c5abc5d785c008a5ea7ec1032221971e6efed3924",
+      "bytes": 9432
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/tamper.json": {
+      "sha256": "722103060bcbc584f4c1bb3db734bfb1488475ca41223b761abecbbdb0210586",
+      "bytes": 25715
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1/verified.json": {
+      "sha256": "ddfe3eb3d63e64764a173d5014242fd407699607303fdeb2414663f1f3c0f902",
+      "bytes": 2096
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1.log": {
+      "sha256": "33fe1b1e823de8acae30c8f1dd9916b4ac49f7e97715fa32fe099163889b8eb0",
+      "bytes": 26
+    },
+    "tests/evidence/reporting-completeness-portability/retained-d1.log.raw.gz": {
+      "sha256": "337648c875e3d9048e796030565d803ed1348eec0b4940e12b526968b4e6c7e3",
+      "bytes": 43
+    },
+    "tests/evidence/reporting-completeness-portability/source-before/data-exit-server.ts.gz": {
+      "sha256": "dfd60287d66dceb9a94619894eb3589d384fdd1eda675e5d95d7ede8abdfaeb6",
+      "bytes": 2100
+    },
+    "tests/evidence/reporting-completeness-portability/source-before/data-exit.ts.gz": {
+      "sha256": "dfabe4082a8c766ddc8b7f2630db4db00b0ede57ef77364a9f7ee4a2bfb2360c",
+      "bytes": 12348
+    },
+    "tests/evidence/reporting-completeness-portability/source-before/verify-export.mjs.gz": {
+      "sha256": "7d909682ed11603b7263c52c93a8fa0bd5ef864c581d0b55be03662b5d1d4e47",
+      "bytes": 6535
+    },
+    "tests/evidence/reporting-completeness-portability/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/reporting-completeness-portability/types.log.raw.gz": {
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 20
+    },
+    "tests/evidence/reporting-completeness-portability/whole-cohort-patient-scope-before.log": {
+      "sha256": "9da1fbd679edb2639aa6414dadcdc14fc112c1503b3c88a2fda798230265a7be",
+      "bytes": 802
+    },
+    "tests/reporting-completeness-portability-contract.mjs": {
+      "sha256": "3ced2491a058465e6e8d8776c0e906adeb0c6dd820ad8f493c6fefa0eb6db904",
+      "bytes": 36357
+    },
+    "tests/reporting-completeness-portability-upgrade-http.mjs": {
+      "sha256": "666d9fa13e442ea1f7748483bd425db4a41ede8a25928618fb400590da778714",
+      "bytes": 23655
+    }
+  }
+}

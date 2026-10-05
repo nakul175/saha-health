@@ -1,0 +1,88 @@
+{
+  "format": "saha-organisation-export-v1",
+  "exportId": "0ea29f15-d6e8-421e-9b9e-1af665138259",
+  "ok": true,
+  "checks": [
+    {
+      "name": "format",
+      "ok": true,
+      "detail": "saha-organisation-export-v1"
+    },
+    {
+      "name": "sha256sums",
+      "ok": true,
+      "detail": "63 files"
+    },
+    {
+      "name": "manifest-files",
+      "ok": true,
+      "detail": "61 files match size, SHA-256 and row count"
+    },
+    {
+      "name": "totals",
+      "ok": true,
+      "detail": {
+        "rows": 263,
+        "withheld": 6,
+        "withheldEntries": 0
+      }
+    },
+    {
+      "name": "organisation",
+      "ok": true,
+      "detail": "org_464ec79f0aa2dcfb92b7e67c10603dba"
+    },
+    {
+      "name": "relationships",
+      "ok": true,
+      "detail": "158 references resolve"
+    },
+    {
+      "name": "protection-state",
+      "ok": true,
+      "detail": "no indicator differencing ledger in the operations document"
+    },
+    {
+      "name": "completeness-portability",
+      "ok": true,
+      "detail": "configured governance/evidence and scoped snapshot hashes only; private snapshot bodies cannot be reconstructed"
+    },
+    {
+      "name": "figure-portability",
+      "ok": true,
+      "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+    },
+    {
+      "name": "media",
+      "ok": true,
+      "detail": "6 files match their rows"
+    },
+    {
+      "name": "fhir",
+      "ok": true,
+      "detail": "0 documents"
+    },
+    {
+      "name": "audit-chain",
+      "ok": true,
+      "detail": "112 events, head 111 85572d2a268b"
+    },
+    {
+      "name": "genesis-seal",
+      "ok": true,
+      "detail": "0 earlier events reproduce the genesis digest"
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "organisation": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+    "generatedAt": "2026-10-05T20:04:20.858Z",
+    "exporter": "calendar-upgrade-owner-2bcf34af@example.invalid",
+    "tables": 54,
+    "rows": 263,
+    "withheld": 6,
+    "complete": false,
+    "fhir": 0,
+    "handoverItems": 6
+  }
+}

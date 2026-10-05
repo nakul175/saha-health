@@ -1,0 +1,61 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    'format',
+    'sha256sums',
+    'manifest-files',
+    'totals',
+...
+    'protection-state',
++   'completeness-portability',
+    'figure-portability',
+    'media',
+    'fhir',
+    'audit-chain',
+    'genesis-seal'
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-portability-integration/tests/reporting-completeness-portability-contract.mjs:143:88
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-portability-integration/tests/reporting-completeness-portability-contract.mjs:17:23)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-portability-integration/tests/reporting-completeness-portability-contract.mjs:143:3 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'format',
+    'sha256sums',
+    'manifest-files',
+    'totals',
+    'organisation',
+    'relationships',
+    'protection-state',
+    'completeness-portability',
+    'figure-portability',
+    'media',
+    'fhir',
+    'audit-chain',
+    'genesis-seal'
+  ],
+  expected: [
+    'format',
+    'sha256sums',
+    'manifest-files',
+    'totals',
+    'organisation',
+    'relationships',
+    'protection-state',
+    'figure-portability',
+    'media',
+    'fhir',
+    'audit-chain',
+    'genesis-seal'
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
