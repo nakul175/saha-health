@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.isVisible: Error: strict mode violation: locator('[data-alert="incident-critical-open"]') resolved to 2 elements:
+    1) <li data-kind="escalation" class="alert-inbox-item unread" data-alert="incident-critical-open">…</li> aka getByText('criticalEscalated to ownersEscalated: Critical incidents not resolvedNot')
+    2) <li data-kind="delivery" class="alert-inbox-item unread" data-alert="incident-critical-open">…</li> aka getByText('criticalCritical incidents')
+
+Call log:
+[2m    - checking visibility of locator('[data-alert="incident-critical-open"]')[22m
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-disclosure-root-cold/tests/alert-recipient-current-browser.mjs:3:1273 {
+  log: [
+    `    - checking visibility of locator('[data-alert="incident-critical-open"]')`
+  ]
+}
+
+Node.js v24.19.0
