@@ -786,7 +786,11 @@
     "tests/send-gate-contract.mjs",
     "tests/send-gate-smoke.mjs",
     "docs/current/SLICE-10G-DISPUTES-SIGNOFF.md",
-    "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md"
+    "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
+    "lib/saha/mis.ts",
+    "tests/mapping-lifecycle-contract.mjs",
+    "tests/mapping-lifecycle-review-http.mjs",
+    "docs/current/MIS-MAPPING-LIFECYCLE.md"
   ],
   "BR-CARE-01": [
     "lib/saha/continuity.ts",
@@ -1152,7 +1156,13 @@
     "app/imported-visit-panel.tsx",
     "tests/visit-import-contract.mjs",
     "tests/visit-import-smoke.mjs",
-    "docs/current/SLICE-10I-VISIT-IMPORT.md"
+    "docs/current/SLICE-10I-VISIT-IMPORT.md",
+    "lib/saha/contact-import.ts",
+    "tests/contact-import-contract.mjs",
+    "tests/contact-import-http.mjs",
+    "tests/contact-import-independent-review.mjs",
+    "docs/current/CONTACT-IMPORT.md",
+    "docs/current/CONTACT-IMPORT-INDEPENDENT-REVIEW.md"
   ],
   "BR-SEC-03": [
     "lib/saha/server.ts",
@@ -1393,7 +1403,16 @@
     "lib/saha/indicators-server.ts",
     "tests/indicator-registry-contract.mjs",
     "tests/indicator-registry-smoke.mjs",
-    "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
+    "docs/current/SLICE-6S-INDICATOR-REGISTRY.md",
+    "app/indicator-definitions/page.tsx",
+    "tests/indicator-governance-contract.mjs",
+    "tests/indicator-governance-http.mjs",
+    "tests/indicator-governance-browser.mjs",
+    "tests/indicator-governance-clock-http.mjs",
+    "tests/indicator-governance-independent-http.mjs",
+    "docs/current/INDICATOR-DEFINITION-GOVERNANCE.md",
+    "docs/current/INDICATOR-GOVERNANCE-CLOCK-REPAIR.md",
+    "docs/current/INDICATOR-GOVERNANCE-INDEPENDENT-REVIEW.md"
   ],
   "BR-REP-04": [
     "lib/saha/operations.ts",
@@ -1972,5 +1991,34 @@
     "docs/current/CLINICAL-SOURCE-INDEPENDENT-REVIEW.md",
     "docs/current/CLINICAL-SOURCE-DEPENDENCY-VALIDATION.md",
     "tests/clinical-source-dependency-contract.mjs"
+  ],
+  "BR-DATA-09": [
+    "lib/saha/core.ts",
+    "lib/saha/platform.ts",
+    "lib/saha/store.ts",
+    "tests/api-smoke.mjs",
+    "lib/saha/governance.ts",
+    "tests/governance-smoke.mjs",
+    "tests/governance-contract.mjs",
+    "AI-GOVERNANCE.md",
+    "lib/saha/mis.ts",
+    "app/mis-mapping-panel.tsx",
+    "tests/mapping-lifecycle-contract.mjs",
+    "tests/mapping-lifecycle-http.mjs",
+    "tests/mapping-lifecycle-browser.mjs",
+    "tests/mapping-lifecycle-review-http.mjs",
+    "tests/mapping-lifecycle-review-browser.mjs",
+    "docs/current/MIS-MAPPING-LIFECYCLE.md",
+    "docs/current/MIS-MAPPING-INDEPENDENT-REVIEW.md"
+  ],
+  "BR-INT-23": [
+    "lib/saha/mis.ts",
+    "lib/saha/ehr.ts",
+    "tests/mis-contract.mjs",
+    "tests/ehr-contract.mjs",
+    "REMAINING-RELEASES.md",
+    "tests/mapping-lifecycle-contract.mjs",
+    "tests/mapping-lifecycle-review-http.mjs",
+    "docs/current/MIS-MAPPING-LIFECYCLE.md"
   ]
 }

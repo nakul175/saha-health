@@ -58,6 +58,16 @@
       "file": "tests/command-authority-http.mjs",
       "minPassed": 30
     },
+    "integration/contact-import-http": {
+      "layer": "integration",
+      "file": "tests/contact-import-http.mjs",
+      "minPassed": 15
+    },
+    "integration/contact-import-independent-review": {
+      "layer": "integration",
+      "file": "tests/contact-import-independent-review.mjs",
+      "minPassed": 14
+    },
     "integration/delta-read-audit-http": {
       "layer": "integration",
       "file": "tests/delta-read-audit-http.mjs",
@@ -87,6 +97,46 @@
       "layer": "integration",
       "file": "tests/import-unit-parity-browser.mjs",
       "minPassed": 13
+    },
+    "integration/indicator-governance-browser": {
+      "layer": "integration",
+      "file": "tests/indicator-governance-browser.mjs",
+      "minPassed": 20
+    },
+    "integration/indicator-governance-clock-http": {
+      "layer": "integration",
+      "file": "tests/indicator-governance-clock-http.mjs",
+      "minPassed": 18
+    },
+    "integration/indicator-governance-http": {
+      "layer": "integration",
+      "file": "tests/indicator-governance-http.mjs",
+      "minPassed": 61
+    },
+    "integration/indicator-governance-independent-http": {
+      "layer": "integration",
+      "file": "tests/indicator-governance-independent-http.mjs",
+      "minPassed": 17
+    },
+    "integration/mapping-lifecycle-browser": {
+      "layer": "integration",
+      "file": "tests/mapping-lifecycle-browser.mjs",
+      "minPassed": 11
+    },
+    "integration/mapping-lifecycle-http": {
+      "layer": "integration",
+      "file": "tests/mapping-lifecycle-http.mjs",
+      "minPassed": 53
+    },
+    "integration/mapping-lifecycle-review-browser": {
+      "layer": "integration",
+      "file": "tests/mapping-lifecycle-review-browser.mjs",
+      "minPassed": 12
+    },
+    "integration/mapping-lifecycle-review-http": {
+      "layer": "integration",
+      "file": "tests/mapping-lifecycle-review-http.mjs",
+      "minPassed": 73
     },
     "integration/offline-open-account-binding-browser": {
       "layer": "integration",
@@ -156,7 +206,7 @@
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-smoke.mjs",
-      "minPassed": 4758
+      "minPassed": 4770
     },
     "integration/scheduled-local-check": {
       "layer": "integration",
@@ -518,6 +568,11 @@
       "file": "tests/consent-contract.mjs",
       "minPassed": 25
     },
+    "unit/contact-import-contract": {
+      "layer": "unit",
+      "file": "tests/contact-import-contract.mjs",
+      "minPassed": 18
+    },
     "unit/continuity-contract": {
       "layer": "unit",
       "file": "tests/continuity-contract.mjs",
@@ -758,6 +813,11 @@
       "file": "tests/indicator-freshness-contract.mjs",
       "minPassed": 10
     },
+    "unit/indicator-governance-contract": {
+      "layer": "unit",
+      "file": "tests/indicator-governance-contract.mjs",
+      "minPassed": 42
+    },
     "unit/indicator-registry-contract": {
       "layer": "unit",
       "file": "tests/indicator-registry-contract.mjs",
@@ -772,6 +832,16 @@
       "layer": "unit",
       "file": "tests/main-review-fixes-contract.mjs",
       "minPassed": 25
+    },
+    "unit/mapping-lifecycle-contract": {
+      "layer": "unit",
+      "file": "tests/mapping-lifecycle-contract.mjs",
+      "minPassed": 23
+    },
+    "unit/mapping-lifecycle-review-contract": {
+      "layer": "unit",
+      "file": "tests/mapping-lifecycle-review-contract.mjs",
+      "minPassed": 23
     },
     "unit/media-contract": {
       "layer": "unit",

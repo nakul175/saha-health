@@ -104,6 +104,8 @@ require(total==1284,'R11 assertion total differs')
 checks['historicalProductAssertions']=total
 
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
+snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
+source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
 slice_total=0
 for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     manifest=json.loads(manifest_path.read_text())
@@ -114,6 +116,15 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     for report,meta in (entries or {}).items():
         path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','scripts/')) else manifest_path.parent/report
         expected=meta.get('sha256') if isinstance(meta,dict) else meta
+        # An author can pin shared source before a later independently reviewed feature changes it.
+        # Preserve and check the exact earlier bytes; current runtime is still checked above.
+        # Report/evidence paths always remain checked in place and cannot use an archive.
+        if report.startswith(('app/','lib/','public/','db/','drizzle/','scripts/')) and path.is_file() and digest(path)!=expected:
+            archived=source_snapshots.get(report,{}).get(expected)
+            if archived:
+                candidate=(ROOT/archived['path']).resolve()
+                require(candidate.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and candidate.is_file() and candidate.stat().st_size==archived['bytes'],'Invalid historical source snapshot: '+report)
+                path=candidate
         require(path.is_relative_to(ROOT) and path.is_file() and digest(path)==expected,'Changed slice evidence: '+str(path))
         if isinstance(meta,dict):
             if 'bytes' in meta:

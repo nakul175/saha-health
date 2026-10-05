@@ -614,8 +614,8 @@
       "sourceTextLine": 201,
       "implementation": "partial",
       "target": "R12",
-      "current": "\"Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"\"not recorded\"\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries \"\"not recorded\"\") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view. Slice 6z: on a visit with no recorded entry or measurement author (recorded before slices 2e and 2g), the confirmer and, for a programme answer, the person who saved the answers are treated as authors, so they cannot verify their own entries; the person who saved the programme answers cannot sign the visit off. Slice 10g: a care-team member in normal scope (an ASHA only for an assigned patient) can raise a dispute on one confirmed measurement, the visit notes or one programme answer, with a reason and a reference; while it is open on a current visit, no programme plan or EHR publication that would carry the item is prepared, approved or run, the reason is shown, and the same check is repeated on a fresh read inside the delivery and publication checkpoint so a dispute raised between the checkpoint and the request stops the request and closes the item as not sent; a clinician in scope resolves it by appending evidence (closing it as standing needs a clinician who neither recorded the item nor raised the dispute), and the dispute and the original value stay on the record; a correction draft carries still-open disputes forward. An owner can set the sign-off requirement per programme and per destination (versioned with the organisation default, audited; a destination rule wins over programme rules, which win over the default, and the default covers programme destinations only), and a supervisor of the patient's team can withdraw a current sign-off with a reason, which holds sending until a supervisor signs the visit off again whatever the rules say. Nothing already sent is recalled; the screens say so.\"",
-      "remaining": "Disputes raised in the verification review (slices 2e and 2g) are a clinician's review and still do not stop sending (only a dispute raised in the slice 10g form does); an answer dispute stops every programme destination because no mapping carries answers yet; ABDM transfer, aggregate reports and receipt lookups are not gated by disputes or sign-off; a blocked send raises no exception-queue item or notification; coded FHIR provenance (authors, reviews, disputes and sign-off are not in FHIR or programme payloads); per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.",
+      "current": "\"Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show \"\"not recorded\"\") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries \"\"not recorded\"\") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view. Slice 6z: on a visit with no recorded entry or measurement author (recorded before slices 2e and 2g), the confirmer and, for a programme answer, the person who saved the answers are treated as authors, so they cannot verify their own entries; the person who saved the programme answers cannot sign the visit off. Slice 10g: a care-team member in normal scope (an ASHA only for an assigned patient) can raise a dispute on one confirmed measurement, the visit notes or one programme answer, with a reason and a reference; while it is open on a current visit, no programme plan or EHR publication that would carry the item is prepared, approved or run, the reason is shown, and the same check is repeated on a fresh read inside the delivery and publication checkpoint so a dispute raised between the checkpoint and the request stops the request and closes the item as not sent; a clinician in scope resolves it by appending evidence (closing it as standing needs a clinician who neither recorded the item nor raised the dispute), and the dispute and the original value stay on the record; a correction draft carries still-open disputes forward. An owner can set the sign-off requirement per programme and per destination (versioned with the organisation default, audited; a destination rule wins over programme rules, which win over the default, and the default covers programme destinations only), and a supervisor of the patient's team can withdraw a current sign-off with a reason, which holds sending until a supervisor signs the visit off again whatever the rules say. Nothing already sent is recalled; the screens say so. App-first B07 adds explicit per-measurement source, observation time and canonical-unit MIS selectors with existing provenance fallback and server-pinned internal mapping revisions; reviewed impact/publication preserves approved wire bodies.\"",
+      "remaining": "Disputes raised in the verification review (slices 2e and 2g) are a clinician's review and still do not stop sending (only a dispute raised in the slice 10g form does); an answer dispute stops every programme destination because no mapping carries answers yet; ABDM transfer, aggregate reports and receipt lookups are not gated by disputes or sign-off; a blocked send raises no exception-queue item or notification; coded FHIR provenance (authors, reviews, disputes and sign-off are not in FHIR or programme payloads); destination-approved per-measurement transformation/conformance semantics; unification of visit and programme absence reasons; coded methods.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -650,7 +650,11 @@
         "tests/send-gate-contract.mjs",
         "tests/send-gate-smoke.mjs",
         "docs/current/SLICE-10G-DISPUTES-SIGNOFF.md",
-        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md"
+        "docs/current/SLICE-13D-REVIEW-LEFTOVERS.md",
+        "lib/saha/mis.ts",
+        "tests/mapping-lifecycle-contract.mjs",
+        "tests/mapping-lifecycle-review-http.mjs",
+        "docs/current/MIS-MAPPING-LIFECYCLE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -853,8 +857,8 @@
       "sourceTextLine": 222,
       "implementation": "partial",
       "target": "R12",
-      "current": "MIS mapping versions and selected field allowlists are bound to submissions.",
-      "remaining": "Owner-reviewed native mappings, effective dates and impact-managed mapping migration.",
+      "current": "MIS mapping versions and selected field allowlists are bound to submissions. App-first B07 adds immutable source-versioned effective-dated drafts, exact current-state count-only impact/review/publication and append-only rollback. Due reviewed changes block new work until explicit publication/cancellation; publication suspends delivery for existing connection tests. Pending-plan applicability and phone hash wrapping are independently repaired.",
+      "remaining": "Native partner/clinical mapping acceptance; deterministic transformation, unit/null semantics and reviewed conformance fixtures; larger-history migration and per-field terminology impact remain. No old approval body is migrated in place; unknown delivery remains lookup-only.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -864,7 +868,16 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/mis.ts",
+        "app/mis-mapping-panel.tsx",
+        "tests/mapping-lifecycle-contract.mjs",
+        "tests/mapping-lifecycle-http.mjs",
+        "tests/mapping-lifecycle-browser.mjs",
+        "tests/mapping-lifecycle-review-http.mjs",
+        "tests/mapping-lifecycle-review-browser.mjs",
+        "docs/current/MIS-MAPPING-LIFECYCLE.md",
+        "docs/current/MIS-MAPPING-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -911,8 +924,8 @@
       "sourceTextLine": 228,
       "implementation": "partial",
       "target": "R15",
-      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once). Slice 6q: the ASHA role no longer imports (her duplicate matching could not see other ASHAs' patients); the import file limit is 16,000 UTF-8 bytes. Slice 2h: the same importers dry-run CSVs of programme enrolments and external identifiers for existing people matched by a Saha record id or an exact recorded identifier (one neutral reason for unknown and out-of-scope records): episodes open on the adopted or a named compiled or activated pack version and an already open episode is refused; identifiers are format-checked for known issuers, ABHA is refused, and a value already on another record is refused, naming that record only when the importer can see it; apply takes only the plan with lineage, a revision per record and one counted audit event. Every import dry run (people, enrolments, identifiers) has a downloadable rejection report of row numbers and reasons only, formula-escaped, with a control total and SHA-256 manifest, recorded as an audited export. Slice 6aa: identifier import accepts listed issuers only (rch, nikshay) and refuses ABHA-shaped values under any issuer; the rejection report's audit event no longer moves the organisation revision. Slice 10i: an owner or a clinician (not an ASHA, an administrator or a supervisor who is not an owner) dry-runs a CSV of historical visits with clinical content, one row per visit, for people in their own normal care scope (owner authority and emergency access do not widen it): person by record id or recorded identifier (one neutral reason for unknown and out-of-scope records), visit date, source system, measurements with a stated unit and a source (measured or reported), an override reason and notes. Units are stated and converted by the slice 2i rules; a value outside the placeholder expected range needs a reason and one beyond the confirmation range is refused; a visit already imported from the same source system on the same date, or repeated in the file, is refused. The dry run lists the visits to create and the rows rejected with reasons, the SHA-256 of the file and a plan hash, and returns no clinical values or notes; apply takes only that plan and creates confirmed visits marked IMPORTED with lineage (file digest, row, importer, time) and no clinician review or sign-off implied, with a revision per visit and one counted audit event. An import never creates enrolments, submissions, referrals or plans and never changes the person; an imported visit is read-only history, kept out of sending, referral, publication, assistant summaries, FHIR download, indicators, reports, pilot and shadow measures, freshness and work statistics, so it is not reused as a current observation without a fresh measurement. The rejection report covers visits. The placeholder value ranges are not clinically approved.",
-      "remaining": "Imports of contacts, programme answers, attachments and structured notes with visits, a clinician review step for imported visits, reversal of an imported batch (visits included; each visit can be marked wrong-patient), conflict handling for visits that overlap Saha visits, identifier verification with issuers and correction of imported identifiers, duplicate review across external sources, data-quality reports and reversal for imported batches.",
+      "current": "Legacy workspace migration validates counts, source hash and rollback; a controlled fixture-marking migration has an owner dry run with counts and rejects, applies only the reviewed plan with per-record lineage and an audit batch, and reverses a batch. Slice 2f: a controlled patient import: owners, supervisors and supervision delegates dry-run a CSV of people for their teams (accepted, rejected with reasons, possible duplicates against permitted records and earlier rows; ids and counts only) under a plan hash bound to the rows and record versions, then apply only that plan with lineage, a revision per person and one counted audit event. Slice 6p (independent review): a fixture batch reversal removes marks only from records in the reverting owner's care scope; others keep their mark, are reported and can be reversed by an owner whose scope covers them (each mark once). Slice 6q: the ASHA role no longer imports (her duplicate matching could not see other ASHAs' patients); the import file limit is 16,000 UTF-8 bytes. Slice 2h: the same importers dry-run CSVs of programme enrolments and external identifiers for existing people matched by a Saha record id or an exact recorded identifier (one neutral reason for unknown and out-of-scope records): episodes open on the adopted or a named compiled or activated pack version and an already open episode is refused; identifiers are format-checked for known issuers, ABHA is refused, and a value already on another record is refused, naming that record only when the importer can see it; apply takes only the plan with lineage, a revision per record and one counted audit event. Every import dry run (people, enrolments, identifiers) has a downloadable rejection report of row numbers and reasons only, formula-escaped, with a control total and SHA-256 manifest, recorded as an audited export. Slice 6aa: identifier import accepts listed issuers only (rch, nikshay) and refuses ABHA-shaped values under any issuer; the rejection report's audit event no longer moves the organisation revision. Slice 10i: an owner or a clinician (not an ASHA, an administrator or a supervisor who is not an owner) dry-runs a CSV of historical visits with clinical content, one row per visit, for people in their own normal care scope (owner authority and emergency access do not widen it): person by record id or recorded identifier (one neutral reason for unknown and out-of-scope records), visit date, source system, measurements with a stated unit and a source (measured or reported), an override reason and notes. Units are stated and converted by the slice 2i rules; a value outside the placeholder expected range needs a reason and one beyond the confirmation range is refused; a visit already imported from the same source system on the same date, or repeated in the file, is refused. The dry run lists the visits to create and the rows rejected with reasons, the SHA-256 of the file and a plan hash, and returns no clinical values or notes; apply takes only that plan and creates confirmed visits marked IMPORTED with lineage (file digest, row, importer, time) and no clinician review or sign-off implied, with a revision per visit and one counted audit event. An import never creates enrolments, submissions, referrals or plans and never changes the person; an imported visit is read-only history, kept out of sending, referral, publication, assistant summaries, FHIR download, indicators, reports, pilot and shadow measures, freshness and work statistics, so it is not reused as a current observation without a fresh measurement. The rejection report covers visits. The placeholder value ranges are not clinically approved. App-first B08 contacts dry-run/hash/apply retains source/file/row/batch provenance, always imports permission false and refuses overwriting care preferences. Reviewed contact-only reversal appends withdrawal and requires unchanged unconsented preferences; original actor current all-person/purpose authority applies to saved receipts. Actual phone recovery/export and independent consent/authority checks pass.",
+      "remaining": "Programme-answer, attachment and structured-note imports with visits; actual clinician imported-source review/use decisions; imported-visit batch reversal and Saha/external overlap/conflict decisions; issuer verification/correction and wider quality reports remain. Contacts software is delivered but does not close full B08.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/core.ts",
@@ -953,7 +966,13 @@
         "app/imported-visit-panel.tsx",
         "tests/visit-import-contract.mjs",
         "tests/visit-import-smoke.mjs",
-        "docs/current/SLICE-10I-VISIT-IMPORT.md"
+        "docs/current/SLICE-10I-VISIT-IMPORT.md",
+        "lib/saha/contact-import.ts",
+        "tests/contact-import-contract.mjs",
+        "tests/contact-import-http.mjs",
+        "tests/contact-import-independent-review.mjs",
+        "docs/current/CONTACT-IMPORT.md",
+        "docs/current/CONTACT-IMPORT-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2700,15 +2719,18 @@
       "sourceTextLine": 437,
       "implementation": "partial",
       "target": "R12",
-      "current": "Small explicit LOINC/unit whitelist and mapping versions.",
-      "remaining": "Terminology governance, impact reports and approved handling of ambiguous/deprecated codes.",
+      "current": "Small explicit LOINC/unit whitelist and mapping versions. App-first B07 source-versioned revisions can declare explicit partner-local/LOINC target codes and active/deprecated/ambiguous status; impact records declaration counts and refuses unresolved publication. These are owner declarations, not a terminology registry or clinical code approval.",
+      "remaining": "Destination requires-code/unmapped handling, validated transformation/unit/null rules, per-field affected-work conformance and externally approved terminology/source semantics remain.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/mis.ts",
         "lib/saha/ehr.ts",
         "tests/mis-contract.mjs",
         "tests/ehr-contract.mjs",
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "tests/mapping-lifecycle-contract.mjs",
+        "tests/mapping-lifecycle-review-http.mjs",
+        "docs/current/MIS-MAPPING-LIFECYCLE.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3315,8 +3337,8 @@
       "sourceTextLine": 502,
       "implementation": "partial",
       "target": "R15",
-      "current": "Fixed operational definitions and documented denominators/window. Slice 6d adds eight versioned indicator definitions with numerator, denominator, exclusions, owner and cadence. Slice 6s makes them version 1 entries of an owner-maintained, append-only registry: owners add, revise and retire definitions (measures, filters, exclusions, owner, cadence, minimum cohort) with a reason and audit event; every result names the definition and version used, and a recorded version can be run again to reproduce an earlier result over current records.",
-      "remaining": "Approval and effective dates for definition changes, owner-defined measures, validation against programme specifications, and point-in-time data snapshots for historical reproduction.",
+      "current": "Fixed operational definitions and documented denominators/window. Slice 6d adds eight versioned indicator definitions with numerator, denominator, exclusions, owner and cadence. Slice 6s makes them version 1 entries of an owner-maintained, append-only registry: owners add, revise and retire definitions (measures, filters, exclusions, owner, cadence, minimum cohort) with a reason and audit event; every result names the definition and version used, and a recorded version can be run again to reproduce an earlier result over current records. App-first B27 definition changes are proposals with immutable events, distinct active supervisor/clinician review and current-owner dated release. Only released effective versions enter catalogue or explicit queries; rollback/retirement are new reviewed proposals. Current governance clock is independent of historical reporting cutoff, verified on actual aggregate preparation; withdrawn future releases stay refused. Legacy definitions remain explicitly historical, without fabricated approval.",
+      "remaining": "Owner-defined measure expressions, validation against clinical programme specifications, immutable point-in-time released population snapshots and controlled correction reissues remain active; formal denominator/clinical approval remains pending.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/operations.ts",
@@ -3328,7 +3350,16 @@
         "lib/saha/indicators-server.ts",
         "tests/indicator-registry-contract.mjs",
         "tests/indicator-registry-smoke.mjs",
-        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md"
+        "docs/current/SLICE-6S-INDICATOR-REGISTRY.md",
+        "app/indicator-definitions/page.tsx",
+        "tests/indicator-governance-contract.mjs",
+        "tests/indicator-governance-http.mjs",
+        "tests/indicator-governance-browser.mjs",
+        "tests/indicator-governance-clock-http.mjs",
+        "tests/indicator-governance-independent-http.mjs",
+        "docs/current/INDICATOR-DEFINITION-GOVERNANCE.md",
+        "docs/current/INDICATOR-GOVERNANCE-CLOCK-REPAIR.md",
+        "docs/current/INDICATOR-GOVERNANCE-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },

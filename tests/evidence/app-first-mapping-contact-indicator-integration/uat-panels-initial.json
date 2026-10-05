@@ -1,0 +1,76 @@
+{
+  "suite": "UAT pack generator",
+  "layer": "uat",
+  "passed": 8,
+  "failed": 1,
+  "skipped": 0,
+  "startedAt": "2026-10-05T08:17:45.771Z",
+  "completedAt": "2026-10-05T08:17:45.873Z",
+  "environment": "static generation from repository files; no Worker, no network",
+  "limits": [
+    "Generates documents; it does not run any case and proves nothing about the application.",
+    "Role assignment and the default-Blocked list are builder judgements recorded in tests/lib/uat-selection.mjs."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "selection: every selected case appears in exactly one script",
+      "ok": true,
+      "ms": 19
+    },
+    {
+      "label": "selection: 148 Functional and 12 End to end cases accounted for (selected or excluded with a reason)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "every default-Blocked case quotes assessment text that is still present",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "every cited screen file is mapped to a screen or is the generic shell",
+      "ok": false,
+      "ms": 0,
+      "error": "unmapped panel files (add them to PANEL_HOME): app/indicator-definitions/page.tsx,app/mis-mapping-panel.tsx"
+    },
+    {
+      "label": "every PANEL_HOME file exists",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "generated text contains no unreplaced placeholders and no undefined",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "blank register has one empty-result row per selected case, in script order",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "register on disk covers exactly the selected cases",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "generation is deterministic (a second build from freshly loaded inputs is byte-identical)",
+      "ok": true,
+      "ms": 21
+    }
+  ],
+  "counts": {
+    "selected": 158,
+    "excluded": 2,
+    "byRole": {
+      "OWNER": 53,
+      "ASHA": 44,
+      "SUPERVISOR": 13,
+      "CLINICIAN": 29,
+      "ADMIN": 7,
+      "END_TO_END": 12
+    },
+    "defaultBlocked": 12
+  }
+}

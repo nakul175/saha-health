@@ -284,7 +284,7 @@ Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i
 - **Catalogue:** Functional, fixture FX-REP-02, catalogue owner "QA with Supervisor and programme manager".
 - **Run as:** Supervisor. Basis: requirement area default (BR-REP; catalogue owner "QA with Supervisor and programme manager").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-REP-02: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Organisation & team. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Supervisor signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -298,11 +298,11 @@ Operational backlog counts plus R10 identity/ownership/handover queues. Slice 6i
 
 **Expected result** (catalogue): A reviewer can recalculate sample indicators from authorised records and distinguish visits, unique people and accepted programme submissions.
 
-**Known gaps** (assessment, remaining work for BR-REP-02): Approval and effective dates for definition changes, owner-defined measures, validation against programme specifications, and point-in-time data snapshots for historical reproduction.
+**Known gaps** (assessment, remaining work for BR-REP-02): Owner-defined measure expressions, validation against clinical programme specifications, immutable point-in-time released population snapshots and controlled correction reissues remain active; formal denominator/clinical approval remains pending.
 
 <details><summary>What the build does today (assessment, current state of BR-REP-02)</summary>
 
-Fixed operational definitions and documented denominators/window. Slice 6d adds eight versioned indicator definitions with numerator, denominator, exclusions, owner and cadence. Slice 6s makes them version 1 entries of an owner-maintained, append-only registry: owners add, revise and retire definitions (measures, filters, exclusions, owner, cadence, minimum cohort) with a reason and audit event; every result names the definition and version used, and a recorded version can be run again to reproduce an earlier result over current records.
+Fixed operational definitions and documented denominators/window. Slice 6d adds eight versioned indicator definitions with numerator, denominator, exclusions, owner and cadence. Slice 6s makes them version 1 entries of an owner-maintained, append-only registry: owners add, revise and retire definitions (measures, filters, exclusions, owner, cadence, minimum cohort) with a reason and audit event; every result names the definition and version used, and a recorded version can be run again to reproduce an earlier result over current records. App-first B27 definition changes are proposals with immutable events, distinct active supervisor/clinician review and current-owner dated release. Only released effective versions enter catalogue or explicit queries; rollback/retirement are new reviewed proposals. Current governance clock is independent of historical reporting cutoff, verified on actual aggregate preparation; withdrawn future releases stay refused. Legacy definitions remain explicitly historical, without fabricated approval.
 
 </details>
 

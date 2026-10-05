@@ -131,6 +131,8 @@ export async function loadNavigation() {
 // (a panel imported by another panel is hosted wherever that panel is). 'Person page' is a person's page opened from My work or People.
 const PERSON = 'Person page and visit';
 export const PANEL_HOME = {
+  'app/indicator-definitions/page.tsx': ['Organisation & team'],
+  'app/mis-mapping-panel.tsx': ['Connections', 'Submissions'],
   'app/reconciliation-panel.tsx': ['Care handover'],
   'app/reminder-optout-panel.tsx': ['Outreach'],
   'app/service-identity-panel.tsx': ['Operations'],

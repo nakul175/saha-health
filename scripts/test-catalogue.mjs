@@ -34,10 +34,18 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/contact-import-independent-review.mjs': ['tests/evidence/contact-import-independent-review/adversarial.json'],
+  'tests/mapping-lifecycle-contract.mjs': ['tests/evidence/mapping-lifecycle/contract.json'],
+  'tests/mapping-lifecycle-review-contract.mjs': ['tests/evidence/mapping-lifecycle-review/contract.json'],
+  'tests/mapping-lifecycle-http.mjs': ['tests/evidence/mapping-lifecycle/http.json'],
+  'tests/mapping-lifecycle-review-http.mjs': ['tests/evidence/mapping-lifecycle-review/http.json'],
+  'tests/mapping-lifecycle-browser.mjs': ['tests/evidence/mapping-lifecycle/browser.json'],
+  'tests/mapping-lifecycle-review-browser.mjs': ['tests/evidence/mapping-lifecycle-review/browser.json'],
   'tests/smoke/hosted-smoke.mjs': ['tests/reports/smoke-hosted-selftest-result.json'],
   'tests/provider-ehr-execution-review.mjs': ['tests/evidence/provider-destination-independent/ehr-execution/result.json'],
 };
 const MANUAL = {
+  'tests/contact-import-before.mjs': { needsEnv: [], directOnly: true, note: 'Historical contacts/reversal schema witness before B08. Positive contacts checks are contract, HTTP/phone and independent review suites.' },
   'tests/household-reschedule-before-driver.mjs': { needsEnv: [], directOnly: true, note: 'Historical schema/dispatcher witness at fb585412; current positive checks are household-reschedule-contract.mjs and household-reschedule-http.mjs.' },
   'tests/offline-lifecycle-auth-transport-review.mjs': { needsEnv: [], directOnly: true, note: 'Bounded normal-fetch stress diagnostic retains unresolved cross-site transport failures; positive identity regression is offline-opens-auth-first-http.mjs. Not a passing stress gate.' },
   'tests/provider-ehr-header-review.mjs': { needsEnv: [], directOnly: true, note: 'Historical conditional-create header representation loss; positive regression is provider-ehr-headers-contract.mjs.' },
@@ -88,6 +96,9 @@ export function classify(file) {
   if (isSupport(file)) return { layer: null, role: 'support', tier: null, reason: 'shared helper, fixture or entry module; not a suite' };
   if (file === 'tests/api-smoke.mjs') return { layer: 'integration', role: 'support', tier: null, reason: 'entry module imported by tests/run-api-smoke.mjs; not run on its own' };
   if (file === 'tests/run-api-smoke.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'HTTP and D1 suite against the built Worker' };
+  if (['tests/contact-import-http.mjs','tests/contact-import-independent-review.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual scoped synthetic contacts import, reversal, current-authority receipt replay and phone workflow' };
+  if (['tests/mapping-lifecycle-http.mjs','tests/mapping-lifecycle-review-http.mjs','tests/mapping-lifecycle-browser.mjs','tests/mapping-lifecycle-review-browser.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual reviewed mapping impact, effective-date authority, preserved delivery and phone history checks' };
+  if (['tests/indicator-governance-http.mjs','tests/indicator-governance-clock-http.mjs','tests/indicator-governance-browser.mjs','tests/indicator-governance-independent-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual independently reviewed effective indicator definitions and historical-report clock boundary' };
   if (file === 'tests/offline-opens-transport-http.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'actual normal-fetch and streamed oversized refusal transport regression without retries' };
   if (['tests/household-reschedule-http.mjs','tests/household-reschedule-independent-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'actual synthetic Worker/D1 atomic rescheduling, rollback, current authority and phone touch regressions' };
   if (['tests/offline-opens-auth-first-http.mjs','tests/offline-opens-http.mjs','tests/offline-opens-browser.mjs','tests/offline-open-account-binding-browser.mjs','tests/offline-open-unsent-pruning-browser.mjs','tests/work-burden-field-continuation-http.mjs','tests/work-burden-field-hooks-browser.mjs','tests/work-burden-field-identity-review.mjs','tests/work-burden-continuation-phone-review.mjs','tests/work-burden-continuation-adversarial-review.mjs','tests/clinical-source-http.mjs','tests/clinical-source-browser.mjs','tests/clinical-source-identity-http.mjs','tests/clinical-source-retrieval-http.mjs','tests/clinical-source-retrieval-browser.mjs','tests/clinical-source-dependency-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'actual synthetic Worker, database and browser lifecycle regressions' };

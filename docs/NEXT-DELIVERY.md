@@ -4,7 +4,7 @@
 
 The sponsor requested an installable Android app for ASHA workers with the same journey demonstrable in the browser, and parallel delivery of the remaining buildable scope. Four active agent slots run ten workstreams in successive batches. This supersedes the earlier Android deferral. Source batches are integrated on `app-first/integration-20261005` ([draft PR #161](https://github.com/nakul175/saha-health/pull/161)); main is not merged without sponsor approval. Clinical, external and field acceptance remain pending.
 
-Latest checkpoint: offline access, field timing/continuation, governed source upload/retrieval, provider envelopes, atomic rescheduling and bounded request disposal are integrated locally. Final176-unit regression passes9,500, all51 combined workflows1,247, and fresh final API/database4,758 plus encrypted restore21 pass4,779. Initial fixture/inventory/browser-readiness failures and a local port-conflict attempt are retained separately. Final access/identity/UAT passes184 with one documented local smoke skip; documentation publication remains. Published e89cf6b7 documentation passed; engineering failed its runner fixture, repaired locally. Mapping lifecycle and contact imports are independently reviewed next; indicator-release governance is isolated author work. Historical rows below remain dated delivery evidence.
+Latest checkpoint: preceding offline/source/provider/rescheduling batch1d57dc2a is published; exact hosted documentation succeeds and engineering failed; original job logs are retained. Reviewed mapping lifecycle, contact imports/reversal and indicator definitions with independent clock repair are integrated locally. Current180-unit9606 passes, no minima reduced;61-workflow1,541,API/restore4,791 and smoke/security/UAT184 gates pass locally; final documentation/publication remain. Hosted failure follow-up remains explicit. Active next software: mapping conformance/terminology semantics, imported evidence/review/conflicts and immutable released-figure snapshots/reissues. Full residual scope is preserved; historical rows remain dated evidence.
 
 | Batch | Current delivery and gate |
 | --- | --- |
@@ -22,7 +22,10 @@ Latest checkpoint: offline access, field timing/continuation, governed source up
 
 | B18 provider envelopes | AI/frontline/image/MIS/EHR/ABDM/aggregate/mock-enrolment path/digest/value guards integrated; independent header81/execution47 and root full-unit gates pass; representative real profiles/agreements remain |
 | B13 atomic rescheduling | Original-planner history-preserving atomic replacement independently reviewed; root author10/independent26 HTTP-phone checks pass; reminders/outreach/completion and pack compatibility remain |
-| Next software batch | Mapping lifecycle, contact imports and reviewed indicator definitions are isolated author/review work; not yet included in the published or combined current stack |
+| B07 mappings | Reviewed lifecycle and independent applicability/phone fixes integrated; deterministic transformation/null/conformance and richer terminology handling remain active |
+| B08 imports | Reviewed contacts/reversal integrated; answers/media/notes, clinician source review/use and overlap/reversal work active |
+| B27 reporting | Independent proposal/review/effective release and historical-clock repair integrated; immutable figure snapshots/reissues active with reserved0027 |
+| Current publication gate |180-unit9606,61-workflow1541,API/restore4791 and smoke/security/UAT184 pass locally; docs/publication and hosted follow-up remain |
 
 ## Development-completion order (sponsor decision, 30 September 2026)
 

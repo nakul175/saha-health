@@ -15,7 +15,15 @@ export async function reviewLeftoversSmoke({ get, post, check, base, sql }) {
   check(() => assert.equal(total.cohort.people, 9));
   check(() => assert.equal(refusals().length, 0, 'a released query is not a refusal'));
   // Slice 13f (review finding 3): results withheld because a definition sets its own higher minimum cohort are not refusals.
-  await post(o, { type: 'addIndicatorDefinition', id: `strict-${run}`, spec: { title: `Strict ${run}`, unit: 'count', numerator: 'patients', denominator: null, filters: {}, exclude: [], exclusionsNote: 'None', owner: 'Programme manager', cadence: 'Monthly', minimumCohort: 50 }, reason: 'A definition with its own high minimum cohort' }, 200, crypto.randomUUID(), org);
+  const proposed = (await post(o, { type: 'addIndicatorDefinition', id: `strict-${run}`, spec: { title: `Strict ${run}`, unit: 'count', numerator: 'patients', denominator: null, filters: {}, exclude: [], exclusionsNote: 'None', owner: 'Programme manager', cadence: 'Monthly', minimumCohort: 50 }, reason: 'A definition with its own high minimum cohort' }, 200, crypto.randomUUID(), org)).result;
+  const reviewer = { id: `leftover-${run}-reviewer`, headers: { 'oai-authenticated-user-id': `leftover-${run}-reviewer`, 'oai-authenticated-user-email': 'reviewer@example.invalid' }, state: null };
+  await get(reviewer);
+  const invitation = (await post(o, { type: 'createInvite', accountCode: reviewer.state.user.accountCode, label: 'Independent leftovers reviewer', role: 'supervisor', teamIds: ['default'] }, 200, crypto.randomUUID(), org)).result;
+  await post(reviewer, { type: 'joinOrganisation', token: invitation.token });
+  const approved = (await post(reviewer, { type: 'reviewIndicatorDefinition', id: proposed.id, expectedVersion: proposed.version, expectedGovernanceVersion: proposed.governanceVersion, decision: 'approve', reason: 'Independent synthetic high-cohort definition review' }, 200, crypto.randomUUID(), org)).result;
+  const effectiveAt = new Date(Date.now() + 500).toISOString();
+  await post(o, { type: 'releaseIndicatorDefinition', id: proposed.id, expectedVersion: proposed.version, expectedGovernanceVersion: approved.governanceVersion, reviewEventId: approved.eventId, effectiveAt, reason: 'Synthetic high-cohort reviewed dated release' }, 200, crypto.randomUUID(), org);
+  while (Date.now() < Date.parse(effectiveAt)) await new Promise(resolve => setTimeout(resolve, 20));
   const strict = await query({ ids: `strict-${run}`, days: '30', group: 'none' }, 200);
   check(() => assert.ok(strict.results.length === 1 && strict.results[0].refused && strict.results[0].refused !== 'differencing', JSON.stringify(strict.results.map(r => r.refused ?? 'released'))));
   check(() => assert.equal(refusals().length, 0, "a definition's own minimum cohort is not counted as a refusal"));
