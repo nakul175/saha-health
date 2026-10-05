@@ -1,10 +1,10 @@
 import {executeEhrProbe} from './ehr-probe';
 import {serviceDispatch} from './service-dispatch';
 import { ensureOperating } from './operations';
-import { AppError, fail, person, uuid, visit } from './core';
+import { AppError, digest, fail, person, uuid, visit } from './core';
 import { EHR_HOLDING_STATES, EHR_LOOKUP_LIMIT, EHR_WRITE_DEADLINE_SECONDS, ehrAccess, ehrAudit, ehrCredential, ehrIntegration, ehrState, identityHash, lookupPolicyOf, stageDocument, withinPermission, type EhrCommand, type EhrOperation } from './ehr';
-import { capabilities, checkRemotePatient, classifySearch, fhirRequest, publicationReceipt } from './ehr-provider';
-import { inspectDocument } from './fhir-document';
+import { assertFhirEnvelope, capabilities, checkRemotePatient, classifySearch, fhirRequest, publicationReceipt } from './ehr-provider';
+import { assertOutboundPrivacy, inspectDocument } from './fhir-document';
 import { persist, readState, scope, type Actor } from './store';
 import { recordAccess } from './access-audit';
 import { linkTrace } from './trace';
@@ -12,7 +12,7 @@ import { operationRefusal, refusalOf, type Refusal } from './adapter-operations'
 import { sendBlock } from './send-gate';
 import type { D1Database } from '@cloudflare/workers-types';
 import type { Member, OrgState, Person, SendBlockRecord } from './types';
-export async function publishAuthority(s:OrgState,p:Person,op:EhrOperation,u:Actor){const current=await ehrAccess(s,p,op.linkId,op.permissionId,'write');const v=visit(s.workspace,op.visitId);if(op.actorId!==u.userId||op.approvalUntil<=new Date().toISOString()||op.identityHash!==await identityHash(p)||op.consentVersion!==p.consentVersion||op.visitVersion!==v.version||v.state!=='confirmed'||v.voidedAt||v.supersededBy||current.i.version!==op.integrationVersion||current.i.status!=='active')fail(409,'Publication approval, identity, permission, visit or connection changed.');withinPermission(inspectDocument(op.bundle,current.link.externalId),current.permission);return current;}
+export async function publishAuthority(s:OrgState,p:Person,op:EhrOperation,u:Actor){const current=await ehrAccess(s,p,op.linkId,op.permissionId,'write');const v=visit(s.workspace,op.visitId);if(op.actorId!==u.userId||op.approvalUntil<=new Date().toISOString()||op.identityHash!==await identityHash(p)||op.consentVersion!==p.consentVersion||op.visitVersion!==v.version||v.state!=='confirmed'||v.voidedAt||v.supersededBy||current.i.version!==op.integrationVersion||current.i.status!=='active')fail(409,'Publication approval, identity, permission, visit or connection changed.');assertOutboundPrivacy(op.bundle);if(await digest(op.bundle)!==op.hash)fail(409,'Prepared document differs from its approved digest; review and prepare a fresh publication.');withinPermission(inspectDocument(op.bundle,current.link.externalId),current.permission);return current;}
 export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof fhirRequest=fhirRequest){
  let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'personId' in c?c.personId:null,{intent:c.type==='lookupEhrPublish'?'lookup':c.type==='probeEhr'?'probe':'send',purpose:c.type==='probeEhr'?undefined:'care-coordination',authorize:async(latest,member)=>{
    const li=ehrIntegration(latest,i.id);if(li.version!==i.version||(c.type==='probeEhr'?li.status!==i.status:li.status!=='active'))fail(409,'EHR connection changed before request.');
@@ -27,7 +27,7 @@ export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m
    if(c.type==='lookupEhrPublish')return; // Receipt only: no clinical body and no new consent required.
    await publishAuthority(latest,p,op,u);const g=await sendBlock(latest,visit(latest.workspace,op.visitId),li,'checkpoint');if(g.block)fail(409,g.block.text);
    if(Date.now()-Date.parse(op.publishStartedAt!)>EHR_WRITE_DEADLINE_SECONDS*1000)fail(409,'Publication write window expired.');
-  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return send(i,...args);};
+  }});assertFhirEnvelope(args[2],args[3]);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return send(i,...args);};
  if(c.type==='probeEhr')return executeEhrProbe(db,s,c,u,m,key,hash,env,transport);
  if(!('personId' in c)||!['asha','clinician'].includes(m.role))fail(403,'A care role is required.');const p=person(s.workspace,c.personId);
  if(c.type==='retrieveEhrDocument'){const {i,link}=await ehrAccess(s,p,c.linkId,c.permissionId,'read');if(i.status!=='active')fail(409,'Activate this EHR connection before retrieval.');
