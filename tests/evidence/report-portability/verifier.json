@@ -1,0 +1,83 @@
+{
+  "format": "saha-organisation-export-v1",
+  "exportId": "46deaa53-7ff6-4e3c-a339-c890f2b2a982",
+  "ok": true,
+  "checks": [
+    {
+      "name": "format",
+      "ok": true,
+      "detail": "saha-organisation-export-v1"
+    },
+    {
+      "name": "sha256sums",
+      "ok": true,
+      "detail": "52 files"
+    },
+    {
+      "name": "manifest-files",
+      "ok": true,
+      "detail": "50 files match size, SHA-256 and row count"
+    },
+    {
+      "name": "totals",
+      "ok": true,
+      "detail": {
+        "rows": 197,
+        "withheld": 13,
+        "withheldEntries": 0
+      }
+    },
+    {
+      "name": "organisation",
+      "ok": true,
+      "detail": "org_57c086e175d9b5f8c9ec10ff29681446"
+    },
+    {
+      "name": "relationships",
+      "ok": true,
+      "detail": "125 references resolve"
+    },
+    {
+      "name": "protection-state",
+      "ok": true,
+      "detail": "no indicator differencing ledger in the operations document"
+    },
+    {
+      "name": "figure-portability",
+      "ok": true,
+      "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+    },
+    {
+      "name": "media",
+      "ok": true,
+      "detail": "0 files match their rows"
+    },
+    {
+      "name": "fhir",
+      "ok": true,
+      "detail": "0 documents"
+    },
+    {
+      "name": "audit-chain",
+      "ok": true,
+      "detail": "86 events, head 85 c04f4084ed62"
+    },
+    {
+      "name": "genesis-seal",
+      "ok": true,
+      "detail": "0 earlier events reproduce the genesis digest"
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "organisation": "org_57c086e175d9b5f8c9ec10ff29681446",
+    "generatedAt": "2026-10-05T09:53:40.695Z",
+    "exporter": "figures-owner-aaf17b53@example.invalid",
+    "tables": 49,
+    "rows": 197,
+    "withheld": 13,
+    "complete": false,
+    "fhir": 0,
+    "handoverItems": 0
+  }
+}

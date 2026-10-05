@@ -1,4 +1,5 @@
 import {readState} from './store';
+import {normallyAllowed,purposePermits} from './access';
 import {entryScope,activeEntry,governanceManager} from './governance';
 import type { D1Database } from '@cloudflare/workers-types';
 import { fail } from './core';
@@ -25,14 +26,14 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0026_work_burden_sessions';
+export const SCHEMA_MIGRATION = '0028_indicator_figure_disclosures';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
 type Value = string | number | null;
 type Row = Record<string, Value>;
 // Slice 6z: 'self' rows are one member's own (their in-app alert inbox); only the exporter's own rows are exported.
-type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit' | 'self';
+type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit' | 'self' | 'figure' | 'protected';
 export type TableSpec = { table: string; order: string; scope: Scope; omit?: string[]; note?: string };
 export const TABLES: TableSpec[] = [
   { table: 'organisations', order: 'id', scope: 'org' },
@@ -76,10 +77,16 @@ export const TABLES: TableSpec[] = [
   { table: 'caseload_transfers', order: 'id', scope: 'team' },
   { table: 'identity_cases', order: 'id', scope: 'identity' },
   { table: 'rights_requests', order: 'id', scope: 'person' },
+  { table:'indicator_figures',order:'created_at,id',scope:'figure',omit:['data'],note:'Immutable original figure metadata and parent lineage only; data contains protected cells/unit hashes and is omitted. Every original cohort member must remain in current normal reporting scope.' },
+  { table:'indicator_figure_units',order:'figure_id,person_id',scope:'protected',note:'Server-only unsuppressed per-person counting material is withheld. Ordinary operational export is not a full report reconstruction archive.' },
+  { table:'indicator_figure_events',order:'figure_id,sequence',scope:'figure',note:'Exact immutable lifecycle history for included figures; historical actor/reviewer evidence does not confer current authority.' },
+  { table:'indicator_figure_receipts',order:'figure_id,actor_id,key',scope:'figure',note:'Exact receipt metadata only for included figures with validated fixed outcome shape and matching immutable event; no protected cells or source units.' },
+  { table:'indicator_figure_disclosures',order:'actor_id,figure_id,release_hash',scope:'protected',note:'Retained viewer edition disclosure ledger is server-side privacy protection state and is withheld.' },
   { table: 'command_receipts', order: 'created_at,actor_id,key', scope: 'receipt', omit: ['result'], note: 'The stored result is left out: it can carry a newly issued invitation token.' },
   { table: 'audit_events', order: '(seq IS NOT NULL),seq,at,id', scope: 'audit', note: 'Events without seq were written before the chain and are sealed by the genesis marker (seq 0).' },
 ];
 export const EXCLUDED = [
+  {what:'indicator_figures.data, indicator_figure_units, indicator_figure_disclosures',why:'Protected report cells, unsuppressed per-person counting material and retained disclosure privacy ledger. Metadata/history portability does not provide full report reconstruction; governed privileged reproducibility/portability remains open.'},
   { what: 'abha_review_reservations', why: 'Server-side anti-enumeration protection state; opaque request fingerprints and review-event references, never clinical records.' },
   { what: 'workspaces', why: 'Release 0.1 per-account source kept unchanged for rollback; its migrated content is in the organisation tables and legacy_migrations records the source hash.' },
   { what: 'accounts.email, accounts.active_org_id', why: 'Sign-in contact and a pointer to other organisations; members are identified by user_id, account_code and display_name.' },
@@ -159,6 +166,14 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   const visits = new Set(data.visits.filter(v => people.has(String(v.person_id))).map(v => String(v.id)));
   const teamScope = (r: Row) => m.status === 'active' && !noPatients && m.role !== 'asha' && m.teamIds.includes(String(r.team_id));
   const allowed = (spec: TableSpec, r: Row) => spec.scope === 'org' ? true : spec.scope === 'person' ? people.has(String(r.person_id ?? r.id)) : spec.scope === 'visit' ? visits.has(String(r.visit_id)) : spec.scope === 'team' ? teamScope(r) : spec.scope === 'identity' ? people.has(String(r.survivor_id)) && people.has(String(r.duplicate_id)) : r.person_id == null || people.has(String(r.person_id));
+  // Figure metadata cannot be narrowed by deleting individual counting units: the original cohort is indivisible.
+  const reporting=m.status==='active'&&m.role!=='admin'&&m.role!=='provider'&&m.role!=='asha'&&(m.role==='supervisor'||m.isOwner)&&purposePermits(m,'reporting');
+  const figurePeople=new Set(data.patients.filter(r=>{let p:any;try{p=JSON.parse(String(r.data));}catch{return false;}return people.has(String(r.id))&&!p.mergedInto&&normallyAllowed(m,{...p,id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as any);}).map(r=>String(r.id)));
+  const figureById=new Map(data.indicator_figures.map(f=>[String(f.id),f])),eventById=new Map(data.indicator_figure_events.map(e=>[String(e.id),e])),unitsByFigure=new Map<string,Row[]>();for(const u of data.indicator_figure_units){const id=String(u.figure_id);unitsByFigure.set(id,[...(unitsByFigure.get(id)??[]),u]);}
+  const figures=new Set(data.indicator_figures.filter(f=>{const units=unitsByFigure.get(String(f.id))??[];return reporting&&units.length>0&&units.every(u=>figurePeople.has(String(u.person_id)));}).map(f=>String(f.id)));
+  for(const f of data.indicator_figures){const seen=new Set<string>();let at:Row|undefined=f;while(at){const id=String(at.id);if(seen.has(id)||!figures.has(id)){figures.delete(String(f.id));break;}seen.add(id);if(!at.parent_id)break;at=figureById.get(String(at.parent_id));if(!at){figures.delete(String(f.id));break;}}}
+  const figureCohort=[...new Set(data.indicator_figure_units.filter(u=>figures.has(String(u.figure_id))).map(u=>String(u.person_id)))];
+  const safeFigureReceipt=(r:Row)=>{let x:any;try{x=JSON.parse(String(r.result));}catch{return false;}if(!x||typeof x!=='object'||Array.isArray(x)||Object.keys(x).sort().join()!=='eventId,figureId,sequence,status'||x.figureId!==r.figure_id||!Number.isInteger(x.sequence))return false;const e=eventById.get(String(x.eventId));return !!e&&e.figure_id===r.figure_id&&e.sequence===x.sequence&&e.kind===x.status&&e.actor_id===r.actor_id;};
   const files: ExportFile[] = [];
   let totalRows = 0, totalWithheld = 0, totalEntries = 0;
   const media: ExportFile[] = [];
@@ -166,6 +181,8 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     const rows = data[spec.table], lines: unknown[] = [];
     let withheld = 0, entries = 0, others = 0;
     for (const r of rows) {
+      if(spec.scope==='protected'||spec.scope==='figure'&&(!figures.has(String(spec.table==='indicator_figures'?r.id:r.figure_id))||spec.table==='indicator_figure_receipts'&&!safeFigureReceipt(r))){withheld++;continue;}
+
       if (spec.scope === 'self' && String(r.user_id ?? r.actor_id) !== m.userId) { others++; continue; }
       if(spec.table==='clinical_source_documents'){const e=sourceState?.governance?.entries.find(e=>e.id===r.entry_id);if(!e||!entryScope(m,e)||!((governanceManager(m)&&m.role!=='provider')||['asha','clinician'].includes(m.role)&&activeEntry(sourceState!,e))){withheld++;continue;}try{await (await import('./clinical-source')).verifiedSourceDocument(db,orgId,e,input.now);}catch{withheld++;continue;}}
       if(spec.table==='device_match_copies'){let candidates:any;try{candidates=JSON.parse(String(r.candidate_versions));}catch{candidates=null;}if(!Array.isArray(candidates)||candidates.some(x=>!people.has(String(x.id)))){withheld++;continue;}}
@@ -255,7 +272,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     organisation: { id: orgId, name: org.name, createdAt: org.created_at, revision: org.revision },
     exporter: { userId: input.exporter.userId, name: input.exporter.name, accountCode: input.exporter.accountCode, role: m.role, owner: m.isOwner },
     schema: { migration: SCHEMA_MIGRATION, workspaceSchemaVersion: 1, rowEncoding: 'One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text.' },
-    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
+    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report reconstruction.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
     totals: { files: described.length, rows: totalRows, withheld: totalWithheld, withheldEntries: totalEntries, bytes },
     files: described,
     auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },
@@ -269,7 +286,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   const listed = [{ path: 'README.txt', bytes: readme }, { path: 'manifest.json', bytes: manifestBytes }, ...files];
   const sums = enc.encode((await Promise.all(listed.map(async f => `${await sha256Bytes(f.bytes)}  ${f.path}`))).join('\n') + '\n');
   const archive = tar([...listed, { path: 'SHA256SUMS', bytes: sums }], Math.floor(Date.parse(input.now) / 1000));
-  return { archive, manifest, manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
+  return { archive, manifest, figureCohort, manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
 }
 
 const README = (id: string, name: string, at: string) => `Saha organisation data export ${id}
@@ -292,7 +309,10 @@ Relationships
   patients.id is referenced by person_id in visits, submissions, referrals, record_revisions,
   media, rights_requests, audit_events and command_receipts; visits.id by visit_id in plans,
   ai_results, submissions and media; teams.id by team_id; accounts.user_id by user_id,
-  actor_id, created_by and assigned_to. Columns named data, changes, counts and team_ids are JSON text.
+  actor_id, created_by and assigned_to. Included indicator_figures.parent_id refers to another
+  included figure; indicator_figure_events and validated receipts refer to included figure/event ids.
+  Figure data and counting units are protected and omitted; this is not full report reconstruction.
+  Columns named data, changes, counts and team_ids are JSON text.
 
 Audit chain
   audit_events rows with seq form one chain. content = SHA-256 of

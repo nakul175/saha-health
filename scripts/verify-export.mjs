@@ -80,12 +80,14 @@ export function verifyFiles(files) {
   if (foreign.length || t('organisations').some(o => o.id !== orgId)) bad('organisation', `Rows from another organisation in ${[...new Set(foreign)].join(', ')}.`); else pass('organisation', orgId);
   // Relationships: each reference resolves inside the export (withheld audit rows carry no reference).
   const ids = (name, key = 'id') => new Set(t(name).map(r => r[key]));
+  const figures=ids('indicator_figures'), figureEvents=ids('indicator_figure_events');
   const patients = ids('patients'), visits = ids('visits'), teams = ids('teams'), accounts = ids('accounts', 'user_id');
   const rel = [
     ['visits', 'person_id', patients], ['submissions', 'person_id', patients], ['submissions', 'visit_id', visits], ['referrals', 'person_id', patients],
     ['record_revisions', 'person_id', patients], ['media', 'person_id', patients], ['media', 'visit_id', visits], ['plans', 'visit_id', visits], ['ai_results', 'visit_id', visits],
     ['rights_requests', 'person_id', patients], ['patients', 'team_id', teams], ['team_members', 'team_id', teams], ['team_members', 'user_id', accounts],
     ['memberships', 'user_id', accounts], ['households', 'team_id', teams], ['caseload_transfers', 'team_id', teams],
+    ['indicator_figures','author_id',accounts],['indicator_figure_events','actor_id',accounts],['indicator_figure_receipts','actor_id',accounts],['indicator_figures','parent_id',figures],['indicator_figure_events','figure_id',figures],['indicator_figure_events','review_id',figureEvents],['indicator_figure_receipts','figure_id',figures],
     ['identity_cases', 'survivor_id', patients], ['identity_cases', 'duplicate_id', patients],
   ];
   const dangling = [];
@@ -104,6 +106,13 @@ export function verifyFiles(files) {
   // Slice 6w: the indicator differencing ledger is server-side protection state and is never exported.
   const ledgerRows = t('operations').filter(r => { try { return typeof r.data === 'string' && 'indicatorReleases' in (JSON.parse(r.data) ?? {}); } catch { return false; } });
   if (ledgerRows.length) bad('protection-state', 'operations.data carries the indicator differencing ledger, which an export must leave out'); else pass('protection-state', 'no indicator differencing ledger in the operations document');
+  // Operational portability never bypasses current viewer/edition screening by releasing raw report material.
+  const figureProblems=[];
+  if(t('indicator_figure_units').length||t('indicator_figure_disclosures').length)figureProblems.push('protected counting units or disclosure ledger exported');
+  for(const f of t('indicator_figures')){if(Object.keys(f).sort().join()!=='author_id,author_version,created_at,digest,id,org_id,parent_id')figureProblems.push('unsupported figure metadata columns or protected original data exported');const seen=new Set();let at=f;while(at){if(seen.has(at.id)){figureProblems.push('cyclic figure parent lineage');break;}seen.add(at.id);at=at.parent_id?t('indicator_figures').find(x=>x.id===at.parent_id):null;}}
+  for(const f of t('indicator_figures')){const events=t('indicator_figure_events').filter(e=>e.figure_id===f.id).sort((a,b)=>a.sequence-b.sequence);if(!events.length||events[0].kind!=='prepared'||events[0].actor_id!==f.author_id||events.some((e,i)=>e.sequence!==i+1))figureProblems.push('incomplete immutable figure event history');for(const e of events){if(!['clinician','supervisor'].includes(e.role))figureProblems.push('unsupported historical report actor role');if(e.kind==='approved'&&e.actor_id===f.author_id)figureProblems.push('self-reviewed figure history');if(e.kind==='published'){const review=events.find(x=>x.id===e.review_id);if(!review||review.kind!=='approved'||review.sequence>=e.sequence||review.actor_id===e.actor_id||e.actor_id!==f.author_id)figureProblems.push('invalid historical independent review/publication lineage');}}}
+  for(const r of t('indicator_figure_receipts')){let x;try{x=JSON.parse(r.result);}catch{}if(!x||typeof x!=='object'||Array.isArray(x)||Object.keys(x).sort().join()!=='eventId,figureId,sequence,status'||x.figureId!==r.figure_id||!t('indicator_figure_events').some(e=>e.figure_id===r.figure_id&&e.id===x.eventId&&e.sequence===x.sequence&&e.kind===x.status&&e.actor_id===r.actor_id))figureProblems.push('receipt carries unsupported outcome or dangling lifecycle event');}
+  if(figureProblems.length)bad('figure-portability', [...new Set(figureProblems)].join('; '));else pass('figure-portability','metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger');
   // Media content matches the recorded SHA-256 and size.
   const mediaProblems = [];
   let mediaFiles = 0;
