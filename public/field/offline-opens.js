@@ -42,10 +42,10 @@ export async function queueAcceptedOpenMappings(value,key,salt,revision,surface,
 // Upload fixed historical reports only. A receipt does not send, confirm,
 // renew or reauthorize a care command, and no absent receipt means failure.
 export async function flushOfflineOpens(value,key,salt,revision,{fetcher=fetch,write=writeVault,onProgress=()=>{}}={}){
- let book=structuredClone(value);const queue=validateQueue(book);validateLinks(book);const groups=new Map();
+ let book=structuredClone(value);const queue=validateQueue(book);validateLinks(book);if(typeof book.userId!=='string'||book.userId.length<1||book.userId.length>200)throw metadataError();const groups=new Map();
  for(const event of queue){const list=groups.get(event.organisationId)??[];list.push(event);groups.set(event.organisationId,list);}
- for(const [org,events] of groups){const batches=[];let batch=[];for(const event of events){const proposed=[...batch,event],bytes=new TextEncoder().encode(JSON.stringify({events:proposed.map(({organisationId,...value})=>value)})).byteLength;if(batch.length&&(proposed.length>20||bytes>12000)){batches.push(batch);batch=[];}batch.push(event);}if(batch.length)batches.push(batch);for(const batch of batches){
-  const body={events:batch.map(({organisationId,...event})=>event)};let response;
+ for(const [org,events] of groups){const batches=[];let batch=[];for(const event of events){const proposed=[...batch,event],bytes=new TextEncoder().encode(JSON.stringify({expectedActorId:book.userId,events:proposed.map(({organisationId,...value})=>value)})).byteLength;if(batch.length&&(proposed.length>20||bytes>12000)){batches.push(batch);batch=[];}batch.push(event);}if(batch.length)batches.push(batch);for(const batch of batches){
+  const body={expectedActorId:book.userId,events:batch.map(({organisationId,...event})=>event)};let response;
   try{response=await fetcher('/api/offline-opens',{method:'POST',cache:'no-store',redirect:'error',headers:{'Content-Type':'application/json','x-saha-organisation':org},body:JSON.stringify(body)});}catch{throw Error('Offline access reports are pending. Keep their encrypted keys for the same retry.');}
   if(!response.ok)throw Error('Offline access report was refused. Keep its encrypted evidence and sign in as its original worker.');
   let result;try{result=await response.json();}catch{throw metadataError();}

@@ -1,4 +1,4 @@
-const CACHE='saha-field-shell-v9';
+const CACHE='saha-field-shell-v11';
 const ASSETS=['/field/','/field/app.js','/field/vault.js','/field/app-grants.js','/field/device-work.js','/field/registration-privacy.js','/field/offline-opens.js','/field/style.css'];
 const valid=(response,path)=>{const expected=path.endsWith('/')?'text/html':path.endsWith('.css')?'text/css':'javascript';return response.ok&&!response.redirected&&response.type!=='opaque'&&new URL(response.url).origin===self.location.origin&&new URL(response.url).pathname===path&&(response.headers.get('content-type')??'').includes(expected);};
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(async cache=>{for(const url of ASSETS){const r=await fetch(url,{cache:'reload',redirect:'error'});if(!valid(r,url))throw Error('Shell unavailable');await cache.put(url,r);}}).then(()=>self.skipWaiting())));

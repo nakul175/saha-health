@@ -14,7 +14,7 @@ export const offlineOpenEvent=z.union([
  z.object({...display,kind:z.literal('local-registration'),localId:id,contentHash:hash,status:z.enum(['unsent','unknown']),presentation:z.enum(['notebook-unlock','registration-entry','registration-form'])}).strict(),
  z.object({...common,kind:z.literal('accepted-mapping'),openId:id,registrationId:id,receiptKey:ref,bodyHash:hash,count:z.literal(0),presentation:z.literal('accepted-mapping')}).strict()
 ]);
-export const offlineOpenBody=z.object({events:z.array(offlineOpenEvent).min(1).max(20).refine(events=>new Set(events.map(e=>e.id)).size===events.length)}).strict();
+export const offlineOpenBody=z.object({expectedActorId:z.string().min(1).max(200),events:z.array(offlineOpenEvent).min(1).max(20).refine(events=>new Set(events.map(e=>e.id)).size===events.length)}).strict();
 type Grant={org_id:string;actor_id:string;lease_id:string;package_hash:string;person_id:string;visit_id:string;member_version:number;consent_version:number;identity_hash:string;issued_at:string;original_role:string|null;visit_version:number;expires_at:string};
 const refuse=()=>fail(403,'Original-worker offline report is unavailable.');
 type Subject={personId:string;visitId:string|null;provenance:Record<string,unknown>};
@@ -53,7 +53,7 @@ async function resolveReference(d:D1Database,u:Actor,org:string,e:z.infer<typeof
 // This is an historical metadata upload. The original worker may be suspended
 // now: accepting their report neither reads nor renews clinical authority.
 export async function reportOfflineOpens(d:D1Database,u:Actor,org:string,input:unknown){
- const parsed=offlineOpenBody.safeParse(input);if(!parsed.success)fail(422,'Use bounded fixed offline presentation metadata.');if(!org||org.length>200)refuse();
+ const parsed=offlineOpenBody.safeParse(input);if(!parsed.success)fail(422,'Use bounded fixed offline presentation metadata.');if(parsed.data.expectedActorId!==u.userId)refuse();if(!org||org.length>200)refuse();
  const prepared=[];for(const e of parsed.data.events){
   const resolved=await resolveReference(d,u,org,e);
   prepared.push({event:e,...resolved,hash:await digest({format:'saha-offline-open-v1',organisationId:org,...e})});
