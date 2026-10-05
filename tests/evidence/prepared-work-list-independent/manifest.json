@@ -1,0 +1,182 @@
+{
+  "author": "df1568314ae0c116411601edcef84b4f052cfcde",
+  "verdict": "held",
+  "productionEdits": false,
+  "originalPins": {
+    "lib/saha/field.ts": "d5aba582112bc2c280d603d41db868170988162b06c83e49a1855a34af8f5ea8",
+    "lib/saha/server.ts": "30349f5a494a331dfe56da7cac03b93e9347a79e00e4905c75800b53e4b3bdbd",
+    "lib/saha/prepared-work-list.ts": "a2a3256ee32849c9b8c01471905dcee582110c89f73fdc8ea6846f0d40c229b6",
+    "lib/saha/prepared-work-list-server.ts": "32a9039d7c8052ffa49015cd9f0dd55d0f4c3fb9f41cf932c2546206de3884bb",
+    "app/api/prepared-work-list/route.ts": "01ab2c216a451304e1d0ffd44c8c85a04853f0fda0928e71735a705b1b97f96c",
+    "public/field/app.js": "b6db8f3f641136f360b373c129e9b2959b443505f6bdfa50292369cb882d2df2",
+    "public/field/prepared-work-list.js": "7aa6c68d111ac885a6dc3211a17a05491ce9012214416542708e2835add5c879",
+    "public/app-sw.js": "7d86f54d36931f8dbe4906be7d59e879c52ce503f33b8c5f7e2764d4f3c54afb",
+    "public/field/sw.js": "a88e65c24f2647ac225766d7445733c186c4cb73c9716de952110c211579d4e0",
+    "tests/prepared-work-list-contract.mjs": "5efc5f9ad94a0fd8567cec16885e8f2d872c14a954ab6c6f21c0f71eb26f1e0e",
+    "tests/prepared-work-list-http.mjs": "aec76aacf20ee7f531ccd9950400a483a6f503bf34102c9fc4e2ae4cf8f25212",
+    "tests/prepared-work-list-browser.mjs": "53cd2d7451baac3feea4c0738794c8dfe6fe233a56716fe5af75a2270c72b20a",
+    "tests/prepared-work-list-shell-current.mjs": "44b16ccd8fb1392ab4cb79a488e92516b2ef3bec5694fb9c2af1b7716be91aa5",
+    "tests/prepared-work-list-app-sw-current.mjs": "cb3bad39ae2d4ce17edb7e63deb65b44b516add693b3b0da3ba550015ea54508",
+    "tests/prepared-work-list-guided-current.mjs": "64e5da075299220c90e9ffa5983d26b2efee135f449332459c4b9b217cce260c",
+    "tests/field-contract.mjs": "6fd27d2910f98158bcdf70f0863dceec7e9968c4b4ad77279b5569ec8c492105",
+    "tests/offline-programme-contract.mjs": "0e0ab4933e793e75a772bc309740877b3490d78253ac3c315d6aa4332c09d07f",
+    "tests/field-client.mjs": "8916f72962ce98c54cf63cdbf0a18760093ff57f94a75dc9486e99dee3b8473f",
+    "tests/field-units-client.mjs": "e296c75db51d2ce91c8b83386f95bdbf67b3008de635bd182bbc36c899f7f5f5",
+    "tests/field-registration-client.mjs": "75e98e39acfffca329bb0b777a5b20d8a8a56323542b50562bf92e7734e7bdf4",
+    "tests/field-shell.mjs": "fa9171e071953dee573a039601949e8ded1dc53e685d1eb82217fc4005703572",
+    "tests/app-sw-review-contract.mjs": "7e43bc2e998535785365ff8bbe449af9de18ca3e1f338624226ffb16087c1079",
+    "tests/offline-guided-author-browser.mjs": "95237cf12004c611471487cadfb861b309eb22e61ff7525220791adde8dca1c0",
+    "tests/offline-caseload-before-browser.mjs": "7387a934e867ffeeab85acd8fc2645c217c6bc8baca148caea45aaa3efb8618b",
+    "tests/evidence/prepared-work-list/compatibility/app-sw/sw-contract.json": "0ac9aab6fa206efbfd5ac91a598554e5c4659c3905c86b9caee610af1727fb71",
+    "tests/evidence/prepared-work-list/compatibility/app-sw.log": "4bf40def74f30a471c5685b014da33620b5fe5a6d386a887bfcf0699c3a0542a",
+    "tests/evidence/prepared-work-list/compatibility/field-client-result.json": "00874239898f07a6d0b8dc576f80c800308553e814b964bbf346cc074e831f97",
+    "tests/evidence/prepared-work-list/compatibility/field-client.log": "c0916d5cd6481e5158390de009a3c055a6c54773202a8092cbfcbb9f1038a413",
+    "tests/evidence/prepared-work-list/compatibility/field-contract-result.json": "a2119e230930d05454ae0dcf92be6e3fb44b9c2d9077bc95846a717f67724d86",
+    "tests/evidence/prepared-work-list/compatibility/field-contract.log": "d32528a12d220c10cd857dfa5654f5a378a5ba7582a794246e6acd9ea538bfea",
+    "tests/evidence/prepared-work-list/compatibility/field-registration-client-result.json": "7917bfcd9d834608f8228d887987e937a3aabc0677aca8863df3ec0ff9e4bea1",
+    "tests/evidence/prepared-work-list/compatibility/field-registration.log": "fa830d84b87058639b24039bb746ce2a4bc9567502897da31e82f5764ab54318",
+    "tests/evidence/prepared-work-list/compatibility/field-shell-result.json": "d9c6c46c9528de1765e81065c57725b99f47130984cb634fb419853956ee9286",
+    "tests/evidence/prepared-work-list/compatibility/field-shell.log": "a96fe64a8491eea605abcf8f51a3722eb138cde346fa0621720c05ed569a7035",
+    "tests/evidence/prepared-work-list/compatibility/field-units-client-result.json": "12346a499f221d0ae33221ce5543a644784008bf07a3e2f12c38c85a0b7dd165",
+    "tests/evidence/prepared-work-list/compatibility/field-units.log": "b26ff16aa841ae48b7340741805f752c23495ea9dce5fcaabec3ab7a287efe42",
+    "tests/evidence/prepared-work-list/compatibility/guided/browser-result.json": "1690f3d1177a3a9a227e3ae456b647d3aede10bb6174cf6ff2fd0f637f5c4667",
+    "tests/evidence/prepared-work-list/compatibility/guided/guided-weight-phone.png": "d8fbfe1ae96826bea9c88a4dc1476b2d3d53d09224a7e330be10f31925888939",
+    "tests/evidence/prepared-work-list/compatibility/guided/guided-weight-viewport.png": "011cd6daa3f94d8918bbe205eb06ebd567daafb792b557e96c4cff7a5cfec9f7",
+    "tests/evidence/prepared-work-list/compatibility/guided/layout-before.json": "bed9b05d1ba503285567bf757aafb417a985d3b0149d1ba0220edf531099f355",
+    "tests/evidence/prepared-work-list/compatibility/guided/locked-phone.png": "2d47823ffab24d99bbb3a8ca21800f6c77cb363e96e684fb63eb7812db4907b3",
+    "tests/evidence/prepared-work-list/compatibility/guided/patient-phone.png": "3e1059440010c01b306f8ea01e8f00fb62e29d038943406621ad0c8cd571a9d4",
+    "tests/evidence/prepared-work-list/compatibility/guided/programme-offline-phone.png": "9e02c526643514013382d648357aaee00bc257ca2071d6e549dcb1b5cd2c1bc8",
+    "tests/evidence/prepared-work-list/compatibility/guided/today-phone.png": "82693d4b6266bdccb3b8ab730ea220221d00c2211f769d0e49760466187727e0",
+    "tests/evidence/prepared-work-list/compatibility/guided.log": "4dcf923363bcc9a7811e4ec877edfcc7ee6a349a967d476543fcb4e2c726fbaf",
+    "tests/evidence/prepared-work-list/compatibility/programme-contract.log": "cc0d43407763970a152b13374f2a1550a7e74d491e5b6feb4f8e3d9c6c44c724",
+    "tests/evidence/prepared-work-list/http/result.json": "afb9d1434869b770f5ae29fb02cc0f4bfaf153439b61bbc57628ea4c9efd523c",
+    "tests/evidence/prepared-work-list/http/run.log": "4453a3f805cc8907fe2f521346a709a28b59f0c64d98633b4ae3a2d5ccd359ef",
+    "tests/evidence/prepared-work-list/initial/http-return-audit-target-failed.log": "7817e3d761ec0d5c8fd8d248ad9fc64a4683722db8674e15e5e308d09efe0185",
+    "tests/evidence/prepared-work-list/initial/http-return-audit-target-failure.txt": "bbdb267040ff0acec3cee1399a4995430950fe670d76f1a73e6ed7ed26fe214f",
+    "tests/evidence/prepared-work-list/initial/legacy-client-helper-failed.log": "d974ae44361dc73a82ea12a22474b3aefa33fd9bed2b9ae7bc14b99228140239",
+    "tests/evidence/prepared-work-list/initial/phone-lost-ack-status-failed.log": "85c744c47c0f5f134c564f105ea258dca69ce575217bb4d1ca4d7dd776216b38",
+    "tests/evidence/prepared-work-list/initial/phone-pending-recovery-navigation-failed.log": "ad42e4336b2ec74751cfc9d93eb1b7cb755e0af463160b71ffcdfe6bd1763f75",
+    "tests/evidence/prepared-work-list/initial/retained-http-failure.txt": "bbdb267040ff0acec3cee1399a4995430950fe670d76f1a73e6ed7ed26fe214f",
+    "tests/evidence/prepared-work-list/initial/retained-phone-failure.txt": "d8ca0380dc6007015ac384be848b7d7914772bcc90f08850ab4d1989fc19b946",
+    "tests/evidence/prepared-work-list/phone/result.json": "dfbc27e28dd66d014284b842036e93b2a12108a8fed8004cc0f91203fc230904",
+    "tests/evidence/prepared-work-list/phone/run.log": "c16c924acaed1bfe222dd827c93c7f4f3237a2cf9670588d45e63d18238abdfc",
+    "tests/evidence/prepared-work-list/phone/selected-due-offline.png": "030b30453a3d2b82c67656f87e867a66f059ac44e0c6c61500a86f13dec9414b",
+    "tests/evidence/prepared-work-list/phone/selected-due-online.png": "4f37836f090428e9f7a93ece20d783f401e055ee21c4faefbe13032a6b9e5a01",
+    "tests/evidence/prepared-work-list/verification/build.log": "04ae265bcfb4d23c1a3b0f4cd7efa61bcdc2d733df759770b1f946b00b5fa401",
+    "tests/evidence/prepared-work-list/verification/contract.log": "7aa33c5ba066149cf625af3702a573c0a504727cad5e6b67c762578a1de18c10",
+    "tests/evidence/prepared-work-list/verification/types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "repeatAssertions": 403,
+  "independentFailedExpectations": 2,
+  "reports": {
+    "tests/evidence/prepared-work-list-independent/compatibility/field-registration-client-result.json": {
+      "passed": 69,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/compatibility/field-shell-result.json": {
+      "passed": 12,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/compatibility/field-units-client-result.json": {
+      "passed": 14,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/compatibility/field-client-result.json": {
+      "passed": 25,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/compatibility/field-contract-result.json": {
+      "passed": 38,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/browser-result.json": {
+      "passed": 36,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/compatibility/programme/contract-result.json": {
+      "passed": 21,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/compatibility/app-sw/sw-contract.json": {
+      "passed": 16,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/derived-completion/observed.json": {
+      "passed": 94,
+      "status": "before-failing-assertion"
+    },
+    "tests/evidence/prepared-work-list-independent/http/result.json": {
+      "passed": 102,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/phone/result.json": {
+      "passed": 44,
+      "status": "pass"
+    },
+    "tests/evidence/prepared-work-list-independent/preview-withdrawal/observed.json": {
+      "passed": 19,
+      "status": "before-failing-assertion"
+    }
+  },
+  "drivers": {
+    "tests/prepared-work-independent-derived-http.mjs": "e588f2d0cfa7177b29510a24c8928976d8bb2e3ff1ff9677b0346c17a0ee7f5d",
+    "tests/prepared-work-independent-field-registration-client.mjs": "e09cee0d2754797a26b76bd1ed7310bd022473e89577c57447b5dd7114e3a5e4",
+    "tests/prepared-work-independent-prepared-work-list-app-sw-current.mjs": "195404e73b900b4c466bf98fa40a458d75c4159d17b196709b5d151142d1cf7e",
+    "tests/prepared-work-independent-prepared-work-list-contract.mjs": "5efc5f9ad94a0fd8567cec16885e8f2d872c14a954ab6c6f21c0f71eb26f1e0e",
+    "tests/prepared-work-independent-prepared-work-list-browser.mjs": "9d009dbf92e62acf5b5779825da1bb7bcc60aac5db0810387c5675ad5d22e006",
+    "tests/prepared-work-independent-prepared-work-list-guided-current.mjs": "b11c0661dde01909d1597e3a9ff971471cbfc114c04a943df5f9e1b99c8b9c78",
+    "tests/prepared-work-independent-prepared-work-list-shell-current.mjs": "18195ea5a8f617400170cb4ca8c01eb7250fe29b9138f46d839d90638407d5f9",
+    "tests/prepared-work-independent-field-client.mjs": "5ef123da58496941d3a4d5d75790fb90a8111323d8d206d174a046a4c58e02af",
+    "tests/prepared-work-independent-field-contract.mjs": "b2b7f2f3243da172c9465a78f1a04b0ca079aca41c953e70405773a86313309c",
+    "tests/prepared-work-independent-field-units-client.mjs": "e07ab5b15508d0cf563763ae3e4abdf49c3e29cc19eb2b7fa143f5159d028578",
+    "tests/prepared-work-independent-offline-programme-contract.mjs": "18c24359ace3703374f2e35e7c96c59b8b9ae85e00b93156520785f19c8dd002",
+    "tests/prepared-work-independent-preview-browser.mjs": "2a66958463343832a640fa9212986bbe6f7344ea951def034e694fb7ca275ddf",
+    "tests/prepared-work-independent-prepared-work-list-http.mjs": "09925da84f13eaa863b5bea1f933f568a7eff9cc51da5ca433f0b393bda51f22"
+  },
+  "artifacts": {
+    "tests/evidence/prepared-work-list-independent/types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/prepared-work-list-independent/guided.log": "4dcf923363bcc9a7811e4ec877edfcc7ee6a349a967d476543fcb4e2c726fbaf",
+    "tests/evidence/prepared-work-list-independent/contract.log": "7aa33c5ba066149cf625af3702a573c0a504727cad5e6b67c762578a1de18c10",
+    "tests/evidence/prepared-work-list-independent/preview-withdrawal.log": "a07efdd500ac6bb3a9676a42d19c2feff6619c349883ec0b0a1635ed708f62e9",
+    "tests/evidence/prepared-work-list-independent/build.raw.log.gz": "622be4450efdf71a77223c5595da83ea6a5716763929c7ec77037b76cda71ddf",
+    "tests/evidence/prepared-work-list-independent/phone.log": "0d5118efa949dd634372f76c657a802e4319e5f3d258c4067076672a5133f4fd",
+    "tests/evidence/prepared-work-list-independent/http.log": "6ced91db137e3e26d45625fd4a2fe114e922f9b819027fd3b43e5c648850bc60",
+    "tests/evidence/prepared-work-list-independent/derived.log": "e2603ff14d6f6371b1eebfa6ea4d20188bc379547c8c341c2945f124db6cb324",
+    "tests/evidence/prepared-work-list-independent/build.log": "1363b0237fc246acf7b2876364d5da0d4c2c4e681193f87744c1f2badf38a813",
+    "tests/evidence/prepared-work-list-independent/compatibility/prepared-work-list-shell-current.log": "a96fe64a8491eea605abcf8f51a3722eb138cde346fa0621720c05ed569a7035",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-client.log": "c0916d5cd6481e5158390de009a3c055a6c54773202a8092cbfcbb9f1038a413",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-registration-client-result.json": "0ca94be4efee03ec7215908b1829f5b9d1194d6806b4c628861566fc7c9df229",
+    "tests/evidence/prepared-work-list-independent/compatibility/offline-programme-contract.log": "cc0d43407763970a152b13374f2a1550a7e74d491e5b6feb4f8e3d9c6c44c724",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-units-client.log": "b26ff16aa841ae48b7340741805f752c23495ea9dce5fcaabec3ab7a287efe42",
+    "tests/evidence/prepared-work-list-independent/compatibility/prepared-work-list-app-sw-current.log": "12b3dd568da12782152718b509d30cca7c59737f7af44c21a5199c8b36cd28d1",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-shell-result.json": "c80442320af0391207d99bfc5a490cf4cdcdc9edea0f67d758bab2cd968422be",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-units-client-result.json": "f1d78316bc6cc66bf461d4085144ca807e77d49e0e772a98831a37cf93731591",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-registration-client.log": "fa830d84b87058639b24039bb746ce2a4bc9567502897da31e82f5764ab54318",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-client-result.json": "01bd97f2cea87020f8fde918ef596e0c8d3079b1183f24dbf9b61c503114fbb8",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-contract.log": "d32528a12d220c10cd857dfa5654f5a378a5ba7582a794246e6acd9ea538bfea",
+    "tests/evidence/prepared-work-list-independent/compatibility/field-contract-result.json": "513ab5bb6239df41391f96116979c1b2d605841278e09a22e93ed5984040a8b0",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/guided-weight-phone.png": "caf6d7a0ca7cb22073d9d3300aff7e8c08a160f70394094b9a5ba1aa48d3ff6a",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/layout-before.json": "bed9b05d1ba503285567bf757aafb417a985d3b0149d1ba0220edf531099f355",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/patient-phone.png": "f846ceea9efe0256170e250ad45757aeecfe7352e7c8bfaa2d4d10ca2661fd74",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/locked-phone.png": "b4d420cc87ca64816e1096f43164c20a6b37de441286b7919d5bcfa17dee2c0a",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/today-phone.png": "5390c87e5ec720d347b71b552fab8aaf8966c51f13027c7ec5525e83c3ddcbee",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/browser-result.json": "1690f3d1177a3a9a227e3ae456b647d3aede10bb6174cf6ff2fd0f637f5c4667",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/programme-offline-phone.png": "277d3e57e2879f410531ad127313cbf8465087180388faf204638f39c31bcc6a",
+    "tests/evidence/prepared-work-list-independent/compatibility/guided/guided-weight-viewport.png": "a6976a45065c85317b8d1aa901975dab87780979b8894d6b624e2a38b00ac5fb",
+    "tests/evidence/prepared-work-list-independent/compatibility/programme/contract-result.json": "a4a1d9829cc6a326f736ded969bccb7fb3e336fa7206afb7031f857080dc655f",
+    "tests/evidence/prepared-work-list-independent/compatibility/app-sw/sw-contract.json": "e2c451f93c3bd900f6b3fff5855bd767948ddaa6f6fd4764960605288a2e0354",
+    "tests/evidence/prepared-work-list-independent/derived-completion/observed.json": "97263a0765425716fd840579538b27ab9b5cb3aefb8c7d895112dd4b89b31d78",
+    "tests/evidence/prepared-work-list-independent/http/result.json": "c9e3b0649dffc9f6d2d996e7c6cf253502caf8f2eb14a7bf72a8aac6c8b4f7db",
+    "tests/evidence/prepared-work-list-independent/phone/selected-due-offline.png": "9fdd8015cfb3a907d864be370db7f762187d55e6b10dc0c558cff39b51e589c1",
+    "tests/evidence/prepared-work-list-independent/phone/result.json": "d1ecd29b10fe4c8e7f92ea154d736d8f33100fdaeb26d9a8c3ea7040c948b872",
+    "tests/evidence/prepared-work-list-independent/phone/selected-due-online.png": "ba7e7c2b599359e952f591e99764ec990e22265247afb229ca649310379cffee",
+    "tests/evidence/prepared-work-list-independent/preview-withdrawal/failure.txt": "79596dc48e3a5437ef3870a45f2ddc643df2bc0643e4d69e62dd6c83f1328113",
+    "tests/evidence/prepared-work-list-independent/preview-withdrawal/observed.json": "c673a2351980f9b6449f7980129285bfd06fb83e72d865e88a82f1dcc42b3b45",
+    "tests/evidence/prepared-work-list-independent/preview-withdrawal/after-current-reload.png": "42469941aafce4d12933f59a04435e2ef3e6c08076213540eec124cf2d495852"
+  },
+  "rawBuild": {
+    "decompressedSha256": "cbaa7dc7208c44bf868b39a3f626f02a668d00ec10e0c65f78bc25588d488ec9",
+    "bytes": 4779,
+    "path": "tests/evidence/prepared-work-list-independent/build.raw.log.gz"
+  }
+}
