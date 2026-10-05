@@ -1,0 +1,106 @@
+{
+  "source": "3bf8b93611941afdf0bc72243dbdc5db64c37514",
+  "classification": "Immutable read-only before discovery; unsafe releases observed, no software fix or acceptance",
+  "checks": {
+    "actualWorkerD1": 80,
+    "build": "pass",
+    "types": "pass",
+    "requirements": "176 pass",
+    "documentation": "FAIL retained baseline drift/unclassified discovery, root owned"
+  },
+  "commands": [
+    "PATH=<bundled-node>/bin:$PATH node scripts/run-framework.mjs build",
+    "PATH=<bundled-node>/bin:$PATH node node_modules/typescript/bin/tsc --noEmit",
+    "PATH=<bundled-node>/bin:$PATH SAHA_PRIVACY_OUT=tests/evidence/operational-privacy-before/final node tests/operational-privacy-before-http.mjs",
+    "PATH=<bundled-node>/bin:$PATH node scripts/audit-requirements.mjs --check",
+    "python3 scripts/check-documentation.py"
+  ],
+  "runtimeChanges": false,
+  "externalDelivery": false,
+  "sourcePins": {
+    "lib/saha/operations-server.ts": "543a6b39f3c6fbab16768920cc65efbabca61e1c6536a9857dba4da7c0c855a5",
+    "lib/saha/operations.ts": "57a65b3c5cd7586a4564107dd9b355bb2847dc4c969cefb44715f71ab5e0c38b",
+    "lib/saha/report-export.ts": "6e637f78515756ad60cc8a865b832902f1e53770ad0023316e89dbf0a9bc7539",
+    "lib/saha/indicator-differencing.ts": "58fb93179cd581c351fcc916c4148f0e663b6395847d057369a0500c21db5f0c",
+    "lib/saha/indicator-ledger.ts": "ed16780332be8515764d27723295a27bde276f882c482d1ca785b45200d2b216",
+    "lib/saha/indicators.ts": "073240c736dda5e0b6defc8acb8948cbeb3c436ec94fbaf5ed68d8e6183ebfbe",
+    "lib/saha/indicators-server.ts": "cc53c07ff2a51eacf8dba40cfd82104aa552bf4791556f8de75aafc39f4cf882",
+    "lib/saha/delegation.ts": "b8ee3242881a95877aecd0dbb00bb8a89f8d5c682c7a154a95d4792bf6ee11e7",
+    "lib/saha/export-audit.ts": "a2856064615b27a5856b3253de79ff6ae50c5783cdaf4c7383416105a30b97d3",
+    "lib/saha/read-audit.ts": "c92858bb4fd67332b48c3dddea73fa678f439f8182a0cf26064f2c1a0f8583c0",
+    "lib/saha/purpose-scope.ts": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+    "app/operations-panel.tsx": "4b850a3285758ebf0a5f2959156f36f5dd8e6508f183f0b3e5efc42ba93f9fdc",
+    "docs/current/FULL-RESIDUAL-DISPATCH-20261006.md": "f60822a85ab3331143dc255be344dd10332d11e4855612bf61cac0065cead10b",
+    "docs/history/v1.0/source/Health-AI-Orchestration-Platform-BRD-v1.1.docx": "8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8"
+  },
+  "artifacts": {
+    "docs/current/OPERATIONAL-REPORT-PRIVACY-DISCOVERY.md": {
+      "sha256": "b16d24592f9edc51445ec680112d43f3543ee4661ade263856b88df004d073f0",
+      "bytes": 9578
+    },
+    "tests/evidence/operational-privacy-before/build.log": {
+      "sha256": "ce672648076f9167b8a1721df7a25022db75cf42a96e6d3f21cba9d222e9da2c",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy-before/documentation.log": {
+      "sha256": "aa870305e9aab7599248affb037e8557516d57c6e7856ec8ce07ab20bee217d1",
+      "bytes": 5361
+    },
+    "tests/evidence/operational-privacy-before/final/observed.json": {
+      "sha256": "88da4b8fc54bb28c0e9ca3be4fdf32e4e21e406e9df73d1dc8ae2d8388046701",
+      "bytes": 66706
+    },
+    "tests/evidence/operational-privacy-before/final/result.json": {
+      "sha256": "0ccfdc7040f222a996bc63f7dd199b0799308e3845a69f445373ade22245242e",
+      "bytes": 125
+    },
+    "tests/evidence/operational-privacy-before/final/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy-before/http-current-request.log": {
+      "sha256": "58e7dc5f09c76c129270b4a24818267433ec086aea44ca9900a50e652a8bac0e",
+      "bytes": 3387
+    },
+    "tests/evidence/operational-privacy-before/http-distinct-subjects.log": {
+      "sha256": "065c3b21e81eaf5aa7af7782778d5301757b35200bdbd756af390af6396138f4",
+      "bytes": 8730
+    },
+    "tests/evidence/operational-privacy-before/http-final.log": {
+      "sha256": "a309f2744fcd7234771eafcd2ece3d4fac0329377df452e5e7dad07e54694313",
+      "bytes": 8733
+    },
+    "tests/evidence/operational-privacy-before/http-initial.log": {
+      "sha256": "2060e880d0423fd89e082812e8d5cdad12e086baeff2a32a50b24d3743c761ea",
+      "bytes": 2618
+    },
+    "tests/evidence/operational-privacy-before/observed.json": {
+      "sha256": "886cfe9bc34d07da4af8028427b77f79cb703cc59b6274236d6852f60f14b33b",
+      "bytes": 63644
+    },
+    "tests/evidence/operational-privacy-before/original-clauses.json": {
+      "sha256": "764d597a7a50463f0cfa2420f8c011114fdc2b308b449492bcb199781c88adee",
+      "bytes": 1167
+    },
+    "tests/evidence/operational-privacy-before/requirements.log": {
+      "sha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+      "bytes": 104
+    },
+    "tests/evidence/operational-privacy-before/result.json": {
+      "sha256": "0ccfdc7040f222a996bc63f7dd199b0799308e3845a69f445373ade22245242e",
+      "bytes": 125
+    },
+    "tests/evidence/operational-privacy-before/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy-before/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/operational-privacy-before-http.mjs": {
+      "sha256": "2524846b8f0194c2e66a214100bf938b4b7e227bbfc3ea062fed71d8b3236d87",
+      "bytes": 9000
+    }
+  }
+}

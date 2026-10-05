@@ -1,0 +1,32 @@
+{"event":"saha_request","requestId":"c8abeff9-1deb-4ddf-81f0-ace646518f77","route":"workspace","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"2fb25b74-a00b-40b2-8346-bd7305c8e879","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"57e32782-692e-479c-bfa7-96485caf9fa9","route":"commands","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"8d41774b-de66-4d07-ba4a-832f3dac5f38","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"74eefa08-9563-4366-9eac-9abec54b0f7d","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"2ca14598-9615-4186-a2a3-6ebe1b3a7fa5","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"0ac13e99-7d32-4c05-9611-469d937c4632","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"1fddaca2-7811-48e0-b657-39a59403d2d7","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"a616c867-04e3-42e7-87b7-50860569494c","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"aa349d6d-d151-4d43-9798-bf8121d73204","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"bd03025f-4eb9-41f8-8ccd-9198eb7be989","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"21fa3bad-5599-4d0d-a8ec-d16a0d166562","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"66480f1a-41dc-4d19-8c96-5bb3eab3e6a3","route":"operations","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"b0e83d7b-bdda-4c42-801e-253d2e58b1a3","route":"operations","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"b3015c5f-ed50-497b-9282-371a296db7d0","route":"indicators","status":422,"durationMs":1}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Same one-person authorised indicator refuses small cohort
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/operational-privacy-before-http.mjs:2:274)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/operational-privacy-before-http.mjs:11:126
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

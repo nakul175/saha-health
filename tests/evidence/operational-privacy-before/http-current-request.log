@@ -1,0 +1,37 @@
+{"event":"saha_request","requestId":"6cf7a345-ca16-4693-a43d-e9ff4fdda5fd","route":"workspace","status":200,"durationMs":27}
+{"event":"saha_request","requestId":"1d1832b0-e8de-451d-901c-34f94d1cf2ec","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"a73fac5d-902b-4de9-a8c4-f715c83528b8","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"50ffdcba-d951-4919-bbb7-81159ab1e055","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"86054b69-67b2-480a-a79b-cb176a3e43a8","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"9129d175-c487-4216-8c80-16c40c36c714","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"20ec096d-125d-4d86-b1c2-05ae5a2f32e1","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"676d0627-d614-4d82-b07d-9e16e296040a","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"ee78d78a-1cc9-4ea1-86e6-d0b84af0ec73","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"85e85d28-0b9a-4b2b-9a32-66f5395f09de","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"de98c32a-ff91-4052-a312-5855f9c13ee9","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"c223ca31-416e-4f0e-a4d7-c71f98af514b","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"3e24a9f3-b3d4-486d-b2b1-e90a5baa8113","route":"operations","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"e1a16582-a726-42e6-b186-5fa8cd77b3d2","route":"operations","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"60088d7f-31ba-4b9e-8fc6-d43ba683bb9a","route":"indicators","status":422,"durationMs":4}
+{"event":"saha_request","requestId":"fff8d2a1-9929-43ac-8857-4f2508dd78ff","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"14d36bda-2598-49b4-8988-b50d58b2f5a3","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"2d18657e-09ab-4c49-9044-4d033cb21fe9","route":"commands","status":409,"durationMs":5}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Possible patient matches need review before a new record is created."}
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/operational-privacy-before-http.mjs:2:274)
+    at cmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/operational-privacy-before-http.mjs:4:80)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async make (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/operational-privacy-before-http.mjs:7:64)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/operational-privacy-before-http.mjs:12:53 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
