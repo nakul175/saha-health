@@ -14,7 +14,7 @@ export async function inboundWrite(request:Request){
  const old=await db().prepare('SELECT org_id,hash,result,person_id FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,c.key).first<{org_id:string;hash:string;result:string;person_id:string}>();
  const header=request.headers.get('x-saha-organisation');if(old&&header&&old.org_id!==header)fail(409,'This receipt belongs to another organisation.');
  const s=await loadFor(u,old?.org_id??header),m=scope(s,u.userId);inboundCare(s,m,c.personId,c.type==='decide');
- if(c.type!=='stage'){const item=conflictFor(s,c.personId,c.conflictId);currentReviewer(s,c.personId,item.ownerId);if(c.type==='decide'&&(item.ownerId!==u.userId||item.by===u.userId))fail(403,'The assigned independent clinician must review this conflict.');}
+ if(c.type!=='stage'){const item=conflictFor(s,c.personId,c.conflictId);if(c.type!=='assign'||old)currentReviewer(s,c.personId,item.ownerId);if(c.type==='decide'&&(item.ownerId!==u.userId||item.by===u.userId))fail(403,'The assigned independent clinician must review this conflict.');}
  if(c.type==='stage'||c.type==='assign')currentReviewer(s,c.personId,c.ownerId);
  if(old){if(old.hash!==hash||old.person_id!==c.personId)fail(409,'This operation key identifies different input.');const saved=JSON.parse(old.result),item=conflictFor(s,c.personId,saved.conflictId);currentReviewer(s,c.personId,item.ownerId);return json({result:saved,replayed:true});}
  const env=environmentOf(rawRuntime());if(env.name==='misconfigured')fail(409,'The environment is not configured.');ensureOperating(s,{type:'inboundConflict'});
