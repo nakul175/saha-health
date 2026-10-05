@@ -1,3 +1,5 @@
+import {captureAggregateAlerts,checkAggregateAlertContext,clinicalAggregateAlert,AGGREGATE_ALERT_NOTICE,aggregateAlertTransactionGuard} from './aggregate-alert-disclosure';
+import {recordAggregateView} from './read-audit';
 // Slice 6v: evaluation of in-app alert delivery and escalation, the inbox read and mark-read.
 //
 // The Worker has no background timer in this deployment, so delivery and escalation are evaluated when
@@ -27,13 +29,24 @@ export async function memberViews(d: D1Database, s: OrgState, now: string) {
   let telemetry: any = null;
   if (recipients.some(operator)) { const r = await d.prepare("SELECT sum(count) AS count,sum(CASE WHEN status>=500 THEN count ELSE 0 END) AS errors FROM request_metrics WHERE org_id=? AND route NOT LIKE 'burden:%' AND bucket>=?").bind(s.organisation.id, new Date(Date.parse(now) - 86400000).toISOString()).first<{ count: number | null; errors: number | null }>(); const count = r?.count ?? 0, errors = r?.errors ?? 0; telemetry = { count, serverErrors: errors, errorRate: count ? errors / count : null }; }
   const budgets = recipients.some(operator) ? budgetView(s, now) : null, invoices = recipients.some(operator) ? invoiceAlertInputs(s, now) : null;
-  return recipients.map(m => { const report = m.role === 'admin' ? null : careReport(s, m, 7, new Date(now), reportingScope(s, m, now).include); return { member: m, alerts: alertsFor({ budgets: operator(m) ? budgets : null, invoices: operator(m) ? invoices : null, report, telemetry: operator(m) ? telemetry : null, operations: operator(m) ? ops : null, acknowledgements: ops.acknowledgements ?? [], viewerId: m.userId, now }) }; });
+  const views=[];
+  for(const m of recipients){const context=await captureAggregateAlerts(d,s,m.userId,now);try{await checkAggregateAlertContext(d,s.organisation.id,context);}catch{context.available=false;context.current=[];}
+    const nonclinical=alertsFor({budgets:operator(m)?budgets:null,invoices:operator(m)?invoices:null,report:null,telemetry:operator(m)?telemetry:null,operations:operator(m)?ops:null,acknowledgements:ops.acknowledgements??[],viewerId:m.userId,now});
+    views.push({member:m,alerts:[...nonclinical,...context.current],aggregateAvailable:context.available,aggregateContext:context});}
+  // An unavailable recipient is unknown, never evidence that their clinical work resolved.
+  // Hold the clinical occurrence family conservatively rather than silently closing another view.
+  if(views.some(v=>v.member.role!=='admin'&&!v.aggregateAvailable))for(const view of views)view.alerts=view.alerts.filter(a=>!clinicalAggregateAlert(a.id));
+  return views;
 }
 // One evaluation: read open occurrences, plan, write. Every write is idempotent (unique keys, guarded updates).
 export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Date().toISOString(), env?: Record<string, string | undefined>) {
-  const orgId = s.organisation.id, views = await memberViews(d, s, now), present = presentFrom(views);
+  const orgId = s.organisation.id, views = await memberViews(d, s, now);
+  for(const view of views)try{await checkAggregateAlertContext(d,orgId,view.aggregateContext);}catch{view.aggregateAvailable=false;}
+  if(views.some(v=>v.member.role!=='admin'&&!v.aggregateAvailable))for(const view of views)view.alerts=view.alerts.filter(a=>!clinicalAggregateAlert(a.id));
+  const present = presentFrom(views);
   const open = (await d.prepare('SELECT id,alert_id,scope_key,owner_role,severity,title,opened_at,escalated_at FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL').bind(orgId).all<any>()).results.map((r): OpenOccurrence => ({ id: r.id, alertId: r.alert_id, scopeKey: r.scope_key, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at, escalatedAt: r.escalated_at }));
-  const plan = planDelivery({ present, open, acknowledgements: s.operations?.acknowledgements ?? [], members: s.members, now });
+  const clinicalReady=views.every(v=>v.member.role==='admin'||v.aggregateAvailable);
+  const plan = planDelivery({ present, open:clinicalReady?open:open.filter(o=>!clinicalAggregateAlert(o.alertId)), acknowledgements: s.operations?.acknowledgements ?? [], members: s.members, now });
   // Only changes are written: a steady state (nothing new, cleared or re-opened) costs these reads and no writes.
   const held = open.length ? (await d.prepare('SELECT occurrence_id,user_id,level,cleared_at,cleared_reason FROM alert_notifications WHERE org_id=? AND occurrence_id IN (SELECT id FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL)').bind(orgId, orgId).all<{ occurrence_id: string; user_id: string; level: number; cleared_at: string | null; cleared_reason: string | null }>()).results : [];
   const openId = new Map(open.map(o => [`${o.alertId}|${o.scopeKey}`, o.id])), has = new Set(held.map(r => `${r.occurrence_id}|${r.user_id}|${r.level}`));
@@ -57,6 +70,7 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   for (const id of plan.restore) { const k = [...(keep.get(id) ?? [])]; stmts.push(d.prepare(`UPDATE alert_notifications SET cleared_at=NULL,cleared_reason=NULL,read_at=NULL WHERE org_id=? AND occurrence_id=? AND cleared_reason='acknowledged' AND EXISTS (SELECT 1 FROM alert_occurrences o WHERE o.org_id=? AND o.id=? AND o.closed_at IS NULL)${k.length ? ` AND NOT (level=1 AND user_id IN (${k.map(() => '?').join(',')}))` : ''}`).bind(orgId, id, orgId, id, ...k)); }
   const groups: (typeof stmts)[] = stmts.map(x => [x]);
   for (const e of plan.escalate) {
+    if(clinicalAggregateAlert(e.alertId))e.recipients=e.recipients.filter(id=>views.some(v=>v.member.userId===id&&v.aggregateAvailable));
     const g: typeof stmts = [];groups.push(g);
     g.push(d.prepare('UPDATE alert_occurrences SET escalated_at=?,escalated_to=?,escalation_reason=?,escalation_recipients=? WHERE org_id=? AND id=? AND escalated_at IS NULL AND closed_at IS NULL').bind(now, e.toRole, e.reason, e.recipients.length, orgId, e.occurrenceId));
     // Slice 6z (sixth review): each escalation notification is inserted only when the guarded update above escalated
@@ -65,13 +79,14 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
     for (const userId of e.recipients) g.push(d.prepare('INSERT OR IGNORE INTO alert_notifications (org_id,id,occurrence_id,user_id,level,alert_id,scope_key,owner_role,severity,title,count,detail,delivered_at) SELECT ?,?,o.id,?,2,?,?,?,?,?,NULL,?,? FROM alert_occurrences o WHERE o.org_id=? AND o.id=? AND o.closed_at IS NULL AND o.escalated_at=? AND o.escalation_reason=?').bind(orgId, uuid(), userId, e.alertId, e.scopeKey, e.owner, e.severity, `Escalated: ${e.title}`, e.detail, now, orgId, e.occurrenceId, now, e.reason));
   }
   // Batches of at most about 90 statements; an escalation's update and its notification inserts stay in one batch.
+  const commitBatch=async(statements:typeof stmts)=>{for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);if(clinicalReady)return d.batch([aggregateAlertTransactionGuard(d,s),...statements,aggregateAlertTransactionGuard(d,s)]);return d.batch(statements);};
   let batch: typeof stmts = [], writes = 0;
-  for (const g of groups) { if (batch.length && batch.length + g.length > 90) { await d.batch(batch); batch = []; } batch.push(...g); writes += g.length; }
-  if (batch.length) await d.batch(batch);
+  for (const g of groups) { if (batch.length && batch.length + g.length > 90) { await commitBatch(batch); batch = []; } batch.push(...g); writes += g.length; }
+  if (batch.length) await commitBatch(batch);
   // Slice 10b: out-of-app messages (demonstration simulator) for what is now open. A failure here is reported in the result and never
   // undoes or blocks the in-app delivery above; the next evaluation tries again (messages are unique per occurrence, tier and recipient).
   let channel: Awaited<ReturnType<typeof evaluateChannel>> | { error: string } | null = null;
-  try { channel = await evaluateChannel(d, s, present, now, env); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
+  try {for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);channel = await evaluateChannel(d, s, present, now, env); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
   // Slice r03: additional sources (drift, timed-out requests, exception items, referral requests) in the same
   // demonstration-simulator channel. Isolated so a failure never undoes or blocks the in-app delivery above.
   let sources: Awaited<ReturnType<typeof evaluateChannelSources>> | { error: string } | null = null;
@@ -106,20 +121,23 @@ const visible = (m: Member, r: any) => mayHold(m, { level: r.level, owner: r.own
 // GET /api/alerts: the signed-in member's own notifications, rechecked against their current membership.
 export async function alertInbox(request: Request) {
   const u = await identity(), orgId = await activeOrg(u, request.headers.get('x-saha-organisation')), d = db(), m = await membership(d, orgId, u.userId);
+  const state=await readState(d,orgId),context=await captureAggregateAlerts(d,state,u.userId);
   const owns = (['operations', 'supervisors', 'owners'] as const).filter(o => canAcknowledge(m, o));
   const evaluated = owns.length ? await evaluateIfDue(orgId) : false;
   const since = new Date(Date.now() - CLEARED_DAYS * 86400000).toISOString();
-  const rows = owns.length ? (await d.prepare('SELECT id,level,alert_id,scope_key,owner_role,severity,title,count,detail,delivered_at,read_at,cleared_at,cleared_reason FROM alert_notifications WHERE org_id=? AND user_id=? AND (cleared_at IS NULL OR cleared_at>=?) ORDER BY (cleared_at IS NULL) DESC,delivered_at DESC LIMIT 200').bind(orgId, u.userId, since).all<any>()).results.filter(r => visible(m, r)) : [];
+  const rows = owns.length ? (await d.prepare(`SELECT id,level,alert_id,scope_key,owner_role,severity,title,count,detail,delivered_at,read_at,cleared_at,cleared_reason FROM alert_notifications WHERE org_id=? AND user_id=? AND (cleared_at IS NULL OR cleared_at>=?) AND alert_id NOT IN ('destination-uncertain','ehr-uncertain','referrals-overdue','followups-overdue','referrals-undated','provider-usage-missing') ORDER BY (cleared_at IS NULL) DESC,delivered_at DESC LIMIT 200`).bind(orgId, u.userId, since).all<any>()).results.filter(r => visible(m, r)) : [];
   const items = rows.slice(0, INBOX_LIMIT).map(r => ({ id: r.id, alertId: r.alert_id, level: r.level, kind: r.level === 1 ? 'delivery' : 'escalation', severity: r.severity, title: r.title, count: r.count, detail: r.detail, deliveredAt: r.delivered_at, readAt: r.read_at, clearedAt: r.cleared_at, clearedReason: r.cleared_reason, active: !r.cleared_at }));
-  const escalations = m.isOwner ? (await d.prepare('SELECT alert_id,owner_role,severity,title,opened_at,closed_at,escalated_at,escalated_to,escalation_reason,escalation_recipients FROM alert_occurrences WHERE org_id=? AND escalated_at IS NOT NULL ORDER BY escalated_at DESC LIMIT 20').bind(orgId).all<any>()).results.map(r => ({ alertId: r.alert_id, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at, closedAt: r.closed_at, escalatedAt: r.escalated_at, escalatedTo: r.escalated_to, reason: r.escalation_reason, recipients: r.escalation_recipients })) : null;
-  return json({ rules: { delivery: DELIVERY_RULES_VERSION, alerts: ALERT_RULES_VERSION, escalateAfterMinutes: ESCALATE_AFTER_MINUTES, ladder: ESCALATION_LADDER, evaluateEverySeconds: EVALUATE_EVERY_SECONDS }, owns, evaluated, unread: rows.filter(r => !r.cleared_at && !r.read_at).length, items, escalations, channel: 'In-app only. Nothing is emailed, texted or sent outside Saha.' });
+  const escalations = m.isOwner ? (await d.prepare(`SELECT alert_id,owner_role,severity,title,opened_at,closed_at,escalated_at,escalated_to,escalation_reason,escalation_recipients FROM alert_occurrences WHERE org_id=? AND escalated_at IS NOT NULL AND alert_id NOT IN ('destination-uncertain','ehr-uncertain','referrals-overdue','followups-overdue','referrals-undated','provider-usage-missing') ORDER BY escalated_at DESC LIMIT 20`).bind(orgId).all<any>()).results.map(r => ({ alertId: r.alert_id, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at, closedAt: r.closed_at, escalatedAt: r.escalated_at, escalatedTo: r.escalated_to, reason: r.escalation_reason, recipients: r.escalation_recipients })) : null;
+  await recordAggregateView(d,state,u,context.m,'current aggregate reporting alerts','Current protected reporting sidecar read; historical clinical notification counts and event metadata withheld.');
+  await checkAggregateAlertContext(d,orgId,context);
+  return json({ aggregatePrivacy:{notice:AGGREGATE_ALERT_NOTICE,currentAvailable:context.available},currentAggregateAlerts:context.current.map(a=>({id:a.id,title:a.title,severity:a.severity,count:a.count,action:a.action})),rules: { delivery: DELIVERY_RULES_VERSION, alerts: ALERT_RULES_VERSION, escalateAfterMinutes: ESCALATE_AFTER_MINUTES, ladder: ESCALATION_LADDER, evaluateEverySeconds: EVALUATE_EVERY_SECONDS }, owns, evaluated, unread: rows.filter(r => !r.cleared_at && !r.read_at).length, items, escalations, channel: 'In-app only. Nothing is emailed, texted or sent outside Saha.' });
 }
 // Mark-read (command `alertInboxMarkRead`): only the viewer's own notifications that their current membership may hold.
 // The same check runs again when an idempotent request is replayed.
 async function ownedNotifications(d: D1Database, orgId: string, m: Member, ids: string[]) {
   const unique = [...new Set(ids)];
-  const rows = (await d.prepare(`SELECT id,level,owner_role,scope_key FROM alert_notifications WHERE org_id=? AND user_id=? AND id IN (${unique.map(() => '?').join(',')})`).bind(orgId, m.userId, ...unique).all<any>()).results;
-  if (rows.length !== unique.length || !rows.every(r => visible(m, r))) fail(404, 'Notification not found.');
+  const rows = (await d.prepare(`SELECT id,level,owner_role,scope_key,alert_id FROM alert_notifications WHERE org_id=? AND user_id=? AND id IN (${unique.map(() => '?').join(',')})`).bind(orgId, m.userId, ...unique).all<any>()).results;
+  if (rows.length !== unique.length || !rows.every(r => visible(m, r)&&!clinicalAggregateAlert(r.alert_id))) fail(404, 'Notification not found.');
   return unique;
 }
 export async function authorizeInboxReplay(s: OrgState, m: Member, c: { type: string; ids?: string[] }) { if (c.type === 'alertInboxMarkRead') await ownedNotifications(db(), s.organisation.id, m, c.ids!); authorizeChannelCommand(m, c, fail); } // slice 10b: an owner-only command shares this replay hook
