@@ -234,6 +234,7 @@ media,purpose,text,purpose,db/schema.ts,147
 media,created_at,text,createdAt,db/schema.ts,147
 media,deleted_at,text,deletedAt,db/schema.ts,147
 media,data,text,data,db/schema.ts,147
+media,storage_ref,text,storageRef,db/schema.ts,147
 scheduled_cursor,job,text,job,db/schema.ts,152
 scheduled_cursor,last_org,text,lastOrg,db/schema.ts,152
 scheduled_cursor,updated_at,text,updatedAt,db/schema.ts,152
@@ -401,3 +402,18 @@ indicator_figure_disclosures,figure_id,text,figureId,db/schema.ts,222
 indicator_figure_disclosures,release_hash,text,releaseHash,db/schema.ts,222
 indicator_figure_disclosures,released,text,released,db/schema.ts,222
 indicator_figure_disclosures,at,text,at,db/schema.ts,222
+media_custody,org_id,text,orgId,db/schema.ts,227
+media_custody,id,text,id,db/schema.ts,227
+media_custody,actor_id,text,actorId,db/schema.ts,227
+media_custody,request_key,text,requestKey,db/schema.ts,227
+media_custody,input_hash,text,inputHash,db/schema.ts,227
+media_custody,person_id,text,personId,db/schema.ts,227
+media_custody,visit_id,text,visitId,db/schema.ts,227
+media_custody,object_key,text,objectKey,db/schema.ts,227
+media_custody,state,text,state,db/schema.ts,227
+media_custody,size,integer,size,db/schema.ts,227
+media_custody,sha256,text,sha256,db/schema.ts,227
+media_custody,mime,text,mime,db/schema.ts,227
+media_custody,object_version,text,objectVersion,db/schema.ts,227
+media_custody,etag,text,etag,db/schema.ts,227
+media_custody,created_at,text,createdAt,db/schema.ts,227

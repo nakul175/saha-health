@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 20000ms exceeded.
+Call log:
+  - waiting for getByRole('tab', { name: 'Service & incidents', exact: true })
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/work-burden-ledger-browser.mjs:10:122 {
+  log: [
+    "  - waiting for getByRole('tab', { name: 'Service & incidents', exact: true })"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

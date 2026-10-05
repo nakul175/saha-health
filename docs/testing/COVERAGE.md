@@ -10,7 +10,7 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
 - **55 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 140 of 456 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **The map is incomplete in both directions.** 199 of 515 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
 - **28 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
@@ -33,7 +33,7 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 142 | 194 | 307 | 113 |
+| unit | 142 | 194 | 366 | 172 |
 | integration | 116 | 99 | 114 | 15 |
 | resilience | 2 | 1 | 1 | 0 |
 | smoke | 7 | 5 | 5 | 0 |
@@ -130,7 +130,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (140 of 456)
+## Test files cited by no requirement (199 of 515)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -145,6 +145,13 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/android-app-contract.mjs | unit |
 | tests/app-first-browser.mjs | ui |
 | tests/app-history-contract.mjs | unit |
+| tests/asha-guided-capture-before.mjs | unit |
+| tests/asha-guided-capture-browser.mjs | unit |
+| tests/asha-guided-capture-conditional.mjs | unit |
+| tests/asha-guided-capture-current-read-before.mjs | unit |
+| tests/asha-guided-capture-legacy-range.mjs | unit |
+| tests/asha-guided-capture-uncertainty-before.mjs | unit |
+| tests/asha-guided-capture-uncertainty.mjs | unit |
 | tests/audit-checkpoint-contract.mjs | unit |
 | tests/clinical-source-adversarial-review.mjs | unit |
 | tests/clinical-source-browser.mjs | unit |
@@ -183,6 +190,33 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/fact-reuse-contract.mjs | unit |
 | tests/fhir-provenance-contract.mjs | unit |
 | tests/field-smoke.mjs | integration |
+| tests/figure-impact-browser.mjs | unit |
+| tests/figure-impact-contract.mjs | unit |
+| tests/figure-impact-http.mjs | unit |
+| tests/figure-impact-independent-browser.mjs | unit |
+| tests/figure-impact-independent-contract.mjs | unit |
+| tests/figure-impact-independent-extra-http.mjs | unit |
+| tests/figure-impact-independent-http.mjs | unit |
+| tests/figure-impact-independent-legacy-composite.mjs | unit |
+| tests/figure-impact-independent-legacy-household.mjs | unit |
+| tests/figure-impact-independent-legacy-http.mjs | unit |
+| tests/figure-impact-independent-legacy-material.mjs | unit |
+| tests/guided-capture-independent-conditional.mjs | unit |
+| tests/guided-capture-independent-core.mjs | unit |
+| tests/guided-capture-independent-home.mjs | unit |
+| tests/guided-capture-independent-legacy.mjs | unit |
+| tests/guided-capture-independent-programme-read.mjs | unit |
+| tests/guided-capture-independent-uncertainty.mjs | unit |
+| tests/guided-home-capture-browser.mjs | unit |
+| tests/guided-programme-reset-conditional.mjs | unit |
+| tests/guided-programme-reset-core.mjs | unit |
+| tests/guided-programme-reset-home.mjs | unit |
+| tests/guided-programme-reset-legacy.mjs | unit |
+| tests/guided-programme-reset-original-probe.mjs | unit |
+| tests/guided-programme-reset-uncertainty.mjs | unit |
+| tests/guided-programme-reset-variants.mjs | unit |
+| tests/guided-repair-independent-probe.mjs | unit |
+| tests/guided-repair-independent-repeat.mjs | unit |
 | tests/household-completion-before.mjs | unit |
 | tests/household-completion-independent-browser.mjs | unit |
 | tests/household-completion-independent-http.mjs | unit |
@@ -208,6 +242,20 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/indicator-household-coverage-independent.mjs | unit |
 | tests/indicator-household-coverage-upgrade.mjs | unit |
 | tests/indicators-contract.mjs | unit |
+| tests/integration-media-composite-measures-contract.mjs | unit |
+| tests/integration-media-data-exit-contract.mjs | unit |
+| tests/integration-media-inbound-conflicts-contract.mjs | unit |
+| tests/integration-media-report-portability-after-http.mjs | unit |
+| tests/integration-object-media-browser.mjs | unit |
+| tests/integration-object-media-budget-http.mjs | unit |
+| tests/integration-object-media-contract.mjs | unit |
+| tests/integration-object-media-http.mjs | unit |
+| tests/integration-object-media-independent-discard-contract.mjs | unit |
+| tests/integration-object-media-independent-extra-http.mjs | unit |
+| tests/integration-object-media-independent-storage-boundary.mjs | unit |
+| tests/integration-object-media-legacy-http.mjs | unit |
+| tests/integration-object-media-migration.mjs | unit |
+| tests/integration-object-media-native-boundary.mjs | unit |
 | tests/load-envelope.mjs | nfr |
 | tests/mapping-lifecycle-review-contract.mjs | unit |
 | tests/mapping-remaining-contract-http.mjs | unit |
@@ -218,6 +266,17 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/merge-smoke.mjs | integration |
 | tests/mis-smoke.mjs | integration |
 | tests/notification-sources-contract.mjs | unit |
+| tests/object-media-browser.mjs | unit |
+| tests/object-media-budget-http.mjs | unit |
+| tests/object-media-contract.mjs | unit |
+| tests/object-media-http.mjs | unit |
+| tests/object-media-independent-discard-contract.mjs | unit |
+| tests/object-media-independent-extra-http.mjs | unit |
+| tests/object-media-independent-storage-boundary.mjs | unit |
+| tests/object-media-legacy-http.mjs | unit |
+| tests/object-media-legacy-regression.mjs | unit |
+| tests/object-media-migration.mjs | unit |
+| tests/object-media-native-boundary.mjs | unit |
 | tests/offline-lifecycle-auth-transport-review.mjs | unit |
 | tests/offline-open-account-transition-review-browser.mjs | unit |
 | tests/offline-open-link-capacity-review-browser.mjs | unit |

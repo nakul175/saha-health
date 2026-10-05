@@ -34,6 +34,35 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/test-runner-current-fixture-contract.mjs': ['tests/evidence/programme-own-read-repair/runner-current.json'],
+  'tests/imported-media-independent-probe.mjs': ['tests/evidence/imported-media-independent/probe/http.json'],
+  'tests/integration-composite-authority-time-http.mjs': ['tests/evidence/integration-fixture-adapters/composite-time/http.json'],
+  'tests/integration-household-completion-browser.mjs': ['tests/evidence/integration-fixture-adapters/household/browser.json'],
+  'tests/integration-report-portability-schema-http.mjs': ['tests/evidence/integration-fixture-adapters/portability/http.json'],
+  'tests/smoke/app-back-guided-browser.mjs': ['tests/evidence/integration-fixture-adapters/app-back/browser-result.json'],
+  'tests/asha-guided-capture-browser.mjs': ['tests/evidence/asha-guided-capture/phone/browser-result.json'],
+  'tests/asha-guided-capture-conditional.mjs': ['tests/evidence/asha-guided-capture/conditional-fact/result.json'],
+  'tests/asha-guided-capture-uncertainty.mjs': ['tests/evidence/asha-guided-capture/uncertainty/lost-ack.json'],
+  'tests/asha-guided-capture-legacy-range.mjs': ['tests/evidence/asha-guided-capture/legacy-range/first-activation-regression.json'],
+  'tests/guided-home-capture-browser.mjs': ['tests/evidence/asha-guided-capture/home-regression/browser-result.json'],
+  'tests/guided-programme-reset-original-probe.mjs': ['tests/evidence/guided-programme-reset/programme-current-read/original-probe-result.json'],
+  'tests/guided-programme-reset-variants.mjs': ['tests/evidence/guided-programme-reset/variants/result.json'],
+  'tests/guided-repair-independent-probe.mjs': ['tests/evidence/guided-repair-independent/probe/result.json'],
+  'tests/figure-impact-contract.mjs': ['tests/evidence/figure-impact/contract.json'],
+  'tests/figure-impact-http.mjs': ['tests/evidence/figure-impact/http/http.json'],
+  'tests/figure-impact-browser.mjs': ['tests/evidence/figure-impact/phone/browser.json'],
+  'tests/figure-impact-independent-extra-http.mjs': ['tests/evidence/figure-impact-independent/extra-http/http.json'],
+  'tests/object-media-contract.mjs': ['tests/evidence/object-media/contract.json'],
+  'tests/object-media-http.mjs': ['tests/evidence/object-media/http.json'],
+  'tests/object-media-browser.mjs': ['tests/evidence/object-media/browser.json'],
+  'tests/object-media-budget-http.mjs': ['tests/evidence/object-media/budget-http.json'],
+  'tests/object-media-native-boundary.mjs': ['tests/evidence/object-media/native-boundary.json'],
+  'tests/object-media-migration.mjs': ['tests/evidence/object-media/migration.json'],
+  'tests/object-media-legacy-regression.mjs': ['tests/evidence/object-media/legacy-regression.json'],
+  'tests/object-media-independent-extra-http.mjs': ['tests/evidence/object-media-independent/extra-http.json'],
+  'tests/object-media-independent-storage-boundary.mjs': ['tests/evidence/object-media-independent/storage-boundary.json'],
+  'tests/object-media-independent-discard-contract.mjs': ['tests/evidence/object-media-independent/discard-contract.json'],
+  'tests/integration-media-report-portability-after-http.mjs': ['tests/evidence/object-media-integration/compatibility/http.json'],
   'tests/composite-authority-independent-extra-http.mjs': ['tests/evidence/composite-authority-independent/extra-http/http.json'],
   'tests/composite-measures-contract.mjs': ['tests/evidence/composite-measures/contract.json'],
   'tests/composite-measures-http.mjs': ['tests/evidence/composite-measures/http.json'],
@@ -179,8 +208,46 @@ const idOf = (layer, file) => `${layer}/${posix.basename(file).replace(SOURCE_EX
  */
 export function classify(file) {
   const base = posix.basename(file);
+  if (file === 'tests/programme-raw-key-contract.mjs') return { layer: 'unit', role: 'suite', tier: 'pr', runner: 'node', reason: 'Raw programme map safety with supported authoritative parse/digest unchanged' };
+  if (['tests/programme-raw-key-http.mjs','tests/programme-raw-key-original-probe.mjs','tests/raw-key-independent-authority-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual raw-key refusal before clinical/receipt/audit writes, original before repair probe and distinct current authority controls' };
+  if (/^tests\/raw-key-independent-/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable cold repetitions and preceding extended probe; current strongest primary authority gate retained separately' };
+
+  const offlineAdapters = {
+    'tests/integration-offline-guided-app-browser.mjs': 'integration/app-offline-browser',
+    'tests/integration-offline-guided-review-browser.mjs': 'integration/app-offline-review-browser',
+    'tests/integration-offline-guided-programme-browser.mjs': 'integration/offline-programme-browser',
+  }[file];
+  if (offlineAdapters) return { id: offlineAdapters, layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Every original assertion/minimum retained with explicit Show full form navigation and exact newly fixed public asset allowlist; original evidence immutable' };
+  if (['tests/app-offline-browser.mjs','tests/app-offline-review-browser.mjs','tests/offline-programme-browser.mjs'].includes(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable pre-guidance fixtures; all original guarded assertions retained in current guided-shell adapters' };
+  if (['tests/sync-receipt-projection.mjs','tests/sync-receipt-device-contract.mjs'].includes(file)) return { layer: 'unit', role: 'suite', tier: 'pr', runner: 'node', reason: 'Supported wire/parsed receipt comparison and encrypted proof custody; server digest unchanged' };
+  if (['tests/offline-guided-author-browser.mjs','tests/offline-sync-hash-repair-browser.mjs','tests/offline-sync-hash-device-browser.mjs','tests/offline-sync-hash-cold-extra-browser.mjs','tests/sync-receipt-cold-scope-browser.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual guided phone, exact-key uncertain sync recovery, proof-only purge and current actor/authority controls' };
+  if (/^tests\/(?:offline-guided-|offline-sync-hash-|sync-receipt-cold-)/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable before witnesses or cold overlapping repetitions; distinct current primary contracts and phone recovery remain guarded' };
+
+  if (/^tests\/programme-own-cold-/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable independent frontend own-read repetitions and historical malformed server-input witness; current original programme guards retained, transport repair is separately qualified' };
+  if (/^tests\/offline-phone-independent-/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Separately retained cold diagnosis adapters with unchanged primary13/32 phone assertions and observation-only checkpoints; original suites stay guarded' };
+  if (file === 'tests/test-runner-current-fixture-contract.mjs') return { id: 'unit/test-runner-contract', layer: 'unit', role: 'suite', tier: 'pr', runner: 'node', reason: 'All27 original runner assertions and stable minimum; absent-smoke fixture excludes archived smoke driver stubs so the tested directory is actually absent' };
+  if (file === 'tests/test-runner-contract.mjs') return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable original runner fixture; current27-check stable guarded adapter retains all assertions with truly absent smoke directory' };
+  if (file === 'tests/imported-media-independent-probe.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual imported attachment bytes, exact documentary lineage and44 added current authority/storage/audit-race assertions alongside40 original checks' };
+  if (/^tests\/imported-media-(?:independent-repeat|repeat-)/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable cold repeat adapters; original primary gates and distinct independent probe remain guarded' };
+  const adapted = {
+    'tests/integration-composite-authority-time-http.mjs': 'integration/composite-authority-independent-extra-http',
+    'tests/integration-household-completion-browser.mjs': 'integration/household-completion-browser',
+    'tests/integration-report-portability-schema-http.mjs': 'integration/report-portability-http',
+    'tests/smoke/app-back-guided-browser.mjs': 'smoke/app-back-browser',
+  }[file];
+  if (adapted) return { id: adapted, layer: adapted.startsWith('smoke/') ? 'smoke' : 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Original guarded ID and all original assertions retained in named current-schema, portable-path, realistic release-margin or guided-stage adapter; historical driver and evidence remain intact' };
+  if (['tests/composite-authority-independent-extra-http.mjs','tests/household-completion-browser.mjs','tests/report-portability-http.mjs','tests/smoke/app-back-browser.mjs','tests/media-imported-lineage-before.mjs','tests/media-imported-lineage-repair-http.mjs'].includes(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Preserved historical fixture or separately pinned imported-lineage diagnostic/repeat; current original assertion minima stay guarded by named adapters or original imported-evidence primary' };
   if (isSupport(file)) return { layer: null, role: 'support', tier: null, reason: 'shared helper, fixture or entry module; not a suite' };
   if (file === 'tests/api-smoke.mjs') return { layer: 'integration', role: 'support', tier: null, reason: 'entry module imported by tests/run-api-smoke.mjs; not run on its own' };
+  if (file === 'tests/guided-home-capture-browser.mjs') return { id: 'integration/guided-home-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Stable guarded Home ID and all original 33 assertions; stage-selection adapter for the current guided visit, original driver/evidence retained' };
+  if (['tests/asha-guided-capture-browser.mjs','tests/asha-guided-capture-conditional.mjs','tests/asha-guided-capture-uncertainty.mjs','tests/asha-guided-capture-legacy-range.mjs','tests/guided-programme-reset-original-probe.mjs','tests/guided-programme-reset-variants.mjs','tests/guided-repair-independent-probe.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual phone guided facts/programmes, explicit save/current-read recovery, three-way merge and original outcome conservation' };
+  if (/^tests\/(?:asha-guided-capture-|guided-capture-independent-|guided-programme-reset-|guided-repair-independent-|guided-home-browser)/.test(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Retained historical before diagnostic, original Home stage dependency or duplicate independent repeat; current primary and distinct repair probes remain guarded' };
+  if (file === 'tests/integration-media-report-portability-after-http.mjs') return { id: 'integration/report-portability-after-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Stable guarded portability suite ID and all original 87 assertions; separately retained current 0029 schema adapter, original driver/evidence preserved' };
+  if (file === 'tests/object-media-legacy-regression.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Both unchanged 44-check legacy media mode runs with exact aggregated result count' };
+  if (file === 'tests/object-media-legacy-http.mjs') return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Original two-mode driver imported by guarded object-media-legacy-regression; original assertions and array report retained' };
+  if (file === 'tests/report-portability-after-http.mjs') return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Immutable original 0028 schema-bound driver retained; current same 87 assertions are guarded in integration-media-report-portability-after-http without altering the original evidence' };
+  if (/^tests\/(?:integration-object-media-|integration-media-)/.test(file) || (/^tests\/figure-impact-independent-/.test(file) && file !== 'tests/figure-impact-independent-extra-http.mjs')) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Retained independent or combined repeat adapter; original primary assertions and distinct extra outcomes remain guarded separately' };
+  if (['tests/figure-impact-http.mjs','tests/figure-impact-browser.mjs','tests/figure-impact-independent-extra-http.mjs','tests/object-media-http.mjs','tests/object-media-browser.mjs','tests/object-media-budget-http.mjs','tests/object-media-native-boundary.mjs','tests/object-media-migration.mjs','tests/object-media-legacy-http.mjs','tests/object-media-independent-extra-http.mjs','tests/object-media-independent-storage-boundary.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual synthetic private media custody/current authority and automatic frozen figure impact with independently retained audit-race outcomes' };
   if (['tests/inbound-retrieval-http.mjs', 'tests/inbound-retrieval-browser.mjs', 'tests/inbound-retrieval-service-repair-http.mjs', 'tests/inbound-retrieval-after-http.mjs', 'tests/inbound-retrieval-after-browser.mjs', 'tests/inbound-retrieval-original-race-after.mjs', 'tests/inbound-retrieval-service-independent-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual retrieved source handoff with immutable first-document preservation, current service/purpose authority, receipt replay and phone tests' };
   if (['tests/composite-measures-http.mjs','tests/composite-measures-browser.mjs','tests/composite-authority-repair-http.mjs','tests/composite-authority-independent-extra-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual owner-defined expression governance, live/frozen dependency protection, phone workflow and post-audit current report authority' };
   if (file === 'tests/guided-home-browser.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual guided ASHA Home, compact geometry, current audited navigation, language and unsaved save/review safeguards' };

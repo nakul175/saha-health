@@ -1,0 +1,57 @@
+{
+  "passed": 95,
+  "failed": 0,
+  "actualWorker": true,
+  "actualD1": true,
+  "observations": [
+    {
+      "format": "view",
+      "mode": "purpose",
+      "status": 403,
+      "error": "Your organisation limits your access to named purposes, and reporting and aggregate care reports is not one of them. Ask an owner to change your access."
+    },
+    {
+      "format": "view",
+      "mode": "programme",
+      "status": 403,
+      "error": "Your current patient scope changed while the report was being recorded. No figures were returned."
+    },
+    {
+      "format": "view",
+      "mode": "clinical",
+      "status": 409,
+      "error": "The report source or definition changed while its release was being recorded. No figures were returned. Run a fresh report."
+    },
+    {
+      "format": "view",
+      "mode": "definition",
+      "status": 409,
+      "error": "The report source or definition changed while its release was being recorded. No figures were returned. Run a fresh report."
+    },
+    {
+      "format": "csv",
+      "mode": "purpose",
+      "status": 403,
+      "error": "Your organisation limits your access to named purposes, and reporting and aggregate care reports is not one of them. Ask an owner to change your access."
+    },
+    {
+      "format": "csv",
+      "mode": "programme",
+      "status": 403,
+      "error": "Your current patient scope changed while the report was being recorded. No figures were returned."
+    },
+    {
+      "format": "csv",
+      "mode": "clinical",
+      "status": 409,
+      "error": "The report source or definition changed while its release was being recorded. No figures were returned. Run a fresh report."
+    },
+    {
+      "format": "csv",
+      "mode": "definition",
+      "status": 409,
+      "error": "The report source or definition changed while its release was being recorded. No figures were returned. Run a fresh report."
+    }
+  ],
+  "scope": "Current independent supervisor reporting purpose/programme, exact supported clinical void and governed reviewed revision replayed only as audit-race fixtures; original ledger/receipts/history retained, no outbound activity."
+}

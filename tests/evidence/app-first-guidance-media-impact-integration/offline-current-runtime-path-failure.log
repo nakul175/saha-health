@@ -1,0 +1,203 @@
+Running unit integration --fast; 15 suite(s).
+
+[unit] 7 suite(s)
+  ok       unit/device-work-contract  46 passed  788ms
+  ok       unit/field-client  25 passed  144ms
+  ok       unit/field-provenance-client  17 passed  74ms
+  ok       unit/field-registration-client  69 passed  563ms
+  ok       unit/field-storage-client  30 passed  116ms
+  ok       unit/field-units-client  14 passed  76ms
+  ok       unit/sync-receipt-projection  89 passed  824ms
+
+[integration] 8 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/app-offline-browser ...
+  FAILED   integration/app-offline-browser  no count  26ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-of
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+  running  integration/offline-programme-browser ...
+  FAILED   integration/offline-programme-browser  no count  26ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-of
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+  running  integration/app-offline-review-browser ...
+  FAILED   integration/app-offline-review-browser  no count  27ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-of
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+  running  integration/offline-guided-author-browser ...
+  FAILED   integration/offline-guided-author-browser  no count  25ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/offline-guided
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+  running  integration/offline-sync-hash-cold-extra-browser ...
+  FAILED   integration/offline-sync-hash-cold-extra-browser  no count  25ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/offline-sync-h
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+  running  integration/offline-sync-hash-device-browser ...
+  FAILED   integration/offline-sync-hash-device-browser  no count  27ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/offline-sync-h
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+  running  integration/offline-sync-hash-repair-browser ...
+  FAILED   integration/offline-sync-hash-repair-browser  no count  35ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/offline-sync-h
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+  running  integration/sync-receipt-cold-scope-browser ...
+  FAILED   integration/sync-receipt-cold-scope-browser  no count  27ms  [exit code 1]
+      | error lines:
+      |   Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/sync-receipt-c
+      | node:internal/modules/esm/resolve:271
+      |     throw new ERR_MODULE_NOT_FOUND(
+      |           ^
+      | Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs' imported from /Users/athena/.codex/.chatgpt-projec
+      |     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      |     at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      |     at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      |     at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      |     at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      |     at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      |     at #resolve (node:internal/modules/esm/loader:683:17)
+      |     at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      |     at node:internal/modules/esm/loader:632:32
+      |     at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+      |   code: 'ERR_MODULE_NOT_FOUND',
+      |   url: 'file:///Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/lib/node_modules/playwright-core/index.mjs'
+      | }
+      | Node.js v24.19.0
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       7     290       0        0   2.6s
+  integration  failed       8       0       0        0  218ms
+  total        FAILED      15     290       0        0   3.1s
+
+Restored 1 tracked file(s) and deleted 4 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: FAILED (9 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/app-offline-browser reported no assertion count; baseline needs at least 22.
+  FAIL     Suite integration/app-offline-review-browser reported no assertion count; baseline needs at least 22.
+  FAIL     Suite integration/offline-programme-browser reported no assertion count; baseline needs at least 17.
+  note     6 suite(s) are not in the baseline yet (unit/sync-receipt-projection, integration/offline-guided-author-browser, integration/offline-sync-hash-cold-extra-browser, integration/offline-sync-hash-device-browser, integration/offline-sync-hash-repair-browser, integration/sync-receipt-cold-scope-browser); add them with --update-baseline.

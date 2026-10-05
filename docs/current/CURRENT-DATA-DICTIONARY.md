@@ -1,6 +1,6 @@
 # Current data dictionary
 
-Generated from `db/schema.ts`: **52 application tables** and **402 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
+Generated from `db/schema.ts`: **53 application tables** and **418 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
 
 | Table | Declaration | SQL columns |
 | --- | --- | ---: |
@@ -36,7 +36,7 @@ Generated from `db/schema.ts`: **52 application tables** and **402 declared SQL 
 | `identity_cases` | `identityCases` | 8 |
 | `rights_requests` | `rightsRequests` | 8 |
 | `retention` | `retention` | 2 |
-| `media` | `media` | 11 |
+| `media` | `media` | 12 |
 | `scheduled_cursor` | `scheduledCursor` | 3 |
 | `abha_review_reservations` | `abhaReviewReservations` | 7 |
 | `availability_samples` | `availabilitySamples` | 9 |
@@ -56,6 +56,7 @@ Generated from `db/schema.ts`: **52 application tables** and **402 declared SQL 
 | `indicator_figure_events` | `indicatorFigureEvents` | 11 |
 | `indicator_figure_receipts` | `indicatorFigureReceipts` | 6 |
 | `indicator_figure_disclosures` | `indicatorFigureDisclosures` | 6 |
+| `media_custody` | `mediaCustody` | 15 |
 
 ## JSON document owners
 

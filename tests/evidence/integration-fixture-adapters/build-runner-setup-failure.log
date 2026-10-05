@@ -1,0 +1,26 @@
+Running integration smoke; 4 suite(s).
+
+[integration] 3 suite(s)
+build: npm run build ...
+build: FAILED (4ms)
+    
+    spawn npm ENOENT
+  BLOCKED  integration/composite-authority-independent-extra-http: the build failed
+  BLOCKED  integration/household-completion-browser: the build failed
+  BLOCKED  integration/report-portability-http: the build failed
+
+[smoke] 1 suite(s)
+  BLOCKED  smoke/app-back-browser: the build failed
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  build        failed       1       -       -        -    4ms
+  integration  failed       3       0       0        0    0ms
+  smoke        failed       1       0       0        0    0ms
+  total        FAILED       4       0       0        0  192ms
+
+Regression guard: FAILED (4 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/composite-authority-independent-extra-http was due to run but reported nothing (blocked).
+  FAIL     Suite integration/household-completion-browser was due to run but reported nothing (blocked).
+  FAIL     Suite integration/report-portability-http was due to run but reported nothing (blocked).
+  FAIL     Suite smoke/app-back-browser was due to run but reported nothing (blocked).

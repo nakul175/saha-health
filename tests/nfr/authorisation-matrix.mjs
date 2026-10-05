@@ -34,6 +34,7 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/media': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/inbound-conflicts': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/indicator-figures': () => [{ q: '' }],
   '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],

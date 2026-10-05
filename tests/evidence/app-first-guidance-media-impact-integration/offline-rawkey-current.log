@@ -1,0 +1,47 @@
+Running unit integration --fast; 19 suite(s).
+
+[unit] 8 suite(s)
+  ok       unit/device-work-contract  46 passed  773ms
+  ok       unit/field-client  25 passed  144ms
+  ok       unit/field-provenance-client  17 passed  77ms
+  ok       unit/field-registration-client  69 passed  543ms
+  ok       unit/field-storage-client  30 passed  120ms
+  ok       unit/field-units-client  14 passed  77ms
+  ok       unit/programme-raw-key-contract  94 passed  743ms
+  ok       unit/sync-receipt-projection  89 passed  774ms
+
+[integration] 11 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/app-offline-browser ...
+  ok       integration/app-offline-browser  22 passed  4.0s
+  running  integration/offline-programme-browser ...
+  ok       integration/offline-programme-browser  17 passed  3.1s
+  running  integration/app-offline-review-browser ...
+  ok       integration/app-offline-review-browser  22 passed  4.3s
+  running  integration/offline-guided-author-browser ...
+  ok       integration/offline-guided-author-browser  36 passed  3.9s
+  running  integration/offline-sync-hash-cold-extra-browser ...
+  ok       integration/offline-sync-hash-cold-extra-browser  55 passed  4.3s
+  running  integration/offline-sync-hash-device-browser ...
+  ok       integration/offline-sync-hash-device-browser  64 passed  10.5s
+  running  integration/offline-sync-hash-repair-browser ...
+  ok       integration/offline-sync-hash-repair-browser  51 passed  4.2s
+  running  integration/programme-raw-key-http ...
+  ok       integration/programme-raw-key-http  115 passed  2.4s
+  running  integration/programme-raw-key-original-probe ...
+  ok       integration/programme-raw-key-original-probe  65 passed  9.6s
+  running  integration/raw-key-independent-authority-http ...
+  ok       integration/raw-key-independent-authority-http  161 passed  3.4s
+  running  integration/sync-receipt-cold-scope-browser ...
+  ok       integration/sync-receipt-cold-scope-browser  19 passed  4.4s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       8     384       0        0   3.3s
+  integration  passed      11     627       0        0  54.1s
+  total        passed      19    1011       0        0  57.7s
+
+Restored 38 tracked file(s) and deleted 4 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (9 baselined suite(s) checked, 0 excused by quarantine).
+  note     10 suite(s) are not in the baseline yet (unit/programme-raw-key-contract, unit/sync-receipt-projection, integration/offline-guided-author-browser, integration/offline-sync-hash-cold-extra-browser, integration/offline-sync-hash-device-browser, integration/offline-sync-hash-repair-browser, ...); add them with --update-baseline.

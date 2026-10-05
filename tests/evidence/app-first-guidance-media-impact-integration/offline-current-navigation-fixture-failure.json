@@ -1,0 +1,441 @@
+{
+  "generatedAt": "2026-10-05T19:48:22.764Z",
+  "startedAt": "2026-10-05T19:47:14.124Z",
+  "command": "node scripts/test.mjs unit integration --only unit/sync-receipt-projection,unit/device-work-contract,unit/field-client,unit/field-provenance-client,unit/field-storage-client,unit/field-units-client,unit/field-registration-client,integration/app-offline-browser,integration/app-offline-review-browser,integration/offline-programme-browser,integration/offline-guided-author-browser,integration/offline-sync-hash-repair-browser,integration/offline-sync-hash-device-browser,integration/offline-sync-hash-cold-extra-browser,integration/sync-receipt-cold-scope-browser --fast --guard --report tests/evidence/app-first-guidance-media-impact-integration/offline-current.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 7,
+      "passed": 290,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2586,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 8,
+      "passed": 242,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 65749,
+      "failedSuites": 2
+    }
+  ],
+  "totals": {
+    "suites": 15,
+    "passed": 532,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 2,
+    "durationMs": 68640
+  },
+  "suites": [
+    {
+      "id": "unit/device-work-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/device-work-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 808,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__device-work-contract.log"
+    },
+    {
+      "id": "unit/field-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 144,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-client-result.json"
+      ],
+      "requirementsCited": 8,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-client.log"
+    },
+    {
+      "id": "unit/field-provenance-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-provenance-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 75,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-provenance-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-provenance-client.log"
+    },
+    {
+      "id": "unit/field-registration-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-registration-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 69,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 556,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-registration-client-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-registration-client.log"
+    },
+    {
+      "id": "unit/field-storage-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-storage-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 119,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-storage-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-storage-client.log"
+    },
+    {
+      "id": "unit/field-units-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-units-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 77,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-units-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-units-client.log"
+    },
+    {
+      "id": "unit/sync-receipt-projection",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/sync-receipt-projection.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 89,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 807,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__sync-receipt-projection.log"
+    },
+    {
+      "id": "integration/app-offline-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-app-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 17392,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__app-offline-browser.log"
+    },
+    {
+      "id": "integration/offline-programme-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-programme-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2913,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-programme-browser.log"
+    },
+    {
+      "id": "integration/app-offline-review-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-review-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 17588,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__app-offline-review-browser.log"
+    },
+    {
+      "id": "integration/offline-guided-author-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-guided-author-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3945,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-guided-author-browser.log"
+    },
+    {
+      "id": "integration/offline-sync-hash-cold-extra-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-sync-hash-cold-extra-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4292,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-sync-hash-cold-extra-browser.log"
+    },
+    {
+      "id": "integration/offline-sync-hash-device-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-sync-hash-device-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11019,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-sync-hash-device-browser.log"
+    },
+    {
+      "id": "integration/offline-sync-hash-repair-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-sync-hash-repair-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4329,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-sync-hash-repair-browser.log"
+    },
+    {
+      "id": "integration/sync-receipt-cold-scope-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/sync-receipt-cold-scope-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4271,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__sync-receipt-cold-scope-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/app-offline-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/app-offline-browser reported no assertion count; baseline needs at least 22.",
+        "excused": false
+      },
+      {
+        "id": "integration/app-offline-review-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/app-offline-review-browser reported no assertion count; baseline needs at least 22.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 9,
+    "newSuites": [
+      "unit/sync-receipt-projection",
+      "integration/offline-guided-author-browser",
+      "integration/offline-sync-hash-cold-extra-browser",
+      "integration/offline-sync-hash-device-browser",
+      "integration/offline-sync-hash-repair-browser",
+      "integration/sync-receipt-cold-scope-browser"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/field-client-result.json",
+      "tests/evidence/offline-guided-author/guided-weight-phone.png",
+      "tests/evidence/offline-guided-author/guided-weight-viewport.png",
+      "tests/evidence/offline-guided-author/locked-phone.png",
+      "tests/evidence/offline-guided-author/patient-phone.png",
+      "tests/evidence/offline-guided-author/programme-offline-phone.png",
+      "tests/evidence/offline-guided-author/today-phone.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/asha-purged.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/asha-uncertain-guided.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/guided-weight-phone.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/guided-weight-viewport.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/locked-phone.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/patient-phone.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/programme-offline-phone.png",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/purged-proof.json",
+      "tests/evidence/offline-sync-hash-cold/extra-browser/today-phone.png",
+      "tests/evidence/offline-sync-hash-cold/scope/reset-dom.json",
+      "tests/evidence/offline-sync-hash-cold/scope/reset.png",
+      "tests/evidence/offline-sync-hash-cold/scope/withdrawn-membership.png",
+      "tests/evidence/offline-sync-hash-repair/browser/asha-uncertain-guided.png",
+      "tests/evidence/offline-sync-hash-repair/browser/guided-weight-phone.png",
+      "tests/evidence/offline-sync-hash-repair/browser/guided-weight-viewport.png",
+      "tests/evidence/offline-sync-hash-repair/browser/locked-phone.png",
+      "tests/evidence/offline-sync-hash-repair/browser/patient-phone.png",
+      "tests/evidence/offline-sync-hash-repair/browser/programme-offline-phone.png",
+      "tests/evidence/offline-sync-hash-repair/browser/today-phone.png",
+      "tests/evidence/offline-sync-hash-repair/device/privacy-purge-phone.png"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/field-provenance-client-result.json",
+      "tests/field-registration-client-result.json",
+      "tests/field-storage-client-result.json",
+      "tests/field-units-client-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 192,
+        "components": 0,
+        "suitesCitingNoRequirement": 52,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 122,
+        "components": 84,
+        "suitesCitingNoRequirement": 47,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 139,
+        "components": 0,
+        "suitesCitingNoRequirement": 126,
+        "requirementsCited": 18
+      }
+    },
+    "supportFiles": 18,
+    "suites": 469,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 229,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

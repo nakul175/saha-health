@@ -106,7 +106,7 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
-for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json']:
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
         for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
@@ -115,24 +115,61 @@ for additional_name in ['evidence-source-snapshots-conformance-import.json','evi
                 require(expected not in existing or existing[expected]==entry,'Conflicting historical source snapshot: '+source_path)
                 existing.setdefault(expected,entry)
 slice_total=0
+supplement_path=ROOT/'tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json'
+supplement=json.loads(supplement_path.read_text()).get('files',{}) if supplement_path.exists() else {}
+for evidence_path,expected in supplement.items():
+    path=ROOT/evidence_path
+    require(evidence_path.startswith('tests/evidence/') and re.fullmatch(r'[a-f0-9]{64}',str(expected)) and path.is_file() and digest(path)==expected,'Changed supplemental author artifact: '+evidence_path)
 for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     manifest=json.loads(manifest_path.read_text())
     # Preserve the authors' immutable manifests, including their existing
     # digest layouts. Only report-level numeric assertion counts are summed.
     entries=manifest.get('reports',manifest.get('sha256',manifest.get('files')))
+    # A cold reviewer can retain a list of explicit path/digest records.
+    # Validate that schema without rewriting the immutable author/review manifest.
+    if isinstance(entries,list):
+        valid=all(isinstance(meta,dict) and isinstance(meta.get('path'),str) and re.fullmatch(r'[a-f0-9]{64}',str(meta.get('sha256',''))) for meta in entries)
+        require(valid,'Invalid explicit evidence digest list: '+str(manifest_path.relative_to(ROOT)))
+        require(valid and len({meta['path'] for meta in entries})==len(entries),'Duplicate evidence digest path: '+str(manifest_path.relative_to(ROOT)))
+        entries={meta['path']:meta for meta in entries} if valid else {}
+    # These named maps pin application source rather than result reports.
+    # Check every source digest, preserving its original layout and source scope.
+    for source_key in ['sourceSha256','sourcePins','applicationSourceUnchanged','unchangedProtectedSources','originalEvidenceSha256']:
+        source_entries=manifest.get(source_key)
+        if source_entries is None:
+            continue
+        valid=isinstance(source_entries,dict) and all(path.startswith(('app/','lib/','public/','db/','drizzle/','scripts/','tests/')) and re.fullmatch(r'[a-f0-9]{64}',str(expected)) for path,expected in source_entries.items())
+        require(valid,'Invalid source digest map: '+str(manifest_path.relative_to(ROOT)))
+        if valid:
+            entries=entries if isinstance(entries,dict) else {}
+            for path,expected in source_entries.items():
+                existing=entries.get(path)
+                require(existing is None or (existing.get('sha256') if isinstance(existing,dict) else existing)==expected,'Conflicting source digest: '+path)
+                entries.setdefault(path,expected)
     # Independent review can name report metadata separately while pinning every
     # actual file in sha256. Preserve that original layout and verify both maps.
     if isinstance(manifest.get('sha256'),dict) and isinstance(manifest.get('reports'),dict) and all(isinstance(meta,dict) and 'path' in meta for meta in manifest['reports'].values()):
+        previous_entries=entries if isinstance(entries,dict) else {}
         entries={path:{'sha256':expected} for path,expected in manifest['sha256'].items()}
+        for path,meta in previous_entries.items():
+            if path.startswith(('app/','lib/','public/','db/','drizzle/','scripts/','tests/')):
+                entries.setdefault(path,meta)
         for label,meta in manifest['reports'].items():
             path=meta['path']
             require(path in entries,'Unpinned named evidence report: '+str(label))
             if path in entries:
                 require('sha256' not in meta or meta['sha256']==entries[path]['sha256'],'Conflicting named evidence digest: '+str(label))
                 entries[path].update({key:value for key,value in meta.items() if key not in ('path','sha256')})
+    # Some immutable original author manifests contain only descriptive totals.
+    # They qualify only when a root supplement checks every retained artifact in
+    # that exact folder directly; no report bytes use historical source fallback.
+    if entries is None and str(manifest_path.relative_to(ROOT)) in supplement:
+        artifacts=[p for p in manifest_path.parent.rglob('*') if p.is_file()]
+        require(all(str(p.relative_to(ROOT)) in supplement for p in artifacts),'Incomplete supplemental author artifacts: '+str(manifest_path.relative_to(ROOT)))
+        entries={str(p.relative_to(ROOT)):supplement[str(p.relative_to(ROOT))] for p in artifacts if str(p.relative_to(ROOT)) in supplement}
     require(isinstance(entries,dict) and bool(entries),'Missing evidence digests: '+str(manifest_path.relative_to(ROOT)))
     for report,meta in (entries or {}).items():
-        path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','scripts/')) else manifest_path.parent/report
+        path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','public/','db/','drizzle/','scripts/')) else manifest_path.parent/report
         expected=meta.get('sha256') if isinstance(meta,dict) else meta
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.

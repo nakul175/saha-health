@@ -1,0 +1,26 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator('article.integration-card').filter({ has: getByRole('heading', { name: 'Synthetic mapping phone', exact: true }) }).locator('section[aria-label="Reviewed mapping lifecycle"]').getByRole('button', { name: 'Review exact impact', exact: true })
+    - locator resolved to <button data-slot="button" data-size="default" data-variant="default" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='si…>Review exact impact</button>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/mapping-lifecycle-browser.mjs:3:2352 {
+  log: [
+    `  - waiting for locator('article.integration-card').filter({ has: getByRole('heading', { name: 'Synthetic mapping phone', exact: true }) }).locator('section[aria-label="Reviewed mapping lifecycle"]').getByRole('button', { name: 'Review exact impact', exact: true })`,
+    `    - locator resolved to <button data-slot="button" data-size="default" data-variant="default" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='si…>Review exact impact</button>`,
+    '  - attempting click action',
+    '    - waiting for element to be visible, enabled and stable',
+    '    - element is visible, enabled and stable',
+    '    - scrolling into view if needed'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

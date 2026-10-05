@@ -1,0 +1,22 @@
+Running integration smoke --fast; 4 suite(s).
+
+[integration] 3 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/composite-authority-independent-extra-http ...
+  ok       integration/composite-authority-independent-extra-http  95 passed  42.8s
+  running  integration/household-completion-browser ...
+  ok       integration/household-completion-browser  39 passed  4.2s
+  running  integration/report-portability-http ...
+  ok       integration/report-portability-http  79 passed  1.6s
+
+[smoke] 1 suite(s)
+  running  smoke/app-back-browser ...
+  ok       smoke/app-back-browser  11 passed  4.6s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  integration  passed       3     213       0        0  48.5s
+  smoke        passed       1      11       0        0   4.6s
+  total        passed       4     224       0        0  53.3s
+
+Regression guard: passed (4 baselined suite(s) checked, 0 excused by quarantine).

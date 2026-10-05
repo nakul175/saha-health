@@ -5,17 +5,37 @@
   "suites": {
     "integration/app-offline-browser": {
       "layer": "integration",
-      "file": "tests/app-offline-browser.mjs",
+      "file": "tests/integration-offline-guided-app-browser.mjs",
       "minPassed": 22
     },
     "integration/app-offline-review-browser": {
       "layer": "integration",
-      "file": "tests/app-offline-review-browser.mjs",
+      "file": "tests/integration-offline-guided-review-browser.mjs",
       "minPassed": 22
     },
     "integration/app-offline-scope-browser": {
       "layer": "integration",
       "file": "tests/app-offline-scope-browser.mjs",
+      "minPassed": 15
+    },
+    "integration/asha-guided-capture-browser": {
+      "layer": "integration",
+      "file": "tests/asha-guided-capture-browser.mjs",
+      "minPassed": 48
+    },
+    "integration/asha-guided-capture-conditional": {
+      "layer": "integration",
+      "file": "tests/asha-guided-capture-conditional.mjs",
+      "minPassed": 11
+    },
+    "integration/asha-guided-capture-legacy-range": {
+      "layer": "integration",
+      "file": "tests/asha-guided-capture-legacy-range.mjs",
+      "minPassed": 18
+    },
+    "integration/asha-guided-capture-uncertainty": {
+      "layer": "integration",
+      "file": "tests/asha-guided-capture-uncertainty.mjs",
       "minPassed": 15
     },
     "integration/auxiliary-read-http": {
@@ -103,10 +123,40 @@
       "file": "tests/device-work-purge-failure-browser.mjs",
       "minPassed": 49
     },
+    "integration/figure-impact-browser": {
+      "layer": "integration",
+      "file": "tests/figure-impact-browser.mjs",
+      "minPassed": 18
+    },
+    "integration/figure-impact-http": {
+      "layer": "integration",
+      "file": "tests/figure-impact-http.mjs",
+      "minPassed": 101
+    },
+    "integration/figure-impact-independent-extra-http": {
+      "layer": "integration",
+      "file": "tests/figure-impact-independent-extra-http.mjs",
+      "minPassed": 111
+    },
     "integration/guided-home-browser": {
       "layer": "integration",
-      "file": "tests/guided-home-browser.mjs",
+      "file": "tests/guided-home-capture-browser.mjs",
       "minPassed": 33
+    },
+    "integration/guided-programme-reset-original-probe": {
+      "layer": "integration",
+      "file": "tests/guided-programme-reset-original-probe.mjs",
+      "minPassed": 5
+    },
+    "integration/guided-programme-reset-variants": {
+      "layer": "integration",
+      "file": "tests/guided-programme-reset-variants.mjs",
+      "minPassed": 30
+    },
+    "integration/guided-repair-independent-probe": {
+      "layer": "integration",
+      "file": "tests/guided-repair-independent-probe.mjs",
+      "minPassed": 53
     },
     "integration/household-completion-authority-review": {
       "layer": "integration",
@@ -318,6 +368,51 @@
       "file": "tests/mapping-lifecycle-review-http.mjs",
       "minPassed": 73
     },
+    "integration/object-media-browser": {
+      "layer": "integration",
+      "file": "tests/object-media-browser.mjs",
+      "minPassed": 16
+    },
+    "integration/object-media-budget-http": {
+      "layer": "integration",
+      "file": "tests/object-media-budget-http.mjs",
+      "minPassed": 21
+    },
+    "integration/object-media-http": {
+      "layer": "integration",
+      "file": "tests/object-media-http.mjs",
+      "minPassed": 65
+    },
+    "integration/object-media-independent-extra-http": {
+      "layer": "integration",
+      "file": "tests/object-media-independent-extra-http.mjs",
+      "minPassed": 26
+    },
+    "integration/object-media-independent-storage-boundary": {
+      "layer": "integration",
+      "file": "tests/object-media-independent-storage-boundary.mjs",
+      "minPassed": 9
+    },
+    "integration/object-media-legacy-regression": {
+      "layer": "integration",
+      "file": "tests/object-media-legacy-regression.mjs",
+      "minPassed": 88
+    },
+    "integration/object-media-migration": {
+      "layer": "integration",
+      "file": "tests/object-media-migration.mjs",
+      "minPassed": 13
+    },
+    "integration/object-media-native-boundary": {
+      "layer": "integration",
+      "file": "tests/object-media-native-boundary.mjs",
+      "minPassed": 17
+    },
+    "integration/offline-guided-author-browser": {
+      "layer": "integration",
+      "file": "tests/offline-guided-author-browser.mjs",
+      "minPassed": 36
+    },
     "integration/offline-open-account-binding-browser": {
       "layer": "integration",
       "file": "tests/offline-open-account-binding-browser.mjs",
@@ -350,8 +445,33 @@
     },
     "integration/offline-programme-browser": {
       "layer": "integration",
-      "file": "tests/offline-programme-browser.mjs",
+      "file": "tests/integration-offline-guided-programme-browser.mjs",
       "minPassed": 17
+    },
+    "integration/offline-sync-hash-cold-extra-browser": {
+      "layer": "integration",
+      "file": "tests/offline-sync-hash-cold-extra-browser.mjs",
+      "minPassed": 55
+    },
+    "integration/offline-sync-hash-device-browser": {
+      "layer": "integration",
+      "file": "tests/offline-sync-hash-device-browser.mjs",
+      "minPassed": 64
+    },
+    "integration/offline-sync-hash-repair-browser": {
+      "layer": "integration",
+      "file": "tests/offline-sync-hash-repair-browser.mjs",
+      "minPassed": 51
+    },
+    "integration/programme-raw-key-http": {
+      "layer": "integration",
+      "file": "tests/programme-raw-key-http.mjs",
+      "minPassed": 115
+    },
+    "integration/programme-raw-key-original-probe": {
+      "layer": "integration",
+      "file": "tests/programme-raw-key-original-probe.mjs",
+      "minPassed": 65
     },
     "integration/range-first-tap-browser": {
       "layer": "integration",
@@ -362,6 +482,11 @@
       "layer": "integration",
       "file": "tests/range-protocol-browser.mjs",
       "minPassed": 26
+    },
+    "integration/raw-key-independent-authority-http": {
+      "layer": "integration",
+      "file": "tests/raw-key-independent-authority-http.mjs",
+      "minPassed": 161
     },
     "integration/reconciliation-http": {
       "layer": "integration",
@@ -385,7 +510,7 @@
     },
     "integration/report-portability-after-http": {
       "layer": "integration",
-      "file": "tests/report-portability-after-http.mjs",
+      "file": "tests/integration-media-report-portability-after-http.mjs",
       "minPassed": 87
     },
     "integration/report-portability-http": {
@@ -407,6 +532,11 @@
       "layer": "integration",
       "file": "tests/service-identity-management.mjs",
       "minPassed": 10
+    },
+    "integration/sync-receipt-cold-scope-browser": {
+      "layer": "integration",
+      "file": "tests/sync-receipt-cold-scope-browser.mjs",
+      "minPassed": 19
     },
     "integration/touch-units-browser": {
       "layer": "integration",
@@ -948,6 +1078,11 @@
       "file": "tests/fifth-review-fixes-contract.mjs",
       "minPassed": 33
     },
+    "unit/figure-impact-contract": {
+      "layer": "unit",
+      "file": "tests/figure-impact-contract.mjs",
+      "minPassed": 37
+    },
     "unit/fixture-migration-contract": {
       "layer": "unit",
       "file": "tests/fixture-migration-contract.mjs",
@@ -1118,6 +1253,16 @@
       "file": "tests/notification-sources-contract.mjs",
       "minPassed": 19
     },
+    "unit/object-media-contract": {
+      "layer": "unit",
+      "file": "tests/object-media-contract.mjs",
+      "minPassed": 22
+    },
+    "unit/object-media-independent-discard-contract": {
+      "layer": "unit",
+      "file": "tests/object-media-independent-discard-contract.mjs",
+      "minPassed": 8
+    },
     "unit/offline-open-retirement-writer-contract": {
       "layer": "unit",
       "file": "tests/offline-open-retirement-writer-contract.mjs",
@@ -1192,6 +1337,11 @@
       "layer": "unit",
       "file": "tests/programme-migration-contract.mjs",
       "minPassed": 32
+    },
+    "unit/programme-raw-key-contract": {
+      "layer": "unit",
+      "file": "tests/programme-raw-key-contract.mjs",
+      "minPassed": 94
     },
     "unit/provider-agent-decoded-contract": {
       "layer": "unit",
@@ -1417,6 +1567,11 @@
       "layer": "unit",
       "file": "tests/storage-contract.mjs",
       "minPassed": 19
+    },
+    "unit/sync-receipt-projection": {
+      "layer": "unit",
+      "file": "tests/sync-receipt-projection.mjs",
+      "minPassed": 89
     },
     "unit/task-limits-contract": {
       "layer": "unit",

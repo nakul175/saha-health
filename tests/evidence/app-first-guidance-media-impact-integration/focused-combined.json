@@ -1,0 +1,613 @@
+{
+  "generatedAt": "2026-10-05T11:23:33.021Z",
+  "startedAt": "2026-10-05T11:21:35.702Z",
+  "command": "node scripts/test.mjs unit integration --only unit/object-media-contract,unit/object-media-independent-discard-contract,unit/figure-impact-contract,integration/object-media-migration,integration/object-media-http,integration/object-media-browser,integration/object-media-budget-http,integration/object-media-native-boundary,integration/object-media-legacy-regression,integration/object-media-independent-extra-http,integration/object-media-independent-storage-boundary,integration/figure-impact-http,integration/figure-impact-browser,integration/figure-impact-independent-extra-http,integration/report-portability-after-http,integration/guided-home-browser,integration/asha-guided-capture-browser,integration/asha-guided-capture-conditional,integration/asha-guided-capture-uncertainty,integration/asha-guided-capture-legacy-range,integration/guided-programme-reset-original-probe,integration/guided-programme-reset-variants,integration/guided-repair-independent-probe --fast --guard --report tests/evidence/app-first-guidance-media-impact-integration/focused-combined.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 67,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 32713,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 20,
+      "passed": 785,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 84287,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 23,
+    "passed": 852,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 117319
+  },
+  "suites": [
+    {
+      "id": "unit/figure-impact-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/figure-impact-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 806,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/figure-impact/contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__figure-impact-contract.log"
+    },
+    {
+      "id": "unit/object-media-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/object-media-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 950,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media/contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__object-media-contract.log"
+    },
+    {
+      "id": "unit/object-media-independent-discard-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/object-media-independent-discard-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 30957,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media-independent/discard-contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__object-media-independent-discard-contract.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 13316,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/phone/browser-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-browser.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-conditional",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-conditional.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4932,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/conditional-fact/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-conditional.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-legacy-range",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-legacy-range.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3657,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/legacy-range/first-activation-regression.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-legacy-range.log"
+    },
+    {
+      "id": "integration/asha-guided-capture-uncertainty",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/asha-guided-capture-uncertainty.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3829,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/uncertainty/lost-ack.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__asha-guided-capture-uncertainty.log"
+    },
+    {
+      "id": "integration/figure-impact-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/figure-impact-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4103,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/figure-impact/phone/browser.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__figure-impact-browser.log"
+    },
+    {
+      "id": "integration/figure-impact-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/figure-impact-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 101,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2415,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/figure-impact/http/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__figure-impact-http.log"
+    },
+    {
+      "id": "integration/figure-impact-independent-extra-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/figure-impact-independent-extra-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 111,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2548,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/figure-impact-independent/extra-http/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__figure-impact-independent-extra-http.log"
+    },
+    {
+      "id": "integration/guided-home-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-home-capture-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9654,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/asha-guided-capture/home-regression/browser-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-home-browser.log"
+    },
+    {
+      "id": "integration/guided-programme-reset-original-probe",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-programme-reset-original-probe.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3686,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/guided-programme-reset/programme-current-read/original-probe-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-programme-reset-original-probe.log"
+    },
+    {
+      "id": "integration/guided-programme-reset-variants",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-programme-reset-variants.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 7691,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/guided-programme-reset/variants/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-programme-reset-variants.log"
+    },
+    {
+      "id": "integration/guided-repair-independent-probe",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/guided-repair-independent-probe.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 53,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9844,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/guided-repair-independent/probe/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__guided-repair-independent-probe.log"
+    },
+    {
+      "id": "integration/report-portability-after-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-media-report-portability-after-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 87,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1885,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media-integration/compatibility/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__report-portability-after-http.log"
+    },
+    {
+      "id": "integration/object-media-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3062,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media/browser.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-browser.log"
+    },
+    {
+      "id": "integration/object-media-budget-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-budget-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2305,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media/budget-http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-budget-http.log"
+    },
+    {
+      "id": "integration/object-media-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 65,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1838,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-http.log"
+    },
+    {
+      "id": "integration/object-media-independent-extra-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-independent-extra-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1214,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media-independent/extra-http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-independent-extra-http.log"
+    },
+    {
+      "id": "integration/object-media-independent-storage-boundary",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-independent-storage-boundary.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3104,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media-independent/storage-boundary.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-independent-storage-boundary.log"
+    },
+    {
+      "id": "integration/object-media-legacy-regression",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-legacy-regression.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 88,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2419,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media/legacy-regression.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-legacy-regression.log"
+    },
+    {
+      "id": "integration/object-media-migration",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-migration.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 39,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media/migration.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-migration.log"
+    },
+    {
+      "id": "integration/object-media-native-boundary",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/object-media-native-boundary.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2746,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/object-media/native-boundary.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__object-media-native-boundary.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": [
+      "unit/figure-impact-contract",
+      "unit/object-media-contract",
+      "unit/object-media-independent-discard-contract",
+      "integration/asha-guided-capture-browser",
+      "integration/asha-guided-capture-conditional",
+      "integration/asha-guided-capture-legacy-range",
+      "integration/asha-guided-capture-uncertainty",
+      "integration/figure-impact-browser",
+      "integration/figure-impact-http",
+      "integration/figure-impact-independent-extra-http",
+      "integration/guided-programme-reset-original-probe",
+      "integration/guided-programme-reset-variants",
+      "integration/guided-repair-independent-probe",
+      "integration/object-media-browser",
+      "integration/object-media-budget-http",
+      "integration/object-media-http",
+      "integration/object-media-independent-extra-http",
+      "integration/object-media-independent-storage-boundary",
+      "integration/object-media-legacy-regression",
+      "integration/object-media-migration",
+      "integration/object-media-native-boundary"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/object-media-independent/discard-contract.json",
+      "tests/evidence/asha-guided-capture/conditional-fact/conditional-fact.png",
+      "tests/evidence/asha-guided-capture/home-regression/desktop-preview.png",
+      "tests/evidence/asha-guided-capture/home-regression/phone-home-hindi.png",
+      "tests/evidence/asha-guided-capture/home-regression/phone-review.png",
+      "tests/evidence/asha-guided-capture/home-regression/phone-today.png",
+      "tests/evidence/asha-guided-capture/phone/phone-hindi.png",
+      "tests/evidence/asha-guided-capture/phone/phone-scope-refusal.png",
+      "tests/evidence/asha-guided-capture/phone/phone-temperature.png",
+      "tests/evidence/asha-guided-capture/uncertainty/lost-ack.json",
+      "tests/evidence/asha-guided-capture/uncertainty/lost-ack.png",
+      "tests/evidence/figure-impact/phone/phone-published-reissue.png",
+      "tests/evidence/figure-impact/phone/phone-reviewer.png",
+      "tests/evidence/guided-programme-reset/programme-current-read/programme-after-load.json",
+      "tests/evidence/guided-programme-reset/programme-current-read/programme-after-load.png",
+      "tests/evidence/guided-programme-reset/variants/programme-recovery.png",
+      "tests/evidence/guided-programme-reset/variants/result.json",
+      "tests/evidence/guided-repair-independent/probe/programme-recovery.png",
+      "tests/evidence/guided-repair-independent/probe/result.json",
+      "tests/evidence/object-media-integration/compatibility/adversarial-after.json",
+      "tests/evidence/object-media-integration/compatibility/verifier.json",
+      "tests/evidence/object-media/phone.png"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 191,
+        "components": 0,
+        "suitesCitingNoRequirement": 51,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 116,
+        "components": 84,
+        "suitesCitingNoRequirement": 35,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 7
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 96,
+        "components": 0,
+        "suitesCitingNoRequirement": 90,
+        "requirementsCited": 10
+      }
+    },
+    "supportFiles": 18,
+    "suites": 419,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 179,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

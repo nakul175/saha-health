@@ -1,0 +1,98 @@
+Running unit integration --fast; 15 suite(s).
+
+[unit] 7 suite(s)
+  ok       unit/device-work-contract  46 passed  808ms
+  ok       unit/field-client  25 passed  144ms
+  ok       unit/field-provenance-client  17 passed  75ms
+  ok       unit/field-registration-client  69 passed  556ms
+  ok       unit/field-storage-client  30 passed  119ms
+  ok       unit/field-units-client  14 passed  77ms
+  ok       unit/sync-receipt-projection  89 passed  807ms
+
+[integration] 8 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/app-offline-browser ...
+  FAILED   integration/app-offline-browser  no count  17.4s  [exit code 1]
+      | error lines:
+      |   locator.fill: Timeout 15000ms exceeded.
+      |     name: 'TimeoutError'
+      |        - element is not visible
+      |      - retrying fill action
+      |        - waiting 500ms
+      |     at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-offline-guided-app-browser.mjs:18:52 {
+      |   log: [
+      |     "  - waiting for getByLabel('Weight · kg', { exact: true })",
+      |     '    - locator resolved to <input type="text" inputmode="decimal"/>',
+      |     '    - fill("58.5")',
+      |     '  - attempting fill action',
+      |     '    2 × waiting for element to be visible, enabled and editable',
+      |     '      - element is not visible',
+      |     '    - retrying fill action',
+      |     '    - waiting 20ms',
+      |     '    2 × waiting for element to be visible, enabled and editable',
+      |     '      - element is not visible',
+      |     '    - retrying fill action',
+      |     '      - waiting 100ms',
+      |     '    30 × waiting for element to be visible, enabled and editable',
+      |     '       - element is not visible',
+      |     '     - retrying fill action',
+      |     '       - waiting 500ms'
+      |   ],
+      |   name: 'TimeoutError'
+      | }
+      | Node.js v24.19.0
+  running  integration/offline-programme-browser ...
+  ok       integration/offline-programme-browser  17 passed  2.9s
+  running  integration/app-offline-review-browser ...
+  FAILED   integration/app-offline-review-browser  no count  17.6s  [exit code 1]
+      | error lines:
+      |   locator.fill: Timeout 15000ms exceeded.
+      |     name: 'TimeoutError'
+      |        - element is not visible
+      |      - retrying fill action
+      |        - waiting 500ms
+      |     at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-offline-guided-review-browser.mjs:18:52 {
+      |   log: [
+      |     "  - waiting for getByLabel('Weight · kg', { exact: true })",
+      |     '    - locator resolved to <input type="text" inputmode="decimal"/>',
+      |     '    - fill("58.5")',
+      |     '  - attempting fill action',
+      |     '    2 × waiting for element to be visible, enabled and editable',
+      |     '      - element is not visible',
+      |     '    - retrying fill action',
+      |     '    - waiting 20ms',
+      |     '    2 × waiting for element to be visible, enabled and editable',
+      |     '      - element is not visible',
+      |     '    - retrying fill action',
+      |     '      - waiting 100ms',
+      |     '    30 × waiting for element to be visible, enabled and editable',
+      |     '       - element is not visible',
+      |     '     - retrying fill action',
+      |     '       - waiting 500ms'
+      |   ],
+      |   name: 'TimeoutError'
+      | }
+      | Node.js v24.19.0
+  running  integration/offline-guided-author-browser ...
+  ok       integration/offline-guided-author-browser  36 passed  3.9s
+  running  integration/offline-sync-hash-cold-extra-browser ...
+  ok       integration/offline-sync-hash-cold-extra-browser  55 passed  4.3s
+  running  integration/offline-sync-hash-device-browser ...
+  ok       integration/offline-sync-hash-device-browser  64 passed  11.0s
+  running  integration/offline-sync-hash-repair-browser ...
+  ok       integration/offline-sync-hash-repair-browser  51 passed  4.3s
+  running  integration/sync-receipt-cold-scope-browser ...
+  ok       integration/sync-receipt-cold-scope-browser  19 passed  4.3s
+
+  layer        status  suites  passed  failed  skipped    time
+  -----------  ------  ------  ------  ------  -------  ------
+  unit         passed       7     290       0        0    2.6s
+  integration  failed       8     242       0        0  1m 06s
+  total        FAILED      15     532       0        0  1m 09s
+
+Restored 27 tracked file(s) and deleted 4 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: FAILED (9 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/app-offline-browser reported no assertion count; baseline needs at least 22.
+  FAIL     Suite integration/app-offline-review-browser reported no assertion count; baseline needs at least 22.
+  note     6 suite(s) are not in the baseline yet (unit/sync-receipt-projection, integration/offline-guided-author-browser, integration/offline-sync-hash-cold-extra-browser, integration/offline-sync-hash-device-browser, integration/offline-sync-hash-repair-browser, integration/sync-receipt-cold-scope-browser); add them with --update-baseline.
