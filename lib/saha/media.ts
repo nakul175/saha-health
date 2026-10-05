@@ -7,7 +7,7 @@ export const MEDIA_TYPES={'image/jpeg':'photo','image/png':'photo','image/webp':
 export type MediaMime=keyof typeof MEDIA_TYPES;
 export const MEDIA_PURPOSES=['wound-or-skin','document-or-card','medicine-packaging','voice-note','other-clinical'] as const;
 export const MAX_MEDIA_BYTES=256*1024,MIN_MEDIA_BYTES=512,MAX_MEDIA_PER_VISIT=10;
-export type MediaRef={id:string;purpose:typeof MEDIA_PURPOSES[number];mime:MediaMime;size:number;sha256:string;at:string;by:string;removedAt?:string;removedBy?:string;removeReason?:string};
+export type MediaRef={id:string;purpose:typeof MEDIA_PURPOSES[number];mime:MediaMime;size:number;sha256:string;at:string;by:string;removedAt?:string;removedBy?:string;removeReason?:string;storage?:'r2-private-v1'};
 const starts=(b:Uint8Array,sig:number[],at=0)=>sig.every((x,i)=>b[at+i]===x);
 // The declared type must match the file's own signature; a renamed file is refused.
 export function sniff(bytes:Uint8Array,mime:string):boolean{
@@ -22,23 +22,29 @@ export function sniff(bytes:Uint8Array,mime:string):boolean{
   default:return false;
  }
 }
-export function checkMedia(bytes:Uint8Array,mime:string,purpose:string){
+export function checkMedia(bytes:Uint8Array,mime:string,purpose:string,max=MAX_MEDIA_BYTES){
  if(!(mime in MEDIA_TYPES))fail(415,'Attach a JPEG, PNG or WebP photo, or a WebM, Ogg, MP3 or MP4 audio note.');
  if(!(MEDIA_PURPOSES as readonly string[]).includes(purpose))fail(422,'Choose why this media is being attached.');
  if(purpose==='voice-note'&&MEDIA_TYPES[mime as MediaMime]!=='audio')fail(422,'A voice note must be audio.');
  if(bytes.byteLength<MIN_MEDIA_BYTES)fail(422,'This file is too small to be a usable photo or recording.');
- if(bytes.byteLength>MAX_MEDIA_BYTES)fail(413,'Media must be 256 KB or smaller in this release. Reduce the photo size or shorten the note.');
+ if(bytes.byteLength>max)fail(413,`Media must be ${max/1024} KB or smaller. Reduce the photo size or shorten the note.`);
  if(!sniff(bytes,mime))fail(422,'The file content does not match its declared type.');
 }
 // Over-limit bodies are read and discarded up to 1 MB before refusing, because cancelling an
 // unread request body mid-stream restarts the local Worker runtime (seen since R10).
-const DRAIN_LIMIT=1024*1024,TOO_LARGE='Media must be 256 KB or smaller in this release. Reduce the photo size or shorten the note.';
+const DRAIN_LIMIT=1024*1024;export const MEDIA_READ_BUDGET_MS=30000;
 export async function readBounded(request:Request,max:number){
- const reader=request.body?.getReader();if(!reader)fail(400,'A file body is required.');const chunks:Uint8Array[]=[];let size=0,over=false;
+ const reader=request.body?.getReader();if(!reader)fail(400,'A file body is required.');const chunks:Uint8Array[]=[];let size=0,over=false;const deadline=Date.now()+MEDIA_READ_BUDGET_MS;
  const declared=request.headers.get('content-length');if(declared&&(!/^\d+$/.test(declared)||Number(declared)>max))over=true;
- try{while(true){const {value,done}=await reader!.read();if(done)break;size+=value.byteLength;if(size>max)over=true;if(over){if(size>DRAIN_LIMIT){await reader!.cancel();break;}continue;}chunks.push(value);}}finally{reader!.releaseLock();}
- if(over)fail(413,TOO_LARGE);
+ try{while(true){let timer:ReturnType<typeof setTimeout>|undefined;const remaining=deadline-Date.now();if(remaining<=0){try{await reader!.cancel();}catch{}fail(408,'Media upload exceeded its request time budget. Retry with the original key.');}const chunk=await Promise.race([reader!.read(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error('media-time-budget')),remaining);})]).finally(()=>{if(timer)clearTimeout(timer);}).catch(async()=>{try{await reader!.cancel();}catch{}return fail(408,'Media upload exceeded its request time budget. Retry with the original key.');});const {value,done}=chunk;if(done)break;size+=value.byteLength;if(size>max)over=true;if(over){chunks.length=0;if(size>Math.max(DRAIN_LIMIT,max+1024*1024)){await reader!.cancel();break;}continue;}chunks.push(value);}}finally{reader!.releaseLock();}
+ if(over)fail(413,`Media must be ${max/1024} KB or smaller. Reduce the photo size or shorten the note.`);
  const out=new Uint8Array(size);let at=0;for(const c of chunks){out.set(c,at);at+=c.byteLength;}return out;
 }
 export const toB64=(b:Uint8Array)=>{let s='';for(let i=0;i<b.length;i+=0x8000)s+=String.fromCharCode(...b.subarray(i,i+0x8000));return btoa(s);};
 export const fromB64=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+// Transport-only discard for authority/parser refusal before reading. Holds no chunks and
+// reads at most the supported online limit plus one MiB; never changes a clinical outcome.
+export async function discardUnreadMedia(request:Request){
+ if(!request.body||request.bodyUsed)return;let reader:ReadableStreamDefaultReader<Uint8Array>|undefined,timer:ReturnType<typeof setTimeout>|undefined;
+ try{reader=request.body.getReader();let total=0;await Promise.race([(async()=>{while(total<5*1024*1024){const part=await reader!.read();if(part.done)return;total+=part.value.length;}await reader!.cancel();})(),new Promise<void>((_,reject)=>{timer=setTimeout(()=>reject(new Error('media-discard-budget')),MEDIA_READ_BUDGET_MS);})]);}catch{try{await reader?.cancel();}catch{}}finally{if(timer)clearTimeout(timer);try{reader?.releaseLock();}catch{}}
+}

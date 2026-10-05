@@ -1,0 +1,52 @@
+{"event":"saha_request","requestId":"296570d4-1f56-4b6c-aaa2-c8e3f7ad26f4","route":"workspace","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"f73864ed-0782-497a-8d65-001a0600d940","route":"commands","status":200,"durationMs":16}
+{"event":"saha_request","requestId":"2981ba19-26ad-4226-90dd-c3ad21946722","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"4d7e2f1c-dcc8-4489-ae39-32c6f08cbb41","route":"media","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"c1d206e2-9a66-4c11-8aa8-2a922576f58a","route":"media","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"91a9f7bd-bcff-44e0-a6fb-20a3ce96fa9d","route":"media","status":403,"durationMs":6}
+{"event":"saha_request","requestId":"538470ec-d8db-48df-b24d-320636face37","route":"media","status":403,"durationMs":0}
+{"event":"saha_request","requestId":"25117f22-ec61-4ccd-af9f-2f6aed2d7ce6","route":"media","status":413,"durationMs":3}
+{"event":"saha_request","requestId":"7fb74b54-cebc-4947-8f9d-73069c260c2c","route":"media","status":413,"durationMs":7}
+{"event":"saha_request","requestId":"99cf55aa-feb7-4a63-8c72-b523fc3f842a","route":"media","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"191e754c-cba7-4358-bfc9-794447334f74","route":"media","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"e084a610-d43b-4b86-9b59-9738f5a1b046","route":"media","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"8390f458-8b0e-4149-9aa1-9806b00f103c","route":"media","status":403,"durationMs":2}
+{"event":"saha_request","requestId":"9047cc08-d214-45b1-bee4-efdb2a52de43","route":"media","status":403,"durationMs":2}
+{"event":"saha_request","requestId":"7ab46694-e224-4725-ac3d-6c8dbd8d4e16","route":"media","status":403,"durationMs":2}
+{"event":"saha_request","requestId":"71f630df-e4f9-4ed9-983f-3284c248fa77","route":"media","status":403,"durationMs":1}
+{"event":"saha_request","requestId":"b1bdefc6-f42e-4466-b78a-6b86c166d7bb","route":"media","status":403,"durationMs":6}
+{"event":"saha_request","requestId":"441f968b-d9e2-4b59-9dfb-ca9f15150ca2","route":"data-exit","status":200,"durationMs":21}
+{"event":"saha_request","requestId":"0e5561ac-9a54-416a-85c7-c04a6c641996","route":"data-exit","status":200,"durationMs":16}
+{"event":"saha_request","requestId":"f627adad-9a68-44da-ad62-53651d2ead53","route":"media","status":200,"durationMs":46}
+{"event":"saha_request","requestId":"c3a73db0-34b9-4b74-823e-d95f245924e4","route":"media","status":413,"durationMs":8}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"eb196e54-ee22-440e-918f-5afa3a6177df","route":"media","status":503,"durationMs":17}
+{"event":"saha_request","requestId":"a0b26444-b1c7-4a3a-8ca4-0cefd2e61a25","route":"media","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"b0ab457a-818c-4ec1-86fa-98ec2845138a","route":"media","status":403,"durationMs":5}
+{"event":"saha_request","requestId":"33d1bf22-7ed5-4cec-89d6-5da8a1bc4ed7","route":"media","status":503,"durationMs":2}
+{"event":"saha_request","requestId":"d6cfdf64-4a97-4821-a7fa-bb040cd5e0e3","route":"data-exit","status":503,"durationMs":11}
+{"event":"saha_request","requestId":"bdada987-3b9a-4a8b-b902-991443d465db","route":"media","status":503,"durationMs":2}
+{"event":"saha_request","requestId":"7124ac41-5c7b-4804-a383-9460fa65f17b","route":"media","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"599880a8-0f3b-4d80-8d7e-bc082f0c8fa7","route":"media","status":410,"durationMs":1}
+{"event":"saha_request","requestId":"e979cfd8-8c7e-4d3f-9f90-ab8b7622cb35","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"1177ed6f-ecf0-40bc-b14e-cda018d76387","route":"commands","status":422,"durationMs":3}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Record at least one observation or a visit note."}
+
+422 !== 200
+
+    at cmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-http.mjs:9:68)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-http.mjs:27:139 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 422,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

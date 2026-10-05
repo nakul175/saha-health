@@ -1,0 +1,32 @@
+{"event":"saha_request","requestId":"544fcc23-bc37-482a-a566-86c0e7276a6b","route":"workspace","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"a3ae34bc-521a-45c7-8b27-f4852f099da5","route":"commands","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"18b78b98-289c-4a58-acda-03fe34250093","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"dfbdb31c-2e0f-47a3-9c9d-b134be162de2","route":"media","status":200,"durationMs":56}
+{"event":"saha_request","requestId":"5163b543-d2a6-4f52-97a5-949cec0ad38e","route":"media","status":200,"durationMs":51}
+{"event":"saha_request","requestId":"cbe13d98-dcea-4ea0-a5a8-73493b813ce8","route":"media","status":200,"durationMs":50}
+{"event":"saha_request","requestId":"6ea2eb93-7f68-415f-a116-4a25e83c41b8","route":"media","status":200,"durationMs":63}
+{"event":"saha_request","requestId":"7625c87b-574c-44fd-83fc-e03ba9543be0","route":"media","status":200,"durationMs":59}
+{"event":"saha_request","requestId":"b9bfc64f-48d0-434f-ab23-f5732cdce767","route":"media","status":200,"durationMs":48}
+{"event":"saha_request","requestId":"af93fdce-eb87-4fa9-b969-723aeb5c7694","route":"media","status":200,"durationMs":59}
+{"event":"saha_request","requestId":"3e60fbbf-4a76-4260-a999-52711d0fdc38","route":"media","status":200,"durationMs":52}
+{"event":"saha_request","requestId":"bc517f6c-a1e4-40b0-9144-0474ac49dae3","route":"commands","status":409,"durationMs":4}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Possible patient matches need review before a new record is created."}
+
+409 !== 200
+
+    at cmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-budget-http.mjs:2:311)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-budget-http.mjs:2:408 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 409,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,32 @@
+{"event":"saha_request","requestId":"7fcfd279-df84-4c4b-9a5b-1b83a8bfa574","route":"workspace","status":200,"durationMs":31}
+{"event":"saha_request","requestId":"851899a5-85e5-455e-8c55-cbcf79e3bb95","route":"commands","status":200,"durationMs":28}
+{"event":"saha_request","requestId":"f36d267e-cb35-43b6-a691-c7007b694216","route":"commands","status":200,"durationMs":14}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+
+Caught error:
+
+TypeError: Body has already been used. It can only be used once. Use tee() first if you need to read it twice.
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-native-boundary.mjs:10:31 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: TypeError: Body has already been used. It can only be used once. Use tee() first if you need to read it twice.
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async objectBytes (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-boundary-RLvY2L/media-storage.js:32:34)
+      at async stagePrivateObject (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-boundary-RLvY2L/media-storage.js:65:5)
+      at async Module.uploadMedia (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-boundary-RLvY2L/media-server.js:106:25)
+      at async waitForActual (node:assert:646:5)
+      at async strict.rejects (node:assert:769:25)
+      at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-native-boundary.mjs:10:31 {
+    [cause]: undefined
+  },
+  expected: [Function (anonymous)],
+  operator: 'rejects',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,23 @@
+{"event":"saha_request","requestId":"e8b16e0f-6e0f-451f-bb36-d6c300aa7e98","route":"workspace","status":200,"durationMs":20}
+{"event":"saha_request","requestId":"dbda9ddf-c16c-45be-a177-798eba491605","route":"commands","status":200,"durationMs":16}
+{"event":"saha_request","requestId":"65fdb888-a139-4f7b-99ad-d384b72799f5","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"6d8e463b-e24b-40b0-92ee-f290c444a498","route":"media","status":200,"durationMs":52}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+false !== true
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-after-put-http.mjs:6:668
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

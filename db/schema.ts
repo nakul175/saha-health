@@ -144,7 +144,7 @@ export const retention = sqliteTable('retention', {
 // Slice 2b: small visit media (photos and voice notes) with type, size and purpose; tombstoned on draft removal.
 export const media = sqliteTable('media', {
   orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(),
-  mime:text('mime').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), purpose:text('purpose').notNull(), createdAt:text('created_at').notNull(), deletedAt:text('deleted_at'), data:text('data').notNull(),
+  mime:text('mime').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), purpose:text('purpose').notNull(), createdAt:text('created_at').notNull(), deletedAt:text('deleted_at'), data:text('data').notNull(), storageRef:text('storage_ref'),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('media_org_visit').on(t.orgId,t.visitId),index('media_org_person').on(t.orgId,t.personId)]);
 // Slice 13d (round-10 review M2): where the scheduled job's organisation rotation stopped, so the next run continues from
 // the organisation after it (wrapping at the end). One row per job; holds an organisation id and a time, nothing else.
@@ -221,3 +221,8 @@ export const indicatorFigureReceipts=sqliteTable('indicator_figure_receipts',{
 export const indicatorFigureDisclosures=sqliteTable('indicator_figure_disclosures',{
  orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),figureId:text('figure_id').notNull(),releaseHash:text('release_hash').notNull(),released:text('released').notNull(),at:text('at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.actorId,t.figureId,t.releaseHash]})]);
+
+// B10 private object custody; failed/staged intents remain inaccessible, never purged automatically.
+export const mediaCustody=sqliteTable('media_custody', {
+ orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), actorId:text('actor_id').notNull(), requestKey:text('request_key').notNull(), inputHash:text('input_hash').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(), objectKey:text('object_key').notNull(), state:text('state').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), mime:text('mime').notNull(), objectVersion:text('object_version'), etag:text('etag'), createdAt:text('created_at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('media_custody_request').on(t.orgId,t.actorId,t.requestKey),uniqueIndex('media_custody_key').on(t.objectKey),index('media_custody_pending').on(t.orgId,t.actorId,t.state),check('media_custody_state',sql`${t.state} IN ('staged','quarantined','linked','removed')`)]);

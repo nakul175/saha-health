@@ -1,0 +1,16 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-contract-v0WGUC/core.js:14
+export function fail(status, message) { throw new AppError(status, message); }
+                                              ^
+
+AppError: Private media storage is not configured. No media was accepted.
+    at fail (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-contract-v0WGUC/core.js:14:47)
+    at Module.mediaBackend (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-contract-v0WGUC/media-storage.js:10:9)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-contract.mjs:5:100
+    at waitForActual (node:assert:632:21)
+    at strict.rejects (node:assert:769:31)
+    at reject (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-contract.mjs:2:169)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-contract.mjs:5:71 {
+  status: 503
+}
+
+Node.js v24.19.0
