@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,readdirSync,statSync} from 'node:fs';
 import {startMiniflare} from './lib/miniflare.mjs';
 import {identity,client,startWorker} from './lib/worker.mjs';
-const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');let browser;const ev='tests/evidence/inbound-retrieval-handoff';let passed=0;const check=async f=>{await f();passed++};
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');let browser;const ev='tests/evidence/inbound-retrieval-service-repair';let passed=0;const check=async f=>{await f();passed++};
 let w=await startMiniflare({port:9031,name:'inbound-retrieval-handoff',bindings:{SAHA_ENVIRONMENT:'synthetic'}});
 try{
  const api=client(w.base),owner=identity('inbound-owner'),reviewer=identity('inbound-reviewer'),other=identity('inbound-other'),db=await w.mf.getD1Database('DB');
