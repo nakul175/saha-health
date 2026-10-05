@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {identity,client} from './lib/worker.mjs';
+import {startMiniflare} from './lib/miniflare.mjs';
+const out='tests/evidence/installed-programme-execution-before';mkdirSync(out,{recursive:true});
+const w=await startMiniflare({port:19860,name:'installed-execution-before',bindings:{SAHA_EXTERNAL_APIS_ENABLED:'false'}});
+let passed=0;const check=(value,label)=>{assert.ok(value,label);passed++};
+try{
+ const api=client(w.base),o=identity('installed-execution-owner'),r=identity('installed-execution-reviewer');
+ const initial=(await api.get(o,'/api/workspace')).json,org=initial.organisation.id;
+ const cmd=async(who,body,status=200)=>{const x=await api.call(who,'/api/commands',{method:'POST',org,body});check(x.status===status,x.text);return x.json};
+ const snap=async()=>{const x=await api.get(o,'/api/workspace',org);check(x.status===200,x.text);return x.json};
+ const reviewer=(await api.get(r,'/api/workspace')).json;
+ const invitation=(await cmd(o,{type:'createInvite',accountCode:reviewer.user.accountCode,label:'Synthetic independent clinician',role:'clinician',teamIds:['default']})).result;
+ await cmd(r,{type:'joinOrganisation',token:invitation.token});
+ const manifest={format:'saha-pack-manifest-1',id:'synthetic_due',version:1,name:'Synthetic explicit rule witness',programme:'General care',purpose:'Synthetic explicit follow-up and escalation discovery, not clinical approval',questions:[{id:'reported_concern',label:'Synthetic concern reported',required:true,options:['Yes','No']}],schedule:{followUpWithinDays:3,note:'Synthetic configured interval; not a clinical default'},escalation:[{id:'concern-review',label:'Synthetic concern needs review',condition:{questionId:'reported_concern',operator:'eq',value:'Yes'},urgency:'urgent_review'}],changeNote:'Synthetic installed rule execution before witness only'};
+ const staged=(await cmd(o,{type:'packInstallStage',manifest,reason:'Synthetic discovery stage explicit configured rules'})).result;
+ await cmd(o,{type:'packInstallReview',installationId:staged.installationId,manifestHash:staged.manifestHash,decision:'approve',reason:'Synthetic independent review must refuse uploader'},403);
+ await cmd(r,{type:'packInstallReview',installationId:staged.installationId,manifestHash:staged.manifestHash,decision:'approve',reason:'Synthetic structure review by independent clinician'});
+ await cmd(o,{type:'packInstallActivate',installationId:staged.installationId,manifestHash:staged.manifestHash,reason:'Synthetic activation of exact reviewed manifest'});
+ const personId=(await cmd(o,{type:'createPerson',name:'Synthetic installed rule discovery person',age:28,sex:'Unknown',village:'Synthetic locality',programme:'General care',teamId:'default'})).result.personId;
+ let s=await snap(),p=()=>s.people.find(x=>x.id===personId);
+ const enrolmentId=(await cmd(o,{type:'enrolProgramme',personId,version:p().version,packId:manifest.id,episodeLabel:'Synthetic active discovery episode',startDate:null})).result.enrolmentId;
+ const visitId=(await cmd(o,{type:'startVisit',personId})).result.visitId;
+ s=await snap();let v=()=>s.visits.find(x=>x.id===visitId);
+ await cmd(o,{type:'saveVisit',visitId,version:v().version,facts:{date:new Date().toISOString().slice(0,16),weight:'',systolic:'',diastolic:'',temperature:'',weeks:'',coughDays:'',notes:'Synthetic documentary rule witness only',source:'reported'}});
+ s=await snap();await cmd(o,{type:'saveProgrammeAnswers',visitId,version:v().version,answers:{reported_concern:'Yes'},absence:{}});
+ s=await snap();await cmd(o,{type:'confirmVisit',visitId,version:v().version,patientCheck:{personId,personVersion:p().version,confirmed:true}});
+ s=await snap();const confirmed=JSON.stringify(v()),captured=v().programmeCapture.packs.find(x=>x.pack.id===manifest.id);
+ check(v().state==='confirmed','Supported visit confirmed');check(captured.pack.installed.manifestHash===staged.manifestHash,'Exact installed source captured');
+ const plan=await api.get(o,'/api/action-plan?personId='+personId,org);check(plan.status===200,plan.text);
+ const db=await w.mf.getD1Database('DB');
+ const audits=(await db.prepare('SELECT action,subject FROM audit_events WHERE org_id=? ORDER BY rowid').bind(org).all()).results;
+ const after=await snap();check(JSON.stringify(after.visits.find(x=>x.id===visitId))===confirmed,'Audited loads preserve confirmed source bytes');
+ const witness={sourceCommit:'ce25bfb8',installation:staged,manifest,personId,enrolmentId,visitId,confirmedAt:v().confirmedAt,capturedSchedule:captured.pack.schedule,capturedEscalation:captured.pack.escalation,followUps:p().followUps??[],protocolChecks:v().protocolChecks??[],actionPlan:plan.json,mutationActions:audits.map(x=>x.action),observedNoGeneratedFollowup:(p().followUps??[]).length===0,observedNoEscalation:(v().protocolChecks??[]).length===0&&plan.json.items.length===0,limitation:'No scheduler trigger executed here; source inventory identifies absent installed execution hook. No clinical/provider acceptance.'};
+ check(witness.observedNoGeneratedFollowup,'Existing implementation has no generated due work');check(witness.observedNoEscalation,'Existing implementation has no generated escalation');
+ writeFileSync(out+'/observed.json',JSON.stringify(witness,null,2)+'\n');writeFileSync(out+'/result.json',JSON.stringify({passed,failed:0,classification:'before-gap witness, not acceptance'},null,2)+'\n');console.log(JSON.stringify({passed,observedNoGeneratedFollowup:true,observedNoEscalation:true}));
+}finally{await w.stop();}

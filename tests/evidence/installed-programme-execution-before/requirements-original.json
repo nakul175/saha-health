@@ -1,0 +1,30 @@
+{
+  "source": "docs/history/v1.0/source/Health-AI-Orchestration-Platform-BRD-v1.1.docx",
+  "sha256": "8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8",
+  "requirements": [
+    {
+      "requirement": "BR-PROG-03",
+      "paragraphs": [
+        "BR-PROG-03  TB screening workflow  (Must, R1)",
+        "The TB pack shall support authorised symptom screening, relevant history, optional eligible AI assistance, referral preparation and follow-up of testing or care milestones. Screening output shall remain separate from confirmed diagnosis and official programme registration.",
+        "Acceptance: A low-risk AI output cannot suppress a referral required by the approved symptom protocol, and an unresolved result remains visible for follow-up."
+      ]
+    },
+    {
+      "requirement": "BR-PROG-07",
+      "paragraphs": [
+        "BR-PROG-07  Protocol change and case continuity  (Must, R1)",
+        "Pack changes shall have an effective date, affected population, change summary and transition rule for open cases. Historical actions shall retain the rules in force when they occurred.",
+        "Acceptance: Updating a referral rule identifies affected open work and requires reviewed migration rather than silently rewriting past decisions."
+      ]
+    },
+    {
+      "requirement": "BR-PROG-08",
+      "paragraphs": [
+        "BR-PROG-08  Additional programme packs  (Should, R2)",
+        "The platform shall support later packs for immunisation, child health, diabetes or other buyer-approved needs using the same configuration and review process. Their adoption is subject to workflow and integration readiness.",
+        "Acceptance: A new pack can reuse common identity and observations while defining independent schedules, role boundaries and destination rules."
+      ]
+    }
+  ]
+}
