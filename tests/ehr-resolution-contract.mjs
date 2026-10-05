@@ -139,6 +139,15 @@ export async function recordAccess(db,s,u,m,a){if(failing)throw new AppError(503
     const q = exceptionQueue(store.saved, admin), row = q.items.find(x => x.id === 'ehr-publication:' + notStoredOp.id);
     assert.equal(row.severity, 'normal'); assert.match(row.what, /not stored/); assert.match(row.recovery, /Nothing was resent/); assert.equal(q.rulesVersion, '1.3.0');
     assert.equal(exceptionQueue(s, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), false);
+    // Preparation can append within the same millisecond. Only a later appended operation suppresses the resolved row.
+    const sameTime = structuredClone(s), operations = sameTime.workspace.people[0].ehr.operations;
+    const previous = operations.find(x => x.id === notStoredOp.id), replacement = operations.at(-1);
+    replacement.at = previous.at;
+    assert.equal(exceptionQueue(sameTime, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), false);
+    replacement.linkId = 'another-link';
+    assert.equal(exceptionQueue(sameTime, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), true);
+    replacement.linkId = previous.linkId; replacement.at = new Date(Date.parse(previous.at) - 1).toISOString();
+    assert.equal(exceptionQueue(sameTime, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), true);
   });
   await check(async () => {
     // Several documents under one identifier: a conflict for the named reconciliation owner.

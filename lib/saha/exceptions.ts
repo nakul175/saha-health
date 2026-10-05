@@ -59,11 +59,12 @@ export function exceptionQueue(s:OrgState,m:Member,now=new Date().toISOString())
   // when one is set; a conflict (several documents, or a different one, under the publication's identifier) is that
   // owner's; a publication the EHR's authoritative search showed as not stored is listed until a later publication of
   // the same visit to the same link exists.
-  for(const o of p.ehr?.operations??[]){
+  for(const [operationIndex,o] of (p.ehr?.operations??[]).entries()){
    const ops=p.ehr?.operations??[],link=p.ehr?.links.find(l=>l.id===o.linkId),conn=link?s.workspace.integrations.find(i=>i.id===link.integrationId):undefined,ownerId=conn?.ehr?.lookup?.ownerId??null;
    const owner=ownerId?`${name(ownerId)} (reconciliation owner)`:'Operations (owner or administrator)';
    if(o.state==='conflict'){add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication conflict: ${o.resolution?.matches===1?'the one document under its identifier differs from the published document':`${o.resolution?.matches??'several'} documents carry its identifier`}`,since:o.resolution?.at??o.at,owner,recovery:'Compare the matching documents with the partner and agree which one stands. Saha does not choose; do not publish again.'},o.visitId,{query:'publication',id:o.id});continue;}
-   if(o.state==='not-stored'){if(ops.some(y=>y.id!==o.id&&y.visitId===o.visitId&&y.linkId===o.linkId&&y.at>o.at))continue;
+   // Operations append in preparation order. Equal-millisecond timestamps do not make a replacement disappear.
+   if(o.state==='not-stored'){if(ops.some((y,index)=>y.id!==o.id&&y.visitId===o.visitId&&y.linkId===o.linkId&&(y.at>o.at||y.at===o.at&&index>operationIndex)))continue;
     add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'normal',what:'EHR publication not stored (authoritative identifier search found no document)',since:o.resolution?.at??o.at,owner:`Care workers of ${team(p)}`,recovery:'Nothing was resent. If the document is still needed, a care worker prepares a new publication and approves it.'},o.visitId,{query:'publication',id:o.id});continue;}
    if(!(o.state==='uncertain'||o.state==='running'&&Date.parse(now)-Date.parse(o.at)>STALE_RUNNING_MINUTES*60000))continue;
    add({id:'ehr-publication:'+o.id,kind:'ehr-publication',severity:'high',what:`EHR publication ${o.state==='uncertain'?'outcome unknown':'still running after '+STALE_RUNNING_MINUTES+' minutes'}`,since:o.at,owner,recovery:'Look up the document identifier with the EHR; do not publish again.'},o.visitId,{query:'publication',id:o.id});
