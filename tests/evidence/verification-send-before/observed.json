@@ -1,0 +1,302 @@
+{
+  "source": "a8db3e2f6fe06fd4dec07e1b504c0a4b7e8e7973",
+  "witnesses": [
+    {
+      "target": "fact:weight",
+      "visitId": "5a86de52-bb56-4ce4-ae38-8ee6cae3fba8",
+      "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+      "verified": {
+        "reviewId": "43fb23f5-2646-4f63-877d-6378c560e473",
+        "measure": "weight",
+        "state": "verified"
+      },
+      "disputed": {
+        "reviewId": "1310b39e-00c6-4d08-a089-ee9713f62a71",
+        "measure": "weight",
+        "state": "disputed"
+      },
+      "currentFactReviews": [
+        {
+          "id": "43fb23f5-2646-4f63-877d-6378c560e473",
+          "measure": "weight",
+          "state": "verified",
+          "by": "t-f05ba7e4-verification-source-reviewer",
+          "byName": "verification-source-reviewer-f05ba7e4@example.invalid",
+          "at": "2026-10-05T19:58:48.569Z",
+          "reason": "Synthetic conflicting independent measurement evidence"
+        },
+        {
+          "id": "1310b39e-00c6-4d08-a089-ee9713f62a71",
+          "measure": "weight",
+          "state": "disputed",
+          "by": "t-f05ba7e4-verification-source-reviewer",
+          "byName": "verification-source-reviewer-f05ba7e4@example.invalid",
+          "at": "2026-10-05T19:58:48.586Z",
+          "reason": "Synthetic conflicting independent measurement evidence"
+        }
+      ],
+      "currentEntryReviews": [],
+      "explicitDisputes": [],
+      "carryingDestination": "mis_community",
+      "destinationMode": "demo",
+      "prepareAccepted": true,
+      "approveAccepted": true,
+      "executionAccepted": true,
+      "submissionBeforeLookup": {
+        "id": "4a61d96e-8863-4c42-a299-6bf5e09d4cdb",
+        "visitId": "5a86de52-bb56-4ce4-ae38-8ee6cae3fba8",
+        "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "uncertain",
+        "mode": "demo",
+        "payloadHash": "4d390b9e0af553a1f0eed8d0d4acacbcf658b160b2d4c860ab3bf01f03e565d2",
+        "attempts": 1,
+        "message": "Simulator stored the record, but its response was lost. Look up the receipt; do not resend.",
+        "createdAt": "2026-10-05T19:58:48.643Z",
+        "updatedAt": "2026-10-05T19:58:48.643Z",
+        "trace": [
+          {
+            "at": "2026-10-05T19:58:48.643Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "2563c46d-14a9-4b83-9541-b10bbada17b9",
+              "actorId": "t-010d0db8-verification-source-recorder",
+              "auditId": "fb5fd1e9-f83d-4e70-8168-35e34147a049"
+            }
+          }
+        ]
+      },
+      "submissionAfterLookup": {
+        "id": "4a61d96e-8863-4c42-a299-6bf5e09d4cdb",
+        "visitId": "5a86de52-bb56-4ce4-ae38-8ee6cae3fba8",
+        "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "accepted",
+        "mode": "demo",
+        "payloadHash": "4d390b9e0af553a1f0eed8d0d4acacbcf658b160b2d4c860ab3bf01f03e565d2",
+        "attempts": 1,
+        "message": "Receipt found by lookup. The visit was not sent again.",
+        "createdAt": "2026-10-05T19:58:48.643Z",
+        "updatedAt": "2026-10-05T19:58:48.663Z",
+        "trace": [
+          {
+            "at": "2026-10-05T19:58:48.643Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "2563c46d-14a9-4b83-9541-b10bbada17b9",
+              "actorId": "t-010d0db8-verification-source-recorder",
+              "auditId": "fb5fd1e9-f83d-4e70-8168-35e34147a049"
+            }
+          }
+        ],
+        "receipt": "SIM-4A61D96E"
+      },
+      "clinicalContentUnchanged": true
+    },
+    {
+      "target": "notes",
+      "visitId": "f927e8c5-b26d-48e9-83f9-1e2c2e26609a",
+      "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+      "verified": {
+        "reviewId": "d46c12fc-a0ba-441e-8eab-c95cc4c2ab93",
+        "entry": "notes",
+        "state": "verified"
+      },
+      "disputed": {
+        "reviewId": "3fcd4db2-4f1e-4f4d-bc78-7774a1c46236",
+        "entry": "notes",
+        "state": "disputed"
+      },
+      "currentFactReviews": [],
+      "currentEntryReviews": [
+        {
+          "id": "d46c12fc-a0ba-441e-8eab-c95cc4c2ab93",
+          "entry": "notes",
+          "state": "verified",
+          "by": "t-f05ba7e4-verification-source-reviewer",
+          "byName": "verification-source-reviewer-f05ba7e4@example.invalid",
+          "at": "2026-10-05T19:58:48.754Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        },
+        {
+          "id": "3fcd4db2-4f1e-4f4d-bc78-7774a1c46236",
+          "entry": "notes",
+          "state": "disputed",
+          "by": "t-f05ba7e4-verification-source-reviewer",
+          "byName": "verification-source-reviewer-f05ba7e4@example.invalid",
+          "at": "2026-10-05T19:58:48.771Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        }
+      ],
+      "explicitDisputes": [],
+      "carryingDestination": "mis_community",
+      "destinationMode": "demo",
+      "prepareAccepted": true,
+      "approveAccepted": true,
+      "executionAccepted": true,
+      "submissionBeforeLookup": {
+        "id": "5514aeb7-58d2-4295-8bc5-679cbc4a21e9",
+        "visitId": "f927e8c5-b26d-48e9-83f9-1e2c2e26609a",
+        "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "uncertain",
+        "mode": "demo",
+        "payloadHash": "c829677b81c9060c0e67e6e35673d8e814cf8a2ff1d9847dbca61deee05219e9",
+        "attempts": 1,
+        "message": "Simulator stored the record, but its response was lost. Look up the receipt; do not resend.",
+        "createdAt": "2026-10-05T19:58:48.830Z",
+        "updatedAt": "2026-10-05T19:58:48.830Z",
+        "trace": [
+          {
+            "at": "2026-10-05T19:58:48.830Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "88979e47-72dd-437c-9e32-c6e369dd0f14",
+              "actorId": "t-010d0db8-verification-source-recorder",
+              "auditId": "e1e17ab0-9b53-45bb-973f-c176bd251b67"
+            }
+          }
+        ]
+      },
+      "submissionAfterLookup": {
+        "id": "5514aeb7-58d2-4295-8bc5-679cbc4a21e9",
+        "visitId": "f927e8c5-b26d-48e9-83f9-1e2c2e26609a",
+        "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "accepted",
+        "mode": "demo",
+        "payloadHash": "c829677b81c9060c0e67e6e35673d8e814cf8a2ff1d9847dbca61deee05219e9",
+        "attempts": 1,
+        "message": "Receipt found by lookup. The visit was not sent again.",
+        "createdAt": "2026-10-05T19:58:48.830Z",
+        "updatedAt": "2026-10-05T19:58:48.849Z",
+        "trace": [
+          {
+            "at": "2026-10-05T19:58:48.830Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "88979e47-72dd-437c-9e32-c6e369dd0f14",
+              "actorId": "t-010d0db8-verification-source-recorder",
+              "auditId": "e1e17ab0-9b53-45bb-973f-c176bd251b67"
+            }
+          }
+        ],
+        "receipt": "SIM-5514AEB7"
+      },
+      "clinicalContentUnchanged": true
+    },
+    {
+      "target": "answer:testing",
+      "visitId": "4b0bd169-bad1-4b8f-b37c-e033ffecef84",
+      "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+      "verified": {
+        "reviewId": "c8dbed9d-0d3a-4b29-8673-940be79b8002",
+        "entry": "answer:testing",
+        "state": "verified"
+      },
+      "disputed": {
+        "reviewId": "e0bc281f-3564-4500-9648-a00e63a76614",
+        "entry": "answer:testing",
+        "state": "disputed"
+      },
+      "currentFactReviews": [],
+      "currentEntryReviews": [
+        {
+          "id": "c8dbed9d-0d3a-4b29-8673-940be79b8002",
+          "entry": "answer:testing",
+          "state": "verified",
+          "by": "t-f05ba7e4-verification-source-reviewer",
+          "byName": "verification-source-reviewer-f05ba7e4@example.invalid",
+          "at": "2026-10-05T19:58:48.935Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        },
+        {
+          "id": "e0bc281f-3564-4500-9648-a00e63a76614",
+          "entry": "answer:testing",
+          "state": "disputed",
+          "by": "t-f05ba7e4-verification-source-reviewer",
+          "byName": "verification-source-reviewer-f05ba7e4@example.invalid",
+          "at": "2026-10-05T19:58:48.959Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        }
+      ],
+      "explicitDisputes": [],
+      "carryingDestination": "mis_community",
+      "destinationMode": "demo",
+      "prepareAccepted": true,
+      "approveAccepted": true,
+      "executionAccepted": true,
+      "submissionBeforeLookup": {
+        "id": "905c0b5e-706f-4605-8632-ce40eb001627",
+        "visitId": "4b0bd169-bad1-4b8f-b37c-e033ffecef84",
+        "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "uncertain",
+        "mode": "demo",
+        "payloadHash": "8896f620525a78ba46ee53cb1ef9558cc57aa17353839981c8a0c6afcc9e3a07",
+        "attempts": 1,
+        "message": "Simulator stored the record, but its response was lost. Look up the receipt; do not resend.",
+        "createdAt": "2026-10-05T19:58:49.015Z",
+        "updatedAt": "2026-10-05T19:58:49.015Z",
+        "trace": [
+          {
+            "at": "2026-10-05T19:58:49.015Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "7b2bee73-a7ac-4441-9cf3-3e1d53c907aa",
+              "actorId": "t-010d0db8-verification-source-recorder",
+              "auditId": "18785b0b-910e-491a-8dc9-0dfb715758e5"
+            }
+          }
+        ]
+      },
+      "submissionAfterLookup": {
+        "id": "905c0b5e-706f-4605-8632-ce40eb001627",
+        "visitId": "4b0bd169-bad1-4b8f-b37c-e033ffecef84",
+        "personId": "f27c2677-3099-4a28-8aa8-5c6ea2ed255f",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "accepted",
+        "mode": "demo",
+        "payloadHash": "8896f620525a78ba46ee53cb1ef9558cc57aa17353839981c8a0c6afcc9e3a07",
+        "attempts": 1,
+        "message": "Receipt found by lookup. The visit was not sent again.",
+        "createdAt": "2026-10-05T19:58:49.015Z",
+        "updatedAt": "2026-10-05T19:58:49.034Z",
+        "trace": [
+          {
+            "at": "2026-10-05T19:58:49.015Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "7b2bee73-a7ac-4441-9cf3-3e1d53c907aa",
+              "actorId": "t-010d0db8-verification-source-recorder",
+              "auditId": "18785b0b-910e-491a-8dc9-0dfb715758e5"
+            }
+          }
+        ],
+        "receipt": "SIM-905C0B5E"
+      },
+      "clinicalContentUnchanged": true
+    }
+  ],
+  "existingExplicitDisputeHolds": true,
+  "externalMessages": 0,
+  "limitation": "Demonstration destination executes locally; no real provider send or acceptance. Before-gap is current verification-dispute omission, not clinical approval."
+}
