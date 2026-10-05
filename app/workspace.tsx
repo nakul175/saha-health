@@ -99,7 +99,7 @@ export default function WorkspaceApp({appFirst=false}:{appFirst?:boolean}={}){
  const [pilotTask,setPilotTask]=useState(false);
  const pilotOrg=data&&data.role==='asha'&&!data.membership.isOwner?data.organisation.id:null,pilotRevision=data?.organisation.revision;
  useEffect(()=>{if(!pilotOrg){setPilotTask(false);return;}let live=true;fetch('/api/pilot',{cache:'no-store',headers:{'x-saha-organisation':pilotOrg}}).then(r=>r.ok?r.json():null).then((j:any)=>{if(live)setPilotTask(!!j&&j.pilot?.stage!=='completed'&&(j.pilot?.training??[]).length>0);}).catch(()=>{if(live)setPilotTask(false);});return()=>{live=false};},[pilotOrg,pilotRevision]);
- const linkedWork=useLinkedWorkBurden(data);
+ const linkedWork=useLinkedWorkBurden(data,visitId);
  const retryKeys=useRef<Record<string,string>>({});
  // Slice 0b-3: large non-ASHA scopes are paged by the server; opened patients form a window the server re-reads.
  const openedRef=useRef<string[]>([]);

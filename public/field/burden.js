@@ -6,6 +6,7 @@ export function fieldBurdenClock(){let active=0,last=null,recent=-Infinity,foreg
  input(now){recent=now;last??=now;},
  tick(now,visible){if(last!==null&&foreground&&visible&&now>=last)active+=Math.max(0,Math.min(now,recent+30000)-last);last=now;foreground=visible;},
  reset(){active=0;last=null;recent=-Infinity;foreground=false;},
+ milliseconds(){return active;},
  bucket(){return active<=0?null:active<=30000?'capture-30s':active<=120000?'capture-2m':active<=300000?'capture-5m':active<=900000?'capture-15m':'capture-over15m';}
 };}
 export function fieldBurdenOutbox({book,persist,current,eligible,fetcher=fetch,uuid=()=>crypto.randomUUID()}){
@@ -56,5 +57,7 @@ export function fieldBurdenOutbox({book,persist,current,eligible,fetcher=fetch,u
    book.burdenEvents=book.burdenEvents.filter(e=>e.key!==event.key);await persist();sent++;
   }return {sent,pending:!!book.burdenEvents?.length};
  }
- return {observe,saved:(d,code)=>enqueue(d,code),unknown(d){const key=d?.pending?.key;return typeof key==='string'?enqueue(d,'client-sync-unknown',key):Promise.resolve(false);},flush(){if(!sending)sending=deliver().finally(()=>{sending=null;});return sending;}};
+ // Restoring an encrypted collection preference does not assert current server membership.
+ function restore(policy){if(same()&&policy?.userId===book.userId&&typeof policy.organisationId==='string'&&policy.organisationId.length<=200&&policy.enabled===true&&Number.isInteger(policy.version))policies.set(policy.organisationId,{enabled:true,version:policy.version});}
+ return {observe,restore,saved:(d,code)=>enqueue(d,code),unknown(d){const key=d?.pending?.key;return typeof key==='string'?enqueue(d,'client-sync-unknown',key):Promise.resolve(false);},flush(){if(!sending)sending=deliver().finally(()=>{sending=null;});return sending;}};
 }
