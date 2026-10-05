@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-05",
+  "sourceBase": "e80a6242ba208aec32ed2eca475f9da82ad25cdb",
+  "reviewFix": "10aab48c3a695400827cf602b2875b71419c7560",
+  "passed": 11,
+  "failed": 0,
+  "actualWorker": true,
+  "actualD1": true,
+  "externalProviderCalls": 0,
+  "formalAcceptancePromoted": false,
+  "observations": [
+    {
+      "clause": "declared transformation",
+      "status": 422,
+      "error": "Unrecognized key(s) in object: 'transformation'",
+      "supported": false
+    },
+    {
+      "clause": "destination unit semantics",
+      "status": 422,
+      "error": "Unrecognized key(s) in object: 'unit'",
+      "supported": false
+    },
+    {
+      "clause": "explicit null semantics",
+      "status": 422,
+      "error": "Unrecognized key(s) in object: 'nullSemantics'",
+      "supported": false
+    },
+    {
+      "clause": "owner-approved conformance fixtures",
+      "status": 422,
+      "error": "Unrecognized key(s) in object: 'fixtures'",
+      "supported": false
+    },
+    {
+      "clause": "explicit unmapped terminology state",
+      "status": 422,
+      "error": "Invalid enum value. Expected 'active' | 'deprecated' | 'ambiguous', received 'unmapped'",
+      "supported": false
+    },
+    {
+      "clause": "destination mandatory field conformance",
+      "publishedWithoutPriorRequiredWeight": true,
+      "connectorSuspended": true,
+      "activationAttempted": false,
+      "externalSourceContractPresent": false,
+      "meaning": "Publication has no independently declared destination mandatory-field fixture; suspension and disabled transport still guard live activation."
+    }
+  ]
+}
