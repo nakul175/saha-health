@@ -243,3 +243,6 @@ export const reportingCompletenessSnapshots=sqliteTable('reporting_completeness_
 export const reportingCompletenessReceipts=sqliteTable('reporting_completeness_receipts',{
   orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),key:text('key').notNull(),bodyHash:text('body_hash').notNull(),calendarId:text('calendar_id').notNull(),calendarVersion:integer('calendar_version').notNull(),result:text('result').notNull(),
 },t=>[primaryKey({columns:[t.actorId,t.key]}),foreignKey({columns:[t.orgId,t.calendarId,t.calendarVersion],foreignColumns:[reportingCalendars.orgId,reportingCalendars.id,reportingCalendars.version]})]);
+export const installedPackWorkEvents=sqliteTable('installed_pack_work_events',{
+ orgId:text('org_id').notNull().references(()=>organisations.id),id:text('id').notNull(),entityId:text('entity_id').notNull(),personId:text('person_id'),actorId:text('actor_id').notNull(),kind:text('kind').notNull(),at:text('at').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('installed_pack_work_person').on(t.orgId,t.personId,t.entityId)]);
