@@ -1,0 +1,15 @@
+{"mode":"d1-traced","startedAt":"2026-10-05T21:05:53.627Z","successfulLoads":0,"phases":[],"endedAt":"2026-10-05T21:05:53.836Z","traceBytes":0,"traceSha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
+node:internal/process/task_queues:104
+    runMicrotasks();
+    ^
+
+Error: D1_EXEC_ERROR: Error in line 1: CREATE TABLE fixture(id INTEGER PRIMARY KEY,detail TEXT): table fixture already exists at offset 13: SQLITE_ERROR
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-performance-next/scripts/diagnose-memory-collector-next.mjs:11:746 {
+  [cause]: Error: Error in line 1: CREATE TABLE fixture(id INTEGER PRIMARY KEY,detail TEXT): table fixture already exists at offset 13: SQLITE_ERROR
+      at cloudflare-internal:d1-api:227:32 {
+    [cause]: undefined
+  }
+}
+
+Node.js v24.19.0

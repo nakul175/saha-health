@@ -1,0 +1,99 @@
+{
+  "source": "0de84078e727be6276f3f05c640f486cd1470fab",
+  "startedAt": "2026-10-05T21:06:05.445Z",
+  "runtime": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd",
+    "sha256": "66b13927e98a838dd15cc23d5ed432a4a214cc08ed37fb6180e9681719dc8a73",
+    "version": "workerd 2026-05-15",
+    "miniflare": "4.20260515.0",
+    "node": "v24.19.0",
+    "v8": "13.6.233.17-node.51",
+    "nodeExecArgv": [],
+    "platform": "darwin",
+    "arch": "arm64",
+    "compatibilityDate": "2026-05-15",
+    "compatibilityFlags": [
+      "nodejs_compat",
+      "global_fetch_strictly_public"
+    ],
+    "bundleHash": "dae25ece9069d76c87a4de8e6761db08ee260e18da8b61c337b42fdad36a83cf",
+    "shim": "#!/bin/sh\nif [ \"$1\" = serve ] && [ -n \"$SAHA_PERFETTO_TRACE\" ]; then\n exec '/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd' \"$@\" \"--perfetto-trace=$SAHA_PERFETTO_TRACE\"\nelse\n exec '/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd' \"$@\"\nfi\n",
+    "categories": "*"
+  },
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "heapFlags": false,
+  "concurrency": 4,
+  "cases": [
+    {
+      "mode": "d1-traced",
+      "startedAt": "2026-10-05T21:06:05.500Z",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "cold",
+          "at": "2026-10-05T21:06:05.907Z",
+          "monotonicNs": "568831307656291",
+          "pid": 33246,
+          "command": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd",
+          "rssKb": 76720
+        },
+        {
+          "phase": "warm100",
+          "at": "2026-10-05T21:06:06.022Z",
+          "monotonicNs": "568831423176583",
+          "pid": 33246,
+          "command": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd",
+          "rssKb": 90912
+        },
+        {
+          "phase": "round1 total350",
+          "at": "2026-10-05T21:06:06.233Z",
+          "monotonicNs": "568831633819041",
+          "pid": 33246,
+          "command": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd",
+          "rssKb": 115344
+        },
+        {
+          "phase": "round2 total600",
+          "at": "2026-10-05T21:06:06.450Z",
+          "monotonicNs": "568831850830375",
+          "pid": 33246,
+          "command": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd",
+          "rssKb": 122736
+        },
+        {
+          "phase": "idle5s",
+          "at": "2026-10-05T21:06:11.488Z",
+          "monotonicNs": "568836888514833",
+          "pid": 33246,
+          "command": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd",
+          "rssKb": 128736
+        },
+        {
+          "phase": "idle10s",
+          "at": "2026-10-05T21:06:16.525Z",
+          "monotonicNs": "568841925719833",
+          "pid": 33246,
+          "command": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd",
+          "rssKb": 128720
+        }
+      ],
+      "fixedTable": {
+        "n": 250,
+        "bytes": 113750
+      },
+      "completed": true,
+      "endedAt": "2026-10-05T21:06:16.536Z",
+      "traceBytes": 1533394,
+      "traceSha256": "6c781262597f4c449a9108789965a71ef666f453fc0aa1df6b6bd4efea2e4e5e"
+    }
+  ],
+  "limits": [
+    "Passive trace adds observation overhead, not matched no-observer production qualification.",
+    "RSS is process residency; trace slice totals are not complete JS/native byte accounting or an isolate liveness proof.",
+    "No production configuration/dependency/source mutation. Fresh process per arm, no in-arm recycle. Raw local traces excluded; retain sanitized collector event names/timestamps only."
+  ],
+  "completedAt": "2026-10-05T21:06:16.537Z"
+}

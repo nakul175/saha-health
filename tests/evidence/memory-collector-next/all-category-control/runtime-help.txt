@@ -1,0 +1,64 @@
+Usage: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/bin/workerd serve [<option>...] <config-file> [<const-name>]
+
+Serve requests based on a config.
+
+Options:
+    -I<dir>, --import-path=<dir>
+        Add <dir> to the list of directories searched for non-relative imports
+        in the config file (ones that start with a '/').
+    -S<name>=<fd>, --socket-fd=<name>=<fd>
+        Override the socket named <name> to listen on the already-open socket
+        descriptor <fd> instead of the address specified in the config file.
+    -b, --binary
+        Specifies that the configuration file is an encoded binary Cap'n Proto
+        message, rather than the usual text format. This is particularly useful
+        when driving the server from higher-level tooling that automatically
+        generates a config.
+    --control-fd=<fd>
+        Enable sending of control messages on descriptor <fd>. Currently this
+        only reports the port each socket is listening on when ready.
+    --debug-port=<addr>
+        Listen on the specified address for debug RPC connections. This exposes
+        a privileged interface that allows access to all services in the
+        process. For use by miniflare and local development only.
+    -d<name>=<path>, --directory-path=<name>=<path>
+        Override the directory named <name> to point to <path> instead of the
+        path specified in the config file.
+    --experimental
+        Permit the use of experimental features which may break backwards
+        compatibility in a future release.
+    -e<name>=<addr>, --external-addr=<name>=<addr>
+        Override the external service named <name> to connect to the address
+        <addr> instead of the address specified in the config file.
+    -i<addr>, --inspector-addr=<addr>
+        Enable the inspector protocol to connect to the address <addr>.
+    --p=<path>=<categories>, --perfetto-trace=<path>=<categories>
+        Enable perfetto tracing output to the specified file.
+    --pyodide-bundle-disk-cache-dir=<path>
+        Use <path> as a disk cache to avoid repeatedly fetching Pyodide bundles
+        from the internet. 
+    --pyodide-package-disk-cache-dir=<path>
+        Use <path> as a disk cache to avoid repeatedly fetching packages from
+        the internet. 
+    --python-load-snapshot=<path>
+        Load a snapshot from the python snapshot directory.
+    --python-save-baseline-snapshot
+        Save a baseline snapshot to the disk cache
+    --python-save-snapshot
+        Save a dedicated snapshot to the disk cache
+    --python-snapshot-dir=<path>
+        Set the snapshot snapshot directory.
+    -s<name>=<addr>, --socket-addr=<name>=<addr>
+        Override the socket named <name> to bind to the address <addr> instead
+        of the address specified in the config file.
+    --verbose
+        Log informational messages to stderr; useful for debugging.
+    --version
+        Print version information and exit.
+    -w, --watch
+        Watch configuration files (and server binary) and reload if they change.
+        Useful for development, but not recommended in production.
+    --help
+        Display this help text and exit.
+
+Serves requests based on the configuration specified in <config-file>.

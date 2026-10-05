@@ -1,0 +1,145 @@
+{
+  "source": "0de84078e727be6276f3f05c640f486cd1470fab",
+  "classification": "Diagnostic only; O2 remains open, no GC count/liveness/plateau or app fix established",
+  "successfulRequests": 1803,
+  "setupOnlyFailures": 1,
+  "actualCollectorCounts": null,
+  "heapAccounting": null,
+  "observability": "No collector event bridge established; never interpret0 emitted markers as0 actual collections",
+  "build": "pass unchangedsource",
+  "syntax": "pass",
+  "inspector": false,
+  "forcedGc": false,
+  "snapshots": false,
+  "heapFlags": false,
+  "productionRuntimeChanges": false,
+  "providerTraffic": false,
+  "ports": [
+    20820,
+    20821,
+    20822
+  ],
+  "commands": [
+    "SAHA_COLLECTOR_MODES=d1-plain,d1-traced node scripts/diagnose-memory-collector-next.mjs",
+    "SAHA_COLLECTOR_MODES=d1-traced SAHA_COLLECTOR_CATEGORIES=* SAHA_COLLECTOR_OUT=tests/evidence/memory-collector-next/all-category-complete node scripts/diagnose-memory-collector-next.mjs",
+    "SAHA_COLLECTOR_MODES=d1-traced SAHA_COLLECTOR_CATEGORIES=* SAHA_COLLECTOR_WARM=1 SAHA_COLLECTOR_ROUND=1 SAHA_COLLECTOR_OUT=tests/evidence/memory-collector-next/instrumentation-three-requests node scripts/diagnose-memory-collector-next.mjs",
+    "python3 scripts/decode-memory-collector-trace.py <private-trace> <owned-decoded-json>"
+  ],
+  "artifacts": {
+    "tests/evidence/memory-collector-next/all-category-control.log": {
+      "sha256": "b1507dbe5b8b42fa8b72a9126528375426c58a795a49ec74b402d40d9b9124d9",
+      "bytes": 943
+    },
+    "tests/evidence/memory-collector-next/all-category-decode-initial-end-names-observation.json": {
+      "sha256": "05bab81219f47f9208faf0a45f71587a77c27bc7251f9afda755771fdf7b99f5",
+      "bytes": 476
+    },
+    "tests/evidence/memory-collector-next/result.json": {
+      "sha256": "4761f905508abd1ec376dba0d2107913771f9d3d3b7e5ee01992d02c54cd000b",
+      "bytes": 7387
+    },
+    "tests/evidence/memory-collector-next/narrow-trace-decoded.json": {
+      "sha256": "9eb5d0c5057be70169dc7269b682a249f70a35dd6386aa805f988f077a0c8286",
+      "bytes": 461
+    },
+    "tests/evidence/memory-collector-next/instrumentation-three-decoded.json": {
+      "sha256": "fa9f54e59ca8ed78b050f25a6bc3e6f0706977e942313ba18b80f8cc280288df",
+      "bytes": 1537
+    },
+    "tests/evidence/memory-collector-next/all-category-complete.log": {
+      "sha256": "974e4e46190e7b1d5618cd8c330ff9f14d03f1833e3737f199452e4865333ad8",
+      "bytes": 2079
+    },
+    "tests/evidence/memory-collector-next/unchanged-application-pins.json": {
+      "sha256": "c5806ddad2f6475bc1665b9d6c883ef8f5170ea823b8499e46eee118b22f6afe",
+      "bytes": 40364
+    },
+    "tests/evidence/memory-collector-next/d1-traced-trace-location.txt": {
+      "sha256": "dc51f247658652acd17c8a25545af15cb681ccd6b4541912ce2d51690546e075",
+      "bytes": 93
+    },
+    "tests/evidence/memory-collector-next/instrumentation-three-requests.log": {
+      "sha256": "e01ba6d3ebd5c8ffbd376a63b90e22547b28433f1693e0fe11dae226581c2048",
+      "bytes": 2068
+    },
+    "tests/evidence/memory-collector-next/runtime-help.txt": {
+      "sha256": "05d665934f0bce1e5a53cc052876bd5de8f1554b9fa2339c6faf2dd1f3c1a99b",
+      "bytes": 3322
+    },
+    "tests/evidence/memory-collector-next/d1-arms.log": {
+      "sha256": "da866f7bde2f72b325a0e9bf3c71dcda95097c18e91c27d645aaa40d1c1c7c82",
+      "bytes": 4051
+    },
+    "tests/evidence/memory-collector-next/all-category-decoded.json": {
+      "sha256": "d3464c000ab45a105216a57fe69e84ae0a7e483a8860d6e57c3790427c0a03dc",
+      "bytes": 510
+    },
+    "tests/evidence/memory-collector-next/syntax.json": {
+      "sha256": "352ec4f21991e55a29d76ac241e1618fd38624006d7403a32f1b52ac6ba2c132",
+      "bytes": 193
+    },
+    "tests/evidence/memory-collector-next/build.log": {
+      "sha256": "a9fbc00378c689667793c2b1fb98d52a8e17b3d7023db560bb8aa915392c68cf",
+      "bytes": 4739
+    },
+    "tests/evidence/memory-collector-next/instrumentation-three-requests/result.json": {
+      "sha256": "2147c46acc55f4cd08496f57f98c0209cc94ec0acb9a2ca41d22fb005b824f1e",
+      "bytes": 4678
+    },
+    "tests/evidence/memory-collector-next/instrumentation-three-requests/d1-traced-trace-location.txt": {
+      "sha256": "0469111e9f38a99fe447da0ccfc72aa19246cf07e30d2be2d01b56a31834b068",
+      "bytes": 93
+    },
+    "tests/evidence/memory-collector-next/instrumentation-three-requests/runtime-help.txt": {
+      "sha256": "05d665934f0bce1e5a53cc052876bd5de8f1554b9fa2339c6faf2dd1f3c1a99b",
+      "bytes": 3322
+    },
+    "tests/evidence/memory-collector-next/all-category-complete/result.json": {
+      "sha256": "f54a7ac62a59115e27dec1eab0cc5735bbb5591da5f79edcdeae9e8df797461e",
+      "bytes": 4689
+    },
+    "tests/evidence/memory-collector-next/all-category-complete/d1-traced-trace-location.txt": {
+      "sha256": "4f2ab787d2ce13dc1e72a026fe862890af9f905c715206c0e24027f9141c9515",
+      "bytes": 93
+    },
+    "tests/evidence/memory-collector-next/all-category-complete/runtime-help.txt": {
+      "sha256": "05d665934f0bce1e5a53cc052876bd5de8f1554b9fa2339c6faf2dd1f3c1a99b",
+      "bytes": 3322
+    },
+    "tests/evidence/memory-collector-next/all-category-control/result.json": {
+      "sha256": "7a4c679bca2227b630828dd953315b2b09dda9865f364d98a9e93d5095d6b9fb",
+      "bytes": 2200
+    },
+    "tests/evidence/memory-collector-next/all-category-control/d1-traced-trace-location.txt": {
+      "sha256": "8b64291f00dad6808a9c292046034c05b0e8990d06ea9fbc38da749cee03bc3e",
+      "bytes": 93
+    },
+    "tests/evidence/memory-collector-next/all-category-control/runtime-help.txt": {
+      "sha256": "05d665934f0bce1e5a53cc052876bd5de8f1554b9fa2339c6faf2dd1f3c1a99b",
+      "bytes": 3322
+    },
+    "tests/evidence/memory-collector-next/primary-source/provenance.json": {
+      "sha256": "d83729bec24d106e5355579b9384ee661b48a192b34afa1a69da84f6253b61f2",
+      "bytes": 1602
+    },
+    "scripts/diagnose-memory-collector-next.mjs": {
+      "sha256": "4bc5a5370f8ab86d34eff49c6d48ff4d5c04c6ff3fd09b2b786fb1c1c148f22a",
+      "bytes": 7413
+    },
+    "scripts/decode-memory-collector-trace.py": {
+      "sha256": "28a9ea8f8a5c644d15e9edc08f58b14d328edd1a542e57544e505e200e73f93a",
+      "bytes": 2852
+    },
+    "docs/current/MEMORY-COLLECTOR-OBSERVABILITY.md": {
+      "sha256": "4f845510f8bdae00f3758424707a20d758020448269d07a504eb2eb8603c2e3f",
+      "bytes": 6527
+    }
+  },
+  "limits": [
+    "No actual app trace arm after observability gate failed",
+    "Raw trace excluded, private hashes preserved",
+    "Same-state API recycling unchanged and notfix",
+    "No upgrade; previous later-runtime worse evidence preserved",
+    "No hosted/device/representative production memory qualification"
+  ]
+}
