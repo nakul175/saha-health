@@ -312,3 +312,25 @@ export async function persistAvailabilitySample(db:D1Database,config:unknown,mai
   return saved[0].meta.changes===1;
  }
 }
+
+// B26: a count, protected receipt and chained count-only event commit atomically.
+// Current human care membership and exact opt-in configuration are checked at
+// the write. No clinical revisions move, and a saved event is never counted twice.
+export async function persistBurdenCounter(db:D1Database,state:OrgState,actor:Actor,member:Member,key:string,hash:string,code:import('./work-burden-types').BurdenCode){
+ const config=state.operations?.workBurden;if(!config?.enabled)return {recorded:false,replayed:false};
+ const orgId=state.organisation.id,now=new Date().toISOString(),day=new Date(now);day.setUTCHours(0,0,0,0);day.setUTCDate(day.getUTCDate()-((day.getUTCDay()+6)%7));const bucket=day.toISOString();
+ const receiptKey='burden:'+key;
+ const prior=async()=>{const r=await db.prepare('SELECT org_id,hash,result FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.userId,receiptKey).first<{org_id:string;hash:string;result:string}>();if(!r)return null;if(r.org_id!==orgId||r.hash!==hash)fail(409,'This measurement key already identifies a different event.');return JSON.parse(r.result);};
+ if(await prior())return {recorded:false,replayed:true};
+ const event:Audit={id:uuid(),at:now,actorId:actor.userId,actor:actor.displayName,role:member.role,action:'workBurdenCounter',subject:orgId,detail:`Count-only work-burden event ${code}; UTC week ${bucket.slice(0,10)}; configuration ${config.version}.`};
+ const rows=[row('command_receipts',{actor_id:actor.userId,key:receiptKey,org_id:orgId,hash,result:j({code,recorded:true}),person_id:null,created_at:now},['actor_id','key'],true),auditRow(orgId,event,actor.userId,state.workspace)];
+ appendCommandAuthority(rows,state,[],'pre-mutation',actor.userId);
+ for(let attempt=1;;attempt++){
+  const token=uuid(),chain=await linkRows(db,orgId,rows,now);
+  const head=db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status='active' AND role=? AND version=? AND role IN ('asha','clinician')) AND EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.workBurden.enabled')=1 AND json_extract(data,'$.workBurden.version')=?) AND NOT EXISTS (SELECT 1 FROM command_receipts WHERE actor_id=? AND key=?)`).bind(token,orgId,orgId,actor.userId,member.role,member.version,orgId,config.version,actor.userId,receiptKey);
+  const metric=db.prepare(`INSERT INTO request_metrics (org_id,bucket,route,status,count,total_ms,max_ms) SELECT ?,?,?,0,1,0,0 WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?) ON CONFLICT(org_id,bucket,route,status) DO UPDATE SET count=count+1`).bind(orgId,bucket,'burden:'+code,orgId,token);
+  let saved;try{saved=await db.batch([head,metric,...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)]);}catch(e){if(await prior())return {recorded:false,replayed:true};if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}fail(409,'Measurement contention; keep the same event key for retry.');}
+  if(saved[0].meta.changes===1)return {recorded:true,replayed:false};
+  if(await prior())return {recorded:false,replayed:true};fail(403,'Current care membership and enabled measurement are required.');
+ }
+}

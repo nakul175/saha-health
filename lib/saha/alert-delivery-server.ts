@@ -25,7 +25,7 @@ export async function memberViews(d: D1Database, s: OrgState, now: string) {
   if (!recipients.length) return [];
   const ops = s.operations ?? defaultOperations();
   let telemetry: any = null;
-  if (recipients.some(operator)) { const r = await d.prepare('SELECT sum(count) AS count,sum(CASE WHEN status>=500 THEN count ELSE 0 END) AS errors FROM request_metrics WHERE org_id=? AND bucket>=?').bind(s.organisation.id, new Date(Date.parse(now) - 86400000).toISOString()).first<{ count: number | null; errors: number | null }>(); const count = r?.count ?? 0, errors = r?.errors ?? 0; telemetry = { count, serverErrors: errors, errorRate: count ? errors / count : null }; }
+  if (recipients.some(operator)) { const r = await d.prepare("SELECT sum(count) AS count,sum(CASE WHEN status>=500 THEN count ELSE 0 END) AS errors FROM request_metrics WHERE org_id=? AND route NOT LIKE 'burden:%' AND bucket>=?").bind(s.organisation.id, new Date(Date.parse(now) - 86400000).toISOString()).first<{ count: number | null; errors: number | null }>(); const count = r?.count ?? 0, errors = r?.errors ?? 0; telemetry = { count, serverErrors: errors, errorRate: count ? errors / count : null }; }
   const budgets = recipients.some(operator) ? budgetView(s, now) : null, invoices = recipients.some(operator) ? invoiceAlertInputs(s, now) : null;
   return recipients.map(m => { const report = m.role === 'admin' ? null : careReport(s, m, 7, new Date(now), reportingScope(s, m, now).include); return { member: m, alerts: alertsFor({ budgets: operator(m) ? budgets : null, invoices: operator(m) ? invoices : null, report, telemetry: operator(m) ? telemetry : null, operations: operator(m) ? ops : null, acknowledgements: ops.acknowledgements ?? [], viewerId: m.userId, now }) }; });
 }
