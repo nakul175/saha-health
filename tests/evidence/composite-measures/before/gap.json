@@ -1,0 +1,166 @@
+{
+  "diagnosticAssertions": 2,
+  "acceptedAssertions": 0,
+  "actualWorker": true,
+  "actualD1": true,
+  "base": "66d28b83",
+  "sourceHashes": {
+    "indicators": "1847345b7d0d570b0cfd4a5da6b91351b0e442e921ed327ee82a5ac74e536c54",
+    "indicator-registry": "71781d90d65343ba7febecc58edb125c4956cb37495cb33cbdf7a9511307211f",
+    "indicator-figure-material": "d1c7952f021dd5cc41f961a75046a44e51e75629cb157d6568abad87c8ff57ae"
+  },
+  "operand": {
+    "version": 1,
+    "expression": {
+      "op": "sum",
+      "terms": [
+        {
+          "measure": "visits-confirmed"
+        },
+        {
+          "measure": "referrals-created"
+        }
+      ]
+    },
+    "fixtures": [
+      {
+        "inputs": {
+          "visits-confirmed": 0,
+          "referrals-created": 0
+        },
+        "expected": 0
+      },
+      {
+        "inputs": {
+          "visits-confirmed": 2,
+          "referrals-created": 1
+        },
+        "expected": 3
+      }
+    ]
+  },
+  "response": {
+    "status": 422,
+    "body": {
+      "error": "Expected 'patients' | 'patients-seen' | 'visits-confirmed' | 'followups-open' | 'followups-overdue' | 'referrals-created' | 'referrals-completed' | 'maternal-episodes-active' | 'open-work-unowned' | 'submissions-unresolved' | 'reuse-opportunities' | 'reuse-served' | 'reuse-blocked' | 'repeat-entries' | 'corrections' | 'identity-provisional', received object"
+    }
+  },
+  "originalPrimitive": {
+    "computedAt": "2026-10-05T10:03:09.258Z",
+    "window": {
+      "since": "2026-09-06T00:00:00.000Z",
+      "until": "2026-10-05T10:03:09.258Z",
+      "days": 30
+    },
+    "cohort": {
+      "people": 6,
+      "team": null,
+      "village": null,
+      "programme": null
+    },
+    "group": "none",
+    "latestSourceRecord": null,
+    "minimumCell": 5,
+    "results": [
+      {
+        "id": "visits-confirmed",
+        "version": 1,
+        "title": "Confirmed visits",
+        "unit": "count",
+        "numerator": "Visits confirmed in the window",
+        "denominator": null,
+        "definition": {
+          "id": "visits-confirmed",
+          "version": 1,
+          "recordedAt": "2026-09-30T00:00:00.000Z",
+          "canonical": "{\"id\":\"visits-confirmed\",\"version\":1,\"unit\":\"count\",\"numerator\":\"visits-confirmed\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}",
+          "governance": {
+            "legacy": true,
+            "reviewEventId": null,
+            "releaseEventId": null,
+            "effectiveAt": null
+          }
+        },
+        "rows": [
+          {
+            "group": "All",
+            "value": 0,
+            "numerator": 0,
+            "denominator": null,
+            "suppressed": false
+          }
+        ],
+        "lateArrivals": {
+          "applicable": true,
+          "since": null,
+          "count": null,
+          "note": "No earlier release of this figure to you in the last seven days."
+        }
+      }
+    ],
+    "scope": "Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.",
+    "differencing": {
+      "windowHours": 168,
+      "note": "Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.",
+      "limits": "Small-group protection has limits. Saha compares each new indicator result with everything the same person was shown in the last seven days and withholds it if any sum or difference of those results could single out a group of 1 to 4 people, visits or referrals in today's records. It does not protect against two people combining what they were each shown, against changes in the records between two queries (repeating a query after a new visit reveals that visit), against queries older than seven days, or against differences between indicators that measure unrelated things. The check is conservative: for small teams and narrow filters it withholds more results than strictly necessary."
+    },
+    "freshness": {
+      "thresholdHours": 72,
+      "syncWarningHours": 12,
+      "shareMinimum": 20,
+      "note": "Per team you belong to; village and programme filters are not applied. A record is late when it arrived more than 72 hours after the time it describes. Counts are shown in bands and the late share to the nearest 10 percentage points; none of these figures are part of a released result.",
+      "teams": [
+        {
+          "team": "Rampur care team",
+          "sources": [
+            {
+              "source": "online-visits",
+              "label": "Online visits",
+              "arrival": "confirmed",
+              "described": "visit date entered by the worker",
+              "latestAt": null,
+              "arrivals": "fewer than 5",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            },
+            {
+              "source": "field-syncs",
+              "label": "Field-notebook syncs",
+              "arrival": "synced from the field notebook",
+              "described": "visit date entered offline",
+              "latestAt": null,
+              "arrivals": "fewer than 5",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            },
+            {
+              "source": "imports",
+              "label": "Imports",
+              "arrival": "applied from an import batch",
+              "described": "enrolment start date (imported patients, identifiers and visits carry no source time)",
+              "latestAt": null,
+              "arrivals": "fewer than 5",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            },
+            {
+              "source": "programme-receipts",
+              "label": "Programme receipts",
+              "arrival": "accepted with a receipt",
+              "described": "time the submission was queued",
+              "latestAt": null,
+              "arrivals": "fewer than 5",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            }
+          ],
+          "syncing": null
+        }
+      ]
+    }
+  }
+}

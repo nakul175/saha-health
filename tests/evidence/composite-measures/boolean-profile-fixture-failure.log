@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+null !== 1
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-composite-measures/tests/composite-measures-contract.mjs:24:562
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-composite-measures/tests/composite-measures-contract.mjs:2:99)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-composite-measures/tests/composite-measures-contract.mjs:24:545 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: null,
+  expected: 1,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

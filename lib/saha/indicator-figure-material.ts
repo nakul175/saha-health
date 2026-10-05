@@ -1,7 +1,7 @@
 import { digest, fail } from './core';
 import { openPatientWork } from './continuity';
 import { followUpOpen } from './programmes';
-import { ageBandOf, groupLabels, GROUPS, MEASURE_IDS, reuseOf, WINDOWED, type Hash, type MeasureId } from './indicators';
+import { referenceValue, ageBandOf, groupLabels, GROUPS, reuseOf, WINDOWED, type Hash, type MeasureId } from './indicators';
 import type { OrgState } from './types';
 
 // Protected server-only counting material. No names, contact details, measurements, answers or notes.
@@ -39,5 +39,5 @@ export function figureMeasure(u:FigureUnit,id:MeasureId,since:string,until:strin
 }
 export function figurePopulation(material:FigureMaterial){
  if(material.version!==1||!Number.isFinite(Date.parse(material.capturedAt)))fail(409,'The stored figure material version needs review.');
- return {windowed:WINDOWED as ReadonlySet<string>,units:material.units.map(u=>({f:u.f,g:u.g,x:u.x,q:(id:string,window:string)=>{if(!MEASURE_IDS.includes(id as MeasureId))fail(422,'The stored figure measure needs review.');const [since,until]=window.split('|');return figureMeasure(u,id as MeasureId,since,until||material.capturedAt);}}))};
+ return {windowed:WINDOWED as ReadonlySet<string>,units:material.units.map(u=>({f:u.f,g:u.g,x:u.x,q:(id:string,window:string)=>{const [since,until]=window.split('|');return referenceValue(id,leaf=>figureMeasure(u,leaf,since,until||material.capturedAt));}}))};
 }

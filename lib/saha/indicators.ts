@@ -20,7 +20,7 @@ const confirmedIn=(c:Ctx,p:Person)=>visitsOf(c,p).filter(v=>v.state==='confirmed
 const signature=(v:{facts:Record<string,any>})=>[String(v.facts.date??'').slice(0,10),v.facts.weight,v.facts.systolic,v.facts.diastolic,v.facts.temperature].join('|');
 // Slice 6s: the computation vocabulary. Every definition, built-in or owner-maintained, is a numerator
 // and optional denominator drawn from these per-patient measures, cohort filters from a fixed list and
-// exclusions from a fixed list. There is no expression language and no free field access.
+// exclusions from a fixed list. Bounded versioned calculations can combine these measures; free field access is refused.
 export type MeasureId='patients'|'patients-seen'|'visits-confirmed'|'followups-open'|'followups-overdue'|'referrals-created'|'referrals-completed'|'maternal-episodes-active'|'open-work-unowned'|'submissions-unresolved'|'reuse-opportunities'|'reuse-served'|'reuse-blocked'|'repeat-entries'|'corrections'|'identity-provisional';
 type Measure={id:MeasureId;label:string;sources:string[];count:(c:Ctx,p:Person)=>number};
 export const MEASURES:Measure[]=[
@@ -42,12 +42,38 @@ export const MEASURES:Measure[]=[
  {id:'identity-provisional',label:'Patients whose identity review is provisional today',sources:['patients'],count:(_c,p)=>p.identityReview?.state==='provisional'&&!p.mergedInto?1:0},
 ];
 export const MEASURE_IDS=MEASURES.map(m=>m.id) as [MeasureId,...MeasureId[]];
+// Versioned bounded owner calculations: no fields, code, definition references or negative contributions.
+export type Expression={measure:MeasureId}|{constant:number}|{op:'sum'|'min'|'max'|'any'|'all';terms:Expression[]}|{op:'at-least';term:Expression;value:number};
+export type CompositeOperand={version:1;expression:Expression;fixtures:{inputs:Partial<Record<MeasureId,number>>;expected:number}[]};
+export type Operand=MeasureId|CompositeOperand;
+export type MeasureRef=MeasureId|`expr-v1:${string}`;
+const MAX_CONTRIBUTION=100000;
+const integer=(n:unknown,max=MAX_CONTRIBUTION)=>typeof n==='number'&&Number.isSafeInteger(n)&&n>=0&&n<=max;
+const object=(x:any)=>!!x&&typeof x==='object'&&!Array.isArray(x);
+const exact=(x:any,keys:string[])=>object(x)&&Object.keys(x).length===keys.length&&keys.every(k=>Object.hasOwn(x,k));
+export function expressionError(root:unknown):string|null{let nodes=0,operations=0,leaves=0;const walk=(n:any,depth:number):boolean=>{
+ if(++nodes>31||depth>5||!object(n))return false;
+ if(exact(n,['measure'])){leaves++;return MEASURE_IDS.includes(n.measure);}
+ if(exact(n,['constant']))return integer(n.constant,1000);
+ operations++;if(exact(n,['op','term','value'])&&n.op==='at-least')return integer(n.value)&&n.value>0&&walk(n.term,depth+1);
+ return exact(n,['op','terms'])&&['sum','min','max','any','all'].includes(n.op)&&Array.isArray(n.terms)&&n.terms.length>=2&&n.terms.length<=4&&n.terms.every((t:any)=>walk(t,depth+1));
+ };return walk(root,1)&&leaves>0&&operations>0?null:'Choose a calculation with known measures, 2–4 terms, at most 31 nodes and 5 levels; constants 0–1000 and thresholds 1–100000.';}
+export function expressionLeaves(n:Expression):MeasureId[]{if('measure' in n)return [n.measure];if('constant' in n)return [];return [...new Set(('term' in n?[n.term]:n.terms).flatMap(expressionLeaves))].sort();}
+export function evaluateExpression(n:Expression,input:(id:MeasureId)=>number):number{let value:number;if('measure' in n)value=input(n.measure);else if('constant' in n)value=n.constant;else if(n.op==='at-least')value=evaluateExpression(n.term,input)>=n.value?1:0;else{const a=n.terms.map(t=>evaluateExpression(t,input));value=n.op==='sum'?a.reduce((x,y)=>x+y,0):n.op==='min'?Math.min(...a):n.op==='max'?Math.max(...a):n.op==='any'?(a.some(x=>x>0)?1:0):(a.every(x=>x>0)?1:0);}if(!integer(value))fail(422,'A calculation contribution exceeds the supported nonnegative integer range. Nothing was shown.');return value;}
+export function operandError(x:unknown):string|null{if(typeof x==='string')return MEASURE_IDS.includes(x as MeasureId)?null:'Choose a known measure.';const o=x as CompositeOperand;if(!exact(o,['version','expression','fixtures'])||o.version!==1)return 'Choose a supported version 1 calculation.';const error=expressionError(o.expression);if(error)return error;const leaves=expressionLeaves(o.expression);if(!Array.isArray(o.fixtures)||o.fixtures.length<2||o.fixtures.length>6)return 'Supply 2–6 independently reviewed calculation examples.';const examples=new Set<string>();for(const f of o.fixtures){if(!exact(f,['inputs','expected'])||!exact(f.inputs,leaves)||!integer(f.expected)||!Object.values(f.inputs).every(n=>integer(n)))return 'Each example needs every referenced measure once, nonnegative integer inputs and an expected result.';const key=JSON.stringify(leaves.map(id=>f.inputs[id]));if(examples.has(key))return 'Use distinct calculation example inputs.';examples.add(key);try{if(evaluateExpression(o.expression,id=>f.inputs[id]!)!==f.expected)return 'A calculation example does not match its expected result.';}catch{return 'A calculation example exceeds the supported contribution range.';}}return null;}
+export function canonicalExpression(n:Expression):Expression{if('measure' in n)return {measure:n.measure};if('constant' in n)return {constant:n.constant};if(n.op==='at-least')return {op:n.op,term:canonicalExpression(n.term),value:n.value};return {op:n.op,terms:n.terms.map(canonicalExpression).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b)))};}
+export const operandLeaves=(o:Operand)=>typeof o==='string'?[o]:expressionLeaves(o.expression);
+export const operandRef=(o:Operand):MeasureRef=>typeof o==='string'?o:`expr-v1:${JSON.stringify(canonicalExpression(o.expression))}`;
+export function referenceExpression(id:string):Expression|null{if(MEASURE_IDS.includes(id as MeasureId))return null;if(!id.startsWith('expr-v1:')||id.length>5000)fail(422,'The stored calculation needs review.');let e:unknown;try{e=JSON.parse(id.slice(8));}catch{fail(422,'The stored calculation needs review.');}if(expressionError(e))fail(422,'The stored calculation needs review.');return e as Expression;}
+export function referenceValue(id:string,input:(id:MeasureId)=>number){const e=referenceExpression(id);return e?evaluateExpression(e,input):input(id as MeasureId);}
+export function operandLabel(o:Operand):string{if(typeof o==='string')return MEASURES.find(m=>m.id===o)!.label;const label=(e:Expression):string=>'measure' in e?operandLabel(e.measure):'constant' in e?String(e.constant):e.op==='at-least'?`At least ${e.value} (${label(e.term)})`:`${({sum:'Sum',min:'Smallest',max:'Largest',any:'Any positive',all:'All positive'} as const)[e.op]} (${e.terms.map(label).join('; ')})`;return label(o.expression);}
+
 export const AGE_BANDS=['0–9','10–17','18–49','50+'] as const;
 export const SEXES=['Female','Male','Other'] as const;
 export const EXCLUSIONS=['identity-provisional','no-programme'] as const;
 export const CADENCES=['Daily','Weekly','Monthly','Quarterly'] as const;
 export type Exclusion=typeof EXCLUSIONS[number];
-export type Spec={title:string;unit:'count'|'proportion';numerator:MeasureId;denominator:MeasureId|null;filters:{programme?:Programme;ageBand?:typeof AGE_BANDS[number];sex?:typeof SEXES[number]};exclude:Exclusion[];exclusionsNote:string;owner:string;cadence:typeof CADENCES[number];minimumCohort:number};
+export type Spec={title:string;unit:'count'|'proportion';numerator:Operand;denominator:Operand|null;filters:{programme?:Programme;ageBand?:typeof AGE_BANDS[number];sex?:typeof SEXES[number]};exclude:Exclusion[];exclusionsNote:string;owner:string;cadence:typeof CADENCES[number];minimumCohort:number};
 export type DefinitionRecord={id:string;version:number;status:'active'|'retired'|'proposed';intendedStatus?:'active'|'retired';rollbackFrom?:number;spec:Spec;reason:string;by:string;byName:string;at:string;builtIn?:boolean};
 // The slice 6d catalogue, now the version 1 entries of the registry. Keywords serve the interpreter only.
 const BUILT_IN_AT='2026-09-30T00:00:00.000Z';
@@ -107,14 +133,15 @@ export type Query={ids:string[];days:number;group:Group;team?:string|null;villag
 export type Series={key:string;f:Record<string,string>;cells:Record<string,number>;m?:Record<string,[number,number]>;ids:string[];
  // Slice 6aa (seventh review): what the release discloses, for the population check in indicator-differencing.
  // n/d: the measures shown; gd: the grouping dimension; x: exclusions; w: window start; shown: cells whose values were returned.
- n?:MeasureId;d?:MeasureId|null;gd?:Group;x?:string[];w?:string;shown?:string[];
+ n?:MeasureRef;d?:MeasureRef|null;gd?:Group;x?:string[];w?:string;shown?:string[];
  // Slice 6ad (ninth review, finding 2): the window end, set by an aggregate report for a period that ended in the past.
  u?:string};
 // Slice 6aa: measures counted over the query window; the others describe today and do not depend on it.
-export const WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','repeat-entries','corrections']);
+const PRIMITIVE_WINDOWED=new Set<MeasureId>(['patients-seen','visits-confirmed','referrals-created','referrals-completed','reuse-opportunities','reuse-served','reuse-blocked','repeat-entries','corrections']);
+export const WINDOWED=new class extends Set<string>{has(id:string){if(PRIMITIVE_WINDOWED.has(id as MeasureId))return true;if(MEASURE_IDS.includes(id as MeasureId))return false;return expressionLeaves(referenceExpression(id)!).some(x=>PRIMITIVE_WINDOWED.has(x));}}(PRIMITIVE_WINDOWED);
 // A person's value of one measure over the window starting at `since` (ISO) and ending now.
 // Slice 6ad: `now` is the window end (and the moment a measure describing today is counted at).
-export function measureValue(s:OrgState,p:Person,id:MeasureId,since:string,now:Date){const today=now.toISOString().slice(0,10);return measure(id).count({s,people:[],since,until:now.toISOString(),today},p);}
+export function measureValue(s:OrgState,p:Person,id:string,since:string,now:Date){const today=now.toISOString().slice(0,10);return referenceValue(id,leaf=>measure(leaf).count({s,people:[],since,until:now.toISOString(),today},p));}
 export const ageBandOf=(age:number)=>band(age);
 export const groupLabels=(s:OrgState,p:Person,g:Group)=>keysFor(s,p,g);
 // Reporting cutoff and current definition authority are separate clocks. Aggregate windows can be historical.
@@ -134,18 +161,21 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date(),governan
  const cohortCells:Record<string,number>={};for(const p of people)for(const k of keysFor(s,p,'none'))cohortCells[k]=(cohortCells[k]??0)+1;
  series.set('cohort',{key:'cohort',f:{},cells:cohortCells,ids:[],n:'patients',d:null,gd:'none',x:[],w:ctx0.since,shown:Object.keys(cohortCells)});
  const results=defs.map(def=>{const sp=def.spec,f=sp.filters;
-  const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def),governance:{legacy:definitionLifecycle(s,def,governanceAt).legacy,reviewEventId:definitionLifecycle(s,def,governanceAt).release?.reviewEventId??null,releaseEventId:definitionLifecycle(s,def,governanceAt).release?.id??null,effectiveAt:definitionLifecycle(s,def,governanceAt).release?.effectiveAt??null}}};
+  const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:operandLabel(sp.numerator),denominator:sp.denominator?operandLabel(sp.denominator):null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def),governance:{legacy:definitionLifecycle(s,def,governanceAt).legacy,reviewEventId:definitionLifecycle(s,def,governanceAt).release?.reviewEventId??null,releaseEventId:definitionLifecycle(s,def,governanceAt).release?.id??null,effectiveAt:definitionLifecycle(s,def,governanceAt).release?.effectiveAt??null}}};
   const cohort=people.filter(p=>(!f.programme||p.programmes.includes(f.programme))&&(!f.ageBand||band(p.age)===f.ageBand)&&(!f.sex||p.sex===f.sex)&&!(sp.exclude.includes('identity-provisional')&&p.identityReview?.state==='provisional')&&!(sp.exclude.includes('no-programme')&&!p.programmes.length));
   // Slice 6s: the definition's own minimum cohort, applied after its filters and exclusions.
   if(cohort.length<Math.max(MIN_CELL,sp.minimumCohort))return {...head,rows:[],refused:'cohort' as const,message:`This definition needs a cohort of at least ${Math.max(MIN_CELL,sp.minimumCohort)} people after its own filters. Widen the filters.`};
+  const composite=typeof sp.numerator!=='string'||(sp.denominator!==null&&typeof sp.denominator!=='string'),dependencies=[...new Set([...operandLeaves(sp.numerator),...(sp.denominator?operandLeaves(sp.denominator):[])])],nr=operandRef(sp.numerator),dr=sp.denominator?operandRef(sp.denominator):null;
   const groups=new Map<string,{n:number;d:number;people:number}>();
-  for(const p of cohort){const n=measure(sp.numerator).count(ctx,p),d=sp.denominator?measure(sp.denominator).count(ctx,p):0;for(const k of keysFor(s,p,q.group)){const g=groups.get(k)??{n:0,d:0,people:0};g.n+=n;g.d+=d;g.people++;groups.set(k,g);}}
+  for(const p of cohort){const n=referenceValue(operandRef(sp.numerator),id=>measure(id).count(ctx,p)),d=sp.denominator?referenceValue(operandRef(sp.denominator),id=>measure(id).count(ctx,p)):0;if(composite&&sp.unit==='proportion'&&n>d)fail(422,'A proportion calculation exceeds its denominator for a person. Nothing was shown.');for(const k of keysFor(s,p,q.group)){const g=groups.get(k)??{n:0,d:0,people:0};g.n+=n;g.d+=d;g.people++;groups.set(k,g);}}
   const defF:Record<string,string>=Object.fromEntries(([['sex',f.sex],['ageBand',f.ageBand],['defProgramme',f.programme]] as [string,string|undefined][]).filter(([,v])=>!!v) as [string,string][]);
   const rows=[...groups.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([group,g])=>({group,n:g.n,d:sp.unit==='proportion'?g.d:undefined}));
-  const out=suppress(rows,sp.unit),shown=out.filter(r=>!r.suppressed).map(r=>r.group);
+  const unsafe=new Set<string>();if(composite)for(const leaf of dependencies){const a=new Map<string,number>();for(const p of cohort)for(const k of keysFor(s,p,q.group))a.set(k,(a.get(k)??0)+measure(leaf).count(ctx,p));for(const [k,n] of a)if(n>0&&n<MIN_CELL)unsafe.add(k);}
+  const out=suppress(rows.map(r=>unsafe.has(r.group)?{...r,n:1}:r),sp.unit),shown=out.filter(r=>!r.suppressed).map(r=>r.group);
   const base=`${q.group}|${[...sp.exclude].sort().join(',')}`,pc=Object.fromEntries([...groups].map(([g,x])=>[g,x.people]));
-  for(const [key,m] of [[base,undefined],[`${base}|${sp.numerator}/${sp.denominator??''}`,Object.fromEntries([...groups].map(([g,x])=>[g,[x.n,x.d] as [number,number]]))]] as [string,Record<string,[number,number]>|undefined][]){
-   const id=key+'#'+JSON.stringify(defF)+(m?'#'+sp.unit:''),sr=series.get(id)??{key,f:defF,cells:pc,...(m?{m,n:sp.numerator,d:sp.unit==='proportion'?sp.denominator:null,gd:q.group,x:[...sp.exclude].sort(),w:ctx0.since,shown}:{}),ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
+  for(const [key,m] of [[base,undefined],[`${base}|${nr}/${dr??''}`,Object.fromEntries([...groups].map(([g,x])=>[g,[x.n,x.d] as [number,number]]))]] as [string,Record<string,[number,number]>|undefined][]){
+   const id=key+'#'+JSON.stringify(defF)+(m?'#'+sp.unit:''),sr=series.get(id)??{key,f:defF,cells:pc,...(m?{m,n:nr,d:sp.unit==='proportion'?dr:null,gd:q.group,x:[...sp.exclude].sort(),w:ctx0.since,shown}:{}),ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
+  if(composite)for(const leaf of dependencies){const counts:Record<string,number>={};for(const p of cohort)for(const k of keysFor(s,p,q.group))counts[k]=(counts[k]??0)+measure(leaf).count(ctx,p);const key=`${base}|${leaf}/`,id=key+'#'+JSON.stringify(defF)+'#count',sr=series.get(id)??{key,f:defF,cells:pc,m:Object.fromEntries(Object.entries(counts).map(([k,n])=>[k,[n,0] as [number,number]])),n:leaf,d:null,gd:q.group,x:[...sp.exclude].sort(),w:ctx0.since,shown,ids:[]};sr.ids.push(def.id+'@'+def.version);series.set(id,sr);}
   return {...head,rows:out};});
  const result={computedAt:ctx0.until,window:{since:ctx0.since,until:ctx0.until,days:q.days},cohort:{people:people.length,team:q.team??null,village:q.village??null,programme:q.programme??null},group:q.group,latestSourceRecord:latest,minimumCell:MIN_CELL,results,
   scope:'Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.'};
@@ -186,7 +216,7 @@ export async function releasePopulation(s:OrgState,h0:Hash,now=new Date()){
  return {units,windowed:WINDOWED as ReadonlySet<string>};
 }
 // Current, non-retired definitions; registry history and the vocabulary are separate.
-export function catalogue(s?:OrgState,now=new Date()){return currentDefinitions(s,now).filter(r=>r.status==='active').map(r=>({id:r.id,version:r.version,title:r.spec.title,unit:r.spec.unit,numerator:measure(r.spec.numerator).label,denominator:r.spec.denominator?measure(r.spec.denominator).label:null,numeratorMeasure:r.spec.numerator,denominatorMeasure:r.spec.denominator,filters:r.spec.filters,exclude:r.spec.exclude,exclusions:r.spec.exclusionsNote||'None',owner:r.spec.owner,cadence:r.spec.cadence,minimumCohort:r.spec.minimumCohort,sources:[...new Set([r.spec.numerator,...(r.spec.denominator?[r.spec.denominator]:[])].flatMap(x=>measure(x).sources))],builtIn:!!r.builtIn,recordedAt:r.at}));}
+export function catalogue(s?:OrgState,now=new Date()){return currentDefinitions(s,now).filter(r=>r.status==='active').map(r=>({id:r.id,version:r.version,title:r.spec.title,unit:r.spec.unit,numerator:operandLabel(r.spec.numerator),denominator:r.spec.denominator?operandLabel(r.spec.denominator):null,numeratorMeasure:r.spec.numerator,denominatorMeasure:r.spec.denominator,filters:r.spec.filters,exclude:r.spec.exclude,exclusions:r.spec.exclusionsNote||'None',owner:r.spec.owner,cadence:r.spec.cadence,minimumCohort:r.spec.minimumCohort,sources:[...new Set([...operandLeaves(r.spec.numerator),...(r.spec.denominator?operandLeaves(r.spec.denominator):[])].flatMap(x=>measure(x).sources))],builtIn:!!r.builtIn,recordedAt:r.at}));}
 export const vocabulary=()=>({measures:MEASURES.map(m=>({id:m.id,label:m.label})),filters:{programme:PROGRAMMES,ageBand:AGE_BANDS,sex:SEXES},exclusions:EXCLUSIONS,cadences:CADENCES,minimumCohort:MIN_CELL});
 // Governed question interpreter: maps words to catalogue entries and never runs anything itself.
 export function interpret(question:string,s?:OrgState){

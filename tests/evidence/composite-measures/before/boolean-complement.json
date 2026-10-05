@@ -1,0 +1,165 @@
+{
+  "acceptedAssertions": 0,
+  "diagnosticAssertions": 3,
+  "actualWorker": true,
+  "actualD1": true,
+  "sourceHashes": {
+    "indicators": "073240c736dda5e0b6defc8acb8948cbeb3c436ec94fbaf5ed68d8e6183ebfbe",
+    "indicator-differencing": "1195f44dcf92df1802a6536ef1911298347a81be9ef438b688356e8ffba9bd04"
+  },
+  "actualOnePersonVoid": true,
+  "revealedComplement": 1,
+  "originalOutput": {
+    "computedAt": "2026-10-05T10:10:31.516Z",
+    "window": {
+      "since": "2026-09-06T00:00:00.000Z",
+      "until": "2026-10-05T10:10:31.516Z",
+      "days": 30
+    },
+    "cohort": {
+      "people": 6,
+      "team": null,
+      "village": null,
+      "programme": null
+    },
+    "group": "none",
+    "latestSourceRecord": "2026-10-05T10:10:30.151Z",
+    "minimumCell": 5,
+    "results": [
+      {
+        "id": "composite-all",
+        "version": 1,
+        "title": "Synthetic owner all",
+        "unit": "count",
+        "numerator": "All positive (Visits confirmed in the window; Patients in the cohort)",
+        "denominator": null,
+        "definition": {
+          "id": "composite-all",
+          "version": 1,
+          "recordedAt": "2026-10-05T10:10:30.677Z",
+          "canonical": "{\"id\":\"composite-all\",\"version\":1,\"unit\":\"count\",\"numerator\":{\"version\":1,\"expression\":{\"op\":\"all\",\"terms\":[{\"measure\":\"visits-confirmed\"},{\"measure\":\"patients\"}]},\"fixtures\":[{\"inputs\":{\"visits-confirmed\":0,\"patients\":0},\"expected\":0},{\"inputs\":{\"visits-confirmed\":2,\"patients\":2},\"expected\":1}]},\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}",
+          "governance": {
+            "legacy": false,
+            "reviewEventId": "759bb8e0-2bab-4cf9-88be-ebc1aa4780ab",
+            "releaseEventId": "e419f672-e83b-486c-b120-5fe6469b21cc",
+            "effectiveAt": "2026-10-05T10:10:30.820Z"
+          }
+        },
+        "rows": [
+          {
+            "group": "All",
+            "value": 5,
+            "numerator": 5,
+            "denominator": null,
+            "suppressed": false
+          }
+        ],
+        "lateArrivals": {
+          "applicable": true,
+          "since": null,
+          "count": null,
+          "note": "No earlier release of this figure to you in the last seven days."
+        }
+      },
+      {
+        "id": "composite-any",
+        "version": 1,
+        "title": "Synthetic owner any",
+        "unit": "count",
+        "numerator": "Any positive (Visits confirmed in the window; Patients in the cohort)",
+        "denominator": null,
+        "definition": {
+          "id": "composite-any",
+          "version": 1,
+          "recordedAt": "2026-10-05T10:10:30.504Z",
+          "canonical": "{\"id\":\"composite-any\",\"version\":1,\"unit\":\"count\",\"numerator\":{\"version\":1,\"expression\":{\"op\":\"any\",\"terms\":[{\"measure\":\"visits-confirmed\"},{\"measure\":\"patients\"}]},\"fixtures\":[{\"inputs\":{\"visits-confirmed\":0,\"patients\":0},\"expected\":0},{\"inputs\":{\"visits-confirmed\":2,\"patients\":2},\"expected\":1}]},\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}",
+          "governance": {
+            "legacy": false,
+            "reviewEventId": "dc64d0d6-49cc-4c4c-b4e8-b0880fcbaf51",
+            "releaseEventId": "bfca5ea1-163e-4b20-9393-8ab014f6007d",
+            "effectiveAt": "2026-10-05T10:10:30.636Z"
+          }
+        },
+        "rows": [
+          {
+            "group": "All",
+            "value": 6,
+            "numerator": 6,
+            "denominator": null,
+            "suppressed": false
+          }
+        ],
+        "lateArrivals": {
+          "applicable": true,
+          "since": null,
+          "count": null,
+          "note": "No earlier release of this figure to you in the last seven days."
+        }
+      }
+    ],
+    "scope": "Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.",
+    "differencing": {
+      "windowHours": 168,
+      "note": "Results that would reveal a group of fewer than 5 people when combined with your recent queries are withheld.",
+      "limits": "Small-group protection has limits. Saha compares each new indicator result with everything the same person was shown in the last seven days and withholds it if any sum or difference of those results could single out a group of 1 to 4 people, visits or referrals in today's records. It does not protect against two people combining what they were each shown, against changes in the records between two queries (repeating a query after a new visit reveals that visit), against queries older than seven days, or against differences between indicators that measure unrelated things. The check is conservative: for small teams and narrow filters it withholds more results than strictly necessary."
+    },
+    "freshness": {
+      "thresholdHours": 72,
+      "syncWarningHours": 12,
+      "shareMinimum": 20,
+      "note": "Per team you belong to; village and programme filters are not applied. A record is late when it arrived more than 72 hours after the time it describes. Counts are shown in bands and the late share to the nearest 10 percentage points; none of these figures are part of a released result.",
+      "teams": [
+        {
+          "team": "Rampur care team",
+          "sources": [
+            {
+              "source": "online-visits",
+              "label": "Online visits",
+              "arrival": "confirmed",
+              "described": "visit date entered by the worker",
+              "latestAt": "2026-10-05T10:00:00.000Z",
+              "arrivals": "5–19",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            },
+            {
+              "source": "field-syncs",
+              "label": "Field-notebook syncs",
+              "arrival": "synced from the field notebook",
+              "described": "visit date entered offline",
+              "latestAt": null,
+              "arrivals": "fewer than 5",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            },
+            {
+              "source": "imports",
+              "label": "Imports",
+              "arrival": "applied from an import batch",
+              "described": "enrolment start date (imported patients, identifiers and visits carry no source time)",
+              "latestAt": null,
+              "arrivals": "fewer than 5",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            },
+            {
+              "source": "programme-receipts",
+              "label": "Programme receipts",
+              "arrival": "accepted with a receipt",
+              "described": "time the submission was queued",
+              "latestAt": null,
+              "arrivals": "fewer than 5",
+              "late": "fewer than 5",
+              "lateShare": null,
+              "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+            }
+          ],
+          "syncing": null
+        }
+      ]
+    }
+  }
+}
