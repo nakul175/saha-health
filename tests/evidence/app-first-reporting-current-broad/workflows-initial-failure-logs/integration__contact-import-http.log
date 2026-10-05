@@ -1,0 +1,9 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/worker.mjs:34
+    if (!(await portFree(port))) return failed(new Error(`Port ${port} is still in use; another Worker (or an orphaned one) is listening there.`));
+                                               ^
+
+Error: Port 8986 is still in use; another Worker (or an orphaned one) is listening there.
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/worker.mjs:34:48
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0

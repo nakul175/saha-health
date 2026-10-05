@@ -1,0 +1,162 @@
+﻿2026-10-05T20:30:47.7842944Z Current runner version: '2.337.0'
+2026-10-05T20:30:47.7926452Z ##[group]Runner Image Provisioner
+2026-10-05T20:30:47.7928001Z Hosted Compute Agent
+2026-10-05T20:30:47.7929205Z Version: 20260901.588
+2026-10-05T20:30:47.7930803Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-05T20:30:47.7932264Z Build Date: 2026-09-01T19:56:44Z
+2026-10-05T20:30:47.7933631Z Worker ID: {b67c1069-a2c6-4433-9e73-545dfe7dfb03}
+2026-10-05T20:30:47.7934968Z Azure Region: eastus2
+2026-10-05T20:30:47.7936112Z ##[endgroup]
+2026-10-05T20:30:47.7938923Z ##[group]Operating System
+2026-10-05T20:30:47.7940024Z Ubuntu
+2026-10-05T20:30:47.7961607Z 24.04.5
+2026-10-05T20:30:47.7962557Z LTS
+2026-10-05T20:30:47.7963389Z ##[endgroup]
+2026-10-05T20:30:47.7964442Z ##[group]Runner Image
+2026-10-05T20:30:47.7965565Z Image: ubuntu-24.04
+2026-10-05T20:30:47.7966670Z Version: 20260927.320.1
+2026-10-05T20:30:47.7969048Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-05T20:30:47.7972230Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-05T20:30:47.7974036Z ##[endgroup]
+2026-10-05T20:30:47.7976265Z ##[group]GITHUB_TOKEN Permissions
+2026-10-05T20:30:47.7980021Z Contents: read
+2026-10-05T20:30:47.8001770Z Metadata: read
+2026-10-05T20:30:47.8002894Z ##[endgroup]
+2026-10-05T20:30:47.8006152Z Secret source: Actions
+2026-10-05T20:30:47.8007936Z Cache mode: write
+2026-10-05T20:30:47.8009598Z Prepare workflow directory
+2026-10-05T20:30:47.8849541Z Prepare all required actions
+2026-10-05T20:30:47.8927513Z Getting action download info
+2026-10-05T20:30:48.1714239Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-05T20:30:48.2904504Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-05T20:30:48.5393477Z Complete job name: docs
+2026-10-05T20:30:48.6200940Z ##[group]Run actions/checkout@v4
+2026-10-05T20:30:48.6201976Z with:
+2026-10-05T20:30:48.6202648Z   repository: nakul175/saha-health
+2026-10-05T20:30:48.6206867Z   token: ***
+2026-10-05T20:30:48.6207345Z   ssh-strict: true
+2026-10-05T20:30:48.6207815Z   ssh-user: git
+2026-10-05T20:30:48.6208301Z   persist-credentials: true
+2026-10-05T20:30:48.6208821Z   clean: true
+2026-10-05T20:30:48.6209286Z   sparse-checkout-cone-mode: true
+2026-10-05T20:30:48.6209826Z   fetch-depth: 1
+2026-10-05T20:30:48.6210283Z   fetch-tags: false
+2026-10-05T20:30:48.6210952Z   show-progress: true
+2026-10-05T20:30:48.6211424Z   lfs: false
+2026-10-05T20:30:48.6211860Z   submodules: false
+2026-10-05T20:30:48.6212335Z   set-safe-directory: true
+2026-10-05T20:30:48.6212866Z   allow-unsafe-pr-checkout: false
+2026-10-05T20:30:48.6213726Z ##[endgroup]
+2026-10-05T20:30:48.7527928Z Syncing repository: nakul175/saha-health
+2026-10-05T20:30:48.8608395Z ##[group]Getting Git version info
+2026-10-05T20:30:48.8620922Z Working directory is '/home/runner/work/saha-health/saha-health'
+2026-10-05T20:30:48.8701521Z [command]/usr/bin/git version
+2026-10-05T20:30:48.8718577Z git version 2.55.0
+2026-10-05T20:30:48.8775033Z ##[endgroup]
+2026-10-05T20:30:48.8785339Z Temporarily overriding HOME='/home/runner/work/_temp/285f9304-df76-40a7-8a14-b873c3b15740' before making global git config changes
+2026-10-05T20:30:48.8792317Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T20:30:48.8878569Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T20:30:48.8989800Z Deleting the contents of '/home/runner/work/saha-health/saha-health'
+2026-10-05T20:30:48.8994089Z ##[group]Initializing the repository
+2026-10-05T20:30:48.8995825Z [command]/usr/bin/git init /home/runner/work/saha-health/saha-health
+2026-10-05T20:30:48.9000894Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-05T20:30:48.9012074Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-05T20:30:48.9014273Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-05T20:30:48.9016979Z hint: call:
+2026-10-05T20:30:48.9018079Z hint:
+2026-10-05T20:30:48.9019940Z hint: 	git config --global init.defaultBranch <name>
+2026-10-05T20:30:48.9022173Z hint:
+2026-10-05T20:30:48.9025210Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-05T20:30:48.9029084Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-05T20:30:48.9033014Z hint:
+2026-10-05T20:30:48.9036709Z hint: 	git branch -m <name>
+2026-10-05T20:30:48.9039245Z hint:
+2026-10-05T20:30:48.9047711Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-05T20:30:48.9099162Z Initialized empty Git repository in /home/runner/work/saha-health/saha-health/.git/
+2026-10-05T20:30:48.9482895Z [command]/usr/bin/git remote add origin https://github.com/nakul175/saha-health
+2026-10-05T20:30:48.9488201Z ##[endgroup]
+2026-10-05T20:30:48.9491851Z ##[group]Disabling automatic garbage collection
+2026-10-05T20:30:48.9493627Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-05T20:30:48.9512501Z ##[endgroup]
+2026-10-05T20:30:48.9523448Z ##[group]Setting up auth
+2026-10-05T20:30:48.9525758Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T20:30:48.9531673Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T20:30:48.9545336Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T20:30:48.9552836Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T20:30:48.9759389Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T20:30:48.9794035Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T20:30:49.0082687Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-05T20:30:49.0117001Z ##[endgroup]
+2026-10-05T20:30:49.0119351Z ##[group]Fetching the repository
+2026-10-05T20:30:49.0133574Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +80449a668163dbe83aaee4cd8884406173662dd5:refs/remotes/pull/161/merge
+2026-10-05T20:30:53.2111974Z From https://github.com/nakul175/saha-health
+2026-10-05T20:30:53.2122065Z  * [new ref]         80449a668163dbe83aaee4cd8884406173662dd5 -> pull/161/merge
+2026-10-05T20:30:53.2139393Z ##[endgroup]
+2026-10-05T20:30:53.2141397Z ##[group]Determining the checkout info
+2026-10-05T20:30:53.2143313Z ##[endgroup]
+2026-10-05T20:30:53.2144501Z [command]/usr/bin/git sparse-checkout disable
+2026-10-05T20:30:53.2196315Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-05T20:30:53.2234967Z ##[group]Checking out the ref
+2026-10-05T20:30:53.2238108Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/161/merge
+2026-10-05T20:30:54.1940676Z Note: switching to 'refs/remotes/pull/161/merge'.
+2026-10-05T20:30:54.1941309Z 
+2026-10-05T20:30:54.1941748Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-05T20:30:54.1942773Z changes and commit them, and you can discard any commits you make in this
+2026-10-05T20:30:54.1943693Z state without impacting any branches by switching back to a branch.
+2026-10-05T20:30:54.1944544Z 
+2026-10-05T20:30:54.1951433Z If you want to create a new branch to retain commits you create, you may
+2026-10-05T20:30:54.1952473Z do so (now or later) by using -c with the switch command. Example:
+2026-10-05T20:30:54.1953111Z 
+2026-10-05T20:30:54.1953503Z   git switch -c <new-branch-name>
+2026-10-05T20:30:54.1953975Z 
+2026-10-05T20:30:54.1954697Z Or undo this operation with:
+2026-10-05T20:30:54.1955159Z 
+2026-10-05T20:30:54.1955511Z   git switch -
+2026-10-05T20:30:54.1956147Z 
+2026-10-05T20:30:54.1956724Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-05T20:30:54.1957484Z 
+2026-10-05T20:30:54.1958303Z HEAD is now at 80449a6 Merge e0fcbabf57cabbfaa044183683c9ca699ae13e7b into 2adfbde1369b854d71962918bad3b81fdac746fe
+2026-10-05T20:30:54.1983273Z ##[endgroup]
+2026-10-05T20:30:54.2035221Z [command]/usr/bin/git log -1 --format=%H
+2026-10-05T20:30:54.2066127Z 80449a668163dbe83aaee4cd8884406173662dd5
+2026-10-05T20:30:54.2370241Z ##[group]Run actions/setup-node@v4
+2026-10-05T20:30:54.2371017Z with:
+2026-10-05T20:30:54.2371290Z   node-version: 22
+2026-10-05T20:30:54.2371565Z   always-auth: false
+2026-10-05T20:30:54.2371834Z   check-latest: false
+2026-10-05T20:30:54.2374558Z   token: ***
+2026-10-05T20:30:54.2374809Z ##[endgroup]
+2026-10-05T20:30:54.4054890Z (node:2077) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-05T20:30:54.4064474Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-05T20:30:54.4066544Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+2026-10-05T20:30:54.4067697Z ##[group]Environment details
+2026-10-05T20:30:54.9842300Z node: v22.23.3
+2026-10-05T20:30:54.9845904Z npm: 10.9.9
+2026-10-05T20:30:54.9846683Z yarn: 1.22.22
+2026-10-05T20:30:54.9848468Z ##[endgroup]
+2026-10-05T20:30:55.0005251Z ##[group]Run python3 scripts/check-documentation.py
+2026-10-05T20:30:55.0005751Z [36;1mpython3 scripts/check-documentation.py[0m
+2026-10-05T20:30:55.0006160Z [36;1mnode scripts/audit-requirements.mjs --check[0m
+2026-10-05T20:30:55.0006535Z [36;1mnode scripts/test.mjs --check-catalogue[0m
+2026-10-05T20:30:55.0325788Z shell: /usr/bin/bash -e {0}
+2026-10-05T20:30:55.0326196Z ##[endgroup]
+2026-10-05T20:30:56.7728822Z Generated documentation differs: docs/current/TEST-CATALOGUE.csv
+2026-10-05T20:30:56.7729975Z 
+2026-10-05T20:30:56.7822560Z ##[error]Process completed with exit code 1.
+2026-10-05T20:30:56.7973836Z Post job cleanup.
+2026-10-05T20:30:56.8931397Z [command]/usr/bin/git version
+2026-10-05T20:30:56.9000301Z git version 2.55.0
+2026-10-05T20:30:56.9074561Z Temporarily overriding HOME='/home/runner/work/_temp/6f4bfb09-174f-4b69-89f6-bbc6c9136e24' before making global git config changes
+2026-10-05T20:30:56.9076293Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T20:30:56.9077800Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T20:30:56.9138771Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T20:30:56.9213280Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T20:30:56.9595252Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T20:30:56.9640227Z http.https://github.com/.extraheader
+2026-10-05T20:30:56.9681464Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-05T20:30:56.9722488Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T20:30:57.0499192Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T20:30:57.0559426Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T20:30:57.1095721Z Cleaning up orphan processes
+2026-10-05T20:30:57.1341155Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+
