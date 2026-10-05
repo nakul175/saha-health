@@ -1,0 +1,121 @@
+
+  vinext build  (Vite 8.0.13)
+
+[1/5] analyze client references...
+[2Ktransforming...✓ 520 modules transformed.
+rendering chunks...
+✓ built in 1.01s
+[2/5] analyze server references...
+[2Ktransforming...✓ 391 modules transformed.
+rendering chunks...
+✓ built in 440ms
+[3/5] build rsc environment...
+[2Ktransforming...✓ 517 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 646ms
+[4/5] build client environment...
+[2Ktransforming...✓ 2156 modules transformed.
+rendering chunks...
+computing gzip size...
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 748ms
+[5/5] build ssr environment...
+[2Ktransforming...✓ 397 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 400ms
+[0m
+  Route (app)
+  ┌ ƒ /                             
+  ├ λ /api/abdm                     
+  ├ λ /api/action-plan              
+  ├ λ /api/aggregate-reports        
+  ├ λ /api/alerts                   
+  ├ λ /api/anaemia-connection-test  
+  ├ λ /api/anaemia-demo-visit       
+  ├ λ /api/anaemia-provider         
+  ├ λ /api/anaemia-screenings       
+  ├ λ /api/audit                    
+  ├ λ /api/audit/chain              
+  ├ λ /api/availability             
+  ├ λ /api/caseload                 
+  ├ λ /api/clinical-sources         
+  ├ λ /api/commands                 
+  ├ λ /api/continuity               
+  ├ λ /api/data-exit                
+  ├ λ /api/delegations              
+  ├ λ /api/device-work              
+  ├ λ /api/environment              
+  ├ λ /api/exceptional              
+  ├ λ /api/exceptions               
+  ├ λ /api/expansion                
+  ├ λ /api/facility-scope           
+  ├ λ /api/fhir/:id                 
+  ├ λ /api/fixture-migration        
+  ├ λ /api/frontline-assessments    
+  ├ λ /api/frontline-connection-test
+  ├ λ /api/frontline-providers      
+  ├ λ /api/governance               
+  ├ λ /api/history                  
+  ├ λ /api/household                
+  ├ λ /api/identifier-search        
+  ├ λ /api/identity-cases           
+  ├ λ /api/import-rejections        
+  ├ λ /api/imported-evidence        
+  ├ λ /api/incentive-claims         
+  ├ λ /api/indicator-figures        
+  ├ λ /api/indicators               
+  ├ λ /api/media                    
+  ├ λ /api/media/:id                
+  ├ λ /api/mis/callback             
+  ├ λ /api/notification-channel     
+  ├ λ /api/offline-opens            
+  ├ λ /api/operations               
+  ├ λ /api/outreach                 
+  ├ λ /api/pack-installations       
+  ├ λ /api/patient-import           
+  ├ λ /api/patient-matches          
+  ├ λ /api/patients                 
+  ├ λ /api/patients/detail          
+  ├ λ /api/pilot                    
+  ├ λ /api/programme-migration      
+  ├ λ /api/provider-sandbox         
+  ├ λ /api/purpose-scope            
+  ├ λ /api/reassignment             
+  ├ λ /api/reconciliation           
+  ├ λ /api/record-import            
+  ├ λ /api/record-opened            
+  ├ λ /api/referral-escalations     
+  ├ λ /api/referral-requests        
+  ├ λ /api/reminder-optout          
+  ├ λ /api/reminder-optout/callback 
+  ├ λ /api/retention                
+  ├ λ /api/rights                   
+  ├ λ /api/roster                   
+  ├ λ /api/trace                    
+  ├ λ /api/value-range-protocols    
+  ├ λ /api/work-burden              
+  ├ λ /api/work-burden/attribution  
+  ├ λ /api/work-burden/policy       
+  ├ λ /api/work-burden/support      
+  ├ λ /api/worker-activity          
+  ├ λ /api/workforce-import         
+  ├ λ /api/worklists                
+  ├ λ /api/workspace                
+  ├ ƒ /app                          
+  ├ ? /indicator-definitions        
+  └ ? /indicator-figures            
+
+  λ API  ƒ Dynamic  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+

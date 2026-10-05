@@ -12,9 +12,9 @@ try{
  await post(f.o,{type:'view',figureId:f.draftId},409);
  const reissue=await post(f.o,{type:'reissue',figureId:f.publishedId,expectedSequence:3,reason:f.reason},200);
  const rows=(await db.prepare('SELECT data FROM indicator_figure_units WHERE org_id=? AND figure_id=?').bind(f.org,reissue.figureId).all()).results;
- check(rows.length===6&&rows.every(r=>JSON.parse(r.data).sourceHashVersion===2),'Reissue captures full new source coverage for all original six');
+ check(rows.length===6&&rows.every(r=>JSON.parse(r.data).sourceHashVersion===3),'Reissue captures full new source coverage for all original six');
  const reviewed=await post(f.r,{type:'review',figureId:reissue.figureId,expectedSequence:1,decision:'approve',reason:f.reason},200);
  await post(f.o,{type:'publish',figureId:reissue.figureId,expectedSequence:2,reviewId:reviewed.eventId,reason:f.reason},200);
  const after=await db.prepare('SELECT digest,data FROM indicator_figures WHERE org_id=? AND id=?').bind(f.org,f.publishedId).first();check(JSON.stringify(before)===JSON.stringify(after),'Legacy original bytes and digest survive corrected source coverage reissue');
- mkdirSync('tests/evidence/indicator-figures-review',{recursive:true});writeFileSync('tests/evidence/indicator-figures-review/source-coverage-upgrade.json',JSON.stringify({passed,failed:0,actualWorker:true,actualD1:true,existingD1:true,scope:'Legacy source coverage draft/approved refusal, protected immutable legacy publication and independently reviewed source-version2 reissue on preserved real D1.'},null,2)+'\n');console.log(JSON.stringify({passed,failed:0}));
+ mkdirSync('tests/evidence/indicator-figures-review',{recursive:true});writeFileSync('tests/evidence/indicator-figures-review/source-coverage-upgrade.json',JSON.stringify({passed,failed:0,actualWorker:true,actualD1:true,existingD1:true,scope:'Legacy source coverage draft/approved refusal, protected immutable legacy publication and independently reviewed source-version3 reissue on preserved real D1.'},null,2)+'\n');console.log(JSON.stringify({passed,failed:0}));
 }finally{await w.stop()}

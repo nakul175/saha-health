@@ -1,0 +1,13 @@
+# Report counting after household completion corrections
+
+5 October 2026. Isolated combined source04dff832 plus stable B13 equivalent37761b4b (author7320bfc3). Independent diagnostic acd136385 remains unchanged. Canonical integration, independent review and full combined qualification remain pending.
+
+Live open/overdue follow-up measures and newly captured frozen counting material now use the same `followUpOpen` predicate as care work. A completed follow-up with voided, superseded or missing completion evidence is unresolved; a current append-only replacement completion resolves it. Cancelled tasks and older completed tasks without household completion evidence retain their existing meaning. Original closure state, time and evidence are never rewritten by reporting.
+
+Counting-source coverage advances from2 to3, and its digest includes the counting semantics version. This is necessary even when the underlying stored person/visit bytes are unchanged: an old prepared version2 figure must not be newly approved or published with the previous counting meaning. The existing source-coverage guard rejects old unpublished figures. Already published version2 figures keep their stored units, results and digest; protected historical reads retain current reporting/cohort/privacy checks. A reissue captures version3 and requires independent review and original-author publication.
+
+The production-function regression passes35 assertions: actual `applyHouseholdWork` eligibility and selected completion, source void, supersession, append-only replacement and replacement void, live/frozen open/overdue parity, and immutable prior material/closure fields. This uses synthetic in-memory production functions, not HTTP/D1.
+
+The upgrade fixture is created through actual public prepare/review/publication calls to the separately built source-coverage2 Worker and preserves its database. The source-coverage3 Worker then passes16 actual HTTP/D1 checks against that same database: old draft review/publication/view409; old publication protected view200 with unchanged value and byte-identical headers/units; new parent-linked version3 capture and independent review/publication. Fixture setup14 is not upgrade acceptance. This driver is dependency-bound and must never manufacture old rows under the new Worker. Ordinary material86 and supported submission cancellation8 checks pass unchanged in count. Build/types/whitespace pass.
+
+Evidence is in `tests/evidence/report-household-counting-repair/`. No physical Android, clinical denominator, official publication or formal acceptance is claimed. Owner-defined composite measures and automatic affected-edition impact/difference workflows remain buildable residual B27 scope; manual reissue does not close those clauses.
