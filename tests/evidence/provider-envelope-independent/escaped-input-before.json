@@ -1,0 +1,11 @@
+{
+  "passed": 32,
+  "failed": 0,
+  "actualImmediateInvokeAgent": true,
+  "transportCalls": 1,
+  "decodedProviderSourceKnownSensitive": true,
+  "unicodeEscapedInputGuardPassed": true,
+  "legacyProjectionKnownSensitive": true,
+  "realProvidersCalled": false,
+  "reachability": "Immediate OpenAI invokeAgent guard permits tab-normalized known name because it scans serialized JSON string, not parsed source. Existing prepare/checkpoint checkAgentSource rejects that note; no claim that normal public execution bypasses those earlier checks. Explicit Unicode-escaped built input is reusable-guard diagnostic, not client static injection."
+}
