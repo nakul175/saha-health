@@ -23,7 +23,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0019_availability_samples';
+export const SCHEMA_MIGRATION = '0020_device_work';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -47,6 +47,8 @@ export const TABLES: TableSpec[] = [
   { table: 'retention', order: 'org_id', scope: 'org' },
   { table: 'legacy_migrations', order: 'owner_id', scope: 'org' },
   { table: 'availability_samples', order: 'slot,source', scope: 'org', note: 'Immutable fixed-cadence synthetic operational observations, no patient identifiers or raw errors; hosted availability remains unmeasured.' },
+  { table: 'device_work_grants', order: 'actor_id,lease_id', scope: 'person', note: 'Immutable original-worker grant metadata; no clinical packet or device fingerprint.' },
+  { table: 'device_work_events', order: 'at,id', scope: 'self', note: 'Only the exporter\'s redacted diagnostics, deletion instructions and client-attested acknowledgements; server evidence is not pruned.' },
   { table: 'request_metrics', order: 'bucket,route,status', scope: 'org' },
   { table: 'alert_occurrences', order: 'opened_at,id', scope: 'org', note: 'Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only.' },
   { table: 'alert_notifications', order: 'delivered_at,id', scope: 'self', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter\'s own notifications; other members\' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows).' },
@@ -152,7 +154,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     const rows = data[spec.table], lines: unknown[] = [];
     let withheld = 0, entries = 0, others = 0;
     for (const r of rows) {
-      if (spec.scope === 'self' && String(r.user_id) !== m.userId) { others++; continue; }
+      if (spec.scope === 'self' && String(r.user_id ?? r.actor_id) !== m.userId) { others++; continue; }
       if (spec.table === 'patients' ? !people.has(String(r.id)) : !allowed(spec, r)) {
         withheld++;
         // Audit events outside scope keep their place in the chain as digests.

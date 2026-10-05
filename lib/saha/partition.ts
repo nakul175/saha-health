@@ -52,7 +52,7 @@ export const PATIENT_COMMANDS = new Set<string>([
 ]);
 
 // Rows a patient-scoped commit may write. Any other table makes the commit organisation-wide.
-export const PATIENT_TABLES = new Set<string>(['patients', 'visits', 'plans', 'ai_results', 'submissions', 'referrals', 'record_revisions', 'audit_events', 'command_receipts', 'media']);
+export const PATIENT_TABLES = new Set<string>(['patients', 'visits', 'plans', 'ai_results', 'submissions', 'referrals', 'record_revisions', 'audit_events', 'command_receipts', 'media', 'device_work_grants']);
 
 const lookups: [field: string, table: string][] = [['visitId', 'visits'], ['referralId', 'referrals'], ['submissionId', 'submissions']];
 

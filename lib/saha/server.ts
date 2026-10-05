@@ -1,3 +1,4 @@
+import {deviceGrantRows} from './device-work';
 import { rangeCaptureFor } from './fact-provenance';
 import {serviceDispatch} from './service-dispatch';
 import { applyReconciliation, authorizeReconciliation } from './reconciliation';
@@ -263,7 +264,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  if(c.type==='amendVisit')carryDisputes(before,state,u,m);
  // Slice 1e: record any delegated authority the command relied on.
  const authorityDelegations=state.delegationUsed?.length?delegationAudit(state,u,m,c.type,typeof (c as any).personId==='string'?(c as any).personId:null):[];
- await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result,[],c.type==='switchOrganisation');
+ await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result,c.type==='prepareFieldVisit'?deviceGrantRows(result,state,u):[],c.type==='switchOrganisation');
  // Slice 6v: an organisation-wide command evaluates alert delivery on the state it loaded (best effort, never fails the command).
  if(c.type!=='switchOrganisation')await evaluateAfterCommand(state);
  // Slice 0b: a partitioned command may answer with the partition snapshot for the client to merge.

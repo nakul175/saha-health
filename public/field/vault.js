@@ -23,3 +23,9 @@ export const writeMedia=(id,value)=>mediaTx('readwrite',store=>{store.put(value,
 export const readMedia=id=>mediaTx('readonly',store=>store.get('media:'+id));
 export const deleteMedia=id=>mediaTx('readwrite',store=>{store.delete('media:'+id)});
 export const listMediaIds=()=>mediaTx('readonly',store=>store.getAllKeys()).then(keys=>(keys??[]).filter(k=>typeof k==='string'&&k.startsWith('media:')).map(k=>k.slice(6)));
+// Replace the sealed notebook and delete named sealed media in one revision-checked transaction.
+// A failed or aborted transaction changes neither copy; callers acknowledge only its completion.
+export async function purgeVault(value,expected,mediaIds){
+ if(!Array.isArray(mediaIds)||mediaIds.length>100||mediaIds.some(id=>typeof id!=='string'||id.length>200))throw Error('Invalid device purge references.');
+ const db=await openVault();return new Promise((resolve,reject)=>{const tx=db.transaction('vault','readwrite'),store=tx.objectStore('vault'),r=store.get('encrypted');let conflict=false;r.onsuccess=()=>{if((r.result?.revision??0)!==expected){conflict=true;tx.abort();return;}store.put({...value,revision:expected+1},'encrypted');for(const id of mediaIds)store.delete('media:'+id);};tx.oncomplete=()=>{db.close();resolve(expected+1);};tx.onabort=tx.onerror=()=>{db.close();reject(Error(conflict?'Another tab changed this vault. Lock and reopen before deletion.':'Device purge transaction failed.'));};});
+}

@@ -1,3 +1,5 @@
+// Device privacy is injected here; its server/IndexedDB effects are verified in device-work-contract/browser.
+import {deviceDigest} from '../public/field/device-work.js';
 // Slice 12a contract: voice input on every text and number field. The owner setting for the browser speech service (who may
 // change it, versions, refusals, the practice-data environments, audit), the choice of recognizer, how heard text becomes a
 // field value, which fields get a microphone, and that the field notebook (public/field/app.js) turns speech into the same
@@ -74,7 +76,7 @@ try {
   class Element { constructor(tag = 'div') { this.tag = tag; this.children = []; this.value = ''; this.style = {}; this.dataset = {}; } append(...c) { this.children.push(...c); } prepend(...c) { this.children.unshift(...c); } replaceChildren(...c) { this.children = c; } querySelector() { return null; } setAttribute() {} }
   const els = new Map(), byId = id => { if (!els.has(id)) els.set(id, new Element()); return els.get(id); };
   const win = { indexedDB: {}, addEventListener: () => {} }, nav = { onLine: true };
-  const ctx = vm.createContext({ console, crypto, TextEncoder, TextDecoder, structuredClone, Date, Map, Array, Promise, Error, JSON, Uint8Array, Blob, Number, Math, String, queueMicrotask, setTimeout: () => 0, clearTimeout: () => {},
+  const ctx = vm.createContext({deviceDigest,reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false, console, crypto, TextEncoder, TextDecoder, structuredClone, Date, Map, Array, Promise, Error, JSON, Uint8Array, Blob, Number, Math, String, queueMicrotask, setTimeout: () => 0, clearTimeout: () => {},
     derive: async () => null, seal: async () => null, unseal: async () => null, verifyPacket: async () => true, packetHash: async () => '', sealBytes: async () => null, unsealBytes: async () => null,
     readVault: async () => null, writeVault: async () => 1, deleteVault: async () => {}, writeMedia: async () => {}, readMedia: async () => null, deleteMedia: async () => {}, listMediaIds: async () => [],
     fetch: async () => { throw Error('offline'); }, navigator: nav, window: win, document: { hidden: false, documentElement: {}, body: new Element('body'), getElementById: byId, createElement: tag => new Element(tag), addEventListener: () => {} } });

@@ -1,3 +1,5 @@
+// Device privacy is injected here; its server/IndexedDB effects are verified in device-work-contract/browser.
+import {deviceDigest} from '../public/field/device-work.js';
 // Slice 3d: in-app voice-note recording in the field notebook. Runs public/field/app.js in Node with
 // real Web Crypto and the real sealing functions, and an injected MediaRecorder, microphone, storage and
 // network. Real microphone capture is covered only by the separate browser check.
@@ -9,7 +11,7 @@ let record=null,calls=[];const media=new Map(),timers=[],tracks=[];let permissio
 class FakeRecorder{static isTypeSupported(t){return supported.includes(t)}constructor(stream,options){this.stream=stream;this.options=options;this.state='inactive';FakeRecorder.last=this;}start(slice){this.slice=slice;this.state='recording';}stop(){if(this.state!=='recording')return;this.state='inactive';this.stopped=(this.stopped??0)+1;queueMicrotask(()=>this.onstop?.());}emit(bytes){this.ondataavailable?.({data:new Blob([bytes])});}}
 const navigator={onLine:true,mediaDevices:{getUserMedia:async()=>{if(!permission)throw Error('NotAllowedError');const t={stopped:false,stop(){this.stopped=true}};tracks.push(t);return {getTracks:()=>[t]};}}};
 const window={indexedDB:{},addEventListener:()=>{},MediaRecorder:FakeRecorder};
-const context=vm.createContext({console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Blob,Number,Math,queueMicrotask,setTimeout:(fn,ms)=>{timers.push({fn,ms});return timers.length},clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+const context=vm.createContext({deviceDigest,reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false,console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Blob,Number,Math,queueMicrotask,setTimeout:(fn,ms)=>{timers.push({fn,ms});return timers.length},clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{media.delete(id)},listMediaIds:async()=>[...media.keys()],
  fetch:async(url,options)=>{calls.push({url,options});throw Error('Network disconnected')},navigator,window,document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
