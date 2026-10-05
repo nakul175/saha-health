@@ -131,6 +131,8 @@ export async function loadNavigation() {
 // (a panel imported by another panel is hosted wherever that panel is). 'Person page' is a person's page opened from My work or People.
 const PERSON = 'Person page and visit';
 export const PANEL_HOME = {
+  'app/frontline-guidance.tsx': ['ASHA app Home (/app)'],
+  'app/inbound-conflicts-panel.tsx': [PERSON],
   'app/indicator-definitions/page.tsx': ['Organisation & team'],
   'app/imported-evidence-panel.tsx': ['Organisation & team'],
   'app/imported-source-reference.tsx': [PERSON],

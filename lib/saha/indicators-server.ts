@@ -69,6 +69,14 @@ async function indicatorsFor(request:Request,p:URLSearchParams){
  {const diff=shape(released).results.filter((r:any)=>r.refused==='differencing').length;if(diff)await recordAggregateView(db(),s,u,m,REFUSAL_SUBJECT,`Indicator query partly withheld${file?' (CSV export)':''}: ${diff} result${diff===1?'':'s'} withheld because, together with this viewer's queries of the last seven days, ${diff===1?'it':'they'} would reveal a group of fewer than 5 people. Filters set: ${filtersSet}.`);}
  // Slice 10h: an on-screen indicator view (not the CSV, which records indicatorExport) is an aggregate view: recorded before the results are returned. Which filters were set is recorded, not their values.
  if(!file){const shown=shape(released).results,withheld=shown.filter((r:any)=>r.refused).length,filters=[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean);await recordAggregateView(db(),s,u,m,'indicator results',`Indicator results viewed: ${shown.map((r:any)=>`${r.id} v${r.version}${r.refused?' withheld':''}`).join(', ')}; ${shown.length-withheld} released, ${withheld} withheld; grouped by ${q.group}; ${q.days}-day window; filters set: ${filters.length?filters.join(', '):'none'}. No cell values recorded.`);}
+ // Recheck after every required aggregate/export audit. A saved ledger entry is conservative
+ // disclosure history, not permission to return figures after care or reporting access changes.
+ const current=await loadFor(u,s.organisation.id,undefined,true),currentMember=scope(current,u.userId);
+ manager(currentMember);ensurePurpose(currentMember,'reporting');
+ const visible=(state:typeof s)=>state.workspace.people.filter(person=>person.assigned&&!person.mergedInto).map(person=>person.id).sort();
+ if(JSON.stringify(visible(current))!==JSON.stringify(visible(s)))fail(403,'Your current patient scope changed while the report was being recorded. No figures were returned.');
+ const currentRun=indicatorRun(current,currentMember,q,new Date(result.computedAt));
+ if(JSON.stringify(currentRun)!==JSON.stringify(run))fail(409,'The report source or definition changed while its release was being recorded. No figures were returned. Run a fresh report.');
  if(previous){const shaped=shape(released),people=s.workspace.people.filter(x=>x.assigned&&!x.mergedInto&&(!q.team||x.teamId===q.team)&&(!q.village||x.village===q.village)&&(!q.programme||x.programmes.includes(q.programme as any)));
   // Slice 6ac: freshness per team and late arrivals per released result; withheld results carry nothing more. The CSV is unchanged.
   return json({...shaped,freshness:teamFreshness(s,m,q,result.window,new Date(result.computedAt)),results:shaped.results.map((r:any)=>r.refused?r:{...r,lateArrivals:lateSinceRelease(s,people,resolveDefinition(s,`${r.id}@${r.version}`),result.window.since,result.window.until,previous.get(r.id+'@'+r.version)??null)})});}
