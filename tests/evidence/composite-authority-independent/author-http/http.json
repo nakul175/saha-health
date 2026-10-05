@@ -1,0 +1,89 @@
+{
+  "passed": 86,
+  "failed": 0,
+  "actualWorker": true,
+  "actualD1": true,
+  "observations": [
+    {
+      "format": "view",
+      "mode": "suspended",
+      "status": 403,
+      "currentMembership": {
+        "status": "suspended",
+        "role": "clinician",
+        "version": 2
+      }
+    },
+    {
+      "format": "view",
+      "mode": "role",
+      "status": 403,
+      "currentMembership": {
+        "status": "active",
+        "role": "admin",
+        "version": 2
+      }
+    },
+    {
+      "format": "view",
+      "mode": "teams",
+      "status": 403,
+      "currentMembership": {
+        "status": "active",
+        "role": "clinician",
+        "version": 1
+      }
+    },
+    {
+      "format": "view",
+      "mode": "patientTeam",
+      "status": 403,
+      "currentMembership": {
+        "status": "active",
+        "role": "clinician",
+        "version": 1
+      }
+    },
+    {
+      "format": "csv",
+      "mode": "suspended",
+      "status": 403,
+      "currentMembership": {
+        "status": "suspended",
+        "role": "clinician",
+        "version": 2
+      }
+    },
+    {
+      "format": "csv",
+      "mode": "role",
+      "status": 403,
+      "currentMembership": {
+        "status": "active",
+        "role": "admin",
+        "version": 2
+      }
+    },
+    {
+      "format": "csv",
+      "mode": "teams",
+      "status": 403,
+      "currentMembership": {
+        "status": "active",
+        "role": "clinician",
+        "version": 1
+      }
+    },
+    {
+      "format": "csv",
+      "mode": "patientTeam",
+      "status": 403,
+      "currentMembership": {
+        "status": "active",
+        "role": "clinician",
+        "version": 1
+      }
+    }
+  ],
+  "scope": "Post-audit current membership, role, team and person scope for live and CSV; no clinical write or mutation retry."
+}
