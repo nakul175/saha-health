@@ -88,6 +88,7 @@ export const EXTRA_UNITS:Record<'systolic'|'diastolic',{unit:string;label:string
  diastolic:{unit:'kPa',label:'kPa (kilopascals)',decimals:1,convert:x=>x*7.50062},
 };
 export const WEEKS_DAYS={unit:'wk+d',label:'weeks + days',decimals:2} as const;
+export function alternativeUnit(field:AllConvertibleField){return field==='weeks'?WEEKS_DAYS:(ALT_UNITS as Record<string,{unit:string;label:string;decimals:number}>)[field]??(EXTRA_UNITS as Record<string,{unit:string;label:string;decimals:number}>)[field];}
 export const ALL_CONVERTIBLE_FIELDS=['weight','temperature','coughDays','systolic','diastolic','weeks'] as const satisfies readonly AllConvertibleField[];
 const NUMBER=/^[0-9]+(\.[0-9]+)?$/;
 // "20+3" means 20 weeks and 3 days; converted to decimal weeks to two decimals.
@@ -146,8 +147,9 @@ export function valueTier(field:ValueField,value:string,context?:RangeContext):'
 // Converts values entered in an alternative unit. Returns the converted facts, or a problem the server refuses with.
 export function normaliseUnits(f:Facts):{facts:Facts;problem?:string}{
  if(!f.entered)return {facts:f};const next:Facts={...f,entered:{}};
- for(const k of Object.keys(f.entered)){const field=k as AllConvertibleField,e=f.entered[field]!,label=VALUE_RANGES.fields[field].label,unitLabel=enteredUnitLabel(field);
+ for(const k of Object.keys(f.entered)){const field=k as AllConvertibleField;
   if(!(ALL_CONVERTIBLE_FIELDS as readonly string[]).includes(field))return {facts:f,problem:`${k}: no alternative unit is accepted for this measurement.`};
+  const e=f.entered[field]!,label=VALUE_RANGES.fields[field].label,unitLabel=enteredUnitLabel(field);
   const value=convertEntered(field,e);if(value===null)return {facts:f,problem:`${label}: enter a positive number in ${unitLabel}, or enter the value in ${VALUE_RANGES.fields[field].unit}.`};
   if(f[field]&&f[field]!==value)return {facts:f,problem:`${label}: ${f[field]} ${VALUE_RANGES.fields[field].unit} does not match the entered ${e.value} ${unitLabel} (${value} ${VALUE_RANGES.fields[field].unit}). Clear one of them.`};
   next[field]=value;next.entered![field]={value:e.value,unit:e.unit};}

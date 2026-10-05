@@ -22,13 +22,13 @@ context.fixture={packet,packageHash:await packetHash(packet),facts:structuredClo
 run('render()');const find=(n,pred)=>pred(n)?n:(n.children??[]).map(c=>find(c,pred)).find(Boolean);const all=(n,pred,out=[])=>{if(pred(n))out.push(n);for(const c of n.children??[])all(c,pred,out);return out;};
 const section=()=>all(byId('editor'),n=>n.tag==='details').find(d=>d.children.some(c=>c.tag==='summary'&&/Other units and unusual values/.test(c.textContent)));
 const label=(box,text)=>find(box,n=>n.tag==='label'&&n.textContent===text);
-check(()=>{const box=section();assert.ok(box,'units section rendered');assert.equal(box.open,false,'closed without entries');assert.equal(all(box,n=>n.tag==='select').length,3);});
+check(()=>{const box=section();assert.ok(box,'units section rendered');assert.equal(box.open,false,'closed without entries');assert.equal(all(box,n=>n.tag==='select').length,6);});
 check(()=>assert.ok(label(section(),'Weight · value in lb (pounds) / पाउंड').children.find(c=>c.tag==='input').disabled,'no value until a unit is chosen'));
 // Choosing pounds and entering a value: the device copy keeps what was entered; tidying fills the converted kg value.
 let s=label(section(),'Weight · unit / इकाई').children.find(c=>c.tag==='select');s.value='lb';s.onchange();await run('chain');run('render()');
 check(()=>{assert.deepEqual(val('active().facts.entered'),{weight:{value:'',unit:'lb'}});assert.equal(section().open,true);});
 let input=label(section(),'Weight · value in lb (pounds) / पाउंड').children.find(c=>c.tag==='input');check(()=>assert.equal(input.disabled,false));input.value='154';input.oninput();await run('chain');
-check(()=>{const t=val('tidyFacts(active().facts)');assert.equal(t.weight,'69.85');assert.deepEqual(t.entered,{weight:{value:'154',unit:'lb'}});assert.equal(val('active().facts.weight'),'');});
+check(()=>{const t=val('tidyFacts(active().facts)');assert.equal(t.weight,'69.85');assert.deepEqual(t.entered,{weight:{value:'154',unit:'lb'}});assert.equal(val('active().facts.weight'),'69.85');});
 check(()=>assert.equal(run("valueProblem(tidyFacts(active().facts))"),null));
 // An unusual converted value is shown with a reason field, and sync is held on the device until a reason is given.
 input.value='882';input.oninput();await run('chain');run('render()');
