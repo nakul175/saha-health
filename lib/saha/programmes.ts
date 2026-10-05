@@ -45,3 +45,9 @@ export const packName=(id:PackId,s?:Installs)=>catalogueOf(s).filter(p=>p.id===i
 // The version new episodes open on: the adopted version while it can open episodes, else the lowest version that can
 // (v1 for the compiled packs; the first activated version for an installed pack). 0 when the pack cannot open episodes.
 export function adoptedVersion(s:Installs,id:PackId){const v=s.operations?.packVersions?.[id];if(v&&enrollableAt(id,v,s))return v;const vs=enrollablePacks(s).filter(p=>p.id===id).map(p=>p.version);return vs.length?Math.min(...vs):0;}
+
+// Prepared work permits documentary capture only; no offline clinical decision or task closure.
+export function offlineWorkFor(c?:ProgrammeCapture){
+ const packs=c?.packs??[];if(packs.length>20||packs.some(x=>x.pack.questions.length>25))throw new Error('Prepared programme work exceeds the bounded notebook contract.');
+ return {schema:1 as const,tasks:packs.length?['visit-facts','programme-answers']:['visit-facts'],clinicalApproval:'pending' as const,packs:packs.map(x=>({enrolmentId:x.enrolmentId,pack:structuredClone(x.pack)}))};
+}
