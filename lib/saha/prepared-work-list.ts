@@ -1,4 +1,5 @@
 import { digest, fail } from './core';
+import { followUpOpen } from './programmes';
 import { normallyAllowed, purposePermits } from './access';
 import { preparedTask, preparedTasksCurrent, fieldIdentity } from './field';
 import type { PreparedTask } from './field';
@@ -8,7 +9,7 @@ export function preparedMember(s:OrgState,actorId:string){const m=s.members.find
 export function preparedPerson(s:OrgState,m:Member,id:string){const p=s.workspace.people.find(x=>x.id===id);if(!p||p.assignedTo!==m.userId||!normallyAllowed(m,p)||p.mergedInto||p.restrictions?.some(x=>!x.liftedAt))fail(403,'Current assigned normal care scope is required.');return p!;}
 export async function preparedWorkRow(s:OrgState,m:Member,p:Person,day=new Date().toISOString().slice(0,10)){
  const tasks:PreparedTask[]=[],unsupported:string[]=[];
- for(const t of [...(p.followUps??[])].filter(t=>t.state==='open'&&t.ownerId===m.userId&&t.due<=day).sort((a,b)=>a.due.localeCompare(b.due)||a.id.localeCompare(b.id))){try{tasks.push(await preparedTask(s,p,t.id));}catch{unsupported.push(t.id);}}
+ for(const t of [...(p.followUps??[])].filter(t=>followUpOpen(s,t)&&t.ownerId===m.userId&&t.due<=day).sort((a,b)=>a.due.localeCompare(b.due)||a.id.localeCompare(b.id))){try{tasks.push(await preparedTask(s,p,t.id));}catch{unsupported.push(t.id);}}
  const tooMany=tasks.length>10,currentLease=p.fieldLeases?.some(l=>l.actorId===m.userId&&l.status==='active'&&l.expiresAt>new Date().toISOString());
  const row={personId:p.id,personName:p.name,personVersion:p.version,tasks:tasks.slice(0,10),classification:tooMany?'task-limit-online-review':unsupported.length?'source-online-review':tasks.length?'declared-due':'assigned-no-declared-due',canPrepare:!tooMany&&!currentLease&&unsupported.length===0,reason:currentLease?'Open the existing prepared visit; do not replace its original grant.':tooMany?'More than ten due tasks; review online.':unsupported.length?'Some due tasks require protected source review online.':null};
  return {...row,planHash:await digest({format:'saha-prepared-work-plan-v1',org:s.organisation.id,actor:m.userId,member:m,day,row})};

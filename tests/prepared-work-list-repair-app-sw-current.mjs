@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
+let passed=0;const check=(value,name)=>{assert.ok(value,name);passed++;};const handlers={},origin='https://saha.example.invalid';let fetches=0,puts=0;
+const cache={match:async path=>new Response(path==='/app/offline/'?'locked public shell':'cached public asset'),put:async()=>puts++};let nextResponse;
+const realm=vm.createContext({URL,Response,self:{location:{origin},navigator:{onLine:false},addEventListener:(name,fn)=>handlers[name]=fn},caches:{open:async()=>cache},fetch:async()=>{fetches++;return nextResponse}});
+vm.runInContext(readFileSync('public/app-sw.js','utf8')+'\nglobalThis.guard=publicResponse;',realm);
+const base={ok:true,redirected:false,type:'basic',url:origin+'/field/app.js',headers:new Headers({'content-type':'text/javascript'})};
+check(realm.guard(base,'/field/app.js'),'Fixed same-origin JS accepted');
+for(const [name,change] of [['redirected',{redirected:true}],['opaque',{type:'opaque'}],['non-success',{ok:false}],['cross-origin',{url:'https://other.invalid/field/app.js'}],['different path',{url:origin+'/api/workspace'}],['authenticated HTML in JS slot',{headers:new Headers({'content-type':'text/html'})}]])check(!realm.guard({...base,...change},'/field/app.js'),name+' refused');
+for(const [path,type] of [['/app/offline/','text/html'],['/app/offline/style.css','text/css'],['/field/vault.js','application/javascript']])check(realm.guard({...base,url:origin+path,headers:new Headers({'content-type':type})},path),'Expected fixed asset type '+path);
+for(const request of [{url:origin+'/api/workspace',method:'GET',mode:'cors'},{url:origin+'/api/commands',method:'POST',mode:'cors'},{url:origin+'/app/offline/style.css?user=private',method:'GET',mode:'cors'},{url:'https://other.invalid/field/app.js',method:'GET',mode:'cors'}]){let responded=false;handlers.fetch({request,respondWith:()=>responded=true});check(!responded,'API/POST/query/cross-origin bypass cache');}
+let output;handlers.fetch({request:{url:origin+'/app?patient=private',method:'GET',mode:'navigate'},respondWith:p=>output=p});assert.equal(await (await output).text(),'locked public shell');check(fetches===0&&puts===0,'Offline authenticated navigation returns locked public shell without caching HTML');
+nextResponse={...base,redirected:true};handlers.fetch({request:{url:origin+'/field/app.js',method:'GET',mode:'cors'},respondWith:p=>output=p});assert.equal(await (await output).text(),'cached public asset');check(puts===0,'Redirected runtime response never enters CacheStorage');
+const report={passed,suite:'Independent app service-worker response/cache contract',completedAt:new Date().toISOString(),scope:'Actual worker source in isolated VM; MIME/origin/path/redirect/opaque and cache bypass checks. Real Chromium cache inspection is separate.'};mkdirSync('tests/evidence/prepared-work-list-repair/repeat/compatibility/app-sw',{recursive:true});writeFileSync('tests/evidence/prepared-work-list-repair/repeat/compatibility/app-sw/sw-contract.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

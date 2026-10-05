@@ -1,5 +1,5 @@
 import { rangeCaptureFor, rangeContextProblem } from './fact-provenance';
-import { installedPacks, offlineWorkFor, packAt } from './programmes';
+import { installedPacks, offlineWorkFor, packAt, followUpOpen } from './programmes';
 import { z } from 'zod';
 import { withinPolicy } from './access';
 import { apply, digest, factsSchema, programmeRecord, fail, person, uuid, visit } from './core';
@@ -10,9 +10,11 @@ import { NEXT, REFERRAL_EVENTS, TERMINAL, URGENCIES } from './referral-rules';
 import type { Actor } from './store';
 export type PreparedTask={taskId:string;title:string;due:string;episodeId:string;packId:string;packVersion:number;hash:string};
 export async function preparedTask(state:OrgState,p:import('./types').Person,taskId:string):Promise<PreparedTask>{
- const t=p.followUps?.find(x=>x.id===taskId&&x.state==='open');const e=p.enrolments?.find(x=>x.id===t?.enrolmentId&&x.state==='active');const pack=e&&packAt(e.packId,e.packVersion,state);
+ const t=p.followUps?.find(x=>x.id===taskId&&followUpOpen(state,x));const e=p.enrolments?.find(x=>x.id===t?.enrolmentId&&x.state==='active');const pack=e&&packAt(e.packId,e.packVersion,state);
  if(!t||!e||!pack||(p as any).installedWork?.some((x:any)=>x.id===taskId))fail(409,'Due work requires current online source review.');
- return {taskId:t!.id,title:t!.title,due:t!.due,episodeId:e!.id,packId:e!.packId,packVersion:e!.packVersion,hash:await digest({task:t,episode:{id:e!.id,state:e!.state,packId:e!.packId,packVersion:e!.packVersion},pack})};
+ const evidence=t!.state==='completed'?(t!.completionReplacements?.at(-1)??t!.completionEvidence):null,source=evidence?state.workspace.visits.find(v=>v.id===evidence.visitId):null;
+ const completionSource=evidence?source?{id:source.id,version:source.version,recordVersion:source.recordVersion,state:source.state,voidedAt:source.voidedAt??null,supersededBy:source.supersededBy??null}: {id:evidence.visitId,missing:true}:null;
+ return {taskId:t!.id,title:t!.title,due:t!.due,episodeId:e!.id,packId:e!.packId,packVersion:e!.packVersion,hash:await digest({task:t,...(evidence?{completionSource}:{}),episode:{id:e!.id,state:e!.state,packId:e!.packId,packVersion:e!.packVersion},pack})};
 }
 export async function preparedTasksCurrent(state:OrgState,p:import('./types').Person,tasks:PreparedTask[]){for(const t of tasks)if(await digest(await preparedTask(state,p,t.taskId))!==await digest(t))fail(409,'Prepared due work changed. Review the original task online before syncing.');}
 export type FieldLease={id:string;actorId:string;memberVersion:number;visitId:string;visitVersion:number;identityHash:string;consentVersion:number;expiresAt:string;status:'active'|'revoked'|'synced';packageHash:string;createdAt:string;offlineWorkHash?:string;preparedTasks?:PreparedTask[]};
