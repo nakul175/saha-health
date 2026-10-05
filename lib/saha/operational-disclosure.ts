@@ -5,6 +5,7 @@ import {MIN_CELL} from './indicators';
 import {disclosureProfile,disclosureRisk,ledgerHash,readLedger,writeLedger,untrackedDisclosureHistory,type DisclosureProfile} from './indicator-ledger';
 import {ledgerFull,pruneLedger} from './indicator-differencing';
 import {fail} from './core';
+import {followUpOpen} from './programmes';
 type Report=ReturnType<typeof careReport>;
 const scalar=(r:Report):Record<string,number>=>({patients:r.patients,visitsStarted:r.visitsStarted,visitsConfirmed:r.visitsConfirmed,...Object.fromEntries(Object.entries(r.backlog).map(([k,v])=>['backlog:'+k,v])),...Object.fromEntries(Object.entries(r.usage).filter(([,v])=>typeof v==='number').map(([k,v])=>['usage:'+k,v as number])),...Object.fromEntries(r.daily.map(d=>['daily:'+d.date,d.confirmed])),...Object.fromEntries(r.programmes.flatMap(p=>['activeEpisodes','openTasks','overdueTasks'].map(k=>['programme:'+p.programme+':'+k,p[k as 'activeEpisodes']]))),...Object.fromEntries(r.destinations.flatMap(d=>['accepted','pending','rejected'].map(k=>['destination:'+d.id+':'+k,d[k as 'accepted']])))});
 // Contributor counts are not a clinical denominator. A hundred events belonging to one person
@@ -15,7 +16,7 @@ export async function operationalProfiles(s:OrgState,m:Member,raw:Report,include
  // Partition once before per-person contribution calculation. Repeatedly scanning the whole
  // organisation for each person would turn a bounded disclosure into quadratic capture work.
  const byPerson=<T extends {personId:string}>(rows:T[])=>{const out=new Map<string,T[]>();for(const row of rows){const group=out.get(row.personId)??[];group.push(row);out.set(row.personId,group);}return out;},visits=byPerson(s.workspace.visits),submissions=byPerson(s.workspace.submissions),referrals=byPerson(s.workspace.referrals);
- const single=people.map(p=>scalar(careReport({...s,workspace:{...s.workspace,people:[p],visits:visits.get(p.id)??[],submissions:submissions.get(p.id)??[],referrals:referrals.get(p.id)??[],audit:[]}},m,raw.days,new Date(at),()=>true))),ids=await Promise.all(people.map(p=>h('live-disclosure-person:v1:'+p.id))),profiles:DisclosureProfile[]=[];let small=people.length<MIN_CELL;
+ const single=people.map(p=>scalar(careReport({...s,workspace:{...s.workspace,people:[p],visits:visits.get(p.id)??[],submissions:submissions.get(p.id)??[],referrals:referrals.get(p.id)??[],audit:[]}},m,raw.days,new Date(at),()=>true,t=>followUpOpen(s,t)))),ids=await Promise.all(people.map(p=>h('live-disclosure-person:v1:'+p.id))),profiles:DisclosureProfile[]=[];let small=people.length<MIN_CELL;
  for(const [key,total] of Object.entries(scalar(raw))){if(!Number.isFinite(total)||total<0)fail(503,'Operational contribution evidence is unavailable. Nothing was released.');const values=single.map(r=>r[key]??0),sum=values.reduce((a,b)=>a+b,0);if(Math.abs(sum-total)>1e-8)fail(503,'Operational contribution evidence does not reconcile. Nothing was released.');const positive=values.filter(n=>n>0).length;if(positive>0&&positive<MIN_CELL)small=true;profiles.push(await disclosureProfile(s.organisation.id,`operational:v1:${key}:${key.startsWith('daily:')?'day':raw.since}`,Object.fromEntries(ids.map((id,i)=>[id,[values[i],0] as [number,number]])),at));}
  return {profiles,small};
 }
