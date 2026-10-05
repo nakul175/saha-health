@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('navigation', { name: 'App navigation' }).getByRole('button', { name: 'Home', exact: true })[22m
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-guided-simplicity-author/tests/guided-instructions-browser.mjs:4:4362 {
+  log: [
+    "  - waiting for getByRole('navigation', { name: 'App navigation' }).getByRole('button', { name: 'Home', exact: true })"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0
