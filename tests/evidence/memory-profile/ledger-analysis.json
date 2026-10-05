@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-05",
+  "source": "eb5136ac69626ea2f0c44eb83530d0677015bd9c",
+  "node": "v24.19.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "installedRuntimePackages": [
+    "miniflare@4.20260515.0_@types+node@22.19.19",
+    "workerd@1.20260515.1"
+  ],
+  "results": [
+    {
+      "name": "profile-reference",
+      "patients": 6,
+      "visits": 0,
+      "workspaceAccessAuditRows": 2101,
+      "workspaceAccessAuditLogicalTextBytes": 1124035,
+      "logicalTextBytesPerLoad": 535,
+      "allAuditRows": 2125
+    },
+    {
+      "name": "profile-instrumented",
+      "patients": 6,
+      "visits": 0,
+      "workspaceAccessAuditRows": 2101,
+      "workspaceAccessAuditLogicalTextBytes": 1124035,
+      "logicalTextBytesPerLoad": 535,
+      "allAuditRows": 2125
+    }
+  ],
+  "limits": [
+    "Logical audit text byte count omits numeric fields, indices, SQLite page overhead and WAL amplification. Database growth in result.json includes all state/WAL files.",
+    "Read-only synthetic ledger counts, not representative per-patient or connector scale qualification."
+  ]
+}

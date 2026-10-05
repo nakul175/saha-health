@@ -29,7 +29,7 @@ export const memKb = processMemory;
  * Start the built Worker in Miniflare. Options: port, name, state (D1 directory), fresh (default true), bindings (Worker variables),
  * outboundService (function (Request) => Response for the Worker's own fetches). Returns { base, stop, workerdPids, workerdRssKb, mf }.
  */
-export async function startMiniflare({ port = 8834, name = 'nfr-mf', state, fresh = true, bindings = {}, outboundService } = {}) {
+export async function startMiniflare({ port = 8834, name = 'nfr-mf', state, fresh = true, bindings = {}, outboundService, inspectorPort } = {}) {
   const config = 'dist/server/wrangler.json';
   if (!existsSync(config)) throw new Error('Build first: npm run build');
   state = resolve(state ?? `.wrangler/${name}-state`);
@@ -42,6 +42,7 @@ export async function startMiniflare({ port = 8834, name = 'nfr-mf', state, fres
     compatibilityDate: wr.compatibility_date, compatibilityFlags: wr.compatibility_flags ?? [],
     d1Databases: { DB: wr.d1_databases[0].database_id }, d1Persist: join(state, 'v3/d1'),
     host: '127.0.0.1', port: +port, bindings,
+    ...(inspectorPort === undefined ? {} : {inspectorPort: +inspectorPort, inspectorHost:'127.0.0.1'}),
     // The Worker must run ahead of the static assets (wrangler does this for `run_worker_first`), or every /api/* request is answered 404 by the assets router.
     assets: { directory: 'dist/client', binding: 'ASSETS', routerConfig: { has_user_worker: true, invoke_user_worker_ahead_of_assets: true } },
     ...(outboundService ? { outboundService } : {}),

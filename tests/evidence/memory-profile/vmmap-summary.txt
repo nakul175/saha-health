@@ -1,0 +1,72 @@
+Process:         workerd [70236]
+Path:            /Users/USER/*/workerd
+Load Address:    0x102678000
+Identifier:      workerd
+Version:         ???
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  node [70184]
+Target Type:     live task
+
+Date/Time:       2026-10-05 08:00:58.679 +0530
+Launch Time:     2026-10-05 08:00:29.883 +0530
+OS Version:      macOS 27.2 (26B5091g)
+Report Version:  7
+Analysis Tool:   /usr/bin/vmmap
+
+Physical footprint:         62.6M
+Physical footprint (peak):  385.9M
+Idle exit:                  untracked
+----
+
+ReadOnly portion of Libraries: Total=2.0G resident=296.4M(15%) swapped_out_or_unallocated=1.7G(85%)
+Writable regions: Total=637.6M written=301.6M(47%) resident=302.2M(47%) swapped_out=0K(0%) unallocated=335.4M(53%)
+
+                                VIRTUAL RESIDENT    DIRTY  SWAPPED VOLATILE   NONVOL    EMPTY   REGION 
+REGION TYPE                        SIZE     SIZE     SIZE     SIZE     SIZE     SIZE     SIZE    COUNT (non-coalesced) 
+===========                     ======= ========    =====  ======= ========   ======    =====  ======= 
+Activity Tracing                   256K      16K      16K       0K       0K      16K       0K        1 
+App-Specific Tag 16               23.6G    23.5M    20.8M       0K       0K       0K       0K     1203 
+App-Specific Tag 16 (reserved)    1408K       0K       0K       0K       0K       0K       0K       22         reserved VM address space (unallocated)
+Guard                            385.0G       0K       0K       0K       0K       0K       0K        1 
+Malloc Guard Page                 3904K       0K       0K       0K       0K       0K       0K        4         see MALLOC ZONE table below
+Malloc Large                      16.1M    13.1M    13.1M       0K       0K       0K       0K        3         see MALLOC ZONE table below
+Malloc Metadata                    224K     160K     160K       0K       0K       0K       0K        2         see MALLOC ZONE table below
+Malloc Metadata metadata          2272K    1408K    1376K       0K       0K       0K       0K        4         see MALLOC ZONE table below
+Malloc Nano metadata                64K      64K      64K       0K       0K       0K       0K        2         see MALLOC ZONE table below
+Malloc Small                     232.0M   222.7M    45.5M       0K       0K       0K       0K       60         see MALLOC ZONE table below
+Malloc Small (empty)              44.0M    40.1M       0K       0K       0K       0K       0K       11         see MALLOC ZONE table below
+Malloc Tiny                       4096K     304K     304K       0K       0K       0K       0K        1         see MALLOC ZONE table below
+OS Alloc Once                       32K      16K      16K       0K       0K       0K       0K        1 
+Stack                             53.4M     608K     608K       0K       0K       0K       0K       31 
+Stack Guard                       56.5M       0K       0K       0K       0K       0K       0K       31 
+Untagged                          14.3M      48K      48K       0K       0K       0K       0K       40 
+Untagged (reserved)                224K       0K       0K       0K       0K       0K       0K        6         reserved VM address space (unallocated)
+__AUTH                            1440K     807K     2088       0K       0K       0K       0K      138 
+__AUTH_CONST                      19.0M    10.7M       0K       0K       0K       0K       0K      331 
+__CTF                               824      824       0K       0K       0K       0K       0K        1 
+__DATA                            5294K    2664K     528K       0K       0K       0K       0K      303 
+__DATA_CONST                      20.1M    10.8M       0K       0K       0K       0K       0K      329 
+__DATA_DIRTY                      1438K    1162K     304K       0K       0K       0K       0K      337 
+__FONT_DATA                        2352     2352       0K       0K       0K       0K       0K        1 
+__LINKEDIT                         1.6G    82.2M       0K       0K       0K       0K       0K        2 
+__OBJC_RO                        118.2M    71.1M       0K       0K       0K       0K       0K        1 
+__OBJC_RW                         2736K    2400K      48K       0K       0K       0K       0K        1 
+__TEXT                           370.4M   214.2M       0K       0K       0K       0K       0K      395 
+__TPRO_CONST                       132K     116K      48K       0K       0K       0K       0K        4 
+mapped file                        176K     176K       0K       0K       0K       0K       0K        4 
+page table in kernel              1186K    1186K    1186K       0K       0K       0K       0K        1 
+shared memory                       96K      96K      96K       0K       0K       0K       0K        3 
+unused but dirty shlib __DATA       95K      95K      95K       0K       0K       0K       0K       59 
+===========                     ======= ========    =====  ======= ========   ======    =====  ======= 
+TOTAL                            411.2G   699.6M    84.2M       0K       0K      16K       0K     3333 
+TOTAL, minus reserved VM space   411.2G   699.6M    84.2M       0K       0K      16K       0K     3333 
+
+                                 VIRTUAL   RESIDENT      DIRTY    SWAPPED ALLOCATION      BYTES DIRTY+SWAP          REGION
+MALLOC ZONE                         SIZE       SIZE       SIZE       SIZE      COUNT  ALLOCATED  FRAG SIZE  % FRAG   COUNT
+===========                      =======  =========  =========  =========  =========  =========  =========  ======  ======
+DefaultMallocZone_0x109600000     298.3M     277.7M      60.3M         0K      49898      50.0M      10.3M     18%      79
+objc-class_rw_t_0x1096bc000          32K        32K        32K         0K        402         9K        23K     71%       2
+===========                      =======  =========  =========  =========  =========  =========  =========  ======  ======
+TOTAL                             298.4M     277.7M      60.3M         0K      50300      50.0M      10.3M     18%      81
+
