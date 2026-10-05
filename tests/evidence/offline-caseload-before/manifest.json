@@ -1,0 +1,38 @@
+{
+  "source": "8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30",
+  "classification": "Discovery only; actual supported feature gap, existing individual prepared workflow passes",
+  "checks": 28,
+  "port": 21120,
+  "sourcePins": {
+    "lib/saha/field.ts": "480ff293ac504f1ac5b740106bdb4583c7f2092d4184f4141660bab5dd8b97ec",
+    "lib/saha/device-work.ts": "48c470ef4e4caf339d916803715161a65221f799d5838381f727af983c9a7a9a",
+    "lib/saha/worklists.ts": "9a537f97a22d3354799413a677d849df9f3e60b24be626b3b45a36c902f864dc",
+    "lib/saha/worklists-server.ts": "0801e80fc22d179725b9afad172d539f51f2201587cc417b3adddd1ad3e969e3",
+    "lib/saha/installed-pack-work-server.ts": "82366660ebe53be5e6afb7ffa432cf73165af87df7089afaf12fb228eb2bd5a2",
+    "public/field/app.js": "58b1ea093958d1a4def8f679af8b0de04c59b18fab231ff01ae22692ae5f74dd",
+    "public/field/app-grants.js": "e843d0964da8d9fa5593a2bb5f24e9dc38798df471c7ae12444da5f18fc040d9",
+    "public/field/device-work.js": "47f177afd9723eb82c75036813135085c01d165ccabeb9c84ce0999e07ac248b",
+    "public/field/vault.js": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210",
+    "public/app-sw.js": "5f9013c479277b53d602c11593ffc9e479ef586d1aae60a6a4a648be43f0e6ba",
+    "public/field/sw.js": "37f3e6254aa78db8f66c34a7c8cc6a47326dc89a6e64acca2de285613e00e995",
+    "requirements/brd-v1.1.json": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+    "docs/current/FULL-RESIDUAL-DISPATCH-20261006.md": "f60822a85ab3331143dc255be344dd10332d11e4855612bf61cac0065cead10b",
+    "docs/current/APP-FIRST-REMAINING-WORK.md": "e27f33ca7b52c90e64957a9581f8bacab7c943b7e1fdec676d594610be3903a3"
+  },
+  "driverSha256": "7387a934e867ffeeab85acd8fc2645c217c6bc8baca148caea45aaa3efb8618b",
+  "artifacts": {
+    "tests/evidence/offline-caseload-before/build.log": "cc2ea707871502abe0d3d86707bdb99e4e3c9be2ae3d1e4949eee1c51fd3f219",
+    "tests/evidence/offline-caseload-before/observed.json": "e38ff7283c65d503526f22dd2968c609b7e52f145a9c41ce1cf6ebe4c3be8f8f",
+    "tests/evidence/offline-caseload-before/offline-one-prepared-phone.png": "6550c566905e72099f2c5275b0a8119854b6374d4b57b0af07d372305aa45b22",
+    "tests/evidence/offline-caseload-before/online-selected-prepared-phone.png": "da8adcbdbff48caed5cd5e6859e22cddbb06475aaa44956f01b7f1396cbd7718",
+    "tests/evidence/offline-caseload-before/phone.log": "21f8b14dc7ee327e1388fe32ca8239fa1405e67629bed40ec37cd99e9e9e1978",
+    "tests/evidence/offline-caseload-before/requirements.json": "a63e5b283af2e479be8196c147c19e0d6a79652bb624532200cdecf52a2351a3"
+  },
+  "runtimeChanges": false,
+  "limits": [
+    "Synthetic Worker/D1 and Chromium phone only",
+    "No wider-list implementation",
+    "No formal/device/clinical/provider acceptance"
+  ],
+  "command": "PATH=<bundled node>/bin:$PATH SAHA_BROWSER_PACKAGE=<cached playwright-core>/index.mjs SAHA_CHROMIUM=<cached Chromium1194> node tests/offline-caseload-before-browser.mjs"
+}

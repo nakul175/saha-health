@@ -1,0 +1,38 @@
+[
+  {
+    "id": "BR-OFF-01",
+    "title": "Defined offline capability",
+    "priority": "Must",
+    "brdRelease": "R1",
+    "requirement": "Previously authorised users shall be able to access a limited encrypted caseload, capture encounters, review valid cached guidance and prepare tasks during outages. Functions needing remote information or models shall show their unavailable or pending state.",
+    "acceptance": "Acceptance: The core offline visit test completes without network access; no cloud model is falsely shown as having run.",
+    "sourceTextLine": 447
+  },
+  {
+    "id": "BR-OFF-02",
+    "title": "Durable local capture",
+    "priority": "Must",
+    "brdRelease": "R1",
+    "requirement": "The application shall acknowledge a save only after local persistence succeeds. Insufficient storage, database failure or encryption failure shall be shown before the worker believes a record has been saved.",
+    "acceptance": "Acceptance: Forced restart and low-storage tests preserve acknowledged data or clearly report that saving did not complete.",
+    "sourceTextLine": 450
+  },
+  {
+    "id": "BR-OFF-06",
+    "title": "Revalidation of delayed actions",
+    "priority": "Must",
+    "brdRelease": "R1",
+    "requirement": "Queued actions shall be revalidated against current assignment, permissions, patient linkage, protocol and input freshness before execution. A delayed clinical action shall not proceed solely because it was once drafted.",
+    "acceptance": "Acceptance: A material rule or data change places the action into review with an explanation instead of silently executing the old plan.",
+    "sourceTextLine": 462
+  },
+  {
+    "id": "BR-OFF-07",
+    "title": "Shared and lost devices",
+    "priority": "Must",
+    "brdRelease": "R1",
+    "requirement": "The application shall isolate local user data, hide sensitive notifications, support quick locking and allow remote revocation when connectivity returns. Local encryption and grant expiry shall protect offline data where remote wiping cannot be guaranteed.",
+    "acceptance": "Acceptance: A second user cannot view the first user's cached records, and a reported lost device loses server access on its next contact.",
+    "sourceTextLine": 465
+  }
+]
