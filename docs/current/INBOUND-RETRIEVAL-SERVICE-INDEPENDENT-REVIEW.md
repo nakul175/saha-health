@@ -1,0 +1,13 @@
+# Independent current-service retrieval review
+
+Reviewed exact author repair `b99cd0e800a8a74524d3888d46e0e7ca35a7e079` in a cold checkout, preserving original `7fc566be` source and independent before witness `dabbf2bf` unchanged. No production source changes were made in this review.
+
+The previously grounded service-withdrawal gap is closed for the verified software paths. The original supported bind/revoke-during-final-Bundle sequence now returns 403, creates no intake receipt/candidate, and leaves the original document and local pending draft unchanged. New retrieval captures require the exact current binding, including an unbound-to-bound change. Candidate staging and independent decisions revalidate current service authority and its accountable owner; expired, revoked, suspended-owner and changed-binding cases refuse. Fresh authorized retrieval can mint a new versioned candidate without rewriting old source material.
+
+Independent positive assertions: 115 combined contracts, 38 actual Worker/D1 service checks (the original 30 plus eight saved-receipt invariants), eight original-race after assertions, 30 original retrieval Worker/D1 checks, and 30 real Chromium phone checks: **221 total**, with fresh build and type checking passing. The initial independent 30-check service rerun log is retained separately from the extended 38-check run. These overlapping runs are not added together. The author's 13 compatibility suites were inspected but not independently rerun or counted.
+
+Exact saved stage and intake receipts remain identifiers-only historical lookups after service revocation, subject to current human membership, role and patient-purpose access. The extended actual checks prove equal saved results, zero additional outbound calls, byte-equivalent documents/candidates/visits and unchanged receipt count. This does not authorize a new clinical operation or resend. Older candidate authority evidence cannot be silently upgraded; renewed clinical use requires a fresh authorized read.
+
+Synthetic intercepted FHIR responses exercise the real configure/probe/activate/retrieve path and durable D1 commands. Real partner acceptance, licence/source trust and physical Android acceptance remain external. No live provider was contacted. Phone screenshots demonstrate the existing explicit stage/reviewer journey; they do not imply a fully conversational capture interface.
+
+Evidence is pinned in `tests/evidence/inbound-retrieval-service-independent/manifest.json`. The verdict is no further blocking defect found within this bounded review; this is not a full-product or deployment acceptance claim.
