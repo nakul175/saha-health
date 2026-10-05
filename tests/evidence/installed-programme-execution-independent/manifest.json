@@ -1,0 +1,394 @@
+{
+  "sourceBase": "68833a2dd683ce0db942485c0166a544cae8c44f",
+  "classification": "Independent frozen before; clearance held; no application/source repair",
+  "build": "pass",
+  "types": "pass",
+  "passedAuthorRepeat": 274,
+  "failedIntendedSuites": 2,
+  "nativeFailed403Observations": 6,
+  "injectedTransportPhoneFailedRetentionObservations": 1,
+  "overlap": "36contract+111 actualWorkerCronPhone+127legacy=274 overlapping baseline positives. Additional native97setup+13positive controls and phone setup overlap and are not added to274. Actual observed200 permission defects are failures, not positives.",
+  "reports": {
+    "contract": {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-contract/result.json",
+      "passed": 36,
+      "failed": 0
+    },
+    "workerCronPhone": {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/result.json",
+      "passed": 111,
+      "failed": 0
+    },
+    "legacy": {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy",
+      "passed": 127,
+      "failed": 0
+    }
+  },
+  "nativeBefore": "tests/evidence/installed-programme-execution-independent/adversarial-http/observations.json",
+  "phoneBefore": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/post-persist409.json",
+  "phoneBoundary": "Genuine accepted POST200 then deliberately replaced transport409; not native server response. One POST, originalGET200accepted, pending reference absent/newoperation enabled.",
+  "actualNativeAudit": "SQLite AFTER audit installedWork.propose inside atomic persist batch changes original activeowner version3 to suspendedversion4; event+policy+receipt+one sourceaudit durable, response200 thenGET403; never rollback/failure claim.",
+  "ports": [
+    19881,
+    19884,
+    19891,
+    19892,
+    19895
+  ],
+  "unchangedAuthorSourceAndEvidence": {
+    "lib/saha/installed-pack-work.ts": "a1817e26e0fd7af48a933728be195aeb62e44017770965c2517e117496ecb90e",
+    "lib/saha/installed-pack-work-server.ts": "f157fe8bfc3931ad5aeb5bd6050cee2772d1a098441e36b2bf19a09e60ae934c",
+    "app/api/installed-pack-work/route.ts": "86a47b225fb0883bf0ccdcfb3890b3141a7b0c1e90cd6199cc551a74f63e74eb",
+    "app/installed-pack-work-panel.tsx": "6dd8fe070dc331958445d9abc3ac2d5d622d4594716bc52fdba05c393a194b9a",
+    "lib/saha/server.ts": "74cd855d8201c03a2029897923e3f18fd879a9c926a60aaff98efc0239ff6c4f",
+    "lib/saha/scheduled-job.ts": "e13af3baefb70a420f2c38aedbde75977878637b95c4b6a20aa549899bcefdce",
+    "lib/saha/action-plan.ts": "c3ed7e93f8dad59ca9e9c8c4e0d48e79b271c9ffb140f9efc787aa5241a8023f",
+    "app/action-plan-panel.tsx": "7ea83e9c5f568fe4a02f49eec033d618e599a566bd28a4c65a307075a0af763b",
+    "app/organisation.tsx": "d54cb2a4202e239336cdf4b5eb5857a590696b37b6b9b756b850a3eda6d78a21",
+    "db/schema.ts": "15b0a0d330f4c08dff6cbeb45f695078ae6bf82ff2de409fda29d798e27849f9",
+    "drizzle/0031_installed_pack_work.sql": "17c9cefabde9885d6ab292bcc06ec376eb8f999a5919a33ed923806e4282b676",
+    "tests/installed-programme-execution-contract.mjs": "c3fe015beaf29f1adf129c12d42c6d3fd089fcbb46711e8f67e74b509b8bb3d0",
+    "tests/installed-programme-execution-http.mjs": "70738df6d4cba31092bc281e09449023cf6a4d6a561b4c9a7fe186332b13caad",
+    "tests/installed-programme-execution-browser.mjs": "b6e8cc55d90e0d1911b5ec7bae4673764a10de6957d29d7e251d07836fc99476",
+    "tests/lib/installed-work-phone.mjs": "a684b8768111aaeefbcb0513a8c616a1566027ac766cd7aa97a926adbea55ed5",
+    "docs/current/INSTALLED-PROGRAMME-EXECUTION.md": "e551af5db5b06d5b68f7de2afededcea676ec4a7216015a1811c2bf7b35a1083",
+    "tests/evidence/installed-programme-execution-author/enabled-observed.json": "d1bb0c0bf9420b47e5897b48c3ca56772347ed0354b7a3932ddaa66fbe059c21",
+    "tests/evidence/installed-programme-execution-author/result.json": "dcc229e565c9bd562838af4c20793228a874d69bdd6d864347de33cd13abfdab",
+    "tests/evidence/installed-programme-execution-author/observed.json": "08fcf7ce847f88dce109d417c746146e36ef38387b2bb1fcd29211be5298f6be",
+    "tests/evidence/installed-programme-execution-author/contract/result.json": "3c72dfc429ed1230230863412be7620a487fe1f688b53936fef3a2265ee5b215",
+    "tests/evidence/installed-programme-execution-author/contract/run.log": "03331fa7ca0da6312562f627705c5a36e03e9d03ace857cd32922457ed2bfb0d",
+    "tests/evidence/installed-programme-execution-author/initial/phone-before-data-body.txt": "2178e5ca517fe74907c06009e42d7a16ff27b5321f373b1305d9e6bb79a344b3",
+    "tests/evidence/installed-programme-execution-author/initial/action-plan-fixture-import.log": "52d7301cddd705cfcc0ee0d00ea2832fa2bccf7a04d492f75e388062f0bc9d31",
+    "tests/evidence/installed-programme-execution-author/initial/phone-first-locator-failure.log": "70a082bfc0fafd962e164ea85549979dfbf94b599399ebfbdbfc279f28cb8a40",
+    "tests/evidence/installed-programme-execution-author/initial/phone-before-data.png": "fead741b992bb98280162713a95b00d429545307b85b83c248823427382ff712",
+    "tests/evidence/installed-programme-execution-author/initial/http69-result.json": "45a6214605bb78c1fb31460664f401f3a28108a2e7a9c4519886a26d11878fb8",
+    "tests/evidence/installed-programme-execution-author/initial/phone-assumed-seed-failure.log": "fbc52bc3a9616c9bcbe41f7838369d276f9215fd735a295b3e4df18a36b5c32d",
+    "tests/evidence/installed-programme-execution-author/initial/http69.log": "74fc0d6f9c84ce5ef5bd51cc4045cda9e5024c9609e29b85f043b51c8c79ffe1",
+    "tests/evidence/installed-programme-execution-author/initial/browser84/result.json": "b9d9423c29e8f347ba5a0267b22e4af4dd9b9c1a67a67b57ee510d1f02dbbb4a",
+    "tests/evidence/installed-programme-execution-author/initial/browser84/run.log": "eaef3e9b34666fd3459ea1d171c740d3d1c2b5565f1ece4f39f4710f3c279adb",
+    "tests/evidence/installed-programme-execution-author/initial/browser84/phone/owner-work.png": "033d67ca743899cf3282471b0590184f14a43fd2bd65e5b24da6e26636ea4e9d",
+    "tests/evidence/installed-programme-execution-author/initial/browser84/phone/governance.png": "3e0c73fb230b3aed2a021e256ecca14b1554e7f3d7e5ed9f6bf0d5a2a5e7cefd",
+    "tests/evidence/installed-programme-execution-author/initial/browser84/phone/independent-work.png": "ffc6291ebb95c4b737c9f068201ea4d4ec0eec3323744eb1a67da27439de59f7",
+    "tests/evidence/installed-programme-execution-author/initial/browser84/phone/initial-body.txt": "40ab0f445fdcc3ffb13f8bf8986fbcef9ef0fc78cc141e71f5e12dad4e347ea4",
+    "tests/evidence/installed-programme-execution-author/initial/browser84/phone/initial-page.png": "435b7039829000a9a198757fb7e492601c428b183926a323a361d153684094a9",
+    "tests/evidence/installed-programme-execution-author/initial/browser92/result.json": "b1f7dd9ecb4aa59c33fb554e5a5e0c7eb30e4c95bc661a619fff83125bbe22ec",
+    "tests/evidence/installed-programme-execution-author/initial/browser92/run.log": "3f98feb636832ad37d77679e41823871f140ff6a135f386c0c44f81fcc1ca968",
+    "tests/evidence/installed-programme-execution-author/legacy/caseload-contract-result.json": "7fc0a7d79e3a53f41b5b483f142f71be7486125245b07f20abfacd806208ea84",
+    "tests/evidence/installed-programme-execution-author/legacy/pack-installation.log": "5a38eeb0a347ef049a75e77fecdadbf8b2a13fc72fb7eb06eef87eaedb989a77",
+    "tests/evidence/installed-programme-execution-author/legacy/scheduled-job-contract-result.json": "275c1fd2b0597632b7e501c0dc1aada3fb7a091b939615e9a8dafdfa662cd4c9",
+    "tests/evidence/installed-programme-execution-author/legacy/scheduled-job.log": "2393eefd62a89fa1cc63f8337e895ec739308518ee2e6e4781c7adaeed057d27",
+    "tests/evidence/installed-programme-execution-author/legacy/action-plan.log": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835",
+    "tests/evidence/installed-programme-execution-author/legacy/pack-installation-contract-result.json": "f5e755e8109001b8bec49d716162125fd05ea44775d757683cc42f7b768ae75a",
+    "tests/evidence/installed-programme-execution-author/legacy/caseload.log": "298a999a965224034273b5ed069a5ccf08f723e682ee6679021b48022c838018",
+    "tests/evidence/installed-programme-execution-author/legacy/action-plan-contract-result.json": "51d051e0d9f0016caa556356219f25953d15e6ad8695bc456615ce2f42cf30a4",
+    "tests/evidence/installed-programme-execution-author/runtime-diagnostic/body.txt": "2178e5ca517fe74907c06009e42d7a16ff27b5321f373b1305d9e6bb79a344b3",
+    "tests/evidence/installed-programme-execution-author/runtime-diagnostic/events.json": "961e51a72e91004b27db84b6edbe2c4523dafdb9a6d27dbeffbc3ccaebb4b7b5",
+    "tests/evidence/installed-programme-execution-author/runtime-diagnostic/page.png": "7df01fa9c6d969c9671eaa3ccf12ee44f0b9791be7a4b2d78fbe63d7e2da68f9",
+    "tests/evidence/installed-programme-execution-author/phone/owner-work.png": "31bfa2e9d9c88516485068a1280c1e85e39edb563d72f54f451a681841191bce",
+    "tests/evidence/installed-programme-execution-author/phone/governance.png": "2e07ff5c1b990c83e3c9f23eaa8462b12a8e14f44559c81edb336d266a61634c",
+    "tests/evidence/installed-programme-execution-author/phone/independent-work.png": "d10280e419a880a32c92a9089b5b36e17f005b8a6c6fefcfe103849552595515",
+    "tests/evidence/installed-programme-execution-author/phone/governance-recovered.png": "6f9ab7af525e20486384137967118a45ccf62ed82752309d3d28a4a5154fbe82",
+    "tests/evidence/installed-programme-execution-author/phone/initial-body.txt": "89746765c3dedf317fa71341b543484dfdc173051d09d574c68a60b528017196",
+    "tests/evidence/installed-programme-execution-author/phone/initial-page.png": "9bbc6866409848e67bde18ff6cb555d1919a1b9c9b889904ca0fb28f9c22772b",
+    "tests/evidence/installed-programme-execution-author/final/types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/installed-programme-execution-author/final/worker-cron-phone-result.json": "dcc229e565c9bd562838af4c20793228a874d69bdd6d864347de33cd13abfdab",
+    "tests/evidence/installed-programme-execution-author/final/build.log": "66cae10650e01e9ae03123dccfcb671e04358093c7cde6067b3fcae0761bb72c",
+    "tests/evidence/installed-programme-execution-author/final/worker-cron-phone.log": "9c4c51903eee0aa6fca0b90d5f8410d363d1ccb62440915b97dee3b623dc551f"
+  },
+  "rawPreimages": [
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/build.log.raw.gz",
+      "bytes": 4660,
+      "uncompressedSha256": "da3f68afa157cbc3e33afcff5496542c45ebd36d86237ea676b6a76f83b2bb85"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/types.log.raw.gz",
+      "bytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-contract.log.raw.gz",
+      "bytes": 25,
+      "uncompressedSha256": "03331fa7ca0da6312562f627705c5a36e03e9d03ace857cd32922457ed2bfb0d"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone.log.raw.gz",
+      "bytes": 10010,
+      "uncompressedSha256": "0e0a8a36dc154a687103c7080a4bbc0d3baf1e8b7c57f883489172e1df4a6d80"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/first-native-before.log.raw.gz",
+      "bytes": 12725,
+      "uncompressedSha256": "167c2dea22e3f4fcd601d48e651f5f0f14a9e6807f5c63f3b1a0d055512d5979"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/native-before.log.raw.gz",
+      "bytes": 13526,
+      "uncompressedSha256": "57e1a0247975c9bb172921882d92e584201b7547e0e9af892032c2c6664baabb"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/phone-uncertainty-before.log.raw.gz",
+      "bytes": 6582,
+      "uncompressedSha256": "30dd2924416c934cfcc8517465e46139528bc73782ac187f3df9bc7bc4cf431e"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-pack.log.raw.gz",
+      "bytes": 103,
+      "uncompressedSha256": "caec5fead3c339c00d7af9afee90ed675fb45d714932a778b253674e6ada870b"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-action-plan.log.raw.gz",
+      "bytes": 13,
+      "uncompressedSha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-scheduled.log.raw.gz",
+      "bytes": 100,
+      "uncompressedSha256": "25fedb1bffc86bf2e1fa3656865b95efbb17d1547b944b34c6edbabef5896053"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-caseload.log.raw.gz",
+      "bytes": 94,
+      "uncompressedSha256": "2c92235c6b852f49a5b444664f6d9f57fb0472858681acf7aa080fb2e99daf2e"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/initial-body.txt.raw.gz",
+      "bytes": 14363,
+      "uncompressedSha256": "78a43365c7fa9a33e2b8ba9e9fecd693ec2a59a3b7d67494e625878ddf4b2279"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/initial-body.txt.raw.gz",
+      "bytes": 14363,
+      "uncompressedSha256": "c7546fd3234a26e38fa428cf99ce2df1bd8744d936076353f7ff3a6819c4c6a1"
+    }
+  ],
+  "independentReview": "held pending separate author repair and fresh cold review",
+  "sharedMetadataEdits": false,
+  "files": {
+    "docs/current/INSTALLED-PROGRAMME-EXECUTION-INDEPENDENT-BEFORE.md": {
+      "sha256": "0a253a40303bba406555a16e44b81db1f646b7314f6b9a6a686a2b2c56d5f85d",
+      "bytes": 8118
+    },
+    "tests/evidence/installed-programme-execution-independent/adversarial-http/first-four-observations.json": {
+      "sha256": "d4ae35efa805a0dbf2eeb24c790b5ec44f0be845568d263fa5ee4ad033a95a02",
+      "bytes": 123772
+    },
+    "tests/evidence/installed-programme-execution-independent/adversarial-http/observations.json": {
+      "sha256": "df4a3a4598fd1cb302b17ad2df0760f1d11935f8ac64045697bc2c853de801bb",
+      "bytes": 138297
+    },
+    "tests/evidence/installed-programme-execution-independent/build.log": {
+      "sha256": "e9a22a06b2098a7108d40a91c83ed150002433fbef2da70e917ae5d5ccf7bc93",
+      "bytes": 3682
+    },
+    "tests/evidence/installed-programme-execution-independent/build.log.raw.gz": {
+      "sha256": "0745089a199bf2a3c3812dd8c639626b57e7299ad3314048c80be935d256b376",
+      "bytes": 1369
+    },
+    "tests/evidence/installed-programme-execution-independent/first-native-before.log": {
+      "sha256": "167c2dea22e3f4fcd601d48e651f5f0f14a9e6807f5c63f3b1a0d055512d5979",
+      "bytes": 12725
+    },
+    "tests/evidence/installed-programme-execution-independent/first-native-before.log.raw.gz": {
+      "sha256": "10aac3f20352dc3c541069a8f8cf869c0ca1f727e22aea94e4b0766206fca523",
+      "bytes": 3070
+    },
+    "tests/evidence/installed-programme-execution-independent/fixture-setup-diagnostic.txt": {
+      "sha256": "881484cb3d19d3f31377e800647727a150b0e843b4f9912ee15d2e4f9cde7eb2",
+      "bytes": 292
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy/action-plan-contract-result.json": {
+      "sha256": "2ba113c0abc609b84da054fa49efdcddae08233a458e391e6a17614a6e36de35",
+      "bytes": 109
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy/caseload-contract-result.json": {
+      "sha256": "40857124ca69ab8cc546545beee6e1e1382ae37c5c31531534926241aa40c88b",
+      "bytes": 107
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy/pack-installation-contract-result.json": {
+      "sha256": "600ec39cb7558e94208445d851425d64ec3f12fa3f0ee11fa7a25c724e0d4b3d",
+      "bytes": 116
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy/scheduled-job-contract-result.json": {
+      "sha256": "9053d395427e700ef336280a61b6c4f7212609e1d9dc7f7a580e6ab4f190d8d4",
+      "bytes": 113
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-action-plan.log": {
+      "sha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835",
+      "bytes": 13
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-action-plan.log.raw.gz": {
+      "sha256": "12a2fe6fc201d87c3baeddf8e38147ff1ec2e3075a4b8d1f160f56ae2461f069",
+      "bytes": 33
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-caseload.log": {
+      "sha256": "2c92235c6b852f49a5b444664f6d9f57fb0472858681acf7aa080fb2e99daf2e",
+      "bytes": 94
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-caseload.log.raw.gz": {
+      "sha256": "6a52ff8c7d6c2fe215c75fd687e2381e2d60329055b28fe773c377ea00f8f616",
+      "bytes": 113
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-pack.log": {
+      "sha256": "caec5fead3c339c00d7af9afee90ed675fb45d714932a778b253674e6ada870b",
+      "bytes": 103
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-pack.log.raw.gz": {
+      "sha256": "f1807547fb1d62ba713bcdd9d648b6bb2209c8e24f72f542468bd67c85002be5",
+      "bytes": 120
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-scheduled.log": {
+      "sha256": "25fedb1bffc86bf2e1fa3656865b95efbb17d1547b944b34c6edbabef5896053",
+      "bytes": 100
+    },
+    "tests/evidence/installed-programme-execution-independent/legacy-scheduled.log.raw.gz": {
+      "sha256": "0b942055b8b630716da9b3811025f3955c100f60ae664906f8435c20eae6a384",
+      "bytes": 119
+    },
+    "tests/evidence/installed-programme-execution-independent/native-before.log": {
+      "sha256": "57e1a0247975c9bb172921882d92e584201b7547e0e9af892032c2c6664baabb",
+      "bytes": 13526
+    },
+    "tests/evidence/installed-programme-execution-independent/native-before.log.raw.gz": {
+      "sha256": "6e5a9b479a97776ac4f52dd552f6b1407804dc658a80d0cdc4f8c1b8898b1ab3",
+      "bytes": 3224
+    },
+    "tests/evidence/installed-programme-execution-independent/phone-uncertainty-before.log": {
+      "sha256": "30dd2924416c934cfcc8517465e46139528bc73782ac187f3df9bc7bc4cf431e",
+      "bytes": 6582
+    },
+    "tests/evidence/installed-programme-execution-independent/phone-uncertainty-before.log.raw.gz": {
+      "sha256": "7b040e402a144b4ea6f3a66001ceea1a6f51793a5c79abc26f78f6d77a608c35",
+      "bytes": 1763
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-contract/result.json": {
+      "sha256": "3c72dfc429ed1230230863412be7620a487fe1f688b53936fef3a2265ee5b215",
+      "bytes": 222
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-contract.log": {
+      "sha256": "03331fa7ca0da6312562f627705c5a36e03e9d03ace857cd32922457ed2bfb0d",
+      "bytes": 25
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-contract.log.raw.gz": {
+      "sha256": "9c8ca3f948534781863fe2ff2d7cff7843decbe0cd183e0c26bcfcc572c7fb67",
+      "bytes": 42
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/enabled-observed.json": {
+      "sha256": "eff099e5d9525516fbc1eba3def300a6e97ae9e528b92e6b2cd98875048b499b",
+      "bytes": 6837
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/observed.json": {
+      "sha256": "2aebf279276ef2196293aab2af27a17ce01a2006d03c07e4200dbd27df718141",
+      "bytes": 4879
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/governance-recovered.png": {
+      "sha256": "0d4ad8122d758edc9a2db8028785a6218523c22214c1b50a749570b569fdffe4",
+      "bytes": 104857
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/governance.png": {
+      "sha256": "5c1823f1540a9f5ad473248e594a670ba549416c5bc8ccbf7d659efbd75e2d07",
+      "bytes": 73556
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/independent-work.png": {
+      "sha256": "5e09f16e1ffc5f63ca2e986902c230d7b8ea34c80cfb1131e4cf03b9c78ba440",
+      "bytes": 107253
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/initial-body.txt": {
+      "sha256": "63bd7f5fe8eb43af190aeb7e92336b14b6b06ac73a7da6aed892ccbb305e2d30",
+      "bytes": 14363
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/initial-page.png": {
+      "sha256": "caf05f2c97efda20bd27b581d152d3e1ff9580a0784ff0f7533fb2396e596c97",
+      "bytes": 70116
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/owner-work.png": {
+      "sha256": "dca12508482fd8aaa540691d7f9067265e601757e2de501c6b1ccfd2d2ce2a50",
+      "bytes": 90243
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/result.json": {
+      "sha256": "dcc229e565c9bd562838af4c20793228a874d69bdd6d864347de33cd13abfdab",
+      "bytes": 143
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone.log": {
+      "sha256": "0e0a8a36dc154a687103c7080a4bbc0d3baf1e8b7c57f883489172e1df4a6d80",
+      "bytes": 10010
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone.log.raw.gz": {
+      "sha256": "af2415c99673a05be5d208eaf78c5556700ba10823f6d31bccc8b83bf005da4f",
+      "bytes": 2271
+    },
+    "tests/evidence/installed-programme-execution-independent/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/installed-programme-execution-independent/types.log.raw.gz": {
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 20
+    },
+    "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/governance.png": {
+      "sha256": "5e45f659221d0ffdec2745b80487d45e56db31f113b4ac6afb828330a57e2508",
+      "bytes": 73227
+    },
+    "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/initial-body.txt": {
+      "sha256": "e25101cf87337ec7675a1600d73f3f7a7cf7c33fb4d91d8bac4d2c2090d9d916",
+      "bytes": 14363
+    },
+    "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/initial-page.png": {
+      "sha256": "7e83d95249c0e3395a6092758845946f5c1ef67083aa836d67b433c2817edea0",
+      "bytes": 69719
+    },
+    "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/post-persist409.json": {
+      "sha256": "81b91c2ecda4f418902d5e04160482ac6514dc8879bfc9ea450fabe88923a6c9",
+      "bytes": 1309
+    },
+    "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/post-persist409.png": {
+      "sha256": "e3e0e34ccba08b448cb83c242e6fafaca5c3fe73e5ea7ffc3e1af0e4fc0b8a4e",
+      "bytes": 106842
+    },
+    "tests/installed-programme-execution-independent-adversarial-http.mjs": {
+      "sha256": "f3307fb99b5cbe827380e902f06ff46b63f9f0eda0258003b07043c5c2416468",
+      "bytes": 24975
+    },
+    "tests/installed-programme-execution-independent-browser.mjs": {
+      "sha256": "c6a128bb665dfc6e85a6ede3fa192c165693f2a4789f5417fe11078d518f32eb",
+      "bytes": 18686
+    },
+    "tests/installed-programme-execution-independent-contract.mjs": {
+      "sha256": "09a4ab6843ba723784a2329b7040a92faeb258ae4b942958e5e8c78b8d2ec431",
+      "bytes": 10565
+    },
+    "tests/installed-programme-execution-independent-legacy-action-plan.mjs": {
+      "sha256": "602627786857a880473bae627217bc40672665c94785c76bd0332e3603c04c4c",
+      "bytes": 12420
+    },
+    "tests/installed-programme-execution-independent-legacy-caseload.mjs": {
+      "sha256": "f3fc337f3857b1931e75f5226fb4b2c6521c704d842c86d034d90ec167de7323",
+      "bytes": 13773
+    },
+    "tests/installed-programme-execution-independent-legacy-pack-installation.mjs": {
+      "sha256": "c462202bc294c6c4cf3844813cfa060a19428c0074a778b3bce635028ac73f35",
+      "bytes": 27299
+    },
+    "tests/installed-programme-execution-independent-legacy-scheduled-job.mjs": {
+      "sha256": "50ee9323cc0fb49be6c089101a5d748d3dc51de3c584747f2befaf0f18158501",
+      "bytes": 39048
+    },
+    "tests/installed-programme-execution-independent-uncertainty-browser.mjs": {
+      "sha256": "7c31f00c8de1c8bced24bfd57215a3889ae7dea3e949901f757d39abea58a805",
+      "bytes": 18703
+    },
+    "tests/lib/installed-work-independent-uncertainty-phone.mjs": {
+      "sha256": "013c128ac3da556c7406582c21465ea63e6663980ae6a092af757d349531c042",
+      "bytes": 4526
+    },
+    "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/initial-body.txt.raw.gz": {
+      "sha256": "f0178273e631ae60d97d49f9c8f505d79815cda847314b78f90282abae9c4f03",
+      "bytes": 5508
+    },
+    "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/initial-body.txt.raw.gz": {
+      "sha256": "2b02bb94b82b458b4d131904ac654d94dbf7a20734ae34b4aef01a9169b48afb",
+      "bytes": 5506
+    }
+  }
+}
