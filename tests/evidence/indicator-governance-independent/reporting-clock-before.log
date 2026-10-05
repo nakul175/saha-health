@@ -1,0 +1,29 @@
+{"event":"saha_request","requestId":"2e24cbef-2ba5-400f-b707-038a3bb3c737","route":"workspace","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"09f07cd0-1db7-4a18-9b6f-6b9e6f673039","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"6267eb28-959c-46ce-9d2e-ba4ba0e9efaf","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"ae27bcbc-f1bb-4be8-b783-ffd993baf5ab","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"469cb2f3-9200-4891-a20b-5c2b13979e09","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"1c2fc52f-3cfe-416f-bafd-9639e11d870e","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"bf330939-3039-40f0-bce9-eb13813f3855","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"c6e66031-05c4-4fad-9455-f0e8dec30386","route":"indicators","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"25c04710-12ec-4ab2-b4fc-a3579994723c","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"cbeec17c-2be0-4068-aebb-2296859ecfa7","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"4b7c66d2-a36c-4ef3-9fab-37a068eec829","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"3671a5ed-6633-4262-90d7-485da746a519","route":"commands","status":422,"durationMs":3}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: A currently released definition can prepare a historical-period report
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-indicator-independent-review/tests/indicator-governance-independent-http.mjs:8:36)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-indicator-independent-review/tests/indicator-governance-independent-http.mjs:35:2
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
