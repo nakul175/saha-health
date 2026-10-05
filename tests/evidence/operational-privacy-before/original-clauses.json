@@ -1,0 +1,24 @@
+{
+  "source": "docs/history/v1.0/source/Health-AI-Orchestration-Platform-BRD-v1.1.docx",
+  "sha256": "8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8",
+  "clauses": [
+    {
+      "id": "BR-REP-04",
+      "paragraph": 821,
+      "fullClause": [
+        "BR-REP-04  Privacy-preserving aggregation  (Must, R1)",
+        "Reports shall enforce audience-specific aggregation and small-cell controls. Patient-level drilldown and exports shall require an approved purpose and separate access.",
+        "Acceptance: Combining filters cannot reveal a suppressed small group or bypass person-level access restrictions."
+      ]
+    },
+    {
+      "id": "BR-REP-05",
+      "paragraph": 824,
+      "fullClause": [
+        "BR-REP-05  Reconciled exports  (Must, R1)",
+        "Exports shall identify report definition, period, filters, generation time and user, with protected access and expiry where appropriate. Official reporting shall pass a review and submission state distinct from a draft export.",
+        "Acceptance: An exported report reconciles to the displayed governed measure and cannot be downloaded by an unauthorised role."
+      ]
+    }
+  ]
+}
