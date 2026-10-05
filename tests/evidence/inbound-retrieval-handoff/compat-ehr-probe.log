@@ -1,0 +1,21 @@
+Actual initial configure -> suspended probe -> activation lifecycle
+Retained service binding permits owner reconfigure -> suspended metadata probe
+Unbound durable audit-store failure refuses metadata and rolls back receipt
+Maintenance refuses probe before reservation or request
+Actual MIS configure -> suspended probe -> activate and retained-binding reconfigure
+revoke refuses suspended bound probe after reservation
+revoke refuses suspended bound probe after service-audit
+expiry refuses suspended bound probe after reservation
+expiry refuses suspended bound probe after service-audit
+target refuses suspended bound probe after reservation
+target refuses suspended bound probe after service-audit
+kind refuses suspended bound probe after reservation
+kind refuses suspended bound probe after service-audit
+configuration refuses suspended bound probe after reservation
+configuration refuses suspended bound probe after service-audit
+owner refuses suspended bound probe after reservation
+owner refuses suspended bound probe after service-audit
+maintenance refuses suspended bound probe after reservation
+maintenance refuses suspended bound probe after service-audit
+Suspended probe eligibility does not permit create/bind management
+{"passed":20,"failed":0}

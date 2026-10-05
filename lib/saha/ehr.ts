@@ -18,7 +18,9 @@ export type EhrLink={id:string;integrationId:string;externalId:string;externalNa
 export type EhrPermission={id:string;linkId:string;direction:'read'|'write';purpose:'care-coordination';from:string;to:string;expiresAt:string;status:'active'|'revoked';at:string};
 export type EhrDocument={id:string;linkId:string;permissionId:string;hash:string;bundle:any;summary:DocumentSummary;status:'review'|'reviewed'|'rejected';at:string;origin:'file'|'ehr';reviewedBy?:string;reviewedAt?:string};
 export type EhrOperation={id:string;linkId:string;permissionId:string;actorId:string;integrationVersion:number;identityHash:string;consentVersion:number;state:'prepared'|'running'|'accepted'|'uncertain'|'blocked'|'not-stored'|'conflict';visitId:string;visitVersion:number;approvalUntil:string;bundle:any;hash:string;at:string;message:string;receipt?:string;validation?:ValidationStamp;events?:TraceStep[];refusal?:Refusal;block?:SendBlockRecord;signOff?:{id:string;by:string;byName:string;at:string};publishStartedAt?:string;lookups?:number;resolution?:EhrResolution};
-export type EhrState={inboundConflicts?:import('./inbound-conflicts').InboundConflict[];links:EhrLink[];permissions:EhrPermission[];documents:EhrDocument[];operations:EhrOperation[]};
+export type EhrInboundCandidate={id:string;documentId:string;source:EhrDocument;incoming:EhrDocument;sourceVersion:string;incomingVersion:string;effectiveAt:string;receivedBy:string;receiptKey:string;at:string;authorityHash:string;localSnapshots:import('./types').Visit[]};
+export async function inboundCandidateAuthority(s:OrgState,p:Person,linkId:string,permissionId:string){const {i,link,permission}=await ehrAccess(s,p,linkId,permissionId,'read');if(i.status!=='active')fail(409,'The retrieved source connection is no longer active.');return digest({identity:await identityHash(p),consentVersion:p.consentVersion,link,permission,integration:{id:i.id,version:i.version,kind:i.kind,mode:i.mode,status:i.status,endpoint:i.endpoint,credentialBinding:i.credentialBinding,ehr:i.ehr}});}
+export type EhrState={inboundCandidates?:EhrInboundCandidate[];inboundConflicts?:import('./inbound-conflicts').InboundConflict[];links:EhrLink[];permissions:EhrPermission[];documents:EhrDocument[];operations:EhrOperation[]};
 const id=z.string().min(1).max(200),external=z.string().regex(/^[A-Za-z0-9.-]{1,64}$/),version=z.number().int().positive(),date=z.string().datetime();
 export const ehrSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('configureEhr'),integrationId:id,version,read:z.boolean(),write:z.boolean()}).strict(),
@@ -58,9 +60,21 @@ export async function ehrAccess(s:OrgState,p:Person,linkId:string,permissionId:s
  if(!permission||permission.linkId!==link.id||permission.direction!==direction||permission.purpose!=='care-coordination'||permission.expiresAt<=new Date().toISOString())fail(409,'A current, direction-specific care-coordination permission is required.');const i=ehrIntegration(s,link.integrationId);if(!i.ehr?.[direction])fail(409,'This EHR direction is not enabled.');return {link,permission,i};
 }
 export function withinPermission(summary:DocumentSummary,g:EhrPermission){for(const date of summary.dates)if(Date.parse(date)<Date.parse(g.from)||Date.parse(date)>Date.parse(g.to))fail(403,'Document contains observations outside the permitted date range.');}
-export async function stageDocument(s:OrgState,p:Person,linkId:string,permissionId:string,bundle:any,origin:'file'|'ehr'){
+export async function stageDocument(s:OrgState,p:Person,linkId:string,permissionId:string,bundle:any,origin:'file'|'ehr',intake?:{actorId:string;receiptKey:string}){
  const {link,permission}=await ehrAccess(s,p,linkId,permissionId,'read'),e=ehrState(p);const summary=inspectDocument(bundle,link.externalId);if(summary.patientName.trim().replace(/\s+/g,' ').toLowerCase()!==link.externalName.trim().replace(/\s+/g,' ').toLowerCase())fail(409,'Document patient name differs from the confirmed link. Reconcile identity before importing.');withinPermission(summary,permission);const hash=await digest(bundle);const existing=e.documents.find(d=>d.linkId===linkId&&d.hash===hash);if(existing)return existing;
- if(e.documents.length>=20)fail(422,'This patient has reached the 20-document review limit.');if(e.documents.some(d=>d.linkId===linkId&&d.summary.identifier===summary.identifier&&d.hash!==hash))fail(409,'The same document identifier has different content. Preserve the source and resolve the version conflict with the partner.');
+ const original=e.documents.find(d=>d.linkId===linkId&&d.summary.identifier===summary.identifier&&d.hash!==hash);
+ if(original){
+  if(origin!=='ehr'||!intake)fail(409,'The same document identifier has different content. Preserve the source and resolve the version conflict with the partner.');
+  if(await digest(original.bundle)!==original.hash)fail(409,'The original document digest changed. Preserve source history.');
+  const authorityHash=await inboundCandidateAuthority(s,p,linkId,permissionId),list=e.inboundCandidates??=[];
+  const duplicate=list.find(x=>x.documentId===original.id&&x.incoming.hash===hash&&x.authorityHash===authorityHash);if(duplicate)return {...original,inboundCandidateId:duplicate.id};
+  if(list.length>=40)fail(413,'Retrieved version history is full. Existing evidence is preserved.');
+  const localSnapshots=s.workspace.visits.filter(v=>v.personId===p.id&&v.state==='draft'&&!v.voidedAt&&!v.supersededBy);if(localSnapshots.length>20)fail(413,'Too many pending local drafts to retain a complete intake comparison.');
+  for(const token of [original.bundle.meta?.versionId,bundle.meta?.versionId])if(token!==undefined&&(typeof token!=='string'||! /^[A-Za-z0-9._-]{1,64}$/.test(token)))fail(422,'A supplied document version token must be a bounded string. No clinical values changed.');
+  const at=new Date().toISOString(),candidate:EhrInboundCandidate={id:uuid(),documentId:original.id,source:structuredClone(original),incoming:{id:uuid(),linkId,permissionId,hash,bundle:structuredClone(bundle),summary,status:'review',at,origin:'ehr'},sourceVersion:original.bundle.meta?.versionId??original.hash,incomingVersion:bundle.meta?.versionId??hash,effectiveAt:summary.date,receivedBy:intake.actorId,receiptKey:intake.receiptKey,at,authorityHash,localSnapshots:structuredClone(localSnapshots)};
+  list.push(candidate);return {...original,inboundCandidateId:candidate.id};
+ }
+ if(e.documents.length>=20)fail(422,'This patient has reached the 20-document review limit.');
  const d:EhrDocument={id:uuid(),linkId,permissionId,hash,bundle,summary,status:'review',at:new Date().toISOString(),origin};e.documents.push(d);return d;
 }
 export async function applyEhr(s:OrgState,c:EhrCommand,u:Actor,m:Member,env:Record<string,string|undefined>){

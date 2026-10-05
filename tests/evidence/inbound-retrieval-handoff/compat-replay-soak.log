@@ -1,0 +1,22 @@
+{
+  passed: 8,
+  replayTimeoutEvents: 1542,
+  organisations: { mis: 48, misPlanned: 4, ehr: 44, ehrAuthoritative: 44 },
+  finalStates: {
+    mis: { cancelled: 6, rejected: 16, accepted: 128 },
+    ehr: { accepted: 92, uncertain: 24, blocked: 16 },
+    ehrAuthoritative: { accepted: 93, 'not-stored': 30, blocked: 9 }
+  },
+  unresolvedShare: { default: 0.18181818181818182, authoritative: 0 },
+  partnerLedger: {
+    misKeys: 145,
+    misAcceptedRecords: 128,
+    misDuplicateAcceptedRecords: 0,
+    misBlindResends: 0,
+    ehrIdentifiers: 258,
+    ehrStoredDocuments: 185,
+    ehrDuplicateStoredDocuments: 0,
+    ehrRepeatPosts: 0
+  },
+  durationMs: 1501
+}
