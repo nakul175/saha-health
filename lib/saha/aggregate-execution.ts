@@ -1,3 +1,4 @@
+import {serviceDispatch} from './service-dispatch';
 import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, fail, uuid } from './core';
 import { persist, readState, scope, type Actor } from './store';
@@ -106,7 +107,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
    if(!withdrawn){try{scope(latest,m.userId);}catch{withdrawn='the sender\'s membership is no longer active.';refusal=refusalOf(li,'aggregate','checkpoint');}}
    if(!withdrawn)withdrawn=await recordReleases(db,latest,releases,now);
    if(withdrawn&&!refusal&&li)refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'differencing'};}}
- let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch{}
+ let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch(e){if(e&&typeof e==='object'&&'serviceRefusal' in e)withdrawn=e instanceof Error?e.message:'Service authority unavailable.';}
  for(let n=0;n<3;n++){
   const after=await readState(db,s.organisation.id),old=structuredClone(after),target=((after.operations as any)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id) as AggregateReport|undefined,at=new Date().toISOString();
   if(!target)fail(409,'The report checkpoint is unavailable.');
@@ -155,6 +156,7 @@ async function recordReleases(db:D1Database,s:OrgState,releases:Candidate[],at:s
  return 'many indicator releases were being recorded at once, so this release could not be recorded.';
 }
 export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateCommand,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport=demoAggregateTransport){
+ let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw Object.assign(e instanceof Error?e:Error(serviceRefusal),{serviceRefusal:true});}return deliver(i,...args);};
  if(c.type==='prepareAggregateReport')return prepare(db,s,c,u,m,key,hash);
  if(c.type==='approveAggregateReport'){const before=structuredClone(s),result=approveReport(s,c,u,m,new Date().toISOString());linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,result);return result;}
  return send(db,s,c,u,m,key,hash,transport);

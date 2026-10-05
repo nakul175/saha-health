@@ -1,3 +1,4 @@
+import {serviceDispatch} from './service-dispatch';
 import { AppError, digest, fail, uuid } from './core';
 import { enrolmentAudit, deliveryEvent, enrolmentRequestBody, requestTarget, applyEnrolmentReceipt, transition, type DestinationEnrolment } from './destination-enrolment';
 import { ENROLMENT_EVENT_LIMIT, ENROLMENT_MAX_ATTEMPTS, enrolmentSimulatorRefusal, mockDestination, mockDestinationAny, mockEnrolmentTransport, type EnrolmentReceipt } from './destination-enrolment-adapter';
@@ -51,6 +52,7 @@ async function activate(db: D1Database, s: OrgState, c: { personId: string; vers
 }
 
 export async function executeDestinationEnrolment(db: D1Database, s: OrgState, c: any, u: Actor, m: Member, key: string, hash: string, environment: string, transport: Transport = mockEnrolmentTransport): Promise<any> {
+  let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,c.personId??null);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return deliver(i,...args);};
   if (c.type === 'activateDestinationEnrolment') return activate(db, s, c, u, m, key, hash);
 
   const lookup = c.type === 'lookupDestinationEnrolment';

@@ -17,7 +17,7 @@ const j=(x:unknown)=>JSON.stringify(x);
 export const OPERATIONS_BYTES=1_000_000;
 // Slice 13f (review finding 7): safety actions are never refused by the bound, even when they grow a full document: pausing
 // for maintenance, revoking a purpose grant or a delegation, and recording an aggregate send's outcome or lookup.
-export const OPERATIONS_BOUND_EXEMPT:ReadonlySet<string>=new Set(['opsMaintenance','revokeAccessPurpose','delegationRevoke','sendAggregateReport','lookupAggregateReport']);
+export const OPERATIONS_BOUND_EXEMPT:ReadonlySet<string>=new Set(['serviceIdentityRevoke','opsMaintenance','revokeAccessPurpose','delegationRevoke','sendAggregateReport','lookupAggregateReport']);
 export const OPERATIONS_FULL='The organisation\'s settings document is full, so this change was not saved. Remove settings that are no longer needed, or ask for help.';
 export function operationsBytes(ops:unknown){if(!ops||typeof ops!=='object')return 0;const {indicatorReleases:_,...rest}=ops as Record<string,unknown>;return new TextEncoder().encode(JSON.stringify(rest)).length;}
 const same=(a:unknown,b:unknown)=>j(a)===j(b);

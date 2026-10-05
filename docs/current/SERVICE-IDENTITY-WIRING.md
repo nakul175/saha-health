@@ -1,0 +1,29 @@
+# Opt-in service dispatch authority
+
+Build batch based on integration commit b4f55ca1, 5 October 2026. Synthetic engineering coverage only. R13 remains partial: this adds execution wiring to previously stored service-identity records; it does not constitute deployment IAM acceptance or autonomous service sign-in.
+
+Organisation owners manage identities in Operations → Service & incidents. Create an identity with one target, an active owner/administrator accountable for it, and a future expiry. Explicitly bind it to that target. Binding neither enables a provider nor supplies credentials. Connections without bindings retain existing behavior. There is deliberately no command to remove a binding and fall back to unmanaged dispatch: rotate by binding another eligible identity. Revocation remains available during maintenance and when the operations document is full.
+
+An opted-in request carries the organisation's explicit binding into its execution checkpoint. Immediately before transport, the server reads current organisation state and requires the same binding, active initiating membership with unchanged version/role, current normal patient scope when applicable, active target, correct service kind/target, unexpired/non-revoked identity, and an active accountable owner/administrator in this organisation. It commits an external-request audit with both initiating human and service identifiers, target, accountable owner and expiry. It reads and validates these conditions again after that audit commit. Audit failure sends nothing. Authority is checked at each transport invocation; an external request already in flight cannot be recalled. No credentials, patient payloads or image bytes are added to this authority audit or telemetry.
+
+| Dispatch path | Wiring |
+| --- | --- |
+| Governed AI execution | Gate before invokeAgent; integrated AI providers and built-in `openai` target. Refusal marks failed/blocked; no automatic retry. |
+| Synthetic governance evaluation cases | Same gate before invokeAgent, separate from clinical execution. |
+| EHR | Gate wraps every metadata, Patient, Bundle retrieval, identifier-search and publication transport. A service refusal before POST closes publication as not sent. |
+| MIS | Probe, initial delivery and receipt lookup gated. Initial service refusal closes delivery as not sent and releases its reserved attempt; lookup remains unresolved. |
+| Aggregate delivery | Send and lookup transport gated; refused initial sends cancelled, prior unknown outcomes retained. Current aggregate adapter remains demonstration-only. |
+| Destination enrolment | Injected/mock request and lookup transport gated. Existing conservative unresolved receipt state is retained on refusal; no live adapter claimed. |
+| Independent Anaemia Screen | Initial screening, receipt lookup, and signed-in owner diagnostic gated using `independent:anaemia`; refused initial screenings blocked without invocation. |
+| Eight independent frontline providers | Each initial assessment and receipt lookup gated using `frontline:<catalogue-id>`; refused initial assessments blocked. Catalogue-target consistency tested. |
+| Legacy externalCall audit hook | Gated if reached; public command flow already refuses HTTP legacy runAI in favour of governed AI. |
+
+Bearer-only built-in synthetic diagnostic endpoints intentionally have no organisation/patient principal; their existing dedicated diagnostic credential and fixed fixture controls remain. They are outside organisation service binding, carry no patient context, and are not a service-identity acceptance claim. ABDM currently consists of local mock operations and cryptography, with no external dispatch to gate. Existing ABDM identity metadata can remain, but binding a live ABDM service is refused and the UI does not offer it. Clinical local consent revocation stays available. Local rules, speech running on device, and simulated messaging have no remote provider dispatch in this batch.
+
+Replay never grants fresh external authority. Completed receipts remain evidence and do not invoke providers again. Uncertain receipt lookups require currently eligible service authority but never resend the original clinical payload. Changing a binding during an execution boundary refuses that request. A binding selected by an owner before a later execution is that execution's explicit reference; this batch does not add service IDs to every historical prepared receipt.
+
+## Evidence and integration
+
+`tests/evidence/service-identity-wiring` pins 33 fresh-state gate/lifecycle/catalogue/source-inventory cases, 11 EHR execution checks (including revoked-after-Patient-GET with zero document POST and zero replay calls), and existing regressions. Gates use injected state/audit storage; EHR uses actual execution code and injected transport/CAS persistence. No live provider was contacted; no new hosted D1 or physical-device acceptance is claimed. Build, TypeScript and diff whitespace checks pass. A three-iteration adapter harness run only checks its loader portability and is not a performance finding.
+
+No migration or new API route is needed: binding is an owner command through the existing command route; Operations read exposes management data only to organisation owners, separate from the operator-field allowlist. Required integrator edits: register `tests/service-dispatch-contract.mjs` in the shared test catalogue; refresh source baseline/evidence catalogue and shared handover/validation; retain R13 as partial. This batch avoids those shared generated files. Fixed-file regression loaders include the new gate dependencies. Provider credential activation, issuer/service token verification, independent deployment IAM review, and service-owned unattended work remain separate work.

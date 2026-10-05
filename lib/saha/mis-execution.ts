@@ -1,3 +1,4 @@
+import {serviceDispatch} from './service-dispatch';
 import { AppError, fail, uuid } from './core';
 import { applyReceipt, deliveryCurrent, deliveryEvent, misAudit, misCredential, misIntegration, misRequest, type MisCommand } from './mis';
 import { persist, readState, scope, type Actor } from './store';
@@ -14,6 +15,7 @@ async function closeRefused(db:D1Database,s:OrgState,sub:Submission,c:MisCommand
  linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,{submissionId:sub.id,state:sub.state,refused:true});return {submissionId:sub.id,state:sub.state,refused:true,message:sub.message};
 }
 export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof misRequest=misRequest){
+ let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'submissionId' in c?s.workspace.submissions.find(x=>x.id===c.submissionId)?.personId??null:null);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}return send(i,...args);};
  if(c.type==='testMis'){
   if(!m.isOwner)fail(403,'Only an organisation owner can test a connection.');const i=misIntegration(s,c.integrationId);if(i.version!==c.version||!i.mis)fail(409,'Save a current programme mapping before testing.');misCredential(i,s.organisation.id,env);
   const before=structuredClone(s);misAudit(s,u,m,c.type,i.id,'Synthetic connection probe reserved. No patient data submitted.');await persist(db,before,s,u,c,key,hash,{status:'testing'});
@@ -43,6 +45,7 @@ export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m
   // Slice 10g: disputes, a withdrawn sign-off and the sign-off rule are rechecked on the same fresh read, immediately before the request.
   if(!withdrawn&&li&&!lookup){const g=await sendBlock(latest,latest.workspace.visits.find(x=>x.id===sub.visitId),li,'checkpoint');if(g.block){withdrawn=g.block.text;blocked={kind:g.block.kind==='dispute'?'dispute':'sign-off',stage:'checkpoint',at:new Date().toISOString(),...(g.block.disputeIds.length?{disputeIds:g.block.disputeIds}:{})};}}}
  let raw:unknown;if(!withdrawn)try{raw=await transport(i,s.organisation.id,env,lookup?{contract:'saha-mis-v1',operation:'lookup',key:sub.delivery.key,payloadHash:sub.payloadHash}:{...sub.delivery.payload,key:sub.delivery.key,payloadHash:sub.payloadHash},lookup?'lookup_'+operationId:sub.delivery.key);}catch{}
+ if(serviceRefusal)withdrawn=serviceRefusal;
  for(let n=0;n<3;n++){
   const after=await readState(db,s.organisation.id),old=structuredClone(after),target=after.workspace.submissions.find(x=>x.id===sub.id);if(!target?.delivery)fail(409,'Delivery checkpoint is unavailable.');if(target.delivery.operationId!==operationId||['accepted','rejected','cancelled'].includes(target.state))return {submissionId:sub.id,state:target.state};
   // Receipts describe what already happened outside Saha. Retain them even if

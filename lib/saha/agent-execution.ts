@@ -1,3 +1,4 @@
+import {serviceDispatch} from './service-dispatch';
 import { checkCapabilityBudget, entryFor } from './governance';
 import { checkTaskAttempts } from './task-limits';
 import { checkAgentSource, collectSensitive } from './agent-minimisation';
@@ -19,7 +20,7 @@ export async function executeAgent(db:D1Database,s:OrgState,c:Extract<AgentComma
  // Slice R42: inside the external-execution checkpoint, the source is re-checked on the committed state before
  // the provider call; a refusal here sends nothing and marks the run failed, never a blind retry.
  const sensitive=collectSensitive(s);
- let outcome:Awaited<ReturnType<typeof invokeAgent>>|undefined,problem='';try{if(r.provider.mode!=='local')checkAgentSource(r.input,s);outcome=await invokeAgent(r,v,runtime,s.workspace.integrations,fetch,sensitive);}catch(e){problem=e instanceof AppError?e.message:'Provider unavailable. No automatic retry was sent.';}
+ let outcome:Awaited<ReturnType<typeof invokeAgent>>|undefined,problem='';try{if(r.provider.mode!=='local')checkAgentSource(r.input,s);await serviceDispatch(db,s,u,m,r.provider.id,v.personId);outcome=await invokeAgent(r,v,runtime,s.workspace.integrations,fetch,sensitive);}catch(e){problem=e instanceof AppError?e.message:'Provider unavailable. No automatic retry was sent.';}
  for(let attempt=0;attempt<3;attempt++){
   const after=await readState(db,s.organisation.id);try{scope(after,u.userId);}catch{}const old=structuredClone(after);const target=after.workspace.visits.find(x=>x.id===v.id),run=target?.agentRuns?.find(x=>x.id===r.id);if(!target||!run)fail(409,'The assistant checkpoint is no longer available.');if(run.status!=='running')return {runId:run.id,status:run.status};
   let member:Member|undefined;try{member=scope(after,u.userId);visit(after.workspace,target.id);current(after,target,run,member,u,providers(after.workspace.integrations,runtime));}catch{problem='Result withheld: patient access, permission, visit or provider changed during execution.';run.status='blocked';}

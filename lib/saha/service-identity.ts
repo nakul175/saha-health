@@ -21,6 +21,7 @@ const isoDateTime = z.string().trim().min(1).max(40).refine(x => !Number.isNaN(D
 export const serviceIdentitySchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('serviceIdentityCreate'), version, name, kind: z.enum(['connector', 'agent']), targetId: id, ownerId: id, expiresAt: isoDateTime }).strict(),
   z.object({ type: z.literal('serviceIdentityRevoke'), version, id }).strict(),
+  z.object({ type: z.literal('serviceIdentityBind'), version, targetId: id, serviceIdentityId: id }).strict(),
 ]);
 export type ServiceIdentityCommand = z.infer<typeof serviceIdentitySchema>;
 
@@ -29,10 +30,15 @@ export type ServiceIdentityCommand = z.infer<typeof serviceIdentitySchema>;
 // would form a module cycle).
 const emptyOperations = (): Operations => ({ version: 0, maintenance: false, reason: '', updatedAt: '', incidents: [], rates: null });
 
+export const independentTargets=["openai","independent:anaemia", "frontline:oral-saathi", "frontline:skin-saathi", "frontline:shishu-breath", "frontline:matri-check", "frontline:poshan-check", "frontline:teeka-reader", "frontline:dawa-follow", "frontline:report-reader"];
 const CONNECTOR_KINDS: readonly string[] = ['mis', 'ehr', 'abdm'];
 
 // The target a service identity may act for: an active connector (programme/EHR/ABDM) or agent (AI).
 export function resolveServiceIdentityTarget(s: OrgState, kind: ServiceIdentityScope, targetId: string): Integration {
+  if (independentTargets.includes(targetId)) {
+    if(kind !== 'agent') fail(422, 'Independent providers require an agent identity.');
+    return {id:targetId,name:targetId,kind:'ai',status:'active'} as Integration;
+  }
   const i = s.workspace.integrations.find(x => x.id === targetId);
   if (!i || i.status !== 'active') fail(422, 'Choose an active connection for this service identity.');
   if (kind === 'connector' && !CONNECTOR_KINDS.includes(i.kind)) fail(422, 'A connector service identity must name a programme, EHR or ABDM connection.');
@@ -63,6 +69,13 @@ export function applyServiceIdentity(s: OrgState, input: unknown, u: Actor, m: M
     const si: ServiceIdentity = { id: uuid(), name: c.name, kind: c.kind, targetId: c.targetId, ownerId: owner.userId, ownerName: owner.displayName, createdAt: now, createdBy: u.userId, expiresAt, status: 'active' };
     list.push(si);
     result = { serviceIdentityId: si.id, expiresAt };
+  } else if(c.type === 'serviceIdentityBind') {
+    const kind=s.workspace.integrations.find(x=>x.id===c.targetId)?.kind==='ai'||independentTargets.includes(c.targetId)?'agent':'connector';
+    if(s.workspace.integrations.find(x=>x.id===c.targetId)?.kind==='abdm')fail(422,'ABDM is a local simulator. Live service dispatch is not available to bind.');
+    resolveServiceIdentityTarget(s,kind,c.targetId);
+    requireServiceIdentity(s,c.serviceIdentityId,kind,c.targetId);
+    (ops.serviceBindings??={})[c.targetId]=c.serviceIdentityId;
+    result={serviceIdentityId:c.serviceIdentityId,targetId:c.targetId};
   } else {
     const si = list.find(x => x.id === c.id);
     if (!si) fail(404, 'Service identity not found.');
@@ -71,7 +84,7 @@ export function applyServiceIdentity(s: OrgState, input: unknown, u: Actor, m: M
     result = { serviceIdentityId: si.id, revoked: true };
   }
   ops.version++; ops.updatedAt = now;
-  s.workspace.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject: s.organisation.id, detail: c.type === 'serviceIdentityCreate' ? `Service identity "${c.name}" created for ${c.kind} "${c.targetId}"; accountable owner ${s.members.find(x => x.userId === c.ownerId)?.displayName ?? c.ownerId}; expires ${c.expiresAt}.` : `Service identity ${c.id} revoked by ${u.displayName}.` });
+  s.workspace.audit.push({ id: uuid(), at: now, actor: u.displayName, actorId: u.userId, role: m.role, action: c.type, subject: s.organisation.id, detail: c.type === 'serviceIdentityCreate' ? `Service identity "${c.name}" created for ${c.kind} "${c.targetId}"; accountable owner ${s.members.find(x => x.userId === c.ownerId)?.displayName ?? c.ownerId}; expires ${c.expiresAt}.` : c.type==='serviceIdentityBind'?`Service identity ${c.serviceIdentityId} bound to ${c.targetId} by ${u.displayName}.`:`Service identity ${c.id} revoked by ${u.displayName}.` });
   return result;
 }
 
@@ -84,11 +97,12 @@ export function requireServiceIdentity(s: OrgState, serviceIdentityId: string, k
   if (si.targetId !== targetId) fail(403, 'This service identity is scoped to a different connector or agent.');
   if (si.status !== 'active') fail(403, 'This service identity has been revoked.');
   if (!serviceIdentityIsValid(si, now)) fail(403, 'This service identity has expired.');
+  if(!s.members.some(x=>x.userId===si.ownerId&&x.status==='active'&&(x.isOwner||x.role==='admin')))fail(403,'The accountable service owner is no longer eligible.');
   return si;
 }
 
 // Non-throwing form of the same gate, for callers that already branch on validity.
 export function validServiceIdentity(s: OrgState, serviceIdentityId: string, kind: ServiceIdentityScope, targetId: string, now: number | string = Date.now()): boolean {
   const si = (s.operations?.serviceIdentities ?? []).find(x => x.id === serviceIdentityId);
-  return !!si && si.kind === kind && si.targetId === targetId && serviceIdentityIsValid(si, now);
+  return !!si && s.members.some(x=>x.userId===si.ownerId&&x.status==='active'&&(x.isOwner||x.role==='admin')) && si.kind === kind && si.targetId === targetId && serviceIdentityIsValid(si, now);
 }

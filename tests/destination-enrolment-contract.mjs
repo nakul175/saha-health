@@ -11,7 +11,7 @@ import { pathToFileURL } from 'node:url';
 const dir = mkdtempSync(join(process.cwd(), '.dest-enrol-'));
 let passed = 0;
 try {
-  const modules = ['types', 'programmes', 'adapter-operations', 'core', 'fact-provenance', 'mis', 'destination-enrolment-adapter', 'destination-enrolment', 'destination-enrolment-execution'];
+  const modules = ['types', 'programmes', 'adapter-operations', 'service-dispatch','facility-scope','identity','service-identity','access','delegation','audit-chain','access-audit','core', 'fact-provenance', 'mis', 'destination-enrolment-adapter', 'destination-enrolment', 'destination-enrolment-execution'];
   for (const f of modules) {
     const code = ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'");
     writeFileSync(join(dir, f + '.js'), code);
