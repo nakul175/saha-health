@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-05",
+  "baseline": "23cbcf89",
+  "productionChange": "three unchanged snapshot response metadata SELECTs in one D1 batch; shared direct audit query/projection",
+  "contractChecks": 147,
+  "actualWorkerHttpChecks": 20,
+  "readAuditChecks": 52,
+  "scopedReadChecks": 27,
+  "auditQueryPlanChecks": 12,
+  "typecheck": "passed",
+  "build": "passed",
+  "syntheticOnly": true,
+  "providerActivation": false,
+  "memoryPerformanceRun": false,
+  "o2Closed": false,
+  "initialHttpRun": "test expected four successful workspace requests although it makes three; corrected assertion only, then passed",
+  "limitations": ["D1 API call reduction is verified at real helper through SQLite shim; no RSS/native-graph reduction asserted", "Local Worker uses actual Miniflare D1; no hosted or acceptance qualification"]
+}

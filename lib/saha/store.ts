@@ -264,8 +264,23 @@ export async function history(db:D1Database,orgId:string,personId:string,cursor:
 export function parseCursor(value:string|null){if(!value)return null;if(value.length>500)fail(400,'Invalid history cursor.');try{const c=JSON.parse(value);if(!Array.isArray(c)||c.length!==2||c.some(x=>typeof x!=='string'||x.length>200))fail(400,'Invalid history cursor.');return c as [string,string];}catch{fail(400,'Invalid history cursor.');}}
 // Slice 10h: summary access events (workspace loads, searches, list pages, aggregate views) are left out of the default Activity
 // log page so that routine loads do not bury other events; `summaries` asks for them. The audit chain and its exports always hold them.
-export async function auditPage(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
+function auditPageStatement(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
  const q=`SELECT a.* FROM audit_events a JOIN memberships m ON m.org_id=a.org_id AND m.user_id=? AND m.status='active' WHERE a.org_id=? AND ((a.person_id IS NULL AND (m.is_owner=1 OR m.role='admin')) OR EXISTS (SELECT 1 FROM patients p JOIN team_members t ON t.org_id=p.org_id AND t.team_id=p.team_id AND t.user_id=m.user_id WHERE p.org_id=a.org_id AND p.id=a.person_id AND m.role NOT IN ('admin','provider') AND (m.role!='asha' OR p.assigned_to=m.user_id)))${summaries?'':` AND a.action NOT IN (${SUMMARY_ACCESS_ACTIONS.map(x=>`'${x}'`).join(',')})`}${cursor?' AND (a.at<? OR (a.at=? AND a.id<?))':''} ORDER BY a.at DESC,a.id DESC LIMIT 101`;
- const result=await db.prepare(q).bind(userId,orgId,...(cursor?[cursor[0],cursor[0],cursor[1]]:[])).all<Record<string,any>>();
- const rows=result.results.slice(0,100),last=rows.at(-1);return {events:rows.map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id})) as Audit[],nextCursor:result.results.length>100?j([last!.at,last!.id]):null};
+ return db.prepare(q).bind(userId,orgId,...(cursor?[cursor[0],cursor[0],cursor[1]]:[]));
+}
+function auditPageResult(results:Record<string,any>[]){
+ const rows=results.slice(0,100),last=rows.at(-1);return {events:rows.map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id})) as Audit[],nextCursor:results.length>100?j([last!.at,last!.id]):null};
+}
+export async function auditPage(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
+ return auditPageResult((await auditPageStatement(db,orgId,userId,cursor,summaries).all<Record<string,any>>()).results);
+}
+// Response decorations are independent reads after the caller's durable workspace access audit.
+// Keep the same fresh SQL visibility predicate; batching does not reuse membership or patient scope.
+export async function snapshotDecorations(db:D1Database,orgId:string,userId:string){
+ const [orgs,migration,activity]=await db.batch([
+  db.prepare('SELECT o.id,o.name,m.role,m.is_owner FROM memberships m JOIN organisations o ON o.id=m.org_id WHERE m.user_id=? AND m.status=? ORDER BY o.created_at').bind(userId,'active'),
+  db.prepare('SELECT migrated_at,counts FROM legacy_migrations WHERE org_id=?').bind(orgId),
+  auditPageStatement(db,orgId,userId),
+ ]);
+ return {orgs:orgs.results as {id:string;name:string;role:Member['role'];is_owner:number}[],migration:(migration.results[0]??null) as {migrated_at:string;counts:string}|null,activity:auditPageResult(activity.results as Record<string,any>[])};
 }
