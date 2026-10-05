@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-05",
+  "runtime": "workerd1.20260515.1",
+  "tool": "Apple LLDB2103.0.34.1",
+  "command": [
+    "/usr/bin/lldb",
+    "-b",
+    "-o",
+    "image lookup -t workerd::jsg::Wrappable",
+    "-o",
+    "quit",
+    "installed pinned workerd binary"
+  ],
+  "exitCode": 1,
+  "typeResult": null,
+  "attachedProcess": false,
+  "nativeExpressionsExecuted": false,
+  "guessedFieldOffsets": false,
+  "limit": "Lookup gave no result for this specific type; no claim all debug information/symbols absent. Collector field inspection requires compatible debug types or instrumented upstream counters."
+}
