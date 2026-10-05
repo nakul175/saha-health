@@ -1,6 +1,6 @@
 import { AppError, checkFacts, digest, fail, uuid } from './core';
 import { normallyAllowed } from './access';
-import { MISSING_SOURCES, RECORDED_SOURCES, VALUE_FIELDS, VALUE_RANGES, normaliseUnits, rangeCaptureFor, rangeSelection, rangeText, valueTier } from './fact-provenance';
+import { MISSING_SOURCES, RECORDED_SOURCES, VALUE_FIELDS, VALUE_RANGES, convertEntered, normaliseUnits, rangeCaptureFor, rangeSelection, rangeText, valueTier } from './fact-provenance';
 import type { Facts, FactSource, RangeCapture, Member, Measure, OrgState, Person, ValueField, Visit } from './types';
 import type { Actor } from './store';
 // Slice 10i: controlled import of historical visits with clinical content (BR-DATA-11), as kind `visits` of the slice 2h
@@ -31,7 +31,7 @@ type Spec={key:'weight'|'temperature'|'weeks'|'coughDays';measure:Measure;label:
 const SPECS:Spec[]=[
  {key:'weight',measure:'weight',label:'Weight',value:'weight',unit:'weight_unit',source:'weight_source',units:{kg:'kg',lb:'lb'},base:'kg',hint:'kg or lb'},
  {key:'temperature',measure:'temperature',label:'Temperature',value:'temperature',unit:'temperature_unit',source:'temperature_source',units:{degc:'degC','°c':'degC',c:'degC',degf:'degF','°f':'degF',f:'degF'},base:'degC',hint:'degC or degF'},
- {key:'weeks',measure:'weeks',label:'Gestational age',value:'gestation',unit:'gestation_unit',source:'gestation_source',units:{weeks:'weeks',wk:'weeks'},base:'weeks',hint:'weeks'},
+ {key:'weeks',measure:'weeks',label:'Gestational age',value:'gestation',unit:'gestation_unit',source:'gestation_source',units:{weeks:'weeks',wk:'weeks','wk+d':'wk+d','weeks+days':'wk+d'},base:'weeks',hint:'weeks or wk+d (for example 20+3)'},
  {key:'coughDays',measure:'coughDays',label:'Cough duration',value:'cough_duration',unit:'cough_unit',source:'cough_source',units:{days:'days',d:'days',weeks:'wk',wk:'wk'},base:'days',hint:'days or weeks'},
 ];
 export type VisitRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;duplicateOf?:{visitId:string}};
@@ -79,10 +79,10 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
   const number=(label:string,x:string)=>{if(x&&!(NUM.test(x)&&x.length<=12)){reasons.push(`${label}: enter a positive number (digits and one decimal point, at most 12 characters).`);return '';}return x;};
   const sys=number('Systolic blood pressure',col(r,'systolic')),dia=number('Diastolic blood pressure',col(r,'diastolic'));
   if(!!col(r,'systolic')!==!!col(r,'diastolic'))reasons.push('Blood pressure: enter both readings or leave both blank.');
-  const bp=state('Blood pressure',!!(col(r,'systolic')||col(r,'diastolic')),col(r,'bp_unit'),col(r,'bp_source'),u=>u==='mmhg'?'mmHg':undefined,'mmHg');
-  facts.systolic=sys;facts.diastolic=dia;if(bp.src)prov.bloodPressure={source:bp.src};
+  const bp=state('Blood pressure',!!(col(r,'systolic')||col(r,'diastolic')),col(r,'bp_unit'),col(r,'bp_source'),u=>u==='mmhg'?'mmHg':u==='kpa'?'kPa':undefined,'mmHg or kPa');
+  if(bp.unit==='kPa'){if(sys)entered.systolic={value:sys,unit:'kPa'};if(dia)entered.diastolic={value:dia,unit:'kPa'};}else{facts.systolic=sys;facts.diastolic=dia;}if(bp.src)prov.bloodPressure={source:bp.src};
   for(const k of SPECS){
-   const raw=col(r,k.value),value=number(k.label,raw),st=state(k.label,!!raw,col(r,k.unit),col(r,k.source),u=>Object.hasOwn(k.units,u)?k.units[u]:undefined,k.hint);
+   const raw=col(r,k.value),st=state(k.label,!!raw,col(r,k.unit),col(r,k.source),u=>Object.hasOwn(k.units,u)?k.units[u]:undefined,k.hint);let value:string;if(k.key==='weeks'&&st.unit==='wk+d'&&raw){if(convertEntered('weeks',{value:raw,unit:'wk+d'})===null){reasons.push('Gestational age: use weeks+days as 20+3, with days from 0 to 6.');value='';}else value=raw;}else value=number(k.label,raw);
    if(st.src)prov[k.measure]={source:st.src};
    if(value&&st.unit){if(st.unit===k.base)facts[k.key]=value;else (entered as any)[k.key]={value,unit:st.unit};}
   }
@@ -97,7 +97,7 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
    const unusual:Partial<Record<ValueField,string>>={};let any=false;
    for(const f of VALUE_FIELDS){const value=norm.facts[f];if(!value)continue;const tier=valueTier(f,value,undefined,selection),range=selection.fields[f];if(tier==='expected')continue;any=true;
     if(tier==='clinician')reasons.push(`${range.label} is beyond the confirmation range ${rangeText(f,range.confirm)} (${selection.status}). An imported visit has no step for a clinician's confirmation, so the row is not imported. Check the value and its unit.`);
-    else if(reasonText.length<10)reasons.push(`${range.label} is outside the expected range ${rangeText(f,range.expected)} (${VALUE_RANGES.status}) and the row has no override_reason of at least 10 characters.`);
+    else if(reasonText.length<10)reasons.push(`${range.label} is outside the expected range ${rangeText(f,range.expected)} (${selection.status}) and the row has no override_reason of at least 10 characters.`);
     else unusual[f]=reasonText;}
    if(reasonText&&!any)reasons.push('override_reason applies only to a row with a value outside the expected range.');
    if(Object.keys(unusual).length)facts.unusual=unusual;

@@ -21,11 +21,12 @@ export function ImportedVisitPanel({visit:v,person:p}:{visit:Visit;person:Person
    <p><strong>File row</strong><span>Row {i.row} of the file with SHA-256 <code title={i.fileDigest}>{i.fileDigest.slice(0,16)}…</code></span></p>
    <p><strong>Import batch</strong><span>{i.batchId.slice(0,8)} · dry run {i.planHash.slice(0,12)}…</span></p>
   </div>
+  {v.valueRangeCapture&&<p className="notice amber-notice">Range policy captured at import: publication {v.valueRangeCapture.publicationVersion} · {v.valueRangeCapture.group} · {v.valueRangeCapture.version}. Engineering example; clinical approval pending. This uses patient context at import, not an assertion about historical pregnancy.</p>}
   <h3>Measurements as stated in the file</h3>
   {shown.length?<table className="w-full text-sm" aria-label="Imported measurements"><thead><tr><th className="text-left">Measurement</th><th className="text-left">Value</th><th className="text-left">Source and time</th><th className="text-left">Unusual value</th></tr></thead><tbody>{shown.map(m=>{
-   const value=measureValue(v.facts,m),pv=factProvenance(v.facts,m),entered=m==='weight'||m==='temperature'||m==='coughDays'?v.facts.entered?.[m]:undefined;
+   const value=measureValue(v.facts,m),pv=factProvenance(v.facts,m),entered=FIELD[m].flatMap(f=>v.facts.entered?.[f]?[`${m==='bloodPressure'?f+': ':''}${enteredText(v.facts.entered[f])}`]:[]).join('; ');
    const overrides=FIELD[m].map(f=>currentOverride(v,f)).filter((o):o is NonNullable<typeof o>=>!!o);
-   return <tr key={m}><td>{MEASURE_LABEL[m]}</td><td>{value?(m==='bloodPressure'?`${v.facts.systolic}/${v.facts.diastolic}`:value)+' '+UNIT[m]+(entered?` (entered as ${enteredText(entered)})`:''):'Not recorded'}</td><td>{SOURCE_LABEL[pv.source]}{value?`, ${when(pv.at)}`:''}</td><td>{overrides.length?overrides.map(o=>`${VALUE_RANGES.fields[o.field].label}: outside ${rangeText(o.field,o.expected)}; reason: ${o.reason}`).join(' · '):'—'}</td></tr>;})}</tbody></table>:<p className="muted text-sm">No measurements in this visit.</p>}
+   return <tr key={m}><td>{MEASURE_LABEL[m]}</td><td>{value?(m==='bloodPressure'?`${v.facts.systolic}/${v.facts.diastolic}`:value)+' '+UNIT[m]+(entered?` (entered as ${entered})`:''):'Not recorded'}</td><td>{SOURCE_LABEL[pv.source]}{value?`, ${when(pv.at)}`:''}</td><td>{overrides.length?overrides.map(o=>`${VALUE_RANGES.fields[o.field].label}: outside ${rangeText(o.field,o.expected)}; reason: ${o.reason} (${o.rangesVersion})`).join(' · '):'—'}</td></tr>;})}</tbody></table>:<p className="muted text-sm">No measurements in this visit.</p>}
   {v.facts.notes&&<><h3>Notes from the source record</h3><p className="notes-box" style={{whiteSpace:'pre-wrap'}}>{v.facts.notes}</p></>}
   {v.voidedAt&&<p className="muted text-sm">Marked wrong-patient: {v.voidReason}</p>}
  </section>;
