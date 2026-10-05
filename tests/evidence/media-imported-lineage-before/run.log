@@ -1,0 +1,38 @@
+{"event":"saha_request","requestId":"30d1d78a-1941-40c0-a202-be1a9f9fab53","route":"workspace","status":200,"durationMs":20}
+{"event":"saha_request","requestId":"f727c45e-e964-46d8-b554-e79356573752","route":"record-import","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"56daf754-02aa-4f4f-9fb0-573ed6dd0eb2","route":"record-import","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"0503c7f5-c819-4d34-a9b7-b62ab8c55f53","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"721e723a-4ff7-4584-99f8-db708413b5a6","route":"record-import","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"da0e5eff-432d-477a-819a-fa4819ba1fef","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"ffd9f806-1aac-4023-ac07-85e8df9c2362","route":"record-import","status":200,"durationMs":4}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"b07d73dd-62f5-4c89-ab9b-a2b03f2bbdb8","route":"record-import","status":503,"durationMs":4}
+{"event":"saha_request","requestId":"0246f767-f855-4f26-8794-11d7318100e2","route":"record-import","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"b516988b-75ec-445e-8e9b-3c0c260274ac","route":"record-import","status":409,"durationMs":2}
+{"event":"saha_request","requestId":"7fd59002-e0fd-4e9d-bd1e-1fa25f9a9e5a","route":"record-import","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"d533dabb-0e59-48fa-9386-c9bfc0743cc6","route":"record-import","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"2ba35037-ce18-4c4b-aad4-d80eed72c2ff","route":"record-import","status":422,"durationMs":0}
+{"event":"saha_request","requestId":"c4821bbd-94dc-47d7-bdf3-94ade3513829","route":"record-import","status":403,"durationMs":4}
+{"event":"saha_request","requestId":"e134562f-b905-4045-962c-e1c59d86386e","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"c24a255f-adcf-4f98-a448-f393a4c1b3d0","route":"media","status":503,"durationMs":2}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+503 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/media-imported-lineage-before.mjs:3:5008
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/media-imported-lineage-before.mjs:2:86)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/media-imported-lineage-before.mjs:3:4991
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 503,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
