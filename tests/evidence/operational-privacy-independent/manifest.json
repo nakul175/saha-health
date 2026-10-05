@@ -1,0 +1,820 @@
+{
+  "source": "75c0f3e5372b9eb08eab0717966b4638163294bc",
+  "classification": "Independent bounded live operational privacy clearance; residual inbox count remains open",
+  "counts": {
+    "authorRepeat": 416,
+    "compatibility": 369,
+    "extendedHTTP": 478,
+    "extendedPure": 49,
+    "overlap": "extended HTTP retains245 and pure retains41; new fixture setup included"
+  },
+  "originalPins": {
+    "lib/saha/operational-disclosure.ts": {
+      "sha256": "54cb477e391c2a110829ff92b9a1cd830e35c82e513ec52ef9835543e55e66a7",
+      "bytes": 5528
+    },
+    "lib/saha/indicator-ledger.ts": {
+      "sha256": "a32a03c58bd74167417b40b0428e71c9f314e2f35204c0d2eacedad8f8148eb8",
+      "bytes": 9051
+    },
+    "lib/saha/indicators-server.ts": {
+      "sha256": "d1917f3ec9844621c6697f0493f63ff72d3bbb78f5eb7dbf04a4e7137b4ac565",
+      "bytes": 20211
+    },
+    "lib/saha/operations-server.ts": {
+      "sha256": "ec6fe8281e69ad38991cfebff897e4ae2c65607446c9126c5019e70af26167d9",
+      "bytes": 11381
+    },
+    "lib/saha/operations.ts": {
+      "sha256": "cfd9b305166764e5239b238e1f0ff1d33efdf38f6ba96bf5758219f7eda4c30f",
+      "bytes": 18075
+    },
+    "lib/saha/report-export.ts": {
+      "sha256": "48edf0dd512afd95efc0c3ce96505166bebbc61ceaa543220ff5153ce9b452ae",
+      "bytes": 4311
+    },
+    "app/operations-panel.tsx": {
+      "sha256": "3665d200e60e5b174d50ce43bf1a921d769413c62bbfc646a2b20c5d4d57d0d6",
+      "bytes": 19625
+    },
+    "lib/saha/core.ts": {
+      "sha256": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+      "bytes": 26118
+    },
+    "lib/saha/server.ts": {
+      "sha256": "13de0e588ec3da978229478729651d38bfdce1d0e97c8b37f621bba969b0b76f",
+      "bytes": 44863
+    },
+    "lib/saha/indicators.ts": {
+      "sha256": "073240c736dda5e0b6defc8acb8948cbeb3c436ec94fbaf5ed68d8e6183ebfbe",
+      "bytes": 35090
+    },
+    "lib/saha/indicator-differencing.ts": {
+      "sha256": "58fb93179cd581c351fcc916c4148f0e663b6395847d057369a0500c21db5f0c",
+      "bytes": 19510
+    },
+    "lib/saha/media-server.ts": {
+      "sha256": "1acd30010883701b7e86d771f9581ae9205076ebcebad65b84da941b85f75512",
+      "bytes": 14656
+    },
+    "lib/saha/purpose-scope.ts": {
+      "sha256": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+      "bytes": 11334
+    },
+    "lib/saha/export-audit.ts": {
+      "sha256": "a2856064615b27a5856b3253de79ff6ae50c5783cdaf4c7383416105a30b97d3",
+      "bytes": 3433
+    },
+    "lib/saha/read-audit.ts": {
+      "sha256": "c92858bb4fd67332b48c3dddea73fa678f439f8182a0cf26064f2c1a0f8583c0",
+      "bytes": 9530
+    },
+    "tests/sixth-review-fixes-contract.mjs": {
+      "sha256": "1e1b4ffc1e692296a9b0e110dbbc1c3e515ef2e1d3f71b88fff34d7ee5b44de8",
+      "bytes": 23271
+    },
+    "tests/ninth-review-fixes-contract.mjs": {
+      "sha256": "8d5dc56234acfd6576a38af1250651ff35d9806aa65bea178f7dc738e2ab0571",
+      "bytes": 14680
+    },
+    "tests/indicators-contract.mjs": {
+      "sha256": "22b7b801d0f71f2ae0a5f382a0fac57dd29794d14c34e1c7c2dfe58422a8eeeb",
+      "bytes": 7401
+    },
+    "tests/indicator-household-counting-contract.mjs": {
+      "sha256": "91fc8f65badccdd041d2ee606b508861d61a128ff1251c14a1ad1b8f2e49707c",
+      "bytes": 9133
+    },
+    "tests/composite-measures-contract.mjs": {
+      "sha256": "06ef00e3a06df894cafd38d5414f24dc772df9ad576977cb5d7251c97a9e6487",
+      "bytes": 10947
+    },
+    "tests/composite-independent-contract.mjs": {
+      "sha256": "bd261ecc339ee510de9241d3b723366f0b0e6870b836390ff5b0166d121ccb7b",
+      "bytes": 10953
+    },
+    "tests/composite-authority-independent-contract.mjs": {
+      "sha256": "e2b197e6c6f264a042a26196336b426f7fe4de568e241c6581effa7af38762ee",
+      "bytes": 10973
+    },
+    "tests/review-fixes-contract.mjs": {
+      "sha256": "45f8612e91a9bf3e36d94f4a473f604ce97f3bdae8641dbe56c3c39f94e97d7a",
+      "bytes": 27767
+    },
+    "tests/read-audit-completion-contract.mjs": {
+      "sha256": "a3cf2d88b934d341cfb649c8526503eb6d0541484f3093eecdb34b055f19487e",
+      "bytes": 26102
+    },
+    "tests/report-export-contract.mjs": {
+      "sha256": "eebc8817272a8d8620dd5ba57cb3e5a1aa197ae72b8d6334671ecb370a1d69c5",
+      "bytes": 8017
+    },
+    "tests/fifth-review-fixes-contract.mjs": {
+      "sha256": "aac6db8212689e4f260b85657d2fd7742abc72a9c5e8a7219224b4ef03f79980",
+      "bytes": 24392
+    },
+    "docs/current/OPERATIONAL-REPORT-PRIVACY-DISCOVERY.md": {
+      "sha256": "b16d24592f9edc51445ec680112d43f3543ee4661ade263856b88df004d073f0",
+      "bytes": 9578
+    },
+    "tests/evidence/operational-privacy-before/build.log": {
+      "sha256": "ce672648076f9167b8a1721df7a25022db75cf42a96e6d3f21cba9d222e9da2c",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy-before/documentation.log": {
+      "sha256": "aa870305e9aab7599248affb037e8557516d57c6e7856ec8ce07ab20bee217d1",
+      "bytes": 5361
+    },
+    "tests/evidence/operational-privacy-before/final/observed.json": {
+      "sha256": "88da4b8fc54bb28c0e9ca3be4fdf32e4e21e406e9df73d1dc8ae2d8388046701",
+      "bytes": 66706
+    },
+    "tests/evidence/operational-privacy-before/final/result.json": {
+      "sha256": "0ccfdc7040f222a996bc63f7dd199b0799308e3845a69f445373ade22245242e",
+      "bytes": 125
+    },
+    "tests/evidence/operational-privacy-before/final/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy-before/http-current-request.log": {
+      "sha256": "58e7dc5f09c76c129270b4a24818267433ec086aea44ca9900a50e652a8bac0e",
+      "bytes": 3387
+    },
+    "tests/evidence/operational-privacy-before/http-distinct-subjects.log": {
+      "sha256": "065c3b21e81eaf5aa7af7782778d5301757b35200bdbd756af390af6396138f4",
+      "bytes": 8730
+    },
+    "tests/evidence/operational-privacy-before/http-final.log": {
+      "sha256": "a309f2744fcd7234771eafcd2ece3d4fac0329377df452e5e7dad07e54694313",
+      "bytes": 8733
+    },
+    "tests/evidence/operational-privacy-before/http-initial.log": {
+      "sha256": "2060e880d0423fd89e082812e8d5cdad12e086baeff2a32a50b24d3743c761ea",
+      "bytes": 2618
+    },
+    "tests/evidence/operational-privacy-before/observed.json": {
+      "sha256": "886cfe9bc34d07da4af8028427b77f79cb703cc59b6274236d6852f60f14b33b",
+      "bytes": 63644
+    },
+    "tests/evidence/operational-privacy-before/original-clauses.json": {
+      "sha256": "764d597a7a50463f0cfa2420f8c011114fdc2b308b449492bcb199781c88adee",
+      "bytes": 1167
+    },
+    "tests/evidence/operational-privacy-before/requirements.log": {
+      "sha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+      "bytes": 104
+    },
+    "tests/evidence/operational-privacy-before/result.json": {
+      "sha256": "0ccfdc7040f222a996bc63f7dd199b0799308e3845a69f445373ade22245242e",
+      "bytes": 125
+    },
+    "tests/evidence/operational-privacy-before/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy-before/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/operational-privacy-before-http.mjs": {
+      "sha256": "2524846b8f0194c2e66a214100bf938b4b7e227bbfc3ea062fed71d8b3236d87",
+      "bytes": 9000
+    },
+    "tests/evidence/operational-privacy/adverse-complete/observed.json": {
+      "sha256": "3ac1c51b8097933cf8bf5f69fae34121e59cd48bfef293dbaabeeda93018e1da",
+      "bytes": 2040
+    },
+    "tests/evidence/operational-privacy/adverse-complete/result.json": {
+      "sha256": "9121cc5eef2e12dc1bf60e8429d7a982659fe0f7c9c24b084b3da9a7c1319c63",
+      "bytes": 135
+    },
+    "tests/evidence/operational-privacy/adverse-complete.log": {
+      "sha256": "1773e3e820df5aedbc5b20b25ad90ae8be8f4e91454300feee6e8107973f780e",
+      "bytes": 29899
+    },
+    "tests/evidence/operational-privacy/adverse-current.log": {
+      "sha256": "317de7c06c720fea50942ec238e45560421e347fa2ade06f505c57ec365dccad",
+      "bytes": 22711
+    },
+    "tests/evidence/operational-privacy/adverse-expanded.log": {
+      "sha256": "914ccc48f52655964d0279529f8aa1380cafbb509c3e3d294792e7b69b809172",
+      "bytes": 28040
+    },
+    "tests/evidence/operational-privacy/adverse-final/observed.json": {
+      "sha256": "c56ac13e26d377e80ca57b074ebf36f766cf45feac2a42fe46e31ea83d1bafe0",
+      "bytes": 1532
+    },
+    "tests/evidence/operational-privacy/adverse-final/result.json": {
+      "sha256": "889db8fa96714b752c520e2213f9da2ba8afcc4418354729ac11c4acb99ec85a",
+      "bytes": 135
+    },
+    "tests/evidence/operational-privacy/adverse-final.log": {
+      "sha256": "90c1c5731396475e43c321c5e317468b311ba42766ad577e0bd26cb06eccdcea",
+      "bytes": 23566
+    },
+    "tests/evidence/operational-privacy/adverse-initial.log": {
+      "sha256": "0cc40bf7cea0cc8490907408186704cdf8f9a3f436167e5ee265e7f6962e56a1",
+      "bytes": 17474
+    },
+    "tests/evidence/operational-privacy/build-adverse.log": {
+      "sha256": "acff979958792c53b8f4193b676f49d67d1e20022584f1829f249c46ce55ab31",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy/build-current.log": {
+      "sha256": "8ebda445ae6dd109e8f7a5d4a6d88538c2feb23c4e91442808eba0b8f4d56d33",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy/build-final-pre.log": {
+      "sha256": "008053057cc0b8b85a91b6a7b512fd20a5ee3cdfe26635ea8b36548877cefee5",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy/build-final.log": {
+      "sha256": "3c4ff0f32218f235b9e8d895bb22380a0fff651d85ab7bbb84c3ec0956108673",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy/build-freeze-final.log": {
+      "sha256": "992e6e82a24ccf362e58c45456065b2fb490f0b90c8616eacf3dfba3a5ed525a",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy/build-freeze.log": {
+      "sha256": "f9af7403002c8900ecce940933a0268016221167758f6afbce65d30029b97667",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy/build-phone-current.log": {
+      "sha256": "b50f3a3f7c8925c1335198aaa2c7b5837b39db65c1cab1042cdc623fa3b36ff3",
+      "bytes": 4699
+    },
+    "tests/evidence/operational-privacy/compatibility-results/contract.json": {
+      "sha256": "1e9aa285b20bd087412c902e7ca7420f1b1a78f81ce6aac772c0edebff97d62d",
+      "bytes": 1104
+    },
+    "tests/evidence/operational-privacy/compatibility-results/indicators-contract-result.json": {
+      "sha256": "838666587eacb6ceb1a0bb3274028c052d1a89944ccfbe129dccaa0e08c8ca95",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy/compatibility-results/ninth-review-fixes-contract-result.json": {
+      "sha256": "d9a6d86b19166de6a090e7bdc3f6084d8cd5152cb8e3bdadfcc1ceb20feb5615",
+      "bytes": 122
+    },
+    "tests/evidence/operational-privacy/compatibility-results/read-audit-completion-contract-result.json": {
+      "sha256": "24ab5d71cea44a4579e4c056188bf35e4eea213b4faf61be247c63e213531838",
+      "bytes": 343
+    },
+    "tests/evidence/operational-privacy/compatibility-results/report-export-contract-result.json": {
+      "sha256": "5553a13ce7e36670083a76b2260c62a92ab7047b3a4a609704de7a1137639987",
+      "bytes": 115
+    },
+    "tests/evidence/operational-privacy/compatibility-results/review-fixes-contract-result.json": {
+      "sha256": "dc907a969a672ed4a2f649f66fee2746a3bc56e8a25a9c84f33284addbfe5319",
+      "bytes": 111
+    },
+    "tests/evidence/operational-privacy/compatibility-results/sixth-review-fixes-contract-result.json": {
+      "sha256": "aed04e699d2e90b13366d194cb9154d15b0e523b5ec94a19ed1ffe7ea84043f3",
+      "bytes": 132
+    },
+    "tests/evidence/operational-privacy/composite-authority-independent-contract.log": {
+      "sha256": "cf4ea73b6aafe9c119d66d727db8720c1d0d7834a30db4db4754f024f588e26e",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/composite-independent-contract.log": {
+      "sha256": "cf4ea73b6aafe9c119d66d727db8720c1d0d7834a30db4db4754f024f588e26e",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/composite-measures-contract.log": {
+      "sha256": "cf4ea73b6aafe9c119d66d727db8720c1d0d7834a30db4db4754f024f588e26e",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/contract-current.log": {
+      "sha256": "103437ebc070898147cf0f38810c637a019958effb487ee3b16849b216d996a5",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/contract-final.log": {
+      "sha256": "1d4ddb4740064e20bc18ce15cd4bdbed05923948bb9c4d9484fe827a1103f88a",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/contract-freeze.log": {
+      "sha256": "103437ebc070898147cf0f38810c637a019958effb487ee3b16849b216d996a5",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/contract-initial.log": {
+      "sha256": "103437ebc070898147cf0f38810c637a019958effb487ee3b16849b216d996a5",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/contract-result.json": {
+      "sha256": "506833312c268c2715a570eb87205d5956c342c69f15cd194b78051a303eb089",
+      "bytes": 33
+    },
+    "tests/evidence/operational-privacy/documentation.log": {
+      "sha256": "4913ab2b12cbb8454c7bf9af698c1b850680ddf5eac0b2106e9e841e910a34c4",
+      "bytes": 5694
+    },
+    "tests/evidence/operational-privacy/export-current-contract.log": {
+      "sha256": "8bc49ae894adaa3c3b7ee3d6a923057a84ac60ded8a891dd9336178e84556ea0",
+      "bytes": 13
+    },
+    "tests/evidence/operational-privacy/fifth-existing-baseline-observation.log": {
+      "sha256": "b6c4e515c4b588e5fbf4c771f0eaa7f2d41de871bb9140304ceeb80b2ff4b56d",
+      "bytes": 1059
+    },
+    "tests/evidence/operational-privacy/fifth-review-current.log": {
+      "sha256": "d891bee5d79dc0dc47075797a293dac8b3b16cd57ca2e7ecfdc01d95aff03edc",
+      "bytes": 1029
+    },
+    "tests/evidence/operational-privacy/freeze-adverse/observed.json": {
+      "sha256": "9916389803ed07eac1e3e03c1dc069ac50c360e24040d440f8ba76dcf9a06886",
+      "bytes": 2040
+    },
+    "tests/evidence/operational-privacy/freeze-adverse/result.json": {
+      "sha256": "09eb1abfbe278e88b9b93a77647dfdba78e63b0f2f47f501191163447dc270ad",
+      "bytes": 135
+    },
+    "tests/evidence/operational-privacy/freeze-adverse.log": {
+      "sha256": "aa9c76d7cfb393ea9fb68a4c5c833305b255ab44a96f6b744da46adb42ec4842",
+      "bytes": 29858
+    },
+    "tests/evidence/operational-privacy/freeze-http/observed.json": {
+      "sha256": "3bd3780a2e0359009745dae682f526d077318c66a7ed228ccfea3d179fad76fd",
+      "bytes": 249733
+    },
+    "tests/evidence/operational-privacy/freeze-http/result.json": {
+      "sha256": "f0d289abf3b658652c5ed993e6cd227c1519493aa1b2c7c3b1fd5211547183e6",
+      "bytes": 118
+    },
+    "tests/evidence/operational-privacy/freeze-http/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy/freeze-http.log": {
+      "sha256": "266c33804135dabb7c85e6bf13320348b48ae1c7b45417e12518851ace8c954f",
+      "bytes": 8768
+    },
+    "tests/evidence/operational-privacy/freeze-phone/phone-protected.png": {
+      "sha256": "82be90346ff55266f3258cb21d6782ca8ce2a2931c05ba582e85cec4dd23df16",
+      "bytes": 596807
+    },
+    "tests/evidence/operational-privacy/freeze-phone/phone-withheld.png": {
+      "sha256": "c2d1bc501f092968b0b2eb04059ee4a5328726e787cfe62c7c1aa1cdf92d9cc8",
+      "bytes": 615570
+    },
+    "tests/evidence/operational-privacy/freeze-phone/result.json": {
+      "sha256": "232a20fb29671b2428f68e58c9ef92325f919a1aa65d2ec4c5ce0bd7b64ec8c9",
+      "bytes": 99
+    },
+    "tests/evidence/operational-privacy/freeze-phone/withheld.csv": {
+      "sha256": "0523a4a2f2f882ca060124f4ee70c969f27cc69af44c4aeb3b3af81e2ebfe601",
+      "bytes": 2740
+    },
+    "tests/evidence/operational-privacy/freeze-phone/worker.log": {
+      "sha256": "6b33c4ba7079510cc26436649e283f807940b31474309c4a53f6ea577e5fb213",
+      "bytes": 105495
+    },
+    "tests/evidence/operational-privacy/freeze-phone.log": {
+      "sha256": "e97cb04b9aa286cc3c329e2adae402dce8bd91ef863500c5eaa2962a5e03721f",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/http-final/observed.json": {
+      "sha256": "cdbae525266b9b38d9988af81bf52f781f546aea343c0e6d2056807e32f829cc",
+      "bytes": 249726
+    },
+    "tests/evidence/operational-privacy/http-final/result.json": {
+      "sha256": "f0d289abf3b658652c5ed993e6cd227c1519493aa1b2c7c3b1fd5211547183e6",
+      "bytes": 118
+    },
+    "tests/evidence/operational-privacy/http-final/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy/http-final.log": {
+      "sha256": "28f157e0703d8ddb6a1f093965283e1e3a994e75ce93acc554c702e3cfb9a017",
+      "bytes": 8752
+    },
+    "tests/evidence/operational-privacy/http-initial.log": {
+      "sha256": "b87cd32e212c0079b7b985fdb7decd42151c5cb90ec3c357955bbe6d86ee3c3c",
+      "bytes": 8738
+    },
+    "tests/evidence/operational-privacy/indicator-household-counting-contract.log": {
+      "sha256": "aab82b7e105622b84e24105009ae92af4b1fce1fef358698c8c51863dade0c38",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/indicators-contract.log": {
+      "sha256": "fa484af962e2751eac3527411d6bc062106a53d2e1be89986ff88516edfb69fb",
+      "bytes": 94
+    },
+    "tests/evidence/operational-privacy/ninth-review-fixes-contract.log": {
+      "sha256": "6f199c1de4dc0dc424890dba6c17fc605524db85a438c7998cb0f8610b177e27",
+      "bytes": 46
+    },
+    "tests/evidence/operational-privacy/observed.json": {
+      "sha256": "73b88ca41f98b88814b4687f863125afc6e1cea76c9403a41b4d98ca4a312a0f",
+      "bytes": 249720
+    },
+    "tests/evidence/operational-privacy/phone/phone-withheld.png": {
+      "sha256": "36515e13215d18ce311217136a8003eb5c9bb7c4af47cf93bd4af998dad4878f",
+      "bytes": 615443
+    },
+    "tests/evidence/operational-privacy/phone/withheld.csv": {
+      "sha256": "e04fb0ca03404950d166fe7cee4dbe442b0dd31e1226d6c2efd93e252e9c4dca",
+      "bytes": 2739
+    },
+    "tests/evidence/operational-privacy/phone/worker.log": {
+      "sha256": "c7c93294d040b3c572349d753943f530dcded4c5a772ea0d9e0eb9bfbc172ffd",
+      "bytes": 105158
+    },
+    "tests/evidence/operational-privacy/phone-final/phone-protected.png": {
+      "sha256": "d72dbd675e8bab86965060b03333b47c26b9a299a01cecbc1e23a2fe1b94ec2b",
+      "bytes": 590187
+    },
+    "tests/evidence/operational-privacy/phone-final/phone-withheld.png": {
+      "sha256": "531ebede71e897050a114d5367641d189163ede9c128589d7b753883464dfc9b",
+      "bytes": 612961
+    },
+    "tests/evidence/operational-privacy/phone-final/result.json": {
+      "sha256": "232a20fb29671b2428f68e58c9ef92325f919a1aa65d2ec4c5ce0bd7b64ec8c9",
+      "bytes": 99
+    },
+    "tests/evidence/operational-privacy/phone-final/withheld.csv": {
+      "sha256": "a43dc1c12119a575ff61ba732092532c3ccb0568f547ec02ec752ce422cf5b54",
+      "bytes": 2740
+    },
+    "tests/evidence/operational-privacy/phone-final/worker.log": {
+      "sha256": "474bcce8d59de18f435540ebd4d6ef03847553f2693db7004d79d0844a696776",
+      "bytes": 105479
+    },
+    "tests/evidence/operational-privacy/phone-final.log": {
+      "sha256": "e97cb04b9aa286cc3c329e2adae402dce8bd91ef863500c5eaa2962a5e03721f",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy/phone-initial-artifacts/phone-withheld.png": {
+      "sha256": "36515e13215d18ce311217136a8003eb5c9bb7c4af47cf93bd4af998dad4878f",
+      "bytes": 615443
+    },
+    "tests/evidence/operational-privacy/phone-initial-artifacts/withheld.csv": {
+      "sha256": "e04fb0ca03404950d166fe7cee4dbe442b0dd31e1226d6c2efd93e252e9c4dca",
+      "bytes": 2739
+    },
+    "tests/evidence/operational-privacy/phone-initial-artifacts/worker.log": {
+      "sha256": "c7c93294d040b3c572349d753943f530dcded4c5a772ea0d9e0eb9bfbc172ffd",
+      "bytes": 105158
+    },
+    "tests/evidence/operational-privacy/phone-initial.log": {
+      "sha256": "8f2bda24f285f84ead4a079fb82fa0dfc7280a3d1764a8f866a11a28b903f97a",
+      "bytes": 1742
+    },
+    "tests/evidence/operational-privacy/read-audit-current.log": {
+      "sha256": "f9c41155630f601f4cd20c0e43477a6d72cf8ce35a62751f6970d1408767c2e5",
+      "bytes": 479
+    },
+    "tests/evidence/operational-privacy/requirements.log": {
+      "sha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+      "bytes": 104
+    },
+    "tests/evidence/operational-privacy/result.json": {
+      "sha256": "f0d289abf3b658652c5ed993e6cd227c1519493aa1b2c7c3b1fd5211547183e6",
+      "bytes": 118
+    },
+    "tests/evidence/operational-privacy/review-fixes-current.log": {
+      "sha256": "a9d0af0d2d89da9254f23344c2bda7dc5684fc637c1fd6c7499f03f3fef3ba86",
+      "bytes": 98
+    },
+    "tests/evidence/operational-privacy/sixth-review-fixes-contract.log": {
+      "sha256": "1f4fc6e432747577710937b84fb4c7b4ce905d1602edef1f6b76400208a1e7ab",
+      "bytes": 115
+    },
+    "tests/evidence/operational-privacy/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy/types-adverse.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/operational-privacy/types-current.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/operational-privacy/types-final-pre.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/operational-privacy/types-final.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/operational-privacy/types-freeze-final.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/operational-privacy/types-freeze.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/operational-privacy/types-phone-current.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/current/OPERATIONAL-REPORT-PRIVACY.md": {
+      "sha256": "4357f00ed626af63bea4ecaa66b3fa24b73f2eec06e754cee0d6659599031b61",
+      "bytes": 10041
+    },
+    "tests/operational-privacy-export-current-contract.mjs": {
+      "sha256": "cd3902a7c646822a973ae7d9776405d1c0a12d38efcaad49b574b3c48d1ea08d",
+      "bytes": 8107
+    },
+    "tests/operational-privacy-browser.mjs": {
+      "sha256": "fcc8905567fc8adbf4138e0d6e1a5e5a83a9bfe238f20455cb88e4147cc53e6b",
+      "bytes": 5386
+    },
+    "tests/operational-privacy-adverse-http.mjs": {
+      "sha256": "2d6c04fb701fec2a0f2d7aa9ad32f2200a12d39e0a4e28f3332ca714a1b0f444",
+      "bytes": 14605
+    },
+    "tests/operational-privacy-http.mjs": {
+      "sha256": "084025acccdcfa1be55aee6c61c5857638d69d98a72c13423ee83066796de930",
+      "bytes": 9288
+    },
+    "tests/operational-privacy-contract.mjs": {
+      "sha256": "a6ef4d473f080086a65759ffdc831ada8d823346be8ddab474645db3366f969a",
+      "bytes": 6469
+    },
+    "tests/evidence/operational-privacy/manifest.json": {
+      "sha256": "4e59f93200edff3e8dcb7c46d09e2f2e58b40017795d597e31c156f68ffb9845",
+      "bytes": 25699
+    }
+  },
+  "rawPreimages": {
+    "tests/evidence/operational-privacy-independent/build.log.raw.gz": {
+      "uncompressedSha256": "b4bb86c8373bb62eef7000b4ed56720b70886484c2eb7d0467eb170052957c2b",
+      "uncompressedBytes": 4699
+    },
+    "tests/evidence/operational-privacy-independent/phone/withheld.csv.raw.gz": {
+      "uncompressedSha256": "97701e78d12c503e2274db7a28e8e0cc07820f9a6bc2c786d28d5b46d90dc161",
+      "uncompressedBytes": 2740
+    }
+  },
+  "files": {
+    "tests/evidence/operational-privacy-independent/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/operational-privacy-independent/browser.log": {
+      "sha256": "e97cb04b9aa286cc3c329e2adae402dce8bd91ef863500c5eaa2962a5e03721f",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy-independent/contract.log": {
+      "sha256": "1d4ddb4740064e20bc18ce15cd4bdbed05923948bb9c4d9484fe827a1103f88a",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy-independent/extra-contract.log": {
+      "sha256": "e3b4be2bebf5be4c30833b10a0ab5f02bf9258432020f7d9772a1820efadaf15",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy-independent/extra-initial-driver.mjs.gz": {
+      "sha256": "f1ac820e5d780b1385d35a182a66100a0e0ed35e0fbc510fb0e28172c71d93ea",
+      "bytes": 5997
+    },
+    "tests/evidence/operational-privacy-independent/extra-initial.log": {
+      "sha256": "a559cce219886d4fffa44e1243a4f76d21635b90d462a23d4dd2c0c7037f9a9b",
+      "bytes": 36943
+    },
+    "tests/evidence/operational-privacy-independent/extra.log": {
+      "sha256": "d1c77a7af7ee99020f54dc223d2ec4d8cea1f43a8ff44b973bfb03dc98307e6a",
+      "bytes": 59153
+    },
+    "tests/evidence/operational-privacy-independent/http.log": {
+      "sha256": "c4f5fd37f7cb0caf6e399897dd316a35c4c0c86cf680f79d4f1540f840b58503",
+      "bytes": 8753
+    },
+    "tests/evidence/operational-privacy-independent/adverse-http.log": {
+      "sha256": "681e240c71f510a663928db751de0dfe372e01df8399f8346d3c94d049794872",
+      "bytes": 29968
+    },
+    "tests/evidence/operational-privacy-independent/build.log.raw.gz": {
+      "sha256": "edab73f3cafc55486c85f807d367a4a7354c7e66712066d1b4d6df21c9ab6643",
+      "bytes": 1381
+    },
+    "tests/evidence/operational-privacy-independent/build.log": {
+      "sha256": "4603233bca8e8dfa5c26de61877e8c7b8afe02c58ffb8a9efe1733270a01e339",
+      "bytes": 3717
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/sixth-review-fixes-contract.json": {
+      "sha256": "0ce7972773c08dbf34779baedaf66a23fc1dda9263dd950ff93aafc0c31a8da8",
+      "bytes": 132
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/ninth-review-fixes-contract.log": {
+      "sha256": "6f199c1de4dc0dc424890dba6c17fc605524db85a438c7998cb0f8610b177e27",
+      "bytes": 46
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/composite-authority-independent-contract.log": {
+      "sha256": "cf4ea73b6aafe9c119d66d727db8720c1d0d7834a30db4db4754f024f588e26e",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/composite-measures-contract.json": {
+      "sha256": "bcd0125eed0667d6f0e6451cb84ae35ba8b599d1aebf8d9e4c7f93fc610d7102",
+      "bytes": 260
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/sixth-review-fixes-contract.log": {
+      "sha256": "7f258c06175b9fd03bb5daa93d38d0467c58012819f06fd94cf9127cc5bd04fd",
+      "bytes": 115
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/indicator-household-counting-contract.log": {
+      "sha256": "aab82b7e105622b84e24105009ae92af4b1fce1fef358698c8c51863dade0c38",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/read-audit-completion-contract.json": {
+      "sha256": "b0c15645b89cd36ff1a9e6142ce1f73285a0d948d9cb13260eaec148de750dad",
+      "bytes": 343
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/operational-privacy-export-current-contract.log": {
+      "sha256": "8bc49ae894adaa3c3b7ee3d6a923057a84ac60ded8a891dd9336178e84556ea0",
+      "bytes": 13
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/review-fixes-contract.json": {
+      "sha256": "5ef3d591988751bfeeb3a84d4fbb7b31591772ace1fd59543e93d79051497c03",
+      "bytes": 111
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/composite-independent-contract.log": {
+      "sha256": "cf4ea73b6aafe9c119d66d727db8720c1d0d7834a30db4db4754f024f588e26e",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/indicator-household-counting-contract.json": {
+      "sha256": "1e9aa285b20bd087412c902e7ca7420f1b1a78f81ce6aac772c0edebff97d62d",
+      "bytes": 1104
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/composite-independent-contract.json": {
+      "sha256": "bcd0125eed0667d6f0e6451cb84ae35ba8b599d1aebf8d9e4c7f93fc610d7102",
+      "bytes": 260
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/indicators-contract.json": {
+      "sha256": "f5c7285bb004fc5f2cec587f03a509e06cc791f237597aa03dfe22b62ff526a0",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/operational-privacy-export-current-contract.json": {
+      "sha256": "18b6c9ebc98678f731d79e65ca1eb898c6860ca599a0a1b04641039b562aa9cf",
+      "bytes": 115
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/review-fixes-contract.log": {
+      "sha256": "c5f195936e12cd81d825aaaa5904fcab63ce16fef282e972ec860f6bd8216485",
+      "bytes": 98
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/composite-measures-contract.log": {
+      "sha256": "cf4ea73b6aafe9c119d66d727db8720c1d0d7834a30db4db4754f024f588e26e",
+      "bytes": 25
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/indicators-contract.log": {
+      "sha256": "233f72584e90944e8be9d2ac894ad1e53c2f18d1bfaf7182d7bf9e8710be93d9",
+      "bytes": 94
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/composite-authority-independent-contract.json": {
+      "sha256": "bcd0125eed0667d6f0e6451cb84ae35ba8b599d1aebf8d9e4c7f93fc610d7102",
+      "bytes": 260
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/read-audit-completion-contract.log": {
+      "sha256": "d48674271e9379388bb16443b9184c3795a89992598d4ec5c6e35ca0cac18719",
+      "bytes": 479
+    },
+    "tests/evidence/operational-privacy-independent/compatibility/ninth-review-fixes-contract.json": {
+      "sha256": "e46af121d0ba23de78d22a0ae3fcd69ef3562030d176299fca83730d365591ed",
+      "bytes": 122
+    },
+    "tests/evidence/operational-privacy-independent/contract/contract-result.json": {
+      "sha256": "506833312c268c2715a570eb87205d5956c342c69f15cd194b78051a303eb089",
+      "bytes": 33
+    },
+    "tests/evidence/operational-privacy-independent/extra-contract/contract-result.json": {
+      "sha256": "4a8446ba9b1b085d14ed112c2cecb3bf4abcd033c08780d520fee2c3e36e0c03",
+      "bytes": 33
+    },
+    "tests/evidence/operational-privacy-independent/adverse/result.json": {
+      "sha256": "09eb1abfbe278e88b9b93a77647dfdba78e63b0f2f47f501191163447dc270ad",
+      "bytes": 135
+    },
+    "tests/evidence/operational-privacy-independent/adverse/observed.json": {
+      "sha256": "6b48a7d26e39c33d333f148bb16085ac367705e7505c7c21b2f63197674b9b69",
+      "bytes": 2040
+    },
+    "tests/evidence/operational-privacy-independent/extra/result.json": {
+      "sha256": "188c0878e7084b192040076a6368f4c721490a7d9ea3330e59279545dd48faa7",
+      "bytes": 135
+    },
+    "tests/evidence/operational-privacy-independent/extra/inverse-indicator.json": {
+      "sha256": "fa5a79701b60baea8ae54548d5aff064a0df985ab25a0f59b203c3a2bbad7ef7",
+      "bytes": 215
+    },
+    "tests/evidence/operational-privacy-independent/extra/observed.json": {
+      "sha256": "27a32e98ed280c85bfc942ce5ddc4a0406d8baaefedc637f4dd2f89f90a2268c",
+      "bytes": 20647
+    },
+    "tests/evidence/operational-privacy-independent/http/result.json": {
+      "sha256": "f0d289abf3b658652c5ed993e6cd227c1519493aa1b2c7c3b1fd5211547183e6",
+      "bytes": 118
+    },
+    "tests/evidence/operational-privacy-independent/http/small-indicator-contrast.json": {
+      "sha256": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+      "bytes": 107
+    },
+    "tests/evidence/operational-privacy-independent/http/observed.json": {
+      "sha256": "732a0f381a88f9e3f43646dc6cfcb3bf701b0bce07783ff14baa7aff42af0aef",
+      "bytes": 249726
+    },
+    "tests/evidence/operational-privacy-independent/phone/phone-withheld.png": {
+      "sha256": "2070ceab2021391d307eea52987e529275bcde266caea6153a27676c57776151",
+      "bytes": 614329
+    },
+    "tests/evidence/operational-privacy-independent/phone/phone-protected.png": {
+      "sha256": "35ac52ff5fcc34a418d15a8751320063649c82d05143b65fbf48b06f8fea384d",
+      "bytes": 590050
+    },
+    "tests/evidence/operational-privacy-independent/phone/result.json": {
+      "sha256": "232a20fb29671b2428f68e58c9ef92325f919a1aa65d2ec4c5ce0bd7b64ec8c9",
+      "bytes": 99
+    },
+    "tests/evidence/operational-privacy-independent/phone/withheld.csv.raw.gz": {
+      "sha256": "60b5e9d2272d7bdde02cff8253fe2035e98d311795fa3e357c6f89169a9d738c",
+      "bytes": 996
+    },
+    "tests/evidence/operational-privacy-independent/phone/worker.log": {
+      "sha256": "94013073b9e48d94834e9b64e93af67b3a62f0459c42cbb0ef0a8d0a28f0ec98",
+      "bytes": 105503
+    },
+    "tests/evidence/operational-privacy-independent/phone/withheld.display.csv": {
+      "sha256": "5241033d6f07fb80a80d6d1ab4775386e66f84938e2ab82b09d168ed93c9baff",
+      "bytes": 2674
+    },
+    "tests/operational-privacy-cold-operational-privacy-export-current-contract.mjs": {
+      "sha256": "095d86db7d45aed5e136fc247234e904f4617eb7dcd94b667891553c6a95c3a7",
+      "bytes": 8176
+    },
+    "tests/operational-privacy-cold-composite-measures-contract.mjs": {
+      "sha256": "dad1b0f79ca5cbdda9596c37fc833e146a6c041a837adc969b7c4f108455502d",
+      "bytes": 10993
+    },
+    "tests/operational-privacy-cold-indicators-contract.mjs": {
+      "sha256": "8f0c4b8d4277e83a5b3d2fcb9de86175348191362d0b64afbd47a7599f46ca22",
+      "bytes": 7449
+    },
+    "tests/operational-privacy-cold-indicator-household-counting-contract.mjs": {
+      "sha256": "5bf8ea1bb2de7667f8a20ef34453e1cb5c9198268a1ff0c083db9f38eeca1b16",
+      "bytes": 9188
+    },
+    "tests/operational-privacy-cold-adverse-http.mjs": {
+      "sha256": "b14aa1b9018cc6c51e7d4a4bf378a030f6514daaf28006d76f933582efb52cbe",
+      "bytes": 14610
+    },
+    "tests/operational-privacy-cold-http.mjs": {
+      "sha256": "872ca42b2a9eab74d66a36cd99ee68a65486c4d614deb86d78fcc873ff0be399",
+      "bytes": 9293
+    },
+    "tests/operational-privacy-cold-composite-independent-contract.mjs": {
+      "sha256": "032d04a89eedec51885fd47fbdde882e3d85eac6de4f10557104009bb141680b",
+      "bytes": 10999
+    },
+    "tests/operational-privacy-cold-contract.mjs": {
+      "sha256": "65aac8e313802037d9751e3dd986f997bfeaf99ecde569b942c98f682caef859",
+      "bytes": 6511
+    },
+    "tests/operational-privacy-cold-read-audit-completion-contract.mjs": {
+      "sha256": "81eb6ecf945d7e1a4e97a0d8c37e35d90bb89436c6c9e70429deb511f445a5bd",
+      "bytes": 26150
+    },
+    "tests/operational-privacy-cold-review-fixes-contract.mjs": {
+      "sha256": "48a082d37d2f8433e6fd189728d04bd5b35e9f804209a0044c0ba16428c7dc9d",
+      "bytes": 27815
+    },
+    "tests/operational-privacy-cold-composite-authority-independent-contract.mjs": {
+      "sha256": "441db69ec9ce9b8037dc415b0bf618e33e0f70cee4f74ee7e4b5b4be8bd65c02",
+      "bytes": 11019
+    },
+    "tests/operational-privacy-cold-sixth-review-fixes-contract.mjs": {
+      "sha256": "d0e656bd6fa341ea9047b77afcf65546afd020c79d4759fd4b7c0e76ace4261b",
+      "bytes": 23319
+    },
+    "tests/operational-privacy-cold-browser.mjs": {
+      "sha256": "426a829f9d2b94a62983e6c79ca265fa64e1311bcd734a9e8662bb6f576f10c9",
+      "bytes": 5391
+    },
+    "tests/operational-privacy-cold-ninth-review-fixes-contract.mjs": {
+      "sha256": "377770132fa9c96feb5315d94d4c816f423a32971469ebe2c6017f87724a6502",
+      "bytes": 14728
+    },
+    "tests/operational-privacy-independent-extra-contract.mjs": {
+      "sha256": "59b5e7fa46cbf8ba00ee767a1eab433e775e61d9525a576b59fd4a09db470a95",
+      "bytes": 7481
+    },
+    "tests/operational-privacy-independent-extra-http.mjs": {
+      "sha256": "3be84feeff85ecb0e3f8fa570865acaeab6897d40fdfe164672ce5a393b18f33",
+      "bytes": 20685
+    },
+    "docs/current/OPERATIONAL-REPORT-PRIVACY-INDEPENDENT-REVIEW.md": {
+      "sha256": "a9cb29c050ee15651e1f663818e05fff410d8daf9d3d1aebd10c15e89e16bcaa",
+      "bytes": 6383
+    }
+  },
+  "limits": [
+    "No runtime edits",
+    "No full B28 or formal privacy acceptance",
+    "Separate inbox/scheduled alert route residual unchanged",
+    "No provider/bucket/external activation",
+    "No full repository or integrated qualification"
+  ]
+}
