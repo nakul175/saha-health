@@ -1,0 +1,119 @@
+{
+  "source": "8eedc606",
+  "passed": 17,
+  "org": "org_30c656e72d6b7bb6aab861c666834fdd",
+  "personId": "096b2e48-7596-4deb-94a3-d688e496af53",
+  "visitId": "52e62a2f-3342-4b83-9b47-a9e63aed93f7",
+  "team": "ebbb1569-a9d4-49d2-8af3-1d4ab928dba4",
+  "owner": "t-13ba62d3-historical-export-owner",
+  "rows": {
+    "alert_occurrences": [
+      {
+        "org_id": "org_30c656e72d6b7bb6aab861c666834fdd",
+        "id": "3da2ac4b-4d18-4f84-a840-39f284302e71",
+        "alert_id": "referrals-undated",
+        "scope_key": "t-13ba62d3-historical-export-owner",
+        "owner_role": "supervisors",
+        "severity": "normal",
+        "title": "Open referrals without a due date",
+        "opened_at": "2026-10-05T21:41:06.494Z",
+        "closed_at": null,
+        "escalated_at": null,
+        "escalated_to": null,
+        "escalation_reason": null,
+        "escalation_recipients": null
+      },
+      {
+        "org_id": "org_30c656e72d6b7bb6aab861c666834fdd",
+        "id": "9a4011ab-6066-4c98-a373-740ff326f7e3",
+        "alert_id": "incident-critical-open",
+        "scope_key": "org",
+        "owner_role": "operations",
+        "severity": "critical",
+        "title": "Critical incidents not resolved",
+        "opened_at": "2026-10-05T21:41:06.494Z",
+        "closed_at": null,
+        "escalated_at": null,
+        "escalated_to": null,
+        "escalation_reason": null,
+        "escalation_recipients": null
+      }
+    ],
+    "alert_notifications": [
+      {
+        "org_id": "org_30c656e72d6b7bb6aab861c666834fdd",
+        "id": "3a7f2378-b071-44d1-9464-4407659981f2",
+        "occurrence_id": "9a4011ab-6066-4c98-a373-740ff326f7e3",
+        "user_id": "t-13ba62d3-historical-export-owner",
+        "level": 1,
+        "alert_id": "incident-critical-open",
+        "scope_key": "org",
+        "owner_role": "operations",
+        "severity": "critical",
+        "title": "Critical incidents not resolved",
+        "count": 1,
+        "detail": null,
+        "delivered_at": "2026-10-05T21:41:06.494Z",
+        "read_at": null,
+        "cleared_at": null,
+        "cleared_reason": null
+      },
+      {
+        "org_id": "org_30c656e72d6b7bb6aab861c666834fdd",
+        "id": "5b103aa7-7062-480f-9c00-729aa11d22ae",
+        "occurrence_id": "3da2ac4b-4d18-4f84-a840-39f284302e71",
+        "user_id": "t-13ba62d3-historical-export-owner",
+        "level": 1,
+        "alert_id": "referrals-undated",
+        "scope_key": "t-13ba62d3-historical-export-owner",
+        "owner_role": "supervisors",
+        "severity": "normal",
+        "title": "Open referrals without a due date",
+        "count": 1,
+        "detail": null,
+        "delivered_at": "2026-10-05T21:41:06.494Z",
+        "read_at": null,
+        "cleared_at": null,
+        "cleared_reason": null
+      }
+    ],
+    "notification_messages": [
+      {
+        "org_id": "org_30c656e72d6b7bb6aab861c666834fdd",
+        "id": "31c03b28-c8b0-4b2a-aa14-fc91e75f5524",
+        "occurrence_id": "3da2ac4b-4d18-4f84-a840-39f284302e71",
+        "alert_id": "referrals-undated",
+        "scope_key": "t-13ba62d3-historical-export-owner",
+        "tier": 1,
+        "rung": 0,
+        "user_id": "t-13ba62d3-historical-export-owner",
+        "channel": "email",
+        "reason": "first",
+        "severity": "normal",
+        "title": "Open referrals without a due date",
+        "count": 1,
+        "subject": "Saha normal alert: Open referrals without a due date",
+        "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-FF1C89\nThis message carries no patient names or identifiers.",
+        "link": "/?view=operations",
+        "address": "demo-67465081@simulator.invalid",
+        "status": "simulated-delivered",
+        "receipt": "{\"receiptId\":\"SIM-04580F66\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-67465081@simulator.invalid\",\"at\":\"2026-10-05T21:41:06.520Z\"}",
+        "due_at": "2026-10-05T21:41:06.494Z",
+        "sent_at": "2026-10-05T21:41:06.520Z",
+        "audit_id": "e4e347ed-70d4-46c5-84ec-cb0d216c2391",
+        "config_version": 1
+      }
+    ]
+  },
+  "sourceRows": [
+    {
+      "org_id": "org_30c656e72d6b7bb6aab861c666834fdd",
+      "id": "52e62a2f-3342-4b83-9b47-a9e63aed93f7",
+      "person_id": "096b2e48-7596-4deb-94a3-d688e496af53",
+      "version": 3,
+      "record_version": 3,
+      "state": "confirmed",
+      "data": "{\"id\":\"52e62a2f-3342-4b83-9b47-a9e63aed93f7\",\"personId\":\"096b2e48-7596-4deb-94a3-d688e496af53\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-05T21:41\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"55\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic individual care evidence\",\"source\":\"reported\"},\"createdAt\":\"2026-10-05T21:41:06.432Z\",\"recordVersion\":3,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-13ba62d3-historical-export-owner\",\"name\":\"historical-export-owner-13ba62d3@example.invalid\",\"accountCode\":\"890FC22276657746E38082AA\",\"role\":\"clinician\",\"at\":\"2026-10-05T21:41:06.451Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-13ba62d3-historical-export-owner\",\"name\":\"historical-export-owner-13ba62d3@example.invalid\",\"accountCode\":\"890FC22276657746E38082AA\",\"role\":\"clinician\",\"at\":\"2026-10-05T21:41:06.451Z\"}},\"patientCheck\":{\"personId\":\"096b2e48-7596-4deb-94a3-d688e496af53\",\"personVersion\":2,\"by\":\"t-13ba62d3-historical-export-owner\",\"at\":\"2026-10-05T21:41:06.472Z\"},\"confirmedAt\":\"2026-10-05T21:41:06.472Z\"}"
+    }
+  ]
+}

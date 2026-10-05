@@ -1,0 +1,21 @@
+{"event":"saha_request","requestId":"89bdda24-5edf-4fdd-a81e-7bab789929fe","route":"alerts","status":200,"durationMs":33}
+{"event":"saha_request","requestId":"6f83f2b4-3e96-42f3-b6b8-d522944ca391","route":"data-exit","status":200,"durationMs":37}
+{"event":"saha_request","requestId":"d9f5930a-5d7f-4a15-8adc-4024cbe23392","route":"commands","status":422,"durationMs":11}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"An owner cannot narrow their own scope here."}
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:2:471)
+    at cmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:3:388)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:5:1621 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
