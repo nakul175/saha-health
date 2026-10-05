@@ -1,4 +1,5 @@
 'use client';
+import { unresolvedDisputes } from '@/lib/saha/verification-disputes';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +13,7 @@ export function FactVerificationPanel({v,data,busy,command}:{v:Visit;data:Snapsh
  const canReview=data.role==='clinician'&&v.state==='confirmed'&&!v.voidedAt&&!v.supersededBy;
  const send=async(m:Measure,decision:'verified'|'disputed')=>{const ok=await command({type:'verifyFact',visitId:v.id,recordVersion:v.recordVersion,measure:m,decision,...(decision==='disputed'?{reason:reason.trim()}:{})},decision==='verified'?`${MEASURE_LABEL[m]} verified`:`${MEASURE_LABEL[m]} disputed`);if(ok){setDisputing(null);setReason('');}};
  return <div className="notes-box fact-verification" data-testid="fact-verification"><span>Who recorded each measurement · verification</span>
+  {unresolvedDisputes(v).some(d=>d.verification)&&<p className="notice amber-notice">A disputed verification holds sending to destinations that carry the item. Verification does not clear an open hold; an independent clinician records a resolution in Disputes.</p>}
   {measures.map(m=>{const a=v.factAuthors?.[m],r=factReview(v,m),own=a?.userId===data.user.userId;
    return <div key={m} className="fact-review-row"><p><strong>{MEASURE_LABEL[m]}</strong> · Recorded by: {authorText(a)} · Verification: {reviewText(r)}</p>
     {canReview&&!own&&<div className="flex flex-wrap gap-2">{r?.state!=='verified'&&<Button size="sm" variant="outline" disabled={busy} onClick={()=>void send(m,'verified')}>Verify {MEASURE_LABEL[m].toLowerCase()}</Button>}{r?.state!=='disputed'&&disputing!==m&&<Button size="sm" variant="outline" disabled={busy} onClick={()=>{setDisputing(m);setReason('');}}>Dispute {MEASURE_LABEL[m].toLowerCase()}</Button>}</div>}

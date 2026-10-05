@@ -65,9 +65,10 @@ export type SignOff={id:string;by:string;byName:string;accountCode:string;role:R
 // Slice 10g (BR-DATA-02): an enforced dispute on one confirmed fact, note or programme answer (target 'fact:<measure>',
 // 'notes' or 'answer:<question id>'), appended with its reason and reference and never edited. It blocks every send that
 // would carry the target until a clinician appends a resolution (the dispute itself stays). contentHash binds the dispute
-// to the content disputed. A sign-off withdrawal is appended the same way and leaves the sign-off it withdraws unchanged.
-export type Dispute={id:string;target:string;reason:string;reference:string;by:string;byName:string;accountCode:string;role:Role;at:string;visitVersion:number;contentHash:string;valueText:string;carriedFrom?:string};
-export type DisputeResolution={id:string;disputeId:string;outcome:'stands'|'corrected';by:string;byName:string;accountCode:string;at:string;evidence:string;reference?:string};
+// to the content disputed; an explicitly legacy-unbound verification hold uses an empty hash, never an invented
+// historical binding. Its resolution records a new current hash. A sign-off withdrawal is appended the same way and leaves the sign-off it withdraws unchanged.
+export type Dispute={id:string;target:string;reason:string;reference:string;by:string;byName:string;accountCode:string;role:Role;at:string;visitVersion:number;contentHash:string;valueText:string;carriedFrom?:string;verification?:{reviewId:string;binding:'exact-content'|'legacy-unbound';carryContent?:string;recorderIds?:string[]}};
+export type DisputeResolution={id:string;disputeId:string;outcome:'stands'|'corrected';by:string;byName:string;accountCode:string;at:string;evidence:string;reference?:string;currentContentHash?:string};
 export type SignOffWithdrawal={id:string;signOffId:string;by:string;byName:string;accountCode:string;role:Role;at:string;reason:string;delegationId?:string};
 // Slice 10g: a send stopped by an open dispute or by sign-off after its delivery checkpoint was stored (closed as not sent).
 export type SendBlockRecord={kind:'dispute'|'sign-off';stage:'checkpoint';at:string;disputeIds?:string[]};

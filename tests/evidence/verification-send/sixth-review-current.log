@@ -1,0 +1,16 @@
+node:fs:484
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: 1 programme code reads answers through own(): ENOENT: no such file or directory, open 'verification-disputes'
+    at readFileSync (node:fs:484:20)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-send-discovery/tests/.verification-current-242ac9fb-b02e-439b-9bbe-d03b6ad74713.mjs:83:321
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-send-discovery/tests/.verification-current-242ac9fb-b02e-439b-9bbe-d03b6ad74713.mjs:23:37)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-send-discovery/tests/.verification-current-242ac9fb-b02e-439b-9bbe-d03b6ad74713.mjs:83:5 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'verification-disputes'
+}
+
+Node.js v24.19.0

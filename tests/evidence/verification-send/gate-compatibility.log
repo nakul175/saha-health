@@ -1,0 +1,94 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: requirement: default off and organisation default: G.signOffRequirement is not a function
+requirement: programme rules: G.signOffRequirement is not a function
+requirement: destination rule wins both ways: G.signOffRequirement is not a function
+setSignOffRules applies, keeps the default, shares the version: G.signOffPolicy is not a function
+raiseDispute appends, audits and changes nothing else: G.openDisputes is not a function
+resolveDispute refusals: G.openDisputes is not a function
+resolveDispute standing: appended evidence, dispute kept: G.resolutionOf is not a function
+resolveDispute: content bound: G.openDisputes is not a function
+withdrawSignOff appends, keeps the sign-off, holds sending: G.currentSignOff is not a function
+carries: what each destination would send: G.carries is not a function
+a member outside the patient’s care scope is told only that sending is blocked: G.ensureCanSend is not a function
+
+undefined !== 409
+
+prepareAgent and executeAgent stop on an open dispute; without one they pass: G.ensureCanSend is not a function
+preparePlan, approvePlan and executePlan stop on a carried dispute with its reason: G.ensureCanSend is not a function
+
+undefined !== 409
+
+several disputes are all counted; EHR preparation stops; a completed plan is idempotent: G.ensureCanSend is not a function
+
+undefined !== 409
+
+executePlan applies the rule of each destination: G.ensureCanSend is not a function
+
+undefined !== 409
+
++ actual - expected
+
++ [
++   'requirement: default off and organisation default: G.signOffRequirement is not a function',
++   'requirement: programme rules: G.signOffRequirement is not a function',
++   'requirement: destination rule wins both ways: G.signOffRequirement is not a function',
++   'setSignOffRules applies, keeps the default, shares the version: G.signOffPolicy is not a function',
++   'raiseDispute appends, audits and changes nothing else: G.openDisputes is not a function',
++   'resolveDispute refusals: G.openDisputes is not a function',
++   'resolveDispute standing: appended evidence, dispute kept: G.resolutionOf is not a function',
++   'resolveDispute: content bound: G.openDisputes is not a function',
++   'withdrawSignOff appends, keeps the sign-off, holds sending: G.currentSignOff is not a function',
++   'carries: what each destination would send: G.carries is not a function',
++   'a member outside the patient’s care scope is told only that sending is blocked: G.ensureCanSend is not a function\n' +
++     '\n' +
++     'undefined !== 409\n',
++   'prepareAgent and executeAgent stop on an open dispute; without one they pass: G.ensureCanSend is not a function',
++   'preparePlan, approvePlan and executePlan stop on a carried dispute with its reason: G.ensureCanSend is not a function\n' +
++     '\n' +
++     'undefined !== 409\n',
++   'several disputes are all counted; EHR preparation stops; a completed plan is idempotent: G.ensureCanSend is not a function\n' +
++     '\n' +
++     'undefined !== 409\n',
++   'executePlan applies the rule of each destination: G.ensureCanSend is not a function\n' +
++     '\n' +
++     'undefined !== 409\n'
++ ]
+- []
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-send-discovery/tests/.verification-current-9585fcf8-87b6-4c6f-a9e3-3e86ba331464.mjs:397:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'requirement: default off and organisation default: G.signOffRequirement is not a function',
+    'requirement: programme rules: G.signOffRequirement is not a function',
+    'requirement: destination rule wins both ways: G.signOffRequirement is not a function',
+    'setSignOffRules applies, keeps the default, shares the version: G.signOffPolicy is not a function',
+    'raiseDispute appends, audits and changes nothing else: G.openDisputes is not a function',
+    'resolveDispute refusals: G.openDisputes is not a function',
+    'resolveDispute standing: appended evidence, dispute kept: G.resolutionOf is not a function',
+    'resolveDispute: content bound: G.openDisputes is not a function',
+    'withdrawSignOff appends, keeps the sign-off, holds sending: G.currentSignOff is not a function',
+    'carries: what each destination would send: G.carries is not a function',
+    'a member outside the patient’s care scope is told only that sending is blocked: G.ensureCanSend is not a function\n' +
+      '\n' +
+      'undefined !== 409\n',
+    'prepareAgent and executeAgent stop on an open dispute; without one they pass: G.ensureCanSend is not a function',
+    'preparePlan, approvePlan and executePlan stop on a carried dispute with its reason: G.ensureCanSend is not a function\n' +
+      '\n' +
+      'undefined !== 409\n',
+    'several disputes are all counted; EHR preparation stops; a completed plan is idempotent: G.ensureCanSend is not a function\n' +
+      '\n' +
+      'undefined !== 409\n',
+    'executePlan applies the rule of each destination: G.ensureCanSend is not a function\n' +
+      '\n' +
+      'undefined !== 409\n'
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

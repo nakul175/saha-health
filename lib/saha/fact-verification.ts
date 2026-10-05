@@ -1,3 +1,4 @@
+import { appendVerificationDispute, retainVerificationHolds } from './verification-disputes';
 import { z } from 'zod';
 import { fail, person, uuid, visit } from './core';
 import { allowed } from './access';
@@ -38,10 +39,12 @@ export function applyFactReview(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
  if((v.factAuthors?.[c.measure]?.userId??v.patientCheck?.by)===u.userId)fail(403,'A different clinician must verify or dispute a measurement you recorded.');
  if(factReview(v,c.measure)?.state===c.decision)fail(409,`${label} is already ${c.decision}.`);
  if((v.factReviews?.length??0)>=100)fail(422,'Measurement review limit reached for this visit.');
+ retainVerificationHolds(v);
  const r:FactReview={id:uuid(),measure:c.measure,state:c.decision,by:u.userId,byName:u.displayName,at:now,...(c.reason?{reason:c.reason}:{})};
  (v.factReviews??=[]).push(r);
- s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:v.id,personId:v.personId,detail:`${label} ${c.decision} by a clinician on a confirmed visit; facts unchanged.${c.reason?` Reason: ${c.reason}`:''}`});
- return {reviewId:r.id,measure:r.measure,state:r.state};
+ const finish=()=>{s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:v.id,personId:v.personId,detail:`${label} ${c.decision} by a clinician on a confirmed visit; facts unchanged.${c.reason?` Reason: ${c.reason}`:''}`});
+ return {reviewId:r.id,measure:r.measure,state:r.state};};
+ return r.state==='disputed'?appendVerificationDispute(v,r,'fact:'+r.measure,u,m).then(finish):finish();
 }
 // Slice 2i: the clinician confirmation is bound to one override (value, unit entry and reason). It is appended to the
 // visit and audited; facts and the visit version do not change, so the recorder's open draft stays current.

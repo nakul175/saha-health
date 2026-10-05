@@ -1,0 +1,464 @@
+{
+  "source": "a8db3e2f6fe06fd4dec07e1b504c0a4b7e8e7973",
+  "witnesses": [
+    {
+      "target": "fact:weight",
+      "visitId": "79e2b4b9-b96f-4339-bc39-14bed6b700fa",
+      "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+      "verified": {
+        "reviewId": "58531da9-f755-4a95-8cee-98a56e4240d7",
+        "measure": "weight",
+        "state": "verified"
+      },
+      "disputed": {
+        "reviewId": "04cb0be1-f40d-4c03-951d-617e7bd918f7",
+        "measure": "weight",
+        "state": "disputed"
+      },
+      "currentFactReviews": [
+        {
+          "id": "58531da9-f755-4a95-8cee-98a56e4240d7",
+          "measure": "weight",
+          "state": "verified",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:03.612Z",
+          "reason": "Synthetic conflicting independent measurement evidence"
+        },
+        {
+          "id": "04cb0be1-f40d-4c03-951d-617e7bd918f7",
+          "measure": "weight",
+          "state": "disputed",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:03.669Z",
+          "reason": "Synthetic conflicting independent measurement evidence"
+        },
+        {
+          "id": "5519d11a-8900-4215-b2d2-f92e92a76457",
+          "measure": "weight",
+          "state": "verified",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:03.689Z",
+          "reason": "Synthetic conflicting independent measurement evidence"
+        }
+      ],
+      "currentEntryReviews": [],
+      "explicitDisputes": [
+        {
+          "id": "45691e6b-fe72-404b-8d88-c2d36a96c011",
+          "target": "fact:weight",
+          "reason": "Synthetic conflicting independent measurement evidence",
+          "reference": "Verification review 04cb0be1-f40d-4c03-951d-617e7bd918f7",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "accountCode": "D9FE21068B7694A03E1EF6CB",
+          "role": "clinician",
+          "at": "2026-10-05T20:19:03.669Z",
+          "visitVersion": 4,
+          "contentHash": "e246e21b14826524d3208d274c811f8257659bf8e4db5beb045e0f6e4e4dd0d8",
+          "valueText": "55",
+          "verification": {
+            "reviewId": "04cb0be1-f40d-4c03-951d-617e7bd918f7",
+            "binding": "exact-content",
+            "recorderIds": [
+              "t-50959db6-verification-source-recorder"
+            ]
+          }
+        }
+      ],
+      "carryingDestination": "mis_community",
+      "destinationMode": "demo",
+      "newDispute": {
+        "id": "45691e6b-fe72-404b-8d88-c2d36a96c011",
+        "target": "fact:weight",
+        "reason": "Synthetic conflicting independent measurement evidence",
+        "reference": "Verification review 04cb0be1-f40d-4c03-951d-617e7bd918f7",
+        "by": "t-4a5e6c5a-verification-source-reviewer",
+        "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+        "accountCode": "D9FE21068B7694A03E1EF6CB",
+        "role": "clinician",
+        "at": "2026-10-05T20:19:03.669Z",
+        "visitVersion": 4,
+        "contentHash": "e246e21b14826524d3208d274c811f8257659bf8e4db5beb045e0f6e4e4dd0d8",
+        "valueText": "55",
+        "verification": {
+          "reviewId": "04cb0be1-f40d-4c03-951d-617e7bd918f7",
+          "binding": "exact-content",
+          "recorderIds": [
+            "t-50959db6-verification-source-recorder"
+          ]
+        }
+      },
+      "resolution": {
+        "resolutionId": "db845189-bf9e-4ee0-b3eb-f3f0763ad2d0",
+        "disputeId": "45691e6b-fe72-404b-8d88-c2d36a96c011",
+        "outcome": "stands"
+      },
+      "submissionBeforeLookup": {
+        "id": "c011747a-331e-4fcd-8eb5-dbc05694258f",
+        "visitId": "79e2b4b9-b96f-4339-bc39-14bed6b700fa",
+        "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "uncertain",
+        "mode": "demo",
+        "payloadHash": "33ea6f1bf50ba5d4654715470e87b62060a8f5124986e234ba53f7b0b23b7712",
+        "attempts": 1,
+        "message": "Simulator stored the record, but its response was lost. Look up the receipt; do not resend.",
+        "createdAt": "2026-10-05T20:19:03.655Z",
+        "updatedAt": "2026-10-05T20:19:03.655Z",
+        "trace": [
+          {
+            "at": "2026-10-05T20:19:03.655Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "cb79c55f-fd50-4ef5-9271-1e1bb2f7aaf0",
+              "actorId": "t-50959db6-verification-source-recorder",
+              "auditId": "3589f2e0-90d6-4d0c-9ff0-eb8f0b15af35"
+            }
+          }
+        ]
+      },
+      "submissionAfterLookup": {
+        "id": "c011747a-331e-4fcd-8eb5-dbc05694258f",
+        "visitId": "79e2b4b9-b96f-4339-bc39-14bed6b700fa",
+        "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "accepted",
+        "mode": "demo",
+        "payloadHash": "33ea6f1bf50ba5d4654715470e87b62060a8f5124986e234ba53f7b0b23b7712",
+        "attempts": 1,
+        "message": "Receipt found by lookup. The visit was not sent again.",
+        "createdAt": "2026-10-05T20:19:03.655Z",
+        "updatedAt": "2026-10-05T20:19:03.720Z",
+        "trace": [
+          {
+            "at": "2026-10-05T20:19:03.655Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "cb79c55f-fd50-4ef5-9271-1e1bb2f7aaf0",
+              "actorId": "t-50959db6-verification-source-recorder",
+              "auditId": "3589f2e0-90d6-4d0c-9ff0-eb8f0b15af35"
+            }
+          }
+        ],
+        "receipt": "SIM-C011747A"
+      },
+      "clinicalContentUnchanged": true
+    },
+    {
+      "target": "notes",
+      "visitId": "710d2e97-29d7-4111-be48-c8a1eaa98f9a",
+      "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+      "verified": {
+        "reviewId": "761c4499-b29c-4e48-bed4-1171256e63a4",
+        "entry": "notes",
+        "state": "verified"
+      },
+      "disputed": {
+        "reviewId": "8ea0fc66-a1d1-4ed2-83de-4cdc879925b8",
+        "entry": "notes",
+        "state": "disputed"
+      },
+      "currentFactReviews": [],
+      "currentEntryReviews": [
+        {
+          "id": "761c4499-b29c-4e48-bed4-1171256e63a4",
+          "entry": "notes",
+          "state": "verified",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:03.844Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        },
+        {
+          "id": "8ea0fc66-a1d1-4ed2-83de-4cdc879925b8",
+          "entry": "notes",
+          "state": "disputed",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:03.911Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        },
+        {
+          "id": "199b49db-a989-4da0-b015-50a20a98b995",
+          "entry": "notes",
+          "state": "verified",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:03.935Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        }
+      ],
+      "explicitDisputes": [
+        {
+          "id": "fc77fba3-c468-45d1-8821-49b1179754c9",
+          "target": "notes",
+          "reason": "Synthetic conflicting independent entry evidence",
+          "reference": "Verification review 8ea0fc66-a1d1-4ed2-83de-4cdc879925b8",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "accountCode": "D9FE21068B7694A03E1EF6CB",
+          "role": "clinician",
+          "at": "2026-10-05T20:19:03.911Z",
+          "visitVersion": 4,
+          "contentHash": "de9144e61e57cc3ae288dc1930488dc14d28026be033f27b9a16379d32c68e6d",
+          "valueText": "Synthetic independently reviewed note evidence",
+          "verification": {
+            "reviewId": "8ea0fc66-a1d1-4ed2-83de-4cdc879925b8",
+            "binding": "exact-content",
+            "recorderIds": [
+              "t-50959db6-verification-source-recorder"
+            ]
+          }
+        }
+      ],
+      "carryingDestination": "mis_community",
+      "destinationMode": "demo",
+      "newDispute": {
+        "id": "fc77fba3-c468-45d1-8821-49b1179754c9",
+        "target": "notes",
+        "reason": "Synthetic conflicting independent entry evidence",
+        "reference": "Verification review 8ea0fc66-a1d1-4ed2-83de-4cdc879925b8",
+        "by": "t-4a5e6c5a-verification-source-reviewer",
+        "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+        "accountCode": "D9FE21068B7694A03E1EF6CB",
+        "role": "clinician",
+        "at": "2026-10-05T20:19:03.911Z",
+        "visitVersion": 4,
+        "contentHash": "de9144e61e57cc3ae288dc1930488dc14d28026be033f27b9a16379d32c68e6d",
+        "valueText": "Synthetic independently reviewed note evidence",
+        "verification": {
+          "reviewId": "8ea0fc66-a1d1-4ed2-83de-4cdc879925b8",
+          "binding": "exact-content",
+          "recorderIds": [
+            "t-50959db6-verification-source-recorder"
+          ]
+        }
+      },
+      "resolution": {
+        "resolutionId": "3556df8d-b443-45d8-9511-81e904350c4b",
+        "disputeId": "fc77fba3-c468-45d1-8821-49b1179754c9",
+        "outcome": "stands"
+      },
+      "submissionBeforeLookup": {
+        "id": "a892bcf4-d309-48ab-b531-cd0b9443df76",
+        "visitId": "710d2e97-29d7-4111-be48-c8a1eaa98f9a",
+        "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "uncertain",
+        "mode": "demo",
+        "payloadHash": "f988dc234d10a0ab70c050c241a8536851822fdf0bea4b3ec5dd7e5aa1b74363",
+        "attempts": 1,
+        "message": "Simulator stored the record, but its response was lost. Look up the receipt; do not resend.",
+        "createdAt": "2026-10-05T20:19:03.892Z",
+        "updatedAt": "2026-10-05T20:19:03.892Z",
+        "trace": [
+          {
+            "at": "2026-10-05T20:19:03.892Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "83f72daf-c792-4025-89ca-0671b8ffbc0b",
+              "actorId": "t-50959db6-verification-source-recorder",
+              "auditId": "76179467-a2e8-42ba-a081-6cb7becc72c5"
+            }
+          }
+        ]
+      },
+      "submissionAfterLookup": {
+        "id": "a892bcf4-d309-48ab-b531-cd0b9443df76",
+        "visitId": "710d2e97-29d7-4111-be48-c8a1eaa98f9a",
+        "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "accepted",
+        "mode": "demo",
+        "payloadHash": "f988dc234d10a0ab70c050c241a8536851822fdf0bea4b3ec5dd7e5aa1b74363",
+        "attempts": 1,
+        "message": "Receipt found by lookup. The visit was not sent again.",
+        "createdAt": "2026-10-05T20:19:03.892Z",
+        "updatedAt": "2026-10-05T20:19:03.972Z",
+        "trace": [
+          {
+            "at": "2026-10-05T20:19:03.892Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "83f72daf-c792-4025-89ca-0671b8ffbc0b",
+              "actorId": "t-50959db6-verification-source-recorder",
+              "auditId": "76179467-a2e8-42ba-a081-6cb7becc72c5"
+            }
+          }
+        ],
+        "receipt": "SIM-A892BCF4"
+      },
+      "clinicalContentUnchanged": true
+    },
+    {
+      "target": "answer:testing",
+      "visitId": "aacc8f81-4348-4068-83d7-1e8878d5bfbd",
+      "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+      "verified": {
+        "reviewId": "09a20a2a-2fc3-46d1-94a3-3adbda78622c",
+        "entry": "answer:testing",
+        "state": "verified"
+      },
+      "disputed": {
+        "reviewId": "f35f6d41-850c-4f8f-998a-a7413969bdf7",
+        "entry": "answer:testing",
+        "state": "disputed"
+      },
+      "currentFactReviews": [],
+      "currentEntryReviews": [
+        {
+          "id": "09a20a2a-2fc3-46d1-94a3-3adbda78622c",
+          "entry": "answer:testing",
+          "state": "verified",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:04.099Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        },
+        {
+          "id": "f35f6d41-850c-4f8f-998a-a7413969bdf7",
+          "entry": "answer:testing",
+          "state": "disputed",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:04.177Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        },
+        {
+          "id": "51b4c5e4-f7f3-4bce-a7ce-34daac549721",
+          "entry": "answer:testing",
+          "state": "verified",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "at": "2026-10-05T20:19:04.197Z",
+          "reason": "Synthetic conflicting independent entry evidence"
+        }
+      ],
+      "explicitDisputes": [
+        {
+          "id": "fd1f6486-959f-431a-8eb6-89b77205c4fe",
+          "target": "answer:testing",
+          "reason": "Synthetic conflicting independent entry evidence",
+          "reference": "Verification review f35f6d41-850c-4f8f-998a-a7413969bdf7",
+          "by": "t-4a5e6c5a-verification-source-reviewer",
+          "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+          "accountCode": "D9FE21068B7694A03E1EF6CB",
+          "role": "clinician",
+          "at": "2026-10-05T20:19:04.177Z",
+          "visitVersion": 4,
+          "contentHash": "1b99337ed7dffb10392933796a168aafaa278554d8694f8ae9ea9245089726e6",
+          "valueText": "No",
+          "verification": {
+            "reviewId": "f35f6d41-850c-4f8f-998a-a7413969bdf7",
+            "binding": "exact-content",
+            "recorderIds": [
+              "t-50959db6-verification-source-recorder"
+            ]
+          }
+        }
+      ],
+      "carryingDestination": "mis_community",
+      "destinationMode": "demo",
+      "newDispute": {
+        "id": "fd1f6486-959f-431a-8eb6-89b77205c4fe",
+        "target": "answer:testing",
+        "reason": "Synthetic conflicting independent entry evidence",
+        "reference": "Verification review f35f6d41-850c-4f8f-998a-a7413969bdf7",
+        "by": "t-4a5e6c5a-verification-source-reviewer",
+        "byName": "verification-source-reviewer-4a5e6c5a@example.invalid",
+        "accountCode": "D9FE21068B7694A03E1EF6CB",
+        "role": "clinician",
+        "at": "2026-10-05T20:19:04.177Z",
+        "visitVersion": 4,
+        "contentHash": "1b99337ed7dffb10392933796a168aafaa278554d8694f8ae9ea9245089726e6",
+        "valueText": "No",
+        "verification": {
+          "reviewId": "f35f6d41-850c-4f8f-998a-a7413969bdf7",
+          "binding": "exact-content",
+          "recorderIds": [
+            "t-50959db6-verification-source-recorder"
+          ]
+        }
+      },
+      "resolution": {
+        "resolutionId": "079e3218-97c1-4548-8a75-d224a0f94bcd",
+        "disputeId": "fd1f6486-959f-431a-8eb6-89b77205c4fe",
+        "outcome": "stands"
+      },
+      "submissionBeforeLookup": {
+        "id": "ce1670f9-1d54-48f4-a349-0d6884de2408",
+        "visitId": "aacc8f81-4348-4068-83d7-1e8878d5bfbd",
+        "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "uncertain",
+        "mode": "demo",
+        "payloadHash": "c862f74b242d11e403774a28e08941eb22a3f1279a5e5bfeb409716aabbfe62c",
+        "attempts": 1,
+        "message": "Simulator stored the record, but its response was lost. Look up the receipt; do not resend.",
+        "createdAt": "2026-10-05T20:19:04.148Z",
+        "updatedAt": "2026-10-05T20:19:04.148Z",
+        "trace": [
+          {
+            "at": "2026-10-05T20:19:04.148Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "9e68c7fe-22b0-44ee-a6c3-9e60ed94821c",
+              "actorId": "t-50959db6-verification-source-recorder",
+              "auditId": "c58544be-126e-4e8a-9d24-e125980cde8a"
+            }
+          }
+        ]
+      },
+      "submissionAfterLookup": {
+        "id": "ce1670f9-1d54-48f4-a349-0d6884de2408",
+        "visitId": "aacc8f81-4348-4068-83d7-1e8878d5bfbd",
+        "personId": "18e11ff3-213d-4fcb-98e6-0dd287d44365",
+        "connectorId": "mis_community",
+        "connectorName": "Community health MIS",
+        "state": "accepted",
+        "mode": "demo",
+        "payloadHash": "c862f74b242d11e403774a28e08941eb22a3f1279a5e5bfeb409716aabbfe62c",
+        "attempts": 1,
+        "message": "Receipt found by lookup. The visit was not sent again.",
+        "createdAt": "2026-10-05T20:19:04.148Z",
+        "updatedAt": "2026-10-05T20:19:04.233Z",
+        "trace": [
+          {
+            "at": "2026-10-05T20:19:04.148Z",
+            "state": "uncertain",
+            "attempt": 1,
+            "ref": {
+              "command": "executePlan",
+              "key": "9e68c7fe-22b0-44ee-a6c3-9e60ed94821c",
+              "actorId": "t-50959db6-verification-source-recorder",
+              "auditId": "c58544be-126e-4e8a-9d24-e125980cde8a"
+            }
+          }
+        ],
+        "receipt": "SIM-CE1670F9"
+      },
+      "clinicalContentUnchanged": true
+    }
+  ],
+  "currentVerificationHolds": true,
+  "externalMessages": 0,
+  "limitation": "Demonstration destination executes locally; no real provider send or acceptance. Before-gap is current verification-dispute omission, not clinical approval."
+}

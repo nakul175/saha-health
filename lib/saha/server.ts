@@ -224,7 +224,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   const packMigration=await applyProgrammeMigration(state,c,u,m);
   // Slice 4f: governed installation of programme pack versions (stage, independent review, activation, retirement).
   const packInstall=await applyRangeProtocol(state,c,u,m,environmentOf(rawRuntime()).name)??await applyPackInstallation(state,c,u,m);
-  const factReview=applyFactReview(state,c,u,m);
+  const factReview=await applyFactReview(state,c,u,m);
   // Slice 2g: reviews of notes and programme answers, supervisor sign-off and the owner's sign-off policy.
   const signOff=await applySignOff(state,c,u,m);
   const patientImport=await applyPatientImport(state,c,u,m,rawRuntime());

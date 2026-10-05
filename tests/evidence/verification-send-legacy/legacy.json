@@ -1,0 +1,218 @@
+{
+  "fixture": "Synthetic pre-upgrade visit row seeded explicitly; no claimed old content binding",
+  "originalReview": [
+    {
+      "id": "synthetic-retained-unbound-review",
+      "measure": "weight",
+      "state": "disputed",
+      "by": "t-ce5ee69c-verification-source-reviewer",
+      "byName": "Synthetic retained reviewer",
+      "at": "2026-10-05T20:17:30.093Z",
+      "reason": "Synthetic pre-upgrade disputed measurement"
+    }
+  ],
+  "current": {
+    "id": "synthetic-pre-upgrade-c392f773-8f10-41f2-b75c-850169373f0d",
+    "personId": "4ef51431-1d4b-4dd7-a2f1-3627d3345a9d",
+    "version": 1,
+    "state": "confirmed",
+    "facts": {
+      "date": "2026-10-05T20:17",
+      "systolic": "",
+      "diastolic": "",
+      "weight": "55",
+      "temperature": "",
+      "weeks": "",
+      "coughDays": "",
+      "notes": "Synthetic independently reviewed note evidence",
+      "source": "reported"
+    },
+    "createdAt": "2026-10-05T20:17:29.086Z",
+    "recordVersion": 4,
+    "programmeCapture": {
+      "packs": [
+        {
+          "enrolmentId": "7ac60553-a358-47bc-80ad-a3e893a8154c",
+          "pack": {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "programme": "TB screening",
+            "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "cough",
+                "label": "Does the person report a cough?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              },
+              {
+                "id": "coughDays",
+                "label": "Cough duration, reported",
+                "unit": "days",
+                "fact": "coughDays",
+                "when": {
+                  "id": "cough",
+                  "value": "Yes"
+                },
+                "required": true
+              },
+              {
+                "id": "testing",
+                "label": "Is a testing follow-up already arranged?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              }
+            ]
+          }
+        }
+      ],
+      "answers": {
+        "testing": "No",
+        "cough": "No"
+      },
+      "absence": {},
+      "savedBy": "t-bd49f3ee-verification-source-recorder",
+      "savedAt": "2026-10-05T20:17:29.135Z"
+    },
+    "noteAuthor": {
+      "userId": "t-bd49f3ee-verification-source-recorder",
+      "name": "verification-source-recorder-bd49f3ee@example.invalid",
+      "accountCode": "EEC30A61E55A70B7A74B4DF5",
+      "role": "clinician",
+      "at": "2026-10-05T20:17:29.105Z"
+    },
+    "factAuthors": {
+      "weight": {
+        "userId": "t-bd49f3ee-verification-source-recorder",
+        "name": "verification-source-recorder-bd49f3ee@example.invalid",
+        "accountCode": "EEC30A61E55A70B7A74B4DF5",
+        "role": "clinician",
+        "at": "2026-10-05T20:17:29.105Z"
+      }
+    },
+    "answerAuthors": {
+      "cough": {
+        "userId": "t-bd49f3ee-verification-source-recorder",
+        "name": "verification-source-recorder-bd49f3ee@example.invalid",
+        "accountCode": "EEC30A61E55A70B7A74B4DF5",
+        "role": "clinician",
+        "at": "2026-10-05T20:17:29.135Z"
+      },
+      "testing": {
+        "userId": "t-bd49f3ee-verification-source-recorder",
+        "name": "verification-source-recorder-bd49f3ee@example.invalid",
+        "accountCode": "EEC30A61E55A70B7A74B4DF5",
+        "role": "clinician",
+        "at": "2026-10-05T20:17:29.135Z"
+      }
+    },
+    "patientCheck": {
+      "personId": "4ef51431-1d4b-4dd7-a2f1-3627d3345a9d",
+      "personVersion": 3,
+      "by": "t-bd49f3ee-verification-source-recorder",
+      "at": "2026-10-05T20:17:29.178Z"
+    },
+    "confirmedAt": "2026-10-05T20:17:29.178Z",
+    "factReviews": [
+      {
+        "id": "synthetic-retained-unbound-review",
+        "measure": "weight",
+        "state": "disputed",
+        "by": "t-ce5ee69c-verification-source-reviewer",
+        "byName": "Synthetic retained reviewer",
+        "at": "2026-10-05T20:17:30.093Z",
+        "reason": "Synthetic pre-upgrade disputed measurement"
+      },
+      {
+        "id": "6725579d-a110-4a50-a33a-01065e197fd6",
+        "measure": "weight",
+        "state": "verified",
+        "by": "t-ce5ee69c-verification-source-reviewer",
+        "byName": "verification-source-reviewer-ce5ee69c@example.invalid",
+        "at": "2026-10-05T20:17:30.124Z"
+      },
+      {
+        "id": "441b2f47-184d-425a-8bb0-77dfa65e083d",
+        "measure": "weight",
+        "state": "disputed",
+        "by": "t-ce5ee69c-verification-source-reviewer",
+        "byName": "verification-source-reviewer-ce5ee69c@example.invalid",
+        "at": "2026-10-05T20:17:30.409Z",
+        "reason": "Synthetic durable review audit failure"
+      }
+    ],
+    "disputes": [
+      {
+        "id": "verification:synthetic-retained-unbound-review",
+        "target": "fact:weight",
+        "reason": "Synthetic pre-upgrade disputed measurement",
+        "reference": "Verification review synthetic-retained-unbound-review",
+        "by": "t-ce5ee69c-verification-source-reviewer",
+        "byName": "Synthetic retained reviewer",
+        "accountCode": "not-recorded",
+        "role": "clinician",
+        "at": "2026-10-05T20:17:30.093Z",
+        "visitVersion": 1,
+        "contentHash": "",
+        "valueText": "Original reviewed content was not bound",
+        "verification": {
+          "reviewId": "synthetic-retained-unbound-review",
+          "binding": "legacy-unbound",
+          "recorderIds": [
+            "t-bd49f3ee-verification-source-recorder"
+          ]
+        }
+      },
+      {
+        "id": "7482c2f1-89c0-4042-ab9d-928fdfd7be7b",
+        "target": "fact:weight",
+        "reason": "Synthetic durable review audit failure",
+        "reference": "Verification review 441b2f47-184d-425a-8bb0-77dfa65e083d",
+        "by": "t-ce5ee69c-verification-source-reviewer",
+        "byName": "verification-source-reviewer-ce5ee69c@example.invalid",
+        "accountCode": "BAB55ED16F167573855F5E8C",
+        "role": "clinician",
+        "at": "2026-10-05T20:17:30.409Z",
+        "visitVersion": 1,
+        "contentHash": "e246e21b14826524d3208d274c811f8257659bf8e4db5beb045e0f6e4e4dd0d8",
+        "valueText": "55",
+        "verification": {
+          "reviewId": "441b2f47-184d-425a-8bb0-77dfa65e083d",
+          "binding": "exact-content",
+          "recorderIds": [
+            "t-bd49f3ee-verification-source-recorder"
+          ]
+        }
+      }
+    ],
+    "disputeResolutions": [
+      {
+        "id": "dcc4273b-1f03-415f-a825-f77560ecaeaa",
+        "disputeId": "verification:synthetic-retained-unbound-review",
+        "outcome": "stands",
+        "by": "t-3ba54849-verification-independent-resolver",
+        "byName": "verification-independent-resolver-3ba54849@example.invalid",
+        "accountCode": "5BE116B5C7C5D8EB05ABF4D7",
+        "at": "2026-10-05T20:17:30.163Z",
+        "evidence": "Synthetic explicit independent current content attestation",
+        "currentContentHash": "e246e21b14826524d3208d274c811f8257659bf8e4db5beb045e0f6e4e4dd0d8"
+      }
+    ],
+    "aiResults": []
+  },
+  "faultStatus": 503
+}

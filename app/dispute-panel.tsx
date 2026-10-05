@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { allDisputes } from '@/lib/saha/verification-disputes';
 import { disputeLabel, disputeTargets, resolutionOf } from '@/lib/saha/send-gate';
 import { PROGRAMMES, type Dispute, type Integration, type Person, type Snapshot, type Visit } from '@/lib/saha/types';
 type Command=(c:any,s?:string)=>Promise<any>;
@@ -14,7 +15,7 @@ const name=(v:Visit,target:string)=>disputeLabel(target,v.programmeCapture?.pack
 export function DisputePanel({v,person:p,data,busy,command}:{v:Visit;person:Person;data:Snapshot;busy:boolean;command:Command}){
  const [raising,setRaising]=useState(false),[target,setTarget]=useState(''),[reason,setReason]=useState(''),[reference,setReference]=useState('');
  const [resolving,setResolving]=useState<string|null>(null),[outcome,setOutcome]=useState<'stands'|'corrected'>('stands'),[evidence,setEvidence]=useState(''),[evRef,setEvRef]=useState('');
- const m=data.membership,live=v.state==='confirmed'&&!v.voidedAt&&!v.supersededBy,disputes=v.disputes??[];
+ const m=data.membership,live=v.state==='confirmed'&&!v.voidedAt&&!v.supersededBy,disputes=allDisputes(v);
  if(!live&&!disputes.length)return null;if(v.state!=='confirmed')return null;
  const scoped=m.teamIds.includes(p.teamId)&&(m.role!=='asha'||p.assignedTo===m.userId);
  const canRaise=live&&scoped&&['asha','clinician','supervisor'].includes(m.role),canResolve=live&&scoped&&m.role==='clinician';
@@ -23,11 +24,12 @@ export function DisputePanel({v,person:p,data,busy,command}:{v:Visit;person:Pers
  const resolve=async(d:Dispute)=>{const ok=await command({type:'resolveDispute',visitId:v.id,recordVersion:v.recordVersion,disputeId:d.id,outcome,evidence:evidence.trim(),...(evRef.trim()?{reference:evRef.trim()}:{})},'Dispute resolved. The dispute and your evidence are kept.');if(ok){setResolving(null);setEvidence('');setEvRef('');setOutcome('stands');}};
  return <div className="notes-box" data-testid="disputes"><span>Disputes · an open dispute stops sending</span>
   {live&&open.length>0&&<div className="notice amber-notice" role="status" data-testid="dispute-block">Sending is blocked for {open.length} open dispute{open.length===1?'':'s'}: programme plans and EHR publications that would carry {open.length===1?'this item are':'these items are'} not prepared, approved or run until a clinician resolves {open.length===1?'it':'them'}.</div>}
-  {!live&&<p className="muted text-sm">This visit was corrected or marked as wrong-patient. Its open disputes were carried to the correction draft, where they must be resolved.</p>}
+  {!live&&<p className="muted text-sm">This visit cannot be sent. Its dispute history remains here; a correction retains unresolved review holds for an explicit clinician decision.</p>}
   {disputes.length===0&&<p className="muted text-sm">No disputes on this visit.</p>}
   {disputes.map(d=>{const r=resolutionOf(v,d);
-   return <div key={d.id} className="fact-review-row" data-testid="dispute-row"><p><strong>{name(v,d.target)}</strong>{d.valueText?`: ${d.valueText}`:''} · {r?'Resolved':live?'Open':'Carried to the correction'}</p>
+   return <div key={d.id} className="fact-review-row" data-testid="dispute-row"><p><strong>{name(v,d.target)}</strong>{d.valueText?`: ${d.valueText}`:''} · {r?'Resolved':live?'Open':'Historical hold'}</p>
     <p className="text-sm">Reason: {d.reason} · Reference: {d.reference} · Raised by {d.byName} ({d.role}), {when(d.at)}{d.carriedFrom?' · carried from the corrected visit':''}</p>
+    {d.verification&&<p className="muted text-sm">Verification review hold · {d.verification.binding==='exact-content'?'bound to the exact reviewed content':d.verification.carryContent!==undefined?'original review unbound; correction comparison uses the newly recorded carry-time content':'original reviewed content was not bound; standing resolution explicitly attests current content'}. Later verification does not resolve this hold.</p>}
     {r&&<p className="text-sm">Resolved as {r.outcome==='stands'?'standing as recorded':'corrected'} by {r.byName}, {when(r.at)}: {r.evidence}{r.reference?` (reference: ${r.reference})`:''}. The dispute stays on the record.</p>}
     {!r&&canResolve&&resolving!==d.id&&<Button size="sm" variant="outline" disabled={busy} onClick={()=>{setResolving(d.id);setOutcome('stands');setEvidence('');setEvRef('');}}>Resolve this dispute</Button>}
     {!r&&canResolve&&resolving===d.id&&<form className="grid gap-2" onSubmit={e=>{e.preventDefault();void resolve(d);}}>
