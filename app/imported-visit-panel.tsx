@@ -11,10 +11,13 @@ const FIELD:Record<Measure,ValueField[]>={bloodPressure:['systolic','diastolic']
 const when=(t:string)=>t.replace('T',' ')+' UTC';
 export function ImportedVisitPanel({visit:v,person:p}:{visit:Visit;person:Person}){
  const i=v.imported;if(!i)return null;
+ const withdrawal=p.importedVisitWithdrawals?.find(x=>x.batchId===i.batchId),reviews=(p.importedVisitEvidence??[]).filter(e=>e.visitId===v.id).flatMap(e=>e.reviews);
  const shown=MEASURES.filter(m=>measureValue(v.facts,m)||v.facts.provenance?.[m]);
  return <section className="panel visit-panel imported-visit" aria-labelledby={`imported-${v.id}`} data-testid="imported-visit">
   <div className="section-heading"><div><h2 id={`imported-${v.id}`}><History size={19}/> Imported visit · {when(v.facts.date)}</h2><span className="muted text-sm">{p.name} · historical record, read-only</span></div><span className="tag amber">IMPORTED</span></div>
-  <div className="notice amber-notice" role="note"><div><strong>Imported from {i.sourceSystem}. Not recorded or signed off in Saha.</strong><p>A person imported this visit from a file; no clinician has reviewed or signed it off in Saha. It is not a current observation: measure again in a new visit. It is not sent to programmes, referred, published, summarised by an assistant or counted in indicators.</p></div></div>
+  <div className="notice amber-notice" role="note"><div><strong>Imported from {i.sourceSystem}. Not recorded or signed off in Saha.</strong><p>A person imported this visit from a file; import itself implies no clinician review or sign-off. It is not a current observation: measure again in a new visit. It is not sent to programmes, referred, published, summarised by an assistant or counted in indicators.</p></div></div>
+  {withdrawal&&<p role="status" className="notice amber-notice">WITHDRAWN SOURCE BATCH · {when(withdrawal.at.slice(0,16))}. Original facts, receipts and independently captured care are retained; this source cannot open new linked care.</p>}
+  {reviews.length>0&&<p className="notice">{reviews.length} explicit historical-source review decision(s) retained. These assess source use and overlaps; they do not sign off historical observations as Saha care.</p>}
   <div className="recorded-facts" role="group" aria-label="Import lineage">
    <p><strong>Source system</strong><span>{i.sourceSystem}</span></p>
    <p><strong>Imported by</strong><span>{i.byName} ({ROLE_LABEL[i.role]??i.role}), {when(i.at.slice(0,16))}</span></p>

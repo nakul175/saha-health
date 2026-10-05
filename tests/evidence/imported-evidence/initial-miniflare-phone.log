@@ -1,0 +1,49 @@
+{"event":"saha_request","requestId":"b4fa3083-b4a4-4fba-aac7-1f394930c7cb","route":"workspace","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"fb5467fe-f5c9-4aee-b404-5a4f2a519c1d","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"e5d8a1f3-e9eb-40c7-ab39-1f55cf7ded3d","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"08b0c12b-302e-419f-89ec-941d0dbf697c","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"2d515984-1a90-4da0-857d-067ca65ada07","route":"workspace","status":200,"durationMs":3}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 20000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: 'More', exact: true })[22m
+[2m    - locator resolved to <button disabled>…</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    39 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not enabled[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-evidence/tests/imported-evidence-browser.mjs:2:1624 {
+  log: [
+    "  - waiting for getByRole('button', { name: 'More', exact: true })",
+    '    - locator resolved to <button disabled>…</button>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not enabled',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not enabled',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    39 × waiting for element to be visible, enabled and stable',
+    '       - element is not enabled',
+    '     - retrying click action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

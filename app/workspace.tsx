@@ -68,6 +68,7 @@ import type { WorkRow } from '@/lib/saha/worklists';
 import { FACT_ENTRY_LABEL, factEntryText, selectionForVisit, tidyProvenance, tidyValues } from '@/lib/saha/fact-provenance';
 import { FactVerificationPanel } from './fact-verification-panel';
 import { ImportedVisitPanel } from './imported-visit-panel';
+import { ImportedSourceReference } from './imported-source-reference';
 import { EntryVerificationPanel, SignOffPanel, SignOffPolicyPanel } from './entry-verification-panel';
 import { DisputePanel, SignOffRulesPanel } from './dispute-panel';
 import { signOffText } from '@/lib/saha/fact-provenance';
@@ -178,6 +179,7 @@ export default function WorkspaceApp({appFirst=false}:{appFirst?:boolean}={}){
  {/* Slice 9b: the visit (Capture / Review & act / Receipts with its rail) and the clinical review come straight after the
      banner and safety notices; the visit assistant and media follow the visit; programme episodes, the action plan and the
      record tools come after them. */}
+ {visit?.importedSourceReference&&<ImportedSourceReference visit={visit} person={person} orgId={data.organisation.id} sourceVisit={data.visits.find(v=>v.id===visit.importedSourceReference?.sourceVisitId)}/>}
  {visit?.imported?<EnglishOnly><ImportedVisitPanel visit={visit} person={person}/></EnglishOnly>:visit?<VisitWorkspace key={`${visit.id}:${editorKey}`} visit={visit} person={person} data={data} care={care&&!visit.voidedAt&&!visit.supersededBy} busy={busy} command={command} onDirty={setUnsaved} onSnapshot={setData} onAI={setAiConfirm} onReferral={()=>setReferral(true)} onConsent={()=>setConsent(true)} onReceipt={setDetail} review={<ClinicalPanel key={visit.id} data={data} visit={visit} busy={busy||unsaved} command={command}/>}/>:<div className="panel visit-start"><Empty title={t('patient.noVisitTitle')}>{t('patient.noVisitBody')}</Empty>{care&&<div className="empty-action"><Button onClick={()=>start(person)} disabled={busy||!!person.mergedInto}>{t('patient.startVisit')} <ArrowRight size={16}/></Button></div>}</div>}
  <EnglishOnly><ProgrammePatient person={person} data={data} busy={busy||unsaved} command={command}/>
  <ActionPlanPanel key={person.id} data={data} p={person} busy={busy||unsaved} command={command}/>

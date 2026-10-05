@@ -12,7 +12,7 @@ import type { Actor } from './store';
 // confirmation. Apply creates confirmed visits marked IMPORTED with source lineage (file digest, row, importer, time) and
 // implies no clinician review or sign-off. An import never creates programme enrolments, submissions, referrals or plans,
 // never changes the person, and an imported visit is kept out of every path that would reuse it as a current observation
-// (lib/saha/imported-visits.ts). There is no batch reversal.
+// (lib/saha/imported-visits.ts). Historical batch withdrawal is append-only patient source evidence; clinical rows remain unchanged.
 export const VISIT_IMPORT='visit-import-v1';
 export const VISIT_COLUMNS=['person','visit_date','source_system','systolic','diastolic','bp_unit','bp_source','weight','weight_unit','weight_source','temperature','temperature_unit','temperature_source','gestation','gestation_unit','gestation_source','cough_duration','cough_unit','cough_source','override_reason','notes'] as const;
 export const FIRST_VISIT_DATE='2000-01-01';
@@ -34,7 +34,7 @@ const SPECS:Spec[]=[
  {key:'weeks',measure:'weeks',label:'Gestational age',value:'gestation',unit:'gestation_unit',source:'gestation_source',units:{weeks:'weeks',wk:'weeks','wk+d':'wk+d','weeks+days':'wk+d'},base:'weeks',hint:'weeks or wk+d (for example 20+3)'},
  {key:'coughDays',measure:'coughDays',label:'Cough duration',value:'cough_duration',unit:'cough_unit',source:'cough_source',units:{days:'days',d:'days',weeks:'wk',wk:'wk'},base:'days',hint:'days or weeks'},
 ];
-export type VisitRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;duplicateOf?:{visitId:string}};
+export type VisitRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;overlapReview?:{fingerprint:string;visits:{id:string;source:string;state:string}[];decision?:string};duplicateOf?:{visitId:string}};
 export type VisitAccepted={kind:'visits';row:number;personId:string;sourceSystem:string;facts:Facts;valueRangeCapture?:RangeCapture};
 type Resolve=(ref:string)=>{person?:Person;reason?:string};
 // Plans the rows of a visit file. The caller (planRecordImport) has already checked the importer, parsed the CSV and the
@@ -45,7 +45,7 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
  const rows:VisitRow[]=[],accepted:(VisitAccepted&{key:string})[]=[],matched=new Set<string>();
  const existing=(p:Person)=>s.workspace.visits.filter(v=>v.personId===p.id&&!!v.imported&&!v.voidedAt);
  for(const [n,r] of body.entries()){
-  const row=n+1,reasons:string[]=[];let duplicateOf:VisitRow['duplicateOf'];
+  const row=n+1,reasons:string[]=[];let duplicateOf:VisitRow['duplicateOf'],overlapReview:VisitRow['overlapReview'];
   const who=resolve(col(r,'person')),p=who.person;if(who.reason)reasons.push(who.reason);if(p)matched.add(p.id);
   const ids=p?{personId:p.id,version:p.version}:{};const capture=p?rangeCaptureFor(s,p):undefined,selection=capture??rangeSelection();if(capture?.mode==='population-demo'&&!['synthetic','training'].includes(envName))fail(409,'Demonstration value ranges require a synthetic or training environment.');
   if(r.length!==h.length){reasons.push(`Row ${row} has ${r.length} fields; the header has ${h.length}.`);rows.push({row,status:'rejected',reasons,...ids});continue;}
@@ -114,15 +114,23 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
    if(old){reasons.push('A visit imported from this source system on this date already exists for this record.');duplicateOf={visitId:old.id};}
    const earlier=accepted.find(a=>a.key===key);if(earlier)reasons.push(`Row ${earlier.row} in this file already imports a visit for this record, source system and date.`);
   }
-  if(p&&key&&stored&&!reasons.length){accepted.push({kind:'visits',row,personId:p.id,sourceSystem:system,facts:stored,...(capture?{valueRangeCapture:capture}:{}),key});rows.push({row,status:'accepted',reasons:[],...ids});}
-  else rows.push({row,status:'rejected',reasons,...ids,...(duplicateOf?{duplicateOf}:{})});
+  if(p&&key&&stored&&!reasons.length){
+   const conflicts=s.workspace.visits.filter(v=>v.personId===p.id&&!v.voidedAt&&!v.supersededBy&&v.facts.date.slice(0,10)===date.slice(0,10)).sort((a,b)=>a.id.localeCompare(b.id));
+   const earlierSources=accepted.filter(a=>a.personId===p.id&&a.facts.date.slice(0,10)===date.slice(0,10)).map(a=>({row:a.row,sourceSystem:a.sourceSystem,facts:a.facts}));
+   if(conflicts.length||earlierSources.length){const fingerprint=await digest({fileDigest:digestOfFile,row,personId:p.id,sourceSystem:system,facts:stored,capture:capture??null,context:{age:p.age,sex:p.sex,programmes:p.programmes,identityReview:p.identityReview},conflicts,earlierSources});const reviews=p.importedVisitOverlapReviews??[],review=[...reviews].reverse().find(x=>x.fingerprint===fingerprint);overlapReview={fingerprint,visits:conflicts.map(v=>({id:v.id,source:v.imported?.sourceSystem??'Saha',state:v.state})).concat(earlierSources.map(a=>({id:'file-row-'+a.row,source:a.sourceSystem,state:'file-row' as any}))),decision:review?.decision};
+    if(!review)reasons.push('Same-date Saha or cross-source visit overlap requires an explicit current clinician decision before import.');
+    else if(review.decision!=='keep-separate')reasons.push(review.decision==='reference-existing'?'The reviewed source references an existing visit; no new clinical record is imported.':'The clinician rejected this overlapping source row.');
+   }
+  }
+  if(p&&key&&stored&&!reasons.length){accepted.push({kind:'visits',row,personId:p.id,sourceSystem:system,facts:stored,...(capture?{valueRangeCapture:capture}:{}),key});rows.push({row,status:'accepted',reasons:[],...ids,...(overlapReview?{overlapReview}:{})});}
+  else rows.push({row,status:'rejected',reasons,...ids,...(duplicateOf?{duplicateOf}:{}),...(overlapReview?{overlapReview}:{})});
  }
  // Bound to the file as sent, the rows as parsed and classified (which carry each matched record's id and version), the
  // importer and the environment, and to the imported visits already held for the matched records, so any change forces a new dry run.
  const imports=s.workspace.visits.filter(v=>v.imported&&matched.has(v.personId)).map(v=>[v.id,v.recordVersion,!!v.voidedAt]).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
  const list=accepted.map(({key,...a})=>a);
- const planHash=await digest({import:VISIT_IMPORT,environment:envName,importer:m.userId,fileDigest:digestOfFile,rows:rows.map(x=>[x.row,x.status,x.personId??null,x.version??null,x.duplicateOf?.visitId??null,x.reasons]),accepted:list,imports});
- return {rows,accepted:list,planHash,fileDigest:digestOfFile,counts:{rows:rows.length,accepted:list.length,rejected:rows.length-list.length},notice:'Row numbers, record ids, versions, counts and reasons only; clinical values and notes stay on the server. Rejected rows are never applied. Accepted rows become confirmed visits marked IMPORTED, with no clinician review or sign-off implied.'};
+ const planHash=await digest({import:VISIT_IMPORT,environment:envName,importer:m.userId,fileDigest:digestOfFile,rows:rows.map(x=>[x.row,x.status,x.personId??null,x.version??null,x.duplicateOf?.visitId??null,x.reasons,x.overlapReview??null]),accepted:list,imports});
+ return {rows,accepted:list,planHash,fileDigest:digestOfFile,counts:{rows:rows.length,accepted:list.length,rejected:rows.length-list.length,...(rows.some(r=>r.overlapReview)?{referenced:rows.filter(r=>r.overlapReview?.decision==='reference-existing').length,overlapPending:rows.filter(r=>r.overlapReview&&!r.overlapReview.decision).length}: {})},notice:'Row numbers, record ids, versions, counts and reasons only; clinical values and notes stay on the server. Rejected rows are never applied. Accepted rows become confirmed visits marked IMPORTED, with no clinician review or sign-off implied.'};
 }
 // Applies the accepted rows of a plan the caller has verified against the importer's dry run. Each becomes a confirmed visit
 // marked IMPORTED with its lineage. Nothing else changes: not the person, not programme enrolments, submissions, referrals or plans.
