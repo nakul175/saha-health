@@ -4,7 +4,7 @@ import {scope,persistBurdenCounter} from './store';
 import {operator} from './operations';
 import {digest,fail} from './core';
 import {recordAggregateView} from './read-audit';
-const event=z.object({code:z.enum(['capture-30s','capture-2m','capture-5m','capture-15m','capture-over15m','help-request','assisted-completion','client-sync-unknown']),key:z.string().uuid()}).strict();
+const event=z.object({code:z.enum(['capture-30s','capture-2m','capture-5m','capture-15m','capture-over15m','help-request','assisted-completion','client-sync-unknown']),key:z.string().uuid(),expectedActorId:z.string().min(1).max(200).optional()}).strict();
 const care=(role:string)=>role==='asha'||role==='clinician';
 export async function burdenPolicy(request:Request){
  if(new URL(request.url).search)fail(422,'Measurement policy query fields are not supported.');
@@ -31,6 +31,7 @@ export async function burdenEvent(request:Request){
 
  const reader=request.body?.getReader();let raw='',size=0;if(reader)while(true){const c=await reader.read();if(c.done)break;size+=c.value.byteLength;if(size>512){await reader.cancel();fail(413,'Count-only event is too large.');}raw+=new TextDecoder().decode(c.value);}
  let value;try{value=JSON.parse(raw);}catch{fail(422,'Invalid count-only event.');}const parsed=event.safeParse(value);if(!parsed.success)fail(422,'Use one fixed measurement code and event key.');
+ if(parsed.data.expectedActorId!==undefined&&parsed.data.expectedActorId!==u.userId)fail(403,'The original measurement account is no longer current.');
  if(!s.operations?.workBurden?.enabled)return json({recorded:false,disabled:true});
  const hash=await digest({format:'saha-burden-v1',organisationId:s.organisation.id,code:parsed.data.code});
  const result=await persistBurdenCounter(db(),s,u,m,parsed.data.key,hash,parsed.data.code);
