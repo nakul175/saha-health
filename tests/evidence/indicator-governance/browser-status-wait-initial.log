@@ -1,0 +1,22 @@
+reviewrequest POST /api/indicators
+reviewbutton true Independent synthetic phone reviewer checked the definition
+reviewrequest POST /api/indicators
+reviewrequest POST /api/commands
+reviewclickstate []
+reviewrequest POST /api/indicators
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Reviewed state rendered
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-governance/tests/indicator-governance-browser.mjs:2:210)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-governance/tests/indicator-governance-browser.mjs:3:1256 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

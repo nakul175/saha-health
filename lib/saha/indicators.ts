@@ -48,7 +48,7 @@ export const EXCLUSIONS=['identity-provisional','no-programme'] as const;
 export const CADENCES=['Daily','Weekly','Monthly','Quarterly'] as const;
 export type Exclusion=typeof EXCLUSIONS[number];
 export type Spec={title:string;unit:'count'|'proportion';numerator:MeasureId;denominator:MeasureId|null;filters:{programme?:Programme;ageBand?:typeof AGE_BANDS[number];sex?:typeof SEXES[number]};exclude:Exclusion[];exclusionsNote:string;owner:string;cadence:typeof CADENCES[number];minimumCohort:number};
-export type DefinitionRecord={id:string;version:number;status:'active'|'retired';spec:Spec;reason:string;by:string;byName:string;at:string;builtIn?:boolean};
+export type DefinitionRecord={id:string;version:number;status:'active'|'retired'|'proposed';intendedStatus?:'active'|'retired';rollbackFrom?:number;spec:Spec;reason:string;by:string;byName:string;at:string;builtIn?:boolean};
 // The slice 6d catalogue, now the version 1 entries of the registry. Keywords serve the interpreter only.
 const BUILT_IN_AT='2026-09-30T00:00:00.000Z';
 const b=(id:string,title:string,unit:'count'|'proportion',numerator:MeasureId,denominator:MeasureId|null,exclusionsNote:string,owner:string,cadence:Spec['cadence'],keywords:string[])=>({record:{id,version:1,status:'active' as const,spec:{title,unit,numerator,denominator,filters:{},exclude:[] as Exclusion[],exclusionsNote,owner,cadence,minimumCohort:MIN_CELL},reason:'Built-in catalogue definition (slice 6d).',by:'built-in',byName:'Saha release',at:BUILT_IN_AT,builtIn:true},keywords});
@@ -69,14 +69,22 @@ const BUILT_IN=[
 export const BUILT_IN_IDS=BUILT_IN.map(x=>x.record.id);
 // Every version of every definition: built-in version 1 entries, then the owner's appended records.
 export const registryRecords=(s?:OrgState):DefinitionRecord[]=>[...BUILT_IN.map(x=>x.record),...(((s?.operations as any)?.indicatorDefinitions??[]) as DefinitionRecord[])];
-export function currentDefinitions(s?:OrgState){const latest=new Map<string,DefinitionRecord>();for(const r of registryRecords(s)){const x=latest.get(r.id);if(!x||r.version>x.version)latest.set(r.id,r);}return [...latest.values()];}
+export type DefinitionEvent={id:string;definitionId:string;definitionVersion:number;sequence:number;kind:'proposed'|'approved'|'rejected'|'released'|'withdrawn';by:string;byName:string;at:string;reason:string;memberVersion:number;role:Member['role'];reviewEventId?:string;effectiveAt?:string};
+export const definitionEvents=(s?:OrgState):DefinitionEvent[]=>((s?.operations as any)?.indicatorDefinitionEvents??[]);
+export function definitionLifecycle(s:OrgState|undefined,r:DefinitionRecord,now=new Date()){
+ const events=definitionEvents(s).filter(e=>e.definitionId===r.id&&e.definitionVersion===r.version),last=events.at(-1),review=[...events].reverse().find(e=>e.kind==='approved'),release=events.find(e=>e.kind==='released');
+ const eligible=r.status!=='proposed'||!!(release&&last?.kind!=='withdrawn'&&release.effectiveAt&&Date.parse(release.effectiveAt)<=now.getTime());
+ const status=r.status!=='proposed'?r.status:last?.kind==='withdrawn'?'withdrawn':release?(eligible?(r.intendedStatus??'active'):'scheduled'):last?.kind==='approved'?'approved':last?.kind==='rejected'?'rejected':'proposed';
+ return {status,eligible,review,release,events,governanceVersion:definitionEvents(s).filter(e=>e.definitionId===r.id).length,legacy:r.status!=='proposed'};
+}
+export function currentDefinitions(s?:OrgState,now=new Date()){const latest=new Map<string,DefinitionRecord>();for(const r of registryRecords(s)){if(!definitionLifecycle(s,r,now).eligible)continue;const x=latest.get(r.id);if(!x||r.version>x.version)latest.set(r.id,{...r,status:r.status==='proposed'?(r.intendedStatus??'active'):r.status});}return [...latest.values()];}
 const measure=(id:MeasureId)=>MEASURES.find(m=>m.id===id)!;
 // A definition's canonical form; its digest is stated with every result so a reader can match it to the registry.
 export const canonicalSpec=(r:DefinitionRecord)=>JSON.stringify({id:r.id,version:r.version,unit:r.spec.unit,numerator:r.spec.numerator,denominator:r.spec.denominator,filters:Object.fromEntries(Object.entries(r.spec.filters).sort()),exclude:[...r.spec.exclude].sort(),minimumCohort:r.spec.minimumCohort});
 // Resolve "id" (current version) or "id@N" (that recorded version, even if later revised or retired).
-export function resolveDefinition(s:OrgState|undefined,ref:string){const m=/^([a-z][a-z0-9-]{1,39})(?:@(\d{1,4}))?$/.exec(ref);if(!m)fail(422,'Choose up to eight catalogue indicators.');const all=registryRecords(s).filter(r=>r.id===m![1]);if(!all.length)fail(422,'Choose up to eight catalogue indicators.');
- if(m![2]){const r=all.find(x=>x.version===Number(m![2]));if(!r||r.status==='retired')fail(422,'That indicator version is not in the registry.');return r!;}
- const r=all.reduce((a,x)=>x.version>a.version?x:a);if(r.status==='retired')fail(422,`The indicator "${r.spec.title}" was retired. Run an earlier version by number to reproduce a past result.`);return r;}
+export function resolveDefinition(s:OrgState|undefined,ref:string,now=new Date()){const m=/^([a-z][a-z0-9-]{1,39})(?:@(\d{1,4}))?$/.exec(ref);if(!m)fail(422,'Choose up to eight catalogue indicators.');const all=registryRecords(s).filter(r=>r.id===m![1]);if(!all.length)fail(422,'Choose up to eight catalogue indicators.');
+ if(m![2]){const r=all.find(x=>x.version===Number(m![2]));if(!r||!definitionLifecycle(s,r,now).eligible||(r.intendedStatus??r.status)==='retired')fail(422,'That indicator version is not released and effective in the registry.');return r!;}
+ const eligible=all.filter(x=>definitionLifecycle(s,x,now).eligible);if(!eligible.length)fail(422,'That indicator has no released effective definition.');const r=eligible.reduce((a,x)=>x.version>a.version?x:a);if((r.intendedStatus??r.status)==='retired')fail(422,`The indicator "${r.spec.title}" was retired. Run an earlier version by number to reproduce a past result.`);return r;}
 export const GROUPS=['none','team','village','programme','age-band'] as const;
 export type Group=typeof GROUPS[number];
 const band=(age:number)=>age<10?'0–9':age<18?'10–17':age<50?'18–49':'50+';
@@ -112,7 +120,7 @@ export const groupLabels=(s:OrgState,p:Person,g:Group)=>keysFor(s,p,g);
 export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  manager(m);
  if(!q.ids.length||q.ids.length>8)fail(422,'Choose up to eight catalogue indicators.');
- const defs=q.ids.map(ref=>resolveDefinition(s,ref));
+ const defs=q.ids.map(ref=>resolveDefinition(s,ref,now));
  if(!GROUPS.includes(q.group))fail(422,'Choose a grouping from the catalogue.');if(!Number.isInteger(q.days)||q.days<1||q.days>366)fail(422,'Choose a window of 1 to 366 days.');
  if(q.team&&!m.teamIds.includes(q.team))fail(403,'Choose one of your teams.');
  const today=now.toISOString().slice(0,10),ctx0={since:new Date(Date.parse(today+'T00:00:00Z')-(q.days-1)*86400000).toISOString(),until:now.toISOString(),today};
@@ -125,7 +133,7 @@ export function indicatorRun(s:OrgState,m:Member,q:Query,now=new Date()){
  const cohortCells:Record<string,number>={};for(const p of people)for(const k of keysFor(s,p,'none'))cohortCells[k]=(cohortCells[k]??0)+1;
  series.set('cohort',{key:'cohort',f:{},cells:cohortCells,ids:[],n:'patients',d:null,gd:'none',x:[],w:ctx0.since,shown:Object.keys(cohortCells)});
  const results=defs.map(def=>{const sp=def.spec,f=sp.filters;
-  const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def)}};
+  const head={id:def.id,version:def.version,title:sp.title,unit:sp.unit,numerator:measure(sp.numerator).label,denominator:sp.denominator?measure(sp.denominator).label:null,definition:{id:def.id,version:def.version,recordedAt:def.at,canonical:canonicalSpec(def),governance:{legacy:definitionLifecycle(s,def,now).legacy,reviewEventId:definitionLifecycle(s,def,now).release?.reviewEventId??null,releaseEventId:definitionLifecycle(s,def,now).release?.id??null,effectiveAt:definitionLifecycle(s,def,now).release?.effectiveAt??null}}};
   const cohort=people.filter(p=>(!f.programme||p.programmes.includes(f.programme))&&(!f.ageBand||band(p.age)===f.ageBand)&&(!f.sex||p.sex===f.sex)&&!(sp.exclude.includes('identity-provisional')&&p.identityReview?.state==='provisional')&&!(sp.exclude.includes('no-programme')&&!p.programmes.length));
   // Slice 6s: the definition's own minimum cohort, applied after its filters and exclusions.
   if(cohort.length<Math.max(MIN_CELL,sp.minimumCohort))return {...head,rows:[],refused:'cohort' as const,message:`This definition needs a cohort of at least ${Math.max(MIN_CELL,sp.minimumCohort)} people after its own filters. Widen the filters.`};
@@ -177,7 +185,7 @@ export async function releasePopulation(s:OrgState,h0:Hash,now=new Date()){
  return {units,windowed:WINDOWED as ReadonlySet<string>};
 }
 // Current, non-retired definitions; registry history and the vocabulary are separate.
-export function catalogue(s?:OrgState){return currentDefinitions(s).filter(r=>r.status==='active').map(r=>({id:r.id,version:r.version,title:r.spec.title,unit:r.spec.unit,numerator:measure(r.spec.numerator).label,denominator:r.spec.denominator?measure(r.spec.denominator).label:null,numeratorMeasure:r.spec.numerator,denominatorMeasure:r.spec.denominator,filters:r.spec.filters,exclude:r.spec.exclude,exclusions:r.spec.exclusionsNote||'None',owner:r.spec.owner,cadence:r.spec.cadence,minimumCohort:r.spec.minimumCohort,sources:[...new Set([r.spec.numerator,...(r.spec.denominator?[r.spec.denominator]:[])].flatMap(x=>measure(x).sources))],builtIn:!!r.builtIn,recordedAt:r.at}));}
+export function catalogue(s?:OrgState,now=new Date()){return currentDefinitions(s,now).filter(r=>r.status==='active').map(r=>({id:r.id,version:r.version,title:r.spec.title,unit:r.spec.unit,numerator:measure(r.spec.numerator).label,denominator:r.spec.denominator?measure(r.spec.denominator).label:null,numeratorMeasure:r.spec.numerator,denominatorMeasure:r.spec.denominator,filters:r.spec.filters,exclude:r.spec.exclude,exclusions:r.spec.exclusionsNote||'None',owner:r.spec.owner,cadence:r.spec.cadence,minimumCohort:r.spec.minimumCohort,sources:[...new Set([r.spec.numerator,...(r.spec.denominator?[r.spec.denominator]:[])].flatMap(x=>measure(x).sources))],builtIn:!!r.builtIn,recordedAt:r.at}));}
 export const vocabulary=()=>({measures:MEASURES.map(m=>({id:m.id,label:m.label})),filters:{programme:PROGRAMMES,ageBand:AGE_BANDS,sex:SEXES},exclusions:EXCLUSIONS,cadences:CADENCES,minimumCohort:MIN_CELL});
 // Governed question interpreter: maps words to catalogue entries and never runs anything itself.
 export function interpret(question:string,s?:OrgState){

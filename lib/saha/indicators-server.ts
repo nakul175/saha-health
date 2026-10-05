@@ -8,17 +8,18 @@ import { recordAccess } from './access-audit';
 import { recordAggregateView } from './read-audit';
 import { csvLines } from './operations';
 import { candidateReleases, ledgerHash, readLedger, writeLedger } from './indicator-ledger';
-import { catalogue, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, releasePopulation, vocabulary, type Group, type Series } from './indicators';
+import { catalogue, definitionLifecycle, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, releasePopulation, vocabulary, type Group, type Series } from './indicators';
 import { ledgerFull, pruneLedger, RESIDUAL_RISK, screenReleases, type Release } from './indicator-differencing';
 import { lateSinceRelease, teamFreshness } from './indicator-freshness';
 import { resolveDefinition } from './indicators';
 // Slice 6d: catalogue, governed interpretation of a question, and scoped indicator queries.
 // Slice 6w (fifth review, finding 4): GET reads the catalogue and interprets questions only. Running a query
 // records a release in the differencing ledger, so it is POST only (a cross-site GET cannot trigger it).
-export async function indicatorsRead(request:Request){const p=new URL(request.url).searchParams;if(p.get('ids'))fail(405,'Run indicator queries with POST from the workspace.');return indicatorsFor(request,p);}
+export async function indicatorsRead(request:Request){await identity();const p=new URL(request.url).searchParams;if(p.get('ids'))fail(405,'Run indicator queries with POST from the workspace.');return indicatorsFor(request,p);}
 // Slice 6l: the workspace posts questions and filters in a JSON body, so free text and village
 // names stay out of request URLs (and so out of platform request logs). GET remains for compatibility.
 export async function indicatorsPost(request:Request){
+ await identity();
  const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)fail(403,'Cross-origin requests are not allowed.');
  if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON for this request.');
  const body=await boundedJsonBody(request,4000);if(!body||typeof body!=='object'||Array.isArray(body))fail(422,'Send the indicator request as an object.');
@@ -38,15 +39,16 @@ async function refusalLimit(orgId:string,userId:string){
  if((row?.n??0)>=REFUSALS_PER_DAY)fail(429,REFUSAL_LIMIT_MESSAGE);
 }
 export const DIFFERENCING_MESSAGE='Together with your indicator queries of the last seven days, this result would reveal a group of fewer than 5 people. Use the same filters as before or widen them.';
+function registryView(s:import('./types').OrgState,m:Member,viewerId:string){return {organisationId:s.organisation.id,catalogue:catalogue(s),registry:registryRecords(s).map(r=>({id:r.id,version:r.version,...definitionLifecycle(s,r),title:r.spec.title,spec:r.spec,reason:r.reason,by:r.byName,authorId:r.by,at:r.at,intendedStatus:r.intendedStatus??r.status,rollbackFrom:r.rollbackFrom??null,builtIn:!!r.builtIn})),vocabulary:vocabulary(),canMaintain:m.isOwner,canReview:['supervisor','clinician'].includes(m.role),viewerId,governanceNotice:'Synthetic software governance only. Clinical denominator and publication approval remain pending. Definition reruns use current authorised records; immutable released figures are not yet implemented.'};}
 async function indicatorsFor(request:Request,p:URLSearchParams){
  const u=await identity();
- const s=await loadFor(u,request.headers.get('x-saha-organisation'),undefined,true),m=scope(s,u.userId);manager(m);
+ const s=await loadFor(u,request.headers.get('x-saha-organisation'),undefined,true),m=scope(s,u.userId);if(p.get('registryOnly')==='1'){if(m.status!=='active'||!(m.isOwner||['supervisor','clinician'].includes(m.role)))fail(403,'A current owner, supervisor or clinician can read definition governance.');return json(registryView(s,m,u.userId));}manager(m);
  const question=p.get('question');
  if(question!==null){if(question.length>300)fail(422,'Keep the question under 300 characters.');return json({interpretation:interpret(question,s)});}
  ensurePurpose(m,'reporting'); // slice 13a: computing and releasing indicator figures is a reporting flow
  const ids=(p.get('ids')??'').split(',').map(x=>x.trim()).filter(Boolean);
  // Slice 6s: the catalogue read also carries every recorded version and the definition vocabulary.
- if(!ids.length)return json({catalogue:catalogue(s),registry:registryRecords(s).map(r=>({id:r.id,version:r.version,status:r.status,title:r.spec.title,spec:r.spec,reason:r.reason,by:r.byName,at:r.at,builtIn:!!r.builtIn})),vocabulary:vocabulary(),canMaintain:m.isOwner,protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});
+ if(!ids.length)return json({...registryView(s,m,u.userId),protection:RESIDUAL_RISK,groups:GROUPS,minimumCell:MIN_CELL,teams:s.teams.filter(t=>m.teamIds.includes(t.id)).map(t=>({id:t.id,name:t.name})),villages:[...new Set(s.workspace.people.filter(x=>x.assigned).map(x=>x.village))].sort(),programmes:[...new Set(s.workspace.people.filter(x=>x.assigned).flatMap(x=>x.programmes))].sort()});
  // Slice 13d (ninth review, finding 8): each refusal tells the viewer that a combination would reveal a small group, so refused
  // and partly withheld queries are recorded (below and in recordRelease) and limited per viewer per day.
  await refusalLimit(s.organisation.id,u.userId);

@@ -12,6 +12,7 @@ export async function indicatorRegistrySmoke({get,post,check,accounts,org,sql,ba
  await get(s);{const inv=(await post(o,{type:'createInvite',accountCode:s.state.user.accountCode,label:'Registry supervisor',role:'supervisor',teamIds:['default']},200,crypto.randomUUID(),org)).result;await post(s,{type:'joinOrganisation',token:inv.token});}
  const ask=async(who,body,status=200,orgId=org)=>{const r=await fetch(`${base}/api/indicators`,{method:'POST',headers:{...who.headers,'Content-Type':'application/json','x-saha-organisation':orgId},body:JSON.stringify(body)});const text=await r.text();const j=(r.headers.get('content-type')??'').includes('json')?JSON.parse(text):text;check(()=>assert.equal(r.status,status,text.slice(0,300)));return {j,r};};
  const as=(who,body,status=200)=>post(who,body,status,crypto.randomUUID(),org);
+ const release=async(result)=>{const reviewed=await as(s,{type:'reviewIndicatorDefinition',id:result.id,expectedVersion:result.version,expectedGovernanceVersion:result.governanceVersion,decision:'approve',reason:'Independent registry smoke definition review'});const effectiveAt=new Date(Date.now()+500).toISOString();await as(o,{type:'releaseIndicatorDefinition',id:result.id,expectedVersion:result.version,expectedGovernanceVersion:reviewed.result.governanceVersion,reviewEventId:reviewed.result.eventId,effectiveAt,reason:'Reviewed synthetic smoke dated release'});while(Date.now()<Date.parse(effectiveAt))await new Promise(r=>setTimeout(r,20));};
  const tag=crypto.randomUUID().slice(0,6),id=`smoke-${tag}`;
  const spec=(over={})=>({title:`Visits ${tag}`,unit:'count',numerator:'visits-confirmed',denominator:null,filters:{},exclude:[],exclusionsNote:'Voided and superseded visits',owner:'Programme manager',cadence:'Weekly',minimumCohort:5,...over});
  // Catalogue: built-ins are version 1 registry entries; only owners may maintain.
@@ -21,19 +22,19 @@ export async function indicatorRegistrySmoke({get,post,check,accounts,org,sql,ba
  await as(s,add,403);await as(w,add,403);
  await as(o,{...add,spec:spec({numerator:'patient-names'})},422);await as(o,{...add,spec:{...spec(),sql:'select 1'}},422);await as(o,{...add,spec:spec({unit:'proportion'})},422);
  const added=await as(o,add);await as(o,{...add,reason:'Second attempt at the same identifier'},409);
- check(()=>assert.deepEqual(added.result,{id,version:1,status:'active'}));
+ check(()=>{assert.equal(added.result.id,id);assert.equal(added.result.version,1);assert.equal(added.result.status,'proposed');});await ask(s,{ids:id,days:30,group:'none'},422);await release(added.result);
  // Results name the definition and version used; an earlier result is reproduced from its version.
  const first=(await ask(s,{ids:id,days:30,group:'none'})).j;
  check(()=>{const r=first.results[0];assert.equal(r.id,id);assert.equal(r.version,1);assert.equal(r.definition.version,1);assert.match(r.definition.canonical,/"numerator":"visits-confirmed"/);assert.ok(Array.isArray(r.rows)&&r.rows.length===1);});
  await as(o,{type:'reviseIndicatorDefinition',id,expectedVersion:2,spec:spec(),reason:'Stale version must be refused'},409);
- await as(o,{type:'reviseIndicatorDefinition',id,expectedVersion:1,spec:spec({minimumCohort:1000}),reason:'Raise the minimum cohort for this definition'});
+ await release((await as(o,{type:'reviseIndicatorDefinition',id,expectedVersion:1,spec:spec({minimumCohort:1000}),reason:'Raise the minimum cohort for this definition'})).result);
  const now=(await ask(s,{ids:id,days:30,group:'none'})).j.results[0],again=(await ask(s,{ids:`${id}@1`,days:30,group:'none'})).j.results[0];
  check(()=>{assert.equal(now.version,2);assert.equal(now.refused,'cohort');assert.deepEqual(now.rows,[]);assert.equal(again.version,1);assert.deepEqual(again.rows,first.results[0].rows,'version 1 reproduces the earlier result');});
- await as(o,{type:'retireIndicatorDefinition',id,expectedVersion:2,reason:'Replaced by the programme dashboard'});
+ await release((await as(o,{type:'retireIndicatorDefinition',id,expectedVersion:2,reason:'Replaced by the programme dashboard'})).result);
  const retired=(await ask(s,{ids:id,days:30,group:'none'},422)).j;check(()=>assert.match(retired.error,/retired/));
  await ask(s,{ids:`${id}@1`,days:30,group:'none'});
  const afterCat=(await ask(s,{})).j;check(()=>{assert.ok(!afterCat.catalogue.some(d=>d.id===id));assert.deepEqual(afterCat.registry.filter(r=>r.id===id).map(r=>[r.version,r.status]),[[1,'active'],[2,'active'],[3,'retired']]);});
- const audit=sql.prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=? AND action=? AND subject=?').get(org,'indicatorDefinition',id);check(()=>assert.equal(Number(audit.n),3));
+ const audit=sql.prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=? AND action=? AND subject=?').get(org,'indicatorDefinition',id);check(()=>assert.equal(Number(audit.n),9));
  // The ledger is hashes and counts: no village names in the operations row, and it is not returned to operators.
  const data=JSON.parse(sql.prepare('SELECT data FROM operations WHERE org_id=?').get(org).data);
  check(()=>{assert.ok(data.indicatorReleases.length>0);const text=JSON.stringify(data.indicatorReleases);for(const v of cat.villages)assert.ok(!text.includes(v),'no village names in the ledger');assert.ok(!text.includes(s.id),'no viewer identifier in the ledger');});
