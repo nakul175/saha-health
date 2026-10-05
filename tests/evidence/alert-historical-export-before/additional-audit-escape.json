@@ -1,0 +1,21 @@
+{
+  "sourceArchive": "no-care-scope.tar",
+  "actualRows": [
+    {
+      "org_id": "org_30c656e72d6b7bb6aab861c666834fdd",
+      "id": "e4e347ed-70d4-46c5-84ec-cb0d216c2391",
+      "person_id": null,
+      "actor_id": "system:notification-simulator",
+      "actor_name": "Saha notification simulator",
+      "role": "system",
+      "action": "notificationSent",
+      "subject": "31c03b28-c8b0-4b2a-aa14-fc91e75f5524",
+      "detail": "Simulated email to historical-export-owner-13ba62d3@example.invalid (tier 1) for alert referrals-undated, count 1. Receipt SIM-04580F66. Stored in Saha only: no address or number was contacted. The message carries no patient names or identifiers.",
+      "at": "2026-10-05T21:41:06.520Z",
+      "seq": 24,
+      "prev_hash": "5e81ef190eb465edb993a61da1d6a6f9e36f771b0e4be6156c6f679fccdfa827",
+      "hash": "875257b2d69eeae99eef0b6085b2241502539b28c363f0356b437b7bb0085961"
+    }
+  ],
+  "classification": "Actual retained simulated message audit detail also exports raw clinical count/time through patient-null audit row; existing audit digest-only placeholder can retain chain without detail"
+}
