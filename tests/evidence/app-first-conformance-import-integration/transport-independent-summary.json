@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-10-05T09:15:21.028Z",
+  "startedAt": "2026-10-05T09:15:15.787Z",
+  "command": "node scripts/test.mjs integration --only integration/work-burden-transport-http,integration/work-burden-auth-first-http,integration/clinical-source-retrieval-http --fast --report tests/evidence/app-first-conformance-import-integration/transport-independent-summary.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 3,
+      "passed": 383,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5098,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 383,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 5241
+  },
+  "suites": [
+    {
+      "id": "integration/clinical-source-retrieval-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/clinical-source-retrieval-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3053,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__clinical-source-retrieval-http.log"
+    },
+    {
+      "id": "integration/work-burden-auth-first-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-burden-auth-first-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 909,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-burden-auth-first-http.log"
+    },
+    {
+      "id": "integration/work-burden-transport-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-burden-transport-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 325,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1136,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/ci-transport-review/burden-after.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-burden-transport-http.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/work-burden-ledger/auth-first-http.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 182,
+        "components": 0,
+        "suitesCitingNoRequirement": 48,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 67,
+        "components": 84,
+        "suitesCitingNoRequirement": 8,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 24,
+        "components": 0,
+        "suitesCitingNoRequirement": 20,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 289,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 80,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

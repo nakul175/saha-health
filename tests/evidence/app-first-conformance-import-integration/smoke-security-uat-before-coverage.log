@@ -1,0 +1,37 @@
+Running smoke nfr uat --fast; 7 suite(s).
+
+[smoke] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/hosted-smoke ...
+  ok       smoke/hosted-smoke  8 passed  3.2s
+  running  smoke/local-smoke ...
+  ok       smoke/local-smoke  28 passed, 1 skipped  2.4s
+
+[nfr] 2 suite(s)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  57 passed  8.7s
+  running  nfr/identity-hardening ...
+  ok       nfr/identity-hardening  29 passed  4.3s
+
+[uat] 3 suite(s)
+  running  uat/check-uat-register ...
+  ok       uat/check-uat-register  44 passed  174ms
+  running  uat/coverage-map ...
+  FAILED   uat/coverage-map  8 passed, 1 failed  188ms  [exit code 1]
+      | error lines:
+      |   FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md
+      | FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md
+      | coverage: 176 requirements; no test cited 19; one layer 42; no UAT case 30; 100/385 test files cited by no requirement; formally executed 0/364
+      | {"suite":"Coverage map generator","passed":8,"failed":1,"skipped":0,"completedAt":"2026-10-05T09:23:35.172Z"}
+  running  uat/generate-uat-pack ...
+  ok       uat/generate-uat-pack  10 passed  214ms
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  smoke  passed       2      36       0        1   5.5s
+  nfr    passed       2      86       0        0  13.0s
+  uat    failed       3      62       1        0  576ms
+  total  FAILED       7     184       1        1  19.3s
+
+Regression guard: FAILED (7 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite uat/coverage-map passed 8 assertion(s); baseline is 9 (down 1).

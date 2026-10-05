@@ -98,6 +98,26 @@
       "file": "tests/import-unit-parity-browser.mjs",
       "minPassed": 13
     },
+    "integration/imported-evidence-browser": {
+      "layer": "integration",
+      "file": "tests/imported-evidence-browser.mjs",
+      "minPassed": 12
+    },
+    "integration/imported-evidence-http": {
+      "layer": "integration",
+      "file": "tests/imported-evidence-http.mjs",
+      "minPassed": 40
+    },
+    "integration/imported-evidence-independent-browser": {
+      "layer": "integration",
+      "file": "tests/imported-evidence-independent-browser.mjs",
+      "minPassed": 6
+    },
+    "integration/imported-evidence-independent-http": {
+      "layer": "integration",
+      "file": "tests/imported-evidence-independent-http.mjs",
+      "minPassed": 13
+    },
     "integration/indicator-governance-browser": {
       "layer": "integration",
       "file": "tests/indicator-governance-browser.mjs",
@@ -117,6 +137,21 @@
       "layer": "integration",
       "file": "tests/indicator-governance-independent-http.mjs",
       "minPassed": 17
+    },
+    "integration/mapping-conformance-browser": {
+      "layer": "integration",
+      "file": "tests/mapping-conformance-browser.mjs",
+      "minPassed": 21
+    },
+    "integration/mapping-conformance-http": {
+      "layer": "integration",
+      "file": "tests/mapping-conformance-http.mjs",
+      "minPassed": 91
+    },
+    "integration/mapping-conformance-independent-http": {
+      "layer": "integration",
+      "file": "tests/mapping-conformance-independent-http.mjs",
+      "minPassed": 108
     },
     "integration/mapping-lifecycle-browser": {
       "layer": "integration",
@@ -288,6 +323,11 @@
       "file": "tests/work-burden-ledger-http.mjs",
       "minPassed": 19
     },
+    "integration/work-burden-transport-http": {
+      "layer": "integration",
+      "file": "tests/work-burden-transport-http.mjs",
+      "minPassed": 325
+    },
     "integration/work-support-visibility-http": {
       "layer": "integration",
       "file": "tests/work-support-visibility-http.mjs",
@@ -301,7 +341,7 @@
     "nfr/authorisation-matrix": {
       "layer": "nfr",
       "file": "tests/nfr/authorisation-matrix.mjs",
-      "minPassed": 56
+      "minPassed": 57
     },
     "nfr/identity-hardening": {
       "layer": "nfr",
@@ -803,6 +843,11 @@
       "file": "tests/import-unit-parity-contract.mjs",
       "minPassed": 18
     },
+    "unit/imported-evidence-contract": {
+      "layer": "unit",
+      "file": "tests/imported-evidence-contract.mjs",
+      "minPassed": 26
+    },
     "unit/incentive-claims-contract": {
       "layer": "unit",
       "file": "tests/incentive-claims-contract.mjs",
@@ -832,6 +877,11 @@
       "layer": "unit",
       "file": "tests/main-review-fixes-contract.mjs",
       "minPassed": 25
+    },
+    "unit/mapping-conformance-contract": {
+      "layer": "unit",
+      "file": "tests/mapping-conformance-contract.mjs",
+      "minPassed": 50
     },
     "unit/mapping-lifecycle-contract": {
       "layer": "unit",

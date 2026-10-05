@@ -106,12 +106,29 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
+additional_index=ROOT/'docs/verification/evidence-source-snapshots-conformance-import.json'
+if additional_index.exists():
+    for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
+        existing=source_snapshots.setdefault(source_path,{})
+        for expected,entry in versions.items():
+            require(expected not in existing or existing[expected]==entry,'Conflicting historical source snapshot: '+source_path)
+            existing.setdefault(expected,entry)
 slice_total=0
 for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
     manifest=json.loads(manifest_path.read_text())
-    # Preserve the authors' immutable manifests, including their three existing
+    # Preserve the authors' immutable manifests, including their existing
     # digest layouts. Only report-level numeric assertion counts are summed.
     entries=manifest.get('reports',manifest.get('sha256',manifest.get('files')))
+    # Independent review can name report metadata separately while pinning every
+    # actual file in sha256. Preserve that original layout and verify both maps.
+    if isinstance(manifest.get('sha256'),dict) and isinstance(manifest.get('reports'),dict) and all(isinstance(meta,dict) and 'path' in meta for meta in manifest['reports'].values()):
+        entries={path:{'sha256':expected} for path,expected in manifest['sha256'].items()}
+        for label,meta in manifest['reports'].items():
+            path=meta['path']
+            require(path in entries,'Unpinned named evidence report: '+str(label))
+            if path in entries:
+                require('sha256' not in meta or meta['sha256']==entries[path]['sha256'],'Conflicting named evidence digest: '+str(label))
+                entries[path].update({key:value for key,value in meta.items() if key not in ('path','sha256')})
     require(isinstance(entries,dict) and bool(entries),'Missing evidence digests: '+str(manifest_path.relative_to(ROOT)))
     for report,meta in (entries or {}).items():
         path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','scripts/')) else manifest_path.parent/report

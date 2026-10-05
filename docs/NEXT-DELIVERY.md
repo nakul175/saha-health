@@ -206,3 +206,14 @@ Governed contextual capture, six-unit CSV import, synthetic availability, auxili
 A05 prepared guidance/capture, atomic patient-delta auditing, fresh saved-receipt material auditing and command authority envelopes are integrated locally for combined validation. Independent review reproduced and corrected replay disclosure above the paging threshold. Root retains initial account-switch test timing and invalid signed capacity-fixture failures, corrects their contracts without lowering assertions, and reruns the full units and actual Worker/browser/database checks before publication. Device cleanup after access/consent changes and metadata-only failure/acknowledgement reporting remain the active next batch; registration-copy cleanup is a required follow-up, not silently counted complete.
 
 Combined validation now passes147 unit suites/8,594 checks, fullHTTP/restore/security4,862, and current busy-unlock/affected-client followup458. Eighteen other workflow suites pass342 counted checks; the initial held-vault timing fixture failure is retained and its corrected basic browser rerun passes22. Smoke/UAT tooling99 passes with one documented local skip. Current baseline covers882 source files; publication checks are the final gate.
+
+
+## Current app-first reviewed extension — 5 October 2026
+
+| Delivery | Resulting software behavior | Current gate |
+| --- | --- | --- |
+| B07 conformance | Deterministic transformation/unit/missing rules, source-versioned required-field/code fixtures, per-field affected-work review and governed rollback | Independently reviewed, integrated build/types and affected checks pass; combined local gates pass; documentation/publication pending |
+| B08 documentary evidence | Retained answers/notes/original bounded media, explicit clinical-source decisions, empty linked drafts, same-date overlap decisions and appended batch withdrawals; merged history/receipt/phone repairs | Independently reviewed, integrated build/types and affected checks pass; combined local gates pass; documentation/publication pending |
+| B27 frozen reports | Immutable original editions and reviewed corrections; independent cancellation freshness repair | Final independent review complete in isolated source, not yet integrated |
+
+Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-REMAINING-WORK.md). B09 inbound conflicts, B13 household completion and hosted transport diagnosis proceed in parallel. SDK licence decision, APK/device and all clinical/external/formal acceptance remain pending.

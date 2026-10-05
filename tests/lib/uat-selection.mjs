@@ -132,6 +132,8 @@ export async function loadNavigation() {
 const PERSON = 'Person page and visit';
 export const PANEL_HOME = {
   'app/indicator-definitions/page.tsx': ['Organisation & team'],
+  'app/imported-evidence-panel.tsx': ['Organisation & team'],
+  'app/imported-source-reference.tsx': [PERSON],
   'app/mis-mapping-panel.tsx': ['Connections', 'Submissions'],
   'app/reconciliation-panel.tsx': ['Care handover'],
   'app/reminder-optout-panel.tsx': ['Outreach'],

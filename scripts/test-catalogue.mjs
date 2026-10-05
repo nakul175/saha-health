@@ -34,6 +34,17 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/work-burden-transport-http.mjs': ['tests/evidence/ci-transport-review/burden-after.json'],
+  'tests/app-offline-browser.mjs': ['tests/evidence/app-offline/result.json'],
+  'tests/mapping-conformance-contract.mjs': ['tests/evidence/mapping-conformance/contract.json'],
+  'tests/mapping-conformance-http.mjs': ['tests/evidence/mapping-conformance/http.json'],
+  'tests/mapping-conformance-browser.mjs': ['tests/evidence/mapping-conformance/browser.json'],
+  'tests/mapping-conformance-independent-http.mjs': ['tests/evidence/mapping-conformance-independent-review/http.json'],
+  'tests/imported-evidence-contract.mjs': ['tests/evidence/imported-evidence/contract.json'],
+  'tests/imported-evidence-http.mjs': ['tests/evidence/imported-evidence/http.json'],
+  'tests/imported-evidence-browser.mjs': ['tests/evidence/imported-evidence/browser.json'],
+  'tests/imported-evidence-independent-http.mjs': ['tests/evidence/imported-evidence-independent-review/http.json'],
+  'tests/imported-evidence-independent-browser.mjs': ['tests/evidence/imported-evidence-independent-review/browser.json'],
   'tests/contact-import-independent-review.mjs': ['tests/evidence/contact-import-independent-review/adversarial.json'],
   'tests/mapping-lifecycle-contract.mjs': ['tests/evidence/mapping-lifecycle/contract.json'],
   'tests/mapping-lifecycle-review-contract.mjs': ['tests/evidence/mapping-lifecycle-review/contract.json'],
@@ -45,6 +56,8 @@ export const SUITE_RESULTS = {
   'tests/provider-ehr-execution-review.mjs': ['tests/evidence/provider-destination-independent/ehr-execution/result.json'],
 };
 const MANUAL = {
+  'tests/mapping-remaining-contract-http.mjs': { needsEnv: [], directOnly: true, note: 'Historical mapping contract gap witness; current positive tests are mapping-conformance suites.' },
+  'tests/imported-evidence-before.mjs': { needsEnv: [], directOnly: true, note: 'Historical imported evidence gap witness; current positive tests are imported-evidence suites.' },
   'tests/contact-import-before.mjs': { needsEnv: [], directOnly: true, note: 'Historical contacts/reversal schema witness before B08. Positive contacts checks are contract, HTTP/phone and independent review suites.' },
   'tests/household-reschedule-before-driver.mjs': { needsEnv: [], directOnly: true, note: 'Historical schema/dispatcher witness at fb585412; current positive checks are household-reschedule-contract.mjs and household-reschedule-http.mjs.' },
   'tests/offline-lifecycle-auth-transport-review.mjs': { needsEnv: [], directOnly: true, note: 'Bounded normal-fetch stress diagnostic retains unresolved cross-site transport failures; positive identity regression is offline-opens-auth-first-http.mjs. Not a passing stress gate.' },
@@ -96,6 +109,8 @@ export function classify(file) {
   if (isSupport(file)) return { layer: null, role: 'support', tier: null, reason: 'shared helper, fixture or entry module; not a suite' };
   if (file === 'tests/api-smoke.mjs') return { layer: 'integration', role: 'support', tier: null, reason: 'entry module imported by tests/run-api-smoke.mjs; not run on its own' };
   if (file === 'tests/run-api-smoke.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'HTTP and D1 suite against the built Worker' };
+  if (file === 'tests/work-burden-transport-http.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual bounded normal-fetch pooled and streamed refusal transport; unchanged zero clinical/metrics ledgers' };
+  if (['tests/mapping-conformance-http.mjs','tests/mapping-conformance-browser.mjs','tests/mapping-conformance-independent-http.mjs','tests/imported-evidence-http.mjs','tests/imported-evidence-browser.mjs','tests/imported-evidence-independent-http.mjs','tests/imported-evidence-independent-browser.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual independently reviewed mapping conformance and retained historical evidence authority and phone checks' };
   if (['tests/contact-import-http.mjs','tests/contact-import-independent-review.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual scoped synthetic contacts import, reversal, current-authority receipt replay and phone workflow' };
   if (['tests/mapping-lifecycle-http.mjs','tests/mapping-lifecycle-review-http.mjs','tests/mapping-lifecycle-browser.mjs','tests/mapping-lifecycle-review-browser.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual reviewed mapping impact, effective-date authority, preserved delivery and phone history checks' };
   if (['tests/indicator-governance-http.mjs','tests/indicator-governance-clock-http.mjs','tests/indicator-governance-browser.mjs','tests/indicator-governance-independent-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual independently reviewed effective indicator definitions and historical-report clock boundary' };
