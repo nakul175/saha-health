@@ -8,9 +8,9 @@ const event=z.object({code:z.enum(['capture-30s','capture-2m','capture-5m','capt
 const care=(role:string)=>role==='asha'||role==='clinician';
 export async function burdenPolicy(request:Request){
  if(new URL(request.url).search)fail(422,'Measurement policy query fields are not supported.');
- const u=await identity(),org=request.headers.get('x-saha-organisation');
- const read=async()=>{const state=await loadFor(u,org,async()=>[]),member=scope(state,u.userId);if(!care(member.role))fail(403,'Current human care membership required.');return {state,member};};
- let current=await read();
+ const u=await identity(),org=request.headers.get('x-saha-organisation');let resolvedOrg:string|null=null;
+ const read=async()=>{const state=await loadFor(u,resolvedOrg??org,async()=>[]);if(resolvedOrg&&state.organisation.id!==resolvedOrg)fail(403,'The original measurement organisation is no longer available.');const member=scope(state,u.userId);if(!care(member.role))fail(403,'Current human care membership required.');return {state,member};};
+ let current=await read();resolvedOrg=current.state.organisation.id;
  for(let attempt=0;attempt<3;attempt++){
   if(!current.state.operations?.workBurden?.enabled){current=await read();if(!current.state.operations?.workBurden?.enabled)return json({organisationId:current.state.organisation.id,userId:u.userId,enabled:false,version:current.state.operations?.workBurden?.version??0});}
   const observed=current;

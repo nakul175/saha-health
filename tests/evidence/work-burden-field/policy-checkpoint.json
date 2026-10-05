@@ -1,9 +1,11 @@
 {
-  "passed": 9,
+  "passed": 13,
   "failed": 0,
   "actualD1": true,
   "syntheticReadCheckpointInjection": true,
   "requestIdentityStubbed": true,
-  "actualHttpInterleaving": false,
-  "scope": "Actual D1 snapshot and audit batches with deterministic disabled-to-enabled transition; audit fault refuses positive flag, exact returned config audit, current membership withdrawal and bounded version churn."
+  "actualHttpInterleaving": true,
+  "actualHttpOrgSwitchAndWithdrawal": true,
+  "simulatedLoadFallback": true,
+  "scope": "Actual D1 snapshot and audit batches with deterministic disabled-to-enabled transition; audit fault refuses positive flag, exact returned config audit, current membership withdrawal and bounded version churn; actual HTTP two-org audit-time home change stays pinned, explicit scope withdrawal403, injected loading fallback refuses different real D1 org."
 }
