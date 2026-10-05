@@ -13,7 +13,9 @@ export const BLOCKED_ON_IMPORTED=new Set(['refreshVisitRanges','preparePlan','ap
 // a safety report about it, and commands that act on records an imported visit cannot have (it is confirmed, so it cannot be saved or
 // confirmed again; it has no assistant runs and no correction tasks). A contract test requires every command naming a visit to be
 // in one of the two sets, so a new visit command has to be classified before it ships.
-export const ALLOWED_ON_IMPORTED=new Set(['voidVisit','reportSafety','saveVisit','confirmVisit','cancelAgent','closeTimedOutAgent','closeCorrectionTask']);
+// householdVisitOutreach.visitId names an independently authorised household slot, not a clinical visit.
+// It cannot use imported clinical evidence or complete care; householdVisitRecord remains blocked above.
+export const ALLOWED_ON_IMPORTED=new Set(['voidVisit','reportSafety','saveVisit','confirmVisit','cancelAgent','closeTimedOutAgent','closeCorrectionTask','householdVisitOutreach']);
 export function ensureNotImported(s:OrgState,c:any){
  if(!BLOCKED_ON_IMPORTED.has(c?.type))return;
  const ids=[c.visitId,...(Array.isArray(c.visitIds)?c.visitIds:[]),c.type==='linkReferralSource'&&c.kind==='visit'?c.sourceId:undefined].filter((x):x is string=>typeof x==='string');
