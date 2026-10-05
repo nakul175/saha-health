@@ -1,0 +1,15 @@
+{"event":"saha_request","requestId":"d60e55d5-6d3e-4485-ba6d-01a4329436d5","route":"workspace","status":200,"durationMs":25}
+{"event":"saha_request","requestId":"f9141a82-7349-4df6-a332-f5e9df327bc3","route":"commands","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"9807fc50-d45d-47a5-9480-abb2832941e3","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"40e72ba9-1dfd-4fb1-8e09-a46c72fcdaa2","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"4cef3ead-0074-45e7-bde0-5dedb86bbcff","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"9058aab2-2f74-43ae-8ec9-83ccb4e10f7c","route":"commands","status":200,"durationMs":9}
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-contact-import-review/tests/contact-import-independent-review.mjs:5
+const ops=await db.prepare('SELECT data FROM operations WHERE org_id=?').bind(org).first();const originalOps=ops.data,restricted=JSON.parse(originalOps);restricted.purposeGrants=[{id:'independent-purpose',memberId:who.id,programme:null,purposes:['reporting'],version:1,setBy:who.id,setAt:new Date().toISOString()}];await db.prepare('UPDATE operations SET data=? WHERE org_id=?').bind(JSON.stringify(restricted),org).run();await command(body,403,key);await dry({kind:'contacts-reversal',batchId:batch},403);check(()=>assert.ok(true));await db.prepare('UPDATE operations SET data=? WHERE org_id=?').bind(originalOps,org).run();
+                                                                                                                 ^
+
+TypeError: Cannot read properties of null (reading 'data')
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-contact-import-review/tests/contact-import-independent-review.mjs:5:114
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0
