@@ -8,6 +8,9 @@ export class AppError extends Error { constructor(public status:number,message:s
 export function fail(status:number,message:string):never {throw new AppError(status,message)}
 export const uuid=()=>crypto.randomUUID();
 export async function digest(value:unknown){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(value)));return Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join('');}
+// Validate raw programme keys before ZodRecord's merge can silently omit __proto__.
+// Ordinary own keys, value parsing and record insertion order are preserved.
+export const programmeRecord=<T extends z.ZodTypeAny>(value:T)=>z.record(z.string().refine(key=>key!=='__proto__','Unsupported programme record key.'),value);
 const str=z.string().trim().min(1).max(200);
 const numeric=z.string().trim().max(12).refine(x=>x===''||(/^[0-9]+(\.[0-9]+)?$/.test(x)&&Number.isFinite(+x)),'Enter a positive number or leave blank.');
 const minute=z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/).refine(x=>!isNaN(Date.parse(x+'Z')),'Select the observation date and time.');

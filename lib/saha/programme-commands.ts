@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { withinPolicy } from './access';
-import { fail, person, visit, uuid } from './core';
+import { fail, person, visit, uuid, programmeRecord } from './core';
 import { ABSENCE, adoptedVersion, packAt, enrollableAt, own, questions } from './programmes';
 import type { OrgState, Member } from './types';
 import type { Actor } from './store';
@@ -9,7 +9,7 @@ const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x
 export const programmeSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('enrolProgramme'),personId:id,version,packId:z.string().regex(/^[a-z][a-z0-9_]{1,31}$/),episodeLabel:z.string().trim().min(3).max(200),startDate:date.nullable()}),
  z.object({type:z.literal('closeEnrolment'),personId:id,version,enrolmentId:id,outcome:z.string().trim().min(5).max(500)}),
- z.object({type:z.literal('saveProgrammeAnswers'),visitId:id,version,answers:z.record(z.string(),z.string().trim().max(500)),absence:z.record(z.string(),z.enum(ABSENCE))}),
+ z.object({type:z.literal('saveProgrammeAnswers'),visitId:id,version,answers:programmeRecord(z.string().trim().max(500)),absence:programmeRecord(z.enum(ABSENCE))}),
  z.object({type:z.literal('scheduleFollowUp'),personId:id,version,enrolmentId:id,title:z.string().trim().min(3).max(200),due:date,ownerId:id,completionRuleId:id.optional()}),
  z.object({type:z.literal('resolveFollowUp'),personId:id,version,taskId:id,state:z.enum(['completed','cancelled']),resolution:z.string().trim().min(5).max(500)})
 ]);

@@ -2,7 +2,7 @@ import { rangeCaptureFor, rangeContextProblem } from './fact-provenance';
 import { installedPacks, offlineWorkFor } from './programmes';
 import { z } from 'zod';
 import { withinPolicy } from './access';
-import { apply, digest, factsSchema, fail, person, uuid, visit } from './core';
+import { apply, digest, factsSchema, programmeRecord, fail, person, uuid, visit } from './core';
 import { programmeApply } from './programme-commands';
 import { ABSENCE } from './programmes';
 import type { OrgState, Member } from './types';
@@ -13,7 +13,7 @@ const id=z.string().min(1).max(200),ver=z.number().int().positive(),note=z.strin
 export const fieldSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('prepareFieldVisit'),personId:id,version:ver}).strict(),
  z.object({type:z.literal('revokeFieldLease'),personId:id,leaseId:id}).strict(),
- z.object({type:z.literal('syncFieldVisit'),personId:id,leaseId:id,packageHash:z.string().length(64),offlineWorkHash:z.string().regex(/^[0-9a-f]{64}$/).optional(),facts:factsSchema,answers:z.record(z.string(),z.string().max(500)),absence:z.record(z.string(),z.enum(ABSENCE))}).strict(),
+ z.object({type:z.literal('syncFieldVisit'),personId:id,leaseId:id,packageHash:z.string().length(64),offlineWorkHash:z.string().regex(/^[0-9a-f]{64}$/).optional(),facts:factsSchema,answers:programmeRecord(z.string().max(500)),absence:programmeRecord(z.enum(ABSENCE))}).strict(),
  z.object({type:z.literal('assignReferral'),referralId:id,version:ver,ownerId:id,due:z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x),urgency:z.enum(URGENCIES).optional(),reason:note}).strict(),
  z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(REFERRAL_EVENTS as [string,...string[]]),appointmentAt:z.string().datetime().optional(),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
 ]);
