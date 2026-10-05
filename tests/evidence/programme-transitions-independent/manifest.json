@@ -1,0 +1,277 @@
+{
+  "author": "41b7d02de5b33c0a44023b32d92028ef64f75101",
+  "beforeDiscovery": "b9fc7ad52bf99ebc65c16a12ecd7114c44482ed6",
+  "clearance": "HELD: actual P2 patient-bearing impact read lacks durable read audit",
+  "checks": {
+    "build": "pass",
+    "types": "pass",
+    "repeatCore": 43,
+    "repeatActualHTTPAndPhone": 245,
+    "repeatLegacy": 408,
+    "independentReadAuditSetup": 108,
+    "independentExtendedActualIncludingPhone": 253,
+    "extendedNewPhone": 8,
+    "countsOverlap": true
+  },
+  "sourceChanges": false,
+  "originalArtifactsUnchanged": {
+    "source": 21,
+    "drivers": 4,
+    "evidence": 35,
+    "preservedOriginalEvidence": 95
+  },
+  "ports": [
+    20900,
+    20901,
+    20902,
+    20903,
+    20904
+  ],
+  "commands": [
+    "node scripts/run-framework.mjs build",
+    "node node_modules/typescript/bin/tsc --noEmit",
+    "node tests/programme-transitions-independent-repeat-contract.mjs",
+    "node tests/programme-transitions-independent-repeat-compatibility.mjs",
+    "node tests/programme-transitions-independent-repeat-primary.mjs",
+    "node tests/programme-transitions-independent-read-audit-http.mjs",
+    "node tests/programme-transitions-independent-extended-current-primary.mjs"
+  ],
+  "artifacts": {
+    "tests/evidence/programme-transitions-independent/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/programme-transitions-independent/extended-primary.log": {
+      "sha256": "3e6be95104c906f29a1fd490200e59cc7e6d926845a509cc99b7129304b89a1a",
+      "bytes": 23420
+    },
+    "tests/evidence/programme-transitions-independent/compatibility.log": {
+      "sha256": "e1ea9476e6cdea2154b885e5d10c0c0b5c7ea90705e49350674172240dc7ffef",
+      "bytes": 26
+    },
+    "tests/evidence/programme-transitions-independent/contract.log": {
+      "sha256": "d2298d72e8c1f90be239d9bb153c954133d1d31b43a2800244c550fc4ea0d334",
+      "bytes": 25
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete.log": {
+      "sha256": "72805f8f7c19ad9794a22ab8842502ea6395056d95c7cd19dcf08b58187a7594",
+      "bytes": 24383
+    },
+    "tests/evidence/programme-transitions-independent/primary.log": {
+      "sha256": "5a3b0a9b5f5245b24d4606b1ab98e25cf0385e5585f25dc81138fcdda76cd29d",
+      "bytes": 24400
+    },
+    "tests/evidence/programme-transitions-independent/author-and-original-pins.json": {
+      "sha256": "9f3213a71723e8a799c5a6e045f41461cb20a716bb1b04d6426dff5442d2f5ba",
+      "bytes": 29501
+    },
+    "tests/evidence/programme-transitions-independent/read-audit-before.log": {
+      "sha256": "d08a532ff4bc9e2f17e926f915111c723cdcf9070a17c1e09379ae54f1cbe531",
+      "bytes": 11918
+    },
+    "tests/evidence/programme-transitions-independent/unknown-ack-initial-helper.txt": {
+      "sha256": "162ef21a019abf78c6380f2017b3b05059382f7922aee97eca9792a6e9e31abc",
+      "bytes": 3758
+    },
+    "tests/evidence/programme-transitions-independent/build.log": {
+      "sha256": "fe351fc9c36c70d74dee695cdfbb725e15ef10868f01da2f2fdb3c3d5585097d",
+      "bytes": 4700
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/worklists-contract.mjs.log": {
+      "sha256": "07de71280d138398432cc8b66c627314ffc55ba8e9b2bd225a0cf6f89c9b61cf",
+      "bytes": 58
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/indicator-figure-material-contract.mjs.log": {
+      "sha256": "9e74406c51210c387c2b8a85deddc580e224006555d7c5e4130176baaeb30502",
+      "bytes": 25
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/worklists-contract.mjs.result.json": {
+      "sha256": "cc9f6f3f05106d3c42a6ee7e9e37f89c104c0853d058237b6b35aa459d1df510",
+      "bytes": 112
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/action-plan-contract.mjs.result.json": {
+      "sha256": "73639c04a43b03d7c85edbae9b794c4e28e2dc68e15884d40e2489b709404e63",
+      "bytes": 109
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/result.json": {
+      "sha256": "4d7daa112731e585e7bb88b4b73f02c1915f43597e77a63a1a4dbc038699b4aa",
+      "bytes": 1459
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/record-import-contract.mjs.log": {
+      "sha256": "79574dc57f75970e92e6017cd30d7c3e122b61411f23cd6bbc6d2d1ac4280ae8",
+      "bytes": 40
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/programme-migration-contract.mjs.log": {
+      "sha256": "20253212142583f02a468b5d41179603310a4571b65a110289e9f81d6a96a0b9",
+      "bytes": 105
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/caseload-contract.mjs.result.json": {
+      "sha256": "d257918da416187fad9196f167ae02b8ba01c1cf16ae3918526c154ef0fc9c81",
+      "bytes": 107
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/record-import-contract.mjs.result.json": {
+      "sha256": "ecb650d1df5382249819d581f23b70043365d0b32168c0f20e14679b62196a34",
+      "bytes": 1202
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/pack-installation-contract.mjs.result.json": {
+      "sha256": "38dfbb52f07ac9449b786ae0a2c3b3e85352626af9cbb414c2e0cbfb5174284b",
+      "bytes": 116
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/indicator-figure-material-contract.json": {
+      "sha256": "40917911fb44e2f2c1b31f770bf1e52428394bde12c4d11ba782e6da07ba04f1",
+      "bytes": 278
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/pack-installation-contract.mjs.log": {
+      "sha256": "9ef69a72c1093b1e2d9763ac4fcb956608d8228bd0be725f267d17157c05e6b9",
+      "bytes": 103
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/caseload-contract.mjs.log": {
+      "sha256": "e17aa1c4f5f9f68d86f28291e961d78e1f55d6f3d511dd937fbf4f4d7e1b2b57",
+      "bytes": 94
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/programme-migration-contract.mjs.result.json": {
+      "sha256": "afe99e37d1288340e3360d86cdc014ba443c1d237d95728e31bb5dc988bef93a",
+      "bytes": 118
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/action-plan-contract.mjs.log": {
+      "sha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835",
+      "bytes": 13
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/installed-programme-execution-repair-contract.mjs.log": {
+      "sha256": "02863606cf2920a77b512831b725cddbbc8778a15cd5cde0e6a70b4df1b9283e",
+      "bytes": 25
+    },
+    "tests/evidence/programme-transitions-independent/repeat/compatibility/installed-programme-execution-repair-contract/result.json": {
+      "sha256": "a78d3594dc0f93265347423077a9c29c0961e98c0245fd7784f19348d48e272c",
+      "bytes": 222
+    },
+    "tests/evidence/programme-transitions-independent/repeat/contract/result.json": {
+      "sha256": "fd225f24eb98f01fae47bb2993be55943902ad6ef52a44b2cc581ddbb0db803f",
+      "bytes": 152
+    },
+    "tests/evidence/programme-transitions-independent/repeat/primary/result.json": {
+      "sha256": "278de60576d93e33f66bfe1ca35562553cd628d291b48f9c3d7ec9e06a6c5e14",
+      "bytes": 169
+    },
+    "tests/evidence/programme-transitions-independent/repeat/primary/native-withdrawal.json": {
+      "sha256": "5155e633140651ff64a0807eeac6faca4dea27efad07e988358bc7d062c9f1ab",
+      "bytes": 354
+    },
+    "tests/evidence/programme-transitions-independent/repeat/primary/review-basis.json": {
+      "sha256": "7049016b496cdc38fedd76fcf5c7f87a79703b3e1df818b901e1eebbf2b8ef23",
+      "bytes": 255
+    },
+    "tests/evidence/programme-transitions-independent/repeat/primary/observed.json": {
+      "sha256": "8e8448ec1976ddc45be0d3a80975f929aa6ad8e0bce372fa4174fc0dbcfec6c6",
+      "bytes": 7202
+    },
+    "tests/evidence/programme-transitions-independent/repeat/primary/phone/owner-transition-history.png": {
+      "sha256": "d63fd0b9c1abed94e741407c750e9536b5cc70a7f5d845ac4067b9a8640e9e7d",
+      "bytes": 241243
+    },
+    "tests/evidence/programme-transitions-independent/repeat/primary/phone/asha-retained-tasks.png": {
+      "sha256": "eb988bbcbd9e18004e3e8b21022e6bc740f4496c441cc13e5bf601af326da8da",
+      "bytes": 105612
+    },
+    "tests/evidence/programme-transitions-independent/repeat/primary/phone/independent-transition-review.png": {
+      "sha256": "12483ca488d3178e8141a346ca6675e40c31d60498daf0638b4d8aa198aa44f6",
+      "bytes": 356265
+    },
+    "tests/evidence/programme-transitions-independent/read-audit-before/observed.json": {
+      "sha256": "6708a6cd04a9443bd6fea1a74739e631dfa859e11fe17c6dbdd5327042c51b12",
+      "bytes": 363
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/independent-phone-lost-ack.json": {
+      "sha256": "ed9b68e9ebca640f50e69bfa3074ea899a3bb2de779072b0d3631ac5e72bd935",
+      "bytes": 1124
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/result.json": {
+      "sha256": "1a34dff7f274d40ecfaaeec106ada9d8c0ac911991bc951cf404f847a70fc40e",
+      "bytes": 169
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/native-withdrawal.json": {
+      "sha256": "15550f9a24d52dff24221babe4eb95d50ed2b061c5edc25e5901d7e30f1576c8",
+      "bytes": 354
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/review-basis.json": {
+      "sha256": "0ef7e2328c03f7b049506598a702f51d3b4b9e04586ca6f70f0ba0e3315b7c90",
+      "bytes": 255
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/observed.json": {
+      "sha256": "27c67047d9f89fac4ab7eac8ac6e8ae92d2fded611b7754aff8febf384e294ba",
+      "bytes": 7202
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/phone/independent-lost-ack-recovered.png": {
+      "sha256": "ba73411111b3c4a1aed8786b80b00cbc568e751516a586bcf6d17bc498800043",
+      "bytes": 400949
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/phone/owner-transition-history.png": {
+      "sha256": "11ba07ea70147c8c6b5cb46c4028e595b41f655728c25fbed4c08c86062f1926",
+      "bytes": 242912
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/phone/asha-retained-tasks.png": {
+      "sha256": "74283cd191699fba02a2d3fecf08af0fda1fa8308534ebb0b4eb25991954104e",
+      "bytes": 106776
+    },
+    "tests/evidence/programme-transitions-independent/extended-complete/primary/phone/independent-transition-review.png": {
+      "sha256": "cd2b77addb085dc4c90652ba893702d34c18894457c1ba9cdb287cbe9f24321c",
+      "bytes": 360732
+    },
+    "tests/evidence/programme-transitions-independent/extended/primary/review-basis.json": {
+      "sha256": "f419e243e840164a8118c204758a4ffcd2aa38993a093af37462ff3ac09517d9",
+      "bytes": 255
+    },
+    "tests/evidence/programme-transitions-independent/extended/primary/phone/owner-transition-history.png": {
+      "sha256": "96ad3ba1f7398c470f2ab70ac5439bc3acf806372a9c9f821498929729dbd464",
+      "bytes": 241790
+    },
+    "tests/evidence/programme-transitions-independent/extended/primary/phone/asha-retained-tasks.png": {
+      "sha256": "90f34e1b18975539870666ad42d6366de923152da66752405538865335409d15",
+      "bytes": 107249
+    },
+    "tests/evidence/programme-transitions-independent/extended/primary/phone/independent-transition-review.png": {
+      "sha256": "866e2be33f9181bd36060f33f704826ac1af656060a26edb4b6fd493d4e2da55",
+      "bytes": 357639
+    },
+    "tests/programme-transitions-independent-repeat-contract.mjs": {
+      "sha256": "4d5284efdb038fd33f4500090d58bf0dd751fd693aa9649a0fc2b805289d9965",
+      "bytes": 13598
+    },
+    "tests/programme-transitions-independent-extended-primary.mjs": {
+      "sha256": "741e8885a6a1f694268f1086d7f28c779d6299ca5c1b2c2b30d2bc64e82a5ee5",
+      "bytes": 44185
+    },
+    "tests/programme-transitions-independent-repeat-primary.mjs": {
+      "sha256": "2a44215a1b30f48818d05da221ea60524bb7007bac68080dbab9411ffa8c5992",
+      "bytes": 44142
+    },
+    "tests/programme-transitions-independent-read-audit-http.mjs": {
+      "sha256": "c4808851d4003a38d5132b424b5efa934b90a8089c9932c43ecccd95b6b4acad",
+      "bytes": 22560
+    },
+    "tests/programme-transitions-independent-repeat-compatibility.mjs": {
+      "sha256": "3eeeec2357ffff30d6068fdf7a61440f00f2415a011f3f715cb95bf06c2310e7",
+      "bytes": 2387
+    },
+    "tests/programme-transitions-independent-extended-current-primary.mjs": {
+      "sha256": "3dacf4d964a75bca924f13b2400c84e49b9084b9242a717a4fc76ac30d84839a",
+      "bytes": 44212
+    },
+    "tests/lib/programme-transition-independent-phone.mjs": {
+      "sha256": "7823edba2aee29b73b2b50326703c429de94400a8845bb85eba3ac553285d9ed",
+      "bytes": 3849
+    },
+    "docs/current/PROGRAMME-TRANSITIONS-INDEPENDENT-REVIEW.md": {
+      "sha256": "2878ca77a4b9b39a4ad9097f10f02c3288cd59648f25a6eb9a85ae1188c74070",
+      "bytes": 4980
+    }
+  },
+  "externalCalls": false,
+  "limits": [
+    "Full B12 remainsopen",
+    "0032 portability rootowned",
+    "Mounted panel recovery not durable nonce across unmount/reload",
+    "No formal/clinical/provider/device acceptance",
+    "No source fix by reviewer"
+  ]
+}
