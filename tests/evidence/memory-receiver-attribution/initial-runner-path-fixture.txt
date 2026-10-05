@@ -1,0 +1,16 @@
+node:child_process:585
+  validateString(file, 'file');
+  ^
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "file" argument must be of type string. Received an instance of Object
+    at normalizeSpawnArguments (node:child_process:585:3)
+    at spawnSync (node:child_process:887:8)
+    at execFileSync (node:child_process:971:15)
+    at file://[isolated checkout]/scripts/diagnose-memory-runtime-comparison.mjs:17:120
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v24.19.0

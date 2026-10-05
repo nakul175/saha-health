@@ -1,0 +1,160 @@
+{
+  "source": "e89cf6b7cf0978c4e07f8530281dadceefd34640",
+  "date": "2026-10-05T07:14:58.989Z",
+  "platform": "darwin",
+  "node": "v24.19.0",
+  "miniflare": "4.20260515.0",
+  "compatibilityDate": "2026-05-15",
+  "compatibilityFlags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "bundleSha256": "80db0064be02e565365ca632c000d9a1f3f601351fc5d72bf4dc2920fa1fb8a8",
+  "rounds": 4,
+  "loadsPerRound": 1000,
+  "warmup": 100,
+  "concurrency": 4,
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "heapFlags": false,
+  "cases": [
+    {
+      "name": "pinned-20260515",
+      "runtimeVersion": "workerd 2026-05-15",
+      "phases": [
+        {
+          "phase": "warm",
+          "completedLoads": 100,
+          "rssBeforeKb": 186608,
+          "rssAfterKb": 186608,
+          "deleteQueueCount": 2107,
+          "databaseBytes": 4914832
+        },
+        {
+          "phase": "round 1",
+          "completedLoads": 1100,
+          "rssBeforeKb": 457888,
+          "rssAfterKb": 457888,
+          "deleteQueueCount": 7912,
+          "databaseBytes": 6053592,
+          "durationMs": 8261
+        },
+        {
+          "phase": "round 2",
+          "completedLoads": 2100,
+          "rssBeforeKb": 518144,
+          "rssAfterKb": 518144,
+          "deleteQueueCount": 8602,
+          "databaseBytes": 7159632,
+          "durationMs": 10080
+        },
+        {
+          "phase": "round 3",
+          "completedLoads": 3100,
+          "rssBeforeKb": 546800,
+          "rssAfterKb": 546800,
+          "deleteQueueCount": 7765,
+          "databaseBytes": 8294224,
+          "durationMs": 8732
+        },
+        {
+          "phase": "round 4",
+          "completedLoads": 4100,
+          "rssBeforeKb": 585872,
+          "rssAfterKb": 585872,
+          "deleteQueueCount": 11387,
+          "databaseBytes": 9424720,
+          "durationMs": 9153
+        },
+        {
+          "phase": "idle20s",
+          "completedLoads": 4100,
+          "rssBeforeKb": 585856,
+          "rssAfterKb": 585856,
+          "deleteQueueCount": 11387,
+          "databaseBytes": 5226576
+        }
+      ],
+      "successfulLoads": 4100,
+      "responseBytes": 16994,
+      "auditRows": 4100,
+      "metricCount": 4100,
+      "patientRows": 6,
+      "visitRows": 0,
+      "completed": true
+    },
+    {
+      "name": "candidate-20260930",
+      "runtimeVersion": "workerd 2026-09-30",
+      "phases": [
+        {
+          "phase": "warm",
+          "completedLoads": 100,
+          "rssBeforeKb": 213632,
+          "rssAfterKb": 213632,
+          "deleteQueueCount": 2209,
+          "databaseBytes": 4898352
+        },
+        {
+          "phase": "round 1",
+          "completedLoads": 1100,
+          "rssBeforeKb": 680576,
+          "rssAfterKb": 680576,
+          "deleteQueueCount": 23640,
+          "databaseBytes": 6070096,
+          "durationMs": 8557
+        },
+        {
+          "phase": "round 2",
+          "completedLoads": 2100,
+          "rssBeforeKb": 782960,
+          "rssAfterKb": 782960,
+          "deleteQueueCount": 44843,
+          "databaseBytes": 7167824,
+          "durationMs": 10031
+        },
+        {
+          "phase": "round 3",
+          "completedLoads": 3100,
+          "rssBeforeKb": 855856,
+          "rssAfterKb": 855856,
+          "deleteQueueCount": 43194,
+          "databaseBytes": 8281936,
+          "durationMs": 9537
+        },
+        {
+          "phase": "round 4",
+          "completedLoads": 4100,
+          "rssBeforeKb": 872272,
+          "rssAfterKb": 872272,
+          "deleteQueueCount": 45696,
+          "databaseBytes": 9404240,
+          "durationMs": 9884
+        },
+        {
+          "phase": "idle20s",
+          "completedLoads": 4100,
+          "rssBeforeKb": 872256,
+          "rssAfterKb": 872256,
+          "deleteQueueCount": 45696,
+          "databaseBytes": 5214288
+        }
+      ],
+      "successfulLoads": 4100,
+      "responseBytes": 16994,
+      "auditRows": 4100,
+      "metricCount": 4100,
+      "patientRows": 6,
+      "visitRows": 0,
+      "completed": true
+    }
+  ],
+  "limits": [
+    "No hosted isolate, larger-patient scope, concurrency mix or production upgrade/security qualification.",
+    "Runtime path override is an explicit experiment with unchanged Miniflare and compatibility date; it is not the full supported dependency update.",
+    "Passive native heap scans pause the process and may alter timing equally in both arms; aggregate proxy counts are not retaining paths or byte attribution.",
+    "Fresh processes between experiment arms only, never periodic recycling during a workload."
+  ],
+  "completed": true
+}
