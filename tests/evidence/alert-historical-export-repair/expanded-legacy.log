@@ -1,0 +1,32 @@
+{"event":"saha_request","requestId":"3e7214b5-102a-4d2d-a43f-ffca898eb95e","route":"workspace","status":200,"durationMs":28}
+{"event":"saha_request","requestId":"61c28043-6f18-4d83-83e3-c8bb7899bd28","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"078a3762-3a5d-4c42-9b0c-d6468bcfb5f0","route":"commands","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"c8c4857d-d4e4-4300-b70d-0b1335c5e479","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"c5742a3c-dde5-4bc0-b1b1-641134014e3c","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"a7f8fbdc-fda8-4715-b894-15d2b6c360fe","route":"commands","status":200,"durationMs":28}
+{"event":"saha_request","requestId":"ccbe5f83-0e50-4289-8a63-99f0fd5f0b8f","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"5a47ab3a-3640-42a6-8885-ac536f42393b","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"41a5aa66-6885-4d78-b064-e09036161545","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"6ee2fea8-f7d1-44c3-aa15-0de98c110f33","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"5a2d4e04-16cc-4166-8c86-a24c9c49a446","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"872bea7a-93ef-4866-9814-c481e258e9d9","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"25cc4a6b-292a-4621-8fa4-6ee0327bddfe","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"4bed30d0-beea-4a0e-8859-5b3dacd7926a","route":"operations","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"f4b26b42-d442-416d-af9d-7f89145a904d","route":"alerts","status":200,"durationMs":5}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Actual old Worker generates own one-person clinical count
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-repair/tests/alert-historical-export-repair-http.mjs:2:471)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-repair/tests/alert-historical-export-repair-http.mjs:4:1797
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

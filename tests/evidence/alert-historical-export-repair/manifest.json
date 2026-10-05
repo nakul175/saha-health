@@ -1,0 +1,67 @@
+{
+  "base": "7077ebf6de875fbda438f6b6c86fe5027d3c4a85",
+  "runtimeFiles": [
+    "lib/saha/data-exit.ts"
+  ],
+  "drivers": [
+    "tests/alert-historical-export-repair-http.mjs",
+    "tests/alert-export-current-data-exit-contract.mjs",
+    "tests/alert-export-current-integration-media-data-exit-contract.mjs"
+  ],
+  "checks": {
+    "currentActual": 281,
+    "legacySetup": 17,
+    "originalDataExitQualified": 44,
+    "originalMediaDataExitQualified": 44
+  },
+  "countsOverlap": true,
+  "originalUnchangedSha256": {
+    "tests/data-exit-contract.mjs": "7936d23db7c5600ec4820e703d836e37c6603b7bc9ab8d267ccc4a97cf724bb4",
+    "tests/integration-media-data-exit-contract.mjs": "5968975151828084c6f7ee832efee26baa8e618b5c1511ab1b3f1e5661c1e0f1",
+    "tests/alert-historical-export-before.mjs": "605c5e6e74a73d86bcfa15f0698881b8ea9acd9d200b1ce7802ea15b8c542134"
+  },
+  "sha256": {
+    "docs/current/HISTORICAL-ALERT-EXPORT-REPAIR.md": "a05afdd5a212c93aff96f6300816dfb6763c4606680cebd9cd909f516c656c52",
+    "lib/saha/data-exit.ts": "a39190f060cd9100aad2dd7e9af8f2e21a29ac6c63ea85b340d4a02656fc8d0a",
+    "tests/alert-export-current-data-exit-contract.mjs": "0506abfe52d58ba527b50902e28cc0aeea6ea2819157d0f27b3604bba2665344",
+    "tests/alert-export-current-integration-media-data-exit-contract.mjs": "0b003a11b6e7fe800435ab642de684a1f3bcf10c0fdc1d410b1e280394aa97b1",
+    "tests/alert-historical-export-repair-http.mjs": "15535bc5a93ef8d6d1c97def20a4241e904c68e3f1813f8017e286eee1039d24",
+    "tests/evidence/alert-historical-export-repair/actual.log": "a41bdfb7b5825d4634a3bd4577584d80ea3b7fce39c80b231019a83b3511c67f",
+    "tests/evidence/alert-historical-export-repair/build.log": "51083f9b37cc6aa44db8361e16f6841fda6116b26d3d49c78f2824b33232e441",
+    "tests/evidence/alert-historical-export-repair/data-exit-contract-result.json": "427aa51e2053201f9e8cc57bf3bdf67494ed3b8198d89753b13b4e3c1ea52d01",
+    "tests/evidence/alert-historical-export-repair/data-exit-contract.log": "d0b531f00dcb624be405e66d63e1db8d55ad7f4a9e3c145544760c371ce28bf9",
+    "tests/evidence/alert-historical-export-repair/data-exit-current-table-contract.log": "cc9d2957fa5fa8e7d5036be2189e3db633dcfd50425a327aac4666aadbc88777",
+    "tests/evidence/alert-historical-export-repair/data-exit-current-verifier-contract.log": "8fafc857334a4a4396c3ff0dfabe649abc9fa9e37871b570df885590d5259c72",
+    "tests/evidence/alert-historical-export-repair/empty-team-additional-history-alert_notifications.jsonl": "885ddd331206dcd4e53e7f60930d9a68ea52521127fe88c04dfe78ce0ba66caa",
+    "tests/evidence/alert-historical-export-repair/empty-team-additional-history-alert_occurrences.jsonl": "725c9912531c557c3cdff5534605230d477c6822ba216600667a8c65bc1fd3f3",
+    "tests/evidence/alert-historical-export-repair/empty-team-additional-history-notification_messages.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/alert-historical-export-repair/empty-team-additional-history.tar": "44950be0bd847237122971da490ad2524be52045b4ae3172d35e660d98abc9d3",
+    "tests/evidence/alert-historical-export-repair/empty-team-before-additional-history-alert_notifications.jsonl": "885ddd331206dcd4e53e7f60930d9a68ea52521127fe88c04dfe78ce0ba66caa",
+    "tests/evidence/alert-historical-export-repair/empty-team-before-additional-history-alert_occurrences.jsonl": "725c9912531c557c3cdff5534605230d477c6822ba216600667a8c65bc1fd3f3",
+    "tests/evidence/alert-historical-export-repair/empty-team-before-additional-history-notification_messages.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/alert-historical-export-repair/empty-team-before-additional-history.tar": "279cb46e4c145600fa2b6c6d0cbdab56bd5a79ba4a203fe5aa52806714cbb4bd",
+    "tests/evidence/alert-historical-export-repair/expanded-actual.log": "ce2b16f48a474c61557ebfd8b69ddc0eba17a80a4a610a2ed0a3281ef5f3ad6e",
+    "tests/evidence/alert-historical-export-repair/expanded-legacy.log": "1d3c07c825744f0e71a70ca18ebdc32ea8fc7a51c57404ec93b13bc6b7399f0d",
+    "tests/evidence/alert-historical-export-repair/expanded-original-legacy.log": "9bff8d1c58602be2c8ecfd3db36ffcb65b87ceed81b7089fe27839f2d4a093c0",
+    "tests/evidence/alert-historical-export-repair/final-actual.log": "7993ed8b17717698c4d3dde9d66e54880d41ab26d44f47b846eee95ed6168bf8",
+    "tests/evidence/alert-historical-export-repair/final-legacy.log": "96aa726b63a77a1db1d571d77df86cab774fe5babf8d211e434dd1f693d10805",
+    "tests/evidence/alert-historical-export-repair/legacy.json": "4c254f5d2d42cad8cdf5e0067c36e05c50dddec507e22221bef87c82dfc57dfe",
+    "tests/evidence/alert-historical-export-repair/legacy.log": "74deb798379d1dcfe9ec3874c8ff65df2b8f4780eeedefa7ed786571946918e0",
+    "tests/evidence/alert-historical-export-repair/media-data-exit-contract-result.json": "48b8693104948ccc99e58a065cb7321d031f51a481ed9a6d4cdfffc522f7bb4f",
+    "tests/evidence/alert-historical-export-repair/media-data-exit-contract.log": "abf84ee0b2663020b20ed6bb4202b002835d503b1510da01473428d5e18e025a",
+    "tests/evidence/alert-historical-export-repair/media-data-exit-current-table-contract.log": "e97ce63ab18cb6078a47101ab3d07ecd22a2bd8a0b02411c352266e315d64128",
+    "tests/evidence/alert-historical-export-repair/media-data-exit-current-verifier-contract.log": "5a3d6c874fa8dd6c32230f44d0467bb67adc134100fecd276c9fe234b0d98b07",
+    "tests/evidence/alert-historical-export-repair/media-data-exit-final-contract.log": "206d324f954178112be255c85eb54ac6d009e06953611d816c84bc3a30a26a5d",
+    "tests/evidence/alert-historical-export-repair/no-care-scope-alert_notifications.jsonl": "885ddd331206dcd4e53e7f60930d9a68ea52521127fe88c04dfe78ce0ba66caa",
+    "tests/evidence/alert-historical-export-repair/no-care-scope-alert_occurrences.jsonl": "725c9912531c557c3cdff5534605230d477c6822ba216600667a8c65bc1fd3f3",
+    "tests/evidence/alert-historical-export-repair/no-care-scope-notification_messages.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/alert-historical-export-repair/no-care-scope.tar": "fd57558cb24a784d4e0d4f7214877a98330bfe0fbde884051b41c6e45a2860e1",
+    "tests/evidence/alert-historical-export-repair/normal-alert_notifications.jsonl": "885ddd331206dcd4e53e7f60930d9a68ea52521127fe88c04dfe78ce0ba66caa",
+    "tests/evidence/alert-historical-export-repair/normal-alert_occurrences.jsonl": "725c9912531c557c3cdff5534605230d477c6822ba216600667a8c65bc1fd3f3",
+    "tests/evidence/alert-historical-export-repair/normal-notification_messages.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/alert-historical-export-repair/normal.tar": "a4c7e301dced5bd07e0f3a2fcb7cc39a0bf93e247e04816245b736dc0c4577c9",
+    "tests/evidence/alert-historical-export-repair/observed.json": "366c5218a31efa090c12aedf81c7919dfaafe14d98114b414f4b6db19a3c345f",
+    "tests/evidence/alert-historical-export-repair/types-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/alert-historical-export-repair/types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
