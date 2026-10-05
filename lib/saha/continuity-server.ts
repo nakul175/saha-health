@@ -1,5 +1,5 @@
 import { db, identity, loadFor, json } from './server';
-import { recordMatchSearch } from './read-audit';
+import { recordMatchSearch, recordPatientWorkView } from './read-audit';
 import { allowed } from './access';
 import { fail } from './core';
 import { scope } from './store';
@@ -14,5 +14,6 @@ export async function matchesRead(request:Request){
 export async function continuityRead(request:Request){
  const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);if(m.role==='admin')fail(403,'Patient access is required.');
  const people=s.workspace.people.filter(p=>allowed(m,p)).map(p=>{const work=openPatientWork(s,p),handover=p.assignmentHistory?.at(-1),missing=work.filter(t=>!s.members.some(owner=>owner.userId===t.ownerId&&['asha','clinician'].includes(owner.role)&&allowed(owner,p)));return {id:p.id,name:p.name,age:p.age,sex:p.sex,village:p.village,version:p.version,teamId:p.teamId,assignedTo:p.assignedTo,identityReview:p.identityReview??null,handover:handover??null,work,unavailableOwners:missing.length};}).filter(p=>p.unavailableOwners||p.identityReview?.state==='provisional'||(p.handover?.ownerId&&!p.handover.acknowledgement));
+ await recordPatientWorkView(db(),s,u,m,'care continuity',people.length);
  return json({generatedAt:new Date().toISOString(),people,canAssign:(m.isOwner||m.role==='supervisor'),canResolveIdentity:m.role==='clinician',scope:'Only patients in your current care scope; unavailable task owners and unacknowledged handovers remain visible.'});
 }

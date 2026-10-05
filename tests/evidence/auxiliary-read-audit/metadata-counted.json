@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-10-05T04:31:44.973Z",
+  "startedAt": "2026-10-05T04:31:43.120Z",
+  "command": "node scripts/test.mjs integration --fast --only integration/workspace-metadata-smoke --report tests/reports/app-first-metadata-counted.json --update-baseline --reason Count actual metadata HTTP assertions in regression guard",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1729,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 1853
+  },
+  "suites": [
+    {
+      "id": "integration/workspace-metadata-smoke",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/workspace-metadata-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1729,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__workspace-metadata-smoke.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/workspace-metadata-batch/http.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 142,
+        "components": 0,
+        "suitesCitingNoRequirement": 35,
+        "requirementsCited": 138
+      },
+      "integration": {
+        "suites": 11,
+        "components": 84,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 119
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 1,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 178,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 154,
+    "suitesCitingNoRequirement": 47,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 154
+  }
+}

@@ -18,6 +18,11 @@
       "file": "tests/app-offline-scope-browser.mjs",
       "minPassed": 10
     },
+    "integration/auxiliary-read-http": {
+      "layer": "integration",
+      "file": "tests/auxiliary-read-http.mjs",
+      "minPassed": 15
+    },
     "integration/reconciliation-http": {
       "layer": "integration",
       "file": "tests/reconciliation-http.mjs",
@@ -46,6 +51,11 @@
     "integration/touch-units-browser": {
       "layer": "integration",
       "file": "tests/touch-units-browser.mjs",
+      "minPassed": 20
+    },
+    "integration/workspace-metadata-smoke": {
+      "layer": "integration",
+      "file": "tests/workspace-metadata-smoke.mjs",
       "minPassed": 20
     },
     "nfr/authorisation-matrix": {
@@ -827,6 +837,11 @@
       "layer": "unit",
       "file": "tests/worklists-contract.mjs",
       "minPassed": 111
+    },
+    "unit/workspace-metadata-contract": {
+      "layer": "unit",
+      "file": "tests/workspace-metadata-contract.mjs",
+      "minPassed": 147
     }
   },
   "log": [

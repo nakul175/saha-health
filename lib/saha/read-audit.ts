@@ -3,7 +3,7 @@ import { fail } from './core';
 import { exceptionalGrant, normallyAllowed } from './access';
 import { accessRoute, recordAccess, recordAccessBare } from './access-audit';
 import type { Actor } from './store';
-import type { Member, OrgState } from './types';
+import type { Member, OrgState, Person } from './types';
 // Slice 10h: the remaining read paths are audited through the same single-event, chained, fail-closed access commit as
 // slice 6t (BR-SEC-08). Everything written here is an identifier or a count; nothing a person typed is recorded and no
 // event repeats patient names, facts or notes.
@@ -57,6 +57,17 @@ export async function recordMatchSearch(db: D1Database, state: OrgState, actor: 
 // Aggregate views: the view, the counts, and which filters were set (never their values).
 export async function recordAggregateView(db: D1Database, state: OrgState, actor: Actor, m: Member, view: string, detail: string, now = new Date().toISOString()) {
   await recordAccess(db, state, actor, m, { action: 'viewAggregate', subject: view, personId: null, detail }, now);
+}
+
+// Derived patient views still disclose patient work even when the full workspace is not returned.
+// Queue reads append one count-only event, including empty results; a single-patient plan records
+// the patient's identifier and access route. Await the durable chain commit before returning either.
+export async function recordPatientWorkView(db: D1Database, state: OrgState, actor: Actor, m: Member, view: 'care continuity' | 'referral escalations' | 'action plan', rows: number, patient?: Person, now = new Date().toISOString()) {
+  await recordAccess(db, state, actor, m, {
+    action: patient ? 'viewActionPlan' : 'listPatients',
+    subject: patient?.id ?? state.organisation.id, personId: patient?.id ?? null,
+    detail: `Patient work view: ${view}; ${rows} row${rows === 1 ? '' : 's'} returned.${patient ? accessRoute(m, patient, now) : ''}`,
+  }, now);
 }
 
 // The browser opened a record it already held. A second report for the same viewer and patient inside

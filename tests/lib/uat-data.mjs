@@ -74,6 +74,8 @@ export const LAYER_OVERRIDES = {
   'tests/app-offline-browser.mjs': ['integration', 'actual Chromium/Worker/D1 offline prepared-visit journey'],
   'tests/reconciliation-http.mjs': ['integration', 'isolated Worker and D1 reconciliation routes'],
   'tests/reminder-optout-http.mjs': ['integration', 'isolated Worker and D1 opt-out routes plus browser journey'],
+  'tests/auxiliary-read-http.mjs': ['integration', 'actual built Worker/D1 fail-closed auxiliary patient views'],
+  'tests/workspace-metadata-smoke.mjs': ['integration', 'actual Worker/D1 metadata response audit and metrics'],
   'tests/service-identity-management.mjs': ['integration', 'isolated Worker/D1 and Chromium service management'],
   'tests/reconciliation-ui.mjs': ['smoke', 'delayed scope and preview browser regressions'],
   'tests/reminder-optout-refresh-browser.mjs': ['smoke', 'organisation switching and concurrent opt-out browser regressions'],
