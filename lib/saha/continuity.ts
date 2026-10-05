@@ -1,4 +1,4 @@
-import { followUpOpen } from './programmes';
+import { transitionSuperseded, followUpOpen } from './programmes';
 import { z } from 'zod';
 import { digest, fail, person, uuid } from './core';
 import { allowed } from './access';
@@ -55,7 +55,7 @@ export function transferPatientWork(s:OrgState,p:Person,c:{teamId:string;assigne
  p.assignmentHistory??=[];if(p.assignmentHistory.length>=100)fail(422,'Assignment history limit reached; an archival policy is required.');
  const handover:AssignmentEvent={id:uuid(),at:now,by:u.userId,fromTeam:p.teamId,fromOwner:p.assignedTo,teamId:c.teamId,ownerId:c.assignedTo,reason:c.reason,openWork:work.length};p.assignmentHistory.push(handover);
  if(c.assignedTo){
-  for(const t of p.followUps??[])if(t.state==='open')t.ownerId=c.assignedTo;
+  for(const t of p.followUps??[])if(t.state==='open'&&!transitionSuperseded(s,t))t.ownerId=c.assignedTo;
   for(const r of s.workspace.referrals)if(r.personId===p.id&&!TERMINAL.has(r.state)){r.ownerId=c.assignedTo;r.version=(r.version??1)+1;}
   for(const plan of s.outreach?.plans??[]){let changed=false;for(const i of plan.items)if(i.personId===p.id&&!['completed','cancelled'].includes(i.state)&&!['completed','cancelled'].includes(plan.state)){i.ownerId=c.assignedTo;changed=true;}if(changed){plan.version++;plan.history.push({at:now,by:u.userId,state:plan.state,reason:'Care handover: '+c.reason});}}
  }

@@ -2,7 +2,7 @@ import {identity,loadFor,db,json} from './server';
 import {scope,persist} from './store';
 import {digest,fail,AppError} from './core';
 import {boundedJsonBody} from './request-body';
-import {installedWorkSchema,applyInstalledWork,installedWorkRows,policiesOf,occurrencesOf,INSTALLED_WORK_NOTICE,visitSource,governanceGate} from './installed-pack-work';
+import {installedWorkSchema,applyInstalledWork,installedWorkRows,policiesOf,occurrencesOf,INSTALLED_WORK_NOTICE,visitSource,governanceGate,installedSourceStatus} from './installed-pack-work';
 import {normallyAllowed,allowedFor,purposePermits} from './access';
 import {recordPatientWorkView} from './read-audit';
 import type {OrgState,Member} from './types';
@@ -38,7 +38,7 @@ export async function installedWorkRead(request:Request){
  if(!id){if(!m.isOwner&&m.role!=='clinician')fail(403,'Only a care owner or clinician reads execution governance.');s=await loadFor(u,org);m=scope(s,u.userId);reader(s,m);if(!m.isOwner&&m.role!=='clinician')fail(403,'Current care governance authority is required.');for(const team of m.teamIds)governanceGate(s,m,team);return json({notice:INSTALLED_WORK_NOTICE,policies:policiesOf(s).filter(x=>m.teamIds.includes(x.teamId)),installations:(s.operations?.installedPacks??[]).filter(x=>x.state==='active').map(x=>({id:x.id,name:x.pack.name,hash:x.manifestHash,version:x.version})),teams:s.teams.filter(t=>m.teamIds.includes(t.id)),canPropose:!!m.isOwner,canReview:m.role==='clinician'});}
  const p=patientGate(s,m,id),originalIds=occurrencesOf(p).map(x=>x.id).sort();await recordPatientWorkView(db(),s,u,m,'action plan',occurrencesOf(p).length,p);s=await loadFor(u,org);m=scope(s,u.userId);const current=patientGate(s,m,id),items=[];
  if(JSON.stringify(occurrencesOf(current).map(x=>x.id).sort())!==JSON.stringify(originalIds))fail(409,'Care work changed during audited read. Refresh.');
- for(const x of occurrencesOf(current)){const v=s.workspace.visits.find(v=>v.id===x.visitId);if(!v)fail(409,'Original source is unavailable.');const currentHash=await visitSource(v);items.push({...x,currentVisitVersion:v.version,currentSourceHash:currentHash,currentSourceStatus:currentHash===x.sourceHash&&x.sourceHashVersion===1&&!v.voidedAt&&!v.supersededBy?'current':'review-required',canDecide:m.role==='clinician'&&m.userId!==v.patientCheck?.by&&x.kind==='escalation'&&x.state!=='resolved'});}
+ for(const x of occurrencesOf(current)){const v=s.workspace.visits.find(v=>v.id===x.visitId);if(!v)fail(409,'Original source is unavailable.');const currentHash=await visitSource(v);items.push({...x,currentVisitVersion:v.version,currentSourceHash:currentHash,currentSourceStatus:installedSourceStatus(x,v,currentHash),canDecide:m.role==='clinician'&&m.userId!==v.patientCheck?.by&&x.kind==='escalation'&&x.state!=='resolved'});}
  const latest=await loadFor(u,org),lm=scope(latest,u.userId),lp=patientGate(latest,lm,id);if(await digest({person:lp,visits:latest.workspace.visits.filter(v=>v.personId===id)})!==await digest({person:current,visits:s.workspace.visits.filter(v=>v.personId===id)}))fail(409,'Patient source changed before returning audited work. Refresh.');
  return json({notice:INSTALLED_WORK_NOTICE,personId:current.id,personVersion:current.version,items});
 }

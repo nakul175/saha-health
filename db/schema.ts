@@ -246,3 +246,7 @@ export const reportingCompletenessReceipts=sqliteTable('reporting_completeness_r
 export const installedPackWorkEvents=sqliteTable('installed_pack_work_events',{
  orgId:text('org_id').notNull().references(()=>organisations.id),id:text('id').notNull(),entityId:text('entity_id').notNull(),personId:text('person_id'),actorId:text('actor_id').notNull(),kind:text('kind').notNull(),at:text('at').notNull(),data:text('data').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),index('installed_pack_work_person').on(t.orgId,t.personId,t.entityId)]);
+
+export const installedPackTransitionEvents=sqliteTable('installed_pack_transition_events',{
+ orgId:text('org_id').notNull(),id:text('id').notNull(),transitionId:text('transition_id').notNull(),actorId:text('actor_id').notNull(),kind:text('kind').notNull(),at:text('at').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('installed_pack_transition_history').on(t.orgId,t.transitionId)]);

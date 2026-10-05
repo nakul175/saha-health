@@ -1,3 +1,5 @@
+import {hydrateTransitionAuthority} from './installed-transition-authority';
+import {transitionSuperseded} from './programmes';
 import type { D1Database } from '@cloudflare/workers-types';
 import { allowed } from './access';
 import { fail } from './core';
@@ -70,6 +72,15 @@ export async function worklistData(db: D1Database, orgId: string, member: Member
     if (!allowed(member, p, now)) continue;
     people.push({ id: r.id, name: r.name ?? '', age: r.age, sex: r.sex ?? '', village: r.village ?? '', programmes: r.programmes ? JSON.parse(r.programmes) : [], task: r.task ?? '', due: r.due ?? '', status: r.status, merged: !!r.merged, ...(r.follow_ups ? { followUps: JSON.parse(r.follow_ups) } : {}) });
   }
+  // Patient-derived status is projected from authoritative transition rows, never
+  // from a persisted display flag. This scoped summary path reads no other patients.
+  let authority:any=null;
+  if(people.some(p=>p.followUps?.some(t=>(t as any).transitionSupersessions?.length))){
+    const row=await db.prepare('SELECT data FROM operations WHERE org_id=?').bind(orgId).first<{data:string}>();
+    authority={organisation:{id:orgId},operations:row?JSON.parse(row.data):{},workspace:{people}};
+    await hydrateTransitionAuthority(db,authority);
+  }
+  for(const p of people)if(p.followUps)p.followUps=p.followUps.map(t=>{const {transitionStatus:_,...original}=t as any;return {...original,...(authority&&transitionSuperseded(authority,t)?{transitionStatus:'superseded'}:{})};});
   const ids = new Set(people.map(p => p.id)), mine = (r: Record<string, any>) => ids.has(r.person_id);
   const submissions = need.submissions === 'full' ? at(2).filter(mine).map(r => JSON.parse(r.data) as Submission) : at(2).filter(mine).map(r => ({ state: r.state }) as Submission);
   const referrals = at(3).filter(mine).map(r => JSON.parse(r.data) as Referral);
