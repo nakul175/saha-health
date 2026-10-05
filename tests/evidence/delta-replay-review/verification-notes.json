@@ -1,0 +1,13 @@
+{
+  "build": true,
+  "typescript": true,
+  "actualHttpChecks": 26,
+  "readContractChecks": 52,
+  "scopeContractChecks": 27,
+  "total": 105,
+  "initialVerificationRepairs": [
+    "A new SQL label lookup initially used instr(detail,label)=1, although replay label occurs inside summary; changed to>0 after null-result failure.",
+    "Existing read contract source assertion required obsolete inline replay summary/snapshot shape; updated to assert fresh viewer load, original command default label and explicit replay label."
+  ],
+  "limits": "Synthetic local Worker/D1 only; author delta helper independently reviewed, reviewer-authored replay correction needs integrator independent rerun."
+}
