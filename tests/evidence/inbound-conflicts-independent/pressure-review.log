@@ -1,0 +1,38 @@
+{"event":"saha_request","requestId":"d5f99eea-bd3d-4d78-a119-11c6d6229417","route":"workspace","status":200,"durationMs":21}
+{"event":"saha_request","requestId":"a20c4cfd-479a-4975-8485-6937d3774398","route":"workspace","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"f7ecfff0-422b-44e5-b1db-25a529bbafaf","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"5b5449b2-1d8f-41fd-8bf7-c1376b3f7208","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"7e076bab-3edc-4fb1-99cf-bdc6c14abd7c","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"c6eca12c-9712-4660-bc0b-0eddd2aa2431","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"6f11f24b-f722-47b0-bfbb-3010c184fedc","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"07b30060-b25f-4305-bc93-9e44e4e3ff74","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"d69387a6-ebcb-42e6-8a4d-7226d541b3f0","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"dd888b02-55af-405d-b2b6-a0ec83cada8f","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"ee3f335c-3133-45ed-86ab-5ca1bce29cab","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"ef9eae28-8f33-4419-a597-5eb350f6f7d8","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"5d8d0ac4-d82c-4c45-9a24-650ce25f72a9","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"0d6d17b8-1cba-4a40-9ff5-4f2cd9d86711","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"ba8516ff-79fb-402b-bce3-052a48ecfd48","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"84adaf14-bb70-4c3d-8ed9-38d580f62ef9","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"3d3d2915-044c-4e42-96a2-6ffb69706fad","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"f72e0486-012c-4900-8abf-d86e1ec0cabe","route":"commands","status":409,"durationMs":3}
+Workspace operation failed Error
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Mixed-component source choice must not relabel preserved measured diastolic provenance
+
+200 !== 422
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-conflicts-review/tests/inbound-conflicts-pressure-review.mjs:33:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 200,
+  expected: 422,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
