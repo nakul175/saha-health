@@ -1,0 +1,39 @@
+Running integration resilience --fast; 2 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/run-api-smoke ...
+  FAILED   integration/run-api-smoke  no count  1m 20s  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: {"body":{"type":"preparePlan","visitId":"149d009c-db14-473d-ac5a-221755f15c1c","recipients":["mis_community"]},"expected":200,"actual":409,"j":{"error":"Open dispute on Programme answer medication_access: “Medicine stock was not checked at this synthetic visit.” (refe
+      |     actual: 409,
+      |     expected: 200,
+      | AssertionError [ERR_ASSERTION]: {"body":{"type":"preparePlan","visitId":"149d009c-db14-473d-ac5a-221755f15c1c","recipients":["mis_community"]},"expected":200,"actual":409,"j":{"error":"Open dispute on Programme answer me
+      | 409 !== 200
+      |     at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-programme-release-cold/tests/api-reporting-current.mjs:9:623)
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      |     at async noteAnswerSignOffSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-programme-release-cold/tests/note-answer-signoff-smoke.mjs:33:2)
+      |     at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-programme-release-cold/tests/api-reporting-current.mjs:184:80 {
+      |   generatedMessage: false,
+      |   code: 'ERR_ASSERTION',
+      |   actual: 409,
+      |   expected: 200,
+      |   operator: 'strictEqual',
+      |   diff: 'simple'
+      | }
+      | "workspace","status":200,"durationMs":21}
+
+[resilience] 1 suite(s)
+  running  resilience/recovery-drill ...
+  ok       resilience/recovery-drill  21 passed  1.8s
+
+  layer        status  suites  passed  failed  skipped    time
+  -----------  ------  ------  ------  ------  -------  ------
+  integration  failed       1       0       0        0  1m 20s
+  resilience   passed       1      21       0        0    1.8s
+  total        FAILED       2      21       0        0  1m 23s
+
+Restored 2 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: FAILED (2 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/run-api-smoke reported no assertion count; baseline needs at least 4770.

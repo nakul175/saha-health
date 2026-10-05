@@ -1,0 +1,12 @@
+  (expected in "wrong service token") failed: Access admits the service token (the answer comes from the Worker, not Access), and the app's answer is recorded: Access answered 403 <html>Fo
+  (expected in "wrong service token") failed: the app's own response headers on /api/workspace: Cache-Control no-store and X-Content-Type-Options nosniff: The input did not match the regul
+  (expected in "wrong service token") failed: the page for the service identity is HTML with no-store and shows the synthetic notice (accepted) or the sign-in notice (refused), never data:
+  (expected in "access missing app in access mode") failed: the page (GET /) is held by Cloudflare Access: a redirect to aged-pond-c865.cloudflareaccess.com, no application content: GET /: expected a re
+  (expected in "access missing app in access mode") failed: GET /api/workspace is held by Cloudflare Access: a redirect to aged-pond-c865.cloudflareaccess.com, no application data: GET /api/workspace: e
+  (expected in "dispatcher headers exposed") failed: the page (GET /) is held by Cloudflare Access: a redirect to aged-pond-c865.cloudflareaccess.com, no application content: GET /: Access redire
+  (expected in "dispatcher headers exposed") failed: GET /api/workspace is held by Cloudflare Access: a redirect to aged-pond-c865.cloudflareaccess.com, no application data: GET /api/workspace: e
+  (expected in "dispatcher headers exposed") failed: forged Sites dispatcher identity headers do not get in: page, /api/workspace and a command are all refused: GET /api/workspace with oai-authen
+  (expected in "dispatcher headers exposed") failed: a garbage Cf-Access-Jwt-Assertion (with forged identity headers) does not get in: GET /api/workspace with a garbage JWT: the response carries 
+  (expected in "dispatcher headers exposed") failed: a well-formed but unsigned Cf-Access-Jwt-Assertion claiming a valid email, audience and issuer does not get in: GET / with an unsigned JWT: re
+{"suite":"Smoke (hosted) self-test","passed":8,"failed":0,"skipped":0,"completedAt":"2026-10-05T20:52:57.997Z"}
+HOSTED SMOKE SELF-TEST PASS

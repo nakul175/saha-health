@@ -1,0 +1,14 @@
+node:fs:2483
+    return binding.writeFileUtf8(
+                   ^
+
+Error: ENOENT: no such file or directory, open 'tests/evidence/verification-send/evidence/service-dispatch-review/domain-checkpoint-result.json'
+    at writeFileSync (node:fs:2483:20)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/.verification-current-9ffd997d-69e4-497d-a823-6726c006e30b.mjs:48:71 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'tests/evidence/verification-send/evidence/service-dispatch-review/domain-checkpoint-result.json'
+}
+
+Node.js v24.19.0

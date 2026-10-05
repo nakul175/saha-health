@@ -10,10 +10,10 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
 - **55 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 199 of 515 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **The map is incomplete in both directions.** 588 of 908 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
-- **28 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
+- **29 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
 
 ## Summary
 
@@ -33,10 +33,10 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 142 | 194 | 366 | 172 |
-| integration | 116 | 99 | 114 | 15 |
+| unit | 142 | 198 | 757 | 559 |
+| integration | 116 | 99 | 115 | 16 |
 | resilience | 2 | 1 | 1 | 0 |
-| smoke | 7 | 5 | 5 | 0 |
+| smoke | 7 | 5 | 6 | 1 |
 | ui | 12 | 9 | 20 | 11 |
 | nfr | 11 | 8 | 9 | 1 |
 
@@ -130,7 +130,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (199 of 515)
+## Test files cited by no requirement (588 of 908)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -143,6 +143,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/anaemia-hosted-connection.mjs | unit |
 | tests/anaemia-worker-transport.mjs | unit |
 | tests/android-app-contract.mjs | unit |
+| tests/api-reporting-current.mjs | unit |
 | tests/app-first-browser.mjs | ui |
 | tests/app-history-contract.mjs | unit |
 | tests/asha-guided-capture-before.mjs | unit |
@@ -159,6 +160,18 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/clinical-source-fetch-contract.mjs | unit |
 | tests/clinical-source-identity-http.mjs | unit |
 | tests/clinical-source-retrieval-browser.mjs | unit |
+| tests/completeness-cold-extra-authority-http.mjs | unit |
+| tests/completeness-cold-extra-browser.mjs | unit |
+| tests/completeness-cold-repeat-account-browser.mjs | unit |
+| tests/completeness-cold-repeat-authority-http.mjs | unit |
+| tests/completeness-cold-repeat-browser.mjs | unit |
+| tests/completeness-cold-repeat-contract.mjs | unit |
+| tests/completeness-cold-repeat-final-guard-browser.mjs | unit |
+| tests/completeness-cold-repeat-http.mjs | unit |
+| tests/completeness-cold-repeat-legacy-composite.mjs | unit |
+| tests/completeness-cold-repeat-legacy-figures.mjs | unit |
+| tests/completeness-cold-repeat-upgrade-http.mjs | unit |
+| tests/completeness-cold-repeat.mjs | unit |
 | tests/composite-authority-independent-author-http.mjs | unit |
 | tests/composite-authority-independent-browser.mjs | unit |
 | tests/composite-authority-independent-compat.mjs | unit |
@@ -189,7 +202,9 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/facility-scope-contract.mjs | unit |
 | tests/fact-reuse-contract.mjs | unit |
 | tests/fhir-provenance-contract.mjs | unit |
+| tests/field-shell-current-assets.mjs | unit |
 | tests/field-smoke.mjs | integration |
+| tests/fifth-review-fixes-reporting-current-contract.mjs | unit |
 | tests/figure-impact-browser.mjs | unit |
 | tests/figure-impact-contract.mjs | unit |
 | tests/figure-impact-http.mjs | unit |
@@ -223,6 +238,16 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/household-reschedule-before-driver.mjs | unit |
 | tests/identity-contract.mjs | unit |
 | tests/imported-evidence-before.mjs | unit |
+| tests/imported-media-independent-probe.mjs | unit |
+| tests/imported-media-independent-repeat.mjs | unit |
+| tests/imported-media-repeat-media-contract.mjs | unit |
+| tests/imported-media-repeat-media-imported-lineage-repair-http.mjs | unit |
+| tests/imported-media-repeat-object-media-browser.mjs | unit |
+| tests/imported-media-repeat-object-media-contract.mjs | unit |
+| tests/imported-media-repeat-object-media-http.mjs | unit |
+| tests/imported-media-repeat-object-media-independent-extra-http.mjs | unit |
+| tests/imported-media-repeat-object-media-independent-storage-boundary.mjs | unit |
+| tests/imported-media-repeat-object-media-legacy-http.mjs | unit |
 | tests/inbound-conflicts-authority-review.mjs | unit |
 | tests/inbound-conflicts-browser.mjs | unit |
 | tests/inbound-conflicts-http.mjs | unit |
@@ -237,11 +262,56 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/inbound-retrieval-purpose-review.mjs | unit |
 | tests/inbound-retrieval-service-repair-http.mjs | unit |
 | tests/inbound-retrieval-service-review.mjs | unit |
+| tests/independent-verification-current-eighth-review-fixes-contract.mjs | unit |
+| tests/independent-verification-current-fact-verification-contract.mjs | unit |
+| tests/independent-verification-current-note-answer-signoff-contract.mjs | unit |
+| tests/independent-verification-current-send-gate-contract.mjs | unit |
+| tests/independent-verification-current-signoff-http.mjs | unit |
+| tests/independent-verification-current-sixth-review-fixes-contract.mjs | unit |
+| tests/independent-verification-current-value-override-contract.mjs | unit |
+| tests/independent-verification-dispute-contract.mjs | unit |
+| tests/independent-verification-send-browser.mjs | unit |
+| tests/independent-verification-send-http.mjs | unit |
+| tests/independent-verification-send-legacy-http.mjs | unit |
 | tests/indicator-figures-review-upgrade.mjs | unit |
 | tests/indicator-household-completion-audit.mjs | unit |
 | tests/indicator-household-coverage-independent.mjs | unit |
 | tests/indicator-household-coverage-upgrade.mjs | unit |
+| tests/indicator-registry-reporting-current.mjs | unit |
 | tests/indicators-contract.mjs | unit |
+| tests/installed-programme-execution-browser.mjs | unit |
+| tests/installed-programme-execution-cold-additional-http.mjs | unit |
+| tests/installed-programme-execution-cold-adversarial.mjs | unit |
+| tests/installed-programme-execution-cold-contract.mjs | unit |
+| tests/installed-programme-execution-cold-lost-ack.mjs | unit |
+| tests/installed-programme-execution-cold-primary.mjs | unit |
+| tests/installed-programme-execution-cold-uncertainty.mjs | unit |
+| tests/installed-programme-execution-contract.mjs | unit |
+| tests/installed-programme-execution-http.mjs | unit |
+| tests/installed-programme-execution-independent-adversarial-http.mjs | unit |
+| tests/installed-programme-execution-independent-browser.mjs | unit |
+| tests/installed-programme-execution-independent-contract.mjs | unit |
+| tests/installed-programme-execution-independent-legacy-action-plan.mjs | unit |
+| tests/installed-programme-execution-independent-legacy-caseload.mjs | unit |
+| tests/installed-programme-execution-independent-legacy-pack-installation.mjs | unit |
+| tests/installed-programme-execution-independent-legacy-scheduled-job.mjs | unit |
+| tests/installed-programme-execution-independent-uncertainty-browser.mjs | unit |
+| tests/installed-programme-execution-repair-adversarial.mjs | unit |
+| tests/installed-programme-execution-repair-contract.mjs | unit |
+| tests/installed-programme-execution-repair-primary.mjs | unit |
+| tests/installed-programme-execution-repair-uncertainty.mjs | unit |
+| tests/installed-programme-phone-runtime-diagnostic.mjs | unit |
+| tests/installed-work-repair-cold-legacy-action-plan.mjs | unit |
+| tests/installed-work-repair-cold-legacy-caseload.mjs | unit |
+| tests/installed-work-repair-cold-legacy-pack-installation.mjs | unit |
+| tests/installed-work-repair-cold-legacy-scheduled-job.mjs | unit |
+| tests/integration-composite-authority-time-http.mjs | unit |
+| tests/integration-contact-import-owned-port.mjs | unit |
+| tests/integration-household-completion-browser.mjs | unit |
+| tests/integration-installed-work-figure-portability-after-http.mjs | unit |
+| tests/integration-installed-work-portability-contract.mjs | unit |
+| tests/integration-installed-work-report-portability-http.mjs | unit |
+| tests/integration-mapping-review-owned-port.mjs | unit |
 | tests/integration-media-composite-measures-contract.mjs | unit |
 | tests/integration-media-data-exit-contract.mjs | unit |
 | tests/integration-media-inbound-conflicts-contract.mjs | unit |
@@ -256,10 +326,23 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/integration-object-media-legacy-http.mjs | unit |
 | tests/integration-object-media-migration.mjs | unit |
 | tests/integration-object-media-native-boundary.mjs | unit |
+| tests/integration-offline-guided-app-browser.mjs | unit |
+| tests/integration-offline-guided-device-browser.mjs | unit |
+| tests/integration-offline-guided-opens-browser.mjs | unit |
+| tests/integration-offline-guided-programme-browser.mjs | unit |
+| tests/integration-offline-guided-purge-failure-browser.mjs | unit |
+| tests/integration-offline-guided-range-browser.mjs | unit |
+| tests/integration-offline-guided-review-browser.mjs | unit |
+| tests/integration-offline-guided-touch-units-browser.mjs | unit |
+| tests/integration-report-portability-completeness-schema-http.mjs | unit |
+| tests/integration-report-portability-schema-http.mjs | unit |
+| tests/integration-reporting-figure-portability-after-http.mjs | unit |
 | tests/load-envelope.mjs | nfr |
 | tests/mapping-lifecycle-review-contract.mjs | unit |
 | tests/mapping-remaining-contract-http.mjs | unit |
 | tests/media-contract.mjs | unit |
+| tests/media-imported-lineage-before.mjs | unit |
+| tests/media-imported-lineage-repair-http.mjs | unit |
 | tests/media-smoke.mjs | integration |
 | tests/member-names-smoke.mjs | integration |
 | tests/merge-contract.mjs | unit |
@@ -277,17 +360,45 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/object-media-legacy-regression.mjs | unit |
 | tests/object-media-migration.mjs | unit |
 | tests/object-media-native-boundary.mjs | unit |
+| tests/offline-guided-author-browser.mjs | unit |
+| tests/offline-guided-before-browser.mjs | unit |
+| tests/offline-guided-cold-author-browser.mjs | unit |
+| tests/offline-guided-cold-extra-browser.mjs | unit |
+| tests/offline-guided-cold-review-parity-browser.mjs | unit |
+| tests/offline-guided-cold-scope-browser.mjs | unit |
+| tests/offline-guided-cold-scope-extra-browser.mjs | unit |
+| tests/offline-guided-review-parity-browser.mjs | unit |
+| tests/offline-guided-scope-browser.mjs | unit |
 | tests/offline-lifecycle-auth-transport-review.mjs | unit |
 | tests/offline-open-account-transition-review-browser.mjs | unit |
 | tests/offline-open-link-capacity-review-browser.mjs | unit |
 | tests/offline-open-unsent-pruning-contract.mjs | unit |
 | tests/offline-opens-auth-first-http.mjs | unit |
 | tests/offline-opens-transport-http.mjs | unit |
+| tests/offline-phone-independent-offline-open-unsent-pruning-browser.mjs | unit |
+| tests/offline-phone-independent-registration-device-browser.mjs | unit |
+| tests/offline-sync-hash-cold-device-browser.mjs | unit |
+| tests/offline-sync-hash-cold-extra-browser.mjs | unit |
+| tests/offline-sync-hash-cold-parity-browser.mjs | unit |
+| tests/offline-sync-hash-cold-repair-browser.mjs | unit |
+| tests/offline-sync-hash-device-browser.mjs | unit |
+| tests/offline-sync-hash-parity-browser.mjs | unit |
+| tests/offline-sync-hash-repair-browser.mjs | unit |
 | tests/operations-bound-contract.mjs | unit |
 | tests/operations-contract.mjs | unit |
 | tests/outreach-contract.mjs | unit |
 | tests/partition-smoke.mjs | integration |
 | tests/pilot-contract.mjs | unit |
+| tests/programme-own-cold-effect-contract.mjs | unit |
+| tests/programme-own-cold-extended.mjs | unit |
+| tests/programme-own-cold-original-extended.mjs | unit |
+| tests/programme-own-cold-original.mjs | unit |
+| tests/programme-own-cold-runner.mjs | unit |
+| tests/programme-own-cold-safety.mjs | unit |
+| tests/programme-own-cold-variants.mjs | unit |
+| tests/programme-raw-key-contract.mjs | unit |
+| tests/programme-raw-key-http.mjs | unit |
+| tests/programme-raw-key-original-probe.mjs | unit |
 | tests/provider-agent-envelope-contract.mjs | unit |
 | tests/provider-agent-escape-review.mjs | unit |
 | tests/provider-ehr-envelope-contract.mjs | unit |
@@ -298,12 +409,49 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/provider-mis-envelope-contract.mjs | unit |
 | tests/r26-correction-propagation-contract.mjs | unit |
 | tests/range-first-tap-browser.mjs | integration |
+| tests/raw-key-independent-authority-http.mjs | unit |
+| tests/raw-key-independent-extended-http.mjs | unit |
+| tests/raw-key-independent-repeat-field-contract.mjs | unit |
+| tests/raw-key-independent-repeat-offline-programme-contract.mjs | unit |
+| tests/raw-key-independent-repeat-programme-own-cold-effect-contract.mjs | unit |
+| tests/raw-key-independent-repeat-programme-own-cold-safety.mjs | unit |
+| tests/raw-key-independent-repeat-programme-raw-key-contract.mjs | unit |
+| tests/raw-key-independent-repeat-programme-raw-key-http.mjs | unit |
+| tests/raw-key-independent-repeat-programme-raw-key-original-probe.mjs | unit |
+| tests/raw-key-independent-repeat.mjs | unit |
 | tests/reason-codes-contract.mjs | unit |
 | tests/reassignment-contract.mjs | unit |
 | tests/referral-contract.mjs | unit |
 | tests/referral-smoke.mjs | integration |
 | tests/report-portability-expanded-http.mjs | unit |
 | tests/report-portability-independent-http.mjs | unit |
+| tests/reporting-completeness-before.mjs | unit |
+| tests/reporting-completeness-browser.mjs | unit |
+| tests/reporting-completeness-contract.mjs | unit |
+| tests/reporting-completeness-http.mjs | unit |
+| tests/reporting-completeness-independent-account-browser.mjs | unit |
+| tests/reporting-completeness-independent-adversarial-http.mjs | unit |
+| tests/reporting-completeness-independent-repeat-reporting-completeness-browser.mjs | unit |
+| tests/reporting-completeness-independent-repeat-reporting-completeness-contract.mjs | unit |
+| tests/reporting-completeness-independent-repeat-reporting-completeness-http.mjs | unit |
+| tests/reporting-completeness-independent-repeat-reporting-completeness-legacy-composite.mjs | unit |
+| tests/reporting-completeness-independent-repeat-reporting-completeness-legacy-figures.mjs | unit |
+| tests/reporting-completeness-independent-repeat.mjs | unit |
+| tests/reporting-completeness-legacy-composite.mjs | unit |
+| tests/reporting-completeness-legacy-figures.mjs | unit |
+| tests/reporting-completeness-portability-contract.mjs | unit |
+| tests/reporting-completeness-portability-upgrade-http.mjs | unit |
+| tests/reporting-completeness-repaired-account-browser.mjs | unit |
+| tests/reporting-completeness-repaired-authority-http.mjs | unit |
+| tests/reporting-completeness-repaired-browser.mjs | unit |
+| tests/reporting-completeness-repaired-contract.mjs | unit |
+| tests/reporting-completeness-repaired-final-guard-browser.mjs | unit |
+| tests/reporting-completeness-repaired-legacy-composite.mjs | unit |
+| tests/reporting-completeness-repaired-legacy-figures.mjs | unit |
+| tests/reporting-completeness-repaired-upgrade-http.mjs | unit |
+| tests/reporting-portability-root-cold-contract.mjs | unit |
+| tests/reporting-portability-root-cold-extra-http.mjs | unit |
+| tests/reporting-portability-root-cold-upgrade-http.mjs | unit |
 | tests/request-body-transport-contract.mjs | unit |
 | tests/retention-contract.mjs | unit |
 | tests/retention-smoke.mjs | integration |
@@ -311,11 +459,127 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/reuse-smoke.mjs | integration |
 | tests/rights-contract.mjs | unit |
 | tests/rights-smoke.mjs | integration |
+| tests/root-verification-current-abdm-contract.mjs | unit |
+| tests/root-verification-current-abdm-transfer-contract.mjs | unit |
+| tests/root-verification-current-access-audit-contract.mjs | unit |
+| tests/root-verification-current-action-plan-contract.mjs | unit |
+| tests/root-verification-current-adapter-operations-contract.mjs | unit |
+| tests/root-verification-current-agent-contract.mjs | unit |
+| tests/root-verification-current-agent-minimisation-contract.mjs | unit |
+| tests/root-verification-current-agent-quality-contract.mjs | unit |
+| tests/root-verification-current-ai-budget-contract.mjs | unit |
+| tests/root-verification-current-ai-invoice-contract.mjs | unit |
+| tests/root-verification-current-alert-delivery-contract.mjs | unit |
+| tests/root-verification-current-alerts-contract.mjs | unit |
+| tests/root-verification-current-audit-chain-contract.mjs | unit |
+| tests/root-verification-current-capability-lifecycle-contract.mjs | unit |
+| tests/root-verification-current-caseload-contract.mjs | unit |
+| tests/root-verification-current-caseload-schedule-contract.mjs | unit |
+| tests/root-verification-current-consent-contract.mjs | unit |
+| tests/root-verification-current-continuity-contract.mjs | unit |
+| tests/root-verification-current-correction-tasks-contract.mjs | unit |
+| tests/root-verification-current-crosswalk-correction-contract.mjs | unit |
+| tests/root-verification-current-delegation-contract.mjs | unit |
+| tests/root-verification-current-demonstration-contract.mjs | unit |
+| tests/root-verification-current-drift-contract.mjs | unit |
+| tests/root-verification-current-ehr-contract.mjs | unit |
+| tests/root-verification-current-ehr-execution.mjs | unit |
+| tests/root-verification-current-ehr-resolution-contract.mjs | unit |
+| tests/root-verification-current-environment-contract.mjs | unit |
+| tests/root-verification-current-exceptional-contract.mjs | unit |
+| tests/root-verification-current-exceptions-contract.mjs | unit |
+| tests/root-verification-current-facility-scope-contract.mjs | unit |
+| tests/root-verification-current-fact-provenance-contract.mjs | unit |
+| tests/root-verification-current-fact-reuse-contract.mjs | unit |
+| tests/root-verification-current-fact-verification-contract.mjs | unit |
+| tests/root-verification-current-fhir-provenance-contract.mjs | unit |
+| tests/root-verification-current-fhir-validate-contract.mjs | unit |
+| tests/root-verification-current-field-contract.mjs | unit |
+| tests/root-verification-current-field-registration-client.mjs | unit |
+| tests/root-verification-current-fixture-migration-contract.mjs | unit |
+| tests/root-verification-current-governance-contract.mjs | unit |
+| tests/root-verification-current-household-contract.mjs | unit |
+| tests/root-verification-current-household-reschedule-contract.mjs | unit |
+| tests/root-verification-current-household-visit-contract.mjs | unit |
+| tests/root-verification-current-identifier-crosswalk-contract.mjs | unit |
+| tests/root-verification-current-inbound-conflicts-contract.mjs | unit |
+| tests/root-verification-current-inbound-retrieval-contract.mjs | unit |
+| tests/root-verification-current-incentive-claims-contract.mjs | unit |
+| tests/root-verification-current-indicator-freshness-contract.mjs | unit |
+| tests/root-verification-current-indicator-governance-contract.mjs | unit |
+| tests/root-verification-current-indicator-registry-contract.mjs | unit |
+| tests/root-verification-current-indicators-contract.mjs | unit |
+| tests/root-verification-current-main-review-fixes-contract.mjs | unit |
+| tests/root-verification-current-media-contract.mjs | unit |
+| tests/root-verification-current-merge-contract.mjs | unit |
+| tests/root-verification-current-mis-contract.mjs | unit |
+| tests/root-verification-current-mis-delivery.mjs | unit |
+| tests/root-verification-current-note-answer-signoff-contract.mjs | unit |
+| tests/root-verification-current-notification-channel-contract.mjs | unit |
+| tests/root-verification-current-notification-sources-contract.mjs | unit |
+| tests/root-verification-current-operations-contract.mjs | unit |
+| tests/root-verification-current-outreach-contract.mjs | unit |
+| tests/root-verification-current-pack-installation-contract.mjs | unit |
+| tests/root-verification-current-patient-directory-contract.mjs | unit |
+| tests/root-verification-current-patient-import-contract.mjs | unit |
+| tests/root-verification-current-pilot-contract.mjs | unit |
+| tests/root-verification-current-plan-dependencies-contract.mjs | unit |
+| tests/root-verification-current-programme-migration-contract.mjs | unit |
+| tests/root-verification-current-provider-ehr-envelope-contract.mjs | unit |
+| tests/root-verification-current-provider-ehr-execution-review.mjs | unit |
+| tests/root-verification-current-provider-ehr-headers-contract.mjs | unit |
+| tests/root-verification-current-provider-ehr-headers-independent-contract.mjs | unit |
+| tests/root-verification-current-provider-history-contract.mjs | unit |
+| tests/root-verification-current-provider-mis-envelope-contract.mjs | unit |
+| tests/root-verification-current-provider-mis-execution-review.mjs | unit |
+| tests/root-verification-current-provider-sandbox-contract.mjs | unit |
+| tests/root-verification-current-purpose-scope-contract.mjs | unit |
+| tests/root-verification-current-r26-correction-propagation-contract.mjs | unit |
+| tests/root-verification-current-read-audit-completion-contract.mjs | unit |
+| tests/root-verification-current-reason-codes-contract.mjs | unit |
+| tests/root-verification-current-reassignment-contract.mjs | unit |
+| tests/root-verification-current-record-import-contract.mjs | unit |
+| tests/root-verification-current-referral-contract.mjs | unit |
+| tests/root-verification-current-referral-request-queue-contract.mjs | unit |
+| tests/root-verification-current-replay-soak-contract.mjs | unit |
+| tests/root-verification-current-report-export-contract.mjs | unit |
+| tests/root-verification-current-request-body-transport-contract.mjs | unit |
+| tests/root-verification-current-retention-contract.mjs | unit |
+| tests/root-verification-current-reuse-contract.mjs | unit |
+| tests/root-verification-current-review-fixes-contract.mjs | unit |
+| tests/root-verification-current-rights-contract.mjs | unit |
+| tests/root-verification-current-roster-contract.mjs | unit |
+| tests/root-verification-current-scoped-read-contract.mjs | unit |
+| tests/root-verification-current-send-gate-contract.mjs | unit |
+| tests/root-verification-current-service-identity-contract.mjs | unit |
+| tests/root-verification-current-shadow-contract.mjs | unit |
+| tests/root-verification-current-storage-contract.mjs | unit |
+| tests/root-verification-current-task-limits-contract.mjs | unit |
+| tests/root-verification-current-tenth-review-fixes-contract.mjs | unit |
+| tests/root-verification-current-trace-contract.mjs | unit |
+| tests/root-verification-current-value-override-agent-contract.mjs | unit |
+| tests/root-verification-current-value-override-contract.mjs | unit |
+| tests/root-verification-current-value-ranges-context-contract.mjs | unit |
+| tests/root-verification-current-visit-import-contract.mjs | unit |
+| tests/root-verification-current-worker-activity-contract.mjs | unit |
+| tests/root-verification-current-workforce-import-contract.mjs | unit |
+| tests/root-verification-current-worklists-contract.mjs | unit |
+| tests/root-verification-dispute-counted.mjs | unit |
 | tests/run-anaemia-http.mjs | unit |
+| tests/run-api-reporting-current.mjs | unit |
 | tests/scoped-read-contract.mjs | unit |
+| tests/smoke/app-back-guided-browser.mjs | smoke |
 | tests/storage-contract.mjs | unit |
+| tests/sync-receipt-cold-device-contract.mjs | unit |
+| tests/sync-receipt-cold-projection-extra.mjs | unit |
+| tests/sync-receipt-cold-projection.mjs | unit |
+| tests/sync-receipt-cold-scope-browser.mjs | unit |
+| tests/sync-receipt-projection.mjs | unit |
 | tests/tenth-review-fixes-contract.mjs | unit |
 | tests/test-runner-contract.mjs | unit |
+| tests/test-runner-current-fixture-contract.mjs | unit |
+| tests/test-runner-reporting-current-contract.mjs | unit |
+| tests/test-runner-verification-current-contract.mjs | unit |
 | tests/ui/confirm-correct-hindi.spec.mjs | ui |
 | tests/ui/errors.spec.mjs | ui |
 | tests/ui/frontline-sandbox.spec.mjs | ui |
@@ -326,11 +590,136 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/ui/support/flows.mjs | ui |
 | tests/ui/support/global-setup.mjs | ui |
 | tests/ui/support/reporter.mjs | ui |
+| tests/verification-current-abdm-contract.mjs | unit |
+| tests/verification-current-abdm-transfer-contract.mjs | unit |
+| tests/verification-current-access-audit-contract.mjs | unit |
+| tests/verification-current-action-plan-contract.mjs | unit |
+| tests/verification-current-adapter-operations-contract.mjs | unit |
+| tests/verification-current-adapter-overhead-bench.mjs | unit |
+| tests/verification-current-agent-contract.mjs | unit |
+| tests/verification-current-agent-minimisation-contract.mjs | unit |
+| tests/verification-current-agent-quality-contract.mjs | unit |
+| tests/verification-current-ai-budget-contract.mjs | unit |
+| tests/verification-current-ai-invoice-contract.mjs | unit |
+| tests/verification-current-alert-delivery-contract.mjs | unit |
+| tests/verification-current-alerts-contract.mjs | unit |
+| tests/verification-current-audit-chain-contract.mjs | unit |
+| tests/verification-current-capability-lifecycle-contract.mjs | unit |
+| tests/verification-current-caseload-contract.mjs | unit |
+| tests/verification-current-caseload-schedule-contract.mjs | unit |
+| tests/verification-current-consent-contract.mjs | unit |
+| tests/verification-current-continuity-contract.mjs | unit |
+| tests/verification-current-correction-tasks-contract.mjs | unit |
+| tests/verification-current-crosswalk-correction-contract.mjs | unit |
+| tests/verification-current-data-exit-contract.mjs | unit |
+| tests/verification-current-delegation-contract.mjs | unit |
+| tests/verification-current-demonstration-contract.mjs | unit |
+| tests/verification-current-drift-contract.mjs | unit |
+| tests/verification-current-ehr-contract.mjs | unit |
+| tests/verification-current-ehr-execution.mjs | unit |
+| tests/verification-current-ehr-resolution-contract.mjs | unit |
+| tests/verification-current-eighth-review-fixes-contract.mjs | unit |
+| tests/verification-current-environment-contract.mjs | unit |
+| tests/verification-current-exceptional-contract.mjs | unit |
+| tests/verification-current-exceptions-contract.mjs | unit |
+| tests/verification-current-facility-scope-contract.mjs | unit |
+| tests/verification-current-fact-provenance-contract.mjs | unit |
+| tests/verification-current-fact-reuse-contract.mjs | unit |
+| tests/verification-current-fact-verification-contract.mjs | unit |
+| tests/verification-current-fhir-provenance-contract.mjs | unit |
+| tests/verification-current-fhir-validate-contract.mjs | unit |
+| tests/verification-current-field-contract.mjs | unit |
+| tests/verification-current-field-registration-client.mjs | unit |
+| tests/verification-current-fixture-migration-contract.mjs | unit |
+| tests/verification-current-governance-contract.mjs | unit |
+| tests/verification-current-household-contract.mjs | unit |
+| tests/verification-current-household-reschedule-before-driver.mjs | unit |
+| tests/verification-current-household-reschedule-contract.mjs | unit |
+| tests/verification-current-household-visit-contract.mjs | unit |
+| tests/verification-current-identifier-crosswalk-contract.mjs | unit |
+| tests/verification-current-imported-media-repeat-media-contract.mjs | unit |
+| tests/verification-current-inbound-conflicts-contract.mjs | unit |
+| tests/verification-current-inbound-retrieval-contract.mjs | unit |
+| tests/verification-current-incentive-claims-contract.mjs | unit |
+| tests/verification-current-indicator-freshness-contract.mjs | unit |
+| tests/verification-current-indicator-governance-contract.mjs | unit |
+| tests/verification-current-indicator-registry-contract.mjs | unit |
+| tests/verification-current-indicators-contract.mjs | unit |
+| tests/verification-current-integration-media-data-exit-contract.mjs | unit |
+| tests/verification-current-integration-media-inbound-conflicts-contract.mjs | unit |
+| tests/verification-current-main-review-fixes-contract.mjs | unit |
+| tests/verification-current-media-contract.mjs | unit |
+| tests/verification-current-merge-contract.mjs | unit |
+| tests/verification-current-mis-contract.mjs | unit |
+| tests/verification-current-mis-delivery.mjs | unit |
+| tests/verification-current-note-answer-signoff-contract.mjs | unit |
+| tests/verification-current-note-answer-signoff-smoke.mjs | integration |
+| tests/verification-current-notification-channel-contract.mjs | unit |
+| tests/verification-current-notification-sources-contract.mjs | unit |
+| tests/verification-current-operations-contract.mjs | unit |
+| tests/verification-current-outreach-contract.mjs | unit |
+| tests/verification-current-pack-installation-contract.mjs | unit |
+| tests/verification-current-patient-directory-contract.mjs | unit |
+| tests/verification-current-patient-import-contract.mjs | unit |
+| tests/verification-current-pilot-contract.mjs | unit |
+| tests/verification-current-plan-dependencies-contract.mjs | unit |
+| tests/verification-current-programme-migration-contract.mjs | unit |
+| tests/verification-current-provider-ehr-envelope-contract.mjs | unit |
+| tests/verification-current-provider-ehr-execution-review.mjs | unit |
+| tests/verification-current-provider-ehr-header-review.mjs | unit |
+| tests/verification-current-provider-ehr-headers-contract.mjs | unit |
+| tests/verification-current-provider-ehr-headers-independent-contract.mjs | unit |
+| tests/verification-current-provider-history-contract.mjs | unit |
+| tests/verification-current-provider-mis-envelope-contract.mjs | unit |
+| tests/verification-current-provider-mis-execution-review.mjs | unit |
+| tests/verification-current-provider-sandbox-contract.mjs | unit |
+| tests/verification-current-purpose-scope-contract.mjs | unit |
+| tests/verification-current-r26-correction-propagation-contract.mjs | unit |
+| tests/verification-current-raw-key-independent-repeat-field-contract.mjs | unit |
+| tests/verification-current-read-audit-completion-contract.mjs | unit |
+| tests/verification-current-reason-codes-contract.mjs | unit |
+| tests/verification-current-reassignment-contract.mjs | unit |
+| tests/verification-current-record-import-contract.mjs | unit |
+| tests/verification-current-referral-contract.mjs | unit |
+| tests/verification-current-referral-request-queue-contract.mjs | unit |
+| tests/verification-current-replay-soak-contract.mjs | unit |
+| tests/verification-current-report-export-contract.mjs | unit |
+| tests/verification-current-request-body-transport-contract.mjs | unit |
+| tests/verification-current-retention-contract.mjs | unit |
+| tests/verification-current-reuse-contract.mjs | unit |
+| tests/verification-current-review-fixes-contract.mjs | unit |
+| tests/verification-current-rights-contract.mjs | unit |
+| tests/verification-current-roster-contract.mjs | unit |
+| tests/verification-current-scoped-read-contract.mjs | unit |
+| tests/verification-current-send-gate-contract.mjs | unit |
+| tests/verification-current-service-identity-contract.mjs | unit |
+| tests/verification-current-shadow-contract.mjs | unit |
+| tests/verification-current-signoff-http.mjs | unit |
+| tests/verification-current-sixth-review-fixes-contract.mjs | unit |
+| tests/verification-current-storage-contract.mjs | unit |
+| tests/verification-current-task-limits-contract.mjs | unit |
+| tests/verification-current-tenth-review-fixes-contract.mjs | unit |
+| tests/verification-current-trace-contract.mjs | unit |
+| tests/verification-current-value-override-agent-contract.mjs | unit |
+| tests/verification-current-value-override-contract.mjs | unit |
+| tests/verification-current-value-ranges-context-contract.mjs | unit |
+| tests/verification-current-visit-import-contract.mjs | unit |
+| tests/verification-current-worker-activity-contract.mjs | unit |
+| tests/verification-current-workforce-import-contract.mjs | unit |
+| tests/verification-current-worklists-contract.mjs | unit |
+| tests/verification-dispute-contract.mjs | unit |
+| tests/verification-send-before-http.mjs | unit |
+| tests/verification-send-browser.mjs | unit |
+| tests/verification-send-http.mjs | unit |
+| tests/verification-send-independent-adversarial-http.mjs | unit |
+| tests/verification-send-independent-uncertainty-browser.mjs | unit |
+| tests/verification-send-legacy-http.mjs | unit |
 | tests/work-burden-continuation-phone-review.mjs | unit |
 | tests/work-burden-field-capture-contract.mjs | unit |
 | tests/work-burden-field-contract.mjs | unit |
 | tests/work-burden-field-writer-contract.mjs | unit |
 | tests/work-burden-ledger-adversarial-review.mjs | unit |
+| tests/work-burden-policy-owned-port.mjs | unit |
 | tests/work-burden-session-migration-contract.mjs | unit |
 | tests/work-burden-transport-http.mjs | unit |
 | tests/work-support-permission-race-review.mjs | unit |
@@ -509,7 +898,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-CARE-08 | partial | own | 3 | 5 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-REP-01 | partial | own | 5 | 6 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-REP-02 | partial | own | 22 | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
-| BR-REP-03 | partial | own | 1 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
+| BR-REP-03 | partial | own | 5 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-REP-04 | partial | own | 20 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | - |
 | BR-REP-05 | partial | own | 5 | 3 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
 | BR-REP-06 | partial | area | 0 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 2 | one layer only |

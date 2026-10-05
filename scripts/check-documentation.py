@@ -116,7 +116,7 @@ for additional_name in ['evidence-source-snapshots-conformance-import.json','evi
                 existing.setdefault(expected,entry)
 slice_total=0
 supplement={}
-for supplement_name in ['tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json','tests/evidence/reporting-completeness-root-integration/author-artifacts.json']:
+for supplement_name in ['tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json','tests/evidence/reporting-completeness-root-integration/author-artifacts.json','tests/evidence/verification-programme-root-integration/author-artifacts.json']:
     supplement_path=ROOT/supplement_name
     if supplement_path.exists():
         for path,expected in json.loads(supplement_path.read_text()).get('files',{}).items():
@@ -146,11 +146,11 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
         entries={meta['path']:meta for meta in entries} if valid else {}
     # These named maps pin application source rather than result reports.
     # Check every source digest, preserving its original layout and source scope.
-    for source_key in ['sourceSha256','sourcePins','applicationSourceUnchanged','unchangedProtectedSources','unchangedProtectedSource','originalEvidenceSha256']:
+    for source_key in ['sourceSha256','sourcePins','applicationSourceUnchanged','unchangedProtectedSources','unchangedProtectedSource','originalEvidenceSha256','unchangedOriginals']:
         source_entries=manifest.get(source_key)
         if source_entries is None:
             continue
-        valid=isinstance(source_entries,dict) and all(path.startswith(('app/','lib/','public/','db/','drizzle/','scripts/','tests/')) and re.fullmatch(r'[a-f0-9]{64}',str(expected.get('sha256') if isinstance(expected,dict) else expected)) and (not isinstance(expected,dict) or 'bytes' not in expected or isinstance(expected['bytes'],int) and expected['bytes']>=0) for path,expected in source_entries.items())
+        valid=isinstance(source_entries,dict) and all(path.startswith(('app/','lib/','public/','db/','drizzle/','scripts/','tests/','docs/current/')) and re.fullmatch(r'[a-f0-9]{64}',str(expected.get('sha256') if isinstance(expected,dict) else expected)) and (not isinstance(expected,dict) or 'bytes' not in expected or isinstance(expected['bytes'],int) and expected['bytes']>=0) for path,expected in source_entries.items())
         require(valid,'Invalid source digest map: '+str(manifest_path.relative_to(ROOT)))
         if valid:
             entries=entries if isinstance(entries,dict) else {}

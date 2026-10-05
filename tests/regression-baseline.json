@@ -90,7 +90,7 @@
     },
     "integration/composite-authority-independent-extra-http": {
       "layer": "integration",
-      "file": "tests/composite-authority-independent-extra-http.mjs",
+      "file": "tests/integration-composite-authority-time-http.mjs",
       "minPassed": 95
     },
     "integration/composite-authority-repair-http": {
@@ -110,7 +110,7 @@
     },
     "integration/contact-import-http": {
       "layer": "integration",
-      "file": "tests/contact-import-http.mjs",
+      "file": "tests/integration-contact-import-owned-port.mjs",
       "minPassed": 15
     },
     "integration/contact-import-independent-review": {
@@ -125,12 +125,12 @@
     },
     "integration/device-work-browser": {
       "layer": "integration",
-      "file": "tests/device-work-browser.mjs",
+      "file": "tests/integration-offline-guided-device-browser.mjs",
       "minPassed": 64
     },
     "integration/device-work-purge-failure-browser": {
       "layer": "integration",
-      "file": "tests/device-work-purge-failure-browser.mjs",
+      "file": "tests/integration-offline-guided-purge-failure-browser.mjs",
       "minPassed": 49
     },
     "integration/figure-impact-browser": {
@@ -175,7 +175,7 @@
     },
     "integration/household-completion-browser": {
       "layer": "integration",
-      "file": "tests/household-completion-browser.mjs",
+      "file": "tests/integration-household-completion-browser.mjs",
       "minPassed": 39
     },
     "integration/household-completion-http": {
@@ -222,6 +222,11 @@
       "layer": "integration",
       "file": "tests/imported-evidence-independent-http.mjs",
       "minPassed": 13
+    },
+    "integration/imported-media-independent-probe": {
+      "layer": "integration",
+      "file": "tests/imported-media-independent-probe.mjs",
+      "minPassed": 84
     },
     "integration/inbound-conflicts-browser": {
       "layer": "integration",
@@ -343,6 +348,21 @@
       "file": "tests/indicator-governance-independent-http.mjs",
       "minPassed": 17
     },
+    "integration/installed-programme-execution-browser": {
+      "layer": "integration",
+      "file": "tests/installed-programme-execution-repair-uncertainty.mjs",
+      "minPassed": 121
+    },
+    "integration/installed-programme-execution-extra-http": {
+      "layer": "integration",
+      "file": "tests/installed-programme-execution-cold-additional-http.mjs",
+      "minPassed": 154
+    },
+    "integration/installed-programme-execution-http": {
+      "layer": "integration",
+      "file": "tests/installed-programme-execution-repair-primary.mjs",
+      "minPassed": 111
+    },
     "integration/mapping-conformance-browser": {
       "layer": "integration",
       "file": "tests/mapping-conformance-browser.mjs",
@@ -370,7 +390,7 @@
     },
     "integration/mapping-lifecycle-review-browser": {
       "layer": "integration",
-      "file": "tests/mapping-lifecycle-review-browser.mjs",
+      "file": "tests/integration-mapping-review-owned-port.mjs",
       "minPassed": 12
     },
     "integration/mapping-lifecycle-review-http": {
@@ -440,7 +460,7 @@
     },
     "integration/offline-opens-browser": {
       "layer": "integration",
-      "file": "tests/offline-opens-browser.mjs",
+      "file": "tests/integration-offline-guided-opens-browser.mjs",
       "minPassed": 49
     },
     "integration/offline-opens-http": {
@@ -490,8 +510,8 @@
     },
     "integration/range-protocol-browser": {
       "layer": "integration",
-      "file": "tests/range-protocol-browser.mjs",
-      "minPassed": 26
+      "file": "tests/integration-offline-guided-range-browser.mjs",
+      "minPassed": 27
     },
     "integration/raw-key-independent-authority-http": {
       "layer": "integration",
@@ -520,12 +540,12 @@
     },
     "integration/report-portability-after-http": {
       "layer": "integration",
-      "file": "tests/integration-media-report-portability-after-http.mjs",
+      "file": "tests/integration-installed-work-figure-portability-after-http.mjs",
       "minPassed": 87
     },
     "integration/report-portability-http": {
       "layer": "integration",
-      "file": "tests/integration-report-portability-completeness-schema-http.mjs",
+      "file": "tests/integration-installed-work-report-portability-http.mjs",
       "minPassed": 79
     },
     "integration/reporting-completeness-repaired-account-browser": {
@@ -565,8 +585,33 @@
     },
     "integration/touch-units-browser": {
       "layer": "integration",
-      "file": "tests/touch-units-browser.mjs",
+      "file": "tests/integration-offline-guided-touch-units-browser.mjs",
       "minPassed": 20
+    },
+    "integration/verification-send-browser": {
+      "layer": "integration",
+      "file": "tests/verification-send-browser.mjs",
+      "minPassed": 127
+    },
+    "integration/verification-send-extra-http": {
+      "layer": "integration",
+      "file": "tests/verification-send-independent-adversarial-http.mjs",
+      "minPassed": 181
+    },
+    "integration/verification-send-http": {
+      "layer": "integration",
+      "file": "tests/verification-send-http.mjs",
+      "minPassed": 118
+    },
+    "integration/verification-send-legacy-http": {
+      "layer": "integration",
+      "file": "tests/verification-send-legacy-http.mjs",
+      "minPassed": 173
+    },
+    "integration/verification-send-uncertainty-browser": {
+      "layer": "integration",
+      "file": "tests/verification-send-independent-uncertainty-browser.mjs",
+      "minPassed": 131
     },
     "integration/work-burden-account-transition-review-browser": {
       "layer": "integration",
@@ -680,7 +725,7 @@
     },
     "smoke/app-back-browser": {
       "layer": "smoke",
-      "file": "tests/smoke/app-back-browser.mjs",
+      "file": "tests/smoke/app-back-guided-browser.mjs",
       "minPassed": 11
     },
     "smoke/hosted-smoke": {
@@ -730,17 +775,17 @@
     },
     "unit/abdm-contract": {
       "layer": "unit",
-      "file": "tests/abdm-contract.mjs",
+      "file": "tests/root-verification-current-abdm-contract.mjs",
       "minPassed": 14
     },
     "unit/abdm-transfer-contract": {
       "layer": "unit",
-      "file": "tests/abdm-transfer-contract.mjs",
+      "file": "tests/root-verification-current-abdm-transfer-contract.mjs",
       "minPassed": 21
     },
     "unit/access-audit-contract": {
       "layer": "unit",
-      "file": "tests/access-audit-contract.mjs",
+      "file": "tests/root-verification-current-access-audit-contract.mjs",
       "minPassed": 35
     },
     "unit/access-scope-contract": {
@@ -750,27 +795,27 @@
     },
     "unit/action-plan-contract": {
       "layer": "unit",
-      "file": "tests/action-plan-contract.mjs",
+      "file": "tests/root-verification-current-action-plan-contract.mjs",
       "minPassed": 8
     },
     "unit/adapter-operations-contract": {
       "layer": "unit",
-      "file": "tests/adapter-operations-contract.mjs",
+      "file": "tests/root-verification-current-adapter-operations-contract.mjs",
       "minPassed": 14
     },
     "unit/agent-contract": {
       "layer": "unit",
-      "file": "tests/agent-contract.mjs",
+      "file": "tests/root-verification-current-agent-contract.mjs",
       "minPassed": 25
     },
     "unit/agent-minimisation-contract": {
       "layer": "unit",
-      "file": "tests/agent-minimisation-contract.mjs",
+      "file": "tests/root-verification-current-agent-minimisation-contract.mjs",
       "minPassed": 38
     },
     "unit/agent-quality-contract": {
       "layer": "unit",
-      "file": "tests/agent-quality-contract.mjs",
+      "file": "tests/root-verification-current-agent-quality-contract.mjs",
       "minPassed": 50
     },
     "unit/aggregate-checkpoint-population-contract": {
@@ -785,22 +830,22 @@
     },
     "unit/ai-budget-contract": {
       "layer": "unit",
-      "file": "tests/ai-budget-contract.mjs",
+      "file": "tests/root-verification-current-ai-budget-contract.mjs",
       "minPassed": 41
     },
     "unit/ai-invoice-contract": {
       "layer": "unit",
-      "file": "tests/ai-invoice-contract.mjs",
+      "file": "tests/root-verification-current-ai-invoice-contract.mjs",
       "minPassed": 54
     },
     "unit/alert-delivery-contract": {
       "layer": "unit",
-      "file": "tests/alert-delivery-contract.mjs",
+      "file": "tests/root-verification-current-alert-delivery-contract.mjs",
       "minPassed": 23
     },
     "unit/alerts-contract": {
       "layer": "unit",
-      "file": "tests/alerts-contract.mjs",
+      "file": "tests/root-verification-current-alerts-contract.mjs",
       "minPassed": 25
     },
     "unit/anaemia-provider-contract": {
@@ -850,7 +895,7 @@
     },
     "unit/audit-chain-contract": {
       "layer": "unit",
-      "file": "tests/audit-chain-contract.mjs",
+      "file": "tests/root-verification-current-audit-chain-contract.mjs",
       "minPassed": 48
     },
     "unit/audit-checkpoint-contract": {
@@ -875,17 +920,17 @@
     },
     "unit/capability-lifecycle-contract": {
       "layer": "unit",
-      "file": "tests/capability-lifecycle-contract.mjs",
+      "file": "tests/root-verification-current-capability-lifecycle-contract.mjs",
       "minPassed": 25
     },
     "unit/caseload-contract": {
       "layer": "unit",
-      "file": "tests/caseload-contract.mjs",
+      "file": "tests/root-verification-current-caseload-contract.mjs",
       "minPassed": 30
     },
     "unit/caseload-schedule-contract": {
       "layer": "unit",
-      "file": "tests/caseload-schedule-contract.mjs",
+      "file": "tests/root-verification-current-caseload-schedule-contract.mjs",
       "minPassed": 33
     },
     "unit/clinical-source-contract": {
@@ -920,7 +965,7 @@
     },
     "unit/consent-contract": {
       "layer": "unit",
-      "file": "tests/consent-contract.mjs",
+      "file": "tests/root-verification-current-consent-contract.mjs",
       "minPassed": 25
     },
     "unit/contact-import-contract": {
@@ -930,32 +975,32 @@
     },
     "unit/continuity-contract": {
       "layer": "unit",
-      "file": "tests/continuity-contract.mjs",
+      "file": "tests/root-verification-current-continuity-contract.mjs",
       "minPassed": 29
     },
     "unit/correction-tasks-contract": {
       "layer": "unit",
-      "file": "tests/correction-tasks-contract.mjs",
+      "file": "tests/root-verification-current-correction-tasks-contract.mjs",
       "minPassed": 13
     },
     "unit/crosswalk-correction-contract": {
       "layer": "unit",
-      "file": "tests/crosswalk-correction-contract.mjs",
+      "file": "tests/root-verification-current-crosswalk-correction-contract.mjs",
       "minPassed": 48
     },
     "unit/data-exit-contract": {
       "layer": "unit",
-      "file": "tests/reporting-completeness-portability-contract.mjs",
+      "file": "tests/integration-installed-work-portability-contract.mjs",
       "minPassed": 44
     },
     "unit/delegation-contract": {
       "layer": "unit",
-      "file": "tests/delegation-contract.mjs",
+      "file": "tests/root-verification-current-delegation-contract.mjs",
       "minPassed": 22
     },
     "unit/demonstration-contract": {
       "layer": "unit",
-      "file": "tests/demonstration-contract.mjs",
+      "file": "tests/root-verification-current-demonstration-contract.mjs",
       "minPassed": 52
     },
     "unit/destination-enrolment-contract": {
@@ -970,17 +1015,17 @@
     },
     "unit/drift-contract": {
       "layer": "unit",
-      "file": "tests/drift-contract.mjs",
+      "file": "tests/root-verification-current-drift-contract.mjs",
       "minPassed": 15
     },
     "unit/ehr-contract": {
       "layer": "unit",
-      "file": "tests/ehr-contract.mjs",
+      "file": "tests/root-verification-current-ehr-contract.mjs",
       "minPassed": 48
     },
     "unit/ehr-execution": {
       "layer": "unit",
-      "file": "tests/ehr-execution.mjs",
+      "file": "tests/root-verification-current-ehr-execution.mjs",
       "minPassed": 33
     },
     "unit/ehr-probe-contract": {
@@ -990,7 +1035,7 @@
     },
     "unit/ehr-resolution-contract": {
       "layer": "unit",
-      "file": "tests/ehr-resolution-contract.mjs",
+      "file": "tests/root-verification-current-ehr-resolution-contract.mjs",
       "minPassed": 13
     },
     "unit/eighth-review-fixes-contract": {
@@ -1000,47 +1045,47 @@
     },
     "unit/environment-contract": {
       "layer": "unit",
-      "file": "tests/environment-contract.mjs",
+      "file": "tests/root-verification-current-environment-contract.mjs",
       "minPassed": 26
     },
     "unit/exceptional-contract": {
       "layer": "unit",
-      "file": "tests/exceptional-contract.mjs",
+      "file": "tests/root-verification-current-exceptional-contract.mjs",
       "minPassed": 19
     },
     "unit/exceptions-contract": {
       "layer": "unit",
-      "file": "tests/exceptions-contract.mjs",
+      "file": "tests/root-verification-current-exceptions-contract.mjs",
       "minPassed": 8
     },
     "unit/facility-scope-contract": {
       "layer": "unit",
-      "file": "tests/facility-scope-contract.mjs",
+      "file": "tests/root-verification-current-facility-scope-contract.mjs",
       "minPassed": 38
     },
     "unit/fact-provenance-contract": {
       "layer": "unit",
-      "file": "tests/fact-provenance-contract.mjs",
+      "file": "tests/root-verification-current-fact-provenance-contract.mjs",
       "minPassed": 41
     },
     "unit/fact-reuse-contract": {
       "layer": "unit",
-      "file": "tests/fact-reuse-contract.mjs",
+      "file": "tests/root-verification-current-fact-reuse-contract.mjs",
       "minPassed": 21
     },
     "unit/fact-verification-contract": {
       "layer": "unit",
-      "file": "tests/fact-verification-contract.mjs",
+      "file": "tests/root-verification-current-fact-verification-contract.mjs",
       "minPassed": 37
     },
     "unit/fhir-provenance-contract": {
       "layer": "unit",
-      "file": "tests/fhir-provenance-contract.mjs",
+      "file": "tests/root-verification-current-fhir-provenance-contract.mjs",
       "minPassed": 51
     },
     "unit/fhir-validate-contract": {
       "layer": "unit",
-      "file": "tests/fhir-validate-contract.mjs",
+      "file": "tests/root-verification-current-fhir-validate-contract.mjs",
       "minPassed": 20
     },
     "unit/field-capacity-client": {
@@ -1055,7 +1100,7 @@
     },
     "unit/field-contract": {
       "layer": "unit",
-      "file": "tests/field-contract.mjs",
+      "file": "tests/root-verification-current-field-contract.mjs",
       "minPassed": 38
     },
     "unit/field-media-capacity-client": {
@@ -1080,12 +1125,12 @@
     },
     "unit/field-registration-client": {
       "layer": "unit",
-      "file": "tests/field-registration-client.mjs",
+      "file": "tests/root-verification-current-field-registration-client.mjs",
       "minPassed": 69
     },
     "unit/field-shell": {
       "layer": "unit",
-      "file": "tests/field-shell.mjs",
+      "file": "tests/field-shell-current-assets.mjs",
       "minPassed": 12
     },
     "unit/field-storage-client": {
@@ -1100,7 +1145,7 @@
     },
     "unit/fifth-review-fixes-contract": {
       "layer": "unit",
-      "file": "tests/fifth-review-fixes-contract.mjs",
+      "file": "tests/fifth-review-fixes-reporting-current-contract.mjs",
       "minPassed": 33
     },
     "unit/figure-impact-contract": {
@@ -1110,7 +1155,7 @@
     },
     "unit/fixture-migration-contract": {
       "layer": "unit",
-      "file": "tests/fixture-migration-contract.mjs",
+      "file": "tests/root-verification-current-fixture-migration-contract.mjs",
       "minPassed": 22
     },
     "unit/fourth-review-fixes-contract": {
@@ -1125,7 +1170,7 @@
     },
     "unit/governance-contract": {
       "layer": "unit",
-      "file": "tests/governance-contract.mjs",
+      "file": "tests/root-verification-current-governance-contract.mjs",
       "minPassed": 27
     },
     "unit/household-completion-contract": {
@@ -1135,17 +1180,17 @@
     },
     "unit/household-contract": {
       "layer": "unit",
-      "file": "tests/household-contract.mjs",
+      "file": "tests/root-verification-current-household-contract.mjs",
       "minPassed": 12
     },
     "unit/household-reschedule-contract": {
       "layer": "unit",
-      "file": "tests/household-reschedule-contract.mjs",
+      "file": "tests/root-verification-current-household-reschedule-contract.mjs",
       "minPassed": 35
     },
     "unit/household-visit-contract": {
       "layer": "unit",
-      "file": "tests/household-visit-contract.mjs",
+      "file": "tests/root-verification-current-household-visit-contract.mjs",
       "minPassed": 19
     },
     "unit/i18n-contract": {
@@ -1155,7 +1200,7 @@
     },
     "unit/identifier-crosswalk-contract": {
       "layer": "unit",
-      "file": "tests/identifier-crosswalk-contract.mjs",
+      "file": "tests/root-verification-current-identifier-crosswalk-contract.mjs",
       "minPassed": 84
     },
     "unit/identity-contract": {
@@ -1175,17 +1220,17 @@
     },
     "unit/inbound-conflicts-contract": {
       "layer": "unit",
-      "file": "tests/inbound-conflicts-contract.mjs",
+      "file": "tests/root-verification-current-inbound-conflicts-contract.mjs",
       "minPassed": 85
     },
     "unit/inbound-retrieval-contract": {
       "layer": "unit",
-      "file": "tests/inbound-retrieval-contract.mjs",
+      "file": "tests/root-verification-current-inbound-retrieval-contract.mjs",
       "minPassed": 115
     },
     "unit/incentive-claims-contract": {
       "layer": "unit",
-      "file": "tests/incentive-claims-contract.mjs",
+      "file": "tests/root-verification-current-incentive-claims-contract.mjs",
       "minPassed": 35
     },
     "unit/indicator-figure-material-contract": {
@@ -1195,12 +1240,12 @@
     },
     "unit/indicator-freshness-contract": {
       "layer": "unit",
-      "file": "tests/indicator-freshness-contract.mjs",
+      "file": "tests/root-verification-current-indicator-freshness-contract.mjs",
       "minPassed": 10
     },
     "unit/indicator-governance-contract": {
       "layer": "unit",
-      "file": "tests/indicator-governance-contract.mjs",
+      "file": "tests/root-verification-current-indicator-governance-contract.mjs",
       "minPassed": 42
     },
     "unit/indicator-household-counting-contract": {
@@ -1210,17 +1255,22 @@
     },
     "unit/indicator-registry-contract": {
       "layer": "unit",
-      "file": "tests/indicator-registry-contract.mjs",
+      "file": "tests/root-verification-current-indicator-registry-contract.mjs",
       "minPassed": 12
     },
     "unit/indicators-contract": {
       "layer": "unit",
-      "file": "tests/indicators-contract.mjs",
+      "file": "tests/root-verification-current-indicators-contract.mjs",
       "minPassed": 9
+    },
+    "unit/installed-programme-execution-contract": {
+      "layer": "unit",
+      "file": "tests/installed-programme-execution-repair-contract.mjs",
+      "minPassed": 40
     },
     "unit/main-review-fixes-contract": {
       "layer": "unit",
-      "file": "tests/main-review-fixes-contract.mjs",
+      "file": "tests/root-verification-current-main-review-fixes-contract.mjs",
       "minPassed": 25
     },
     "unit/mapping-conformance-contract": {
@@ -1240,22 +1290,22 @@
     },
     "unit/media-contract": {
       "layer": "unit",
-      "file": "tests/media-contract.mjs",
+      "file": "tests/root-verification-current-media-contract.mjs",
       "minPassed": 5
     },
     "unit/merge-contract": {
       "layer": "unit",
-      "file": "tests/merge-contract.mjs",
+      "file": "tests/root-verification-current-merge-contract.mjs",
       "minPassed": 27
     },
     "unit/mis-contract": {
       "layer": "unit",
-      "file": "tests/mis-contract.mjs",
+      "file": "tests/root-verification-current-mis-contract.mjs",
       "minPassed": 45
     },
     "unit/mis-delivery": {
       "layer": "unit",
-      "file": "tests/mis-delivery.mjs",
+      "file": "tests/root-verification-current-mis-delivery.mjs",
       "minPassed": 16
     },
     "unit/ninth-review-fixes-contract": {
@@ -1265,17 +1315,17 @@
     },
     "unit/note-answer-signoff-contract": {
       "layer": "unit",
-      "file": "tests/note-answer-signoff-contract.mjs",
+      "file": "tests/root-verification-current-note-answer-signoff-contract.mjs",
       "minPassed": 52
     },
     "unit/notification-channel-contract": {
       "layer": "unit",
-      "file": "tests/notification-channel-contract.mjs",
+      "file": "tests/root-verification-current-notification-channel-contract.mjs",
       "minPassed": 24
     },
     "unit/notification-sources-contract": {
       "layer": "unit",
-      "file": "tests/notification-sources-contract.mjs",
+      "file": "tests/root-verification-current-notification-sources-contract.mjs",
       "minPassed": 19
     },
     "unit/object-media-contract": {
@@ -1315,27 +1365,27 @@
     },
     "unit/operations-contract": {
       "layer": "unit",
-      "file": "tests/operations-contract.mjs",
+      "file": "tests/root-verification-current-operations-contract.mjs",
       "minPassed": 24
     },
     "unit/outreach-contract": {
       "layer": "unit",
-      "file": "tests/outreach-contract.mjs",
+      "file": "tests/root-verification-current-outreach-contract.mjs",
       "minPassed": 55
     },
     "unit/pack-installation-contract": {
       "layer": "unit",
-      "file": "tests/pack-installation-contract.mjs",
+      "file": "tests/root-verification-current-pack-installation-contract.mjs",
       "minPassed": 52
     },
     "unit/patient-directory-contract": {
       "layer": "unit",
-      "file": "tests/patient-directory-contract.mjs",
+      "file": "tests/root-verification-current-patient-directory-contract.mjs",
       "minPassed": 56
     },
     "unit/patient-import-contract": {
       "layer": "unit",
-      "file": "tests/patient-import-contract.mjs",
+      "file": "tests/root-verification-current-patient-import-contract.mjs",
       "minPassed": 38
     },
     "unit/photo-contract": {
@@ -1345,12 +1395,12 @@
     },
     "unit/pilot-contract": {
       "layer": "unit",
-      "file": "tests/pilot-contract.mjs",
+      "file": "tests/root-verification-current-pilot-contract.mjs",
       "minPassed": 24
     },
     "unit/plan-dependencies-contract": {
       "layer": "unit",
-      "file": "tests/plan-dependencies-contract.mjs",
+      "file": "tests/root-verification-current-plan-dependencies-contract.mjs",
       "minPassed": 9
     },
     "unit/process-memory-contract": {
@@ -1360,7 +1410,7 @@
     },
     "unit/programme-migration-contract": {
       "layer": "unit",
-      "file": "tests/programme-migration-contract.mjs",
+      "file": "tests/root-verification-current-programme-migration-contract.mjs",
       "minPassed": 32
     },
     "unit/programme-raw-key-contract": {
@@ -1380,22 +1430,22 @@
     },
     "unit/provider-ehr-envelope-contract": {
       "layer": "unit",
-      "file": "tests/provider-ehr-envelope-contract.mjs",
+      "file": "tests/root-verification-current-provider-ehr-envelope-contract.mjs",
       "minPassed": 50
     },
     "unit/provider-ehr-execution-review": {
       "layer": "unit",
-      "file": "tests/provider-ehr-execution-review.mjs",
+      "file": "tests/root-verification-current-provider-ehr-execution-review.mjs",
       "minPassed": 47
     },
     "unit/provider-ehr-headers-contract": {
       "layer": "unit",
-      "file": "tests/provider-ehr-headers-contract.mjs",
+      "file": "tests/root-verification-current-provider-ehr-headers-contract.mjs",
       "minPassed": 92
     },
     "unit/provider-ehr-headers-independent-contract": {
       "layer": "unit",
-      "file": "tests/provider-ehr-headers-independent-contract.mjs",
+      "file": "tests/root-verification-current-provider-ehr-headers-independent-contract.mjs",
       "minPassed": 81
     },
     "unit/provider-frontline-decoded-contract": {
@@ -1410,7 +1460,7 @@
     },
     "unit/provider-history-contract": {
       "layer": "unit",
-      "file": "tests/provider-history-contract.mjs",
+      "file": "tests/root-verification-current-provider-history-contract.mjs",
       "minPassed": 13
     },
     "unit/provider-image-envelope-contract": {
@@ -1420,17 +1470,17 @@
     },
     "unit/provider-mis-envelope-contract": {
       "layer": "unit",
-      "file": "tests/provider-mis-envelope-contract.mjs",
+      "file": "tests/root-verification-current-provider-mis-envelope-contract.mjs",
       "minPassed": 41
     },
     "unit/provider-mis-execution-review": {
       "layer": "unit",
-      "file": "tests/provider-mis-execution-review.mjs",
+      "file": "tests/root-verification-current-provider-mis-execution-review.mjs",
       "minPassed": 45
     },
     "unit/provider-sandbox-contract": {
       "layer": "unit",
-      "file": "tests/provider-sandbox-contract.mjs",
+      "file": "tests/root-verification-current-provider-sandbox-contract.mjs",
       "minPassed": 75
     },
     "unit/provider-specialised-envelope-contract": {
@@ -1440,12 +1490,12 @@
     },
     "unit/purpose-scope-contract": {
       "layer": "unit",
-      "file": "tests/purpose-scope-contract.mjs",
+      "file": "tests/root-verification-current-purpose-scope-contract.mjs",
       "minPassed": 11
     },
     "unit/r26-correction-propagation-contract": {
       "layer": "unit",
-      "file": "tests/r26-correction-propagation-contract.mjs",
+      "file": "tests/root-verification-current-r26-correction-propagation-contract.mjs",
       "minPassed": 8
     },
     "unit/range-protocol-contract": {
@@ -1455,32 +1505,32 @@
     },
     "unit/read-audit-completion-contract": {
       "layer": "unit",
-      "file": "tests/read-audit-completion-contract.mjs",
+      "file": "tests/root-verification-current-read-audit-completion-contract.mjs",
       "minPassed": 52
     },
     "unit/reason-codes-contract": {
       "layer": "unit",
-      "file": "tests/reason-codes-contract.mjs",
+      "file": "tests/root-verification-current-reason-codes-contract.mjs",
       "minPassed": 61
     },
     "unit/reassignment-contract": {
       "layer": "unit",
-      "file": "tests/reassignment-contract.mjs",
+      "file": "tests/root-verification-current-reassignment-contract.mjs",
       "minPassed": 10
     },
     "unit/record-import-contract": {
       "layer": "unit",
-      "file": "tests/record-import-contract.mjs",
+      "file": "tests/root-verification-current-record-import-contract.mjs",
       "minPassed": 49
     },
     "unit/referral-contract": {
       "layer": "unit",
-      "file": "tests/referral-contract.mjs",
+      "file": "tests/root-verification-current-referral-contract.mjs",
       "minPassed": 10
     },
     "unit/referral-request-queue-contract": {
       "layer": "unit",
-      "file": "tests/referral-request-queue-contract.mjs",
+      "file": "tests/root-verification-current-referral-request-queue-contract.mjs",
       "minPassed": 21
     },
     "unit/registration-device-contract": {
@@ -1495,12 +1545,12 @@
     },
     "unit/replay-soak-contract": {
       "layer": "unit",
-      "file": "tests/replay-soak-contract.mjs",
+      "file": "tests/root-verification-current-replay-soak-contract.mjs",
       "minPassed": 8
     },
     "unit/report-export-contract": {
       "layer": "unit",
-      "file": "tests/report-export-contract.mjs",
+      "file": "tests/root-verification-current-report-export-contract.mjs",
       "minPassed": 7
     },
     "unit/reporting-completeness-contract": {
@@ -1510,32 +1560,32 @@
     },
     "unit/request-body-transport-contract": {
       "layer": "unit",
-      "file": "tests/request-body-transport-contract.mjs",
+      "file": "tests/root-verification-current-request-body-transport-contract.mjs",
       "minPassed": 8
     },
     "unit/retention-contract": {
       "layer": "unit",
-      "file": "tests/retention-contract.mjs",
+      "file": "tests/root-verification-current-retention-contract.mjs",
       "minPassed": 11
     },
     "unit/reuse-contract": {
       "layer": "unit",
-      "file": "tests/reuse-contract.mjs",
+      "file": "tests/root-verification-current-reuse-contract.mjs",
       "minPassed": 7
     },
     "unit/review-fixes-contract": {
       "layer": "unit",
-      "file": "tests/review-fixes-contract.mjs",
+      "file": "tests/root-verification-current-review-fixes-contract.mjs",
       "minPassed": 41
     },
     "unit/rights-contract": {
       "layer": "unit",
-      "file": "tests/rights-contract.mjs",
+      "file": "tests/root-verification-current-rights-contract.mjs",
       "minPassed": 17
     },
     "unit/roster-contract": {
       "layer": "unit",
-      "file": "tests/roster-contract.mjs",
+      "file": "tests/root-verification-current-roster-contract.mjs",
       "minPassed": 13
     },
     "unit/safe-logs-contract": {
@@ -1550,12 +1600,12 @@
     },
     "unit/scoped-read-contract": {
       "layer": "unit",
-      "file": "tests/scoped-read-contract.mjs",
+      "file": "tests/root-verification-current-scoped-read-contract.mjs",
       "minPassed": 27
     },
     "unit/send-gate-contract": {
       "layer": "unit",
-      "file": "tests/send-gate-contract.mjs",
+      "file": "tests/root-verification-current-send-gate-contract.mjs",
       "minPassed": 29
     },
     "unit/service-dispatch-contract": {
@@ -1565,7 +1615,7 @@
     },
     "unit/service-identity-contract": {
       "layer": "unit",
-      "file": "tests/service-identity-contract.mjs",
+      "file": "tests/root-verification-current-service-identity-contract.mjs",
       "minPassed": 10
     },
     "unit/seventh-review-fixes-contract": {
@@ -1575,7 +1625,7 @@
     },
     "unit/shadow-contract": {
       "layer": "unit",
-      "file": "tests/shadow-contract.mjs",
+      "file": "tests/root-verification-current-shadow-contract.mjs",
       "minPassed": 55
     },
     "unit/shadow-recompute-contract": {
@@ -1595,7 +1645,7 @@
     },
     "unit/storage-contract": {
       "layer": "unit",
-      "file": "tests/storage-contract.mjs",
+      "file": "tests/root-verification-current-storage-contract.mjs",
       "minPassed": 19
     },
     "unit/sync-receipt-projection": {
@@ -1605,42 +1655,47 @@
     },
     "unit/task-limits-contract": {
       "layer": "unit",
-      "file": "tests/task-limits-contract.mjs",
+      "file": "tests/root-verification-current-task-limits-contract.mjs",
       "minPassed": 39
     },
     "unit/tenth-review-fixes-contract": {
       "layer": "unit",
-      "file": "tests/tenth-review-fixes-contract.mjs",
+      "file": "tests/root-verification-current-tenth-review-fixes-contract.mjs",
       "minPassed": 12
     },
     "unit/test-runner-contract": {
       "layer": "unit",
-      "file": "tests/test-runner-contract.mjs",
+      "file": "tests/test-runner-verification-current-contract.mjs",
       "minPassed": 27
     },
     "unit/trace-contract": {
       "layer": "unit",
-      "file": "tests/trace-contract.mjs",
+      "file": "tests/root-verification-current-trace-contract.mjs",
       "minPassed": 27
     },
     "unit/value-override-agent-contract": {
       "layer": "unit",
-      "file": "tests/value-override-agent-contract.mjs",
+      "file": "tests/root-verification-current-value-override-agent-contract.mjs",
       "minPassed": 4
     },
     "unit/value-override-contract": {
       "layer": "unit",
-      "file": "tests/value-override-contract.mjs",
+      "file": "tests/root-verification-current-value-override-contract.mjs",
       "minPassed": 53
     },
     "unit/value-ranges-context-contract": {
       "layer": "unit",
-      "file": "tests/value-ranges-context-contract.mjs",
+      "file": "tests/root-verification-current-value-ranges-context-contract.mjs",
       "minPassed": 26
+    },
+    "unit/verification-dispute-contract": {
+      "layer": "unit",
+      "file": "tests/root-verification-dispute-counted.mjs",
+      "minPassed": 41
     },
     "unit/visit-import-contract": {
       "layer": "unit",
-      "file": "tests/visit-import-contract.mjs",
+      "file": "tests/root-verification-current-visit-import-contract.mjs",
       "minPassed": 54
     },
     "unit/work-burden-contract": {
@@ -1670,7 +1725,7 @@
     },
     "unit/work-burden-policy-checkpoint": {
       "layer": "unit",
-      "file": "tests/work-burden-policy-checkpoint.mjs",
+      "file": "tests/work-burden-policy-owned-port.mjs",
       "minPassed": 13
     },
     "unit/work-burden-session-migration-contract": {
@@ -1680,17 +1735,17 @@
     },
     "unit/worker-activity-contract": {
       "layer": "unit",
-      "file": "tests/worker-activity-contract.mjs",
+      "file": "tests/root-verification-current-worker-activity-contract.mjs",
       "minPassed": 12
     },
     "unit/workforce-import-contract": {
       "layer": "unit",
-      "file": "tests/workforce-import-contract.mjs",
+      "file": "tests/root-verification-current-workforce-import-contract.mjs",
       "minPassed": 68
     },
     "unit/worklists-contract": {
       "layer": "unit",
-      "file": "tests/worklists-contract.mjs",
+      "file": "tests/root-verification-current-worklists-contract.mjs",
       "minPassed": 111
     },
     "unit/workspace-metadata-contract": {
