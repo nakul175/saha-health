@@ -1,0 +1,115 @@
+{
+  "source": "f3cdbdc27d02b73d485637b40dcb6ddb620906bf",
+  "date": "2026-10-05T11:23:55.684Z",
+  "node": "v24.19.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "heapScans": false,
+  "runtimeOverride": false,
+  "concurrency": 4,
+  "warmup": 100,
+  "rounds": 2,
+  "loadsPerRound": 250,
+  "idleSeconds": 10,
+  "cases": [
+    {
+      "mode": "serial23-empty",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 123456
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 180512,
+          "durationMs": 1128
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 211648,
+          "durationMs": 898
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 211584
+        }
+      ],
+      "fixedRows": 250,
+      "fixedTextBytes": 113750,
+      "completed": true
+    },
+    {
+      "mode": "batch23-empty",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 81904
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 100256,
+          "durationMs": 181
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 108144,
+          "durationMs": 180
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 108112
+        }
+      ],
+      "fixedRows": 250,
+      "fixedTextBytes": 113750,
+      "completed": true
+    },
+    {
+      "mode": "service23-empty",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 71792
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 120608,
+          "durationMs": 261
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 152160,
+          "durationMs": 280
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 152160
+        }
+      ],
+      "completed": true
+    }
+  ],
+  "limits": [
+    "Fresh processes differ in local isolate topology; local-only arm is an allocation control, not equal runtime overhead.",
+    "Shared macOS development machine, bounded repeated controls; RSS is process residency, not hosted isolate live memory.",
+    "No application change or plateau qualification. Fully awaited/consumed D1 calls, fixed data, no per-request writes."
+  ]
+}

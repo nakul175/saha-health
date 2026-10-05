@@ -1,0 +1,177 @@
+{
+  "source": "f3cdbdc27d02b73d485637b40dcb6ddb620906bf",
+  "date": "2026-10-05T11:22:22.317Z",
+  "node": "v24.19.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "heapScans": false,
+  "runtimeOverride": false,
+  "concurrency": 4,
+  "warmup": 100,
+  "rounds": 2,
+  "loadsPerRound": 250,
+  "idleSeconds": 10,
+  "cases": [
+    {
+      "mode": "local-rows",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 50800
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 55200,
+          "durationMs": 96
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 57344,
+          "durationMs": 87
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 57392
+        }
+      ],
+      "completed": true
+    },
+    {
+      "mode": "batch1-empty",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 78112
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 92752,
+          "durationMs": 135
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 100624,
+          "durationMs": 143
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 100592
+        }
+      ],
+      "fixedRows": 250,
+      "fixedTextBytes": 113750,
+      "completed": true
+    },
+    {
+      "mode": "batch23-empty",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 83488
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 99744,
+          "durationMs": 205
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 108528,
+          "durationMs": 182
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 108496
+        }
+      ],
+      "fixedRows": 250,
+      "fixedTextBytes": 113750,
+      "completed": true
+    },
+    {
+      "mode": "batch23-rows",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 85248
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 108560,
+          "durationMs": 328
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 116816,
+          "durationMs": 249
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 116784
+        }
+      ],
+      "fixedRows": 250,
+      "fixedTextBytes": 113750,
+      "completed": true
+    },
+    {
+      "mode": "serial23-empty",
+      "successfulLoads": 600,
+      "phases": [
+        {
+          "phase": "warm",
+          "loads": 100,
+          "rssKb": 121088
+        },
+        {
+          "phase": "round1",
+          "loads": 350,
+          "rssKb": 175792,
+          "durationMs": 1324
+        },
+        {
+          "phase": "round2",
+          "loads": 600,
+          "rssKb": 212688,
+          "durationMs": 1239
+        },
+        {
+          "phase": "idle10s",
+          "loads": 600,
+          "rssKb": 212672
+        }
+      ],
+      "fixedRows": 250,
+      "fixedTextBytes": 113750,
+      "completed": true
+    }
+  ],
+  "limits": [
+    "Fresh processes differ in local isolate topology; local-only arm is an allocation control, not equal runtime overhead.",
+    "Shared macOS development machine, bounded repeated controls; RSS is process residency, not hosted isolate live memory.",
+    "No application change or plateau qualification. Fully awaited/consumed D1 calls, fixed data, no per-request writes."
+  ]
+}
