@@ -1,3 +1,4 @@
+import { followUpOpen } from './programmes';
 import { z } from 'zod';
 import { digest, fail, person, uuid } from './core';
 import { allowed } from './access';
@@ -42,7 +43,7 @@ export function ensurePatientIdentity(s:OrgState,c:any){
 }
 export function openPatientWork(s:OrgState,p:Person){
  return [
-  ...(p.followUps??[]).filter(t=>t.state==='open').map(t=>({kind:'follow-up',id:t.id,ownerId:t.ownerId,due:t.due})),
+  ...(p.followUps??[]).filter(t=>followUpOpen(s,t)).map(t=>({kind:'follow-up',id:t.id,ownerId:t.ownerId,due:t.due})),
   ...s.workspace.referrals.filter(r=>r.personId===p.id&&!TERMINAL.has(r.state)).map(r=>({kind:'referral',id:r.id,ownerId:r.ownerId??null,due:r.due??null})),
   ...(s.outreach?.plans??[]).filter(plan=>!['completed','cancelled'].includes(plan.state)).flatMap(plan=>plan.items.filter(i=>i.personId===p.id&&!['completed','cancelled'].includes(i.state)).map(i=>({kind:'outreach',id:i.id,ownerId:i.ownerId,due:plan.date}))),
   ...(s.outreach?.messages??[]).filter(v=>v.personId===p.id&&v.recovery?.state==='open').map(v=>({kind:'message follow-up',id:v.id,ownerId:v.recovery!.ownerId,due:null})),

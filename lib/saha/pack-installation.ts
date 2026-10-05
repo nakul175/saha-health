@@ -1,3 +1,4 @@
+import { NEED_IDS } from './referral-needs';
 import { VALUE_RANGES, POPULATION_RANGES } from './fact-provenance';
 import { z } from 'zod';
 import { digest, fail, uuid } from './core';
@@ -29,8 +30,11 @@ const label=z.string().trim().min(3).max(160);
 const question=z.object({id:qid,label,required:z.boolean(),fact:z.enum(Object.keys(FACT_UNITS) as [FactKey,...FactKey[]]).optional(),unit:z.enum(['kg','mmHg','°C','weeks','days']).optional(),options:z.array(z.string().trim().min(1).max(60)).min(2).max(8).optional(),when:z.object({id:qid,value:z.string().trim().min(1).max(60)}).strict().optional(),renamedFrom:qid.optional()}).strict();
 // The escalation vocabulary of the governed protocol rules (slice 4a/5x): a question, gte/lte/eq/missing and a value.
 const rule=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label,condition:z.object({questionId:qid,operator:z.enum(['gte','lte','eq','missing']),value:z.string().trim().max(30)}).strict(),urgency:z.enum(['review','urgent_review'])}).strict();
+const condition=rule.shape.condition;
+const completionRule=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),label,requiredQuestions:z.array(qid).min(1).max(25).refine(x=>new Set(x).size===x.length,'List completion questions once.'),when:condition.optional()}).strict();
+const referralNeed=z.object({id:z.string().regex(/^[a-z][a-z0-9-]{0,40}$/),need:z.enum(NEED_IDS),needLabel:z.string().trim().min(3).max(100).optional(),compatibilityKey:z.string().regex(/^[a-z][a-z0-9-]{2,79}$/).nullable(),urgency:z.enum(['routine','urgent','emergency']),when:condition.optional()}).strict().refine(x=>(x.need==='other')===!!x.needLabel,'Name only the other need.');
 export const packManifestSchema=z.object({format:z.literal(MANIFEST_FORMAT),id:z.string().regex(/^[a-z][a-z0-9_]{1,31}$/,'Pack ids are 2–32 lower-case letters, digits or underscores.'),version:z.number().int().min(1).max(999),name:z.string().trim().min(3).max(80),programme:z.enum(PROGRAMMES),purpose:z.string().trim().min(10).max(300),
- questions:z.array(question).min(1).max(25),schedule:z.object({followUpWithinDays:z.number().int().min(1).max(365),note:z.string().trim().max(300).optional()}).strict().optional(),escalation:z.array(rule).max(10).optional(),migratesFrom:z.array(z.number().int().min(1).max(999)).max(10).optional(),changeNote:z.string().trim().min(10).max(300)}).strict();
+ questions:z.array(question).min(1).max(25),completionRules:z.array(completionRule).max(10).optional(),referralNeeds:z.array(referralNeed).max(10).optional(),schedule:z.object({followUpWithinDays:z.number().int().min(1).max(365),note:z.string().trim().max(300).optional()}).strict().optional(),escalation:z.array(rule).max(10).optional(),migratesFrom:z.array(z.number().int().min(1).max(999)).max(10).optional(),changeNote:z.string().trim().min(10).max(300)}).strict();
 export type PackManifest=z.infer<typeof packManifestSchema>;
 export type InstallState='staged'|'approved'|'rejected'|'active'|'retired';
 export type InstalledPack={id:string;packId:string;version:number;state:InstallState;manifest:PackManifest;manifestHash:string;pack:Pack;stagedBy:string;stagedAt:string;reason:string;
@@ -70,7 +74,10 @@ export function manifestIssues(x:PackManifest){
  });
  for(const q of x.questions)if(q.renamedFrom&&ids.has(q.renamedFrom))issues.push(`Question ${q.id} is renamed from ${q.renamedFrom}, which is still a question in this version.`);
  const rules=new Set<string>();
- for(const r of x.escalation??[]){
+ const completions=new Set<string>();for(const c of x.completionRules??[]){if(completions.has(c.id))issues.push(`Completion rule ${c.id} repeats.`);completions.add(c.id);for(const id of c.requiredQuestions)if(!byId.has(id))issues.push(`Completion rule ${c.id} refers to an unknown question ${id}.`);}
+ const needs=new Set<string>();for(const n of x.referralNeeds??[]){if(needs.has(n.id))issues.push(`Referral need ${n.id} repeats.`);needs.add(n.id);}
+ const declaredConditions=[...(x.completionRules??[]),...(x.referralNeeds??[])].filter(x=>x.when).map((x,i)=>({id:'__declared_condition_'+i,label:'Declared condition',condition:x.when!,urgency:'review' as const}));
+ for(const r of [...(x.escalation??[]),...declaredConditions]){
   if(rules.has(r.id))issues.push(`Escalation rule ${r.id} appears more than once.`);rules.add(r.id);
   const q=byId.get(r.condition.questionId),v=r.condition.value,op=r.condition.operator;
   if(!q){issues.push(`Escalation rule ${r.id} refers to a question this pack does not ask.`);continue;}
@@ -87,7 +94,7 @@ export function packFromManifest(x:PackManifest,installationId:string,manifestHa
  const questions:Question[]=x.questions.map(q=>({id:q.id,label:q.label,required:q.required,...(q.fact?{fact:q.fact,unit:FACT_UNITS[q.fact]}:{}),...(q.options?{options:[...q.options]}:{}),...(q.when?{when:{...q.when}}:{}),...(q.renamedFrom?{renamedFrom:q.renamedFrom}:{})}));
  const schedule=x.schedule?`Follow-up within ${x.schedule.followUpWithinDays} days of each confirmed visit${x.schedule.note?` (${x.schedule.note})`:''}. Declared by an installed pack; nothing is scheduled automatically.`:undefined;
  const escalation=x.escalation?.length?x.escalation.map(r=>`${r.label}: ${r.condition.questionId} ${opText[r.condition.operator]}${r.condition.operator==='missing'?'':' '+r.condition.value} → ${r.urgency==='urgent_review'?'urgent clinician review':'clinician review'}`).join('; ')+'. Declared by an installed pack; nothing is escalated automatically.':undefined;
- return {id:x.id,version:x.version,name:x.name,programme:x.programme,purpose:x.purpose,questions,...(schedule?{schedule}:{}),...(escalation?{escalation}:{}),...(x.migratesFrom?.length?{migratesFrom:[...x.migratesFrom].sort((a,b)=>a-b)}:{}),changeNote:x.changeNote,installed:{installationId,manifestHash}};
+ return {id:x.id,version:x.version,name:x.name,programme:x.programme,purpose:x.purpose,questions,...(x.completionRules?{completionRules:structuredClone(x.completionRules)}:{}),...(x.referralNeeds?{referralNeeds:structuredClone(x.referralNeeds)}:{}),...(schedule?{schedule}:{}),...(escalation?{escalation}:{}),...(x.migratesFrom?.length?{migratesFrom:[...x.migratesFrom].sort((a,b)=>a-b)}:{}),changeNote:x.changeNote,installed:{installationId,manifestHash}};
 }
 const shape=(q:Question)=>JSON.stringify({label:q.label,unit:q.unit??null,fact:q.fact??null,options:q.options??null,when:q.when??null});
 // Conflicts with the compiled catalogue and the other installations (rejected and withdrawn ones excepted). Version order

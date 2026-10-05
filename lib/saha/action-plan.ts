@@ -1,3 +1,4 @@
+import { followUpOpen } from './programmes';
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
@@ -39,7 +40,7 @@ const SOURCE_LABEL:Record<string,string>={visit:'Visit','protocol-evaluation':'P
 const canLink=(s:OrgState,m:Member,p:Person)=>steward(s,m,p)||(m.role==='clinician'&&normallyAllowed(m,p));
 // Reads one referenced item from its own record. found=false when it is not this patient's; open=true when it is still open work.
 export function describe(s:OrgState,p:Person,r:PlanItemRef):{found:boolean;open:boolean;title:string}{
- if(r.kind==='follow-up'){const f=p.followUps?.find(x=>x.id===r.id);return f?{found:true,open:f.state==='open',title:f.title}:{found:false,open:false,title:'Unknown follow-up'};}
+ if(r.kind==='follow-up'){const f=p.followUps?.find(x=>x.id===r.id);return f?{found:true,open:followUpOpen(s,f),title:f.title}:{found:false,open:false,title:'Unknown follow-up'};}
  if(r.kind==='referral'){const x=s.workspace.referrals.find(y=>y.id===r.id&&y.personId===p.id);return x?{found:true,open:!TERMINAL.has(x.state),title:`Referral to ${x.facility}`}:{found:false,open:false,title:'Unknown referral'};}
  for(const v of s.workspace.visits)if(v.personId===p.id){const c=v.protocolChecks?.find(x=>x.id===r.id);if(!c)continue;
   const open=!v.voidedAt&&!v.supersededBy&&v.protocolChecks!.at(-1)===c&&!c.decision&&c.findings.length>0;
@@ -58,13 +59,13 @@ export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOStri
  // Programme follow-ups. Same title, due date and owner across programme episodes are one reminder
  // with every source kept; different titles, dates or owners stay separate work (BR-CARE-05).
  const groups=new Map<string,NonNullable<Person['followUps']>>();
- for(const t of p.followUps??[])if(t.state==='open'){const k=[norm(t.title),t.due,t.ownerId].join('|');groups.set(k,[...(groups.get(k)??[]),t]);}
+ for(const t of p.followUps??[])if(followUpOpen(s,t)){const k=[norm(t.title),t.due,t.ownerId].join('|');groups.set(k,[...(groups.get(k)??[]),t]);}
  for(const group of groups.values()){
   const t=group[0],owner=who(t.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner),d=dated(t.due,now);
   const programmes=group.map(x=>PACKS.find(pk=>pk.id===x.packId)?.name??x.packId);
   items.push({key:'follow-up:'+group.map(x=>x.id).sort().join('+'),kind:'follow-up',title:t.title,reason:group.length>1?`Scheduled by ${group.length} programme episodes (${[...new Set(programmes)].join(', ')}); shown once`:`${programmes[0]} follow-up`,
    sources:group.map((x,i)=>({kind:'follow-up' as const,id:x.id,label:`${programmes[i]} follow-up`,programme:programmes[i]})),owner,queue:gap?`Supervisors of ${team}`:null,ownershipGap:gap,due:t.due,urgency:'routine',status:d.attention==='overdue'?'Overdue':'Open',daysOverdue:d.daysOverdue,attention:gap?'escalated':d.attention,
-   assignVia:'action-plan',targets:group.map(x=>({kind:'follow-up' as const,id:x.id,version:p.version})),canAssign:lead,canClaim:!!gap&&care,refs:group.map(x=>({kind:'follow-up' as const,id:x.id})),waitingOn:[],blocks:[]});
+   assignVia:'action-plan',targets:group.map(x=>({kind:'follow-up' as const,id:x.id,version:p.version})),canAssign:lead&&group.every(x=>x.state==='open'),canClaim:!!gap&&care&&group.every(x=>x.state==='open'),refs:group.map(x=>({kind:'follow-up' as const,id:x.id})),waitingOn:[],blocks:[]});
  }
  // Referrals, with the slice 4a escalation rules.
  for(const r of s.workspace.referrals)if(r.personId===p.id&&!TERMINAL.has(r.state)){
