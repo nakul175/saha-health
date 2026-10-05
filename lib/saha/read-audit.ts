@@ -1,7 +1,7 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { fail } from './core';
 import { exceptionalGrant, normallyAllowed } from './access';
-import { accessRoute, recordAccess, recordAccessBare } from './access-audit';
+import { accessRoute, recordAccess, recordAccessBare, recordAccesses } from './access-audit';
 import type { Actor } from './store';
 import type { Member, OrgState, Person } from './types';
 // Slice 10h: the remaining read paths are audited through the same single-event, chained, fail-closed access commit as
@@ -35,6 +35,19 @@ export async function recordWorkspaceLoad(db: D1Database, state: OrgState, actor
   const s = workspaceSummary(state, m, via, paged, now);
   await recordAccess(db, state, actor, m, { action: 'viewWorkspace', subject: state.organisation.id, personId: null, detail: s.detail }, now);
   return s;
+}
+
+// A command partition returns full records, even when the browser requested a paged
+// workspace. Record this actual disclosure independently of screen-open/window
+// coalescing. The mutation and its receipt have already committed; a refused read
+// must not rerun the mutation. One access-only batch leaves clinical revisions alone.
+export async function recordPartitionResponse(db: D1Database, state: OrgState, actor: Actor, m: Member, now = new Date().toISOString()) {
+  const people = state.workspace.people.filter(p => p.assigned), ids = new Set(people.map(p => p.id));
+  const count = (rows: { personId: string }[]) => rows.filter(r => ids.has(r.personId)).length;
+  await recordAccesses(db, state, actor, m, [
+    { action: 'viewWorkspace', subject: state.organisation.id, personId: null, detail: `Partition snapshot returned (response to a command): ${people.length} patient records returned in full; ${count(state.workspace.visits)} visits, ${count(state.workspace.referrals)} referrals, ${count(state.workspace.submissions)} submissions. Counts describe only the returned partition, not the full care scope.` },
+    ...people.map(p => ({ action: 'viewPatientRecord' as const, subject: p.id, personId: p.id, detail: `Full patient record returned through a command partition (response to a command).${accessRoute(m, p, now)}` })),
+  ], now);
 }
 
 // A patient page or search from SQL alone (no organisation state): kind and count only.

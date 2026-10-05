@@ -81,7 +81,7 @@ import { languageOf } from './messages';
 import { patientTargets } from './partition';
 import { PAGED_THRESHOLD, pagedWindow, pagingRequest, type PagingRequest } from './patient-directory';
 import { auditWindow } from './access-audit';
-import { recordWorkspaceLoad, type SnapshotVia } from './read-audit';
+import { recordWorkspaceLoad, recordPartitionResponse, type SnapshotVia } from './read-audit';
 import { accountCode, auditPage, snapshotDecorations, parseCursor, createState, ensureAccount, history, persist, readState, scope, type Actor } from './store';
 import type { OrgState, Integration, Member, Snapshot } from './types';
 export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}
@@ -267,7 +267,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  // Slice 6v: an organisation-wide command evaluates alert delivery on the state it loaded (best effort, never fails the command).
  if(c.type!=='switchOrganisation')await evaluateAfterCommand(state);
  // Slice 0b: a partitioned command may answer with the partition snapshot for the client to merge.
- if(request.headers.get('x-saha-response')==='delta'&&state.partition){const partition=state.partition;return {result,delta:await snapshotFor(await loadFor(u,state.organisation.id,async()=>partition),u),partition};}
+ if(request.headers.get('x-saha-response')==='delta'&&state.partition){const partition=state.partition,fresh=await loadFor(u,state.organisation.id,async()=>partition);await recordPartitionResponse(db(),fresh,u,scope(fresh,u.userId));return {result,delta:await snapshotFor(fresh,u),partition};}
  return {result,snapshot:await viewerSnapshot(request,u,state.organisation.id)};
 }
 export async function command(request:Request){await identity();
