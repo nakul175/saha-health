@@ -1,0 +1,315 @@
+Toggle Sidebar
+Organisation & team
+SANDBOX
+Synthetic development and demonstration environment. Use synthetic records only. AI outputs and programme receipts are demonstrations. Live services require approved connections.
+
+Review indicator definitions
+
+MEMBERSHIP & ACCESS
+Organisation & team
+
+Give each teammate the access and patient assignments they need.
+
+Join organisation
+Invite teammate
+Rampur care organisation
+
+Clinician · Organisation owner
+
+4 visible active members
+1 visible teams
+Rename
+Your account code
+
+Share this code with an organisation owner to receive an invitation bound to your account.
+
+Signed in as installed-execution-owner-59ea336b@example.invalid
+Your name in this organisation
+Save name
+From your sign-in. Teammates here see this name. It does not change your sign-in or your access.
+Team members
+Server-controlled access
+Member	Role	Teams	Status	Manage
+Demonstration clinician — author (synthetic)	Clinician	Rampur care team	active	Edit access
+Demonstration clinician — reviewer (synthetic)	Clinician	Rampur care team	active	Edit access
+installed-execution-owner-59ea336b@example.invalidYou
+Organisation owner
+	Clinician	Rampur care team	active	Edit access
+Synthetic independent clinician
+Sign-in: installed-execution-reviewer-f68eac6d@example.invalid
+	Clinician	Rampur care team	active	Edit access
+Care teams
+New team
+Rampur care team
+
+4 visible active members
+
+8 patients in your scope
+Your current access
+
+Sees patients in its teams and can record, confirm and correct visits.
+
+As an owner you also manage membership, teams and connections. Patient access still follows your clinical role and teams.
+
+To collaborate here, each teammate also needs permission to open this Site. An organisation invitation does not change the Site’s sharing settings.
+
+Create another organisation
+Invitations
+Single use · expires after 72 hours
+Teammate	Role	Status	Action
+Synthetic independent clinician
+44103DA804F11EFB5AF299C7
+	Clinician	accepted	
+Roster sync
+Up to 100 rows per batch
+
+One line per person: account code, name, role (asha, clinician, supervisor, admin), teams separated by semicolons, and active or left. Roster sync invites, updates roles and teams, and suspends people who left. It never removes anyone, never reactivates a local suspension and never suspends an owner.
+
+This is the complete roster: suspend active members who are not listedPreview changes
+Import a workforce roster from a CSV file
+Owners · dry run first
+
+Upload the roster your institution keeps as a spreadsheet. The dry run lists the invitations that would be created, the memberships that would change, rows that are rejected and conflicts left for review; nothing is stored until you apply. Applying changes exactly the previewed plan and is refused if anything changed since. People missing from the file are never suspended; only a row marked left suspends someone, and never an owner or yourself.
+
+Columns: name,account_code,role,team,status,external_staff_id (external_staff_id is optional). Role is asha, clinician, supervisor or admin; team is a team name, several separated by semicolons; status is active or left. Up to 100 rows and 16,000 bytes. Invitations are ordinary account-bound invitations that expire after 72 hours.
+
+CSV file
+Or paste the CSV
+Run dry run
+Delegated authority
+Time-limited · at most 30 days · audited
+
+No delegations recorded.
+
+Delegate for a limited time
+Authority to delegate
+7 days
+Delegate
+Retention and holds
+No schedule set
+
+Not enabled. This release counts eligible records only; it never deletes, and restore-safe disposal is not built.
+
+Record class	Counted from	Keep for (years)	Records	Past schedule	Held	Would be eligible
+Patient record	last activity on the patient (registration or visit)		8	—	0	—
+Programme receipt	last update of the submission		0	—	0	—
+Audit event	time of the event		79	—	0	—
+Outreach message	creation of the message		0	—	0	—
+Rights request	closure of the request		0	—	0	—
+Field package	creation of the field package		0	—	0	—
+Save schedule
+Holds
+
+No holds.
+
+One patient
+Patient in your scope
+Place hold
+Data export for exit or transfer
+Owners only
+
+Downloads every stored table for this organisation as a tar archive with a manifest (row counts and SHA-256 per file), the audit chain, media, and a list of unresolved external actions and open patient tasks with their named owner. Patient records are included only for patients in your care teams; others are counted as withheld. Credentials, invitation codes and sign-in emails are left out. The download is recorded in the audit chain.
+
+Include a FHIR document for each confirmed visit
+
+Structural FHIR R4 documents; not profile-validated.
+
+Download organisation export
+Environment and configuration
+Owners only · read-only
+
+This deployment runs as: Synthetic development and demonstration environment. The check lists missing or unsafe settings for the deployment and this organisation's connections. It names settings and their state; it never shows secret values.
+
+Run configuration check
+Out-of-app notifications
+Owners only · demonstration simulator
+
+Demonstration simulator. Messages are stored and shown inside Saha. Nothing is sent to any email address or phone number, and recipients hold no contact details.
+
+Send simulated messages for operational alerts (setting version 0 · not set up yet)
+Escalate to the next tier when an alert is not acknowledged within (minutes, 5 to 1440)
+Recipients (up to 30). Tier 1 is told first; each further tier is told after another interval, and only while the alert stays unacknowledged.
+installed-execution-owner-59ea336b@example.invalid
+· clinician · owner
+Reason for the change
+Save notification channel
+Refresh log
+Open alerts and their escalation schedule
+
+No alert is open.
+
+Message log (0 in total)
+
+No message has been sent yet. Messages appear when an alert opens and a listed recipient may receive it.
+
+Data migration: mark seeded fixtures
+Owners only · dry run first
+
+Records seeded before environment separation are not marked as synthetic fixtures, so the barrier that keeps fixtures away from destinations does not cover them. The dry run counts what would change; applying marks exactly the records it listed and can be reversed as a batch. Each marked record gets a revision with your reason.
+
+Run dry run
+Programme pack versions
+Owners and clinicians · dry run first
+
+Each open episode stays on the pack version it opened on. When a newer version exists, the dry run lists what it changes and which open episodes in your care teams would move. Applying moves exactly those episodes, with a record revision and your reason for each; visits already recorded keep the version they were made under. Episodes that cannot move stay where they are and are listed for manual action.
+
+Run dry run
+Programme pack installation
+Owner uploads · another clinician reviews · owner activates
+
+Installed packs are synthetic configuration and are not clinically approved content. Review here checks structure, conflicts and authority only. Use synthetic test packs.
+
+A pack manifest is data only: questions, shared measurements with their fixed units, answer options, show-when conditions, a follow-up interval and escalation rules in the protocol rule vocabulary. Optional completionRules declare required question evidence; referralNeeds declare conditions, urgency and an explicit compatibility key or separate referrals. These remain synthetic governed contracts, not clinical acceptance. Episodes open only on activated versions. Retiring a version keeps it and its pinned episodes; it stops new episodes and migrations to it. Once a new version of an existing pack is active, use Programme pack versions to migrate open episodes when the manifest declares a mapping.
+
+Show installations
+Installed programme execution
+
+Disabled unless a care owner proposes and a different clinician approves an exact team policy. Synthetic governance only; clinical approval is pending.
+
+Load installed work
+Import people from a CSV file
+Owners and supervisors · dry run first
+
+Columns: name, age, sex, village, programme, team (a team you belong to and supervise). Up to 100 rows and 16,000 bytes (Devanagari letters take 3 bytes each). The dry run checks each row and looks for possible duplicates among the records you can see and earlier rows; only accepted rows are created, each with a revision, and the batch is audited with its counts.
+
+CSV file
+Or paste the CSV
+Run dry run
+Historical source evidence and clinical review
+
+Import documentary answers, structured notes and original photos or recordings for an imported visit. Source observations remain historical. Review same-date overlaps explicitly before opening current care; no observations, enrolments or clinical decisions are copied.
+
+Imported visit
+Choose a historical imported visit
+Source system
+Source document reference
+Historical source note (optional)
+Historical programme question (optional)
+No programme answer
+Maternal care v1 · Was a care appointment discussed?
+TB screening v1 · Does the person report a cough?
+TB screening v1 · Is a testing follow-up already arranged?
+Maternal care v2 · Was the next care appointment discussed?
+Maternal care v2 · Were pregnancy danger signs discussed with the person?
+Hypertension follow-up v1 · Reported access to prescribed medicines
+Original source photo or audio (optional, up to three)
+Prepare source review plan
+Advanced source package and batch files
+Review evidence import plan
+Reason for source import, review or reversal
+Patient source history
+Choose a patient
+Synthetic executed installed visit
+Synthetic installed rule discovery person
+Aarav Singh
+Farida Begum
+Kamla Devi
+Meena Devi
+Rajesh Kumar
+Sunita Bai
+Open audited source review
+Historical source batch to withdraw
+Review source batch withdrawal
+Original imported visit batch to withdraw
+Review original visit batch withdrawal
+Import contacts, enrolments, identifiers or visits for existing people
+Owners and supervisors · dry run first
+
+For people already in Saha, in teams you belong to and supervise. Up to 100 rows and 16,000 bytes. The dry run checks each row; only accepted rows are applied, each record gets a revision, and the batch is audited with its counts. Visits (clinical content) are imported only as read-only history for owners and clinicians; there is no batch reversal.
+
+What to import
+Contacts without contact permission
+Programme enrolments
+External identifiers
+Historical visits (clinical content)
+
+Columns: person,method,destination,ownership,language,timezone,from,to,private_contact,reference,source_system. method is none, in_person or sms; destination is an empty value or synthetic TEST- identifier; ownership is personal, shared or unknown; language en or hi; timezone is an IANA zone; hours HH:MM; private_contact true or false. Existing preferences are never replaced. Permission is always false; import never sends a message.
+
+CSV file
+Or paste the CSV
+Run dry run
+Contact import batch to reverse
+Review saved contact batch reversal
+
+Existing records retained: 6 people, 0 visits and 0 programme receipts when this workspace moved to structured records. Earlier activity is preserved.
+
+Supervisor sign-off before sending: organisation default
+
+Not required: workers send approved programme submissions without a supervisor sign-off.
+
+Reason for the change
+Require sign-off
+Sign-off rules per programme and destination
+
+Default: not required for programme destinations (version 0). A destination rule wins; otherwise, if any programme the send concerns requires sign-off, it is required; otherwise the default applies. The default never covered EHR publication, so an EHR connection needs its own or a programme rule. Rules apply to sends not yet made; nothing already sent is recalled.
+
+By programme
+Maternal care
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+Chronic care
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+TB screening
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+Child health
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+General care
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+By destination
+Facility EHR (EHR)
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+Community health MIS (programme)
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+Maternal & child register (programme)
+Follow the default
+Follow the default
+Sign-off required
+Sign-off not required
+Reason for the change
+Save sign-off rules
+Voice input
+
+Every text and number box has a microphone. People check what was heard before it goes into the box, and nothing is saved until they save the form. Speech is turned into text on the device when the browser can do that for the language (desktop Chrome 139 or later). Phones need the browser speech service, which sends the audio to the browser maker (Google on Android).
+
+Browser speech service: off · on-device speech only
+
+Reason for the change
+Allow the browser speech service
+Expected value ranges
+
+Default fallback version saha-value-ranges-0.1.0: engineering placeholder — not clinically approved. No clinical authority is claimed. A value outside the expected range needs the recorder’s reason; outside the confirmation range, a clinician who did not record it must also confirm it. Compiled range publications below can be staged and independently reviewed. Existing captures retain their saved policy.
+
+Measurement	Expected	Clinician confirmation outside	Other unit accepted
+Systolic blood pressure	70–200 mmHg	50–260 mmHg	kPa (kilopascals)
+Diastolic blood pressure	40–120 mmHg	25–160 mmHg	kPa (kilopascals)
+Weight	2–150 kg	0.5–300 kg	lb (pounds)
+Temperature	34–41 °C	30–44 °C	°F (Fahrenheit)
+Gestational age	4–42 weeks	1–45 weeks	weeks + days
+Cough duration	0–90 days	0–730 days	weeks
+Value range publications
+
+Owner stages a compiled policy, a different clinician reviews its exact hash, then an owner publishes it for new captures. Illustrative population examples remain restricted to synthetic or training use; clinical approval is pending.
+
+Load range publications
+Saha · Connected care workspace
+Synthetic demonstration · not for patient care

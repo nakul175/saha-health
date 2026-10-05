@@ -1,0 +1,146 @@
+{
+  "sourceCommit": "ce25bfb8",
+  "installation": {
+    "installationId": "a22a7777-3d3d-4ca7-a340-53ad2174446b",
+    "packId": "synthetic_due",
+    "version": 1,
+    "state": "staged",
+    "manifestHash": "f105613baa0caf9a92a798afa74d66fef61876111f3fe61d0057a7e66d0e1b0b"
+  },
+  "manifest": {
+    "format": "saha-pack-manifest-1",
+    "id": "synthetic_due",
+    "version": 1,
+    "name": "Synthetic explicit rule witness",
+    "programme": "General care",
+    "purpose": "Synthetic explicit follow-up and escalation discovery, not clinical approval",
+    "questions": [
+      {
+        "id": "reported_concern",
+        "label": "Synthetic concern reported",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      }
+    ],
+    "schedule": {
+      "followUpWithinDays": 3,
+      "note": "Synthetic configured interval; not a clinical default"
+    },
+    "escalation": [
+      {
+        "id": "concern-review",
+        "label": "Synthetic concern needs review",
+        "condition": {
+          "questionId": "reported_concern",
+          "operator": "eq",
+          "value": "Yes"
+        },
+        "urgency": "urgent_review"
+      }
+    ],
+    "changeNote": "Synthetic installed rule execution before witness only"
+  },
+  "personId": "a3cfb322-dea3-4dbf-abb3-6f06ca55c3b8",
+  "enrolmentId": "2612c905-2b22-4ed3-a13b-ace77dc16b6d",
+  "visitId": "c2ee1787-e162-4246-9a0c-07b6dbaa3da5",
+  "confirmedAt": "2026-10-05T20:29:26.215Z",
+  "capturedSchedule": "Follow-up within 3 days of each confirmed visit (Synthetic configured interval; not a clinical default). Declared by an installed pack; nothing is scheduled automatically.",
+  "capturedEscalation": "Synthetic concern needs review: reported_concern is Yes → urgent clinician review. Declared by an installed pack; nothing is escalated automatically.",
+  "followUps": [],
+  "protocolChecks": [],
+  "actionPlan": {
+    "personId": "a3cfb322-dea3-4dbf-abb3-6f06ca55c3b8",
+    "personVersion": 4,
+    "generatedAt": "2026-10-05T20:29:26.229Z",
+    "items": [],
+    "unowned": 0,
+    "waiting": 0,
+    "canAssign": true,
+    "canLink": true,
+    "dependencies": [],
+    "eligibleOwners": [
+      {
+        "userId": "fixture:org_83e136a509eae8896fe8e33de6b43eef:clinician-author",
+        "displayName": "Demonstration clinician — author (synthetic)",
+        "role": "clinician"
+      },
+      {
+        "userId": "fixture:org_83e136a509eae8896fe8e33de6b43eef:clinician-reviewer",
+        "displayName": "Demonstration clinician — reviewer (synthetic)",
+        "role": "clinician"
+      },
+      {
+        "userId": "t-59ea336b-installed-execution-owner",
+        "displayName": "installed-execution-owner-59ea336b@example.invalid",
+        "role": "clinician"
+      },
+      {
+        "userId": "t-f68eac6d-installed-execution-reviewer",
+        "displayName": "Synthetic independent clinician",
+        "role": "clinician"
+      }
+    ],
+    "rules": "Ordered: ownership gaps and escalations first, then overdue, due today, needing review now, undated and upcoming, then items waiting on another open item; within each, higher urgency and longer overdue first. Follow-ups with the same title, due date and owner are shown once with every programme source. A waiting item is not counted as overdue while its blocker is open; the blocker keeps its own order. Computed on read; nothing is sent."
+  },
+  "mutationActions": [
+    "auditChainGenesis",
+    "createGovernance",
+    "reviewGovernance",
+    "transitionGovernance",
+    "createGovernance",
+    "reviewGovernance",
+    "transitionGovernance",
+    "createGovernance",
+    "reviewGovernance",
+    "transitionGovernance",
+    "createGovernance",
+    "reviewGovernance",
+    "transitionGovernance",
+    "createGovernance",
+    "reviewGovernance",
+    "transitionGovernance",
+    "createGovernance",
+    "reviewGovernance",
+    "transitionGovernance",
+    "createGovernance",
+    "reviewGovernance",
+    "transitionGovernance",
+    "installDemonstrationPackage",
+    "createWorkspace",
+    "viewWorkspace",
+    "createInvite",
+    "viewWorkspace",
+    "acceptInvite",
+    "viewWorkspace",
+    "packInstallStage",
+    "viewWorkspace",
+    "packInstallReview",
+    "viewWorkspace",
+    "packInstallActivate",
+    "viewWorkspace",
+    "createPerson",
+    "viewWorkspace",
+    "viewWorkspace",
+    "enrolProgramme",
+    "viewWorkspace",
+    "startVisit",
+    "viewWorkspace",
+    "viewWorkspace",
+    "saveVisit",
+    "viewWorkspace",
+    "viewWorkspace",
+    "saveProgrammeAnswers",
+    "viewWorkspace",
+    "viewWorkspace",
+    "confirmVisit",
+    "viewWorkspace",
+    "viewWorkspace",
+    "viewActionPlan"
+  ],
+  "observedNoGeneratedFollowup": true,
+  "observedNoEscalation": true,
+  "limitation": "No scheduler trigger executed here; source inventory identifies absent installed execution hook. No clinical/provider acceptance."
+}
