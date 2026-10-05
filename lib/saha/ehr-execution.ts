@@ -4,7 +4,7 @@ import { ensureOperating } from './operations';
 import { AppError, digest, fail, person, uuid, visit } from './core';
 import { EHR_HOLDING_STATES, EHR_LOOKUP_LIMIT, EHR_WRITE_DEADLINE_SECONDS, ehrAccess, ehrAudit, ehrCredential, ehrIntegration, ehrState, identityHash, lookupPolicyOf, stageDocument, withinPermission, type EhrCommand, type EhrOperation } from './ehr';
 import { assertFhirEnvelope, capabilities, checkRemotePatient, classifySearch, fhirRequest, publicationReceipt } from './ehr-provider';
-import { assertOutboundPrivacy, inspectDocument } from './fhir-document';
+import { assertPatientDocumentNotes, assertOutboundPrivacy, inspectDocument } from './fhir-document';
 import { persist, readState, scope, type Actor } from './store';
 import { recordAccess } from './access-audit';
 import { linkTrace } from './trace';
@@ -12,7 +12,7 @@ import { operationRefusal, refusalOf, type Refusal } from './adapter-operations'
 import { sendBlock } from './send-gate';
 import type { D1Database } from '@cloudflare/workers-types';
 import type { Member, OrgState, Person, SendBlockRecord } from './types';
-export async function publishAuthority(s:OrgState,p:Person,op:EhrOperation,u:Actor){const current=await ehrAccess(s,p,op.linkId,op.permissionId,'write');const v=visit(s.workspace,op.visitId);if(op.actorId!==u.userId||op.approvalUntil<=new Date().toISOString()||op.identityHash!==await identityHash(p)||op.consentVersion!==p.consentVersion||op.visitVersion!==v.version||v.state!=='confirmed'||v.voidedAt||v.supersededBy||current.i.version!==op.integrationVersion||current.i.status!=='active')fail(409,'Publication approval, identity, permission, visit or connection changed.');assertOutboundPrivacy(op.bundle);if(await digest(op.bundle)!==op.hash)fail(409,'Prepared document differs from its approved digest; review and prepare a fresh publication.');withinPermission(inspectDocument(op.bundle,current.link.externalId),current.permission);return current;}
+export async function publishAuthority(s:OrgState,p:Person,op:EhrOperation,u:Actor){const current=await ehrAccess(s,p,op.linkId,op.permissionId,'write');const v=visit(s.workspace,op.visitId);if(op.actorId!==u.userId||op.approvalUntil<=new Date().toISOString()||op.identityHash!==await identityHash(p)||op.consentVersion!==p.consentVersion||op.visitVersion!==v.version||v.state!=='confirmed'||v.voidedAt||v.supersededBy||current.i.version!==op.integrationVersion||current.i.status!=='active')fail(409,'Publication approval, identity, permission, visit or connection changed.');assertOutboundPrivacy(op.bundle);assertPatientDocumentNotes(s,p.id,op.bundle);if(await digest(op.bundle)!==op.hash)fail(409,'Prepared document differs from its approved digest; review and prepare a fresh publication.');withinPermission(inspectDocument(op.bundle,current.link.externalId),current.permission);return current;}
 export async function executeEhr(db:D1Database,s:OrgState,c:EhrCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof fhirRequest=fhirRequest){
  let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'personId' in c?c.personId:null,{intent:c.type==='lookupEhrPublish'?'lookup':c.type==='probeEhr'?'probe':'send',purpose:c.type==='probeEhr'?undefined:'care-coordination',authorize:async(latest,member)=>{
    const li=ehrIntegration(latest,i.id);if(li.version!==i.version||(c.type==='probeEhr'?li.status!==i.status:li.status!=='active'))fail(409,'EHR connection changed before request.');

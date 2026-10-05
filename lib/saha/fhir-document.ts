@@ -1,6 +1,6 @@
 import { fail, uuid } from './core';
 import { AUTHOR_ROLE_LABEL, MEASURES, MEASURE_LABEL, SOURCE_LABEL, currentOverride, factAuditText, factProvenance, factReview, measureOf, measureValue, overrideConfirmation, unusualNoteText } from './fact-provenance';
-import type { ConvertibleField, Measure, Person, Role, SignOff, ValueField, Visit } from './types';
+import { currentIdentifiers, type OrgState, type ConvertibleField, Measure, Person, Role, SignOff, ValueField, Visit } from './types';
 export type DocumentSummary={identifier:string;patientId:string;patientName:string;date:string;dates:string[];title:string;observations:{code:string;label:string;value:string;unit:string;date:string}[];notes:string[];warnings:string[]};
 const xml=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]!));
 const coding=(code:string,display:string)=>({coding:[{system:'http://loinc.org',code,display}]});
@@ -102,10 +102,21 @@ export function assertOutboundPrivacy(raw:unknown){
  list(b.entry,e=>{object(e,['fullUrl','resource']);const r=e.resource,base=['resourceType','id'];switch(r?.resourceType){
   case 'Composition':object(r,[...base,'status','type','subject','encounter','date','author','title','custodian','section']);cod(r.type);ref(r.subject);if(r.encounter)ref(r.encounter);list(r.author,ref);if(r.custodian)ref(r.custodian);list(r.section,s=>{object(s,['title','text','entry']);if(s.text){object(s.text,['status','div']);if(typeof s.text.div!=='string'||!/^<div xmlns="http:\/\/www\.w3\.org\/1999\/xhtml"><p>[^<>]*<\/p><\/div>$/.test(s.text.div))refuse();}if(s.entry)list(s.entry,ref);});break;
   case 'Patient':case 'Practitioner':object(r,[...base,'name',...(r.resourceType==='Patient'?['gender']:[])]);list(r.name,n=>{object(n,['text','given','family']);if(n.text!==undefined&&typeof n.text!=='string')refuse();if(n.given)list(n.given,v=>{if(typeof v!=='string')refuse();});});break;
-  case 'Organization':object(r,[...base,'name']);if(typeof r.name!=='string')refuse();break;
+  case 'Organization':object(r,[...base,'name']);if(r.name!==undefined&&typeof r.name!=='string')refuse();break;
   case 'Encounter':object(r,[...base,'status','class','subject','period']);object(r.class,['system','code','display']);ref(r.subject);if(r.period)object(r.period,['start','end']);break;
   case 'Observation':object(r,[...base,'status','category','code','subject','encounter','effectiveDateTime','performer','extension','valueQuantity','method','note']);if(r.category)list(r.category,cod);cod(r.code);ref(r.subject);if(r.encounter)ref(r.encounter);if(r.performer)list(r.performer,ref);if(r.extension)list(r.extension,v=>ext(v));object(r.valueQuantity,['value','unit','system','code']);if(r.method){object(r.method,['text']);if(typeof r.method.text!=='string')refuse();}if(r.note)list(r.note,n=>{object(n,['text']);if(typeof n.text!=='string')refuse();});break;
   case 'Provenance':object(r,[...base,'target','recorded','agent']);list(r.target,ref);list(r.agent,a=>{object(a,['type','role','who','extension']);cod(a.type);list(a.role,cod);object(a.who,['reference','display','identifier']);if(a.who.identifier)object(a.who.identifier,['system','value']);if(a.extension)list(a.extension,v=>ext(v,0,[FHIR_RECORDED_AT_EXTENSION,FHIR_VERIFICATION_EXTENSION,'reason']));});break;
   default:refuse();
  }});inspectDocument(b);
+}
+
+// Patient exchange intentionally includes the confirmed subject and care authors.
+// Free clinical narrative must not carry a different known patient's identity.
+export function assertPatientDocumentNotes(s:OrgState,personId:string,bundle:any){
+ const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase();
+ const values=(p:Person)=>[p.id,p.name,p.abha?.number,p.abha?.number?.replace(/-/g,''),p.abha?.address,...currentIdentifiers(p).map(x=>x.value)].filter((x):x is string=>typeof x==='string'&&x.trim().length>=3).map(normalize),own=s.workspace.people.find(p=>p.id===personId),allowed=new Set([...(own?values(own):[]),...(s.members??[]).map(m=>normalize(m.displayName??''))]);
+ const known=s.workspace.people.filter(p=>p.id!==personId).flatMap(values).filter(x=>!allowed.has(x)&&!/^\d{1,7}$/.test(x)),notes:string[]=[];
+ for(const e of bundle.entry??[]){const r=e.resource;if(r?.resourceType==='Composition')for(const section of r.section??[])if(typeof section.text?.div==='string')notes.push(section.text.div);if(r?.resourceType==='Observation')for(const n of r.note??[])if(typeof n.text==='string')notes.push(n.text);}
+ const contains=(text:string,value:string)=>{let start=0;for(;;){const n=text.indexOf(value,start);if(n<0)return false;const left=text[n-1]??'',right=text[n+value.length]??'';if(!/[\p{L}\p{N}]/u.test(left)&&!/[\p{L}\p{N}]/u.test(right))return true;start=n+1;}};
+ if(notes.some(text=>known.some(value=>contains(normalize(text),value)||contains(normalize(text),xml(value)))))fail(409,'Clinical narrative contains another known patient identity. Review the subject-specific note and prepare a fresh publication; nothing was sent.');
 }

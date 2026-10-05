@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
-import { assertOutboundPrivacy, fhirDocument } from './fhir-document';
+import { assertPatientDocumentNotes, assertOutboundPrivacy, fhirDocument } from './fhir-document';
 import { validateOutbound, type ValidationStamp } from './fhir-validate';
 import { abdmConfig, abdmOperation, consentAllows, effective } from './abdm';
 import type { Actor } from './store';
@@ -44,7 +44,7 @@ export async function mockHip(p:Person,s:OrgState,consentId:string,hiu:{publicKe
   const check=consentAllows(p,consentId,{hiType:cc.hiType,date:cc.recordDate},now);if(!check.allowed||cc.abhaNumber!==p.abha?.number)continue;
   const v=s.workspace.visits.find(x=>x.id===cc.visitId);if(!v||v.state!=='confirmed'||v.voidedAt||v.supersededBy)continue;
   // Slice 7c: each care context is sent as a FHIR document that must pass the pinned rule set first.
-  const doc=fhirDocument(p,v,s.organisation.name,'Saha mock HIP');validateOutbound(doc,p.id.replace(/_/g,'-'),now);assertOutboundPrivacy(doc);const text=JSON.stringify(doc);
+  const doc=fhirDocument(p,v,s.organisation.name,'Saha mock HIP');validateOutbound(doc,p.id.replace(/_/g,'-'),now);assertOutboundPrivacy(doc);assertPatientDocumentNotes(s,p.id,doc);const text=JSON.stringify(doc);
   entries.push({careContextId:cc.id,hiType:cc.hiType,recordDate:cc.recordDate,media:'application/fhir+json',checksum:await sha(text),content:b64(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(text)))});
  }
  return {hipPublicKey:b64(await crypto.subtle.exportKey('raw',hip.publicKey)),hipNonce:b64(nonce),entries};
