@@ -7,8 +7,8 @@ const elements=new Map();const byId=id=>{if(!elements.has(id))elements.set(id,ne
 let record=null,calls=[],failWrite=false,network=async()=>{throw Error('Network disconnected')};
 const context=vm.createContext({console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if(failWrite)throw Error('Storage unavailable');if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null},
- fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
-vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/,''),context);
+ fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
+vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/gm,''),context);
 const run=code=>vm.runInContext(code,context),check=fn=>{fn();passed++};let passed=0;
 byId('passphrase').value='synthetic-client-test-phrase';await byId('unlock-form').onsubmit({preventDefault(){}}); // handler starts async run; drain by calling run's explicit promise below
 // Wait for the in-flight unlock deterministically through its visible busy state.

@@ -12,8 +12,8 @@ const window={indexedDB:{},addEventListener:()=>{},MediaRecorder:FakeRecorder};
 const context=vm.createContext({console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Blob,Number,Math,queueMicrotask,setTimeout:(fn,ms)=>{timers.push({fn,ms});return timers.length},clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{media.delete(id)},listMediaIds:async()=>[...media.keys()],
- fetch:async(url,options)=>{calls.push({url,options});throw Error('Network disconnected')},navigator,window,document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
-vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/,''),context);
+ fetch:async(url,options)=>{calls.push({url,options});throw Error('Network disconnected')},navigator,window,document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
+vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/gm,''),context);
 const run=code=>vm.runInContext(code,context),check=fn=>{fn();passed++};let passed=0;
 const idle=async()=>{for(let i=0;i<400&&run('busy');i++)await new Promise(r=>setTimeout(r,5));await new Promise(r=>setTimeout(r,20));for(let i=0;i<400&&run('busy');i++)await new Promise(r=>setTimeout(r,5));};
 byId('passphrase').value='synthetic-recording-phrase';await byId('unlock-form').onsubmit({preventDefault(){}});await idle();check(()=>assert.ok(run('book')));
