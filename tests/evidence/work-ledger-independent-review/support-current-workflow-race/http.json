@@ -1,0 +1,16 @@
+{
+  "passed": 20,
+  "failed": 0,
+  "actualWorker": true,
+  "actualD1": true,
+  "scope": "Actual Worker/D1 read plus synthetic AFTER-audit valid pre-attestation assignment append; former helper receives actor-private old sequence after reassignment. Existing18 positive helper/queue checks remain. The trigger deliberately models a concurrent allowed transition; no clinical facts or unauthorized write claim.",
+  "observedDefect": true,
+  "baseline": "ed10fcd1 + offered-helper repair0e28550e",
+  "race": {
+    "currentHelperAfterAudit": "another active care member",
+    "returnedToFormerHelper": true,
+    "returnedSequence": 2,
+    "currentSequence": 3,
+    "responseStatus": 200
+  }
+}
