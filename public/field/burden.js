@@ -52,7 +52,7 @@ export function fieldBurdenOutbox({book,persist,current,eligible,fetcher=fetch,u
    if(!p.enabled){book.burdenEvents=book.burdenEvents.filter(e=>e.organisationId!==event.organisationId);await persist();continue;}
    let r,value;try{r=await fetcher('/api/work-burden',{method:'POST',headers:{'Content-Type':'application/json','x-saha-organisation':event.organisationId},body:JSON.stringify({key:event.key,code:event.code}),cache:'no-store',redirect:'manual'});if(r.ok)value=await r.json();}catch{return {sent,pending:true};}
    if(!same())break;if(r.type==='opaqueredirect'||r.status>=300&&r.status<400||[401,403,404].includes(r.status))return {sent,denied:true};
-   if(!r.ok||!(value?.recorded===true||value?.disabled===true))return {sent,pending:true};
+   if(!r.ok||!(value?.recorded===true||value?.replayed===true||value?.disabled===true))return {sent,pending:true};
    book.burdenEvents=book.burdenEvents.filter(e=>e.key!==event.key);await persist();sent++;
   }return {sent,pending:!!book.burdenEvents?.length};
  }

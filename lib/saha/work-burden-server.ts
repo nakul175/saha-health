@@ -8,12 +8,18 @@ const event=z.object({code:z.enum(['capture-30s','capture-2m','capture-5m','capt
 const care=(role:string)=>role==='asha'||role==='clinician';
 export async function burdenPolicy(request:Request){
  if(new URL(request.url).search)fail(422,'Measurement policy query fields are not supported.');
- const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation'),async()=>[]),m=scope(s,u.userId);if(!care(m.role))fail(403,'Current human care membership required.');
- // Disabled measurement adds no audit/counter/receipt writes. Enabled policy
- // access is an aggregate read, and positive authority withdrawal fails closed.
- if(s.operations?.workBurden?.enabled)await recordAggregateView(db(),s,u,m,'work-burden policy','Fixed opt-in configuration only. No patient or ticket facts.');
- const fresh=await loadFor(u,s.organisation.id,async()=>[]),current=scope(fresh,u.userId);if(!care(current.role))fail(403,'Current human care membership required.');
- return json({organisationId:fresh.organisation.id,userId:u.userId,enabled:fresh.operations?.workBurden?.enabled===true,version:fresh.operations?.workBurden?.version??0});
+ const u=await identity(),org=request.headers.get('x-saha-organisation');
+ const read=async()=>{const state=await loadFor(u,org,async()=>[]),member=scope(state,u.userId);if(!care(member.role))fail(403,'Current human care membership required.');return {state,member};};
+ let current=await read();
+ for(let attempt=0;attempt<3;attempt++){
+  if(!current.state.operations?.workBurden?.enabled){current=await read();if(!current.state.operations?.workBurden?.enabled)return json({organisationId:current.state.organisation.id,userId:u.userId,enabled:false,version:current.state.operations?.workBurden?.version??0});}
+  const observed=current;
+  await recordAggregateView(db(),observed.state,u,observed.member,'work-burden policy',`Fixed enabled opt-in configuration version ${observed.state.operations!.workBurden!.version} only. No patient or ticket facts.`);
+  current=await read();const configuration=current.state.operations?.workBurden;
+  if(!configuration?.enabled)return json({organisationId:current.state.organisation.id,userId:u.userId,enabled:false,version:configuration?.version??0});
+  if(configuration.version===observed.state.operations!.workBurden!.version&&current.member.version===observed.member.version&&current.member.role===observed.member.role&&current.member.isOwner===observed.member.isOwner)return json({organisationId:current.state.organisation.id,userId:u.userId,enabled:true,version:configuration.version});
+ }
+ fail(409,'Measurement policy changed repeatedly. Read the current policy again.');
 }
 export async function burdenEvent(request:Request){
  if(new URL(request.url).search)fail(422,'Measurement query fields are not supported.');
