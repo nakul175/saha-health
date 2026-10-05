@@ -1,0 +1,849 @@
+{
+  "response": {
+    "status": 200,
+    "json": {
+      "result": {
+        "ok": true
+      },
+      "snapshot": {
+        "schemaVersion": 1,
+        "revision": 3,
+        "role": "asha",
+        "people": [
+          {
+            "id": "p_meena",
+            "name": "Meena Devi",
+            "age": 26,
+            "sex": "Female",
+            "village": "Rampur",
+            "programmes": [
+              "Maternal care",
+              "General care",
+              "TB screening"
+            ],
+            "task": "Antenatal home visit",
+            "due": "Today",
+            "status": "in_progress",
+            "aiConsent": true,
+            "exchangeConsent": false,
+            "consentVersion": 1,
+            "createdAt": "2026-10-05T19:33:37.884Z",
+            "version": 4,
+            "teamId": "default",
+            "assignedTo": "t-38aa85c8-asha",
+            "synthetic": true,
+            "assignmentHistory": [
+              {
+                "id": "c8597ac7-9c97-4f0b-9a9f-584361057711",
+                "at": "2026-10-05T19:33:37.964Z",
+                "by": "t-38aa85c8-owner",
+                "fromTeam": "default",
+                "fromOwner": "t-38aa85c8-owner",
+                "teamId": "default",
+                "ownerId": "t-38aa85c8-asha",
+                "reason": "Synthetic app UI check",
+                "openWork": 0
+              }
+            ],
+            "enrolments": [
+              {
+                "id": "6d0b8b50-f4b9-4687-ac92-fd9dccddfb55",
+                "packId": "tb",
+                "packVersion": 1,
+                "state": "active",
+                "episodeLabel": "Synthetic guided TB episode",
+                "startDate": null,
+                "createdAt": "2026-10-05T19:33:38.463Z",
+                "createdBy": "t-38aa85c8-asha",
+                "registration": "not_submitted"
+              }
+            ],
+            "followUps": [],
+            "assigned": true
+          }
+        ],
+        "visits": [
+          {
+            "id": "64f6746e-ec5e-4391-83cc-2388db52b11b",
+            "personId": "p_meena",
+            "version": 8,
+            "state": "draft",
+            "facts": {
+              "date": "2026-10-05T19:33",
+              "systolic": "",
+              "diastolic": "",
+              "weight": "",
+              "temperature": "",
+              "weeks": "",
+              "coughDays": "4",
+              "notes": "Synthetic current remote fact note",
+              "source": "measured"
+            },
+            "createdAt": "2026-10-05T19:33:38.721Z",
+            "recordVersion": 8,
+            "programmeCapture": {
+              "packs": [
+                {
+                  "enrolmentId": "6d0b8b50-f4b9-4687-ac92-fd9dccddfb55",
+                  "pack": {
+                    "id": "tb",
+                    "version": 1,
+                    "name": "TB screening",
+                    "programme": "TB screening",
+                    "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+                    "questions": [
+                      {
+                        "id": "weight",
+                        "label": "Weight",
+                        "unit": "kg",
+                        "fact": "weight",
+                        "required": true
+                      },
+                      {
+                        "id": "cough",
+                        "label": "Does the person report a cough?",
+                        "options": [
+                          "Yes",
+                          "No"
+                        ],
+                        "required": true
+                      },
+                      {
+                        "id": "coughDays",
+                        "label": "Cough duration, reported",
+                        "unit": "days",
+                        "fact": "coughDays",
+                        "when": {
+                          "id": "cough",
+                          "value": "Yes"
+                        },
+                        "required": true
+                      },
+                      {
+                        "id": "testing",
+                        "label": "Is a testing follow-up already arranged?",
+                        "options": [
+                          "Yes",
+                          "No"
+                        ],
+                        "required": true
+                      }
+                    ]
+                  }
+                }
+              ],
+              "answers": {},
+              "absence": {},
+              "savedBy": "t-38aa85c8-asha",
+              "savedAt": "2026-10-05T19:33:46.101Z"
+            },
+            "noteAuthor": {
+              "userId": "t-38aa85c8-owner",
+              "name": "Synthetic Owner",
+              "accountCode": "B4EDBADCA126862964E64E96",
+              "role": "clinician",
+              "at": "2026-10-05T19:33:45.018Z"
+            },
+            "factAuthors": {
+              "coughDays": {
+                "userId": "t-38aa85c8-owner",
+                "name": "Synthetic Owner",
+                "accountCode": "B4EDBADCA126862964E64E96",
+                "role": "clinician",
+                "at": "2026-10-05T19:33:45.018Z"
+              }
+            },
+            "aiResults": []
+          }
+        ],
+        "integrations": [
+          {
+            "id": "abdm",
+            "name": "ABDM exchange",
+            "kind": "abdm",
+            "mode": "unconfigured",
+            "status": "unconfigured",
+            "version": 1,
+            "description": "ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.",
+            "programmes": []
+          },
+          {
+            "id": "ai_completeness",
+            "name": "Record completeness",
+            "kind": "ai",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.",
+            "programmes": [],
+            "capability": "completeness"
+          },
+          {
+            "id": "ai_summary",
+            "name": "Visit summariser",
+            "kind": "ai",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.",
+            "programmes": [],
+            "capability": "summary"
+          },
+          {
+            "id": "ehr_fhir",
+            "name": "Facility EHR",
+            "kind": "ehr",
+            "mode": "unconfigured",
+            "status": "unconfigured",
+            "version": 1,
+            "description": "FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.",
+            "programmes": []
+          },
+          {
+            "id": "mis_community",
+            "name": "Community health MIS",
+            "kind": "mis",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "A programme simulator that demonstrates a lost response and safe reconciliation.",
+            "programmes": [
+              "General care",
+              "Chronic care",
+              "TB screening"
+            ],
+            "behavior": "uncertain"
+          },
+          {
+            "id": "mis_maternal",
+            "name": "Maternal & child register",
+            "kind": "mis",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "A programme register simulator. Records acceptance and a distinct receipt.",
+            "programmes": [
+              "Maternal care",
+              "Child health"
+            ],
+            "behavior": "accept"
+          }
+        ],
+        "submissions": [],
+        "referrals": [],
+        "audit": [
+          {
+            "id": "186da8d5-fd4a-42a8-acb8-71224e39140a",
+            "at": "2026-10-05T19:33:46.101Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "saveProgrammeAnswers",
+            "subject": "p_meena",
+            "detail": "Programme answers and explicit absence reasons saved against pinned pack versions.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "db458fa6-10e1-4ff5-89dc-296fb8bb4e97",
+            "at": "2026-10-05T19:33:46.004Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "viewPatientRecord",
+            "subject": "p_meena",
+            "detail": "Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "7bdb248a-7af0-4d97-8201-a422ab1e17ab",
+            "at": "2026-10-05T19:33:45.999Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "saveProgrammeAnswers",
+            "subject": "p_meena",
+            "detail": "Programme answers and explicit absence reasons saved against pinned pack versions.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "17f6ebc6-8239-4c2b-ba2f-691a989bee17",
+            "at": "2026-10-05T19:33:45.018Z",
+            "actor": "Synthetic Owner",
+            "actorId": "t-38aa85c8-owner",
+            "role": "clinician",
+            "action": "saveVisit",
+            "subject": "64f6746e-ec5e-4391-83cc-2388db52b11b",
+            "detail": "\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-owner\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "aa561789-3dcf-4d32-88db-11c720075146",
+            "at": "2026-10-05T19:33:43.652Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "viewPatientRecord",
+            "subject": "p_meena",
+            "detail": "Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "68d52b51-f502-45cf-bf98-cf9ee5dc56d8",
+            "at": "2026-10-05T19:33:43.647Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "saveProgrammeAnswers",
+            "subject": "p_meena",
+            "detail": "Programme answers and explicit absence reasons saved against pinned pack versions.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "f6cd8bf2-3c31-49ab-ae96-f4c2097bfdaf",
+            "at": "2026-10-05T19:33:43.180Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "viewPatientRecord",
+            "subject": "p_meena",
+            "detail": "Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "dc6e1c79-8ea6-4c11-82f0-9eca5e361572",
+            "at": "2026-10-05T19:33:43.176Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "saveProgrammeAnswers",
+            "subject": "p_meena",
+            "detail": "Programme answers and explicit absence reasons saved against pinned pack versions.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "84c33665-dca4-4521-9dcb-177f4340482d",
+            "at": "2026-10-05T19:33:42.195Z",
+            "actor": "Synthetic Owner",
+            "actorId": "t-38aa85c8-owner",
+            "role": "clinician",
+            "action": "saveProgrammeAnswers",
+            "subject": "p_meena",
+            "detail": "Programme answers and explicit absence reasons saved against pinned pack versions.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-owner\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "92b6dc3a-4d74-48ad-818f-e7d1b08e36e5",
+            "at": "2026-10-05T19:33:42.167Z",
+            "actor": "Synthetic Owner",
+            "actorId": "t-38aa85c8-owner",
+            "role": "clinician",
+            "action": "saveVisit",
+            "subject": "64f6746e-ec5e-4391-83cc-2388db52b11b",
+            "detail": "\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-owner\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "efccc260-4291-4e7c-85d7-496d3882b029",
+            "at": "2026-10-05T19:33:38.777Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "viewMedia",
+            "subject": "64f6746e-ec5e-4391-83cc-2388db52b11b",
+            "detail": "Visit media storage capability read; fixed size/type limits only. Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "ae22c4e3-82d2-4522-8702-0bf043a418b5",
+            "at": "2026-10-05T19:33:38.771Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "viewActionPlan",
+            "subject": "p_meena",
+            "detail": "Patient work view: action plan; 1 row returned. Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "7cba4c7d-6ad1-47f9-93f8-ae27939a1c66",
+            "at": "2026-10-05T19:33:38.725Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "viewPatientRecord",
+            "subject": "p_meena",
+            "detail": "Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "0a64f8d7-3eb5-41ae-9e7d-86529f7db5a0",
+            "at": "2026-10-05T19:33:38.721Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "startVisit",
+            "subject": "p_meena",
+            "detail": "\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "3267a85f-b39b-4316-8744-00af525971a9",
+            "at": "2026-10-05T19:33:38.668Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "viewActionPlan",
+            "subject": "p_meena",
+            "detail": "Patient work view: action plan; 1 row returned. Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "2d9801d0-7467-46ce-a5c6-b9819ea85bca",
+            "at": "2026-10-05T19:33:38.614Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "openRecord",
+            "subject": "p_meena",
+            "detail": "Record opened on screen from link (the record was already loaded in the browser; reported by the browser). Authority: role asha, membership version 1; delegated authority in force: none.",
+            "personId": "p_meena"
+          },
+          {
+            "id": "0cb4decd-c65f-474d-9831-6e0232a69bf9",
+            "at": "2026-10-05T19:33:38.463Z",
+            "actor": "Synthetic ASHA",
+            "actorId": "t-38aa85c8-asha",
+            "role": "asha",
+            "action": "enrolProgramme",
+            "subject": "p_meena",
+            "detail": "Local sandbox episode opened: TB screening v1. Official registration not submitted.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "84702f37-c4f7-45c3-8e56-2f2cc5baa198",
+            "at": "2026-10-05T19:33:37.964Z",
+            "actor": "Synthetic Owner",
+            "actorId": "t-38aa85c8-owner",
+            "role": "clinician",
+            "action": "assignPatient",
+            "subject": "p_meena",
+            "detail": "Patient assignment updated. Reason: Synthetic app UI check\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-38aa85c8-owner\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          }
+        ],
+        "burdenMeasurement": {
+          "enabled": false,
+          "version": 0
+        },
+        "programmePacks": [
+          {
+            "id": "maternal",
+            "version": 1,
+            "name": "Maternal care",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "maternal",
+            "version": 2,
+            "name": "Maternal care",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "hypertension",
+            "version": 1,
+            "name": "Hypertension follow-up",
+            "enrollable": true,
+            "installed": false
+          }
+        ],
+        "auditCursor": null,
+        "user": {
+          "userId": "t-38aa85c8-asha",
+          "displayName": "Synthetic ASHA",
+          "accountCode": "BB30B84EF35B9DC1DD2B7AF2"
+        },
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "environment": "synthetic",
+        "environmentLabel": "Synthetic development and demonstration environment",
+        "externalApisEnabled": false,
+        "agentProviders": [
+          {
+            "id": "local",
+            "name": "Local record assistant",
+            "mode": "local",
+            "model": "structured-parser-v2",
+            "version": 2,
+            "available": true,
+            "reason": "Rules only; no language model or external data transfer."
+          },
+          {
+            "id": "openai",
+            "name": "OpenAI extraction & evidence",
+            "mode": "openai",
+            "model": "gpt-4.1-mini-2025-04-14",
+            "version": 1,
+            "available": false,
+            "reason": "Live model unavailable: server API key and external API switch required."
+          }
+        ],
+        "ehrReadiness": [],
+        "misReadiness": [],
+        "organisation": {
+          "id": "org_a1202b1f16513656266d1a596dc374c9",
+          "name": "Rampur care organisation",
+          "revision": 3,
+          "createdAt": "2026-10-05T19:33:37.880Z",
+          "patientRevision": 12
+        },
+        "organisations": [
+          {
+            "id": "org_a1202b1f16513656266d1a596dc374c9",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          },
+          {
+            "id": "org_8e3b8ebda6961da538fddc606463a647",
+            "name": "Rampur care organisation",
+            "role": "clinician",
+            "isOwner": true
+          }
+        ],
+        "membership": {
+          "userId": "t-38aa85c8-asha",
+          "displayName": "Synthetic ASHA",
+          "accountCode": "BB30B84EF35B9DC1DD2B7AF2",
+          "role": "asha",
+          "isOwner": false,
+          "status": "active",
+          "version": 1,
+          "createdAt": "2026-10-05T19:33:37.952Z",
+          "teamIds": [
+            "default"
+          ],
+          "accountName": "Synthetic ASHA",
+          "nameSource": "account",
+          "nameVersion": 0,
+          "language": "en",
+          "languageVersion": 0
+        },
+        "members": [
+          {
+            "userId": "fixture:org_a1202b1f16513656266d1a596dc374c9:clinician-author",
+            "displayName": "Demonstration clinician — author (synthetic)",
+            "accountCode": "BE3F5529D8B5F63E17B8C139",
+            "role": "clinician",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-05T19:33:37.880Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Demonstration clinician — author (synthetic)",
+            "nameSource": "account",
+            "nameVersion": 0
+          },
+          {
+            "userId": "fixture:org_a1202b1f16513656266d1a596dc374c9:clinician-reviewer",
+            "displayName": "Demonstration clinician — reviewer (synthetic)",
+            "accountCode": "EF63CBEFDA3E1CBE4C2948C7",
+            "role": "clinician",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-05T19:33:37.880Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Demonstration clinician — reviewer (synthetic)",
+            "nameSource": "account",
+            "nameVersion": 0
+          },
+          {
+            "userId": "t-38aa85c8-asha",
+            "displayName": "Synthetic ASHA",
+            "accountCode": "BB30B84EF35B9DC1DD2B7AF2",
+            "role": "asha",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-05T19:33:37.952Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Synthetic ASHA",
+            "nameSource": "account",
+            "nameVersion": 0
+          },
+          {
+            "userId": "t-38aa85c8-owner",
+            "displayName": "Synthetic Owner",
+            "accountCode": "B4EDBADCA126862964E64E96",
+            "role": "clinician",
+            "isOwner": true,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-05T19:33:37.880Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Synthetic Owner",
+            "nameSource": "account",
+            "nameVersion": 0
+          }
+        ],
+        "teams": [
+          {
+            "id": "default",
+            "name": "Rampur care team",
+            "createdAt": "2026-10-05T19:33:37.880Z"
+          }
+        ],
+        "invitations": [],
+        "canManage": false,
+        "speechPolicy": {
+          "cloudAllowed": false,
+          "version": 0
+        },
+        "signOffPolicy": {
+          "required": false,
+          "version": 0
+        },
+        "canAssign": false,
+        "delegatedAuthority": [],
+        "signOutPath": "/signout-with-chatgpt?return_to=%2F",
+        "migration": {
+          "migratedAt": "2026-10-05T19:33:37.880Z",
+          "counts": {
+            "people": 6,
+            "visits": 0,
+            "integrations": 6,
+            "submissions": 0,
+            "referrals": 0,
+            "audit": 22,
+            "receipts": 0
+          }
+        }
+      }
+    },
+    "text": "{\"result\":{\"ok\":true},\"snapshot\":{\"schemaVersion\":1,\"revision\":3,\"role\":\"asha\",\"people\":[{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\",\"TB screening\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"in_progress\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-05T19:33:37.884Z\",\"version\":4,\"teamId\":\"default\",\"assignedTo\":\"t-38aa85c8-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"c8597ac7-9c97-4f0b-9a9f-584361057711\",\"at\":\"2026-10-05T19:33:37.964Z\",\"by\":\"t-38aa85c8-owner\",\"fromTeam\":\"default\",\"fromOwner\":\"t-38aa85c8-owner\",\"teamId\":\"default\",\"ownerId\":\"t-38aa85c8-asha\",\"reason\":\"Synthetic app UI check\",\"openWork\":0}],\"enrolments\":[{\"id\":\"6d0b8b50-f4b9-4687-ac92-fd9dccddfb55\",\"packId\":\"tb\",\"packVersion\":1,\"state\":\"active\",\"episodeLabel\":\"Synthetic guided TB episode\",\"startDate\":null,\"createdAt\":\"2026-10-05T19:33:38.463Z\",\"createdBy\":\"t-38aa85c8-asha\",\"registration\":\"not_submitted\"}],\"followUps\":[],\"assigned\":true}],\"visits\":[{\"id\":\"64f6746e-ec5e-4391-83cc-2388db52b11b\",\"personId\":\"p_meena\",\"version\":8,\"state\":\"draft\",\"facts\":{\"date\":\"2026-10-05T19:33\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"4\",\"notes\":\"Synthetic current remote fact note\",\"source\":\"measured\"},\"createdAt\":\"2026-10-05T19:33:38.721Z\",\"recordVersion\":8,\"programmeCapture\":{\"packs\":[{\"enrolmentId\":\"6d0b8b50-f4b9-4687-ac92-fd9dccddfb55\",\"pack\":{\"id\":\"tb\",\"version\":1,\"name\":\"TB screening\",\"programme\":\"TB screening\",\"purpose\":\"Record reported screening information; no diagnosis or official TB registration.\",\"questions\":[{\"id\":\"weight\",\"label\":\"Weight\",\"unit\":\"kg\",\"fact\":\"weight\",\"required\":true},{\"id\":\"cough\",\"label\":\"Does the person report a cough?\",\"options\":[\"Yes\",\"No\"],\"required\":true},{\"id\":\"coughDays\",\"label\":\"Cough duration, reported\",\"unit\":\"days\",\"fact\":\"coughDays\",\"when\":{\"id\":\"cough\",\"value\":\"Yes\"},\"required\":true},{\"id\":\"testing\",\"label\":\"Is a testing follow-up already arranged?\",\"options\":[\"Yes\",\"No\"],\"required\":true}]}}],\"answers\":{},\"absence\":{},\"savedBy\":\"t-38aa85c8-asha\",\"savedAt\":\"2026-10-05T19:33:46.101Z\"},\"noteAuthor\":{\"userId\":\"t-38aa85c8-owner\",\"name\":\"Synthetic Owner\",\"accountCode\":\"B4EDBADCA126862964E64E96\",\"role\":\"clinician\",\"at\":\"2026-10-05T19:33:45.018Z\"},\"factAuthors\":{\"coughDays\":{\"userId\":\"t-38aa85c8-owner\",\"name\":\"Synthetic Owner\",\"accountCode\":\"B4EDBADCA126862964E64E96\",\"role\":\"clinician\",\"at\":\"2026-10-05T19:33:45.018Z\"}},\"aiResults\":[]}],\"integrations\":[{\"id\":\"abdm\",\"name\":\"ABDM exchange\",\"kind\":\"abdm\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.\",\"programmes\":[]},{\"id\":\"ai_completeness\",\"name\":\"Record completeness\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.\",\"programmes\":[],\"capability\":\"completeness\"},{\"id\":\"ai_summary\",\"name\":\"Visit summariser\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.\",\"programmes\":[],\"capability\":\"summary\"},{\"id\":\"ehr_fhir\",\"name\":\"Facility EHR\",\"kind\":\"ehr\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.\",\"programmes\":[]},{\"id\":\"mis_community\",\"name\":\"Community health MIS\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme simulator that demonstrates a lost response and safe reconciliation.\",\"programmes\":[\"General care\",\"Chronic care\",\"TB screening\"],\"behavior\":\"uncertain\"},{\"id\":\"mis_maternal\",\"name\":\"Maternal & child register\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme register simulator. Records acceptance and a distinct receipt.\",\"programmes\":[\"Maternal care\",\"Child health\"],\"behavior\":\"accept\"}],\"submissions\":[],\"referrals\":[],\"audit\":[{\"id\":\"186da8d5-fd4a-42a8-acb8-71224e39140a\",\"at\":\"2026-10-05T19:33:46.101Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"saveProgrammeAnswers\",\"subject\":\"p_meena\",\"detail\":\"Programme answers and explicit absence reasons saved against pinned pack versions.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"db458fa6-10e1-4ff5-89dc-296fb8bb4e97\",\"at\":\"2026-10-05T19:33:46.004Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"viewPatientRecord\",\"subject\":\"p_meena\",\"detail\":\"Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"7bdb248a-7af0-4d97-8201-a422ab1e17ab\",\"at\":\"2026-10-05T19:33:45.999Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"saveProgrammeAnswers\",\"subject\":\"p_meena\",\"detail\":\"Programme answers and explicit absence reasons saved against pinned pack versions.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"17f6ebc6-8239-4c2b-ba2f-691a989bee17\",\"at\":\"2026-10-05T19:33:45.018Z\",\"actor\":\"Synthetic Owner\",\"actorId\":\"t-38aa85c8-owner\",\"role\":\"clinician\",\"action\":\"saveVisit\",\"subject\":\"64f6746e-ec5e-4391-83cc-2388db52b11b\",\"detail\":\"\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-owner\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"aa561789-3dcf-4d32-88db-11c720075146\",\"at\":\"2026-10-05T19:33:43.652Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"viewPatientRecord\",\"subject\":\"p_meena\",\"detail\":\"Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"68d52b51-f502-45cf-bf98-cf9ee5dc56d8\",\"at\":\"2026-10-05T19:33:43.647Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"saveProgrammeAnswers\",\"subject\":\"p_meena\",\"detail\":\"Programme answers and explicit absence reasons saved against pinned pack versions.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"f6cd8bf2-3c31-49ab-ae96-f4c2097bfdaf\",\"at\":\"2026-10-05T19:33:43.180Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"viewPatientRecord\",\"subject\":\"p_meena\",\"detail\":\"Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"dc6e1c79-8ea6-4c11-82f0-9eca5e361572\",\"at\":\"2026-10-05T19:33:43.176Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"saveProgrammeAnswers\",\"subject\":\"p_meena\",\"detail\":\"Programme answers and explicit absence reasons saved against pinned pack versions.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"84c33665-dca4-4521-9dcb-177f4340482d\",\"at\":\"2026-10-05T19:33:42.195Z\",\"actor\":\"Synthetic Owner\",\"actorId\":\"t-38aa85c8-owner\",\"role\":\"clinician\",\"action\":\"saveProgrammeAnswers\",\"subject\":\"p_meena\",\"detail\":\"Programme answers and explicit absence reasons saved against pinned pack versions.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-owner\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"92b6dc3a-4d74-48ad-818f-e7d1b08e36e5\",\"at\":\"2026-10-05T19:33:42.167Z\",\"actor\":\"Synthetic Owner\",\"actorId\":\"t-38aa85c8-owner\",\"role\":\"clinician\",\"action\":\"saveVisit\",\"subject\":\"64f6746e-ec5e-4391-83cc-2388db52b11b\",\"detail\":\"\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-owner\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"efccc260-4291-4e7c-85d7-496d3882b029\",\"at\":\"2026-10-05T19:33:38.777Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"viewMedia\",\"subject\":\"64f6746e-ec5e-4391-83cc-2388db52b11b\",\"detail\":\"Visit media storage capability read; fixed size/type limits only. Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"ae22c4e3-82d2-4522-8702-0bf043a418b5\",\"at\":\"2026-10-05T19:33:38.771Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"viewActionPlan\",\"subject\":\"p_meena\",\"detail\":\"Patient work view: action plan; 1 row returned. Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"7cba4c7d-6ad1-47f9-93f8-ae27939a1c66\",\"at\":\"2026-10-05T19:33:38.725Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"viewPatientRecord\",\"subject\":\"p_meena\",\"detail\":\"Full patient record returned through a command partition (response to a command). Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"0a64f8d7-3eb5-41ae-9e7d-86529f7db5a0\",\"at\":\"2026-10-05T19:33:38.721Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"startVisit\",\"subject\":\"p_meena\",\"detail\":\"\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"3267a85f-b39b-4316-8744-00af525971a9\",\"at\":\"2026-10-05T19:33:38.668Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"viewActionPlan\",\"subject\":\"p_meena\",\"detail\":\"Patient work view: action plan; 1 row returned. Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"2d9801d0-7467-46ce-a5c6-b9819ea85bca\",\"at\":\"2026-10-05T19:33:38.614Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"openRecord\",\"subject\":\"p_meena\",\"detail\":\"Record opened on screen from link (the record was already loaded in the browser; reported by the browser). Authority: role asha, membership version 1; delegated authority in force: none.\",\"personId\":\"p_meena\"},{\"id\":\"0cb4decd-c65f-474d-9831-6e0232a69bf9\",\"at\":\"2026-10-05T19:33:38.463Z\",\"actor\":\"Synthetic ASHA\",\"actorId\":\"t-38aa85c8-asha\",\"role\":\"asha\",\"action\":\"enrolProgramme\",\"subject\":\"p_meena\",\"detail\":\"Local sandbox episode opened: TB screening v1. Official registration not submitted.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"84702f37-c4f7-45c3-8e56-2f2cc5baa198\",\"at\":\"2026-10-05T19:33:37.964Z\",\"actor\":\"Synthetic Owner\",\"actorId\":\"t-38aa85c8-owner\",\"role\":\"clinician\",\"action\":\"assignPatient\",\"subject\":\"p_meena\",\"detail\":\"Patient assignment updated. Reason: Synthetic app UI check\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-38aa85c8-owner\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"}],\"burdenMeasurement\":{\"enabled\":false,\"version\":0},\"programmePacks\":[{\"id\":\"maternal\",\"version\":1,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"tb\",\"version\":1,\"name\":\"TB screening\",\"enrollable\":true,\"installed\":false},{\"id\":\"maternal\",\"version\":2,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"hypertension\",\"version\":1,\"name\":\"Hypertension follow-up\",\"enrollable\":true,\"installed\":false}],\"auditCursor\":null,\"user\":{\"userId\":\"t-38aa85c8-asha\",\"displayName\":\"Synthetic ASHA\",\"accountCode\":\"BB30B84EF35B9DC1DD2B7AF2\"},\"maintenance\":{\"active\":false,\"reason\":\"\"},\"environment\":\"synthetic\",\"environmentLabel\":\"Synthetic development and demonstration environment\",\"externalApisEnabled\":false,\"agentProviders\":[{\"id\":\"local\",\"name\":\"Local record assistant\",\"mode\":\"local\",\"model\":\"structured-parser-v2\",\"version\":2,\"available\":true,\"reason\":\"Rules only; no language model or external data transfer.\"},{\"id\":\"openai\",\"name\":\"OpenAI extraction & evidence\",\"mode\":\"openai\",\"model\":\"gpt-4.1-mini-2025-04-14\",\"version\":1,\"available\":false,\"reason\":\"Live model unavailable: server API key and external API switch required.\"}],\"ehrReadiness\":[],\"misReadiness\":[],\"organisation\":{\"id\":\"org_a1202b1f16513656266d1a596dc374c9\",\"name\":\"Rampur care organisation\",\"revision\":3,\"createdAt\":\"2026-10-05T19:33:37.880Z\",\"patientRevision\":12},\"organisations\":[{\"id\":\"org_a1202b1f16513656266d1a596dc374c9\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_8e3b8ebda6961da538fddc606463a647\",\"name\":\"Rampur care organisation\",\"role\":\"clinician\",\"isOwner\":true}],\"membership\":{\"userId\":\"t-38aa85c8-asha\",\"displayName\":\"Synthetic ASHA\",\"accountCode\":\"BB30B84EF35B9DC1DD2B7AF2\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-05T19:33:37.952Z\",\"teamIds\":[\"default\"],\"accountName\":\"Synthetic ASHA\",\"nameSource\":\"account\",\"nameVersion\":0,\"language\":\"en\",\"languageVersion\":0},\"members\":[{\"userId\":\"fixture:org_a1202b1f16513656266d1a596dc374c9:clinician-author\",\"displayName\":\"Demonstration clinician — author (synthetic)\",\"accountCode\":\"BE3F5529D8B5F63E17B8C139\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-05T19:33:37.880Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — author (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"fixture:org_a1202b1f16513656266d1a596dc374c9:clinician-reviewer\",\"displayName\":\"Demonstration clinician — reviewer (synthetic)\",\"accountCode\":\"EF63CBEFDA3E1CBE4C2948C7\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-05T19:33:37.880Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — reviewer (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"t-38aa85c8-asha\",\"displayName\":\"Synthetic ASHA\",\"accountCode\":\"BB30B84EF35B9DC1DD2B7AF2\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-05T19:33:37.952Z\",\"teamIds\":[\"default\"],\"accountName\":\"Synthetic ASHA\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"t-38aa85c8-owner\",\"displayName\":\"Synthetic Owner\",\"accountCode\":\"B4EDBADCA126862964E64E96\",\"role\":\"clinician\",\"isOwner\":true,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-05T19:33:37.880Z\",\"teamIds\":[\"default\"],\"accountName\":\"Synthetic Owner\",\"nameSource\":\"account\",\"nameVersion\":0}],\"teams\":[{\"id\":\"default\",\"name\":\"Rampur care team\",\"createdAt\":\"2026-10-05T19:33:37.880Z\"}],\"invitations\":[],\"canManage\":false,\"speechPolicy\":{\"cloudAllowed\":false,\"version\":0},\"signOffPolicy\":{\"required\":false,\"version\":0},\"canAssign\":false,\"delegatedAuthority\":[],\"signOutPath\":\"/signout-with-chatgpt?return_to=%2F\",\"migration\":{\"migratedAt\":\"2026-10-05T19:33:37.880Z\",\"counts\":{\"people\":6,\"visits\":0,\"integrations\":6,\"submissions\":0,\"referrals\":0,\"audit\":22,\"receipts\":0}}}}",
+    "ms": 10.573167000000467,
+    "headers": {}
+  },
+  "current": {
+    "id": "64f6746e-ec5e-4391-83cc-2388db52b11b",
+    "personId": "p_meena",
+    "version": 8,
+    "state": "draft",
+    "facts": {
+      "date": "2026-10-05T19:33",
+      "systolic": "",
+      "diastolic": "",
+      "weight": "",
+      "temperature": "",
+      "weeks": "",
+      "coughDays": "4",
+      "notes": "Synthetic current remote fact note",
+      "source": "measured"
+    },
+    "createdAt": "2026-10-05T19:33:38.721Z",
+    "recordVersion": 8,
+    "programmeCapture": {
+      "packs": [
+        {
+          "enrolmentId": "6d0b8b50-f4b9-4687-ac92-fd9dccddfb55",
+          "pack": {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "programme": "TB screening",
+            "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "cough",
+                "label": "Does the person report a cough?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              },
+              {
+                "id": "coughDays",
+                "label": "Cough duration, reported",
+                "unit": "days",
+                "fact": "coughDays",
+                "when": {
+                  "id": "cough",
+                  "value": "Yes"
+                },
+                "required": true
+              },
+              {
+                "id": "testing",
+                "label": "Is a testing follow-up already arranged?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              }
+            ]
+          }
+        }
+      ],
+      "answers": {},
+      "absence": {},
+      "savedBy": "t-38aa85c8-asha",
+      "savedAt": "2026-10-05T19:33:46.101Z"
+    },
+    "noteAuthor": {
+      "userId": "t-38aa85c8-owner",
+      "name": "Synthetic Owner",
+      "accountCode": "B4EDBADCA126862964E64E96",
+      "role": "clinician",
+      "at": "2026-10-05T19:33:45.018Z"
+    },
+    "factAuthors": {
+      "coughDays": {
+        "userId": "t-38aa85c8-owner",
+        "name": "Synthetic Owner",
+        "accountCode": "B4EDBADCA126862964E64E96",
+        "role": "clinician",
+        "at": "2026-10-05T19:33:45.018Z"
+      }
+    },
+    "aiResults": []
+  },
+  "original": {
+    "id": "64f6746e-ec5e-4391-83cc-2388db52b11b",
+    "personId": "p_meena",
+    "version": 7,
+    "state": "draft",
+    "facts": {
+      "date": "2026-10-05T19:33",
+      "systolic": "",
+      "diastolic": "",
+      "weight": "",
+      "temperature": "",
+      "weeks": "",
+      "coughDays": "4",
+      "notes": "Synthetic current remote fact note",
+      "source": "measured"
+    },
+    "createdAt": "2026-10-05T19:33:38.721Z",
+    "recordVersion": 7,
+    "programmeCapture": {
+      "packs": [
+        {
+          "enrolmentId": "6d0b8b50-f4b9-4687-ac92-fd9dccddfb55",
+          "pack": {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "programme": "TB screening",
+            "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "cough",
+                "label": "Does the person report a cough?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              },
+              {
+                "id": "coughDays",
+                "label": "Cough duration, reported",
+                "unit": "days",
+                "fact": "coughDays",
+                "when": {
+                  "id": "cough",
+                  "value": "Yes"
+                },
+                "required": true
+              },
+              {
+                "id": "testing",
+                "label": "Is a testing follow-up already arranged?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              }
+            ]
+          }
+        }
+      ],
+      "answers": {
+        "testing": "No",
+        "cough": "Yes"
+      },
+      "absence": {},
+      "savedBy": "t-38aa85c8-asha",
+      "savedAt": "2026-10-05T19:33:45.999Z"
+    },
+    "noteAuthor": {
+      "userId": "t-38aa85c8-owner",
+      "name": "Synthetic Owner",
+      "accountCode": "B4EDBADCA126862964E64E96",
+      "role": "clinician",
+      "at": "2026-10-05T19:33:45.018Z"
+    },
+    "answerAuthors": {
+      "cough": {
+        "userId": "t-38aa85c8-asha",
+        "name": "Synthetic ASHA",
+        "accountCode": "BB30B84EF35B9DC1DD2B7AF2",
+        "role": "asha",
+        "at": "2026-10-05T19:33:45.999Z"
+      },
+      "testing": {
+        "userId": "t-38aa85c8-owner",
+        "name": "Synthetic Owner",
+        "accountCode": "B4EDBADCA126862964E64E96",
+        "role": "clinician",
+        "at": "2026-10-05T19:33:42.195Z"
+      }
+    },
+    "factAuthors": {
+      "coughDays": {
+        "userId": "t-38aa85c8-owner",
+        "name": "Synthetic Owner",
+        "accountCode": "B4EDBADCA126862964E64E96",
+        "role": "clinician",
+        "at": "2026-10-05T19:33:45.018Z"
+      }
+    },
+    "aiResults": []
+  }
+}

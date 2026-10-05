@@ -1,0 +1,47 @@
+[
+  {
+    "name": "safety",
+    "original": "tests/sixth-review-fixes-contract.mjs",
+    "driver": "tests/programme-own-cold-safety.mjs",
+    "originalMinimum": 41,
+    "sourceSha256": "1e1b4ffc1e692296a9b0e110dbbc1c3e515ef2e1d3f71b88fff34d7ee5b44de8",
+    "assertionsUnchanged": true,
+    "extraChecks": 0
+  },
+  {
+    "name": "runner",
+    "original": "tests/test-runner-current-fixture-contract.mjs",
+    "driver": "tests/programme-own-cold-runner.mjs",
+    "originalMinimum": 27,
+    "sourceSha256": "138c9f1ccc862f4ccc2f367ec419ce386f05452e919fed78eaec7daa029e79f5",
+    "assertionsUnchanged": true,
+    "extraChecks": 0
+  },
+  {
+    "name": "original",
+    "original": "tests/guided-programme-reset-original-probe.mjs",
+    "driver": "tests/programme-own-cold-original.mjs",
+    "originalMinimum": 5,
+    "sourceSha256": "35790ba8d2dccd26fbad0bbe1e888b5fe8296f9704fb6704aec75f6960e9126d",
+    "assertionsUnchanged": true,
+    "extraChecks": 0
+  },
+  {
+    "name": "variants",
+    "original": "tests/guided-programme-reset-variants.mjs",
+    "driver": "tests/programme-own-cold-variants.mjs",
+    "originalMinimum": 30,
+    "sourceSha256": "d9ca6f54252fcf2a1a8749dd7f27f4d40b8969e2537a49ca31e33d166307fb4b",
+    "assertionsUnchanged": true,
+    "extraChecks": 0
+  },
+  {
+    "name": "extended",
+    "original": "tests/guided-repair-independent-probe.mjs",
+    "driver": "tests/programme-own-cold-extended.mjs",
+    "originalMinimum": 53,
+    "sourceSha256": "a43abf60b113696f3a4a379fdbbddcccefb1bbcbe56c1c3ac0f264f6fb86c173",
+    "assertionsUnchanged": true,
+    "extraChecks": 12
+  }
+]
