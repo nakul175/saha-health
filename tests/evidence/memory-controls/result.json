@@ -1,0 +1,284 @@
+{
+  "date": "2026-10-05",
+  "source": "0df447cc",
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "concurrency": 4,
+  "cases": [
+    {
+      "name": "inline-minimal",
+      "loadsPerRound": 200,
+      "warmupLoads": 100,
+      "phases": [
+        {
+          "phase": "cold",
+          "rssKb": 37120,
+          "pids": [
+            76646
+          ]
+        },
+        {
+          "phase": "warm",
+          "rssKb": 44512,
+          "pids": [
+            76646
+          ]
+        },
+        {
+          "phase": "round 1",
+          "rssKb": 51760,
+          "pids": [
+            76646
+          ]
+        },
+        {
+          "phase": "round 2",
+          "rssKb": 54784,
+          "pids": [
+            76646
+          ]
+        },
+        {
+          "phase": "idle 5s",
+          "rssKb": 54832,
+          "pids": [
+            76646
+          ]
+        },
+        {
+          "phase": "idle 10s",
+          "rssKb": 54832,
+          "pids": [
+            76646
+          ]
+        },
+        {
+          "phase": "idle 15s",
+          "rssKb": 54832,
+          "pids": [
+            76646
+          ]
+        },
+        {
+          "phase": "idle 20s",
+          "rssKb": 54832,
+          "pids": [
+            76646
+          ]
+        }
+      ],
+      "transientWrappablesPerRequest": 0,
+      "databaseBytes": null,
+      "completed": true
+    },
+    {
+      "name": "inline-transient-wrappables",
+      "loadsPerRound": 200,
+      "warmupLoads": 100,
+      "phases": [
+        {
+          "phase": "cold",
+          "rssKb": 37120,
+          "pids": [
+            76837
+          ]
+        },
+        {
+          "phase": "warm",
+          "rssKb": 62000,
+          "pids": [
+            76837
+          ]
+        },
+        {
+          "phase": "round 1",
+          "rssKb": 66736,
+          "pids": [
+            76837
+          ]
+        },
+        {
+          "phase": "round 2",
+          "rssKb": 69184,
+          "pids": [
+            76837
+          ]
+        },
+        {
+          "phase": "idle 5s",
+          "rssKb": 69232,
+          "pids": [
+            76837
+          ]
+        },
+        {
+          "phase": "idle 10s",
+          "rssKb": 69232,
+          "pids": [
+            76837
+          ]
+        },
+        {
+          "phase": "idle 15s",
+          "rssKb": 69232,
+          "pids": [
+            76837
+          ]
+        },
+        {
+          "phase": "idle 20s",
+          "rssKb": 69232,
+          "pids": [
+            76837
+          ]
+        }
+      ],
+      "transientWrappablesPerRequest": 1000,
+      "databaseBytes": null,
+      "completed": true
+    },
+    {
+      "name": "saha-workspace",
+      "loadsPerRound": 200,
+      "warmupLoads": 100,
+      "phases": [
+        {
+          "phase": "cold",
+          "rssKb": 76288,
+          "pids": [
+            77677
+          ]
+        },
+        {
+          "phase": "warm",
+          "rssKb": 187360,
+          "pids": [
+            77677
+          ]
+        },
+        {
+          "phase": "round 1",
+          "rssKb": 313904,
+          "pids": [
+            77677
+          ]
+        },
+        {
+          "phase": "round 2",
+          "rssKb": 370464,
+          "pids": [
+            77677
+          ]
+        },
+        {
+          "phase": "idle 5s",
+          "rssKb": 370480,
+          "pids": [
+            77677
+          ]
+        },
+        {
+          "phase": "idle 10s",
+          "rssKb": 370448,
+          "pids": [
+            77677
+          ]
+        },
+        {
+          "phase": "idle 15s",
+          "rssKb": 370448,
+          "pids": [
+            77677
+          ]
+        },
+        {
+          "phase": "idle 20s",
+          "rssKb": 370448,
+          "pids": [
+            77677
+          ]
+        }
+      ],
+      "transientWrappablesPerRequest": 0,
+      "databaseBytes": 1106000,
+      "completed": true
+    },
+    {
+      "name": "inline-d1-read-batch",
+      "loadsPerRound": 200,
+      "warmupLoads": 100,
+      "queriesPerLoad": 23,
+      "rowsPerLoad": 250,
+      "phases": [
+        {
+          "phase": "cold",
+          "rssKb": 72864,
+          "pids": [
+            78126
+          ]
+        },
+        {
+          "phase": "warm",
+          "rssKb": 89536,
+          "pids": [
+            78126
+          ]
+        },
+        {
+          "phase": "round 1",
+          "rssKb": 113984,
+          "pids": [
+            78126
+          ]
+        },
+        {
+          "phase": "round 2",
+          "rssKb": 121536,
+          "pids": [
+            78126
+          ]
+        },
+        {
+          "phase": "idle 5s",
+          "rssKb": 121536,
+          "pids": [
+            78126
+          ]
+        },
+        {
+          "phase": "idle 10s",
+          "rssKb": 121504,
+          "pids": [
+            78126
+          ]
+        },
+        {
+          "phase": "idle 15s",
+          "rssKb": 121504,
+          "pids": [
+            78126
+          ]
+        },
+        {
+          "phase": "idle 20s",
+          "rssKb": 121504,
+          "pids": [
+            78126
+          ]
+        }
+      ],
+      "completed": true
+    }
+  ],
+  "limits": [
+    "Process-owned local workerd RSS, not hosted isolate memory",
+    "Different inline/app isolate counts and request work; per-request growth is not directly comparable byte for byte",
+    "Idle collection observations do not establish production fix or plateau"
+  ],
+  "completed": true,
+  "manualTool": "scripts/diagnose-memory-controls.mjs",
+  "runtimeVersion": "workerd1.20260515.1 / Miniflare4.20260515.0",
+  "totalRequests": 2000,
+  "upstreamStatus": "6824 is an open third-party report, not a confirmed diagnosis or fix"
+}
