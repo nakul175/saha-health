@@ -1,5 +1,5 @@
 import { rangeCaptureFor, rangeContextProblem } from './fact-provenance';
-import { installedPacks, offlineWorkFor } from './programmes';
+import { installedPacks, offlineWorkFor, packAt } from './programmes';
 import { z } from 'zod';
 import { withinPolicy } from './access';
 import { apply, digest, factsSchema, programmeRecord, fail, person, uuid, visit } from './core';
@@ -8,17 +8,24 @@ import { ABSENCE } from './programmes';
 import type { OrgState, Member } from './types';
 import { NEXT, REFERRAL_EVENTS, TERMINAL, URGENCIES } from './referral-rules';
 import type { Actor } from './store';
-export type FieldLease={id:string;actorId:string;memberVersion:number;visitId:string;visitVersion:number;identityHash:string;consentVersion:number;expiresAt:string;status:'active'|'revoked'|'synced';packageHash:string;createdAt:string;offlineWorkHash?:string};
+export type PreparedTask={taskId:string;title:string;due:string;episodeId:string;packId:string;packVersion:number;hash:string};
+export async function preparedTask(state:OrgState,p:import('./types').Person,taskId:string):Promise<PreparedTask>{
+ const t=p.followUps?.find(x=>x.id===taskId&&x.state==='open');const e=p.enrolments?.find(x=>x.id===t?.enrolmentId&&x.state==='active');const pack=e&&packAt(e.packId,e.packVersion,state);
+ if(!t||!e||!pack||(p as any).installedWork?.some((x:any)=>x.id===taskId))fail(409,'Due work requires current online source review.');
+ return {taskId:t!.id,title:t!.title,due:t!.due,episodeId:e!.id,packId:e!.packId,packVersion:e!.packVersion,hash:await digest({task:t,episode:{id:e!.id,state:e!.state,packId:e!.packId,packVersion:e!.packVersion},pack})};
+}
+export async function preparedTasksCurrent(state:OrgState,p:import('./types').Person,tasks:PreparedTask[]){for(const t of tasks)if(await digest(await preparedTask(state,p,t.taskId))!==await digest(t))fail(409,'Prepared due work changed. Review the original task online before syncing.');}
+export type FieldLease={id:string;actorId:string;memberVersion:number;visitId:string;visitVersion:number;identityHash:string;consentVersion:number;expiresAt:string;status:'active'|'revoked'|'synced';packageHash:string;createdAt:string;offlineWorkHash?:string;preparedTasks?:PreparedTask[]};
 const id=z.string().min(1).max(200),ver=z.number().int().positive(),note=z.string().trim().min(5).max(1000);
 export const fieldSchema=z.discriminatedUnion('type',[
- z.object({type:z.literal('prepareFieldVisit'),personId:id,version:ver}).strict(),
+ z.object({type:z.literal('prepareFieldVisit'),personId:id,version:ver,workSelection:z.object({expectedActorId:id,planHash:z.string().regex(/^[0-9a-f]{64}$/)}).strict().optional()}).strict(),
  z.object({type:z.literal('revokeFieldLease'),personId:id,leaseId:id}).strict(),
  z.object({type:z.literal('syncFieldVisit'),personId:id,leaseId:id,packageHash:z.string().length(64),offlineWorkHash:z.string().regex(/^[0-9a-f]{64}$/).optional(),facts:factsSchema,answers:programmeRecord(z.string().max(500)),absence:programmeRecord(z.enum(ABSENCE))}).strict(),
  z.object({type:z.literal('assignReferral'),referralId:id,version:ver,ownerId:id,due:z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x=>!isNaN(Date.parse(x))&&new Date(x).toISOString().slice(0,10)===x),urgency:z.enum(URGENCIES).optional(),reason:note}).strict(),
  z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(REFERRAL_EVENTS as [string,...string[]]),appointmentAt:z.string().datetime().optional(),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
 ]);
 export async function fieldIdentity(p:{name:string;age:number;sex:string;village:string;teamId:string;assignedTo:string|null}){return digest([p.name,p.age,p.sex,p.village,p.teamId,p.assignedTo]);}
-export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString(),environment='synthetic'):Promise<any|null>{
+export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString(),environment='synthetic',preparedTasks?:PreparedTask[]):Promise<any|null>{
  const parsed=fieldSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data,w=state.workspace;
  if(!['asha','clinician'].includes(m.role))fail(403,'A current care role is required.');
  let subject='',detail='',result:any={ok:true};
@@ -44,13 +51,14 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   const p=person(w,c.personId);subject=p.id;p.fieldLeases??=[];
   if(c.type==='prepareFieldVisit'){
    if(p.version!==c.version)fail(409,'Patient changed. Refresh before preparing field work.');
+   if(preparedTasks){if(preparedTasks.length>10)fail(422,'Prepare at most ten declared tasks for one patient.');await preparedTasksCurrent(state,p,preparedTasks);}
    const started=await apply(w,{type:'startVisit',personId:p.id},u.userId,{call:async()=>fail(409,'External calls unavailable'),packs:installedPacks(state),rangeCapture:p=>rangeCaptureFor(state,p),rangeEnvironment:environment},now);const v=visit(w,started.visitId);if(v.valueRangeCapture?.mode==='population-demo'&&!['synthetic','training'].includes(environment))fail(409,'Demonstration value ranges require a synthetic or training environment.');const stale=rangeContextProblem(v,p);if(stale)fail(409,stale);
    // A new grant replaces this worker's active grant for this visit; old ciphertext is retained locally for review.
    for(const l of p.fieldLeases)if(l.actorId===u.userId&&l.visitId===v.id&&l.status==='active')l.status='revoked';
    p.fieldLeases=p.fieldLeases.filter(l=>l.expiresAt>now).slice(-19);
    const lease:FieldLease={id:uuid(),actorId:u.userId,memberVersion:m.version,visitId:v.id,visitVersion:v.version,identityHash:await fieldIdentity(p),consentVersion:p.consentVersion,expiresAt:new Date(Date.parse(now)+24*3600000).toISOString(),status:'active',packageHash:'',createdAt:now};
-   let prepared;try{prepared=offlineWorkFor(v.programmeCapture)}catch{fail(422,'Prepared programme work exceeds the notebook limit.');}const offlineWork={...prepared!,hash:await digest(prepared!)};lease.offlineWorkHash=offlineWork.hash;
-   const payload={schema:1,offlineWork,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null,...(v.valueRangeCapture?{valueRangeCapture:v.valueRangeCapture}:{})};
+   let prepared;try{prepared=offlineWorkFor(v.programmeCapture)}catch{fail(422,'Prepared programme work exceeds the notebook limit.');}const offlineWork={...prepared!,hash:await digest(prepared!)};lease.offlineWorkHash=offlineWork.hash;if(preparedTasks)lease.preparedTasks=structuredClone(preparedTasks);
+   const payload={schema:1,...(preparedTasks?{preparedWork:{format:'saha-prepared-due-work-v1',tasks:structuredClone(preparedTasks),notice:'Documentary capture only; task completion and clinical decisions require online review.'}}:{}),offlineWork,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null,...(v.valueRangeCapture?{valueRangeCapture:v.valueRangeCapture}:{})};
    const keys=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
    const bytes=new TextEncoder().encode(JSON.stringify(payload));const signature=Array.from(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},keys.privateKey,bytes)));
    const packet={payload,signature,publicKey:await crypto.subtle.exportKey('jwk',keys.publicKey)};lease.packageHash=await digest(packet);p.fieldLeases.push(lease);
@@ -63,6 +71,7 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
     if(l.actorId!==u.userId||l.memberVersion!==m.version)fail(403,'The worker or membership changed. Prepare a new field grant.');
     if(l.status!=='active'||l.expiresAt<=now)fail(409,'Field grant expired, revoked or already synced. Reconcile before continuing.');
     if(l.packageHash!==c.packageHash||l.identityHash!==await fieldIdentity(p)||l.consentVersion!==p.consentVersion)fail(409,'Identity, assignment or permission changed. Review this record online.');
+    if(l.preparedTasks)await preparedTasksCurrent(state,p,l.preparedTasks);
     const v=visit(w,l.visitId);if(v.version!==l.visitVersion||v.state!=='draft'||v.voidedAt||v.supersededBy)fail(409,'The server visit changed. Compare both versions before syncing.');
     if(l.offlineWorkHash){if(c.offlineWorkHash!==undefined&&c.offlineWorkHash!==l.offlineWorkHash)fail(409,'Prepared task descriptor changed. Reconcile this grant online.');let currentHash:string;try{currentHash=await digest(offlineWorkFor(v.programmeCapture))}catch{fail(409,'Prepared programme guidance is unavailable. Reconcile online.');}if(currentHash!==l.offlineWorkHash)fail(409,'Prepared programme guidance changed. Reconcile this grant online.');for(const item of v.programmeCapture?.packs??[]){if(!p.enrolments?.some(e=>e.id===item.enrolmentId&&e.state==='active'&&e.packId===item.pack.id&&e.packVersion===item.pack.version))fail(409,'Prepared programme episode changed or closed. Review online.');}}
     await apply(w,{type:'saveVisit',visitId:v.id,version:v.version,facts:c.facts},u.userId,{call:async()=>fail(409,'External calls unavailable'),rangeEnvironment:environment},now);

@@ -1,0 +1,12 @@
+evalmachine.<anonymous>:352
+ $('drafts').replaceChildren(...book.drafts.map(d=>{const p=d.packet.payload,current=!appMode||appGrantCurrent(p,book.userId),q=(d.media??[]).filter(x=>x.state!=='uploaded').length,b=button(`${current?p.personName:'Expired visit — reconnect to review'} · ${d.state==='synced'?'Synced / सिंक':d.pending?'Pending / लंबित':'Draft / ड्राफ़्ट'}${q?` · ${q} media / मीडिया`:''}`,()=>enterDeviceRecord(p.leaseId));b.className='draft'+(selected===p.leaseId?' selected':'');const labels=preparedTaskLabels(d);if(current&&labels.length)b.textContent+=' · '+labels.join(' / ');return b;}));
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ^
+
+ReferenceError: preparedTaskLabels is not defined
+    at evalmachine.<anonymous>:352:479
+    at Array.map (<anonymous>)
+    at render (evalmachine.<anonymous>:352:45)
+    at run (evalmachine.<anonymous>:264:267)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-offline-caseload-author/tests/field-client.mjs:25:57
+
+Node.js v24.19.0
