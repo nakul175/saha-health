@@ -2,18 +2,30 @@ import { z } from 'zod';
 import { digest, fail, person, uuid, visit } from './core';
 import { PROGRAMMES, currentIdentifiers, type Integration, type Member, type OrgState, type Submission, type TraceRef, type Visit } from './types';
 import type { Actor } from './store';
-export const MIS_FIELDS=['weightSource','weightObservedAt','weightUnit','temperatureSource','temperatureObservedAt','temperatureUnit','systolicSource','systolicObservedAt','systolicUnit','diastolicSource','diastolicObservedAt','diastolicUnit','weeksSource','weeksObservedAt','weeksUnit','coughDaysSource','coughDaysObservedAt','coughDaysUnit','personId','visitId','date','source','systolic','diastolic','weight','temperature','weeks','coughDays','notes'] as const;
-export type Mapping={source:typeof MIS_FIELDS[number];target:string;required:boolean};
-export type MisConfig={contract:'saha-mis-v1';mapping:Mapping[];corrections:boolean;lifecycle?:MappingLifecycle;test?:{at:string;version:number;ok:boolean;message:string}};
+export const MIS_FIELDS=['terminologyCode','weightSource','weightObservedAt','weightUnit','temperatureSource','temperatureObservedAt','temperatureUnit','systolicSource','systolicObservedAt','systolicUnit','diastolicSource','diastolicObservedAt','diastolicUnit','weeksSource','weeksObservedAt','weeksUnit','coughDaysSource','coughDaysObservedAt','coughDaysUnit','personId','visitId','date','source','systolic','diastolic','weight','temperature','weeks','coughDays','notes'] as const;
+export type Mapping={source:typeof MIS_FIELDS[number];target:string;required:boolean;transformation?:'identity'|'kg-to-g'|'kg-to-lb'|'celsius-to-fahrenheit'|'weeks-to-days';unit?:'none'|'kg'|'g'|'lb'|'mmHg'|'°C'|'°F'|'weeks'|'days';nullSemantics?:'omit'|'empty'|'null'|'response-state'};
+export type MisConfig={contract:'saha-mis-v1';mapping:Mapping[];corrections:boolean;lifecycle?:MappingLifecycle;conformance?:MappingConformance;terminology?:Terminology[];test?:{at:string;version:number;ok:boolean;message:string}};
 export type Delivery={mappingRevision?:{id:string;hash:string};endpoint:string;credentialBinding:string;key:string;actorId:string;connectorVersion:number;personVersion:number;consentVersion:number;visitVersion:number;expiresAt:string;payload:Record<string,unknown>;startedAt?:string;operationId?:string;events:{at:string;state:string;detail:string;attempt?:number;ref?:TraceRef}[]};
 const id=z.string().min(1).max(200),ver=z.number().int().positive();
-export const mappingSchema=z.array(z.object({source:z.enum(MIS_FIELDS),target:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,63}$/).refine(s=>!['constructor','prototype','__proto__'].includes(s),'Reserved destination field'),required:z.boolean()}).strict()).min(1).max(20).refine(rows=>new Set(rows.map(r=>r.target)).size===rows.length,'Destination fields must be unique');
+export const mappingSchema=z.array(z.object({source:z.enum(MIS_FIELDS),target:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,63}$/).refine(s=>!['constructor','prototype','__proto__'].includes(s),'Reserved destination field'),required:z.boolean(),transformation:z.enum(['identity','kg-to-g','kg-to-lb','celsius-to-fahrenheit','weeks-to-days']).optional(),unit:z.enum(['none','kg','g','lb','mmHg','°C','°F','weeks','days']).optional(),nullSemantics:z.enum(['omit','empty','null','response-state']).optional()}).strict()).min(1).max(20).refine(rows=>new Set(rows.map(r=>r.target)).size===rows.length,'Destination fields must be unique');
 const mappingSourceSchema=z.object({reference:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$/),version:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/)}).strict();
-const terminologySchema=z.array(z.object({target:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,63}$/),system:z.enum(['partner-local','LOINC']),code:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/),status:z.enum(['active','deprecated','ambiguous']),replacement:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/).optional()}).strict()).max(20).refine(xs=>new Set(xs.map(x=>x.target)).size===xs.length,'Terminology targets must be unique');
+const terminologySchema=z.array(z.object({target:z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,63}$/),system:z.enum(['partner-local','LOINC']),code:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/).optional(),status:z.enum(['active','unmapped','deprecated','ambiguous']),replacement:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/).optional()}).strict()).max(20).refine(xs=>new Set(xs.map(x=>x.target)).size===xs.length,'Terminology targets must be unique');
+export type Terminology=z.infer<typeof terminologySchema>[number];
+const fixtureFields=z.record(z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,63}$/),z.union([z.string().max(300),z.null()])).refine(x=>Object.keys(x).length<=20,'At most 20 fixture fields');
+const fixtureValues=z.record(z.enum(MIS_FIELDS),z.string().max(300)).refine(x=>Object.keys(x).length<=30,'At most 30 fixture inputs');
+const fixtureSchema=z.discriminatedUnion('outcome',[
+ z.object({name:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._ -]{0,63}$/),values:fixtureValues,outcome:z.literal('mapped'),expected:fixtureFields}).strict(),
+ z.object({name:z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._ -]{0,63}$/),values:fixtureValues,outcome:z.literal('rejected')}).strict(),
+]);
+const targetList=z.array(z.string().regex(/^[A-Za-z][A-Za-z0-9_]{0,63}$/)).max(20).refine(x=>new Set(x).size===x.length,'Targets must be unique');
+export const mappingConformanceSchema=z.object({source:mappingSourceSchema,rulesVersion:z.literal('saha-deterministic-mapping-v1'),requiredTargets:targetList,codeTargets:targetList,fixtures:z.array(fixtureSchema).min(1).max(20).refine(x=>new Set(x.map(f=>f.name)).size===x.length,'Fixture names must be unique')}).strict();
+export type MappingConformance=z.infer<typeof mappingConformanceSchema>;
+export type MappingFieldImpact={target:string;source:Mapping['source'];unsent:number;changed:number;unmappable:number;pendingPlans:number;changedPlans:number;terminology:string};
+export type MappingConformanceResult={hash:string;passed:number;failed:number;uncovered:string[];results:{name:string;passed:boolean}[]};
 const lifecycleCommand={integrationId:id,version:ver,lifecycleVersion:z.number().int().min(0)},effectiveAt=z.string().datetime({offset:false}).refine(x=>new Date(x).toISOString()===x,'Use a canonical UTC date and time, including milliseconds');
 export const MAPPING_COMMANDS=['draftMisMapping','impactMisMapping','reviewMisMapping','applyMisMapping','cancelMisMapping','rollbackMisMapping'] as const;
 export const misSchema=z.discriminatedUnion('type',[
- z.object({type:z.literal('draftMisMapping'),...lifecycleCommand,mapping:mappingSchema,programmes:z.array(z.enum(PROGRAMMES as [string,...string[]])).min(1).max(5),corrections:z.boolean(),source:mappingSourceSchema,terminology:terminologySchema,effectiveAt}).strict(),
+ z.object({type:z.literal('draftMisMapping'),...lifecycleCommand,mapping:mappingSchema,programmes:z.array(z.enum(PROGRAMMES as [string,...string[]])).min(1).max(5),corrections:z.boolean(),source:mappingSourceSchema,terminology:terminologySchema,conformance:mappingConformanceSchema.optional(),effectiveAt}).strict(),
  z.object({type:z.literal('rollbackMisMapping'),...lifecycleCommand,revisionId:id,effectiveAt}).strict(),
  z.object({type:z.literal('impactMisMapping'),...lifecycleCommand,revisionId:id}).strict(),
  z.object({type:z.literal('reviewMisMapping'),...lifecycleCommand,revisionId:id,impactHash:z.string().regex(/^[a-f0-9]{64}$/)}).strict(),
@@ -44,8 +56,7 @@ export function misReadiness(i:Integration,orgId:string,env:Record<string,string
 // This destination is authorized for one subject, not unrelated known patient identities in free-text notes.
 export function assertMisPatientNotes(s:OrgState,v:Visit,i:Integration,payload:any){const subjects=s.workspace.people??[],p=subjects.find(p=>p.id===v.personId);if(!p)return;const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase(),values=(p:any)=>[p.id,p.name,p.village,p.abha?.number,p.abha?.number?.replace(/-/g,''),p.abha?.address,...currentIdentifiers(p).map(x=>x.value)].filter(x=>typeof x==='string'&&x.trim().length>=3).map(normalize),own=new Set([...values(p),...(s.members??[]).map(m=>normalize(m.displayName??''))]),others=new Set(subjects.filter(x=>x.id!==p.id).flatMap(values).filter(x=>!own.has(x)));const contains=(text:string,value:string)=>{let start=0;for(;;){const n=text.indexOf(value,start);if(n<0)return false;if(!/[\p{L}\p{N}]/u.test(text[n-1]??'')&&!/[\p{L}\p{N}]/u.test(text[n+value.length]??''))return true;start=n+1;}};for(const map of i.mis?.mapping??[]){if(map.source!=='notes')continue;const text=payload.fields?.[map.target];if(typeof text==='string'&&[...others].some(x=>!/^\d{1,7}$/.test(x)&&contains(normalize(text),x)))fail(409,'Mapped notes contain another known patient identity. Review the patient-specific note before approving delivery; nothing was sent.');}}
 export function mappedPayload(i:Integration,v:Visit,s:OrgState){
- if(!i.mis)fail(409,'Configure and test the programme mapping first.');assertMappingEffective(i);const fields:Record<string,string>={};
- for(const map of i.mis.mapping){const value=mappingValue(v,map.source);if(!value&&map.required)fail(422,`${i.name}: required field ${map.target} is missing.`);if(value)fields[map.target]=value;}
+ if(!i.mis)fail(409,'Configure and test the programme mapping first.');assertMappingEffective(i);const fields=projectMapping(i.mis.mapping,source=>mappingValue(v,source),i.mis.terminology??[],i.mis.conformance);
  let prior:Submission|undefined,ancestor=v.amendsVisitId;const seen=new Set<string>();
  while(ancestor){if(seen.has(ancestor))fail(409,'Correction history is inconsistent.');seen.add(ancestor);const deliveries=s.workspace.submissions.filter(x=>x.visitId===ancestor&&x.connectorId===i.id);if(deliveries.some(x=>['sending','uncertain','queued','retryable'].includes(x.state)))fail(409,'Resolve the original submission before sending its correction.');prior=deliveries.find(x=>x.state==='accepted');if(prior)break;ancestor=s.workspace.visits.find(x=>x.id===ancestor)?.amendsVisitId;}
  if(prior&&!i.mis.corrections)fail(409,'This destination has not enabled correction support.');
@@ -58,7 +69,7 @@ export async function configureMis(s:OrgState,c:MisCommand,u:Actor,m:Member,env:
  if(!m.isOwner)fail(403,'Only an organisation owner can configure programme delivery.');
  if(!('integrationId' in c))return null;const i=misIntegration(s,c.integrationId);if(i.version!==c.version)fail(409,'Connection changed. Refresh first.');
  if((MAPPING_COMMANDS as readonly string[]).includes(c.type))return applyMappingLifecycle(s,i,c as any,u,m);
- if(c.type==='configureMis'){if(i.mis?.lifecycle)fail(409,'This connection uses reviewed mapping revisions. Draft a revision instead.');i.mis={contract:'saha-mis-v1',mapping:c.mapping,corrections:c.corrections};i.programmes=c.programmes as any;i.status='suspended';i.version++;}
+ if(c.type==='configureMis'){if(c.mapping.some(x=>x.transformation||x.unit||x.nullSemantics||x.source==='terminologyCode'))fail(422,'Explicit mapping semantics require a reviewed conformance contract.');if(i.mis?.lifecycle)fail(409,'This connection uses reviewed mapping revisions. Draft a revision instead.');i.mis={contract:'saha-mis-v1',mapping:c.mapping,corrections:c.corrections};i.programmes=c.programmes as any;i.status='suspended';i.version++;}
  else if(c.type==='activateMis'){assertMappingEffective(i);misCredential(i,s.organisation.id,env);if(!i.mis?.test?.ok||i.mis.test.version!==i.version||Date.parse(i.mis.test.at)<Date.now()-86400000)fail(409,'Pass a connection test for this version within 24 hours before activation.');i.status='active';i.version++;i.mis.test.version=i.version;}
  misAudit(s,u,m,c.type,i.id,c.type==='configureMis'?'Programme mapping saved; connection suspended and older approvals invalidated.':'Tested programme connection activated.');return {ok:true};
 }
@@ -78,10 +89,10 @@ const wireKey=z.string().min(1).max(200),wireHash=z.string().regex(/^[a-f0-9]{64
 const misWireSchema=z.discriminatedUnion('operation',[
  z.object({...wireCommon,operation:z.literal('probe'),environment:z.literal('synthetic'),required:z.object({idempotency:z.literal(true),lookup:z.literal(true),corrections:z.boolean()}).strict()}).strict(),
  z.object({...wireCommon,operation:z.literal('lookup'),key:wireKey,payloadHash:wireHash}).strict(),
- z.object({...wireCommon,operation:z.literal('submit'),environment:z.literal('synthetic'),fields:z.record(z.string().max(4000)),key:wireKey,payloadHash:wireHash}).strict(),
- z.object({...wireCommon,operation:z.literal('correct'),environment:z.literal('synthetic'),fields:z.record(z.string().max(4000)),replaces:z.object({submissionKey:wireKey,receipt:wireKey}).strict(),key:wireKey,payloadHash:wireHash}).strict()
+ z.object({...wireCommon,operation:z.literal('submit'),environment:z.literal('synthetic'),fields:z.record(z.union([z.string().max(4000),z.null()])),key:wireKey,payloadHash:wireHash}).strict(),
+ z.object({...wireCommon,operation:z.literal('correct'),environment:z.literal('synthetic'),fields:z.record(z.union([z.string().max(4000),z.null()])),replaces:z.object({submissionKey:wireKey,receipt:wireKey}).strict(),key:wireKey,payloadHash:wireHash}).strict()
 ]);
-export async function assertMisEnvelope(i:Integration,body:unknown,key:string){const parsed=misWireSchema.safeParse(body);if(!parsed.success)fail(409,'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.');const b=parsed.data;if(b.operation==='lookup')return;if(b.operation==='probe'){if(b.required.corrections!==!!i.mis?.corrections)fail(409,'Programme probe configuration changed.');return;}assertMappingEffective(i);if(!i.mis||b.key!==key||b.operation==='correct'&&!i.mis.corrections)fail(409,'Programme envelope approval changed; review before sending.');const targets=new Set(i.mis.mapping.map(m=>m.target));if(Object.keys(b.fields).some(k=>!targets.has(k))||i.mis.mapping.some(m=>m.required&&!b.fields[m.target]))fail(409,'Programme fields differ from the approved mapping; review or cancel unsent delivery and prepare a fresh plan.');const {key:bodyKey,payloadHash,...payload}=body as any;if(await digest(payload)!==payloadHash)fail(409,'Programme envelope differs from its approved digest; review before sending.');}
+export async function assertMisEnvelope(i:Integration,body:unknown,key:string){const parsed=misWireSchema.safeParse(body);if(!parsed.success)fail(409,'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.');const b=parsed.data;if(b.operation==='lookup')return;if(b.operation==='probe'){if(b.required.corrections!==!!i.mis?.corrections)fail(409,'Programme probe configuration changed.');return;}assertMappingEffective(i);if(!i.mis||b.key!==key||b.operation==='correct'&&!i.mis.corrections)fail(409,'Programme envelope approval changed; review before sending.');const targets=new Set(i.mis.mapping.map(m=>m.target));if(Object.keys(b.fields).some(k=>!targets.has(k))||i.mis.mapping.some(m=>m.required&&!b.fields[m.target]))fail(409,'Programme fields differ from the approved mapping; review or cancel unsent delivery and prepare a fresh plan.');for(const row of i.mis.mapping){const value=b.fields[row.target],term=i.mis.terminology?.find(t=>t.target===row.target);if(value===null&&row.nullSemantics!=='null'||value===''&&row.nullSemantics!=='empty')fail(409,'Programme missing-value semantics differ from the approved mapping.');if(row.source==='terminologyCode'&&(term?.status==='deprecated'||term?.status==='ambiguous'||value!==(term?.status==='unmapped'?'unmapped':term?.code)))fail(409,'Programme terminology differs from the approved explicit mapping.');}const {key:bodyKey,payloadHash,...payload}=body as any;if(await digest(payload)!==payloadHash)fail(409,'Programme envelope differs from its approved digest; review before sending.');}
 export async function misRequest(i:Integration,orgId:string,env:Record<string,string|undefined>,body:unknown,key:string,send:typeof fetch=fetch){
  const secret=misCredential(i,orgId,env);await assertMisEnvelope(i,body,key);const timeout=AbortSignal.timeout(15000);
  const response=await send(i.endpoint!,{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${secret}`,'Idempotency-Key':key},body:JSON.stringify(body),redirect:'manual',signal:timeout});
@@ -92,10 +103,67 @@ export async function misRequest(i:Integration,orgId:string,env:Record<string,st
 }
 
 // B07: manifests are append-only. Mutable pointers/events never rewrite a reviewed mapping or a delivery body.
-export type MappingManifest={mapping:Mapping[];programmes:string[];corrections:boolean;source:{reference:string;version:string};terminology:z.infer<typeof terminologySchema>;effectiveAt:string;rollbackOf?:string};
+export type MappingManifest={mapping:Mapping[];programmes:string[];corrections:boolean;source:{reference:string;version:string};terminology:z.infer<typeof terminologySchema>;effectiveAt:string;conformance?:MappingConformance;rollbackOf?:string};
 export type MappingRevision={id:string;hash:string;manifest:MappingManifest;createdAt:string;by:string;baseline?:boolean};
 export type MappingImpact={unsent:number;changed:number;unmappable:number;pendingPlans:number;changedPlans:number;lookupOnly:number;terminalPreserved:number;deprecated:number;ambiguous:number};
-export type MappingLifecycle={version:number;currentId:string;pendingId?:string;revisions:MappingRevision[];events:{action:'draft'|'impact'|'review'|'apply'|'cancel';revisionId:string;at:string;by:string;impactHash?:string;counts?:MappingImpact;connectorVersion?:number}[]};
+export type MappingLifecycle={version:number;currentId:string;pendingId?:string;revisions:MappingRevision[];events:{action:'draft'|'impact'|'review'|'apply'|'cancel';revisionId:string;at:string;by:string;impactHash?:string;counts?:MappingImpact;fields?:MappingFieldImpact[];conformanceHash?:string;conformance?:MappingConformanceResult;connectorVersion?:number}[]};
+const canonicalUnits:Partial<Record<Mapping['source'],string>>={weight:'kg',temperature:'°C',systolic:'mmHg',diastolic:'mmHg',weeks:'weeks',coughDays:'days'};
+const conversionRules={
+ 'kg-to-g':{source:'weight',unit:'g',convert:(n:number)=>n*1000},
+ 'kg-to-lb':{source:'weight',unit:'lb',convert:(n:number)=>n/0.45359237},
+ 'celsius-to-fahrenheit':{source:'temperature',unit:'°F',convert:(n:number)=>n*9/5+32},
+ 'weeks-to-days':{source:'weeks',unit:'days',convert:(n:number)=>n*7},
+} as const;
+function assertMappingRule(row:Mapping){
+ const rule=row.transformation??'identity';
+ if(rule==='identity'){if(row.unit&&row.unit!==(canonicalUnits[row.source]??'none'))fail(422,`Identity mapping ${row.target} has incompatible destination units.`);}
+ else {const conversion=conversionRules[rule];if(!conversion||conversion.source!==row.source||conversion.unit!==row.unit)fail(422,`Unsupported conversion or units for ${row.target}.`);}
+}
+export function validateMappingManifest(manifest:MappingManifest,current?:MappingConformance,currentSemantics?:{mapping:Mapping[];terminology:Terminology[]}){
+ const contract=manifest.conformance,extended=manifest.mapping.some(x=>x.transformation||x.unit||x.nullSemantics||x.source==='terminologyCode')||manifest.terminology.some(t=>t.status==='unmapped');
+ if((extended||current)&&!contract)fail(422,'Explicit mapping semantics and governed connections require a source-versioned conformance contract.');
+ for(const row of manifest.mapping)assertMappingRule(row);
+ for(const term of manifest.terminology){if(term.status==='active'&&!term.code)fail(422,'An active terminology declaration needs an explicit code.');if(term.status==='unmapped'&&(term.code||term.replacement))fail(422,'Unmapped terminology cannot name a code or implicit replacement.');}
+ if(!contract)return;
+ if(current&&current.source.reference===contract.source.reference&&current.source.version===contract.source.version&&currentSemantics&&(JSON.stringify(currentSemantics.mapping)!==JSON.stringify(manifest.mapping)||JSON.stringify(currentSemantics.terminology)!==JSON.stringify(manifest.terminology)))fail(422,'Change the destination contract source version when mapping or terminology semantics change.');
+ if(current&&current.source.reference===contract.source.reference&&current.source.version===contract.source.version&&JSON.stringify(current)!==JSON.stringify(contract))fail(422,'Change the destination contract source version when its requirements or examples change.');
+ if(contract.source.reference!==manifest.source.reference||contract.source.version!==manifest.source.version)fail(422,'Mapping and conformance source versions must match.');
+ if(manifest.mapping.some(x=>!x.transformation||!x.unit||!x.nullSemantics))fail(422,'Governed mapping rows need explicit transformation, units and missing-value semantics.');
+ for(const target of contract.requiredTargets){const row=manifest.mapping.find(x=>x.target===target);if(!row||!row.required)fail(422,`Destination mandatory field ${target} needs a required mapping.`);}
+ for(const target of contract.codeTargets){const row=manifest.mapping.find(x=>x.target===target);if(!row||row.source!=='terminologyCode'||!row.required||!contract.requiredTargets.includes(target))fail(422,`Required code field ${target} needs an explicit required terminology mapping.`);if(!manifest.terminology.some(t=>t.target===target))fail(422,`Required code field ${target} needs a terminology declaration.`);}
+ for(const row of manifest.mapping.filter(x=>x.source==='terminologyCode'))if(!manifest.terminology.some(t=>t.target===row.target))fail(422,`Code field ${row.target} needs an explicit terminology state.`);
+ const targets=new Set(manifest.mapping.map(x=>x.target));for(const fixture of contract.fixtures)if(fixture.outcome==='mapped'&&Object.keys(fixture.expected).some(t=>!targets.has(t)))fail(422,'Conformance examples must name mapped destination fields only.');
+}
+function projectField(row:Mapping,read:(source:Mapping['source'])=>string|undefined,terms:Terminology[],contract?:MappingConformance):string|null|undefined{
+ assertMappingRule(row);const term=terms.find(t=>t.target===row.target);
+ if(term&&(term.status==='deprecated'||term.status==='ambiguous'))fail(422,`Field ${row.target} has unresolved terminology.`);
+ if(contract?.codeTargets.includes(row.target)&&(!term||term.status!=='active'||!term.code))fail(422,`Field ${row.target} requires an approved explicit code.`);
+ let value=row.source==='terminologyCode'?(term?.status==='unmapped'?'unmapped':term?.code):read(row.source);
+ if(value===undefined||value===''){
+  if(row.required)fail(422,`Required field ${row.target} is missing.`);
+  switch(row.nullSemantics??'omit'){
+   case 'omit':return undefined;
+   case 'empty':return '';
+   case 'null':return null;
+   case 'response-state':{const source=`${row.source}Source` as Mapping['source'],state=MIS_FIELDS.includes(source)?read(source):undefined;return ['not-asked','declined','unknown','not-applicable'].includes(state??'')?state!:'unknown';}
+  }
+ }
+ if(row.transformation&&row.transformation!=='identity'){
+  if(!/^-?(?:\d+(?:\.\d*)?|\.\d+)$/.test(value))fail(422,`Field ${row.target} is not a canonical numeric value.`);
+  const number=Number(value),converted=conversionRules[row.transformation].convert(number);if(!Number.isFinite(number)||!Number.isFinite(converted)||Math.abs(converted)>1e12)fail(422,`Field ${row.target} exceeds deterministic conversion bounds.`);
+  value=String(Math.round(converted*1e8)/1e8);
+ }
+ return value;
+}
+export function projectMapping(mapping:Mapping[],read:(source:Mapping['source'])=>string|undefined,terms:Terminology[]=[],contract?:MappingConformance){
+ const fields:Record<string,string|null>={};for(const row of mapping){const value=projectField(row,read,terms,contract);if(value!==undefined)fields[row.target]=value;}return fields;
+}
+export async function mappingConformance(manifest:MappingManifest):Promise<MappingConformanceResult|undefined>{
+ const contract=manifest.conformance;if(!contract)return;
+ const results=[];const covered=new Set<string>();for(const fixture of contract.fixtures){let passed=false;try{const actual=projectMapping(manifest.mapping,key=>fixture.values[key],manifest.terminology,contract);passed=fixture.outcome==='mapped'&&await digest(Object.entries(actual).sort(([a],[b])=>a.localeCompare(b)))===await digest(Object.entries(fixture.expected).sort(([a],[b])=>a.localeCompare(b)));if(passed&&fixture.outcome==='mapped')Object.keys(fixture.expected).forEach(x=>covered.add(x));}catch{passed=fixture.outcome==='rejected';}results.push({name:fixture.name,passed});}
+ const uncovered=manifest.mapping.filter(x=>!covered.has(x.target)).map(x=>x.target);const result={passed:results.filter(x=>x.passed).length,failed:results.filter(x=>!x.passed).length,uncovered,results};return {hash:await digest({manifestSource:manifest.source,rulesVersion:contract.rulesVersion,fixtures:contract.fixtures,result}),...result};
+}
+
 function mappingValue(v:Visit,source:Mapping['source']):string|undefined{
  if(source==='personId')return v.personId;if(source==='visitId')return v.id;
  const match=/^(systolic|diastolic|weight|temperature|weeks|coughDays)(Source|ObservedAt|Unit)$/.exec(source);
@@ -108,22 +176,26 @@ function mappingValue(v:Visit,source:Mapping['source']):string|undefined{
 }
 export function assertMappingEffective(i:Integration,now=Date.now()){
  const l=i.mis?.lifecycle;if(!l?.pendingId)return;const r=l.revisions.find(r=>r.id===l.pendingId);
- if(r&&Date.parse(r.manifest.effectiveAt)<=now&&l.events.some(e=>e.revisionId===r.id&&e.action==='review'))fail(409,'A reviewed mapping is due. The owner must refresh its impact and publish or cancel it before new approvals or sends. Receipt lookup remains available.');
+ if(r&&Date.parse(r.manifest.effectiveAt)<=now&&(l.events.some(e=>e.revisionId===r.id&&e.action==='review')||r.manifest.conformance&&(r.manifest.terminology.some(t=>t.status==='deprecated'||t.status==='ambiguous')||r.manifest.conformance.codeTargets.some(target=>!r.manifest.terminology.some(t=>t.target===target&&t.status==='active'&&t.code)))))fail(409,'A reviewed mapping is due. The owner must refresh its impact and publish or cancel it before new approvals or sends. Receipt lookup remains available.');
 }
 export async function mappingImpact(s:OrgState,i:Integration,r:MappingRevision){
  if(s.workspace.submissions.length+s.workspace.visits.length>5000)fail(409,'Mapping impact exceeds the local review bound. A bounded migration workflow is required; no mapping was changed.');
- const candidate={...i,mis:{contract:'saha-mis-v1' as const,mapping:r.manifest.mapping,corrections:r.manifest.corrections},programmes:r.manifest.programmes as Integration['programmes']};
+ const candidate={...i,mis:{contract:'saha-mis-v1' as const,mapping:r.manifest.mapping,corrections:r.manifest.corrections,conformance:r.manifest.conformance,terminology:r.manifest.terminology},programmes:r.manifest.programmes as Integration['programmes']};
  const counts:MappingImpact={unsent:0,changed:0,unmappable:0,pendingPlans:0,changedPlans:0,lookupOnly:0,terminalPreserved:0,deprecated:r.manifest.terminology.filter(x=>x.status==='deprecated').length,ambiguous:r.manifest.terminology.filter(x=>x.status==='ambiguous').length};
  const selected=[];
+ const conformance=await mappingConformance(r.manifest);
+ const fields:MappingFieldImpact[]|undefined=r.manifest.conformance?[...new Set([...i.mis!.mapping.map(x=>x.target),...r.manifest.mapping.map(x=>x.target)])].map(target=>({target,source:(r.manifest.mapping.find(x=>x.target===target)??i.mis!.mapping.find(x=>x.target===target))!.source,unsent:0,changed:0,unmappable:0,pendingPlans:0,changedPlans:0,terminology:r.manifest.mapping.some(x=>x.target===target)?r.manifest.terminology.find(x=>x.target===target)?.status??'not-declared':'removed'})):undefined;
+ function fieldImpact(v:Visit|undefined,old:any,plan:boolean){if(!fields)return;const applicable=v&&candidate.programmes.some(programme=>s.workspace.people.find(p=>p.id===v.personId)?.programmes.includes(programme));for(const field of fields){if(plan)field.pendingPlans++;else field.unsent++;let value:string|null|undefined;try{if(!applicable)throw Error('not applicable');const row=r.manifest.mapping.find(x=>x.target===field.target);value=row?projectField(row,key=>mappingValue(v!,key),r.manifest.terminology,r.manifest.conformance):undefined;if(value!==old?.fields?.[field.target]||(value!==undefined)!==Object.hasOwn(old?.fields??{},field.target)){if(plan)field.changedPlans++;else field.changed++;}}catch{if(plan)field.changedPlans++;else field.unmappable++;}}}
+
  for(const sub of s.workspace.submissions.filter(x=>x.connectorId===i.id)){
-  let next:string|null=null;if(['queued','retryable'].includes(sub.state)){counts.unsent++;const v=s.workspace.visits.find(v=>v.id===sub.visitId);try{if(!v||!candidate.programmes.some(p=>s.workspace.people.find(p=>p.id===v.personId)?.programmes.includes(p)))throw Error('not applicable');next=await digest(mappedPayload(candidate,v,s));if(next!==sub.payloadHash)counts.changed++;}catch{counts.unmappable++;}}
+  let next:string|null=null;if(['queued','retryable'].includes(sub.state)){counts.unsent++;const v=s.workspace.visits.find(v=>v.id===sub.visitId);fieldImpact(v,sub.delivery?.payload,false);try{if(!v||!candidate.programmes.some(p=>s.workspace.people.find(p=>p.id===v.personId)?.programmes.includes(p)))throw Error('not applicable');next=await digest(mappedPayload(candidate,v,s));if(next!==sub.payloadHash)counts.changed++;}catch{counts.unmappable++;}}
   else if(['sending','uncertain'].includes(sub.state))counts.lookupOnly++;else counts.terminalPreserved++;
   const v=s.workspace.visits.find(v=>v.id===sub.visitId),p=s.workspace.people.find(p=>p.id===sub.personId);selected.push({id:sub.id,state:sub.state,hash:sub.payloadHash,next,receipt:sub.receipt??null,version:sub.delivery?.connectorVersion??null,currentVisitVersion:v?.version??null,currentPersonVersion:p?.version??null,currentConsentVersion:p?.consentVersion??null,pack:v?.programmeCapture??null,range:v?.valueRangeCapture?.manifestHash??null});
  }
- for(const v of s.workspace.visits.filter(v=>v.plan?.recipients.includes(i.id)&&['proposed','approved'].includes(v.plan.state))){counts.pendingPlans++;let next:string|null=null;try{if(!candidate.programmes.some(programme=>s.workspace.people.find(p=>p.id===v.personId)?.programmes.includes(programme)))throw Error('not applicable');next=await digest(mappedPayload(candidate,v,s));}catch{}const old=v.plan?.payloads?.[i.id];if(!old||!next||await digest(old)!==next)counts.changedPlans++;selected.push({id:v.id,version:v.version,plan:v.plan!.id,planHash:v.plan!.payloadHash,state:v.plan!.state,next,pack:v.programmeCapture??null,range:v.valueRangeCapture?.manifestHash??null});}
+ for(const v of s.workspace.visits.filter(v=>v.plan?.recipients.includes(i.id)&&['proposed','approved'].includes(v.plan.state))){counts.pendingPlans++;fieldImpact(v,v.plan?.payloads?.[i.id],true);let next:string|null=null;try{if(!candidate.programmes.some(programme=>s.workspace.people.find(p=>p.id===v.personId)?.programmes.includes(programme)))throw Error('not applicable');next=await digest(mappedPayload(candidate,v,s));}catch{}const old=v.plan?.payloads?.[i.id];if(!old||!next||await digest(old)!==next)counts.changedPlans++;selected.push({id:v.id,version:v.version,plan:v.plan!.id,planHash:v.plan!.payloadHash,state:v.plan!.state,next,pack:v.programmeCapture??null,range:v.valueRangeCapture?.manifestHash??null});}
  // The plan hash binds material current evidence, including retained correction receipts and source-pack manifests.
- const hash=await digest({format:'saha-mapping-impact-v1',organisationId:s.organisation.id,integrationId:i.id,connectorVersion:i.version,currentMapping:i.mis?.mapping,currentProgrammes:i.programmes,currentCorrections:i.mis?.corrections,revisionHash:r.hash,selected,counts});
- return {hash,counts};
+ const hash=await digest({format:'saha-mapping-impact-v1',organisationId:s.organisation.id,integrationId:i.id,connectorVersion:i.version,currentMapping:i.mis?.mapping,currentProgrammes:i.programmes,currentCorrections:i.mis?.corrections,revisionHash:r.hash,selected,counts,...(fields?{fields,conformance}: {})});
+ return {hash,counts,...(fields?{fields,conformance}: {})};
 }
 async function applyMappingLifecycle(s:OrgState,i:Integration,c:any,u:Actor,m:Member){
  const existing=i.mis?.lifecycle;if((existing?.version??0)!==c.lifecycleVersion)fail(409,'Mapping lifecycle changed. Refresh first.');
@@ -132,7 +204,8 @@ async function applyMappingLifecycle(s:OrgState,i:Integration,c:any,u:Actor,m:Me
   if(l?.pendingId)fail(409,'Publish or cancel the pending revision first.');if((l?.revisions.length??0)>=50)fail(409,'Mapping history is full; retain it and use a bounded archive workflow.');
   let manifest:MappingManifest;
   if(c.type==='rollbackMisMapping'){const old=l?.revisions.find(r=>r.id===c.revisionId);if(!old||!old.manifest.mapping.length||!l?.events.some(e=>e.revisionId===old.id&&e.action==='apply')&&!old.baseline)fail(409,'Rollback must reference a previously applied mapping.');manifest={...structuredClone(old.manifest),effectiveAt:c.effectiveAt,rollbackOf:old.id};}
-  else manifest={mapping:c.mapping,programmes:c.programmes,corrections:c.corrections,source:c.source,terminology:c.terminology,effectiveAt:c.effectiveAt};
+  else manifest={mapping:c.mapping,programmes:c.programmes,corrections:c.corrections,source:c.source,terminology:c.terminology,effectiveAt:c.effectiveAt,...(c.conformance?{conformance:c.conformance}:{})};
+  validateMappingManifest(manifest,i.mis?.conformance,i.mis?.conformance?{mapping:i.mis.mapping,terminology:i.mis.terminology??[]}:undefined);
   if(manifest.terminology.some(t=>!manifest.mapping.some(x=>x.target===t.target)))fail(422,'Every terminology declaration must name a mapped destination field.');
   if(!l){const base:MappingManifest={mapping:structuredClone(i.mis?.mapping??[]),programmes:[...i.programmes],corrections:i.mis?.corrections??false,source:{reference:'legacy-unreviewed',version:'untracked'},terminology:[],effectiveAt:now};const baseline={id:uuid(),hash:await digest(base),manifest:base,createdAt:now,by:u.userId,baseline:true};l={version:0,currentId:baseline.id,revisions:[baseline],events:[]};}
   const revision={id:uuid(),hash:await digest(manifest),manifest,createdAt:now,by:u.userId};l.revisions.push(revision);l.pendingId=revision.id;l.events.push({action:'draft',revisionId:revision.id,at:now,by:u.userId});l.version++;
@@ -143,14 +216,15 @@ async function applyMappingLifecycle(s:OrgState,i:Integration,c:any,u:Actor,m:Me
  if(c.type==='cancelMisMapping'){l.events.push({action:'cancel',revisionId:r.id,at:now,by:u.userId});delete l.pendingId;l.version++;misAudit(s,u,m,c.type,i.id,'Pending mapping cancelled; manifest/history retained.');return {ok:true};}
  if(l.events.length>=200)fail(409,'Mapping review history is full. No evidence was discarded.');
  const impact=await mappingImpact(s,i,r);
- if(c.type==='impactMisMapping'){l.events.push({action:'impact',revisionId:r.id,at:now,by:u.userId,impactHash:impact.hash,counts:impact.counts});l.version++;misAudit(s,u,m,c.type,i.id,'Count-only mapping impact reviewed; no patient payloads returned or changed.');return {revisionId:r.id,impactHash:impact.hash,counts:impact.counts,lifecycleVersion:l.version};}
+ if(c.type==='impactMisMapping'){l.events.push({action:'impact',revisionId:r.id,at:now,by:u.userId,impactHash:impact.hash,counts:impact.counts,...(impact.fields?{fields:impact.fields,conformanceHash:impact.conformance!.hash,conformance:impact.conformance}:{})});l.version++;misAudit(s,u,m,c.type,i.id,'Count-only mapping impact reviewed; no patient payloads returned or changed.');return {revisionId:r.id,impactHash:impact.hash,counts:impact.counts,lifecycleVersion:l.version,...(impact.fields?{fields:impact.fields,conformance:impact.conformance}:{})};}
  if(impact.hash!==c.impactHash||!l.events.some(e=>e.action==='impact'&&e.revisionId===r.id&&e.impactHash===c.impactHash))fail(409,'Mapping impact changed or was not prepared. Refresh the dry-run first.');
+ if(impact.conformance&&(impact.conformance.failed||impact.conformance.uncovered.length))fail(409,'Conformance examples failed or leave mapped fields uncovered. Create a corrected draft.');
  if(impact.counts.deprecated||impact.counts.ambiguous)fail(409,'Resolve deprecated or ambiguous terminology in a new draft before review/publication.');
- if(c.type==='reviewMisMapping'){l.events.push({action:'review',revisionId:r.id,at:now,by:u.userId,impactHash:impact.hash,counts:impact.counts});l.version++;misAudit(s,u,m,c.type,i.id,'Owner reviewed the exact synthetic mapping/impact. Native clinical approval remains pending.');return {ok:true};}
+ if(c.type==='reviewMisMapping'){l.events.push({action:'review',revisionId:r.id,at:now,by:u.userId,impactHash:impact.hash,counts:impact.counts,...(impact.fields?{fields:impact.fields,conformanceHash:impact.conformance!.hash,conformance:impact.conformance}:{})});l.version++;misAudit(s,u,m,c.type,i.id,'Owner reviewed the exact synthetic mapping/impact. Native clinical approval remains pending.');return {ok:true};}
  if(c.type==='applyMisMapping'){
   if(Date.parse(r.manifest.effectiveAt)>Date.now())fail(409,'The mapping effective time has not arrived.');
   if(!l.events.some(e=>e.action==='review'&&e.revisionId===r.id&&e.impactHash===impact.hash&&s.members.some(m=>m.userId===e.by&&m.status==='active'&&m.isOwner)))fail(409,'Review this exact current impact before publication.');
-  i.mis={contract:'saha-mis-v1',mapping:structuredClone(r.manifest.mapping),corrections:r.manifest.corrections,lifecycle:l};i.programmes=[...r.manifest.programmes] as Integration['programmes'];i.status='suspended';i.version++;l.currentId=r.id;delete l.pendingId;l.version++;l.events.push({action:'apply',revisionId:r.id,at:now,by:u.userId,impactHash:impact.hash,counts:impact.counts,connectorVersion:i.version});misAudit(s,u,m,c.type,i.id,'Reviewed mapping published; connection suspended, prior unsent approvals stale. Stored delivery bodies, terminal receipts and lookup provenance retained.');return {ok:true,revisionId:r.id,connectorVersion:i.version};
+  i.mis={contract:'saha-mis-v1',mapping:structuredClone(r.manifest.mapping),corrections:r.manifest.corrections,lifecycle:l,...(r.manifest.conformance?{conformance:structuredClone(r.manifest.conformance),terminology:structuredClone(r.manifest.terminology)}:{})};i.programmes=[...r.manifest.programmes] as Integration['programmes'];i.status='suspended';i.version++;l.currentId=r.id;delete l.pendingId;l.version++;l.events.push({action:'apply',revisionId:r.id,at:now,by:u.userId,impactHash:impact.hash,counts:impact.counts,connectorVersion:i.version});misAudit(s,u,m,c.type,i.id,'Reviewed mapping published; connection suspended, prior unsent approvals stale. Stored delivery bodies, terminal receipts and lookup provenance retained.');return {ok:true,revisionId:r.id,connectorVersion:i.version};
  }
  return null;
 }
