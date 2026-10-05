@@ -19,6 +19,7 @@ const tmp = () => { const d = mkdtempSync(join(tmpdir(), 'saha-runner-')); made.
 const put = (root, file, text = '') => { mkdirSync(dirname(join(root, file)), { recursive: true }); writeFileSync(join(root, file), text); };
 /** The named files the catalogue insists on, so a fixture only has to add what a case is about. */
 const baseline = root => {
+  for (const {file} of buildCatalogue(process.cwd()).suites.filter(s => s.layer === 'manual')) put(root, file, '// registered manual-suite fixture\n');
   for (const f of ['tests/nfr/memory-profile.mjs', 'tests/nfr/memory-profile-ledger.mjs', 'tests/app-first-browser.mjs', 'tests/run-api-smoke.mjs', 'tests/recovery-drill.mjs', 'tests/a11y-audit.mjs', 'tests/load-envelope.mjs', 'tests/adapter-overhead-bench.mjs', 'tests/run-anaemia-http.mjs', 'tests/anaemia-ui.cjs', 'tests/anaemia-connected-worker.mjs', 'tests/anaemia-hosted-connection.mjs']) put(root, f, '// stub\n');
   put(root, 'tests/api-smoke.mjs', "await import('./one-smoke.mjs');\n"); put(root, 'tests/one-smoke.mjs', '// component\n');
 };
