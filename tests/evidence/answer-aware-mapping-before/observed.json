@@ -1,0 +1,264 @@
+{
+  "passed": 18,
+  "failed": 0,
+  "source": "61f8cadca2e1fb92c1d691774abbadb29be0ff2f",
+  "actualWorker": true,
+  "actualD1": true,
+  "externalCalls": 0,
+  "gap": "Supported confirmed Yes/No programme answers produce identical fixed weight wire fields; explicit answer selector is refused with no mapping mutation. Conservative holds remain.",
+  "wires": [
+    {
+      "answer": "Yes",
+      "fields": {
+        "weight_kg": "55"
+      },
+      "visitId": "e608f68c-d911-4763-a5ca-554395d4a921",
+      "version": 4,
+      "capture": {
+        "packs": [
+          {
+            "enrolmentId": "406943f0-6cfa-4be3-bf30-ffffa6ab7ba4",
+            "pack": {
+              "id": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "programme": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "questions": [
+                {
+                  "id": "weight",
+                  "label": "Weight",
+                  "unit": "kg",
+                  "fact": "weight",
+                  "required": true
+                },
+                {
+                  "id": "cough",
+                  "label": "Does the person report a cough?",
+                  "options": [
+                    "Yes",
+                    "No"
+                  ],
+                  "required": true
+                },
+                {
+                  "id": "coughDays",
+                  "label": "Cough duration, reported",
+                  "unit": "days",
+                  "fact": "coughDays",
+                  "when": {
+                    "id": "cough",
+                    "value": "Yes"
+                  },
+                  "required": true
+                },
+                {
+                  "id": "testing",
+                  "label": "Is a testing follow-up already arranged?",
+                  "options": [
+                    "Yes",
+                    "No"
+                  ],
+                  "required": true
+                }
+              ]
+            }
+          }
+        ],
+        "answers": {
+          "cough": "No",
+          "testing": "Yes"
+        },
+        "absence": {},
+        "savedBy": "t-d7a70347-answer-before-owner",
+        "savedAt": "2026-10-05T22:02:48.857Z"
+      }
+    },
+    {
+      "answer": "No",
+      "fields": {
+        "weight_kg": "55"
+      },
+      "visitId": "82f71d60-c8d2-44ff-b32b-f4054652a213",
+      "version": 4,
+      "capture": {
+        "packs": [
+          {
+            "enrolmentId": "406943f0-6cfa-4be3-bf30-ffffa6ab7ba4",
+            "pack": {
+              "id": "tb",
+              "version": 1,
+              "name": "TB screening",
+              "programme": "TB screening",
+              "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+              "questions": [
+                {
+                  "id": "weight",
+                  "label": "Weight",
+                  "unit": "kg",
+                  "fact": "weight",
+                  "required": true
+                },
+                {
+                  "id": "cough",
+                  "label": "Does the person report a cough?",
+                  "options": [
+                    "Yes",
+                    "No"
+                  ],
+                  "required": true
+                },
+                {
+                  "id": "coughDays",
+                  "label": "Cough duration, reported",
+                  "unit": "days",
+                  "fact": "coughDays",
+                  "when": {
+                    "id": "cough",
+                    "value": "Yes"
+                  },
+                  "required": true
+                },
+                {
+                  "id": "testing",
+                  "label": "Is a testing follow-up already arranged?",
+                  "options": [
+                    "Yes",
+                    "No"
+                  ],
+                  "required": true
+                }
+              ]
+            }
+          }
+        ],
+        "answers": {
+          "cough": "No",
+          "testing": "No"
+        },
+        "absence": {},
+        "savedBy": "t-d7a70347-answer-before-owner",
+        "savedAt": "2026-10-05T22:02:48.915Z"
+      }
+    }
+  ],
+  "responses": [
+    {
+      "type": "registerIntegration",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "configureMis",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "createPerson",
+      "status": 200,
+      "result": {
+        "personId": "71b253e3-f9c9-4586-817a-ca4d8123aeb6"
+      }
+    },
+    {
+      "type": "enrolProgramme",
+      "status": 200,
+      "result": {
+        "enrolmentId": "406943f0-6cfa-4be3-bf30-ffffa6ab7ba4"
+      }
+    },
+    {
+      "type": "startVisit",
+      "status": 200,
+      "result": {
+        "visitId": "e608f68c-d911-4763-a5ca-554395d4a921"
+      }
+    },
+    {
+      "type": "saveVisit",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "saveProgrammeAnswers",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "confirmVisit",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "setConsent",
+      "status": 200,
+      "result": {
+        "eventId": "b4d10804-e34b-45e0-86d4-0c4cb2a0fd89",
+        "purpose": "exchange",
+        "action": "granted",
+        "version": 2,
+        "items": 0,
+        "stopped": 0,
+        "inFlight": 0,
+        "alreadySent": 0
+      }
+    },
+    {
+      "type": "preparePlan",
+      "status": 200,
+      "result": {
+        "planId": "bb172a20-0b34-43ae-878c-129705d4008f"
+      }
+    },
+    {
+      "type": "startVisit",
+      "status": 200,
+      "result": {
+        "visitId": "82f71d60-c8d2-44ff-b32b-f4054652a213"
+      }
+    },
+    {
+      "type": "saveVisit",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "saveProgrammeAnswers",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "confirmVisit",
+      "status": 200,
+      "result": {
+        "ok": true
+      }
+    },
+    {
+      "type": "preparePlan",
+      "status": 200,
+      "result": {
+        "planId": "3060aa02-3e91-4f39-9295-0d2697365f80"
+      }
+    },
+    {
+      "type": "draftMisMapping",
+      "status": 422,
+      "error": "Invalid enum value. Expected 'terminologyCode' | 'weightSource' | 'weightObservedAt' | 'weightUnit' | 'temperatureSource' | 'temperatureObservedAt' | 'temperatureUnit' | 'systolicSource' | 'systolicObservedAt' | 'systolicUnit' | 'diastolicSource' | 'diastolicObservedAt' | 'diastolicUnit' | 'weeksSource' | 'weeksObservedAt' | 'weeksUnit' | 'coughDaysSource' | 'coughDaysObservedAt' | 'coughDaysUnit' | 'personId' | 'visitId' | 'date' | 'source' | 'systolic' | 'diastolic' | 'weight' | 'temperature' | 'weeks' | 'coughDays' | 'notes', received 'programmeAnswer'"
+    }
+  ]
+}
