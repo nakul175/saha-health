@@ -1,0 +1,46 @@
+{
+  "base": "6308e1c38cc4c8a48ed78c2953e59055876bc878",
+  "runtimeFiles": [
+    "lib/saha/operations.ts",
+    "lib/saha/operational-disclosure.ts"
+  ],
+  "drivers": [
+    "tests/transition-operational-count-repair-http.mjs",
+    "tests/transition-operational-count-repair-contract.mjs",
+    "tests/transition-operational-count-privacy-http.mjs",
+    "tests/transition-operational-count-privacy-contract.mjs"
+  ],
+  "checks": {
+    "actualParity": 68,
+    "transitionFunction": 49,
+    "privacyContract": 41,
+    "actualPrivacy": 79
+  },
+  "countsOverlap": true,
+  "sha256": {
+    "docs/current/TRANSITION-OPERATIONAL-COUNT-REPAIR.md": "89ba404dca6b13c3c3767345cf06cdf604d84577be7f33ce6ed2e95790d33508",
+    "lib/saha/operational-disclosure.ts": "e6db789b5f7b3c17ae6250052b64f20240c90c956b62c338efdb7b7d3c4ea329",
+    "lib/saha/operations.ts": "5ab819fd1bfc7eb9453832309ce49921a8567dacd4058f4e060015855646b46c",
+    "tests/evidence/transition-operational-count-repair/contract-after-date-fixture.log": "e3b4be2bebf5be4c30833b10a0ab5f02bf9258432020f7d9772a1820efadaf15",
+    "tests/evidence/transition-operational-count-repair/contract.log": "bc7b820f1291d9424f3f41e9e6fdb5cf2efbf535ffa11b333f0f47fa469d993e",
+    "tests/evidence/transition-operational-count-repair/contract/result.json": "6568c7973d77c3efbd39b0d6f9db7c7b60618feb5c2ef97a77a275753b0a8493",
+    "tests/evidence/transition-operational-count-repair/privacy-contract.log": "1d4ddb4740064e20bc18ce15cd4bdbed05923948bb9c4d9484fe827a1103f88a",
+    "tests/evidence/transition-operational-count-repair/privacy-contract/contract-result.json": "506833312c268c2715a570eb87205d5956c342c69f15cd194b78051a303eb089",
+    "tests/evidence/transition-operational-count-repair/privacy.log": "325871aee2e39457ab6be698cf6339cba0f7fc2fd6b5ad1e2c4d82cbd591bb04",
+    "tests/evidence/transition-operational-count-repair/privacy/observed.json": "2a8ef8df27c12621235fcae548101272346626f2496c07aa31a8694b9c37c422",
+    "tests/evidence/transition-operational-count-repair/privacy/result.json": "f0d289abf3b658652c5ed993e6cd227c1519493aa1b2c7c3b1fd5211547183e6",
+    "tests/evidence/transition-operational-count-repair/privacy/small-indicator-contrast.json": "305032759aa2592cb8339c84a6252bfc23a2a716ec7d2c95cf9cc8cf785a4fd1",
+    "tests/evidence/transition-operational-parity/actual-after-forged-legacy.log": "21057d11750ae9cef7da2bf95aab523f2b6ebb94cc39667d39f7dd86dc4969a1",
+    "tests/evidence/transition-operational-parity/actual-after-forged-observation.log": "238b1fdd72ddf9831ffadfbfaa0e9b68b6947d11cff9dcac41dfa5afb6763301",
+    "tests/evidence/transition-operational-parity/actual-after-task-count-fixture.log": "f21525987720dce5cb53582dc428a9d576bebcb4b99291063447365e58ef8bec",
+    "tests/evidence/transition-operational-parity/actual-after.log": "106ec7a3138e695f7e217da0e75fa4fa6258676c2a7f67f49529671953fab572",
+    "tests/evidence/transition-operational-parity/after/forged-observation.json": "13e365d087dc49b5ba62b03f6b9eeb38bfbe670e0a46841e7e6ad1ecc77753a2",
+    "tests/evidence/transition-operational-parity/after/observed.json": "b5390e6bcf19aade11a1171c3fdf14bb5779014a5b7b301d81e3817c8082301a",
+    "tests/evidence/transition-operational-parity/build-after.log": "e9d53f22f168ce37bd58b78445727c3ecc1d59b542ee0c4096d5a472c59080cc",
+    "tests/evidence/transition-operational-parity/types-after.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/transition-operational-count-privacy-contract.mjs": "9fc466f4be43bb54a8bc82c1cb515f19d853c1142c03f177bfb8a2f910ee8d4a",
+    "tests/transition-operational-count-privacy-http.mjs": "a28003ab1c9206e5c2507071c1904664e07bf4f2385ea143fbb0c7fc3eaee2d3",
+    "tests/transition-operational-count-repair-contract.mjs": "5646989b350fc0e1747dda77af5def8abb87c6bdc0c48832ad77ca128d1d7042",
+    "tests/transition-operational-count-repair-http.mjs": "8d5a9ffade56cc5d2bfb7cd72f26b6b5a4b0e07a7ca873b0b433db16a446f272"
+  }
+}
