@@ -1,0 +1,142 @@
+{
+  "source": "c2b918b71c681cc9612401226dc2efe4b3c3a3a5",
+  "date": "2026-10-05T04:20:51.071Z",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "nodeVersion": "v24.19.0",
+  "workerdVersion": "1.20260515.1",
+  "miniflareVersion": "4.20260515.0",
+  "inspector": false,
+  "forcedGc": false,
+  "snapshots": false,
+  "heapFlags": false,
+  "loads": 500,
+  "concurrency": 4,
+  "heapCommand": [
+    "/usr/bin/heap",
+    "--addresses=workerd::DeleteQueue",
+    "--noContent",
+    "owned workerd PID"
+  ],
+  "cases": [
+    {
+      "name": "saha-workspace",
+      "phases": [
+        {
+          "phase": "warm100",
+          "completedLoads": 100,
+          "rssBeforeKb": 187520,
+          "rssAfterKb": 187520,
+          "scanDurationMs": 667,
+          "deleteQueueCount": 2290,
+          "deleteQueueAllocationBytes": 732800,
+          "physicalFootprint": "129.5M",
+          "totalMallocNodes": 213459,
+          "mallocSizeDistribution": "All zones: 213459 nodes malloced - Sizes: 3984KB[1] 352KB[1] 144KB[2] 112KB[3] 96KB[5] 80KB[24] 64KB[36] 48KB[39] 32KB[25] 28KB[1] 24KB[4] 20KB[28] 16KB[2] 14KB[1] 12KB[8] 10KB[474] 8KB[63] 7KB[24] 6KB[5] 5KB[351] 4KB[130] 3.5KB[3] 3KB[46] 2.5KB[4] 2KB[162] 1.75KB[12] 1.5KB[60] 1.25KB[57] 1KB[5372] 896[73] 768[130] 640[361] 512[94] 448[5071] 384[183] 320[5029] 256[210] 224[664] 192[6265] 160[17609] 128[12214] 112[10777] 96[29855] 80[8846] 64[26171] 48[15159] 32[41012] 16[26793] "
+        },
+        {
+          "phase": "total250",
+          "completedLoads": 250,
+          "rssBeforeKb": 297840,
+          "rssAfterKb": 297840,
+          "scanDurationMs": 653,
+          "deleteQueueCount": 5619,
+          "deleteQueueAllocationBytes": 1798080,
+          "physicalFootprint": "223.2M",
+          "totalMallocNodes": 292554,
+          "mallocSizeDistribution": "All zones: 292554 nodes malloced - Sizes: 3984KB[1] 352KB[1] 192KB[9] 144KB[2] 128KB[2] 96KB[5] 80KB[23] 64KB[36] 48KB[37] 32KB[13] 28KB[1] 24KB[7] 20KB[34] 16KB[5] 14KB[1] 12KB[14] 10KB[848] 8KB[72] 7KB[24] 6KB[5] 5KB[539] 4KB[140] 3.5KB[4] 3KB[45] 2.5KB[3] 2KB[164] 1.75KB[11] 1.5KB[64] 1.25KB[57] 1KB[6387] 896[86] 768[130] 640[368] 512[97] 448[6066] 384[188] 320[8496] 256[225] 224[863] 192[9737] 160[26111] 128[18410] 112[18914] 96[40933] 80[13566] 64[32393] 48[20941] 32[51560] 16[34916] "
+        },
+        {
+          "phase": "total500",
+          "completedLoads": 500,
+          "rssBeforeKb": 372672,
+          "rssAfterKb": 372672,
+          "scanDurationMs": 760,
+          "deleteQueueCount": 4136,
+          "deleteQueueAllocationBytes": 1323520,
+          "physicalFootprint": "285.3M",
+          "totalMallocNodes": 371447,
+          "mallocSizeDistribution": "All zones: 371447 nodes malloced - Sizes: 3984KB[1] 352KB[1] 256KB[1] 192KB[9] 144KB[2] 128KB[3] 96KB[5] 80KB[24] 64KB[34] 48KB[37] 32KB[28] 28KB[1] 24KB[7] 20KB[53] 16KB[6] 14KB[1] 12KB[16] 10KB[1077] 8KB[73] 7KB[24] 6KB[5] 5KB[813] 4KB[245] 3.5KB[4] 3KB[45] 2.5KB[3] 2KB[164] 1.75KB[12] 1.5KB[64] 1.25KB[57] 1KB[9493] 896[69] 768[129] 640[381] 512[183] 448[8667] 384[190] 320[7220] 256[237] 224[1396] 192[14004] 160[30656] 128[23167] 112[26674] 96[50441] 80[13640] 64[45014] 48[23152] 32[71618] 16[42301] "
+        },
+        {
+          "phase": "idle20s",
+          "completedLoads": 500,
+          "rssBeforeKb": 372656,
+          "rssAfterKb": 372656,
+          "scanDurationMs": 729,
+          "deleteQueueCount": 4136,
+          "deleteQueueAllocationBytes": 1323520,
+          "physicalFootprint": "284.7M",
+          "totalMallocNodes": 367076,
+          "mallocSizeDistribution": "All zones: 367076 nodes malloced - Sizes: 3984KB[1] 352KB[1] 256KB[1] 192KB[9] 144KB[2] 128KB[3] 96KB[4] 80KB[24] 64KB[34] 48KB[36] 32KB[28] 28KB[1] 24KB[7] 20KB[53] 16KB[5] 14KB[1] 12KB[16] 10KB[1075] 8KB[71] 7KB[23] 6KB[2] 5KB[628] 4KB[231] 3.5KB[1] 3KB[43] 2.5KB[2] 2KB[158] 1.75KB[9] 1.5KB[60] 1.25KB[49] 1KB[9353] 896[57] 768[123] 640[375] 512[175] 448[8660] 384[119] 320[7206] 256[234] 224[1303] 192[13941] 160[30648] 128[23136] 112[26573] 96[50422] 80[13591] 64[44863] 48[21655] 32[70976] 16[41088] "
+        }
+      ],
+      "successfulLoads": 500,
+      "completed": true
+    },
+    {
+      "name": "inline-d1-read-batch",
+      "phases": [
+        {
+          "phase": "warm100",
+          "completedLoads": 100,
+          "rssBeforeKb": 92880,
+          "rssAfterKb": 92880,
+          "scanDurationMs": 728,
+          "deleteQueueCount": 1069,
+          "deleteQueueAllocationBytes": 342080,
+          "physicalFootprint": "46.8M",
+          "totalMallocNodes": 97332,
+          "mallocSizeDistribution": "All zones: 97332 nodes malloced - Sizes: 352KB[1] 144KB[5] 96KB[4] 80KB[15] 64KB[22] 48KB[23] 32KB[20] 28KB[1] 24KB[3] 20KB[12] 12KB[1] 10KB[186] 8KB[48] 7KB[15] 5KB[131] 4KB[53] 3.5KB[1] 3KB[1] 2.5KB[1] 2KB[622] 1.75KB[10] 1.5KB[53] 1.25KB[42] 1KB[1516] 896[45] 768[85] 640[329] 512[52] 448[1445] 384[95] 320[3145] 256[152] 224[47] 192[2151] 160[5114] 128[3577] 112[3571] 96[13226] 80[2703] 64[12069] 48[7854] 32[13226] 16[25660] "
+        },
+        {
+          "phase": "total250",
+          "completedLoads": 250,
+          "rssBeforeKb": 108272,
+          "rssAfterKb": 108272,
+          "scanDurationMs": 653,
+          "deleteQueueCount": 1484,
+          "deleteQueueAllocationBytes": 474880,
+          "physicalFootprint": "59.3M",
+          "totalMallocNodes": 128568,
+          "mallocSizeDistribution": "All zones: 128568 nodes malloced - Sizes: 352KB[1] 144KB[1] 96KB[4] 80KB[15] 64KB[23] 48KB[23] 32KB[21] 24KB[4] 20KB[15] 16KB[1] 12KB[1] 10KB[241] 8KB[53] 7KB[15] 5KB[171] 4KB[55] 3.5KB[1] 3KB[1] 2.5KB[1] 2KB[620] 1.75KB[10] 1.5KB[54] 1.25KB[43] 1KB[2567] 896[46] 768[85] 640[328] 512[51] 448[2494] 384[94] 320[3558] 256[153] 224[48] 192[3795] 160[8550] 128[4716] 112[5587] 96[16954] 80[3442] 64[16047] 48[8924] 32[18473] 16[31282] "
+        },
+        {
+          "phase": "total500",
+          "completedLoads": 500,
+          "rssBeforeKb": 124864,
+          "rssAfterKb": 124864,
+          "scanDurationMs": 612,
+          "deleteQueueCount": 2009,
+          "deleteQueueAllocationBytes": 642880,
+          "physicalFootprint": "74.1M",
+          "totalMallocNodes": 129068,
+          "mallocSizeDistribution": "All zones: 129068 nodes malloced - Sizes: 352KB[1] 144KB[3] 96KB[4] 80KB[15] 64KB[25] 48KB[24] 32KB[32] 24KB[3] 20KB[16] 16KB[1] 12KB[1] 10KB[302] 8KB[55] 7KB[15] 5KB[207] 4KB[57] 3.5KB[1] 3KB[1] 2.5KB[2] 2KB[621] 1.75KB[10] 1.5KB[53] 1.25KB[44] 1KB[2305] 896[46] 768[86] 640[327] 512[53] 448[2248] 384[93] 320[4081] 256[153] 224[50] 192[3944] 160[9112] 128[5376] 112[7012] 96[18361] 80[4000] 64[14789] 48[8985] 32[17375] 16[29179] "
+        },
+        {
+          "phase": "idle20s",
+          "completedLoads": 500,
+          "rssBeforeKb": 124832,
+          "rssAfterKb": 124832,
+          "scanDurationMs": 572,
+          "deleteQueueCount": 2009,
+          "deleteQueueAllocationBytes": 642880,
+          "physicalFootprint": "73.8M",
+          "totalMallocNodes": 128352,
+          "mallocSizeDistribution": "All zones: 128352 nodes malloced - Sizes: 352KB[1] 144KB[3] 96KB[3] 80KB[15] 64KB[25] 48KB[23] 32KB[32] 24KB[3] 20KB[16] 16KB[1] 12KB[1] 10KB[302] 8KB[55] 7KB[15] 5KB[189] 4KB[52] 3KB[1] 2.5KB[2] 2KB[620] 1.75KB[9] 1.5KB[53] 1.25KB[39] 1KB[2208] 896[43] 768[85] 640[326] 512[47] 448[2247] 384[76] 320[4070] 256[152] 224[37] 192[3938] 160[9111] 128[5362] 112[6995] 96[18355] 80[3987] 64[14772] 48[8769] 32[17282] 16[29030] "
+        }
+      ],
+      "successfulLoads": 500,
+      "queriesPerLoad": 23,
+      "rowsPerLoad": 250,
+      "completed": true
+    }
+  ],
+  "limits": [
+    "Native heap scans pause the owned process and may alter timing; they do not attach a V8 inspector or request collection.",
+    "DeleteQueue count is a native request-graph proxy, not aggregate byte attribution, JS liveness, or per-isolate ownership.",
+    "Application and D1 control differ in isolate count and work; neither proves the upstream issue is the sole cause.",
+    "Only synthetic local macOS runtime is measured; O-2 plateau and hosted memory acceptance remain open."
+  ],
+  "completed": true
+}
