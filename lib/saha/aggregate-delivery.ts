@@ -137,7 +137,7 @@ const aggregateEnvelopeSchema=z.object({contract:z.literal(AGGREGATE_CONTRACT),e
 export async function assertAggregateEnvelope(body:any,key:string){
  if(body?.operation==='lookup'){if(!z.object({contract:z.literal(AGGREGATE_CONTRACT),operation:z.literal('lookup'),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/)}).strict().safeParse(body).success)fail(409,'Aggregate receipt lookup differs from its metadata-only contract.');return;}
  if(bytesOf(body)>PAYLOAD_BYTES||!aggregateEnvelopeSchema.safeParse(body).success||body.report.id!==key)fail(409,'Aggregate envelope differs from its approved contract; review and prepare a fresh report.');
- if(body.manifest.rows!==body.blocks.reduce((n:number,b:any)=>n+b.cells.length,0)||await sha256Hex(canonical({report:body.report,definitions:body.manifest.definitions,blocks:body.blocks}))!==body.manifest.sha256)fail(409,'Aggregate envelope differs from its approved digest; nothing was sent.');
+ if(!minimisationCheck(body,{workspace:{people:[],visits:[]}} as unknown as OrgState,'checkpoint',new Date().toISOString()).passed)fail(409,'Aggregate cells differ from the suppression contract; nothing was sent.');if(body.manifest.rows!==body.blocks.reduce((n:number,b:any)=>n+b.cells.length,0)||await sha256Hex(canonical({report:body.report,definitions:body.manifest.definitions,blocks:body.blocks}))!==body.manifest.sha256)fail(409,'Aggregate envelope differs from its approved digest; nothing was sent.');
 }
 // ---- payload minimisation (BR-INT-09) ----
 const ALLOWED_KEYS=new Set(['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','numerator','denominator','suppressed']);
@@ -148,13 +148,13 @@ export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationC
  const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase();const problems:string[]=[],ids=new Set<string>();let fields=0,cells=0;
  for(const p of s.workspace.people??[]){for(const v of [p.id,p.name,p.abha?.number,p.abha?.address,...(p.identifiers??[]).map(x=>x.value)])if(typeof v==='string'&&v.trim().length>=3)ids.add(normalize(v));}
  for(const v of s.workspace.visits??[])ids.add(normalize(v.id));
- const walk=(x:unknown,path:string)=>{
-  if(Array.isArray(x)){x.forEach((y,i)=>walk(y,`${path}[${i}]`));return;}
-  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');walk(v,path?`${path}.${k}`:k);}return;}
+ const walk=(x:unknown,path:string,depth=0)=>{if(depth>20){problems.push('Aggregate nesting exceeds the mapped contract.');return;}
+  if(Array.isArray(x)){x.forEach((y,i)=>walk(y,`${path}[${i}]`,depth+1));return;}
+  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');walk(v,path?`${path}.${k}`:k,depth+1);}return;}
   if(typeof x==='string'&&ids.has(normalize(x)))problems.push('A value matches a patient identifier, name or ABHA number.');
  };
  walk(payload,'');if(!aggregateEnvelopeSchema.safeParse(payload).success)problems.push('Aggregate envelope differs from its mapped path contract.');
- for(const b of ((payload as any)?.blocks??[]) as any[])for(const c of (b?.cells??[]) as any[]){cells++;
+ for(const b of (Array.isArray((payload as any)?.blocks)?(payload as any).blocks:[]) as any[])for(const c of (Array.isArray(b?.cells)?b.cells:[]) as any[]){cells++;
   if(c?.suppressed){if([c.value,c.numerator,c.denominator].some(v=>v!==null))problems.push('A suppressed cell carries a value.');continue;}
   const parts=[c?.numerator,c?.denominator,b?.unit==='count'?c?.value:null,b?.unit==='proportion'&&typeof c?.denominator==='number'&&typeof c?.numerator==='number'?c.denominator-c.numerator:null];
   if(parts.some(small))problems.push(`A released cell is below the suppression threshold of ${MIN_CELL}.`);}
