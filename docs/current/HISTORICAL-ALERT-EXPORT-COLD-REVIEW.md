@@ -1,0 +1,15 @@
+# Historical clinical alert export independent review
+
+Exact frozen repair `9f607e5b1c4631b22d74233532a081e5b5e37310` was cold-built and checked with no runtime edits. Immutable original before119da624 and supplemental7077 artifacts remain unchanged; every author manifest pin and original driver pin verifies.
+
+Bounded clearance: fresh build/types and 17 original8eed legacy setup +281 actual retained-history current checks +44 data-exit +44 media-data-exit contracts repeat using owned outputs/state. The legacy runtime was read-only; fresh synthetic D1 history was created under this review tree and retained across the repaired Worker. Additional71 actual native/archived-value checks pass. These457 assertions overlap and are not full B28 or full-suite acceptance.
+
+The ordinary no-store tar excludes the fixed uncertified historical clinical occurrence, notification and simulated-message records before row/withheld/other-member/column/note derivation. Their exact linked audit content is exported only as chain-position/content digests. Original server historical rows, confirmed clinical rows, nonclinical incident records and their audit content are unchanged. Archive checksums, relationships and audit chain validate, including restored exports after denied races.
+
+An independent recursive scan inspected58 archive text/JSON/JSONL files and2,656 values, including embedded JSON strings, for protected clinical alert record references/body/title and raw linked audit subjects. No classified clinical body/count/timing record was exported. Nonclinical historical rows and configured notification-kind identifiers intentionally remain; identifiers representing configuration are not certified historical counts.
+
+Native BEFORE organisationExport audit insertion moves the included patient out of normal care scope after archive reads:403 and no tar. Native AFTER export audit changes the current owner role:409 and no tar. Durable export audit storage failure:503 with no accepted export event or archive. Controlled explicit restoration permits a new valid tar; exact confirmed source rows remain unchanged. Original author late-suspension403 and former-owner care-only plan200/export403 checks also repeat. No public purpose/authority is inferred from fixture input.
+
+The first independent attempt used a newly process-random controller identity instead of the retained joined controller and correctly got403. Its driver/log are preserved. The corrected test takes the exact already-supported joined synthetic controller identity from the retained local fixture; it does not fabricate membership or change production authority.
+
+Limits remain open: digest-only audit positions/event cardinality, existing patient total/withheld metadata, unidentified historical alert families, governed protected reconstruction and full reporting/privacy scope. No claim of zero historical side channels, revoked copied downloads, clinical/device/formal acceptance or provider delivery. No canonical/shared metadata or application changes.
