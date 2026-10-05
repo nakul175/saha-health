@@ -1,3 +1,4 @@
+import { planContactReversal } from './contact-import';
 import { db, identity, loadFor, json, rawRuntime } from './server';
 import { fail, uuid } from './core';
 import { scope } from './store';
@@ -20,7 +21,7 @@ async function body(request:Request){
  return {input,env:e.name};
 }
 export async function recordImportDryRun(request:Request){
- const u=await identity(),{input,env}=await body(request);const parsed=recordImportInput.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid import.');
+ const u=await identity(),{input,env}=await body(request);const reversal=z.object({kind:z.literal('contacts-reversal'),batchId:z.string().min(1).max(100)}).strict().safeParse(input);if(reversal.success){const s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);return json(await planContactReversal(s,m,reversal.data.batchId,env));}const parsed=recordImportInput.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid import.');
  const s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);
  return json({...publicRecordPlan(await planRecordImport(s,m,parsed.data!.kind,parsed.data!.csv,env)),generatedAt:new Date().toISOString()});
 }

@@ -1,0 +1,22 @@
+{
+  "passed": 14,
+  "failed": 0,
+  "checks": [
+    "contact dry run is read-only and returns counts/ids without source or contact values",
+    "apply stores source/batch/file lineage, never grants permission or creates messages",
+    "body-bound receipt replay creates no second contact source entry or audit",
+    "existing contact preferences are not overwritten",
+    "mixed rejected destination, duplicate and foreign rows remain neutral without raw values",
+    "altered file and changed patient refuse reviewed apply",
+    "audit insertion failure rolls back contact preferences, source ledger, revisions and receipt",
+    "fresh scope withdrawal blocks dry run, apply replay and reversal for owner",
+    "changed contact preferences block batch reversal without overwriting current choices",
+    "receipt insertion failure atomically rolls back reversal source withdrawals and preferences",
+    "reviewed reversal clears unchanged contacts, preserves original source snapshots and clinical records",
+    "390px phone touch imports through normal dry-run and reviewed apply controls",
+    "390px phone touch recovers saved batch after reload and reverses unchanged contact retaining source lineage",
+    "actual data exit roundtrip retains imported contacts and withdrawal source lineage"
+  ],
+  "completedAt": "2026-10-05T07:46:02.791Z",
+  "limits": "Actual local synthetic Worker/D1 and390px Chromium touch. No live destination, physical device, issuer verification or clinical acceptance."
+}
