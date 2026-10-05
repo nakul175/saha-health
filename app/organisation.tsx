@@ -1,4 +1,5 @@
 'use client';
+import {InstalledPackTransitionPanel} from './installed-pack-transition-panel';
 import {InstalledPackWorkPanel} from './installed-pack-work-panel';
 import { useEffect, useState } from 'react';
 import { Building2, Check, Copy, Plus, ShieldCheck, Users, UserPlus } from 'lucide-react';
@@ -59,7 +60,7 @@ export function OrganisationPanel({data,busy,command}:{data:Snapshot;busy:boolea
  <NotificationChannelPanel data={data} busy={busy} command={command}/>
  <FixtureMigrationPanel data={data} busy={busy} command={command}/>
  <ProgrammeMigrationPanel data={data} busy={busy} command={command}/>
- <PackInstallationPanel data={data} busy={busy} command={command}/><InstalledPackWorkPanel data={data} blocked={busy}/>
+ <PackInstallationPanel data={data} busy={busy} command={command}/><InstalledPackWorkPanel data={data} blocked={busy}/><InstalledPackTransitionPanel data={data} blocked={busy}/>
  <PatientImportPanel data={data} busy={busy} command={command}/>
  <RecordImportPanel data={data} busy={busy} command={command}/>
  {data.migration&&<div className="migration-note"><Check size={17}/><p>Existing records retained: {data.migration.counts.people} people, {data.migration.counts.visits} visits and {data.migration.counts.submissions} programme receipts when this workspace moved to structured records. Earlier activity is preserved.</p></div>}

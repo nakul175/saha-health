@@ -1,0 +1,29 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+
+Caught error:
+
+Error: Original transition cohort is unavailable.
+    at async deny (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-transitions/tests/programme-transitions-contract.mjs:2:234)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-transitions/tests/programme-transitions-contract.mjs:23:210 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: AppError: Original transition cohort is unavailable.
+      at fail (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-transitions/.transition-contract-VpTBfM/core.js:14:47)
+      at Module.transitionPlan (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-transitions/.transition-contract-VpTBfM/installed-pack-transition.js:34:13)
+      at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-transitions/tests/programme-transitions-contract.mjs:23:227
+      at waitForActual (node:assert:632:21)
+      at strict.rejects (node:assert:769:31)
+      at deny (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-transitions/tests/programme-transitions-contract.mjs:2:247)
+      at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-transitions/tests/programme-transitions-contract.mjs:23:216 {
+    status: 403
+  },
+  expected: [Function (anonymous)],
+  operator: 'rejects',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

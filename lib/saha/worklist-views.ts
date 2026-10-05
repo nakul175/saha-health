@@ -33,7 +33,7 @@ export type WorkStats = ReturnType<typeof workStats>;
 // Open programme follow-ups by due date, grouped by person in order of each person's earliest open task.
 export type FollowUpGroup<P> = { person: P; tasks: FollowUp[] };
 export function followUpGroups<P extends Pick<Person, 'id' | 'followUps'>>(people: P[]) {
-  const rows = people.flatMap(p => (p.followUps ?? []).filter(t => t.state === 'open').map(t => ({ p, t })))
+  const rows = people.flatMap(p => (p.followUps ?? []).filter(t => t.state === 'open' && (t as any).transitionStatus!=='superseded').map(t => ({ p, t })))
     .sort((a, b) => a.t.due.localeCompare(b.t.due) || byIdAsc(a.p.id, b.p.id));
   const groups = new Map<string, FollowUpGroup<P>>();
   for (const { p, t } of rows) { const g = groups.get(p.id); if (g) g.tasks.push(t); else groups.set(p.id, { person: p, tasks: [t] }); }
