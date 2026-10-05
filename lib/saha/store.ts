@@ -165,13 +165,20 @@ export function appendCommandAuthority(rows:Row[],before:OrgState,uses:readonly 
 }
 // Slice 6j: a commit that loses the audit-chain race is rebuilt on the new head this many times.
 export const CHAIN_ATTEMPTS=6;
-export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[]},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
+export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[];taskId?:string;parentId?:string;kind?:string;visitId?:string},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
  if(before.readOnlyFor)throw new Error('A viewer-scoped read cannot be persisted.');
  const orgId=before.organisation.id,now=new Date().toISOString();const rows=rowsForState(after,before,actor,command.type,command.reason??'',now);
  const actionEvent=after.workspace.audit.find(a=>!before.workspace.audit.some(b=>b.id===a.id));const patientId=actionEvent?.personId??after.workspace.people.find(p=>p.id===actionEvent?.subject)?.id??after.workspace.visits.find(v=>v.id===actionEvent?.subject)?.personId??after.workspace.visits.find(v=>v.id===result?.visitId)?.personId??null;
  // Slice 6t: an access-audit commit appends audit events only: no command receipt (a read is not replayed).
  const access=command.type===ACCESS_AUDIT;
- if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true));rows.push(...extraRows);
+ // Only an unambiguous newly appended initiating-member event proves mutation
+ // linkage. Existing/imported/system/helper histories are never reconstructed.
+ const initiating=after.workspace.audit.filter(a=>!before.workspace.audit.some(b=>b.id===a.id)&&a.action===command.type&&(a.actorId??actor.userId)===actor.userId&&a.role===before.members.find(m=>m.userId===actor.userId)?.role);
+ const provenance=initiating.length===1?initiating[0]:null;
+ const programmeVisit=command.type==='saveProgrammeAnswers'&&command.visitId?after.workspace.visits.find(v=>v.id===command.visitId):null;
+ const programmeContext=provenance&&programmeVisit&&provenance.subject===programmeVisit.personId&&provenance.personId===programmeVisit.personId?{visitId:programmeVisit.id}:null;
+ const taskContext=provenance&&['assignReconciliationTask','acknowledgeReconciliationTask','closeCorrectionTask'].includes(command.type)&&command.taskId?{taskId:command.taskId,parentId:command.parentId??provenance.subject,kind:command.kind??'correction'}:null;
+ if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now,command_type:command.type,mutation_subject_id:provenance?.subject??null,mutation_event_id:provenance?.id??null,mutation_context:taskContext?j(taskContext):programmeContext?j(programmeContext):null},['actor_id','key'],true));rows.push(...extraRows);
  if(!access)appendCommandAuthority(rows,before,command.authorityDelegations??after.delegationUsed,'pre-mutation',actor.userId);
  const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
  if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events'&&!ACCESS_SIDE_TABLES.has(r.table))||!rows.length))throw new Error('An access-audit commit may only append audit events.');
@@ -327,7 +334,8 @@ export async function persistBurdenCounter(db:D1Database,state:OrgState,actor:Ac
  appendCommandAuthority(rows,state,[],'pre-mutation',actor.userId);
  for(let attempt=1;;attempt++){
   const token=uuid(),chain=await linkRows(db,orgId,rows,now);
-  const head=db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status='active' AND role=? AND version=? AND role IN ('asha','clinician')) AND EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.workBurden.enabled')=1 AND json_extract(data,'$.workBurden.version')=?) AND NOT EXISTS (SELECT 1 FROM command_receipts WHERE actor_id=? AND key=?)`).bind(token,orgId,orgId,actor.userId,member.role,member.version,orgId,config.version,actor.userId,receiptKey);
+  const roles=code.startsWith('reconciliation-')?"'asha','clinician','supervisor'":"'asha','clinician'";
+  const head=db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status='active' AND role=? AND version=? AND role IN (${roles})) AND EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.workBurden.enabled')=1 AND json_extract(data,'$.workBurden.version')=?) AND NOT EXISTS (SELECT 1 FROM command_receipts WHERE actor_id=? AND key=?)`).bind(token,orgId,orgId,actor.userId,member.role,member.version,orgId,config.version,actor.userId,receiptKey);
   const metric=db.prepare(`INSERT INTO request_metrics (org_id,bucket,route,status,count,total_ms,max_ms) SELECT ?,?,?,0,1,0,0 WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?) ON CONFLICT(org_id,bucket,route,status) DO UPDATE SET count=count+1`).bind(orgId,bucket,'burden:'+code,orgId,token);
   let saved;try{saved=await db.batch([head,metric,...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)]);}catch(e){if(await prior())return {recorded:false,replayed:true};if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}fail(409,'Measurement contention; keep the same event key for retry.');}
   if(saved[0].meta.changes===1)return {recorded:true,replayed:false};

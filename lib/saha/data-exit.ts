@@ -47,6 +47,8 @@ export const TABLES: TableSpec[] = [
   { table: 'retention', order: 'org_id', scope: 'org' },
   { table: 'legacy_migrations', order: 'owner_id', scope: 'org' },
   { table: 'availability_samples', order: 'slot,source', scope: 'org', note: 'Immutable fixed-cadence synthetic operational observations, no patient identifiers or raw errors; hosted availability remains unmeasured.' },
+  { table: 'work_burden_samples', order: 'at,actor_id,id', scope: 'person', note: 'Protected client-reported work time and exact mutation receipt bindings; no facts or ticket text.' },
+  { table: 'work_support_events', order: 'request_id,sequence', scope: 'person', note: 'Immutable scoped fixed-category support workflow; no external send or ticket text.' },
   { table: 'device_work_grants', order: 'actor_id,lease_id', scope: 'person', note: 'Immutable original-worker grant metadata; no clinical packet or device fingerprint.' },
   { table: 'device_registration_grants', order: 'actor_id,registration_id', scope: 'person', note: 'Original accepted registration ownership and immutable baseline; legacy history explicitly unavailable.' },
   { table: 'device_registration_receipts', order: 'actor_id,receipt_key', scope: 'person', note: 'Exact accepted original-worker registration receipt bindings.' },

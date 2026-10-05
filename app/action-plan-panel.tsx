@@ -29,7 +29,7 @@ function Unlink({dep,plan,p,busy,command,done}:{dep:any;plan:any;p:Person;busy:b
 function CloseCorrection({item,p,busy,command,done}:{item:any;p:Person;busy:boolean;command:Command;done:()=>void}){
  const c=item.correction,[receiptId,setReceipt]=useState(''),[reference,setReference]=useState(''),[reason,setReason]=useState('');
  const ok=receiptId.trim().length>0||reason.trim().length>=10;
- return <details><summary>Close with evidence</summary><div className="form-grid">
+ return <details data-work-stage="reconciliation" data-work-visit={c.visitId} data-work-task={c.taskId}><summary>Close with evidence</summary><div className="form-grid">
   {c.receiptCloses&&<label>Correction receipt<Input aria-label={`Correction receipt for ${item.title}`} value={receiptId} maxLength={200} onChange={e=>setReceipt(e.target.value)} placeholder="Receipt of the correction sent through Saha"/></label>}
   {c.external&&<label>Destination reference<Input aria-label={`Destination reference for ${item.title}`} value={reference} maxLength={200} onChange={e=>setReference(e.target.value)} placeholder="Optional"/></label>}
   <label>Reason<Input aria-label={`Closing reason for ${item.title}`} value={reason} maxLength={500} onChange={e=>setReason(e.target.value)} placeholder={c.receiptCloses?'Or at least 10 characters':'At least 10 characters'}/></label></div>

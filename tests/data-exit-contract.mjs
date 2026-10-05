@@ -94,6 +94,11 @@ try {
   for(const [id,who] of [['device-own','owner'],['device-other','other-user']]) d1.db.prepare('INSERT INTO device_work_events VALUES (?,?,?,?,?,?,?,?,?)').run(A,who,id,'report',null,null,'c'.repeat(64),JSON.stringify({code:'storage-write',draftCount:1,pendingCount:0}),now);
   for(const [id,person] of [['registration-visible','p_meena'],['registration-hidden','p_kamla']]){d1.db.prepare('INSERT INTO device_registration_grants VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)').run(A,'owner',id,person,'key-'+id,'d'.repeat(64),1,1,'e'.repeat(64),'clinician',1,now,0);d1.db.prepare('INSERT INTO device_registration_receipts VALUES (?,?,?,?,?,?)').run(A,'owner','key-'+id,id,'d'.repeat(64),person);}
   for(const [id,who,person] of [['match-visible','owner','p_meena'],['match-hidden','owner','p_kamla'],['match-other','other-user','p_meena']])d1.db.prepare('INSERT INTO device_match_copies VALUES (?,?,?,?,?,?,?,?)').run(A,who,id,1,'9'.repeat(64),'clinician',JSON.stringify([{id:person,version:1}]),now);
+  for(const [entry,person] of [['work-visible','p_meena'],['work-hidden','p_kamla']]){
+    const visit=person==='p_meena'?'v-meena-1':'v-kamla-1';
+    d1.db.prepare('INSERT INTO work_burden_samples VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(A,'owner',entry,person,visit,entry+'-receipt',entry+'-session','capture','segment',12,0,'fixed-input-hash',1,'client-active-v1',JSON.stringify({source:'online',lineage:[visit],programmes:[]}),now);
+    d1.db.prepare('INSERT INTO work_support_events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(A,'owner',entry,entry,person,visit,'request','capture','owner',null,1,'fixed-input-hash',1,now);
+  }
   const built = await build(A);
   const files = readTar(Buffer.from(built.archive)), paths = [...files.keys()];
   const manifest = JSON.parse(files.get('manifest.json').toString('utf8'));
@@ -101,7 +106,7 @@ try {
 
   // 1. Archive layout: README, manifest, SHA256SUMS, every table, media content, hand-over list, FHIR documents.
   check(() => { for (const t of exit.TABLES) assert.ok(paths.includes(`tables/${t.table}.jsonl`), t.table); for (const p of ['README.txt', 'manifest.json', 'SHA256SUMS', 'tables/accounts.jsonl', 'handover/open-items.jsonl', 'media/media-1.png', 'fhir/v-meena-1.json']) assert.ok(paths.includes(p), p); assert.equal(paths.at(-1), 'SHA256SUMS'); });
-  check(() => assert.equal(exit.TABLES.length + 1, 39, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
+  check(() => assert.equal(exit.TABLES.length + 1, 41, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
   // 2. The archive opens with standard tools and the receiver recipe `sha256sum -c SHA256SUMS` passes.
   const out = join(dir, 'extract'); mkdirSync(out); writeFileSync(join(dir, 'a.tar'), built.archive);
   check(() => { const listed = execFileSync('tar', ['-tf', join(dir, 'a.tar')], { encoding: 'utf8' }).trim().split('\n'); assert.deepEqual(listed, paths); });
@@ -143,6 +148,7 @@ try {
   check(() => { const r = verifyFiles(reseal(files, 'tables/visits.jsonl', table('visits').map(x => JSON.stringify(x) + '\n').join('') + '{"org_id":"org_other","id":"x","person_id":"p_meena"}\n', table('visits').length + 1)); assert.equal(r.checks.find(c => c.name === 'organisation').ok, false); });
   check(() => { const b = Buffer.from(files.get('media/media-1.png')); b[100] ^= 0xff; const r = failing(reseal(files, 'media/media-1.png', b), 'media'); assert.match(r.failures.join(), /media-1 content differs from its row/); });
   check(() => { writeFileSync(join(dir, 'cut.tar'), Buffer.from(built.archive).subarray(0, 1024 + 100)); let code = 0; try { execFileSync('node', ['scripts/verify-export.mjs', join(dir, 'cut.tar')], { encoding: 'utf8' }); } catch (e) { code = e.status; } assert.equal(code, 1); });
+  check(() => {assert.deepEqual(table('work_burden_samples').map(x=>x.id),['work-visible']);assert.deepEqual(table('work_support_events').map(x=>x.id),['work-visible']);assert.equal(manifest.files.find(f=>f.table==='work_burden_samples').withheld,1);assert.equal(manifest.files.find(f=>f.table==='work_support_events').withheld,1);});
   check(() => {assert.deepEqual(table('device_work_grants').map(x=>x.lease_id),['device-visible']);assert.deepEqual(table('device_work_events').map(x=>x.id),['device-own']);assert.equal(manifest.files.find(f=>f.table==='device_work_events').otherMembersRows,1);});
   check(()=>{assert.deepEqual(table('device_registration_grants').map(x=>x.registration_id),['registration-visible']);assert.deepEqual(table('device_registration_receipts').map(x=>x.registration_id),['registration-visible']);assert.deepEqual(table('device_match_copies').map(x=>x.id),['match-visible']);assert.equal(manifest.files.find(f=>f.table==='device_match_copies').otherMembersRows,1);assert.equal(manifest.files.find(f=>f.table==='device_match_copies').withheld,1);});
   // 11. Nothing is written by building an export; the server records the export event separately.
@@ -185,6 +191,9 @@ try {
   wc.referrals = wc.people.filter((_, i) => i % 10 === 0).map(p => ({ id: `r_${p.id}`, personId: p.id, visitId: `v_${p.id.slice(2)}`, facility: 'CHC', reason: 'Synthetic', state: 'sent', createdAt: now, ownerId: 'owner' }));
   const started = Date.now();
   await store.createState(d1, { organisation: { id: C, name: '1000-person organisation', revision: 1, createdAt: now }, teams: [{ id: 'default', name: 'Care team', createdAt: now }, { id: 'south', name: 'South team', createdAt: now }], members: [{ ...member, teamIds: ['default', 'south'] }], invitations: [], workspace: wc }, actor, 'createOrganisation');
+  d1.db.prepare('INSERT INTO work_burden_samples VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(C,'owner','restore-work','p_0000','v_0000','restore-receipt','restore-session','capture','segment',12,0,'fixed-input-hash',1,'client-active-v1',JSON.stringify({source:'online',lineage:['v_0000'],programmes:[]}),now);
+  d1.db.prepare('INSERT INTO work_support_events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(C,'owner','restore-support','restore-support','p_0000','v_0000','request','capture','owner',null,1,'fixed-input-hash',1,now);
+  d1.db.prepare('INSERT INTO command_receipts (actor_id,key,org_id,hash,result,person_id,created_at,command_type,mutation_subject_id,mutation_event_id,mutation_context) VALUES (?,?,?,?,?,?,?,?,?,?,?)').run('owner','restore-receipt',C,'fixed-hash','{}','p_0000',now,'closeCorrectionTask','v_0000','fixture-provenance',JSON.stringify({taskId:'fixed-task',parentId:'v_0000',kind:'correction'}));
   const cBuilt = await build(C, { member: { ...member, teamIds: ['default', 'south'] }, includeFhir: false }), exportMs = Date.now() - started;
   const cFiles = readTar(Buffer.from(cBuilt.archive)), cManifest = JSON.parse(cFiles.get('manifest.json').toString('utf8')), cReport = verifyFiles(cFiles);
   check(() => { assert.equal(cReport.ok, true, JSON.stringify(cReport.failures)); assert.equal(cManifest.scope.complete, true); assert.equal(cManifest.totals.withheld, 0); assert.equal(cManifest.files.find(f => f.table === 'patients').rows, 1000); assert.equal(cManifest.files.find(f => f.table === 'visits').rows, 1000); assert.equal(cManifest.files.find(f => f.table === 'record_revisions').rows, 2000); assert.equal(cManifest.handover.patientTasks, 100); });
