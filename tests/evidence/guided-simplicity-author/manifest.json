@@ -162,9 +162,6 @@
     "tests/evidence/guided-simplicity-author/compatibility/registration-overflow/result.json": {
       "passed": 13
     },
-    "tests/evidence/guided-simplicity-author/compatibility/registration-overflow/failure.json": {
-      "passed": 4
-    },
     "tests/evidence/guided-simplicity-author/compatibility/capture/conditional-fact/result.json": {
       "passed": 11
     },
@@ -181,7 +178,7 @@
       "passed": 15
     }
   },
-  "reportedTotalOverlapping": 260,
+  "reportedTotalOverlapping": 256,
   "rawLogs": {
     "tests/evidence/guided-simplicity-author/build.log": {
       "rawPath": "tests/evidence/guided-simplicity-author/build.log.raw.gz",
@@ -311,5 +308,8 @@
     "Mock/localService browser contract is not physical audible-engine certification",
     "Original connected null uncertainty and exact-receipt lookup limitation unchanged",
     "Independent review and root combined qualification pending"
+  ],
+  "retainedNonPassingReports": [
+    "tests/evidence/guided-simplicity-author/compatibility/registration-overflow/failure.json"
   ]
 }
