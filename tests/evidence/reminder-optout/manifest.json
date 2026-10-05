@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-05",
+  "baseline": "2adfbde1",
+  "requirement": "BR-CARE-07",
+  "slice": "R77",
+  "contract": {"file": "contract-result.json", "passed": 39, "failed": 0},
+  "http": {"file": "http-result.json", "passed": 53, "failed": 0, "realBrowserChecksIncluded": 2},
+  "existingOutreach": {"file": "outreach-contract-result.json", "passed": 55},
+  "existingConsent": {"file": "consent-contract-result.json", "passed": 25},
+  "screenshots": ["outreach-optout.png"],
+  "typecheck": "passed",
+  "build": "passed; existing client bundle warning",
+  "acceptance": "pending",
+  "limits": ["Mock provider only", "Synthetic TEST contacts only", "No real messages", "No external provider, carrier, clinical or field acceptance"]
+}
