@@ -1,0 +1,445 @@
+{
+  "passed": 112,
+  "taskIds": [
+    "747cab49-6095-4935-81d5-e0a79861ad6c",
+    "a32a5551-d1f3-46c9-a8e9-ae22eb2696be"
+  ],
+  "row": {
+    "personId": "335c5036-e315-4cb7-8b88-163f050b6dba",
+    "personName": "Synthetic household Alpha worker evidence",
+    "personVersion": 13,
+    "tasks": [
+      {
+        "taskId": "5eca1e03-c07c-46b1-b101-6849d1b80743",
+        "title": "Additional synthetic check remains incomplete",
+        "due": "2026-10-03",
+        "episodeId": "8d84e791-6f9e-41cb-91a0-e08efa10d51f",
+        "packId": "slot_alpha",
+        "packVersion": 1,
+        "hash": "7d9f4e406594de03ee7c657641feeda00d1459be2dc03ce759b53491f7c7962b"
+      },
+      {
+        "taskId": "747cab49-6095-4935-81d5-e0a79861ad6c",
+        "title": "Shared synthetic eligible review",
+        "due": "2026-10-03",
+        "episodeId": "8d84e791-6f9e-41cb-91a0-e08efa10d51f",
+        "packId": "slot_alpha",
+        "packVersion": 1,
+        "hash": "9fe89ffd8d6b0b1b693c611bcfee5ef80bbaa6810571e45f379bf9b828f79dc5"
+      },
+      {
+        "taskId": "a32a5551-d1f3-46c9-a8e9-ae22eb2696be",
+        "title": "Shared synthetic eligible review",
+        "due": "2026-10-03",
+        "episodeId": "8b8590ee-599d-4589-9f35-af41bca8716b",
+        "packId": "slot_beta",
+        "packVersion": 1,
+        "hash": "1b938c302d73489541eeb386db8d7f9b47e2dbe1ce73d7b533cdad2801383b5c"
+      }
+    ],
+    "classification": "declared-due",
+    "canPrepare": true,
+    "reason": null,
+    "planHash": "178b7096200ec398a2193b647722e5176ab2a555abfc3bb49ab4e8e0876c5ced"
+  },
+  "packet": {
+    "schema": 1,
+    "preparedWork": {
+      "format": "saha-prepared-due-work-v1",
+      "tasks": [
+        {
+          "taskId": "5eca1e03-c07c-46b1-b101-6849d1b80743",
+          "title": "Additional synthetic check remains incomplete",
+          "due": "2026-10-03",
+          "episodeId": "8d84e791-6f9e-41cb-91a0-e08efa10d51f",
+          "packId": "slot_alpha",
+          "packVersion": 1,
+          "hash": "7d9f4e406594de03ee7c657641feeda00d1459be2dc03ce759b53491f7c7962b"
+        },
+        {
+          "taskId": "747cab49-6095-4935-81d5-e0a79861ad6c",
+          "title": "Shared synthetic eligible review",
+          "due": "2026-10-03",
+          "episodeId": "8d84e791-6f9e-41cb-91a0-e08efa10d51f",
+          "packId": "slot_alpha",
+          "packVersion": 1,
+          "hash": "9fe89ffd8d6b0b1b693c611bcfee5ef80bbaa6810571e45f379bf9b828f79dc5"
+        },
+        {
+          "taskId": "a32a5551-d1f3-46c9-a8e9-ae22eb2696be",
+          "title": "Shared synthetic eligible review",
+          "due": "2026-10-03",
+          "episodeId": "8b8590ee-599d-4589-9f35-af41bca8716b",
+          "packId": "slot_beta",
+          "packVersion": 1,
+          "hash": "1b938c302d73489541eeb386db8d7f9b47e2dbe1ce73d7b533cdad2801383b5c"
+        }
+      ],
+      "notice": "Documentary capture only; task completion and clinical decisions require online review."
+    },
+    "offlineWork": {
+      "schema": 1,
+      "tasks": [
+        "visit-facts",
+        "programme-answers"
+      ],
+      "clinicalApproval": "pending",
+      "packs": [
+        {
+          "enrolmentId": "8d84e791-6f9e-41cb-91a0-e08efa10d51f",
+          "pack": {
+            "id": "slot_alpha",
+            "version": 1,
+            "name": "Synthetic slot Alpha",
+            "programme": "General care",
+            "purpose": "Synthetic declared household care contract; clinical acceptance pending",
+            "questions": [
+              {
+                "id": "review_done",
+                "label": "Synthetic review performed",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              },
+              {
+                "id": "extra_check",
+                "label": "Synthetic additional check",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              }
+            ],
+            "completionRules": [
+              {
+                "id": "review-complete",
+                "label": "Review evidenced by confirmed answers",
+                "requiredQuestions": [
+                  "review_done"
+                ],
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "requires-extra",
+                "label": "Additional check must be answered",
+                "requiredQuestions": [
+                  "extra_check"
+                ]
+              }
+            ],
+            "referralNeeds": [
+              {
+                "id": "shared-review",
+                "need": "nutrition-review",
+                "compatibilityKey": "synthetic-shared-review",
+                "urgency": "urgent",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "separate-review",
+                "need": "nutrition-review",
+                "compatibilityKey": null,
+                "urgency": "urgent",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              }
+            ],
+            "changeNote": "Synthetic independent structural contract; no clinical approval claim",
+            "installed": {
+              "installationId": "28e41f62-d4d5-45fd-8b7c-7e3905779a2e",
+              "manifestHash": "a233ad42dbf4ebd226265772d7665630dc3f96aa96bac4f321331c930384dcc5"
+            }
+          }
+        },
+        {
+          "enrolmentId": "8b8590ee-599d-4589-9f35-af41bca8716b",
+          "pack": {
+            "id": "slot_beta",
+            "version": 1,
+            "name": "Synthetic slot Beta",
+            "programme": "General care",
+            "purpose": "Synthetic declared household care contract; clinical acceptance pending",
+            "questions": [
+              {
+                "id": "review_done",
+                "label": "Synthetic review performed",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              },
+              {
+                "id": "extra_check",
+                "label": "Synthetic additional check",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              }
+            ],
+            "completionRules": [
+              {
+                "id": "review-complete",
+                "label": "Review evidenced by confirmed answers",
+                "requiredQuestions": [
+                  "review_done"
+                ],
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "requires-extra",
+                "label": "Additional check must be answered",
+                "requiredQuestions": [
+                  "extra_check"
+                ]
+              }
+            ],
+            "referralNeeds": [
+              {
+                "id": "shared-review",
+                "need": "nutrition-review",
+                "compatibilityKey": "synthetic-shared-review",
+                "urgency": "emergency",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "separate-review",
+                "need": "nutrition-review",
+                "compatibilityKey": null,
+                "urgency": "emergency",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              }
+            ],
+            "changeNote": "Synthetic independent structural contract; no clinical approval claim",
+            "installed": {
+              "installationId": "2303e42e-5681-47bb-ba09-cc87f5f12ff2",
+              "manifestHash": "47cdfb18ac3d8df83d89a6128bafe85b3a3db42c1558e5954040415ec26c6d81"
+            }
+          }
+        }
+      ],
+      "hash": "1b114e7e655092215f336333fe6e491372bb43d241249adb4a2ac228ed607321"
+    },
+    "leaseId": "97217cc6-3c94-48e0-9e5e-1edf1f9ef977",
+    "userId": "t-470524b8-slot-owner",
+    "organisationId": "org_5982b2227194d07c580604f6a65028e8",
+    "personId": "335c5036-e315-4cb7-8b88-163f050b6dba",
+    "personName": "Synthetic household Alpha worker evidence",
+    "identityHash": "a19deae820e65f09089a5a57492f8af5ae92ba90e8a6b10c4d668aee4c552eb1",
+    "visitId": "310dba59-3637-40b3-96af-dac402deb11a",
+    "visitVersion": 1,
+    "expiresAt": "2026-10-06T21:59:44.202Z",
+    "issuedAt": "2026-10-05T21:59:44.202Z",
+    "facts": {
+      "date": "2026-10-05T21:59",
+      "systolic": "",
+      "diastolic": "",
+      "weight": "",
+      "temperature": "",
+      "weeks": "",
+      "coughDays": "",
+      "notes": "",
+      "source": "measured"
+    },
+    "programmeCapture": {
+      "packs": [
+        {
+          "enrolmentId": "8d84e791-6f9e-41cb-91a0-e08efa10d51f",
+          "pack": {
+            "id": "slot_alpha",
+            "version": 1,
+            "name": "Synthetic slot Alpha",
+            "programme": "General care",
+            "purpose": "Synthetic declared household care contract; clinical acceptance pending",
+            "questions": [
+              {
+                "id": "review_done",
+                "label": "Synthetic review performed",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              },
+              {
+                "id": "extra_check",
+                "label": "Synthetic additional check",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              }
+            ],
+            "completionRules": [
+              {
+                "id": "review-complete",
+                "label": "Review evidenced by confirmed answers",
+                "requiredQuestions": [
+                  "review_done"
+                ],
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "requires-extra",
+                "label": "Additional check must be answered",
+                "requiredQuestions": [
+                  "extra_check"
+                ]
+              }
+            ],
+            "referralNeeds": [
+              {
+                "id": "shared-review",
+                "need": "nutrition-review",
+                "compatibilityKey": "synthetic-shared-review",
+                "urgency": "urgent",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "separate-review",
+                "need": "nutrition-review",
+                "compatibilityKey": null,
+                "urgency": "urgent",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              }
+            ],
+            "changeNote": "Synthetic independent structural contract; no clinical approval claim",
+            "installed": {
+              "installationId": "28e41f62-d4d5-45fd-8b7c-7e3905779a2e",
+              "manifestHash": "a233ad42dbf4ebd226265772d7665630dc3f96aa96bac4f321331c930384dcc5"
+            }
+          }
+        },
+        {
+          "enrolmentId": "8b8590ee-599d-4589-9f35-af41bca8716b",
+          "pack": {
+            "id": "slot_beta",
+            "version": 1,
+            "name": "Synthetic slot Beta",
+            "programme": "General care",
+            "purpose": "Synthetic declared household care contract; clinical acceptance pending",
+            "questions": [
+              {
+                "id": "review_done",
+                "label": "Synthetic review performed",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              },
+              {
+                "id": "extra_check",
+                "label": "Synthetic additional check",
+                "required": true,
+                "options": [
+                  "Yes",
+                  "No"
+                ]
+              }
+            ],
+            "completionRules": [
+              {
+                "id": "review-complete",
+                "label": "Review evidenced by confirmed answers",
+                "requiredQuestions": [
+                  "review_done"
+                ],
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "requires-extra",
+                "label": "Additional check must be answered",
+                "requiredQuestions": [
+                  "extra_check"
+                ]
+              }
+            ],
+            "referralNeeds": [
+              {
+                "id": "shared-review",
+                "need": "nutrition-review",
+                "compatibilityKey": "synthetic-shared-review",
+                "urgency": "emergency",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              },
+              {
+                "id": "separate-review",
+                "need": "nutrition-review",
+                "compatibilityKey": null,
+                "urgency": "emergency",
+                "when": {
+                  "questionId": "review_done",
+                  "operator": "eq",
+                  "value": "Yes"
+                }
+              }
+            ],
+            "changeNote": "Synthetic independent structural contract; no clinical approval claim",
+            "installed": {
+              "installationId": "2303e42e-5681-47bb-ba09-cc87f5f12ff2",
+              "manifestHash": "47cdfb18ac3d8df83d89a6128bafe85b3a3db42c1558e5954040415ec26c6d81"
+            }
+          }
+        }
+      ],
+      "answers": {},
+      "absence": {}
+    }
+  },
+  "stale": 409,
+  "late": 409,
+  "sync": 409,
+  "recovery": 409,
+  "originalPrepareKey": "577ed36a-6951-4400-9e80-60f2ea7b3a2a",
+  "originalSyncKey": "08fefb3f-fe1d-48ae-be95-f928ccfa33c6"
+}
