@@ -81,6 +81,7 @@ export function fixturesFor(env: Env, w: Workspace): Workspace {
 
 // Command guard: demonstration connectors and synthetic fixture records stay out of non-synthetic destinations.
 export function ensureEnvironment(s: OrgState, c: any, env: Env) {
+  if(c.type==='opsAvailability'&&c.enabled&&!POLICY[environmentOf(env).name].fixtures)fail(403,'Synthetic availability checks require a synthetic or training environment.');
   const e = environmentOf(env), p = POLICY[e.name], w = s.workspace;
   if (!p.demoConnectors) {
     const demo = (id: string) => w.integrations.find(i => i.id === id)?.mode === 'demo';

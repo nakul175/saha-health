@@ -97,7 +97,7 @@ try {
 
   // 1. Archive layout: README, manifest, SHA256SUMS, every table, media content, hand-over list, FHIR documents.
   check(() => { for (const t of exit.TABLES) assert.ok(paths.includes(`tables/${t.table}.jsonl`), t.table); for (const p of ['README.txt', 'manifest.json', 'SHA256SUMS', 'tables/accounts.jsonl', 'handover/open-items.jsonl', 'media/media-1.png', 'fhir/v-meena-1.json']) assert.ok(paths.includes(p), p); assert.equal(paths.at(-1), 'SHA256SUMS'); });
-  check(() => assert.equal(exit.TABLES.length + 1, 32, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
+  check(() => assert.equal(exit.TABLES.length + 1, 33, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
   // 2. The archive opens with standard tools and the receiver recipe `sha256sum -c SHA256SUMS` passes.
   const out = join(dir, 'extract'); mkdirSync(out); writeFileSync(join(dir, 'a.tar'), built.archive);
   check(() => { const listed = execFileSync('tar', ['-tf', join(dir, 'a.tar')], { encoding: 'utf8' }).trim().split('\n'); assert.deepEqual(listed, paths); });

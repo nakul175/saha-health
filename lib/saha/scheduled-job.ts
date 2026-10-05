@@ -1,3 +1,4 @@
+import {sampleAvailability} from './availability';
 import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, digest, uuid } from './core';
 import { persist, persistScheduledRecord, readState } from './store';
@@ -49,6 +50,7 @@ export type OrganisationOutcome = {
   reviews: { marked: number; deferred: number } | null;
   alerts: { opened: number; closed: number; escalated: number; recipients: number } | null;
   chain: { verified: boolean; status: string | null; events: number; recorded: boolean } | null;
+  availability?: Awaited<ReturnType<typeof sampleAvailability>>;
   recorded: boolean; problems: string[];
 };
 export type JobRun = { refused: string | null; at: string; stoppedBy: 'complete' | 'organisations' | 'queries' | 'time' | 'refused'; organisations: OrganisationOutcome[]; notReached: number; queries: number };
@@ -144,6 +146,7 @@ async function processOrganisation(d: D1Database, orgId: string, now: string, li
     out.chain = { verified: true, status: verification.status, events: verification.events, recorded: false };
     if (recordNow && !out.maintenance) out.chain.recorded = await recordChainVerification(d, orgId, previous, record);
   } catch (e) { out.problems.push(problem('chain', e)); }
+  if(s.operations?.availability?.enabled){try{const fresh=await readState(d,orgId,[]);out.availability=await sampleAvailability(d,fresh,'scheduler',JOB_ACTOR,null,now,env);}catch(e){out.problems.push(problem('availability',e));}}
   return out;
 }
 

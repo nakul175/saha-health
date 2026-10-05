@@ -157,3 +157,9 @@ export const abhaReviewReservations = sqliteTable('abha_review_reservations', {
  orgId:text('org_id').notNull(), userId:text('user_id').notNull(), attemptHash:text('attempt_hash').notNull(),
  payloadHash:text('payload_hash').notNull(), probeHash:text('probe_hash').notNull(), at:text('at').notNull(), reviewEventId:text('review_event_id'),
 },t=>[primaryKey({columns:[t.orgId,t.userId,t.attemptHash]}),uniqueIndex('abha_review_probe').on(t.orgId,t.userId,t.probeHash),index('abha_review_time').on(t.orgId,t.userId,t.at)]);
+
+// Fixed-cadence operational samples; immutable history enforced by migration triggers.
+export const availabilitySamples=sqliteTable('availability_samples',{
+ orgId:text('org_id').notNull(),slot:integer('slot').notNull(),source:text('source').notNull(),configVersion:integer('config_version').notNull(),
+ core:text('core').notNull(),workflow:text('workflow').notNull(),latencyMs:integer('latency_ms').notNull(),receiptHash:text('receipt_hash').notNull(),recordedAt:text('recorded_at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.slot,t.source]})]);

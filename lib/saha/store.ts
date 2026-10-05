@@ -284,3 +284,19 @@ export async function snapshotDecorations(db:D1Database,orgId:string,userId:stri
  ]);
  return {orgs:orgs.results as {id:string;name:string;role:Member['role'];is_owner:number}[],migration:(migration.results[0]??null) as {migrated_at:string;counts:string}|null,activity:auditPageResult(activity.results as Record<string,any>[])};
 }
+
+// The availability ledger is append-only. Its sample and chained audit commit together,
+// without moving clinical revisions. SQL guards recheck policy and human authority at
+// the write itself, including a revocation racing the audit-head read. First slot wins.
+export async function persistAvailabilitySample(db:D1Database,config:unknown,maintenance:boolean,sample:import('./availability-types').AvailabilitySample,event:Audit,member:Member|null,dependency:{id:string;version:number;kind:string;status:string;mode:string}|null,dependencyId:string|null):Promise<boolean>{
+ const orgId=sample.org_id,now=sample.recorded_at;
+ for(let attempt=1;;attempt++){
+  const token=uuid(),rows=[row('availability_samples',{...sample},['org_id','slot','source'],true),row('audit_events',{org_id:orgId,id:event.id,person_id:null,actor_id:event.actorId??'system',actor_name:event.actor,role:event.role,action:event.action,subject:orgId,detail:event.detail,at:event.at},['org_id','id'],true)],chain=await linkRows(db,orgId,rows,now);
+  const authority=member?' AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status=\'active\' AND role=? AND is_owner=? AND (is_owner=1 OR role=\'admin\'))':'';
+  const target=dependency?` AND EXISTS (SELECT 1 FROM integrations WHERE org_id=? AND id=? AND version=? AND kind=? AND status=? AND json_extract(data,'$.mode')=?)`:dependencyId?' AND NOT EXISTS (SELECT 1 FROM integrations WHERE org_id=? AND id=?)':'';
+  const targetArgs=dependency?[orgId,dependency.id,dependency.version,dependency.kind,dependency.status,dependency.mode]:dependencyId?[orgId,dependencyId]:[];
+  const head=db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json(json_extract(data,'$.availability'))=? AND COALESCE(json_extract(data,'$.maintenance'),0)=?) AND NOT EXISTS (SELECT 1 FROM availability_samples WHERE org_id=? AND slot=? AND source=?)${authority}${target}`).bind(token,orgId,orgId,j(config),maintenance?1:0,orgId,sample.slot,sample.source,...(member?[orgId,member.userId,member.role,member.isOwner?1:0]:[]),...targetArgs);
+  let saved;try{saved=await db.batch([head,...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)]);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}return false;}
+  return saved[0].meta.changes===1;
+ }
+}
