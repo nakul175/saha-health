@@ -175,3 +175,14 @@ export const deviceWorkEvents = sqliteTable('device_work_events', {
  orgId:text('org_id').notNull().references(()=>organisations.id), actorId:text('actor_id').notNull(), id:text('id').notNull(), kind:text('kind').notNull(),
  leaseId:text('lease_id'), packageHash:text('package_hash'), inputHash:text('input_hash').notNull(), data:text('data').notNull(), at:text('at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.actorId,t.id]}),index('device_work_events_actor_time').on(t.orgId,t.actorId,t.at),check('device_work_events_kind',sql`${t.kind} IN ('report','instruction','ack')`),check('device_work_events_data',sql`json_valid(${t.data}) AND length(${t.data})<=2048`)]);
+// Original accepted registration receipt ownership, immutable privacy copy provenance.
+export const deviceRegistrationGrants=sqliteTable('device_registration_grants',{
+ orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),registrationId:text('registration_id').notNull(),personId:text('person_id').notNull(),
+ receiptKey:text('receipt_key').notNull(),bodyHash:text('body_hash').notNull(),memberVersion:integer('member_version'),consentVersion:integer('consent_version'),identityHash:text('identity_hash'),originalRole:text('original_role'),personVersion:integer('person_version'),issuedAt:text('issued_at').notNull(),legacy:integer('legacy').notNull().default(0),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.registrationId]})]);
+export const deviceRegistrationReceipts=sqliteTable('device_registration_receipts',{
+ orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),receiptKey:text('receipt_key').notNull(),registrationId:text('registration_id').notNull(),bodyHash:text('body_hash').notNull(),personId:text('person_id').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.receiptKey]})]);
+export const deviceMatchCopies=sqliteTable('device_match_copies',{
+ orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),id:text('id').notNull(),memberVersion:integer('member_version').notNull(),queryHash:text('query_hash').notNull(),originalRole:text('original_role').notNull(),candidateVersions:text('candidate_versions').notNull(),issuedAt:text('issued_at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.id]})]);

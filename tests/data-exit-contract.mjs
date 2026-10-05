@@ -92,6 +92,8 @@ try {
 
   for(const [lease,person] of [['device-visible','p_meena'],['device-hidden','p_kamla']]) d1.db.prepare('INSERT INTO device_work_grants VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)').run(A,'owner',lease,'a'.repeat(64),person,person==='p_meena'?'v-meena-1':'v-kamla-1',1,1,'b'.repeat(64),now,'clinician',1,new Date(Date.parse(now)+86400000).toISOString());
   for(const [id,who] of [['device-own','owner'],['device-other','other-user']]) d1.db.prepare('INSERT INTO device_work_events VALUES (?,?,?,?,?,?,?,?,?)').run(A,who,id,'report',null,null,'c'.repeat(64),JSON.stringify({code:'storage-write',draftCount:1,pendingCount:0}),now);
+  for(const [id,person] of [['registration-visible','p_meena'],['registration-hidden','p_kamla']]){d1.db.prepare('INSERT INTO device_registration_grants VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)').run(A,'owner',id,person,'key-'+id,'d'.repeat(64),1,1,'e'.repeat(64),'clinician',1,now,0);d1.db.prepare('INSERT INTO device_registration_receipts VALUES (?,?,?,?,?,?)').run(A,'owner','key-'+id,id,'d'.repeat(64),person);}
+  for(const [id,who,person] of [['match-visible','owner','p_meena'],['match-hidden','owner','p_kamla'],['match-other','other-user','p_meena']])d1.db.prepare('INSERT INTO device_match_copies VALUES (?,?,?,?,?,?,?,?)').run(A,who,id,1,'9'.repeat(64),'clinician',JSON.stringify([{id:person,version:1}]),now);
   const built = await build(A);
   const files = readTar(Buffer.from(built.archive)), paths = [...files.keys()];
   const manifest = JSON.parse(files.get('manifest.json').toString('utf8'));
@@ -99,7 +101,7 @@ try {
 
   // 1. Archive layout: README, manifest, SHA256SUMS, every table, media content, hand-over list, FHIR documents.
   check(() => { for (const t of exit.TABLES) assert.ok(paths.includes(`tables/${t.table}.jsonl`), t.table); for (const p of ['README.txt', 'manifest.json', 'SHA256SUMS', 'tables/accounts.jsonl', 'handover/open-items.jsonl', 'media/media-1.png', 'fhir/v-meena-1.json']) assert.ok(paths.includes(p), p); assert.equal(paths.at(-1), 'SHA256SUMS'); });
-  check(() => assert.equal(exit.TABLES.length + 1, 35, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
+  check(() => assert.equal(exit.TABLES.length + 1, 38, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
   // 2. The archive opens with standard tools and the receiver recipe `sha256sum -c SHA256SUMS` passes.
   const out = join(dir, 'extract'); mkdirSync(out); writeFileSync(join(dir, 'a.tar'), built.archive);
   check(() => { const listed = execFileSync('tar', ['-tf', join(dir, 'a.tar')], { encoding: 'utf8' }).trim().split('\n'); assert.deepEqual(listed, paths); });
@@ -142,6 +144,7 @@ try {
   check(() => { const b = Buffer.from(files.get('media/media-1.png')); b[100] ^= 0xff; const r = failing(reseal(files, 'media/media-1.png', b), 'media'); assert.match(r.failures.join(), /media-1 content differs from its row/); });
   check(() => { writeFileSync(join(dir, 'cut.tar'), Buffer.from(built.archive).subarray(0, 1024 + 100)); let code = 0; try { execFileSync('node', ['scripts/verify-export.mjs', join(dir, 'cut.tar')], { encoding: 'utf8' }); } catch (e) { code = e.status; } assert.equal(code, 1); });
   check(() => {assert.deepEqual(table('device_work_grants').map(x=>x.lease_id),['device-visible']);assert.deepEqual(table('device_work_events').map(x=>x.id),['device-own']);assert.equal(manifest.files.find(f=>f.table==='device_work_events').otherMembersRows,1);});
+  check(()=>{assert.deepEqual(table('device_registration_grants').map(x=>x.registration_id),['registration-visible']);assert.deepEqual(table('device_registration_receipts').map(x=>x.registration_id),['registration-visible']);assert.deepEqual(table('device_match_copies').map(x=>x.id),['match-visible']);assert.equal(manifest.files.find(f=>f.table==='device_match_copies').otherMembersRows,1);assert.equal(manifest.files.find(f=>f.table==='device_match_copies').withheld,1);});
   // 11. Nothing is written by building an export; the server records the export event separately.
   check(() => assert.equal(d1.db.prepare('SELECT count(*) AS n FROM audit_events WHERE org_id=?').get(A).n, live.events));
   // 12. An owner whose role has no patient scope (administrator) exports configuration and digests only; the chain still verifies.
