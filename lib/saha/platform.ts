@@ -1,3 +1,4 @@
+import { reconciliationSchema } from './reconciliation';
 import { withinPolicy } from './access';
 import { householdSchema } from './household';
 import { householdVisitSchema } from './household-visit';
@@ -90,6 +91,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...actionPlanSchema.options,
  ...reassignmentSchema.options,
  ...correctionTaskSchema.options,
+ ...reconciliationSchema.options,
  ...rosterSchema.options,
  ...workforceImportSchema.options,
  ...abdmSchema.options,
