@@ -1,0 +1,12 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-guided-repair-cold/tests/guided-repair-independent-probe.mjs:51
+ const originalLost=writes[priorWrites],receipt=database.prepare('SELECT actor_id,key,hash,command_type,person_id,mutation_subject_id FROM command_receipts WHERE actor_id=? AND key=?').get(asha.id,originalLost.key),hash=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(originalLost.body)))).toString('hex');check(!!receipt&&receipt.actor_id===asha.id&&receipt.key===originalLost.key,'Lost ACK has exact durable original-actor/key receipt');check(receipt.hash===hash,'Durable accepted programme receipt binds the original parsed body');check(receipt.command_type==='saveProgrammeAnswers'&&receipt.person_id===p.id,'Durable outcome has exact trusted programme/patient provenance');check(database.prepare("SELECT count(*) n FROM command_receipts WHERE actor_id=? AND command_type='saveProgrammeAnswers'").get(asha.id).n===2,'Only explicit fresh programme save and one accepted lostACK wrote durable outcomes');check(database.prepare("SELECT count(*) n FROM audit_events WHERE actor_id=? AND action='saveProgrammeAnswers'").get(asha.id).n===2,'Explicit current read/Load added no extra programme mutation audit');database.close();
+                                                         ^
+
+Error: no such table: command_receipts
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-guided-repair-cold/tests/guided-repair-independent-probe.mjs:51:58 {
+  code: 'ERR_SQLITE_ERROR',
+  errcode: 1,
+  errstr: 'SQL logic error'
+}
+
+Node.js v24.19.0
