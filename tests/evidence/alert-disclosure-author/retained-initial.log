@@ -1,0 +1,16 @@
+node:internal/process/task_queues:104
+    runMicrotasks();
+    ^
+
+Error: D1_ERROR: no such column: id at offset 55: SQLITE_ERROR
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async rows (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-disclosure-author/tests/alert-disclosure-retained-http.mjs:3:241)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-disclosure-author/tests/alert-disclosure-retained-http.mjs:3:494 {
+  [cause]: Error: no such column: id at offset 55: SQLITE_ERROR
+      at D1DatabaseSessionAlwaysPrimary._sendOrThrow (cloudflare-internal:d1-api:140:24)
+      at async cloudflare-internal:d1-api:366:41 {
+    [cause]: undefined
+  }
+}
+
+Node.js v24.19.0
