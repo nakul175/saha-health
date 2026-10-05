@@ -18,7 +18,7 @@ export type EhrLink={id:string;integrationId:string;externalId:string;externalNa
 export type EhrPermission={id:string;linkId:string;direction:'read'|'write';purpose:'care-coordination';from:string;to:string;expiresAt:string;status:'active'|'revoked';at:string};
 export type EhrDocument={id:string;linkId:string;permissionId:string;hash:string;bundle:any;summary:DocumentSummary;status:'review'|'reviewed'|'rejected';at:string;origin:'file'|'ehr';reviewedBy?:string;reviewedAt?:string};
 export type EhrOperation={id:string;linkId:string;permissionId:string;actorId:string;integrationVersion:number;identityHash:string;consentVersion:number;state:'prepared'|'running'|'accepted'|'uncertain'|'blocked'|'not-stored'|'conflict';visitId:string;visitVersion:number;approvalUntil:string;bundle:any;hash:string;at:string;message:string;receipt?:string;validation?:ValidationStamp;events?:TraceStep[];refusal?:Refusal;block?:SendBlockRecord;signOff?:{id:string;by:string;byName:string;at:string};publishStartedAt?:string;lookups?:number;resolution?:EhrResolution};
-export type EhrState={links:EhrLink[];permissions:EhrPermission[];documents:EhrDocument[];operations:EhrOperation[]};
+export type EhrState={inboundConflicts?:import('./inbound-conflicts').InboundConflict[];links:EhrLink[];permissions:EhrPermission[];documents:EhrDocument[];operations:EhrOperation[]};
 const id=z.string().min(1).max(200),external=z.string().regex(/^[A-Za-z0-9.-]{1,64}$/),version=z.number().int().positive(),date=z.string().datetime();
 export const ehrSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('configureEhr'),integrationId:id,version,read:z.boolean(),write:z.boolean()}).strict(),
