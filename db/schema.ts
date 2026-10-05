@@ -206,3 +206,18 @@ export const offlineOpenSubjects=sqliteTable('offline_open_subjects',{
 export const clinicalSourceDocuments=sqliteTable('clinical_source_documents',{
  orgId:text('org_id').notNull(),id:text('id').notNull(),entryId:text('entry_id').notNull(),manifestHash:text('manifest_hash').notNull(),reference:text('reference').notNull(),content:text('content').notNull(),createdBy:text('created_by').notNull(),createdAt:text('created_at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]})]);
+export const indicatorFigures=sqliteTable('indicator_figures',{
+ orgId:text('org_id').notNull(),id:text('id').notNull(),parentId:text('parent_id'),authorId:text('author_id').notNull(),authorVersion:integer('author_version').notNull(),createdAt:text('created_at').notNull(),digest:text('digest').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]})]);
+export const indicatorFigureUnits=sqliteTable('indicator_figure_units',{
+ orgId:text('org_id').notNull(),figureId:text('figure_id').notNull(),personId:text('person_id').notNull(),personVersion:integer('person_version').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.figureId,t.personId]})]);
+export const indicatorFigureEvents=sqliteTable('indicator_figure_events',{
+ orgId:text('org_id').notNull(),figureId:text('figure_id').notNull(),id:text('id').notNull(),sequence:integer('sequence').notNull(),kind:text('kind').notNull(),actorId:text('actor_id').notNull(),memberVersion:integer('member_version').notNull(),role:text('role').notNull(),at:text('at').notNull(),reason:text('reason').notNull(),reviewId:text('review_id'),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('indicator_figure_events_sequence').on(t.orgId,t.figureId,t.sequence)]);
+export const indicatorFigureReceipts=sqliteTable('indicator_figure_receipts',{
+ orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),key:text('key').notNull(),bodyHash:text('body_hash').notNull(),figureId:text('figure_id').notNull(),result:text('result').notNull(),
+},t=>[primaryKey({columns:[t.actorId,t.key]})]);
+export const indicatorFigureDisclosures=sqliteTable('indicator_figure_disclosures',{
+ orgId:text('org_id').notNull(),actorId:text('actor_id').notNull(),figureId:text('figure_id').notNull(),releaseHash:text('release_hash').notNull(),released:text('released').notNull(),at:text('at').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.actorId,t.figureId,t.releaseHash]})]);
