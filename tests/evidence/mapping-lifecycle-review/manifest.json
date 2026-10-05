@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-05",
+  "reviewedCommit": "e80a6242ba208aec32ed2eca475f9da82ad25cdb",
+  "isolated": true,
+  "productionChanges": [
+    "lib/saha/mis.ts pending-plan programme applicability",
+    "app/mis-mapping-panel.tsx scoped hash/source wrapping"
+  ],
+  "checks": {
+    "contract": 23,
+    "actualHttpD1": 73,
+    "actualPhoneChromium": 12,
+    "affectedLegacy": 110,
+    "total": 218
+  },
+  "originalFailuresRetained": [
+    "programme-impact-before.json",
+    "phone-geometry-before.json",
+    "phone-overflow-before-failed.json",
+    "reviewer-fixture-failure.json",
+    "documentation-fixture-failure.json"
+  ],
+  "externalProviderCalls": 0,
+  "physicalAndroid": false,
+  "formalAcceptancePromoted": false,
+  "reports": {
+    "action-plan-contract-result.json": {
+      "sha256": "0fccdfcbe840d51aab9a6586b7d4eafb50a758c38372c0277f151f563d5d8560",
+      "passed": 8
+    },
+    "browser.json": {
+      "sha256": "84ca4e31a24e01f5037f9d6ae3dc0ec8b1a72b6e1e6a98759142a1255ed52fd1",
+      "passed": 12
+    },
+    "contract.json": {
+      "sha256": "ac3f44bec7a41a48b12989e043274aa5b07ade668d243adf0efa206c9211d58a",
+      "passed": 23
+    },
+    "documentation-check.json": {
+      "sha256": "415460cff147f6751c0d25a86c8b39066d79e5907cfe5cad5410a73c53daebd5",
+      "passed": 0
+    },
+    "documentation-fixture-failure.json": {
+      "sha256": "33d5c9d4cba06758393eff82f4c63fa84e488f9a2d447c3a92142afbadb059b1",
+      "passed": 0
+    },
+    "http.json": {
+      "sha256": "9c13040c7ced995d0a499c1514125ec947cec3c35d9c62d887e5ed4bbfdbf793",
+      "passed": 73
+    },
+    "mapping-card-phone.png": {
+      "sha256": "f2f5baf390cd9c689b6bb3ecd2fe093949c8f39230bfaea2bab2d419fc8d8620",
+      "passed": 0
+    },
+    "mis-contract-result.json": {
+      "sha256": "3994537cad1f77ef8bff94cfbd120de9e3f2ce832098cc7943e0d88bb81d11a3",
+      "passed": 45
+    },
+    "mis-delivery-result.json": {
+      "sha256": "2d62330e6dfdccfbf324655c169134e52402a6a1278a68ee95c39a58b85e5eba",
+      "passed": 16
+    },
+    "owner-phone.png": {
+      "sha256": "726e80107c6919ea04df9176de43d9921ab33843afa53de7ef732cb7f627e466",
+      "passed": 0
+    },
+    "phone-geometry-before.json": {
+      "sha256": "a4600b4ddceeb95e7940f5c850669c779aaab78f63760553c3dc5a47a7de592e",
+      "passed": 0
+    },
+    "phone-geometry-observed.json": {
+      "sha256": "048950d34306df1fe9cb882c389bd855313c6a54ed00639195e23d8c2f095855",
+      "passed": 0
+    },
+    "phone-overflow-before-failed.json": {
+      "sha256": "7d6fe2c69a2037b18bf4770a426c8146e3c8594e2dcacbfa7444076d7ea0deb8",
+      "passed": 0
+    },
+    "programme-impact-before.json": {
+      "sha256": "d0f2de7dfb9d413bef70e201f891bfbddf524fcf964836826d3cd2afde9cbaad",
+      "passed": 0
+    },
+    "programme-impact-observed.json": {
+      "sha256": "21d5d4f9f0083cd7215b497165f82b885054f1d73bc4639a217181b470af4b65",
+      "passed": 0
+    },
+    "provider-mis-envelope.json": {
+      "sha256": "e63dda97c5774abd78d558dd2c8fd9916575d581d8098601c010ce4f86bbc48e",
+      "passed": 41
+    },
+    "regressions.json": {
+      "sha256": "b922595cba2119412aedc66f33c55c310f3063dd876fa58baf25bb4b48a1f119",
+      "passed": 0
+    },
+    "reviewer-fixture-failure.json": {
+      "sha256": "e90939d1cc6e225b78de3f9f2bf00ef124790f2129bcc8bc0bf0bd9ffd2d6098",
+      "passed": 0
+    }
+  }
+}
