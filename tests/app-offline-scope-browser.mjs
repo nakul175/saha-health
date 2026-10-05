@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {startWorker,identity,client} from './lib/worker.mjs';
-const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'playwright-core');
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');
 let worker,browser;const evidence='tests/evidence/app-offline-scope';mkdirSync(evidence,{recursive:true});
 try{
  worker=await startWorker({port:'8863',name:'saha-app-offline-scope'});const api=client(worker.base),run=crypto.randomUUID().slice(0,8),owner=identity('owner',run),asha=identity('asha',run);
@@ -32,5 +32,5 @@ try{
  const redirectLogin=route=>route.fulfill({status:302,headers:{location:'/login'},body:''});await page.route('**/api/workspace',redirectLogin);await unlock();await page.getByText('Device visit access changed.',{exact:false}).waitFor();assert.ok(await page.locator('#notebook').isHidden());assert.ok(!(await page.locator('body').innerText()).includes('Meena Devi'));
  await page.unroute('**/api/workspace');await unlock();await page.locator('#notebook').waitFor({state:'visible'});await page.route('**/api/workspace',redirectLogin);await page.evaluate(()=>dispatchEvent(new Event('online')));await page.locator('#notebook').waitFor({state:'hidden'});await page.getByText('Device visit access changed.',{exact:false}).waitFor();assert.ok(!(await page.locator('body').innerText()).includes('Meena Devi'));await page.unroute('**/api/workspace');
  writeFileSync(evidence+'/result.json',JSON.stringify({passed:10,failed:0,serverReassignedPatientStatus:denied.status,onlineUnlockWithdrawnPatientDenied:true,offlineSignedGrantRetained:true,reconnectRedactsWithdrawnPatient:true,sameAccountHomeCareRoleCannotBypassPacketOrganisation:true,loginRedirectDeniesUnlockAndReconnect:true},null,2)+'\n');
- console.log('Online withdrawn scope denied');
+ console.log(JSON.stringify({passed:10,failed:0}));
 }finally{await browser?.close();await worker?.stop()}

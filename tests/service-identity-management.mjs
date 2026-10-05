@@ -4,7 +4,7 @@ import {readdirSync,mkdirSync,writeFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {DatabaseSync} from 'node:sqlite';
 import {startWorker,identity,client} from './lib/worker.mjs';
-const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'playwright-core');
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');
 const evidence='tests/evidence/service-identity-management',state=resolve('.wrangler/service-identity-management-state');mkdirSync(evidence,{recursive:true});
 let worker,browser,sql,org;const checks=[];const check=async(name,fn)=>{await fn();checks.push(name);};
 try{

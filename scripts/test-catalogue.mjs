@@ -37,6 +37,8 @@ export const SUITE_RESULTS = {
   'tests/smoke/hosted-smoke.mjs': ['tests/reports/smoke-hosted-selftest-result.json'],
 };
 const MANUAL = {
+  'tests/nfr/memory-profile.mjs': { needsEnv: [], note: 'bounded loopback inspector diagnostic; snapshots alter collection cadence and do not replace no-inspector memory-growth qualification' },
+  'tests/nfr/memory-profile-ledger.mjs': { needsEnv: [], directOnly: true, note: 'read-only analysis of the completed memory profiler databases; run directly after memory-profile.mjs, never before it' },
   'tests/app-first-browser.mjs': { needsEnv: [], note: 'direct Chromium journey against an isolated synthetic Worker; equivalent CI journey is tests/ui/app-first-phone.spec.mjs' },
   'tests/a11y-audit.mjs': { needsEnv: ['SAHA_A11Y_MODULES', 'SAHA_A11Y_CHROMIUM', 'SAHA_A11Y_ORIGIN'], note: 'axe over 66 screens; needs Playwright and axe-core installed outside the project and a running synthetic Worker (docs/current/DEVELOPMENT-AND-CI.md)' },
   'tests/load-envelope.mjs': { needsEnv: [], note: 'local load probe toward the BRD planning envelope; builds its own large synthetic database and takes many minutes; needs dist/' },
@@ -74,7 +76,7 @@ export function classify(file) {
   if (isSupport(file)) return { layer: null, role: 'support', tier: null, reason: 'shared helper, fixture or entry module; not a suite' };
   if (file === 'tests/api-smoke.mjs') return { layer: 'integration', role: 'support', tier: null, reason: 'entry module imported by tests/run-api-smoke.mjs; not run on its own' };
   if (file === 'tests/run-api-smoke.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'HTTP and D1 suite against the built Worker' };
-  if (['tests/reconciliation-http.mjs', 'tests/reminder-optout-http.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'isolated synthetic built-Worker and D1 route checks' };
+  if (['tests/app-offline-review-browser.mjs', 'tests/app-offline-scope-browser.mjs', 'tests/touch-units-browser.mjs', 'tests/app-offline-browser.mjs', 'tests/reconciliation-http.mjs', 'tests/reminder-optout-http.mjs', 'tests/service-identity-management.mjs'].includes(file)) return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'isolated synthetic built-Worker and D1 route checks' };
   if (['tests/reconciliation-ui.mjs', 'tests/reminder-optout-refresh-browser.mjs'].includes(file)) return { layer: 'smoke', role: 'suite', tier: 'pr', runner: 'node', reason: 'Chromium regression for delayed organisation-scope responses' };
   if (file === 'tests/scheduled-local-check.mjs') return { layer: 'integration', role: 'suite', tier: 'extended', runner: 'node', reason: 'served-Worker check of the scheduled handler; needs dist/ and a port, so not a unit test' };
   if (file === 'tests/recovery-drill.mjs') return { layer: 'resilience', role: 'suite', tier: 'pr', runner: 'node', reason: 'encrypted backup and restore against the database the HTTP suite populated' };

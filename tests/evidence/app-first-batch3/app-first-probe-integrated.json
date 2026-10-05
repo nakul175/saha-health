@@ -1,0 +1,286 @@
+{
+  "generatedAt": "2026-10-05T04:13:27.569Z",
+  "startedAt": "2026-10-05T04:13:22.114Z",
+  "command": "node scripts/test.mjs unit --fast --guard --update-baseline --only unit/ehr-probe-contract,unit/ehr-execution,unit/mis-delivery,unit/adapter-operations-contract,unit/ehr-resolution-contract,unit/send-gate-contract,unit/access-audit-contract,unit/service-dispatch-contract,unit/replay-soak-contract --reason Add verified durable metadata-probe and configured suspended diagnostic lifecycle guard --report tests/reports/app-first-probe-integrated.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 9,
+      "passed": 248,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5318,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 9,
+    "passed": 248,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 5455
+  },
+  "suites": [
+    {
+      "id": "unit/access-audit-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/access-audit-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 477,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/access-audit-contract-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__access-audit-contract.log"
+    },
+    {
+      "id": "unit/adapter-operations-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/adapter-operations-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 449,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/adapter-operations-contract-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__adapter-operations-contract.log"
+    },
+    {
+      "id": "unit/ehr-execution",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/ehr-execution.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 298,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/ehr-execution-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__ehr-execution.log"
+    },
+    {
+      "id": "unit/ehr-probe-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/ehr-probe-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 833,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__ehr-probe-contract.log"
+    },
+    {
+      "id": "unit/ehr-resolution-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/ehr-resolution-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 604,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/ehr-resolution-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__ehr-resolution-contract.log"
+    },
+    {
+      "id": "unit/mis-delivery",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/mis-delivery.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 390,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/mis-delivery-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__mis-delivery.log"
+    },
+    {
+      "id": "unit/replay-soak-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/replay-soak-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1562,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/replay-soak-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__replay-soak-contract.log"
+    },
+    {
+      "id": "unit/send-gate-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/send-gate-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 479,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/send-gate-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__send-gate-contract.log"
+    },
+    {
+      "id": "unit/service-dispatch-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/service-dispatch-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 226,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__service-dispatch-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 8,
+    "newSuites": [
+      "unit/ehr-probe-contract"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/ehr-execution-result.json",
+      "tests/evidence/service-identity-wiring/service-dispatch-result.json",
+      "tests/mis-delivery-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/access-audit-contract-result.json",
+      "tests/adapter-operations-contract-result.json",
+      "tests/ehr-resolution-result.json",
+      "tests/replay-soak-result.json",
+      "tests/send-gate-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 141,
+        "components": 0,
+        "suitesCitingNoRequirement": 35,
+        "requirementsCited": 138
+      },
+      "integration": {
+        "suites": 9,
+        "components": 84,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 119
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 1,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 175,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 154,
+    "suitesCitingNoRequirement": 45,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 154
+  }
+}

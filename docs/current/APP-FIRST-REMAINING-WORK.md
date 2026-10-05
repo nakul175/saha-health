@@ -2,6 +2,12 @@
 
 5 October 2026 (IST). Planning audit of local integration source through `f4f05916`, including R27 (`bb0e83bf`), atomic ABHA review reservations, Android packaging, `/app` presentation and synthetic reminder opt-outs. Integration documentation was being reconciled while this audit ran. This document does not change assessment labels or formal acceptance.
 
+## Current delivery overlay — 5 October 2026
+
+The dispatch ledger below preserves its original planning basis. Current integration additionally delivers opt-in service execution binding and owner management, current domain checks around service audits, configured-suspended metadata probe lifecycle with audit-before-request, the shared encrypted offline app for prepared visits, connected permission revalidation, and six-unit online/notebook lineage parity. These close bounded software clauses within B01/A02/B06; they do not complete those entire residual groups. Independent service credentials/unattended authority, complete offline caseload/guidance, governed pinned contextual protocols and formal field/provider acceptance remain. Do not redispatch the delivered clauses from the older descriptive rows below.
+
+Active next software batches are governed pinned contextual range protocols, honest synthetic monthly availability measurement, auxiliary patient-read auditing, and a memory cause/fix investigation. O-2 is still open. Scope budgets remain provisional active agent-hours and are not measured model throughput or an elapsed completion promise.
+
 ## Basis and limits
 
 The 176 BRD rows are requirements, not equal-sized tasks. A partial row often already has substantial working software and still requires a partner, clinical decision or field evidence. In particular, 151 partial rows do **not** mean 151 missing features. The older remaining-slices file and assessment prose contain clauses subsequently implemented; use actual call sites, slice limits and dated evidence before commissioning another implementation.

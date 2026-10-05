@@ -95,7 +95,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 
 <details><summary>What the build does today (assessment, current state of BR-UX-01)</summary>
 
-One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen.
+One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen. App-first slice: authenticated /app reuses the care workspace, with Today, People, Referrals, Sync and More; a browser phone preview is tested with synthetic data. Android Browser Helper source opens the same app, but APK/device verification remains pending.
 
 </details>
 
@@ -129,7 +129,7 @@ One authenticated patient workspace with programme and agent panels. Independent
 
 <details><summary>What the build does today (assessment, current state of BR-UX-02)</summary>
 
-Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state.
+Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state. App-first bottom-tab navigation retains the existing dirty-form guard; browser Back handling is locally reviewed and verified; physical Android Back acceptance remains pending. Browser Back controller and actual Chromium checks now pass dirty-form keep/discard and scope-aware restoration; physical Android Back remains unverified.
 
 </details>
 
@@ -265,7 +265,7 @@ Hindi/English field notebook (slice 6f). Slice 10j: each member can choose Engli
 
 <details><summary>What the build does today (assessment, current state of BR-UX-06)</summary>
 
-Local, server, queued, uncertain and destination-specific states remain separate.
+Local, server, queued, uncertain and destination-specific states remain separate. The app sync centre explicitly separates encrypted device drafts from programme submissions and never infers a zero queue from a locked notebook.
 
 </details>
 
@@ -281,7 +281,7 @@ Local, server, queued, uncertain and destination-specific states remain separate
 - **Catalogue:** Functional, fixture FX-UX-07, catalogue owner "QA with Frontline worker".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-UX; catalogue owner "QA with Frontline worker").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-UX-07: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Care handover, Person page and visit. Not in this role's navigation: Connections. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -299,7 +299,7 @@ Local, server, queued, uncertain and destination-specific states remain separate
 
 <details><summary>What the build does today (assessment, current state of BR-UX-07)</summary>
 
-Server drafts, local encrypted drafts and command replay support restart recovery.
+Server drafts, local encrypted drafts and command replay support restart recovery. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Independent A02 review fixed actual withdrawn-assignment disclosure: connected unlock and reconnect recheck every current prepared patient in its original organisation; positive refusal/login redirect locks and redacts, while unreachable transport retains only bounded signed offline access.
 
 </details>
 
@@ -605,7 +605,7 @@ New visits do not inherit old measurements; bounded protocol rules reject stale/
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-05)</summary>
 
-Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i). Slice 6ab: a clinician confirming an unusual value must not be the measurement's recorded author or the author of any override with the same value (rewording the reason or re-entering the value in another unit no longer lets the recorder confirm it).
+Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i). Slice 6ab: a clinician confirming an unusual value must not be the measurement's recorded author or the author of any override with the same value (rewording the reason or re-entering the value in another unit no longer lets the recorder confirm it). App-first A04 completes six online/notebook unit pickers, canonical read-only previews and original-quantity/source/override-author/range-version lineage through encrypted reload and draft sync; unknown entered fields now return controlled 422. Independent review reran 20 Chromium journeys and 126 conversion cases. Wider pinned patient-context protocol governance remains required software work; clinical ranges are not approved.
 
 </details>
 
@@ -621,7 +621,7 @@ Numeric syntax, paired BP, date and programme evidence checks; stated alternativ
 - **Catalogue:** Functional, fixture FX-DATA-06, catalogue owner "QA with Frontline worker and programme data owner".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-DATA; catalogue owner "QA with Frontline worker and programme data owner").
 - **Default result:** Not run
-- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
+- **Start from:** Person page and visit, Care handover. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -635,11 +635,11 @@ Numeric syntax, paired BP, date and programme evidence checks; stated alternativ
 
 **Expected result** (catalogue): Correcting a key fact reveals all dependent AI results and submissions, marks invalidated outputs and creates the necessary reconciliation tasks.
 
-**Known gaps** (assessment, remaining work for BR-DATA-06): Recomputation of shadow comparisons and released indicator figures, follow-up source links (follow-ups are listed as possible dependants), task reassignment and notification, tasks for corrections made before slice 2j, and identity-merge and correction tasks in one reconciliation view.
+**Known gaps** (assessment, remaining work for BR-DATA-06): Independent representative-scale validation, historical evidence completeness, external correction receipts, released indicator recomputation and formal acceptance remain pending.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-06)</summary>
 
-Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task). Slice 13c: the shadow and drift reports recompute a corrected comparison on read (or leave it out for a void or an unconfirmed correction), so shadow-comparison correction tasks are recorded as recomputed or invalidated; released indicator figures stay open review tasks.
+Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task). Slice 13c: the shadow and drift reports recompute a corrected comparison on read (or leave it out for a void or an unconfirmed correction), so shadow-comparison correction tasks are recorded as recomputed or invalidated; released indicator figures stay open review tasks. App-first R27: one scoped correction/identity-merge reconciliation queue, audited current-scope assignment history and in-app acknowledgement notices, and deterministic historical backfill preview/apply with stale-plan and replay guards.
 
 </details>
 
@@ -1047,7 +1047,7 @@ Independent destination states preserve accepted receipts during partial failure
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-01)</summary>
 
-Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync.
+Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. App-only connected patient-scope revalidation and redirect refusal are independently browser-tested; prepared-visit scope remains narrower than a complete offline caseload.
 
 </details>
 
@@ -1081,7 +1081,7 @@ Encrypted bounded draft notebook with unavailable online functions. Slice 3g: ne
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-02)</summary>
 
-Serialized encrypted writes acknowledge after persistence; recovery logic tested.
+Serialized encrypted writes acknowledge after persistence; recovery logic tested. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache.
 
 </details>
 
@@ -1251,7 +1251,7 @@ Assignment, identity, membership, consent and visit versions rechecked at sync. 
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-07)</summary>
 
-Encrypted per-user notebook, inactivity lock, grants and reconnect denial.
+Encrypted per-user notebook, inactivity lock, grants and reconnect denial. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Reconnected app visits are redacted during current permission validation and lock on positive withdrawal or login redirect.
 
 </details>
 

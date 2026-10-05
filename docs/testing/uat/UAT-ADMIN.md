@@ -72,7 +72,7 @@ Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains t
 - **Catalogue:** Functional, fixture FX-ID-09, catalogue owner "QA with Deployment administrator and identity steward".
 - **Run as:** Administrator. Basis: requirement area default (BR-ID; catalogue owner "QA with Deployment administrator and identity steward").
 - **Default result:** **Blocked**
-- **Start from:** No screen is documented for BR-ID-09: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Operations. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Administrator signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -84,11 +84,11 @@ Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains t
 
 **Expected result** (catalogue): Revoking a connector credential stops its new calls without disabling unrelated connectors; audit identifies both initiating user and executing service.
 
-**Known gaps** (assessment, remaining work for BR-ID-09): Managed service identities for connectors and agents with expiry, ownership, rotation, independent credential revocation and audit naming initiating user and executing service.
+**Known gaps** (assessment, remaining work for BR-ID-09): Independent credential issuance/rotation/revocation, default enforcement policy, service-owned unattended work, hosted IAM and live-provider qualification remain pending. Opt-in binding is not autonomous machine sign-in.
 
 <details><summary>What the build does today (assessment, current state of BR-ID-09)</summary>
 
-Scoped connector server bindings and grants separate user sessions from provider keys. Slice 1e: person-to-person delegation has scope, expiry, an accountable grantor, revocation and use audit; service accounts are documented as unsupported by both identity providers. Slice 6p: a provider sandbox import checks the importer's active ownership of the source before reading it and answers one 404 for not found, not a sandbox and not the importer's own.
+Scoped connector server bindings and grants separate user sessions from provider keys. Slice 1e: person-to-person delegation has scope, expiry, an accountable grantor, revocation and use audit; service accounts are documented as unsupported by both identity providers. Slice 6p: a provider sandbox import checks the importer's active ownership of the source before reading it and answers one 404 for not found, not a sandbox and not the importer's own. App-first service-authority batch: owner management of exact target-bound, accountable, expiring machine identity; current-state transport gates and initiating-human/service audit, maintenance-safe revocation and rotation by rebinding. Default unbound connections retain legacy behaviour. Independent review corrected effective frontline agreement lookup and repeats domain consent, purpose, maintenance, current visit/sign-off/checkpoint gates before and after the new service audit; receipt-only lookup remains separate from clinical sends.
 
 </details>
 

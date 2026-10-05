@@ -1336,7 +1336,7 @@ UI and release gates distinguish simulation, configured endpoints and real accep
 - **Catalogue:** Functional, fixture FX-CARE-07, catalogue owner "QA with Worker clinician and supervisor".
 - **Run as:** Organisation owner / programme lead. Basis: the notification channel is an owner setting (Organisation & team).
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-CARE-07: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Outreach. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -1350,11 +1350,11 @@ UI and release gates distinguish simulation, configured endpoints and real accep
 
 **Expected result** (catalogue): Delivery failure creates a retry or follow-up task and is not reported as patient acknowledgement.
 
-**Known gaps** (assessment, remaining work for BR-CARE-07): Approved SMS/IVR/appointment provider, real receipts and incoming opt-outs.
+**Known gaps** (assessment, remaining work for BR-CARE-07): Approved SMS/IVR/appointment provider, real incoming events/receipts, channel qualification and formal acceptance remain pending. Mock provider is synthetic/training only.
 
 <details><summary>What the build does today (assessment, current state of BR-CARE-07)</summary>
 
-Independent reminder simulation, receipts, bounded retry and owned failure follow-up.
+Independent reminder simulation, receipts, bounded retry and owned failure follow-up. App-first R77: synthetic staff STOP simulation and exact-organisation signed mock callback, stable durable receipts, preference/consent history and unsent reminder cancellation; scope rechecked for staff receipt replay.
 
 </details>
 

@@ -10,4 +10,4 @@ for(const delta of [{...good,people:[]},{...good,user:{userId:'other'}},{...good
 await appValidateOnlineBook(book(),async()=>{throw new TypeError('Failed to fetch')});passed++;
 await appValidateOnlineBook(book(),async path=>{if(path==='/api/workspace')return response(good);throw new TypeError('Failed to fetch')});passed++;
 await assert.rejects(appValidateOnlineBook(book(),async()=>({ok:true,json:async()=>{throw Error('invalid JSON')}})));passed++;
-mkdirSync('tests/evidence/app-offline-scope',{recursive:true});writeFileSync('tests/evidence/app-offline-scope/contract.json',JSON.stringify({passed,failed:0},null,2)+'\n');console.log({passed});
+mkdirSync('tests/evidence/app-offline-scope',{recursive:true});writeFileSync('tests/evidence/app-offline-scope/contract.json',JSON.stringify({passed,failed:0},null,2)+'\n');console.log(JSON.stringify({passed,failed:0}));

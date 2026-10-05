@@ -132,9 +132,12 @@ try {
   console.log('Anonymous on non-GET routes:\n' + anonRows.map(x => `${x.method.padEnd(7)}${x.route.padEnd(28)}${x.status}  ${x.error}`).join('\n') + '\n');
   // /api/mis/callback is a webhook authenticated by an HMAC signature and a per-organisation grant, not by a signed-in identity
   // (lib/saha/mis-callback.ts authenticateCallback), so an unsigned anonymous call is refused by validation or signature rather than 401.
-  const WEBHOOK = new Set(['/api/mis/callback']);
-  await r.check('(ii) anonymous gets 401 on every POST and DELETE /api/ route, except the signature-authenticated MIS webhook', () => none(anonRows.filter(x => !WEBHOOK.has(x.route) && x.status !== 401).map(x => `${x.method} ${x.route}: ${x.status} ${x.error}`), 'anonymous non-GET'));
+  // The synthetic reminder callback likewise requires a signature and exact organisation grant;
+  // malformed input can be refused before authentication. Both exceptions must independently refuse it.
+  const WEBHOOK = new Set(['/api/mis/callback', '/api/reminder-optout/callback']);
+  await r.check('(ii) anonymous gets 401 on every POST and DELETE /api/ route, except signature-authenticated callbacks', () => none(anonRows.filter(x => !WEBHOOK.has(x.route) && x.status !== 401).map(x => `${x.method} ${x.route}: ${x.status} ${x.error}`), 'anonymous non-GET'));
   await r.check('(ii) the MIS webhook refuses an unsigned anonymous call (4xx, never 2xx or 5xx)', () => { const x = anonRows.find(y => y.route === '/api/mis/callback'); if (!x || x.status < 400 || x.status >= 500) throw new Error(`/api/mis/callback: ${x?.status}`); });
+  await r.check('(ii) the reminder callback refuses an unsigned anonymous call (4xx, never 2xx or 5xx)', () => { const x = anonRows.find(y => y.route === '/api/reminder-optout/callback'); if (!x || x.status < 400 || x.status >= 500) throw new Error(`/api/reminder-optout/callback: ${x?.status}`); });
 
   // ── Search and write routes other than /api/commands ───────────────────────────────────────────────────────────────────────────────────
   const ownerSnap = await world.load('owner', org), a2 = ownerSnap.people.find(p => p.id === world.people.a2);

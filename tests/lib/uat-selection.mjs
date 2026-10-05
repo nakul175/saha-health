@@ -131,6 +131,9 @@ export async function loadNavigation() {
 // (a panel imported by another panel is hosted wherever that panel is). 'Person page' is a person's page opened from My work or People.
 const PERSON = 'Person page and visit';
 export const PANEL_HOME = {
+  'app/reconciliation-panel.tsx': ['Care handover'],
+  'app/reminder-optout-panel.tsx': ['Outreach'],
+  'app/service-identity-panel.tsx': ['Operations'],
   'app/abdm-panel.tsx': [PERSON, 'Connections'], 'app/action-plan-panel.tsx': [PERSON], 'app/activity.tsx': ['Activity log'], 'app/adapter-operations-panel.tsx': ['Connections'],
   'app/agent-panel.tsx': [PERSON, 'AI tools'], 'app/aggregate-reports-panel.tsx': ['Connections'], 'app/ai-budget-panel.tsx': ['Operations'], 'app/ai-invoice-panel.tsx': ['Operations'],
   'app/alert-inbox.tsx': ['Alert bell (page header)'], 'app/anaemia-panel.tsx': [PERSON, 'Connections'], 'app/frontline-panel.tsx': [PERSON, 'Connections'], 'app/voice-input.tsx': ['My work', PERSON, 'Organisation & team'], 'app/audit-chain-panel.tsx': ['Activity log'], 'app/caseload-panel.tsx': ['Care handover'], 'app/clinical-panel.tsx': [PERSON],
@@ -149,7 +152,7 @@ export const PANEL_HOME = {
   'app/shadow-panel.tsx': ['Clinical governance'], 'app/trace-panel.tsx': ['Submissions', 'Operations'], 'app/value-override-panel.tsx': [PERSON, 'Organisation & team'],
   'app/worker-activity-panel.tsx': ['Care handover'], 'app/workforce-import-panel.tsx': ['Organisation & team'], 'app/worklist-panel.tsx': ['My work', 'People', 'Submissions'],
 };
-const GENERIC_SHELL = new Set(['app/workspace.tsx', 'app/layout.tsx', 'app/page.tsx', 'app/i18n.tsx', 'app/chatgpt-auth.ts', 'app/globals.css']);
+const GENERIC_SHELL = new Set(['app/workspace.tsx', 'app/layout.tsx', 'app/page.tsx', 'app/app/page.tsx', 'app/frontline-navigation.tsx', 'app/i18n.tsx', 'app/chatgpt-auth.ts', 'app/globals.css']);
 export function unmappedPanels(evidenceMap) {
   const cited = new Set(Object.values(evidenceMap).flat().filter(p => p.startsWith('app/') && p.endsWith('.tsx')));
   return [...cited].filter(p => !PANEL_HOME[p] && !GENERIC_SHELL.has(p) && !p.startsWith('app/api/')).sort();

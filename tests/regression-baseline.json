@@ -3,6 +3,21 @@
   "updatedAt": "2026-10-05",
   "node": "v24.19.0",
   "suites": {
+    "integration/app-offline-browser": {
+      "layer": "integration",
+      "file": "tests/app-offline-browser.mjs",
+      "minPassed": 19
+    },
+    "integration/app-offline-review-browser": {
+      "layer": "integration",
+      "file": "tests/app-offline-review-browser.mjs",
+      "minPassed": 22
+    },
+    "integration/app-offline-scope-browser": {
+      "layer": "integration",
+      "file": "tests/app-offline-scope-browser.mjs",
+      "minPassed": 10
+    },
     "integration/reconciliation-http": {
       "layer": "integration",
       "file": "tests/reconciliation-http.mjs",
@@ -23,10 +38,20 @@
       "file": "tests/scheduled-local-check.mjs",
       "minPassed": 8
     },
+    "integration/service-identity-management": {
+      "layer": "integration",
+      "file": "tests/service-identity-management.mjs",
+      "minPassed": 10
+    },
+    "integration/touch-units-browser": {
+      "layer": "integration",
+      "file": "tests/touch-units-browser.mjs",
+      "minPassed": 20
+    },
     "nfr/authorisation-matrix": {
       "layer": "nfr",
       "file": "tests/nfr/authorisation-matrix.mjs",
-      "minPassed": 51
+      "minPassed": 52
     },
     "nfr/identity-hardening": {
       "layer": "nfr",
@@ -183,6 +208,41 @@
       "file": "tests/anaemia-worker-transport.mjs",
       "minPassed": 7
     },
+    "unit/android-app-contract": {
+      "layer": "unit",
+      "file": "tests/android-app-contract.mjs",
+      "minPassed": 20
+    },
+    "unit/app-first-ui": {
+      "layer": "unit",
+      "file": "tests/app-first-ui.cjs",
+      "minPassed": 15
+    },
+    "unit/app-history-contract": {
+      "layer": "unit",
+      "file": "tests/app-history-contract.mjs",
+      "minPassed": 17
+    },
+    "unit/app-offline-contract": {
+      "layer": "unit",
+      "file": "tests/app-offline-contract.mjs",
+      "minPassed": 11
+    },
+    "unit/app-offline-scope-contract": {
+      "layer": "unit",
+      "file": "tests/app-offline-scope-contract.mjs",
+      "minPassed": 14
+    },
+    "unit/app-sw-review-contract": {
+      "layer": "unit",
+      "file": "tests/app-sw-review-contract.mjs",
+      "minPassed": 16
+    },
+    "unit/atomic-abha-review-contract": {
+      "layer": "unit",
+      "file": "tests/atomic-abha-review-contract.mjs",
+      "minPassed": 14
+    },
     "unit/audit-chain-contract": {
       "layer": "unit",
       "file": "tests/audit-chain-contract.mjs",
@@ -276,7 +336,12 @@
     "unit/ehr-execution": {
       "layer": "unit",
       "file": "tests/ehr-execution.mjs",
-      "minPassed": 9
+      "minPassed": 33
+    },
+    "unit/ehr-probe-contract": {
+      "layer": "unit",
+      "file": "tests/ehr-probe-contract.mjs",
+      "minPassed": 20
     },
     "unit/ehr-resolution-contract": {
       "layer": "unit",
@@ -376,7 +441,7 @@
     "unit/field-shell": {
       "layer": "unit",
       "file": "tests/field-shell.mjs",
-      "minPassed": 11
+      "minPassed": 12
     },
     "unit/field-storage-client": {
       "layer": "unit",
@@ -481,7 +546,7 @@
     "unit/mis-delivery": {
       "layer": "unit",
       "file": "tests/mis-delivery.mjs",
-      "minPassed": 10
+      "minPassed": 16
     },
     "unit/ninth-review-fixes-contract": {
       "layer": "unit",
@@ -548,6 +613,11 @@
       "file": "tests/plan-dependencies-contract.mjs",
       "minPassed": 9
     },
+    "unit/process-memory-contract": {
+      "layer": "unit",
+      "file": "tests/process-memory-contract.mjs",
+      "minPassed": 6
+    },
     "unit/programme-migration-contract": {
       "layer": "unit",
       "file": "tests/programme-migration-contract.mjs",
@@ -603,6 +673,11 @@
       "file": "tests/referral-request-queue-contract.mjs",
       "minPassed": 21
     },
+    "unit/reminder-optout-contract": {
+      "layer": "unit",
+      "file": "tests/reminder-optout-contract.mjs",
+      "minPassed": 39
+    },
     "unit/replay-soak-contract": {
       "layer": "unit",
       "file": "tests/replay-soak-contract.mjs",
@@ -657,6 +732,11 @@
       "layer": "unit",
       "file": "tests/send-gate-contract.mjs",
       "minPassed": 29
+    },
+    "unit/service-dispatch-contract": {
+      "layer": "unit",
+      "file": "tests/service-dispatch-contract.mjs",
+      "minPassed": 100
     },
     "unit/service-identity-contract": {
       "layer": "unit",
@@ -726,7 +806,7 @@
     "unit/value-ranges-context-contract": {
       "layer": "unit",
       "file": "tests/value-ranges-context-contract.mjs",
-      "minPassed": 24
+      "minPassed": 26
     },
     "unit/visit-import-contract": {
       "layer": "unit",

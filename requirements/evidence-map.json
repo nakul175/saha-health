@@ -214,7 +214,10 @@
     "lib/saha/access.ts",
     "tests/api-smoke.mjs",
     "tests/nfr/authorisation-matrix.mjs",
-    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
+    "lib/saha/service-dispatch.ts",
+    "tests/service-dispatch-contract.mjs",
+    "docs/current/SERVICE-IDENTITY-WIRING.md"
   ],
   "NFR-10": [
     "lib/saha/store.ts",
@@ -230,7 +233,10 @@
     "tests/nfr/load-burst.mjs",
     "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
     "tests/audit-contention-contract.mjs",
-    "docs/current/SLICE-13E-PERFORMANCE.md"
+    "docs/current/SLICE-13E-PERFORMANCE.md",
+    "lib/saha/ehr-probe.ts",
+    "tests/ehr-probe-contract.mjs",
+    "docs/current/EHR-PROBE-AUDIT-AND-ELIGIBILITY.md"
   ],
   "NFR-11": [
     "lib/saha/field.ts",
@@ -393,8 +399,14 @@
     "docs/current/SLICE-13E-PERFORMANCE.md",
     "tests/lib/process-memory.mjs",
     "tests/process-memory-contract.mjs",
-    "tests/nfr/memory-growth.mjs",
-    "docs/current/APP-FIRST-BASELINE.md"
+    "docs/current/APP-FIRST-BASELINE.md",
+    "tests/nfr/memory-profile.mjs",
+    "tests/nfr/memory-profile-ledger.mjs",
+    "docs/current/MEMORY-PROFILING.md",
+    "scripts/diagnose-memory-controls.mjs",
+    "docs/current/MEMORY-NO-INSPECTOR-CONTROLS.md",
+    "scripts/diagnose-memory-workspace-variant.mjs",
+    "docs/current/MEMORY-WRITE-CONTROLS.md"
   ],
   "NFR-25": [
     "lib/saha/fhir-document.ts",
@@ -689,7 +701,18 @@
     "tests/field-shell.mjs",
     "public/field/app.js",
     "docs/current/SLICE-3G-OFFLINE-REGISTRATION.md",
-    "tests/field-registration-client.mjs"
+    "tests/field-registration-client.mjs",
+    "public/app-sw.js",
+    "public/app/offline/index.html",
+    "public/field/app-grants.js",
+    "tests/app-offline-browser.mjs",
+    "tests/app-offline-contract.mjs",
+    "docs/current/APP-SHARED-OFFLINE.md",
+    "tests/app-offline-review-browser.mjs",
+    "tests/app-offline-scope-browser.mjs",
+    "tests/app-offline-scope-contract.mjs",
+    "tests/app-sw-review-contract.mjs",
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
   ],
   "BR-DATA-02": [
     "lib/saha/core.ts",
@@ -1103,7 +1126,18 @@
     "docs/current/SLICE-6P-REVIEW-FIXES.md",
     "lib/saha/server.ts",
     "lib/saha/provider-sandbox.ts",
-    "tests/provider-sandbox-smoke.mjs"
+    "tests/provider-sandbox-smoke.mjs",
+    "lib/saha/service-identity.ts",
+    "lib/saha/service-dispatch.ts",
+    "app/service-identity-panel.tsx",
+    "tests/service-dispatch-contract.mjs",
+    "tests/service-identity-contract.mjs",
+    "docs/current/SERVICE-IDENTITY-WIRING.md",
+    "tests/service-identity-management.mjs",
+    "docs/current/SERVICE-IDENTITY-MANAGEMENT-VERIFIED.md",
+    "tests/ehr-execution.mjs",
+    "tests/mis-delivery.mjs",
+    "docs/current/SERVICE-DISPATCH-DOMAIN-CHECKPOINT.md"
   ],
   "BR-CARE-08": [
     "lib/saha/continuity.ts",
@@ -1372,7 +1406,11 @@
     "tests/value-override-agent-contract.mjs",
     "docs/current/SLICE-2I-VALUE-OVERRIDES.md",
     "tests/eighth-review-fixes-contract.mjs",
-    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md"
+    "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
+    "tests/touch-units-browser.mjs",
+    "tests/value-ranges-context-contract.mjs",
+    "docs/current/APP-TOUCH-UNITS.md",
+    "docs/current/APP-TOUCH-UNITS-INDEPENDENT-REVIEW.md"
   ],
   "BR-INT-21": [
     "lib/saha/mis.ts",
@@ -1615,5 +1653,64 @@
     "docs/current/REMINDER-OPTOUT.md",
     "tests/reminder-optout-refresh-browser.mjs",
     "docs/current/REMINDER-OPTOUT-REFRESH.md"
+  ],
+  "BR-UX-07": [
+    "app/workspace.tsx",
+    "app/continuity-panel.tsx",
+    "tests/api-smoke.mjs",
+    "lib/saha/anaemia.ts",
+    "lib/saha/anaemia-server.ts",
+    "app/anaemia-panel.tsx",
+    "tests/anaemia-provider-contract.mjs",
+    "tests/anaemia-http-smoke.mjs",
+    "docs/current/INDEPENDENT-ANAEMIA-PROVIDER.md",
+    "public/app-sw.js",
+    "public/app/offline/index.html",
+    "public/field/app-grants.js",
+    "public/field/app.js",
+    "tests/app-offline-browser.mjs",
+    "tests/app-offline-contract.mjs",
+    "docs/current/APP-SHARED-OFFLINE.md",
+    "tests/app-offline-review-browser.mjs",
+    "tests/app-offline-scope-browser.mjs",
+    "tests/app-offline-scope-contract.mjs",
+    "tests/app-sw-review-contract.mjs",
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+  ],
+  "BR-OFF-02": [
+    "lib/saha/field.ts",
+    "tests/field-contract.mjs",
+    "tests/field-client.mjs",
+    "tests/field-shell.mjs",
+    "public/app-sw.js",
+    "public/app/offline/index.html",
+    "public/field/app-grants.js",
+    "public/field/app.js",
+    "tests/app-offline-browser.mjs",
+    "tests/app-offline-contract.mjs",
+    "docs/current/APP-SHARED-OFFLINE.md",
+    "tests/app-offline-review-browser.mjs",
+    "tests/app-offline-scope-browser.mjs",
+    "tests/app-offline-scope-contract.mjs",
+    "tests/app-sw-review-contract.mjs",
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+  ],
+  "BR-OFF-07": [
+    "lib/saha/field.ts",
+    "tests/field-contract.mjs",
+    "tests/field-client.mjs",
+    "tests/field-shell.mjs",
+    "public/app-sw.js",
+    "public/app/offline/index.html",
+    "public/field/app-grants.js",
+    "public/field/app.js",
+    "tests/app-offline-browser.mjs",
+    "tests/app-offline-contract.mjs",
+    "docs/current/APP-SHARED-OFFLINE.md",
+    "tests/app-offline-review-browser.mjs",
+    "tests/app-offline-scope-browser.mjs",
+    "tests/app-offline-scope-contract.mjs",
+    "tests/app-sw-review-contract.mjs",
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
   ]
 }

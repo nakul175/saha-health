@@ -66,6 +66,17 @@ export const LAYERS = ['unit', 'integration', 'resilience', 'smoke', 'ui', 'nfr'
 export const LAYER_NAME = { unit: 'unit', integration: 'integration', resilience: 'resilience', smoke: 'smoke', ui: 'ui', nfr: 'nfr' };
 // Named files whose layer the filename rules would get wrong, and files that are not suites at all (null).
 export const LAYER_OVERRIDES = {
+  'tests/app-first-ui.cjs': ['unit', 'rendered app navigation policy and status checks'],
+  'tests/app-first-browser.mjs': ['ui', 'actual Chromium app-first journey'],
+  'tests/app-offline-review-browser.mjs': ['integration', 'independent Chromium/Worker/D1 cache, encrypted reload and receipt replay review'],
+  'tests/app-offline-scope-browser.mjs': ['integration', 'actual assignment/membership withdrawal and login-redirect denial'],
+  'tests/touch-units-browser.mjs': ['integration', 'actual Chromium/Worker/D1 six-unit capture, encrypted reload and draft sync'],
+  'tests/app-offline-browser.mjs': ['integration', 'actual Chromium/Worker/D1 offline prepared-visit journey'],
+  'tests/reconciliation-http.mjs': ['integration', 'isolated Worker and D1 reconciliation routes'],
+  'tests/reminder-optout-http.mjs': ['integration', 'isolated Worker and D1 opt-out routes plus browser journey'],
+  'tests/service-identity-management.mjs': ['integration', 'isolated Worker/D1 and Chromium service management'],
+  'tests/reconciliation-ui.mjs': ['smoke', 'delayed scope and preview browser regressions'],
+  'tests/reminder-optout-refresh-browser.mjs': ['smoke', 'organisation switching and concurrent opt-out browser regressions'],
   'tests/recovery-drill.mjs': ['resilience', 'encrypted restore drill'],
   'tests/a11y-audit.mjs': ['ui', 'browser accessibility audit, run outside CI'],
   'tests/load-envelope.mjs': ['nfr', 'load envelope measurement'],

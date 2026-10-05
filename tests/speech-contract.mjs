@@ -71,14 +71,14 @@ try {
     assert.equal(S.voiceEligible({ tag: 'textarea' }), true); assert.equal(S.voiceEligible({ tag: 'textarea', voice: 'off' }), false); assert.equal(S.voiceEligible({ tag: 'select' }), false); });
 
   // ----- the field notebook gives the same values, and uses the browser service only as the workspace allows -----
-  class Element { constructor(tag = 'div') { this.tag = tag; this.children = []; this.value = ''; this.style = {}; } append(...c) { this.children.push(...c); } prepend(...c) { this.children.unshift(...c); } replaceChildren(...c) { this.children = c; } querySelector() { return null; } setAttribute() {} }
+  class Element { constructor(tag = 'div') { this.tag = tag; this.children = []; this.value = ''; this.style = {}; this.dataset = {}; } append(...c) { this.children.push(...c); } prepend(...c) { this.children.unshift(...c); } replaceChildren(...c) { this.children = c; } querySelector() { return null; } setAttribute() {} }
   const els = new Map(), byId = id => { if (!els.has(id)) els.set(id, new Element()); return els.get(id); };
   const win = { indexedDB: {}, addEventListener: () => {} }, nav = { onLine: true };
   const ctx = vm.createContext({ console, crypto, TextEncoder, TextDecoder, structuredClone, Date, Map, Array, Promise, Error, JSON, Uint8Array, Blob, Number, Math, String, queueMicrotask, setTimeout: () => 0, clearTimeout: () => {},
     derive: async () => null, seal: async () => null, unseal: async () => null, verifyPacket: async () => true, packetHash: async () => '', sealBytes: async () => null, unsealBytes: async () => null,
     readVault: async () => null, writeVault: async () => 1, deleteVault: async () => {}, writeMedia: async () => {}, readMedia: async () => null, deleteMedia: async () => {}, listMediaIds: async () => [],
     fetch: async () => { throw Error('offline'); }, navigator: nav, window: win, document: { hidden: false, documentElement: {}, body: new Element('body'), getElementById: byId, createElement: tag => new Element(tag), addEventListener: () => {} } });
-  vm.runInContext(readFileSync('public/field/app.js', 'utf8').replace(/^import[^\n]*\n/, ''), ctx);
+  vm.runInContext(readFileSync('public/field/app.js', 'utf8').replace(/^import[^\n]*\n/gm, ''), ctx);
   const run = code => vm.runInContext(code, ctx);
   await check(() => { for (const [heard, value, others] of numbers) assert.deepEqual(JSON.parse(JSON.stringify(run(`voiceNumber(${JSON.stringify(heard)})`))), { value, others }, `notebook ${heard}`); });
   await check(() => { for (const [current, heard, kind] of [['', 'headache for two days', 'text'], ['Fever since Monday.  ', 'headache', 'text'], ['120', 'BP 152 by 114', 'decimal'], ['', 'one fifty two', 'decimal'], ['', '91 1234 5678 9012', 'digits'], ['x', '  ', 'text'], ['', '३६.८', 'decimal']])

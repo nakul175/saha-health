@@ -6,7 +6,7 @@ The sponsor requested an installable Android app for ASHA workers with the same 
 
 | Batch | Current delivery and gate |
 | --- | --- |
-| App UI | Authenticated phone presentation and browser journey checked; guarded Back/Forward fix integrated; browser/controller evidence recorded |
+| App UI | Authenticated phone presentation, guarded Back and shared-vault offline prepared visits integrated locally; independent offline review in progress |
 | Atomic ABHA review | Local D1 concurrency checks passed; 4,758 combined HTTP regression checks passed before R27/R77 integration |
 | Android | Buildable project and configuration checks; APK/lint pending SDK licence authorisation |
 | Baseline/performance | Existing regressions corrected; 8,101 memory-probe requests succeeded, O-2 remains open |
@@ -178,4 +178,6 @@ This is a proposed implementation slice derived from the existing R12 plan, not 
 
 Do not close an older gap merely because a later engineering release exists. Identity, consent, sensitive-data segmentation, programme semantics and scale risks cut across these batches. See each row's remaining-work statement.
 
-The current residual software dispatch ledger is [app-first remaining engineering work](current/APP-FIRST-REMAINING-WORK.md). Service execution identity wiring is the next active backend batch; physical-device and partner gates are separate.
+The current residual software dispatch ledger is [app-first remaining engineering work](current/APP-FIRST-REMAINING-WORK.md). Service execution identity wiring and six-unit parity are integrated locally; broader pinned context protocol governance and capability-probe ordering are the next active software batches. Physical-device and partner gates are separate.
+
+Batch 3: shared offline app A02, service execution identity gates/management and local memory diagnostics are integrated locally. Independent review corrected service audit-window consent/maintenance races, effective frontline agreement selection and connected offline patient-scope withdrawal/login-redirect disclosure; field/speech/service-worker fixtures have been repaired. A04 six-unit presentation/lineage parity passed bounded independent review; full contextual range protocol wiring remains required software work. The probe activation cycle and audit-before-request gap are corrected locally, with clinical active-only restrictions preserved. Final affected checks and generated evidence remain the next publish gates. True monthly availability reporting, wider pinned context protocol governance and auxiliary read auditing are next active software batches.

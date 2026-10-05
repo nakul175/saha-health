@@ -48,5 +48,5 @@ try{
   await assert.rejects(f.probe(undefined,async()=>{requests++;return caps}));assert.equal(hit,true,'actual audit boundary reached');assert.equal(requests,0,'no metadata request after changed authority');f.d.db.close();
  });
  await check('Suspended probe eligibility does not permit create/bind management',async()=>{const f=await fixture();await f.configure();await assert.rejects(f.bind('ehr1'),e=>e.status===422);f.d.db.close()});
- mkdirSync('tests/evidence/ehr-probe-audit',{recursive:true});writeFileSync('tests/evidence/ehr-probe-audit/lifecycle.json',JSON.stringify({passed,failed:0,coverage:'Real migrations and real store/audit/dispatch/execution/lifecycle validators against SQLite-backed D1 shim, injected metadata-only transport. Not hosted/network-provider acceptance.'},null,2)+'\n');console.log({passed});
+ mkdirSync('tests/evidence/ehr-probe-audit',{recursive:true});writeFileSync('tests/evidence/ehr-probe-audit/lifecycle.json',JSON.stringify({passed,failed:0,coverage:'Real migrations and real store/audit/dispatch/execution/lifecycle validators against SQLite-backed D1 shim, injected metadata-only transport. Not hosted/network-provider acceptance.'},null,2)+'\n');console.log(JSON.stringify({passed,failed:0}));
 }finally{rmSync(dir,{recursive:true,force:true})}

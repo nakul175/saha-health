@@ -19,5 +19,23 @@
   "controlsAreUnreplicated": true,
   "O2": "open",
   "runner": "scripts/diagnose-memory-workspace-variant.mjs",
-  "runnerClassification": "manual outside tests; no catalogue/gate entry"
+  "runnerClassification": "manual outside tests; no catalogue/gate entry",
+  "reports": {
+    "no-workspace-audit.json": {
+      "sha256": "103ed388066438475075208cf8c150d33f2ef21dda4e794fa0869f653d07c1e2",
+      "passed": 0
+    },
+    "diagnostic-only-audit-patch.json": {
+      "sha256": "090cd48920a201e6208592843697f503b3e0a9d01fc4875936567186fe8c0ea6",
+      "passed": 0
+    },
+    "diagnostic-only-audit-metrics-patch.json": {
+      "sha256": "ed67e1f87030dd4b4fae68c34e8669710fc2a0a642f9da7552cea50aa636d5b1",
+      "passed": 0
+    },
+    "no-workspace-audit-or-metric-persist.json": {
+      "sha256": "fd05187a07f5a7d7f08c07900d64df35815b1ef1d43c4ba512102e466747a176",
+      "passed": 0
+    }
+  }
 }
