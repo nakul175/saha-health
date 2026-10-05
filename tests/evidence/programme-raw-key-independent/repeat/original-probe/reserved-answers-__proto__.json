@@ -1,0 +1,233 @@
+{
+  "response": {
+    "status": 422,
+    "json": {
+      "error": "Unsupported programme record key."
+    },
+    "text": "{\"error\":\"Unsupported programme record key.\"}",
+    "ms": 3.165499999999156,
+    "headers": {}
+  },
+  "current": {
+    "id": "2a7b6138-25ee-4548-89e6-895abeff0781",
+    "personId": "p_meena",
+    "version": 7,
+    "state": "draft",
+    "facts": {
+      "date": "2026-10-05T19:44",
+      "systolic": "",
+      "diastolic": "",
+      "weight": "",
+      "temperature": "",
+      "weeks": "",
+      "coughDays": "4",
+      "notes": "Synthetic current remote fact note",
+      "source": "measured"
+    },
+    "createdAt": "2026-10-05T19:44:18.841Z",
+    "recordVersion": 7,
+    "programmeCapture": {
+      "packs": [
+        {
+          "enrolmentId": "78cce490-1eed-465f-8eca-e84c39e71700",
+          "pack": {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "programme": "TB screening",
+            "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "cough",
+                "label": "Does the person report a cough?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              },
+              {
+                "id": "coughDays",
+                "label": "Cough duration, reported",
+                "unit": "days",
+                "fact": "coughDays",
+                "when": {
+                  "id": "cough",
+                  "value": "Yes"
+                },
+                "required": true
+              },
+              {
+                "id": "testing",
+                "label": "Is a testing follow-up already arranged?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              }
+            ]
+          }
+        }
+      ],
+      "answers": {
+        "testing": "No",
+        "cough": "Yes"
+      },
+      "absence": {},
+      "savedBy": "t-8cd333d4-asha",
+      "savedAt": "2026-10-05T19:44:25.850Z"
+    },
+    "noteAuthor": {
+      "userId": "t-8cd333d4-owner",
+      "name": "Synthetic Owner",
+      "accountCode": "4468F01DA216C3A310C35B40",
+      "role": "clinician",
+      "at": "2026-10-05T19:44:24.927Z"
+    },
+    "answerAuthors": {
+      "cough": {
+        "userId": "t-8cd333d4-asha",
+        "name": "Synthetic ASHA",
+        "accountCode": "FC384C923DFE60C4546586F6",
+        "role": "asha",
+        "at": "2026-10-05T19:44:25.850Z"
+      },
+      "testing": {
+        "userId": "t-8cd333d4-owner",
+        "name": "Synthetic Owner",
+        "accountCode": "4468F01DA216C3A310C35B40",
+        "role": "clinician",
+        "at": "2026-10-05T19:44:22.214Z"
+      }
+    },
+    "factAuthors": {
+      "coughDays": {
+        "userId": "t-8cd333d4-owner",
+        "name": "Synthetic Owner",
+        "accountCode": "4468F01DA216C3A310C35B40",
+        "role": "clinician",
+        "at": "2026-10-05T19:44:24.927Z"
+      }
+    },
+    "aiResults": []
+  },
+  "original": {
+    "id": "2a7b6138-25ee-4548-89e6-895abeff0781",
+    "personId": "p_meena",
+    "version": 7,
+    "state": "draft",
+    "facts": {
+      "date": "2026-10-05T19:44",
+      "systolic": "",
+      "diastolic": "",
+      "weight": "",
+      "temperature": "",
+      "weeks": "",
+      "coughDays": "4",
+      "notes": "Synthetic current remote fact note",
+      "source": "measured"
+    },
+    "createdAt": "2026-10-05T19:44:18.841Z",
+    "recordVersion": 7,
+    "programmeCapture": {
+      "packs": [
+        {
+          "enrolmentId": "78cce490-1eed-465f-8eca-e84c39e71700",
+          "pack": {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "programme": "TB screening",
+            "purpose": "Record reported screening information; no diagnosis or official TB registration.",
+            "questions": [
+              {
+                "id": "weight",
+                "label": "Weight",
+                "unit": "kg",
+                "fact": "weight",
+                "required": true
+              },
+              {
+                "id": "cough",
+                "label": "Does the person report a cough?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              },
+              {
+                "id": "coughDays",
+                "label": "Cough duration, reported",
+                "unit": "days",
+                "fact": "coughDays",
+                "when": {
+                  "id": "cough",
+                  "value": "Yes"
+                },
+                "required": true
+              },
+              {
+                "id": "testing",
+                "label": "Is a testing follow-up already arranged?",
+                "options": [
+                  "Yes",
+                  "No"
+                ],
+                "required": true
+              }
+            ]
+          }
+        }
+      ],
+      "answers": {
+        "testing": "No",
+        "cough": "Yes"
+      },
+      "absence": {},
+      "savedBy": "t-8cd333d4-asha",
+      "savedAt": "2026-10-05T19:44:25.850Z"
+    },
+    "noteAuthor": {
+      "userId": "t-8cd333d4-owner",
+      "name": "Synthetic Owner",
+      "accountCode": "4468F01DA216C3A310C35B40",
+      "role": "clinician",
+      "at": "2026-10-05T19:44:24.927Z"
+    },
+    "answerAuthors": {
+      "cough": {
+        "userId": "t-8cd333d4-asha",
+        "name": "Synthetic ASHA",
+        "accountCode": "FC384C923DFE60C4546586F6",
+        "role": "asha",
+        "at": "2026-10-05T19:44:25.850Z"
+      },
+      "testing": {
+        "userId": "t-8cd333d4-owner",
+        "name": "Synthetic Owner",
+        "accountCode": "4468F01DA216C3A310C35B40",
+        "role": "clinician",
+        "at": "2026-10-05T19:44:22.214Z"
+      }
+    },
+    "factAuthors": {
+      "coughDays": {
+        "userId": "t-8cd333d4-owner",
+        "name": "Synthetic Owner",
+        "accountCode": "4468F01DA216C3A310C35B40",
+        "role": "clinician",
+        "at": "2026-10-05T19:44:24.927Z"
+      }
+    },
+    "aiResults": []
+  }
+}
