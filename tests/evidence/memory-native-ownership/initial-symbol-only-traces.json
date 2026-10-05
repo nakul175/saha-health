@@ -1,0 +1,170 @@
+{
+  "source": "fbf1e5cca44167b14b9605bab96a1ce25dfc0265",
+  "date": "2026-10-05T07:21:10.719Z",
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "mallocStackLogging": false,
+  "loads": 500,
+  "concurrency": 4,
+  "cases": [
+    {
+      "name": "saha-workspace",
+      "samples": [
+        {
+          "sampleIndex": 0,
+          "allocationBytes": 320,
+          "lines": [
+            "Tracing: <workerd::DeleteQueue [address]> [320]",
+            "Found 10 roots referencing: <workerd::DeleteQueue [address]> [320]",
+            "This is a reverse reference tree showing how the specified block is referenced.",
+            "The top node is the specified block, the next level down are blocks that reference that, and so on.",
+            "The number at the start of each line is the number of paths-to-roots going through that node.",
+            "10 <workerd::DeleteQueue [address]> [320]",
+            "10 <workerd::api::Fetcher [address]> [112]    +80:  [address]",
+            "+ !   4 <v8::internal::TracingCpuProfilerImpl [address]> [48]     +8:  [address]",
+            "+ !   :   4 <v8::platform::tracing::TracingController [address]> [80]    +48:  [address]",
+            "! 2 <workerd::server::Server::WorkerService [address]> [896]   +400:  [address]",
+            "!     2 <workerd::server::Server [address]> [1792]  +1336:  [address]",
+            "2 <workerd::jsg::OpaqueWrappable<workerd::jsg::ThenCatchPair<decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>&&), decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::jsg::V8Ref<v8::Value>)>, false> [address]> [128]    +16:  [address] --> offset 4352",
+            "2 <v8::internal::TracingAccountingAllocator [address]> [96]     +8:  [address]"
+          ],
+          "rawLineCount": 48
+        },
+        {
+          "sampleIndex": 1600,
+          "allocationBytes": 320,
+          "lines": [
+            "Tracing: <workerd::DeleteQueue [address]> [320]",
+            "Found 10 roots referencing: <workerd::DeleteQueue [address]> [320]",
+            "This is a reverse reference tree showing how the specified block is referenced.",
+            "The top node is the specified block, the next level down are blocks that reference that, and so on.",
+            "The number at the start of each line is the number of paths-to-roots going through that node.",
+            "10 <workerd::DeleteQueue [address]> [320]",
+            "10 <workerd::api::Fetcher [address]> [112]    +80:  [address]",
+            "+       4 <v8::internal::TracingCpuProfilerImpl [address]> [48]     +8:  [address]",
+            "+       !   4 <v8::platform::tracing::TracingController [address]> [80]    +48:  [address]",
+            "!   2 <workerd::server::Server::WorkerService [address]> [896]   +400:  [address]",
+            "!       2 <workerd::server::Server [address]> [1792]  +1336:  [address]",
+            "2 <workerd::jsg::OpaqueWrappable<workerd::jsg::ThenCatchPair<workerd::jsg::Promise<workerd::jsg::Ref<workerd::api::Response>> (&)(workerd::jsg::Lock&, kj::OneOf<workerd::jsg::Promise<workerd::jsg::Ref<workerd::api::Response>>, kj::Exception>&&), bool>, false> [address]> [96]    +16:  [address] --> offset 8592",
+            "!     2 <v8::internal::TracingAccountingAllocator [address]> [96]     +8:  [address]",
+            "1 <workerd::jsg::OpaqueWrappable<workerd::jsg::ThenCatchPair<decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>&&), decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::jsg::V8Ref<v8::Value>)>, false> [address]> [128]    +16:  [address] --> offset 115632",
+            "1 Region workerd __DATA __common: 'v8::internal::ExternalCodeCompressionScheme::base_' [address]"
+          ],
+          "rawLineCount": 50
+        },
+        {
+          "sampleIndex": 3200,
+          "allocationBytes": 320,
+          "lines": [
+            "Tracing: <workerd::DeleteQueue [address]> [320]",
+            "Found 10 roots referencing: <workerd::DeleteQueue [address]> [320]",
+            "This is a reverse reference tree showing how the specified block is referenced.",
+            "The top node is the specified block, the next level down are blocks that reference that, and so on.",
+            "The number at the start of each line is the number of paths-to-roots going through that node.",
+            "10 <workerd::DeleteQueue [address]> [320]",
+            "6 <workerd::jsg::OpaqueWrappable<workerd::IoOwn<workerd::SpanParent>, false> [address]> [112]    +72:  [address]",
+            "+       4 <v8::internal::TracingCpuProfilerImpl [address]> [48]     +8:  [address]",
+            "+       !   4 <v8::platform::tracing::TracingController [address]> [80]    +48:  [address]",
+            "+       ! 1 <v8::platform::DefaultPlatform [address]> [160]    +72:  [address]",
+            "+       !   1 Region Stack thread 0 kj::Function<kj::MainBuilder::Validity ()>::Impl<auto workerd::server::(anonymous namespace)::cliMethod<kj::_::BoundMethod<workerd::server::(anonymous namespace)::CliMain&, workerd::server::(anonymous namespace)::CliMain::addServeOptions(kj::MainBuilder&)::'lambda7'(auto&, auto&&...), workerd::server::(anonymous namespace)::CliMain::addServeOptions(kj::MainBuilder&)::'lambda8'(auto&, auto&&...)>>(auto&&)::'lambda'(auto&&...)>::operator()() (in workerd) + 80 [address]",
+            "4 <workerd::jsg::OpaqueWrappable<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>, false> [address]> [112]    +72:  [address]",
+            "3 <workerd::jsg::OpaqueWrappable<workerd::jsg::ThenCatchPair<decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>&&), decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::jsg::V8Ref<v8::Value>)>, false> [address]> [128]    +16:  [address] --> offset 12072",
+            "!     3 <v8::internal::TracingAccountingAllocator [address]> [96]     +8:  [address]",
+            "1 <workerd::api::Request [address]> [448]    +16:  [address] --> offset 4632",
+            "1 Region workerd __DATA __common: 'v8::internal::ExternalCodeCompressionScheme::base_' [address]"
+          ],
+          "rawLineCount": 46
+        }
+      ],
+      "successfulLoads": 500,
+      "deleteQueueCount": 3201,
+      "rssKb": 359536,
+      "completed": true
+    },
+    {
+      "name": "fully-consumed-d1",
+      "samples": [
+        {
+          "sampleIndex": 0,
+          "allocationBytes": 320,
+          "lines": [
+            "Tracing: <workerd::DeleteQueue [address]> [320]",
+            "Found 16 roots referencing: <workerd::DeleteQueue [address]> [320]",
+            "This is a reverse reference tree showing how the specified block is referenced.",
+            "The top node is the specified block, the next level down are blocks that reference that, and so on.",
+            "The number at the start of each line is the number of paths-to-roots going through that node.",
+            "16 <workerd::DeleteQueue [address]> [320]",
+            "16 <workerd::api::DurableObject [address]> [160]    +80:  [address]",
+            "+ 4 <workerd::jsg::OpaqueWrappable<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>, false> [address]> [112]    +16:  [address] --> offset 16232",
+            "+ !         4 <v8::platform::DefaultPlatform [address]> [160]    +72:  [address]",
+            "+ 2 <workerd::jsg::OpaqueWrappable<workerd::jsg::ThenCatchPair<decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>&&), decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::jsg::V8Ref<v8::Value>)>, false> [address]> [128]    +16:  [address] --> offset 116912",
+            "+ !     2 <v8::internal::TracingAccountingAllocator [address]> [96]     +8:  [address]",
+            "+ 2 <workerd::jsg::OpaqueWrappable<workerd::jsg::ThenCatchPair<decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>&&), decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::jsg::V8Ref<v8::Value>)>, false> [address]> [128]    +16:  [address] --> offset 115592",
+            "+   1 <workerd::api::url::URL [address]> [128]    +16:  [address] --> offset 125712",
+            "! 6 <workerd::server::Server [address]> [1792]  +1352:  [address]",
+            "1 <workerd::api::ServiceWorkerGlobalScope [address]> [640]    +32:  [address] --> offset 1984",
+            "1 Region workerd __DATA __common: 'v8::internal::ExternalCodeCompressionScheme::base_' [address]"
+          ],
+          "rawLineCount": 64
+        },
+        {
+          "sampleIndex": 1002,
+          "allocationBytes": 320,
+          "lines": [
+            "Tracing: <workerd::DeleteQueue [address]> [320]",
+            "Found 16 roots referencing: <workerd::DeleteQueue [address]> [320]",
+            "This is a reverse reference tree showing how the specified block is referenced.",
+            "The top node is the specified block, the next level down are blocks that reference that, and so on.",
+            "The number at the start of each line is the number of paths-to-roots going through that node.",
+            "16 <workerd::DeleteQueue [address]> [320]",
+            "16 <workerd::jsg::OpaqueWrappable<workerd::jsg::ThenCatchPair<decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>&&), decltype(reducePromiseType((workerd::RemoveIoOwn_<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>::Type*)(nullptr), false)) workerd::IoContext::awaitJs<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>(workerd::jsg::Lock&, workerd::jsg::Promise<workerd::IoOwn<kj::Promise<workerd::api::DeferredProxy<void>>>>)::'lambda'(workerd::jsg::Lock&, workerd::jsg::V8Ref<v8::Value>)>, false> [address]> [128]    +72:  [address]",
+            "+ 9 <workerd::jsg::OpaqueWrappable<workerd::IoOwn<workerd::SpanParent>, false> [address]> [112]    +16:  [address] --> offset 121032",
+            "+ !     : 6 <workerd::server::Server [address]> [1792]  +1352:  [address]",
+            "+ !     2 <v8::internal::TracingAccountingAllocator [address]> [96]     +8:  [address]",
+            "+ !     1 <workerd::api::url::URL [address]> [128]    +40:  [address]",
+            "+ 4 <workerd::api::ExecutionContext [address]> [160]    +16:  [address] --> offset 7952",
+            "+ ! 4 <workerd::api::Headers [address]> [1024]   +856:  [address]",
+            "+ !         4 <v8::platform::DefaultPlatform [address]> [160]    +72:  [address]",
+            "+   1 <workerd::jsg::OpaqueWrappable<workerd::IoOwn<workerd::SpanParent>, false> [address]> [112]    +16:  [address] --> offset 8992",
+            "1 Region workerd __DATA __common: 'v8::internal::IsolateGroup::default_isolate_group_' [address]"
+          ],
+          "rawLineCount": 64
+        },
+        {
+          "sampleIndex": 2003,
+          "allocationBytes": 320,
+          "lines": [
+            "Tracing: <workerd::DeleteQueue [address]> [320]",
+            "Found 16 roots referencing: <workerd::DeleteQueue [address]> [320]",
+            "This is a reverse reference tree showing how the specified block is referenced.",
+            "The top node is the specified block, the next level down are blocks that reference that, and so on.",
+            "The number at the start of each line is the number of paths-to-roots going through that node.",
+            "16 <workerd::DeleteQueue [address]> [320]",
+            "16 <workerd::api::DurableObject [address]> [160]    +80:  [address]",
+            "7 <workerd::api::ServiceWorkerGlobalScope [address]> [640]    +16:  [address] --> offset 2112",
+            "+ !   :   4 <v8::platform::DefaultPlatform [address]> [160]    +72:  [address]",
+            "+ !   1 Region workerd __DATA __common: 'v8::internal::ExternalCodeCompressionScheme::base_' [address]",
+            "+     2 <v8::internal::TracingAccountingAllocator [address]> [96]     +8:  [address]",
+            "6 <workerd::api::ExecutionContext [address]> [160]    +16:  [address] --> offset 3432",
+            "+     6 <workerd::server::Server [address]> [1792]  +1352:  [address]",
+            "2 <workerd::api::Request [address]> [448]    +16:  [address] --> offset 121952",
+            "1 <workerd::api::url::URL [address]> [128]    +16:  [address] --> offset 125712"
+          ],
+          "rawLineCount": 60
+        }
+      ],
+      "successfulLoads": 500,
+      "deleteQueueCount": 2004,
+      "rssKb": 114832,
+      "completed": true
+    }
+  ],
+  "limits": [
+    "Native reverse references are conservative C++ scanning, not a complete V8 GC ownership proof; stale pointer-shaped bytes can look like references.",
+    "Native scans pause the owned process and alter timing. No uninstrumented plateau or hosted isolate claim.",
+    "Inline control removes framework/application work but retains actual fully consumed D1 batch transport; its allocation magnitude is not interchangeable.",
+    "Only symbol/type/root descriptions are retained; no raw memory addresses or allocation contents."
+  ],
+  "completed": true
+}
