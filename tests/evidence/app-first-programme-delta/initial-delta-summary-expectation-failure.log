@@ -1,0 +1,66 @@
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+10 !== 9
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/read-audit-completion-smoke.mjs:38:64
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-smoke.mjs:9:20)
+    at readAuditCompletionSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/read-audit-completion-smoke.mjs:38:2)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-smoke.mjs:143:84 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 10,
+  expected: 9,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+0m [1mAccess audit not recorded Error[0m
+
+
+{"event":"saha_request","requestId":"f584cf53-c8b2-457c-92e9-6b1ca9cf126f","route":"fhir","status":503,"durationMs":3}
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mAccess audit not recorded Error[0m
+
+
+{"event":"saha_request","requestId":"7f4f0825-8f4a-4477-9a62-c428554bda30","route":"patient-detail","status":503,"durationMs":4}
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mExport audit not recorded Error[0m
+
+
+{"event":"saha_request","requestId":"536433f7-160f-4ada-8307-59525e6ad8a3","route":"audit-chain","status":503,"durationMs":4}
+[wrangler:info] GET /api/history 503 Service Unavailable (5ms)
+[wrangler:info] GET /api/fhir/19e318a8-d3d8-4475-b1f4-d9ee70563ff4 503 Service Unavailable (5ms)
+[wrangler:info] GET /api/patients/detail 503 Service Unavailable (5ms)
+[wrangler:info] GET /api/audit/chain 503 Service Unavailable (6ms)
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mExport audit not recorded Error[0m
+
+
+{"event":"saha_request","requestId":"fca8cd28-afb8-4172-998d-ec080ab96841","route":"audit-chain","status":503,"durationMs":4}
+[wrangler:info] GET /api/audit/chain 503 Service Unavailable (6ms)
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mWorkspace operation failed Error[0m
+
+
+{"event":"saha_request","requestId":"cfb4efd8-e2ed-43e7-b0cf-880fdff3cc12","route":"commands","status":503,"durationMs":4}
+[wrangler:info] POST /api/commands 503 Service Unavailable (6ms)
+{"event":"saha_request","requestId":"cded72b9-f55b-41af-b367-b3b45978e353","route":"history","status":200,"durationMs":4}
+[wrangler:info] GET /api/history 200 OK (4ms)
+{"event":"saha_request","requestId":"779e2e1d-40d6-49f5-82a1-77a6147ee67d","route":"audit-chain","status":200,"durationMs":3}
+[wrangler:info] GET /api/audit/chain 200 OK (4ms)
+{"event":"saha_request","requestId":"a70d4368-f518-482a-ab5d-12a745559a6d","route":"workspace","status":200,"durationMs":7}
+[wrangler:info] GET /api/workspace 200 OK (9ms)
+{"event":"saha_request","requestId":"5bab4ed0-8c53-4783-9107-5b5bb267a54e","route":"commands","status":200,"durationMs":9}
+[wrangler:info] POST /api/commands 200 OK (11ms)
+{"event":"saha_request","requestId":"27ee7788-d486-48e8-8ce4-a5ffa3c8b881","route":"commands","status":200,"durationMs":7}
+[wrangler:info] POST /api/commands 200 OK (9ms)
+{"event":"saha_request","requestId":"3587f993-20b7-4bee-9bd6-c0941af249fd","route":"commands","status":200,"durationMs":8}
+[wrangler:info] POST /api/commands 200 OK (10ms)
+{"event":"saha_request","requestId":"56872bc2-96a9-4014-8f0d-9be908e9e8fc","route":"workspace","status":200,"durationMs":3}
+[wrangler:info] GET /api/workspace 200 OK (24ms)
+{"event":"saha_request","requestId":"f2d95d74-c648-46f5-9d10-489ba1e2aa95","route":"workspace","status":200,"durationMs":4}
+[wrangler:info] GET /api/workspace 200 OK (6ms)
+{"event":"saha_request","requestId":"b90b251f-1388-4f4c-9217-cd3355c7791c","route":"workspace","status":200,"durationMs":3}
+[wrangler:info] GET /api/workspace 200 OK (4ms)
+{"event":"saha_request","requestId":"99da76b0-e1a3-4878-8f29-ed20a1370775","route":"commands","status":200,"durationMs":8}
+[wrangler:info] POST /api/commands 200 OK (9ms)
+{"event":"saha_request","requestId":"edb99bf9-cb48-482e-975c-2819ed6eca52","route":"commands","status":200,"durationMs":7}
+[wrangler:info] POST /api/commands 200 OK (9ms)
+{"event":"saha_request","requestId":"ed1e6d99-cc41-46c6-a4df-4f49cc240abd","route":"commands","status":200,"durationMs":7}
+[wrangler:info] POST /api/commands 200 OK (8ms)

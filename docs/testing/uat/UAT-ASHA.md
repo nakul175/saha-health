@@ -911,7 +911,7 @@ Durable running checkpoints, receipts and no automatic repeat after ambiguous co
 
 <details><summary>What the build does today (assessment, current state of BR-AG-10)</summary>
 
-Structured capture and current source-backed rule/referral review operate without a model.
+Structured capture and current source-backed rule/referral review operate without a model. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.
 
 </details>
 
@@ -1047,7 +1047,7 @@ Independent destination states preserve accepted receipts during partial failure
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-01)</summary>
 
-Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. App-only connected patient-scope revalidation and redirect refusal are independently browser-tested; prepared-visit scope remains narrower than a complete offline caseload.
+Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. App-only connected patient-scope revalidation and redirect refusal are independently browser-tested; prepared-visit scope remains narrower than a complete offline caseload. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.
 
 </details>
 
@@ -1217,7 +1217,7 @@ Stable-key sync for existing authorised person and visit drafts. Slice 3g: a per
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-06)</summary>
 
-Assignment, identity, membership, consent and visit versions rechecked at sync. Slice 3a: queued media is uploaded only after the grant, patient access and draft visit are rechecked.
+Assignment, identity, membership, consent and visit versions rechecked at sync. Slice 3a: queued media is uploaded only after the grant, patient access and draft visit are rechecked. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.
 
 </details>
 

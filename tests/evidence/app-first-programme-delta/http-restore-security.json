@@ -1,0 +1,202 @@
+{
+  "generatedAt": "2026-10-05T05:09:00.863Z",
+  "startedAt": "2026-10-05T05:07:31.575Z",
+  "command": "node scripts/test.mjs integration resilience nfr --only integration/run-api-smoke,resilience/recovery-drill,nfr/authorisation-matrix,nfr/identity-hardening --fast --guard --update-baseline --reason Extend route authorization matrix to current availability and value range reports; require added role controls without lowering existing minima --report tests/reports/app-first-programme-authority-http-security-final.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 4758,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 73512,
+      "failedSuites": 0
+    },
+    {
+      "layer": "resilience",
+      "status": "passed",
+      "suites": 1,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1506,
+      "failedSuites": 0
+    },
+    {
+      "layer": "nfr",
+      "status": "passed",
+      "suites": 2,
+      "passed": 83,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 13493,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 4862,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 89288
+  },
+  "suites": [
+    {
+      "id": "integration/run-api-smoke",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/run-api-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 4758,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 73512,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/latest-result.json"
+      ],
+      "requirementsCited": 115,
+      "reason": null,
+      "log": "tests/reports/logs/integration__run-api-smoke.log"
+    },
+    {
+      "id": "resilience/recovery-drill",
+      "layer": "resilience",
+      "kind": "suite",
+      "file": "tests/recovery-drill.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1506,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/recovery-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/resilience__recovery-drill.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9424,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    },
+    {
+      "id": "nfr/identity-hardening",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/identity-hardening.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4069,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/identity-hardening-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__identity-hardening.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/latest-result.json",
+      "tests/operations-load-result.json",
+      "tests/recovery-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 147,
+        "components": 0,
+        "suitesCitingNoRequirement": 34,
+        "requirementsCited": 139
+      },
+      "integration": {
+        "suites": 17,
+        "components": 84,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 120
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 190,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 155,
+    "suitesCitingNoRequirement": 45,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 155
+  }
+}

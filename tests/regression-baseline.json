@@ -6,7 +6,7 @@
     "integration/app-offline-browser": {
       "layer": "integration",
       "file": "tests/app-offline-browser.mjs",
-      "minPassed": 19
+      "minPassed": 22
     },
     "integration/app-offline-review-browser": {
       "layer": "integration",
@@ -23,10 +23,25 @@
       "file": "tests/auxiliary-read-http.mjs",
       "minPassed": 15
     },
+    "integration/command-authority-http": {
+      "layer": "integration",
+      "file": "tests/command-authority-http.mjs",
+      "minPassed": 30
+    },
+    "integration/delta-read-audit-http": {
+      "layer": "integration",
+      "file": "tests/delta-read-audit-http.mjs",
+      "minPassed": 26
+    },
     "integration/import-unit-parity-browser": {
       "layer": "integration",
       "file": "tests/import-unit-parity-browser.mjs",
       "minPassed": 13
+    },
+    "integration/offline-programme-browser": {
+      "layer": "integration",
+      "file": "tests/offline-programme-browser.mjs",
+      "minPassed": 17
     },
     "integration/range-first-tap-browser": {
       "layer": "integration",
@@ -76,7 +91,7 @@
     "nfr/authorisation-matrix": {
       "layer": "nfr",
       "file": "tests/nfr/authorisation-matrix.mjs",
-      "minPassed": 52
+      "minPassed": 54
     },
     "nfr/identity-hardening": {
       "layer": "nfr",
@@ -317,6 +332,11 @@
       "layer": "unit",
       "file": "tests/cloudflare-staging-contract.mjs",
       "minPassed": 39
+    },
+    "unit/command-authority-contract": {
+      "layer": "unit",
+      "file": "tests/command-authority-contract.mjs",
+      "minPassed": 14
     },
     "unit/consent-contract": {
       "layer": "unit",
@@ -607,6 +627,11 @@
       "layer": "unit",
       "file": "tests/notification-sources-contract.mjs",
       "minPassed": 19
+    },
+    "unit/offline-programme-contract": {
+      "layer": "unit",
+      "file": "tests/offline-programme-contract.mjs",
+      "minPassed": 21
     },
     "unit/operations-bound-contract": {
       "layer": "unit",

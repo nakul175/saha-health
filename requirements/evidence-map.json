@@ -718,7 +718,12 @@
     "tests/app-offline-scope-browser.mjs",
     "tests/app-offline-scope-contract.mjs",
     "tests/app-sw-review-contract.mjs",
-    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+    "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md",
+    "lib/saha/programmes.ts",
+    "tests/offline-programme-contract.mjs",
+    "tests/offline-programme-browser.mjs",
+    "docs/current/APP-OFFLINE-PROGRAMME.md",
+    "docs/current/OFFLINE-PROGRAMME-INDEPENDENT-REVIEW.md"
   ],
   "BR-DATA-02": [
     "lib/saha/core.ts",
@@ -874,7 +879,16 @@
     "docs/current/AUXILIARY-READ-INDEPENDENT-REVIEW.md",
     "tests/workspace-metadata-contract.mjs",
     "tests/workspace-metadata-smoke.mjs",
-    "docs/current/WORKSPACE-METADATA-INDEPENDENT-REVIEW.md"
+    "docs/current/WORKSPACE-METADATA-INDEPENDENT-REVIEW.md",
+    "tests/delta-read-audit-http.mjs",
+    "tests/command-authority-contract.mjs",
+    "tests/command-authority-http.mjs",
+    "docs/current/DELTA-RESPONSE-READ-AUDIT.md",
+    "docs/current/DELTA-REPLAY-INDEPENDENT-REVIEW.md",
+    "docs/current/COMMAND-AUTHORITY-EVIDENCE.md",
+    "docs/current/COMMAND-AUTHORITY-INDEPENDENT-REVIEW.md",
+    "tests/nfr/authorisation-matrix.mjs",
+    "tests/evidence/app-first-programme-delta/manifest.json"
   ],
   "BR-AG-07": [
     "lib/saha/agent.ts",
@@ -1732,5 +1746,34 @@
     "tests/app-offline-scope-contract.mjs",
     "tests/app-sw-review-contract.mjs",
     "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+  ],
+  "BR-AG-10": [
+    "lib/saha/agent.ts",
+    "lib/saha/agent-execution.ts",
+    "tests/agent-contract.mjs",
+    "tests/agent-smoke.mjs",
+    "lib/saha/governance.ts",
+    "tests/governance-smoke.mjs",
+    "tests/governance-contract.mjs",
+    "AI-GOVERNANCE.md",
+    "lib/saha/programmes.ts",
+    "lib/saha/field.ts",
+    "public/field/app.js",
+    "tests/offline-programme-contract.mjs",
+    "tests/offline-programme-browser.mjs",
+    "docs/current/APP-OFFLINE-PROGRAMME.md",
+    "docs/current/OFFLINE-PROGRAMME-INDEPENDENT-REVIEW.md"
+  ],
+  "BR-OFF-06": [
+    "lib/saha/field.ts",
+    "tests/field-contract.mjs",
+    "tests/field-client.mjs",
+    "tests/field-shell.mjs",
+    "lib/saha/programmes.ts",
+    "public/field/app.js",
+    "tests/offline-programme-contract.mjs",
+    "tests/offline-programme-browser.mjs",
+    "docs/current/APP-OFFLINE-PROGRAMME.md",
+    "docs/current/OFFLINE-PROGRAMME-INDEPENDENT-REVIEW.md"
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-05",
+  "commit": "f5f8e046c611a237edd065ea1e7e3b46daa251d2",
+  "run": 37264998418,
+  "job": 111619813175,
+  "status": "completed",
+  "conclusion": "failure",
+  "passedSteps": ["documentation", "catalogue", "dependencies", "types", "build", "supply-chain", "HTTP/database/restore", "units", "Chromium installation"],
+  "failedStep": "App-first workflow and scope regressions",
+  "failures": [
+    {"suite": "integration/app-offline-browser", "location": "tests/app-offline-browser.mjs:23:176", "error": "notebook visibility timeout after wrong-account attempt and original account reopening"},
+    {"suite": "integration/app-offline-review-browser", "location": "tests/app-offline-review-browser.mjs:24:176", "error": "notebook visibility timeout after wrong-account attempt and original account reopening"}
+  ],
+  "browserStepOtherPassedChecks": 247,
+  "laterSmokeSecurityUatStep": "skipped",
+  "followup": "Current local harness waits for a newly completed wrong-account refusal. Unlock button now disables while verification is in progress. Local delayed account-verification proof and integrated reruns are recorded separately; their results do not make this failed hosted run green."
+}

@@ -1,0 +1,208 @@
+{
+  "generatedAt": "2026-10-05T05:12:20.864Z",
+  "startedAt": "2026-10-05T05:12:14.470Z",
+  "command": "node scripts/test.mjs smoke uat --only smoke/hosted-smoke,smoke/local-smoke,uat/check-uat-register,uat/coverage-map,uat/generate-uat-pack --fast --guard --report tests/reports/app-first-programme-tooling-final.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 2,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 5651,
+      "failedSuites": 0
+    },
+    {
+      "layer": "uat",
+      "status": "passed",
+      "suites": 3,
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 592,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 5,
+    "passed": 99,
+    "failed": 0,
+    "skipped": 1,
+    "failedSuites": 0,
+    "durationMs": 6394
+  },
+  "suites": [
+    {
+      "id": "smoke/hosted-smoke",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/hosted-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3319,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/smoke-hosted-selftest-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__hosted-smoke.log"
+    },
+    {
+      "id": "smoke/local-smoke",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/local-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 28,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 2332,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/smoke-local-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__local-smoke.log"
+    },
+    {
+      "id": "uat/check-uat-register",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/check-uat-register.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 179,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/uat-register-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__check-uat-register.log"
+    },
+    {
+      "id": "uat/coverage-map",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/coverage-map.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 201,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/coverage-map-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__coverage-map.log"
+    },
+    {
+      "id": "uat/generate-uat-pack",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/generate-uat-pack.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 212,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/uat-pack-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__generate-uat-pack.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 5,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 147,
+        "components": 0,
+        "suitesCitingNoRequirement": 34,
+        "requirementsCited": 139
+      },
+      "integration": {
+        "suites": 17,
+        "components": 84,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 120
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 190,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 155,
+    "suitesCitingNoRequirement": 45,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 155
+  }
+}

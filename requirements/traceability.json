@@ -1446,7 +1446,7 @@
       "sourceTextLine": 289,
       "implementation": "partial",
       "target": "R11",
-      "current": "Structured capture and current source-backed rule/referral review operate without a model.",
+      "current": "Structured capture and current source-backed rule/referral review operate without a model. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.",
       "remaining": "Approved outage pathways, offline cached protocols and device-level escalation acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1457,7 +1457,14 @@
         "lib/saha/governance.ts",
         "tests/governance-smoke.mjs",
         "tests/governance-contract.mjs",
-        "AI-GOVERNANCE.md"
+        "AI-GOVERNANCE.md",
+        "lib/saha/programmes.ts",
+        "lib/saha/field.ts",
+        "public/field/app.js",
+        "tests/offline-programme-contract.mjs",
+        "tests/offline-programme-browser.mjs",
+        "docs/current/APP-OFFLINE-PROGRAMME.md",
+        "docs/current/OFFLINE-PROGRAMME-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2684,7 +2691,7 @@
       "sourceTextLine": 447,
       "implementation": "partial",
       "target": "R14",
-      "current": "Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. App-only connected patient-scope revalidation and redirect refusal are independently browser-tested; prepared-visit scope remains narrower than a complete offline caseload.",
+      "current": "Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. App-only connected patient-scope revalidation and redirect refusal are independently browser-tested; prepared-visit scope remains narrower than a complete offline caseload. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.",
       "remaining": "Cached approved guidance, wider task capture and actual offline device acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -2705,7 +2712,12 @@
         "tests/app-offline-scope-browser.mjs",
         "tests/app-offline-scope-contract.mjs",
         "tests/app-sw-review-contract.mjs",
-        "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md"
+        "docs/current/APP-OFFLINE-INDEPENDENT-REVIEW.md",
+        "lib/saha/programmes.ts",
+        "tests/offline-programme-contract.mjs",
+        "tests/offline-programme-browser.mjs",
+        "docs/current/APP-OFFLINE-PROGRAMME.md",
+        "docs/current/OFFLINE-PROGRAMME-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -2829,14 +2841,20 @@
       "sourceTextLine": 462,
       "implementation": "partial",
       "target": "R14",
-      "current": "Assignment, identity, membership, consent and visit versions rechecked at sync. Slice 3a: queued media is uploaded only after the grant, patient access and draft visit are rechecked.",
+      "current": "Assignment, identity, membership, consent and visit versions rechecked at sync. Slice 3a: queued media is uploaded only after the grant, patient access and draft visit are rechecked. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.",
       "remaining": "Protocol/freshness revalidation for expanded queued tasks, and provider revalidation for media.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/field.ts",
         "tests/field-contract.mjs",
         "tests/field-client.mjs",
-        "tests/field-shell.mjs"
+        "tests/field-shell.mjs",
+        "lib/saha/programmes.ts",
+        "public/field/app.js",
+        "tests/offline-programme-contract.mjs",
+        "tests/offline-programme-browser.mjs",
+        "docs/current/APP-OFFLINE-PROGRAMME.md",
+        "docs/current/OFFLINE-PROGRAMME-INDEPENDENT-REVIEW.md"
       ],
       "automatedAcceptanceClaim": false
     },
@@ -3768,8 +3786,8 @@
       "sourceTextLine": 569,
       "implementation": "partial",
       "target": "R15",
-      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events. Slice 6aa: an unpaged workspace read by a non-ASHA viewer above the paging threshold records a viewPatientRecord event for every returned record not recorded in the last 12 hours before returning it (fail closed); the import rejection report is an access-audit event that moves no revision. Slice 10h: the remaining read paths record chained events before the read returns, refused if the event cannot be written: one summarised event per workspace snapshot load (scope size, records returned, paging window; also the snapshot returned with a command and with a replayed command), an explicit record-opened event reported by the workspace (the workspace shows the record only after the server answers; client-reported), patient searches, duplicate checks and patient or work-list pages (kind and result count, never the search text or entered details) and aggregate views (indicator results, the JSON operations and care report, aggregate report history; no cell values). Every access event now carries the acting membership's role, owner flag, membership version and the delegated authority in force inside its hashed detail; the default Activity log page leaves summary events out unless asked. Current app-first integration audits care continuity, referral escalations and action plans before return with count-only fixed labels. Distinct viewActionPlan avoids suppressing full-record access audits; independent actual 507-patient fault/recovery reproduction verifies this. Response metadata batching preserves existing SQL predicates and durable access ordering; independent SQL and Worker review passes. Offline opens, delta responses and external anchor lifecycle remain.",
-      "remaining": "Audit of partition (delta) command responses, the browser's search over the loaded caseload and offline opens; other patient-level lists and queues (exception queue, referral queues, continuity, household, caseload preview, action plan, identity cases) and the pilot, expansion and worker-activity views; role, version and delegated authority on command events (they are on access events only); signing of checkpoints and automatic external publication; scheduled verification and independent reconstruction; a measured load cost for the added audit rows.",
+      "current": "Writes/approvals/exports have append-only audit and revisions. Slice 6j: per-organisation SHA-256 audit chain with genesis seal over earlier events, owner/administrator verification reporting the first break, and a JSONL auditor export (digest-only for out-of-scope patient events) recorded in the chain. Slice 6t: material reads (paged full patient record, revision history, visit media, received ABDM records, FHIR downloads) and external AI/EHR-retrieval requests each record one chained event (identifiers and counts, no clinical content; emergency-access route named) before content is returned or the request sent, shown in the Activity log. Owners/administrators can download a chain-head checkpoint (sequence, hash, digest; issuing it is chained) to keep outside Saha and later check it, which detects a suffix rewritten with recomputed hashes. Slice 6w: full records returned through the paged workspace window that the viewer has not opened through the detail route in the last 12 hours are recorded as record views first, and left out if that event cannot be written; a checkpoint past the 100,000-event verification limit is verified from an anchor (a checkpoint the owner names, or the last one recorded); indicator CSV exports are access-audit events. Slice 6aa: an unpaged workspace read by a non-ASHA viewer above the paging threshold records a viewPatientRecord event for every returned record not recorded in the last 12 hours before returning it (fail closed); the import rejection report is an access-audit event that moves no revision. Slice 10h: the remaining read paths record chained events before the read returns, refused if the event cannot be written: one summarised event per workspace snapshot load (scope size, records returned, paging window; also the snapshot returned with a command and with a replayed command), an explicit record-opened event reported by the workspace (the workspace shows the record only after the server answers; client-reported), patient searches, duplicate checks and patient or work-list pages (kind and result count, never the search text or entered details) and aggregate views (indicator results, the JSON operations and care report, aggregate report history; no cell values). Every access event now carries the acting membership's role, owner flag, membership version and the delegated authority in force inside its hashed detail; the default Activity log page leaves summary events out unless asked. Current app-first integration audits care continuity, referral escalations and action plans before return with count-only fixed labels. Distinct viewActionPlan avoids suppressing full-record access audits; independent actual 507-patient fault/recovery reproduction verifies this. Response metadata batching preserves existing SQL predicates and durable access ordering; independent SQL and Worker review passes. Offline opens, delta responses and external anchor lifecycle remain. Current command deltas append atomic count-only partition and per-record read events before return. Saved receipt replay now uses a fresh scoped/paged material load; per-record audit refusal omits patient data under the existing read-window contract without repeating the saved mutation. New common-persist command events append actor pre-mutation membership/version/owner and server-recorded delegation-use metadata inside their hashed detail; direct untracked uses are explicit, and prior history remains unchanged.",
+      "remaining": "Remaining browser-local search/offline opens and uncovered material-read paths; direct operational writer authority coverage, unknown delegation tracking, external anchor signing/publication/key lifecycle and independent reconstruction; measured cost for added read rows. Common command metadata and delta/replay reads have bounded local software evidence, not complete audit acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
         "lib/saha/server.ts",
@@ -3801,7 +3819,16 @@
         "docs/current/AUXILIARY-READ-INDEPENDENT-REVIEW.md",
         "tests/workspace-metadata-contract.mjs",
         "tests/workspace-metadata-smoke.mjs",
-        "docs/current/WORKSPACE-METADATA-INDEPENDENT-REVIEW.md"
+        "docs/current/WORKSPACE-METADATA-INDEPENDENT-REVIEW.md",
+        "tests/delta-read-audit-http.mjs",
+        "tests/command-authority-contract.mjs",
+        "tests/command-authority-http.mjs",
+        "docs/current/DELTA-RESPONSE-READ-AUDIT.md",
+        "docs/current/DELTA-REPLAY-INDEPENDENT-REVIEW.md",
+        "docs/current/COMMAND-AUTHORITY-EVIDENCE.md",
+        "docs/current/COMMAND-AUTHORITY-INDEPENDENT-REVIEW.md",
+        "tests/nfr/authorisation-matrix.mjs",
+        "tests/evidence/app-first-programme-delta/manifest.json"
       ],
       "automatedAcceptanceClaim": false
     },

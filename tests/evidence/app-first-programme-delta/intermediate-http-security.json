@@ -1,0 +1,212 @@
+{
+  "generatedAt": "2026-10-05T05:05:52.476Z",
+  "startedAt": "2026-10-05T05:04:55.078Z",
+  "command": "node scripts/test.mjs integration resilience nfr --only integration/run-api-smoke,resilience/recovery-drill,nfr/authorisation-matrix,nfr/identity-hardening --fast --guard --report tests/reports/app-first-programme-authority-http-security-verified.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 42332,
+      "failedSuites": 1
+    },
+    {
+      "layer": "resilience",
+      "status": "passed",
+      "suites": 1,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1177,
+      "failedSuites": 0
+    },
+    {
+      "layer": "nfr",
+      "status": "failed",
+      "suites": 2,
+      "passed": 80,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 13088,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 101,
+    "failed": 1,
+    "skipped": 0,
+    "failedSuites": 2,
+    "durationMs": 57398
+  },
+  "suites": [
+    {
+      "id": "integration/run-api-smoke",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/run-api-smoke.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 42332,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 115,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__run-api-smoke.log"
+    },
+    {
+      "id": "resilience/recovery-drill",
+      "layer": "resilience",
+      "kind": "suite",
+      "file": "tests/recovery-drill.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1177,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/recovery-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/resilience__recovery-drill.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": 51,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 8907,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 4,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    },
+    {
+      "id": "nfr/identity-hardening",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/identity-hardening.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4181,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/identity-hardening-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__identity-hardening.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/run-api-smoke",
+        "kind": "uncounted",
+        "message": "Suite integration/run-api-smoke reported no assertion count; baseline needs at least 4758.",
+        "excused": false
+      },
+      {
+        "id": "nfr/authorisation-matrix",
+        "kind": "dropped",
+        "message": "Suite nfr/authorisation-matrix passed 51 assertion(s); baseline is 52 (down 1).",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/operations-load-result.json",
+      "tests/recovery-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 147,
+        "components": 0,
+        "suitesCitingNoRequirement": 34,
+        "requirementsCited": 139
+      },
+      "integration": {
+        "suites": 17,
+        "components": 84,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 120
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 190,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 155,
+    "suitesCitingNoRequirement": 45,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 155
+  }
+}

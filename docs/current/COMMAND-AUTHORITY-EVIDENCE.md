@@ -22,7 +22,7 @@ Access-only writes retain their existing read authority clause. Direct operation
 
 ## Replay and remaining distinction
 
-Saved receipt replay bypasses mutation persistence and creates no new command envelope. Existing current identity/membership/patient checks still govern disclosure. The actual assignment test distinguishes revoking permission to make a new assignment (fresh command 403) from reading an already saved receipt while the clinician still has patient scope (same-key replay 200, no new mutation/event). Removing patient scope or membership returns 403 on saved receipt read. This batch preserves that distinction; it does not certify the whole replay-authority inventory. The independent replay per-record read-audit repair is owned by the offline reviewer and should be integrated separately.
+Saved receipt replay bypasses mutation persistence and creates no new command envelope. Existing current identity/membership/patient checks still govern disclosure. The actual assignment test distinguishes revoking permission to make a new assignment (fresh command 403) from reading an already saved receipt while the clinician still has patient scope (same-key replay 200, no new mutation/event). Removing patient scope or membership returns 403 on saved receipt read. This batch preserves that distinction; it does not certify the whole replay-authority inventory. The independently discovered replay per-record read-audit repair is integrated separately; root reruns its actual Worker/D1 regression on the combined source. See [replay review](DELTA-REPLAY-INDEPENDENT-REVIEW.md).
 
 ## Verification and integration
 
