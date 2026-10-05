@@ -32,7 +32,8 @@ import { applyReassignment, authorizeReassignment } from './reassignment';
 import { applyCorrectionTask, authorizeCorrectionTask } from './correction-tasks';
 import { applyRoster } from './roster';
 import { applyWorkforceImport, authorizeWorkforceImport } from './workforce-import';
-import { ABHA_REVIEW_LIMIT, AbhaHeldElsewhere, LINK_REFUSED, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';
+import { reserveAbhaReview, releaseAbhaReview, recordAbhaReviewReservation } from './abha-review-reservation';
+import { AbhaHeldElsewhere, LINK_REFUSED, validateAbhaLink, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';
 import { applyTransfer, authorizeTransfer } from './abdm-transfer';
 import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';
 import { applyPilot, authorizePilotCommand } from './pilot';
@@ -116,20 +117,33 @@ export async function snapshot(request?:Request){const u=await identity();return
 // Slice 0b-3: the snapshot returned after a command follows the same paging request as the workspace read.
 const viewerSnapshot=async(request:Request,u:Actor,orgId:string)=>snapshotFor(await loadFor(u,orgId,undefined,true,pagingRequest(request),'response to a command'),u);
 async function parseRequest(request:Request){const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)fail(403,'Cross-origin changes are not allowed.');if(request.headers.get('sec-fetch-site')==='cross-site')fail(403,'Cross-site changes are not allowed.');if(!request.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON for this operation.');const key=request.headers.get('idempotency-key');if(!key||!/^[a-zA-Z0-9_-]{8,100}$/.test(key))fail(400,'A valid idempotency key is required.');const input=await boundedJsonBody(request,20000);const parsed=platformSchema.safeParse(input);if(!parsed.success)fail(422,parsed.error.issues[0]?.message??'Invalid command.');return {key,c:parsed.data};}
-// Slice 6z (sixth review): an ABHA link refused because a record outside the requester's care scope holds the number is
-// recorded for identity steward review as an audit event on that record (visible only to members who may see it), then
-// refused with the ordinary link refusal. Recording is best effort: the requester's answer is the same either way.
-// Slice 6ab (eighth review): the mock gateway's one-time code is public, so this refusal can still be told apart from a
-// successful link by someone who enters that code. The oracle is bounded: one review event per requester and holding
-// record a day (repeats add nothing), and a requester with ABHA_REVIEW_LIMIT such refusals in the last day has every
-// further link refused the same way until the day has passed, so repeated probing reveals nothing more.
-async function abdmWithStewardReview(state:OrgState,c:any,u:Actor,m:Member){
- const since=new Date(Date.now()-86400000).toISOString(),reviews=async()=>c?.type==='abhaLink'?(await db().prepare("SELECT DISTINCT person_id FROM audit_events WHERE org_id=? AND actor_id=? AND action='abhaLinkReview' AND at>=?").bind(state.organisation.id,u.userId,since).all<{person_id:string}>()).results.map(r=>r.person_id):[];
- if(c?.type==='abhaLink'&&(await reviews()).length>=ABHA_REVIEW_LIMIT){try{applyAbdm(structuredClone(state),{...c,otp:'000000'},u,m);}catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;}fail(422,LINK_REFUSED);}
- try{return applyAbdm(state,c,u,m);}
- catch(e){if(!(e instanceof AbhaHeldElsewhere))throw e;
-  try{if(!(await reviews()).includes(e.heldBy))await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal. Recorded on this record only; repeats by the same requester within a day are not recorded again.`}]);}catch{/* recordAccesses has logged the failure without content */}
-  fail(422,LINK_REFUSED);}
+// Atomic reservation before an ABHA lookup. Refused/pending attempts consume the daily
+// bound even if the steward audit cannot be written; successes and unrelated validation
+// failures release their slot. Repeated probes never obtain a second uncertain lookup.
+async function abdmWithStewardReview(state:OrgState,c:any,u:Actor,m:Member,key:string){
+ if(c?.type!=='abhaLink')return applyAbdm(state,c,u,m);
+ // Preserve role, patient/version, module and already-linked refusals without looking up
+ // another person's number. Wrong-code validation is not used: duplicates precede OTP.
+ validateAbhaLink(state,c,m);
+ const reservation=await reserveAbhaReview(db(),state.organisation.id,u.userId,key,c,c.abhaNumber);
+ if(!reservation.acquired)fail(422,LINK_REFUSED);
+ try{
+  const result=applyAbdm(state,c,u,m);
+  await releaseAbhaReview(db(),state.organisation.id,u.userId,reservation.attemptHash);
+  return result;
+ }catch(e){
+  if(!(e instanceof AbhaHeldElsewhere)){
+   await releaseAbhaReview(db(),state.organisation.id,u.userId,reservation.attemptHash);
+   throw e;
+  }
+  try{
+   const since=new Date(Date.now()-86400000).toISOString();
+   const prior=await db().prepare("SELECT MIN(id) AS id FROM audit_events WHERE org_id=? AND actor_id=? AND action='abhaLinkReview' AND at>=? AND person_id=?").bind(state.organisation.id,u.userId,since,e.heldBy).first<{id:string|null}>();
+   const eventId=prior?.id??(await recordAccesses(db(),state,u,m,[{action:'abhaLinkReview',subject:e.heldBy,personId:e.heldBy,detail:`An ABHA link on record ${e.personId} was refused because this record holds the same ABHA number. An identity steward should review whether the two records are the same person. The requester was shown the ordinary link refusal. Recorded on this record only; repeats by the same requester within a day are not recorded again.`}]))[0].id;
+   await recordAbhaReviewReservation(db(),state.organisation.id,u.userId,reservation.attemptHash,eventId);
+  }catch{/* Audit reports its own fixed failure; keep the reservation and reveal nothing. */}
+  fail(422,LINK_REFUSED);
+ }
 }
 async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof parseRequest>>){
  const u=await identity(),{key,c}=parsed,hash=await digest(c);await ensureHome(u);
@@ -218,7 +232,7 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
   // Slice 2j: closing a correction task with evidence.
   const referral=applyReferral(state,c,u,m)??applyActionPlan(state,c,u,m)??applyReassignment(state,c,u,m)??applyCorrectionTask(state,c,u,m)??applyProgrammeReferrals(state,c,u,m);
   const roster=await applyRoster(state,c,u,m);
-  const abdm=await abdmWithStewardReview(state,c,u,m);
+  const abdm=await abdmWithStewardReview(state,c,u,m,key);
   const transfer=await applyTransfer(state,c,u,m);
   const ops=applyOperations(state,c,u,m)??applyAlertAck(state,c,u,m)??applyInvoiceReconciliation(state,c,u,m)??applyNotificationChannel(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid)??applySpeechPolicy(state,c,u,m,environmentOf(rawRuntime()).name,fail,uuid); // slice 10b: owner-managed notification channel (demonstration simulator); slice 12a: voice input setting
  // Slice feat/r08 (BR-ID-02/BR-OPS-01): facility and geography/locality access policy (owner-managed, versioned, audited).

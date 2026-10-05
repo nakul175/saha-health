@@ -78,7 +78,7 @@ try {
     await check('2 the access action text names the holding record only', () => { assert.doesNotMatch(readFileSync('lib/saha/access-audit.ts', 'utf8'), /recorded on\s*\n?\s*\/\/\s*both records/); assert.match(AA.ACCESS_ACTIONS.abhaLinkReview, /holding record only/); });
     await check('2 source: one review event per requester and holding record a day, and a daily limit on refused links', () => {
       const src = readFileSync('lib/saha/server.ts', 'utf8'); assert.equal(Bm.ABHA_REVIEW_LIMIT, 3);
-      assert.match(src, /action='abhaLinkReview' AND at>=\?/); assert.match(src, /if\(!\(await reviews\(\)\)\.includes\(e\.heldBy\)\)await recordAccesses/); assert.match(src, /\(await reviews\(\)\)\.length>=ABHA_REVIEW_LIMIT/);
+      assert.match(src, /action='abhaLinkReview' AND at>=\?/); assert.match(src, /prior\?\.id\?\?/); assert.match(src, /await reserveAbhaReview/); assert.match(src, /if\(!reservation\.acquired\)fail\(422,LINK_REFUSED\)/);
     });
 
     // 4a. Consent request governed by lookup; revocation always applies.
