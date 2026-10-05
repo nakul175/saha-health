@@ -1,0 +1,47 @@
+{
+  "scope": "Bounded actual synthetic Worker/D1/browser diagnostic: hold authenticated preflight workspace read until pending text/durable vault inspected, then delay committed POST abort250ms. No product changes.",
+  "timeline": [
+    {
+      "event": "preflight-held",
+      "ms": 2413.431917
+    },
+    {
+      "event": "early-pending-text-visible",
+      "ms": 2414.996333,
+      "postCaptured": false
+    },
+    {
+      "event": "early-durable-pending",
+      "ms": 2435.480667,
+      "hasPending": true,
+      "oldAssertion": false,
+      "postCaptured": false
+    },
+    {
+      "event": "sync-post-route-entered",
+      "ms": 2446.573708
+    },
+    {
+      "event": "server-committed-200",
+      "ms": 2464.912625
+    },
+    {
+      "event": "aborting-client-reply",
+      "ms": 2716.13725
+    },
+    {
+      "event": "actual-sync-requestfailed",
+      "ms": 2721.407083
+    },
+    {
+      "event": "corrected-exact-pending-check-passed",
+      "ms": 2770.1615,
+      "sameKey": true,
+      "sameBody": true
+    }
+  ],
+  "earlyKeyEqualsActual": true,
+  "earlyBodyEqualsActual": true,
+  "afterKeyEqualsActual": true,
+  "afterBodyEqualsActual": true
+}
