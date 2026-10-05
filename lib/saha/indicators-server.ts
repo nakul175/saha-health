@@ -9,7 +9,7 @@ import { scope } from './store';
 import { recordAccess } from './access-audit';
 import { recordAggregateView } from './read-audit';
 import { csvLines } from './operations';
-import { candidateReleases, ledgerHash, readLedger, writeLedger } from './indicator-ledger';
+import { candidateReleases, ledgerHash, readLedger, writeLedger, indicatorDisclosureProfiles, disclosureRisk, untrackedDisclosureHistory, mergeDisclosureSources, type Candidate } from './indicator-ledger';
 import { catalogue, definitionLifecycle, GROUPS, indicatorRun, interpret, manager, MIN_CELL, registryRecords, releasePopulation, vocabulary, type Group, type Series } from './indicators';
 import { ledgerFull, pruneLedger, RESIDUAL_RISK, screenReleases, type Release } from './indicator-differencing';
 import { lateSinceRelease, teamFreshness } from './indicator-freshness';
@@ -112,16 +112,20 @@ async function recordRelease(u:{userId:string;displayName:string;email:string},o
  const cands=await candidateReleases(orgId,`viewer:${u.userId}`,q,series,at);
  // Slice 6aa (seventh review): every measure release is also checked against the people in the viewer's scope now.
  const population=await releasePopulation(state,ledgerHash(orgId),new Date(at));
+ const bridge=await indicatorDisclosureProfiles(orgId,cands,population,state.workspace.people.filter(p=>p.assigned&&!p.mergedInto).map(p=>p.id),at);
  let released=new Set<string>();
  for(let attempt=1;;attempt++){
   const {ledger,text}=await readLedger(db(),orgId);
   // The cohort is checked first; if it alone would reveal a small group, nothing is returned.
-  const {accepted,refused}=screenReleases(ledger,cands,MIN_CELL,at,population);
+  const screened=screenReleases(ledger,cands,MIN_CELL,at,population);
+  let unknown=false;const extra:Candidate[]=[];try{unknown=await untrackedDisclosureHistory(ledger,at,orgId);const working=[...ledger];for(const c of screened.accepted){const profiles=bridge.filter(b=>b.candidate===c).map(b=>b.profile);let risky=unknown;for(const profile of profiles){if(disclosureRisk(working,profile,MIN_CELL,at)){risky=true;break;}working.push(profile);}if(risky)extra.push(c);}}catch{fail(503,'Disclosure protection history is uncertain. Nothing was shown.');}
+  const accepted=screened.accepted.filter(c=>!extra.includes(c)),refused=[...screened.refused,...extra];
   if(refused.some(c=>c.isCohort)){await recordAggregateView(db(),state,u,m,REFUSAL_SUBJECT,`Indicator query refused whole: together with this viewer's queries of the last seven days it would reveal a group of fewer than 5 people. Filters set: ${[q.team&&'team',q.village&&'village',q.programme&&'programme'].filter(Boolean).join(', ')||'none'}; nothing was shown.`);fail(422,DIFFERENCING_MESSAGE);}
   const withheld=new Set(refused.flatMap(c=>c.ids));released=new Set(accepted.flatMap(c=>c.ids).filter(id=>!withheld.has(id)));
-  if(ledgerFull(ledger,accepted.map(c=>c.release),at))fail(429,LEDGER_FULL_MESSAGE);
+  const protectedProfiles=mergeDisclosureSources(ledger,bridge.filter(b=>accepted.includes(b.candidate)).map(b=>b.profile));
+  if(ledgerFull(ledger,[...accepted.map(c=>c.release),...protectedProfiles],at))fail(429,LEDGER_FULL_MESSAGE);
   // Slice 6aa (finding 4): a write D1 refuses (for example a value over its size limit) is refused as a full ledger.
-  let written=false;try{written=await writeLedger(db(),orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release)],at));}catch{fail(429,LEDGER_FULL_MESSAGE);}
+  let written=false;try{written=await writeLedger(db(),orgId,text,pruneLedger([...ledger,...accepted.map(c=>c.release),...protectedProfiles],at));}catch{fail(429,LEDGER_FULL_MESSAGE);}
   if(written)break;
   if(attempt>=RELEASE_ATTEMPTS)fail(409,'Many indicator queries are being recorded in this organisation at once. Nothing was shown. Please try again.');
  }
