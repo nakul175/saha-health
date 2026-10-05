@@ -34,6 +34,10 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/run-api-reporting-current.mjs':['tests/evidence/reporting-release-root-cold/api-current-result.json'],
+  'tests/fifth-review-fixes-reporting-current-contract.mjs':['tests/evidence/reporting-release-root-cold/fifth-current-result.json'],
+  'tests/test-runner-reporting-current-contract.mjs':['tests/evidence/reporting-release-root-cold/runner-current.json'],
+  'tests/work-burden-policy-owned-port.mjs':['tests/evidence/reporting-release-root-cold/policy-checkpoint.json'],
   'tests/test-runner-current-fixture-contract.mjs': ['tests/evidence/programme-own-read-repair/runner-current.json'],
   'tests/imported-media-independent-probe.mjs': ['tests/evidence/imported-media-independent/probe/http.json'],
   'tests/integration-composite-authority-time-http.mjs': ['tests/evidence/integration-fixture-adapters/composite-time/http.json'],
@@ -207,6 +211,15 @@ const idOf = (layer, file) => `${layer}/${posix.basename(file).replace(SOURCE_EX
  * { layer, role: 'suite' | 'component' | 'support', tier: 'pr' | 'extended' | 'manual', runner: 'node' | 'playwright' }
  */
 export function classify(file) {
+  if(file==='tests/integration-contact-import-owned-port.mjs')return {id:'integration/contact-import-http',layer:'integration',role:'suite',tier:'pr',runner:'node',reason:'All original assertions retained on owned free port'};
+  if(file==='tests/integration-reporting-figure-portability-after-http.mjs')return {id:'integration/report-portability-after-http',layer:'integration',role:'suite',tier:'pr',runner:'node',reason:'All original figure portability assertions retained with exact0030 schema'};
+  if(['tests/contact-import-http.mjs','tests/integration-media-report-portability-after-http.mjs'].includes(file))return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable prior fixture, all guarded assertions retained in named current adapter'};
+  const currentReporting = {'tests/fifth-review-fixes-reporting-current-contract.mjs':'unit/fifth-review-fixes-contract','tests/test-runner-reporting-current-contract.mjs':'unit/test-runner-contract','tests/work-burden-policy-owned-port.mjs':'unit/work-burden-policy-checkpoint','tests/run-api-reporting-current.mjs':'integration/run-api-smoke'}[file];
+  if(currentReporting) return {id:currentReporting,layer:currentReporting.split('/')[0],role:'suite',tier:'pr',runner:'node',reason:'Named current reporting fixture adapter; immutable original source and complete original assertion groups/minima retained'};
+  if(['tests/fifth-review-fixes-contract.mjs','tests/test-runner-current-fixture-contract.mjs','tests/work-burden-policy-checkpoint.mjs','tests/run-api-smoke.mjs'].includes(file))return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable prior reporting fixture; original guarded identity/minimum retained by named current adapter'};
+  if(file==='tests/indicator-registry-reporting-current.mjs')return {layer:'integration',role:'component',tier:'pr',reason:'Current registry component retaining original clinical suppression checks with explicit metadata parsing'};
+  if(file==='tests/indicator-registry-smoke.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable old metadata parser; current API component preserves original privacy checks'};
+  if(['tests/api-reporting-current.mjs'].includes(file))return {layer:'integration',role:'support',tier:null,reason:'Current reporting API composition/support, never an independent counted suite'};
   const base = posix.basename(file);
   if (file === 'tests/integration-completeness-extra-authority-http.mjs') return { id: 'integration/completeness-cold-extra-authority-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'All89 original cold authority checks; explicit aggregate count and owned evidence' };
   if (file === 'tests/integration-completeness-extra-browser.mjs') return { id: 'integration/completeness-cold-extra-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'All27 original cold phone checks; explicit aggregate count and owned evidence' };
@@ -310,7 +323,7 @@ export function classify(file) {
 
 /** Module paths imported by tests/api-smoke.mjs ('./x.mjs' strings, static or dynamic). */
 export function importedModules(root = process.cwd()) {
-  const p = join(root, 'tests/api-smoke.mjs');
+  const p = join(root, existsSync(join(root,'tests/api-reporting-current.mjs'))?'tests/api-reporting-current.mjs':'tests/api-smoke.mjs');
   if (!existsSync(p)) return [];
   return [...new Set([...readFileSync(p, 'utf8').matchAll(/['"]\.\/([A-Za-z0-9_-]+\.mjs)['"]/g)].map(m => `tests/${m[1]}`))].sort();
 }
@@ -357,7 +370,7 @@ export function buildCatalogue(root = process.cwd()) {
   }
   const byFile = new Map(entries.map(e => [e.file, e]));
   // The HTTP/D1 entry and its components must agree in both directions.
-  const entry = byFile.get('tests/api-smoke.mjs'), runner = byFile.get('tests/run-api-smoke.mjs');
+  const entry = byFile.get('tests/api-reporting-current.mjs')??byFile.get('tests/api-smoke.mjs'), runner = byFile.get('tests/run-api-reporting-current.mjs')??byFile.get('tests/run-api-smoke.mjs');
   if (!runner) errors.push('tests/run-api-smoke.mjs is missing: the HTTP/D1 suite has no entry point.');
   if (!entry) errors.push('tests/api-smoke.mjs is missing: the HTTP/D1 suite has no entry module.');
   if (entry) {
@@ -370,11 +383,12 @@ export function buildCatalogue(root = process.cwd()) {
   if (specs.length && !configs.length) errors.push(`tests/ui has ${specs.length} Playwright spec file(s) but no tests/ui/playwright.config.{mjs,js,ts}; add one so the runner can run them.`);
   if (configs.length > 1) errors.push(`More than one Playwright configuration: ${configs.map(c => c.file).join(', ')}.`);
   // Requirement ids: a suite cites what its own file cites; the HTTP/D1 suite also gets the entry module and every component.
-  const cited = f => [...(reqs.get(f) ?? [])];
+  const sourceAliases={'tests/fifth-review-fixes-reporting-current-contract.mjs':'tests/fifth-review-fixes-contract.mjs','tests/test-runner-reporting-current-contract.mjs':'tests/test-runner-contract.mjs','tests/work-burden-policy-owned-port.mjs':'tests/work-burden-policy-checkpoint.mjs','tests/indicator-registry-reporting-current.mjs':'tests/indicator-registry-smoke.mjs','tests/run-api-reporting-current.mjs':'tests/run-api-smoke.mjs','tests/api-reporting-current.mjs':'tests/api-smoke.mjs'};
+  const cited = f => [...new Set([...(reqs.get(f)??[]),...(reqs.get(sourceAliases[f])??[])])];
   for (const e of entries) {
     if (e.role === 'suite') {
       let from = [e.file];
-      if (e.file === 'tests/run-api-smoke.mjs') from = [e.file, 'tests/api-smoke.mjs', ...components.map(c => c.file)];
+      if (e.id === 'integration/run-api-smoke'||e.file === 'tests/run-api-smoke.mjs') from = [e.file, 'tests/api-smoke.mjs', ...components.map(c => c.file)];
       if (e.runner === 'playwright') from = [e.file, ...specs.map(c => c.file)];
       e.requirements = [...new Set(from.flatMap(cited))].sort();
       e.results = SUITE_RESULTS[e.file] ?? resultHints(root, e.file === 'tests/run-api-smoke.mjs' ? [e.file, 'tests/api-smoke.mjs'] : [e.file]);
