@@ -1,0 +1,49 @@
+{
+  "baseReview": "49c19ace3be1a237d768341e33b23f31aa175055",
+  "originalGuidedAuthor": "9d4716ae",
+  "beforeEvidence": "tests/evidence/offline-guided-cold/extra/ (unchanged inherited review witness)",
+  "positiveAuthorChecks": 328,
+  "actualBrowser": {
+    "originalFailedASHAProbeAndNewGuardCases": 51,
+    "privacyPurgeAccountPartialWriteAndUnknownReceipts": 64,
+    "accountExpiryLegacyFieldCompatibility": 22
+  },
+  "contracts": {
+    "authoritativeFieldSchemaProjection": 89,
+    "deviceWork": 46,
+    "fieldRecovery": 25,
+    "units": 14,
+    "provenance": 17
+  },
+  "build": "passed",
+  "types": "passed",
+  "inheritedServerSourcesUnchanged": [
+    "lib/saha/core.ts",
+    "lib/saha/field.ts",
+    "lib/saha/device-work.ts",
+    "lib/saha/server.ts"
+  ],
+  "rawProofRetention": "pending body/key unchanged; syncReference.bodyHash stays wire digest; separate receiptBodyHash; purge tombstone wirePending retains original key/raw digest",
+  "limits": [
+    "Author evidence, independent clearance pending",
+    "Unsupported schema/future fields and unreconstructable older raw-only receipts fail closed",
+    "Old purged tombstones with only unmatched raw digest cannot be reconstructed; original proof is retained unknown",
+    "No migration, server receipt/hash rewrite, provider enablement, automatic clinical replay or clinical confirmation",
+    "Browser software only; physical Android and clinical acceptance pending"
+  ],
+  "sourcePins": {
+    "public/field/sync-receipt.js": "7f89b65c3172c915655919383c1e97121f36a49b352b864fd61c267968483386",
+    "public/field/device-work.js": "47f177afd9723eb82c75036813135085c01d165ccabeb9c84ce0999e07ac248b",
+    "public/field/app.js": "58b1ea093958d1a4def8f679af8b0de04c59b18fab231ff01ae22692ae5f74dd",
+    "public/app-sw.js": "5f9013c479277b53d602c11593ffc9e479ef586d1aae60a6a4a648be43f0e6ba",
+    "public/field/sw.js": "37f3e6254aa78db8f66c34a7c8cc6a47326dc89a6e64acca2de285613e00e995",
+    "lib/saha/core.ts": "639fd44e40d87483aa35ec2165bc15ec45ededc0cc50f993acc3c7e7f771ca71",
+    "lib/saha/field.ts": "6012578a3105e336d80ce91a424a212b718a0f69650c23949e9578426b1b433b",
+    "lib/saha/device-work.ts": "48c470ef4e4caf339d916803715161a65221f799d5838381f727af983c9a7a9a",
+    "lib/saha/server.ts": "13de0e588ec3da978229478729651d38bfdce1d0e97c8b37f621bba969b0b76f",
+    "tests/sync-receipt-projection.mjs": "c46739fc40ea82f9cbb07e1c099507abfe8674726eb1437a7390b2607ea9b520",
+    "tests/offline-sync-hash-repair-browser.mjs": "6c07ee166bdcd83ff53269eef6b46cc58fd898a4c6bf0b44debcd04094e0d0ae",
+    "tests/offline-sync-hash-device-browser.mjs": "b94540b958ae64bac2d516d7df0ddb5cfc1988f3b3eb3f454ccd68a4ff76833c",
+    "tests/offline-sync-hash-parity-browser.mjs": "3305a4ea26b072a22fb5c2924cac2e6dd173ce0fd59371078a2fab87a9565912"
+  }
+}
