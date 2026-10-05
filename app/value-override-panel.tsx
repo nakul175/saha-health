@@ -7,10 +7,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { alternativeUnit, ALL_CONVERTIBLE_FIELDS, VALUE_FIELDS, VALUE_RANGES, authorText, convertEntered, currentOverride, enteredText, overrideConfirmation, overrideText, rangeText, selectionForVisit, valueTier } from '@/lib/saha/fact-provenance';
 import type { AllConvertibleField, Facts, Measure, Snapshot, ValueField, Visit } from '@/lib/saha/types';
 import { useI18n } from './i18n';
+import { useGuidedObservation } from './guided-capture';
 // Slice 2i: values entered in another unit (converted on the server, original kept) and reasons for values outside the
 // placeholder expected range (BR-DATA-05). The ranges are an engineering placeholder, not clinically approved.
 const fieldsFor=(measures:Measure[]):ValueField[]=>VALUE_FIELDS.filter(f=>measures.includes(f==='systolic'||f==='diastolic'?'bloodPressure':f as Measure));
 export function UnitAndReasonEditor({facts,measures,onChange,visit}:{facts:Facts;visit?:Visit;measures:Measure[];onChange:(f:Facts)=>void}){
+ const guided=useGuidedObservation();if(guided.enabled)measures=guided.measure?[guided.measure]:[];
  const {t,lang,label}=useI18n(),hl=lang==='hi'?'hi':undefined,unitName=(text:string)=>lang==='hi'?<span lang="en">{text}</span>:text;
  const selected=selectionForVisit(visit??{});const fields=fieldsFor(measures),convertible=ALL_CONVERTIBLE_FIELDS.filter(f=>fields.includes(f));
  const setEntered=(f:AllConvertibleField,unit:string,value:string)=>{const entered={...(facts.entered??{})};const next:Facts={...facts};
@@ -18,10 +20,10 @@ export function UnitAndReasonEditor({facts,measures,onChange,visit}:{facts:Facts
   if(Object.keys(entered).length)next.entered=entered;else delete next.entered;onChange(next);};
  const setReason=(f:ValueField,reason:string)=>{const unusual={...(facts.unusual??{}),[f]:reason};onChange({...facts,unusual});};
  const unusual=fields.filter(f=>valueTier(f,facts[f],undefined,selected)!=='expected');
- return <details className="provenance-editor" open={!!facts.entered||unusual.length>0} data-testid="unit-and-reason"><summary>{t('capture.unit.summary')}</summary>
+ return <details className="provenance-editor" hidden={guided.enabled&&!guided.measure} open={guided.enabled||!!facts.entered||unusual.length>0} data-testid="unit-and-reason"><summary>{t('capture.unit.summary')}</summary>
   <p className="muted text-sm">{t('capture.unit.help')} {t('capture.unit.ranges')} <span lang="en">{selected.status} ({selected.version})</span>. <span lang="en">These are the captured save and confirmation ranges. Conversion keeps the original unit; measured/reported source is recorded separately.</span></p>
   {convertible.map(f=>{const e=facts.entered?.[f],alt=alternativeUnit(f),r=selected.fields[f],name=label('capture.measure',f);
-   return <div className="form-grid three" key={f}><div className="provenance-label"><strong>{name}</strong><span className="muted text-sm">{e?(facts[f]?`${e.value} ${alt.label} = ${facts[f]} ${r.unit}`:t('capture.unit.enterPositive')):t('capture.unit.enteredIn',{unit:r.unit})}</span></div>
+   return <div className="form-grid three" key={f}><div className="provenance-label"><strong>{name}</strong><span className="muted text-sm">{e?(facts[f]?`${e.value} ${alt.label} = ${facts[f]} ${r.unit}`:t('capture.unit.enterPositive')):t('capture.unit.enteredIn',{unit:r.unit})}</span>{guided.enabled&&<span className="muted text-sm" lang="en">Captured engineering expected interval {rangeText(f,r.expected)}; clinician confirmation outside {rangeText(f,r.confirm)}. Clinical approval pending.</span>}</div>
     <label className="field"><span>{t('capture.unit.unitOf',{measure:name})}</span><Select value={e?alt.unit:'base'} onValueChange={u=>setEntered(f,u,u==='base'?'':(e?.value??''))}><SelectTrigger aria-label={t('capture.unit.unitOf',{measure:name})}><SelectValue/></SelectTrigger><SelectContent lang={hl}><SelectItem value="base">{r.unit}</SelectItem><SelectItem value={alt.unit}>{unitName(alt.label)}</SelectItem></SelectContent></Select></label>
     <label className="field" hidden={!e}><span>{t('capture.unit.measureIn',{measure:name,unit:alt.label})}</span><Input inputMode={f==='weeks'?'text':'decimal'} aria-label={t('capture.unit.measureIn',{measure:name,unit:alt.label})} value={e?.value??''} disabled={!e} onChange={x=>setEntered(f,alt.unit,x.target.value)} placeholder={e?(f==='weeks'?'20+3':t('capture.unit.valueAsMeasured')):t('capture.unit.chooseFirst')}/></label></div>;})}
   {unusual.map(f=>{const r=selected.fields[f],tier=valueTier(f,facts[f],undefined,selected),name=label('capture.measure',f);
