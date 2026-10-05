@@ -1,3 +1,4 @@
+import { rangeCaptureFor, rangeContextProblem } from './fact-provenance';
 import { installedPacks } from './programmes';
 import { z } from 'zod';
 import { withinPolicy } from './access';
@@ -17,7 +18,7 @@ export const fieldSchema=z.discriminatedUnion('type',[
  z.object({type:z.literal('recordReferralEvent'),referralId:id,version:ver,event:z.enum(REFERRAL_EVENTS as [string,...string[]]),appointmentAt:z.string().datetime().optional(),note,source:z.enum(['worker-observed','facility-reported','patient-reported']),evidenceReference:z.string().trim().min(3).max(200),occurredAt:z.string().datetime(),confirmed:z.literal(true)}).strict()
 ]);
 export async function fieldIdentity(p:{name:string;age:number;sex:string;village:string;teamId:string;assignedTo:string|null}){return digest([p.name,p.age,p.sex,p.village,p.teamId,p.assignedTo]);}
-export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):Promise<any|null>{
+export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString(),environment='synthetic'):Promise<any|null>{
  const parsed=fieldSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data,w=state.workspace;
  if(!['asha','clinician'].includes(m.role))fail(403,'A current care role is required.');
  let subject='',detail='',result:any={ok:true};
@@ -43,12 +44,12 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
   const p=person(w,c.personId);subject=p.id;p.fieldLeases??=[];
   if(c.type==='prepareFieldVisit'){
    if(p.version!==c.version)fail(409,'Patient changed. Refresh before preparing field work.');
-   const started=await apply(w,{type:'startVisit',personId:p.id},u.userId,{call:async()=>fail(409,'External calls unavailable'),packs:installedPacks(state)},now);const v=visit(w,started.visitId);
+   const started=await apply(w,{type:'startVisit',personId:p.id},u.userId,{call:async()=>fail(409,'External calls unavailable'),packs:installedPacks(state),rangeCapture:p=>rangeCaptureFor(state,p),rangeEnvironment:environment},now);const v=visit(w,started.visitId);if(v.valueRangeCapture?.mode==='population-demo'&&!['synthetic','training'].includes(environment))fail(409,'Demonstration value ranges require a synthetic or training environment.');const stale=rangeContextProblem(v,p);if(stale)fail(409,stale);
    // A new grant replaces this worker's active grant for this visit; old ciphertext is retained locally for review.
    for(const l of p.fieldLeases)if(l.actorId===u.userId&&l.visitId===v.id&&l.status==='active')l.status='revoked';
    p.fieldLeases=p.fieldLeases.filter(l=>l.expiresAt>now).slice(-19);
    const lease:FieldLease={id:uuid(),actorId:u.userId,memberVersion:m.version,visitId:v.id,visitVersion:v.version,identityHash:await fieldIdentity(p),consentVersion:p.consentVersion,expiresAt:new Date(Date.parse(now)+24*3600000).toISOString(),status:'active',packageHash:'',createdAt:now};
-   const payload={schema:1,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null};
+   const payload={schema:1,leaseId:lease.id,userId:u.userId,organisationId:state.organisation.id,personId:p.id,personName:p.name,identityHash:lease.identityHash,visitId:v.id,visitVersion:v.version,expiresAt:lease.expiresAt,issuedAt:now,facts:v.facts,programmeCapture:v.programmeCapture??null,...(v.valueRangeCapture?{valueRangeCapture:v.valueRangeCapture}:{})};
    const keys=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
    const bytes=new TextEncoder().encode(JSON.stringify(payload));const signature=Array.from(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},keys.privateKey,bytes)));
    const packet={payload,signature,publicKey:await crypto.subtle.exportKey('jwk',keys.publicKey)};lease.packageHash=await digest(packet);p.fieldLeases.push(lease);
@@ -62,7 +63,7 @@ export async function applyField(state:OrgState,input:unknown,u:Actor,m:Member,n
     if(l.status!=='active'||l.expiresAt<=now)fail(409,'Field grant expired, revoked or already synced. Reconcile before continuing.');
     if(l.packageHash!==c.packageHash||l.identityHash!==await fieldIdentity(p)||l.consentVersion!==p.consentVersion)fail(409,'Identity, assignment or permission changed. Review this record online.');
     const v=visit(w,l.visitId);if(v.version!==l.visitVersion||v.state!=='draft'||v.voidedAt||v.supersededBy)fail(409,'The server visit changed. Compare both versions before syncing.');
-    await apply(w,{type:'saveVisit',visitId:v.id,version:v.version,facts:c.facts},u.userId,{call:async()=>fail(409,'External calls unavailable')},now);
+    await apply(w,{type:'saveVisit',visitId:v.id,version:v.version,facts:c.facts},u.userId,{call:async()=>fail(409,'External calls unavailable'),rangeEnvironment:environment},now);
     if(v.programmeCapture?.packs.length)programmeApply(state,{type:'saveProgrammeAnswers',visitId:v.id,version:v.version,answers:c.answers,absence:c.absence},u,m);
     else if(Object.keys(c.answers).length||Object.keys(c.absence).length)fail(422,'This visit has no programme questions.');
     l.status='synced';v.fieldSync={leaseId:l.id,at:now};result={visitId:v.id,version:v.version,leaseId:l.id};detail='Encrypted field draft synced as an unconfirmed visit. Current access, identity, grant and visit version checked.';

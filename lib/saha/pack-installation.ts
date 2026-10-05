@@ -1,3 +1,4 @@
+import { VALUE_RANGES, POPULATION_RANGES } from './fact-provenance';
 import { z } from 'zod';
 import { digest, fail, uuid } from './core';
 import { defaultOperations } from './operations';
@@ -149,4 +150,44 @@ export async function applyPackInstallation(s:OrgState,input:unknown,u:Actor,m:M
  if(was==='active'){if(pv[x.packId]===x.version){const below=enrollablePacks(s).filter(p=>p.id===x.packId&&p.version<x.version).map(p=>p.version);if(below.length)pv[x.packId]=Math.max(...below);else delete pv[x.packId];}const after=adoptedVersion(s,x.packId);adoption=after?` New episodes open on v${after}.`:' No version of this pack can open new episodes.';}
  record(s,u,m,c.type,s.organisation.id,`Programme pack ${x.packId} v${x.version} retired from ${was} (installation ${x.id}); kept, not deleted.${was==='active'?` ${episodes} open episodes stay pinned to v${x.version} until closed or migrated; it no longer opens episodes or receives migrations.`:''}${adoption} Reason: ${c.reason}`,now);
  return {installationId:x.id,state:'retired',openEpisodes:episodes};
+}
+
+// Range publication shares pack installation's independently reviewed, append-only governance contract.
+// It publishes compiled engineering examples only; governance approval never means clinical approval.
+export type RangeProtocol={id:string;mode:'default'|'population-demo';publicationVersion:number;state:'staged'|'approved'|'rejected'|'active'|'retired';manifestHash:string;manifest:unknown;clinicalApproval:'pending';stagedBy:string;stagedAt:string;review?:{by:string;memberVersion:number;at:string;decision:'approve'|'reject';reason:string};history:{state:RangeProtocol['state'];at:string;by:string;reason:string}[]};
+export const rangeProtocolSchema=z.discriminatedUnion('type',[
+ z.object({type:z.literal('rangeProtocolStage'),mode:z.enum(['default','population-demo']),publicationVersion:z.number().int().min(1).max(999),reason}).strict(),
+ z.object({type:z.literal('rangeProtocolReview'),protocolId:iid,manifestHash:hash,decision:z.enum(['approve','reject']),reason}).strict(),
+ z.object({type:z.literal('rangeProtocolActivate'),protocolId:iid,manifestHash:hash,reason}).strict(),
+ z.object({type:z.literal('rangeProtocolRetire'),protocolId:iid,reason}).strict(),
+]);
+const rangeTypes=new Set(rangeProtocolSchema.options.map(x=>x.shape.type.value));
+export const rangeProtocolsOf=(s:OrgState)=>s.operations?.valueRangeProtocols??[];
+const protocol=(s:OrgState,id:string)=>{const x=rangeProtocolsOf(s).find(x=>x.id===id);if(!x)fail(404,'Value range protocol not found.');return x!;};
+export function authorizeRangeProtocol(s:OrgState,m:Member,c:any){
+ if(!rangeTypes.has(c?.type))return;
+ if(c.type==='rangeProtocolReview'){const x=protocol(s,c.protocolId);if(!active(m)||m.role!=='clinician'||m.userId===x.stagedBy)fail(403,'A different active clinician must review the exact value range publication.');}
+ else if(!active(m)||!m.isOwner)fail(403,'An organisation owner stages, publishes and retires value range protocols.');
+}
+export async function applyRangeProtocol(s:OrgState,input:unknown,u:Actor,m:Member,environment:string,now=new Date().toISOString()):Promise<any|null>{
+ const parsed=rangeProtocolSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeRangeProtocol(s,m,c);
+ const list=(s.operations??=defaultOperations()).valueRangeProtocols??=[];
+ if(c.type==='rangeProtocolStage'){
+  if(list.length>=32)fail(422,'Value range publication limit reached; history is retained.');
+  if(list.some(x=>x.publicationVersion>=c.publicationVersion))fail(409,'Publication version must be greater than every earlier staged publication.');
+  const manifest={format:'saha-value-range-publication-1',mode:c.mode,publicationVersion:c.publicationVersion,clinicalApproval:'pending',defaultRanges:VALUE_RANGES,...(c.mode==='population-demo'?{population:{version:POPULATION_RANGES.version,status:POPULATION_RANGES.status,note:POPULATION_RANGES.note,precedence:POPULATION_RANGES.groups.map(g=>g.id),groups:POPULATION_RANGES.groups.map(g=>({id:g.id,label:g.label,fields:g.fields})),contextRule:'age<18 first; otherwise Maternal care programme or active maternal enrolment; sex retained as context, no sex threshold'}}:{})};
+  const manifestHash=await digest(manifest),id=uuid();list.push({id,mode:c.mode,publicationVersion:c.publicationVersion,state:'staged',manifestHash,manifest,clinicalApproval:'pending',stagedBy:u.userId,stagedAt:now,history:[{state:'staged',at:now,by:u.userId,reason:c.reason}]});record(s,u,m,c.type,s.organisation.id,`Value range publication ${id} v${c.publicationVersion} staged, manifest ${manifestHash}; clinical approval pending. ${c.reason}`,now);return {protocolId:id,manifestHash,state:'staged'};
+ }
+ const x=protocol(s,c.protocolId);if(x.history.length>=128)fail(422,'Publication history limit reached; earlier evidence is retained.');
+ if(c.type==='rangeProtocolReview'){
+  if(!['staged','approved'].includes(x.state)||c.manifestHash!==x.manifestHash)fail(409,'Review the current staged publication and exact manifest hash.');x.state=c.decision==='approve'?'approved':'rejected';x.review={by:u.userId,memberVersion:m.version,at:now,decision:c.decision,reason:c.reason};
+ }else if(c.type==='rangeProtocolActivate'){
+  if(x.state!=='approved'||c.manifestHash!==x.manifestHash)fail(409,'Only the independently approved exact publication can be activated.');
+  const rv=s.members.find(y=>y.userId===x.review?.by);if(!rv||rv.status!=='active'||rv.role!=='clinician'||rv.userId===x.stagedBy||rv.version!==x.review?.memberVersion)fail(409,'Reviewer authority changed; review this publication again.');
+  if(x.mode==='population-demo'&&!['synthetic','training'].includes(environment))fail(409,'Population examples are allowed only in synthetic or training environments while clinical approval is pending.');
+  if(list.some(y=>y.state==='active'&&y.publicationVersion>=x.publicationVersion))fail(409,'A newer publication is already active.');
+  if(list.some(y=>y.state==='active'&&y.history.length>=128))fail(422,'Active publication history limit reached; earlier evidence is retained.');for(const y of list.filter(y=>y.state==='active')){y.state='retired';y.history.push({state:'retired',at:now,by:u.userId,reason:`Superseded by publication ${x.id}. ${c.reason}`});}
+  x.state='active';
+ }else{if(['retired','rejected'].includes(x.state))fail(409,'This publication is already closed.');x.state='retired';}
+ x.history.push({state:x.state,at:now,by:u.userId,reason:c.reason});record(s,u,m,c.type,s.organisation.id,`Value range publication ${x.id} v${x.publicationVersion} ${x.state}, manifest ${x.manifestHash}. Existing visits and signed grants stay pinned; clinical approval pending. ${c.reason}`,now);return {protocolId:x.id,manifestHash:x.manifestHash,state:x.state};
 }

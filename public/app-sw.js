@@ -1,4 +1,4 @@
-const CACHE='saha-app-public-shell-v1';
+const CACHE='saha-app-public-shell-v2';
 const SHELL='/app/offline/';
 const ASSETS=[SHELL,'/app/offline/style.css','/field/app.js','/field/vault.js','/field/app-grants.js','/field/style.css'];
 function publicResponse(response,path){const type=response.headers.get('content-type')??'',expected=path.endsWith('/')||path.endsWith('.html')?'text/html':path.endsWith('.css')?'text/css':'javascript';return response.ok&&!response.redirected&&response.type!=='opaque'&&new URL(response.url).origin===self.location.origin&&new URL(response.url).pathname===path&&type.includes(expected);}

@@ -1,7 +1,7 @@
 import { AppError, checkFacts, digest, fail, uuid } from './core';
 import { normallyAllowed } from './access';
-import { MISSING_SOURCES, RECORDED_SOURCES, VALUE_FIELDS, VALUE_RANGES, normaliseUnits, rangeText, valueTier } from './fact-provenance';
-import type { Facts, FactSource, Member, Measure, OrgState, Person, ValueField, Visit } from './types';
+import { MISSING_SOURCES, RECORDED_SOURCES, VALUE_FIELDS, VALUE_RANGES, normaliseUnits, rangeCaptureFor, rangeSelection, rangeText, valueTier } from './fact-provenance';
+import type { Facts, FactSource, RangeCapture, Member, Measure, OrgState, Person, ValueField, Visit } from './types';
 import type { Actor } from './store';
 // Slice 10i: controlled import of historical visits with clinical content (BR-DATA-11), as kind `visits` of the slice 2h
 // record import (dry run, plan hash, apply exactly the plan). One CSV row is one visit for a person who already exists in
@@ -35,7 +35,7 @@ const SPECS:Spec[]=[
  {key:'coughDays',measure:'coughDays',label:'Cough duration',value:'cough_duration',unit:'cough_unit',source:'cough_source',units:{days:'days',d:'days',weeks:'wk',wk:'wk'},base:'days',hint:'days or weeks'},
 ];
 export type VisitRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;duplicateOf?:{visitId:string}};
-export type VisitAccepted={kind:'visits';row:number;personId:string;sourceSystem:string;facts:Facts};
+export type VisitAccepted={kind:'visits';row:number;personId:string;sourceSystem:string;facts:Facts;valueRangeCapture?:RangeCapture};
 type Resolve=(ref:string)=>{person?:Person;reason?:string};
 // Plans the rows of a visit file. The caller (planRecordImport) has already checked the importer, parsed the CSV and the
 // header. Rows are classified accepted or rejected with reasons that never repeat a cell; accepted rows carry the facts
@@ -47,7 +47,7 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
  for(const [n,r] of body.entries()){
   const row=n+1,reasons:string[]=[];let duplicateOf:VisitRow['duplicateOf'];
   const who=resolve(col(r,'person')),p=who.person;if(who.reason)reasons.push(who.reason);if(p)matched.add(p.id);
-  const ids=p?{personId:p.id,version:p.version}:{};
+  const ids=p?{personId:p.id,version:p.version}:{};const capture=p?rangeCaptureFor(s,p):undefined,selection=capture??rangeSelection();if(capture?.mode==='population-demo'&&!['synthetic','training'].includes(envName))fail(409,'Demonstration value ranges require a synthetic or training environment.');
   if(r.length!==h.length){reasons.push(`Row ${row} has ${r.length} fields; the header has ${h.length}.`);rows.push({row,status:'rejected',reasons,...ids});continue;}
   if(p&&!p.mergedInto){
    if((p.restrictions??[]).some(x=>!x.liftedAt))reasons.push('Processing is restricted for this record under a rights request. Visits are not imported for it.');
@@ -95,8 +95,8 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
   if(norm.problem)reasons.push(norm.problem);
   else{
    const unusual:Partial<Record<ValueField,string>>={};let any=false;
-   for(const f of VALUE_FIELDS){const value=norm.facts[f];if(!value)continue;const tier=valueTier(f,value),range=VALUE_RANGES.fields[f];if(tier==='expected')continue;any=true;
-    if(tier==='clinician')reasons.push(`${range.label} is beyond the confirmation range ${rangeText(f,range.confirm)} (${VALUE_RANGES.status}). An imported visit has no step for a clinician's confirmation, so the row is not imported. Check the value and its unit.`);
+   for(const f of VALUE_FIELDS){const value=norm.facts[f];if(!value)continue;const tier=valueTier(f,value,undefined,selection),range=selection.fields[f];if(tier==='expected')continue;any=true;
+    if(tier==='clinician')reasons.push(`${range.label} is beyond the confirmation range ${rangeText(f,range.confirm)} (${selection.status}). An imported visit has no step for a clinician's confirmation, so the row is not imported. Check the value and its unit.`);
     else if(reasonText.length<10)reasons.push(`${range.label} is outside the expected range ${rangeText(f,range.expected)} (${VALUE_RANGES.status}) and the row has no override_reason of at least 10 characters.`);
     else unusual[f]=reasonText;}
    if(reasonText&&!any)reasons.push('override_reason applies only to a row with a value outside the expected range.');
@@ -105,7 +105,7 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
   if(!VALUE_FIELDS.some(f=>norm.facts[f])&&!notes)reasons.push('The row has no measurement and no notes.');
   // The shared facts check is the final authority; its wording is used when it finds something the rules above did not.
   let stored:Facts|null=null;
-  if(!reasons.length){try{stored=checkFacts(structuredClone(facts),Date.parse(now));}catch(e){if(e instanceof AppError)reasons.push(e.message);else throw e;}}
+  if(!reasons.length){try{stored=checkFacts(structuredClone(facts),Date.parse(now),undefined,selection);}catch(e){if(e instanceof AppError)reasons.push(e.message);else throw e;}}
   // Duplicates: the same person, source system and visit date as an imported visit that is still current, or as an earlier row
   // of this file. A repeat of a file, or a second file from the same system, therefore imports nothing twice.
   const key=p&&!p.mergedInto&&date&&SYSTEM.test(system)?`${p.id}|${sysKey(system)}|${date}`:'';
@@ -114,7 +114,7 @@ export async function planVisitRows(s:OrgState,m:Member,h:string[],body:string[]
    if(old){reasons.push('A visit imported from this source system on this date already exists for this record.');duplicateOf={visitId:old.id};}
    const earlier=accepted.find(a=>a.key===key);if(earlier)reasons.push(`Row ${earlier.row} in this file already imports a visit for this record, source system and date.`);
   }
-  if(p&&key&&stored&&!reasons.length){accepted.push({kind:'visits',row,personId:p.id,sourceSystem:system,facts:stored,key});rows.push({row,status:'accepted',reasons:[],...ids});}
+  if(p&&key&&stored&&!reasons.length){accepted.push({kind:'visits',row,personId:p.id,sourceSystem:system,facts:stored,...(capture?{valueRangeCapture:capture}:{}),key});rows.push({row,status:'accepted',reasons:[],...ids});}
   else rows.push({row,status:'rejected',reasons,...ids,...(duplicateOf?{duplicateOf}:{})});
  }
  // Bound to the file as sent, the rows as parsed and classified (which carry each matched record's id and version), the
@@ -130,8 +130,8 @@ export function applyVisitRows(s:OrgState,plan:Awaited<ReturnType<typeof planVis
  const w=s.workspace,batchId=uuid(),people=new Set<string>(),created:{row:number;visitId:string}[]=[];
  for(const a of plan.accepted){
   const p=w.people.find(x=>x.id===a.personId);if(!p)fail(409,'A record in this plan no longer exists. Run the dry run again.');people.add(p.id);
-  const v:Visit={id:uuid(),personId:p.id,version:1,recordVersion:1,state:'confirmed',facts:structuredClone(a.facts),createdAt:now,confirmedAt:now,aiResults:[],imported:{batchId,row:a.row,at:now,by:u.userId,byName:u.displayName,role:m.role,planHash:plan.planHash,fileDigest:plan.fileDigest,sourceSystem:a.sourceSystem}};
-  w.visits.push(v);created.push({row:a.row,visitId:v.id});
+  const v:Visit={id:uuid(),personId:p.id,version:1,recordVersion:1,state:'confirmed',facts:structuredClone(a.facts),...(a.valueRangeCapture?{valueRangeCapture:structuredClone(a.valueRangeCapture)}:{}),createdAt:now,confirmedAt:now,aiResults:[],imported:{batchId,row:a.row,at:now,by:u.userId,byName:u.displayName,role:m.role,planHash:plan.planHash,fileDigest:plan.fileDigest,sourceSystem:a.sourceSystem}};
+  if(v.valueRangeCapture)v.valueRangeCapture.id+=':'+v.id+':1';w.visits.push(v);created.push({row:a.row,visitId:v.id});
  }
  const k=plan.counts;
  w.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'recordImportApply',subject:s.organisation.id,detail:`Import record-import-v1 (visits) batch ${batchId} applied from dry run ${plan.planHash} (file SHA-256 ${plan.fileDigest}): ${k.rows} rows, ${created.length} visits created as confirmed IMPORTED records on ${people.size} record${people.size===1?'':'s'} (no clinician sign-off implied; no enrolment, submission, referral or plan created), ${k.rejected} rejected. Reason: ${reason}`});

@@ -4,27 +4,27 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { alternativeUnit, ALL_CONVERTIBLE_FIELDS, VALUE_FIELDS, VALUE_RANGES, authorText, convertEntered, currentOverride, enteredText, overrideConfirmation, overrideText, rangeText, valueTier } from '@/lib/saha/fact-provenance';
+import { alternativeUnit, ALL_CONVERTIBLE_FIELDS, VALUE_FIELDS, VALUE_RANGES, authorText, convertEntered, currentOverride, enteredText, overrideConfirmation, overrideText, rangeText, selectionForVisit, valueTier } from '@/lib/saha/fact-provenance';
 import type { AllConvertibleField, Facts, Measure, Snapshot, ValueField, Visit } from '@/lib/saha/types';
 import { useI18n } from './i18n';
 // Slice 2i: values entered in another unit (converted on the server, original kept) and reasons for values outside the
 // placeholder expected range (BR-DATA-05). The ranges are an engineering placeholder, not clinically approved.
 const fieldsFor=(measures:Measure[]):ValueField[]=>VALUE_FIELDS.filter(f=>measures.includes(f==='systolic'||f==='diastolic'?'bloodPressure':f as Measure));
-export function UnitAndReasonEditor({facts,measures,onChange}:{facts:Facts;measures:Measure[];onChange:(f:Facts)=>void}){
+export function UnitAndReasonEditor({facts,measures,onChange,visit}:{facts:Facts;visit?:Visit;measures:Measure[];onChange:(f:Facts)=>void}){
  const {t,lang,label}=useI18n(),hl=lang==='hi'?'hi':undefined,unitName=(text:string)=>lang==='hi'?<span lang="en">{text}</span>:text;
- const fields=fieldsFor(measures),convertible=ALL_CONVERTIBLE_FIELDS.filter(f=>fields.includes(f));
+ const selected=selectionForVisit(visit??{});const fields=fieldsFor(measures),convertible=ALL_CONVERTIBLE_FIELDS.filter(f=>fields.includes(f));
  const setEntered=(f:AllConvertibleField,unit:string,value:string)=>{const entered={...(facts.entered??{})};const next:Facts={...facts};
   if(unit==='base'){delete entered[f];}else{entered[f]={value,unit};next[f]=value.trim()?convertEntered(f,{value:value.trim(),unit})??'':'';}
   if(Object.keys(entered).length)next.entered=entered;else delete next.entered;onChange(next);};
  const setReason=(f:ValueField,reason:string)=>{const unusual={...(facts.unusual??{}),[f]:reason};onChange({...facts,unusual});};
- const unusual=fields.filter(f=>valueTier(f,facts[f])!=='expected');
+ const unusual=fields.filter(f=>valueTier(f,facts[f],undefined,selected)!=='expected');
  return <details className="provenance-editor" open={!!facts.entered||unusual.length>0} data-testid="unit-and-reason"><summary>{t('capture.unit.summary')}</summary>
-  <p className="muted text-sm">{t('capture.unit.help')} {t('capture.unit.ranges')} <span lang="en">{VALUE_RANGES.status} ({VALUE_RANGES.version})</span>. <span lang="en">These are the active default save and confirmation ranges. Conversion keeps the original unit; measured/reported source is recorded separately.</span></p>
-  {convertible.map(f=>{const e=facts.entered?.[f],alt=alternativeUnit(f),r=VALUE_RANGES.fields[f],name=label('capture.measure',f);
+  <p className="muted text-sm">{t('capture.unit.help')} {t('capture.unit.ranges')} <span lang="en">{selected.status} ({selected.version})</span>. <span lang="en">These are the captured save and confirmation ranges. Conversion keeps the original unit; measured/reported source is recorded separately.</span></p>
+  {convertible.map(f=>{const e=facts.entered?.[f],alt=alternativeUnit(f),r=selected.fields[f],name=label('capture.measure',f);
    return <div className="form-grid three" key={f}><div className="provenance-label"><strong>{name}</strong><span className="muted text-sm">{e?(facts[f]?`${e.value} ${alt.label} = ${facts[f]} ${r.unit}`:t('capture.unit.enterPositive')):t('capture.unit.enteredIn',{unit:r.unit})}</span></div>
     <label className="field"><span>{t('capture.unit.unitOf',{measure:name})}</span><Select value={e?alt.unit:'base'} onValueChange={u=>setEntered(f,u,u==='base'?'':(e?.value??''))}><SelectTrigger aria-label={t('capture.unit.unitOf',{measure:name})}><SelectValue/></SelectTrigger><SelectContent lang={hl}><SelectItem value="base">{r.unit}</SelectItem><SelectItem value={alt.unit}>{unitName(alt.label)}</SelectItem></SelectContent></Select></label>
     <label className="field" hidden={!e}><span>{t('capture.unit.measureIn',{measure:name,unit:alt.label})}</span><Input inputMode={f==='weeks'?'text':'decimal'} aria-label={t('capture.unit.measureIn',{measure:name,unit:alt.label})} value={e?.value??''} disabled={!e} onChange={x=>setEntered(f,alt.unit,x.target.value)} placeholder={e?(f==='weeks'?'20+3':t('capture.unit.valueAsMeasured')):t('capture.unit.chooseFirst')}/></label></div>;})}
-  {unusual.map(f=>{const r=VALUE_RANGES.fields[f],tier=valueTier(f,facts[f]),name=label('capture.measure',f);
+  {unusual.map(f=>{const r=selected.fields[f],tier=valueTier(f,facts[f],undefined,selected),name=label('capture.measure',f);
    return <div className="provenance-row" key={'u'+f}><p className="notice amber-notice">{t('capture.unit.outside',{measure:name,value:facts[f],unit:r.unit,range:rangeText(f,r.expected)})}{tier==='clinician'?t('capture.unit.outsideConfirm',{range:rangeText(f,r.confirm)}):''}</p>
     <label className="field"><span>{t('capture.unit.reason',{measure:name.toLowerCase()})}</span><Textarea value={facts.unusual?.[f]??''} onChange={x=>setReason(f,x.target.value)} maxLength={500} rows={2}/></label></div>;})}
  </details>;
@@ -44,7 +44,7 @@ export function ValueOverridePanel({v,data,busy,command}:{v:Visit;data:Snapshot;
 }
 // Owner-visible: the ranges configuration in force. It is a placeholder for engineering, not a clinical standard.
 export function ValueRangesPanel(){
- return <section className="panel" aria-label="Expected value ranges" data-testid="value-ranges"><div className="section-heading"><div><h2>Expected value ranges</h2><p className="muted text-sm">Version {VALUE_RANGES.version}: {VALUE_RANGES.status}. No clinical authority is claimed. A value outside the expected range needs the recorder’s reason; outside the confirmation range, a clinician who did not record it must also confirm it. Changing these ranges needs a release.</p></div></div>
+ return <section className="panel" aria-label="Expected value ranges" data-testid="value-ranges"><div className="section-heading"><div><h2>Expected value ranges</h2><p className="muted text-sm">Default fallback version {VALUE_RANGES.version}: {VALUE_RANGES.status}. No clinical authority is claimed. A value outside the expected range needs the recorder’s reason; outside the confirmation range, a clinician who did not record it must also confirm it. Compiled range publications below can be staged and independently reviewed. Existing captures retain their saved policy.</p></div></div>
   <table className="w-full text-sm"><thead><tr><th className="text-left">Measurement</th><th className="text-left">Expected</th><th className="text-left">Clinician confirmation outside</th><th className="text-left">Other unit accepted</th></tr></thead><tbody>{VALUE_FIELDS.map(f=>{const r=VALUE_RANGES.fields[f];return <tr key={f}><td>{r.label}</td><td>{rangeText(f,r.expected)}</td><td>{rangeText(f,r.confirm)}</td><td>{(ALL_CONVERTIBLE_FIELDS as readonly string[]).includes(f)?alternativeUnit(f).label:'None'}</td></tr>;})}</tbody></table>
  </section>;
 }
