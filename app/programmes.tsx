@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -26,9 +26,28 @@ export function ProgrammePatient({person:p,data,busy,command}:{person:Person;dat
  {form==='resolve'&&<form className="programme-form" onSubmit={async e=>{e.preventDefault();const f=new FormData(e.currentTarget);if(await command({type:'resolveFollowUp',personId:p.id,version:p.version,taskId:episode,state:(e.nativeEvent as SubmitEvent).submitter?.getAttribute('value')??'completed',resolution:f.get('resolution')},'Follow-up updated'))setForm('')}}><label className="field">Outcome / reason<Input name="resolution" minLength={5} required/></label><Button disabled={busy} value="completed">Mark completed</Button><Button disabled={busy} variant="outline" value="cancelled">Cancel follow-up</Button></form>}
  </section>
 }
-export function ProgrammeQuestions({visit:v,busy,command,onDirty}:{visit:Visit;busy:boolean;command:Command;onDirty:(v:boolean)=>void}){
+export function ProgrammeQuestions({visit:v,busy,command,onDirty,savedReadChoice}:{visit:Visit;busy:boolean;command:Command;onDirty:(v:boolean)=>void;savedReadChoice?:{token:number;kind:'load'|'merge'}}){
  const c=v.programmeCapture;const [answers,setAnswers]=useState(c?.answers??{}),[absence,setAbsence]=useState(c?.absence??{});const dirty=JSON.stringify(answers)!==JSON.stringify(c?.answers??{})||JSON.stringify(absence)!==JSON.stringify(c?.absence??{});
- useEffect(()=>{onDirty(dirty);return()=>onDirty(false)},[dirty,onDirty]);useEffect(()=>{setAnswers(c?.answers??{});setAbsence(c?.absence??{})},[v.id,v.version]);
+ const baseline=useRef({visitId:v.id,answers:c?.answers??{},absence:c?.absence??{},readToken:savedReadChoice?.token??0});
+ useEffect(()=>{onDirty(dirty);return()=>onDirty(false)},[dirty,onDirty]);
+ // A deliberate saved-record choice is independent of the clinical revision. Navigation
+ // leaves this mounted state alone; merge applies only locally changed question choices.
+ useEffect(()=>{
+  const previous=baseline.current,token=savedReadChoice?.token??0;
+  let nextAnswers={...(c?.answers??{})},nextAbsence={...(c?.absence??{})};
+  if(previous.visitId===v.id&&token!==previous.readToken&&savedReadChoice?.kind==='merge'){
+   for(const key of new Set([...Object.keys(previous.answers),...Object.keys(previous.absence),...Object.keys(answers),...Object.keys(absence)])){
+    if(answers[key]===previous.answers[key]&&absence[key]===previous.absence[key])continue;
+    if(answers[key]===undefined)delete nextAnswers[key];else nextAnswers[key]=answers[key];
+    if(absence[key]===undefined)delete nextAbsence[key];else nextAbsence[key]=absence[key];
+   }
+   const eligible=questions(c?{...c,answers:nextAnswers,absence:nextAbsence}:undefined),allowed=new Set(eligible.map(q=>q.id));
+   nextAnswers=Object.fromEntries(Object.entries(nextAnswers).filter(([key])=>allowed.has(key)));
+   nextAbsence=Object.fromEntries(Object.entries(nextAbsence).filter(([key])=>allowed.has(key)&&!nextAnswers[key]&&!eligible.find(q=>q.id===key&&q.fact&&v.facts[q.fact])));
+  }
+  setAnswers(nextAnswers);setAbsence(nextAbsence);
+  baseline.current={visitId:v.id,answers:c?.answers??{},absence:c?.absence??{},readToken:token};
+ },[v.id,v.version,savedReadChoice?.token]);
  const qs=c?.packs.length?questions({...c,answers,absence}):[];useGuidedProgramme([...qs.map(q=>({id:q.fact?factStep(q.fact):'programme:'+q.id,label:q.label+(q.unit?' · '+q.unit:'')})),...(c?.packs.length?[{id:'programme-save',label:'Save programme evidence'}]:[])]);
  if(!c?.packs.length)return null;const edit=v.state==='draft'&&!v.voidedAt&&!v.supersededBy;
  return <section className="programme-questions"><CaptureStage id="programme-save"><h3>Programme evidence</h3><p className="muted text-sm">{c.packs.map(x=>x.pack.name+' v'+x.pack.version).join(' · ')}. Same-visit facts are reused across these packs; each missing answer remains explicit.</p></CaptureStage>{qs.map(q=>{const value=q.fact?v.facts[q.fact]:own(answers,q.id);return <CaptureStage key={q.id} id={q.fact?factStep(q.fact):'programme:'+q.id}><div className="programme-question"><div><strong>{q.label}{q.unit?' · '+q.unit:''}</strong><small>{q.programmes.join(' + ')}{q.fact?' · shared capture above':''}</small></div>{q.fact?<span>{value||'Not recorded'}</span>:<Choice disabled={!edit||busy} label={q.label} value={own(answers,q.id)||'unset'} change={value=>{if(!edit||busy)return;const next={...answers};if(value==='unset')delete next[q.id];else next[q.id]=value;const a={...absence};delete a[q.id];const eligible=questions({...c,answers:next,absence:a}).map(x=>x.id);setAnswers(Object.fromEntries(Object.entries(next).filter(([k])=>eligible.includes(k))));setAbsence(Object.fromEntries(Object.entries(a).filter(([k])=>eligible.includes(k))))}} items={[{value:'unset',label:'Not answered'},...(q.options??[]).map(x=>({value:x,label:x}))]}/>} {!value&&<Choice disabled={!edit||busy} label={'Absence reason: '+q.label} value={own(absence,q.id)||'unset'} change={value=>{if(!edit||busy)return;const next={...absence};if(value==='unset')delete next[q.id];else next[q.id]=value;setAbsence(next)}} items={[{value:'unset',label:'Choose absence reason'},...ABSENCE.map(x=>({value:x,label:x}))]}/>}</div></CaptureStage>})}<CaptureStage id="programme-save"><div className="form-actions"><span className="muted text-sm">{unresolved(v).length} unresolved saved requirements{c.savedAt?' · Last reviewed '+new Date(c.savedAt).toLocaleString():''}</span>{edit&&<Button disabled={busy||!dirty} onClick={async()=>{const allowed=new Set(qs.map(q=>q.id));await command({type:'saveProgrammeAnswers',visitId:v.id,version:v.version,answers:Object.fromEntries(Object.entries(answers).filter(([k])=>allowed.has(k))),absence:Object.fromEntries(Object.entries(absence).filter(([k])=>allowed.has(k)&&!qs.find(q=>q.id===k&&q.fact&&v.facts[q.fact])))},'Programme evidence saved')}}>Save programme evidence</Button>}</div></CaptureStage></section>
