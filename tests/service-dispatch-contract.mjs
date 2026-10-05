@@ -29,14 +29,22 @@ try{
  await test('initiating human version changed',d=>d.state.members[0].version++,403);
  await test('patient team changed',d=>d.state.workspace.people[0].teamId='other',403);
  await test('policy scope denied',d=>d.state.operations.accessScope={denied:true},403);
+ await test('connection version changed',d=>d.state.workspace.integrations[0].version=2,403);
  await test('connection removed',d=>d.state.workspace.integrations=[],403);
  await test('connection suspended',d=>d.state.workspace.integrations[0].status='suspended',403);
  await test('revoked while audit commits',d=>d.revokeDuringAudit=true,403);
  await test('audit storage failure',d=>d.auditFailure=true,503);
- await test('legacy default unchanged',(d,s)=>{delete s.operations.serviceBindings;d.state.operations.serviceIdentities=[]});
+ await test('legacy default unchanged',(d,s)=>{delete s.operations.serviceBindings;delete d.state.operations.serviceBindings;d.state.operations.serviceIdentities=[]});
+ await test('binding added after unbound preparation',(d,s)=>{delete s.operations.serviceBindings},403);
  const s=fixture(),db={state:s,audit:[]};await serviceDispatch(db,s,actor,human,'mis','p');assert.match(db.audit[0].detail,/initiating human human; service si; target mis; accountable owner human/);assert.equal(db.audit[0].personId,'p');passed++;
  applyServiceIdentity(s,{type:'serviceIdentityBind',version:0,targetId:'mis',serviceIdentityId:'si'},actor,human);assert.equal(s.operations.serviceBindings.mis,'si');passed++;
  for(const target of ['openai','independent:anaemia','frontline:vision']){if(target==='frontline:vision')continue;const state=fixture();state.operations.serviceIdentities[0]={...service,kind:'agent',targetId:target};assert.equal(requireServiceIdentity(state,'si','agent',target).id,'si');passed++;}
+ for(const target of ['independent:anaemia',...catalog.map(x=>'frontline:'+x.id)]){
+  const prepared=fixture();prepared.operations.serviceBindings={[target]:'si'};prepared.operations.serviceIdentities[0]={...service,kind:'agent',targetId:target};
+  if(target==='independent:anaemia')prepared.operations.anaemiaProvider={active:true,version:1};else prepared.operations.frontlineProviders={[target.slice(9)]:{active:true,version:1}};
+  const current=structuredClone(prepared),data={state:current,audit:[]};await serviceDispatch(data,prepared,actor,human,target,'p');passed++;
+  const agreement=target==='independent:anaemia'?current.operations.anaemiaProvider:current.operations.frontlineProviders[target.slice(9)];agreement.active=false;await assert.rejects(()=>serviceDispatch(data,prepared,actor,human,target,'p'),e=>e.status===403);passed++;
+ }
  // Replay never relaxes the execution gate: repeating the same checkpoint after revocation still refuses.
  db.state.operations.serviceIdentities[0].status='revoked';for(let n=0;n<2;n++)await assert.rejects(()=>serviceDispatch(db,s,actor,human,'mis','p'),e=>e.status===403);passed++;
  const result={suite:'Opt-in service dispatch execution-boundary authority',passed,completedAt:new Date().toISOString(),coverage:'Injected fresh organisation state, scope and audit storage; no external requests; not hosted D1 acceptance'};mkdirSync('tests/evidence/service-identity-wiring',{recursive:true});writeFileSync('tests/evidence/service-identity-wiring/service-dispatch-result.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
