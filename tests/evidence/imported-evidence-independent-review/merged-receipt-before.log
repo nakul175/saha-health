@@ -1,0 +1,37 @@
+{"event":"saha_request","requestId":"1216d3ea-7c54-4def-9676-d49bb47520e5","route":"workspace","status":200,"durationMs":20}
+{"event":"saha_request","requestId":"cb7c9c17-7abf-4595-9495-38b5def88756","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"c1c044d0-d58a-4208-a8b9-19f7d8fb1c5f","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"733bde93-9e24-4c63-9bfb-f71df5780caa","route":"record-import","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"d6e383c1-64ab-40b8-9bed-79743e0b8f1e","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"b30de72a-70ff-4713-90a0-1bed0bc6ea3f","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"efb0c216-d0c4-4a07-93e7-1471b04d47e7","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"fb750e71-35d3-4bea-b311-229238bdee97","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"7bf2fb2d-a66c-461f-bd39-5b89c8a7e8df","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"763d6e3f-f186-44d0-9d52-df8b411740ad","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"0450e2a1-deb2-4c49-ba46-9dfe20510888","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"6f0d6691-8233-4768-8d9d-cc39be8bf658","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"5a3ff686-54fa-4f16-8755-001f89812fd7","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"a2bd4554-4d00-4b12-8773-ddb93c5fa765","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"7ed9fde1-05b8-40c4-8546-001d88749e71","route":"record-import","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"43238caf-54de-4652-8c41-8d663f3fa400","route":"record-import","status":409,"durationMs":2}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Open the surviving patient record."}
+
+409 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-evidence-independent-review/tests/imported-evidence-independent-http.mjs:37:118
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-evidence-independent-review/tests/imported-evidence-independent-http.mjs:6:42)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-evidence-independent-review/tests/imported-evidence-independent-http.mjs:37:2
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 409,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

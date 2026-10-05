@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {startWorker,identity,client} from './lib/worker.mjs';
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');
+const folder='tests/evidence/imported-evidence-independent-review';mkdirSync(folder,{recursive:true});
+let w,browser;const checks=[];const check=(label,fn)=>{fn();checks.push(label);};
+try{
+ w=await startWorker({port:19484,name:'imported-source-merged-phone',vars:{SAHA_ENVIRONMENT:'synthetic'}});
+ const api=client(w.base),owner=identity('merged-source-phone-owner'),steward=identity('merged-source-phone-steward');
+ const home=(await api.get(owner,'/api/workspace')).json,org=home.organisation.id;
+ const command=async(body,actor=owner)=>{const r=await api.command(actor,body,org);assert.equal(r.status,200,r.text);return r.json;};
+ const post=async(body)=>{const r=await api.call(owner,'/api/imported-evidence',{method:'POST',org,body});assert.equal(r.status,200,r.text);return r.json;};
+ const create=async name=>(await command({type:'createPerson',name,age:30,sex:'Other',village:'Synthetic',programme:'General care',teamId:'default'})).result.personId;
+ const pid=await create('Synthetic merged original source'),survivor=await create('Synthetic surviving care record');
+ const header='person,visit_date,source_system,systolic,diastolic,bp_unit,bp_source,weight,weight_unit,weight_source,temperature,temperature_unit,temperature_source,gestation,gestation_unit,gestation_source,cough_duration,cough_unit,cough_source,override_reason,notes';
+ const csv=header+'\n'+[pid,'2026-01-03T12:00','Synthetic retained phone source',...Array(17).fill(''),'Synthetic original phone history'].join(',');
+ const plan=await api.call(owner,'/api/record-import',{method:'POST',org,body:{kind:'visits',csv}});assert.equal(plan.status,200,plan.text);
+ await command({type:'recordImportApply',kind:'visits',csv,planHash:plan.json.planHash,reason:'Synthetic retained original phone source'});
+ const visit=(await api.get(owner,'/api/workspace',org)).json.visits.find(v=>v.personId===pid);
+ const manifest={rows:[{visitId:visit.id,sourceSystem:'Synthetic phone evidence',sourceId:'retained-phone-original',includeVisit:true,answers:[],notes:[{kind:'history',text:'Synthetic documentary body retained after merge'}],attachments:[]}]};
+ const dry=await post({operation:'dry-run',manifest});await post({operation:'apply',manifest,planHash:dry.planHash,reason:'Synthetic retained phone source documentary evidence'});
+ const other=(await api.get(steward,'/api/workspace')).json,invite=await command({type:'createInvite',accountCode:other.user.accountCode,label:'Synthetic separate merge reviewer',role:'clinician',teamIds:['default']});await command({type:'joinOrganisation',token:invite.result.token},steward);
+ const proposal=await command({type:'identityMergePropose',survivorId:survivor,duplicateId:pid,evidence:'SYNTHETIC-PHONE-MERGE',reason:'Synthetic independently reviewed merge for history'});
+ await command({type:'identityMergeDecide',caseId:proposal.result.caseId,version:1,decision:'approve',reason:'Synthetic separate identity steward decision'},steward);
+ browser=await chromium.launch({headless:true,...(process.env.SAHA_CHROMIUM?{executablePath:process.env.SAHA_CHROMIUM}:{})});
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,extraHTTPHeaders:{...owner.headers,'x-saha-organisation':org}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(String(e)));
+ await page.goto(w.base+'/app');await page.getByRole('button',{name:'More',exact:true}).click();await page.getByRole('button',{name:'Organisation & team',exact:true}).click();
+ const panel=page.locator('section[aria-labelledby="imported-evidence-heading"]');await panel.getByRole('combobox',{name:'Patient source history',exact:true}).selectOption(pid);await panel.getByRole('button',{name:'Open audited source review',exact:true}).click();
+ await panel.getByText('Synthetic documentary body retained after merge',{exact:false}).waitFor();
+ check('Normal phone organisation navigation opens original documentary body after reviewed merge',()=>assert.ok(true));
+ await panel.getByText(/Retained source history is read-only/).waitFor();const readOnlyVisible=await panel.getByText(/Retained source history is read-only/).isVisible();check('Phone shows merged-source read-only guidance',()=>assert.equal(readOnlyVisible,true));
+ const decisionCount=await panel.getByRole('button',{name:'Record explicit source decision',exact:true}).count();assert.equal(decisionCount,0);checks.push('No clinical decision button on retained merged original');
+ const useCount=await panel.getByRole('button',{name:'Open linked current care draft',exact:true}).count();check('Merged original does not expose linked care controls',()=>assert.equal(useCount,0));
+ const bounds=await panel.evaluate(el=>({width:el.getBoundingClientRect().width,scroll:el.scrollWidth,overflow:Array.from(el.querySelectorAll('*')).filter(x=>x.getBoundingClientRect().right>el.getBoundingClientRect().right+2).slice(0,12).map(x=>({tag:x.tagName,label:x.getAttribute('aria-label')??x.textContent?.slice(0,80),width:x.getBoundingClientRect().width,right:x.getBoundingClientRect().right}))}));writeFileSync(folder+'/phone-bounds.json',JSON.stringify(bounds,null,2)+'\n');check('Retained source history fits the actual 390px phone panel',()=>assert.ok(bounds.scroll<=bounds.width+2));
+ check('Merged history phone journey has no page errors',()=>assert.deepEqual(errors,[]));
+ writeFileSync(folder+'/browser.json',JSON.stringify({passed:checks.length,failed:0,checks,actualChromium:true,actualWorker:true,viewport:390},null,2)+'\n');console.log(JSON.stringify({passed:checks.length,failed:0}));
+}catch(error){writeFileSync(folder+'/browser.json',JSON.stringify({passed:checks.length,failed:1,checks,error:String(error)},null,2)+'\n');throw error;}finally{await browser?.close();await w?.stop();}

@@ -1,0 +1,11 @@
+{
+  "passed": 4,
+  "failed": 1,
+  "checks": [
+    "Actual source dry run accepts known historical original",
+    "Original source history is accessible and unreviewed before merge",
+    "Actual two-steward merge retains original patient source ledger",
+    "Identity merge preserves exact original clinical bytes"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: {\"error\":\"Open the surviving patient record.\"}\n\n409 !== 200\n"
+}
