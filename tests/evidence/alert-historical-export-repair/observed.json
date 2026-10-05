@@ -1,0 +1,2191 @@
+{
+  "extraHistoryMetadata": [
+    {
+      "path": "tables/alert_occurrences.jsonl",
+      "rows": 1,
+      "withheld": 0,
+      "columns": [
+        "org_id",
+        "id",
+        "alert_id",
+        "scope_key",
+        "owner_role",
+        "severity",
+        "title",
+        "opened_at",
+        "closed_at",
+        "escalated_at",
+        "escalated_to",
+        "escalation_reason",
+        "escalation_recipients"
+      ],
+      "note": "Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only."
+    },
+    {
+      "path": "tables/alert_notifications.jsonl",
+      "rows": 1,
+      "withheld": 0,
+      "otherMembersRows": 1,
+      "columns": [
+        "org_id",
+        "id",
+        "occurrence_id",
+        "user_id",
+        "level",
+        "alert_id",
+        "scope_key",
+        "owner_role",
+        "severity",
+        "title",
+        "count",
+        "detail",
+        "delivered_at",
+        "read_at",
+        "cleared_at",
+        "cleared_reason"
+      ],
+      "note": "Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter's own notifications; other members' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows)."
+    },
+    {
+      "path": "tables/notification_messages.jsonl",
+      "rows": 0,
+      "withheld": 0,
+      "otherMembersRows": 0,
+      "columns": [],
+      "note": "Slice 10b: simulated out-of-app messages (demonstration simulator) with their receipts; alert ids, titles, counts and member ids only, no patient names, identifiers or contact detail. Slice 10k: only the exporter's own messages, as for in-app notifications (6z): other members' messages carry counts from their own care scopes. The channel settings are in the operations row."
+    }
+  ],
+  "lateWithdrawal": {
+    "status": 403,
+    "body": "{\"error\":\"Your organisation membership is inactive or unavailable.\"}"
+  },
+  "source": "8eed+be4b+ab3 exact equivalents pinned at freeze",
+  "passed": 281,
+  "org": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+  "personId": "764cabbc-e4f1-4d44-be73-2a350cb05cf4",
+  "originalRows": {
+    "alert_occurrences": [
+      {
+        "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "id": "1f0e2d51-9468-4164-bc65-dcb41772d6e6",
+        "alert_id": "incident-critical-open",
+        "scope_key": "org",
+        "owner_role": "operations",
+        "severity": "critical",
+        "title": "Critical incidents not resolved",
+        "opened_at": "2026-10-05T21:48:53.956Z",
+        "closed_at": null,
+        "escalated_at": null,
+        "escalated_to": null,
+        "escalation_reason": null,
+        "escalation_recipients": null
+      },
+      {
+        "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "id": "ea7006c3-7385-40f0-b222-a4346d39513a",
+        "alert_id": "referrals-undated",
+        "scope_key": "t-f0249ef4-historical-export-owner",
+        "owner_role": "supervisors",
+        "severity": "normal",
+        "title": "Open referrals without a due date",
+        "opened_at": "2026-10-05T21:48:53.956Z",
+        "closed_at": null,
+        "escalated_at": null,
+        "escalated_to": null,
+        "escalation_reason": null,
+        "escalation_recipients": null
+      }
+    ],
+    "alert_notifications": [
+      {
+        "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "id": "63af92b3-2f08-4272-9e2a-0c8612c703c8",
+        "occurrence_id": "1f0e2d51-9468-4164-bc65-dcb41772d6e6",
+        "user_id": "t-f0249ef4-historical-export-owner",
+        "level": 1,
+        "alert_id": "incident-critical-open",
+        "scope_key": "org",
+        "owner_role": "operations",
+        "severity": "critical",
+        "title": "Critical incidents not resolved",
+        "count": 1,
+        "detail": null,
+        "delivered_at": "2026-10-05T21:48:53.956Z",
+        "read_at": null,
+        "cleared_at": null,
+        "cleared_reason": null
+      },
+      {
+        "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "id": "c22d3e18-f1e8-45ba-a2ce-bbb9a5c58b39",
+        "occurrence_id": "ea7006c3-7385-40f0-b222-a4346d39513a",
+        "user_id": "t-f0249ef4-historical-export-owner",
+        "level": 1,
+        "alert_id": "referrals-undated",
+        "scope_key": "t-f0249ef4-historical-export-owner",
+        "owner_role": "supervisors",
+        "severity": "normal",
+        "title": "Open referrals without a due date",
+        "count": 1,
+        "detail": null,
+        "delivered_at": "2026-10-05T21:48:53.956Z",
+        "read_at": null,
+        "cleared_at": null,
+        "cleared_reason": null
+      }
+    ],
+    "notification_messages": [
+      {
+        "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "id": "7ea872d7-988e-407f-90c4-643d7d43f12a",
+        "occurrence_id": "ea7006c3-7385-40f0-b222-a4346d39513a",
+        "alert_id": "referrals-undated",
+        "scope_key": "t-f0249ef4-historical-export-owner",
+        "tier": 1,
+        "rung": 0,
+        "user_id": "t-f0249ef4-historical-export-owner",
+        "channel": "email",
+        "reason": "first",
+        "severity": "normal",
+        "title": "Open referrals without a due date",
+        "count": 1,
+        "subject": "Saha normal alert: Open referrals without a due date",
+        "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-447C1E\nThis message carries no patient names or identifiers.",
+        "link": "/?view=operations",
+        "address": "demo-8e782cf1@simulator.invalid",
+        "status": "simulated-delivered",
+        "receipt": "{\"receiptId\":\"SIM-EDA35C91\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-8e782cf1@simulator.invalid\",\"at\":\"2026-10-05T21:48:53.979Z\"}",
+        "due_at": "2026-10-05T21:48:53.956Z",
+        "sent_at": "2026-10-05T21:48:53.979Z",
+        "audit_id": "069d89cd-fb2e-4a06-af34-05e78e3e8fb3",
+        "config_version": 1
+      }
+    ]
+  },
+  "normal": {
+    "verification": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "d8b50911-2297-4fb6-a107-06d1aacf45e4",
+      "ok": true,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "58 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "56 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 80,
+            "withheld": 0,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_0458aea68ccc94af4070a57a9d7d7ea3"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "25 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": true,
+          "detail": "configured governance/evidence and scoped snapshot hashes only; private snapshot bodies cannot be reconstructed"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "0 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "34 events, head 33 1c0c3e2e8af7"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [],
+      "summary": {
+        "organisation": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "generatedAt": "2026-10-05T21:49:01.823Z",
+        "exporter": "t-f0249ef4-historical-export-owner@example.invalid",
+        "tables": 55,
+        "rows": 80,
+        "withheld": 0,
+        "complete": true,
+        "fhir": 0,
+        "handoverItems": 1
+      }
+    },
+    "status": 200,
+    "sha256": "a4c7e301dced5bd07e0f3a2fcb7cc39a0bf93e247e04816245b736dc0c4577c9",
+    "manifest": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "d8b50911-2297-4fb6-a107-06d1aacf45e4",
+      "generatedAt": "2026-10-05T21:49:01.823Z",
+      "environment": "synthetic",
+      "status": "Organisation data export for exit or transfer. Not a clinical summary and not a reviewed submission.",
+      "organisation": {
+        "id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "name": "Synthetic historical aggregate export",
+        "createdAt": "2026-10-05T21:48:53.852Z",
+        "revision": 9
+      },
+      "exporter": {
+        "userId": "t-f0249ef4-historical-export-owner",
+        "name": "t-f0249ef4-historical-export-owner@example.invalid",
+        "accountCode": "DDE3544FE34272FD6329A3AD",
+        "role": "clinician",
+        "owner": true
+      },
+      "schema": {
+        "migration": "0031_installed_pack_work",
+        "workspaceSchemaVersion": 1,
+        "rowEncoding": "One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text."
+      },
+      "scope": {
+        "rule": "Patient-linked rows only for patients in the exporter's normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Calendar governance and declared evidence require normal reporting scope for every configured team member. Private completeness snapshot bodies are omitted even when operational row scope is complete; scoped digest/basis metadata is not the original body. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report or completeness reconstruction.",
+        "patients": 1,
+        "patientsExported": 1,
+        "patientsWithheld": 0,
+        "entriesWithheld": 0,
+        "complete": true
+      },
+      "totals": {
+        "files": 56,
+        "rows": 80,
+        "withheld": 0,
+        "withheldEntries": 0,
+        "bytes": 56308
+      },
+      "files": [
+        {
+          "path": "tables/installed_pack_work_events.jsonl",
+          "table": "installed_pack_work_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Append-only installed programme policy and patient work events contain protected source/occurrence bodies. Withheld from ordinary operational export; protected reconstruction remains separately governed."
+        },
+        {
+          "path": "tables/organisations.jsonl",
+          "table": "organisations",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 222,
+          "sha256": "12a4d17f9750541d6ac5ef6a204ea779f4698f9f31b7ef64c10669dece2a8f35",
+          "columns": [
+            "id",
+            "name",
+            "revision",
+            "last_command",
+            "created_at",
+            "patient_revision"
+          ]
+        },
+        {
+          "path": "tables/accounts.jsonl",
+          "table": "accounts",
+          "rows": 2,
+          "withheld": 0,
+          "bytes": 406,
+          "sha256": "c702af44fabb297671f608b0f3a5b943f11ea5db62da55eecfc14c9c9feddd0c",
+          "columns": [
+            "user_id",
+            "account_code",
+            "display_name",
+            "created_at"
+          ],
+          "omittedColumns": [
+            "email",
+            "active_org_id"
+          ],
+          "note": "Accounts of this organisation's members only."
+        },
+        {
+          "path": "tables/teams.jsonl",
+          "table": "teams",
+          "rows": 2,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 299,
+          "sha256": "a999f0a9514c4414ee87123471c69de2ff2304e51e9a897a1cb66e37cc9e56b9",
+          "columns": [
+            "org_id",
+            "id",
+            "name",
+            "created_at"
+          ]
+        },
+        {
+          "path": "tables/memberships.jsonl",
+          "table": "memberships",
+          "rows": 2,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 403,
+          "sha256": "45cad81968842d544a102f17fbd4efb53fba4f28e1a10f119ad7baeca1799caa",
+          "columns": [
+            "org_id",
+            "user_id",
+            "role",
+            "is_owner",
+            "status",
+            "version",
+            "created_at"
+          ]
+        },
+        {
+          "path": "tables/team_members.jsonl",
+          "table": "team_members",
+          "rows": 2,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 297,
+          "sha256": "fd0a7f9084b1ac5f5ba3735e54a91f7ca3f69d2bba282aca52b7c0f16f6f2cc7",
+          "columns": [
+            "org_id",
+            "team_id",
+            "user_id"
+          ]
+        },
+        {
+          "path": "tables/invitations.jsonl",
+          "table": "invitations",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 455,
+          "sha256": "0b96d56d41f560aa674bae3b675925924e6b79add2acf9810612011c7bc21016",
+          "columns": [
+            "id",
+            "org_id",
+            "account_code",
+            "label",
+            "role",
+            "team_ids",
+            "status",
+            "expires_at",
+            "created_by",
+            "created_at",
+            "accepted_by"
+          ],
+          "omittedColumns": [
+            "token_hash"
+          ],
+          "note": "The token hash is a credential verifier and is left out."
+        },
+        {
+          "path": "tables/integrations.jsonl",
+          "table": "integrations",
+          "rows": 6,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 2500,
+          "sha256": "67afeb69ad60e5e3d084703a8290bb0954d4300628d0be768ec0c786a4ada059",
+          "columns": [
+            "org_id",
+            "id",
+            "version",
+            "kind",
+            "status",
+            "data"
+          ],
+          "note": "credentialBinding names a server secret; no secret value is stored or exported."
+        },
+        {
+          "path": "tables/operations.jsonl",
+          "table": "operations",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 841,
+          "sha256": "23b8b255f8945c6da1de820faf9e5c2a9f2b12a8c55d32d69de568791e4b9590",
+          "columns": [
+            "org_id",
+            "data"
+          ],
+          "note": "The indicator differencing ledger (indicatorReleases) is server-side protection state and is left out of data."
+        },
+        {
+          "path": "tables/pilot.jsonl",
+          "table": "pilot",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/outreach.jsonl",
+          "table": "outreach",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/expansions.jsonl",
+          "table": "expansions",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/governance.jsonl",
+          "table": "governance",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/retention.jsonl",
+          "table": "retention",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/legacy_migrations.jsonl",
+          "table": "legacy_migrations",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/availability_samples.jsonl",
+          "table": "availability_samples",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable fixed-cadence synthetic operational observations, no patient identifiers or raw errors; hosted availability remains unmeasured."
+        },
+        {
+          "path": "tables/work_burden_samples.jsonl",
+          "table": "work_burden_samples",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Protected client-reported work time and exact mutation receipt bindings; no facts or ticket text."
+        },
+        {
+          "path": "tables/work_support_events.jsonl",
+          "table": "work_support_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable scoped fixed-category support workflow; no external send or ticket text."
+        },
+        {
+          "path": "tables/device_work_grants.jsonl",
+          "table": "device_work_grants",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable original-worker grant metadata; no clinical packet or device fingerprint."
+        },
+        {
+          "path": "tables/device_registration_grants.jsonl",
+          "table": "device_registration_grants",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Original accepted registration ownership and immutable baseline; legacy history explicitly unavailable."
+        },
+        {
+          "path": "tables/device_registration_receipts.jsonl",
+          "table": "device_registration_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact accepted original-worker registration receipt bindings."
+        },
+        {
+          "path": "tables/clinical_source_documents.jsonl",
+          "table": "clinical_source_documents",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable bounded synthetic acquired source documents; licensing/clinical acceptance pending."
+        },
+        {
+          "path": "tables/device_registration_wire_receipts.jsonl",
+          "table": "device_registration_wire_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact authenticated registration wire digests; no command bodies."
+        },
+        {
+          "path": "tables/device_match_copies.jsonl",
+          "table": "device_match_copies",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Only original actor protected candidate ID/version and query hash provenance; whole receipts outside current candidate scope are withheld; no raw search."
+        },
+        {
+          "path": "tables/device_work_events.jsonl",
+          "table": "device_work_events",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Only the exporter's redacted diagnostics, deletion instructions and client-attested acknowledgements; server evidence is not pruned."
+        },
+        {
+          "path": "tables/offline_open_reports.jsonl",
+          "table": "offline_open_reports",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Only this exporter’s fixed historical client-reported metadata and opaque references; no patient pointers or raw material."
+        },
+        {
+          "path": "tables/offline_open_subjects.jsonl",
+          "table": "offline_open_subjects",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Trusted server-derived subject provenance, filtered by current patient visibility; client occurrence is not proof of authorized access."
+        },
+        {
+          "path": "tables/request_metrics.jsonl",
+          "table": "request_metrics",
+          "rows": 5,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 778,
+          "sha256": "c4e84f2db412afb15c2ad3faab258a7a1d43d136f356c8266af2197b78e9b904",
+          "columns": [
+            "org_id",
+            "bucket",
+            "route",
+            "status",
+            "count",
+            "total_ms",
+            "max_ms"
+          ]
+        },
+        {
+          "path": "tables/alert_occurrences.jsonl",
+          "table": "alert_occurrences",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 388,
+          "sha256": "725c9912531c557c3cdff5534605230d477c6822ba216600667a8c65bc1fd3f3",
+          "columns": [
+            "org_id",
+            "id",
+            "alert_id",
+            "scope_key",
+            "owner_role",
+            "severity",
+            "title",
+            "opened_at",
+            "closed_at",
+            "escalated_at",
+            "escalated_to",
+            "escalation_reason",
+            "escalation_recipients"
+          ],
+          "note": "Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only."
+        },
+        {
+          "path": "tables/alert_notifications.jsonl",
+          "table": "alert_notifications",
+          "rows": 1,
+          "withheld": 0,
+          "otherMembersRows": 1,
+          "bytes": 471,
+          "sha256": "885ddd331206dcd4e53e7f60930d9a68ea52521127fe88c04dfe78ce0ba66caa",
+          "columns": [
+            "org_id",
+            "id",
+            "occurrence_id",
+            "user_id",
+            "level",
+            "alert_id",
+            "scope_key",
+            "owner_role",
+            "severity",
+            "title",
+            "count",
+            "detail",
+            "delivered_at",
+            "read_at",
+            "cleared_at",
+            "cleared_reason"
+          ],
+          "note": "Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter's own notifications; other members' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows)."
+        },
+        {
+          "path": "tables/notification_messages.jsonl",
+          "table": "notification_messages",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Slice 10b: simulated out-of-app messages (demonstration simulator) with their receipts; alert ids, titles, counts and member ids only, no patient names, identifiers or contact detail. Slice 10k: only the exporter's own messages, as for in-app notifications (6z): other members' messages carry counts from their own care scopes. The channel settings are in the operations row."
+        },
+        {
+          "path": "tables/patients.jsonl",
+          "table": "patients",
+          "rows": 1,
+          "withheld": 0,
+          "bytes": 998,
+          "sha256": "a5f34f10133ac22ed1a04fb6707fcd3935885514b3ec2c972d5944a719ebfde2",
+          "columns": [
+            "org_id",
+            "id",
+            "version",
+            "name",
+            "team_id",
+            "assigned_to",
+            "data",
+            "rev"
+          ]
+        },
+        {
+          "path": "tables/visits.jsonl",
+          "table": "visits",
+          "rows": 1,
+          "withheld": 0,
+          "bytes": 1401,
+          "sha256": "562121bd8c260c2b881a14bcdd06d41f802bd0cc3cfe58f4f480b6defcf3cf1b",
+          "columns": [
+            "org_id",
+            "id",
+            "person_id",
+            "version",
+            "record_version",
+            "state",
+            "data"
+          ]
+        },
+        {
+          "path": "tables/plans.jsonl",
+          "table": "plans",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/ai_results.jsonl",
+          "table": "ai_results",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/submissions.jsonl",
+          "table": "submissions",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/referrals.jsonl",
+          "table": "referrals",
+          "rows": 1,
+          "withheld": 0,
+          "bytes": 469,
+          "sha256": "f36ba861085b2ecf79823c55991fc8a555060b76eb87c6bc7612a1bb5641c8cd",
+          "columns": [
+            "org_id",
+            "id",
+            "person_id",
+            "data"
+          ]
+        },
+        {
+          "path": "tables/record_revisions.jsonl",
+          "table": "record_revisions",
+          "rows": 6,
+          "withheld": 0,
+          "bytes": 12180,
+          "sha256": "bef55ac28eb6ac4a0cdae50985b1c89e3f9e9b269e32b4a290df8f1dd29e6c0a",
+          "columns": [
+            "id",
+            "org_id",
+            "person_id",
+            "entity_type",
+            "entity_id",
+            "version",
+            "actor_id",
+            "actor_name",
+            "action",
+            "reason",
+            "data",
+            "changes",
+            "created_at"
+          ]
+        },
+        {
+          "path": "tables/media.jsonl",
+          "table": "media",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "omittedColumns": [
+            "data",
+            "storage_ref"
+          ],
+          "note": "Content is in media/<id>.<ext>; the row sha256 column is the base64-encoded SHA-256 of that content."
+        },
+        {
+          "path": "tables/households.jsonl",
+          "table": "households",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/caseload_transfers.jsonl",
+          "table": "caseload_transfers",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/identity_cases.jsonl",
+          "table": "identity_cases",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/rights_requests.jsonl",
+          "table": "rights_requests",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/indicator_figures.jsonl",
+          "table": "indicator_figures",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "omittedColumns": [
+            "data"
+          ],
+          "note": "Immutable original figure metadata and parent lineage only; data contains protected cells/unit hashes and is omitted. Every original cohort member must remain in current normal reporting scope."
+        },
+        {
+          "path": "tables/indicator_figure_units.jsonl",
+          "table": "indicator_figure_units",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Server-only unsuppressed per-person counting material is withheld. Ordinary operational export is not a full report reconstruction archive."
+        },
+        {
+          "path": "tables/indicator_figure_events.jsonl",
+          "table": "indicator_figure_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact immutable lifecycle history for included figures; historical actor/reviewer evidence does not confer current authority."
+        },
+        {
+          "path": "tables/indicator_figure_receipts.jsonl",
+          "table": "indicator_figure_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact receipt metadata only for included figures with validated fixed outcome shape and matching immutable event; no protected cells or source units."
+        },
+        {
+          "path": "tables/indicator_figure_disclosures.jsonl",
+          "table": "indicator_figure_disclosures",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Retained viewer edition disclosure ledger is server-side privacy protection state and is withheld."
+        },
+        {
+          "path": "tables/reporting_calendars.jsonl",
+          "table": "reporting_calendars",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact immutable configured calendar JSON, only with current normal reporting access to every configured team member."
+        },
+        {
+          "path": "tables/reporting_calendar_events.jsonl",
+          "table": "reporting_calendar_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Original independent review/release history, never current clinical or source acceptance."
+        },
+        {
+          "path": "tables/reporting_coverage.jsonl",
+          "table": "reporting_coverage",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact operator-declared source evidence including immutable original producer version when present; no inferred clinical denominator."
+        },
+        {
+          "path": "tables/reporting_completeness_receipts.jsonl",
+          "table": "reporting_completeness_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Validated fixed lifecycle/declaration outcome references only; no raw request or private snapshot body."
+        },
+        {
+          "path": "tables/reporting_completeness_snapshots.jsonl",
+          "table": "reporting_completeness_snapshots",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "omittedColumns": [
+            "data"
+          ],
+          "note": "Scoped immutable snapshot digest/basis and included figure linkage only. Private per-source timing/coverage body is withheld; this archive cannot reconstruct that body."
+        },
+        {
+          "path": "tables/command_receipts.jsonl",
+          "table": "command_receipts",
+          "rows": 13,
+          "withheld": 0,
+          "bytes": 5862,
+          "sha256": "2efbd40e5caf4165768ad221e365fce421f5b7fd2f986b705365a784aa783e20",
+          "columns": [
+            "actor_id",
+            "key",
+            "org_id",
+            "hash",
+            "person_id",
+            "created_at",
+            "command_type",
+            "mutation_subject_id",
+            "mutation_event_id",
+            "mutation_context"
+          ],
+          "omittedColumns": [
+            "result"
+          ],
+          "note": "The stored result is left out: it can carry a newly issued invitation token."
+        },
+        {
+          "path": "tables/audit_events.jsonl",
+          "table": "audit_events",
+          "rows": 34,
+          "withheld": 0,
+          "bytes": 27969,
+          "sha256": "d7270c6f7ea259cea6016ae705b5f7056c23b6decbef19a58692b9271cdbda50",
+          "columns": [
+            "org_id",
+            "id",
+            "person_id",
+            "actor_id",
+            "actor_name",
+            "role",
+            "action",
+            "subject",
+            "detail",
+            "at",
+            "seq",
+            "prev_hash",
+            "hash"
+          ],
+          "note": "Events without seq were written before the chain and are sealed by the genesis marker (seq 0)."
+        },
+        {
+          "path": "handover/open-items.jsonl",
+          "rows": 1,
+          "bytes": 369,
+          "sha256": "ab8626f555d0ccc33048803f3b7d29a01b29753878003d5557dccda4ce7f059f",
+          "note": "Unresolved external actions and open patient tasks with their named owner, within the exported scope."
+        }
+      ],
+      "auditChain": {
+        "chainVersion": "saha-audit-chain-v1",
+        "hashing": "content = SHA-256 of JSON.stringify([org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at]); hash = SHA-256 of JSON.stringify(['saha-audit-chain-v1',seq,prev_hash,content]); seq 0 is the genesis marker with prev_hash of 64 zeros.",
+        "priorSeal": "The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,\"prior\",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).",
+        "verification": {
+          "status": "intact",
+          "events": 34,
+          "priorEvents": 0,
+          "head": {
+            "seq": 33,
+            "hash": "1c0c3e2e8af7fcac8e136ed1ff8a51193667991169cef8cdbd2b15b86f52e96e",
+            "at": "2026-10-05T21:49:01.816Z"
+          },
+          "firstBreak": null
+        },
+        "exportedHead": {
+          "seq": 33,
+          "hash": "1c0c3e2e8af7fcac8e136ed1ff8a51193667991169cef8cdbd2b15b86f52e96e"
+        },
+        "note": "Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive."
+      },
+      "handover": {
+        "externalActions": 0,
+        "patientTasks": 1,
+        "withoutActiveOwner": 0
+      },
+      "fhir": {
+        "included": false,
+        "documents": 0,
+        "note": "Not requested."
+      },
+      "excluded": [
+        {
+          "what": "Uncertified historical care-reporting alert records and linked audit content",
+          "why": "Uncertified historical care-reporting alert records are omitted from ordinary export. Linked protected audit content retains only its existing chain digest. Original server history is retained; no historical aggregate reconstruction is certified."
+        },
+        {
+          "what": "reporting_completeness_snapshots.data",
+          "why": "Private original per-source timing/coverage sidecars are withheld. Calendar/declaration history and scoped snapshot hashes are portable, but original report/completeness reconstruction requires separately governed protected material and remains open."
+        },
+        {
+          "what": "indicator_figures.data, indicator_figure_units, indicator_figure_disclosures",
+          "why": "Protected report cells, unsuppressed per-person counting material and retained disclosure privacy ledger. Metadata/history portability does not provide full report reconstruction; governed privileged reproducibility/portability remains open."
+        },
+        {
+          "what": "abha_review_reservations",
+          "why": "Server-side anti-enumeration protection state; opaque request fingerprints and review-event references, never clinical records."
+        },
+        {
+          "what": "workspaces",
+          "why": "Release 0.1 per-account source kept unchanged for rollback; its migrated content is in the organisation tables and legacy_migrations records the source hash."
+        },
+        {
+          "what": "accounts.email, accounts.active_org_id",
+          "why": "Sign-in contact and a pointer to other organisations; members are identified by user_id, account_code and display_name."
+        },
+        {
+          "what": "invitations.token_hash",
+          "why": "Credential verifier."
+        },
+        {
+          "what": "command_receipts.result",
+          "why": "Can carry a newly issued invitation token."
+        },
+        {
+          "what": "media_custody",
+          "why": "Private object keys, staged/quarantined intents and request keys are internal custody metadata. Only scoped verified linked bytes and portable media metadata are exported."
+        },
+        {
+          "what": "server configuration and credentials",
+          "why": "Held as deployment secrets, never in the database."
+        }
+      ],
+      "verify": "tar xf the archive, then sha256sum -c SHA256SUMS; node scripts/verify-export.mjs <archive> also checks row counts, relationships, media and the audit chain."
+    },
+    "rows": {
+      "alert_occurrences": [
+        {
+          "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+          "id": "1f0e2d51-9468-4164-bc65-dcb41772d6e6",
+          "alert_id": "incident-critical-open",
+          "scope_key": "org",
+          "owner_role": "operations",
+          "severity": "critical",
+          "title": "Critical incidents not resolved",
+          "opened_at": "2026-10-05T21:48:53.956Z",
+          "closed_at": null,
+          "escalated_at": null,
+          "escalated_to": null,
+          "escalation_reason": null,
+          "escalation_recipients": null
+        }
+      ],
+      "alert_notifications": [
+        {
+          "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+          "id": "63af92b3-2f08-4272-9e2a-0c8612c703c8",
+          "occurrence_id": "1f0e2d51-9468-4164-bc65-dcb41772d6e6",
+          "user_id": "t-f0249ef4-historical-export-owner",
+          "level": 1,
+          "alert_id": "incident-critical-open",
+          "scope_key": "org",
+          "owner_role": "operations",
+          "severity": "critical",
+          "title": "Critical incidents not resolved",
+          "count": 1,
+          "detail": null,
+          "delivered_at": "2026-10-05T21:48:53.956Z",
+          "read_at": null,
+          "cleared_at": null,
+          "cleared_reason": null
+        }
+      ],
+      "notification_messages": []
+    }
+  },
+  "outOfScope": {
+    "verification": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "6c3a41a9-e1df-4395-8b83-6cd891d81287",
+      "ok": true,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "58 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "56 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 74,
+            "withheld": 19,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_0458aea68ccc94af4070a57a9d7d7ea3"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "6 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": true,
+          "detail": "configured governance/evidence and scoped snapshot hashes only; private snapshot bodies cannot be reconstructed"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "0 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "38 events, head 37 4f0a416ad248"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [],
+      "summary": {
+        "organisation": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "generatedAt": "2026-10-05T21:49:01.883Z",
+        "exporter": "t-f0249ef4-historical-export-owner@example.invalid",
+        "tables": 55,
+        "rows": 74,
+        "withheld": 19,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 0
+      }
+    },
+    "status": 200,
+    "sha256": "fd57558cb24a784d4e0d4f7214877a98330bfe0fbde884051b41c6e45a2860e1",
+    "manifest": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "6c3a41a9-e1df-4395-8b83-6cd891d81287",
+      "generatedAt": "2026-10-05T21:49:01.883Z",
+      "environment": "synthetic",
+      "status": "Organisation data export for exit or transfer. Not a clinical summary and not a reviewed submission.",
+      "organisation": {
+        "id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+        "name": "Synthetic historical aggregate export",
+        "createdAt": "2026-10-05T21:48:53.852Z",
+        "revision": 11
+      },
+      "exporter": {
+        "userId": "t-f0249ef4-historical-export-owner",
+        "name": "t-f0249ef4-historical-export-owner@example.invalid",
+        "accountCode": "DDE3544FE34272FD6329A3AD",
+        "role": "clinician",
+        "owner": true
+      },
+      "schema": {
+        "migration": "0031_installed_pack_work",
+        "workspaceSchemaVersion": 1,
+        "rowEncoding": "One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text."
+      },
+      "scope": {
+        "rule": "Patient-linked rows only for patients in the exporter's normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Calendar governance and declared evidence require normal reporting scope for every configured team member. Private completeness snapshot bodies are omitted even when operational row scope is complete; scoped digest/basis metadata is not the original body. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report or completeness reconstruction.",
+        "patients": 1,
+        "patientsExported": 0,
+        "patientsWithheld": 1,
+        "entriesWithheld": 0,
+        "complete": false
+      },
+      "totals": {
+        "files": 56,
+        "rows": 74,
+        "withheld": 19,
+        "withheldEntries": 0,
+        "bytes": 41071
+      },
+      "files": [
+        {
+          "path": "tables/installed_pack_work_events.jsonl",
+          "table": "installed_pack_work_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Append-only installed programme policy and patient work events contain protected source/occurrence bodies. Withheld from ordinary operational export; protected reconstruction remains separately governed."
+        },
+        {
+          "path": "tables/organisations.jsonl",
+          "table": "organisations",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 223,
+          "sha256": "172eb99025c56b476da66604c90792940fd4852ce82d45f56eebdf10b5f2bc5e",
+          "columns": [
+            "id",
+            "name",
+            "revision",
+            "last_command",
+            "created_at",
+            "patient_revision"
+          ]
+        },
+        {
+          "path": "tables/accounts.jsonl",
+          "table": "accounts",
+          "rows": 2,
+          "withheld": 0,
+          "bytes": 406,
+          "sha256": "c702af44fabb297671f608b0f3a5b943f11ea5db62da55eecfc14c9c9feddd0c",
+          "columns": [
+            "user_id",
+            "account_code",
+            "display_name",
+            "created_at"
+          ],
+          "omittedColumns": [
+            "email",
+            "active_org_id"
+          ],
+          "note": "Accounts of this organisation's members only."
+        },
+        {
+          "path": "tables/teams.jsonl",
+          "table": "teams",
+          "rows": 2,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 299,
+          "sha256": "a999f0a9514c4414ee87123471c69de2ff2304e51e9a897a1cb66e37cc9e56b9",
+          "columns": [
+            "org_id",
+            "id",
+            "name",
+            "created_at"
+          ]
+        },
+        {
+          "path": "tables/memberships.jsonl",
+          "table": "memberships",
+          "rows": 2,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 403,
+          "sha256": "19b37e393d44f28c91a37f34c2b98a80e4231c41d1bc5f133a3e2ae0e82fd06b",
+          "columns": [
+            "org_id",
+            "user_id",
+            "role",
+            "is_owner",
+            "status",
+            "version",
+            "created_at"
+          ]
+        },
+        {
+          "path": "tables/team_members.jsonl",
+          "table": "team_members",
+          "rows": 2,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 268,
+          "sha256": "888874ed08b68685f2f22352e25bd9c84fac9f68ce2f0f557840dba02fea0639",
+          "columns": [
+            "org_id",
+            "team_id",
+            "user_id"
+          ]
+        },
+        {
+          "path": "tables/invitations.jsonl",
+          "table": "invitations",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 455,
+          "sha256": "0b96d56d41f560aa674bae3b675925924e6b79add2acf9810612011c7bc21016",
+          "columns": [
+            "id",
+            "org_id",
+            "account_code",
+            "label",
+            "role",
+            "team_ids",
+            "status",
+            "expires_at",
+            "created_by",
+            "created_at",
+            "accepted_by"
+          ],
+          "omittedColumns": [
+            "token_hash"
+          ],
+          "note": "The token hash is a credential verifier and is left out."
+        },
+        {
+          "path": "tables/integrations.jsonl",
+          "table": "integrations",
+          "rows": 6,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 2500,
+          "sha256": "67afeb69ad60e5e3d084703a8290bb0954d4300628d0be768ec0c786a4ada059",
+          "columns": [
+            "org_id",
+            "id",
+            "version",
+            "kind",
+            "status",
+            "data"
+          ],
+          "note": "credentialBinding names a server secret; no secret value is stored or exported."
+        },
+        {
+          "path": "tables/operations.jsonl",
+          "table": "operations",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 841,
+          "sha256": "23b8b255f8945c6da1de820faf9e5c2a9f2b12a8c55d32d69de568791e4b9590",
+          "columns": [
+            "org_id",
+            "data"
+          ],
+          "note": "The indicator differencing ledger (indicatorReleases) is server-side protection state and is left out of data."
+        },
+        {
+          "path": "tables/pilot.jsonl",
+          "table": "pilot",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/outreach.jsonl",
+          "table": "outreach",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/expansions.jsonl",
+          "table": "expansions",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/governance.jsonl",
+          "table": "governance",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/retention.jsonl",
+          "table": "retention",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/legacy_migrations.jsonl",
+          "table": "legacy_migrations",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/availability_samples.jsonl",
+          "table": "availability_samples",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable fixed-cadence synthetic operational observations, no patient identifiers or raw errors; hosted availability remains unmeasured."
+        },
+        {
+          "path": "tables/work_burden_samples.jsonl",
+          "table": "work_burden_samples",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Protected client-reported work time and exact mutation receipt bindings; no facts or ticket text."
+        },
+        {
+          "path": "tables/work_support_events.jsonl",
+          "table": "work_support_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable scoped fixed-category support workflow; no external send or ticket text."
+        },
+        {
+          "path": "tables/device_work_grants.jsonl",
+          "table": "device_work_grants",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable original-worker grant metadata; no clinical packet or device fingerprint."
+        },
+        {
+          "path": "tables/device_registration_grants.jsonl",
+          "table": "device_registration_grants",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Original accepted registration ownership and immutable baseline; legacy history explicitly unavailable."
+        },
+        {
+          "path": "tables/device_registration_receipts.jsonl",
+          "table": "device_registration_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact accepted original-worker registration receipt bindings."
+        },
+        {
+          "path": "tables/clinical_source_documents.jsonl",
+          "table": "clinical_source_documents",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Immutable bounded synthetic acquired source documents; licensing/clinical acceptance pending."
+        },
+        {
+          "path": "tables/device_registration_wire_receipts.jsonl",
+          "table": "device_registration_wire_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact authenticated registration wire digests; no command bodies."
+        },
+        {
+          "path": "tables/device_match_copies.jsonl",
+          "table": "device_match_copies",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Only original actor protected candidate ID/version and query hash provenance; whole receipts outside current candidate scope are withheld; no raw search."
+        },
+        {
+          "path": "tables/device_work_events.jsonl",
+          "table": "device_work_events",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Only the exporter's redacted diagnostics, deletion instructions and client-attested acknowledgements; server evidence is not pruned."
+        },
+        {
+          "path": "tables/offline_open_reports.jsonl",
+          "table": "offline_open_reports",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Only this exporter’s fixed historical client-reported metadata and opaque references; no patient pointers or raw material."
+        },
+        {
+          "path": "tables/offline_open_subjects.jsonl",
+          "table": "offline_open_subjects",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Trusted server-derived subject provenance, filtered by current patient visibility; client occurrence is not proof of authorized access."
+        },
+        {
+          "path": "tables/request_metrics.jsonl",
+          "table": "request_metrics",
+          "rows": 7,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 1085,
+          "sha256": "85e3c5dc9d9170ba08e4f4418aea79b86fdf49d295bf0accb1c99e77fd7c9377",
+          "columns": [
+            "org_id",
+            "bucket",
+            "route",
+            "status",
+            "count",
+            "total_ms",
+            "max_ms"
+          ]
+        },
+        {
+          "path": "tables/alert_occurrences.jsonl",
+          "table": "alert_occurrences",
+          "rows": 1,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 388,
+          "sha256": "725c9912531c557c3cdff5534605230d477c6822ba216600667a8c65bc1fd3f3",
+          "columns": [
+            "org_id",
+            "id",
+            "alert_id",
+            "scope_key",
+            "owner_role",
+            "severity",
+            "title",
+            "opened_at",
+            "closed_at",
+            "escalated_at",
+            "escalated_to",
+            "escalation_reason",
+            "escalation_recipients"
+          ],
+          "note": "Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only."
+        },
+        {
+          "path": "tables/alert_notifications.jsonl",
+          "table": "alert_notifications",
+          "rows": 1,
+          "withheld": 0,
+          "otherMembersRows": 1,
+          "bytes": 471,
+          "sha256": "885ddd331206dcd4e53e7f60930d9a68ea52521127fe88c04dfe78ce0ba66caa",
+          "columns": [
+            "org_id",
+            "id",
+            "occurrence_id",
+            "user_id",
+            "level",
+            "alert_id",
+            "scope_key",
+            "owner_role",
+            "severity",
+            "title",
+            "count",
+            "detail",
+            "delivered_at",
+            "read_at",
+            "cleared_at",
+            "cleared_reason"
+          ],
+          "note": "Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter's own notifications; other members' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows)."
+        },
+        {
+          "path": "tables/notification_messages.jsonl",
+          "table": "notification_messages",
+          "rows": 0,
+          "withheld": 0,
+          "otherMembersRows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Slice 10b: simulated out-of-app messages (demonstration simulator) with their receipts; alert ids, titles, counts and member ids only, no patient names, identifiers or contact detail. Slice 10k: only the exporter's own messages, as for in-app notifications (6z): other members' messages carry counts from their own care scopes. The channel settings are in the operations row."
+        },
+        {
+          "path": "tables/patients.jsonl",
+          "table": "patients",
+          "rows": 0,
+          "withheld": 1,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [
+            "org_id",
+            "id",
+            "version",
+            "name",
+            "team_id",
+            "assigned_to",
+            "data",
+            "rev"
+          ]
+        },
+        {
+          "path": "tables/visits.jsonl",
+          "table": "visits",
+          "rows": 0,
+          "withheld": 1,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [
+            "org_id",
+            "id",
+            "person_id",
+            "version",
+            "record_version",
+            "state",
+            "data"
+          ]
+        },
+        {
+          "path": "tables/plans.jsonl",
+          "table": "plans",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/ai_results.jsonl",
+          "table": "ai_results",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/submissions.jsonl",
+          "table": "submissions",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/referrals.jsonl",
+          "table": "referrals",
+          "rows": 0,
+          "withheld": 1,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [
+            "org_id",
+            "id",
+            "person_id",
+            "data"
+          ]
+        },
+        {
+          "path": "tables/record_revisions.jsonl",
+          "table": "record_revisions",
+          "rows": 0,
+          "withheld": 6,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [
+            "id",
+            "org_id",
+            "person_id",
+            "entity_type",
+            "entity_id",
+            "version",
+            "actor_id",
+            "actor_name",
+            "action",
+            "reason",
+            "data",
+            "changes",
+            "created_at"
+          ]
+        },
+        {
+          "path": "tables/media.jsonl",
+          "table": "media",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "omittedColumns": [
+            "data",
+            "storage_ref"
+          ],
+          "note": "Content is in media/<id>.<ext>; the row sha256 column is the base64-encoded SHA-256 of that content."
+        },
+        {
+          "path": "tables/households.jsonl",
+          "table": "households",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/caseload_transfers.jsonl",
+          "table": "caseload_transfers",
+          "rows": 0,
+          "withheld": 0,
+          "withheldEntries": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/identity_cases.jsonl",
+          "table": "identity_cases",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/rights_requests.jsonl",
+          "table": "rights_requests",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": []
+        },
+        {
+          "path": "tables/indicator_figures.jsonl",
+          "table": "indicator_figures",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "omittedColumns": [
+            "data"
+          ],
+          "note": "Immutable original figure metadata and parent lineage only; data contains protected cells/unit hashes and is omitted. Every original cohort member must remain in current normal reporting scope."
+        },
+        {
+          "path": "tables/indicator_figure_units.jsonl",
+          "table": "indicator_figure_units",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Server-only unsuppressed per-person counting material is withheld. Ordinary operational export is not a full report reconstruction archive."
+        },
+        {
+          "path": "tables/indicator_figure_events.jsonl",
+          "table": "indicator_figure_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact immutable lifecycle history for included figures; historical actor/reviewer evidence does not confer current authority."
+        },
+        {
+          "path": "tables/indicator_figure_receipts.jsonl",
+          "table": "indicator_figure_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact receipt metadata only for included figures with validated fixed outcome shape and matching immutable event; no protected cells or source units."
+        },
+        {
+          "path": "tables/indicator_figure_disclosures.jsonl",
+          "table": "indicator_figure_disclosures",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Retained viewer edition disclosure ledger is server-side privacy protection state and is withheld."
+        },
+        {
+          "path": "tables/reporting_calendars.jsonl",
+          "table": "reporting_calendars",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact immutable configured calendar JSON, only with current normal reporting access to every configured team member."
+        },
+        {
+          "path": "tables/reporting_calendar_events.jsonl",
+          "table": "reporting_calendar_events",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Original independent review/release history, never current clinical or source acceptance."
+        },
+        {
+          "path": "tables/reporting_coverage.jsonl",
+          "table": "reporting_coverage",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Exact operator-declared source evidence including immutable original producer version when present; no inferred clinical denominator."
+        },
+        {
+          "path": "tables/reporting_completeness_receipts.jsonl",
+          "table": "reporting_completeness_receipts",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "note": "Validated fixed lifecycle/declaration outcome references only; no raw request or private snapshot body."
+        },
+        {
+          "path": "tables/reporting_completeness_snapshots.jsonl",
+          "table": "reporting_completeness_snapshots",
+          "rows": 0,
+          "withheld": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "columns": [],
+          "omittedColumns": [
+            "data"
+          ],
+          "note": "Scoped immutable snapshot digest/basis and included figure linkage only. Private per-source timing/coverage body is withheld; this archive cannot reconstruct that body."
+        },
+        {
+          "path": "tables/command_receipts.jsonl",
+          "table": "command_receipts",
+          "rows": 10,
+          "withheld": 5,
+          "bytes": 4367,
+          "sha256": "9bcaa2058a14fc53f0289213c3d6caa8907139b3e6cab5a7df7b19eb4d127965",
+          "columns": [
+            "actor_id",
+            "key",
+            "org_id",
+            "hash",
+            "person_id",
+            "created_at",
+            "command_type",
+            "mutation_subject_id",
+            "mutation_event_id",
+            "mutation_context"
+          ],
+          "omittedColumns": [
+            "result"
+          ],
+          "note": "The stored result is left out: it can carry a newly issued invitation token."
+        },
+        {
+          "path": "tables/audit_events.jsonl",
+          "table": "audit_events",
+          "rows": 38,
+          "withheld": 5,
+          "bytes": 29365,
+          "sha256": "a377e64735f55a57b5ea032fd3161514d7a05bd1a594335c0f45c56898ab53c5",
+          "columns": [
+            "org_id",
+            "id",
+            "person_id",
+            "actor_id",
+            "actor_name",
+            "role",
+            "action",
+            "subject",
+            "detail",
+            "at",
+            "seq",
+            "prev_hash",
+            "hash"
+          ],
+          "note": "Events without seq were written before the chain and are sealed by the genesis marker (seq 0)."
+        },
+        {
+          "path": "handover/open-items.jsonl",
+          "rows": 0,
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "note": "Unresolved external actions and open patient tasks with their named owner, within the exported scope."
+        }
+      ],
+      "auditChain": {
+        "chainVersion": "saha-audit-chain-v1",
+        "hashing": "content = SHA-256 of JSON.stringify([org_id,id,person_id,actor_id,actor_name,role,action,subject,detail,at]); hash = SHA-256 of JSON.stringify(['saha-audit-chain-v1',seq,prev_hash,content]); seq 0 is the genesis marker with prev_hash of 64 zeros.",
+        "priorSeal": "The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,\"prior\",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).",
+        "verification": {
+          "status": "intact",
+          "events": 38,
+          "priorEvents": 0,
+          "head": {
+            "seq": 37,
+            "hash": "4f0a416ad248ea9f0116e3b5ecac4b5a998cd0604655d0077a683c1358b9815b",
+            "at": "2026-10-05T21:49:01.877Z"
+          },
+          "firstBreak": null
+        },
+        "exportedHead": {
+          "seq": 37,
+          "hash": "4f0a416ad248ea9f0116e3b5ecac4b5a998cd0604655d0077a683c1358b9815b"
+        },
+        "note": "Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive."
+      },
+      "handover": {
+        "externalActions": 0,
+        "patientTasks": 0,
+        "withoutActiveOwner": 0
+      },
+      "fhir": {
+        "included": false,
+        "documents": 0,
+        "note": "Not requested."
+      },
+      "excluded": [
+        {
+          "what": "Uncertified historical care-reporting alert records and linked audit content",
+          "why": "Uncertified historical care-reporting alert records are omitted from ordinary export. Linked protected audit content retains only its existing chain digest. Original server history is retained; no historical aggregate reconstruction is certified."
+        },
+        {
+          "what": "reporting_completeness_snapshots.data",
+          "why": "Private original per-source timing/coverage sidecars are withheld. Calendar/declaration history and scoped snapshot hashes are portable, but original report/completeness reconstruction requires separately governed protected material and remains open."
+        },
+        {
+          "what": "indicator_figures.data, indicator_figure_units, indicator_figure_disclosures",
+          "why": "Protected report cells, unsuppressed per-person counting material and retained disclosure privacy ledger. Metadata/history portability does not provide full report reconstruction; governed privileged reproducibility/portability remains open."
+        },
+        {
+          "what": "abha_review_reservations",
+          "why": "Server-side anti-enumeration protection state; opaque request fingerprints and review-event references, never clinical records."
+        },
+        {
+          "what": "workspaces",
+          "why": "Release 0.1 per-account source kept unchanged for rollback; its migrated content is in the organisation tables and legacy_migrations records the source hash."
+        },
+        {
+          "what": "accounts.email, accounts.active_org_id",
+          "why": "Sign-in contact and a pointer to other organisations; members are identified by user_id, account_code and display_name."
+        },
+        {
+          "what": "invitations.token_hash",
+          "why": "Credential verifier."
+        },
+        {
+          "what": "command_receipts.result",
+          "why": "Can carry a newly issued invitation token."
+        },
+        {
+          "what": "media_custody",
+          "why": "Private object keys, staged/quarantined intents and request keys are internal custody metadata. Only scoped verified linked bytes and portable media metadata are exported."
+        },
+        {
+          "what": "server configuration and credentials",
+          "why": "Held as deployment secrets, never in the database."
+        }
+      ],
+      "verify": "tar xf the archive, then sha256sum -c SHA256SUMS; node scripts/verify-export.mjs <archive> also checks row counts, relationships, media and the audit chain."
+    },
+    "rows": {
+      "alert_occurrences": [
+        {
+          "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+          "id": "1f0e2d51-9468-4164-bc65-dcb41772d6e6",
+          "alert_id": "incident-critical-open",
+          "scope_key": "org",
+          "owner_role": "operations",
+          "severity": "critical",
+          "title": "Critical incidents not resolved",
+          "opened_at": "2026-10-05T21:48:53.956Z",
+          "closed_at": null,
+          "escalated_at": null,
+          "escalated_to": null,
+          "escalation_reason": null,
+          "escalation_recipients": null
+        }
+      ],
+      "alert_notifications": [
+        {
+          "org_id": "org_0458aea68ccc94af4070a57a9d7d7ea3",
+          "id": "63af92b3-2f08-4272-9e2a-0c8612c703c8",
+          "occurrence_id": "1f0e2d51-9468-4164-bc65-dcb41772d6e6",
+          "user_id": "t-f0249ef4-historical-export-owner",
+          "level": 1,
+          "alert_id": "incident-critical-open",
+          "scope_key": "org",
+          "owner_role": "operations",
+          "severity": "critical",
+          "title": "Critical incidents not resolved",
+          "count": 1,
+          "detail": null,
+          "delivered_at": "2026-10-05T21:48:53.956Z",
+          "read_at": null,
+          "cleared_at": null,
+          "cleared_reason": null
+        }
+      ],
+      "notification_messages": []
+    }
+  },
+  "currentInbox": {
+    "aggregatePrivacy": {
+      "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+      "currentAvailable": false
+    },
+    "currentAggregateAlerts": [],
+    "rules": {
+      "delivery": "1.0.0",
+      "alerts": "1.2.0",
+      "escalateAfterMinutes": {
+        "critical": 30,
+        "high": 240,
+        "normal": 1440
+      },
+      "ladder": {
+        "operations": [
+          "operations",
+          "owners"
+        ],
+        "supervisors": [
+          "supervisors",
+          "owners"
+        ],
+        "owners": [
+          "owners"
+        ]
+      },
+      "evaluateEverySeconds": 60
+    },
+    "owns": [
+      "operations",
+      "supervisors",
+      "owners"
+    ],
+    "evaluated": false,
+    "unread": 1,
+    "items": [
+      {
+        "id": "63af92b3-2f08-4272-9e2a-0c8612c703c8",
+        "alertId": "incident-critical-open",
+        "level": 1,
+        "kind": "delivery",
+        "severity": "critical",
+        "title": "Critical incidents not resolved",
+        "count": 1,
+        "detail": null,
+        "deliveredAt": "2026-10-05T21:48:53.956Z",
+        "readAt": null,
+        "clearedAt": null,
+        "clearedReason": null,
+        "active": true
+      }
+    ],
+    "escalations": [],
+    "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+  },
+  "ownerPurposeStatus": 422,
+  "formerOwnerExport": {
+    "status": 403,
+    "body": {
+      "error": "Only an organisation owner can export the organisation's data."
+    }
+  },
+  "purposeGrant": {
+    "grantId": "dee1ae59-89b6-4dff-b3f3-83ad9098d8f1",
+    "version": 1
+  },
+  "noExternalDelivery": true,
+  "sourceBytesUnchanged": true,
+  "finding": "Uncertified history omitted; structural audit event cardinality and patient totals remain pre-existing boundaries"
+}

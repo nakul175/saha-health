@@ -1,4 +1,5 @@
 import {readState} from './store';
+import {clinicalAggregateAlert} from './aggregate-alert-disclosure';
 import {normallyAllowed,purposePermits} from './access';
 import {entryScope,activeEntry,governanceManager} from './governance';
 import type { D1Database } from '@cloudflare/workers-types';
@@ -92,7 +93,9 @@ export const TABLES: TableSpec[] = [
   { table: 'command_receipts', order: 'created_at,actor_id,key', scope: 'receipt', omit: ['result'], note: 'The stored result is left out: it can carry a newly issued invitation token.' },
   { table: 'audit_events', order: '(seq IS NOT NULL),seq,at,id', scope: 'audit', note: 'Events without seq were written before the chain and are sealed by the genesis marker (seq 0).' },
 ];
+export const PROTECTED_ALERT_EXPORT_NOTICE='Uncertified historical care-reporting alert records are omitted from ordinary export. Linked protected audit content retains only its existing chain digest. Original server history is retained; no historical aggregate reconstruction is certified.';
 export const EXCLUDED = [
+  {what:'Uncertified historical care-reporting alert records and linked audit content',why:PROTECTED_ALERT_EXPORT_NOTICE},
   {what:'reporting_completeness_snapshots.data',why:'Private original per-source timing/coverage sidecars are withheld. Calendar/declaration history and scoped snapshot hashes are portable, but original report/completeness reconstruction requires separately governed protected material and remains open.'},
   {what:'indicator_figures.data, indicator_figure_units, indicator_figure_disclosures',why:'Protected report cells, unsuppressed per-person counting material and retained disclosure privacy ledger. Metadata/history portability does not provide full report reconstruction; governed privileged reproducibility/portability remains open.'},
   { what: 'abha_review_reservations', why: 'Server-side anti-enumeration protection state; opaque request fingerprints and review-event references, never clinical records.' },
@@ -163,6 +166,13 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // appear in their newer state.
   const chain = await verifyChain(db, orgId, undefined, input.now), cut = await chainHead(db, orgId);
   for (const spec of TABLES) data[spec.table] = await readAll(db, spec, orgId);
+  // Actor ownership and today's scope cannot certify a historical clinical aggregate.
+  // Filter before any row/withheld/other-member/column totals; do not expose an omitted count.
+  const protectedAlertSubjects=new Set<string>(),protectedAlertAuditIds=new Set<string>();
+  for(const table of ['alert_occurrences','alert_notifications','notification_messages']){
+    for(const r of data[table])if(clinicalAggregateAlert(String(r.alert_id))){protectedAlertSubjects.add(String(r.id));if(r.audit_id)protectedAlertAuditIds.add(String(r.audit_id));}
+    data[table]=data[table].filter(r=>!clinicalAggregateAlert(String(r.alert_id)));
+  }
   const sourceState=data.clinical_source_documents.length?await readState(db,orgId,[],m.userId,true):null;
   data.audit_events = data.audit_events.filter(r => r.seq == null || (cut !== null && Number(r.seq) <= cut.seq));
   const org = data.organisations[0];
@@ -203,6 +213,11 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     const rows = data[spec.table], lines: unknown[] = [];
     let withheld = 0, entries = 0, others = 0;
     for (const r of rows) {
+      if(spec.scope==='audit'&&(protectedAlertAuditIds.has(String(r.id))||protectedAlertSubjects.has(String(r.subject)))){
+        // Preserve chain position without time/action/subject/detail. This retains structural
+        // event cardinality, an existing audit-export boundary, never a certified clinical count.
+        lines.push({org_id:r.org_id,id:r.id,seq:r.seq??null,prev_hash:r.prev_hash??null,hash:r.hash??null,content:await contentDigest(r as unknown as EventRow),withheld:'Protected event content; digest only.'});continue;
+      }
       if(spec.scope==='calendar'&&!(spec.table==='reporting_calendars'?calendars.has(calendarKey(r.id,r.version)):spec.table==='reporting_calendar_events'?safeEvents.has(String(r.id)):spec.table==='reporting_coverage'?safeCoverage.has(String(r.id)):safeReceipts.has(JSON.stringify([r.actor_id,r.key])))||spec.scope==='completeness'&&!safeSnapshots.has(String(r.id))){withheld++;continue;}
       if(spec.scope==='protected'||spec.scope==='figure'&&(!figures.has(String(spec.table==='indicator_figures'?r.id:r.figure_id))||spec.table==='indicator_figure_receipts'&&!safeFigureReceipt(r))){withheld++;continue;}
 
@@ -313,6 +328,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
 }
 
 const README = (id: string, name: string, at: string) => `Saha organisation data export ${id}
+${PROTECTED_ALERT_EXPORT_NOTICE}
 Organisation: ${name}
 Generated (UTC): ${at}
 

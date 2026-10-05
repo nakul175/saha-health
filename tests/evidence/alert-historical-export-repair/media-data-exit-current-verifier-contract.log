@@ -1,0 +1,14 @@
+node:fs:2483
+    return binding.writeFileUtf8(
+                   ^
+
+Error: ENOENT: no such file or directory, open 'tests/evidence/alert-historical-export-repair/evidence/object-media-integration/compatibility/data-exit-contract.json'
+    at writeFileSync (node:fs:2483:20)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-repair/tests/alert-export-current-integration-media-data-exit-contract.mjs:225:3 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'tests/evidence/alert-historical-export-repair/evidence/object-media-integration/compatibility/data-exit-contract.json'
+}
+
+Node.js v24.19.0
