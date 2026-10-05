@@ -8,7 +8,7 @@ import { operationRefusal, refusalOf, type Refusal } from './adapter-operations'
 import { resolveDefinition, MIN_CELL, releasePopulation } from './indicators';
 import { ledgerFull, pruneLedger, screenReleases } from './indicator-differencing';
 import { candidateReleases, ledgerHash, readLedger, writeLedger, type Candidate } from './indicator-ledger';
-import { aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, bytesOf, compactReports, computeRuns, OPEN_STATES, PAYLOAD_BYTES, REPORTS_BYTES, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
+import { assertAggregateEnvelope, aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, bytesOf, compactReports, computeRuns, OPEN_STATES, PAYLOAD_BYTES, REPORTS_BYTES, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
 import type { Member, OrgState } from './types';
 // Slice 7g: preparing, approving, sending and looking up aggregate reports (see aggregate-delivery.ts).
 export const LEDGER_WRITE_REFUSED='the differencing ledger could not record this release (storage refused the write), so the release could not be protected.';
@@ -169,7 +169,7 @@ export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateComma
    // instead of recording or recomputing the same release twice in the audit window.
    const source=(state:OrgState)=>{const people=state.workspace.people.filter(p=>r.teamIds.includes(p.teamId)),ids=new Set(people.map(p=>p.id));return JSON.stringify({people:people.map(p=>[p.id,p.version,p.consentVersion]).sort(),visits:state.workspace.visits.filter(v=>ids.has(v.personId)).map(v=>[v.id,v.version,v.state,v.voidedAt,v.supersededBy]).sort()});};
    if(source(s)!==source(latest))fail(409,'Report source records changed during dispatch. Prepare a new report.');
-  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw Object.assign(e instanceof Error?e:Error(serviceRefusal),{serviceRefusal:true});}return deliver(i,...args);};
+  }});await assertAggregateEnvelope(args[0],args[1]);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw Object.assign(e instanceof Error?e:Error(serviceRefusal),{serviceRefusal:true});}return deliver(i,...args);};
  if(c.type==='prepareAggregateReport')return prepare(db,s,c,u,m,key,hash);
  if(c.type==='approveAggregateReport'){const before=structuredClone(s),result=approveReport(s,c,u,m,new Date().toISOString());linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,result);return result;}
  return send(db,s,c,u,m,key,hash,transport);

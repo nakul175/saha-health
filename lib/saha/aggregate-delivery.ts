@@ -133,25 +133,31 @@ export async function buildPayload(s:OrgState,reportId:string,r:{definitions:str
  const rows=blocks.reduce((n,b)=>n+b.cells.length,0),sha256=await sha256Hex(canonical({report,definitions,blocks}));
  return {contract:AGGREGATE_CONTRACT,environment:'synthetic',operation:'aggregate',report,manifest:{definitions,rows,sha256},blocks};
 }
+const aggregateEnvelopeSchema=z.object({contract:z.literal(AGGREGATE_CONTRACT),environment:z.literal('synthetic'),operation:z.literal('aggregate'),report:z.object({id,period:z.object({start:day,end:day}).strict(),group:z.enum(AGGREGATE_GROUPS),minimumCell:z.literal(MIN_CELL),computedAt:z.string()}).strict(),manifest:z.object({definitions:z.array(z.object({id,version:z.number().int().positive(),canonicalSha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict()).max(8),rows:z.number().int().nonnegative(),sha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict(),blocks:z.array(z.object({team:id,indicator:id,version:z.number().int().positive(),unit:z.enum(['count','proportion']),withheld:z.enum(['cohort','differencing']).nullable(),cells:z.array(z.object({group:z.string().max(200),value:z.number().finite().nullable(),numerator:z.number().finite().nullable(),denominator:z.number().finite().nullable(),suppressed:z.boolean()}).strict()).max(5000)}).strict()).max(80)}).strict();
+export async function assertAggregateEnvelope(body:any,key:string){
+ if(body?.operation==='lookup'){if(!z.object({contract:z.literal(AGGREGATE_CONTRACT),operation:z.literal('lookup'),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/)}).strict().safeParse(body).success)fail(409,'Aggregate receipt lookup differs from its metadata-only contract.');return;}
+ if(bytesOf(body)>PAYLOAD_BYTES||!aggregateEnvelopeSchema.safeParse(body).success||body.report.id!==key)fail(409,'Aggregate envelope differs from its approved contract; review and prepare a fresh report.');
+ if(body.manifest.rows!==body.blocks.reduce((n:number,b:any)=>n+b.cells.length,0)||await sha256Hex(canonical({report:body.report,definitions:body.manifest.definitions,blocks:body.blocks}))!==body.manifest.sha256)fail(409,'Aggregate envelope differs from its approved digest; nothing was sent.');
+}
 // ---- payload minimisation (BR-INT-09) ----
 const ALLOWED_KEYS=new Set(['contract','environment','operation','report','id','period','start','end','group','minimumCell','computedAt','manifest','definitions','version','canonicalSha256','rows','sha256','blocks','team','indicator','unit','withheld','cells','value','numerator','denominator','suppressed']);
 export const PATIENT_FIELDS=['personId','patientId','visitId','name','fullName','abha','abhaNumber','abhaAddress','phone','mobile','address','dob','dateOfBirth','age','sex','facts','notes','identifier','identifiers','externalId','consent','visits','people'];
 const small=(x:unknown)=>typeof x==='number'&&x>0&&x<MIN_CELL;
 // Refuses a payload carrying any patient-level field or identifier value, or any released cell from 1 to 4.
 export function minimisationCheck(payload:unknown,s:OrgState,stage:MinimisationCheck['stage'],at:string):MinimisationCheck{
- const problems:string[]=[],ids=new Set<string>();let fields=0,cells=0;
- for(const p of s.workspace.people??[]){for(const v of [p.id,p.name,p.abha?.number,p.abha?.address,...(p.identifiers??[]).map(x=>x.value)])if(typeof v==='string'&&v.trim().length>=3)ids.add(v.trim().toLowerCase());}
- for(const v of s.workspace.visits??[])ids.add(v.id.toLowerCase());
+ const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase();const problems:string[]=[],ids=new Set<string>();let fields=0,cells=0;
+ for(const p of s.workspace.people??[]){for(const v of [p.id,p.name,p.abha?.number,p.abha?.address,...(p.identifiers??[]).map(x=>x.value)])if(typeof v==='string'&&v.trim().length>=3)ids.add(normalize(v));}
+ for(const v of s.workspace.visits??[])ids.add(normalize(v.id));
  const walk=(x:unknown,path:string)=>{
   if(Array.isArray(x)){x.forEach((y,i)=>walk(y,`${path}[${i}]`));return;}
-  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" at ${path||'top level'}.`);else if(!ALLOWED_KEYS.has(k))problems.push(`Field "${k}" is not part of the aggregate contract.`);walk(v,path?`${path}.${k}`:k);}return;}
-  if(typeof x==='string'&&ids.has(x.trim().toLowerCase()))problems.push(`A value at ${path} matches a patient identifier, name or ABHA number.`);
+  if(x&&typeof x==='object'){for(const [k,v] of Object.entries(x)){fields++;if(PATIENT_FIELDS.includes(k))problems.push(`Patient-level field "${k}" is not permitted.`);else if(!ALLOWED_KEYS.has(k))problems.push('An unexpected field is not part of the aggregate contract.');walk(v,path?`${path}.${k}`:k);}return;}
+  if(typeof x==='string'&&ids.has(normalize(x)))problems.push('A value matches a patient identifier, name or ABHA number.');
  };
- walk(payload,'');
+ walk(payload,'');if(!aggregateEnvelopeSchema.safeParse(payload).success)problems.push('Aggregate envelope differs from its mapped path contract.');
  for(const b of ((payload as any)?.blocks??[]) as any[])for(const c of (b?.cells??[]) as any[]){cells++;
-  if(c?.suppressed){if([c.value,c.numerator,c.denominator].some(v=>v!==null))problems.push(`A suppressed cell in ${b.indicator} carries a value.`);continue;}
+  if(c?.suppressed){if([c.value,c.numerator,c.denominator].some(v=>v!==null))problems.push('A suppressed cell carries a value.');continue;}
   const parts=[c?.numerator,c?.denominator,b?.unit==='count'?c?.value:null,b?.unit==='proportion'&&typeof c?.denominator==='number'&&typeof c?.numerator==='number'?c.denominator-c.numerator:null];
-  if(parts.some(small))problems.push(`A released cell in ${b.indicator} v${b.version} (${b.team}) is below the suppression threshold of ${MIN_CELL}.`);}
+  if(parts.some(small))problems.push(`A released cell is below the suppression threshold of ${MIN_CELL}.`);}
  return {at,stage,passed:problems.length===0,fields,cells,problems:[...new Set(problems)].slice(0,20)};
 }
 // ---- approval ----
@@ -175,6 +181,7 @@ export type AggregateTransport=(i:Integration,body:any,key:string)=>Promise<unkn
 // A deterministic in-process simulator. A destination with behaviour "uncertain" stores the report but its response
 // is lost on the first send; a lookup then finds the receipt without the report being sent again.
 export const demoAggregateTransport:AggregateTransport=async(i,body,key)=>{
+ await assertAggregateEnvelope(body,key);
  // A lookup carries the report key in its body; its own request key is separate.
  const reportKey=body.operation==='lookup'?body.key:key,receipt=`AGG-${(await sha256Hex(`${i.id}:${reportKey}`)).slice(0,8).toUpperCase()}`;
  if(body.operation==='lookup')return {contract:AGGREGATE_CONTRACT,key:reportKey,payloadHash:body.payloadHash,status:'accepted',receipt};

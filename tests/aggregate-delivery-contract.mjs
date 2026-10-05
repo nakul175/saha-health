@@ -68,11 +68,11 @@ try{
   const bad=(f)=>{const p=structuredClone(ok);f(p);return D.minimisationCheck(p,s,'before-send',recent);};
   assert.match(bad(p=>p.blocks[0].cells[0].personId='t1-Alpur-0').problems.join(),/Patient-level field "personId"/);
   assert.match(bad(p=>p.report.notes='x').problems.join(),/Patient-level field "notes"/);
-  assert.match(bad(p=>p.extra=1).problems.join(),/"extra" is not part of the aggregate contract/);
+  assert.match(bad(p=>p.extra=1).problems.join(),/An unexpected field is not part of the aggregate contract/);
   assert.match(bad(p=>p.blocks[0].cells[0].group='Synthetic Alpur 3').problems.join(),/matches a patient identifier, name or ABHA/);
   assert.match(bad(p=>p.blocks[0].cells[0].group='v-t1-Alpur-0').problems.join(),/matches a patient identifier/);
   assert.match(bad(p=>Object.assign(p.blocks[0].cells[0],{value:3,numerator:3})).problems.join(),/below the suppression threshold of 5/);
-  assert.match(bad(p=>Object.assign(p.blocks[0].cells[1],{value:2})).problems.join(),/suppressed cell .* carries a value/);
+  assert.match(bad(p=>Object.assign(p.blocks[0].cells[1],{value:2})).problems.join(),/suppressed cell carries a value/);
   assert.match(bad(p=>Object.assign(p.blocks[0],{unit:'proportion'})&&Object.assign(p.blocks[0].cells[0],{value:85.7,numerator:12,denominator:14})).problems.join(),/below the suppression threshold/,'denominator minus numerator of 2');
   assert.equal(bad(()=>{}).passed,true);
  });
