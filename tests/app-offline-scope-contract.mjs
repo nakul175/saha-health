@@ -9,5 +9,7 @@ await assert.rejects(appValidateOnlineBook(book(),async()=>({ok:true,type:'opaqu
 for(const delta of [{...good,people:[]},{...good,user:{userId:'other'}},{...good,role:'admin'},{...good,organisation:{id:'home-org'}}]){await assert.rejects(appValidateOnlineBook(book(),async path=>response(path==='/api/workspace'?good:{delta})));passed++;}
 await appValidateOnlineBook(book(),async()=>{throw new TypeError('Failed to fetch')});passed++;
 await appValidateOnlineBook(book(),async path=>{if(path==='/api/workspace')return response(good);throw new TypeError('Failed to fetch')});passed++;
+await assert.rejects(appValidateOnlineBook(book(),async()=>{throw new TypeError('Failed to fetch')},true));passed++;
+await assert.rejects(appValidateOnlineBook(book(),async path=>{if(path==='/api/workspace')return response(good);throw new TypeError('Failed to fetch')},true));passed++;
 await assert.rejects(appValidateOnlineBook(book(),async()=>({ok:true,json:async()=>{throw Error('invalid JSON')}})));passed++;
-mkdirSync('tests/evidence/app-offline-scope',{recursive:true});writeFileSync('tests/evidence/app-offline-scope/contract.json',JSON.stringify({passed,failed:0},null,2)+'\n');console.log(JSON.stringify({passed,failed:0}));
+mkdirSync('tests/evidence/device-work-fail-closed',{recursive:true});writeFileSync('tests/evidence/device-work-fail-closed/app-scope-contract.json',JSON.stringify({passed,failed:0},null,2)+'\n');console.log(JSON.stringify({passed,failed:0}));

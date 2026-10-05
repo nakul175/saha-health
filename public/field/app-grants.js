@@ -7,8 +7,8 @@ export function appBookOwnerValid(book){return !!book?.userId&&(book.drafts??[])
 
 // A positive connected refusal overrides a signed offline grant. A failed transport
 // keeps bounded offline access available; never interpret a refused response as offline.
-export async function appValidateOnlineBook(book,fetcher=fetch){
- const read=async(path,org)=>{let r;try{r=await fetcher(path,{cache:'no-store',redirect:'manual',headers:org?{'x-saha-organisation':org}:{}})}catch(error){if(error instanceof TypeError)return null;throw error}
+export async function appValidateOnlineBook(book,fetcher=fetch,requireConnected=false){
+ const read=async(path,org)=>{let r;try{r=await fetcher(path,{cache:'no-store',redirect:'manual',headers:org?{'x-saha-organisation':org}:{}})}catch(error){if(error instanceof TypeError&&!requireConnected)return null;throw error}
   if(!r.ok||r.type==='opaqueredirect'||(r.status>=300&&r.status<400))throw Error('Device visit access changed. Reconnect with your care team before opening it.');
   let s;try{s=await r.json()}catch{throw Error('Device visit access could not be verified.');}return s;};
  const current=await read('/api/workspace');if(!current)return;
