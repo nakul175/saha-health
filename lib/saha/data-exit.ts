@@ -23,7 +23,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0017_audit_time_indexes';
+export const SCHEMA_MIGRATION = '0018_abha_review_reservations';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -66,6 +66,7 @@ export const TABLES: TableSpec[] = [
   { table: 'audit_events', order: '(seq IS NOT NULL),seq,at,id', scope: 'audit', note: 'Events without seq were written before the chain and are sealed by the genesis marker (seq 0).' },
 ];
 export const EXCLUDED = [
+  { what: 'abha_review_reservations', why: 'Server-side anti-enumeration protection state; opaque request fingerprints and review-event references, never clinical records.' },
   { what: 'workspaces', why: 'Release 0.1 per-account source kept unchanged for rollback; its migrated content is in the organisation tables and legacy_migrations records the source hash.' },
   { what: 'accounts.email, accounts.active_org_id', why: 'Sign-in contact and a pointer to other organisations; members are identified by user_id, account_code and display_name.' },
   { what: 'invitations.token_hash', why: 'Credential verifier.' },
