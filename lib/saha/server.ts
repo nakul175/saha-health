@@ -1,3 +1,4 @@
+import {materialiseInstalledWork,installedWorkRows} from './installed-pack-work';
 import {collectSensitive,minimiseLegacyAiPayload} from './agent-minimisation';
 import {deviceGrantRows} from './device-work';
 import { rangeCaptureFor } from './fact-provenance';
@@ -269,7 +270,8 @@ async function dispatchCommand(request:Request,parsed:Awaited<ReturnType<typeof 
  if(c.type==='amendVisit')carryDisputes(before,state,u,m);
  // Slice 1e: record any delegated authority the command relied on.
  const authorityDelegations=state.delegationUsed?.length?delegationAudit(state,u,m,c.type,typeof (c as any).personId==='string'?(c as any).personId:null):[];
- await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result,c.type==='prepareFieldVisit'?deviceGrantRows(result,state,u):await registrationGrantRows(c,result,state,u,key,hash,parsed.wireHash),c.type==='switchOrganisation');
+ if(c.type==='confirmVisit'||c.type==='voidVisit'||c.type==='amendVisit')await materialiseInstalledWork(state,u,c.visitId,undefined,200);
+ await persist(db(),before,state,u,{...c,authorityDelegations},key,hash,result,[...(c.type==='prepareFieldVisit'?deviceGrantRows(result,state,u):await registrationGrantRows(c,result,state,u,key,hash,parsed.wireHash)),...installedWorkRows(state,before)],c.type==='switchOrganisation');
  // Slice 6v: an organisation-wide command evaluates alert delivery on the state it loaded (best effort, never fails the command).
  if(c.type!=='switchOrganisation')await evaluateAfterCommand(state);
  // Slice 0b: a partitioned command may answer with the partition snapshot for the client to merge.

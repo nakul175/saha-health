@@ -226,3 +226,7 @@ export const indicatorFigureDisclosures=sqliteTable('indicator_figure_disclosure
 export const mediaCustody=sqliteTable('media_custody', {
  orgId:text('org_id').notNull().references(()=>organisations.id), id:text('id').notNull(), actorId:text('actor_id').notNull(), requestKey:text('request_key').notNull(), inputHash:text('input_hash').notNull(), personId:text('person_id').notNull(), visitId:text('visit_id').notNull(), objectKey:text('object_key').notNull(), state:text('state').notNull(), size:integer('size').notNull(), sha256:text('sha256').notNull(), mime:text('mime').notNull(), objectVersion:text('object_version'), etag:text('etag'), createdAt:text('created_at').notNull(),
 },t=>[primaryKey({columns:[t.orgId,t.id]}),uniqueIndex('media_custody_request').on(t.orgId,t.actorId,t.requestKey),uniqueIndex('media_custody_key').on(t.objectKey),index('media_custody_pending').on(t.orgId,t.actorId,t.state),check('media_custody_state',sql`${t.state} IN ('staged','quarantined','linked','removed')`)]);
+
+export const installedPackWorkEvents=sqliteTable('installed_pack_work_events',{
+ orgId:text('org_id').notNull().references(()=>organisations.id),id:text('id').notNull(),entityId:text('entity_id').notNull(),personId:text('person_id'),actorId:text('actor_id').notNull(),kind:text('kind').notNull(),at:text('at').notNull(),data:text('data').notNull(),
+},t=>[primaryKey({columns:[t.orgId,t.id]}),index('installed_pack_work_person').on(t.orgId,t.personId,t.entityId)]);

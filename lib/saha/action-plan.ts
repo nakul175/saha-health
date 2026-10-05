@@ -1,7 +1,8 @@
+import type {InstalledOccurrence} from './installed-pack-work';
 import { followUpOpen } from './programmes';
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
-import { allowed, normallyAllowed } from './access';
+import { allowed, normallyAllowed, allowedFor } from './access';
 import { PACKS } from './programmes';
 import { escalation, STATE_LABEL, TERMINAL, type ReferralState, type Urgency } from './referral-rules';
 import type { Actor } from './store';
@@ -117,6 +118,8 @@ export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOStri
   const owner=who(msg.recovery.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner);
   items.push({key:'message-follow-up:'+msg.id,kind:'message-follow-up',title:'Follow up a failed reminder',reason:'A simulated reminder failed; the patient has not been reached by message.',sources:[{kind:'message-follow-up',id:msg.id,label:'Message follow-up'}],owner,queue:gap?`Supervisors of ${team}`:null,ownershipGap:gap,due:null,urgency:'routine',status:'Open',daysOverdue:0,attention:gap?'escalated':'undated',assignVia:'outreach',targets:[],canAssign:false,canClaim:false,refs:[],waitingOn:[],blocks:[]});
  }
+ // Installed escalations are independent work, never hidden by visit void/correction, AI or follow-up completion.
+ for(const x of ((p as Person&{installedWork?:InstalledOccurrence[]}).installedWork??[]).filter(x=>x.kind==='escalation'&&x.state!=='resolved'&&normallyAllowed(m,p)&&allowedFor(m,p,s.operations?.purposeGrants,'care-coordination'))){const owner=who(x.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner,'clinician reviewer');items.push({key:'installed:'+x.id,kind:'protocol-review',title:x.title,reason:'Installed rule '+x.ruleId+' · '+x.packId+' v'+x.packVersion+' · '+(x.sourceStatus==='review-required'?'Source changed: independent review required':'Confirmed source')+' · Synthetic governance; clinical approval pending',sources:[{kind:'protocol-review',id:x.id,label:'Installed rule '+x.ruleId,visitId:x.visitId,at:x.confirmedAt}],owner,queue:'Independent clinician',ownershipGap:gap,due:x.due,urgency:x.urgency==='urgent_review'?'urgent':'routine',status:x.state==='acknowledged'?'Acknowledged; still unresolved':'Unresolved installed escalation',daysOverdue:dated(x.due,now).daysOverdue,attention:'escalated',assignVia:'none',targets:[],canAssign:false,canClaim:false,refs:[],waitingOn:[],blocks:[]});}
  // Slice 4d: recorded dependencies. A dependent item waits while its blocker is open work in this plan; its own
  // due date does not make it overdue meanwhile, but an ownership gap still escalates it. The blocker keeps its own
  // attention, so an overdue blocker still surfaces. Nothing is derived automatically.
