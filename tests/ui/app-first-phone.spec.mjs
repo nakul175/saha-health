@@ -6,7 +6,7 @@ test('app-first: tabs distinguish device sync, receipts and preserved visit revi
  const t=await team(lab),page=await load(lab,t.asha);
  await page.goto('/app');
  const nav=page.getByRole('navigation',{name:'App navigation'});
- await expect(nav.getByRole('button',{name:'Today',exact:true})).toBeVisible();
+ await expect(nav.getByRole('button',{name:'Home',exact:true})).toBeVisible();await page.getByRole('button',{name:/See my work/}).click();
  await expect(page.getByText('This list is not filtered to today.',{exact:false})).toBeVisible();
  await nav.getByRole('button',{name:'Sync',exact:true}).click();
  await expect(page.getByRole('heading',{name:'Your sync centre'})).toBeVisible();
@@ -17,7 +17,7 @@ test('app-first: tabs distinguish device sync, receipts and preserved visit revi
  await nav.getByRole('button',{name:'More',exact:true}).click();
  await expect(page.getByRole('link',{name:'Open full web workspace'})).toHaveAttribute('href','/');
  await expect(page.getByRole('button',{name:'Connections',exact:true})).toBeHidden();
- await nav.getByRole('button',{name:'Today',exact:true}).click();
+ await nav.getByRole('button',{name:'Home',exact:true}).click();await page.getByRole('button',{name:/See my work/}).click();
  await openPatient(page);
  await page.getByRole('button',{name:'Start visit',exact:true}).click();
  await field(page,'Weight · kg').fill('57.5');

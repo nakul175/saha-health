@@ -20,7 +20,7 @@ try{
  const page=await context.newPage();
  page.setDefaultTimeout(20000);await page.goto(worker.base+'/app');
  const nav=page.getByRole('navigation',{name:'App navigation'});
- await nav.getByRole('button',{name:'Today',exact:true}).waitFor();check(await nav.isVisible(),'Navigation visible');
+ await nav.getByRole('button',{name:'Home',exact:true}).waitFor();await page.getByRole('button',{name:/See my work/}).click();check(await nav.isVisible(),'Navigation visible');
  await page.getByText('This list is not filtered to today.',{exact:false}).waitFor();passed++;
  check((await nav.getByRole('button').count())===5,'ASHA has five care tabs');
  await page.screenshot({path:evidence+'/phone-today.png',fullPage:true});
@@ -33,7 +33,7 @@ try{
  await nav.getByRole('button',{name:'More',exact:true}).click();
  check((await page.getByRole('link',{name:'Open full web workspace'}).getAttribute('href'))==='/','Original workspace accessible');
  check(!(await page.getByRole('button',{name:'Connections',exact:true}).isVisible()),'ASHA connection administration hidden');
- await nav.getByRole('button',{name:'Today',exact:true}).click();
+ await nav.getByRole('button',{name:'Home',exact:true}).click();await page.getByRole('button',{name:/See my work/}).click();
  await page.getByRole('button',{name:/Meena Devi/}).first().click();
  await page.getByRole('heading',{name:'Meena Devi',exact:true}).waitFor();passed++;
  await page.getByRole('button',{name:'Start visit',exact:true}).click();
@@ -51,7 +51,7 @@ try{
  const sizes=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));check(sizes.scroll<=sizes.width,'No sideways phone scroll');
  await page.screenshot({path:evidence+'/phone-review.png',fullPage:true});
  await page.setViewportSize({width:1280,height:900});
- await nav.getByRole('button',{name:'Today',exact:true}).click();
+ await nav.getByRole('button',{name:'Home',exact:true}).click();await page.getByRole('button',{name:/See my work/}).click();
  const box=await page.locator('.frontline-shell').boundingBox();check(box.width<=460,'Desktop demo presents phone frame');
  await page.evaluate(()=>window.scrollTo(0,0));
  await page.screenshot({path:evidence+'/desktop-preview.png',fullPage:true});

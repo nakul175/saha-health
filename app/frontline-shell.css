@@ -84,3 +84,22 @@
 .frontline-shell .topbar-left .frontline-brand { display:block; color:#147665; font-size:25px; font-weight:750; letter-spacing:-1px; }
 .frontline-shell [data-sonner-toaster] { bottom:calc(96px + env(safe-area-inset-bottom)); width:min(360px,calc(100vw - 32px)); right:16px; }
 @media(min-width:900px) { .frontline-shell [data-sonner-toaster] { left:calc(50% - 180px); right:auto; bottom:112px; } }
+
+/* Guided ASHA entry reuses the same scoped workspace and explicit care actions. */
+.frontline-guidance { padding:8px 0 20px; }
+.guided-prompt { padding:20px; background:#fff; border:1px solid #dce5de; border-radius:24px 24px 24px 6px; box-shadow:0 4px 18px #193e3708; }
+.guided-speaker { display:block; margin-bottom:10px; color:#147665; font-weight:800; font-size:20px; }
+.frontline-shell .guided-prompt h1 { font-size:25px; line-height:1.25; color:#193e37; margin:0 0 12px; }
+.guided-prompt p,.guided-next-prompt p { margin:0; color:#50665f; line-height:1.6; }
+.guided-choices { display:grid; gap:12px; margin-top:22px; }
+.guided-choices button { display:flex; align-items:center; gap:14px; width:100%; padding:16px; text-align:left; border:1px solid #cddfd4; border-radius:18px; background:#fff; color:#193e37; min-height:92px; }
+.guided-choices button>span:nth-child(2) { flex:1; }
+.guided-choices strong { display:block; font-size:17px; line-height:1.4; }
+.guided-choices small { display:block; margin-top:6px; color:#50665f; font-size:13px; line-height:1.5; }
+.guided-choice-icon { display:grid; place-items:center; width:46px; height:46px; flex:none; border-radius:14px; background:#eaf4ed; color:#147665; }
+.guided-choices button:hover { border-color:#147665; }
+.guided-choices button:focus-visible,.guided-tools:focus-visible { outline:3px solid #147665; outline-offset:3px; }
+.guided-choices button:disabled,.guided-tools:disabled { opacity:.5; }
+.guided-tools { display:flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:12px; margin:16px auto 0; color:#315d50; font-size:14px; }
+.guided-next-prompt { padding:16px 18px; margin-bottom:20px; border-radius:16px 16px 16px 4px; border:1px solid #cddfd4; background:#eaf4ed; }
+.guided-next-prompt strong { display:block; margin-bottom:6px; font-size:16px; color:#193e37; }

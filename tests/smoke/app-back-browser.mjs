@@ -20,13 +20,13 @@ try{
  await page.goto(worker.base+'/');await page.getByRole('heading',{name:'Today’s work',exact:true}).waitFor();
  await page.goto(worker.base+'/app');
  const nav=page.getByRole('navigation',{name:'App navigation'});
- await nav.getByRole('button',{name:'Today',exact:true}).waitFor();
+ await nav.getByRole('button',{name:'Home',exact:true}).waitFor();
  await page.waitForFunction(()=>history.state?.sahaApp?.index===0);
  await nav.getByRole('button',{name:'Sync',exact:true}).click();await page.getByRole('heading',{name:'Your sync centre'}).waitFor();
- await page.goBack();await page.getByRole('heading',{name:'Today',exact:true}).waitFor();
- check('clean Back returns to Today without leaving /app',new URL(page.url()).pathname==='/app');
+ await page.goBack();await page.getByRole('heading',{name:'What would you like to do?',exact:true}).waitFor();
+ check('clean Back returns to Home without leaving /app',new URL(page.url()).pathname==='/app');
  await page.goForward();await page.getByRole('heading',{name:'Your sync centre'}).waitFor();checks.push('Forward restores Sync');
- await page.goBack();await page.getByRole('heading',{name:'Today',exact:true}).waitFor();
+ await page.goBack();await page.getByRole('heading',{name:'What would you like to do?',exact:true}).waitFor();await page.getByRole('button',{name:/See my work/}).click();
  await page.getByRole('button',{name:/Meena Devi/}).first().click();await page.getByRole('heading',{name:'Meena Devi',exact:true}).waitFor();
  await page.getByRole('button',{name:'Start visit',exact:true}).click();
  const weight=page.getByRole('textbox',{name:'Weight · kg',exact:true});await weight.fill('57.5');
@@ -53,7 +53,7 @@ try{
  const state=JSON.stringify(await page.evaluate(()=>history.state));
  check('history stores no patient identifiers, facts, account or token',![p.id,visit.id,'Meena','58.2',asha.id,'Idempotency-Key'].some(value=>state.includes(value)));
  await page.goBack();await page.getByRole('heading',{name:'Today',exact:true}).waitFor();
- await page.goBack();await page.getByRole('heading',{name:'Today’s work',exact:true}).waitFor();
+ await page.goBack();await page.getByRole('heading',{name:'What would you like to do?',exact:true}).waitFor();await page.goBack();await page.getByRole('heading',{name:'Today’s work',exact:true}).waitFor();
  check('root Back exits to preceding full workspace without a sentinel trap',new URL(page.url()).pathname==='/');
  writeFileSync(evidence+'/browser-result.json',JSON.stringify({passed:checks.length,checks,completedAt:new Date().toISOString(),limits:'Real cached Chromium/local synthetic D1. TWA uses this browser history; no physical Android system-Back test, hosted Access or clinical acceptance.'},null,2)+'\n');
  console.log(JSON.stringify({passed:checks.length}));

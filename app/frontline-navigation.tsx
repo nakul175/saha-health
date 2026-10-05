@@ -1,18 +1,18 @@
 'use client';
-import { CalendarDays, Users, Stethoscope, RefreshCw, Menu, ChevronRight, LockKeyhole, WifiOff, FileCheck2, Layers3 } from 'lucide-react';
+import { Home, CalendarDays, Users, Stethoscope, RefreshCw, Menu, ChevronRight, LockKeyhole, WifiOff, FileCheck2, Layers3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { shownViews, type View } from '@/lib/saha/navigation';
 import type { Snapshot } from '@/lib/saha/types';
 import type { Language } from '@/lib/saha/messages';
 import { useI18n } from './i18n';
 
-export type AppTab='workspace'|'referrals'|'sync'|'more';
+export type AppTab='home'|'workspace'|'referrals'|'sync'|'more';
 const views=(data:Snapshot,pilotTask:boolean)=>shownViews({role:data.role,isOwner:data.membership.isOwner,reporting:!!data.delegatedAuthority?.some(d=>d.kind==='reporting')},pilotTask);
 export function FrontlineNavigation({data,view,tab,patientOpen,busy,pilotTask,go,choose}:{data:Snapshot|null;view:View;tab:AppTab;patientOpen:boolean;busy:boolean;pilotTask:boolean;go:(v:View)=>void;choose:(tab:AppTab)=>void}){
- const allowed=data?views(data,pilotTask):[],care=data&&['asha','clinician'].includes(data.role);
+ const {lang}=useI18n(),hi=lang==='hi',allowed=data?views(data,pilotTask):[],care=data&&['asha','clinician'].includes(data.role);
  const selected=(id:AppTab,target?:View)=>!patientOpen&&tab===id&&(!target||view===target);
  return <nav className="frontline-bottom" aria-label="App navigation" lang="en">
-  {allowed.includes('work')&&<button disabled={busy} aria-current={selected('workspace','work')?'page':undefined} onClick={()=>go('work')}><CalendarDays size={21}/><span>Today</span></button>}
+  {data?.role==='asha'?<button disabled={busy} aria-current={selected('home')?'page':undefined} onClick={()=>choose('home')}><Home size={21}/><span lang={hi?'hi':'en'}>{hi?'होम':'Home'}</span></button>:allowed.includes('work')&&<button disabled={busy} aria-current={selected('workspace','work')?'page':undefined} onClick={()=>go('work')}><CalendarDays size={21}/><span>Today</span></button>}
   {allowed.includes('people')&&<button disabled={busy} aria-current={selected('workspace','people')?'page':undefined} onClick={()=>go('people')}><Users size={21}/><span>People</span></button>}
   {allowed.includes('work')&&<button disabled={busy} aria-current={selected('referrals')?'page':undefined} onClick={()=>choose('referrals')}><Stethoscope size={21}/><span>Referrals</span></button>}
   {care&&<button disabled={busy} aria-current={selected('sync')?'page':undefined} onClick={()=>choose('sync')}><RefreshCw size={21}/><span>Sync</span></button>}
