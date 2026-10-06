@@ -49,6 +49,30 @@ jobs:
       # Slice 11a: the runner finds every unit suite itself, so a new suite is never left out of CI.
       - name: Unit suites
         run: node scripts/test.mjs unit --fast --guard
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: engineering-evidence
+          path: |
+            tests/*-result.json
+            tests/reports/
+            dist/sbom.cdx.json
+            dist/security-gate.json
+
+  # Split from `checks` on 6 October 2026: the browser regressions plus smoke selection no longer fit the 30-minute hosted limit
+  # together with the unit and API layers. The selections, guards and baseline are unchanged; both jobs must pass.
+  regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Build
+        run: npm run build
       - name: Install Chromium for app-first regressions
         run: node_modules/.bin/playwright install --with-deps chromium
       - name: App-first workflow and scope regressions
@@ -64,7 +88,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: engineering-evidence
+          name: engineering-regression-evidence
           path: |
             tests/*-result.json
             tests/reports/
