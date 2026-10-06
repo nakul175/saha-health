@@ -10,7 +10,7 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
 - **55 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 622 of 951 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **The map is incomplete in both directions.** 728 of 1057 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
 - **30 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
@@ -33,7 +33,7 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 142 | 207 | 799 | 592 |
+| unit | 142 | 207 | 905 | 698 |
 | integration | 116 | 99 | 115 | 16 |
 | resilience | 2 | 1 | 1 | 0 |
 | smoke | 7 | 5 | 7 | 2 |
@@ -130,7 +130,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (622 of 951)
+## Test files cited by no requirement (728 of 1057)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -139,6 +139,46 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/abdm-contract.mjs | unit |
 | tests/abdm-transfer-smoke.mjs | integration |
 | tests/agent-minimisation-contract.mjs | unit |
+| tests/alert-disclosure-before.mjs | unit |
+| tests/alert-disclosure-browser.mjs | unit |
+| tests/alert-disclosure-current-alert-delivery-contract.mjs | unit |
+| tests/alert-disclosure-current-alerts-contract.mjs | unit |
+| tests/alert-disclosure-current-notification-channel-contract.mjs | unit |
+| tests/alert-disclosure-current-notification-sources-contract.mjs | unit |
+| tests/alert-disclosure-current-operational-privacy-adverse-http.mjs | unit |
+| tests/alert-disclosure-current-operational-privacy-contract.mjs | unit |
+| tests/alert-disclosure-current-operational-privacy-http.mjs | unit |
+| tests/alert-disclosure-current-read-audit-completion-contract.mjs | unit |
+| tests/alert-disclosure-current-sixth-review-fixes-contract.mjs | unit |
+| tests/alert-disclosure-http.mjs | unit |
+| tests/alert-disclosure-no-recipients-before.mjs | unit |
+| tests/alert-disclosure-retained-http.mjs | unit |
+| tests/alert-disclosure-scheduled.mjs | unit |
+| tests/alert-export-cold-data-exit-contract.mjs | unit |
+| tests/alert-export-cold-http.mjs | unit |
+| tests/alert-export-cold-independent-http.mjs | unit |
+| tests/alert-export-cold-integration-media-data-exit-contract.mjs | unit |
+| tests/alert-export-current-data-exit-contract.mjs | unit |
+| tests/alert-export-current-integration-media-data-exit-contract.mjs | unit |
+| tests/alert-historical-export-before.mjs | unit |
+| tests/alert-historical-export-repair-http.mjs | unit |
+| tests/alert-recipient-current-browser.mjs | unit |
+| tests/alert-recipient-current-current-alert-delivery-contract.mjs | unit |
+| tests/alert-recipient-current-current-alerts-contract.mjs | unit |
+| tests/alert-recipient-current-current-notification-channel-contract.mjs | unit |
+| tests/alert-recipient-current-current-notification-sources-contract.mjs | unit |
+| tests/alert-recipient-current-current-operational-privacy-adverse-http.mjs | unit |
+| tests/alert-recipient-current-current-operational-privacy-contract.mjs | unit |
+| tests/alert-recipient-current-current-operational-privacy-http.mjs | unit |
+| tests/alert-recipient-current-current-read-audit-completion-contract.mjs | unit |
+| tests/alert-recipient-current-current-sixth-review-fixes-contract.mjs | unit |
+| tests/alert-recipient-current-http.mjs | unit |
+| tests/alert-recipient-current-retained-http.mjs | unit |
+| tests/alert-recipient-current-scheduled.mjs | unit |
+| tests/alert-recipient-hold-http.mjs | unit |
+| tests/alert-recipient-retained-timing-before.mjs | unit |
+| tests/alert-recipient-root-current-browser.mjs | unit |
+| tests/alert-recipient-root-current-retained-http.mjs | unit |
 | tests/anaemia-connected-worker.mjs | unit |
 | tests/anaemia-hosted-connection.mjs | unit |
 | tests/anaemia-worker-transport.mjs | unit |
@@ -162,6 +202,20 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/clinical-source-fetch-contract.mjs | unit |
 | tests/clinical-source-identity-http.mjs | unit |
 | tests/clinical-source-retrieval-browser.mjs | unit |
+| tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs | unit |
+| tests/combined-reviewed-alert-export-cold-independent-http.mjs | unit |
+| tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs | unit |
+| tests/combined-reviewed-alert-recipient-current-http.mjs | unit |
+| tests/combined-reviewed-alert-recipient-current-scheduled.mjs | unit |
+| tests/combined-reviewed-alert-recipient-hold-http.mjs | unit |
+| tests/combined-reviewed-guided-audio-independent-component.mjs | unit |
+| tests/combined-reviewed-programme-transition-audit-cold-extended-primary.mjs | unit |
+| tests/combined-reviewed-programme-transition-audit-cold-independent-http.mjs | unit |
+| tests/combined-reviewed-simplicity-independent-guided-instructions-browser.mjs | unit |
+| tests/combined-reviewed-simplicity-independent-guided-instructions-contract.mjs | unit |
+| tests/combined-reviewed-simplicity-independent-guided-simplicity-browser.mjs | unit |
+| tests/combined-reviewed-transition-parity-cold-independent-http.mjs | unit |
+| tests/combined-reviewed-transition-parity-cold-repair-contract.mjs | unit |
 | tests/completeness-cold-extra-authority-http.mjs | unit |
 | tests/completeness-cold-extra-browser.mjs | unit |
 | tests/completeness-cold-repeat-account-browser.mjs | unit |
@@ -219,6 +273,7 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/figure-impact-independent-legacy-household.mjs | unit |
 | tests/figure-impact-independent-legacy-http.mjs | unit |
 | tests/figure-impact-independent-legacy-material.mjs | unit |
+| tests/guided-audio-independent-component.mjs | unit |
 | tests/guided-capture-independent-conditional.mjs | unit |
 | tests/guided-capture-independent-core.mjs | unit |
 | tests/guided-capture-independent-home.mjs | unit |
@@ -226,6 +281,8 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/guided-capture-independent-programme-read.mjs | unit |
 | tests/guided-capture-independent-uncertainty.mjs | unit |
 | tests/guided-home-capture-browser.mjs | unit |
+| tests/guided-instructions-browser.mjs | unit |
+| tests/guided-instructions-contract.mjs | unit |
 | tests/guided-programme-reset-conditional.mjs | unit |
 | tests/guided-programme-reset-core.mjs | unit |
 | tests/guided-programme-reset-home.mjs | unit |
@@ -236,6 +293,15 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/guided-registration-before-browser.mjs | unit |
 | tests/guided-repair-independent-probe.mjs | unit |
 | tests/guided-repair-independent-repeat.mjs | unit |
+| tests/guided-simplicity-before-browser.mjs | unit |
+| tests/guided-simplicity-browser.mjs | unit |
+| tests/guided-simplicity-current-asha-guided-capture-browser.mjs | unit |
+| tests/guided-simplicity-current-asha-guided-capture-conditional.mjs | unit |
+| tests/guided-simplicity-current-asha-guided-capture-legacy-range.mjs | unit |
+| tests/guided-simplicity-current-asha-guided-capture-uncertainty.mjs | unit |
+| tests/guided-simplicity-current-guided-home-capture-browser.mjs | unit |
+| tests/guided-simplicity-current-guided-registration-browser.mjs | unit |
+| tests/guided-simplicity-current-guided-registration-overflow-browser.mjs | unit |
 | tests/household-completion-before.mjs | unit |
 | tests/household-completion-independent-browser.mjs | unit |
 | tests/household-completion-independent-http.mjs | unit |
@@ -425,6 +491,25 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/programme-raw-key-contract.mjs | unit |
 | tests/programme-raw-key-http.mjs | unit |
 | tests/programme-raw-key-original-probe.mjs | unit |
+| tests/programme-transition-audit-cold-compatibility.mjs | unit |
+| tests/programme-transition-audit-cold-contract.mjs | unit |
+| tests/programme-transition-audit-cold-extended-primary.mjs | unit |
+| tests/programme-transition-audit-cold-http.mjs | unit |
+| tests/programme-transition-audit-cold-independent-http.mjs | unit |
+| tests/programme-transition-audit-cold-primary.mjs | unit |
+| tests/programme-transition-audit-repair-repeat-compatibility.mjs | unit |
+| tests/programme-transition-audit-repair-repeat-contract.mjs | unit |
+| tests/programme-transition-audit-repair-repeat-primary.mjs | unit |
+| tests/programme-transition-read-audit-repair-http.mjs | unit |
+| tests/programme-transitions-compatibility.mjs | unit |
+| tests/programme-transitions-contract.mjs | unit |
+| tests/programme-transitions-independent-extended-current-primary.mjs | unit |
+| tests/programme-transitions-independent-extended-primary.mjs | unit |
+| tests/programme-transitions-independent-read-audit-http.mjs | unit |
+| tests/programme-transitions-independent-repeat-compatibility.mjs | unit |
+| tests/programme-transitions-independent-repeat-contract.mjs | unit |
+| tests/programme-transitions-independent-repeat-primary.mjs | unit |
+| tests/programme-transitions-primary.mjs | unit |
 | tests/provider-agent-envelope-contract.mjs | unit |
 | tests/provider-agent-escape-review.mjs | unit |
 | tests/provider-ehr-envelope-contract.mjs | unit |
@@ -599,6 +684,17 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/run-api-reporting-current.mjs | unit |
 | tests/run-api-verification-programme-current.mjs | unit |
 | tests/scoped-read-contract.mjs | unit |
+| tests/simplicity-independent-guided-instructions-browser.mjs | unit |
+| tests/simplicity-independent-guided-instructions-contract.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-browser.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-current-asha-guided-capture-browser.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-current-asha-guided-capture-conditional.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-current-asha-guided-capture-legacy-range.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-current-asha-guided-capture-uncertainty.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-current-guided-home-capture-browser.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-current-guided-registration-browser.mjs | unit |
+| tests/simplicity-independent-guided-simplicity-current-guided-registration-overflow-browser.mjs | unit |
+| tests/simplicity-independent-repeat.mjs | unit |
 | tests/smoke/app-back-guided-browser.mjs | smoke |
 | tests/smoke/local-privacy-current-smoke.mjs | smoke |
 | tests/storage-contract.mjs | unit |
@@ -613,6 +709,16 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/test-runner-privacy-registration-current-contract.mjs | unit |
 | tests/test-runner-reporting-current-contract.mjs | unit |
 | tests/test-runner-verification-current-contract.mjs | unit |
+| tests/transition-operational-count-privacy-contract.mjs | unit |
+| tests/transition-operational-count-privacy-http.mjs | unit |
+| tests/transition-operational-count-repair-contract.mjs | unit |
+| tests/transition-operational-count-repair-http.mjs | unit |
+| tests/transition-operational-parity-http.mjs | unit |
+| tests/transition-parity-cold-independent-http.mjs | unit |
+| tests/transition-parity-cold-privacy-contract.mjs | unit |
+| tests/transition-parity-cold-privacy-http.mjs | unit |
+| tests/transition-parity-cold-repair-contract.mjs | unit |
+| tests/transition-parity-cold-repair-http.mjs | unit |
 | tests/ui/confirm-correct-hindi.spec.mjs | ui |
 | tests/ui/errors.spec.mjs | ui |
 | tests/ui/frontline-sandbox.spec.mjs | ui |

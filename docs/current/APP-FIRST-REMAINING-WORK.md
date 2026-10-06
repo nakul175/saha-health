@@ -1,3 +1,7 @@
+# Latest continuation checkpoint
+
+The sponsor requested a reconciled Git/documentation handover for Claude on6 October2026. Read [CLAUDE-RESUME-20261006.md](CLAUDE-RESUME-20261006.md) for saved branches and current failed/missing gates. All41 original rows below remain in scope; bounded slice checks do not close whole groups.
+
 # App-first remaining engineering work
 
 5 October 2026 (IST). Planning audit of local integration source through `f4f05916`, including R27 (`bb0e83bf`), atomic ABHA review reservations, Android packaging, `/app` presentation and synthetic reminder opt-outs. Integration documentation was being reconciled while this audit ran. This document does not change assessment labels or formal acceptance.

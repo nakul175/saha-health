@@ -4,6 +4,7 @@ from pathlib import Path
 from zipfile import ZipFile
 import csv
 import hashlib
+import gzip
 import json
 import re
 import subprocess
@@ -106,7 +107,7 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
-for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json']:
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
         for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
@@ -116,7 +117,7 @@ for additional_name in ['evidence-source-snapshots-conformance-import.json','evi
                 existing.setdefault(expected,entry)
 slice_total=0
 supplement={}
-for supplement_name in ['tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json','tests/evidence/reporting-completeness-root-integration/author-artifacts.json','tests/evidence/verification-programme-root-integration/author-artifacts.json','tests/evidence/privacy-registration-root-integration/author-artifacts.json']:
+for supplement_name in ['tests/evidence/app-first-guidance-media-impact-integration/author-artifacts.json','tests/evidence/reporting-completeness-root-integration/author-artifacts.json','tests/evidence/verification-programme-root-integration/author-artifacts.json','tests/evidence/privacy-registration-root-integration/author-artifacts.json','tests/evidence/alert-transition-guidance-root-integration/author-artifacts.json']:
     supplement_path=ROOT/supplement_name
     if supplement_path.exists():
         for path,expected in json.loads(supplement_path.read_text()).get('files',{}).items():
@@ -150,7 +151,7 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
         source_entries=manifest.get(source_key)
         if source_entries is None:
             continue
-        valid=isinstance(source_entries,dict) and all(path.startswith(('app/','lib/','public/','db/','drizzle/','scripts/','tests/','docs/current/','docs/history/v1.0/source/')) and re.fullmatch(r'[a-f0-9]{64}',str(expected.get('sha256') if isinstance(expected,dict) else expected)) and (not isinstance(expected,dict) or 'bytes' not in expected or isinstance(expected['bytes'],int) and expected['bytes']>=0) for path,expected in source_entries.items())
+        valid=isinstance(source_entries,dict) and all((path.startswith(('app/','worker/','lib/','public/','db/','drizzle/','scripts/','tests/','docs/current/','docs/history/v1.0/source/')) or (str(manifest_path.relative_to(ROOT))=='tests/evidence/alert-disclosure-before/manifest.json' and source_key=='sourcePins' and path=='dist/server/index.js')) and re.fullmatch(r'[a-f0-9]{64}',str(expected.get('sha256') if isinstance(expected,dict) else expected)) and (not isinstance(expected,dict) or 'bytes' not in expected or isinstance(expected['bytes'],int) and expected['bytes']>=0) for path,expected in source_entries.items())
         require(valid,'Invalid source digest map: '+str(manifest_path.relative_to(ROOT)))
         if valid:
             entries=entries if isinstance(entries,dict) else {}
@@ -182,12 +183,23 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
         entries={str(p.relative_to(ROOT)):supplement[str(p.relative_to(ROOT))] for p in artifacts if str(p.relative_to(ROOT)) in supplement}
     require(isinstance(entries,dict) and bool(entries),'Missing evidence digests: '+str(manifest_path.relative_to(ROOT)))
     for report,meta in (entries or {}).items():
-        path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','public/','db/','drizzle/','scripts/')) else manifest_path.parent/report
+        path=(ROOT/report) if report.startswith(('tests/','docs/','lib/','app/','worker/','public/','db/','drizzle/','scripts/')) else manifest_path.parent/report
         expected=meta.get('sha256') if isinstance(meta,dict) else meta
+        # One explicitly bound generated diagnostic preimage. It never substitutes for current application source or report evidence.
+        if str(manifest_path.relative_to(ROOT))=='tests/evidence/alert-disclosure-before/manifest.json' and report=='dist/server/index.js':
+            binding=read_json('tests/evidence/alert-disclosure-author/manifest.json')['archivedOriginalSource'][report]
+            archive=ROOT/binding['artifact']
+            require(binding['originalManifest']==str(manifest_path.relative_to(ROOT)) and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound original generated diagnostic manifest')
+            require(binding['originalManifestPin']=='sourcePins.dist/server/index.js' and binding['encoding']=='gzip-lossless' and binding['sha256']==expected and binding['bytes']==meta.get('bytes'),'Unbound generated diagnostic source pin')
+            require(archive.is_file() and digest(archive)==binding['artifactSha256'] and archive.stat().st_size==binding['artifactBytes'],'Changed generated diagnostic gzip')
+            if archive.is_file():
+                preimage=gzip.decompress(archive.read_bytes())
+                require(hashlib.sha256(preimage).hexdigest()==expected and len(preimage)==binding['bytes'],'Changed generated diagnostic preimage')
+            continue
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.
-        if report.startswith(('app/','lib/','public/','db/','drizzle/','scripts/')) and path.is_file() and digest(path)!=expected:
+        if report.startswith(('app/','worker/','lib/','public/','db/','drizzle/','scripts/')) and path.is_file() and digest(path)!=expected:
             archived=source_snapshots.get(report,{}).get(expected)
             if archived:
                 candidate=(ROOT/archived['path']).resolve()

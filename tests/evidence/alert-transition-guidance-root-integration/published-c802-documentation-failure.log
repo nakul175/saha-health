@@ -1,0 +1,260 @@
+﻿2026-10-05T21:57:38.6855830Z Current runner version: '2.337.0'
+2026-10-05T21:57:38.6933960Z ##[group]Runner Image Provisioner
+2026-10-05T21:57:38.6935415Z Hosted Compute Agent
+2026-10-05T21:57:38.6936390Z Version: 20260901.588
+2026-10-05T21:57:38.6937643Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-05T21:57:38.6939001Z Build Date: 2026-09-01T19:56:44Z
+2026-10-05T21:57:38.6940326Z Worker ID: {2589dde3-e536-4738-9dd3-47445e9eb415}
+2026-10-05T21:57:38.6941671Z Azure Region: eastus
+2026-10-05T21:57:38.6942755Z ##[endgroup]
+2026-10-05T21:57:38.6945511Z ##[group]Operating System
+2026-10-05T21:57:38.6946593Z Ubuntu
+2026-10-05T21:57:38.6947624Z 24.04.5
+2026-10-05T21:57:38.6948538Z LTS
+2026-10-05T21:57:38.6949529Z ##[endgroup]
+2026-10-05T21:57:38.6950508Z ##[group]Runner Image
+2026-10-05T21:57:38.6951583Z Image: ubuntu-24.04
+2026-10-05T21:57:38.6952842Z Version: 20260927.320.1
+2026-10-05T21:57:38.6955553Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-05T21:57:38.6958762Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-05T21:57:38.6960684Z ##[endgroup]
+2026-10-05T21:57:38.6962935Z ##[group]GITHUB_TOKEN Permissions
+2026-10-05T21:57:38.6966313Z Contents: read
+2026-10-05T21:57:38.6967556Z Metadata: read
+2026-10-05T21:57:38.6968559Z ##[endgroup]
+2026-10-05T21:57:38.6971717Z Secret source: Actions
+2026-10-05T21:57:38.6973795Z Cache mode: write
+2026-10-05T21:57:38.6975147Z Prepare workflow directory
+2026-10-05T21:57:38.7459221Z Prepare all required actions
+2026-10-05T21:57:38.7530890Z Getting action download info
+2026-10-05T21:57:39.0147273Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-05T21:57:39.1665924Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-05T21:57:39.3683247Z Complete job name: docs
+2026-10-05T21:57:39.4490637Z ##[group]Run actions/checkout@v4
+2026-10-05T21:57:39.4491620Z with:
+2026-10-05T21:57:39.4492134Z   repository: nakul175/saha-health
+2026-10-05T21:57:39.4496780Z   token: ***
+2026-10-05T21:57:39.4497265Z   ssh-strict: true
+2026-10-05T21:57:39.4497738Z   ssh-user: git
+2026-10-05T21:57:39.4498212Z   persist-credentials: true
+2026-10-05T21:57:39.4498739Z   clean: true
+2026-10-05T21:57:39.4499217Z   sparse-checkout-cone-mode: true
+2026-10-05T21:57:39.4499772Z   fetch-depth: 1
+2026-10-05T21:57:39.4500231Z   fetch-tags: false
+2026-10-05T21:57:39.4500700Z   show-progress: true
+2026-10-05T21:57:39.4501174Z   lfs: false
+2026-10-05T21:57:39.4501616Z   submodules: false
+2026-10-05T21:57:39.4502095Z   set-safe-directory: true
+2026-10-05T21:57:39.4502626Z   allow-unsafe-pr-checkout: false
+2026-10-05T21:57:39.4503655Z ##[endgroup]
+2026-10-05T21:57:39.5758506Z Syncing repository: nakul175/saha-health
+2026-10-05T21:57:39.5761748Z ##[group]Getting Git version info
+2026-10-05T21:57:39.5765718Z Working directory is '/home/runner/work/saha-health/saha-health'
+2026-10-05T21:57:39.5767449Z [command]/usr/bin/git version
+2026-10-05T21:57:39.5936271Z git version 2.55.0
+2026-10-05T21:57:39.6109301Z ##[endgroup]
+2026-10-05T21:57:39.6119290Z Temporarily overriding HOME='/home/runner/work/_temp/6a419388-6cc1-4406-b97b-835f9e5c29cf' before making global git config changes
+2026-10-05T21:57:39.6121706Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T21:57:39.6124040Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T21:57:39.6126887Z Deleting the contents of '/home/runner/work/saha-health/saha-health'
+2026-10-05T21:57:39.6128826Z ##[group]Initializing the repository
+2026-10-05T21:57:39.6130054Z [command]/usr/bin/git init /home/runner/work/saha-health/saha-health
+2026-10-05T21:57:39.7731162Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-05T21:57:39.7732906Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-05T21:57:39.7735047Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-05T21:57:39.7737080Z hint: call:
+2026-10-05T21:57:39.7737814Z hint:
+2026-10-05T21:57:39.7738779Z hint: 	git config --global init.defaultBranch <name>
+2026-10-05T21:57:39.7739949Z hint:
+2026-10-05T21:57:39.7741028Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-05T21:57:39.7742735Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-05T21:57:39.7744877Z hint:
+2026-10-05T21:57:39.7745683Z hint: 	git branch -m <name>
+2026-10-05T21:57:39.7746574Z hint:
+2026-10-05T21:57:39.7747724Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-05T21:57:39.7749601Z Initialized empty Git repository in /home/runner/work/saha-health/saha-health/.git/
+2026-10-05T21:57:39.7753067Z [command]/usr/bin/git remote add origin https://github.com/nakul175/saha-health
+2026-10-05T21:57:39.7756254Z ##[endgroup]
+2026-10-05T21:57:39.7757763Z ##[group]Disabling automatic garbage collection
+2026-10-05T21:57:39.7759016Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-05T21:57:39.7761558Z ##[endgroup]
+2026-10-05T21:57:39.7762872Z ##[group]Setting up auth
+2026-10-05T21:57:39.7764542Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T21:57:39.7768364Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T21:57:39.7778188Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T21:57:39.7785040Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T21:57:39.7847107Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T21:57:39.7877579Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T21:57:39.8270841Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-05T21:57:39.8286952Z ##[endgroup]
+2026-10-05T21:57:39.8290593Z ##[group]Fetching the repository
+2026-10-05T21:57:39.8292289Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +936333ae9dec9d029b0b0ef406e98902736a19b6:refs/remotes/pull/161/merge
+2026-10-05T21:57:44.5403835Z From https://github.com/nakul175/saha-health
+2026-10-05T21:57:44.5414663Z  * [new ref]         936333ae9dec9d029b0b0ef406e98902736a19b6 -> pull/161/merge
+2026-10-05T21:57:44.5430654Z ##[endgroup]
+2026-10-05T21:57:44.5432221Z ##[group]Determining the checkout info
+2026-10-05T21:57:44.5434278Z ##[endgroup]
+2026-10-05T21:57:44.5435417Z [command]/usr/bin/git sparse-checkout disable
+2026-10-05T21:57:44.5520677Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-05T21:57:44.5560113Z ##[group]Checking out the ref
+2026-10-05T21:57:44.5571398Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/161/merge
+2026-10-05T21:57:45.5724791Z Updating files:  90% (14105/15526)
+2026-10-05T21:57:45.5791899Z Updating files:  91% (14129/15526)
+2026-10-05T21:57:45.5847133Z Updating files:  92% (14284/15526)
+2026-10-05T21:57:45.6029360Z Updating files:  93% (14440/15526)
+2026-10-05T21:57:45.6250162Z Updating files:  94% (14595/15526)
+2026-10-05T21:57:45.6370022Z Updating files:  95% (14750/15526)
+2026-10-05T21:57:45.6495530Z Updating files:  96% (14905/15526)
+2026-10-05T21:57:45.6597250Z Updating files:  97% (15061/15526)
+2026-10-05T21:57:45.6724810Z Updating files:  98% (15216/15526)
+2026-10-05T21:57:45.6802085Z Updating files:  99% (15371/15526)
+2026-10-05T21:57:45.6803997Z Updating files: 100% (15526/15526)
+2026-10-05T21:57:45.6824132Z Updating files: 100% (15526/15526), done.
+2026-10-05T21:57:45.6984013Z Note: switching to 'refs/remotes/pull/161/merge'.
+2026-10-05T21:57:45.6984715Z 
+2026-10-05T21:57:45.6985171Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-05T21:57:45.6986332Z changes and commit them, and you can discard any commits you make in this
+2026-10-05T21:57:45.6994597Z state without impacting any branches by switching back to a branch.
+2026-10-05T21:57:45.7007169Z 
+2026-10-05T21:57:45.7008116Z If you want to create a new branch to retain commits you create, you may
+2026-10-05T21:57:45.7009361Z do so (now or later) by using -c with the switch command. Example:
+2026-10-05T21:57:45.7010166Z 
+2026-10-05T21:57:45.7010603Z   git switch -c <new-branch-name>
+2026-10-05T21:57:45.7011153Z 
+2026-10-05T21:57:45.7011567Z Or undo this operation with:
+2026-10-05T21:57:45.7012137Z 
+2026-10-05T21:57:45.7012521Z   git switch -
+2026-10-05T21:57:45.7013024Z 
+2026-10-05T21:57:45.7013907Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-05T21:57:45.7014831Z 
+2026-10-05T21:57:45.7015708Z HEAD is now at 936333a Merge c80262a6c3c9d794d2d8d6b138c9c1f072bf8d88 into 2adfbde1369b854d71962918bad3b81fdac746fe
+2026-10-05T21:57:45.7032814Z ##[endgroup]
+2026-10-05T21:57:45.7093095Z [command]/usr/bin/git log -1 --format=%H
+2026-10-05T21:57:45.7124409Z 936333ae9dec9d029b0b0ef406e98902736a19b6
+2026-10-05T21:57:45.7416251Z ##[group]Run actions/setup-node@v4
+2026-10-05T21:57:45.7416587Z with:
+2026-10-05T21:57:45.7416804Z   node-version: 22
+2026-10-05T21:57:45.7417047Z   always-auth: false
+2026-10-05T21:57:45.7417276Z   check-latest: false
+2026-10-05T21:57:45.7420029Z   token: ***
+2026-10-05T21:57:45.7420247Z ##[endgroup]
+2026-10-05T21:57:45.9014193Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+2026-10-05T21:57:45.9019043Z (node:2069) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-05T21:57:45.9023120Z ##[group]Environment details
+2026-10-05T21:57:45.9040903Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-05T21:57:48.3795151Z node: v22.23.3
+2026-10-05T21:57:48.3824587Z npm: 10.9.9
+2026-10-05T21:57:48.3824981Z yarn: 1.22.22
+2026-10-05T21:57:48.3845247Z ##[endgroup]
+2026-10-05T21:57:48.3974969Z ##[group]Run python3 scripts/check-documentation.py
+2026-10-05T21:57:48.3975502Z [36;1mpython3 scripts/check-documentation.py[0m
+2026-10-05T21:57:48.3975932Z [36;1mnode scripts/audit-requirements.mjs --check[0m
+2026-10-05T21:57:48.3976340Z [36;1mnode scripts/test.mjs --check-catalogue[0m
+2026-10-05T21:57:48.4294834Z shell: /usr/bin/bash -e {0}
+2026-10-05T21:57:48.4295290Z ##[endgroup]
+2026-10-05T21:57:50.4223123Z Changed supplemental author artifact: tests/evidence/verification-send/abdm-contract-result.json
+2026-10-05T21:57:50.4224555Z Changed supplemental author artifact: tests/evidence/verification-send/abdm-transfer-contract-result.json
+2026-10-05T21:57:50.4225570Z Changed supplemental author artifact: tests/evidence/verification-send/access-audit-contract-result.json
+2026-10-05T21:57:50.4226578Z Changed supplemental author artifact: tests/evidence/verification-send/action-plan-contract-result.json
+2026-10-05T21:57:50.4228144Z Changed supplemental author artifact: tests/evidence/verification-send/adapter-operations-contract-result.json
+2026-10-05T21:57:50.4229583Z Changed supplemental author artifact: tests/evidence/verification-send/agent-contract-result.json
+2026-10-05T21:57:50.4231233Z Changed supplemental author artifact: tests/evidence/verification-send/agent-minimisation-contract-result.json
+2026-10-05T21:57:50.4255138Z Changed supplemental author artifact: tests/evidence/verification-send/agent-quality-contract-result.json
+2026-10-05T21:57:50.4257333Z Changed supplemental author artifact: tests/evidence/verification-send/ai-budget-contract-result.json
+2026-10-05T21:57:50.4259336Z Changed supplemental author artifact: tests/evidence/verification-send/ai-invoice-contract-result.json
+2026-10-05T21:57:50.4261338Z Changed supplemental author artifact: tests/evidence/verification-send/alert-delivery-contract-result.json
+2026-10-05T21:57:50.4264011Z Changed supplemental author artifact: tests/evidence/verification-send/alerts-contract-result.json
+2026-10-05T21:57:50.4265814Z Changed supplemental author artifact: tests/evidence/verification-send/audit-chain-contract-result.json
+2026-10-05T21:57:50.4268084Z Changed supplemental author artifact: tests/evidence/verification-send/capability-lifecycle-contract-result.json
+2026-10-05T21:57:50.4269675Z Changed supplemental author artifact: tests/evidence/verification-send/caseload-contract-result.json
+2026-10-05T21:57:50.4271310Z Changed supplemental author artifact: tests/evidence/verification-send/caseload-schedule-contract-result.json
+2026-10-05T21:57:50.4272907Z Changed supplemental author artifact: tests/evidence/verification-send/consent-contract-result.json
+2026-10-05T21:57:50.4274585Z Changed supplemental author artifact: tests/evidence/verification-send/continuity-contract-result.json
+2026-10-05T21:57:50.4276078Z Changed supplemental author artifact: tests/evidence/verification-send/correction-tasks-contract-result.json
+2026-10-05T21:57:50.4277680Z Changed supplemental author artifact: tests/evidence/verification-send/crosswalk-correction-contract-result.json
+2026-10-05T21:57:50.4279304Z Changed supplemental author artifact: tests/evidence/verification-send/delegation-contract-result.json
+2026-10-05T21:57:50.4280994Z Changed supplemental author artifact: tests/evidence/verification-send/demonstration-contract-result.json
+2026-10-05T21:57:50.4282741Z Changed supplemental author artifact: tests/evidence/verification-send/drift-contract-result.json
+2026-10-05T21:57:50.4284718Z Changed supplemental author artifact: tests/evidence/verification-send/ehr-contract-result.json
+2026-10-05T21:57:50.4286364Z Changed supplemental author artifact: tests/evidence/verification-send/ehr-resolution-result.json
+2026-10-05T21:57:50.4288133Z Changed supplemental author artifact: tests/evidence/verification-send/environment-contract-result.json
+2026-10-05T21:57:50.4289926Z Changed supplemental author artifact: tests/evidence/verification-send/exceptional-contract-result.json
+2026-10-05T21:57:50.4291946Z Changed supplemental author artifact: tests/evidence/verification-send/exceptions-contract-result.json
+2026-10-05T21:57:50.4293970Z Changed supplemental author artifact: tests/evidence/verification-send/facility-scope-contract-result.json
+2026-10-05T21:57:50.4295846Z Changed supplemental author artifact: tests/evidence/verification-send/fact-provenance-contract-result.json
+2026-10-05T21:57:50.4297556Z Changed supplemental author artifact: tests/evidence/verification-send/fact-reuse-contract-result.json
+2026-10-05T21:57:50.4299292Z Changed supplemental author artifact: tests/evidence/verification-send/fhir-provenance-contract-result.json
+2026-10-05T21:57:50.4301165Z Changed supplemental author artifact: tests/evidence/verification-send/fhir-validate-contract-result.json
+2026-10-05T21:57:50.4302872Z Changed supplemental author artifact: tests/evidence/verification-send/field-contract-result.json
+2026-10-05T21:57:50.4304986Z Changed supplemental author artifact: tests/evidence/verification-send/field-registration-client-result.json
+2026-10-05T21:57:50.4306835Z Changed supplemental author artifact: tests/evidence/verification-send/fixture-migration-contract-result.json
+2026-10-05T21:57:50.4308516Z Changed supplemental author artifact: tests/evidence/verification-send/governance-contract-result.json
+2026-10-05T21:57:50.4310181Z Changed supplemental author artifact: tests/evidence/verification-send/household-contract-result.json
+2026-10-05T21:57:50.4311839Z Changed supplemental author artifact: tests/evidence/verification-send/household-visit-contract-result.json
+2026-10-05T21:57:50.4313941Z Changed supplemental author artifact: tests/evidence/verification-send/identifier-crosswalk-contract-result.json
+2026-10-05T21:57:50.4315708Z Changed supplemental author artifact: tests/evidence/verification-send/incentive-claims-contract-result.json
+2026-10-05T21:57:50.4317795Z Changed supplemental author artifact: tests/evidence/verification-send/indicator-freshness-contract-result.json
+2026-10-05T21:57:50.4319551Z Changed supplemental author artifact: tests/evidence/verification-send/indicator-registry-contract-result.json
+2026-10-05T21:57:50.4321225Z Changed supplemental author artifact: tests/evidence/verification-send/indicators-contract-result.json
+2026-10-05T21:57:50.4322958Z Changed supplemental author artifact: tests/evidence/verification-send/main-review-fixes-contract-result.json
+2026-10-05T21:57:50.4325017Z Changed supplemental author artifact: tests/evidence/verification-send/media-contract-result.json
+2026-10-05T21:57:50.4326668Z Changed supplemental author artifact: tests/evidence/verification-send/merge-contract-result.json
+2026-10-05T21:57:50.4328316Z Changed supplemental author artifact: tests/evidence/verification-send/mis-contract-result.json
+2026-10-05T21:57:50.4329908Z Changed supplemental author artifact: tests/evidence/verification-send/mis-delivery-result.json
+2026-10-05T21:57:50.4331679Z Changed supplemental author artifact: tests/evidence/verification-send/notification-channel-contract-result.json
+2026-10-05T21:57:50.4333861Z Changed supplemental author artifact: tests/evidence/verification-send/notification-sources-contract-result.json
+2026-10-05T21:57:50.4338654Z Changed supplemental author artifact: tests/evidence/verification-send/operations-contract-result.json
+2026-10-05T21:57:50.4352983Z Changed supplemental author artifact: tests/evidence/verification-send/outreach-contract-result.json
+2026-10-05T21:57:50.4354878Z Changed supplemental author artifact: tests/evidence/verification-send/pack-installation-contract-result.json
+2026-10-05T21:57:50.4356715Z Changed supplemental author artifact: tests/evidence/verification-send/patient-directory-contract-result.json
+2026-10-05T21:57:50.4358348Z Changed supplemental author artifact: tests/evidence/verification-send/patient-import-contract-result.json
+2026-10-05T21:57:50.4359844Z Changed supplemental author artifact: tests/evidence/verification-send/pilot-contract-result.json
+2026-10-05T21:57:50.4361185Z Changed supplemental author artifact: tests/evidence/verification-send/plan-dependencies-contract-result.json
+2026-10-05T21:57:50.4362350Z Changed supplemental author artifact: tests/evidence/verification-send/programme-migration-contract-result.json
+2026-10-05T21:57:50.4363316Z Changed supplemental author artifact: tests/evidence/verification-send/provider-history-contract-result.json
+2026-10-05T21:57:50.4364571Z Changed supplemental author artifact: tests/evidence/verification-send/provider-sandbox-result.json
+2026-10-05T21:57:50.4365465Z Changed supplemental author artifact: tests/evidence/verification-send/purpose-scope-contract-result.json
+2026-10-05T21:57:50.4366444Z Changed supplemental author artifact: tests/evidence/verification-send/r26-correction-propagation-contract-result.json
+2026-10-05T21:57:50.4367446Z Changed supplemental author artifact: tests/evidence/verification-send/read-audit-completion-contract-result.json
+2026-10-05T21:57:50.4368383Z Changed supplemental author artifact: tests/evidence/verification-send/reason-codes-contract-result.json
+2026-10-05T21:57:50.4369313Z Changed supplemental author artifact: tests/evidence/verification-send/reassignment-contract-result.json
+2026-10-05T21:57:50.4370220Z Changed supplemental author artifact: tests/evidence/verification-send/record-import-contract-result.json
+2026-10-05T21:57:50.4371104Z Changed supplemental author artifact: tests/evidence/verification-send/referral-contract-result.json
+2026-10-05T21:57:50.4372038Z Changed supplemental author artifact: tests/evidence/verification-send/referral-request-queue-contract-result.json
+2026-10-05T21:57:50.4372896Z Changed supplemental author artifact: tests/evidence/verification-send/replay-soak-result.json
+2026-10-05T21:57:50.4374110Z Changed supplemental author artifact: tests/evidence/verification-send/report-export-contract-result.json
+2026-10-05T21:57:50.4375014Z Changed supplemental author artifact: tests/evidence/verification-send/retention-contract-result.json
+2026-10-05T21:57:50.4376034Z Changed supplemental author artifact: tests/evidence/verification-send/reuse-contract-result.json
+2026-10-05T21:57:50.4376897Z Changed supplemental author artifact: tests/evidence/verification-send/review-fixes-contract-result.json
+2026-10-05T21:57:50.4377733Z Changed supplemental author artifact: tests/evidence/verification-send/rights-contract-result.json
+2026-10-05T21:57:50.4378538Z Changed supplemental author artifact: tests/evidence/verification-send/roster-contract-result.json
+2026-10-05T21:57:50.4379377Z Changed supplemental author artifact: tests/evidence/verification-send/scoped-read-contract-result.json
+2026-10-05T21:57:50.4380278Z Changed supplemental author artifact: tests/evidence/verification-send/service-identity-contract-result.json
+2026-10-05T21:57:50.4381118Z Changed supplemental author artifact: tests/evidence/verification-send/shadow-contract-result.json
+2026-10-05T21:57:50.4381934Z Changed supplemental author artifact: tests/evidence/verification-send/storage-contract-result.json
+2026-10-05T21:57:50.4382784Z Changed supplemental author artifact: tests/evidence/verification-send/task-limits-contract-result.json
+2026-10-05T21:57:50.4384011Z Changed supplemental author artifact: tests/evidence/verification-send/tenth-review-fixes-contract-result.json
+2026-10-05T21:57:50.4384894Z Changed supplemental author artifact: tests/evidence/verification-send/trace-contract-result.json
+2026-10-05T21:57:50.4385772Z Changed supplemental author artifact: tests/evidence/verification-send/value-override-agent-contract-result.json
+2026-10-05T21:57:50.4386709Z Changed supplemental author artifact: tests/evidence/verification-send/value-ranges-context-contract-result.json
+2026-10-05T21:57:50.4387653Z Changed supplemental author artifact: tests/evidence/verification-send/visit-import-contract-result.json
+2026-10-05T21:57:50.4388543Z Changed supplemental author artifact: tests/evidence/verification-send/worker-activity-contract-result.json
+2026-10-05T21:57:50.4389445Z Changed supplemental author artifact: tests/evidence/verification-send/workforce-import-contract-result.json
+2026-10-05T21:57:50.4390440Z Changed supplemental author artifact: tests/evidence/verification-send/worklists-contract-result.json
+2026-10-05T21:57:50.4402197Z ##[error]Process completed with exit code 1.
+2026-10-05T21:57:50.4557081Z Post job cleanup.
+2026-10-05T21:57:50.5604515Z [command]/usr/bin/git version
+2026-10-05T21:57:50.5666065Z git version 2.55.0
+2026-10-05T21:57:50.5712322Z Temporarily overriding HOME='/home/runner/work/_temp/073c2c98-6836-4cbc-afb4-56d1ef2a3436' before making global git config changes
+2026-10-05T21:57:50.5714397Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T21:57:50.5743231Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T21:57:50.5812950Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T21:57:50.5877812Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T21:57:50.6264964Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T21:57:50.6314536Z http.https://github.com/.extraheader
+2026-10-05T21:57:50.6395621Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-05T21:57:50.6430467Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T21:57:50.7064804Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T21:57:50.7164396Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T21:57:50.8015211Z Cleaning up orphan processes
+2026-10-05T21:57:50.8265404Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

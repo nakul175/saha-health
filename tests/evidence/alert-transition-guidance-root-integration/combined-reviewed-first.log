@@ -1,0 +1,154 @@
+Running unit integration --fast; 14 suite(s).
+
+[unit] 4 suite(s)
+  FAILED   unit/data-exit-contract  no count  1.1s  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: every organisation table except the legacy per-account workspaces, plus member accounts
+      |     actual: 55,
+      |     expected: 56,
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | AssertionError [ERR_ASSERTION]: every organisation table except the legacy per-account workspaces, plus member accounts
+      | 55 !== 56
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs:112:22
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs:18:23)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs:112:3 {
+      |   generatedMessage: false,
+      |   code: 'ERR_ASSERTION',
+      |   actual: 55,
+      |   expected: 56,
+      |   operator: 'strictEqual',
+      |   diff: 'simple'
+      | }
+      | Node.js v24.19.0
+  FAILED   unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract  no count  1.0s  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: every organisation table except the legacy per-account workspaces, plus member accounts
+      |     actual: 55,
+      |     expected: 56,
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | AssertionError [ERR_ASSERTION]: every organisation table except the legacy per-account workspaces, plus member accounts
+      | 55 !== 56
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs:112:22
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs:18:23)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs:112:3 {
+      |   generatedMessage: false,
+      |   code: 'ERR_ASSERTION',
+      |   actual: 55,
+      |   expected: 56,
+      |   operator: 'strictEqual',
+      |   diff: 'simple'
+      | }
+      | Node.js v24.19.0
+  ok       unit/combined-reviewed-simplicity-independent-guided-instructions-contract  28 passed  142ms
+  ok       unit/combined-reviewed-transition-parity-cold-repair-contract  49 passed  951ms
+
+[integration] 10 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/combined-reviewed-alert-export-cold-independent-http ...
+  FAILED   integration/combined-reviewed-alert-export-cold-independent-http  no count  30ms  [exit code 1]
+      | error lines:
+      |   Error: ENOENT: no such file or directory, lstat '.wrangler/alert-export-cold-state-combined-review'
+      | node:internal/fs/cp/cp-sync:56
+      |   fsBinding.cpSyncCheckPaths(src, dest, opts.dereference, opts.recursive);
+      |             ^
+      | Error: ENOENT: no such file or directory, lstat '.wrangler/alert-export-cold-state-combined-review'
+      |     at cpSyncFn (node:internal/fs/cp/cp-sync:56:13)
+      |     at cpSync (node:fs:3219:3)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-independent-http.mjs:3:214
+      |     at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+      |     at async node:internal/modules/esm/loader:643:26
+      |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+      |   errno: -2,
+      |   code: 'ENOENT',
+      |   syscall: 'lstat',
+      |   path: '.wrangler/alert-export-cold-state-combined-review'
+      | }
+      | Node.js v24.19.0
+  running  integration/combined-reviewed-alert-recipient-current-http ...
+  ok       integration/combined-reviewed-alert-recipient-current-http  145 passed  3.4s
+  running  integration/combined-reviewed-alert-recipient-current-scheduled ...
+  FAILED   integration/combined-reviewed-alert-recipient-current-scheduled  no count  34ms  [exit code 1]
+      | error lines:
+      |   Error: ENOENT: no such file or directory, open 'tests/evidence/alert-transition-guidance-root-integration/alert-recipient-current-scheduled/observed.json'
+      | node:fs:484
+      |     return binding.readFileUtf8(path, stringToFlags(options.flag));
+      |                    ^
+      | Error: ENOENT: no such file or directory, open 'tests/evidence/alert-transition-guidance-root-integration/alert-recipient-current-scheduled/observed.json'
+      |     at readFileSync (node:fs:484:20)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-recipient-current-scheduled.mjs:3:262
+      |     at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+      |     at async node:internal/modules/esm/loader:643:26
+      |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+      |   errno: -2,
+      |   code: 'ENOENT',
+      |   syscall: 'open',
+      |   path: 'tests/evidence/alert-transition-guidance-root-integration/alert-recipient-current-scheduled/observed.json'
+      | }
+      | Node.js v24.19.0
+  running  integration/combined-reviewed-alert-recipient-hold-http ...
+  FAILED   integration/combined-reviewed-alert-recipient-hold-http  no count  32ms  [exit code 1]
+      | error lines:
+      |   Error: ENOENT: no such file or directory, open 'tests/evidence/alert-transition-guidance-root-integration/alert-recipient-hold-http/observed.json'
+      | node:fs:484
+      |     return binding.readFileUtf8(path, stringToFlags(options.flag));
+      |                    ^
+      | Error: ENOENT: no such file or directory, open 'tests/evidence/alert-transition-guidance-root-integration/alert-recipient-hold-http/observed.json'
+      |     at readFileSync (node:fs:484:20)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-recipient-hold-http.mjs:3:197
+      |     at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+      |     at async node:internal/modules/esm/loader:643:26
+      |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+      |   errno: -2,
+      |   code: 'ENOENT',
+      |   syscall: 'open',
+      |   path: 'tests/evidence/alert-transition-guidance-root-integration/alert-recipient-hold-http/observed.json'
+      | }
+      | Node.js v24.19.0
+  running  integration/combined-reviewed-guided-audio-independent-component ...
+  ok       integration/combined-reviewed-guided-audio-independent-component  19 passed  1.5s
+  running  integration/combined-reviewed-programme-transition-audit-cold-extended-primary ...
+  FAILED   integration/combined-reviewed-programme-transition-audit-cold-extended-primary  no count  34.5s  [exit code 1]
+      | error lines:
+      |   Workspace operation failed Error
+      |   Workspace operation failed Error
+      |   locator.waitFor: Timeout 30000ms exceeded.
+      |     name: 'TimeoutError'
+      | Workspace operation failed Error
+      | Workspace operation failed Error
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | locator.waitFor: Timeout 30000ms exceeded.
+      | Call log:
+      |   - waiting for getByText('installed-execution-owner-872a014a@example.invalid', { exact: true }).first() to be visible
+      |     at transitionPhone (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/programme-transition-phone.mjs:4:241)
+      |     at async transitionPhoneIndependent (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/programme-transition-independent-phone.mjs:4:2)
+      |     at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-programme-transition-audit-cold-extended-primary.mjs:137:302 {
+      |   log: [
+      |     "  - waiting for getByText('installed-execution-owner-872a014a@example.invalid', { exact: true }).first() to be visible"
+      |   ],
+      |   name: 'TimeoutError'
+      | }
+      | Node.js v24.19.0
+  running  integration/combined-reviewed-programme-transition-audit-cold-independent-http ...
+  ok       integration/combined-reviewed-programme-transition-audit-cold-independent-http  no count  1.8s
+  running  integration/combined-reviewed-simplicity-independent-guided-instructions-browser ...
+  ok       integration/combined-reviewed-simplicity-independent-guided-instructions-browser  28 passed  3.4s
+  running  integration/combined-reviewed-simplicity-independent-guided-simplicity-browser ...
+  ok       integration/combined-reviewed-simplicity-independent-guided-simplicity-browser  17 passed  3.7s
+  running  integration/combined-reviewed-transition-parity-cold-independent-http ...
+  ok       integration/combined-reviewed-transition-parity-cold-independent-http  81 passed  1.6s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         failed       4      77       0        0   3.2s
+  integration  failed      10     290       0        0  50.1s
+  total        FAILED      14     367       0        0  53.5s
+
+Regression guard: FAILED (1 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite unit/data-exit-contract reported no assertion count; baseline needs at least 44.
+  note     13 suite(s) are not in the baseline yet (unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract, unit/combined-reviewed-simplicity-independent-guided-instructions-contract, unit/combined-reviewed-transition-parity-cold-repair-contract, integration/combined-reviewed-alert-export-cold-independent-http, integration/combined-reviewed-alert-recipient-current-http, integration/combined-reviewed-alert-recipient-current-scheduled, ...); add them with --update-baseline.

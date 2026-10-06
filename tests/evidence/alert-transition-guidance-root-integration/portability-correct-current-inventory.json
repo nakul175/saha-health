@@ -1,0 +1,143 @@
+{
+  "generatedAt": "2026-10-06T02:51:54.050Z",
+  "startedAt": "2026-10-06T02:51:52.115Z",
+  "command": "node scripts/test.mjs unit --only unit/data-exit-contract,unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract --fast --guard --report tests/evidence/alert-transition-guidance-root-integration/portability-correct-current-inventory.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "failed",
+      "suites": 2,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1781,
+      "failedSuites": 2
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 2,
+    "durationMs": 1935
+  },
+  "suites": [
+    {
+      "id": "unit/data-exit-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 905,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/unit__data-exit-contract.log"
+    },
+    {
+      "id": "unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 876,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/unit__combined-reviewed-alert-export-cold-integration-media-data-exit-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "unit/data-exit-contract",
+        "kind": "uncounted",
+        "message": "Suite unit/data-exit-contract reported no assertion count; baseline needs at least 44.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": [
+      "unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 201,
+        "components": 0,
+        "suitesCitingNoRequirement": 61,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 155,
+        "components": 84,
+        "suitesCitingNoRequirement": 77,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 586,
+        "components": 0,
+        "suitesCitingNoRequirement": 475,
+        "requirementsCited": 144
+      }
+    },
+    "supportFiles": 33,
+    "suites": 958,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 617,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

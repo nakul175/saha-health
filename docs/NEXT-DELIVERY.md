@@ -1,3 +1,7 @@
+# Claude handover checkpoint
+
+Continue the preserved integration branch using [CLAUDE-RESUME-20261006.md](current/CLAUDE-RESUME-20261006.md). Repair current combined qualification and finish interrupted offline cold review before main merge. Scope, requirements and original minima remain unchanged. Unattended build is paused at the sponsor handover request.
+
 # Next delivery
 
 ## App-first programme (sponsor decision, 5 October 2026)

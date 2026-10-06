@@ -1,3 +1,7 @@
+# Reconciled development handover, 6 October2026
+
+See [Claude resume](current/CLAUDE-RESUME-20261006.md) for the latest combined source and saved candidates. Reviewed alert disclosure/export, programme transition audit/count parity, and generic Hindi/local spoken guidance are now combined in the integration branch. Fresh build/types pass; combined runtime regression and main/deployment qualification remain held. The original requirement assessments and formal acceptance have not been promoted. Offline work-list repairs are saved separately awaiting interrupted independent review.
+
 # Implementation boundary
 
 Reviewed calendar/completeness software now pins UTC periods, per-source thresholds, explicit independently governed declarations, intended actor and current producer versions. Live/current and frozen original sidecars remain distinct; exports preserve governed calendar history under whole-team normal reporting scope and omit private snapshot bodies. Combined419 focused checks/build/types pass; full combined and hosted qualification remain pending. B28 privacy, controlled access/download and official scheduled submission remain residuals; all176 acceptance criteria remain pending. See [reporting review](current/REPORTING-COMPLETENESS-REPAIR-INDEPENDENT-COLD.md) and [export review](current/REPORTING-PORTABILITY-ROOT-COLD-REVIEW.md).
