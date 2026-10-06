@@ -30,7 +30,9 @@ export async function memberViews(d: D1Database, s: OrgState, now: string) {
   if (recipients.some(operator)) { const r = await d.prepare("SELECT sum(count) AS count,sum(CASE WHEN status>=500 THEN count ELSE 0 END) AS errors FROM request_metrics WHERE org_id=? AND route NOT LIKE 'burden:%' AND bucket>=?").bind(s.organisation.id, new Date(Date.parse(now) - 86400000).toISOString()).first<{ count: number | null; errors: number | null }>(); const count = r?.count ?? 0, errors = r?.errors ?? 0; telemetry = { count, serverErrors: errors, errorRate: count ? errors / count : null }; }
   const budgets = recipients.some(operator) ? budgetView(s, now) : null, invoices = recipients.some(operator) ? invoiceAlertInputs(s, now) : null;
   const views=[];
-  for(const m of recipients){const context=await captureAggregateAlerts(d,s,m.userId,now);try{await checkAggregateAlertContext(d,s.organisation.id,context);}catch{context.available=false;context.current=[];}
+  // The committed-state recheck of each context is made once, in evaluateDelivery, before anything is planned, written or sent
+  // (it was repeated here immediately before, with no use of the result in between: one full state read per recipient saved).
+  for(const m of recipients){const context=await captureAggregateAlerts(d,s,m.userId,now);
     const nonclinical=alertsFor({budgets:operator(m)?budgets:null,invoices:operator(m)?invoices:null,report:null,telemetry:operator(m)?telemetry:null,operations:operator(m)?ops:null,acknowledgements:ops.acknowledgements??[],viewerId:m.userId,now});
     views.push({member:m,alerts:[...nonclinical,...context.current],aggregateAvailable:context.available,aggregateContext:context});}
   // An unavailable recipient is unknown, never evidence that their clinical work resolved.
@@ -41,7 +43,7 @@ export async function memberViews(d: D1Database, s: OrgState, now: string) {
 // One evaluation: read open occurrences, plan, write. Every write is idempotent (unique keys, guarded updates).
 export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Date().toISOString(), env?: Record<string, string | undefined>) {
   const orgId = s.organisation.id, views = await memberViews(d, s, now);
-  for(const view of views)try{await checkAggregateAlertContext(d,orgId,view.aggregateContext);}catch{view.aggregateAvailable=false;}
+  for(const view of views)try{await checkAggregateAlertContext(d,orgId,view.aggregateContext);}catch{view.aggregateAvailable=false;view.aggregateContext.available=false;view.aggregateContext.current=[];view.alerts=view.alerts.filter(a=>!clinicalAggregateAlert(a.id));}
   if(views.some(v=>v.member.role!=='admin'&&!v.aggregateAvailable))for(const view of views)view.alerts=view.alerts.filter(a=>!clinicalAggregateAlert(a.id));
   const present = presentFrom(views);
   const open = (await d.prepare('SELECT id,alert_id,scope_key,owner_role,severity,title,opened_at,escalated_at FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL').bind(orgId).all<any>()).results.map((r): OpenOccurrence => ({ id: r.id, alertId: r.alert_id, scopeKey: r.scope_key, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at, escalatedAt: r.escalated_at }));
@@ -88,7 +90,8 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   // Slice 10b: out-of-app messages (demonstration simulator) for what is now open. A failure here is reported in the result and never
   // undoes or blocks the in-app delivery above; the next evaluation tries again (messages are unique per occurrence, tier and recipient).
   let channel: Awaited<ReturnType<typeof evaluateChannel>> | { error: string } | null = null;
-  try {for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);channel = await evaluateChannel(d, s, present, now, env, new Map(views.map(v => [v.member.userId, v.aggregateContext]))); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
+  // The committed-state recheck runs inside evaluateChannel, after its disabled/no-occurrence exits and before any disclosure or send, so a disabled channel costs no state read.
+  try {const recheck=async()=>{for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);};channel = await evaluateChannel(d, s, present, now, env, new Map(views.map(v => [v.member.userId, v.aggregateContext])), recheck); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
   // Slice r03: additional sources (drift, timed-out requests, exception items, referral requests) in the same
   // demonstration-simulator channel. Isolated so a failure never undoes or blocks the in-app delivery above.
   let sources: Awaited<ReturnType<typeof evaluateChannelSources>> | { error: string } | null = null;
