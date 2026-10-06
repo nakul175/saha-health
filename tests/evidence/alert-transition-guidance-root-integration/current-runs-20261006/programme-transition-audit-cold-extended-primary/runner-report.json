@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-10-06T05:08:37.312Z",
+  "startedAt": "2026-10-06T05:08:21.146Z",
+  "command": "node scripts/test.mjs integration --only integration/combined-reviewed-programme-transition-audit-cold-extended-primary --fast --guard --report /tmp/claude-0/ext-primary.json",
+  "node": "v22.22.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 253,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 16059,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 253,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 16166
+  },
+  "suites": [
+    {
+      "id": "integration/combined-reviewed-programme-transition-audit-cold-extended-primary",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/combined-reviewed-programme-transition-audit-cold-extended-primary.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 253,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 16059,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__combined-reviewed-programme-transition-audit-cold-extended-primary.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 0,
+    "newSuites": [
+      "integration/combined-reviewed-programme-transition-audit-cold-extended-primary"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 201,
+        "components": 0,
+        "suitesCitingNoRequirement": 61,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 155,
+        "components": 84,
+        "suitesCitingNoRequirement": 77,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 586,
+        "components": 0,
+        "suitesCitingNoRequirement": 475,
+        "requirementsCited": 144
+      }
+    },
+    "supportFiles": 33,
+    "suites": 958,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 617,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

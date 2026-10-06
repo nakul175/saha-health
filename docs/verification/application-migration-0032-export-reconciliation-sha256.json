@@ -1,6 +1,6 @@
 {
-  "baseline": "Migration 0032 data-exit reconciliation source baseline; full combined runtime qualification pending",
-  "previous": "application-claude-handover-custody-qualified-20261006-sha256.json",
+  "baseline": "Migration 0032 data-exit reconciliation and runner-dependency repairs; full combined runtime qualification pending",
+  "previous": "application-migration-0032-export-reconciliation-sha256.json",
   "note": "Source digests at the end of this development slice. Historical baselines are retained unchanged.",
   "files": {
     ".env.example": "4bb939ced1ce9fad6478d772263c2c12400fa45a73dfe24d203c3f830d22f72e",
@@ -31,7 +31,7 @@
     "RELEASE-9.md": "bb14d3b56a8f66cbb364a500e7d5e2d0ae8541c6056ba9f7526cdaad0297a21a",
     "REMAINING-RELEASES.md": "e6baadb0ca9153629e04168f5e68539dc351bdd12f84840a8b44334a63edd578",
     "REQUIREMENTS-TRACEABILITY.md": "712ed12e4ccc19b3cafd93052ab6e9dbcce451e0ddd7d6d664becc75b0ea411a",
-    "VALIDATION.md": "f0b60dbcd701082a30724eca1adc435ac92fe3b0950fe11920cc8640d21df8cf",
+    "VALIDATION.md": "80982d5bdddfe7a966594da58b8aa2b4a3f5c21bded9d80263016f630ae00b17",
     "android/.gitattributes": "ae58971fd773ee1c787aabb95003ac562a6e70406754341dc00e8bc0469cb661",
     "android/.gitignore": "7398faafc6b9f75b2b16f3fdb6f1235d454f4a329fbf300e18c3760765732e2f",
     "android/app/build.gradle": "aa433d0a3816507ac5244e8a726d61997d25c4fde3d1be76cc6c0bc7dd983ef7",
@@ -774,8 +774,8 @@
     "tests/combined-reviewed-alert-recipient-current-scheduled.mjs": "0ac7c741eadb8fc7c1a7e9c67cbd9700c4e481cf2cf0948ff16136b623e5c713",
     "tests/combined-reviewed-alert-recipient-hold-http.mjs": "d566ef38bd2f1acf8d6674781c9f51e1e18988d5e3c73f6b4837fd58e00fedab",
     "tests/combined-reviewed-guided-audio-independent-component.mjs": "6b1c7efaffc6a2ee2ec6f9dad0f835957247203efa4da36702b1bec4833be00c",
-    "tests/combined-reviewed-programme-transition-audit-cold-extended-primary.mjs": "d97686b9b86015eb2e3fce70aae689fa83b254e598904e9a770f2de76477746b",
-    "tests/combined-reviewed-programme-transition-audit-cold-independent-http.mjs": "348bd1f68e752b3ff8298d405f443dae72d8466098bf40a4b7e840dfb5b69561",
+    "tests/combined-reviewed-programme-transition-audit-cold-extended-primary.mjs": "d5fca90d32321b8c5d42ca7900f42d1f324273fd5726288285ead6a9794316c4",
+    "tests/combined-reviewed-programme-transition-audit-cold-independent-http.mjs": "37cffd46e577d45fad413322399578876c45cf3a4ad27f6a24971064c7b8993b",
     "tests/combined-reviewed-simplicity-independent-guided-instructions-browser.mjs": "7485507538bf03dfc4a85eaf3917901651edae88e3ae4387083358b90b63c1aa",
     "tests/combined-reviewed-simplicity-independent-guided-instructions-contract.mjs": "efb668f6b204297b73233268074e156246da520ab6447aa7e20fe03dd40731b0",
     "tests/combined-reviewed-simplicity-independent-guided-simplicity-browser.mjs": "179ae30f271243176d78940685ff14b3c751fd259cf3f82bcfc6bf2f035b5e79",
