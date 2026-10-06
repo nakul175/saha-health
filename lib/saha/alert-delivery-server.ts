@@ -115,7 +115,9 @@ export async function evaluateAfterCommand(s: OrgState) {
   // The aggregate-alert transaction guard compares exactly those revisions, so a clinical alert that is available made every
   // after-command evaluation fail on a stale revision (the incident of an organisation-wide command then opened no occurrence
   // until the next read). Evaluate on the committed revisions; everything else in `s` is already the committed state.
-  try { const d = db(), nowMs = Date.now(), rev = await d.prepare('SELECT revision,patient_revision FROM organisations WHERE id=?').bind(s.organisation.id).first<{ revision: number; patient_revision: number | null }>(); await evaluateDelivery(d, rev ? { ...s, organisation: { ...s.organisation, revision: rev.revision, patientRevision: rev.patient_revision ?? 0 } } : s, new Date(nowMs).toISOString()); last.set(s.organisation.id, { basis: await basisOf(d, s.organisation.id), at: nowMs }); return true; }
+  try { const d = db(), nowMs = Date.now(), rev = await d.prepare('SELECT revision,patient_revision FROM organisations WHERE id=?').bind(s.organisation.id).first<{ revision: number; patient_revision: number | null }>(); // Fail closed: a command moves each revision by at most one. Anything further means another commit intervened, so this state is not the committed one.
+    if (!rev || rev.revision - s.organisation.revision < 0 || rev.revision - s.organisation.revision > 1 || (rev.patient_revision ?? 0) - (s.organisation.patientRevision ?? 0) < 0 || (rev.patient_revision ?? 0) - (s.organisation.patientRevision ?? 0) > 1) return false;
+    await evaluateDelivery(d, { ...s, organisation: { ...s.organisation, revision: rev.revision, patientRevision: rev.patient_revision ?? 0 } }, new Date(nowMs).toISOString()); last.set(s.organisation.id, { basis: await basisOf(d, s.organisation.id), at: nowMs }); return true; }
   catch (e) { console.error('Alert delivery evaluation failed', e instanceof Error ? e.name : 'unknown'); return false; }
 }
 async function membership(d: D1Database, orgId: string, userId: string) {

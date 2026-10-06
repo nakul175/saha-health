@@ -56,6 +56,12 @@ try{const api=client(w.base),db=await w.mf.getD1Database('DB');
  const sent=(await db.prepare("SELECT count(*) n FROM notification_messages WHERE org_id=? AND alert_id='referrals-undated'").bind(msg.org).first()).n;
  check(sent===1,'Simulator message carrying the clinical alert is sent once');check((await live(msg.org)).length>0,'A sent clinical alert message is recorded as a disclosure');
 
+ // F1: the simulator audit event carries no clinical count, so an admin or a narrower-scope member reading the audit log sees none.
+ const sideTeam=(await msg.cmd({type:'createTeam',name:'Synthetic capture side team'})).result.teamId;
+ const join=async(label,role,teamIds)=>{const who=identity('capture-ledger-'+label),h=(await api.get(who,'/api/workspace')).json,inv=(await msg.cmd({type:'createInvite',accountCode:h.user.accountCode,label:'Synthetic '+label,role,teamIds})).result;await api.command(who,{type:'joinOrganisation',token:inv.token},msg.org);return who;};
+ const adminWho=await join('audit-admin','admin',[]),narrow=await join('audit-narrow','supervisor',[sideTeam]);
+ const ownerAudit=await api.get(msg.o,'/api/audit',msg.org);check(ownerAudit.status===200&&/notificationSent/.test(ownerAudit.text)&&/referrals-undated/.test(ownerAudit.text),'The simulator audit event for the clinical alert exists');
+ for(const who of [msg.o,adminWho,narrow]){const r=await api.get(who,'/api/audit',msg.org);check(r.status===200&&!/referrals-undated[^"]{0,40}count \d/.test(r.text)&&!/, count \d+\. Receipt/.test(r.text),'No audit reader sees a clinical count in the notificationSent detail');}
  // (4) Compare-and-swap behaviour is unchanged: concurrent views both succeed and leave a valid ledger; a ledger write fault shows nothing.
  const race=await fixture('race',[6]);const pair=await Promise.all([api.get(race.o,'/api/alerts',race.org),api.get(race.o,'/api/alerts',race.org)]);
  check(pair.every(r=>r.status===200)&&pair.every(r=>r.json.currentAggregateAlerts.some(x=>x.count===6)),'Concurrent identical views both show the alert');

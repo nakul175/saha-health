@@ -14,7 +14,7 @@ import { ACCESS_AUDIT } from './audit-chain';
 import { persist, scope, type Actor, type Row } from './store';
 import { evaluateIfDue } from './alert-delivery-server';
 import { fail, uuid } from './core';
-import { CHANNELS, CHANNEL_RULES_VERSION, DEFAULT_ESCALATE_MINUTES, LOG_LIMIT, MAX_ESCALATE_MINUTES, MAX_RECIPIENTS, MAX_SENDS_PER_EVALUATION, MIN_ESCALATE_MINUTES, NOTIFIABLE_KINDS, NOTIFIABLE_OWNERS, SIMULATOR_NOTICE, SOURCE_KINDS, TIERS, channelOf, demoAddress, ladderFor, messageKey, notifiableKindsFor, planNotifications, planSourceNotifications, redactFor, simulatorRefusal, sourceKey, type ChannelOccurrence, type ChannelPresent, type PlannedMessage } from './notification-channel';
+import { CARE_SCOPED, SOURCE_SCOPED, CHANNELS, CHANNEL_RULES_VERSION, DEFAULT_ESCALATE_MINUTES, LOG_LIMIT, MAX_ESCALATE_MINUTES, MAX_RECIPIENTS, MAX_SENDS_PER_EVALUATION, MIN_ESCALATE_MINUTES, NOTIFIABLE_KINDS, NOTIFIABLE_OWNERS, SIMULATOR_NOTICE, SOURCE_KINDS, TIERS, channelOf, demoAddress, ladderFor, messageKey, notifiableKindsFor, planNotifications, planSourceNotifications, redactFor, simulatorRefusal, sourceKey, type ChannelOccurrence, type ChannelPresent, type PlannedMessage } from './notification-channel';
 import { channelSources, SOURCE_RULES_VERSION } from './notification-sources';
 import type { Audit, OrgState, Role } from './types';
 
@@ -23,7 +23,9 @@ export const SYSTEM_ACTOR: Actor = { userId: 'system:notification-simulator', di
 const CHUNK = 20;
 const shell = (s: OrgState): OrgState => ({ organisation: s.organisation, teams: [], members: [], invitations: [], workspace: { ...s.workspace, people: [], visits: [], integrations: [], submissions: [], referrals: [], audit: [], receipts: {} } });
 const kind = (c: string) => c === 'sms' ? 'SMS' : 'email';
-export const auditDetail = (m: PlannedMessage) => `Simulated ${kind(m.channel)} to ${m.recipientName} (tier ${m.tier}${m.reason === 'escalation' ? ', escalation' : ''}) for alert ${m.alertId}${m.count === null ? '' : `, count ${m.count}`}. Receipt ${m.receipt.receiptId}. Stored in Saha only: no address or number was contacted. The message carries no patient names or identifiers.`;
+// Slice 14a: a count computed from a care scope is never written to the audit log (audit reads are not care-scope filtered).
+const scopedCount = (id: string) => (CARE_SCOPED as readonly string[]).includes(id) || (SOURCE_SCOPED as readonly string[]).includes(id);
+export const auditDetail = (m: PlannedMessage) => `Simulated ${kind(m.channel)} to ${m.recipientName} (tier ${m.tier}${m.reason === 'escalation' ? ', escalation' : ''}) for alert ${m.alertId}${m.count === null || scopedCount(m.alertId) ? '' : `, count ${m.count}`}. Receipt ${m.receipt.receiptId}. Stored in Saha only: no address or number was contacted. The message carries no patient names or identifiers.`;
 
 // Writes up to CHUNK messages and their audit events in one commit. Throws if the commit fails; nothing is half written.
 async function commit(d: D1Database, s: OrgState, messages: PlannedMessage[], now: string, configVersion: number) {
