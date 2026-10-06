@@ -39,6 +39,7 @@ const ROUTE_PARAMS = {
   '/api/indicator-figures': () => [{ q: '' }],
   '/api/reporting-completeness': () => [{ q: '' }],
   '/api/installed-pack-work': w => [{q:''},{q:`?personId=${w.people.a2}`,kind:'person'}],
+  '/api/installed-pack-transition': () => [{q:''}], // migration 0032: audited read of reviewed programme transitions; every principal is checked for patient, token and organisation leakage like the other GET routes
   '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/clinical-sources': w => [{q:w.sourceQuery}],
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),

@@ -10,7 +10,7 @@ For each of the 176 requirements: its assessment status, the test files its evid
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
 - **55 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
-- **The map is incomplete in both directions.** 728 of 1057 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
+- **The map is incomplete in both directions.** 734 of 1063 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
 - **30 test files exist under tests/smoke/, tests/ui/ or tests/nfr/ at this commit.** Other round-11 slices add them. The ui and nfr rows below come from the existing audits classified by name (see Layer rules). A suite added later changes the "files on disk" column but not a requirement's counts until the evidence map cites it; the integrator owns that file.
@@ -33,7 +33,7 @@ A requirement can cite files in several layers, so the rows overlap. "Files on d
 
 | Layer | Requirements citing it | Distinct files cited | Files on disk | On disk but cited by no requirement |
 | --- | ---: | ---: | ---: | ---: |
-| unit | 142 | 207 | 905 | 698 |
+| unit | 142 | 207 | 911 | 704 |
 | integration | 116 | 99 | 115 | 16 |
 | resilience | 2 | 1 | 1 | 0 |
 | smoke | 7 | 5 | 7 | 2 |
@@ -130,7 +130,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | NFR-14 | unverified | own | Usability and training burden |
 | NFR-27 | partial | own | Connector upgrade compatibility |
 
-## Test files cited by no requirement (728 of 1057)
+## Test files cited by no requirement (734 of 1063)
 
 Each is a test file on disk that no evidence-map entry mentions. They may well test requirements; the map just does not say which.
 
@@ -139,6 +139,8 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/abdm-contract.mjs | unit |
 | tests/abdm-transfer-smoke.mjs | integration |
 | tests/agent-minimisation-contract.mjs | unit |
+| tests/aggregate-export-current-sixth-review-fixes-contract.mjs | unit |
+| tests/alert-capture-ledger-http.mjs | unit |
 | tests/alert-disclosure-before.mjs | unit |
 | tests/alert-disclosure-browser.mjs | unit |
 | tests/alert-disclosure-current-alert-delivery-contract.mjs | unit |
@@ -381,6 +383,8 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/integration-composite-authority-time-http.mjs | unit |
 | tests/integration-contact-import-owned-port.mjs | unit |
 | tests/integration-household-completion-browser.mjs | unit |
+| tests/integration-installed-transition-figure-portability-after-http.mjs | unit |
+| tests/integration-installed-transition-report-portability-http.mjs | unit |
 | tests/integration-installed-work-figure-portability-after-http.mjs | unit |
 | tests/integration-installed-work-portability-contract.mjs | unit |
 | tests/integration-installed-work-report-portability-http.mjs | unit |
@@ -472,6 +476,8 @@ Each is a test file on disk that no evidence-map entry mentions. They may well t
 | tests/operational-privacy-cold-read-audit-completion-contract.mjs | unit |
 | tests/operational-privacy-cold-review-fixes-contract.mjs | unit |
 | tests/operational-privacy-cold-sixth-review-fixes-contract.mjs | unit |
+| tests/operational-privacy-current-adverse-http.mjs | unit |
+| tests/operational-privacy-current-extra-http.mjs | unit |
 | tests/operational-privacy-export-current-contract.mjs | unit |
 | tests/operational-privacy-independent-extra-contract.mjs | unit |
 | tests/operations-bound-contract.mjs | unit |

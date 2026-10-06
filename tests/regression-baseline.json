@@ -1,8 +1,13 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-10-06",
   "node": "v24.19.0",
   "suites": {
+    "integration/alert-capture-ledger-http": {
+      "layer": "integration",
+      "file": "tests/alert-capture-ledger-http.mjs",
+      "minPassed": 262
+    },
     "integration/app-offline-browser": {
       "layer": "integration",
       "file": "tests/integration-offline-guided-app-browser.mjs",
@@ -72,6 +77,56 @@
       "layer": "integration",
       "file": "tests/clinical-source-retrieval-http.mjs",
       "minPassed": 41
+    },
+    "integration/combined-reviewed-alert-export-cold-independent-http": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-alert-export-cold-independent-http.mjs",
+      "minPassed": 72
+    },
+    "integration/combined-reviewed-alert-recipient-current-http": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-alert-recipient-current-http.mjs",
+      "minPassed": 145
+    },
+    "integration/combined-reviewed-alert-recipient-current-scheduled": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-alert-recipient-current-scheduled.mjs",
+      "minPassed": 16
+    },
+    "integration/combined-reviewed-alert-recipient-hold-http": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-alert-recipient-hold-http.mjs",
+      "minPassed": 39
+    },
+    "integration/combined-reviewed-guided-audio-independent-component": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-guided-audio-independent-component.mjs",
+      "minPassed": 19
+    },
+    "integration/combined-reviewed-programme-transition-audit-cold-extended-primary": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-programme-transition-audit-cold-extended-primary.mjs",
+      "minPassed": 253
+    },
+    "integration/combined-reviewed-programme-transition-audit-cold-independent-http": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-programme-transition-audit-cold-independent-http.mjs",
+      "minPassed": 132
+    },
+    "integration/combined-reviewed-simplicity-independent-guided-instructions-browser": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-simplicity-independent-guided-instructions-browser.mjs",
+      "minPassed": 28
+    },
+    "integration/combined-reviewed-simplicity-independent-guided-simplicity-browser": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-simplicity-independent-guided-simplicity-browser.mjs",
+      "minPassed": 21
+    },
+    "integration/combined-reviewed-transition-parity-cold-independent-http": {
+      "layer": "integration",
+      "file": "tests/combined-reviewed-transition-parity-cold-independent-http.mjs",
+      "minPassed": 81
     },
     "integration/command-authority-http": {
       "layer": "integration",
@@ -510,7 +565,7 @@
     },
     "integration/operational-privacy-adverse-http": {
       "layer": "integration",
-      "file": "tests/operational-privacy-adverse-http.mjs",
+      "file": "tests/operational-privacy-current-adverse-http.mjs",
       "minPassed": 245
     },
     "integration/operational-privacy-browser": {
@@ -520,7 +575,7 @@
     },
     "integration/operational-privacy-extra-http": {
       "layer": "integration",
-      "file": "tests/operational-privacy-independent-extra-http.mjs",
+      "file": "tests/operational-privacy-current-extra-http.mjs",
       "minPassed": 478
     },
     "integration/operational-privacy-http": {
@@ -575,12 +630,12 @@
     },
     "integration/report-portability-after-http": {
       "layer": "integration",
-      "file": "tests/integration-installed-work-figure-portability-after-http.mjs",
+      "file": "tests/integration-installed-transition-figure-portability-after-http.mjs",
       "minPassed": 87
     },
     "integration/report-portability-http": {
       "layer": "integration",
-      "file": "tests/integration-installed-work-report-portability-http.mjs",
+      "file": "tests/integration-installed-transition-report-portability-http.mjs",
       "minPassed": 79
     },
     "integration/reporting-completeness-repaired-account-browser": {
@@ -987,6 +1042,21 @@
       "layer": "unit",
       "file": "tests/cloudflare-staging-contract.mjs",
       "minPassed": 39
+    },
+    "unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract": {
+      "layer": "unit",
+      "file": "tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs",
+      "minPassed": 44
+    },
+    "unit/combined-reviewed-simplicity-independent-guided-instructions-contract": {
+      "layer": "unit",
+      "file": "tests/combined-reviewed-simplicity-independent-guided-instructions-contract.mjs",
+      "minPassed": 28
+    },
+    "unit/combined-reviewed-transition-parity-cold-repair-contract": {
+      "layer": "unit",
+      "file": "tests/combined-reviewed-transition-parity-cold-repair-contract.mjs",
+      "minPassed": 49
     },
     "unit/command-authority-contract": {
       "layer": "unit",
@@ -1817,6 +1887,12 @@
           94
         ]
       },
+      "removed": []
+    },
+    {
+      "date": "2026-10-06",
+      "reason": "Added 14 suites from verified 2026-10-06 runs (additions only; no existing minimum changed). Existing ids operational-privacy-adverse/extra, report-portability, sixth-review-fixes now point at current adapters with unchanged minima.",
+      "lowered": {},
       "removed": []
     }
   ]
