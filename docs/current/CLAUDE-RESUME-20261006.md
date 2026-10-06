@@ -1,6 +1,6 @@
 # Claude resume: reconciled Saha work
 
-6 October 2026, 08:30 IST handover preparation. The sponsor requested preservation and reconciliation for Claude. Unattended build heartbeat is paused. The agents stopped with account usage-limit errors around 03:43 IST; do not infer that work continued during the subsequent queued heartbeat messages.
+6 October 2026 handover. The sponsor requested preservation and reconciliation for Claude. Unattended build heartbeat is paused. The agents stopped with account usage-limit errors around 03:43 IST; do not infer that work continued during the subsequent queued heartbeat messages.
 
 ## Start here
 
@@ -58,3 +58,9 @@ Node22 is CI; local qualified runs used bundled Node24. Use the repository pinne
 Useful commands: `node scripts/run-framework.mjs build`; `node node_modules/typescript/bin/tsc --noEmit`; `python3 scripts/check-documentation.py`; `node scripts/audit-requirements.mjs --check`; `node scripts/test.mjs --check-catalogue`. See `.github/workflows/ci.yml` for the full required gate selections. Use Python3.10+ (local bundled3.12); system Python's `zip(strict=True)` support was insufficient. Local native Worker/browser checks require process access and a compatible Chromium path; fixture identity headers are exclusively for isolated synthetic local tests.
 
 Android Browser Helper/TWA source and app-first browser demo remain. SDK licence authorization, APK build/sign/install and physical device checks are pending. Providers and buckets stay disabled; synthetic data only. Do not activate real sends, providers, patient data or credentials. Hosted staging may require Access sign-in; `http://localhost:5173/app` was an earlier local preview, not a verified current deployed demo. A main merge triggers existing synthetic staging deployment unless frozen; verify actual resulting main commit, deployment and accessible demo before handing out a final link.
+
+## Original independent-review histories also saved
+
+The exact original review SHAs above are reachable through `handover/reviewed-guidance-20261006`, `handover/reviewed-alerts-20261006`, `handover/reviewed-export-20261006`, `handover/reviewed-transition-audit-20261006`, and `handover/reviewed-transition-parity-20261006`. Together with the six candidate/diagnostic branches, eleven handover branches preserve the original histories independently of the combined cherry-picks.
+
+Reconciled integration checkpoint5fb03a959e603312b959fa4805ce8ce72f13787d was pushed. A fresh shared checkout with zero untracked files passes documentation custody (1766 source files), requirements176 and test catalogue checks. This validates reproducible source/document preservation, not the failed combined runtime qualification.
