@@ -1,5 +1,6 @@
 // Root composition of immutable historical fixtures; only module inventory,
-// awaited review dispatch and owned result paths change. Assertions stay intact.
+// awaited review dispatch and owned result paths change. The module inventory also lists installed-transition-authority,
+// which programmes.ts has imported since migration 0032 (a 2026-10-06 integration omission). Assertions stay intact.
 import {readFileSync,writeFileSync,unlinkSync,mkdirSync,existsSync,statSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
 import {resolve,dirname} from 'node:path';
@@ -8,7 +9,7 @@ export async function verificationRootFixture(file){
  const source=readFileSync(resolve('tests',file),'utf8');
  if(!/['"]send-gate['"]/.test(source)&&!source.includes('readdirSync'))throw Error('Expected explicit module inventory');
  const current= file==='report-export-contract.mjs'?source.replace('\"saha-operational-report\",\"1.1.0\"','\"saha-operational-report\",\"1.2.0\"'):source;
- const adapted=current.replace(/(\[[^\]]*['"]send-gate['"][^\]]*)(\])/g,'$1, "verification-disputes"$2').replace(/^(  )F\.applyFactReview\(/gm,'$1await F.applyFactReview(');
+ const adapted=current.replace(/(\[[^\]]*['"]send-gate['"][^\]]*)(\])/g,'$1, "verification-disputes", "installed-transition-authority"$2').replace(/^(  )F\.applyFactReview\(/gm,'$1await F.applyFactReview(');
  const results=[],before=new Map();
  const withOutput=adapted.replace(/writeFileSync\((['"])(tests\/[^'"]+\.json)\1/g,(all,quote,original)=>{
   const owned='tests/evidence/verification-programme-root-integration/fixtures/'+file.replace(/\.mjs$/,'')+'/'+original.slice(6);
