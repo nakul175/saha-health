@@ -28,7 +28,7 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0031_installed_pack_work';
+export const SCHEMA_MIGRATION = '0032_installed_pack_transition';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
@@ -39,6 +39,7 @@ type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'aud
 export type TableSpec = { table: string; order: string; scope: Scope; omit?: string[]; note?: string };
 export const TABLES: TableSpec[] = [
   {table:'installed_pack_work_events',order:'at,id',scope:'protected',note:'Append-only installed programme policy and patient work events contain protected source/occurrence bodies. Withheld from ordinary operational export; protected reconstruction remains separately governed.'},
+  {table:'installed_pack_transition_events',order:'at,id',scope:'protected',note:'Append-only installed programme transition history carries affected patient ids, applied effects and reviewed impact bodies, and is the server-side authority for adoption. Withheld from ordinary operational export and counted as withheld; the original rows stay retained and protected reconstruction remains separately governed.'},
   { table: 'organisations', order: 'id', scope: 'org' },
   { table: 'teams', order: 'id', scope: 'org' },
   { table: 'memberships', order: 'user_id', scope: 'org' },

@@ -109,7 +109,7 @@ try {
 
   // 1. Archive layout: README, manifest, SHA256SUMS, every table, media content, hand-over list, FHIR documents.
   check(() => { for (const t of exit.TABLES) assert.ok(paths.includes(`tables/${t.table}.jsonl`), t.table); for (const p of ['README.txt', 'manifest.json', 'SHA256SUMS', 'tables/accounts.jsonl', 'handover/open-items.jsonl', 'media/media-1.png', 'fhir/v-meena-1.json']) assert.ok(paths.includes(p), p); assert.equal(paths.at(-1), 'SHA256SUMS'); });
-  check(() => assert.equal(exit.TABLES.length + 1, 55, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
+  check(() => assert.equal(exit.TABLES.length + 1, 56, 'every organisation table except the legacy per-account workspaces, plus member accounts'));
   // 2. The archive opens with standard tools and the receiver recipe `sha256sum -c SHA256SUMS` passes.
   const out = join(dir, 'extract'); mkdirSync(out); writeFileSync(join(dir, 'a.tar'), built.archive);
   check(() => { const listed = execFileSync('tar', ['-tf', join(dir, 'a.tar')], { encoding: 'utf8' }).trim().split('\n'); assert.deepEqual(listed, paths); });
@@ -223,6 +223,7 @@ try {
   await rejects(() => exit.buildExport({ prepare: sql => ({ bind: () => ({ first: async () => null, all: async () => ({ results: /FROM organisations/.test(sql) ? [{ id: C }] : Array.from({ length: exit.PAGE }, (_, i) => ({ org_id: C, id: String(i) })) }) }) }) }, { orgId: C, member, exporter, exportId: 'x', now, includeFhir: false, environment: 'synthetic' }), /larger than a single export/);
 
   const result = { suite: 'data exit contract (slice 6m)', passed, thousandPersonExport: { patients: 1000, visits: 1000, rows: cManifest.totals.rows, archiveBytes: cBuilt.archive.byteLength, createAndExportMs: exportMs, reimportedTablesMatched: exit.TABLES.length, reimportedChain: reVerify.status }, completedAt: new Date().toISOString() };
+  mkdirSync('tests/evidence/alert-transition-guidance-root-integration/alert-export-cold-data-exit-contract', { recursive: true });
   writeFileSync('tests/evidence/alert-transition-guidance-root-integration/alert-export-cold-data-exit-contract/data-exit-contract-result.json', JSON.stringify(result, null, 2) + '\n');
   console.log(JSON.stringify(result));
 } finally { rmSync(dir, { recursive: true, force: true }); }
