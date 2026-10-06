@@ -40,7 +40,7 @@ async function commit(d: D1Database, s: OrgState, messages: PlannedMessage[], no
 // a refusal; a storage failure throws to the caller, which records it without failing the read or command.
 // Slice 13d (round-10 review L4): `env` is the caller's environment (the scheduled job passes the one its handler received);
 // without it, the request's runtime environment is used, as before.
-export async function evaluateChannel(d: D1Database, s: OrgState, present: ChannelPresent[], now = new Date().toISOString(), env?: Record<string, string | undefined>, contexts?: Map<string, AggregateAlertContext>) {
+export async function evaluateChannel(d: D1Database, s: OrgState, present: ChannelPresent[], now = new Date().toISOString(), env?: Record<string, string | undefined>, contexts?: Map<string, AggregateAlertContext>, recheck?: () => Promise<void>) {
   const config = channelOf(s), result = { sent: 0, planned: 0, refused: null as string | null, skipped: 0 };
   if (!config?.enabled || !config.recipients.length) return result;
   const orgId = s.organisation.id, environment = environmentOf(env ?? rawRuntime()).name;
@@ -57,6 +57,7 @@ export async function evaluateChannel(d: D1Database, s: OrgState, present: Chann
   // the message is about to be committed, not when the evaluation merely computed the alert. A message whose disclosure cannot
   // be recorded, or whose view is not in this evaluation, is not sent now; the next evaluation tries again.
   const due: PlannedMessage[] = [];
+  if (plan.messages.length) await recheck?.();
   for (const m of plan.messages.slice(0, MAX_SENDS_PER_EVALUATION)) {
     if (!clinicalAggregateAlert(m.alertId)) { due.push(m); continue; }
     const holders = m.count !== null ? [m.userId] : (present.find(p => p.alertId === m.alertId && p.scopeKey === m.scopeKey)?.recipients.map(r => r.userId) ?? [m.userId]);
