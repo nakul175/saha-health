@@ -1,0 +1,23 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.fill: Error: Malformed value
+Call log:
+[2m  - waiting for getByLabel('Definition effective time')[22m
+[2m    - locator resolved to <input value="" data-slot="input" type="datetime-local" aria-label="Definition effective time" class="h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled…/>[22m
+[2m    - fill("2026-10-05T07:59:00")[22m
+[2m  - attempting fill action[22m
+[2m    - waiting for element to be visible, enabled and editable[22m
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-governance/tests/indicator-governance-browser.mjs:4:321 {
+  log: [
+    "  - waiting for getByLabel('Definition effective time')",
+    '    - locator resolved to <input value="" data-slot="input" type="datetime-local" aria-label="Definition effective time" class="h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled…/>',
+    '    - fill("2026-10-05T07:59:00")',
+    '  - attempting fill action',
+    '    - waiting for element to be visible, enabled and editable'
+  ]
+}
+
+Node.js v24.19.0

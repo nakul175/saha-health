@@ -1,0 +1,19 @@
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   'MIS withdrawal inside the checkpoint stops the send: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.',
++   'MIS default setting still sends: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'
++ ]
+- []
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/adapter-operations-contract.mjs:164:9 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+MIS withdrawal inside the checkpoint stops the send: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.
+MIS default setting still sends: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.

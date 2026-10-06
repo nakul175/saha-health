@@ -1,0 +1,29 @@
+{
+  "commit": "e89cf6b7cf0978c4e07f8530281dadceefd34640",
+  "runId": 37275713154,
+  "jobId": 111652164784,
+  "status": "completed",
+  "conclusion": "failure",
+  "documentation": "success",
+  "types": "success",
+  "build": "success",
+  "supplyChain": "success",
+  "httpAndRestore": "success",
+  "unit": "failure",
+  "workflowAndSmoke": "skipped",
+  "logExcerpt": [
+    "2026-10-05T07:16:24.7500092Z       | FAIL runner: a failing suite makes the run fail and is reported with its exit code: Expected values to be strictly equal:",
+    "2026-10-05T07:16:24.7502357Z       | FAIL runner: a manual suite that reads credentials on stdin is blocked with a reason, never started (pull request #126): Cannot read properties of null (reading 'suites')",
+    "2026-10-05T07:16:24.7505338Z       | FAIL runner: a report written by an earlier suite is never counted for a later one, however close in time (slice 11h, the GitHub flake): Expected values to be strictly equal:",
+    "2026-10-05T07:16:24.7507102Z       | FAIL runner: a suite that exits 0 but checks nothing is a failure, not a pass: Expected values to be strictly equal:",
+    "2026-10-05T07:16:24.7509151Z       | FAIL runner: --check-catalogue fails on a stray test file and on an unimported *-smoke.mjs module, and passes otherwise: Expected values to be strictly equal:",
+    "2026-10-05T07:16:24.7511442Z       | FAIL runner: the regression guard fails when a suite drops below its baseline or disappears, and --update-baseline is deliberate: The test catalogue is inconsistent; nothing was run:",
+    "2026-10-05T07:16:24.7514170Z       | FAIL runner: the UI layer runs a Playwright configuration through the installed binary and reads its stats; without Playwright it is blocked, not skipped: Expected values to be strictly equal:",
+    "2026-10-05T07:16:24.7516433Z       | FAIL runner: a suite that exceeds its time limit fails as timed out and the processes it started are stopped with it: Expected values to be strictly equal:",
+    "2026-10-05T07:16:24.7518571Z       | FAIL runner: --only runs one suite, and an unknown id is a usage error: The test catalogue is inconsistent; nothing was run:",
+    "2026-10-05T07:17:02.2347740Z   total  FAILED     153    8753      14        0  6m 11s",
+    "2026-10-05T07:17:02.2350681Z Regression guard: FAILED (153 baselined suite(s) checked, 0 excused by quarantine).",
+    "2026-10-05T07:17:02.2352114Z   FAIL     Suite unit/test-runner-contract passed 13 assertion(s); baseline is 27 (down 14)."
+  ],
+  "limit": "Latest source registration of historical manual diagnostics was newer than the earlier full-unit8767 run. Registered-manual fixture stubs corrected locally; no hosted repair pass claimed yet."
+}

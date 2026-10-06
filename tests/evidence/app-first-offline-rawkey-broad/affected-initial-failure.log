@@ -1,0 +1,75 @@
+Running unit integration --fast; 7 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/field-shell  no count  38ms
+
+[integration] 6 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/mapping-lifecycle-review-browser ...
+  ok       integration/mapping-lifecycle-review-browser  no count  4.3s
+  running  integration/device-work-browser ...
+  ok       integration/device-work-browser  64 passed  11.3s
+  running  integration/offline-opens-browser ...
+  FAILED   integration/offline-opens-browser  no count  34.2s  [exit code 1]
+      | error lines:
+      |   locator.click: Timeout 30000ms exceeded.
+      |     name: 'TimeoutError'
+      |        - element is not visible
+      |      - retrying click action
+      |        - waiting 500ms
+      |     at unlock (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-offline-guided-opens-browser.mjs:17:1263)
+      |     at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-offline-guided-opens-browser.mjs:17:1347 {
+      |   log: [
+      |     "  - waiting for locator('#registrations button')",
+      |     '    - locator resolved to <button class="draft">PRIVATE CANDIDATE OPEN · Queued / कतार में</button>',
+      |     '  - attempting click action',
+      |     '    2 × waiting for element to be visible, enabled and stable',
+      |     '      - element is not visible',
+      |     '    - retrying click action',
+      |     '    - waiting 20ms',
+      |     '    2 × waiting for element to be visible, enabled and stable',
+      |     '      - element is not visible',
+      |     '    - retrying click action',
+      |     '      - waiting 100ms',
+      |     '    58 × waiting for element to be visible, enabled and stable',
+      |     '       - element is not visible',
+      |     '     - retrying click action',
+      |     '       - waiting 500ms'
+      |   ],
+      |   name: 'TimeoutError'
+      | }
+      | Node.js v24.19.0
+  running  integration/device-work-purge-failure-browser ...
+  ok       integration/device-work-purge-failure-browser  49 passed  6.1s
+  running  integration/range-protocol-browser ...
+  FAILED   integration/range-protocol-browser  no count  26.4s  [exit code 1]
+      | error lines:
+      |   locator.click: Timeout 20000ms exceeded.
+      |     name: 'TimeoutError'
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | locator.click: Timeout 20000ms exceeded.
+      | Call log:
+      |   - waiting for getByRole('button', { name: 'Sync reviewed draft', exact: true })
+      |     at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/integration-offline-guided-range-browser.mjs:16:101 {
+      |   log: [
+      |     "  - waiting for getByRole('button', { name: 'Sync reviewed draft', exact: true })"
+      |   ],
+      |   name: 'TimeoutError'
+      | }
+      | Node.js v24.19.0
+  running  integration/touch-units-browser ...
+  ok       integration/touch-units-browser  20 passed  5.0s
+
+  layer        status  suites  passed  failed  skipped    time
+  -----------  ------  ------  ------  ------  -------  ------
+  unit         passed       1       0       0        0    38ms
+  integration  failed       6     133       0        0  1m 27s
+  total        FAILED       7     133       0        0  1m 28s
+
+Regression guard: FAILED (7 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/mapping-lifecycle-review-browser reported no assertion count; baseline needs at least 12.
+  FAIL     Suite integration/offline-opens-browser reported no assertion count; baseline needs at least 49.
+  FAIL     Suite integration/range-protocol-browser reported no assertion count; baseline needs at least 26.
+  FAIL     Suite unit/field-shell reported no assertion count; baseline needs at least 12.

@@ -1,0 +1,8 @@
+/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-media-review/tests/imported-media-independent-probe.mjs:23
+mr=await getMedia(clinician);check(()=>assert.deepEqual(mr.bytes,png));check(()=>assert.deepEqual(await d.prepare('SELECT * FROM visits WHERE org_id=? AND id=?').bind(org,v.id).first(),vr));check(()=>assert.equal((await d.prepare('SELECT data FROM patients WHERE org_id=? AND id=?').bind(org,pid).first()).data,originalP.data));check(()=>assert.deepEqual(await d.prepare('SELECT * FROM media WHERE org_id=? AND id=?').bind(org,mid).first(),originalM));
+                                                                                                  ^^^^^
+
+SyntaxError: Unexpected reserved word
+    at checkSyntax (node:internal/main/check_syntax:72:5)
+
+Node.js v24.19.0

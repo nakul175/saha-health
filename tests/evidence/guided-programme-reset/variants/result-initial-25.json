@@ -1,0 +1,69 @@
+{
+  "passed": 25,
+  "failed": 0,
+  "actualWorker": true,
+  "actualChromium": true,
+  "writes": [
+    {
+      "body": {
+        "type": "saveProgrammeAnswers",
+        "visitId": "472460a0-56d9-4c9f-bb97-35f0cfc0ad89",
+        "version": 1,
+        "answers": {},
+        "absence": {
+          "cough": "Declined"
+        }
+      },
+      "key": "a99d3150163b72f8558a8fb2d50e530a"
+    },
+    {
+      "body": {
+        "type": "saveProgrammeAnswers",
+        "visitId": "472460a0-56d9-4c9f-bb97-35f0cfc0ad89",
+        "version": 1,
+        "answers": {
+          "cough": "Yes"
+        },
+        "absence": {
+          "coughDays": "Declined"
+        }
+      },
+      "key": "84afddf7eedee1ac33a043d52132e200"
+    },
+    {
+      "body": {
+        "type": "saveProgrammeAnswers",
+        "visitId": "472460a0-56d9-4c9f-bb97-35f0cfc0ad89",
+        "version": 3,
+        "answers": {
+          "testing": "No",
+          "cough": "Yes"
+        },
+        "absence": {
+          "coughDays": "Declined"
+        }
+      },
+      "key": "4129a3d5a4092bf8f6cb6f2b1d5202cf"
+    },
+    {
+      "body": {
+        "type": "saveProgrammeAnswers",
+        "visitId": "472460a0-56d9-4c9f-bb97-35f0cfc0ad89",
+        "version": 4,
+        "answers": {
+          "testing": "No",
+          "cough": "No"
+        },
+        "absence": {}
+      },
+      "key": "ad5876fed0d2c9e8c1108994d9a894b6"
+    }
+  ],
+  "versions": {
+    "initial": 1,
+    "remote": 3,
+    "merged": 4,
+    "accepted": 5
+  },
+  "scope": "Actual same-version absence reset; changed-version three-way programme merge with supported remote notes/answer; accepted lostACK exact onePOST and explicit scoped currentVisit read."
+}

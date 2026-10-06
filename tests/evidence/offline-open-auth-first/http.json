@@ -1,0 +1,65 @@
+{
+  "passed": 13,
+  "failed": 0,
+  "actualWorker": true,
+  "actualD1": true,
+  "observations": [
+    {
+      "query": "",
+      "media": "application/json",
+      "crossSite": false,
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "query": "",
+      "media": "text/plain",
+      "crossSite": false,
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "query": "",
+      "media": "application/json",
+      "crossSite": false,
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "query": "",
+      "media": "application/json",
+      "crossSite": true,
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "query": "?other=synthetic",
+      "media": "application/json",
+      "crossSite": false,
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "query": "?other=synthetic",
+      "media": "text/plain",
+      "crossSite": false,
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "query": "?other=synthetic",
+      "media": "application/json",
+      "crossSite": false,
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "query": "?other=synthetic",
+      "media": "application/json",
+      "crossSite": true,
+      "status": 403,
+      "expected": 403
+    }
+  ],
+  "scope": "Anonymous malformed/media/oversized/query POSTs refuse before local parsing without report/subject/audit/receipt/metric writes. Global cross-site middleware403 preserved."
+}

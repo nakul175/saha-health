@@ -1,0 +1,345 @@
+{
+  "sourceCommit": "9d4716aef550b72c52b15d3fbe8b23964e4eb315",
+  "date": "2026-10-06",
+  "verdict": "Recovery clearance held: actual ASHA committed sync receipt has parsed hash incompatible with retained raw pending-body reference. No application repair.",
+  "positiveRepeatChecks": 228,
+  "extraScopeExecutedChecks": 19,
+  "extraScopeNewAssertions": 4,
+  "failedExtraProbePositiveAssertions": 37,
+  "applicationSourceUnchanged": {
+    "public/field/app.js": "5f51bedab082feac7cff86974d9b7fa8dc89a13dbc4285aec7947dc89a9112da",
+    "public/field/guided-capture.js": "b492484cce7405ce46b98f35bc6d01621a10173a524becfa2f119f134491d1a7",
+    "public/app/offline/index.html": "e4103286a524dc8e5a9208bf10c0f850161df408da88d9d5754e0945a1392776",
+    "public/app/offline/style.css": "69c11f8d394096307bc65ff55de57ace2e255f439759c526c18998e363a5fc52",
+    "public/app-sw.js": "5528c767fce4afb924a48a79b9a081f534ee77beab72b2db89666067ac9bb42e",
+    "public/field/sw.js": "b151ed039e70433d909248e197aaf010e4b072ad5a2d0a4541614cad7981a49f",
+    "public/field/device-work.js": "1990b822f7dfb8b7a7e412121e6d759b319ca4057d01d59912712576e699ac49",
+    "public/field/vault.js": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210",
+    "lib/saha/core.ts": "639fd44e40d87483aa35ec2165bc15ec45ededc0cc50f993acc3c7e7f771ca71",
+    "lib/saha/field.ts": "6012578a3105e336d80ce91a424a212b718a0f69650c23949e9578426b1b433b",
+    "lib/saha/device-work.ts": "48c470ef4e4caf339d916803715161a65221f799d5838381f727af983c9a7a9a",
+    "lib/saha/server.ts": "13de0e588ec3da978229478729651d38bfdce1d0e97c8b37f621bba969b0b76f"
+  },
+  "files": [
+    {
+      "path": "tests/evidence/offline-guided-cold/author/browser-result.json",
+      "sha256": "1690f3d1177a3a9a227e3ae456b647d3aede10bb6174cf6ff2fd0f637f5c4667"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author/guided-weight-phone.png",
+      "sha256": "c4e01f02aee0bbd7808be67576575461098ea223ced3bda9992dcf4f07400545"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author/guided-weight-viewport.png",
+      "sha256": "9aca4282a98202b4a1c5792b1fbdba86633062951e090aa2abec9698154596cb"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author/layout-before.json",
+      "sha256": "adc721e091f9b49c23ed1eccb0e8fda50608d74fd25abc62ce0378bebfce5fab"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author/locked-phone.png",
+      "sha256": "2d47823ffab24d99bbb3a8ca21800f6c77cb363e96e684fb63eb7812db4907b3"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author/patient-phone.png",
+      "sha256": "18a4d67c8958796a1d0f88745de14aff395e311a6d902e84917bf12855778ef4"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author/programme-offline-phone.png",
+      "sha256": "d2d5f8e86804c93284210ed29828ef32a80460f25b2feb4d4b12ee2079af3faf"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author/today-phone.png",
+      "sha256": "92ed9c2a883fc0ce3eb5e55bd8ed41566aec61e49259b3a9e23ccf3c1021c482"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/author.log",
+      "sha256": "4dcf923363bcc9a7811e4ec877edfcc7ee6a349a967d476543fcb4e2c726fbaf"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/build.log",
+      "sha256": "56b45c4e7752dec461e2647637528a124b616a234e0c1df1f055487501c50f0a"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/environment-refusal/author/browser-result.json",
+      "sha256": "dfd66501727349481b23725a15eb660fbc31c39980e37367a6c54ad2e14df2d7"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/environment-refusal/author.log",
+      "sha256": "f0beb7c26529487ec50dedf11f54c466f04258eda6970cf5bf4e2df042aa5ddb"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/environment-refusal/parity.log",
+      "sha256": "62902d436ce758de82b4769fd4015c143a02ce8a5c2f6c9a5bf113bf2a55c474"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/environment-refusal/review-parity/result.json",
+      "sha256": "14f52b3a440a6719ecd1e7dae3d8edf4ff0184b4f981a24d99e0be13e58035f7"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/environment-refusal/scope/result.json",
+      "sha256": "14f52b3a440a6719ecd1e7dae3d8edf4ff0184b4f981a24d99e0be13e58035f7"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/environment-refusal/scope.log",
+      "sha256": "7be5c22d9ddd63df5432898e4fcc89aba157aeba161140e88cb6851f703c80ef"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/asha-uncertain-guided.png",
+      "sha256": "e5cd5c3ebdbf919e0d08640f2dd59dcbd9214c43ecfcac4818032fcb6a89490d"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/browser-result.json",
+      "sha256": "95dcb3eab9dcb58d4b390e515adffbee864677473acd4a7b91f5708db9ca5b58"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/guided-weight-phone.png",
+      "sha256": "266c076b29553fad91ad7ca9a2471fefccfdd52780589df84d80200a29eb326a"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/guided-weight-viewport.png",
+      "sha256": "7e730926785a2613d454b2a9977fc57e023247712d7a70ce9643515b56066f3e"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/hash-order-diagnosis.json",
+      "sha256": "d028e07a7a484b11ca77e7c8801e96c8c7b60ee8162e546b3c50dce77fe83ff3"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/layout-before.json",
+      "sha256": "adc721e091f9b49c23ed1eccb0e8fda50608d74fd25abc62ce0378bebfce5fab"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/locked-phone.png",
+      "sha256": "2d47823ffab24d99bbb3a8ca21800f6c77cb363e96e684fb63eb7812db4907b3"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/patient-phone.png",
+      "sha256": "8ff4040ff153adaafc3ffd3a294c23840f33da2e58689726f231a6f1602756b1"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/programme-offline-phone.png",
+      "sha256": "2ae9566993e633409a43f4c80bf04f05c1b8b637b088537c429c2b66de3a93ec"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/receipt-lineage.json",
+      "sha256": "ec7dfab68245171969a4b1e442718f74014f8b5560dfed052c7983ef4509f787"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/retry-dom.json",
+      "sha256": "6c1bca751120d80b024a97a461672f15adf19a424d74782973afe273987de6cb"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/retry-vault.json",
+      "sha256": "10eed544fc75b4f4b781a90dfe4ef2608130e18735c74737495ea30b49dadc6e"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/retry.png",
+      "sha256": "9bc809e458719030907bc447d856df1b18f6d03c9caffd81eb50481b4903a35b"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/today-phone.png",
+      "sha256": "1cfa96a4b2eb975e89d990ce9a912c2bffedfb0bf43468f5e10b9ca45f6445a0"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra/worker.log",
+      "sha256": "7018c8237d37c008fa2bfd8652a7fa924e4783c12d43376e4f914bd61ebb1e4b"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/asha-uncertain-guided.png",
+      "sha256": "9fb9fe9e5465830b0af8d207cb1280419846a423320c1b0803f5699edc892269"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/browser-result.json",
+      "sha256": "95dcb3eab9dcb58d4b390e515adffbee864677473acd4a7b91f5708db9ca5b58"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/guided-weight-phone.png",
+      "sha256": "e58ea4fd5488309b8dba678ad7404ea3c0914c5dc18a49f702d2360965883b22"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/guided-weight-viewport.png",
+      "sha256": "ca71502854c56dc7c53e51042bdbc2d79a8d809d82ab52289347d9d4a2f32814"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/layout-before.json",
+      "sha256": "adc721e091f9b49c23ed1eccb0e8fda50608d74fd25abc62ce0378bebfce5fab"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/locked-phone.png",
+      "sha256": "2d47823ffab24d99bbb3a8ca21800f6c77cb363e96e684fb63eb7812db4907b3"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/patient-phone.png",
+      "sha256": "e676c4c4ebdd767ef0cb911ad1a57dc88bb8f52c91c6bc759e1fd503e09e7052"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/programme-offline-phone.png",
+      "sha256": "3a400407cf4fec51081e98968b99dc388d997bb8abf9e37485ca4db540903635"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial/today-phone.png",
+      "sha256": "592197bd1c1bce4ea512de64b4cbea0809f09d764fe050e5e5ba8788f275bdc0"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra-initial.log",
+      "sha256": "6cd1825e9be444db57fce059aaaa63ee7fac756fb90a23fec4aa8337ef68bbd3"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/extra.log",
+      "sha256": "6cd1825e9be444db57fce059aaaa63ee7fac756fb90a23fec4aa8337ef68bbd3"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/field-client-result.json",
+      "sha256": "85091e043e3169a273d70c430e8a1245d46ecba283f7ad93b558809f8879fcc2"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/field-provenance-client-result.json",
+      "sha256": "fc61e363f75ed75ed3be7d91c73ce04910222fc5a335ebfe3d650c9f56420070"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/field-registration-client-result.json",
+      "sha256": "26eb82cb88392e362240c230dcce6a6a18eeb53e52c7ecfec96ff448df41fcdf"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/field-storage-client-result.json",
+      "sha256": "922a81264fb16becb8e39f8448308b5dfa2df06dc4b2ff239511bcdc4083305d"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/field-units-client-result.json",
+      "sha256": "77262cba691d25e905c74a97b1d172baaacd37c08dfef8c88f65e21875f37fe0"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/parity.log",
+      "sha256": "7dd1d823eb7626ca427ea74ca852aff63b851b7c440451716355e23036bc56d6"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/provenance.log",
+      "sha256": "55bce3d96f0ec888ea16bf16b899d6bd9ba4202d08c5b1f56bba409818b44f76"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/recovery.log",
+      "sha256": "c0916d5cd6481e5158390de009a3c055a6c54773202a8092cbfcbb9f1038a413"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/registration.log",
+      "sha256": "fa830d84b87058639b24039bb746ce2a4bc9567502897da31e82f5764ab54318"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/review-parity/expired-grant.png",
+      "sha256": "d0e899110596c48fd748c6eb4ee40d4eabcc517a0f3a399f7c92de1bd680467d"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/review-parity/offline-patient.png",
+      "sha256": "7a78d69eea93ab75d0ecbbfc2087d76bf0e3648dd75b3bb81eee19863e516e18"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/review-parity/result.json",
+      "sha256": "1d70c16e81e66144a70f8a8b8f5f589b127288d7cbee0da71bd145caea3efcc1"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/review-parity/storage-audit.json",
+      "sha256": "dde7fb324d38beef2697edb550ee938a811ad9046b38abc2cb5d38dc32f070d4"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/review-parity/wrong-account.png",
+      "sha256": "9bc809e458719030907bc447d856df1b18f6d03c9caffd81eb50481b4903a35b"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope/result.json",
+      "sha256": "c54d4fa48bf8cd135cf1859410fed4825adceed8be3c762a9a2767aa141d47c0"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope/withdrawn-membership.png",
+      "sha256": "57d7055cb3d32093e8af40a943bc05f4a50db16af2c9beae94f4cf32e725c7b2"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra/reset-dom.json",
+      "sha256": "cee39264f3f23886e93eb4acec3c07a064c4d814b50ab7d6650effb02aed44e0"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra/reset.png",
+      "sha256": "44f327362794cbc8c574df7ac1a99169f1e1c6f64e00e84e1c26c23f751362ce"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra/result.json",
+      "sha256": "b864943f0bac3ba06942ab06b2dab0575a87c6a30699a5a8e56cc545999aaae4"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra/withdrawn-membership.png",
+      "sha256": "eb447d435eef16ddc4c410d57b4d74b1feb2b9e33c9d882cd5471d60ecead8a9"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra-diagnostic/reset-dom.json",
+      "sha256": "5aa0b294e93e13445968433b3e8c1e9291d9f42d3a2e56569eb6959d48726048"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra-diagnostic/reset.png",
+      "sha256": "09c89a4246c3d23bbcc8309dfb77a61b73a5609dfff1e8aa9a2b6df6b0490d32"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra-diagnostic/result.json",
+      "sha256": "b864943f0bac3ba06942ab06b2dab0575a87c6a30699a5a8e56cc545999aaae4"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra-diagnostic/withdrawn-membership.png",
+      "sha256": "a87665ec587c2d6322d038f42cec4a449705d49619d65def8b9c19836eaeacf8"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra-diagnostic.log",
+      "sha256": "88f1c2e52f8e380bc1e8462eb64164783bee4b9ea8f9376b3a54bcb4fe721a2c"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra-initial/result.json",
+      "sha256": "df5831704f2da0b530c93689ca526a75986b42a6c1b118cc78c7531b1ad84809"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra-initial.log",
+      "sha256": "efb47dd6c301318046e7d98f4cc33d81164ddbf5f6caa8b2d9aa6c1adbbffa87"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope-extra.log",
+      "sha256": "88f1c2e52f8e380bc1e8462eb64164783bee4b9ea8f9376b3a54bcb4fe721a2c"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/scope.log",
+      "sha256": "62ee7a6d429ff11760a76b79372ea0b6be6710adff36fe2c60bec05b54b75b89"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/storage.log",
+      "sha256": "87eec45758ef3cbae2d8e604d827aa43618c33d66d808b209429eaf4e5eaf636"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/evidence/offline-guided-cold/units.log",
+      "sha256": "b26ff16aa841ae48b7340741805f752c23495ea9dce5fcaabec3ab7a287efe42"
+    },
+    {
+      "path": "tests/offline-guided-cold-author-browser.mjs",
+      "sha256": "a6184d14e8b1a5239c1b01855db292f8bd319d5126171663a6d2cf985c0093e6"
+    },
+    {
+      "path": "tests/offline-guided-cold-extra-browser.mjs",
+      "sha256": "729bdd58a59125e53baf7ebd3d38418f7ac3dc9f09f0cba00ef8768e79049f19"
+    },
+    {
+      "path": "tests/offline-guided-cold-review-parity-browser.mjs",
+      "sha256": "98b07101120f14f0f83473b061e2484fde0ffd6527a8ff71d1dfa00502c15907"
+    },
+    {
+      "path": "tests/offline-guided-cold-scope-browser.mjs",
+      "sha256": "24d2959fec79d7ca18492ced7831863a938570cc16de8745351dcd1a8900348f"
+    },
+    {
+      "path": "tests/offline-guided-cold-scope-extra-browser.mjs",
+      "sha256": "86d936860c6ceb7122bcaedc706741d22b59df797ec1695cb2b502d3269f0cbb"
+    },
+    {
+      "path": "docs/current/OFFLINE-GUIDED-INDEPENDENT-COLD-REVIEW.md",
+      "sha256": "a7d9a84e850e73442d583f2745bdfcbdc7b825a9bcb24ace6988a31c6a999189"
+    }
+  ]
+}

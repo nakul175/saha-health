@@ -1,0 +1,58 @@
+{
+  "passed": 0,
+  "diagnosticAssertions": 11,
+  "canonical": "987f82de",
+  "b13": "7320bfc3",
+  "sourceHashes": {
+    "before": "9cc30a0a8e77b224345455ddbd045c4cb727ba8155f7007749fc8704a71e0222",
+    "closed": "3e4499f4b20b47a1d06a6cf91b272337458f51196475fdef067aec693fad65c3",
+    "voided": "4b8f26e7308fff71141b797769250be47d63871ba2cf19f84e3297e80fe3ad9c"
+  },
+  "observed": {
+    "beforeOpen": 1,
+    "afterOwnConfirmedCompletion": 0,
+    "afterVoidDerivedOpen": true,
+    "actionPlanUnresolved": 1,
+    "afterVoidFrozenOpen": 0,
+    "afterVoidFrozenOverdue": 0,
+    "afterVoidLiveOpen": 0,
+    "sourceHashMoves": true,
+    "originalFrozenValueRetained": 0,
+    "closureState": "completed"
+  },
+  "finding": "Fresh counting material and live open/overdue measures omit preserved completed tasks whose visit evidence was voided, even though B13 derives them unresolved. Source freshness correctly moves; original frozen values must remain immutable.",
+  "sources": {
+    "action-plan.ts": {
+      "origin": "B13 7320bfc3",
+      "sha256": "4c6019d84b70d64db0d9470d01394aa16cd868f0b247ab9b55c02aaa5c4622f6"
+    },
+    "continuity.ts": {
+      "origin": "B13 7320bfc3",
+      "sha256": "545fa6ca6186d0923168d933f068ba6062dc670d27793662d9ede172a7a87c80"
+    },
+    "household-visit.ts": {
+      "origin": "B13 7320bfc3",
+      "sha256": "8979fb3e420c42dbaf71758d813e1c50f54ad0feb47cb96e9b932a5c34bec7ba"
+    },
+    "indicator-figure-material.ts": {
+      "origin": "canonical 987f82de",
+      "sha256": "3e7f22cd15c7017c009ae7db1fe9608b5fe7e95d49f19c947b1615637942ee0e"
+    },
+    "indicators.ts": {
+      "origin": "canonical 987f82de",
+      "sha256": "21ad5873f38725de81df3e1f7ab3e08528f0dc5539808f6254f54a3567feee3b"
+    },
+    "programmes.ts": {
+      "origin": "B13 7320bfc3",
+      "sha256": "b43e2a18138f5ed20f59faabf7bf7a6281b4910ef912de9e2d60c626ee00a08d"
+    },
+    "programme-completion.ts": {
+      "origin": "B13 7320bfc3",
+      "sha256": "6c93eea0e60dfd612d33ee3263038aa0c3d8505ad0e673953453eac15588cc17"
+    },
+    "household-visit-work.ts": {
+      "origin": "B13 7320bfc3",
+      "sha256": "1a978412a40256b443c2e7ede1bc0c7f3a77ef86d6201ba306e9f280e6f28d08"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+*** Fatal uncaught kj::Exception: kj/async-io-unix.c++:945: failed: ::bind(sockfd, &addr.generic, addrlen): Address already in use; toString() = 127.0.0.1:8986
+stack: 104b6095f 104b60743 10217a3e3 10217abf3 10217b637 10217c837 1020f3eeb 104b8c12f 104b8c457 104b8accf 104b8aa8f 1020e08f3 18aa1beef
+/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:69747
+      throw new MiniflareCoreError(
+            ^
+
+MiniflareCoreError [ERR_ADDRESS_IN_USE]: Address already in use (127.0.0.1:8986). Please check that you are not already running a server on this address or specify a different port with --port.
+    at StartupLogBuffer.handleStartupFailure (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:69747:13)
+    at Runtime.updateConfig (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:69831:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async #assembleAndUpdateConfig (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:89169:30)
+    at async Mutex.runWith (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:58160:48)
+    at async #waitForReady (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:89290:5)
+    at async startMiniflare (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/miniflare.mjs:50:3)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/work-burden-policy-checkpoint.mjs:2:147 {
+  code: 'ERR_ADDRESS_IN_USE',
+  cause: undefined
+}
+
+Node.js v24.19.0

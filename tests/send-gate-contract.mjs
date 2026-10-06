@@ -4,6 +4,8 @@
 // injected transports, so "nothing is sent" is observed, not assumed.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
+import {createHash} from 'node:crypto';
+const payloadDigest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -13,12 +15,12 @@ const failures = [];
 const check = async (name, fn) => { try { await fn(); passed++; } catch (e) { failures.push(`${name}: ${e?.message ?? e}`); } };
 const refuses = async (fn, status, pattern) => { let err; try { await fn(); } catch (e) { err = e; } assert.ok(err, 'expected a refusal'); assert.equal(err.status, status, err.message); if (pattern) assert.match(err.message, pattern); return err; };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'ehr-execution', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fact-verification', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'mis-execution', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types', 'visit-signoff'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'service-dispatch','core', 'delegation', 'ehr', 'ehr-execution','ehr-probe', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fact-verification', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'mis-execution', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types', 'visit-signoff'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   writeFileSync(join(dir, 'store.js'), `import {AppError} from './core.js'; export let saved;let hook=null;export function setup(s,h=null){saved=structuredClone(s);hook=h}export async function readState(){return structuredClone(saved)}export function scope(s,id){const m=s.members.find(m=>m.userId===id);if(!m||m.status==='suspended')throw new AppError(403,'Member revoked');return m}export async function persist(db,before,after,u,c){saved=structuredClone(after);saved.organisation.revision=(saved.organisation.revision??1)+1;if(hook)hook(saved,c);}`);
   writeFileSync(join(dir, 'access-audit.js'), 'export async function recordAccess(){}');
   const imp = f => import(pathToFileURL(join(dir, f + '.js')));
-  const S = await imp('visit-signoff'), G = await imp('send-gate'), store = await imp('store'), { executeMis } = await imp('mis-execution'), { executeEhr } = await imp('ehr-execution'), { applyEhr } = await imp('ehr');
+  const S = await imp('visit-signoff'), G = await imp('send-gate'), store = await imp('store'), { executeMis } = await imp('mis-execution'), { executeEhr } = await imp('ehr-execution'), { applyEhr } = await imp('ehr'), {mappedPayload}=await imp('mis');
   const now = '2026-10-02T06:00:00.000Z';
   const author = (userId, role) => ({ userId, name: userId, accountCode: userId.toUpperCase().padEnd(24, '0').slice(0, 24), role, at: now });
   const member = (userId, role, teamIds = ['default'], extra = {}) => ({ userId, displayName: userId, accountCode: userId.toUpperCase().padEnd(24, '0').slice(0, 24), role, isOwner: false, status: 'active', version: 1, teamIds, createdAt: now, ...extra });
@@ -295,10 +297,11 @@ try {
   const env = { SAHA_EXTERNAL_APIS_ENABLED: 'true', SAHA_MIS_TEST: 'test', SAHA_MIS_CONNECTIONS: JSON.stringify([{ organisationId: 'org', integrationId: 'mis_http', origin: 'https://programme.example', credentialBinding: 'SAHA_MIS_TEST' }]) };
   const worker = member('asha-1', 'asha');
   const deliveryState = (o, withSign = false) => { const s = fresh(o, [http]); s.members = [worker, sup, clin1, clin2, owner]; if (withSign) { s.workspace.visits[0].signOffs = [{ id: 'so0', by: 'sup-1', byName: 'sup-1', accountCode: 'x', role: 'supervisor', at: now, visitVersion: 4, contentHash: '' }]; }
-    s.workspace.submissions = [{ id: 'sub', visitId: 'v1', personId: 'p1', connectorId: 'mis_http', connectorName: 'Programme MIS', state: 'queued', attempts: 0, mode: 'http', payloadHash: 'a'.repeat(64), createdAt: now, updatedAt: now, delivery: { endpoint: http.endpoint, credentialBinding: http.credentialBinding, key: 'sub', actorId: 'asha-1', connectorVersion: 1, personVersion: 1, consentVersion: 1, visitVersion: 4, expiresAt: new Date(Date.now() + 60000).toISOString(), payload: { operation: 'submit', fields: { wt: '60' } }, events: [] } }]; return s; };
+    const payload=mappedPayload(http,s.workspace.visits[0],s);
+    s.workspace.submissions = [{ id: 'sub', visitId: 'v1', personId: 'p1', connectorId: 'mis_http', connectorName: 'Programme MIS', state: 'queued', attempts: 0, mode: 'http', payloadHash: payloadDigest(payload), createdAt: now, updatedAt: now, delivery: { endpoint: http.endpoint, credentialBinding: http.credentialBinding, key: 'sub', actorId: 'asha-1', connectorVersion: 1, personVersion: 1, consentVersion: 1, visitVersion: 4, expiresAt: new Date(Date.now() + 60000).toISOString(), payload, events: [] } }]; return s; };
   const signedDelivery = async (o) => { const s = deliveryState(o); const r = await run(s, sign(), sup); return { s, signOffId: r.signOffId }; };
-  const receipt = { contract: 'saha-mis-v1', key: 'sub', payloadHash: 'a'.repeat(64), status: 'accepted', receipt: 'PARTNER-1' };
-  let calls = 0; const transport = async () => { calls++; return receipt; };
+  const receipt = { contract: 'saha-mis-v1', key: 'sub', status: 'accepted', receipt: 'PARTNER-1' };
+  let calls = 0; const transport = async (_i,_org,_env,body) => { calls++; return {...receipt,payloadHash:body.payloadHash}; };
   const send = { type: 'sendSubmission', submissionId: 'sub' };
   const policy = (required, rules) => ops({ signOffPolicy: { required, version: 1, changes: [], ...(rules ? { rules } : {}) } });
   await check('MIS send refused before the checkpoint by an open dispute: stays queued, nothing sent', async () => {

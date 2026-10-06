@@ -1,3 +1,6 @@
+import {offlineOpenHarness} from './lib/offline-open-harness.mjs';
+// Device privacy is injected here; its server/IndexedDB effects are verified in device-work-contract/browser.
+import {deviceDigest} from '../public/field/device-work.js';
 // Slice 2i: alternative units and unusual-value reasons in the field notebook. Runs public/field/app.js in Node with real
 // Web Crypto, injected storage/network and a minimal DOM (the tests/field-provenance-client.mjs harness): unit controls,
 // tidying before sync, the local hold without a reason, the sync body, and a server refusal routed to review.
@@ -6,11 +9,11 @@ import {derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes} from '
 class Element{constructor(tag='div'){this.tag=tag;this.children=[];this.value='';this.hidden=false;this.style={};this.disabled=false;}append(...c){this.children.push(...c)}prepend(...c){this.children.unshift(...c)}replaceChildren(...c){this.children=c}querySelector(tag){return this.children.find(c=>c.tag===tag)||this.children.map(c=>c.querySelector?.(tag)).find(Boolean)||null}}
 const elements=new Map();const byId=id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id)};
 let record=null,calls=[],network=async()=>{throw Error('Network disconnected')};
-const context=vm.createContext({Blob,OffscreenCanvas:class{},createImageBitmap:async()=>{throw Error('no images')},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Object,Number,String,isNaN,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+const context=vm.createContext({...offlineOpenHarness(()=>context.writeVault),deviceDigest,privacyReviewRequired:()=>false,clearPrivacyReviewRequired:()=>true,discardCachedRegistrationMatches:async(value,key,salt,revision)=>({book:value,revision}),reconcileRegistrationBook:async(value,key,salt,revision)=>({book:value,revision}),reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false,Blob,OffscreenCanvas:class{},createImageBitmap:async()=>{throw Error('no images')},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Object,Number,String,isNaN,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;},
  writeMedia:async()=>{},readMedia:async()=>null,deleteMedia:async()=>{},listMediaIds:async()=>[],
- fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
-vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/,''),context);
+ fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
+vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/gm,''),context);
 const run=code=>vm.runInContext(code,context),val=code=>JSON.parse(run('JSON.stringify('+code+')')),check=fn=>{fn();passed++};let passed=0;
 const idle=async()=>{for(let i=0;i<200&&run('busy');i++)await new Promise(r=>setTimeout(r,5));};
 byId('passphrase').value='synthetic-units-phrase';await byId('unlock-form').onsubmit({preventDefault(){}});await idle();
@@ -22,13 +25,13 @@ context.fixture={packet,packageHash:await packetHash(packet),facts:structuredClo
 run('render()');const find=(n,pred)=>pred(n)?n:(n.children??[]).map(c=>find(c,pred)).find(Boolean);const all=(n,pred,out=[])=>{if(pred(n))out.push(n);for(const c of n.children??[])all(c,pred,out);return out;};
 const section=()=>all(byId('editor'),n=>n.tag==='details').find(d=>d.children.some(c=>c.tag==='summary'&&/Other units and unusual values/.test(c.textContent)));
 const label=(box,text)=>find(box,n=>n.tag==='label'&&n.textContent===text);
-check(()=>{const box=section();assert.ok(box,'units section rendered');assert.equal(box.open,false,'closed without entries');assert.equal(all(box,n=>n.tag==='select').length,3);});
+check(()=>{const box=section();assert.ok(box,'units section rendered');assert.equal(box.open,false,'closed without entries');assert.equal(all(box,n=>n.tag==='select').length,6);});
 check(()=>assert.ok(label(section(),'Weight · value in lb (pounds) / पाउंड').children.find(c=>c.tag==='input').disabled,'no value until a unit is chosen'));
 // Choosing pounds and entering a value: the device copy keeps what was entered; tidying fills the converted kg value.
 let s=label(section(),'Weight · unit / इकाई').children.find(c=>c.tag==='select');s.value='lb';s.onchange();await run('chain');run('render()');
 check(()=>{assert.deepEqual(val('active().facts.entered'),{weight:{value:'',unit:'lb'}});assert.equal(section().open,true);});
 let input=label(section(),'Weight · value in lb (pounds) / पाउंड').children.find(c=>c.tag==='input');check(()=>assert.equal(input.disabled,false));input.value='154';input.oninput();await run('chain');
-check(()=>{const t=val('tidyFacts(active().facts)');assert.equal(t.weight,'69.85');assert.deepEqual(t.entered,{weight:{value:'154',unit:'lb'}});assert.equal(val('active().facts.weight'),'');});
+check(()=>{const t=val('tidyFacts(active().facts)');assert.equal(t.weight,'69.85');assert.deepEqual(t.entered,{weight:{value:'154',unit:'lb'}});assert.equal(val('active().facts.weight'),'69.85');});
 check(()=>assert.equal(run("valueProblem(tidyFacts(active().facts))"),null));
 // An unusual converted value is shown with a reason field, and sync is held on the device until a reason is given.
 input.value='882';input.oninput();await run('chain');run('render()');

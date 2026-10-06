@@ -156,7 +156,7 @@ emit('docs/current/CURRENT-API-INVENTORY.md', '# Current API inventory\n\n'
      'The handler source supplies exact query/export behavior; this inventory is not a generated OpenAPI guarantee.\n')
 
 schema = (ROOT/'db/schema.ts').read_text()
-tables = list(re.finditer(r"export const (\w+) = sqliteTable\('([^']+)',", schema))
+tables = list(re.finditer(r"export\s+const\s+(\w+)\s*=\s*sqliteTable\(\s*'([^']+)'\s*,", schema))
 data = []
 for index, match in enumerate(tables):
     segment = schema[match.end():tables[index+1].start() if index+1<len(tables) else len(schema)]

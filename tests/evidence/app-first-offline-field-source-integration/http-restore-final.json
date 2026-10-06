@@ -1,0 +1,152 @@
+{
+  "generatedAt": "2026-10-05T07:57:49.852Z",
+  "startedAt": "2026-10-05T07:56:30.735Z",
+  "command": "node scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard --report tests/reports/combined-http-restore-final.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 4758,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 76802,
+      "failedSuites": 0
+    },
+    {
+      "layer": "resilience",
+      "status": "passed",
+      "suites": 1,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1570,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 4779,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 79117
+  },
+  "suites": [
+    {
+      "id": "integration/run-api-smoke",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/run-api-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 4758,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 76802,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/latest-result.json"
+      ],
+      "requirementsCited": 115,
+      "reason": null,
+      "log": "tests/reports/logs/integration__run-api-smoke.log"
+    },
+    {
+      "id": "resilience/recovery-drill",
+      "layer": "resilience",
+      "kind": "suite",
+      "file": "tests/recovery-drill.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1570,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/recovery-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/resilience__recovery-drill.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/latest-result.json",
+      "tests/operations-load-result.json",
+      "tests/recovery-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 176,
+        "components": 0,
+        "suitesCitingNoRequirement": 47,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 49,
+        "components": 84,
+        "suitesCitingNoRequirement": 7,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 21,
+        "components": 0,
+        "suitesCitingNoRequirement": 17,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 262,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 75,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

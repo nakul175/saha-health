@@ -1,0 +1,25 @@
+{
+  "passed": 45,
+  "failed": 0,
+  "creates": [
+    {
+      "body": "{\"type\":\"createPerson\",\"name\":\"Synthetic guided identity\",\"age\":30,\"sex\":\"Unknown\",\"village\":\"Synthetic locality\",\"teamId\":\"default\",\"programme\":\"General care\",\"registrationReview\":{\"hash\":\"bf3b28e239021998642e9b0bd40e53b936011c5e823200b9442a77fcb4712a75\",\"decision\":\"provisional\",\"reason\":\"Synthetic distinct source unclear; provisional identity pending clinician review\"}}",
+      "key": "6a822610b5113c43863bfd7fd53008b6"
+    },
+    {
+      "body": "{\"type\":\"createPerson\",\"name\":\"Synthetic dropped registration ACK\",\"age\":30,\"sex\":\"Unknown\",\"village\":\"Synthetic locality\",\"teamId\":\"default\",\"programme\":\"General care\",\"registrationReview\":{\"hash\":\"faf37c990cd3f7f26225106d01b2390381937628f33a895ef9c63947511a8dca\",\"decision\":\"distinct\",\"reason\":\"No candidate found in the current permitted local search.\"}}",
+      "key": "e6512712206fec0587b131dc92ad871e"
+    },
+    {
+      "body": "{\"type\":\"createPerson\",\"name\":\"Synthetic stale identity review\",\"age\":30,\"sex\":\"Unknown\",\"village\":\"Synthetic locality\",\"teamId\":\"default\",\"programme\":\"General care\",\"registrationReview\":{\"hash\":\"7de4055ad329ed520d1621e803475621968b66375dd46c91a37c75830a595179\",\"decision\":\"distinct\",\"reason\":\"No candidate found in the current permitted local search.\"}}",
+      "key": "f7cf18f5e7092503af0ab03d7feb8dd1"
+    },
+    {
+      "body": "{\"type\":\"createPerson\",\"name\":\"Synthetic withdrawn registration\",\"age\":30,\"sex\":\"Unknown\",\"village\":\"Synthetic locality\",\"teamId\":\"default\",\"programme\":\"General care\",\"registrationReview\":{\"hash\":\"7ee95f4ca6fdc3d81c13defaa448317df5d37befea35ff7c887dd9d869910190\",\"decision\":\"distinct\",\"reason\":\"No candidate found in the current permitted local search.\"}}",
+      "key": "210885e83f40d189098ea8f4b899c3e8"
+    }
+  ],
+  "matchRequests": 5,
+  "errors": [],
+  "scope": "Synthetic actual Worker/D1 and Chromium phone; no offline/device/formal acceptance"
+}

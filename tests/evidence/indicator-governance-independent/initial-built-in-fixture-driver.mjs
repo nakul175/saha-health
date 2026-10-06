@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {identity,client} from './lib/worker.mjs';
+import {startMiniflare} from './lib/miniflare.mjs';
+const directory='tests/evidence/indicator-governance-independent';
+let passed=0;
+const checks=[];
+const check=(value,label)=>{assert.ok(value,label);passed++;checks.push(label)};
+const worker=await startMiniflare({port:19591,name:'indicator-governance-independent'});
+try{
+ const api=client(worker.base),owner=identity('independent-definition-owner'),reviewer=identity('independent-definition-reviewer');
+ const state=(await api.get(owner,'/api/workspace')).json,org=state.organisation.id;
+ const cmd=async(who,body,status=200,key=crypto.randomUUID())=>{const r=await api.call(who,'/api/commands',{method:'POST',org,body,headers:{'Idempotency-Key':key}});check(r.status===status,`${body.type}: ${r.status} ${r.text}`);return r.json};
+ const reason='Independent synthetic definition reporting-clock review';
+ const other=(await api.get(reviewer,'/api/workspace')).json;
+ const invite=(await cmd(owner,{type:'createInvite',accountCode:other.user.accountCode,label:'Independent definition reviewer',role:'supervisor',teamIds:['default']})).result;
+ await cmd(reviewer,{type:'joinOrganisation',token:invite.token});
+ const spec={title:'Independent current reporting definition',unit:'count',numerator:'patients',denominator:null,filters:{},exclude:[],exclusionsNote:'Synthetic only',owner:'Synthetic owner',cadence:'Monthly',minimumCohort:5};
+ const proposal=(await cmd(owner,{type:'addIndicatorDefinition',id:'historical-window',spec,reason})).result;
+ const approval=(await cmd(reviewer,{type:'reviewIndicatorDefinition',id:proposal.id,expectedVersion:1,expectedGovernanceVersion:proposal.governanceVersion,decision:'approve',reason})).result;
+ const effectiveAt=new Date(Date.now()+500).toISOString();
+ await cmd(owner,{type:'releaseIndicatorDefinition',id:proposal.id,expectedVersion:1,expectedGovernanceVersion:approval.governanceVersion,reviewEventId:approval.eventId,effectiveAt,reason});
+ while(Date.now()<Date.parse(effectiveAt))await new Promise(r=>setTimeout(r,20));
+ const current=await api.call(owner,'/api/indicators',{method:'POST',org,body:{ids:proposal.id+'@1'}});
+ check(current.status===200,'Released definition is currently eligible for an actual scoped query');
+ const integration=(await api.get(owner,'/api/workspace',org)).json.integrations.find(x=>x.id==='mis_maternal');
+ await cmd(owner,{type:'setAdapterOperations',integrationId:integration.id,version:integration.operations?.version??0,allowed:['aggregate','lookup'],aggregateOnly:true,reason});
+ const yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
+ const report={type:'prepareAggregateReport',destinationId:integration.id,definitions:['all-people@1'],period:{start:yesterday,end:yesterday},teamIds:['default'],group:'none'};
+ await cmd(owner,report);
+ const actual=await api.call(owner,'/api/commands',{method:'POST',org,body:{...report,definitions:[proposal.id+'@1']},headers:{'Idempotency-Key':crypto.randomUUID()}});
+ mkdirSync(directory,{recursive:true});
+ const observation={passed,failed:actual.status===200?0:1,actualWorker:true,actualD1:true,currentQueryStatus:current.status,historicalReportStatus:actual.status,error:actual.json?.error??null,reportPeriod:report.period,effectiveAt,checks,scope:'Current definition governance must use current trusted server time independently of historical reporting cutoff; no clinical approval.'};
+ writeFileSync(directory+'/reporting-clock.json',JSON.stringify(observation,null,2)+'\n');
+ check(actual.status===200,'A currently released definition can prepare a historical-period report');
+ writeFileSync(directory+'/reporting-clock.json',JSON.stringify({...observation,passed,failed:0,checks},null,2)+'\n');
+ console.log(JSON.stringify({passed,failed:0}));
+}finally{await worker.stop()}

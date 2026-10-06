@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-10-05T02:42:52.680Z",
+  "startedAt": "2026-10-05T02:42:48.669Z",
+  "command": "node scripts/test.mjs integration --fast --only integration/app-offline-browser --report tests/reports/app-first-offline-counted.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3887,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 4011
+  },
+  "suites": [
+    {
+      "id": "integration/app-offline-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/app-offline-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3887,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__app-offline-browser.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/app-offline/expired-grant.png",
+      "tests/evidence/app-offline/offline-patient.png",
+      "tests/evidence/app-offline/result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 138,
+        "components": 0,
+        "suitesCitingNoRequirement": 36,
+        "requirementsCited": 138
+      },
+      "integration": {
+        "suites": 6,
+        "components": 84,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 116
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 1,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 169,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 154,
+    "suitesCitingNoRequirement": 47,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 154
+  }
+}

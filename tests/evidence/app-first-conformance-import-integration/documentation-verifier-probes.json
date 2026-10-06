@@ -1,0 +1,26 @@
+{
+  "passed": 4,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "named-report-tamper",
+      "rejected": true,
+      "exitCode": 1
+    },
+    {
+      "name": "historical-source-tamper",
+      "rejected": true,
+      "exitCode": 1
+    },
+    {
+      "name": "unpinned-named-report",
+      "rejected": true,
+      "exitCode": 1
+    },
+    {
+      "name": "exact-original-restoration",
+      "passed": true
+    }
+  ],
+  "limits": "Three actual deliberate faults rejected; exact immutable original bytes restored; full positive documentation checker passes."
+}

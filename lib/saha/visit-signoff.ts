@@ -1,3 +1,4 @@
+import { allDisputes, unresolvedDisputes, appendVerificationDispute, retainVerificationHolds, targetContent } from './verification-disputes';
 import { z } from 'zod';
 import { fail, person, uuid, visit } from './core';
 import { normallyAllowed } from './access';
@@ -99,8 +100,11 @@ export async function applySignOff(s:OrgState,input:unknown,u:Actor,m:Member,now
   return {disputeId:d.id,target:d.target};
  }
  if(c.type==='resolveDispute'){
-  const d=(v.disputes??[]).find(x=>x.id===c.disputeId);if(!d)fail(404,'Dispute not found on this visit.');if(resolutionOf(v,d))fail(409,'This dispute is already resolved.');
-  const same=await targetHash(v,d.target)===d.contentHash;
+  const d=allDisputes(v).find(x=>x.id===c.disputeId);if(!d)fail(404,'Dispute not found on this visit.');if(resolutionOf(v,d))fail(409,'This dispute is already resolved.');
+  const hash=await targetHash(v,d.target),legacy=d.verification?.binding==='legacy-unbound';
+  const same=legacy?d.verification?.carryContent===undefined||JSON.stringify(targetContent(v,d.target))===d.verification.carryContent:hash===d.contentHash;
+  if(d.verification&&(d.by===u.userId||d.verification.recorderIds?.includes(u.userId)||presumedTargetAuthors(v,d.target).has(u.userId)))fail(403,'A different clinician from the reviewer and recorder must resolve a verification dispute.');
+  if(legacy&&c.outcome==='corrected'&&d.verification?.carryContent===undefined)fail(409,'Original reviewed content was not bound. Attest current content as standing, or correct the visit to record a new carry-time basis.');
   if(c.outcome==='stands'){
    if(!same)fail(409,'The disputed content has changed since the dispute was raised, so it cannot stand. Resolve it as corrected, with evidence.');
    if(d.by===u.userId)fail(403,'A different clinician must close a dispute you raised.');
@@ -108,7 +112,8 @@ export async function applySignOff(s:OrgState,input:unknown,u:Actor,m:Member,now
   }
   else if(same)fail(409,'The disputed content has not changed. Correct the visit first (a correction draft carries the dispute forward), or resolve it as standing if the recorded value is right.');
   if((v.disputeResolutions?.length??0)>=50)fail(422,'Resolution limit reached for this visit.');
-  const r:DisputeResolution={id:uuid(),disputeId:d.id,outcome:c.outcome,by:u.userId,byName:u.displayName,accountCode:m.accountCode,at:now,evidence:c.evidence,...(c.reference?{reference:c.reference}:{})};(v.disputeResolutions??=[]).push(r);
+  if(d.verification&&!(v.disputes??[]).some(x=>x.id===d.id)){if((v.disputes?.length??0)>=50)fail(422,'Dispute limit reached for this visit.');(v.disputes??=[]).push(d);}
+  const r:DisputeResolution={id:uuid(),disputeId:d.id,outcome:c.outcome,by:u.userId,byName:u.displayName,accountCode:m.accountCode,at:now,evidence:c.evidence,...(d.verification?{currentContentHash:hash}:{}),...(c.reference?{reference:c.reference}:{})};(v.disputeResolutions??=[]).push(r);
   s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:v.id,personId:v.personId,detail:`Dispute on ${disputeLabel(d.target)} resolved as ${c.outcome==='stands'?'standing as recorded':'corrected'} by a clinician; the dispute and its reason are kept. Evidence: ${c.evidence}${c.reference?` Reference: ${c.reference}`:''}`});
   return {resolutionId:r.id,disputeId:d.id,outcome:r.outcome};
  }
@@ -127,7 +132,9 @@ export async function applySignOff(s:OrgState,input:unknown,u:Actor,m:Member,now
   if(presumedEntryAuthors(v,c.entry).has(u.userId))fail(403,'A different clinician must verify or dispute an entry you recorded.');
   if(entryReview(v,c.entry)?.state===c.decision)fail(409,`${label} already ${c.decision}.`);
   if((v.entryReviews?.length??0)>=200)fail(422,'Review limit reached for this visit.');
+  retainVerificationHolds(v);
   const r:EntryReview={id:uuid(),entry:c.entry,state:c.decision,by:u.userId,byName:u.displayName,at:now,...(c.reason?{reason:c.reason}:{})};(v.entryReviews??=[]).push(r);
+  if(r.state==='disputed')await appendVerificationDispute(v,r,c.entry,u,m);
   s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:v.id,personId:v.personId,detail:`${label} ${c.decision} by a clinician on a confirmed visit; content unchanged.${c.reason?` Reason: ${c.reason}`:''}`});
   return {reviewId:r.id,entry:r.entry,state:r.state};
  }
@@ -155,8 +162,8 @@ export function carryDisputes(before:OrgState,after:OrgState,u:Actor,m:Member,no
  const known=new Set(before.workspace.visits.map(v=>v.id));
  for(const v of after.workspace.visits){
   if(known.has(v.id)||!v.amendsVisitId||v.disputes?.length)continue;const base=after.workspace.visits.find(x=>x.id===v.amendsVisitId);if(!base)continue;
-  const open=(base.disputes??[]).filter(d=>!resolutionOf(base,d)&&disputeTargets(v).includes(d.target));if(!open.length)continue;
-  v.disputes=open.map(d=>({...d,id:uuid(),visitVersion:v.version,carriedFrom:d.id}));
+  const open=unresolvedDisputes(base).filter(d=>d.verification||disputeTargets(v).includes(d.target));if(!open.length)continue;
+  v.disputes=open.map(d=>({...d,id:uuid(),visitVersion:v.version,carriedFrom:d.id,...(d.verification?.binding==='legacy-unbound'?{verification:{...d.verification,carryContent:d.verification.carryContent??JSON.stringify(targetContent(base,d.target))}}:{})}));
   after.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'carryDisputes',subject:v.id,personId:v.personId,detail:`${open.length} open dispute${open.length===1?'':'s'} carried from the corrected visit to this correction draft (${open.map(d=>disputeLabel(d.target)).join(', ')}). They block sending until a clinician resolves them on the corrected visit.`});
  }
 }

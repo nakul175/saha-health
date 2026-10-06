@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-05",
+  "base": "0df447cc",
+  "variant": "no-workspace-audit-or-metric-persist",
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "concurrency": 4,
+  "loadsPerRound": 200,
+  "warmupLoads": 100,
+  "phases": [
+    {
+      "phase": "cold",
+      "rssKb": 76320,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 539352
+    },
+    {
+      "phase": "warm",
+      "rssKb": 160720,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 4693552
+    },
+    {
+      "phase": "round 1",
+      "rssKb": 224480,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 4693552
+    },
+    {
+      "phase": "round 2",
+      "rssKb": 301888,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 4693552
+    },
+    {
+      "phase": "idle 5s",
+      "rssKb": 301920,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 4693552
+    },
+    {
+      "phase": "idle 10s",
+      "rssKb": 301888,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 540752
+    },
+    {
+      "phase": "idle 15s",
+      "rssKb": 301888,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 540752
+    },
+    {
+      "phase": "idle 20s",
+      "rssKb": 301888,
+      "pids": [
+        83096
+      ],
+      "databaseBytes": 540752
+    }
+  ],
+  "http200": 500,
+  "durableViewWorkspaceRows": 0,
+  "metricRows": 0,
+  "workspaceMetricsCount": null,
+  "peopleRows": 6,
+  "visitRows": 0,
+  "responseByteRange": [
+    16642,
+    16642
+  ],
+  "completed": true
+}

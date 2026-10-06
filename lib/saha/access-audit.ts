@@ -19,6 +19,7 @@ export { ACCESS_ACTION_NAMES } from './types';
 // request, and the person sees ACCESS_REFUSED. This applies to every access listed in ACCESS_ACTIONS.
 export const ACCESS_ACTIONS = {
   viewPatientRecord: 'Full patient record opened (paged workspace).',
+  viewActionPlan: 'Derived patient action plan read; not a full patient record access.',
   viewRecordHistory: 'Revision history read.',
   viewMedia: 'Visit media opened.',
   viewExternalRecords: 'Received external (ABDM) records listed.',

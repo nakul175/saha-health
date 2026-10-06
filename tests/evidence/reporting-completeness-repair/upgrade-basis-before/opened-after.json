@@ -1,0 +1,252 @@
+{
+  "completeness": {
+    "original": {
+      "body": {
+        "version": 1,
+        "evaluatedAt": "2026-10-05T19:45:11.762Z",
+        "window": {
+          "since": "2026-09-06T00:00:00.000Z",
+          "until": "2026-10-05T19:45:11.756Z",
+          "days": 30
+        },
+        "calendars": [
+          {
+            "id": "upgrade-calendar",
+            "version": 1,
+            "digest": "0e5d16ce8da8f431d48683d6fef37062405099b75824e80a261cf87a9ef6bb8d",
+            "effectiveAt": "2026-10-05T19:45:11.720Z",
+            "title": "Synthetic preserved calendar",
+            "definitions": [
+              "visits-confirmed@1"
+            ]
+          }
+        ],
+        "coverage": "operator-declared-complete",
+        "clinicalDenominator": "unknown",
+        "affectedDenominatorCoverage": [],
+        "affectedSourcePeriods": [],
+        "sources": [
+          {
+            "calendarId": "upgrade-calendar",
+            "calendarVersion": 1,
+            "calendarDigest": "0e5d16ce8da8f431d48683d6fef37062405099b75824e80a261cf87a9ef6bb8d",
+            "teamId": "default",
+            "periodId": "period-one",
+            "start": "2026-09-10T19:45:11.592Z",
+            "end": "2026-10-04T19:45:11.592Z",
+            "deadline": "2026-10-05T18:45:11.592Z",
+            "deadlinePassed": true,
+            "sourceId": "mis-source",
+            "source": "Programme source",
+            "kind": "mis",
+            "status": "declared-complete",
+            "affectedOperands": [
+              {
+                "definitionRef": "visits-confirmed@1",
+                "component": "numerator",
+                "coverage": "declared-complete",
+                "clinicalDenominator": "unknown"
+              }
+            ],
+            "lateHours": 24,
+            "syncHours": 6,
+            "coverageTimeliness": "declared coverage arrived late",
+            "refreshAt": "2026-10-05T19:45:11.728Z",
+            "evidence": {
+              "id": "ea284c8e-f75f-40b2-861e-f6d2811887e3",
+              "version": 1,
+              "status": "complete",
+              "through": "2026-10-04T19:45:11.592Z",
+              "evidenceHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "actorId": "t-823e0f82-calendar-upgrade-reviewer",
+              "memberVersion": 1,
+              "role": "supervisor",
+              "at": "2026-10-05T19:45:11.728Z"
+            },
+            "warning": "Operator-declared source coverage; clinical denominator remains unknown."
+          }
+        ],
+        "notice": "Expected-source coverage is distinct from patient/clinical denominator. Observed receipts or activity never establish completeness. No matching released calendar or period means unknown coverage."
+      },
+      "basis": "5de9a7000dd6780c4b45079bcd7020046d143ed9fc834517c13656372701311c",
+      "digest": "c2d0c292e8baa1fc60a178fa6da3ca21fd3ffe7de2848468ea6b3b8bf8d8a553"
+    },
+    "current": {
+      "body": {
+        "version": 1,
+        "evaluatedAt": "2026-10-05T19:45:12.487Z",
+        "window": {
+          "since": "2026-09-06T00:00:00.000Z",
+          "until": "2026-10-05T19:45:11.756Z",
+          "days": 30
+        },
+        "calendars": [
+          {
+            "id": "upgrade-calendar",
+            "version": 1,
+            "digest": "0e5d16ce8da8f431d48683d6fef37062405099b75824e80a261cf87a9ef6bb8d",
+            "effectiveAt": "2026-10-05T19:45:11.720Z",
+            "title": "Synthetic preserved calendar",
+            "definitions": [
+              "visits-confirmed@1"
+            ]
+          }
+        ],
+        "coverage": "incomplete-or-unknown",
+        "clinicalDenominator": "unknown",
+        "affectedDenominatorCoverage": [],
+        "affectedSourcePeriods": [
+          {
+            "calendarId": "upgrade-calendar",
+            "calendarVersion": 1,
+            "teamId": "default",
+            "periodId": "period-one",
+            "sourceId": "mis-source",
+            "status": "unknown-source-version",
+            "affectedOperands": [
+              {
+                "definitionRef": "visits-confirmed@1",
+                "component": "numerator",
+                "coverage": "unknown-source-version",
+                "clinicalDenominator": "unknown"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "calendarId": "upgrade-calendar",
+            "calendarVersion": 1,
+            "calendarDigest": "0e5d16ce8da8f431d48683d6fef37062405099b75824e80a261cf87a9ef6bb8d",
+            "teamId": "default",
+            "periodId": "period-one",
+            "start": "2026-09-10T19:45:11.592Z",
+            "end": "2026-10-04T19:45:11.592Z",
+            "deadline": "2026-10-05T18:45:11.592Z",
+            "deadlinePassed": true,
+            "sourceId": "mis-source",
+            "source": "Programme source",
+            "kind": "mis",
+            "status": "unknown-source-version",
+            "currentSourceVersion": {
+              "contractVersion": 1,
+              "kind": "mis",
+              "integrationId": "mis_community",
+              "integrationVersion": 1
+            },
+            "affectedOperands": [
+              {
+                "definitionRef": "visits-confirmed@1",
+                "component": "numerator",
+                "coverage": "unknown-source-version",
+                "clinicalDenominator": "unknown"
+              }
+            ],
+            "lateHours": 24,
+            "syncHours": 6,
+            "coverageTimeliness": "declared coverage arrived late",
+            "refreshAt": "2026-10-05T19:45:11.728Z",
+            "evidence": {
+              "id": "ea284c8e-f75f-40b2-861e-f6d2811887e3",
+              "version": 1,
+              "status": "complete",
+              "through": "2026-10-04T19:45:11.592Z",
+              "evidenceHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "sourceVersion": null,
+              "actorId": "t-823e0f82-calendar-upgrade-reviewer",
+              "memberVersion": 1,
+              "role": "supervisor",
+              "at": "2026-10-05T19:45:11.728Z"
+            },
+            "warning": "Coverage unknown-source-version after reporting deadline; clinical denominator remains unknown."
+          }
+        ],
+        "notice": "Expected-source coverage is distinct from patient/clinical denominator. Observed receipts or activity never establish completeness. No matching released calendar or period means unknown coverage."
+      },
+      "basis": "5de9a7000dd6780c4b45079bcd7020046d143ed9fc834517c13656372701311c",
+      "digest": "ff64b7f979067f3812e2ba72dfdedbc2e97739a69202f9a1b57032fe02e830d2"
+    },
+    "affected": false
+  },
+  "impact": {
+    "version": 1,
+    "status": "unchanged",
+    "basisHash": "c8d1cf95dcca56f9675b009391a7693af236a8cfe077fefc1b6e51db28e7cbcf",
+    "checkedAt": "2026-10-05T19:45:12.483Z",
+    "notice": "No change in the pinned counting inputs or their source evidence was discovered."
+  },
+  "id": "e5edfc1d-e71b-4626-a041-a728cfe7b199",
+  "parentId": null,
+  "digest": "607bbbfd1ede532e54416facf034cbed804d80c6def88ae20b1c4fe6e02f7caf",
+  "createdAt": "2026-10-05T19:45:11.762Z",
+  "authorId": "t-f45c5470-calendar-upgrade-owner",
+  "status": "published",
+  "sequence": 3,
+  "cutoff": "2026-10-05T19:45:11.756Z",
+  "window": {
+    "since": "2026-09-06T00:00:00.000Z",
+    "until": "2026-10-05T19:45:11.756Z",
+    "days": 30
+  },
+  "definitions": [
+    {
+      "id": "visits-confirmed",
+      "version": 1,
+      "title": "Confirmed visits",
+      "spec": {
+        "title": "Confirmed visits",
+        "unit": "count",
+        "numerator": "visits-confirmed",
+        "denominator": null,
+        "filters": {},
+        "exclude": [],
+        "exclusionsNote": "Voided and superseded visits",
+        "owner": "Programme manager",
+        "cadence": "Weekly",
+        "minimumCohort": 5
+      },
+      "definition": {
+        "id": "visits-confirmed",
+        "version": 1,
+        "recordedAt": "2026-09-30T00:00:00.000Z",
+        "canonical": "{\"id\":\"visits-confirmed\",\"version\":1,\"unit\":\"count\",\"numerator\":\"visits-confirmed\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"minimumCohort\":5}",
+        "governance": {
+          "legacy": true,
+          "reviewEventId": null,
+          "releaseEventId": null,
+          "effectiveAt": null
+        }
+      }
+    }
+  ],
+  "history": [
+    {
+      "id": "9b4935e5-b07f-4ca1-9297-60bc4425f22e",
+      "sequence": 1,
+      "kind": "prepared",
+      "actorId": "t-f45c5470-calendar-upgrade-owner",
+      "at": "2026-10-05T19:45:11.762Z",
+      "reason": "Synthetic retained source coverage upgrade",
+      "reviewId": null
+    },
+    {
+      "id": "e40b3c1f-9ffe-4865-ba09-5f5cf2ba709a",
+      "sequence": 2,
+      "kind": "approved",
+      "actorId": "t-823e0f82-calendar-upgrade-reviewer",
+      "at": "2026-10-05T19:45:11.778Z",
+      "reason": "Synthetic retained source coverage upgrade",
+      "reviewId": null
+    },
+    {
+      "id": "d7fef030-09c0-4e33-8258-eedff4150bfc",
+      "sequence": 3,
+      "kind": "published",
+      "actorId": "t-f45c5470-calendar-upgrade-owner",
+      "at": "2026-10-05T19:45:11.788Z",
+      "reason": "Synthetic retained source coverage upgrade",
+      "reviewId": "e40b3c1f-9ffe-4865-ba09-5f5cf2ba709a"
+    }
+  ],
+  "notice": "Synthetic software publication. Clinical denominator and official publication acceptance remain pending."
+}

@@ -1,0 +1,14 @@
+node:fs:2483
+    return binding.writeFileUtf8(
+                   ^
+
+Error: ENOENT: no such file or directory, open 'tests/evidence/programme-raw-key-independent/legacy/safety.json'
+    at writeFileSync (node:fs:2483:20)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-raw-key-cold/tests/raw-key-independent-repeat-programme-own-cold-safety.mjs:184:3 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'tests/evidence/programme-raw-key-independent/legacy/safety.json'
+}
+
+Node.js v24.19.0

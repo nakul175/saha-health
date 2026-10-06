@@ -1,0 +1,44 @@
+{
+  "source": "f3cdbdc27d02b73d485637b40dcb6ddb620906bf",
+  "date": "2026-10-05",
+  "applicationChanged": false,
+  "qualification": false,
+  "o2": "open",
+  "successfulControlRequests": 4800,
+  "successfulCurrentWorkspaceRequests": 500,
+  "commands": [
+    "node --check scripts/diagnose-memory-d1-lifetimes.mjs",
+    "node scripts/run-framework.mjs build",
+    "node scripts/diagnose-memory-d1-lifetimes.mjs",
+    "SAHA_MEMORY_LIFETIMES_MODES=serial23-empty,batch23-empty,service23-empty SAHA_MEMORY_LIFETIMES_OUT=tests/evidence/memory-d1-lifetimes/repeat node scripts/diagnose-memory-d1-lifetimes.mjs",
+    "SAHA_MEMORY_VARIANT=current-f3cdbdc2 SAHA_MEMORY_WRITE_EVIDENCE=tests/evidence/memory-d1-lifetimes/current-app node scripts/diagnose-memory-workspace-variant.mjs"
+  ],
+  "results": "All commands terminal exit0; all8controlarms600 HTTP200 with expected fully consumed results; current500 HTTP200 with exact500 audits+metric counts; no source fixes/no full-suite claim",
+  "files": [
+    {
+      "path": "tests/evidence/memory-d1-lifetimes/current-app/current-f3cdbdc2-vmmap.txt",
+      "sha256": "2d6a6a1efbd01dafc06112fbf36152ea1e2a0a017c7286ca9440deffbee8eb52",
+      "bytes": 5942
+    },
+    {
+      "path": "tests/evidence/memory-d1-lifetimes/current-app/current-f3cdbdc2.json",
+      "sha256": "063329728fbaedba9d5eab4c4198d68a4c0f95def405218e792ef0dc8be2ffad",
+      "bytes": 1536
+    },
+    {
+      "path": "tests/evidence/memory-d1-lifetimes/environment.json",
+      "sha256": "71b5002eace1b14f28f6039acdc144c42762a952ca247033dcc4d8bfbf0d2809",
+      "bytes": 447
+    },
+    {
+      "path": "tests/evidence/memory-d1-lifetimes/repeat/result.json",
+      "sha256": "9ad7dbdbaf0d7929ed4c774d81a7a5afd615a54f88a6b3adce71bf0b9645aaa9",
+      "bytes": 2649
+    },
+    {
+      "path": "tests/evidence/memory-d1-lifetimes/result.json",
+      "sha256": "1ea4ab14dd5a872361173de3fb93568fd31035b301db8aa80e2983631ecb150a",
+      "bytes": 3908
+    }
+  ]
+}

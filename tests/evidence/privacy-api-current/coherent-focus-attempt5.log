@@ -1,0 +1,48 @@
+","status":200,"durationMs":13}
+[wrangler:info] POST /api/commands 200 OK (15ms)
+{"event":"saha_request","requestId":"ffab81d3-d374-4ed2-b0e0-0a44bc5f2069","route":"indicators","status":200,"durationMs":12}
+[wrangler:info] POST /api/indicators 200 OK (14ms)
+{"event":"saha_request","requestId":"1bf0a176-64ed-45ac-80cc-2eb4676657c7","route":"commands","status":200,"durationMs":12}
+[wrangler:info] POST /api/commands 200 OK (14ms)
+{"event":"saha_request","requestId":"5d346408-5ed4-4d4f-862c-5d570f661ea9","route":"commands","status":200,"durationMs":10}
+[wrangler:info] POST /api/commands 200 OK (12ms)
+{"event":"saha_request","requestId":"ae3c4772-9601-4bd2-8a91-ec3e76e550b9","route":"commands","status":200,"durationMs":14}
+[wrangler:info] POST /api/commands 200 OK (15ms)
+{"event":"saha_request","requestId":"b280ee6d-4bf7-4da4-946a-9c4611628b4b","route":"commands","status":200,"durationMs":13}
+[wrangler:info] POST /api/commands 200 OK (14ms)
+{"event":"saha_request","requestId":"cdc4304b-f0fa-4898-8b34-74253af7350a","route":"workspace","status":200,"durationMs":6}
+[wrangler:info] GET /api/workspace 200 OK (8ms)
+{"event":"saha_request","requestId":"1728fcfb-99c5-4132-825e-638ef2c6c3eb","route":"commands","status":200,"durationMs":11}
+[wrangler:info] POST /api/commands 200 OK (16ms)
+{"event":"saha_request","requestId":"c5ac4b38-8712-4a72-81f8-c853ed522262","route":"workspace","status":200,"durationMs":4}
+[wrangler:info] GET /api/workspace 200 OK (6ms)
+{"event":"saha_request","requestId":"c905cd41-1cf1-4dec-865a-0736aeeecebf","route":"commands","status":200,"durationMs":9}
+[wrangler:info] POST /api/commands 200 OK (11ms)
+{"event":"saha_request","requestId":"eb178113-9a27-4539-8f83-b457a4a3de5c","route":"workspace","status":200,"durationMs":4}
+[wrangler:info] GET /api/workspace 200 OK (6ms)
+{"event":"saha_request","requestId":"1e392099-0302-4de4-b4ff-a57f636a2895","route":"commands","status":422,"durationMs":0}
+[wrangler:info] POST /api/commands 422 Unprocessable Entity (2ms)
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Required"}
+
+422 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:10:213
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:8:186)
+    at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:10:196)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async reuseSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/reuse-privacy-registration-current.mjs:22:2)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:11:150 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 422,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

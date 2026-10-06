@@ -1,0 +1,48 @@
+{
+  "suite": "Process memory and ownership",
+  "layer": "unit",
+  "passed": 6,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-05T02:06:22.674Z",
+  "completedAt": "2026-10-05T02:06:22.776Z",
+  "environment": "local operating-system process samples; no application records",
+  "limits": [
+    "Resident memory only, not Cloudflare isolate heap.",
+    "Linux exposes the memory breakdown; macOS exposes RSS only."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "only descendants of the selected root are included",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a real allocated child has positive resident memory",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "unsupported breakdown values remain unknown",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "invalid process IDs cannot become command arguments",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "an unrelated cyclic ancestry snapshot terminates",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a disappeared process is an error rather than a zero sample",
+      "ok": true,
+      "ms": 23
+    }
+  ],
+  "memorySource": "ps"
+}

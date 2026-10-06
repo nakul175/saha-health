@@ -1,0 +1,18 @@
+{
+  "passed": 11,
+  "checks": [
+    "clean Back returns to Home without leaving /app",
+    "Forward restores Sync",
+    "dirty Back restores current history position before asking",
+    "cancelled Back retains unsaved weight",
+    "discarded Back returns to Today",
+    "discarded local weight was never written to server",
+    "Forward restores existing visit with server facts",
+    "saved draft survives clean Back and Forward",
+    "server readback remains the same unconfirmed draft",
+    "history stores no patient identifiers, facts, account or token",
+    "root Back exits to preceding full workspace without a sentinel trap"
+  ],
+  "completedAt": "2026-10-05T19:41:11.580Z",
+  "limits": "Real cached Chromium/local synthetic D1. TWA uses this browser history; no physical Android system-Back test, hosted Access or clinical acceptance."
+}

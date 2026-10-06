@@ -32,7 +32,7 @@ async function main() {
   const status = id => assessment.get(id).implementation;
 
   // ------------------------------------------------------------ one case
-  const visibleTo = role => new Set([...nav[role], 'Person page and visit', 'Alert bell (page header)']);
+  const visibleTo = role => new Set([...nav[role], 'Person page and visit', 'Alert bell (page header)', ...(role === 'ASHA' ? ['ASHA app Home (/app)'] : [])]);
   function startFrom(c, role) {
     const fallback = role ? 'Use this role\'s navigation, listed at the top of this script, and look for the screen that matches the requirement.' : 'Use the navigation of each role in the journey (plan section 6).';
     if (!c.screens.length) return `No screen is documented for ${c.tc.reqIds.join(', ')}: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. ${fallback}`;

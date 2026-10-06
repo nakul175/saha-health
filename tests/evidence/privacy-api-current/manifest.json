@@ -1,0 +1,266 @@
+{
+  "date": "2026-10-05T21:26:09.897822+00:00",
+  "runtimeBase": "8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30",
+  "scope": "Test-only current privacy/registration API fixture qualification; no runtime/migration/ledger edits. Root integration/qualification remains separate.",
+  "assertions": {
+    "fullAPI": 5020,
+    "originalMinimum": 4770,
+    "recovery": 21,
+    "coherentFocus": 197,
+    "focusOverlapsFullAPI": true
+  },
+  "types": "passed",
+  "build": "passed",
+  "ports": [
+    21000,
+    21001
+  ],
+  "drivers": [
+    {
+      "path": "tests/api-privacy-registration-current.mjs",
+      "sha256": "79e2697c3baeb13b3edb3a18356365677e9b9475141928d1b8ddb86df4f2151b"
+    },
+    {
+      "path": "tests/delegation-privacy-registration-current.mjs",
+      "sha256": "a7bb661d484ab1bd1fc9c83887d90ff95fdd1d4ab9b95a0f088b030c11bd65fc"
+    },
+    {
+      "path": "tests/indicator-freshness-privacy-registration-current.mjs",
+      "sha256": "45ec0551fb05019ab73da9f2b2425d9904260bec526d4ea0af09cf5429b7da23"
+    },
+    {
+      "path": "tests/indicator-registry-privacy-registration-current.mjs",
+      "sha256": "622cc05496350650bdc3be57552e95f0a6b410756128fdc8fb4892fd012608da"
+    },
+    {
+      "path": "tests/indicators-privacy-registration-current.mjs",
+      "sha256": "6a00076712e54979eb5450b5d9c2ca31e78696a78669914bbd8cc20a8ae0be59"
+    },
+    {
+      "path": "tests/lib/privacy-api-coherent-fixture.mjs",
+      "sha256": "9c31f33655ecf80ab5bf92b79b857bad472faf9f3695a4988a39bf593f28a7f9"
+    },
+    {
+      "path": "tests/operations-privacy-registration-current.mjs",
+      "sha256": "60b3adcc3d79c54e43babf68a2a138adf8fca8dcaead5f1ec6129fcf5f2185ce"
+    },
+    {
+      "path": "tests/privacy-api-coherent-focus.mjs",
+      "sha256": "e8b627ab3f954667ff07a4779a1313fc8de6e8de6626a8a3d3be5ac59b2674e6"
+    },
+    {
+      "path": "tests/read-audit-completion-privacy-registration-current.mjs",
+      "sha256": "24b6b303a9ab15d3dcbdce9ef6cdada810258fbe8822d4cc10774e19d6c49dfd"
+    },
+    {
+      "path": "tests/report-export-privacy-registration-current.mjs",
+      "sha256": "d365fa8d5a7de88d5f514bd758aafb27d4a34d62b37286aa6f60d166ff16d60f"
+    },
+    {
+      "path": "tests/reuse-privacy-registration-current.mjs",
+      "sha256": "311da0a21f2518275a89fc0cad1910f513725dff010a16787c22e2dcb2178436"
+    },
+    {
+      "path": "tests/run-api-privacy-registration-current.mjs",
+      "sha256": "cb22d0da5141c1a33aea612f8745105bd287610a251427c913f2ecfa21cf7ab3"
+    }
+  ],
+  "originalUnchanged": [
+    {
+      "path": "tests/api-smoke.mjs",
+      "sha256": "84916f49354af7b52f4cf1359525fa43a8cee5d47de79c957d6275522e387e1d"
+    },
+    {
+      "path": "tests/run-api-smoke.mjs",
+      "sha256": "a8a3de3ea239bed62cf9ca186c7e5f5cd54afd7f7e2618f10d01021cdd9cb4ad"
+    },
+    {
+      "path": "tests/operations-smoke.mjs",
+      "sha256": "864517f6bdfa0f3634b2937866096db7e6507cba81b657f6f181a6c105987add"
+    },
+    {
+      "path": "tests/indicators-smoke.mjs",
+      "sha256": "6c81b492b673d15849b47665bff8f79bc3b1f4d450f584b072b45a01fedc625d"
+    },
+    {
+      "path": "tests/reuse-smoke.mjs",
+      "sha256": "8678027d65833d694f744a01adc2fe28645399506315704850c339918af22a94"
+    },
+    {
+      "path": "tests/report-export-smoke.mjs",
+      "sha256": "a17d85f1ac3f1b139341c78430322f52deba05b61c8fb86d6c9a452c4a6ea8d8"
+    },
+    {
+      "path": "tests/read-audit-completion-smoke.mjs",
+      "sha256": "5204d38ac11a7fd5b4337322f6d531af42eb004bd33889bffb697f217e51fd35"
+    },
+    {
+      "path": "tests/delegation-smoke.mjs",
+      "sha256": "92055f506ff0c10e9bb913dd1ebc562676aa3642b691dd03eb459d62c8feab36"
+    },
+    {
+      "path": "tests/indicator-freshness-smoke.mjs",
+      "sha256": "5ec40422756cba0684712d8b7868c3d55a351f9673cc89b62040f5076b211f07"
+    },
+    {
+      "path": "tests/indicator-registry-reporting-current.mjs",
+      "sha256": "81d21db7e09e870225f3bcd9a20b5f46a2441c3c30a70c511a8e713251bf42cb"
+    },
+    {
+      "path": "tests/recovery-drill.mjs",
+      "sha256": "636f759045908a3bb8b55fabca9af5c03f8918b2ee4c51e6f75f18f072ef0e2a"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt1.log",
+      "sha256": "55b07988d808c5148fb8234421c54a33c458415a0903848d57fcb0ec465448e0"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt2.log",
+      "sha256": "131af836c64d468eeb5684de1c698d9d20f227325b2f07167d011d8c86d93788"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt3.log",
+      "sha256": "aaa4cfb8dc4226a8010f754255c560ec4082c4479d727e3501c548d50f070706"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt4.log",
+      "sha256": "7890ccd4edc5a319854ecbe5967ee041280566d56d34c354fb64522e723a71f3"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt5.log",
+      "sha256": "5199e8122413f3da6184fed75233e6e50661a803ae0b5bf43a12de123cf1a60f"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt6.log",
+      "sha256": "f32cbffe766c97707fd5bb7050c80a67ecea252d65f17188e753b24f849892de"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt7.log",
+      "sha256": "8d3cc355ece5ff62b356742b7e8762714f352500574f0e40c4d2db8cf751ef5d"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-attempt8.log",
+      "sha256": "33eae1cc15d7dbf45ba549c91429473da4cdd03df9bfe50148d2ce7499d38d3c"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/api-result.json",
+      "sha256": "27a598a4f7fc22572cace47159353f132a01cfedd75a7af24459e2edcc119ed7"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/build.log",
+      "sha256": "3c1a8e2ad3d49a59961ae100997622d20f682313b4e5a6b662931a01cf6d8948"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/coherent-focus-attempt1.log",
+      "sha256": "e995002c478b7774158fcf352f2ad12195276fc2249ce2024f8bb752dfa3a5be"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/coherent-focus-attempt2.log",
+      "sha256": "d015f15cc2f68c1d67717bf1db143b1db9000b66d5f313a076e92b79ed488e01"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/coherent-focus-attempt3.log",
+      "sha256": "b8c1068449da05499fae4a132dcf52977c77e85d70f662fe6d2c0ed2793b14dc"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/coherent-focus-attempt4.log",
+      "sha256": "6ca33b451a110f2d02f09c590dcac75b404e5af258273240794175a0835bcdd6"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/coherent-focus-attempt5.log",
+      "sha256": "6105eded94ea13ae45a1d41feda7a88130951c672e068a09890ea53fa5cdf4c8"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/coherent-focus-attempt6.log",
+      "sha256": "68290e6be7230e51c9dbdfe4adf8a8f5777081f9c761b267e34d7c89007c59bd"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/coherent-focus-result.json",
+      "sha256": "d4ef473f92e3945be98f9562f85db5c9f8a5edc2bca1371a5ba33b7f6b191379"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/coherent-near-name-review.log",
+      "sha256": "d015f15cc2f68c1d67717bf1db143b1db9000b66d5f313a076e92b79ed488e01"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/coherent-owner-team-scope.log",
+      "sha256": "e995002c478b7774158fcf352f2ad12195276fc2249ce2024f8bb752dfa3a5be"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/crosssurface-control-missing-prior-eight.log",
+      "sha256": "55b07988d808c5148fb8234421c54a33c458415a0903848d57fcb0ec465448e0"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/default-team-duplicate-scope.log",
+      "sha256": "6ca33b451a110f2d02f09c590dcac75b404e5af258273240794175a0835bcdd6"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/delegated-report-patient-count.log",
+      "sha256": "5199e8122413f3da6184fed75233e6e50661a803ae0b5bf43a12de123cf1a60f"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/focus-explicit-patient-check.log",
+      "sha256": "6105eded94ea13ae45a1d41feda7a88130951c672e068a09890ea53fa5cdf4c8"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/operational-read-audit-patient-count.log",
+      "sha256": "7890ccd4edc5a319854ecbe5967ee041280566d56d34c354fb64522e723a71f3"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/refusal-message-fixture.log",
+      "sha256": "131af836c64d468eeb5684de1c698d9d20f227325b2f07167d011d8c86d93788"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/shared-freshness-first-query.log",
+      "sha256": "8d3cc355ece5ff62b356742b7e8762714f352500574f0e40c4d2db8cf751ef5d"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/shared-indicator-ledger.log",
+      "sha256": "c451c54ad80fc2638411b17a53abbce471c85ee41dea276171138cd4935c1029"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/shared-registry-first-query.log",
+      "sha256": "f32cbffe766c97707fd5bb7050c80a67ecea252d65f17188e753b24f849892de"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/initial-failures/shared-reuse-query.log",
+      "sha256": "aaa4cfb8dc4226a8010f754255c560ec4082c4479d727e3501c548d50f070706"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/operations-load-result.json",
+      "sha256": "0a73827d86e590966525cc070e56bfc4cdaae6fc8cddb85f0ee3f35f7d132d46"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/recovery-result.json",
+      "sha256": "ca65deb7a9e7a3c4209f65a83ab4b4a9724d49b13b10310d2f099c2378f86718"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/recovery.log",
+      "sha256": "ca65deb7a9e7a3c4209f65a83ab4b4a9724d49b13b10310d2f099c2378f86718"
+    },
+    {
+      "path": "tests/evidence/privacy-api-current/types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "doc": {
+    "path": "docs/current/PRIVACY-REGISTRATION-CURRENT-API-QUALIFICATION.md",
+    "sha256": "0f2e9b7cd080220445933ddbd2cea7692db0c937675ba49455e846c5dbe7352a"
+  },
+  "rootRegistration": {
+    "stableSuiteId": "integration/run-api-smoke",
+    "minimum": 4770,
+    "file": "tests/run-api-privacy-registration-current.mjs",
+    "result": "tests/evidence/privacy-api-current/api-result.json",
+    "ownedManualFocus": "tests/privacy-api-coherent-focus.mjs",
+    "focusResult": "tests/evidence/privacy-api-current/coherent-focus-result.json"
+  },
+  "limits": [
+    "local synthetic only",
+    "No disclosure ledger reset or scope bypass",
+    "Protected null totals incomparable, never zero",
+    "Full product/formal/external acceptance open"
+  ]
+}

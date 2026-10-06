@@ -241,7 +241,7 @@ async function runSuite(suite) {
   const rec = { id: suite.id, layer: suite.layer, kind: 'suite', file: suite.file, tier: suite.tier, status: null, passed: null, failed: null, skipped: null, durationMs: 0, exitCode: null, countSource: 'none', resultFiles: [], requirementsCited: suite.requirements.length };
   const why = await blockedReason(suite);
   if (why) { Object.assign(rec, { status: 'blocked', reason: why, failed: null }); records.push(rec); console.log(`  BLOCKED  ${suite.id}: ${why}`); return rec; }
-  const isApi = suite.file === 'tests/run-api-smoke.mjs';
+  const isApi = suite.id === 'integration/run-api-smoke';
   if (suite.layer !== 'unit') console.log(`  running  ${suite.id} ...`);
   if (isApi) {
     try { await prepareIntegrationState(); } catch (e) { Object.assign(rec, { status: 'blocked', reason: `could not build the local D1 state: ${String(e.message).split('\n')[0]}` }); records.push(rec); console.log(`  BLOCKED  ${suite.id}: ${rec.reason}`); return rec; }

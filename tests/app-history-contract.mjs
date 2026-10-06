@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import { mkdtempSync, readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const dir=mkdtempSync(join(tmpdir(),'saha-app-history-'));let passed=0;
+try{
+ const path=join(dir,'history.mjs');writeFileSync(path,ts.transpileModule(readFileSync('app/frontline-history.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
+ const {FrontlineHistory}=await import(pathToFileURL(path));
+ let position=0,location={organisationId:'private-org',view:'work',tab:'workspace',personId:null,visitId:null},guard='clear',proceed=null,controller;
+ const entries=[null],queue=[];
+ const port={get state(){return entries[position]},replaceState(state){entries[position]=state},pushState(state){entries.splice(++position);entries[position]=state},go(delta){const next=position+delta;if(next>=0&&next<entries.length){position=next;queue.push(()=>controller.pop(entries[position]));}}};
+ controller=new FrontlineHistory(port,'opaque-session',location,next=>{location=next;controller.observe(next)},()=>guard,next=>{proceed=next;});
+ const drain=()=>{let iterations=0;while(queue.length){assert.ok(++iterations<10,'history traversal must terminate');queue.shift()();}};
+ const navigate=change=>{location={...location,...change};controller.observe(location)};
+ const check=fn=>{fn();passed++};
+ navigate({tab:'sync'});port.go(-1);drain();check(()=>assert.equal(location.tab,'workspace'));
+ port.go(1);drain();check(()=>assert.equal(location.tab,'sync'));
+ navigate({personId:'private-patient',visitId:null,tab:'workspace'});const count=entries.length;
+ navigate({visitId:'private-visit'});check(()=>assert.equal(entries.length,count,'starting a visit does not add an extra identical screen'));
+ guard='dirty';const index=position;port.go(-1);drain();check(()=>assert.equal(position,index));check(()=>assert.equal(location.personId,'private-patient'));check(()=>assert.equal(typeof proceed,'function'));
+ controller.cancel();proceed=null;check(()=>assert.equal(location.visitId,'private-visit'));
+ port.go(-1);drain();proceed();drain();check(()=>assert.equal(location.tab,'sync'));
+ guard='clear';port.go(1);drain();check(()=>assert.equal(location.personId,'private-patient'));
+ guard='busy';port.go(-1);drain();check(()=>assert.equal(position,index));check(()=>assert.equal(location.personId,'private-patient'));
+ guard='clear';port.go(-1);drain();navigate({tab:'more'});check(()=>assert.equal(position,entries.length-1,'new navigation drops forward branch'));
+ const before=location;controller.pop({sahaApp:{session:'older-session',index:0}});check(()=>assert.equal(location,before));
+ controller.pop({sahaApp:{session:'opaque-session',index:'wrong'}});check(()=>assert.equal(location,before));
+ for(let i=0;i<140;i++)navigate({personId:`private-${i}`,tab:'workspace'});
+ port.go(-position);drain();check(()=>assert.equal(location.personId,null,'pruned history safely returns to root'));
+ check(()=>assert.equal(location.organisationId,'private-org'));
+ const text=JSON.stringify(entries);check(()=>assert.ok(!/private-|personId|visitId|organisationId/.test(text),'history markers contain no clinical or account identifiers'));
+ mkdirSync('tests/evidence/app-back-navigation',{recursive:true});writeFileSync('tests/evidence/app-back-navigation/contract-result.json',JSON.stringify({passed,completedAt:new Date().toISOString(),limits:'Actual navigation controller with injected asynchronous browser history; real browser results recorded separately. No Android device acceptance.'},null,2)+'\n');
+ console.log(JSON.stringify({passed}));
+}finally{rmSync(dir,{recursive:true,force:true});}

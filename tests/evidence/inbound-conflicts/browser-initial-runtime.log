@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.selectOption: Timeout 20000ms exceeded.
+Call log:
+[2m  - waiting for locator('details').filter({ has: locator('summary').filter({ hasText: /^Inbound clinical conflicts$/ }) }).first().getByLabel('Original source document', { exact: true })[22m
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-conflicts/tests/inbound-conflicts-browser.mjs:19:622 {
+  log: [
+    "  - waiting for locator('details').filter({ has: locator('summary').filter({ hasText: /^Inbound clinical conflicts$/ }) }).first().getByLabel('Original source document', { exact: true })"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

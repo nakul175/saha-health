@@ -3,6 +3,8 @@
 // before executePlan and inside the delivery checkpoint (executeMis) so a missing or stale sign-off never sends.
 import assert from 'node:assert/strict';
 import ts from 'typescript';
+import {createHash} from 'node:crypto';
+const payloadDigest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -11,7 +13,7 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const refuses = async (fn, status, pattern) => { await assert.rejects(async () => fn(), e => e.status === status && pattern.test(e.message), String(pattern)); passed++; };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fact-verification', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'mis-execution', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types', 'visit-signoff'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'service-dispatch','access-audit','core', 'delegation', 'ehr', 'environment', 'evaluation', 'exceptional', 'expansion', 'facility-scope', 'fact-provenance', 'fact-verification', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'mis-execution', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types', 'visit-signoff'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   writeFileSync(join(dir, 'store.js'), `export let saved;export function setup(s){saved=structuredClone(s)}export async function readState(){return structuredClone(saved)}export function scope(s,id){return s.members.find(m=>m.userId===id)}export async function persist(db,before,after){saved=structuredClone(after);}`);
   const S = await import(pathToFileURL(join(dir, 'visit-signoff.js')));
@@ -20,6 +22,7 @@ try {
   const G = await import(pathToFileURL(join(dir, 'programme-commands.js')));
   const store = await import(pathToFileURL(join(dir, 'store.js')));
   const { executeMis } = await import(pathToFileURL(join(dir, 'mis-execution.js')));
+  const {mappedPayload}=await import(pathToFileURL(join(dir,'mis.js')));
   const now = '2026-10-01T06:00:00.000Z';
   const asha = { userId: 'asha-1', name: 'Synthetic ASHA', accountCode: 'A'.repeat(24), role: 'asha', at: now };
   const clin = { userId: 'clin-1', name: 'Synthetic clinician', accountCode: 'B'.repeat(24), role: 'clinician', at: '2026-10-01T07:00:00.000Z' };
@@ -120,12 +123,13 @@ try {
   const stamped = structuredClone(ok); stamped.workspace.submissions.push({ id: 'new' }); S.stampSubmissions(ok, stamped, ok.workspace.visits[0].signOffs[0]);
   check(() => assert.equal(stamped.workspace.submissions[0].signOff.by, 'sup-1'));
   // 8. The delivery checkpoint (executeMis) refuses a missing or stale sign-off before the request; a current one sends.
-  const i = { id: 'mis1', kind: 'mis', mode: 'http', status: 'active', version: 1, endpoint: 'https://programme.example/api', credentialBinding: 'SAHA_MIS_TEST' };
+  const i = { id: 'mis1', kind: 'mis', mode: 'http', status: 'active', version: 1, endpoint: 'https://programme.example/api', credentialBinding: 'SAHA_MIS_TEST', mis:{contract:'saha-mis-v1',corrections:false,mapping:[{source:'weight',target:'weight',required:true}]} };
   const env = { SAHA_EXTERNAL_APIS_ENABLED: 'true', SAHA_MIS_TEST: 'test', SAHA_MIS_CONNECTIONS: JSON.stringify([{ organisationId: 'org', integrationId: 'mis1', origin: 'https://programme.example', credentialBinding: 'SAHA_MIS_TEST' }]) };
   const deliveryState = withSign => { const st = structuredClone(withSign ? ss : fresh()); st.operations = structuredClone(ps.operations); st.members = [member('asha-1', 'asha')]; st.workspace.integrations = [i];
-    st.workspace.submissions = [{ id: 'sub', visitId: 'v1', personId: 'p1', connectorId: 'mis1', state: 'queued', attempts: 0, payloadHash: 'a'.repeat(64), delivery: { endpoint: i.endpoint, credentialBinding: i.credentialBinding, key: 'sub', actorId: 'asha-1', connectorVersion: 1, personVersion: 1, consentVersion: 1, visitVersion: 4, expiresAt: new Date(Date.now() + 60000).toISOString(), payload: { operation: 'submit', fields: {} }, events: [] } }]; return st; };
-  const receipt = { contract: 'saha-mis-v1', key: 'sub', payloadHash: 'a'.repeat(64), status: 'accepted', receipt: 'PARTNER-1' };
-  let calls = 0; const transport = async () => { calls++; return receipt; };
+    const payload=mappedPayload(i,st.workspace.visits[0],st);
+    st.workspace.submissions = [{ id: 'sub', visitId: 'v1', personId: 'p1', connectorId: 'mis1', state: 'queued', attempts: 0, payloadHash: payloadDigest(payload), delivery: { endpoint: i.endpoint, credentialBinding: i.credentialBinding, key: 'sub', actorId: 'asha-1', connectorVersion: 1, personVersion: 1, consentVersion: 1, visitVersion: 4, expiresAt: new Date(Date.now() + 60000).toISOString(), payload, events: [] } }]; return st; };
+  const receipt = { contract: 'saha-mis-v1', key: 'sub', status: 'accepted', receipt: 'PARTNER-1' };
+  let calls = 0; const transport = async (_i,_org,_env,body) => { calls++; return {...receipt,payloadHash:body.payloadHash}; };
   const send = { type: 'sendSubmission', submissionId: 'sub' }, worker = member('asha-1', 'asha');
   let st = deliveryState(false); store.setup(st);
   await refuses(() => executeMis({}, st, send, actor('asha-1'), worker, 'k1', 'h', env, transport), 409, /sign-off is missing or stale/);

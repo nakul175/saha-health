@@ -1,0 +1,43 @@
+Running smoke nfr uat --fast; 7 suite(s).
+
+[smoke] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/hosted-smoke ...
+  ok       smoke/hosted-smoke  8 passed  3.5s
+  running  smoke/local-smoke ...
+  ok       smoke/local-smoke  28 passed, 1 skipped  2.4s
+
+[nfr] 2 suite(s)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  59 passed  11.1s
+  running  nfr/identity-hardening ...
+  ok       nfr/identity-hardening  29 passed  4.6s
+
+[uat] 3 suite(s)
+  running  uat/check-uat-register ...
+  ok       uat/check-uat-register  44 passed  178ms
+  running  uat/coverage-map ...
+  FAILED   uat/coverage-map  8 passed, 1 failed  222ms  [exit code 1]
+      | error lines:
+      |   FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md, docs/testing/coverage.csv
+      | FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md, docs/testing/coverage.csv
+      | coverage: 176 requirements; no test cited 19; one layer 43; no UAT case 30; 587/907 test files cited by no requirement; formally executed 0/364
+      | {"suite":"Coverage map generator","passed":8,"failed":1,"skipped":0,"completedAt":"2026-10-05T20:53:16.677Z"}
+  running  uat/generate-uat-pack ...
+  FAILED   uat/generate-uat-pack  9 passed, 1 failed  227ms  [exit code 1]
+      | error lines:
+      |   FAIL committed pack equals the regenerated pack (plan and scripts): stale or missing, regenerate: docs/testing/uat/UAT-SUPERVISOR.md, docs/testing/uat/UAT-END-TO-END.md
+      | FAIL committed pack equals the regenerated pack (plan and scripts): stale or missing, regenerate: docs/testing/uat/UAT-SUPERVISOR.md, docs/testing/uat/UAT-END-TO-END.md
+      | UAT pack: 158 cases (OWNER 53, ASHA 44, SUPERVISOR 13, CLINICIAN 29, ADMIN 7, END_TO_END 12); 2 excluded; 7 documents
+      | {"suite":"UAT pack generator","passed":9,"failed":1,"skipped":0,"completedAt":"2026-10-05T20:53:16.907Z"}
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  smoke  passed       2      36       0        1   5.9s
+  nfr    passed       2      88       0        0  15.8s
+  uat    failed       3      61       2        0  627ms
+  total  FAILED       7     185       2        1  22.6s
+
+Regression guard: FAILED (7 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite uat/coverage-map passed 8 assertion(s); baseline is 9 (down 1).
+  FAIL     Suite uat/generate-uat-pack passed 9 assertion(s); baseline is 10 (down 1).

@@ -1,0 +1,455 @@
+{
+  "proof": [
+    {
+      "kind": "freshSmall",
+      "org": "org_2ab749f0b5b6adb888d611bd85ee9087",
+      "owner": "t-b29fc127-op-privacy-small-current",
+      "inbox": {
+        "aggregatePrivacy": {
+          "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+          "currentAvailable": false
+        },
+        "currentAggregateAlerts": [],
+        "rules": {
+          "delivery": "1.0.0",
+          "alerts": "1.2.0",
+          "escalateAfterMinutes": {
+            "critical": 30,
+            "high": 240,
+            "normal": 1440
+          },
+          "ladder": {
+            "operations": [
+              "operations",
+              "owners"
+            ],
+            "supervisors": [
+              "supervisors",
+              "owners"
+            ],
+            "owners": [
+              "owners"
+            ]
+          },
+          "evaluateEverySeconds": 60
+        },
+        "owns": [
+          "operations",
+          "supervisors",
+          "owners"
+        ],
+        "evaluated": false,
+        "unread": 1,
+        "items": [
+          {
+            "id": "d2e2d8fe-b0f8-404b-a96a-0e8a28fa396f",
+            "alertId": "incident-critical-open",
+            "level": 1,
+            "kind": "delivery",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "count": 1,
+            "detail": null,
+            "deliveredAt": "2026-10-05T21:32:43.590Z",
+            "readAt": null,
+            "clearedAt": null,
+            "clearedReason": null,
+            "active": true
+          }
+        ],
+        "escalations": [],
+        "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+      },
+      "channel": {
+        "aggregatePrivacy": {
+          "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+          "currentAvailable": false
+        },
+        "currentAggregateAlerts": [],
+        "rules": {
+          "version": "1.0.0",
+          "sourceRules": "1.0.0",
+          "escalateMinutes": {
+            "min": 5,
+            "max": 1440,
+            "default": 30
+          },
+          "tiers": [
+            1,
+            2,
+            3
+          ],
+          "channels": [
+            "sms",
+            "email"
+          ],
+          "maxRecipients": 30,
+          "kinds": [
+            {
+              "id": "destination-uncertain",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "ehr-uncertain",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "referrals-overdue",
+              "owner": "supervisors",
+              "source": false
+            },
+            {
+              "id": "followups-overdue",
+              "owner": "supervisors",
+              "source": false
+            },
+            {
+              "id": "referrals-undated",
+              "owner": "supervisors",
+              "source": false
+            },
+            {
+              "id": "provider-usage-missing",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "server-errors",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "incident-critical-open",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "incident-open",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "maintenance",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "ai-budget-reached",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "ai-budget-near",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "ai-invoice-variance",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "ai-invoice-unreconciled",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "drift",
+              "owner": "owners",
+              "source": true
+            },
+            {
+              "id": "agent-timed-out",
+              "owner": "operations",
+              "source": true
+            },
+            {
+              "id": "exception-item",
+              "owner": "supervisors",
+              "source": true
+            },
+            {
+              "id": "referral-request",
+              "owner": "supervisors",
+              "source": true
+            }
+          ],
+          "notice": "Demonstration simulator. Messages are stored and shown inside Saha. Nothing is sent to any email address or phone number, and recipients hold no contact details."
+        },
+        "environment": "synthetic",
+        "available": true,
+        "refusal": null,
+        "channel": {
+          "version": 1,
+          "enabled": true,
+          "escalateAfterMinutes": 5,
+          "recipients": [
+            {
+              "userId": "t-b29fc127-op-privacy-small-current",
+              "tier": 1,
+              "channel": "email",
+              "kinds": [
+                "referrals-undated",
+                "incident-critical-open"
+              ],
+              "displayName": "op-privacy-small-current-b29fc127@example.invalid",
+              "role": "clinician",
+              "status": "active",
+              "address": "demo-24ae92b6@simulator.invalid"
+            }
+          ],
+          "setBy": "t-b29fc127-op-privacy-small-current",
+          "setAt": "2026-10-05T21:32:43.629Z",
+          "reason": "Synthetic local simulator lifecycle",
+          "history": [],
+          "setByName": "op-privacy-small-current-b29fc127@example.invalid"
+        },
+        "members": [
+          {
+            "userId": "t-b29fc127-op-privacy-small-current",
+            "displayName": "op-privacy-small-current-b29fc127@example.invalid",
+            "role": "clinician",
+            "isOwner": true,
+            "kinds": [
+              "destination-uncertain",
+              "ehr-uncertain",
+              "referrals-overdue",
+              "followups-overdue",
+              "referrals-undated",
+              "provider-usage-missing",
+              "server-errors",
+              "incident-critical-open",
+              "incident-open",
+              "maintenance",
+              "ai-budget-reached",
+              "ai-budget-near",
+              "ai-invoice-variance",
+              "ai-invoice-unreconciled",
+              "drift",
+              "agent-timed-out",
+              "exception-item",
+              "referral-request"
+            ]
+          }
+        ],
+        "open": [
+          {
+            "occurrenceId": "3eb373d6-e865-4de5-8a88-846dea3eddbe",
+            "alertId": "incident-critical-open",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "openedAt": "2026-10-05T21:32:43.590Z",
+            "scope": "organisation",
+            "acknowledged": false,
+            "escalatedInApp": false,
+            "rungs": [
+              {
+                "tier": 1,
+                "dueAt": "2026-10-05T21:32:43.590Z",
+                "recipients": 1,
+                "state": "sent"
+              }
+            ]
+          }
+        ],
+        "messages": [
+          {
+            "id": "d22bc8bc-53fb-4c11-916c-1d26bf54b3d0",
+            "occurrenceId": "3eb373d6-e865-4de5-8a88-846dea3eddbe",
+            "alertId": "incident-critical-open",
+            "tier": 1,
+            "rung": 0,
+            "reason": "first",
+            "userId": "t-b29fc127-op-privacy-small-current",
+            "recipientName": "op-privacy-small-current-b29fc127@example.invalid",
+            "channel": "email",
+            "address": "demo-24ae92b6@simulator.invalid",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "count": 1,
+            "subject": "Saha critical alert: Critical incidents not resolved",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: critical\nAlert: Critical incidents not resolved\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-A53FE0\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "status": "simulated-delivered",
+            "receipt": {
+              "receiptId": "SIM-4CC40248",
+              "provider": "saha-demonstration-simulator",
+              "status": "simulated-delivered",
+              "simulated": true,
+              "contacted": false,
+              "address": "demo-24ae92b6@simulator.invalid",
+              "at": "2026-10-05T21:32:43.631Z"
+            },
+            "dueAt": "2026-10-05T21:32:43.590Z",
+            "sentAt": "2026-10-05T21:32:43.631Z",
+            "lateMinutes": 0,
+            "auditId": "3400290d-77d6-4dc7-b505-a8dae880315e",
+            "configVersion": 1,
+            "redacted": false
+          }
+        ],
+        "total": 1
+      },
+      "careStatus": 200
+    },
+    {
+      "kind": "insideBatchRollback",
+      "status": 200,
+      "body": {
+        "aggregatePrivacy": {
+          "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+          "currentAvailable": true
+        },
+        "currentAggregateAlerts": [
+          {
+            "id": "referrals-undated",
+            "title": "Open referrals without a due date",
+            "severity": "normal",
+            "count": 6,
+            "action": "Set a due date so escalation can be tracked."
+          }
+        ],
+        "rules": {
+          "delivery": "1.0.0",
+          "alerts": "1.2.0",
+          "escalateAfterMinutes": {
+            "critical": 30,
+            "high": 240,
+            "normal": 1440
+          },
+          "ladder": {
+            "operations": [
+              "operations",
+              "owners"
+            ],
+            "supervisors": [
+              "supervisors",
+              "owners"
+            ],
+            "owners": [
+              "owners"
+            ]
+          },
+          "evaluateEverySeconds": 60
+        },
+        "owns": [
+          "operations",
+          "supervisors",
+          "owners"
+        ],
+        "evaluated": true,
+        "unread": 0,
+        "items": [],
+        "escalations": [],
+        "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+      }
+    },
+    {
+      "kind": "channelFinalGuardsAndLedgerFault",
+      "membership": {
+        "status": 403,
+        "body": {
+          "error": "Your organisation membership is inactive or unavailable."
+        }
+      },
+      "source": {
+        "status": 409,
+        "body": {
+          "error": "Current reporting authority or source changed. Refresh before viewing reporting alerts."
+        }
+      },
+      "ledger": {
+        "status": 200,
+        "body": {
+          "aggregatePrivacy": {
+            "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+            "currentAvailable": false
+          },
+          "currentAggregateAlerts": [],
+          "rules": {
+            "delivery": "1.0.0",
+            "alerts": "1.2.0",
+            "escalateAfterMinutes": {
+              "critical": 30,
+              "high": 240,
+              "normal": 1440
+            },
+            "ladder": {
+              "operations": [
+                "operations",
+                "owners"
+              ],
+              "supervisors": [
+                "supervisors",
+                "owners"
+              ],
+              "owners": [
+                "owners"
+              ]
+            },
+            "evaluateEverySeconds": 60
+          },
+          "owns": [
+            "operations",
+            "supervisors",
+            "owners"
+          ],
+          "evaluated": false,
+          "unread": 0,
+          "items": [],
+          "escalations": [],
+          "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+        }
+      }
+    },
+    {
+      "kind": "phoneSafeFixture",
+      "org": "org_9590a984a7a458dc1b50f18fc3d3e1c1",
+      "owner": "t-47d5a238-op-privacy-safe-six"
+    },
+    {
+      "kind": "crossViewerSidecarCSV",
+      "sidecar": {
+        "aggregatePrivacy": {
+          "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+          "currentAvailable": false
+        },
+        "currentAggregateAlerts": [],
+        "rules": {
+          "delivery": "1.0.0",
+          "alerts": "1.2.0",
+          "escalateAfterMinutes": {
+            "critical": 30,
+            "high": 240,
+            "normal": 1440
+          },
+          "ladder": {
+            "operations": [
+              "operations",
+              "owners"
+            ],
+            "supervisors": [
+              "supervisors",
+              "owners"
+            ],
+            "owners": [
+              "owners"
+            ]
+          },
+          "evaluateEverySeconds": 60
+        },
+        "owns": [
+          "supervisors"
+        ],
+        "evaluated": true,
+        "unread": 0,
+        "items": [],
+        "escalations": null,
+        "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+      },
+      "csv": "\"Saha scoped operational report\",\"11 / v1.3-readiness\"\r\n\"Report definition\",\"saha-operational-report\",\"1.2.0\"\r\n\"Export identifier\",\"ead32cd1-24aa-4563-8981-fe3ee1a1a7d6\"\r\n\"Status\",\"Draft export; not an official or reviewed submission\"\r\n\"Generated by\",\"alert-five-viewer-25659d4d@example.invalid\",\"supervisor\"\r\n\"Reporting window days\",\"7\"\r\n\"Teams in scope\",\"Synthetic privacy safe-six\"\r\n\"Privacy\",\"Withheld\",\"Withheld because recent aggregate disclosures may reveal a small group; legacy history without exact contribution evidence is also withheld.\"\r\n\"Active-worker disclosure\",\"Withheld: distinct actor contributions are not certified by the patient aggregation profile.\"\r\n\"Generated UTC\",\"2026-10-05T21:32:45.205Z\"\r\n\"Window start UTC\",\"2026-09-29T00:00:00.000Z\"\r\n\"Scope\",\"Current authorised teams; current assignments, not historical membership\"\r\n\"Current authorised patients\",\"Withheld\"\r\n\"Visits started in window\",\"Withheld\"\r\n\"Visits confirmed in window\",\"Withheld\"\r\n\"Active workers in window\",\"Withheld\"\r\n\"drafts\",\"Withheld\"\r\n\"openFollowUps\",\"Withheld\"\r\n\"overdueFollowUps\",\"Withheld\"\r\n\"openReferrals\",\"Withheld\"\r\n\"overdueReferrals\",\"Withheld\"\r\n\"undatedReferrals\",\"Withheld\"\r\n\"unresolvedSubmissions\",\"Withheld\"\r\n\"unresolvedEhr\",\"Withheld\"\r\n\"Agent cost estimate USD (known usage only)\",\"Withheld\"\r\n\"Missing agent usage records\",\"Withheld\"\r\n\"Daily confirmation date UTC\",\"Count\"\r\n\"2026-09-29\",\"Withheld\"\r\n\"2026-09-30\",\"Withheld\"\r\n\"2026-10-01\",\"Withheld\"\r\n\"2026-10-02\",\"Withheld\"\r\n\"2026-10-03\",\"Withheld\"\r\n\"2026-10-04\",\"Withheld\"\r\n\"2026-10-05\",\"Withheld\"\r\n\"Programme\",\"Active episodes\",\"Open tasks\",\"Overdue tasks\"\r\n\"Destination\",\"Mode\",\"Accepted in window\",\"Pending now\",\"Rejected in window\"\r\n\"Control total\",\"Displayed measure\",\"Sum of detail rows\",\"Detail rows\",\"Reconciled\"\r\n\"Visits confirmed in window\",\"Withheld\",\"Withheld\",\"Daily confirmations\",\"yes\"\r\n\"Open follow-ups\",\"Withheld\",\"Withheld\",\"Programme open tasks\",\"yes\"\r\n\"Overdue follow-ups\",\"Withheld\",\"Withheld\",\"Programme overdue tasks\",\"yes\"\r\n\"Unresolved programme receipts\",\"Withheld\",\"Withheld\",\"Destination pending now\",\"yes\"\r\n\"Manifest\",\"Data rows\",\"41\"\r\n\"Manifest\",\"Content SHA-256\",\"1f7da9c5b9c36dda6ceeea7498fbcff7ddda40259458286f080eae22a0e291b5\"\r\n"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "observedStatus": 200,
+  "requiredStatus": 403,
+  "finding": "Saved contact apply receipt replay was still returned after one imported person moved outside the original owner clinician care team. Generic import role authorization did not repeat authority on the accepted batch records. Dry run rejected and reversal already refused403.",
+  "repair": "On contact apply authorization, match retained imported-contact lineage by reviewed planHash and importer, then repeat current contactBatch all-person authority before returning the receipt. No new contact or external message was created by the reproduced replay."
+}

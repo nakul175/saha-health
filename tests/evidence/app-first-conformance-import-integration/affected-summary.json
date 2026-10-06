@@ -1,0 +1,286 @@
+{
+  "generatedAt": "2026-10-05T09:02:28.736Z",
+  "startedAt": "2026-10-05T09:02:12.040Z",
+  "command": "node scripts/test.mjs unit integration --only unit/mapping-conformance-contract,unit/imported-evidence-contract,integration/mapping-conformance-http,integration/mapping-conformance-browser,integration/mapping-conformance-independent-http,integration/imported-evidence-http,integration/imported-evidence-browser,integration/imported-evidence-independent-http,integration/imported-evidence-independent-browser --fast --report tests/evidence/app-first-conformance-import-integration/affected-summary.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 2,
+      "passed": 76,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1004,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 7,
+      "passed": 291,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 15490,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 9,
+    "passed": 367,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 16696
+  },
+  "suites": [
+    {
+      "id": "unit/imported-evidence-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/imported-evidence-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 800,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/imported-evidence/contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__imported-evidence-contract.log"
+    },
+    {
+      "id": "unit/mapping-conformance-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/mapping-conformance-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 204,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/mapping-conformance/contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__mapping-conformance-contract.log"
+    },
+    {
+      "id": "integration/imported-evidence-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/imported-evidence-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2949,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/imported-evidence/browser.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__imported-evidence-browser.log"
+    },
+    {
+      "id": "integration/imported-evidence-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/imported-evidence-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 40,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1128,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/imported-evidence/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__imported-evidence-http.log"
+    },
+    {
+      "id": "integration/imported-evidence-independent-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/imported-evidence-independent-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2362,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/imported-evidence-independent-review/browser.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__imported-evidence-independent-browser.log"
+    },
+    {
+      "id": "integration/imported-evidence-independent-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/imported-evidence-independent-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1011,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/imported-evidence-independent-review/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__imported-evidence-independent-http.log"
+    },
+    {
+      "id": "integration/mapping-conformance-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/mapping-conformance-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4520,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/mapping-conformance/browser.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__mapping-conformance-browser.log"
+    },
+    {
+      "id": "integration/mapping-conformance-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/mapping-conformance-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 91,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1686,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/mapping-conformance/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__mapping-conformance-http.log"
+    },
+    {
+      "id": "integration/mapping-conformance-independent-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/mapping-conformance-independent-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 108,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1834,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/mapping-conformance-independent-review/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__mapping-conformance-independent-http.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/imported-evidence/phone-source-review.png",
+      "tests/evidence/mapping-conformance/failed-example-phone.png",
+      "tests/evidence/mapping-conformance/reviewed-contract-phone.png"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 182,
+        "components": 0,
+        "suitesCitingNoRequirement": 50,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 66,
+        "components": 84,
+        "suitesCitingNoRequirement": 14,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 24,
+        "components": 0,
+        "suitesCitingNoRequirement": 20,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 288,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 88,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

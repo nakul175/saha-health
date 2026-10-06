@@ -1,0 +1,261 @@
+Running unit --fast; 194 suite(s).
+
+[unit] 194 suite(s)
+  ok       unit/abdm-contract  14 passed  490ms
+  ok       unit/abdm-transfer-contract  21 passed  508ms
+  ok       unit/access-audit-contract  35 passed  569ms
+  ok       unit/access-scope-contract  8 passed  261ms
+  ok       unit/action-plan-contract  8 passed  465ms
+  ok       unit/adapter-operations-contract  14 passed  521ms
+  ok       unit/agent-contract  25 passed  471ms
+  ok       unit/agent-minimisation-contract  38 passed  464ms
+  ok       unit/agent-quality-contract  50 passed  483ms
+  ok       unit/aggregate-checkpoint-population-contract  4 passed  890ms
+  ok       unit/aggregate-delivery-contract  12 passed  368ms
+  ok       unit/ai-budget-contract  41 passed  460ms
+  ok       unit/ai-invoice-contract  54 passed  482ms
+  ok       unit/alert-delivery-contract  23 passed  457ms
+  ok       unit/alerts-contract  25 passed  461ms
+  ok       unit/anaemia-provider-contract  58 passed  405ms
+  ok       unit/anaemia-worker-transport  7 passed  331ms
+  ok       unit/android-app-contract  20 passed  148ms
+  ok       unit/app-first-ui  15 passed  204ms
+  ok       unit/app-history-contract  17 passed  169ms
+  ok       unit/app-offline-contract  11 passed  31ms
+  ok       unit/app-offline-scope-contract  16 passed  30ms
+  ok       unit/app-sw-review-contract  16 passed  39ms
+  ok       unit/atomic-abha-review-contract  14 passed  1.7s
+  ok       unit/audit-chain-contract  48 passed  798ms
+  ok       unit/audit-checkpoint-contract  15 passed  859ms
+  ok       unit/audit-contention-contract  3 passed  2.3s
+  ok       unit/audit-query-plan-contract  12 passed  182ms
+  ok       unit/availability-contract  20 passed  997ms
+  ok       unit/capability-lifecycle-contract  25 passed  505ms
+  ok       unit/caseload-contract  30 passed  462ms
+  ok       unit/caseload-schedule-contract  33 passed  468ms
+  ok       unit/clinical-source-contract  16 passed  918ms
+  ok       unit/clinical-source-dependency-contract  10 passed  904ms
+  ok       unit/clinical-source-fetch-contract  25 passed  1.2s
+  ok       unit/cloudflare-staging-contract  39 passed  31ms
+  ok       unit/command-authority-contract  14 passed  961ms
+  ok       unit/composite-measures-contract  57 passed  928ms
+  ok       unit/consent-contract  25 passed  492ms
+  ok       unit/contact-import-contract  18 passed  960ms
+  ok       unit/continuity-contract  29 passed  475ms
+  ok       unit/correction-tasks-contract  13 passed  527ms
+  ok       unit/crosswalk-correction-contract  48 passed  515ms
+  ok       unit/delegation-contract  22 passed  471ms
+  ok       unit/demonstration-contract  52 passed  490ms
+  ok       unit/destination-enrolment-contract  45 passed  307ms
+  ok       unit/device-work-contract  46 passed  981ms
+  ok       unit/drift-contract  15 passed  483ms
+  ok       unit/ehr-contract  48 passed  512ms
+  ok       unit/ehr-execution  33 passed  434ms
+  ok       unit/ehr-probe-contract  20 passed  1.4s
+  ok       unit/ehr-resolution-contract  13 passed  561ms
+  ok       unit/eighth-review-fixes-contract  18 passed  1.2s
+  ok       unit/environment-contract  26 passed  537ms
+  ok       unit/exceptional-contract  19 passed  503ms
+  ok       unit/exceptions-contract  8 passed  625ms
+  ok       unit/facility-scope-contract  38 passed  570ms
+  ok       unit/fact-provenance-contract  41 passed  517ms
+  ok       unit/fact-reuse-contract  21 passed  544ms
+  ok       unit/fact-verification-contract  37 passed  540ms
+  ok       unit/fhir-provenance-contract  51 passed  668ms
+  ok       unit/fhir-validate-contract  20 passed  541ms
+  ok       unit/field-capacity-client  15 passed  5.3s
+  ok       unit/field-client  25 passed  177ms
+  ok       unit/field-contract  38 passed  533ms
+  ok       unit/field-media-capacity-client  30 passed  12.5s
+  ok       unit/field-media-client  117 passed  167ms
+  ok       unit/field-provenance-client  17 passed  86ms
+  ok       unit/field-recording-client  28 passed  241ms
+  ok       unit/field-registration-client  69 passed  714ms
+  ok       unit/field-shell  12 passed  49ms
+  ok       unit/field-storage-client  30 passed  136ms
+  ok       unit/field-units-client  14 passed  84ms
+  FAILED   unit/fifth-review-fixes-contract  no count  921ms  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+      |   + actual - expected
+      |     actual: [Object: null prototype] { revision: 2, patient_revision: 0 },
+      |     expected: [Object: null prototype] { revision: 1, patient_revision: 0 },
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+      | + actual - expected
+      |   [Object: null prototype] {
+      |     patient_revision: 0,
+      | +   revision: 2
+      | -   revision: 1
+      |   }
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/fifth-review-fixes-contract.mjs:139:88
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/fifth-review-fixes-contract.mjs:28:37)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/fifth-review-fixes-contract.mjs:139:5 {
+      |   generatedMessage: true,
+      |   code: 'ERR_ASSERTION',
+      |   actual: [Object: null prototype] { revision: 2, patient_revision: 0 },
+      |   expected: [Object: null prototype] { revision: 1, patient_revision: 0 },
+      |   operator: 'deepStrictEqual',
+      |   diff: 'simple'
+      | }
+      | Node.js v24.19.0
+  ok       unit/figure-impact-contract  37 passed  1.0s
+  ok       unit/fixture-migration-contract  22 passed  495ms
+  ok       unit/fourth-review-fixes-contract  32 passed  842ms
+  ok       unit/frontline-provider-contract  109 passed  417ms
+  ok       unit/governance-contract  27 passed  442ms
+  ok       unit/household-completion-contract  42 passed  816ms
+  ok       unit/household-contract  12 passed  428ms
+  ok       unit/household-reschedule-contract  35 passed  469ms
+  ok       unit/household-visit-contract  19 passed  466ms
+  ok       unit/i18n-contract  4318 passed  190ms
+  ok       unit/identifier-crosswalk-contract  84 passed  477ms
+  ok       unit/identity-contract  19 passed  220ms
+  ok       unit/import-unit-parity-contract  18 passed  889ms
+  ok       unit/imported-evidence-contract  26 passed  865ms
+  ok       unit/inbound-conflicts-contract  85 passed  463ms
+  ok       unit/inbound-retrieval-contract  115 passed  469ms
+  ok       unit/incentive-claims-contract  35 passed  468ms
+  ok       unit/indicator-figure-material-contract  86 passed  883ms
+  ok       unit/indicator-freshness-contract  10 passed  495ms
+  ok       unit/indicator-governance-contract  42 passed  498ms
+  ok       unit/indicator-household-counting-contract  35 passed  1.0s
+  ok       unit/indicator-registry-contract  12 passed  562ms
+  ok       unit/indicators-contract  9 passed  530ms
+  ok       unit/reporting-completeness-contract  51 passed  870ms
+  ok       unit/main-review-fixes-contract  25 passed  462ms
+  ok       unit/mapping-conformance-contract  50 passed  211ms
+  ok       unit/mapping-lifecycle-contract  23 passed  199ms
+  ok       unit/mapping-lifecycle-review-contract  23 passed  198ms
+  ok       unit/media-contract  5 passed  540ms
+  ok       unit/merge-contract  27 passed  504ms
+  ok       unit/mis-contract  45 passed  469ms
+  ok       unit/mis-delivery  16 passed  319ms
+  ok       unit/ninth-review-fixes-contract  13 passed  932ms
+  ok       unit/note-answer-signoff-contract  52 passed  524ms
+  ok       unit/notification-channel-contract  24 passed  506ms
+  ok       unit/notification-sources-contract  19 passed  552ms
+  ok       unit/object-media-contract  22 passed  1.0s
+  ok       unit/object-media-independent-discard-contract  8 passed  30.9s
+  ok       unit/offline-open-retirement-writer-contract  3 passed  53ms
+  ok       unit/offline-open-unsent-pruning-contract  20 passed  56ms
+  ok       unit/offline-opens-contract  64 passed  72ms
+  ok       unit/offline-programme-contract  21 passed  938ms
+  ok       unit/operations-bound-contract  6 passed  290ms
+  ok       unit/operations-contract  24 passed  438ms
+  ok       unit/outreach-contract  55 passed  491ms
+  ok       unit/pack-installation-contract  52 passed  550ms
+  ok       unit/patient-directory-contract  56 passed  494ms
+  ok       unit/patient-import-contract  38 passed  553ms
+  ok       unit/photo-contract  10 passed  145ms
+  ok       unit/pilot-contract  24 passed  505ms
+  ok       unit/plan-dependencies-contract  9 passed  464ms
+  ok       unit/process-memory-contract  6 passed  158ms
+  ok       unit/programme-migration-contract  32 passed  457ms
+  ok       unit/programme-raw-key-contract  94 passed  785ms
+  ok       unit/provider-agent-decoded-contract  39 passed  806ms
+  ok       unit/provider-agent-envelope-contract  30 passed  807ms
+  ok       unit/provider-ehr-envelope-contract  50 passed  468ms
+  ok       unit/provider-ehr-execution-review  47 passed  352ms
+  ok       unit/provider-ehr-headers-contract  92 passed  470ms
+  ok       unit/provider-ehr-headers-independent-contract  81 passed  468ms
+  ok       unit/provider-frontline-decoded-contract  29 passed  421ms
+  ok       unit/provider-frontline-envelope-contract  21 passed  405ms
+  ok       unit/provider-history-contract  13 passed  459ms
+  ok       unit/provider-image-envelope-contract  12 passed  395ms
+  ok       unit/provider-mis-envelope-contract  41 passed  335ms
+  ok       unit/provider-mis-execution-review  45 passed  373ms
+  ok       unit/provider-sandbox-contract  75 passed  560ms
+  ok       unit/provider-specialised-envelope-contract  41 passed  391ms
+  ok       unit/purpose-scope-contract  11 passed  468ms
+  ok       unit/r26-correction-propagation-contract  8 passed  473ms
+  ok       unit/range-protocol-contract  25 passed  924ms
+  ok       unit/read-audit-completion-contract  52 passed  530ms
+  ok       unit/reason-codes-contract  61 passed  543ms
+  ok       unit/reassignment-contract  10 passed  688ms
+  ok       unit/record-import-contract  49 passed  660ms
+  ok       unit/referral-contract  10 passed  623ms
+  ok       unit/referral-request-queue-contract  21 passed  665ms
+  ok       unit/registration-device-contract  31 passed  1.2s
+  ok       unit/reminder-optout-contract  39 passed  120ms
+  ok       unit/replay-soak-contract  8 passed  2.4s
+  ok       unit/report-export-contract  7 passed  551ms
+  ok       unit/data-exit-contract  44 passed  934ms
+  ok       unit/request-body-transport-contract  8 passed  496ms
+  ok       unit/retention-contract  11 passed  496ms
+  ok       unit/reuse-contract  7 passed  508ms
+  ok       unit/review-fixes-contract  41 passed  560ms
+  ok       unit/rights-contract  17 passed  510ms
+  ok       unit/roster-contract  13 passed  519ms
+  ok       unit/safe-logs-contract  13 passed  82ms
+  ok       unit/scheduled-job-contract  37 passed  1.0s
+  ok       unit/scoped-read-contract  27 passed  518ms
+  ok       unit/send-gate-contract  29 passed  567ms
+  ok       unit/service-dispatch-contract  100 passed  193ms
+  ok       unit/service-identity-contract  10 passed  487ms
+  ok       unit/seventh-review-fixes-contract  30 passed  1.0s
+  ok       unit/shadow-contract  55 passed  487ms
+  ok       unit/shadow-recompute-contract  4 passed  285ms
+  ok       unit/sixth-review-fixes-contract  41 passed  861ms
+  ok       unit/speech-contract  19 passed  170ms
+  ok       unit/storage-contract  19 passed  503ms
+  ok       unit/sync-receipt-projection  89 passed  835ms
+  ok       unit/task-limits-contract  39 passed  442ms
+  ok       unit/tenth-review-fixes-contract  12 passed  445ms
+  FAILED   unit/test-runner-contract  26 passed, 1 failed  9.2s  [exit code 1]
+      | error lines:
+      |   FAIL every rule from the brief classifies to exactly one layer: tests/field-shell.mjs
+      | FAIL every rule from the brief classifies to exactly one layer: tests/field-shell.mjs
+      | {"suite":"Test runner, catalogue and regression guard (slice 11a)","passed":26,"failed":1,"skipped":0,"completedAt":"2026-10-05T20:27:36.675Z"}
+  ok       unit/trace-contract  27 passed  512ms
+  ok       unit/value-override-agent-contract  4 passed  436ms
+  ok       unit/value-override-contract  53 passed  446ms
+  ok       unit/value-ranges-context-contract  26 passed  447ms
+  ok       unit/visit-import-contract  54 passed  494ms
+  ok       unit/work-burden-contract  19 passed  824ms
+  ok       unit/work-burden-field-capture-contract  10 passed  41ms
+  ok       unit/work-burden-field-contract  20 passed  38ms
+  ok       unit/work-burden-field-writer-contract  4 passed  28ms
+  ok       unit/work-burden-ledger-contract  14 passed  931ms
+  FAILED   unit/work-burden-policy-checkpoint  no count  967ms  [exit code 1]
+      | error lines:
+      |         throw new MiniflareCoreError(
+      |   MiniflareCoreError [ERR_ADDRESS_IN_USE]: Address already in use (127.0.0.1:8986). Please check that you are not already running a server on this address or specify a different port with --port.
+      |     cause: undefined
+      | *** Fatal uncaught kj::Exception: kj/async-io-unix.c++:945: failed: ::bind(sockfd, &addr.generic, addrlen): Address already in use; toString() = 127.0.0.1:8986
+      | stack: 104b6095f 104b60743 10217a3e3 10217abf3 10217b637 10217c837 1020f3eeb 104b8c12f 104b8c457 104b8accf 104b8aa8f 1020e08f3 18aa1beef
+      | /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js:69747
+      |       throw new MiniflareCoreError(
+      |             ^
+      | MiniflareCoreError [ERR_ADDRESS_IN_USE]: Address already in use (127.0.0.1:8986). Please check that you are not already running a server on this address or specify a different port with --port.
+      |     at StartupLogBuffer.handleStartupFailure (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modul
+      |     at Runtime.updateConfig (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      |     at async #assembleAndUpdateConfig (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/mini
+      |     at async Mutex.runWith (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/
+      |     at async #waitForReady (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/
+      |     at async startMiniflare (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/miniflare.mjs:50:3)
+      |     at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/work-burden-policy-checkpoint.mjs:2:147 {
+      |   code: 'ERR_ADDRESS_IN_USE',
+      |   cause: undefined
+      | }
+      | Node.js v24.19.0
+  ok       unit/work-burden-session-migration-contract  8 passed  33ms
+  ok       unit/worker-activity-contract  12 passed  464ms
+  ok       unit/workforce-import-contract  68 passed  547ms
+  ok       unit/worklists-contract  111 passed  665ms
+  ok       unit/workspace-metadata-contract  147 passed  930ms
+
+  layer  status  suites  passed  failed  skipped    time
+  -----  ------  ------  ------  ------  -------  ------
+  unit   failed     194   10356       1        0  2m 41s
+  total  FAILED     194   10356       1        0  2m 42s
+
+Restored 28 tracked file(s) and deleted 114 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: FAILED (194 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite unit/fifth-review-fixes-contract reported no assertion count; baseline needs at least 33.
+  FAIL     Suite unit/test-runner-contract passed 26 assertion(s); baseline is 27 (down 1).
+  FAIL     Suite unit/work-burden-policy-checkpoint reported no assertion count; baseline needs at least 13.

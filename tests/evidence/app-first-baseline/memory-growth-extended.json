@@ -1,0 +1,284 @@
+{
+  "suite": "Memory growth per workspace load (non-functional)",
+  "layer": "non-functional",
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-05T02:08:15.502Z",
+  "completedAt": "2026-10-05T02:09:22.063Z",
+  "environment": "built Worker in Miniflare (no inspector), local D1, synthetic data",
+  "limits": [
+    "Resident memory of the local workerd process(es) of one Miniflare instance, not Cloudflare isolate memory (128 MB limit) which has not been measured.",
+    "One identity loading one route (GET /api/workspace) in a six-patient organisation; other routes and larger organisations are not covered.",
+    "On macOS the sample is ps RSS only: anonymous, file-backed and shared memory are unavailable and recorded as null, not zero.",
+    "RSS is noisy (allocator and garbage-collection timing; V8 collects when it needs to, so a growing resident size is not by itself a leak). The suite fails only on a growth above the threshold in the last round, and it states \"levels off\" only when rounds 2 onward averaged no more than 10 KB per load.",
+    "The sponsor-facing figure for `wrangler dev` (about 270 KB per load) is the inspector retaining request data, which this suite deliberately excludes."
+  ],
+  "measures": [
+    {
+      "label": "KB per load, round 1 (1000 loads)",
+      "value": 264.93,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 2 (1000 loads)",
+      "value": 67.47,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 3 (1000 loads)",
+      "value": 48.99,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 4 (1000 loads)",
+      "value": 32.8,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 5 (1000 loads)",
+      "value": 43.34,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 6 (1000 loads)",
+      "value": 17.65,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 7 (1000 loads)",
+      "value": 13.89,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "KB per load, round 8 (1000 loads)",
+      "value": -1.15,
+      "unit": "KB",
+      "budget": 150,
+      "ok": true
+    },
+    {
+      "label": "local database KB written per load, last round",
+      "value": 1.06,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "mean KB per load over rounds 2 to the last",
+      "value": 31.86,
+      "unit": "KB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "seconds for 1,000 loads, round 1",
+      "value": 7.1,
+      "unit": "s",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "seconds for 1,000 loads, last round",
+      "value": 8.8,
+      "unit": "s",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "workerd RSS after the last round",
+      "value": 661.8,
+      "unit": "MB",
+      "budget": null,
+      "ok": true
+    },
+    {
+      "label": "total RSS growth over 8 rounds",
+      "value": 476.5,
+      "unit": "MB",
+      "budget": null,
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "label": "the Worker's own workerd process was identified by parent pid (63336), not by name",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "the first workspace load succeeds (the local organisation is created)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "all 8101 workspace loads returned 200",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "KB per load, round 8 (1000 loads) within budget",
+      "ok": true
+    }
+  ],
+  "memorySource": "ps",
+  "memoryBreakdownAvailable": false,
+  "verdict": "slowing but not levelled off within 8000 loads: 264.93, 67.47, 48.99, 32.8, 43.34, 17.65, 13.89, -1.15 KB per load by round; rounds 2 to 8 averaged 31.86 (above 10), 1 of 7 of them at or below 10",
+  "levelsOff": false,
+  "slowing": true,
+  "tailMeanKbPerLoad": 31.86,
+  "thresholdKbPerLoad": 150,
+  "plateauKbPerLoad": 10,
+  "rounds": [
+    {
+      "round": 1,
+      "loads": 1000,
+      "rssStartMb": 185.3,
+      "rssEndMb": 444.1,
+      "growthKb": 264928,
+      "kbPerLoad": 264.93,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.14,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 5.7,
+      "failedLoads": 0,
+      "seconds": 7.1
+    },
+    {
+      "round": 2,
+      "loads": 1000,
+      "rssStartMb": 444.1,
+      "rssEndMb": 510,
+      "growthKb": 67472,
+      "kbPerLoad": 67.47,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.07,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 6.7,
+      "failedLoads": 0,
+      "seconds": 7.2
+    },
+    {
+      "round": 3,
+      "loads": 1000,
+      "rssStartMb": 510,
+      "rssEndMb": 557.8,
+      "growthKb": 48992,
+      "kbPerLoad": 48.99,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.09,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 7.8,
+      "failedLoads": 0,
+      "seconds": 8.4
+    },
+    {
+      "round": 4,
+      "loads": 1000,
+      "rssStartMb": 557.8,
+      "rssEndMb": 589.8,
+      "growthKb": 32800,
+      "kbPerLoad": 32.8,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.11,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 8.8,
+      "failedLoads": 0,
+      "seconds": 7.8
+    },
+    {
+      "round": 5,
+      "loads": 1000,
+      "rssStartMb": 589.8,
+      "rssEndMb": 632.2,
+      "growthKb": 43344,
+      "kbPerLoad": 43.34,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.06,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 9.9,
+      "failedLoads": 0,
+      "seconds": 8
+    },
+    {
+      "round": 6,
+      "loads": 1000,
+      "rssStartMb": 632.2,
+      "rssEndMb": 649.4,
+      "growthKb": 17648,
+      "kbPerLoad": 17.65,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.07,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 10.9,
+      "failedLoads": 0,
+      "seconds": 8.3
+    },
+    {
+      "round": 7,
+      "loads": 1000,
+      "rssStartMb": 649.4,
+      "rssEndMb": 663,
+      "growthKb": 13888,
+      "kbPerLoad": 13.89,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.11,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 12,
+      "failedLoads": 0,
+      "seconds": 8.4
+    },
+    {
+      "round": 8,
+      "loads": 1000,
+      "rssStartMb": 663,
+      "rssEndMb": 661.8,
+      "growthKb": -1152,
+      "kbPerLoad": -1.15,
+      "anonKbPerLoad": null,
+      "fileKbPerLoad": null,
+      "databaseKbPerLoad": 1.06,
+      "anonEndMb": null,
+      "fileEndMb": null,
+      "databaseEndMb": 13,
+      "failedLoads": 0,
+      "seconds": 8.8
+    }
+  ],
+  "rssAfterFirstLoadMb": 88.4,
+  "rssAfterWarmupMb": 185.3,
+  "workspaceBytes": 16635,
+  "concurrency": 4,
+  "workerdPids": [
+    63336
+  ],
+  "durationMs": 66559
+}

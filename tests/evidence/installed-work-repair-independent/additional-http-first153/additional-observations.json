@@ -1,0 +1,34 @@
+{
+  "reviewLate": {
+    "status": 403,
+    "body": {
+      "outcome": "accepted",
+      "operationReference": "e83324c7-f934-4c98-a483-16d81e3d32b8",
+      "error": "The original operation was saved, then permissions changed. Its governed result is withheld. Keep this reference; do not submit again."
+    },
+    "key": "e83324c7-f934-4c98-a483-16d81e3d32b8",
+    "receipt": {
+      "actor_id": "t-116bd220-installed-execution-reviewer",
+      "key": "installed-work:e83324c7-f934-4c98-a483-16d81e3d32b8",
+      "org_id": "org_ca7fc246dcb1651840ca9ac02e6721b7",
+      "hash": "77eddc1dc40213e84e4947121342e7fe79e587c4a03bca8c6069d734526b77af",
+      "result": "{\"policyId\":\"2579f902-6b42-4fd4-a605-4576bb48ffc4\",\"hash\":\"0027d0cfa476a66f0dbb6948fbdd4782da98bc1ec5735c65ee2373f4c665fb6f\",\"version\":2,\"state\":\"approved\"}",
+      "person_id": null,
+      "created_at": "2026-10-05T20:35:25.831Z",
+      "command_type": "installedWork.review",
+      "mutation_subject_id": "2579f902-6b42-4fd4-a605-4576bb48ffc4",
+      "mutation_event_id": "559f2796-3451-49cc-90e5-3f04f00d9a40",
+      "mutation_context": null
+    }
+  },
+  "patientRead": {
+    "status": 403,
+    "body": {
+      "error": "Your organisation membership is inactive or unavailable."
+    },
+    "member": {
+      "status": "suspended",
+      "version": 7
+    }
+  }
+}

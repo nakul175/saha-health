@@ -1,0 +1,653 @@
+{
+  "classification": "Immutable unresolved aggregate inbox/scheduled counterexample; not privacy clearance",
+  "noExternalDelivery": true,
+  "org": "org_23bdf7cc32a6c2680e76ec091a87e873",
+  "owner": "t-3ffdc554-alert-before-owner",
+  "personId": "3aeb8b54-6259-4ebe-9d76-b398390908c4",
+  "visitId": "c4ac453e-81b9-41be-ac46-d369e6a3e324",
+  "referralId": "fc002d45-a3c1-4833-93e4-bcce2e59e7f5",
+  "operation": {
+    "release": "11 / v1.3-readiness",
+    "generatedAt": "2026-10-05T21:03:43.696Z",
+    "environment": "synthetic",
+    "maintenance": {
+      "active": false,
+      "reason": ""
+    },
+    "report": {
+      "days": 7,
+      "since": "2026-09-29T00:00:00.000Z",
+      "until": "2026-10-05T21:03:43.695Z",
+      "scope": "Current authorised teams; current assignments, not historical membership",
+      "patients": null,
+      "visitsStarted": null,
+      "visitsConfirmed": null,
+      "activeWorkers": null,
+      "activeWorkersCoverage": "Withheld: distinct actor contributions are not certified by the patient aggregation profile.",
+      "backlog": {
+        "drafts": null,
+        "openFollowUps": null,
+        "overdueFollowUps": null,
+        "openReferrals": null,
+        "overdueReferrals": null,
+        "undatedReferrals": null,
+        "unresolvedSubmissions": null,
+        "unresolvedEhr": null
+      },
+      "programmes": [],
+      "destinations": [],
+      "daily": [
+        {
+          "date": "2026-09-29",
+          "confirmed": null
+        },
+        {
+          "date": "2026-09-30",
+          "confirmed": null
+        },
+        {
+          "date": "2026-10-01",
+          "confirmed": null
+        },
+        {
+          "date": "2026-10-02",
+          "confirmed": null
+        },
+        {
+          "date": "2026-10-03",
+          "confirmed": null
+        },
+        {
+          "date": "2026-10-04",
+          "confirmed": null
+        },
+        {
+          "date": "2026-10-05",
+          "confirmed": null
+        }
+      ],
+      "usage": {
+        "requests": null,
+        "localCalls": null,
+        "liveCalls": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "missingUsage": null,
+        "estimatedUsd": null,
+        "rates": null,
+        "coverage": "Agent requests only; legacy AI, hosting, storage, MIS and EHR charges are excluded."
+      },
+      "privacy": {
+        "withheld": true,
+        "reason": "Withheld to protect a group or contributing group smaller than five.",
+        "minimumCell": 5,
+        "activeWorkers": "Withheld: distinct actor contributions are not certified by the patient aggregation profile."
+      }
+    },
+    "telemetry": {
+      "windowHours": 24,
+      "count": 16,
+      "serverErrors": 0,
+      "errorRate": 0,
+      "meanMs": 8,
+      "maxMs": 20,
+      "routes": [
+        {
+          "route": "commands",
+          "status": 200,
+          "count": 12,
+          "total_ms": 93,
+          "max_ms": 15
+        },
+        {
+          "route": "workspace",
+          "status": 200,
+          "count": 4,
+          "total_ms": 31,
+          "max_ms": 20
+        }
+      ],
+      "coverage": "Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort."
+    },
+    "operations": {
+      "version": 1,
+      "maintenance": false,
+      "reason": "",
+      "updatedAt": "2026-10-05T21:03:43.687Z",
+      "incidents": [
+        {
+          "id": "5638b2a0-9966-4d76-b3e5-a095b60c3a66",
+          "title": "Synthetic nonclinical critical incident",
+          "severity": "critical",
+          "state": "open",
+          "ownerId": "t-3ffdc554-alert-before-owner",
+          "createdAt": "2026-10-05T21:03:43.687Z",
+          "updatedAt": "2026-10-05T21:03:43.687Z"
+        }
+      ],
+      "rates": null
+    },
+    "operators": [
+      {
+        "id": "t-3ffdc554-alert-before-owner",
+        "name": "alert-before-owner-3ffdc554@example.invalid"
+      }
+    ],
+    "gates": [
+      {
+        "id": "clinical",
+        "label": "Clinical and programme approval",
+        "state": "external",
+        "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+      },
+      {
+        "id": "mis",
+        "label": "Two live programme destinations",
+        "state": "external",
+        "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+      },
+      {
+        "id": "ehr",
+        "label": "Live EHR acceptance",
+        "state": "external",
+        "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+      },
+      {
+        "id": "abdm",
+        "label": "ABDM exchange and conformance",
+        "state": "unbuilt",
+        "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+      },
+      {
+        "id": "model",
+        "label": "Approved live AI",
+        "state": "external",
+        "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+      },
+      {
+        "id": "device",
+        "label": "Disconnected field and speech testing",
+        "state": "external",
+        "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+      },
+      {
+        "id": "security",
+        "label": "Independent security and accessibility assessment",
+        "state": "external",
+        "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+      },
+      {
+        "id": "recovery",
+        "label": "Hosted disaster recovery and scale",
+        "state": "external",
+        "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+      }
+    ],
+    "pilotReady": false,
+    "serviceAuthority": {
+      "identities": [],
+      "bindings": {},
+      "targets": [
+        {
+          "id": "ai_completeness",
+          "name": "Record completeness",
+          "kind": "agent"
+        },
+        {
+          "id": "ai_summary",
+          "name": "Visit summariser",
+          "kind": "agent"
+        },
+        {
+          "id": "mis_community",
+          "name": "Community health MIS",
+          "kind": "connector"
+        },
+        {
+          "id": "mis_maternal",
+          "name": "Maternal & child register",
+          "kind": "connector"
+        },
+        {
+          "id": "openai",
+          "name": "openai",
+          "kind": "agent"
+        },
+        {
+          "id": "independent:anaemia",
+          "name": "independent:anaemia",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:oral-saathi",
+          "name": "frontline:oral-saathi",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:skin-saathi",
+          "name": "frontline:skin-saathi",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:shishu-breath",
+          "name": "frontline:shishu-breath",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:matri-check",
+          "name": "frontline:matri-check",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:poshan-check",
+          "name": "frontline:poshan-check",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:teeka-reader",
+          "name": "frontline:teeka-reader",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:dawa-follow",
+          "name": "frontline:dawa-follow",
+          "kind": "agent"
+        },
+        {
+          "id": "frontline:report-reader",
+          "name": "frontline:report-reader",
+          "kind": "agent"
+        }
+      ],
+      "owners": [
+        {
+          "id": "t-3ffdc554-alert-before-owner",
+          "name": "alert-before-owner-3ffdc554@example.invalid"
+        }
+      ]
+    },
+    "budgets": {
+      "notice": "Estimated from recorded cost assumptions and recorded or reserved token use; not an invoice or provider bill. Agent requests only; evaluations, hosting and other charges are excluded.",
+      "month": "2026-10",
+      "rows": []
+    },
+    "invoices": {
+      "notice": "Saha figures are estimates from recorded token use and the current cost assumptions (a sent request without recorded usage counts at the reserved allowance). The invoice figures are what an owner recorded from the provider. Agent requests only; evaluations, hosting and other charges are excluded. Reconciling never changes budgets or cost assumptions.",
+      "columns": [
+        "provider",
+        "model",
+        "month",
+        "input_tokens",
+        "output_tokens",
+        "amount_usd",
+        "invoice_reference"
+      ],
+      "maxLines": 12,
+      "records": []
+    },
+    "alerts": [
+      {
+        "id": "incident-critical-open",
+        "severity": "critical",
+        "title": "Critical incidents not resolved",
+        "count": 1,
+        "owner": "operations",
+        "action": "The incident owner updates the incident with evidence, or resolves it.",
+        "tab": "service",
+        "acknowledged": null
+      }
+    ],
+    "alertRules": "1.2.0"
+  },
+  "ownerInbox": {
+    "status": 200,
+    "body": {
+      "rules": {
+        "delivery": "1.0.0",
+        "alerts": "1.2.0",
+        "escalateAfterMinutes": {
+          "critical": 30,
+          "high": 240,
+          "normal": 1440
+        },
+        "ladder": {
+          "operations": [
+            "operations",
+            "owners"
+          ],
+          "supervisors": [
+            "supervisors",
+            "owners"
+          ],
+          "owners": [
+            "owners"
+          ]
+        },
+        "evaluateEverySeconds": 60
+      },
+      "owns": [
+        "operations",
+        "supervisors",
+        "owners"
+      ],
+      "evaluated": false,
+      "unread": 2,
+      "items": [
+        {
+          "id": "c7b51347-d51f-4a2d-81a5-5d68ee09f0c6",
+          "alertId": "incident-critical-open",
+          "level": 1,
+          "kind": "delivery",
+          "severity": "critical",
+          "title": "Critical incidents not resolved",
+          "count": 1,
+          "detail": null,
+          "deliveredAt": "2026-10-05T21:03:43.687Z",
+          "readAt": null,
+          "clearedAt": null,
+          "clearedReason": null,
+          "active": true
+        },
+        {
+          "id": "a78915b2-907c-4b7d-8fa7-fc247d35a91b",
+          "alertId": "referrals-undated",
+          "level": 1,
+          "kind": "delivery",
+          "severity": "normal",
+          "title": "Open referrals without a due date",
+          "count": 1,
+          "detail": null,
+          "deliveredAt": "2026-10-05T21:03:43.644Z",
+          "readAt": null,
+          "clearedAt": null,
+          "clearedReason": null,
+          "active": true
+        }
+      ],
+      "escalations": [],
+      "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+    }
+  },
+  "supervisorInbox": {
+    "status": 200,
+    "body": {
+      "rules": {
+        "delivery": "1.0.0",
+        "alerts": "1.2.0",
+        "escalateAfterMinutes": {
+          "critical": 30,
+          "high": 240,
+          "normal": 1440
+        },
+        "ladder": {
+          "operations": [
+            "operations",
+            "owners"
+          ],
+          "supervisors": [
+            "supervisors",
+            "owners"
+          ],
+          "owners": [
+            "owners"
+          ]
+        },
+        "evaluateEverySeconds": 60
+      },
+      "owns": [
+        "supervisors"
+      ],
+      "evaluated": false,
+      "unread": 1,
+      "items": [
+        {
+          "id": "b94fb50f-3a47-4e05-9336-c8d9c8facb84",
+          "alertId": "referrals-undated",
+          "level": 1,
+          "kind": "delivery",
+          "severity": "normal",
+          "title": "Open referrals without a due date",
+          "count": 1,
+          "detail": null,
+          "deliveredAt": "2026-10-05T21:03:43.672Z",
+          "readAt": null,
+          "clearedAt": null,
+          "clearedReason": null,
+          "active": true
+        }
+      ],
+      "escalations": null,
+      "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+    }
+  },
+  "purposeInbox": {
+    "status": 200,
+    "body": {
+      "rules": {
+        "delivery": "1.0.0",
+        "alerts": "1.2.0",
+        "escalateAfterMinutes": {
+          "critical": 30,
+          "high": 240,
+          "normal": 1440
+        },
+        "ladder": {
+          "operations": [
+            "operations",
+            "owners"
+          ],
+          "supervisors": [
+            "supervisors",
+            "owners"
+          ],
+          "owners": [
+            "owners"
+          ]
+        },
+        "evaluateEverySeconds": 60
+      },
+      "owns": [
+        "supervisors"
+      ],
+      "evaluated": false,
+      "unread": 1,
+      "items": [
+        {
+          "id": "b94fb50f-3a47-4e05-9336-c8d9c8facb84",
+          "alertId": "referrals-undated",
+          "level": 1,
+          "kind": "delivery",
+          "severity": "normal",
+          "title": "Open referrals without a due date",
+          "count": 1,
+          "detail": null,
+          "deliveredAt": "2026-10-05T21:03:43.672Z",
+          "readAt": null,
+          "clearedAt": null,
+          "clearedReason": null,
+          "active": true
+        }
+      ],
+      "escalations": null,
+      "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+    }
+  },
+  "careControl": {
+    "status": 200,
+    "body": {
+      "personId": "3aeb8b54-6259-4ebe-9d76-b398390908c4",
+      "personVersion": 3,
+      "generatedAt": "2026-10-05T21:03:43.721Z",
+      "items": [
+        {
+          "key": "referral:fc002d45-a3c1-4833-93e4-bcce2e59e7f5",
+          "kind": "referral",
+          "title": "Referral to Synthetic care facility",
+          "reason": "Synthetic authoritative individual referral detail · No named owner; No due date",
+          "sources": [
+            {
+              "kind": "referral",
+              "id": "fc002d45-a3c1-4833-93e4-bcce2e59e7f5",
+              "label": "Referral",
+              "visitId": "c4ac453e-81b9-41be-ac46-d369e6a3e324",
+              "link": "visit",
+              "at": "2026-10-05T21:03:43.627Z"
+            }
+          ],
+          "owner": null,
+          "queue": "Supervisors of Synthetic private alert care team",
+          "ownershipGap": "No named care worker",
+          "due": null,
+          "urgency": "routine",
+          "status": "Draft",
+          "daysOverdue": 0,
+          "attention": "escalated",
+          "assignVia": "action-plan",
+          "targets": [
+            {
+              "kind": "referral",
+              "id": "fc002d45-a3c1-4833-93e4-bcce2e59e7f5",
+              "version": 1
+            }
+          ],
+          "canAssign": false,
+          "canClaim": true,
+          "refs": [
+            {
+              "kind": "referral",
+              "id": "fc002d45-a3c1-4833-93e4-bcce2e59e7f5"
+            }
+          ],
+          "waitingOn": [],
+          "blocks": []
+        }
+      ],
+      "unowned": 1,
+      "waiting": 0,
+      "canAssign": false,
+      "canLink": true,
+      "dependencies": [],
+      "eligibleOwners": [
+        {
+          "userId": "t-3b6814c8-alert-before-clinician",
+          "displayName": "Synthetic alert clinician",
+          "role": "clinician"
+        }
+      ],
+      "rules": "Ordered: ownership gaps and escalations first, then overdue, due today, needing review now, undated and upcoming, then items waiting on another open item; within each, higher urgency and longer overdue first. Follow-ups with the same title, due date and owner are shown once with every programme source. A waiting item is not counted as overdue while its blocker is open; the blocker keeps its own order. Computed on read; nothing is sent."
+    }
+  },
+  "rawNotifications": [
+    {
+      "org_id": "org_23bdf7cc32a6c2680e76ec091a87e873",
+      "id": "a78915b2-907c-4b7d-8fa7-fc247d35a91b",
+      "occurrence_id": "f4466cce-a7d1-4304-9b1d-47ebfc5480fb",
+      "user_id": "t-3ffdc554-alert-before-owner",
+      "level": 1,
+      "alert_id": "referrals-undated",
+      "scope_key": "t-3ffdc554-alert-before-owner",
+      "owner_role": "supervisors",
+      "severity": "normal",
+      "title": "Open referrals without a due date",
+      "count": 1,
+      "detail": null,
+      "delivered_at": "2026-10-05T21:03:43.644Z",
+      "read_at": null,
+      "cleared_at": null,
+      "cleared_reason": null
+    },
+    {
+      "org_id": "org_23bdf7cc32a6c2680e76ec091a87e873",
+      "id": "b94fb50f-3a47-4e05-9336-c8d9c8facb84",
+      "occurrence_id": "1a3595c5-e5f2-4827-b608-1ec896c2ca9c",
+      "user_id": "t-fcdaee6f-alert-before-supervisor",
+      "level": 1,
+      "alert_id": "referrals-undated",
+      "scope_key": "t-fcdaee6f-alert-before-supervisor",
+      "owner_role": "supervisors",
+      "severity": "normal",
+      "title": "Open referrals without a due date",
+      "count": 1,
+      "detail": null,
+      "delivered_at": "2026-10-05T21:03:43.672Z",
+      "read_at": null,
+      "cleared_at": null,
+      "cleared_reason": null
+    },
+    {
+      "org_id": "org_23bdf7cc32a6c2680e76ec091a87e873",
+      "id": "c7b51347-d51f-4a2d-81a5-5d68ee09f0c6",
+      "occurrence_id": "f5df709d-67d5-4f24-a382-18022c235f3c",
+      "user_id": "t-3ffdc554-alert-before-owner",
+      "level": 1,
+      "alert_id": "incident-critical-open",
+      "scope_key": "org",
+      "owner_role": "operations",
+      "severity": "critical",
+      "title": "Critical incidents not resolved",
+      "count": 1,
+      "detail": null,
+      "delivered_at": "2026-10-05T21:03:43.687Z",
+      "read_at": null,
+      "cleared_at": null,
+      "cleared_reason": null
+    }
+  ],
+  "sourceBefore": [
+    {
+      "org_id": "org_23bdf7cc32a6c2680e76ec091a87e873",
+      "id": "c4ac453e-81b9-41be-ac46-d369e6a3e324",
+      "person_id": "3aeb8b54-6259-4ebe-9d76-b398390908c4",
+      "version": 3,
+      "record_version": 3,
+      "state": "confirmed",
+      "data": "{\"id\":\"c4ac453e-81b9-41be-ac46-d369e6a3e324\",\"personId\":\"3aeb8b54-6259-4ebe-9d76-b398390908c4\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-05T21:03\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"55\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic retained individual care facts\",\"source\":\"reported\"},\"createdAt\":\"2026-10-05T21:03:43.587Z\",\"recordVersion\":3,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-3ffdc554-alert-before-owner\",\"name\":\"alert-before-owner-3ffdc554@example.invalid\",\"accountCode\":\"6BF5EAA0CCAB57D88FB6EF8F\",\"role\":\"clinician\",\"at\":\"2026-10-05T21:03:43.603Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-3ffdc554-alert-before-owner\",\"name\":\"alert-before-owner-3ffdc554@example.invalid\",\"accountCode\":\"6BF5EAA0CCAB57D88FB6EF8F\",\"role\":\"clinician\",\"at\":\"2026-10-05T21:03:43.603Z\"}},\"patientCheck\":{\"personId\":\"3aeb8b54-6259-4ebe-9d76-b398390908c4\",\"personVersion\":2,\"by\":\"t-3ffdc554-alert-before-owner\",\"at\":\"2026-10-05T21:03:43.618Z\"},\"confirmedAt\":\"2026-10-05T21:03:43.618Z\"}"
+    }
+  ],
+  "scheduledMethods": {
+    "scheduled": "function"
+  },
+  "scheduledOutcome": {
+    "outcome": "ok",
+    "noRetry": false
+  },
+  "scheduledNotifications": [
+    {
+      "org_id": "org_23bdf7cc32a6c2680e76ec091a87e873",
+      "id": "0f35d2b5-484d-490c-9b48-a4efb105082c",
+      "occurrence_id": "501ead3d-8acc-4b2b-8e76-36da1f0530e9",
+      "user_id": "t-fcdaee6f-alert-before-supervisor",
+      "level": 1,
+      "alert_id": "referrals-undated",
+      "scope_key": "t-fcdaee6f-alert-before-supervisor",
+      "owner_role": "supervisors",
+      "severity": "normal",
+      "title": "Open referrals without a due date",
+      "count": 1,
+      "detail": null,
+      "delivered_at": "2026-10-05T21:03:43.908Z",
+      "read_at": null,
+      "cleared_at": null,
+      "cleared_reason": null
+    },
+    {
+      "org_id": "org_23bdf7cc32a6c2680e76ec091a87e873",
+      "id": "b8578c6d-236e-4c90-bfda-26869ce186b8",
+      "occurrence_id": "41cd2479-3a53-4e4f-957b-89998c6793d4",
+      "user_id": "t-3ffdc554-alert-before-owner",
+      "level": 1,
+      "alert_id": "referrals-undated",
+      "scope_key": "t-3ffdc554-alert-before-owner",
+      "owner_role": "supervisors",
+      "severity": "normal",
+      "title": "Open referrals without a due date",
+      "count": 1,
+      "detail": null,
+      "delivered_at": "2026-10-05T21:03:43.908Z",
+      "read_at": null,
+      "cleared_at": null,
+      "cleared_reason": null
+    }
+  ],
+  "phone": true
+}

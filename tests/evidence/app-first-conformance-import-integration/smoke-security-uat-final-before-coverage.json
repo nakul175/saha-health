@@ -1,0 +1,265 @@
+{
+  "generatedAt": "2026-10-05T09:23:35.486Z",
+  "startedAt": "2026-10-05T09:23:16.182Z",
+  "command": "node scripts/test.mjs smoke nfr uat --only smoke/local-smoke,smoke/hosted-smoke,nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast --guard --report tests/evidence/app-first-conformance-import-integration/smoke-security-uat-final.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 2,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 5543,
+      "failedSuites": 0
+    },
+    {
+      "layer": "nfr",
+      "status": "passed",
+      "suites": 2,
+      "passed": 86,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 12963,
+      "failedSuites": 0
+    },
+    {
+      "layer": "uat",
+      "status": "failed",
+      "suites": 3,
+      "passed": 62,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 576,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 7,
+    "passed": 184,
+    "failed": 1,
+    "skipped": 1,
+    "failedSuites": 1,
+    "durationMs": 19304
+  },
+  "suites": [
+    {
+      "id": "smoke/hosted-smoke",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/hosted-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3164,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/smoke-hosted-selftest-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__hosted-smoke.log"
+    },
+    {
+      "id": "smoke/local-smoke",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/local-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 28,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 2379,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/smoke-local-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__local-smoke.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 57,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8692,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    },
+    {
+      "id": "nfr/identity-hardening",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/identity-hardening.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 29,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4271,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/identity-hardening-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__identity-hardening.log"
+    },
+    {
+      "id": "uat/check-uat-register",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/check-uat-register.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 174,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/uat-register-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__check-uat-register.log"
+    },
+    {
+      "id": "uat/coverage-map",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/coverage-map.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": 8,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 188,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/coverage-map-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/uat__coverage-map.log"
+    },
+    {
+      "id": "uat/generate-uat-pack",
+      "layer": "uat",
+      "kind": "suite",
+      "file": "tests/uat/generate-uat-pack.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 214,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/uat-pack-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/uat__generate-uat-pack.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "uat/coverage-map",
+        "kind": "dropped",
+        "message": "Suite uat/coverage-map passed 8 assertion(s); baseline is 9 (down 1).",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 7,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 182,
+        "components": 0,
+        "suitesCitingNoRequirement": 48,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 67,
+        "components": 84,
+        "suitesCitingNoRequirement": 8,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 24,
+        "components": 0,
+        "suitesCitingNoRequirement": 20,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 289,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 80,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "generatedAt": "2026-10-05T06:45:11.344Z",
+  "startedAt": "2026-10-05T06:44:52.475Z",
+  "command": "node scripts/test.mjs integration nfr --only integration/work-support-visibility-http,integration/work-burden-ledger-http,integration/work-burden-ledger-browser,nfr/authorisation-matrix --fast --guard --update-baseline --reason Actual support visibility repair: authorized rows before bounded queue limit; add positive regression without reducing existing minima --report /private/tmp/saha-support-visibility-root.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 3,
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8424,
+      "failedSuites": 0
+    },
+    {
+      "layer": "nfr",
+      "status": "passed",
+      "suites": 1,
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10252,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 97,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 18869
+  },
+  "suites": [
+    {
+      "id": "integration/work-burden-ledger-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-burden-ledger-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5063,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-burden-ledger-browser.log"
+    },
+    {
+      "id": "integration/work-burden-ledger-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-burden-ledger-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1595,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-burden-ledger-http.log"
+    },
+    {
+      "id": "integration/work-support-visibility-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-support-visibility-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1766,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-support-visibility-http.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10252,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": [
+      "integration/work-support-visibility-http"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/work-burden-ledger/linked-phone.png"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 153,
+        "components": 0,
+        "suitesCitingNoRequirement": 35,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 30,
+        "components": 84,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 122
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 11,
+        "components": 0,
+        "suitesCitingNoRequirement": 7,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 210,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 156,
+    "suitesCitingNoRequirement": 48,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 156
+  }
+}

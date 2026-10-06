@@ -1,0 +1,41 @@
+Running integration resilience --fast; 2 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/run-api-smoke ...
+  FAILED   integration/run-api-smoke  16 passed  38.3s  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: {"error":"Together with your indicator queries of the last seven days, this result would reveal a group of fewer than 5 people. Use the same filters as before or widen them."}
+      |     actual: 422,
+      |     expected: 200,
+      | AssertionError [ERR_ASSERTION]: {"error":"Together with your indicator queries of the last seven days, this result would reveal a group of fewer than 5 people. Use the same filters as before or widen them."}
+      | 422 !== 200
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/indicators-smoke.mjs:6:375
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-privacy-registration-current.mjs:10:20)
+      |     at read (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/indicators-smoke.mjs:6:358)
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      |     at async indicatorsSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/indicators-smoke.mjs:14:13)
+      |     at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-privacy-registration-current.mjs:123:64 {
+      |   generatedMessage: false,
+      |   code: 'ERR_ASSERTION',
+      |   actual: 422,
+      |   expected: 200,
+      |   operator: 'strictEqual',
+      |   diff: 'simple'
+      | }
+      | ler:info] GET /api/retention 200 OK (10ms)
+
+[resilience] 1 suite(s)
+  running  resilience/recovery-drill ...
+  ok       resilience/recovery-drill  21 passed  1.4s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  integration  failed       1      16       0        0  38.3s
+  resilience   passed       1      21       0        0   1.4s
+  total        FAILED       2      37       0        0  40.6s
+
+Restored 49 tracked file(s) and deleted 24 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: FAILED (2 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/run-api-smoke passed 16 assertion(s); baseline is 4770 (down 4754).

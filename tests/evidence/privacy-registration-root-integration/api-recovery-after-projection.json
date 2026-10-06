@@ -1,0 +1,232 @@
+{
+  "generatedAt": "2026-10-05T21:08:33.271Z",
+  "startedAt": "2026-10-05T21:07:52.648Z",
+  "command": "node scripts/test.mjs integration resilience --fast --guard --only integration/run-api-smoke --only resilience/recovery-drill --report tests/evidence/privacy-registration-root-integration/api-recovery-after-projection.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 1,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 38345,
+      "failedSuites": 1
+    },
+    {
+      "layer": "resilience",
+      "status": "passed",
+      "suites": 1,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1373,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 37,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 1,
+    "durationMs": 40623
+  },
+  "suites": [
+    {
+      "id": "integration/run-api-smoke",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/run-api-privacy-registration-current.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 38345,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/process-memory-result.json",
+        "tests/operations-bound-contract-result.json",
+        "tests/photo-contract-result.json"
+      ],
+      "requirementsCited": 114,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__run-api-smoke.log"
+    },
+    {
+      "id": "resilience/recovery-drill",
+      "layer": "resilience",
+      "kind": "suite",
+      "file": "tests/recovery-drill.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1373,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/recovery-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/resilience__recovery-drill.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/run-api-smoke",
+        "kind": "dropped",
+        "message": "Suite integration/run-api-smoke passed 16 assertion(s); baseline is 4770 (down 4754).",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/object-media-independent/discard-contract.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/abdm-contract/abdm-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/abdm-transfer-contract/abdm-transfer-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/access-audit-contract/access-audit-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/action-plan-contract/action-plan-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/adapter-operations-contract/adapter-operations-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/agent-contract/agent-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/agent-minimisation-contract/agent-minimisation-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/agent-quality-contract/agent-quality-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/ai-budget-contract/ai-budget-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/ai-invoice-contract/ai-invoice-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/alert-delivery-contract/alert-delivery-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/alerts-contract/alerts-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/audit-chain-contract/audit-chain-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/capability-lifecycle-contract/capability-lifecycle-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/caseload-contract/caseload-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/caseload-schedule-contract/caseload-schedule-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/consent-contract/consent-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/continuity-contract/continuity-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/correction-tasks-contract/correction-tasks-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/crosswalk-correction-contract/crosswalk-correction-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/delegation-contract/delegation-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/demonstration-contract/demonstration-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/drift-contract/drift-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/ehr-contract/ehr-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/ehr-contract/ehr-synthetic-document.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/ehr-execution/ehr-execution-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/ehr-resolution-contract/ehr-resolution-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/environment-contract/environment-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/exceptional-contract/exceptional-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/exceptions-contract/exceptions-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/facility-scope-contract/facility-scope-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-provenance-contract/fact-provenance-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-reuse-contract/fact-reuse-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-verification-contract/fact-verification-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fhir-provenance-contract/fhir-provenance-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fhir-validate-contract/fhir-validate-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/field-contract/field-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/field-registration-client/field-registration-client-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fixture-migration-contract/fixture-migration-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/governance-contract/governance-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/household-contract/household-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/household-reschedule-contract/evidence/household-reschedule/contract.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/household-visit-contract/household-visit-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/identifier-crosswalk-contract/identifier-crosswalk-contract-result.json",
+      "tests/operations-load-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/inbound-conflicts-contract/evidence/inbound-conflicts-assignment-repair/combined-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/inbound-retrieval-contract/evidence/inbound-retrieval-service-repair/combined-contract-result.json",
+      "tests/recovery-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/access-scope-contract-result.json",
+      "tests/aggregate-checkpoint-population-contract-result.json",
+      "tests/aggregate-delivery-contract-result.json",
+      "tests/anaemia-provider-contract-result.json",
+      "tests/audit-checkpoint-contract-result.json",
+      "tests/audit-contention-contract-result.json",
+      "tests/audit-query-plan-contract-result.json",
+      "tests/cloudflare-staging-contract-result.json",
+      "tests/destination-enrolment-contract-result.json",
+      "tests/eighth-review-fixes-contract-result.json",
+      "tests/field-capacity-client-result.json",
+      "tests/field-media-capacity-client-result.json",
+      "tests/field-media-client-result.json",
+      "tests/field-provenance-client-result.json",
+      "tests/field-recording-client-result.json",
+      "tests/field-storage-client-result.json",
+      "tests/field-units-client-result.json",
+      "tests/fourth-review-fixes-contract-result.json",
+      "tests/frontline-provider-contract-result.json",
+      "tests/i18n-contract-result.json",
+      "tests/identity-contract-result.json",
+      "tests/ninth-review-fixes-contract-result.json",
+      "tests/operations-bound-contract-result.json",
+      "tests/photo-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 198,
+        "components": 0,
+        "suitesCitingNoRequirement": 59,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 145,
+        "components": 84,
+        "suitesCitingNoRequirement": 74,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 483,
+        "components": 0,
+        "suitesCitingNoRequirement": 380,
+        "requirementsCited": 144
+      }
+    },
+    "supportFiles": 30,
+    "suites": 842,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 517,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "typecheck": "passed",
+  "frameworkBuild": "passed",
+  "focusedLedgerChecks": 20,
+  "actualWorkerD1ChromiumChecks": 11,
+  "fullUnit": {
+    "suites": 142,
+    "passed": 8308,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 78901
+  },
+  "temporaryLeadFixtureCompatibility": [
+    "scripts/test-catalogue.mjs",
+    "tests/field-shell.mjs",
+    "tests/speech-contract.mjs",
+    "tests/test-runner-contract.mjs"
+  ],
+  "temporaryFixtureCopiesRestoredAndNotCommitted": true,
+  "sourceBaseline": "6e085201",
+  "limitations": [
+    "Internal synthetic local receipt contract, not clinical pipeline or independent hosted availability",
+    "99.5% target unmeasured",
+    "No external provider or arbitrary URL request",
+    "Built local browser fixture activation deliberately backdated to avoid real five-minute wait"
+  ]
+}

@@ -1,0 +1,17 @@
+{"event":"saha_request","requestId":"2283cb42-43ac-476b-9bc1-70ad9a74ddeb","route":"workspace","status":200,"durationMs":55}
+{"event":"saha_request","requestId":"01dc7b7b-018a-46f9-b737-17393436147b","route":"commands","status":200,"durationMs":48}
+{"event":"saha_request","requestId":"bc7d78f2-69ae-4ea7-9787-4eff400501e4","route":"commands","status":200,"durationMs":35}
+node:internal/process/task_queues:104
+    runMicrotasks();
+    ^
+
+TypeError: Body has already been used. It can only be used once. Use tee() first if you need to read it twice.
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async objectBytes (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-boundary-oZSrSC/media-storage.js:32:34)
+    at async stagePrivateObject (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-boundary-oZSrSC/media-storage.js:65:5)
+    at async Module.uploadMedia (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/.object-media-boundary-oZSrSC/media-server.js:108:25)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-native-boundary.mjs:17:55 {
+  [cause]: undefined
+}
+
+Node.js v24.19.0

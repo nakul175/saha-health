@@ -1,0 +1,35 @@
+{"event":"saha_request","requestId":"a37145c6-311d-4271-a8a5-5d4839733083","route":"workspace","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"e0376b92-a5c6-486b-b673-8720045d173a","route":"workspace","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"5f7a8e35-20d4-433f-9564-c11f36addb78","route":"commands","status":200,"durationMs":21}
+{"event":"saha_request","requestId":"f044098c-ce8f-492e-802d-d1c4e5bde3e9","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"5a73926d-c17e-4dea-9df8-af19285cc0e7","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"0994110c-ed6e-48b6-b42b-c4c244530e20","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"78b40387-16f9-4078-8686-cbc3ef7c6928","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"89e64f44-a8ae-42d4-b5ac-5970280126ea","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"a0b9fdc2-ee70-4cb0-b2b3-60c13e1fc328","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"0dbb0c73-2af4-42bd-a6ca-999b7b5ecaa9","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"5b2d0297-d5fa-4067-806a-b52abce7e85a","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"ea5a189a-3c78-4941-b405-bd79305bf901","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"acf351eb-c552-4897-b2c9-6b7bd988da50","route":"workspace","status":200,"durationMs":20}
+{"event":"saha_request","requestId":"561a1f91-6a23-4bbe-a5af-18807003a1fa","route":"commands","status":200,"durationMs":27}
+{"event":"saha_request","requestId":"a4549b40-3c6e-40d1-bcb4-55a35e19abba","route":"commands","status":422,"durationMs":1}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Required"}
+
+422 !== 200
+
+    at cmd (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-handoff/tests/inbound-retrieval-before.mjs:11:120)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-handoff/tests/inbound-retrieval-before.mjs:20:217 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 422,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

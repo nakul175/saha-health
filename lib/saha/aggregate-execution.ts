@@ -1,3 +1,4 @@
+import {serviceDispatch} from './service-dispatch';
 import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, fail, uuid } from './core';
 import { persist, readState, scope, type Actor } from './store';
@@ -7,7 +8,7 @@ import { operationRefusal, refusalOf, type Refusal } from './adapter-operations'
 import { resolveDefinition, MIN_CELL, releasePopulation } from './indicators';
 import { ledgerFull, pruneLedger, screenReleases } from './indicator-differencing';
 import { candidateReleases, ledgerHash, readLedger, writeLedger, type Candidate } from './indicator-ledger';
-import { aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, bytesOf, compactReports, computeRuns, OPEN_STATES, PAYLOAD_BYTES, REPORTS_BYTES, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
+import { assertAggregateEnvelope, aggregateDestination, aggregateRefusal, applyAggregateReceipt, approveReport, buildPayload, bytesOf, compactReports, computeRuns, OPEN_STATES, PAYLOAD_BYTES, REPORTS_BYTES, demoAggregateTransport, findReport, minimisationCheck, REPORT_LIMIT, reportEvent, reportingScope, reportList, type AggregateCommand, type AggregateReport, type AggregateTransport, type TeamRun } from './aggregate-delivery';
 import type { Member, OrgState } from './types';
 // Slice 7g: preparing, approving, sending and looking up aggregate reports (see aggregate-delivery.ts).
 export const LEDGER_WRITE_REFUSED='the differencing ledger could not record this release (storage refused the write), so the release could not be protected.';
@@ -106,7 +107,7 @@ async function send(db:D1Database,s:OrgState,c:Extract<AggregateCommand,{type:'s
    if(!withdrawn){try{scope(latest,m.userId);}catch{withdrawn='the sender\'s membership is no longer active.';refusal=refusalOf(li,'aggregate','checkpoint');}}
    if(!withdrawn)withdrawn=await recordReleases(db,latest,releases,now);
    if(withdrawn&&!refusal&&li)refusal={...refusalOf(li,'aggregate','checkpoint'),reason:'differencing'};}}
- let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch{}
+ let raw:unknown;if(!withdrawn)try{raw=await transport(i!,lookup?{contract:'saha-aggregate-v1',operation:'lookup',key:r.id,payloadHash:r.payloadSha256}:r.payload,lookup?'lookup_'+operationId:r.id);}catch(e){if(e&&typeof e==='object'&&'serviceRefusal' in e)withdrawn=e instanceof Error?e.message:'Service authority unavailable.';}
  for(let n=0;n<3;n++){
   const after=await readState(db,s.organisation.id),old=structuredClone(after),target=((after.operations as any)?.aggregateReports??[]).find((x:AggregateReport)=>x.id===r.id) as AggregateReport|undefined,at=new Date().toISOString();
   if(!target)fail(409,'The report checkpoint is unavailable.');
@@ -155,6 +156,20 @@ async function recordReleases(db:D1Database,s:OrgState,releases:Candidate[],at:s
  return 'many indicator releases were being recorded at once, so this release could not be recorded.';
 }
 export async function executeAggregate(db:D1Database,s:OrgState,c:AggregateCommand,u:Actor,m:Member,key:string,hash:string,transport:AggregateTransport=demoAggregateTransport){
+ let serviceRefusal='';const deliver=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,null,{intent:c.type==='lookupAggregateReport'?'lookup':'send',purpose:'reporting',authorize:(latest,member)=>{
+   if(!('reportId' in c))fail(422,'Unsupported report request.');const prepared=findReport(s,c.reportId),r=findReport(latest,c.reportId);reportingScope(member,r.teamIds);
+   if(r.operationId!==prepared.operationId||r.payloadSha256!==prepared.payloadSha256||!['sending','uncertain'].includes(r.state))fail(409,'Report checkpoint changed.');
+   const li=latest.workspace.integrations.find(x=>x.id===i.id);if(!li||li.version!==i.version)fail(409,'Report destination changed.');
+   if(c.type==='lookupAggregateReport'){const refusal=operationRefusal(li,'lookup','none');if(refusal)fail(409,refusal);return;}
+   aggregateDestination(latest,r.destinationId);const refusal=aggregateRefusal(li,'checkpoint',new Date().toISOString());if(refusal)fail(409,refusal.text);
+   if(JSON.stringify([r.teamIds,r.definitions,r.period,r.group,r.preparedBy,r.approvedBy,r.approvedAt,r.expiresAt])!==JSON.stringify([prepared.teamIds,prepared.definitions,prepared.period,prepared.group,prepared.preparedBy,prepared.approvedBy,prepared.approvedAt,prepared.expiresAt]))fail(409,'Report approval or scope changed.');
+   if(r.state!=='sending'||![r.preparedBy,r.approvedBy].includes(u.userId)||!r.expiresAt||r.expiresAt<new Date().toISOString())fail(409,'Report approval changed or expired.');
+   const check=minimisationCheck(r.payload,latest,'checkpoint',new Date().toISOString());if(!check.passed)fail(409,'Report minimisation changed.');
+   // The ledger already contains this reserved release. Compare its prepared source population
+   // instead of recording or recomputing the same release twice in the audit window.
+   const source=(state:OrgState)=>{const people=state.workspace.people.filter(p=>r.teamIds.includes(p.teamId)),ids=new Set(people.map(p=>p.id));return JSON.stringify({people:people.map(p=>[p.id,p.version,p.consentVersion]).sort(),visits:state.workspace.visits.filter(v=>ids.has(v.personId)).map(v=>[v.id,v.version,v.state,v.voidedAt,v.supersededBy]).sort()});};
+   if(source(s)!==source(latest))fail(409,'Report source records changed during dispatch. Prepare a new report.');
+  }});await assertAggregateEnvelope(args[0],args[1]);}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw Object.assign(e instanceof Error?e:Error(serviceRefusal),{serviceRefusal:true});}return deliver(i,...args);};
  if(c.type==='prepareAggregateReport')return prepare(db,s,c,u,m,key,hash);
  if(c.type==='approveAggregateReport'){const before=structuredClone(s),result=approveReport(s,c,u,m,new Date().toISOString());linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,result);return result;}
  return send(db,s,c,u,m,key,hash,transport);

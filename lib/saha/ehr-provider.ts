@@ -1,9 +1,16 @@
 import { fail } from './core';
 import { ehrCredential, EHR_ATTEMPT_WINDOW_SECONDS, type EhrConfig } from './ehr';
-import { inspectDocument } from './fhir-document';
+import { assertOutboundPrivacy, inspectDocument } from './fhir-document';
 import type { Integration } from './types';
+export function assertFhirEnvelope(path:string,init:RequestInit={}){
+ const refuse=()=>fail(409,'FHIR request differs from its approved mapped transport contract; review before sending.');
+ if(Object.keys(init).some(k=>!['method','headers','body'].includes(k)))refuse();const method=init.method??'GET',headers=new Headers(init.headers);
+ if(method==='GET'){if(init.body!==undefined||[...headers.keys()].length||!(/^(?:metadata|(?:Patient|Bundle)\/[A-Za-z0-9.-]{1,64})$/.test(path)||/^Bundle\?identifier=urn%3Asaha%3Adocuments%7C[A-Za-z0-9.-]{1,64}&_count=2$/.test(path)))refuse();return;}
+ if(method!=='POST'||path!=='Bundle'||typeof init.body!=='string'||init.body.length>64000||[...headers.keys()].some(k=>!['content-type','prefer','if-none-exist'].includes(k))||headers.get('content-type')!=='application/fhir+json'||headers.get('prefer')!=='return=representation')refuse();
+ let body:any;try{body=JSON.parse(init.body as string);}catch{refuse();}assertOutboundPrivacy(body);if(headers.get('if-none-exist')!=='identifier='+encodeURIComponent('urn:saha:documents|'+body.id))refuse();
+}
 export async function fhirRequest(i:Integration,orgId:string,env:Record<string,string|undefined>,path:string,init:RequestInit={},send:typeof fetch=fetch){
- const token=ehrCredential(i,orgId,env),response=await send(i.endpoint!.replace(/\/$/,'')+'/'+path,{...init,headers:{Accept:'application/fhir+json',Authorization:`Bearer ${token}`,...init.headers},redirect:'manual',signal:AbortSignal.timeout(15000)});
+ assertFhirEnvelope(path,init);const token=ehrCredential(i,orgId,env),response=await send(i.endpoint!.replace(/\/$/,'')+'/'+path,{...init,headers:{...Object.fromEntries(new Headers(init.headers)),Accept:'application/fhir+json',Authorization:`Bearer ${token}`},redirect:'manual',signal:AbortSignal.timeout(15000)});
  if(!response.ok)fail(502,`FHIR endpoint returned HTTP ${response.status}.`);if(!response.headers.get('content-type')?.includes('json'))fail(502,'FHIR endpoint did not return JSON.');
  const reader=response.body?.getReader();if(!reader)fail(502,'Empty FHIR response.');let size=0;const chunks:Uint8Array[]=[];while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>64000){await reader.cancel();fail(502,'FHIR response exceeds 64 KB.');}chunks.push(value);}const bytes=new Uint8Array(size);let at=0;for(const chunk of chunks){bytes.set(chunk,at);at+=chunk.length;}try{return JSON.parse(new TextDecoder().decode(bytes));}catch{fail(502,'Invalid FHIR JSON.');}
 }

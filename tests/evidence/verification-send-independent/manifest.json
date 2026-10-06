@@ -1,0 +1,707 @@
+{
+  "sourceBase": "0804c098e9466b5a71e5b7ea502b9e9f46b2bf4a",
+  "classification": "Independent bounded review clear; no source changes; full B05 remains open",
+  "build": "pass",
+  "types": "pass",
+  "originalFocusedRepeat": 777,
+  "additionalHTTP": 181,
+  "additionalPhone": 131,
+  "additionalDistinctAssertionsBeyondRepeatedSetup": 67,
+  "overlap": "181 includes original118;131 includes original127;777 contains repeated setup and seven phone checks, not acceptance criteria",
+  "originalFixturePins": 113,
+  "originalBeforeArtifacts": 6,
+  "unchangedOriginals": {
+    "app/dispute-panel.tsx": "72a2670f74d0c03b9ecf46ed0a02f8269e2d931fd20a27ab915dc0aa581acd86",
+    "app/entry-verification-panel.tsx": "eb0a1b669b768135986c20eaba7c731abb65dbee869a03583e9a902bebfd9a58",
+    "app/fact-verification-panel.tsx": "82dda22469db46b0e1316e2410f83dc5714a313a42e8e9c43bfe25298da02597",
+    "lib/saha/fact-verification.ts": "17819500d5d8b1e3c730d32d0e4d3acc6eefb8c143cb867d8946997fae62de17",
+    "lib/saha/send-gate.ts": "414d187b6d306b85d0a421a70fbdca2cdbdfb335edacf24aabc4f24a1d7ccb45",
+    "lib/saha/server.ts": "09210f807dad85e17c7a67a929a0773985a3ff3e00e34e3743318d52d18eff3b",
+    "lib/saha/types.ts": "b97339c20f869d87838302bfc995b002ed062f0d558bfc5633b41d2abbce5832",
+    "lib/saha/visit-signoff.ts": "9f12dcc36ded410310d62819f9f8082d9c0f7ddb64ddf91a4229180e08ebe0ef",
+    "lib/saha/verification-disputes.ts": "14a854bd01dad5431920c7d0e211207b8e925e05aac20d272223f813ef0d50c8",
+    "docs/current/VERIFICATION-SEND-HOLDS.md": "b74c919e2513958711403515948a042139310aa6af63bc901921bf055f59684b",
+    "tests/lib/verification-fixture-adapter.mjs": "82de14349c62b49ab59b23fdfdfc47d6aaafba399f21b033bc3f604be43bef81",
+    "tests/verification-current-abdm-contract.mjs": "5ca7c331d65a5053edb6dd2629d71fa47b78f9257e1204025a1b26485809341e",
+    "tests/verification-current-abdm-transfer-contract.mjs": "9e275afa11a44b41198ebe50a04a158a186e4883d8d6672a0ba6e678ee44b14c",
+    "tests/verification-current-access-audit-contract.mjs": "3c092f46a772d3992aa7f2272ebd8e3a2fdca6f4851ffa229f564f5b943c9e53",
+    "tests/verification-current-action-plan-contract.mjs": "27284fb5d837092361d6b7eececfba4341a41bc680402fca32d892f75aa76506",
+    "tests/verification-current-adapter-operations-contract.mjs": "735ee6b076f670a53309e78611512d4ad219ff0d1b78e1c5f227f0c35d307f18",
+    "tests/verification-current-adapter-overhead-bench.mjs": "6bbd81269216303f697f09610e88f32a4566dfe0744d9bc70afbffe2b22ad250",
+    "tests/verification-current-agent-contract.mjs": "f5921d64356fe110748ee14b6a8ccbe247ce985bf951bfcc500c10f2e81538d0",
+    "tests/verification-current-agent-minimisation-contract.mjs": "6cd01c1c467511b0f39983b9f95c4fec910e6efcda3fd786286e66111f19eb9a",
+    "tests/verification-current-agent-quality-contract.mjs": "69dd0725b2315ceb33337998ba600d81591da41adee51c07563bb0f6e9409d0d",
+    "tests/verification-current-ai-budget-contract.mjs": "3c2867d1dc849860e5bf6598f0bc5810043f229b80542aa05a401a8b177f41e4",
+    "tests/verification-current-ai-invoice-contract.mjs": "083e200dd777dfeae0318c6d72fdcfe72333ea5b3d416e693e1802ddbe92ad97",
+    "tests/verification-current-alert-delivery-contract.mjs": "24df19e94e7e7c9fa6a0d7c9be0659ddcedac03b02de8163760cd2e4c22886b5",
+    "tests/verification-current-alerts-contract.mjs": "d7a52bca2efba07a1880811c4a96471189cc9dda8ccdd9ef3818444561d73b12",
+    "tests/verification-current-audit-chain-contract.mjs": "5deafc4cf1dc6c6da486e63038acdec1bb5e1b84bda77671305103e487c02ad6",
+    "tests/verification-current-capability-lifecycle-contract.mjs": "ce3f80a242a5e1d995e66942b46e2a865e9d021ece8cdcb5da04f1dc8cc14285",
+    "tests/verification-current-caseload-contract.mjs": "23e3db146561fc8099b8df86fd561c5863bef74f6259ccafa4172b4a8a78cb25",
+    "tests/verification-current-caseload-schedule-contract.mjs": "84a84889f64215c7383921cbc1d6313231198ae983238040ce15270bdc6f959e",
+    "tests/verification-current-consent-contract.mjs": "d86580c43436c16903dcae385102085b1dad83d34a5cd6d1d8b40eb328c8b009",
+    "tests/verification-current-continuity-contract.mjs": "4ed9c4f5cffca3dc652c3e2633ca206e8d1ec289c460401453919be988263435",
+    "tests/verification-current-correction-tasks-contract.mjs": "850df9cd3100f04fe013360acf34d76c6ad189204ed3b0d00edd2aa23ccc432a",
+    "tests/verification-current-crosswalk-correction-contract.mjs": "775e9e99a9b90a739c531d84096805dfb1037f0744128e08cf2cd321f3eff920",
+    "tests/verification-current-data-exit-contract.mjs": "647aac544bd7990e47146889ec10fd560a5478d65ea16e3bc04fdb568aa72a76",
+    "tests/verification-current-delegation-contract.mjs": "1405f3f8aef094d71a064522defff809bbe358f38ac772ac9c4faa24573f7bf6",
+    "tests/verification-current-demonstration-contract.mjs": "8a7131042ee6dcb35f878b0d3faecb927c43b27163605aa46636b74eebf17849",
+    "tests/verification-current-drift-contract.mjs": "93635d2f5eb585be62702f11636462bf887457d2b6c00c258cd9d35a1a2b299a",
+    "tests/verification-current-ehr-contract.mjs": "dcab5bc9ae95411419339ac55f5b0fd973585ff7291bb70de37ead1756065534",
+    "tests/verification-current-ehr-execution.mjs": "8c902d915e37f15fcca6bee6801e90c5def6ab44d297446dd26aef68b6b6d889",
+    "tests/verification-current-ehr-resolution-contract.mjs": "c01d9fa7f016cc73783e26c778a5d4e4ef642410ac1137c8a0621f2afd23acaa",
+    "tests/verification-current-eighth-review-fixes-contract.mjs": "7e80a4f1ca3b143729aea5ae789de3dbd2f6fff99405a1fc412b0d01718358c6",
+    "tests/verification-current-environment-contract.mjs": "253ee5dcf4ea9e33fec584d3c21f7a8f4bea785e6830a04f1fd3ca91cc4b7b50",
+    "tests/verification-current-exceptional-contract.mjs": "0acdd351547b3e2aaaa78cef961954d2078fa14e0f59eaecd5e7912f4501a577",
+    "tests/verification-current-exceptions-contract.mjs": "911bf93923d58f9da44663d3b14f30b585a4b4d23ad2ac8df26bdefbf61dbdde",
+    "tests/verification-current-facility-scope-contract.mjs": "ab3fe20b4598d9b9d9161e466f2ca6c72be40b6408780cef1341779ec63202c4",
+    "tests/verification-current-fact-provenance-contract.mjs": "9ccd539cf3ddf19ccf4693536670f0c2d8378d4172b54ceb97c4141a36294da1",
+    "tests/verification-current-fact-reuse-contract.mjs": "39dbc9d4a6ab4de35013fe59c287a8a28ebb8e218f406e2a54adbdc4d2e3baf9",
+    "tests/verification-current-fact-verification-contract.mjs": "1ef2ab0f4afd1a37a07ff772a9cb88ad6ce9638236337b0d412595cafac3a302",
+    "tests/verification-current-fhir-provenance-contract.mjs": "914aefbf4cc9496fd7126498fab0e7e7869cfa94e8d7a13550f0ce5fb86d7de7",
+    "tests/verification-current-fhir-validate-contract.mjs": "1acf3c3705714b1b0a9f13d0c2c7af26b87a36250eb225116be0e317393e8292",
+    "tests/verification-current-field-contract.mjs": "00f1bfdd87f00d913bc88094f660b03b6a28f114aacb35c5bddca8ae10fdba9d",
+    "tests/verification-current-field-registration-client.mjs": "e7ed591f5a0623e964236706c6f43908796261faa517d2116db883ee92b41618",
+    "tests/verification-current-fixture-migration-contract.mjs": "b4003c2b557570142eb38ebc5e0ad24c9b637f4df45d4eccb9e0f675f77fcade",
+    "tests/verification-current-governance-contract.mjs": "ab848dd31d84e436d50bd96a5b4a06e7bbd02638ffec67f640d945abbd637394",
+    "tests/verification-current-household-contract.mjs": "fe320aa598e39f6eee43adcebc4882ef0f0a28157a095b217c973476e37b55fe",
+    "tests/verification-current-household-reschedule-before-driver.mjs": "ef8c05caccc0d9bb17ce906233ff34fd915184c7a3abda0498e3d4de277771d9",
+    "tests/verification-current-household-reschedule-contract.mjs": "c52852b3880ed62930e160df9981b5aa193b4abb43504fcf6bbceb43fa9983fa",
+    "tests/verification-current-household-visit-contract.mjs": "9f3a26f84075b6e74f5ba880fbd96879fd56db489499290679ba33928bdc25d6",
+    "tests/verification-current-identifier-crosswalk-contract.mjs": "5987d9d5b2c8ecfea36f5fabb0a36e03498e101bc9c5e425babcb75ce19f4abf",
+    "tests/verification-current-imported-media-repeat-media-contract.mjs": "d2752745ec60b5036e2154820a55504110158196ea321ec84bb21eac4dfb2c41",
+    "tests/verification-current-inbound-conflicts-contract.mjs": "cdec5d08e3c6bc09b97e9d041560d243667e97fdf52a1be4e43fb94cd00d0ae7",
+    "tests/verification-current-inbound-retrieval-contract.mjs": "458d993c9e486cf12a1a30fdf7243631812690b276b1febdc4437c6f6dde2f73",
+    "tests/verification-current-incentive-claims-contract.mjs": "84d52b98e1d8b49e5f8d87d7d84e18028f04b6cc48d7938fd32a05196a77874e",
+    "tests/verification-current-indicator-freshness-contract.mjs": "3a98d4640d1c96cfc632178413d9aa82b59bc4382955fac2fb130a85fed01f9e",
+    "tests/verification-current-indicator-governance-contract.mjs": "2242a9eaa6972888b35439495228dd592dec4d7232c344cda5a8c56a3d327102",
+    "tests/verification-current-indicator-registry-contract.mjs": "b99819ae644428569b2da617995693cd4a3ce6d1e353d0629c3033e6d90ee334",
+    "tests/verification-current-indicators-contract.mjs": "ac4f65fa8623c8ff797358cf8690406638455cfff4f2d264406c62ed2339e893",
+    "tests/verification-current-integration-media-data-exit-contract.mjs": "47c1174e50b0e6f99be3f534803c4e2c0d8b39cee135698e8300506bafe1e370",
+    "tests/verification-current-integration-media-inbound-conflicts-contract.mjs": "ceb9a67539042b9d066ae5a220ad6e41667aee258f2ecdab733fc1fdb1216c1a",
+    "tests/verification-current-main-review-fixes-contract.mjs": "0d5a61b39635f07ea5154945d5e4baad6352c4e7c622c1399b0cd2f157e519a6",
+    "tests/verification-current-media-contract.mjs": "b930a944a0a3ac400c0446f4032f50f31509bac36f063eed41c66ff02c6e39dd",
+    "tests/verification-current-merge-contract.mjs": "bb7a92cf2a8b918811aacd5020281bdc59d3b6a9c4a47995d92c647de6c34de9",
+    "tests/verification-current-mis-contract.mjs": "7f99bb4045490869b6cdd2d63b107e828cce7bb8c75c707c6d9b228b8dcd7427",
+    "tests/verification-current-mis-delivery.mjs": "3ed37d459fa1f905ae4d3d91befa05d4a4d893b1c334d4bb68f173dc2afa11b4",
+    "tests/verification-current-note-answer-signoff-contract.mjs": "02aca9ae09a2b24b46e6d7c6b0790eb1539b487b1dadb5d0dfad5400481e4f7f",
+    "tests/verification-current-note-answer-signoff-smoke.mjs": "47182ddbc58f02a68935d12d4ea3e7216a335349b56748274cd7de527aadfb4e",
+    "tests/verification-current-notification-channel-contract.mjs": "c6478b659908f862df5b0c1aa1c55641ce4c53323bd0b584f3dd7e3fd3d59cdc",
+    "tests/verification-current-notification-sources-contract.mjs": "8357e44f9bee5185a721608d6b3c26ec17c836641abbb703b7c70580f0704d96",
+    "tests/verification-current-operations-contract.mjs": "2f5cea8635f01336d31cdd2f42caa47fb7b677124546e85e24fa970a4a9c39e5",
+    "tests/verification-current-outreach-contract.mjs": "445ef62d7c28e32795063d872869e79e339844cae5ff089ab5b0c58873429ee4",
+    "tests/verification-current-pack-installation-contract.mjs": "6b82c9329df24f64364e4338f97a7507935f11de7ecd34a2c363ae129f4f233e",
+    "tests/verification-current-patient-directory-contract.mjs": "c17daaabe34f3916f0adef4e1d09650dad00347f31675f514abc3be23d7d45b1",
+    "tests/verification-current-patient-import-contract.mjs": "9d209156ab5f4332ff40c87e18a64787476143b308d678120e1ffa6686777029",
+    "tests/verification-current-pilot-contract.mjs": "8f868bc25c44f52e0106a203df70ac4ace1e4108170ec493a916612bb5a43cb2",
+    "tests/verification-current-plan-dependencies-contract.mjs": "940a9478d62bd977455b5c31d65a2836181e87bb966f5bb7df129d3605c1ec87",
+    "tests/verification-current-programme-migration-contract.mjs": "a4a170c6b852d4b84e66de2ebf9c87b0551eb46148d69dae8d3074b9620b9a4d",
+    "tests/verification-current-provider-ehr-envelope-contract.mjs": "aaa1861689bc4705511286e4770a004d0910477385469aa99fc9850655e58dd7",
+    "tests/verification-current-provider-ehr-execution-review.mjs": "c1647cb807b8493e515c33ac545a5ab3a33fd55c439c1c6929778e4a805d4a91",
+    "tests/verification-current-provider-ehr-header-review.mjs": "6fa45175d88f1a47beec83a01f050170f3c4475148f6d90d7dbe2d77c5ff5be0",
+    "tests/verification-current-provider-ehr-headers-contract.mjs": "6ecc88d2bc5e222a4b93c9c4513836352bb52575fcca15915247bff336b2f77c",
+    "tests/verification-current-provider-ehr-headers-independent-contract.mjs": "29ecb7bf737695e271c38c1cb2527192df1b9598c697bf06fca9652a617acab6",
+    "tests/verification-current-provider-history-contract.mjs": "492b931d97b51fc01eccf1c5dde84d5cbd7df41dbd950c923c97a791f50ef412",
+    "tests/verification-current-provider-mis-envelope-contract.mjs": "78f03a821b1acbf53252e642b262e394561d5011bef62ddee16e2c76b7865db9",
+    "tests/verification-current-provider-mis-execution-review.mjs": "ea78c1a26dea5e712519150cf871112143b1a01056231ef529d6d598516214b4",
+    "tests/verification-current-provider-sandbox-contract.mjs": "65dd0ca8dd53fbead15b95cb4a40dc124c343e0dc5c6bf88493d39c70a813508",
+    "tests/verification-current-purpose-scope-contract.mjs": "90da050cf8cc99c8f91c3e120282d74741f7f14bdf559e7122d9933b7346da5d",
+    "tests/verification-current-r26-correction-propagation-contract.mjs": "6a51cfc87ebbce9dfc1751623c9a6d18dbaebba579d1ea49610c6e1574717dce",
+    "tests/verification-current-raw-key-independent-repeat-field-contract.mjs": "d80d7f521f3c520037fe24e3b6bcbe6732e8519f456f6417b2b51ef420ed0c2a",
+    "tests/verification-current-read-audit-completion-contract.mjs": "e5696349da414efd95b7309021d40252b68d835f892f24716294e5c8188cf201",
+    "tests/verification-current-reason-codes-contract.mjs": "dc592406971ac827a55bec79534dc04eeb024ac39b06177902a0bf5a950c7064",
+    "tests/verification-current-reassignment-contract.mjs": "439aa00999326e08cdaa4ed09267c22f5c7e764b19f13147ddc97d0b76c631c7",
+    "tests/verification-current-record-import-contract.mjs": "732a8767d71943a64c5f872de6830fd75b9484765cd007a7998c6ba24f1f115f",
+    "tests/verification-current-referral-contract.mjs": "0160abbdc996b1d54444fd215058505d5caf17bcebac34f08109b0c990a6b3fd",
+    "tests/verification-current-referral-request-queue-contract.mjs": "1d598f1d6e2144c6dfa06ef2596f60d0fa857e17df87968b2c70ccadb16de3d9",
+    "tests/verification-current-replay-soak-contract.mjs": "992dbc51639739a2c0a32d4b689bc9a41bcdb12f3289820064db93dba78fdb1d",
+    "tests/verification-current-report-export-contract.mjs": "72ef23ccacecca4fd1f1cff94ab48adf0a817ee5fc407ab85cc08cc7e0032828",
+    "tests/verification-current-request-body-transport-contract.mjs": "e169afe2247774f834f3cfddab1195614ab92b78f0cf595dcaeacf1374151712",
+    "tests/verification-current-retention-contract.mjs": "14849f8748791f8cba022cb7d5e7de5035ded67bbc5e018ee3076c815fadd3c9",
+    "tests/verification-current-reuse-contract.mjs": "3ed847e78a2ce33568a219094f73555600fce7a662b9ee3ea5178d9fa670a1e7",
+    "tests/verification-current-review-fixes-contract.mjs": "5b0e3cf4445a10afd08e9da93c27b5049fd6a7e00e32af03af05a8add435cbb0",
+    "tests/verification-current-rights-contract.mjs": "4172eba91beb766fb249e0bf840f0817e91ed00ac9223be5e254cc2d0b90ebaf",
+    "tests/verification-current-roster-contract.mjs": "1730df2dc25d773b7a608c483e66fc7102adfc66ac29e550e296a97be27412b9",
+    "tests/verification-current-scoped-read-contract.mjs": "a9e4503a7328c8a3af02ca010bf3cb2917a227aba3b36b578278d571f2696ec9",
+    "tests/verification-current-send-gate-contract.mjs": "2604367db147d3664f5743a04c2f9acfbb07038e43697efaf24fd68cde6efbd2",
+    "tests/verification-current-service-identity-contract.mjs": "7a0c6d8a1dee5d97996eb9017d0cb43de1ad16d14b742e151aed241a08cd6bef",
+    "tests/verification-current-shadow-contract.mjs": "ba99b2b10e91dd6a33a7bc5741689e093f13edc2a6ff032025d53f9faa1fa9cb",
+    "tests/verification-current-signoff-http.mjs": "9b52240caadf9cc8365ad65f456142cd7f0daf8c2f1fc504fb9534e16fef7605",
+    "tests/verification-current-sixth-review-fixes-contract.mjs": "7c5b8f51796cd6d5a77bbb11247599b78292fa2051657118b8f5be18326c287f",
+    "tests/verification-current-storage-contract.mjs": "bc3be43a7977d46ca6685a64cefaf1a6ba92547e697981da226f21b4b57443e9",
+    "tests/verification-current-task-limits-contract.mjs": "c6fc9a21993cae5023006eafc67e85170be24b1135562ffdf47ccc789f59be9d",
+    "tests/verification-current-tenth-review-fixes-contract.mjs": "355709be4469584869ed57ce2743510200bcb783a6a7428bbb897afc9aed01e1",
+    "tests/verification-current-trace-contract.mjs": "e25e4fe9aa1b341a66053364dd1141b0a9b9c61a61b081b2b779c22877cb7784",
+    "tests/verification-current-value-override-agent-contract.mjs": "922eb3e1b311bb8c812363291b7e7596a21c9d9db4e85c4c8cbcfbc9d2e62b41",
+    "tests/verification-current-value-override-contract.mjs": "d07503687191ba08ff7d817633e34c159d8ed2b38a2d5c7dc9bfa3fa0079985c",
+    "tests/verification-current-value-ranges-context-contract.mjs": "55b7b424f4cf44a418ea15e99d9b4d3d29b906b11729b92b1f7bafe0e50777cf",
+    "tests/verification-current-visit-import-contract.mjs": "0a759f0cca340e79ac204a661393f8d10e3e58a409e4393cb81176475a31e3dc",
+    "tests/verification-current-worker-activity-contract.mjs": "fae7b30e921f687de5fadc4c70aa5da00dcb1d2982a3ed53faa89f16503ad268",
+    "tests/verification-current-workforce-import-contract.mjs": "4d27dba3017d44abc78cb94dba54ed59ecd5e0a0d328ffdc9802154cbdb7052b",
+    "tests/verification-current-worklists-contract.mjs": "81dba3d8046aa314bac3ffa9923673fa709cad0972ee86e7bfa7c36f4aca2ec9",
+    "tests/verification-dispute-contract.mjs": "45b49a5c96dbb5130e4c853cb669f3bccc495885e13eeb9e26cc0c72c0516932",
+    "tests/verification-send-before-http.mjs": "50bb7c5947cba1704828d59d41dd4217209b4fb6b9d264456f23bd0be286e508",
+    "tests/verification-send-browser.mjs": "1401a78b3ad358c9e0595176c0d3723e5afafe1a3891ed1c677f8faaafa7e991",
+    "tests/verification-send-http.mjs": "8bc413b4ffd96cd55eea3685f4c74532daeeaa9d0757e47c8c3a4238bbc9f11d",
+    "tests/verification-send-legacy-http.mjs": "6e12fbd6222f2de7efba2532f04bb6ba7d9555b5e7bfc923fca12cd549422748",
+    "tests/evidence/verification-send-legacy/legacy.json": "c4fdd8a6bbd5d27c9c6aecec5b43455ba2c1904d27cf24f41d09dc3d00f461d0",
+    "tests/evidence/verification-send-legacy/observed.json": "c9d98e5265314f659034febeb4dc978f0aaf3b9d6e188596e7356f2230570fe1",
+    "tests/evidence/verification-send-legacy/result.json": "0751bbc7e8af2505792384edc61ddc61de990ab0e774b4a74a1a11cc93457242",
+    "tests/evidence/verification-send-phone/failure-details.json": "0efba807e3c47f9a8617070147adcb52e67f0c22ea0112006d1b1735addd0515",
+    "tests/evidence/verification-send-phone/failure-dom.txt": "73558274593094f9d08ae225e39b01a22f83907e6717d7463b6d662fa3230fe4",
+    "tests/evidence/verification-send-phone/failure.png": "a29167592ea12130ab838f072fe9f206e3271254327a952ec10d519ab1bbf61e",
+    "tests/evidence/verification-send-phone/independent-resolution-phone.png": "e6b78baf5c99eb1e9922ac8658cadb7fb2e63d12c70e47965689c3482c0ccd24",
+    "tests/evidence/verification-send-phone/observed.json": "5b121c689d40b852fa83a3773808192a634dc429614edb42654fb08a678cffcc",
+    "tests/evidence/verification-send-phone/phone-result.json": "9fa2fd3b50c3fd481d7c39a69f6e0cb6d8255ada765794b75a5d46ef06ba15d8",
+    "tests/evidence/verification-send-phone/result.json": "389f6ef09b9ac7bc2a12709cab10b8c18ca94be52c28db8b1bf34686d078ee87",
+    "tests/evidence/verification-send-signoff/result.json": "28f573fc0eb07744c35824c100b9d8aeb9bc1862ff392d2bb75f1c689ede84bb",
+    "tests/evidence/verification-send/build-current.log": "90c6af8d234ca71e27a81e587a66fdd2fa920291a86e5064104055921c0b1325",
+    "tests/evidence/verification-send/build-final.log": "cf0d4c006b4d735f2328505bcdd50b341f43d2f3950461b85f0a7f2d891993c5",
+    "tests/evidence/verification-send/contract-final.log": "e61db01b741335838236771acaeb0f3d08a05daf90f930b5e8c3b9a8c81591d2",
+    "tests/evidence/verification-send/contract-result.json": "11ec244f686ab8acc0ffb6cea27fb9f9b36ece5048ee5e0cc7307e9864bd6a46",
+    "tests/evidence/verification-send/documentation-check.log": "e451bc20e9e712bf7f0cea16e187ad4d1abaa2b229a805e42ce65b568899c3eb",
+    "tests/evidence/verification-send/eighth-review-current.log": "a42ad024fe0e5af0be97380cccbb2b468e2cfc52f82c1e0e4808b14165e91f26",
+    "tests/evidence/verification-send/eighth-review-fixes-compatibility.log": "8452d1e0b3770a5d7fc5f7b60e2bb67fe025840cb582de296aaa4cee0e61eced",
+    "tests/evidence/verification-send/eighth-review-fixes-contract-result.json": "5299ba039d7f76ef18a40cfa3030196439186009db6987f99a7fc67af9cb3d9b",
+    "tests/evidence/verification-send/eighth-review-fixes-final.log": "a42ad024fe0e5af0be97380cccbb2b468e2cfc52f82c1e0e4808b14165e91f26",
+    "tests/evidence/verification-send/fact-compatibility.log": "196ff26cb79a73ee282c50566c256ae477f5003f16202868b205fcddf6802025",
+    "tests/evidence/verification-send/fact-verification-contract-result.json": "57f034a3b6ab985b536e7523623f167357e3db2763eae97b98c839539090db6d",
+    "tests/evidence/verification-send/fact-verification-final.log": "196ff26cb79a73ee282c50566c256ae477f5003f16202868b205fcddf6802025",
+    "tests/evidence/verification-send/fixture-map.json": "500d285b13dcad38c0019965cf6f9d88e15bef5e63e7dc1b02f43261e86152a8",
+    "tests/evidence/verification-send/gate-compatibility-current.log": "501ab833c58b9b222e3f350af6d688ba61caefcee8fbbd24e5ecfa097ffa897e",
+    "tests/evidence/verification-send/gate-compatibility.log": "0119e30861ca74eacdc45943b6f5bffacbdf39a798a358fb08f0fec1d9000ba8",
+    "tests/evidence/verification-send/gate-final.log": "93ecb38b628ebad2716eac2edd893f847166cea032e7086e6cb857aab91116ac",
+    "tests/evidence/verification-send/http.log": "e28406817787841c2dc8a48e7ba6c260b2774e9c281520ba863ef921ccb6f48f",
+    "tests/evidence/verification-send/initial-http-failure.json": "b74d8988c362a5b0956f71f18f71971a8543de11038643eccf10d081cfedb3e8",
+    "tests/evidence/verification-send/legacy-http-current.log": "dda9f1a8e71d8af56e67ca26e3258f1f6a5ae6c089441304b75f820d362078ba",
+    "tests/evidence/verification-send/legacy-http-final.log": "ec19d5cc6530433d0ed52906bc62cad5f599f8a8cc3a1f9ebcfe2a8a121c1383",
+    "tests/evidence/verification-send/legacy-http-initial.log": "811434dcc3e0715972ec0b99342f2b970c8ed9c4620a2ddc446864c016bb96e4",
+    "tests/evidence/verification-send/new-contract-checkpoints.log": "9506cba9aba8aca8d9632d052e226b2e5e7e51d5f8cc6e803aafd163cca38103",
+    "tests/evidence/verification-send/new-contract-current.log": "3ed4fa1ecd31cf26024109fb89a350d580bad95118ee2a1743847e64810ac249",
+    "tests/evidence/verification-send/new-contract.log": "f137762dbaa5a4344cbaa0279531bbc0561550543f96312cc846b875b3a4d67f",
+    "tests/evidence/verification-send/note-answer-signoff-compatibility.log": "60539934d915d3337ead4fae017c6ef6e4f8b549a7d7ebb81898ca0a5694dd11",
+    "tests/evidence/verification-send/note-answer-signoff-contract-result.json": "b758ec20b0f7e8ff49b085c917efe01f3eda6824b59e62ecd8a1fea5cfb83448",
+    "tests/evidence/verification-send/note-answer-signoff-final.log": "ceb5b4cb7476e37bf0bc285584157041a82899da2d15c98e7d42c7d6dad59431",
+    "tests/evidence/verification-send/observed.json": "5098fbfea0f15c6f8331feadffd8b9869909c6cbbcb1656fb44dfda515704fd9",
+    "tests/evidence/verification-send/phone-dom-diagnostic.log": "8988aedbdcf22723dabb6cb5545694b0a0ad15e2bfb4de071f83b53bb432d673",
+    "tests/evidence/verification-send/phone-final.log": "5d67b630e64f33a0d86365b662c895b5c4b19427ca59eabdc45b967340ff8cca",
+    "tests/evidence/verification-send/phone-hydration-diagnostic.log": "9923689a35fabc10b3f3e1044dab9c7105129fffc2f5385e0ef3cf58108bd19f",
+    "tests/evidence/verification-send/phone-initial.log": "128fdaeb198d9c3452f68fdc6080df2e4fa69b52ffecb03e02631f0c3e6b6f9d",
+    "tests/evidence/verification-send/phone-wrangler-current.log": "5d67b630e64f33a0d86365b662c895b5c4b19427ca59eabdc45b967340ff8cca",
+    "tests/evidence/verification-send/requirements-check.log": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+    "tests/evidence/verification-send/result.json": "c399a4ac060da86216cef9b7109d74d34483b0a22ea6fe27c400b63c7466e212",
+    "tests/evidence/verification-send/send-gate-contract-result.json": "243cdc77e02685d7490a32ef9ebd4b88601caa8d1bb7773c61d910d7f9eb7d4e",
+    "tests/evidence/verification-send/send-gate-final.log": "ca0731b0dbb13bd808be0b09e1d6c8790314fb7690f3dea77792b7a74645aa70",
+    "tests/evidence/verification-send/signoff-http-initial.log": "185215212474c9024b89bb48506ce680d346f1f5e5bfa447ca0954e1b54dcaa6",
+    "tests/evidence/verification-send/sixth-review-current-2.log": "c7771e084bea8572d70b64f69077e5ab7b39ca06bd3811eb45c24fc4f170176c",
+    "tests/evidence/verification-send/sixth-review-current.log": "9c7fcb1376ebe799df419caac6237957a827ecd3a82de5e48b6b0a00c40c1870",
+    "tests/evidence/verification-send/sixth-review-fixes-compatibility.log": "86d25db9d2a91402d1c0c61a816611cdcdaaec7a41f0e40a3959be9eb0add0d5",
+    "tests/evidence/verification-send/sixth-review-fixes-contract-result.json": "d3c43dc3c2f565d63ac9da95a6af5d2998ada05aa89fd0a00e4055ea0780d051",
+    "tests/evidence/verification-send/sixth-review-fixes-final.log": "bccff7ae2bf51e2e03a8654dd8183c3793761893f50ec57e6ae72e0c68254e8e",
+    "tests/evidence/verification-send/types-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/verification-send/value-override-compatibility.log": "6fbab6e0ac694228ae67c1b8a9a57dc25f983a187cd7ad5b126a45e06f04f547",
+    "tests/evidence/verification-send/value-override-contract-result.json": "8bd2b6c9f9d473a3dcf13f5b734e3ba5ca61f80a92c211f93ee233353fbe7f3b",
+    "tests/evidence/verification-send/value-override-final.log": "6fbab6e0ac694228ae67c1b8a9a57dc25f983a187cd7ad5b126a45e06f04f547",
+    "tests/evidence/verification-send/verification-current-signoff-http-final.log": "2497dbbeda4a667731b49257c5974ff9d60e30bf60e6c1b30b405502e96c1db9",
+    "tests/evidence/verification-send/verification-send-http-final.log": "7accfbc54fc057dd2c168ba48fbba882c3a030a5e45341f63714de5e13801bb7",
+    "tests/abdm-contract.mjs": "99c262fe8dea628afb1a56ae8a3fba35029db0a053babb1f519922efd7c3c5d7",
+    "tests/abdm-transfer-contract.mjs": "6cfd2e09f045b5e2e2fa6a9ce157ae17315b682937762ec13809db8090b0799e",
+    "tests/access-audit-contract.mjs": "f1c52459e6a71aa14e2f2b7f761c4fd26473fb5f4f308b091f363791d173802a",
+    "tests/action-plan-contract.mjs": "a53737b9ae2ea472a8ba17caa665ffb7b4e64873cb9aa29ad4f18f9da4b7a314",
+    "tests/adapter-operations-contract.mjs": "70d9fd47a5072845117d9ef5400825708b9527eeb07d9b259245a5c1115c03bd",
+    "tests/adapter-overhead-bench.mjs": "ceac1d4aaff3160a7ac3dcc751fdb5ee44bba5beb20ff65f088ac8f9e8a1581f",
+    "tests/agent-contract.mjs": "9de0c712f692904befe1a58105d6b408e57cc739ba6d76eca02150d9d9fbd531",
+    "tests/agent-minimisation-contract.mjs": "7e299b9221b04a0583116e4d0c32ac78729fff5df87f267e692f6f00c60310a1",
+    "tests/agent-quality-contract.mjs": "841a27074aa919e259ef04d474451fbfd1d69b9f404e5af8d04d89a25c218787",
+    "tests/ai-budget-contract.mjs": "630951b409c3f700861f2c5b7150ba79efbff050cb44ec1e7aa6ccb0dffd1419",
+    "tests/ai-invoice-contract.mjs": "2e625c78e6a286e371cf9a4e521093fb746d359898d8f3d17b9a4c384765c030",
+    "tests/alert-delivery-contract.mjs": "7d6e771f9ee12e0bbcfd9a54c67f734aa211ec58cc99f00bc656f222fb3b771d",
+    "tests/alerts-contract.mjs": "ecbb2be31dacfc4da00d741d2796a16f41862b1f63d8c9174ca34c63ba665d7d",
+    "tests/audit-chain-contract.mjs": "94b6c241a817883eec2cfb14cf1c93601e277ca6f7d236045a3dd104661de009",
+    "tests/capability-lifecycle-contract.mjs": "60aea4888e1c11a6ad0e9920dbae1ad82d0a81549627338db46a744969025f23",
+    "tests/caseload-contract.mjs": "2799d173349f0987e578387b582a9af86682d57ffe1fbf4519fb28bfdea29217",
+    "tests/caseload-schedule-contract.mjs": "b15edc1fde3af42e4e50079bf9d972d2f47e1310da1d976e5957ed24ea8c3d5d",
+    "tests/consent-contract.mjs": "7dab65c4435905ab47731961bc68e703cfc404bbb8bc1afb27fbf783288f7cb1",
+    "tests/continuity-contract.mjs": "ef8349797c5499da2daeb95172ce5c8692fb359c3cde45df5f52ada32fec75e2",
+    "tests/correction-tasks-contract.mjs": "673187788ced0fce1455a46e5bc79f70f99c185e9546027bfe89f7c9f9cf7fbd",
+    "tests/crosswalk-correction-contract.mjs": "fd5926fa1e645ba2a99d61fc4ff5c9c4fba1279a3e911c80c5ad438832d07b51",
+    "tests/data-exit-contract.mjs": "7936d23db7c5600ec4820e703d836e37c6603b7bc9ab8d267ccc4a97cf724bb4",
+    "tests/delegation-contract.mjs": "0ce6f072fca925c053fd30af3036c973704995457cd8665e1c39e91aee887349",
+    "tests/demonstration-contract.mjs": "3c4f09e00df3eaa578f38483f5bcc096174bce16fb5e9a2722e94461e2e8c66e",
+    "tests/drift-contract.mjs": "774da935e2db96adb0e4689b01dc38fd139e0fcb3204c9c9b57f45db2328dfa1",
+    "tests/ehr-contract.mjs": "9acbf94253c1b9eb69cb33ad6ab21d08dafdfa4b365ea45f8e5cebc56533ee73",
+    "tests/ehr-execution.mjs": "5361822021e67084dbef2ab7a92ccfc6a31643cd9f911b8e13a25d270094f2a3",
+    "tests/ehr-resolution-contract.mjs": "7dc00f1f0e85e4630277bac94853c2f1016c707d35f9c8f859b46cc29ba84d2e",
+    "tests/environment-contract.mjs": "7aa1169e9bb2111b6f4c98fdf084da824bc15317a06cbaa058560e8d0cb471ee",
+    "tests/exceptional-contract.mjs": "185a1104f6a30cc83798040c2492382306e312cc2f656093e9ff2cfba8b17c58",
+    "tests/exceptions-contract.mjs": "a7a830e5dfd9d2e3cb7bcfd148073fa21e4b7413b77d6e51fd062bb8371effcb",
+    "tests/facility-scope-contract.mjs": "ee0b42e553deb44b241a7aa4f8e36de76244db11f6cb1338c763a4b0d49097e0",
+    "tests/fact-provenance-contract.mjs": "12af2dc1fe2c07aa3778c1199900aaa1c8b160ee9e4163428a7faf0d7f407c1c",
+    "tests/fact-reuse-contract.mjs": "eb03e1e0fd31fcc3baa885815c361826df4c9fb85ef4d0eb9481ee660fac4c38",
+    "tests/fact-verification-contract.mjs": "ebc5975290c4c955406d044df39a35d623d5460800694366e2935654f4f90815",
+    "tests/fhir-provenance-contract.mjs": "6e15886ac17e11f0c45fab969e695d42d5150df6a0a6ba5750050386f6e40895",
+    "tests/fhir-validate-contract.mjs": "e988e06071a46c4e591189a6cf045abcb4feeb93b1044c9a17f726d8aff60b09",
+    "tests/field-contract.mjs": "6fd27d2910f98158bcdf70f0863dceec7e9968c4b4ad77279b5569ec8c492105",
+    "tests/field-registration-client.mjs": "75e98e39acfffca329bb0b777a5b20d8a8a56323542b50562bf92e7734e7bdf4",
+    "tests/fixture-migration-contract.mjs": "58e01dc230f529a566db964c9e6a13a3d95722adda16e4ed7648c98030c00301",
+    "tests/governance-contract.mjs": "a4801cdb8e036310eb980ae0391e70f25d19b0f3a8754ac322eebd6f32584a30",
+    "tests/household-contract.mjs": "6b759e129a282e96d3f58f73f7475ffb86fe5dc2d85db6b93f319e17130eac39",
+    "tests/household-reschedule-before-driver.mjs": "81405adc1681b5802a66ef9cca7a78d3b2e2a431c5d9a5d665237911f47139df",
+    "tests/household-reschedule-contract.mjs": "cb44ba68f4a9572f67dd20001776de38f574015f0a0f986cf32e637e10f52b20",
+    "tests/household-visit-contract.mjs": "f5d49683e8a07b5e7cd065cc7cff673373378b1fb42405509350c9079210847d",
+    "tests/identifier-crosswalk-contract.mjs": "cdcad96f08ba9c802a77ec02c414fa5bbe29c4a5e485ff549380cfa6a6f46641",
+    "tests/imported-media-repeat-media-contract.mjs": "c0542683eee8a825a4ce85a14505c8fae5cf1af9cf781b5c42026a5318ef7ba9",
+    "tests/inbound-conflicts-contract.mjs": "619a0798a1a6f2865f302ebb3d88bf9e87aa338f2c64682e0d7f1c13e475cec5",
+    "tests/inbound-retrieval-contract.mjs": "92d69f1f994da98dd1dbf27e741e99f3cf5124bdb87d7616e08fcdf7275ba4d1",
+    "tests/incentive-claims-contract.mjs": "e0766aadd8310de76917ed1826dea752830cd409948406e8c543674cd56892f7",
+    "tests/indicator-freshness-contract.mjs": "f292533bf60bd71ccd74341e127644c5e962a4ab700056353346724457f3008e",
+    "tests/indicator-governance-contract.mjs": "649c1066e3cbd329c35a95c5f140ab7417b6860355e02fc03811db7a994f8b2f",
+    "tests/indicator-registry-contract.mjs": "59fd20d6ab159a94d00b564dfcf3a8218d569bf28cfc585b4f44b02b24bd205b",
+    "tests/indicators-contract.mjs": "22b7b801d0f71f2ae0a5f382a0fac57dd29794d14c34e1c7c2dfe58422a8eeeb",
+    "tests/integration-media-data-exit-contract.mjs": "5968975151828084c6f7ee832efee26baa8e618b5c1511ab1b3f1e5661c1e0f1",
+    "tests/integration-media-inbound-conflicts-contract.mjs": "9e6abbe89470de9c93d4dc57a974fd4248f325c443cd5c5324344cbb53d41932",
+    "tests/main-review-fixes-contract.mjs": "2566d679efa19631c3265f93620c5d96bbc3edd14c9137a56d24c2a77eb7c374",
+    "tests/media-contract.mjs": "cfa2a3b64b26142554b4c909fe59c818716b991218af03fa43ebd7581d2003ba",
+    "tests/merge-contract.mjs": "fa9987704e2cc8cf4110cb0c40fb4ad849e4780f6dcf7507e7fc040f1c03716b",
+    "tests/mis-contract.mjs": "ba1c38d23057c966c0f64be4622f76954b144fc48641d7fba2869386a45d7fe3",
+    "tests/mis-delivery.mjs": "5e8f5fdeea976c62adf253065054d8f8b26fe111f6e85bb883103cd8133e8df2",
+    "tests/note-answer-signoff-contract.mjs": "8f2b16ea5c272ccfd117f5076f16cd2a46b09258d25417c7bb067ee4645e53fb",
+    "tests/notification-channel-contract.mjs": "5dedddd2f45807e0c577ca2a08f365b3da537b9bdd9d54389a78cfa8192f0a61",
+    "tests/notification-sources-contract.mjs": "80a005c907c1addd2778285cb8799b64a0f32cd6f649b654cda01f311f0b5ff2",
+    "tests/operations-contract.mjs": "9d63cc27eb839592ea47c9c4a6f2f7cd561fbd1c0bf943bd9ed5296729a9e8a4",
+    "tests/outreach-contract.mjs": "37c38bccf2d43ce2576b935a27585a84d946e0b22c9e0808756e06232abbe62f",
+    "tests/pack-installation-contract.mjs": "853e9227ba8a5d5045079a9469f487dbe9b3fdd6c50f8aaab08b39ceeb9b3949",
+    "tests/patient-directory-contract.mjs": "176a9cfaad471d2b28bfd68ebbb8dc32a87e4deb112aaa9c731afc4347bb5a81",
+    "tests/patient-import-contract.mjs": "334e046b63feaceef2b363ac890d5ebda9f64c4fc1d40d5a6c09a08a2b2737fa",
+    "tests/pilot-contract.mjs": "7307db59cb036bdf3154290699e13e2c9161baac661db769ec425b0e2f944fde",
+    "tests/plan-dependencies-contract.mjs": "a7211be95a92925015efa442a3976957601914e368dfa9719d95ef8b292cf6ec",
+    "tests/programme-migration-contract.mjs": "630bb17693d00b7cd5c703fafaecc4cbe1f2cc8803fff120d5c12c9a852d7e4b",
+    "tests/provider-ehr-envelope-contract.mjs": "b645c824107b88879e6c6d4196e0771e1ef310e77a51011f5da0acc788cb13e0",
+    "tests/provider-ehr-execution-review.mjs": "e092b4917428dd916a31d54320d712555c61a837e5af85bc661c7489d706a923",
+    "tests/provider-ehr-header-review.mjs": "30f2fb9ede99b389cccbb5afaa61100c2c07245b90fd058a0b3c635dfec39ccb",
+    "tests/provider-ehr-headers-contract.mjs": "e4f7a27b05d6bfdb74e902e9f4e7a0d47d28e906e9960ff073494e0cd9b425d7",
+    "tests/provider-ehr-headers-independent-contract.mjs": "bb3facb9f3a3398eba536444ba7208cb224cf9d57c7158bc15bb80def461e0e0",
+    "tests/provider-history-contract.mjs": "f2513d5de44953a016bdd52da152132d9abf3a3db0dc24766ee9a1dfb5eeda8c",
+    "tests/provider-mis-envelope-contract.mjs": "b326c96bd3af3bb5501c50162ec1e013205609b50cd205f82581b994c536c610",
+    "tests/provider-mis-execution-review.mjs": "be18382503ee9326b7ff2ece405816b5f26ff6f13370d91c5c0fe68915a7430e",
+    "tests/provider-sandbox-contract.mjs": "44e94206ebaf23c88acbe93831cd628ae8d6a7d55fe46cbd7c29d8ad4bbe2098",
+    "tests/purpose-scope-contract.mjs": "ae8674ee872a6486d10a4d8706af441ad326da2ada1180bef8864aa0b458677f",
+    "tests/r26-correction-propagation-contract.mjs": "94faf162890e0924f31731b43f1888b84f8c078f51f3c0a562627a33e71886ab",
+    "tests/raw-key-independent-repeat-field-contract.mjs": "86661b5c713233b90b3668ac05b0e98ef65f1c40e6b46dd484bc1408507159d4",
+    "tests/read-audit-completion-contract.mjs": "a3cf2d88b934d341cfb649c8526503eb6d0541484f3093eecdb34b055f19487e",
+    "tests/reason-codes-contract.mjs": "62f1abd73218f0b53eacf018f1b2a0ba665f829a15d8676a1c45557711732d83",
+    "tests/reassignment-contract.mjs": "250981cd9af76270a3570c44c7100992e1c00da85a883980cd65ba2303ace772",
+    "tests/record-import-contract.mjs": "707c76d74f73d152c20899792317b8388d2db2b1285e92cb04ee36b8a608c168",
+    "tests/referral-contract.mjs": "5176b27ba36b4a8e309c74681943b9a107afeda821173ca15060f51f39b2b002",
+    "tests/referral-request-queue-contract.mjs": "739a713bb6f01ebf9176c293184000aa0fff31fdd75d28e31a765dc82573e9a0",
+    "tests/replay-soak-contract.mjs": "cc693e0640aff82904e227f02d18fee32b15e5971abc5d4dc073ac6fb0367767",
+    "tests/report-export-contract.mjs": "eebc8817272a8d8620dd5ba57cb3e5a1aa197ae72b8d6334671ecb370a1d69c5",
+    "tests/request-body-transport-contract.mjs": "19317ec520fd654fd9fd79119e349347d295e09aa9d9b0c50f8dd1f3441fbaa9",
+    "tests/retention-contract.mjs": "aa47e44eef1742c32d38edee4a4cee4db780e565745e4de134e20589baee78a3",
+    "tests/reuse-contract.mjs": "a30331e966cf1be24515a505b4f7801aee89f843207aab2ff1f400d13557454b",
+    "tests/review-fixes-contract.mjs": "45f8612e91a9bf3e36d94f4a473f604ce97f3bdae8641dbe56c3c39f94e97d7a",
+    "tests/rights-contract.mjs": "5bcc40645e32cd1ec4f9561d6edafb3c8a9c220c2349e19357f500a58eb5e7bf",
+    "tests/roster-contract.mjs": "925802ad1db3f0344cbf1f97abb6ee40205eb03a7e78fdcd9004118c5ab86f04",
+    "tests/scoped-read-contract.mjs": "ab6c456b3af9b03601c674154f6c214358ad3572f576d73965b06fedb76d41eb",
+    "tests/send-gate-contract.mjs": "5c959204aa817b960c96945ee94b8e2f0fb51972232e0bd95d4804b3358dae71",
+    "tests/service-identity-contract.mjs": "8a3c8f6a15741849f2919294b846cd1f7279d327559c8aa6d0ab45025cfe0e54",
+    "tests/shadow-contract.mjs": "b615d0e6c04b6ceb91836870a72acaae86316669ec1b044405419ef0da6442ed",
+    "tests/storage-contract.mjs": "2c5038f8d11adc7b95970101766a154d9c9783888d14a0b95d536ed627d24c72",
+    "tests/task-limits-contract.mjs": "b815bdb129973abf59d4401b09fdd779a6ae08295e8be3b867751d8863c46cad",
+    "tests/tenth-review-fixes-contract.mjs": "72b52b571c151743998228e5212bbfd4ae925a39bb20714d6a4c566a6d2148ab",
+    "tests/trace-contract.mjs": "3575e9a7e1bec42d01c14902389f77b22dcd65b1764eb34dba77456047e763f5",
+    "tests/value-override-agent-contract.mjs": "1fde05e400a60cbcd4e66ed0476315c7ea00d78e00401216d63df0b079c36f6c",
+    "tests/value-override-contract.mjs": "3a816b85e8a3dc345771b62a4a2f86305cf7481ab78a49aebe4d2e750d2dbe20",
+    "tests/value-ranges-context-contract.mjs": "521afef6a042b4fab022fbf43af80f259b56001382317762cbef7849f91fafdd",
+    "tests/visit-import-contract.mjs": "4bc32566ab26006b374637a3f5b90c8c0dc42e54fc149e30097ed0b36d92ef3e",
+    "tests/worker-activity-contract.mjs": "8874a9e56460c71f13259c3a3db087c8b8ab3027a51ae017bf7ba7cce5cda649",
+    "tests/workforce-import-contract.mjs": "51ce14f23fc2e85d2fdf28cf210cc6a8dbbd19eb103efe5c910e87ae6784a9dd",
+    "tests/worklists-contract.mjs": "bdb193a75a7df2e46d1b85756cc95eec3cebc4506072ba11ae672dc14a348904",
+    "docs/current/VERIFICATION-SEND-BEFORE-CONTRACT.md": "1bb68883b336c7839a5f9f61801b18c546247531c2b34d827677c8a052908341",
+    "tests/evidence/verification-send-before/build.log": "2221b7cce8a706ecee2aacd619da594c6b4e12ee277fe2228b7ad1f2758d564e",
+    "tests/evidence/verification-send-before/http.log": "6dc901ec2b8b038e245224488f1265fc03500d05d72ed380587c4d29c3dd7278",
+    "tests/evidence/verification-send-before/observed.json": "923b056624ee7979d742bb75022eb086949a4ed129bbb1c95789f301279929f0",
+    "tests/evidence/verification-send-before/result.json": "6156101ab0488b938b149e38e422badbe6fd93ee454b8de1c9f61d8ec581e1a1"
+  },
+  "rawPreimages": [
+    {
+      "path": "tests/evidence/verification-send-independent/types.log.raw.gz",
+      "bytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/signoff-http.log.raw.gz",
+      "bytes": 9146,
+      "uncompressedSha256": "20fd903fbc2f91f3ebec0fc85295fff119e9a8ec2a1bce38d20b5eed7412d329"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/verification-current-send-gate-contract.log.raw.gz",
+      "bytes": 224,
+      "uncompressedSha256": "7f962c21742aa1efb3cab380e648fb426d87aa0b8f1ab068b3f5d35ee7ce63c7"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/adversarial-http.log.raw.gz",
+      "bytes": 19102,
+      "uncompressedSha256": "933585e886645236ae926861021b12ca5eeab3e04a318505f53242041c13b6b7"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/uncertainty-phone.log.raw.gz",
+      "bytes": 47,
+      "uncompressedSha256": "dfa8c9cc2fe69e0be74ae10a1f4dc28126076a7528ee6601d3388f49a20507c7"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/verification-current-eighth-review-fixes-contract.log.raw.gz",
+      "bytes": 47,
+      "uncompressedSha256": "a42ad024fe0e5af0be97380cccbb2b468e2cfc52f82c1e0e4808b14165e91f26"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/phone.log.raw.gz",
+      "bytes": 47,
+      "uncompressedSha256": "5d67b630e64f33a0d86365b662c895b5c4b19427ca59eabdc45b967340ff8cca"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/verification-current-sixth-review-fixes-contract.log.raw.gz",
+      "bytes": 115,
+      "uncompressedSha256": "fbffa2a118b3b885fe939386cdeb768d40a02ff200ebfa96aadea875543022b0"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/legacy-http.log.raw.gz",
+      "bytes": 17623,
+      "uncompressedSha256": "5cd66c1a771901ca744fd80333336c52e0f3fd21aa55de5b851371ee0c287601"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/verification-current-fact-verification-contract.log.raw.gz",
+      "bytes": 44,
+      "uncompressedSha256": "196ff26cb79a73ee282c50566c256ae477f5003f16202868b205fcddf6802025"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/initial-adversarial-fixture.log.raw.gz",
+      "bytes": 7416,
+      "uncompressedSha256": "7f9059ac35fc2086e192d7ae63f97e4f3c12dae2c1b57a8f0adfa664e3855367"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/http.log.raw.gz",
+      "bytes": 12411,
+      "uncompressedSha256": "c8e0db634ab9d317452bf0e3bfbd14f8de9d85e648cd19b9aeba32021a3282d4"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/verification-dispute-contract.log.raw.gz",
+      "bytes": 224,
+      "uncompressedSha256": "ee45d9cef21fba9732483d79970682ea091dd850ae86764c6320a6bae2517747"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/second-adversarial-fixture.log.raw.gz",
+      "bytes": 7664,
+      "uncompressedSha256": "1159e0889a52cb1f956bc17076f6532ce7d91423a86be85a59f3b048ad28e860"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/verification-current-note-answer-signoff-contract.log.raw.gz",
+      "bytes": 173,
+      "uncompressedSha256": "0d811cee4b902417fd2c6146499862d341827675e7524b0b0eb5b89d7fa85622"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/verification-current-value-override-contract.log.raw.gz",
+      "bytes": 41,
+      "uncompressedSha256": "6fbab6e0ac694228ae67c1b8a9a57dc25f983a187cd7ad5b126a45e06f04f547"
+    },
+    {
+      "path": "tests/evidence/verification-send-independent/build.log.raw.gz",
+      "bytes": 4620,
+      "uncompressedSha256": "ad64c23905afd3b38e6f5b132d24ccdfc5b55e5ca1bd6e7aad751f463fe7d44c"
+    }
+  ],
+  "files": {
+    "tests/evidence/verification-send-independent/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/verification-send-independent/signoff-http.log": {
+      "sha256": "20fd903fbc2f91f3ebec0fc85295fff119e9a8ec2a1bce38d20b5eed7412d329",
+      "bytes": 9146
+    },
+    "tests/evidence/verification-send-independent/verification-current-value-override-contract.log.raw.gz": {
+      "sha256": "5eba6edf45af720303f0b411d77d5342a32bc4c68da2f7d4c0e09730fd510415",
+      "bytes": 61
+    },
+    "tests/evidence/verification-send-independent/verification-current-send-gate-contract.log": {
+      "sha256": "7f962c21742aa1efb3cab380e648fb426d87aa0b8f1ab068b3f5d35ee7ce63c7",
+      "bytes": 224
+    },
+    "tests/evidence/verification-send-independent/adversarial-http.log": {
+      "sha256": "933585e886645236ae926861021b12ca5eeab3e04a318505f53242041c13b6b7",
+      "bytes": 19102
+    },
+    "tests/evidence/verification-send-independent/legacy-http.log.raw.gz": {
+      "sha256": "1209e12344f059cd66dd6b5716762f4b68f1484f23bddd9e237d1e913f9cab41",
+      "bytes": 3711
+    },
+    "tests/evidence/verification-send-independent/second-adversarial-fixture.log.raw.gz": {
+      "sha256": "e5343196c72a971b6c0b6056317604e436baa31ce13ce91ec69211544d1b2950",
+      "bytes": 1943
+    },
+    "tests/evidence/verification-send-independent/types.log.raw.gz": {
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bytes": 20
+    },
+    "tests/evidence/verification-send-independent/http.log.raw.gz": {
+      "sha256": "447e24c3db411d8abfbde6a6abc4afe2f741cadde2614d3eee0c8078d6266259",
+      "bytes": 2625
+    },
+    "tests/evidence/verification-send-independent/verification-current-note-answer-signoff-contract.log.raw.gz": {
+      "sha256": "18130d30dffe83cea6b04ab624c1a2cde96e742aeb5f2be7e04b2f03f0d41e11",
+      "bytes": 161
+    },
+    "tests/evidence/verification-send-independent/verification-current-fact-verification-contract.log.raw.gz": {
+      "sha256": "1ce122a3b524e70e080d7ff999e44d41f21bf7ee1a73fe4110f66023551b3ce0",
+      "bytes": 62
+    },
+    "tests/evidence/verification-send-independent/uncertainty-phone.log": {
+      "sha256": "dfa8c9cc2fe69e0be74ae10a1f4dc28126076a7528ee6601d3388f49a20507c7",
+      "bytes": 47
+    },
+    "tests/evidence/verification-send-independent/verification-current-eighth-review-fixes-contract.log": {
+      "sha256": "a42ad024fe0e5af0be97380cccbb2b468e2cfc52f82c1e0e4808b14165e91f26",
+      "bytes": 47
+    },
+    "tests/evidence/verification-send-independent/verification-current-eighth-review-fixes-contract.log.raw.gz": {
+      "sha256": "a45b4851f846e714f2526f3a8591af9394076f7e256da1199985fbc9ecbf2358",
+      "bytes": 67
+    },
+    "tests/evidence/verification-send-independent/phone.log": {
+      "sha256": "5d67b630e64f33a0d86365b662c895b5c4b19427ca59eabdc45b967340ff8cca",
+      "bytes": 47
+    },
+    "tests/evidence/verification-send-independent/verification-current-sixth-review-fixes-contract.log": {
+      "sha256": "fbffa2a118b3b885fe939386cdeb768d40a02ff200ebfa96aadea875543022b0",
+      "bytes": 115
+    },
+    "tests/evidence/verification-send-independent/legacy-http.log": {
+      "sha256": "5cd66c1a771901ca744fd80333336c52e0f3fd21aa55de5b851371ee0c287601",
+      "bytes": 17623
+    },
+    "tests/evidence/verification-send-independent/verification-current-fact-verification-contract.log": {
+      "sha256": "196ff26cb79a73ee282c50566c256ae477f5003f16202868b205fcddf6802025",
+      "bytes": 44
+    },
+    "tests/evidence/verification-send-independent/initial-adversarial-fixture.log": {
+      "sha256": "7f9059ac35fc2086e192d7ae63f97e4f3c12dae2c1b57a8f0adfa664e3855367",
+      "bytes": 7416
+    },
+    "tests/evidence/verification-send-independent/adversarial-http.log.raw.gz": {
+      "sha256": "c10615743b0143a8cbef6dd7a5b256903ba14ca9a1c6258d8498cb7447fe2d0a",
+      "bytes": 3991
+    },
+    "tests/evidence/verification-send-independent/phone.log.raw.gz": {
+      "sha256": "e4761a296f6da7375a62162f5a0f3ce46b378a751f3e0c2a5f6353e541df48e5",
+      "bytes": 67
+    },
+    "tests/evidence/verification-send-independent/http.log": {
+      "sha256": "c8e0db634ab9d317452bf0e3bfbd14f8de9d85e648cd19b9aeba32021a3282d4",
+      "bytes": 12411
+    },
+    "tests/evidence/verification-send-independent/verification-dispute-contract.log": {
+      "sha256": "ee45d9cef21fba9732483d79970682ea091dd850ae86764c6320a6bae2517747",
+      "bytes": 224
+    },
+    "tests/evidence/verification-send-independent/second-adversarial-fixture.log": {
+      "sha256": "1159e0889a52cb1f956bc17076f6532ce7d91423a86be85a59f3b048ad28e860",
+      "bytes": 7664
+    },
+    "tests/evidence/verification-send-independent/build.log.raw.gz": {
+      "sha256": "52d33d549b1a2d74362f852b126eb7fe69d558096f7cd84a9fd87dc73e536ff7",
+      "bytes": 1359
+    },
+    "tests/evidence/verification-send-independent/verification-current-send-gate-contract.log.raw.gz": {
+      "sha256": "8d95fe098d5d776b688e195c48da643acb31328f67b00cc0c9ea265323a48752",
+      "bytes": 194
+    },
+    "tests/evidence/verification-send-independent/uncertainty-phone.log.raw.gz": {
+      "sha256": "6b7a060160d995d6f6841629b9325f06049e9b6573a412503fabded726ea2826",
+      "bytes": 67
+    },
+    "tests/evidence/verification-send-independent/verification-dispute-contract.log.raw.gz": {
+      "sha256": "d0c5cfe3eef22fa73ed2dcdc46d999a617d8e0e71fc6833bd1f2d666b059d11c",
+      "bytes": 194
+    },
+    "tests/evidence/verification-send-independent/signoff-http.log.raw.gz": {
+      "sha256": "2d14f370ff262a26f5ed2bf61a5b7f1ae4fabf34b5a80695b2007c3247ae134c",
+      "bytes": 1977
+    },
+    "tests/evidence/verification-send-independent/initial-adversarial-fixture.log.raw.gz": {
+      "sha256": "09beec7724b5d30dc9c468e682d3e7b6a78a697c1c34070b3239d76244763818",
+      "bytes": 1899
+    },
+    "tests/evidence/verification-send-independent/verification-current-note-answer-signoff-contract.log": {
+      "sha256": "0d811cee4b902417fd2c6146499862d341827675e7524b0b0eb5b89d7fa85622",
+      "bytes": 173
+    },
+    "tests/evidence/verification-send-independent/verification-current-value-override-contract.log": {
+      "sha256": "6fbab6e0ac694228ae67c1b8a9a57dc25f983a187cd7ad5b126a45e06f04f547",
+      "bytes": 41
+    },
+    "tests/evidence/verification-send-independent/verification-current-sixth-review-fixes-contract.log.raw.gz": {
+      "sha256": "30f8f5907c238818b86a564569dd6d92bbacfd0a5f400c048fde02292cf09f5f",
+      "bytes": 129
+    },
+    "tests/evidence/verification-send-independent/build.log": {
+      "sha256": "ba07cd35d24cc1e2ca6f50a9e5454a4cbed68520420335bd6183160666f3209b",
+      "bytes": 3648
+    },
+    "tests/evidence/verification-send-independent/repeat/note-answer-signoff-contract-result.json": {
+      "sha256": "f50824fcee0c5b1d8f54b375d64dc50c5a736d865554ae8bf9d0ed59b508397b",
+      "bytes": 179
+    },
+    "tests/evidence/verification-send-independent/repeat/result.json": {
+      "sha256": "c399a4ac060da86216cef9b7109d74d34483b0a22ea6fe27c400b63c7466e212",
+      "bytes": 132
+    },
+    "tests/evidence/verification-send-independent/repeat/contract-result.json": {
+      "sha256": "7b89aa18bf6c32c3d60ed5ed356e23e8c738eab734b5d7ee9f8b20dfc580aa7b",
+      "bytes": 230
+    },
+    "tests/evidence/verification-send-independent/repeat/sixth-review-fixes-contract-result.json": {
+      "sha256": "37a4b793d4363bddc287274e9290cebfc6cfa463071a9c61c57c5b18e2ad7c5f",
+      "bytes": 132
+    },
+    "tests/evidence/verification-send-independent/repeat/eighth-review-fixes-contract-result.json": {
+      "sha256": "b730cca57c7e3972d7b050f0957df62b3b881ce3df454274251dbb2321fd758c",
+      "bytes": 123
+    },
+    "tests/evidence/verification-send-independent/repeat/value-override-contract-result.json": {
+      "sha256": "551a2744a92fadda3e4f4069748d6dcf571fbaebf5c5ee89ca34dfa30b47a4ed",
+      "bytes": 958
+    },
+    "tests/evidence/verification-send-independent/repeat/fact-verification-contract-result.json": {
+      "sha256": "c938f30979c0f9e86e33dc4677cf92ec918c683bd06b847c3ed3006e16ed98a2",
+      "bytes": 631
+    },
+    "tests/evidence/verification-send-independent/repeat/send-gate-contract-result.json": {
+      "sha256": "ecc3c58059fd5303c542061b4a2421a621b08610b844ddab23ce2896a4136ae2",
+      "bytes": 230
+    },
+    "tests/evidence/verification-send-independent/repeat/observed.json": {
+      "sha256": "20ce904c5ed8fa711bca6d35fd17979bf6a4f3188cd41680f702baf291da693a",
+      "bytes": 18657
+    },
+    "tests/evidence/verification-send-independent/adversarial/result.json": {
+      "sha256": "a29b2d597a6fd6a75adafca62f497ba8773965b725121479db2ae38829bf4a51",
+      "bytes": 132
+    },
+    "tests/evidence/verification-send-independent/adversarial/observed.json": {
+      "sha256": "b7a7dc553a5c9b84115f785a8a84c42f578d5448a1914786c14304b74d2c859d",
+      "bytes": 18657
+    },
+    "tests/evidence/verification-send-independent/repeat-legacy/result.json": {
+      "sha256": "0751bbc7e8af2505792384edc61ddc61de990ab0e774b4a74a1a11cc93457242",
+      "bytes": 132
+    },
+    "tests/evidence/verification-send-independent/repeat-legacy/legacy.json": {
+      "sha256": "80e9776596006e3370bf816c3d4282a3b784fd8dae8cf8a640951cb1ee63ae5f",
+      "bytes": 7517
+    },
+    "tests/evidence/verification-send-independent/repeat-legacy/observed.json": {
+      "sha256": "63fc870bc2a93390b35faf00def1cd2f7ca6a2b29a9da4c02f50a2cba3f90e10",
+      "bytes": 18657
+    },
+    "tests/evidence/verification-send-independent/repeat-phone/independent-resolution-phone.png": {
+      "sha256": "c0e5271e09d22906d08278ca1e20ca0d5dee41a0de098aff98423642d7e6b981",
+      "bytes": 740349
+    },
+    "tests/evidence/verification-send-independent/repeat-phone/result.json": {
+      "sha256": "389f6ef09b9ac7bc2a12709cab10b8c18ca94be52c28db8b1bf34686d078ee87",
+      "bytes": 132
+    },
+    "tests/evidence/verification-send-independent/repeat-phone/phone-result.json": {
+      "sha256": "9fa2fd3b50c3fd481d7c39a69f6e0cb6d8255ada765794b75a5d46ef06ba15d8",
+      "bytes": 70
+    },
+    "tests/evidence/verification-send-independent/repeat-phone/observed.json": {
+      "sha256": "3c6e3933b14df413050d9298ae6ed96e4e43f64bd4ea76e8298a35984853ec2a",
+      "bytes": 18657
+    },
+    "tests/evidence/verification-send-independent/repeat-signoff/result.json": {
+      "sha256": "28f573fc0eb07744c35824c100b9d8aeb9bc1862ff392d2bb75f1c689ede84bb",
+      "bytes": 216
+    },
+    "tests/evidence/verification-send-independent/uncertainty-phone/independent-resolution-phone.png": {
+      "sha256": "86d9fcd4a4c0209e82207bf9691613a2a0f2636695b8df0f6b4d4fdb03f66b57",
+      "bytes": 737570
+    },
+    "tests/evidence/verification-send-independent/uncertainty-phone/result.json": {
+      "sha256": "c804596d7d46c42867b352ec0df47ea6c354097f242681df6731b06a846e51ae",
+      "bytes": 132
+    },
+    "tests/evidence/verification-send-independent/uncertainty-phone/phone-result.json": {
+      "sha256": "86a01d6f2b037aba6b9f31670e5fb24813a8747f0bd3d1547ee4df922cb0cb64",
+      "bytes": 71
+    },
+    "tests/evidence/verification-send-independent/uncertainty-phone/lost-ack.json": {
+      "sha256": "f2459c482f58b1b7b5b3b740415baa750fbac2291dcc7ddc9e7d9aee3eb545c4",
+      "bytes": 538
+    },
+    "tests/evidence/verification-send-independent/uncertainty-phone/observed.json": {
+      "sha256": "72dd82b1e5805c0fbb2fb4035173f7786bf785a4510493cfe1928c90cfa0f1b9",
+      "bytes": 18657
+    },
+    "tests/independent-verification-current-signoff-http.mjs": {
+      "sha256": "1d5ad140f85d4df621fb7002d66fdaa3daff5d63fb9de4a9f450ceb17940e3ef",
+      "bytes": 2711
+    },
+    "tests/independent-verification-send-http.mjs": {
+      "sha256": "147e09095c0085f02ea44ac881075663c0be7602e4bc6b57a7a2bd30e58ccdae",
+      "bytes": 7235
+    },
+    "tests/independent-verification-current-note-answer-signoff-contract.mjs": {
+      "sha256": "84f9cd470e62a55533374ad05f7087ff23549bb1715f23ee211f26c5c2bc6ea8",
+      "bytes": 151
+    },
+    "tests/independent-verification-current-send-gate-contract.mjs": {
+      "sha256": "6c7dd7fb763bfcdb076bbed802ba69ab4b75e4a9a51a486b8d3f81c909a80a17",
+      "bytes": 141
+    },
+    "tests/independent-verification-send-browser.mjs": {
+      "sha256": "9ecb5614fed10703d903f27003b2fb3dba7c7fa0b5dae22b43b2fdcb0eba81bf",
+      "bytes": 10512
+    },
+    "tests/independent-verification-send-legacy-http.mjs": {
+      "sha256": "c73b579a0b7c2bd97a9e7a568492b459e9e96e491c3c3886c7c345381c8f45a2",
+      "bytes": 15656
+    },
+    "tests/independent-verification-current-eighth-review-fixes-contract.mjs": {
+      "sha256": "2d9465e5b884faa317c5ac8dc58185fae1aa4961af24a552dc35eac79f873426",
+      "bytes": 151
+    },
+    "tests/independent-verification-dispute-contract.mjs": {
+      "sha256": "34ada59b383c3cbc80accef2230d896a00c7618b220f8b6cd50969aebb490970",
+      "bytes": 58092
+    },
+    "tests/independent-verification-current-value-override-contract.mjs": {
+      "sha256": "484ba34994cfcc08265ac8182f2474e166fe0abfb113ead140970111bfd1dd29",
+      "bytes": 146
+    },
+    "tests/independent-verification-current-sixth-review-fixes-contract.mjs": {
+      "sha256": "82670278d62dca47cf80d1d5129e38d63eb92e6a2748bd0586714fb6a761b8de",
+      "bytes": 150
+    },
+    "tests/independent-verification-current-fact-verification-contract.mjs": {
+      "sha256": "c5fb9769dc59e6b8d360ed02e9ff02ea402a493f2ac152f5e3cff1e6c00b68dd",
+      "bytes": 149
+    },
+    "tests/verification-send-independent-adversarial-http.mjs": {
+      "sha256": "59194c7e42661f13d699b93c6d813b051dd7ba5f2bdbedfd81dafdb4b3f673c9",
+      "bytes": 9802
+    },
+    "tests/verification-send-independent-uncertainty-browser.mjs": {
+      "sha256": "42e53f9e32047f6118bd8f5db16d2557488d7fddd38598bec940dc2fb813ba34",
+      "bytes": 12013
+    },
+    "tests/lib/verification-independent-fixture-adapter.mjs": {
+      "sha256": "3ec8028761d33e071d0315ac6070185aef4ac013a615f5907e8414e3c3168e48",
+      "bytes": 973
+    },
+    "docs/current/VERIFICATION-SEND-INDEPENDENT-REVIEW.md": {
+      "sha256": "60d06cb8fba994080a51f450f750b07eefb8d246b7932afc332bff4d3bede991",
+      "bytes": 3600
+    }
+  }
+}

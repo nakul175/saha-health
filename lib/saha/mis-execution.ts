@@ -1,5 +1,6 @@
-import { AppError, fail, uuid } from './core';
-import { applyReceipt, deliveryCurrent, deliveryEvent, misAudit, misCredential, misIntegration, misRequest, type MisCommand } from './mis';
+import {serviceDispatch} from './service-dispatch';
+import { AppError, digest, fail, uuid } from './core';
+import { applyReceipt, deliveryCurrent, deliveryEvent, misAudit, misCredential, misIntegration, misRequest, assertMisEnvelope, mappedPayload, type MisCommand } from './mis';
 import { persist, readState, scope, type Actor } from './store';
 import { person } from './core';
 import { ensureSendSignOff } from './visit-signoff';
@@ -14,6 +15,15 @@ async function closeRefused(db:D1Database,s:OrgState,sub:Submission,c:MisCommand
  linkTrace(before,s,c.type,key,u.userId);await persist(db,before,s,u,c,key,hash,{submissionId:sub.id,state:sub.state,refused:true});return {submissionId:sub.id,state:sub.state,refused:true,message:sub.message};
 }
 export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m:Member,key:string,hash:string,env:Record<string,string|undefined>,transport:typeof misRequest=misRequest){
+ let serviceRefusal='';const send=transport;transport=async(i,...args)=>{try{await serviceDispatch(db,s,u,m,i.id,'submissionId' in c?s.workspace.submissions.find(x=>x.id===c.submissionId)?.personId??null:null,{intent:c.type==='lookupSubmission'?'lookup':c.type==='testMis'?'probe':'send',purpose:c.type==='testMis'?undefined:'programme-delivery',authorize:async(latest,member)=>{
+   const li=misIntegration(latest,i.id);if(li.version!==i.version)fail(409,'Programme connection changed.');
+   if(c.type==='testMis'){if(li.status!==i.status||!['active','suspended'].includes(li.status)||!li.mis)fail(409,'Programme probe configuration changed.');if(!member.isOwner)fail(403,'Owner access changed.');return;}
+   if(!('submissionId' in c))fail(422,'Unsupported request.');const prepared=s.workspace.submissions.find(x=>x.id===c.submissionId),sub=latest.workspace.submissions.find(x=>x.id===c.submissionId);
+   if(!sub?.delivery||!prepared?.delivery||sub.delivery.operationId!==prepared.delivery.operationId||sub.payloadHash!==prepared.payloadHash)fail(409,'Delivery checkpoint changed.');
+   const lookup=c.type==='lookupSubmission',refused=operationRefusal(li,lookup?'lookup':misOperation(sub.delivery.payload),lookup?'none':'patient');if(refused)fail(409,refused);
+   if(lookup){if(!['sending','uncertain'].includes(sub.state)||li.endpoint!==sub.delivery.endpoint||li.credentialBinding!==sub.delivery.credentialBinding)fail(409,'Receipt route changed.');return;}
+   if(sub.state!=='sending')fail(409,'Delivery is no longer reserved.');deliveryCurrent(latest,sub,u,member,env);if(await digest(sub.delivery.payload)!==sub.payloadHash||await digest(mappedPayload(li,latest.workspace.visits.find(v=>v.id===sub.visitId)!,latest))!==sub.payloadHash)fail(409,'Saved programme envelope differs from the current approved mapping; review or cancel unsent delivery and prepare a fresh plan.');const g=await sendBlock(latest,latest.workspace.visits.find(x=>x.id===sub.visitId),li,'checkpoint');if(g.block)fail(409,g.block.text);
+  }});}catch(e){serviceRefusal=e instanceof Error?e.message:'Service authority unavailable.';throw e;}await assertMisEnvelope(i,args[2],args[3]);return send(i,...args);};
  if(c.type==='testMis'){
   if(!m.isOwner)fail(403,'Only an organisation owner can test a connection.');const i=misIntegration(s,c.integrationId);if(i.version!==c.version||!i.mis)fail(409,'Save a current programme mapping before testing.');misCredential(i,s.organisation.id,env);
   const before=structuredClone(s);misAudit(s,u,m,c.type,i.id,'Synthetic connection probe reserved. No patient data submitted.');await persist(db,before,s,u,c,key,hash,{status:'testing'});
@@ -28,7 +38,7 @@ export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m
   // Slice 7e: only the approving care worker may act on the delivery; a withdrawn operation closes it as not sent.
   if(!['asha','clinician'].includes(m.role))fail(403,'A care role is required to send records.');if(sub.delivery.actorId!==u.userId)fail(409,'The original approving worker must send within the approval window. Cancel unsent delivery and prepare a fresh plan.');
   {const now=misIntegration(s,sub.connectorId),refused=operationRefusal(now,misOperation(sub.delivery.payload),'patient');if(refused)return await closeRefused(db,s,sub,c,u,m,key,hash,refused,refusalOf(now,misOperation(sub.delivery.payload),'before-send'));}
-  i=deliveryCurrent(s,sub,u,m,env);
+  i=deliveryCurrent(s,sub,u,m,env);await assertMisEnvelope(i,{...sub.delivery.payload,key:sub.delivery.key,payloadHash:sub.payloadHash},sub.delivery.key);if(await digest(mappedPayload(i,s.workspace.visits.find(v=>v.id===sub.visitId)!,s))!==sub.payloadHash)fail(409,'Saved programme envelope differs from the approved mapping; review or cancel unsent delivery and prepare a fresh plan.');
   // Slice 2g: a current supervisor sign-off, checked on the state this checkpoint persists (stale ones never authorize a send).
   // Slice 10g: the same call also stops an open dispute on anything this destination carries, a withdrawn sign-off, and a
   // sign-off rule for this destination or programme; the delivery stays queued so it can be sent once that is resolved.
@@ -43,6 +53,7 @@ export async function executeMis(db:D1Database,s:OrgState,c:MisCommand,u:Actor,m
   // Slice 10g: disputes, a withdrawn sign-off and the sign-off rule are rechecked on the same fresh read, immediately before the request.
   if(!withdrawn&&li&&!lookup){const g=await sendBlock(latest,latest.workspace.visits.find(x=>x.id===sub.visitId),li,'checkpoint');if(g.block){withdrawn=g.block.text;blocked={kind:g.block.kind==='dispute'?'dispute':'sign-off',stage:'checkpoint',at:new Date().toISOString(),...(g.block.disputeIds.length?{disputeIds:g.block.disputeIds}:{})};}}}
  let raw:unknown;if(!withdrawn)try{raw=await transport(i,s.organisation.id,env,lookup?{contract:'saha-mis-v1',operation:'lookup',key:sub.delivery.key,payloadHash:sub.payloadHash}:{...sub.delivery.payload,key:sub.delivery.key,payloadHash:sub.payloadHash},lookup?'lookup_'+operationId:sub.delivery.key);}catch{}
+ if(serviceRefusal)withdrawn=serviceRefusal;
  for(let n=0;n<3;n++){
   const after=await readState(db,s.organisation.id),old=structuredClone(after),target=after.workspace.submissions.find(x=>x.id===sub.id);if(!target?.delivery)fail(409,'Delivery checkpoint is unavailable.');if(target.delivery.operationId!==operationId||['accepted','rejected','cancelled'].includes(target.state))return {submissionId:sub.id,state:target.state};
   // Receipts describe what already happened outside Saha. Retain them even if

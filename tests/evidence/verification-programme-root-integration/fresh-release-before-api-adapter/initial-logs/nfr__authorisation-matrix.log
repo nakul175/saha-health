@@ -1,0 +1,154 @@
+world built in 1829 ms (7 roles, 3 patients, 2 confirmed visits, 1 draft visit with media)
+
+GET route x role (status):
+request                                anon  owner  admin  super  asha1  asha2   clin strngr
+/api/abdm?personId=<id>                 401    200    403    200    403    200    200    403
+/api/action-plan?personId=<id>          401    200    403    200    403    200    200    403
+/api/aggregate-reports                  401    200    403    200    403    403    403    403
+/api/alerts                             401    200    200    200    200    200    200    403
+/api/anaemia-provider                   401    200    403    403    200    200    200    403
+/api/audit/chain                        401    200    200    403    403    403    403    403
+/api/audit                              401    200    200    200    200    200    200    403
+/api/availability                       401    200    200    403    403    403    403    403
+/api/caseload                           401    200    403    200    200    200    200    403
+/api/clinical-sources?entryId=<id>&sha256=e81df59cfbac49abbf90032eaa71e8a8a286626c552527372c3938006b75f82a    401    200    200    403    403    403    200    403
+/api/continuity                         401    200    403    200    200    200    200    403
+/api/data-exit                          401    200    403    403    403    403    403    403
+/api/delegations                        401    200    200    200    200    200    200    403
+/api/environment                        401    200    403    403    403    403    403    403
+/api/exceptional                        401    200    403    200    200    200    200    403
+/api/exceptions                         401    200    200    200    403    403    403    403
+/api/expansion                          401    200    200    403    403    403    403    403
+/api/facility-scope                     401    200    200    200    200    200    200    403
+/api/fhir/<id>?organisationId=<org>     401    200    403    200    403    200    200    403
+/api/fixture-migration                  401    200    403    403    403    403    403    403
+/api/frontline-providers                401    200    403    403    200    200    200    403
+/api/governance                         401    200    200    200    200    200    200    403
+/api/governance?visitId=<id>            401    200    403    200    403    200    200    403
+/api/history?personId=<id>              401    200    403    200    403    200    200    403
+/api/household?personId=<id>            401    200    403    200    403    200    200    403
+/api/identity-cases?personId=<id>       401    200    403    200    403    200    200    403
+/api/imported-evidence?personId=<id>    401    200    403    403    403    403    200    403
+/api/inbound-conflicts?personId=<id>    401    200    403    200    403    403    200    403
+/api/incentive-claims                   401    200    403    200    200    200    403    403
+/api/indicator-figures                  401    200    403    200    403    403    403    403
+/api/indicators                         401    200    403    200    403    403    403    403
+/api/installed-pack-work                401    200    403    403    403    403    200    403
+/api/installed-pack-work?personId=<id>    401    200    403    200    403    200    200    403
+/api/media/<id>?organisationId=<org>    401    200    403    200    403    200    200    403
+/api/media?visitId=<id>                 401    200    403    200    403    200    200    403
+/api/notification-channel               401    200    403    403    403    403    403    403
+/api/operations                         401    200    200    200    403    403    403    403
+/api/outreach                           401    200    200    200    200    200    200    403
+/api/pack-installations                 401    200    403    403    403    403    200    403
+/api/patients/detail?personId=<id>      401    200    404    200    404    200    200    403
+/api/patients                           401    200    200    200    200    200    200    403
+/api/pilot                              401    200    200    200    200    200    200    403
+/api/programme-migration                401    200    403    403    403    403    200    403
+/api/provider-sandbox                   401    200    200    200    200    200    200    403
+/api/purpose-scope                      401    200    200    200    200    200    200    403
+/api/reassignment                       401    200    403    200    403    403    403    403
+/api/referral-escalations               401    200    403    200    200    200    200    403
+/api/referral-requests                  401    200    403    200    403    403    200    403
+/api/reporting-completeness             401    200    403    200    403    403    200    403
+/api/retention                          401    200    403    403    403    403    403    403
+/api/rights                             401    200    403    200    200    200    200    403
+/api/rights?personId=<id>               401    200    403    200    403    200    200    403
+/api/trace?visit=<id>                   401    200    404    200    404    200    200    403
+/api/value-range-protocols              401    200    403    403    403    403    200    403
+/api/work-burden/attribution            401    200    200    403    403    403    403    403
+/api/work-burden/policy                 401    200    403    403    200    200    200    403
+/api/work-burden                        401    200    200    403    403    403    403    403
+/api/work-burden/support?visitId=<id>    401    200    403    200    403    200    200    403
+/api/worker-activity                    401    200    403    200    403    403    403    403
+/api/worklists                          401    200    200    200    200    200    200    403
+/api/workspace                          401    200    200    200    200    200    200    403
+grid hash f9d730ba37c3c4a3 (61 requests x 8 principals = 488)
+
+Anonymous on non-GET routes:
+POST   /api/anaemia-connection-test401  {"error":"Sign in to use your workspace."}
+POST   /api/anaemia-demo-visit     401  {"error":"Sign in to use your workspace."}
+POST   /api/anaemia-provider       401  {"error":"Sign in to use your workspace."}
+POST   /api/anaemia-screenings     401  {"error":"Sign in to use your workspace."}
+POST   /api/availability           401  {"error":"Sign in to use your workspace."}
+POST   /api/clinical-sources       401  {"error":"Sign in to use your workspace."}
+POST   /api/commands               401  {"error":"Sign in to use your workspace."}
+POST   /api/device-work            401  {"error":"Sign in to use your workspace."}
+POST   /api/frontline-assessments  401  {"error":"Sign in to use your workspace."}
+POST   /api/frontline-connection-test401  {"error":"Connection diagnostic credential rejected."}
+POST   /api/frontline-providers    401  {"error":"Sign in to use your workspace."}
+POST   /api/identifier-search      401  {"error":"Sign in to use your workspace."}
+POST   /api/import-rejections      401  {"error":"Sign in to use your workspace."}
+POST   /api/imported-evidence      401  {"error":"Sign in to use your workspace."}
+POST   /api/inbound-conflicts      401  {"error":"Sign in to use your workspace."}
+POST   /api/indicator-figures      401  {"error":"Sign in to use your workspace."}
+POST   /api/indicators             401  {"error":"Sign in to use your workspace."}
+POST   /api/installed-pack-work    401  {"error":"Sign in to use your workspace."}
+DELETE /api/media/[id]             401  {"error":"Sign in to use your workspace."}
+POST   /api/media                  401  {"error":"Sign in to use your workspace."}
+POST   /api/mis/callback           422  {"error":"Invalid callback contract."}
+POST   /api/offline-opens          401  {"error":"Sign in to use your workspace."}
+POST   /api/patient-import         401  {"error":"Sign in to use your workspace."}
+POST   /api/patient-matches        401  {"error":"Sign in to use your workspace."}
+POST   /api/patients               401  {"error":"Sign in to use your workspace."}
+POST   /api/reconciliation         401  {"error":"Sign in to use your workspace."}
+POST   /api/record-import          401  {"error":"Sign in to use your workspace."}
+POST   /api/record-opened          401  {"error":"Sign in to use your workspace."}
+POST   /api/reminder-optout/callback422  {"error":"Invalid mock opt-out event."}
+POST   /api/reminder-optout        401  {"error":"Sign in to use your workspace."}
+POST   /api/reporting-completeness 401  {"error":"Sign in to use your workspace."}
+POST   /api/roster                 401  {"error":"Sign in to use your workspace."}
+POST   /api/work-burden/attribution401  {"error":"Sign in to use your workspace."}
+POST   /api/work-burden            401  {"error":"Sign in to use your workspace."}
+POST   /api/work-burden/support    401  {"error":"Sign in to use your workspace."}
+POST   /api/workforce-import       401  {"error":"Sign in to use your workspace."}
+
+
+POST /api/commands (status by role):
+command                                         owner  admin  super  asha1  asha2   clin strngr
+startVisit                                        200    403    403    403    200    200    403
+setConsent                                        200    403    403    403    200    200    403
+correctIdentity                                   200    403    403    403    200    200    403
+createPerson                                      200    403    403    200    200    200    403
+assignPatient                                     200    403    200    403    403    403    403
+createReferral                                    200    403    403    403    200    200    403
+createTeam                                        200    403    403    403    403    403    403
+createInvite                                      200    403    403    403    403    403    403
+revokeInvite                                      200    403    403    403    403    403    403
+updateMember                                      200    403    403    403    403    403    403
+renameOrganisation                                200    403    403    403    403    403    403
+removeMember                                      200    403    403    403    403    403    403
+opsRates                                          200    403    403    403    403    403    403
+opsMaintenance                                    200    403    403    403    403    403    403
+opsBudget                                         404    403    403    403    403    403    403
+opsInvoiceReconcile                               422    403    403    403    403    403    403
+configureEhr                                      422    403    403    403    403    403    403
+probeEhr                                          422    403    403    403    403    403    403
+activateEhr                                       422    403    403    403    403    403    403
+setEhrLookupPolicy                                422    403    403    403    403    403    403
+activateMis                                       422    403    403    403    403    403    403
+testMis                                           422    403    403    403    403    403    403
+setAdapterOperations                              422    403    403    403    403    403    403
+enableAgentContract                               409    403    403    403    403    403    403
+patientImportApply                                409    403    409    403    403    403    403
+joinOrganisation (unknown token)                  404    404    404    404    404    404    404
+switchOrganisation (to this organisation)         200    200    200    200    200    200    403
+
+138 refusals recorded; sample reasons:
+  startVisit/admin: A care role is required for this action.
+  correctIdentity/supervisor: A care role is required for this action.
+  assignPatient/clinician: An owner with patient access or a team supervisor must manage assignments.
+  createTeam/asha2: Only organisation owners can manage membership and teams.
+  revokeInvite/admin: Only organisation owners can manage membership and teams.
+  updateMember/asha2: Only organisation owners can manage membership and teams.
+  removeMember/admin: Only organisation owners can remove members.
+  opsRates/asha2: Operations access required.
+  opsBudget/admin: Only an owner can set cost budgets.
+  opsInvoiceReconcile/asha2: Only an organisation owner can record an invoice reconciliation.
+  probeEhr/admin: Owner access required.
+  activateEhr/asha2: Only an organisation owner can configure EHR exchange.
+  activateMis/admin: Only an organisation owner can configure programme delivery.
+  testMis/asha2: Only an organisation owner can test a connection.
+  enableAgentContract/admin: Only an organisation owner can set an agent contract.
+  patientImportApply/clinician: Only an owner or supervisor with a clinician or supervisor role can import people, for teams they be
+{"suite":"Authorisation matrix (non-functional: security)","passed":59,"failed":0,"skipped":0,"completedAt":"2026-10-05T20:53:11.521Z"}

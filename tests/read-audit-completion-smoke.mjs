@@ -32,10 +32,10 @@ export async function readAuditCompletionSmoke({get,post,check,accounts,org,sql,
  check(()=>{const e=events('viewWorkspace');assert.equal(e.length,n+1);assert.match(e.at(-1).detail,/\(response to a command\)/);});
  const replay=await post(o,{type:'createPerson',name:`Readaudit Delta ${tag}`,age:33,sex:'Male',village:'Readaudit locality',programme:'General care',teamId:'default'},200,key,mine);
  check(()=>{assert.equal(replay.replayed,true);const e=events('viewWorkspace');assert.equal(e.length,n+2);assert.match(e.at(-1).detail,/\(replay of a saved command\)/);});
- // A partition (delta) response carries only the patient just acted on and is not a load: the command's own event records it.
- n=events('viewWorkspace').length;
+ // A partition delta records its actual material disclosure, independently of the whole care scope.
+ n=events('viewWorkspace').length;const beforeDeltaViews=events('viewPatientRecord').length;
  const started=await fetch(base+'/api/commands',{method:'POST',headers:{...o.headers,'Content-Type':'application/json','Idempotency-Key':crypto.randomUUID(),'x-saha-organisation':mine,'x-saha-response':'delta'},body:JSON.stringify({type:'startVisit',personId:pids[2]})}).then(r=>r.json());
- check(()=>{assert.ok(started.delta,'a delta response');assert.equal(events('viewWorkspace').length,n);});
+ check(()=>{assert.ok(started.delta,'a delta response');assert.deepEqual(started.delta.people.map(p=>p.id),[pids[2]]);const summaries=events('viewWorkspace');assert.equal(summaries.length,n+1);assert.match(summaries.at(-1).detail,/Partition snapshot returned \(response to a command\): 1 patient records returned in full/);const records=events('viewPatientRecord');assert.equal(records.length,beforeDeltaViews+1);assert.equal(records.at(-1).person_id,pids[2]);assert.match(records.at(-1).detail,/Full patient record returned through a command partition/);});
 
  // 2. The Activity log leaves summary events out unless asked; the owner can ask; a care-role member never sees them.
  const log=await get(o,'/api/audit',200,mine),logAll=await get(o,'/api/audit?summaries=1',200,mine);

@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-10-05T07:31:27.223Z",
+  "startedAt": "2026-10-05T07:31:17.276Z",
+  "command": "node scripts/test.mjs unit --only unit/provider-ehr-execution-review,unit/provider-ehr-headers-independent-contract,unit/test-runner-contract --fast --guard --report tests/reports/header-independent-final.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 155,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9792,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 155,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 9947
+  },
+  "suites": [
+    {
+      "id": "unit/provider-ehr-execution-review",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-ehr-execution-review.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 337,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/provider-destination-independent/ehr-execution/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-ehr-execution-review.log"
+    },
+    {
+      "id": "unit/provider-ehr-headers-independent-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-ehr-headers-independent-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 81,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 490,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-ehr-headers-independent-contract.log"
+    },
+    {
+      "id": "unit/test-runner-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/test-runner-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8965,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/test-runner-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__test-runner-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": [
+      "unit/provider-ehr-execution-review",
+      "unit/provider-ehr-headers-independent-contract"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/provider-destination-independent/ehr-execution/result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 174,
+        "components": 0,
+        "suitesCitingNoRequirement": 56,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 46,
+        "components": 84,
+        "suitesCitingNoRequirement": 17,
+        "requirementsCited": 122
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 20,
+        "components": 0,
+        "suitesCitingNoRequirement": 16,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 256,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 156,
+    "suitesCitingNoRequirement": 93,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 156
+  }
+}

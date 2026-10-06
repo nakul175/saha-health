@@ -178,13 +178,13 @@ try {
   const src = f => readFileSync(f, 'utf8'), at = (text, needle) => { const i = text.indexOf(needle); assert.ok(i >= 0, 'missing: ' + needle); return i; };
   const server = src('lib/saha/server.ts');
   check(() => { const f = server.slice(at(server, 'export async function loadFor')); const body = f.slice(0, at(f, '\n// The organisation a request acts in')); assert.ok(at(body, 'auditWindow(db(),state,u,scope(state,u.userId),paged.ids)') < at(body, 'recordWorkspaceLoad('), 'the window audit comes first'); assert.ok(at(body, 'recordWorkspaceLoad(') < at(body, 'return state;'), 'the load is recorded before the state is returned'); });
-  check(() => { assert.match(server, /snapshotFor\(await loadFor\(u,request\?\.headers\.get\('x-saha-organisation'\),undefined,true,pagingRequest\(request\),'workspace load'\),u\)/); assert.match(server, /pagingRequest\(request\),'response to a command'\),u\)/); assert.match(server, /await recordWorkspaceLoad\(db\(\),state,u,m,'replay of a saved command',null\);return \{result:JSON\.parse\(old\.result\),snapshot:await snapshotFor\(state,u\),replayed:true\}/); });
+  check(() => { assert.match(server, /snapshotFor\(await loadFor\(u,request\?\.headers\.get\('x-saha-organisation'\),undefined,true,pagingRequest\(request\),'workspace load'\),u\)/); assert.match(server, /const viewerSnapshot=async\(request:Request,u:Actor,orgId:string,via:SnapshotVia='response to a command'\)=>snapshotFor\(await loadFor\(u,orgId,undefined,true,pagingRequest\(request\),via\),u\)/); assert.match(server, /return \{result:JSON\.parse\(old\.result\),snapshot:await viewerSnapshot\(request,u,state\.organisation\.id,'replay of a saved command'\),replayed:true\}/); });
   const dirSrc = src('lib/saha/patient-directory-server.ts');
   check(() => { assert.ok(at(dirSrc, 'await recordPatientList(') < at(dirSrc, 'return json(page);')); assert.match(dirSrc, /recordPatientList\(db\(\), orgId, u, member, \{ text: !!query\.q, programme: !!query\.programme, later: !!query\.cursor \}, page\.rows\.length, page\.total\)/, 'the recorder is given a boolean, never the search text'); });
   const wl = src('lib/saha/worklists-server.ts');
   check(() => assert.ok(at(wl, 'await recordWorkList(') < at(wl, 'return json(page);')));
   const cont = src('lib/saha/continuity-server.ts');
-  check(() => assert.ok(at(cont, 'await recordMatchSearch(') < at(cont, 'return json(result);')));
+  check(() => { assert.ok(at(cont, 'await recordMatchSearch(') < at(cont, 'await registerMatchCopy(')); assert.ok(at(cont, 'await registerMatchCopy(') < at(cont, 'return json({...result,copyId});')); });
   const ind = src('lib/saha/indicators-server.ts');
   check(() => assert.ok(at(ind, "await recordAggregateView(db(),s,u,m,'indicator results'") < at(ind, 'return json(shape(released));') && at(ind, "await recordAggregateView(db(),s,u,m,'indicator results'") < at(ind, 'if(previous){')));
   const ops = src('lib/saha/operations-server.ts');

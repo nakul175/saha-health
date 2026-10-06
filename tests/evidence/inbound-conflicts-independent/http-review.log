@@ -1,0 +1,43 @@
+{"event":"saha_request","requestId":"d35dcb5e-e023-42dd-95e2-16f07f5138b0","route":"workspace","status":200,"durationMs":29}
+{"event":"saha_request","requestId":"2af6922f-f1b4-48d2-a5aa-a409c9ebe830","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"126385d7-82b7-40f1-8a9d-e9be7a619ee7","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"57674318-f6df-4771-bdab-1810de44c65c","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"693ad5f8-c1c9-4281-8308-a2500f029cfd","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"3f15f8b5-7687-47bf-9b21-c79d7c5eaa8e","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"1a9b3bd3-7f20-476e-b941-2c65d68fa1f7","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"82041f99-807c-40a1-ad63-c92039770d83","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"3cee845b-324f-4e22-9ed9-d3d8f838fe6f","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"ba3bd72c-dd3d-4eeb-a2a9-3610d893fa02","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"a02210e0-d7e9-4a06-b403-7690311a9b9d","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"8246b792-033c-4c08-9996-07bfcd1279cd","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"94cdf193-883a-49a9-9d17-eddd56c4508d","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"83e10192-ed30-48d9-9cb7-7a2a2987eec2","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"eb06834f-5402-48f3-ba6f-9a4eec21981e","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"2977e133-8e30-4282-b8d1-525288e6d5df","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"9bf78e89-8a60-44cf-8df7-fef95526b2f1","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"f95cbfd6-736d-4244-93aa-f73bdadcfae0","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"ae035870-a30b-43f6-9850-3741106f922b","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"f01ba810-4687-40f4-a800-3662918cf150","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"ecab186e-e3cd-4e08-8510-687140214005","route":"commands","status":409,"durationMs":3}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"0d3e9300-d917-4a1e-af28-421905e0fe02","route":"commands","status":200,"durationMs":11}
+Access audit not recorded Error
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Current scoped clinician must be able to hand off an open review from a suspended clinician
+
+403 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-conflicts-review/tests/inbound-conflicts-independent-http.mjs:41:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 403,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

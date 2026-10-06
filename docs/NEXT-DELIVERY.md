@@ -1,4 +1,38 @@
+# Claude handover checkpoint
+
+Continue the preserved integration branch using [CLAUDE-RESUME-20261006.md](current/CLAUDE-RESUME-20261006.md). Repair current combined qualification and finish interrupted offline cold review before main merge. Scope, requirements and original minima remain unchanged. Unattended build is paused at the sponsor handover request.
+
 # Next delivery
+
+## App-first programme (sponsor decision, 5 October 2026)
+
+The sponsor requested an installable Android app for ASHA workers with the same journey demonstrable in the browser, and parallel delivery of the remaining buildable scope. Four active agent slots run ten workstreams in successive batches. This supersedes the earlier Android deferral. Source batches are integrated on `app-first/integration-20261005` ([draft PR #161](https://github.com/nakul175/saha-health/pull/161)); The sponsor has authorized final-hour merge of verified work, targeting6 October08:48:53 IST; required checks and final demo verification remain. Clinical, external and field acceptance remain pending.
+
+Latest local runtime is8eedc606 with independently reviewed verification/send holds, installed programme authority/outcome repair, guided ASHA registration and protected operational reports. Test-only API composition is integrated at a2fb38d6. Fresh198 units10574 pass; current full API5020, expression133 and runner27 pass, all original minima preserved. The first147-workflow run retains one historical fixture422; the full current rerun passes147 suites/7691 assertions, every140 existing minimum and zero quarantine. Source, bootstrap and shared-report failures remain preserved. Aggregate alert independent755 repeat found a real zero-recipient scheduled resolution edge case and holds clearance for repair. Transition read-audit and current backlog/profile parity fixes and bounded offline work-list preparation are active. Published e0fcbabf/main unchanged; e0 hosted documentation drift and cancelled/no-log engineering remain. Current supply-chain222/0 blocking passes; SDK/physical/external/clinical/formal0/364 and full41 groups remain.
+
+| Batch | Current delivery and gate |
+| --- | --- |
+| App UI | Guided Home, connected/offline visit capture and reviewed exact-key recovery are pushed. One-question connected registration is independently cleared and locally integrated (original45+13 and8 extra phone assertions); final current demo and field usability remain pending |
+| Atomic ABHA review | Local D1 concurrency checks passed; 4,758 combined HTTP regression checks passed before R27/R77 integration |
+| Android | Buildable project and configuration checks; APK/lint pending SDK licence authorisation |
+| Baseline/performance | Current176-unit9500 passes after preserved fixture/catalogue repairs; reduced database-only native controls reproduce growth, O-2 remains open |
+| R27 / R77 | Integrated locally with focused Worker/D1 evidence; independent review fixes integrated; 105 combined workflow/browser checks pass |
+| A05 / command audit | Signed prepared programme capture, actual command-response reads and authority envelopes validated/pushed; wider audit/clinical acceptance remains |
+| A06 prepared-copy privacy | Local integration, 149-unit/8,684 regression and fail-closed repair checks pass (63 author/49 independent, overlapping); permanent-purge scope journeys pass15 and independent review; full23-workflow/525 and smoke/security/UAT183 checks pass; documentation/publication underway. Registration-copy cleanup is active |
+| Registration recovery | Original-account encrypted registration/candidate cleanup and0024 observed wire receipt mappings integrated locally; root actual46 recovery checks pass; full153-unit/8,767, final32-workflow/709 and smoke/security/UAT184 gates pass; reviewed support races repaired; source2dc0a6f8 published, documentation digest follow-up active |
+| B26 linked work | Account-bound encrypted counter retry, protected online completed-visit stage coverage and internal helper workflow integrated locally; root14 contracts/19HTTP/11phone pass; authorized support queue repair passes11 and independent review found fresh-helper/workflow races, repaired with23 checks; final smoke/security/UAT184 passes; field timing/continuation and lifecycle hooks are independently reviewed and integrated, with combined workflow checks passing, observed pilot/external support acceptance pending |
+| B04 offline access | Original-account-bound durable encrypted material opens and safe abandoned-link retirement independently reviewed/integrated; root combined51-workflow/1,247 gate passes; publication pending; external anchors and wider audit clauses remain |
+| B19 clinical sources | Immutable digest-pinned scoped upload/viewing and default-off approved-origin retrieval integrated with dependency integrity repair; root current-source HTTP/phone checks pass, full51-workflow/1,247 gate passes; publication pending; licensed clinical content remains external |
+
+| B18 provider envelopes | AI/frontline/image/MIS/EHR/ABDM/aggregate/mock-enrolment path/digest/value guards integrated; independent header81/execution47 and root full-unit gates pass; representative real profiles/agreements remain |
+| B13 household lifecycle | Reviewed replacement, installed selected-pack completion/referrals and neutral slot-linked outreach integrated; root household/counting/portability618 passes. Real reminder provider and broader declared-pack compatibility remain |
+| B07 mappings | Reviewed lifecycle, deterministic transformation/null/conformance and phone repairs published at a1e08aef; broader external terminology/profile acceptance remains |
+| B08 imports | Documentary answers/media/notes, explicit source review/use and overlap/reversal published; reviewed inbound retrieval/version conflict service repair integrated locally; real partner profile acceptance remains |
+| B27 reporting | Reviewed governance, immutable editions/reissues and bounded owner composite calculations integrated with independently cleared post-audit authority repair; combined188-unit/API4791 pass,100 workflows4048 and final187 pass with one documented skip; documentation/publication pending. Wider impact/clinical reporting acceptance remains |
+| B28 calendar/completeness | Reviewed calendar/actor/source-version and whole-team portability are pushed e0; focused419 pass. Private snapshot bodies remain withheld. Operational live JSON/CSV disclosure is independently cleared and locally integrated, including cross-viewer/cross-surface protection and conservative legacy history. Aggregate alert inbox/channel privacy is under isolated repair; download/scheduled-submission scope remains. |
+| B05 verification/send | Bound disputed measurement/note/answer holds and independent resolution are cold-reviewed and locally integrated; answer-aware destination mappings and remaining blocked-send notice/exception clauses remain open. The preceding combined140 workflows/196 units pass; later registration/privacy qualification is active. |
+| B12 programme execution | Opt-in source-backed execution and current authority/known-accepted outcome repair are cold-reviewed and locally integrated. Forward/reverse transitions are held after actual independent read-audit and operational backlog/profile parity findings; narrow repairs are active. Full B12 remains open. |
+| Current publication gate |198 units10574 and fullAPI5020 pass;147 workflows7691 pass. Documentation/source baseline, publication and exact hosted follow-up remain; supply-chain222/0 blocking prior unchanged-dependency audit passes |
 
 ## Development-completion order (sponsor decision, 30 September 2026)
 
@@ -165,3 +199,28 @@ This is a proposed implementation slice derived from the existing R12 plan, not 
 | R16 field acceptance | Approved study scope, trained participants, accountable reviewers and baseline | Outcomes including failures/exclusions, remediation and signed requirement decisions |
 
 Do not close an older gap merely because a later engineering release exists. Identity, consent, sensitive-data segmentation, programme semantics and scale risks cut across these batches. See each row's remaining-work statement.
+
+The current residual software dispatch ledger is [app-first remaining engineering work](current/APP-FIRST-REMAINING-WORK.md). Service execution identity wiring and six-unit parity are integrated locally; broader pinned context protocol governance and capability-probe ordering are the next active software batches. Physical-device and partner gates are separate.
+
+Batch 3: shared offline app A02, service execution identity gates/management and local memory diagnostics are integrated locally. Independent review corrected service audit-window consent/maintenance races, effective frontline agreement selection and connected offline patient-scope withdrawal/login-redirect disclosure; field/speech/service-worker fixtures have been repaired. A04 six-unit presentation/lineage parity passed bounded independent review; full contextual range protocol wiring remains required software work. The probe activation cycle and audit-before-request gap are corrected locally, with clinical active-only restrictions preserved. Final affected checks and generated evidence remain the next publish gates. True monthly availability reporting, wider pinned context protocol governance and auxiliary read auditing are next active software batches.
+
+### Current local next batch (5 October 2026)
+
+Governed contextual capture, six-unit CSV import, synthetic availability, auxiliary patient read audits and safe workspace metadata batching are integrated locally. Full 145-suite unit run passes 8,559 checks after correcting the standalone-test inventory; current HTTP/database/restore/security4,860 and final phone/import107 checks pass before publication. Independent phone review found a first-tap Save geometry defect; a stable textarea-gutter fix is integrated and the actual touch/mouse/keyboard18-check rerun passes. Expanded signed/versioned offline programme guidance and capture is the next active software batch. The residual ledger remains the full software scope; these deliveries do not imply all requirements or formal acceptance are complete.
+
+### Prepared programme and command audit integration — 5 October 2026
+
+A05 prepared guidance/capture, atomic patient-delta auditing, fresh saved-receipt material auditing and command authority envelopes are integrated locally for combined validation. Independent review reproduced and corrected replay disclosure above the paging threshold. Root retains initial account-switch test timing and invalid signed capacity-fixture failures, corrects their contracts without lowering assertions, and reruns the full units and actual Worker/browser/database checks before publication. Device cleanup after access/consent changes and metadata-only failure/acknowledgement reporting remain the active next batch; registration-copy cleanup is a required follow-up, not silently counted complete.
+
+Combined validation now passes147 unit suites/8,594 checks, fullHTTP/restore/security4,862, and current busy-unlock/affected-client followup458. Eighteen other workflow suites pass342 counted checks; the initial held-vault timing fixture failure is retained and its corrected basic browser rerun passes22. Smoke/UAT tooling99 passes with one documented local skip. Current baseline covers882 source files; publication checks are the final gate.
+
+
+## Current app-first reviewed extension — 5 October 2026
+
+| Delivery | Resulting software behavior | Current gate |
+| --- | --- | --- |
+| B07 conformance | Deterministic transformation/unit/missing rules, source-versioned required-field/code fixtures, per-field affected-work review and governed rollback | Independently reviewed, integrated build/types and affected checks pass; combined local gates pass; documentation/publication pending |
+| B08 documentary evidence | Retained answers/notes/original bounded media, explicit clinical-source decisions, empty linked drafts, same-date overlap decisions and appended batch withdrawals; merged history/receipt/phone repairs | Independently reviewed, integrated build/types and affected checks pass; combined local gates pass; documentation/publication pending |
+| B27 frozen reports | Immutable original editions and reviewed corrections; independent cancellation freshness repair | Final independent review complete in isolated source, not yet integrated |
+
+Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-REMAINING-WORK.md). B09 inbound conflicts, B13 household completion and hosted transport diagnosis proceed in parallel. SDK licence decision, APK/device and all clinical/external/formal acceptance remain pending.

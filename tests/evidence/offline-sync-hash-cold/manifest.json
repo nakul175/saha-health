@@ -1,0 +1,268 @@
+{
+  "sourceCommit": "56c3c7ef4682f2905c399dd5b0d6c5a5cb7616c0",
+  "date": "2026-10-06",
+  "verdict": "No new defect found; supported retained-command multi-unit/provenance same-key recovery independently passes. Historical raw-only proofs remain fail-closed.",
+  "executedPositiveAssertions": 537,
+  "repeatedAuthorAssertions": 328,
+  "additionalParserExecuted": 135,
+  "additionalParserNewAssertions": 46,
+  "additionalASHAExecuted": 55,
+  "additionalASHANewAssertions": 4,
+  "previousScopeProbeRepeated": 19,
+  "build": "passed",
+  "types": "passed",
+  "applicationSourceUnchanged": {
+    "public/field/sync-receipt.js": "7f89b65c3172c915655919383c1e97121f36a49b352b864fd61c267968483386",
+    "public/field/device-work.js": "47f177afd9723eb82c75036813135085c01d165ccabeb9c84ce0999e07ac248b",
+    "public/field/app.js": "58b1ea093958d1a4def8f679af8b0de04c59b18fab231ff01ae22692ae5f74dd",
+    "public/app-sw.js": "5f9013c479277b53d602c11593ffc9e479ef586d1aae60a6a4a648be43f0e6ba",
+    "public/field/sw.js": "37f3e6254aa78db8f66c34a7c8cc6a47326dc89a6e64acca2de285613e00e995",
+    "public/field/vault.js": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210",
+    "lib/saha/core.ts": "639fd44e40d87483aa35ec2165bc15ec45ededc0cc50f993acc3c7e7f771ca71",
+    "lib/saha/field.ts": "6012578a3105e336d80ce91a424a212b718a0f69650c23949e9578426b1b433b",
+    "lib/saha/device-work.ts": "48c470ef4e4caf339d916803715161a65221f799d5838381f727af983c9a7a9a",
+    "lib/saha/server.ts": "13de0e588ec3da978229478729651d38bfdce1d0e97c8b37f621bba969b0b76f"
+  },
+  "files": [
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/asha-uncertain-guided.png",
+      "sha256": "94f75c631daa06ab0c3e1aa651c63e42f66d1f1749195a4d0c2100e081bac998"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/browser-result.json",
+      "sha256": "9381d0d414ec76b4f0fcc113083dda8e28344d9b3a11332e4a481d9f761b7506"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/guided-weight-phone.png",
+      "sha256": "dda9c361a6f5661577089ae534dae4b7c1ea75c80d922a47ef23696710baf6e5"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/guided-weight-viewport.png",
+      "sha256": "daf9262637ebc2ca9ad055d844ac1af3754d59e674e323faf0faf4a25a993379"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/layout-before.json",
+      "sha256": "adc721e091f9b49c23ed1eccb0e8fda50608d74fd25abc62ce0378bebfce5fab"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/locked-phone.png",
+      "sha256": "2d47823ffab24d99bbb3a8ca21800f6c77cb363e96e684fb63eb7812db4907b3"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/patient-phone.png",
+      "sha256": "266617abac5de3ea6df87733a2e8607358ba321f6c3741053aac6b5ca90a83a1"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/programme-offline-phone.png",
+      "sha256": "9af88453e5bc742ed26e4e936fa22219df09a9dd380c60967f765b9f955a9af3"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/browser/today-phone.png",
+      "sha256": "5b5121c5c5237a34bcaaaa03e78ad3a3569da9894e2737eb9ee5ba61a5008120"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/build.log",
+      "sha256": "49feb1b68e858c6ec93efb46c4fcd6b8a68fd3fa3af4cda5c04b3deec8f1f783"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/device/browser-result.json",
+      "sha256": "7d651e94c862300dff6ce0545276580ad1890a3604194bb5866f2af67efdf459"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/device/delayed-account-denial-phone.png",
+      "sha256": "0c370201cd9f11b883de501dd6893197f1d60582bd2b1c8fbfe5be0f1783f259"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/device/privacy-purge-phone.png",
+      "sha256": "94bbdacbd76220d6efd56e3931dfe96101494795902eacced375f9f849318bfa"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/device-contract/contract-result.json",
+      "sha256": "5201c0008be899eaa7ea44dc997e1753f6116adf6ec03267d30551923b1672d9"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/device-contract.log",
+      "sha256": "b24eeb94ab2e5502cdc9290f425be437dedb2339a866ed8d15f31c66e97845ec"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/device.log",
+      "sha256": "4836d25b0359785a5fa477eed1ecca00813c369b34f8c75db5f3d5efa67c1af9"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/asha-purged.png",
+      "sha256": "eba722dc05521d0267a5d4317c5115307ab1919b752860fed07afd5b0454bd2b"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/asha-uncertain-guided.png",
+      "sha256": "35dd250bfdb98654b80d458f1082316a5ca1b0dc0afd65510b14cd358dd61693"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/browser-result.json",
+      "sha256": "5d5efb3ea61c04ed277aebc354167fed4d5ebf5d7c88cef367db21433daa3b03"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/guided-weight-phone.png",
+      "sha256": "bad2115fd4095aab9b17fa82a8278c36debed268f99af3418f92f8540e71d6e6"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/guided-weight-viewport.png",
+      "sha256": "876cb5dea71f907337508f304ecb0eba9fb418980d6bbfbf4b645ac67ceb239e"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/layout-before.json",
+      "sha256": "adc721e091f9b49c23ed1eccb0e8fda50608d74fd25abc62ce0378bebfce5fab"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/locked-phone.png",
+      "sha256": "2d47823ffab24d99bbb3a8ca21800f6c77cb363e96e684fb63eb7812db4907b3"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/patient-phone.png",
+      "sha256": "1e9be0b71dbb27c9385e71362eb53942a00316626284bc34900b8320e25604c7"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/programme-offline-phone.png",
+      "sha256": "9d33e10290a483cd73fa2e6b8a521d062ae8e73aa8fc80277a939670ba41eb3f"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/purged-proof.json",
+      "sha256": "0348585ca642bc210f7271914a12c488cf83681c41024d57014a92e72fc554a4"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser/today-phone.png",
+      "sha256": "80620b049862065a9275a288bb9287ff0fde7eb6072cd6c47c51d5e7e030f556"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/extra-browser.log",
+      "sha256": "5c964c96d4dfacc9edc6d6eea6b768faec04ba28f28c5131dcbb572114728fec"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/field-client-result.json",
+      "sha256": "3bb0b78cb4d7bd0ff206b9cdd9b6c93c6f40335efe3cb7578510560d48b4bc02"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/field-provenance-client-result.json",
+      "sha256": "fa9bd0a4f59d6eaad0ca8c1e2ae99aa3d1757c9af45ef80475203eb7e3cd2489"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/field-recovery.log",
+      "sha256": "c0916d5cd6481e5158390de009a3c055a6c54773202a8092cbfcbb9f1038a413"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/field-units-client-result.json",
+      "sha256": "cacc28f4f4d13d012d4d756d2903532a7be78ee64d1da2e0a0d0a965b880d0d6"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/parity/expired-grant.png",
+      "sha256": "7c21dc00914b06af00fa50e999c1e8d519c5092e98f7274e629583ff56d2f24e"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/parity/offline-patient.png",
+      "sha256": "33463ea13436a9b7d3addd4c87eb7ce7c2aeb3c2122314a474bb038f507ec108"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/parity/result.json",
+      "sha256": "1d70c16e81e66144a70f8a8b8f5f589b127288d7cbee0da71bd145caea3efcc1"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/parity/storage-audit.json",
+      "sha256": "4276670414389e69c88235f6fd5a954641a7614fe5c77382042196131b007127"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/parity/wrong-account.png",
+      "sha256": "9bc809e458719030907bc447d856df1b18f6d03c9caffd81eb50481b4903a35b"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/parity.log",
+      "sha256": "7dd1d823eb7626ca427ea74ca852aff63b851b7c440451716355e23036bc56d6"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/projection/result.json",
+      "sha256": "567cea8a2ef2586d6ea27ab4f81a1b2e8cc41f19108c7599d38544b05f4b00a6"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/projection-extra/result.json",
+      "sha256": "0e6d6081c3f93b4f184afdf658a9acb284f091528b637b7254f1b2464f2b2826"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/projection-extra.log",
+      "sha256": "f4667f58caf7aeb64c4793b1597cf89572e89b4e17a55d5210adc3aedf688780"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/projection.log",
+      "sha256": "01aab3f16324246effb18cf26d2e9ebe45abc31fd4b2cc50a1115285bca531aa"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/provenance.log",
+      "sha256": "55bce3d96f0ec888ea16bf16b899d6bd9ba4202d08c5b1f56bba409818b44f76"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/repair.log",
+      "sha256": "34568eb34d5cd8a54b32403fdfddf6e8f7db33585e59928a17edbf97e6ed631b"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/scope/reset-dom.json",
+      "sha256": "c6276c2e3d109d61cc6de5e3c6899fa5b42a449f979d073e79b7e2d63ed77d5a"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/scope/reset.png",
+      "sha256": "b85ba4af354835d700cf92e3ffd708a5c73fba6153af9488b47d2da0f7efcd7c"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/scope/result.json",
+      "sha256": "b864943f0bac3ba06942ab06b2dab0575a87c6a30699a5a8e56cc545999aaae4"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/scope/withdrawn-membership.png",
+      "sha256": "f004c3420c3234190b2fcb370ccae0aa6ceee41eb8d1a13097d6da627efafd5a"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/scope.log",
+      "sha256": "88f1c2e52f8e380bc1e8462eb64164783bee4b9ea8f9376b3a54bcb4fe721a2c"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/evidence/offline-sync-hash-cold/units.log",
+      "sha256": "b26ff16aa841ae48b7340741805f752c23495ea9dce5fcaabec3ab7a287efe42"
+    },
+    {
+      "path": "tests/offline-sync-hash-cold-device-browser.mjs",
+      "sha256": "05d74289107af76786eef86d0e2e6cd3539d97a057906a0bc424aabaee88a8ea"
+    },
+    {
+      "path": "tests/offline-sync-hash-cold-extra-browser.mjs",
+      "sha256": "550057643863411d71c998ab002a50e3ba3751ec552bbb94d86a8442a787720c"
+    },
+    {
+      "path": "tests/offline-sync-hash-cold-parity-browser.mjs",
+      "sha256": "395e5f8ab2fef1ee5fe03b0c050823086ed9ee8fd2ed522ccfcaebdfa4e125c8"
+    },
+    {
+      "path": "tests/offline-sync-hash-cold-repair-browser.mjs",
+      "sha256": "b4234ac6d6c4487e3697bc105ac890bc19ea184fbdb1c9fc1c615ca7e270a486"
+    },
+    {
+      "path": "tests/sync-receipt-cold-device-contract.mjs",
+      "sha256": "e84896433de0fb31d2151f2d656b0d49240920a79e4678860129f74aeaa24b48"
+    },
+    {
+      "path": "tests/sync-receipt-cold-projection-extra.mjs",
+      "sha256": "6b473da7b1b55eeaf33aa702fac8ce00b330798bbff9df7cc22fea7f047d329c"
+    },
+    {
+      "path": "tests/sync-receipt-cold-projection.mjs",
+      "sha256": "787bcf82c3e3922d54fd7b53bb0de2a5e340efd2633da09a40067598d37a7699"
+    },
+    {
+      "path": "tests/sync-receipt-cold-scope-browser.mjs",
+      "sha256": "0d2193a5398a43a8bc565cd18bb7b52165f3c68b633ebc7f511b86ffd1f090ed"
+    },
+    {
+      "path": "docs/current/OFFLINE-SYNC-HASH-INDEPENDENT-COLD-REVIEW.md",
+      "sha256": "c8945bac204d66a1ca217df57dc3eba32ea122dacf7ffe77e60a5d3523daca03"
+    }
+  ]
+}

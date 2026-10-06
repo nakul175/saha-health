@@ -1,0 +1,21 @@
+Running unit integration --fast; 5 suite(s).
+
+[unit] 3 suite(s)
+  ok       unit/fifth-review-fixes-contract  33 passed  918ms
+  ok       unit/test-runner-contract  27 passed  8.3s
+  ok       unit/work-burden-policy-checkpoint  13 passed  2.1s
+
+[integration] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/contact-import-http ...
+  ok       integration/contact-import-http  15 passed  3.4s
+  running  integration/report-portability-after-http ...
+  ok       integration/report-portability-after-http  87 passed  2.0s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       3      73       0        0  11.3s
+  integration  passed       2     102       0        0   5.3s
+  total        passed       5     175       0        0  16.8s
+
+Regression guard: passed (5 baselined suite(s) checked, 0 excused by quarantine).

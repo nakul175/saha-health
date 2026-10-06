@@ -1,0 +1,275 @@
+{
+  "generatedAt": "2026-10-05T08:06:40.693Z",
+  "startedAt": "2026-10-05T08:06:32.931Z",
+  "command": "node scripts/test.mjs unit integration --only unit/contact-import-contract,unit/record-import-contract,unit/visit-import-contract,unit/identifier-crosswalk-contract,unit/workforce-import-contract,unit/crosswalk-correction-contract,integration/contact-import-http,integration/contact-import-independent-review --fast --guard --report tests/reports/contacts-integrated.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 6,
+      "passed": 321,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3108,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 2,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4451,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 8,
+    "passed": 336,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 7762
+  },
+  "suites": [
+    {
+      "id": "unit/contact-import-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/contact-import-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 758,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__contact-import-contract.log"
+    },
+    {
+      "id": "unit/crosswalk-correction-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/crosswalk-correction-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 483,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/crosswalk-correction-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__crosswalk-correction-contract.log"
+    },
+    {
+      "id": "unit/identifier-crosswalk-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/identifier-crosswalk-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 84,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 458,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/identifier-crosswalk-contract-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__identifier-crosswalk-contract.log"
+    },
+    {
+      "id": "unit/record-import-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/record-import-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 454,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/record-import-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__record-import-contract.log"
+    },
+    {
+      "id": "unit/visit-import-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/visit-import-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 491,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/visit-import-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__visit-import-contract.log"
+    },
+    {
+      "id": "unit/workforce-import-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/workforce-import-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 464,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/workforce-import-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__workforce-import-contract.log"
+    },
+    {
+      "id": "integration/contact-import-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/contact-import-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3366,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__contact-import-http.log"
+    },
+    {
+      "id": "integration/contact-import-independent-review",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/contact-import-independent-review.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 1085,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__contact-import-independent-review.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 5,
+    "newSuites": [
+      "unit/contact-import-contract",
+      "integration/contact-import-http",
+      "integration/contact-import-independent-review"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/contact-import/contract.json",
+      "tests/evidence/contact-import/http-phone.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/crosswalk-correction-contract-result.json",
+      "tests/identifier-crosswalk-contract-result.json",
+      "tests/record-import-contract-result.json",
+      "tests/visit-import-contract-result.json",
+      "tests/workforce-import-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 177,
+        "components": 0,
+        "suitesCitingNoRequirement": 48,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 51,
+        "components": 84,
+        "suitesCitingNoRequirement": 9,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 22,
+        "components": 0,
+        "suitesCitingNoRequirement": 18,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 266,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 79,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "generatedAt": "2026-10-05T05:25:02.712Z",
+  "startedAt": "2026-10-05T05:24:55.208Z",
+  "command": "node scripts/test.mjs unit integration --only unit/work-burden-contract,unit/operations-contract,unit/safe-logs-contract,integration/work-burden-http,integration/work-burden-browser --fast --guard --report /private/tmp/saha-device-burden-integration-initial.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1175,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 2,
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 6124,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 5,
+    "passed": 100,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 7504
+  },
+  "suites": [
+    {
+      "id": "unit/operations-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/operations-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 422,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/operations-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__operations-contract.log"
+    },
+    {
+      "id": "unit/safe-logs-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/safe-logs-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 50,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/safe-logs-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__safe-logs-contract.log"
+    },
+    {
+      "id": "unit/work-burden-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/work-burden-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 703,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__work-burden-contract.log"
+    },
+    {
+      "id": "integration/work-burden-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-burden-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4802,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-burden-browser.log"
+    },
+    {
+      "id": "integration/work-burden-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-burden-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 32,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1322,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-burden-http.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": [
+      "unit/work-burden-contract",
+      "integration/work-burden-browser",
+      "integration/work-burden-http"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/operations-contract-result.json",
+      "tests/evidence/work-burden/phone-report.png"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/safe-logs-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 149,
+        "components": 0,
+        "suitesCitingNoRequirement": 35,
+        "requirementsCited": 139
+      },
+      "integration": {
+        "suites": 21,
+        "components": 84,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 120
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 196,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 155,
+    "suitesCitingNoRequirement": 48,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 155
+  }
+}

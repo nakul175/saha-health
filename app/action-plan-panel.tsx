@@ -1,4 +1,5 @@
 'use client';
+import {InstalledPackWorkPanel} from './installed-pack-work-panel';
 import { useCallback, useEffect, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,7 +30,7 @@ function Unlink({dep,plan,p,busy,command,done}:{dep:any;plan:any;p:Person;busy:b
 function CloseCorrection({item,p,busy,command,done}:{item:any;p:Person;busy:boolean;command:Command;done:()=>void}){
  const c=item.correction,[receiptId,setReceipt]=useState(''),[reference,setReference]=useState(''),[reason,setReason]=useState('');
  const ok=receiptId.trim().length>0||reason.trim().length>=10;
- return <details><summary>Close with evidence</summary><div className="form-grid">
+ return <details data-work-stage="reconciliation" data-work-visit={c.visitId} data-work-task={c.taskId}><summary>Close with evidence</summary><div className="form-grid">
   {c.receiptCloses&&<label>Correction receipt<Input aria-label={`Correction receipt for ${item.title}`} value={receiptId} maxLength={200} onChange={e=>setReceipt(e.target.value)} placeholder="Receipt of the correction sent through Saha"/></label>}
   {c.external&&<label>Destination reference<Input aria-label={`Destination reference for ${item.title}`} value={reference} maxLength={200} onChange={e=>setReference(e.target.value)} placeholder="Optional"/></label>}
   <label>Reason<Input aria-label={`Closing reason for ${item.title}`} value={reason} maxLength={500} onChange={e=>setReason(e.target.value)} placeholder={c.receiptCloses?'Or at least 10 characters':'At least 10 characters'}/></label></div>
@@ -52,7 +53,7 @@ export function ActionPlanPanel({data,p,busy,command}:{data:Snapshot;p:Person;bu
  const corrections=data.visits.filter(v=>v.personId===p.id&&(v.supersededBy||v.voidedAt)).map(v=>v.id).join(',');
  useEffect(()=>{if(data.role!=='admin')void load();},[load,data.role,p.version,referrals,corrections,data.organisation.revision]);
  if(data.role==='admin')return null;
- return <section className="panel action-plan" aria-labelledby="action-plan-title"><div className="section-heading"><div><h2 id="action-plan-title">Action plan</h2><p className="muted text-sm">Open work for {p.name} from every programme, referral, review and safety case, in one order.</p></div><Button variant="outline" size="sm" disabled={loading} onClick={load}><RefreshCw size={15}/>Refresh</Button></div>
+ return <><section className="panel action-plan" aria-labelledby="action-plan-title"><div className="section-heading"><div><h2 id="action-plan-title">Action plan</h2><p className="muted text-sm">Open work for {p.name} from every programme, referral, review and safety case, in one order.</p></div><Button variant="outline" size="sm" disabled={loading} onClick={load}><RefreshCw size={15}/>Refresh</Button></div>
   {error&&<p role="alert">{error}</p>}
   {plan&&(plan.items.length?<>{plan.unowned>0&&<p className="notice amber-notice" role="status">{plan.unowned} item{plan.unowned===1?'':'s'} without a current eligible owner. {plan.canAssign?'Assign an owner below.':'They stay in the responsible queue shown until someone takes ownership.'}</p>}
    <ol className="revision-list action-plan-list">{plan.items.map((i:any)=><li key={i.key}><div><span className={`tag ${['escalated','overdue'].includes(i.attention)?'amber':''}`}>{ATTENTION_LABEL[i.attention]??i.attention}</span> <span className="tag">{KIND_LABEL[i.kind]??i.kind}</span> <strong>{i.title}</strong></div>
@@ -72,5 +73,5 @@ export function ActionPlanPanel({data,p,busy,command}:{data:Snapshot;p:Person;bu
   {plan&&plan.dependencies.length>0&&<div className="action-plan-dependencies"><h3>Dependencies</h3><ul className="revision-list">{plan.dependencies.map((d:any)=><li key={d.id}><span className={`tag ${d.state==='waiting'?'amber':''}`}>{DEP_STATE[d.state]??d.state}</span> <strong>{d.dependent.title}</strong> waits on <strong>{d.blocker.title}</strong>
    <p className="muted text-sm">Recorded {d.at.slice(0,10)} by {d.by}: {d.reason}{d.removed?` · Removed ${d.removed.at.slice(0,10)} by ${d.removed.by}: ${d.removed.reason}`:''}</p>
    {plan.canLink&&!d.removed&&<Unlink dep={d} plan={plan} p={p} busy={busy} command={command} done={load}/>}</li>)}</ul></div>}
- </section>;
+ </section><InstalledPackWorkPanel data={data} personId={p.id} blocked={busy}/></>;
 }

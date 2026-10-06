@@ -1,0 +1,16 @@
+Running unit --fast; 6 suite(s).
+
+[unit] 6 suite(s)
+  ok       unit/ehr-execution  33 passed  390ms
+  ok       unit/inbound-conflicts-contract  85 passed  566ms
+  ok       unit/inbound-retrieval-contract  115 passed  608ms
+  ok       unit/provider-ehr-execution-review  47 passed  422ms
+  ok       unit/value-override-contract  53 passed  605ms
+  ok       unit/test-runner-contract  27 passed  10.5s
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  unit   passed       6     360       0        0  13.0s
+  total  passed       6     360       0        0  13.3s
+
+Regression guard: passed (6 baselined suite(s) checked, 0 excused by quarantine).

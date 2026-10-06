@@ -1,0 +1,36 @@
+{"event":"saha_request","requestId":"30e6f972-99bb-4abb-81ce-d2dae6e3da16","route":"workspace","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"426f81b0-0c62-4f84-b082-ea6b686814b2","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"6e3c75ff-fef9-4605-9799-5f9fd1e06f42","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"34349087-4184-46e1-8b3e-e5f7f9e8626a","route":"record-import","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"5fd1103f-c18b-4fa9-a964-7cb9e6a99b53","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"29cdd47f-1ec2-455b-a40f-e3ade4f9e2e1","route":"record-import","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"ef94a1c0-46bd-4235-9dd2-9a807b81edae","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"0b743b15-6792-4e8b-af72-2bd2fdd82eda","route":"record-import","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"7816e9c7-e640-4500-befc-7a24d3873018","route":"workspace","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"0905873d-42bc-4649-8ae0-dff30d53a7e0","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"41dcc163-45f7-4249-87a8-9131086e81a9","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"5fc24224-487b-4e29-a558-a9f80f3e9332","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"dc2e505b-9b3f-441d-a75c-43228d2e742e","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"486afc2f-fc72-49d8-951a-30491bd6d0dc","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"a9eb52f4-21c4-4d21-8416-98d79ec03a1f","route":"record-import","status":409,"durationMs":2}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Open the surviving patient record."}
+
+409 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-evidence-independent-review/tests/imported-evidence-independent-http.mjs:33:107
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-evidence-independent-review/tests/imported-evidence-independent-http.mjs:6:42)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-imported-evidence-independent-review/tests/imported-evidence-independent-http.mjs:33:2
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 409,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,142 @@
+{
+  "generatedAt": "2026-10-05T09:39:29.373Z",
+  "startedAt": "2026-10-05T09:39:15.716Z",
+  "command": "node scripts/test.mjs nfr smoke --only nfr/authorisation-matrix,smoke/local-smoke --fast --report tests/evidence/app-first-frozen-figures-integration/route-security-initial.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 1,
+      "passed": 28,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 2469,
+      "failedSuites": 0
+    },
+    {
+      "layer": "nfr",
+      "status": "passed",
+      "suites": 1,
+      "passed": 58,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11018,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 86,
+    "failed": 0,
+    "skipped": 1,
+    "failedSuites": 0,
+    "durationMs": 13657
+  },
+  "suites": [
+    {
+      "id": "smoke/local-smoke",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/local-smoke.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 28,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 2469,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/smoke-local-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__local-smoke.log"
+    },
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 58,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11018,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 183,
+        "components": 0,
+        "suitesCitingNoRequirement": 49,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 73,
+        "components": 84,
+        "suitesCitingNoRequirement": 14,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 25,
+        "components": 0,
+        "suitesCitingNoRequirement": 21,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 297,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 88,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

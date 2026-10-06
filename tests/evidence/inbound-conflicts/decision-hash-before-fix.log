@@ -1,0 +1,41 @@
+{"event":"saha_request","requestId":"ca587c07-5dc4-49f5-8533-74770f7d6ec6","route":"workspace","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"080fc9e3-e51b-4cca-86ae-f974b92e114a","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"10c173a9-ce20-4c70-ad4c-4ae3bddae068","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"faf0997b-0579-4876-9338-199eee9b8c90","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"758b218a-fcb8-472e-8217-fd2c50e5205a","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"93b01917-12e9-4318-bd14-89d6b8c9f2f9","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"76fbcc4a-4147-4e61-8edb-25ebd95cdd10","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"525e177f-5e2b-492d-8c69-91e25b1dbe4f","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"1723b841-c40a-4f2e-b366-35aec3e2e2d6","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"2e41f16d-4e8a-4a39-a35b-27502a69f68d","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"eeffbb82-dc8d-4f3a-af46-c2dd619b8590","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"ef39b343-11be-4ac8-9167-7d8693ba185f","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"e059596f-86aa-411d-ae08-aafc0c335a83","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"9ac0c99c-d307-4935-b7e7-46e131a1b791","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"fc4673cf-c8b6-4395-bc37-edb461f1bc23","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"2b47d8c3-d8dd-4dbe-a7cb-317b731c53e3","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"d611b9cf-d28d-4dec-a391-ff24b06e8a0f","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"26daee45-4a30-4717-b187-670a21576c84","route":"commands","status":409,"durationMs":4}
+Workspace operation failed Error
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '2c02d61fab7b1ebbda0a9fa7bac21890c0a6aca00872e05b5edff7b4b642871f'
+- 'efd7bd7377495c1547f7fc406c50e3a829e67689da2d6f39789b004c41e6414e'
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-conflicts/tests/inbound-conflicts-http.mjs:31:696
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-conflicts/tests/inbound-conflicts-http.mjs:5:86)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-conflicts/tests/inbound-conflicts-http.mjs:31:674 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '2c02d61fab7b1ebbda0a9fa7bac21890c0a6aca00872e05b5edff7b4b642871f',
+  expected: 'efd7bd7377495c1547f7fc406c50e3a829e67689da2d6f39789b004c41e6414e',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

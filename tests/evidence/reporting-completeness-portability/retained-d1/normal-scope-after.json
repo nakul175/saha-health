@@ -1,0 +1,97 @@
+{
+  "allowedPeople": [
+    "p_sunita"
+  ],
+  "allowedVisits": [
+    "17082c8f-dd45-44f1-adb9-9c351cb527a3"
+  ],
+  "calendarMetadataWithheld": true,
+  "verified": {
+    "format": "saha-organisation-export-v1",
+    "exportId": "7ed5f572-ffa2-4ed1-ab96-c7277f949049",
+    "ok": true,
+    "checks": [
+      {
+        "name": "format",
+        "ok": true,
+        "detail": "saha-organisation-export-v1"
+      },
+      {
+        "name": "sha256sums",
+        "ok": true,
+        "detail": "58 files"
+      },
+      {
+        "name": "manifest-files",
+        "ok": true,
+        "detail": "56 files match size, SHA-256 and row count"
+      },
+      {
+        "name": "totals",
+        "ok": true,
+        "detail": {
+          "rows": 191,
+          "withheld": 133,
+          "withheldEntries": 0
+        }
+      },
+      {
+        "name": "organisation",
+        "ok": true,
+        "detail": "org_464ec79f0aa2dcfb92b7e67c10603dba"
+      },
+      {
+        "name": "relationships",
+        "ok": true,
+        "detail": "34 references resolve"
+      },
+      {
+        "name": "protection-state",
+        "ok": true,
+        "detail": "no indicator differencing ledger in the operations document"
+      },
+      {
+        "name": "completeness-portability",
+        "ok": true,
+        "detail": "configured governance/evidence and scoped snapshot hashes only; private snapshot bodies cannot be reconstructed"
+      },
+      {
+        "name": "figure-portability",
+        "ok": true,
+        "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+      },
+      {
+        "name": "media",
+        "ok": true,
+        "detail": "1 files match their rows"
+      },
+      {
+        "name": "fhir",
+        "ok": true,
+        "detail": "0 documents"
+      },
+      {
+        "name": "audit-chain",
+        "ok": true,
+        "detail": "130 events, head 129 4df0b01aa7b5"
+      },
+      {
+        "name": "genesis-seal",
+        "ok": true,
+        "detail": "0 earlier events reproduce the genesis digest"
+      }
+    ],
+    "failures": [],
+    "summary": {
+      "organisation": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+      "generatedAt": "2026-10-05T20:04:21.401Z",
+      "exporter": "calendar-upgrade-reviewer-d95d2664@example.invalid",
+      "tables": 54,
+      "rows": 191,
+      "withheld": 133,
+      "complete": false,
+      "fhir": 0,
+      "handoverItems": 1
+    }
+  }
+}

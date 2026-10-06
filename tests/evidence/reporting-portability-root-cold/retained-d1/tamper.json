@@ -1,0 +1,932 @@
+[
+  {
+    "label": "missing-required-watermark",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "invalid or dangling source evidence/protected fields"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: invalid or dangling source evidence/protected fields"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "duplicate-receipt",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 264,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "duplicate immutable evidence/receipt/snapshot key"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: duplicate immutable evidence/receipt/snapshot key"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 264,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "invalid-producer-kind",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "invalid or dangling source evidence/protected fields"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: invalid or dangling source evidence/protected fields"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "snapshot-private-body",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "private snapshot body exported or invalid metadata/figure relationship"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: private snapshot body exported or invalid metadata/figure relationship"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "coverage-extra-clinical",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "invalid or dangling source evidence/protected fields"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: invalid or dangling source evidence/protected fields"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "receipt-raw-result",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "invalid receipt outcome or evidence lineage"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: invalid receipt outcome or evidence lineage"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "dangling-calendar",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "incomplete calendar lifecycle; invalid independent calendar lifecycle; dangling calendar event; invalid receipt outcome or evidence lineage"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: incomplete calendar lifecycle; invalid independent calendar lifecycle; dangling calendar event; invalid receipt outcome or evidence lineage"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "self-review",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "invalid independent calendar lifecycle; invalid receipt outcome or evidence lineage"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: invalid independent calendar lifecycle; invalid receipt outcome or evidence lineage"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "source-version-extra",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "invalid or dangling source evidence/protected fields"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: invalid or dangling source evidence/protected fields"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  },
+  {
+    "label": "dangling-snapshot-figure",
+    "report": {
+      "format": "saha-organisation-export-v1",
+      "exportId": "ed68bb3a-43fa-457f-8458-2f81fcc0cae7",
+      "ok": false,
+      "checks": [
+        {
+          "name": "format",
+          "ok": true,
+          "detail": "saha-organisation-export-v1"
+        },
+        {
+          "name": "sha256sums",
+          "ok": true,
+          "detail": "63 files"
+        },
+        {
+          "name": "manifest-files",
+          "ok": true,
+          "detail": "61 files match size, SHA-256 and row count"
+        },
+        {
+          "name": "totals",
+          "ok": true,
+          "detail": {
+            "rows": 263,
+            "withheld": 6,
+            "withheldEntries": 0
+          }
+        },
+        {
+          "name": "organisation",
+          "ok": true,
+          "detail": "org_a4e865a7976ec2bb0de0a6ea949f9bb9"
+        },
+        {
+          "name": "relationships",
+          "ok": true,
+          "detail": "158 references resolve"
+        },
+        {
+          "name": "protection-state",
+          "ok": true,
+          "detail": "no indicator differencing ledger in the operations document"
+        },
+        {
+          "name": "completeness-portability",
+          "ok": false,
+          "detail": "private snapshot body exported or invalid metadata/figure relationship"
+        },
+        {
+          "name": "figure-portability",
+          "ok": true,
+          "detail": "metadata and immutable lifecycle/receipt references only; no raw counting units, cells or privacy ledger"
+        },
+        {
+          "name": "media",
+          "ok": true,
+          "detail": "6 files match their rows"
+        },
+        {
+          "name": "fhir",
+          "ok": true,
+          "detail": "0 documents"
+        },
+        {
+          "name": "audit-chain",
+          "ok": true,
+          "detail": "112 events, head 111 1fed0655b057"
+        },
+        {
+          "name": "genesis-seal",
+          "ok": true,
+          "detail": "0 earlier events reproduce the genesis digest"
+        }
+      ],
+      "failures": [
+        "completeness-portability: private snapshot body exported or invalid metadata/figure relationship"
+      ],
+      "summary": {
+        "organisation": "org_a4e865a7976ec2bb0de0a6ea949f9bb9",
+        "generatedAt": "2026-10-05T20:13:17.931Z",
+        "exporter": "calendar-upgrade-owner-3f9e379d@example.invalid",
+        "tables": 54,
+        "rows": 263,
+        "withheld": 6,
+        "complete": false,
+        "fhir": 0,
+        "handoverItems": 6
+      }
+    }
+  }
+]

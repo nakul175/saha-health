@@ -1,0 +1,24 @@
+Running unit integration --fast; 4 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/composite-measures-contract  57 passed  774ms
+
+[integration] 3 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/composite-authority-repair-http ...
+  ok       integration/composite-authority-repair-http  86 passed  2.8s
+  running  integration/composite-measures-browser ...
+  ok       integration/composite-measures-browser  24 passed  8.8s
+  running  integration/composite-measures-http ...
+  ok       integration/composite-measures-http  131 passed  3.3s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       1      57       0        0  774ms
+  integration  passed       3     241       0        0  14.9s
+  total        passed       4     298       0        0  15.9s
+
+Restored 3 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (0 baselined suite(s) checked, 0 excused by quarantine).
+  note     4 suite(s) are not in the baseline yet (unit/composite-measures-contract, integration/composite-authority-repair-http, integration/composite-measures-browser, integration/composite-measures-http); add them with --update-baseline.

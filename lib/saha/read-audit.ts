@@ -1,9 +1,9 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { fail } from './core';
 import { exceptionalGrant, normallyAllowed } from './access';
-import { accessRoute, recordAccess, recordAccessBare } from './access-audit';
+import { accessRoute, recordAccess, recordAccessBare, recordAccesses } from './access-audit';
 import type { Actor } from './store';
-import type { Member, OrgState } from './types';
+import type { Member, OrgState, Person } from './types';
 // Slice 10h: the remaining read paths are audited through the same single-event, chained, fail-closed access commit as
 // slice 6t (BR-SEC-08). Everything written here is an identifier or a count; nothing a person typed is recorded and no
 // event repeats patient names, facts or notes.
@@ -37,6 +37,19 @@ export async function recordWorkspaceLoad(db: D1Database, state: OrgState, actor
   return s;
 }
 
+// A command partition returns full records, even when the browser requested a paged
+// workspace. Record this actual disclosure independently of screen-open/window
+// coalescing. The mutation and its receipt have already committed; a refused read
+// must not rerun the mutation. One access-only batch leaves clinical revisions alone.
+export async function recordPartitionResponse(db: D1Database, state: OrgState, actor: Actor, m: Member, now = new Date().toISOString()) {
+  const people = state.workspace.people.filter(p => p.assigned), ids = new Set(people.map(p => p.id));
+  const count = (rows: { personId: string }[]) => rows.filter(r => ids.has(r.personId)).length;
+  await recordAccesses(db, state, actor, m, [
+    { action: 'viewWorkspace', subject: state.organisation.id, personId: null, detail: `Partition snapshot returned (response to a command): ${people.length} patient records returned in full; ${count(state.workspace.visits)} visits, ${count(state.workspace.referrals)} referrals, ${count(state.workspace.submissions)} submissions. Counts describe only the returned partition, not the full care scope.` },
+    ...people.map(p => ({ action: 'viewPatientRecord' as const, subject: p.id, personId: p.id, detail: `Full patient record returned through a command partition (response to a command).${accessRoute(m, p, now)}` })),
+  ], now);
+}
+
 // A patient page or search from SQL alone (no organisation state): kind and count only.
 export type PatientListKind = { text: boolean; programme: boolean; later: boolean };
 export function patientListDetail(k: PatientListKind, rows: number, total: number | null) {
@@ -57,6 +70,17 @@ export async function recordMatchSearch(db: D1Database, state: OrgState, actor: 
 // Aggregate views: the view, the counts, and which filters were set (never their values).
 export async function recordAggregateView(db: D1Database, state: OrgState, actor: Actor, m: Member, view: string, detail: string, now = new Date().toISOString()) {
   await recordAccess(db, state, actor, m, { action: 'viewAggregate', subject: view, personId: null, detail }, now);
+}
+
+// Derived patient views still disclose patient work even when the full workspace is not returned.
+// Queue reads append one count-only event, including empty results; a single-patient plan records
+// the patient's identifier and access route. Await the durable chain commit before returning either.
+export async function recordPatientWorkView(db: D1Database, state: OrgState, actor: Actor, m: Member, view: 'care continuity' | 'referral escalations' | 'action plan', rows: number, patient?: Person, now = new Date().toISOString()) {
+  await recordAccess(db, state, actor, m, {
+    action: patient ? 'viewActionPlan' : 'listPatients',
+    subject: patient?.id ?? state.organisation.id, personId: patient?.id ?? null,
+    detail: `Patient work view: ${view}; ${rows} row${rows === 1 ? '' : 's'} returned.${patient ? accessRoute(m, patient, now) : ''}`,
+  }, now);
 }
 
 // The browser opened a record it already held. A second report for the same viewer and patient inside

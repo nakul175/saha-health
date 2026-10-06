@@ -1,4 +1,6 @@
 'use client';
+import {InstalledPackTransitionPanel} from './installed-pack-transition-panel';
+import {InstalledPackWorkPanel} from './installed-pack-work-panel';
 import { useEffect, useState } from 'react';
 import { Building2, Check, Copy, Plus, ShieldCheck, Users, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -43,6 +45,7 @@ export function OrganisationPanel({data,busy,command}:{data:Snapshot;busy:boolea
  const openInvite=()=>{setRole('asha');setTeams(data.teams.slice(0,1).map(t=>t.id));setInvitation(null);setModal('invite')};
  const edit=(m:Member)=>{setEditing(m);setRole(m.role);setTeams(m.teamIds);setOwner(m.isOwner);setStatus(m.status==='active'?'active':'suspended');setRemoveReason('')};
  return <>
+ {data.membership.status==='active'&&(data.membership.isOwner||['supervisor','clinician'].includes(data.role))&&<p><a href={`/indicator-definitions?organisation=${encodeURIComponent(data.organisation.id)}`}>Review indicator definitions</a></p>}
  <div className="page-heading"><div><div className="eyebrow">MEMBERSHIP & ACCESS</div><h1>Organisation & team</h1><p>Give each teammate the access and patient assignments they need.</p></div><div className="button-row"><Button variant="outline" onClick={()=>setModal('join')}>Join organisation</Button>{data.canManage&&<Button onClick={openInvite}><UserPlus size={17}/>Invite teammate</Button>}</div></div>
  <div className="org-overview"><section className="panel org-summary"><div className="org-icon"><Building2 size={26}/></div><div><h2>{data.organisation.name}</h2><p>{ROLE_LABEL[data.role]}{data.membership.isOwner?' · Organisation owner':''}</p><div className="tags"><span className="tag success">{data.members.filter(m=>m.status==='active').length} visible active members</span><span className="tag">{data.teams.length} visible teams</span></div></div>{data.canManage&&<Button variant="outline" onClick={()=>setModal('rename')}>Rename</Button>}</section><section className="panel account-panel"><h3>Your account code</h3><p>Share this code with an organisation owner to receive an invitation bound to your account.</p><Input aria-label="Your account code" value={data.user.accountCode} readOnly className="account-code"/><small>Signed in as {data.membership.accountName??data.user.displayName}</small><MemberName data={data} busy={busy} command={command}/></section></div>
  <section className="panel member-panel"><div className="section-heading"><h2><Users size={19}/> Team members</h2><span className="muted text-sm">Server-controlled access</span></div><Table><TableHeader><TableRow><TableHead>Member</TableHead><TableHead>Role</TableHead><TableHead>Teams</TableHead><TableHead>Status</TableHead>{data.canManage&&<TableHead>Manage</TableHead>}</TableRow></TableHeader><TableBody>{data.members.map(m=><TableRow key={m.userId}><TableCell><strong>{m.displayName}</strong>{m.userId===data.user.userId&&<span className="tag">You</span>}{m.accountName&&m.accountName!==m.displayName&&<small className="audit-actor">Sign-in: {m.accountName}</small>}{m.isOwner&&<small className="audit-actor">Organisation owner</small>}</TableCell><TableCell>{ROLE_LABEL[m.role]}</TableCell><TableCell>{m.teamIds.map(id=>data.teams.find(t=>t.id===id)?.name).filter(Boolean).join(', ')||'No clinical team'}</TableCell><TableCell><span className={`tag ${m.status==='active'?'success':'amber'}`}>{m.status}</span></TableCell>{data.canManage&&<TableCell>{m.status!=='removed'&&<Button variant="outline" size="sm" disabled={busy} onClick={()=>edit(m)} aria-label={`Edit ${m.displayName}`}>Edit access</Button>}</TableCell>}</TableRow>)}</TableBody></Table></section>
@@ -57,7 +60,7 @@ export function OrganisationPanel({data,busy,command}:{data:Snapshot;busy:boolea
  <NotificationChannelPanel data={data} busy={busy} command={command}/>
  <FixtureMigrationPanel data={data} busy={busy} command={command}/>
  <ProgrammeMigrationPanel data={data} busy={busy} command={command}/>
- <PackInstallationPanel data={data} busy={busy} command={command}/>
+ <PackInstallationPanel data={data} busy={busy} command={command}/><InstalledPackWorkPanel data={data} blocked={busy}/><InstalledPackTransitionPanel data={data} blocked={busy}/>
  <PatientImportPanel data={data} busy={busy} command={command}/>
  <RecordImportPanel data={data} busy={busy} command={command}/>
  {data.migration&&<div className="migration-note"><Check size={17}/><p>Existing records retained: {data.migration.counts.people} people, {data.migration.counts.visits} visits and {data.migration.counts.submissions} programme receipts when this workspace moved to structured records. Earlier activity is preserved.</p></div>}

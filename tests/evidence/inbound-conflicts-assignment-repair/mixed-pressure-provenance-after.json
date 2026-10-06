@@ -1,0 +1,29 @@
+{
+  "actualWorker": true,
+  "actualD1": true,
+  "choices": {
+    "systolic": "incoming",
+    "diastolic": "local",
+    "temperature": "local",
+    "weight": "incoming"
+  },
+  "status": 422,
+  "before": {
+    "systolic": "121",
+    "diastolic": "81",
+    "provenance": {
+      "source": "measured",
+      "at": "2026-10-05T09:42"
+    }
+  },
+  "after": {
+    "systolic": "121",
+    "diastolic": "81",
+    "provenance": {
+      "source": "measured",
+      "at": "2026-10-05T09:42"
+    }
+  },
+  "expectedStatus": 422,
+  "reason": "Shared bloodPressure provenance cannot relabel retained local measured component as incoming reported"
+}

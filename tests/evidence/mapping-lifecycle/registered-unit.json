@@ -1,0 +1,656 @@
+{
+  "catalogueErrors": [
+    "Unclassified test file: tests/mapping-lifecycle-browser.mjs. Put it in tests/smoke, tests/ui, tests/nfr or tests/uat, name it *-contract.mjs / *-client.mjs, or add an explicit rule in scripts/test-catalogue.mjs.",
+    "Unclassified test file: tests/mapping-lifecycle-http.mjs. Put it in tests/smoke, tests/ui, tests/nfr or tests/uat, name it *-contract.mjs / *-client.mjs, or add an explicit rule in scripts/test-catalogue.mjs.",
+    "Unclassified test file: tests/offline-lifecycle-auth-transport-review.mjs. Put it in tests/smoke, tests/ui, tests/nfr or tests/uat, name it *-contract.mjs / *-client.mjs, or add an explicit rule in scripts/test-catalogue.mjs.",
+    "Unclassified test file: tests/provider-ehr-execution-review.mjs. Put it in tests/smoke, tests/ui, tests/nfr or tests/uat, name it *-contract.mjs / *-client.mjs, or add an explicit rule in scripts/test-catalogue.mjs.",
+    "Unclassified test file: tests/provider-ehr-header-review.mjs. Put it in tests/smoke, tests/ui, tests/nfr or tests/uat, name it *-contract.mjs / *-client.mjs, or add an explicit rule in scripts/test-catalogue.mjs.",
+    "Unclassified test file: tests/provider-mis-execution-review.mjs. Put it in tests/smoke, tests/ui, tests/nfr or tests/uat, name it *-contract.mjs / *-client.mjs, or add an explicit rule in scripts/test-catalogue.mjs."
+  ],
+  "suites": 173,
+  "passed": 61,
+  "failed": 3,
+  "results": [
+    {
+      "id": "unit/abdm-contract",
+      "file": "tests/abdm-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 14,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/abdm-transfer-contract",
+      "file": "tests/abdm-transfer-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 21,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/access-audit-contract",
+      "file": "tests/access-audit-contract.mjs",
+      "exitCode": 1,
+      "error": null,
+      "counts": null,
+      "output": "Access audit not recorded Error\nExport audit not recorded Error\nAccess audit not recorded Error\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The input did not match the regular expression /externalCall\\(i,p,key,\\(\\)=>externalRequestAudit\\(state,u,m,c,i\\)\\)/. Input:\n\n\"import {collectSensitive,minimiseLegacyAiPayload} from './agent-minimisation';\\n\" +\n  \"import {deviceGrantRows} from './device-work';\\n\" +\n  \"import { rangeCaptureFor } from './fact-provenance';\\n\" +\n  \"import {serviceDispatch} from './service-dispatch';\\n\" +\n  \"import { applyReconciliation, authorizeReconciliation } from './reconciliation';\\n\" +\n  \"import {checkSourceCommand} from './clinical-source';\\n\" +\n  \"import { applyGovernance, authorizeGovernance } from './governance';\\n\" +\n  \"import { applyShadow, authorizeShadow } from './shadow';\\n\" +\n  \"import { applyEvaluation, authorizeEvaluation } from './evaluation';\\n\" +\n  \"import { executeEvaluation } from './evaluation-execution';\\n\" +\n  \"import { applyHousehold, authorizeHousehold } from './household';\\n\" +\n  \"import { applyHouseholdVisit, authorizeHouseholdVisit } from './household-visit';\\n\" +\n  \"import { applyProgrammeReferrals, authorizeProgrammeReferrals } from './referral-consolidation';\\n\" +\n  \"import { applyCaseload, authorizeCaseload } from './caseload';\\n\" +\n  \"import { applyDueCaseloads } from './caseload-schedule';\\n\" +\n  \"import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';\\n\" +\n  \"import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';\\n\" +\n  \"import { applyRights, authorizeRights, ensureNotRestricted } from './rights';\\n\" +\n  \"import { applyRetention, authorizeRetention } from './retention';\\n\" +\n  \"import { applyFixtureMark, authorizeFixtureMark } from './fixture-migration';\\n\" +\n  \"import { applyProgrammeMigration, authorizeProgrammeMigration } from './programme-migration';\\n\" +\n  \"import { applyRangeProtocol, authorizeRangeProtocol, applyPackInstallation, authorizePackInstallation } from './pack-installation';\\n\" +\n  \"import { catalogueOf, enrollableAt, installedPacks } from './programmes';\\n\" +\n  \"import { applyConsent, authorizeConsent } from './consent';\\n\" +\n  \"import { applyFactReview, authorizeFactReview, recordFactAuthors } from './fact-verification';\\n\" +\n  \"import { applySignOff, authorizeSignOff, carryDisputes, ensureSignOff, signOffPolicy, stampSubmissions } from './visit-signoff';\\n\" +\n  \"import { applyPatientImport, authorizePatientImport } from './patient-import';\\n\" +\n  \"import { applyRecordImport, authorizeRecordImport } from './record-import';\\n\" +\n  \"import { authorizeCrosswalk } from './crosswalk';\\n\" +\n  \"import { crosswalkWithReview } from './crosswalk-server';\\n\" +\n  \"import { applyCrosswalkCorrection, authorizeCrosswalkCorrection } from './crosswalk-correction';\\n\" +\n  \"import { ensureNotImported } from './imported-visits';\\n\" +\n  \"import { applyDelegation, authorizeDelegation, delegationAudit, heldBy } from './delegation';\\n\" +\n  \"import { applyIndicatorRegistry, authorizeIndicatorRegistry } from './indicator-registry';\\n\" +\n  \"import { applyReferral, authorizeReferralSource } from './referrals';\\n\" +\n  \"import { applyActionPlan, authorizeActionPlan } from './action-plan';\\n\" +\n  \"import { applyReassignment, authorizeReassignment } from './reassignment';\\n\" +\n  \"import { applyCorrectionTask, authorizeCorrectionTask } from './correction-tasks';\\n\" +\n  \"import { applyRoster } from './roster';\\n\" +\n  \"import { applyWorkforceImport, authorizeWorkforceImport } from './workforce-import';\\n\" +\n  \"import { reserveAbhaReview, releaseAbhaReview, recordAbhaReviewReservation } from './abha-review-reservation';\\n\" +\n  \"import { AbhaHeldElsewhere, LINK_REFUSED, validateAbhaLink, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';\\n\" +\n  \"import { applyTransfer, authorizeTransfer } from './abdm-transfer';\\n\" +\n  \"import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';\\n\" +\n  \"import { applyPilot, authorizePilotCommand } from './pilot';\\n\" +\n  \"import { applyOutreach, authorizeOutreach } from './outreach';\\n\" +\n  \"import { applyExpansion, authorizeExpansion } from './expansion';\\n\" +\n  \"import { boundedJsonBody } from './request-body';\\n\" +\n  \"import { accessRoute, recordAccess, recordAccesses } from './access-audit';\\n\" +\n  \"import { applyOperations, ensureOperating, operator } from './operations';\\n\" +\n  \"import { applyFacilityScope, authorizeFacilityScope } from './facility-scope';\\n\" +\n  \"import { applyInvoiceReconciliation } from './ai-invoice';\\n\" +\n  \"import { ALERT_OWNERS, applyAlertAck, canAcknowledge } from './alerts';\\n\" +\n  \"import { authorizeInboxReplay, evaluateAfterCommand, markRead } from './alert-delivery-server';\\n\" +\n  \"import { applyField } from './field';\\n\" +\n  \"import { applyFieldRegistration, authorizeFieldRegistration } from './field-registration';\\n\" +\n  \"import {registrationGrantRows,recordRegistrationWireReplay} from './registration-device-work';\\n\" +\n  \"import { applyReferralRequest, authorizeReferralRequest } from './referral-request';\\n\" +\n  \"import { applyEhr, ehrReadiness } from './ehr';\\n\" +\n  \"import { executeEhr } from './ehr-execution';\\n\" +\n  \"import { configureMis, misReadiness, MAPPING_COMMANDS, pinMisMappingApprovals } from './mis';\\n\" +\n  \"import { executeMis } from './mis-execution';\\n\" +\n  \"import { authorizeDestinationEnrolment } from './destination-enrolment';\\n\" +\n  \"import { executeDestinationEnrolment } from './destination-enrolment-execution';\\n\" +\n  \"import { providers, agentApply } from './agent';\\n\" +\n  \"import { executeAgent } from './agent-execution';\\n\" +\n  \"import { linkTrace } from './trace';\\n\" +\n  \"import { applyAdapterOperations } from './adapter-operations';\\n\" +\n  \"import { applyPurposeScope, authorizePurposeScope, COMMAND_PURPOSE, ensurePurpose } from './purpose-scope';\\n\" +\n  \"import { applyNotificationChannel } from './notification-channel';\\n\" +\n  \"import { applySpeechPolicy, speechPolicyView } from './speech';\\n\" +\n  \"import { authorizeAggregate } from './aggregate-delivery';\\n\" +\n  \"import { applyIncentives, authorizeIncentives } from './incentives';\\n\" +\n  \"import { executeAggregate } from './aggregate-execution';\\n\" +\n  \"import { applySandbox, authorizeSandbox, SANDBOX_UNAVAILABLE } from './provider-sandbox';\\n\" +\n  \"import { applyDemonstration, authorizeDemonstration, automaticInstall, prepareHome, writeFixtureAccounts } from './demonstration';\\n\" +\n  \"import { env } from 'cloudflare:workers';\\n\" +\n  \"import { headers } from 'next/headers';\\n\" +\n  \"import { identityConfig, principalFromHeaders, signOutPath } from './identity';\\n\" +\n  \"import { seedWorkspace } from './seed';\\n\" +\n  \"import { effectiveRuntime, ensureEnvironment, environmentOf, ENVIRONMENT_LABEL, fixturesFor } from './environment';\\n\" +\n  \"import { AppError, apply, digest, fail, person, visit, uuid, type Command } from './core';\\n\" +\n  \"import { platformApply, platformSchema, validTeams } from './platform';\\n\" +\n  \"import { languageOf } from './messages';\\n\" +\n  \"import { patientTargets } from './partition';\\n\" +\n  \"import { PAGED_THRESHOLD, pagedWindow, pagingRequest, type PagingRequest } from './patient-directory';\\n\" +\n  \"import { auditWindow } from './access-audit';\\n\" +\n  \"import { recordWorkspaceLoad, recordPartitionResponse, type SnapshotVia } from './read-audit';\\n\" +\n  \"import { accountCode, auditPage, snapshotDecorations, parseCursor, createState, ensureAccount, history, persist, persistBurdenCounter, readState, scope, type Actor } from './store';\\n\" +\n  \"import type { OrgState, Integration, Member, Snapshot } from './types';\\n\" +\n  \"export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}\\n\" +\n  \"export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unavailable. Your unsaved input has been kept on screen.');return env.DB!;}\\n\" +\n  'export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material:boolean|SnapshotVia=false){const id=await activeOrg(u,orgId);\\n' +\n  ' // Slice 1f: due scheduled caseload transfers are applied (or held) before the organisation is read for this request.\\n' +\n  ' await applyDueCaseloads(db(),id,u.userId);\\n' +\n  ' const ids=targets?await targets(id):null;\\n' +\n  ' // Slice 0b-3: a paging client with a large non-ASHA scope reads only its opened window of patients.\\n' +\n  ' const paged=viewerScoped&&!ids&&paging?await pagedWindow(db(),id,u.userId,paging.window):null;\\n' +\n  ' // Slice 6aa (seventh review, finding 3): the window audit is not opt-in. A workspace read without the paging request by a\\n' +\n  ' // non-ASHA viewer above the threshold returns every in-scope record, so each one is audited first (fail closed).\\n' +\n  ' const unpaged=material&&viewerScoped&&!ids&&!paging?await pagedWindow(db(),id,u.userId,[]):null;\\n' +\n  ' let state=paged?await readState(db(),id,paged.ids,u.userId,true):await readState(db(),id,ids??undefined,viewerScoped&&!ids?u.userId:undefined);\\n' +\n  \" if(unpaged){const vm=scope(state,u.userId),all=state.workspace.people.filter(p=>p.assigned).map(p=>p.id),kept=await auditWindow(db(),state,u,vm,all,undefined,'full');if(kept.length!==all.length)state=await readState(db(),id,kept,u.userId,true);}\\n\" +\n  ' // Slice 6w (fifth review, finding 7): window records not opened through the detail route are audited first.\\n' +\n  ' if(paged&&paged.ids.length){const kept=await auditWindow(db(),state,u,scope(state,u.userId),paged.ids);if(kept.length!==paged.ids.length){paged.ids=kept;state=await readState(db(),id,kept,u.userId,true);}}\\n' +\n  ' if(paged)state.paging={total:paged.total,threshold:PAGED_THRESHOLD};const viewer=scope(state,u.userId);\\n' +\n  ' // Slice 10h (BR-SEC-08): a whole-caseload snapshot is recorded as one summarised event (scope size, records returned, paging\\n' +\n  ' // window), after the window audit and before the snapshot is returned; if it cannot be written nothing is returned.\\n' +\n  \" if(material)await recordWorkspaceLoad(db(),state,u,viewer,typeof material==='string'?material:'workspace load',paged?{total:paged.total,threshold:PAGED_THRESHOLD,window:paged.ids.length}:null);\\n\" +\n  ' return state;}\\n' +\n  \"// The organisation a request acts in: the named one, else the account's active membership.\\n\" +\n  '// Slice 9a: a new home organisation in the synthetic environment receives the demonstration clinical package.\\n' +\n  'const ensureHome=(u:Actor)=>ensureAccount(db(),u,w=>fixturesFor(rawRuntime(),w),automaticInstall(rawRuntime())?state=>prepareHome(db(),state,u,environmentOf(rawRuntime()).name,accountCode):undefined);\\n' +\n  'export async function activeOrg(u:Actor,orgId?:string|null){await ensu'... 34609 more characters\n\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/access-audit-contract.mjs:147:208\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/access-audit-contract.mjs:14:23)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/access-audit-contract.mjs:147:3 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: \"import {collectSensitive,minimiseLegacyAiPayload} from './agent-minimisation';\\n\" +\n    \"import {deviceGrantRows} from './device-work';\\n\" +\n    \"import { rangeCaptureFor } from './fact-provenance';\\n\" +\n    \"import {serviceDispatch} from './service-dispatch';\\n\" +\n    \"import { applyReconciliation, authorizeReconciliation } from './reconciliation';\\n\" +\n    \"import {checkSourceCommand} from './clinical-source';\\n\" +\n    \"import { applyGovernance, authorizeGovernance } from './governance';\\n\" +\n    \"import { applyShadow, authorizeShadow } from './shadow';\\n\" +\n    \"import { applyEvaluation, authorizeEvaluation } from './evaluation';\\n\" +\n    \"import { executeEvaluation } from './evaluation-execution';\\n\" +\n    \"import { applyHousehold, authorizeHousehold } from './household';\\n\" +\n    \"import { applyHouseholdVisit, authorizeHouseholdVisit } from './household-visit';\\n\" +\n    \"import { applyProgrammeReferrals, authorizeProgrammeReferrals } from './referral-consolidation';\\n\" +\n    \"import { applyCaseload, authorizeCaseload } from './caseload';\\n\" +\n    \"import { applyDueCaseloads } from './caseload-schedule';\\n\" +\n    \"import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';\\n\" +\n    \"import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';\\n\" +\n    \"import { applyRights, authorizeRights, ensureNotRestricted } from './rights';\\n\" +\n    \"import { applyRetention, authorizeRetention } from './retention';\\n\" +\n    \"import { applyFixtureMark, authorizeFixtureMark } from './fixture-migration';\\n\" +\n    \"import { applyProgrammeMigration, authorizeProgrammeMigration } from './programme-migration';\\n\" +\n    \"import { applyRangeProtocol, authorizeRangeProtocol, applyPackInstallation, authorizePackInstallation } from './pack-installation';\\n\" +\n    \"import { catalogueOf, enrollableAt, installedPacks } from './programmes';\\n\" +\n    \"import { applyConsent, authorizeConsent } from './consent';\\n\" +\n    \"import { applyFactReview, authorizeFactReview, recordFactAuthors } from './fact-verification';\\n\" +\n    \"import { applySignOff, authorizeSignOff, carryDisputes, ensureSignOff, signOffPolicy, stampSubmissions } from './visit-signoff';\\n\" +\n    \"import { applyPatientImport, authorizePatientImport } from './patient-import';\\n\" +\n    \"import { applyRecordImport, authorizeRecordImport } from './record-import';\\n\" +\n    \"import { authorizeCrosswalk } from './crosswalk';\\n\" +\n    \"import { crosswalkWithReview } from './crosswalk-server';\\n\" +\n    \"import { applyCrosswalkCorrection, authorizeCrosswalkCorrection } from './crosswalk-correction';\\n\" +\n    \"import { ensureNotImported } from './imported-visits';\\n\" +\n    \"import { applyDelegation, authorizeDelegation, delegationAudit, heldBy } from './delegation';\\n\" +\n    \"import { applyIndicatorRegistry, authorizeIndicatorRegistry } from './indicator-registry';\\n\" +\n    \"import { applyReferral, authorizeReferralSource } from './referrals';\\n\" +\n    \"import { applyActionPlan, authorizeActionPlan } from './action-plan';\\n\" +\n    \"import { applyReassignment, authorizeReassignment } from './reassignment';\\n\" +\n    \"import { applyCorrectionTask, authorizeCorrectionTask } from './correction-tasks';\\n\" +\n    \"import { applyRoster } from './roster';\\n\" +\n    \"import { applyWorkforceImport, authorizeWorkforceImport } from './workforce-import';\\n\" +\n    \"import { reserveAbhaReview, releaseAbhaReview, recordAbhaReviewReservation } from './abha-review-reservation';\\n\" +\n    \"import { AbhaHeldElsewhere, LINK_REFUSED, validateAbhaLink, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';\\n\" +\n    \"import { applyTransfer, authorizeTransfer } from './abdm-transfer';\\n\" +\n    \"import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';\\n\" +\n    \"import { applyPilot, authorizePilotCommand } from './pilot';\\n\" +\n    \"import { applyOutreach, authorizeOutreach } from './outreach';\\n\" +\n    \"import { applyExpansion, authorizeExpansion } from './expansion';\\n\" +\n    \"import { boundedJsonBody } from './request-body';\\n\" +\n    \"import { accessRoute, recordAccess, recordAccesses } from './access-audit';\\n\" +\n    \"import { applyOperations, ensureOperating, operator } from './operations';\\n\" +\n    \"import { applyFacilityScope, authorizeFacilityScope } from './facility-scope';\\n\" +\n    \"import { applyInvoiceReconciliation } from './ai-invoice';\\n\" +\n    \"import { ALERT_OWNERS, applyAlertAck, canAcknowledge } from './alerts';\\n\" +\n    \"import { authorizeInboxReplay, evaluateAfterCommand, markRead } from './alert-delivery-server';\\n\" +\n    \"import { applyField } from './field';\\n\" +\n    \"import { applyFieldRegistration, authorizeFieldRegistration } from './field-registration';\\n\" +\n    \"import {registrationGrantRows,recordRegistrationWireReplay} from './registration-device-work';\\n\" +\n    \"import { applyReferralRequest, authorizeReferralRequest } from './referral-request';\\n\" +\n    \"import { applyEhr, ehrReadiness } from './ehr';\\n\" +\n    \"import { executeEhr } from './ehr-execution';\\n\" +\n    \"import { configureMis, misReadiness, MAPPING_COMMANDS, pinMisMappingApprovals } from './mis';\\n\" +\n    \"import { executeMis } from './mis-execution';\\n\" +\n    \"import { authorizeDestinationEnrolment } from './destination-enrolment';\\n\" +\n    \"import { executeDestinationEnrolment } from './destination-enrolment-execution';\\n\" +\n    \"import { providers, agentApply } from './agent';\\n\" +\n    \"import { executeAgent } from './agent-execution';\\n\" +\n    \"import { linkTrace } from './trace';\\n\" +\n    \"import { applyAdapterOperations } from './adapter-operations';\\n\" +\n    \"import { applyPurposeScope, authorizePurposeScope, COMMAND_PURPOSE, ensurePurpose } from './purpose-scope';\\n\" +\n    \"import { applyNotificationChannel } from './notification-channel';\\n\" +\n    \"import { applySpeechPolicy, speechPolicyView } from './speech';\\n\" +\n    \"import { authorizeAggregate } from './aggregate-delivery';\\n\" +\n    \"import { applyIncentives, authorizeIncentives } from './incentives';\\n\" +\n    \"import { executeAggregate } from './aggregate-execution';\\n\" +\n    \"import { applySandbox, authorizeSandbox, SANDBOX_UNAVAILABLE } from './provider-sandbox';\\n\" +\n    \"import { applyDemonstration, authorizeDemonstration, automaticInstall, prepareHome, writeFixtureAccounts } from './demonstration';\\n\" +\n    \"import { env } from 'cloudflare:workers';\\n\" +\n    \"import { headers } from 'next/headers';\\n\" +\n    \"import { identityConfig, principalFromHeaders, signOutPath } from './identity';\\n\" +\n    \"import { seedWorkspace } from './seed';\\n\" +\n    \"import { effectiveRuntime, ensureEnvironment, environmentOf, ENVIRONMENT_LABEL, fixturesFor } from './environment';\\n\" +\n    \"import { AppError, apply, digest, fail, person, visit, uuid, type Command } from './core';\\n\" +\n    \"import { platformApply, platformSchema, validTeams } from './platform';\\n\" +\n    \"import { languageOf } from './messages';\\n\" +\n    \"import { patientTargets } from './partition';\\n\" +\n    \"import { PAGED_THRESHOLD, pagedWindow, pagingRequest, type PagingRequest } from './patient-directory';\\n\" +\n    \"import { auditWindow } from './access-audit';\\n\" +\n    \"import { recordWorkspaceLoad, recordPartitionResponse, type SnapshotVia } from './read-audit';\\n\" +\n    \"import { accountCode, auditPage, snapshotDecorations, parseCursor, createState, ensureAccount, history, persist, persistBurdenCounter, readState, scope, type Actor } from './store';\\n\" +\n    \"import type { OrgState, Integration, Member, Snapshot } from './types';\\n\" +\n    \"export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}\\n\" +\n    \"export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unavailable. Your unsaved input has been kept on screen.');return env.DB!;}\\n\" +\n    'export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material:boolean|SnapshotVia=false){const id=await activeOrg(u,orgId);\\n' +\n    ' // Slice 1f: due scheduled caseload transfers are applied (or held) before the organisation is read for this request.\\n' +\n    ' await applyDueCaseloads(db(),id,u.userId);\\n' +\n    ' const ids=targets?await targets(id):null;\\n' +\n    ' // Slice 0b-3: a paging client with a large non-ASHA scope reads only its opened window of patients.\\n' +\n    ' const paged=viewerScoped&&!ids&&paging?await pagedWindow(db(),id,u.userId,paging.window):null;\\n' +\n    ' // Slice 6aa (seventh review, finding 3): the window audit is not opt-in. A workspace read without the paging request by a\\n' +\n    ' // non-ASHA viewer above the threshold returns every in-scope record, so each one is audited first (fail closed).\\n' +\n    ' const unpaged=material&&viewerScoped&&!ids&&!paging?await pagedWindow(db(),id,u.userId,[]):null;\\n' +\n    ' let state=paged?await readState(db(),id,paged.ids,u.userId,true):await readState(db(),id,ids??undefined,viewerScoped&&!ids?u.userId:undefined);\\n' +\n    \" if(unpaged){const vm=scope(state,u.userId),all=state.workspace.people.filter(p=>p.assigned).map(p=>p.id),kept=await auditWindow(db(),state,u,vm,all,undefined,'full');if(kept.length!==all.length)state=await readState(db(),id,kept,u.userId,true);}\\n\" +\n    ' // Slice 6w (fifth review, finding 7): window records not opened through the detail route are audited first.\\n' +\n    ' if(paged&&paged.ids.length){const kept=await auditWindow(db(),state,u,scope(state,u.userId),paged.ids);if(kept.length!==paged.ids.length){paged.ids=kept;state=await readState(db(),id,kept,u.userId,true);}}\\n' +\n    ' if(paged)state.paging={total:paged.total,threshold:PAGED_THRESHOLD};const viewer=scope(state,u.userId);\\n' +\n    ' // Slice 10h (BR-SEC-08): a whole-caseload snapshot is recorded as one summarised event (scope size, records returned, paging\\n' +\n    ' // window), after the window audit and before the snapshot is returned; if it cannot be written nothing is returned.\\n' +\n    \" if(material)await recordWorkspaceLoad(db(),state,u,viewer,typeof material==='string'?material:'workspace load',paged?{total:paged.total,threshold:PAGED_THRESHOLD,window:paged.ids.length}:null);\\n\" +\n    ' return state;}\\n' +\n    \"// The organisation a request acts in: the named one, else the account's active membership.\\n\" +\n    '// Slice 9a: a new home organisation in the synthetic environment receives the demonstration clinical package.\\n' +\n    'const ensureHome=(u:Actor)=>ensureAccount(db(),u,w=>fixturesFor(rawRuntime(),w),automaticInstall(rawRuntime())?state=>prepareHome(db(),state,u,environmentOf(rawRuntime()).name,accountCode):undefined);\\n' +\n    'export async function activeOrg(u:Actor,orgId?:string|null){await ensu'... 34609 more characters,\n  expected: /externalCall\\(i,p,key,\\(\\)=>externalRequestAudit\\(state,u,m,c,i\\)\\)/,\n  operator: 'match',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+    },
+    {
+      "id": "unit/access-scope-contract",
+      "file": "tests/access-scope-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 8,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/action-plan-contract",
+      "file": "tests/action-plan-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 8,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/adapter-operations-contract",
+      "file": "tests/adapter-operations-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 14,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/agent-contract",
+      "file": "tests/agent-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 25,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/agent-minimisation-contract",
+      "file": "tests/agent-minimisation-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 38,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/agent-quality-contract",
+      "file": "tests/agent-quality-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 50,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/aggregate-checkpoint-population-contract",
+      "file": "tests/aggregate-checkpoint-population-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 4,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/aggregate-delivery-contract",
+      "file": "tests/aggregate-delivery-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/ai-budget-contract",
+      "file": "tests/ai-budget-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 41,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/ai-invoice-contract",
+      "file": "tests/ai-invoice-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 54,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/alert-delivery-contract",
+      "file": "tests/alert-delivery-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 23,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/alerts-contract",
+      "file": "tests/alerts-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 25,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/anaemia-provider-contract",
+      "file": "tests/anaemia-provider-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 58,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/anaemia-worker-transport",
+      "file": "tests/anaemia-worker-transport.mjs",
+      "exitCode": 1,
+      "error": null,
+      "counts": null,
+      "output": "node:events:487\n      throw er; // Unhandled 'error' event\n      ^\n\nError: listen EPERM: operation not permitted 127.0.0.1\n    at Server.setupListenHandle [as _listen2] (node:net:2145:21)\n    at listenInCluster (node:net:2224:12)\n    at node:net:2448:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\nEmitted 'error' event on Server instance at:\n    at emitErrorNT (node:net:2203:8)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n  code: 'EPERM',\n  errno: -1,\n  syscall: 'listen',\n  address: '127.0.0.1'\n}\n\nNode.js v24.19.0\n"
+    },
+    {
+      "id": "unit/android-app-contract",
+      "file": "tests/android-app-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 20,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/app-first-ui",
+      "file": "tests/app-first-ui.cjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 15,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/app-history-contract",
+      "file": "tests/app-history-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 17,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/app-offline-contract",
+      "file": "tests/app-offline-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 11,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/app-offline-scope-contract",
+      "file": "tests/app-offline-scope-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 16,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/app-sw-review-contract",
+      "file": "tests/app-sw-review-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 16,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/atomic-abha-review-contract",
+      "file": "tests/atomic-abha-review-contract.mjs",
+      "exitCode": 1,
+      "error": null,
+      "counts": null,
+      "output": "node:events:487\n      throw er; // Unhandled 'error' event\n      ^\n\nError: listen EPERM: operation not permitted 127.0.0.1\n    at Server.setupListenHandle [as _listen2] (node:net:2145:21)\n    at listenInCluster (node:net:2224:12)\n    at node:net:2448:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\nEmitted 'error' event on Server instance at:\n    at emitErrorNT (node:net:2203:8)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {\n  code: 'EPERM',\n  errno: -1,\n  syscall: 'listen',\n  address: '127.0.0.1'\n}\n\nNode.js v24.19.0\n"
+    },
+    {
+      "id": "unit/audit-chain-contract",
+      "file": "tests/audit-chain-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 48,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/audit-checkpoint-contract",
+      "file": "tests/audit-checkpoint-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 15,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/audit-contention-contract",
+      "file": "tests/audit-contention-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 3,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/audit-query-plan-contract",
+      "file": "tests/audit-query-plan-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 12,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/availability-contract",
+      "file": "tests/availability-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 20,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/capability-lifecycle-contract",
+      "file": "tests/capability-lifecycle-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 25,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/caseload-contract",
+      "file": "tests/caseload-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 30,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/caseload-schedule-contract",
+      "file": "tests/caseload-schedule-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 33,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/clinical-source-contract",
+      "file": "tests/clinical-source-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 16,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/clinical-source-dependency-contract",
+      "file": "tests/clinical-source-dependency-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 10,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/clinical-source-fetch-contract",
+      "file": "tests/clinical-source-fetch-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 25,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/cloudflare-staging-contract",
+      "file": "tests/cloudflare-staging-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 39,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/command-authority-contract",
+      "file": "tests/command-authority-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 14,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/consent-contract",
+      "file": "tests/consent-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 25,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/continuity-contract",
+      "file": "tests/continuity-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/correction-tasks-contract",
+      "file": "tests/correction-tasks-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 13,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/crosswalk-correction-contract",
+      "file": "tests/crosswalk-correction-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/data-exit-contract",
+      "file": "tests/data-exit-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 44,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/delegation-contract",
+      "file": "tests/delegation-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 22,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/demonstration-contract",
+      "file": "tests/demonstration-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 52,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/destination-enrolment-contract",
+      "file": "tests/destination-enrolment-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/device-work-contract",
+      "file": "tests/device-work-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 46,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/drift-contract",
+      "file": "tests/drift-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 15,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/ehr-contract",
+      "file": "tests/ehr-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/ehr-execution",
+      "file": "tests/ehr-execution.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/ehr-probe-contract",
+      "file": "tests/ehr-probe-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 20,
+        "failed": 0,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/ehr-resolution-contract",
+      "file": "tests/ehr-resolution-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/eighth-review-fixes-contract",
+      "file": "tests/eighth-review-fixes-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/environment-contract",
+      "file": "tests/environment-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 26,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/exceptional-contract",
+      "file": "tests/exceptional-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 19,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/exceptions-contract",
+      "file": "tests/exceptions-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 8,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/facility-scope-contract",
+      "file": "tests/facility-scope-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 38,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/fact-provenance-contract",
+      "file": "tests/fact-provenance-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/fact-reuse-contract",
+      "file": "tests/fact-reuse-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/fact-verification-contract",
+      "file": "tests/fact-verification-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/fhir-provenance-contract",
+      "file": "tests/fhir-provenance-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/fhir-validate-contract",
+      "file": "tests/fhir-validate-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 20,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/field-capacity-client",
+      "file": "tests/field-capacity-client.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": {
+        "passed": 15,
+        "failed": null,
+        "skipped": null
+      }
+    },
+    {
+      "id": "unit/field-client",
+      "file": "tests/field-client.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    },
+    {
+      "id": "unit/field-contract",
+      "file": "tests/field-contract.mjs",
+      "exitCode": 0,
+      "error": null,
+      "counts": null
+    }
+  ],
+  "status": "classified-only partial diagnostic interrupted at lead request; catalogue failure remains",
+  "completed": 64
+}

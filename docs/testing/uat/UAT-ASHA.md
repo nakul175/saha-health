@@ -77,7 +77,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 - **Catalogue:** Functional, fixture FX-UX-01, catalogue owner "QA with Frontline worker".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-UX; catalogue owner "QA with Frontline worker").
 - **Default result:** Not run
-- **Start from:** Care handover. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
+- **Start from:** Care handover, My work, People. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -95,7 +95,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 
 <details><summary>What the build does today (assessment, current state of BR-UX-01)</summary>
 
-One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen.
+One authenticated patient workspace with programme and agent panels. Independent image-provider flow is available in the synthetic visit workspace and Connections screen. App-first slice: authenticated /app reuses the care workspace, with Today, People, Referrals, Sync and More; a browser phone preview is tested with synthetic data. Android Browser Helper source opens the same app, but APK/device verification remains pending. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending.
 
 </details>
 
@@ -111,7 +111,7 @@ One authenticated patient workspace with programme and agent panels. Independent
 - **Catalogue:** Functional, fixture FX-UX-02, catalogue owner "QA with Frontline worker".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-UX; catalogue owner "QA with Frontline worker").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-UX-02: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** My work, People. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -129,7 +129,7 @@ One authenticated patient workspace with programme and agent panels. Independent
 
 <details><summary>What the build does today (assessment, current state of BR-UX-02)</summary>
 
-Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state.
+Patient-scoped views, dirty-form guards and version-bound confirmation; switching clears visit state. App-first bottom-tab navigation retains the existing dirty-form guard; browser Back handling is locally reviewed and verified; physical Android Back acceptance remains pending. Browser Back controller and actual Chromium checks now pass dirty-form keep/discard and scope-aware restoration; physical Android Back remains unverified. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending.
 
 </details>
 
@@ -197,7 +197,7 @@ Structured/text capture and gated on-device speech transcript review. Slices 2b 
 
 <details><summary>What the build does today (assessment, current state of BR-UX-04)</summary>
 
-Facts, missing programme questions, action previews and separate receipts are shown.
+Facts, missing programme questions, action previews and separate receipts are shown. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending.
 
 </details>
 
@@ -231,7 +231,7 @@ Facts, missing programme questions, action previews and separate receipts are sh
 
 <details><summary>What the build does today (assessment, current state of BR-UX-05)</summary>
 
-Hindi/English field notebook (slice 6f). Slice 10j: each member can choose English or Hindi for the workspace (saved for the member in the organisation) from a message catalogue of about 400 strings, with a draft Hindi translation of the ASHA journey screens (My work, patient page, visit capture, Review & act, Receipts, clinical review panel, navigation) and a visible notice on every Hindi screen that the text is an unreviewed draft. Protocol text, record contents, programme names, units and numbers are not translated; sign-off, verification, unusual-value confirmation, referral, media, supervisor and administration panels are still English.
+Hindi/English field notebook (slice 6f). Slice 10j: each member can choose English or Hindi for the workspace (saved for the member in the organisation) from a message catalogue of about 400 strings, with a draft Hindi translation of the ASHA journey screens (My work, patient page, visit capture, Review & act, Receipts, clinical review panel, navigation) and a visible notice on every Hindi screen that the text is an unreviewed draft. Protocol text, record contents, programme names, units and numbers are not translated; sign-off, verification, unusual-value confirmation, referral, media, supervisor and administration panels are still English. Guided ASHA Home adds three explicit English/draft-Hindi navigation choices and a follow-on record prompt; actual phone geometry, audited selection, unsaved Home and Back safeguards pass locally. Full step-by-step capture and representative worker training/usability remain pending.
 
 </details>
 
@@ -265,7 +265,7 @@ Hindi/English field notebook (slice 6f). Slice 10j: each member can choose Engli
 
 <details><summary>What the build does today (assessment, current state of BR-UX-06)</summary>
 
-Local, server, queued, uncertain and destination-specific states remain separate.
+Local, server, queued, uncertain and destination-specific states remain separate. The app sync centre explicitly separates encrypted device drafts from programme submissions and never infers a zero queue from a locked notebook.
 
 </details>
 
@@ -281,7 +281,7 @@ Local, server, queued, uncertain and destination-specific states remain separate
 - **Catalogue:** Functional, fixture FX-UX-07, catalogue owner "QA with Frontline worker".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-UX; catalogue owner "QA with Frontline worker").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-UX-07: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Care handover, Person page and visit. Not in this role's navigation: Connections. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -295,11 +295,11 @@ Local, server, queued, uncertain and destination-specific states remain separate
 
 **Expected result** (catalogue): App restart, incoming call and network-loss scenarios retain every field previously shown as durably saved.
 
-**Known gaps** (assessment, remaining work for BR-UX-07): Physical-device crash, incoming-call, eviction and network-loss acceptance.
+**Known gaps** (assessment, remaining work for BR-UX-07): Physical-device crash, incoming-call, eviction and network-loss acceptance; broader offline caseload and native Android qualification remain.
 
 <details><summary>What the build does today (assessment, current state of BR-UX-07)</summary>
 
-Server drafts, local encrypted drafts and command replay support restart recovery.
+Server drafts, local encrypted drafts and command replay support restart recovery. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Independent A02 review fixed actual withdrawn-assignment disclosure: connected unlock and reconnect recheck every current prepared patient in its original organisation; positive refusal/login redirect locks and redacts, while unreachable transport retains only bounded signed offline access. Prepared and registration copy recovery now retains originating-account encrypted proof and exact observed receipt variants without blind clinical resend. Shared field hooks preserve latest-book receipt/tombstone state under queued writes and account transitions.
 
 </details>
 
@@ -499,11 +499,11 @@ Pinned programme questions deduplicate shared concepts and preserve distinct ans
 
 **Expected result** (catalogue): Each destination field can be traced to the confirmed source fact or a documented transformation; missing data is never converted to a negative finding.
 
-**Known gaps** (assessment, remaining work for BR-DATA-02): Disputes raised in the verification review (slices 2e and 2g) are a clinician's review and still do not stop sending (only a dispute raised in the slice 10g form does); an answer dispute stops every programme destination because no mapping carries answers yet; ABDM transfer, aggregate reports and receipt lookups are not gated by disputes or sign-off; a blocked send raises no exception-queue item or notification; coded FHIR provenance (authors, reviews, disputes and sign-off are not in FHIR or programme payloads); per-measurement programme mappings; unification of visit and programme absence reasons; coded methods.
+**Known gaps** (assessment, remaining work for BR-DATA-02): Disputes raised in the verification review (slices 2e and 2g) are a clinician's review and still do not stop sending (only a dispute raised in the slice 10g form does); an answer dispute stops every programme destination because no mapping carries answers yet; ABDM transfer, aggregate reports and receipt lookups are not gated by disputes or sign-off; a blocked send raises no exception-queue item or notification; coded FHIR provenance (authors, reviews, disputes and sign-off are not in FHIR or programme payloads); destination-approved per-measurement transformation/conformance semantics; unification of visit and programme absence reasons; coded methods.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-02)</summary>
 
-"Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show ""not recorded"") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries ""not recorded"") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view. Slice 6z: on a visit with no recorded entry or measurement author (recorded before slices 2e and 2g), the confirmer and, for a programme answer, the person who saved the answers are treated as authors, so they cannot verify their own entries; the person who saved the programme answers cannot sign the visit off. Slice 10g: a care-team member in normal scope (an ASHA only for an assigned patient) can raise a dispute on one confirmed measurement, the visit notes or one programme answer, with a reason and a reference; while it is open on a current visit, no programme plan or EHR publication that would carry the item is prepared, approved or run, the reason is shown, and the same check is repeated on a fresh read inside the delivery and publication checkpoint so a dispute raised between the checkpoint and the request stops the request and closes the item as not sent; a clinician in scope resolves it by appending evidence (closing it as standing needs a clinician who neither recorded the item nor raised the dispute), and the dispute and the original value stay on the record; a correction draft carries still-open disputes forward. An owner can set the sign-off requirement per programme and per destination (versioned with the organisation default, audited; a destination rule wins over programme rules, which win over the default, and the default covers programme destinations only), and a supervisor of the patient's team can withdraw a current sign-off with a reason, which holds sending until a supervisor signs the visit off again whatever the rules say. Nothing already sent is recalled; the screens say so."
+"Visits record source/time; programme answers retain author and explicit absence values. Slice 2c: each measurement may carry its own source (measured or reported) and observation time, or a separate missing reason (not asked, declined, unknown, not applicable), checked on every save path and carried into FHIR observation times, methods and narratives; older visits fall back to the visit-level values. Slice 2e: each measurement records who recorded it (account and role from the server identity, never from the request; older facts show ""not recorded"") and a verification state (unverified, verified or disputed by a clinician with time and reason), changed only by an appended, audited, scope-checked clinician review on a confirmed visit, shown on the visit screen and carried into FHIR notes and performers. Slice 2g: the visit notes and each programme answer also record who recorded them (server identity and role at save time; older entries ""not recorded"") and a clinician verification state changed only by an appended, audited, scope-checked review on a confirmed visit; an owner can require supervisor sign-off before programme submissions are sent, recorded by a supervisor of the patient's team or a supervision delegate, bound to the visit's facts and answers so any later change makes it stale, and checked on the server before executePlan and again inside the delivery checkpoint; shown on the visit screen and the submissions view. Slice 6z: on a visit with no recorded entry or measurement author (recorded before slices 2e and 2g), the confirmer and, for a programme answer, the person who saved the answers are treated as authors, so they cannot verify their own entries; the person who saved the programme answers cannot sign the visit off. Slice 10g: a care-team member in normal scope (an ASHA only for an assigned patient) can raise a dispute on one confirmed measurement, the visit notes or one programme answer, with a reason and a reference; while it is open on a current visit, no programme plan or EHR publication that would carry the item is prepared, approved or run, the reason is shown, and the same check is repeated on a fresh read inside the delivery and publication checkpoint so a dispute raised between the checkpoint and the request stops the request and closes the item as not sent; a clinician in scope resolves it by appending evidence (closing it as standing needs a clinician who neither recorded the item nor raised the dispute), and the dispute and the original value stay on the record; a correction draft carries still-open disputes forward. An owner can set the sign-off requirement per programme and per destination (versioned with the organisation default, audited; a destination rule wins over programme rules, which win over the default, and the default covers programme destinations only), and a supervisor of the patient's team can withdraw a current sign-off with a reason, which holds sending until a supervisor signs the visit off again whatever the rules say. Nothing already sent is recalled; the screens say so. App-first B07 adds explicit per-measurement source, observation time and canonical-unit MIS selectors with existing provenance fallback and server-pinned internal mapping revisions; reviewed impact/publication preserves approved wire bodies."
 
 </details>
 
@@ -601,11 +601,11 @@ New visits do not inherit old measurements; bounded protocol rules reject stale/
 
 **Expected result** (catalogue): Invalid units block submission; a permitted override retains the original value, reason and reviewer identity.
 
-**Known gaps** (assessment, remaining work for BR-DATA-05): Approved clinical ranges and their governance, age-, sex- and pregnancy-specific ranges, further units (blood pressure kPa, gestational age in weeks and days), range checks for programme answers, and structured (non-note) exchange of overrides.
+**Known gaps** (assessment, remaining work for BR-DATA-05): Approved clinical thresholds/terminology and production population policies; programme-answer range coverage and structured exchange of overrides; broader clinical, physical-device and phone accessibility acceptance.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-05)</summary>
 
-Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i). Slice 6ab: a clinician confirming an unusual value must not be the measurement's recorded author or the author of any override with the same value (rewording the reason or re-entering the value in another unit no longer lets the recorder confirm it).
+Numeric syntax, paired BP, date and programme evidence checks; stated alternative units (weight lb, temperature °F, cough duration weeks) converted on the server with the entered value kept; versioned placeholder expected and confirmation ranges labelled not clinically approved; a recorder reason outside the expected range and, beyond the confirmation range, confirmation by a different clinician before the visit is confirmed; overrides appended with who/when/why, audited, shown on the visit screen and review, kept through corrections and rechecked on replay (slice 2i). Slice 6ab: a clinician confirming an unusual value must not be the measurement's recorded author or the author of any override with the same value (rewording the reason or re-entering the value in another unit no longer lets the recorder confirm it). App-first A04 completes six online/notebook unit pickers, canonical read-only previews and original-quantity/source/override-author/range-version lineage through encrypted reload and draft sync; unknown entered fields now return controlled 422. Independent review reran 20 Chromium journeys and 126 conversion cases. Wider pinned patient-context protocol governance remains required software work; clinical ranges are not approved. Current governed range publications pin compiled policy/hash/context/intervals on new visits, imports and signed grants with exact-hash independent review, current reviewer authority and explicit stale-context refresh. Existing captures stay immutable; population examples remain synthetic/training only and clinical approval pending. CSV now accepts all six existing alternate units including BP kPa and weeks+days, preserving original/source/file/policy lineage. Phone first-tap Save defect found by independent review is fixed locally and being retested before publishing this batch.
 
 </details>
 
@@ -621,7 +621,7 @@ Numeric syntax, paired BP, date and programme evidence checks; stated alternativ
 - **Catalogue:** Functional, fixture FX-DATA-06, catalogue owner "QA with Frontline worker and programme data owner".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-DATA; catalogue owner "QA with Frontline worker and programme data owner").
 - **Default result:** Not run
-- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
+- **Start from:** Person page and visit, Care handover. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -635,11 +635,11 @@ Numeric syntax, paired BP, date and programme evidence checks; stated alternativ
 
 **Expected result** (catalogue): Correcting a key fact reveals all dependent AI results and submissions, marks invalidated outputs and creates the necessary reconciliation tasks.
 
-**Known gaps** (assessment, remaining work for BR-DATA-06): Recomputation of shadow comparisons and released indicator figures, follow-up source links (follow-ups are listed as possible dependants), task reassignment and notification, tasks for corrections made before slice 2j, and identity-merge and correction tasks in one reconciliation view.
+**Known gaps** (assessment, remaining work for BR-DATA-06): Independent representative-scale validation, historical evidence completeness, external correction receipts, released indicator recomputation and formal acceptance remain pending. Canonical frozen edition regressions now cover bounded stored-material/reissue and supported cancellation software; broader downstream lineage, governed archival/capacity and official publication validation remain pending.
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-06)</summary>
 
-Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task). Slice 13c: the shadow and drift reports recompute a corrected comparison on read (or leave it out for a void or an unconfirmed correction), so shadow-comparison correction tasks are recorded as recomputed or invalidated; released indicator figures stay open review tasks.
+Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1c adds an identity-merge impact queue listing affected submissions, links, referrals, follow-ups, episodes, households and proxies. Slice 2j records, when a confirmed visit is amended or voided, one owned task per downstream output of that version (programme submissions, EHR publications, the plan, referrals, follow-ups, protocol evaluations, assistant results, shadow comparisons, worker activity, indicator release counts): work the server already refuses is recorded as invalidated, read-time computations as recomputed, the rest as review or correction tasks, shown in the action plan and exception queue and closed only with a verified receipt or a reason, audited. Slice 6ad (ninth review, finding 9): a visit with more than 60 downstream outputs can still be amended or voided; internal outputs past the cap are folded into one review task per kind with the count (every external output keeps its own task). Slice 13c: the shadow and drift reports recompute a corrected comparison on read (or leave it out for a void or an unconfirmed correction), so shadow-comparison correction tasks are recorded as recomputed or invalidated; released indicator figures stay open review tasks. App-first R27: one scoped correction/identity-merge reconciliation queue, audited current-scope assignment history and in-app acknowledgement notices, and deterministic historical backfill preview/apply with stale-plan and replay guards. App-first B27 captures immutable released populations, per-person counting material and pinned definitions; corrections leave original figures unchanged and prepare a parent-linked edition requiring independent review and current-authority publication. Derived reopened household follow-ups are counted consistently by live and newly frozen V3 material; historical editions and original completion fields remain unchanged. Frozen owner composite calculations retain canonical expression/examples and per-person primitive source lineage; supported void/reissue checks preserve original edition bytes and refuse unsafe dependency complements. Live/CSV post-audit revalidation refuses changed source/definition409. Wider impact discovery and protected reconstruction remain open.
 
 </details>
 
@@ -655,7 +655,7 @@ Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1
 - **Catalogue:** Functional, fixture FX-DATA-07, catalogue owner "QA with Frontline worker and programme data owner".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-DATA; catalogue owner "QA with Frontline worker and programme data owner").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-DATA-07: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -673,7 +673,7 @@ Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-07)</summary>
 
-Version/CAS conflicts and field comparison preserve both versions. Slice 0a: edits on different patients commit independently; same-patient edits still conflict for comparison.
+Version/CAS conflicts and field comparison preserve both versions. Slice 0a: edits on different patients commit independently; same-patient edits still conflict for comparison. Reviewed local inbound-version queue preserves first source, independent review and current scope; actual retrieval retains changed-response candidates and rechecks service binding after response and before clinical use. Transport and coupled pressure provenance repairs are independently evidenced.
 
 </details>
 
@@ -839,11 +839,11 @@ BP and medicine-access capture plus bounded, reviewed observation rules; no pres
 
 **Expected result** (catalogue): One visit completes eligible shared tasks, leaves incomplete activities open and does not duplicate a referral merely because two packs identify it.
 
-**Known gaps** (assessment, remaining work for BR-PROG-05): Approved privacy and timing rules (the late flag, the one-slot-per-item rule and the need catalogue are local defaults); packs do not declare referral needs or compatibility, so the worker names the need and the server matches it; referrals created before slice 10f carry no need and are never merged; plans exist only for people in a household; rescheduling a slot, reminders and outreach for a slot, and completing covered items from the visit are not built.
+**Known gaps** (assessment, remaining work for BR-PROG-05): Approved privacy and timing rules (the late flag, the one-slot-per-item rule and the need catalogue are local defaults); packs do not declare referral needs or compatibility, so the worker names the need and the server matches it; referrals created before slice 10f carry no need and are never merged; plans exist only for people in a household; reminders/outreach for a slot and completing covered items from the visit remain separate software; physical/clinical timing acceptance is pending.
 
 <details><summary>What the build does today (assessment, current state of BR-PROG-05)</summary>
 
-Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview. Slice 10f adds a household visit plan (each in-scope member's open follow-ups, referrals and routine visit in one place; members outside the worker's scope are counted, never named) and household visit slots (householdVisitSchedule, householdVisitCancel) that cover chosen items of several members without changing any due date, owner or completion condition: an item stays open until its own record is resolved, items due before the slot date are shown as late, one item sits in one planned slot, and a slot holds only references, a date and a window (no free text). A confirmed visit's programme episodes can raise referral needs (createProgrammeReferrals): the same need, facility, person and visit become one referral that links every asking pack as a source and records which packs asked; a different need or facility stays a separate referral.
+Slice 1 adds a per-household view of each member's open items and a purpose-scoped sharing preview. Slice 10f adds a household visit plan (each in-scope member's open follow-ups, referrals and routine visit in one place; members outside the worker's scope are counted, never named) and household visit slots (householdVisitSchedule, householdVisitCancel) that cover chosen items of several members without changing any due date, owner or completion condition: an item stays open until its own record is resolved, items due before the slot date are shown as late, one item sits in one planned slot, and a slot holds only references, a date and a window (no free text). A confirmed visit's programme episodes can raise referral needs (createProgrammeReferrals): the same need, facility, person and visit become one referral that links every asking pack as a source and records which packs asked; a different need or facility stays a separate referral. Atomic original-planner rescheduling now preserves the prior slot and creates a linked replacement in one version-bound commit, checks every covered current person and purpose, and preserves due dates/owners/completion. Independent real Worker/phone review includes scope changes, role demotion, receipt/audit rollback, replay and slot-capacity checks. Reviewed explicit installed completion/referral declarations support selected covered-item visit lineage, independent compatibility and neutral slot-linked outreach; unmet and other-member work stays open, void derives unresolved work and replacement appends evidence.
 
 </details>
 
@@ -911,7 +911,7 @@ Durable running checkpoints, receipts and no automatic repeat after ambiguous co
 
 <details><summary>What the build does today (assessment, current state of BR-AG-10)</summary>
 
-Structured capture and current source-backed rule/referral review operate without a model.
+Structured capture and current source-backed rule/referral review operate without a model. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.
 
 </details>
 
@@ -1047,7 +1047,7 @@ Independent destination states preserve accepted receipts during partial failure
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-01)</summary>
 
-Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync.
+Encrypted bounded draft notebook with unavailable online functions. Slice 3g: new people, first-visit facts and referral requests can be captured offline and wait in the encrypted notebook until sync. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. App-only connected patient-scope revalidation and redirect refusal are independently browser-tested; prepared-visit scope remains narrower than a complete offline caseload. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.
 
 </details>
 
@@ -1077,11 +1077,11 @@ Encrypted bounded draft notebook with unavailable online functions. Slice 3g: ne
 
 **Expected result** (catalogue): Forced restart and low-storage tests preserve acknowledged data or clearly report that saving did not complete.
 
-**Known gaps** (assessment, remaining work for BR-OFF-02): Actual IndexedDB crash/restart/low-storage fault injection on supported devices.
+**Known gaps** (assessment, remaining work for BR-OFF-02): Actual IndexedDB crash/restart/low-storage fault injection on supported physical devices and wider task recovery qualification.
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-02)</summary>
 
-Serialized encrypted writes acknowledge after persistence; recovery logic tested.
+Serialized encrypted writes acknowledge after persistence; recovery logic tested. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Both app/field surfaces preserve latest encrypted book during queued timing/access updates, with originating-account checks and fail-closed CAS. Explicit abandoned unsent links can be retired without deleting accepted/unknown request evidence.
 
 </details>
 
@@ -1217,7 +1217,7 @@ Stable-key sync for existing authorised person and visit drafts. Slice 3g: a per
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-06)</summary>
 
-Assignment, identity, membership, consent and visit versions rechecked at sync. Slice 3a: queued media is uploaded only after the grant, patient access and draft visit are rechecked.
+Assignment, identity, membership, consent and visit versions rechecked at sync. Slice 3a: queued media is uploaded only after the grant, patient access and draft visit are rechecked. A05 adds signed prepared documentary task types and complete captured programme pack/version guidance, encrypted offline conditional answers and explicit absence reasons. New server-held work digests and captured episode/version checks apply before sync even if an older client omits its optional digest. Sync remains an unconfirmed draft; clinical approval remains pending.
 
 </details>
 
@@ -1251,7 +1251,7 @@ Assignment, identity, membership, consent and visit versions rechecked at sync. 
 
 <details><summary>What the build does today (assessment, current state of BR-OFF-07)</summary>
 
-Encrypted per-user notebook, inactivity lock, grants and reconnect denial.
+Encrypted per-user notebook, inactivity lock, grants and reconnect denial. App-first A02 adds a public locked offline /app shell sharing the unchanged encrypted field vault: current prepared visits, capture and sync; account/packet-owner/lifetime gates, ciphertext-only storage and public-only caches; weight and notes survive actual offline browser reload. Synced visits remain unconfirmed until online review. The app view does not claim a full offline caseload or approved-guidance cache. Reconnected app visits are redacted during current permission validation and lock on positive withdrawal or login redirect.
 
 </details>
 
@@ -1417,11 +1417,11 @@ Optional AI can be declined; contact preferences and EHR scopes are recorded.
 
 **Expected result** (catalogue): Revocation blocks a queued provider upload and produces a traceable disposition record; the system does not claim to erase an external record without evidence.
 
-**Known gaps** (assessment, remaining work for BR-SEC-03): Destination notification with verified external outcomes, offline device copies, real ABDM consent-manager revocation and approved policy for retained completed transactions.
+**Known gaps** (assessment, remaining work for BR-SEC-03): Destination notification with verified external outcomes, wider local copy inventory, physical-device/hosted privacy validation, real ABDM consent-manager revocation and approved policy for retained completed transactions. Legacy unobserved wire variants retain unknown proof; no permission to care-replay after withdrawal.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-03)</summary>
 
-Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain.
+Revocation blocks pending use; contact changes cancel reminders; receipts remain visible. Slice 6o: withdrawing AI, sharing or contact permission (also with the switch) cancels queued and retryable deliveries, blocks unexecuted plans and prepared EHR publications, revokes EHR permissions and mock ABDM consents, stops unsent AI requests and pending reminders, and records each item as stopped, awaiting receipt, already sent or kept in a consent history and the audit chain. A06 adds original prepared-grant provenance, redacted own-only purge instructions after current care access is removed, encrypted revision-checked notebook/media deletion before durable client acknowledgement, and minimal tombstones preserving uncertain sync/media receipt references without blind care retries. Independent actual browser checks verify fail-closed known-refusal storage failures and offline reload on both surfaces; partial committed deletion batches survive later faults. Registration follow-up now records immutable original registration/match provenance, verifies the trusted original notebook account, clears cached candidate copies before connected reuse, and atomically removes known-withdrawn local registration copies while retaining unknown receipt proof. Append-only actual wire receipt mappings resolve observed raw/parsed ordering differences; pure privacy authority does not depend on a strict receipt lookup succeeding. Both surfaces pass synthetic encrypted-store and actual Worker recovery checks.
 
 </details>
 

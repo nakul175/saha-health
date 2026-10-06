@@ -1,4 +1,5 @@
-import { fail } from './core';
+import { digest, fail } from './core';
+import { z } from 'zod';
 import type { Integration, OrgState } from './types';
 
 // Slice r37: destination enrolment request/rejection/acceptance is driven by a demonstration/mock adapter only.
@@ -82,8 +83,14 @@ export function mockEnrolment(destination: Integration, body: { key: string; pay
   return { contract: ENROLMENT_CONTRACT, key: body.key, payloadHash: body.payloadHash, status: 'accepted', enrolmentRef: `SIM-ENROL-${label(body.key).toUpperCase()}` };
 }
 
+export async function assertEnrolmentEnvelope(body:unknown,key:string){
+ const id=z.string().min(1).max(200),common={contract:z.literal(ENROLMENT_CONTRACT),key:id,payloadHash:z.string().regex(/^[a-f0-9]{64}$/)};
+ const schema=z.discriminatedUnion('operation',[z.object({...common,operation:z.literal('lookup')}).strict(),z.object({...common,operation:z.literal('request'),personId:id,packId:id,packVersion:z.number().int().positive(),programme:id,episodeLabel:z.string().min(1).max(500),startDate:z.string().regex(/^\d{4}-\d\d-\d\d$/).nullable()}).strict()]);
+ const parsed=schema.safeParse(body);if(!parsed.success)fail(409,'Enrolment envelope differs from its approved contract; review before sending.');if(parsed.data.operation==='lookup')return;
+ const {key:bodyKey,payloadHash,...payload}=body as any;if(bodyKey!==key||await digest(payload)!==payloadHash)fail(409,'Enrolment envelope differs from its approved key or digest; nothing was sent.');
+}
 // The transport the execution module defaults to. It never performs network I/O: it applies the mock
 // decision to the request body and returns a Promise, throwing on a simulated lost response.
 export async function mockEnrolmentTransport(destination: Integration, body: { key: string; payloadHash: string; operation: 'request' | 'lookup' }): Promise<EnrolmentReceipt> {
-  return mockEnrolment(destination, body);
+  await assertEnrolmentEnvelope(body,body.key);return mockEnrolment(destination, body);
 }

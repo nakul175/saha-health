@@ -1,0 +1,18 @@
+{"event":"saha_request","requestId":"c01e0e13-63e5-4c99-9412-fbd68b497ccb","route":"alerts","status":403,"durationMs":26}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Current guarded inbox withholds original uncertified history
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:2:471)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-export-probe/tests/alert-historical-export-before.mjs:5:150
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

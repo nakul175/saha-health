@@ -1,0 +1,35 @@
+{"event":"saha_request","requestId":"d4805180-5ad7-4e28-ad98-68a3dd0ea222","route":"workspace","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"ab76ccdc-3213-4ba1-9bfa-f02092b126f5","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"2207acc7-1f6e-4187-9605-dae223d871f6","route":"workspace","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"2b9a37ce-cc5b-4ff1-8b44-5272191e160e","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"c61fabc1-59b0-4778-9451-df8902568abb","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"8f024b21-0d47-4997-a03f-9b0bcb2bb446","route":"commands","status":403,"durationMs":4}
+{"event":"saha_request","requestId":"363f6927-48f6-4e67-a0b8-3030446825b4","route":"commands","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"3a653253-51ee-4180-a5f9-275fb17d2c34","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"b94ebe29-fbf7-4ec0-ad1d-e002c545c6e5","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"e07742b2-1844-408d-ad0f-8b5f04f07542","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"e3ad8fd0-a6ab-43be-b3d9-050078bc2815","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"8dc50221-6c97-4ef1-a6fd-2fc61528f082","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"402c2824-663a-4847-8ac7-34d5aa7f0269","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"8a47818b-c586-49b3-807c-ce43fe9c88b6","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"99214c1d-cf6c-4c81-a885-c9cb29b5fe05","route":"commands","status":409,"durationMs":5}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"A tested mapping and current sharing permission are required."}
+
+409 !== 200
+
+    at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:3:402)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:7:923 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 409,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

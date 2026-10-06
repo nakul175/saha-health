@@ -1,5 +1,10 @@
+import {readState} from './store';
+import {clinicalAggregateAlert} from './aggregate-alert-disclosure';
+import {normallyAllowed,purposePermits} from './access';
+import {entryScope,activeEntry,governanceManager} from './governance';
 import type { D1Database } from '@cloudflare/workers-types';
-import { fail } from './core';
+import { digest, fail } from './core';
+import {z} from 'zod';
 import { CHAIN_VERSION, HASHING, chainHead, contentDigest, verifyChain, type EventRow } from './audit-chain';
 import { fhirDocument } from './fhir-document';
 import { TERMINAL } from './referral-rules';
@@ -23,16 +28,18 @@ import type { Member } from './types';
 // and other-organisation pointers are left out, and credential bindings are names, not values.
 export const EXPORT_FORMAT = 'saha-organisation-export-v1';
 // The last migration this code expects; the contract test ties it to the drizzle directory.
-export const SCHEMA_MIGRATION = '0017_audit_time_indexes';
+export const SCHEMA_MIGRATION = '0032_installed_pack_transition';
 export const PAGE = 1000;
 export const MAX_ROWS = 250000;
 export const MAX_BYTES = 60 * 1024 * 1024;
 type Value = string | number | null;
 type Row = Record<string, Value>;
 // Slice 6z: 'self' rows are one member's own (their in-app alert inbox); only the exporter's own rows are exported.
-type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit' | 'self';
+type Scope = 'org' | 'person' | 'visit' | 'team' | 'identity' | 'receipt' | 'audit' | 'self' | 'figure' | 'protected' | 'calendar' | 'completeness';
 export type TableSpec = { table: string; order: string; scope: Scope; omit?: string[]; note?: string };
 export const TABLES: TableSpec[] = [
+  {table:'installed_pack_work_events',order:'at,id',scope:'protected',note:'Append-only installed programme policy and patient work events contain protected source/occurrence bodies. Withheld from ordinary operational export; protected reconstruction remains separately governed.'},
+  {table:'installed_pack_transition_events',order:'at,id',scope:'protected',note:'Append-only installed programme transition history carries affected patient ids, applied effects and reviewed impact bodies, and is the server-side authority for adoption. Withheld from ordinary operational export and counted as withheld; the original rows stay retained and protected reconstruction remains separately governed.'},
   { table: 'organisations', order: 'id', scope: 'org' },
   { table: 'teams', order: 'id', scope: 'org' },
   { table: 'memberships', order: 'user_id', scope: 'org' },
@@ -46,6 +53,18 @@ export const TABLES: TableSpec[] = [
   { table: 'governance', order: 'org_id', scope: 'org' },
   { table: 'retention', order: 'org_id', scope: 'org' },
   { table: 'legacy_migrations', order: 'owner_id', scope: 'org' },
+  { table: 'availability_samples', order: 'slot,source', scope: 'org', note: 'Immutable fixed-cadence synthetic operational observations, no patient identifiers or raw errors; hosted availability remains unmeasured.' },
+  { table: 'work_burden_samples', order: 'at,actor_id,id', scope: 'person', note: 'Protected client-reported work time and exact mutation receipt bindings; no facts or ticket text.' },
+  { table: 'work_support_events', order: 'request_id,sequence', scope: 'person', note: 'Immutable scoped fixed-category support workflow; no external send or ticket text.' },
+  { table: 'device_work_grants', order: 'actor_id,lease_id', scope: 'person', note: 'Immutable original-worker grant metadata; no clinical packet or device fingerprint.' },
+  { table: 'device_registration_grants', order: 'actor_id,registration_id', scope: 'person', note: 'Original accepted registration ownership and immutable baseline; legacy history explicitly unavailable.' },
+  { table: 'device_registration_receipts', order: 'actor_id,receipt_key', scope: 'person', note: 'Exact accepted original-worker registration receipt bindings.' },
+  { table: 'clinical_source_documents', order: 'id', scope: 'org', note: 'Immutable bounded synthetic acquired source documents; licensing/clinical acceptance pending.' },
+  { table: 'device_registration_wire_receipts', order: 'actor_id,receipt_key,wire_hash', scope: 'person', note: 'Exact authenticated registration wire digests; no command bodies.' },
+  { table: 'device_match_copies', order: 'actor_id,id', scope: 'self', note: 'Only original actor protected candidate ID/version and query hash provenance; whole receipts outside current candidate scope are withheld; no raw search.' },
+  { table: 'device_work_events', order: 'at,id', scope: 'self', note: 'Only the exporter\'s redacted diagnostics, deletion instructions and client-attested acknowledgements; server evidence is not pruned.' },
+  { table: 'offline_open_reports', order: 'received_at,id', scope: 'self', note: 'Only this exporter’s fixed historical client-reported metadata and opaque references; no patient pointers or raw material.' },
+  { table: 'offline_open_subjects', order: 'report_id,actor_id,person_id', scope: 'person', note: 'Trusted server-derived subject provenance, filtered by current patient visibility; client occurrence is not proof of authorized access.' },
   { table: 'request_metrics', order: 'bucket,route,status', scope: 'org' },
   { table: 'alert_occurrences', order: 'opened_at,id', scope: 'org', note: 'Slice 6v: alert occurrences and escalations; alert ids, titles and member ids only.' },
   { table: 'alert_notifications', order: 'delivered_at,id', scope: 'self', note: 'Slice 6v: in-app alert notifications; no patient names or clinical content. Slice 6z: only the exporter\'s own notifications; other members\' notifications carry counts from their own care scope and are left out (not counted as withheld patient rows).' },
@@ -57,24 +76,40 @@ export const TABLES: TableSpec[] = [
   { table: 'submissions', order: 'id', scope: 'person' },
   { table: 'referrals', order: 'id', scope: 'person' },
   { table: 'record_revisions', order: 'created_at,id', scope: 'person' },
-  { table: 'media', order: 'id', scope: 'person', omit: ['data'], note: 'Content is in media/<id>.<ext>; the row sha256 column is the base64-encoded SHA-256 of that content.' },
+  { table: 'media', order: 'id', scope: 'person', omit: ['data','storage_ref'], note: 'Content is in media/<id>.<ext>; the row sha256 column is the base64-encoded SHA-256 of that content.' },
   { table: 'households', order: 'id', scope: 'team' },
   { table: 'caseload_transfers', order: 'id', scope: 'team' },
   { table: 'identity_cases', order: 'id', scope: 'identity' },
   { table: 'rights_requests', order: 'id', scope: 'person' },
+  { table:'indicator_figures',order:'created_at,id',scope:'figure',omit:['data'],note:'Immutable original figure metadata and parent lineage only; data contains protected cells/unit hashes and is omitted. Every original cohort member must remain in current normal reporting scope.' },
+  { table:'indicator_figure_units',order:'figure_id,person_id',scope:'protected',note:'Server-only unsuppressed per-person counting material is withheld. Ordinary operational export is not a full report reconstruction archive.' },
+  { table:'indicator_figure_events',order:'figure_id,sequence',scope:'figure',note:'Exact immutable lifecycle history for included figures; historical actor/reviewer evidence does not confer current authority.' },
+  { table:'indicator_figure_receipts',order:'figure_id,actor_id,key',scope:'figure',note:'Exact receipt metadata only for included figures with validated fixed outcome shape and matching immutable event; no protected cells or source units.' },
+  { table:'indicator_figure_disclosures',order:'actor_id,figure_id,release_hash',scope:'protected',note:'Retained viewer edition disclosure ledger is server-side privacy protection state and is withheld.' },
+  {table:'reporting_calendars',order:'id,version',scope:'calendar',note:'Exact immutable configured calendar JSON, only with current normal reporting access to every configured team member.'},
+  {table:'reporting_calendar_events',order:'calendar_id,calendar_version,sequence',scope:'calendar',note:'Original independent review/release history, never current clinical or source acceptance.'},
+  {table:'reporting_coverage',order:'calendar_id,calendar_version,team_id,source_id,period_id,version',scope:'calendar',note:'Exact operator-declared source evidence including immutable original producer version when present; no inferred clinical denominator.'},
+  {table:'reporting_completeness_receipts',order:'calendar_id,calendar_version,actor_id,key',scope:'calendar',note:'Validated fixed lifecycle/declaration outcome references only; no raw request or private snapshot body.'},
+  {table:'reporting_completeness_snapshots',order:'created_at,id',scope:'completeness',omit:['data'],note:'Scoped immutable snapshot digest/basis and included figure linkage only. Private per-source timing/coverage body is withheld; this archive cannot reconstruct that body.'},
   { table: 'command_receipts', order: 'created_at,actor_id,key', scope: 'receipt', omit: ['result'], note: 'The stored result is left out: it can carry a newly issued invitation token.' },
   { table: 'audit_events', order: '(seq IS NOT NULL),seq,at,id', scope: 'audit', note: 'Events without seq were written before the chain and are sealed by the genesis marker (seq 0).' },
 ];
+export const PROTECTED_ALERT_EXPORT_NOTICE='Uncertified historical care-reporting alert records are omitted from ordinary export. Linked protected audit content retains only its existing chain digest. Original server history is retained; no historical aggregate reconstruction is certified.';
 export const EXCLUDED = [
+  {what:'Uncertified historical care-reporting alert records and linked audit content',why:PROTECTED_ALERT_EXPORT_NOTICE},
+  {what:'reporting_completeness_snapshots.data',why:'Private original per-source timing/coverage sidecars are withheld. Calendar/declaration history and scoped snapshot hashes are portable, but original report/completeness reconstruction requires separately governed protected material and remains open.'},
+  {what:'indicator_figures.data, indicator_figure_units, indicator_figure_disclosures',why:'Protected report cells, unsuppressed per-person counting material and retained disclosure privacy ledger. Metadata/history portability does not provide full report reconstruction; governed privileged reproducibility/portability remains open.'},
+  { what: 'abha_review_reservations', why: 'Server-side anti-enumeration protection state; opaque request fingerprints and review-event references, never clinical records.' },
   { what: 'workspaces', why: 'Release 0.1 per-account source kept unchanged for rollback; its migrated content is in the organisation tables and legacy_migrations records the source hash.' },
   { what: 'accounts.email, accounts.active_org_id', why: 'Sign-in contact and a pointer to other organisations; members are identified by user_id, account_code and display_name.' },
   { what: 'invitations.token_hash', why: 'Credential verifier.' },
   { what: 'command_receipts.result', why: 'Can carry a newly issued invitation token.' },
+  { what: 'media_custody', why: 'Private object keys, staged/quarantined intents and request keys are internal custody metadata. Only scoped verified linked bytes and portable media metadata are exported.' },
   { what: 'server configuration and credentials', why: 'Held as deployment secrets, never in the database.' },
 ];
 const MEDIA_EXT: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'audio/webm': 'webm', 'audio/ogg': 'ogg', 'audio/mpeg': 'mp3', 'audio/mp4': 'm4a' };
 export type ExportFile = { path: string; bytes: Uint8Array; table?: string; rows?: number; withheld?: number; withheldEntries?: number; otherMembersRows?: number; columns?: string[]; omitted?: string[]; note?: string };
-export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string };
+export type ExportInput = { orgId: string; member: Member; exporter: { userId: string; name: string; accountCode: string }; exportId: string; now: string; includeFhir: boolean; environment: string; mediaBytes?:(row:Row)=>Promise<Uint8Array> };
 const enc = new TextEncoder();
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
 export const sha256Bytes = async (b: Uint8Array) => hex(await crypto.subtle.digest('SHA-256', b as unknown as ArrayBuffer));
@@ -132,17 +167,46 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   // appear in their newer state.
   const chain = await verifyChain(db, orgId, undefined, input.now), cut = await chainHead(db, orgId);
   for (const spec of TABLES) data[spec.table] = await readAll(db, spec, orgId);
+  // Actor ownership and today's scope cannot certify a historical clinical aggregate.
+  // Filter before any row/withheld/other-member/column totals; do not expose an omitted count.
+  const protectedAlertSubjects=new Set<string>(),protectedAlertAuditIds=new Set<string>();
+  for(const table of ['alert_occurrences','alert_notifications','notification_messages']){
+    for(const r of data[table])if(clinicalAggregateAlert(String(r.alert_id))){protectedAlertSubjects.add(String(r.id));if(r.audit_id)protectedAlertAuditIds.add(String(r.audit_id));}
+    data[table]=data[table].filter(r=>!clinicalAggregateAlert(String(r.alert_id)));
+  }
+  const sourceState=data.clinical_source_documents.length?await readState(db,orgId,[],m.userId,true):null;
   data.audit_events = data.audit_events.filter(r => r.seq == null || (cut !== null && Number(r.seq) <= cut.seq));
   const org = data.organisations[0];
   if (!org) fail(404, 'Organisation not found.');
   // Normal care scope, as access.ts normallyAllowed, over the stored patient columns.
   // Slice 6p: the sandbox provider role has no patient scope either (defence in depth; a sandbox holds none).
   const noPatients = m.role === 'admin' || m.role === 'provider';
-  const inScope = (p: Row) => m.status === 'active' && !noPatients && m.teamIds.includes(String(p.team_id)) && (m.role !== 'asha' || p.assigned_to === m.userId);
+  const inScope = (p: Row) => {try{return m.status==='active'&&!noPatients&&normallyAllowed(m,storedExportPerson(p));}catch{return false;}};
   const people = new Set(data.patients.filter(inScope).map(p => String(p.id)));
   const visits = new Set(data.visits.filter(v => people.has(String(v.person_id))).map(v => String(v.id)));
   const teamScope = (r: Row) => m.status === 'active' && !noPatients && m.role !== 'asha' && m.teamIds.includes(String(r.team_id));
   const allowed = (spec: TableSpec, r: Row) => spec.scope === 'org' ? true : spec.scope === 'person' ? people.has(String(r.person_id ?? r.id)) : spec.scope === 'visit' ? visits.has(String(r.visit_id)) : spec.scope === 'team' ? teamScope(r) : spec.scope === 'identity' ? people.has(String(r.survivor_id)) && people.has(String(r.duplicate_id)) : r.person_id == null || people.has(String(r.person_id));
+  // Figure metadata cannot be narrowed by deleting individual counting units: the original cohort is indivisible.
+  const reporting=m.status==='active'&&m.role!=='admin'&&m.role!=='provider'&&m.role!=='asha'&&(m.role==='supervisor'||m.isOwner)&&purposePermits(m,'reporting');
+  const figurePeople=new Set(data.patients.filter(r=>{let p:any;try{p=JSON.parse(String(r.data));}catch{return false;}return people.has(String(r.id))&&!p.mergedInto&&normallyAllowed(m,{...p,id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as any);}).map(r=>String(r.id)));
+  const figureById=new Map(data.indicator_figures.map(f=>[String(f.id),f])),eventById=new Map(data.indicator_figure_events.map(e=>[String(e.id),e])),unitsByFigure=new Map<string,Row[]>();for(const u of data.indicator_figure_units){const id=String(u.figure_id);unitsByFigure.set(id,[...(unitsByFigure.get(id)??[]),u]);}
+  const figures=new Set(data.indicator_figures.filter(f=>{const units=unitsByFigure.get(String(f.id))??[];return reporting&&units.length>0&&units.every(u=>figurePeople.has(String(u.person_id)));}).map(f=>String(f.id)));
+  for(const f of data.indicator_figures){const seen=new Set<string>();let at:Row|undefined=f;while(at){const id=String(at.id);if(seen.has(id)||!figures.has(id)){figures.delete(String(f.id));break;}seen.add(id);if(!at.parent_id)break;at=figureById.get(String(at.parent_id));if(!at){figures.delete(String(f.id));break;}}}
+  const figureCohort=[...new Set(data.indicator_figure_units.filter(u=>figures.has(String(u.figure_id))).map(u=>String(u.person_id)))];
+  const safeFigureReceipt=(r:Row)=>{let x:any;try{x=JSON.parse(String(r.result));}catch{return false;}if(!x||typeof x!=='object'||Array.isArray(x)||Object.keys(x).sort().join()!=='eventId,figureId,sequence,status'||x.figureId!==r.figure_id||!Number.isInteger(x.sequence))return false;const e=eventById.get(String(x.eventId));return !!e&&e.figure_id===r.figure_id&&e.sequence===x.sequence&&e.kind===x.status&&e.actor_id===r.actor_id;};
+  // Completeness metadata follows whole configured teams, never owner or administrator privilege.
+  const calendarKey=(id:unknown,v:unknown)=>JSON.stringify([id,v]), calendars=new Map<string,any>();
+  if(data.reporting_calendars.length){const {validateCalendar}=await import('./reporting-completeness');for(const r of data.reporting_calendars){try{const sp=validateCalendar(JSON.parse(String(r.data)));if(await digest(sp)!==r.digest)continue;if(!reporting||!sp.teamIds.every(id=>m.teamIds.includes(id))||data.patients.some(p=>{let d:any;try{d=JSON.parse(String(p.data));}catch{return true;}return sp.teamIds.includes(String(p.team_id))&&!d.mergedInto&&!figurePeople.has(String(p.id));}))continue;calendars.set(calendarKey(r.id,r.version),sp);}catch{/* Malformed immutable evidence is withheld as a whole, never rewritten. */}}}
+  const coverageShape=z.object({id:z.string(),calendarId:z.string(),calendarVersion:z.number().int().positive(),teamId:z.string(),sourceId:z.string(),periodId:z.string(),version:z.number().int().positive(),status:z.enum(['complete','partial','outage','unknown']),through:z.string().datetime().nullable(),evidenceHash:z.string().regex(/^[a-f0-9]{64}$/),sourceVersion:z.object({contractVersion:z.literal(1),kind:z.enum(['online-visits','field-syncs','imports','programme-receipts','mis','ehr']),integrationId:z.string().nullable(),integrationVersion:z.number().int().positive().nullable()}).strict().optional(),actorId:z.string(),memberVersion:z.number().int().positive(),role:z.enum(['clinician','supervisor']),at:z.string().datetime()}).strict();
+  const eventShape=z.object({id:z.string(),sequence:z.number().int().positive(),kind:z.enum(['proposed','approved','rejected','released']),actorId:z.string(),memberVersion:z.number().int().positive(),role:z.enum(['clinician','supervisor']),at:z.string().datetime(),effectiveAt:z.string().datetime().optional(),reviewId:z.string().optional()}).strict();
+  const safeEvents=new Set<string>(),safeCoverage=new Set<string>(),safeReceipts=new Set<string>(),safeSnapshots=new Set<string>();
+  for(const [key] of calendars){const [id,version]=JSON.parse(key),cr=data.reporting_calendars.find(r=>r.id===id&&r.version===version)!,es=data.reporting_calendar_events.filter(r=>r.calendar_id===id&&r.calendar_version===version);let valid=es.length>0&&es.every((r,i)=>{let raw;try{raw=JSON.parse(String(r.data));}catch{return false;}const e=eventShape.safeParse(raw);return e.success&&e.data.id===r.id&&e.data.sequence===r.sequence&&r.sequence===i+1&&e.data.kind===r.kind&&e.data.actorId===r.actor_id&&e.data.memberVersion===r.member_version&&e.data.role===r.role&&e.data.at===r.at;});if(valid){const e=es.map(r=>JSON.parse(String(r.data)));valid=e[0].kind==='proposed'&&e[0].actorId===cr.author_id&&e[0].memberVersion===cr.author_version&&e.length<=3&&e.every((x,i)=>i===0?!x.reviewId&&!x.effectiveAt:i===1?['approved','rejected'].includes(x.kind)&&x.actorId!==cr.author_id&&!x.reviewId&&!x.effectiveAt:x.kind==='released'&&e[1].kind==='approved'&&x.actorId===cr.author_id&&x.reviewId===e[1].id&&!!x.effectiveAt);}if(!valid){calendars.delete(key);continue;}es.forEach(r=>safeEvents.add(String(r.id)));}
+  for(const r of data.reporting_coverage){try{const sp=calendars.get(calendarKey(r.calendar_id,r.calendar_version)),d=coverageShape.parse(JSON.parse(String(r.data)));if(!sp||d.id!==r.id||d.calendarId!==r.calendar_id||d.calendarVersion!==r.calendar_version||d.teamId!==r.team_id||d.sourceId!==r.source_id||d.periodId!==r.period_id||d.version!==r.version||!sp.teamIds.includes(d.teamId)||!sp.sources.some((x:any)=>x.id===d.sourceId&&(!d.sourceVersion||x.kind===d.sourceVersion.kind&&x.integrationId===d.sourceVersion.integrationId))||!sp.periods.some((x:any)=>x.id===d.periodId))continue;safeCoverage.add(String(r.id));}catch{}}
+  const outcome=z.object({calendarId:z.string(),calendarVersion:z.number().int().positive(),eventId:z.string(),sequence:z.number().int().positive(),type:z.enum(['propose','review','release','declare'])}).strict();
+  for(const r of data.reporting_completeness_receipts){try{const x=outcome.parse(JSON.parse(String(r.result)));if(!calendars.has(calendarKey(r.calendar_id,r.calendar_version))||x.calendarId!==r.calendar_id||x.calendarVersion!==r.calendar_version)continue;const e=x.type==='declare'?data.reporting_coverage.find(e=>e.id===x.eventId&&safeCoverage.has(String(e.id))):data.reporting_calendar_events.find(e=>e.id===x.eventId&&safeEvents.has(String(e.id)));if(!e||e.calendar_id!==r.calendar_id||e.calendar_version!==r.calendar_version)continue;const d=JSON.parse(String(e.data));if((x.type==='declare'?d.actorId:e.actor_id)!==r.actor_id||(x.type==='declare'?d.version:e.sequence)!==x.sequence||x.type!=='declare'&&!({propose:['proposed'],review:['approved','rejected'],release:['released']}[x.type]).includes(String(e.kind)))continue;safeReceipts.add(JSON.stringify([r.actor_id,r.key]));}catch{}}
+  for(const r of data.reporting_completeness_snapshots){try{const d=JSON.parse(String(r.data));if(!reporting||await digest(d)!==r.digest||!Array.isArray(d.calendars)||!d.calendars.length&&!r.figure_id||d.calendars.some((x:any)=>!calendars.has(calendarKey(x.id,x.version)))||r.figure_id&&!figures.has(String(r.figure_id)))continue;safeSnapshots.add(String(r.id));}catch{}}
+  const calendarTeams=[...new Set<string>([...calendars.values()].flatMap(sp=>sp.teamIds))];
+  const completenessBasis=data.reporting_calendars.length||data.reporting_completeness_snapshots.length?await digest(COMPLETENESS_BASIS_TABLES.map(table=>({table,rows:data[table]}))):null;
   const files: ExportFile[] = [];
   let totalRows = 0, totalWithheld = 0, totalEntries = 0;
   const media: ExportFile[] = [];
@@ -150,14 +214,24 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     const rows = data[spec.table], lines: unknown[] = [];
     let withheld = 0, entries = 0, others = 0;
     for (const r of rows) {
-      if (spec.scope === 'self' && String(r.user_id) !== m.userId) { others++; continue; }
+      if(spec.scope==='audit'&&(protectedAlertAuditIds.has(String(r.id))||protectedAlertSubjects.has(String(r.subject)))){
+        // Preserve chain position without time/action/subject/detail. This retains structural
+        // event cardinality, an existing audit-export boundary, never a certified clinical count.
+        lines.push({org_id:r.org_id,id:r.id,seq:r.seq??null,prev_hash:r.prev_hash??null,hash:r.hash??null,content:await contentDigest(r as unknown as EventRow),withheld:'Protected event content; digest only.'});continue;
+      }
+      if(spec.scope==='calendar'&&!(spec.table==='reporting_calendars'?calendars.has(calendarKey(r.id,r.version)):spec.table==='reporting_calendar_events'?safeEvents.has(String(r.id)):spec.table==='reporting_coverage'?safeCoverage.has(String(r.id)):safeReceipts.has(JSON.stringify([r.actor_id,r.key])))||spec.scope==='completeness'&&!safeSnapshots.has(String(r.id))){withheld++;continue;}
+      if(spec.scope==='protected'||spec.scope==='figure'&&(!figures.has(String(spec.table==='indicator_figures'?r.id:r.figure_id))||spec.table==='indicator_figure_receipts'&&!safeFigureReceipt(r))){withheld++;continue;}
+
+      if (spec.scope === 'self' && String(r.user_id ?? r.actor_id) !== m.userId) { others++; continue; }
+      if(spec.table==='clinical_source_documents'){const e=sourceState?.governance?.entries.find(e=>e.id===r.entry_id);if(!e||!entryScope(m,e)||!((governanceManager(m)&&m.role!=='provider')||['asha','clinician'].includes(m.role)&&activeEntry(sourceState!,e))){withheld++;continue;}try{await (await import('./clinical-source')).verifiedSourceDocument(db,orgId,e,input.now);}catch{withheld++;continue;}}
+      if(spec.table==='device_match_copies'){let candidates:any;try{candidates=JSON.parse(String(r.candidate_versions));}catch{candidates=null;}if(!Array.isArray(candidates)||candidates.some(x=>!people.has(String(x.id)))){withheld++;continue;}}
       if (spec.table === 'patients' ? !people.has(String(r.id)) : !allowed(spec, r)) {
         withheld++;
         // Audit events outside scope keep their place in the chain as digests.
         if (spec.scope === 'audit') lines.push({ org_id: r.org_id, id: r.id, seq: r.seq ?? null, prev_hash: r.prev_hash ?? null, hash: r.hash ?? null, content: await contentDigest(r as unknown as EventRow), withheld: 'Patient-linked event outside the exporter\'s care scope; content digest only.' });
         continue;
       }
-      if (spec.table === 'media' && !r.deleted_at && typeof r.data === 'string' && r.data) media.push({ path: `media/${r.id}.${MEDIA_EXT[String(r.mime)] ?? 'bin'}`, bytes: fromB64(r.data), note: `Media ${r.id} for visit ${r.visit_id}` });
+      if (spec.table === 'media' && !r.deleted_at && (r.data || r.storage_ref)) { if(r.storage_ref&&!input.mediaBytes)fail(503,'Private media resolver unavailable; no incomplete archive was produced.'); if(media.reduce((n,f)=>n+f.bytes.length,0)+Number(r.size)>MAX_BYTES)fail(413,'Media exceeds the bounded export budget. Ask for a staged export.'); const content=input.mediaBytes?await input.mediaBytes(r):fromB64(String(r.data)); if(media.reduce((n,f)=>n+f.bytes.length,0)+content.length>MAX_BYTES)fail(413,'Media exceeds the bounded export budget. Ask for a staged export.'); media.push({path:`media/${r.id}.${MEDIA_EXT[String(r.mime)]??'bin'}`,bytes:content,note:`Media ${r.id} for visit ${r.visit_id}`}); }
       const out = without(r, spec.omit);
       // Slice 6p: patient-linked entries inside an organisation document follow the same care scope.
       // The data text is re-serialised only when something was left out; otherwise it stays as stored.
@@ -237,7 +311,7 @@ export async function buildExport(db: D1Database, input: ExportInput) {
     organisation: { id: orgId, name: org.name, createdAt: org.created_at, revision: org.revision },
     exporter: { userId: input.exporter.userId, name: input.exporter.name, accountCode: input.exporter.accountCode, role: m.role, owner: m.isOwner },
     schema: { migration: SCHEMA_MIGRATION, workspaceSchemaVersion: 1, rowEncoding: 'One JSON object per line; keys are the stored column names; columns named data, changes, counts and team_ids hold JSON text.' },
-    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
+    scope: { rule: 'Patient-linked rows only for patients in the exporter\'s normal care scope (team membership; ASHAs their assigned patients; administrators and sandbox providers none). Emergency access grants are not export authority. Households and caseload transfers follow team scope, and members or transferred patients outside the patient scope are left out of their data. Patient-linked entries inside organisation documents (safety cases, shadow results, outreach items and messages, person holds) follow the same patient scope. Figure metadata/history requires current reporting purpose and normal access to every original cohort member and included parent. Calendar governance and declared evidence require normal reporting scope for every configured team member. Private completeness snapshot bodies are omitted even when operational row scope is complete; scoped digest/basis metadata is not the original body. Protected counting material and disclosure ledgers are withheld; ordinary export is not full report or completeness reconstruction.', patients: data.patients.length, patientsExported: people.size, patientsWithheld, entriesWithheld: totalEntries, complete: totalWithheld === 0 && totalEntries === 0 },
     totals: { files: described.length, rows: totalRows, withheld: totalWithheld, withheldEntries: totalEntries, bytes },
     files: described,
     auditChain: { chainVersion: CHAIN_VERSION, hashing: HASHING, priorSeal: 'The genesis event (seq 0) detail carries count, last and digest over events without seq, hashed in (at,id) order 500 at a time: digest0 = SHA-256(JSON.stringify([chainVersion,"prior",org_id])), then digest = SHA-256(JSON.stringify([digest, page of content arrays])).', verification: { status: chain.status, events: chain.events, priorEvents: chain.priorEvents, head: chain.head, firstBreak: chain.firstBreak }, exportedHead: cut, note: 'Verified by the server immediately before export; exportedHead is the last chained event in this archive (events chained after it are left out). The export itself is recorded as a later audit event, so it is not in this archive.' },
@@ -251,10 +325,11 @@ export async function buildExport(db: D1Database, input: ExportInput) {
   const listed = [{ path: 'README.txt', bytes: readme }, { path: 'manifest.json', bytes: manifestBytes }, ...files];
   const sums = enc.encode((await Promise.all(listed.map(async f => `${await sha256Bytes(f.bytes)}  ${f.path}`))).join('\n') + '\n');
   const archive = tar([...listed, { path: 'SHA256SUMS', bytes: sums }], Math.floor(Date.parse(input.now) / 1000));
-  return { archive, manifest, manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
+  return { archive, manifest, figureCohort, calendarTeams, completenessBasis, exportedPeople:[...people], manifestSha256: await sha256Bytes(manifestBytes), archiveSha256: await sha256Bytes(archive) };
 }
 
 const README = (id: string, name: string, at: string) => `Saha organisation data export ${id}
+${PROTECTED_ALERT_EXPORT_NOTICE}
 Organisation: ${name}
 Generated (UTC): ${at}
 
@@ -274,7 +349,10 @@ Relationships
   patients.id is referenced by person_id in visits, submissions, referrals, record_revisions,
   media, rights_requests, audit_events and command_receipts; visits.id by visit_id in plans,
   ai_results, submissions and media; teams.id by team_id; accounts.user_id by user_id,
-  actor_id, created_by and assigned_to. Columns named data, changes, counts and team_ids are JSON text.
+  actor_id, created_by and assigned_to. Included indicator_figures.parent_id refers to another
+  included figure; indicator_figure_events and validated receipts refer to included figure/event ids.
+  Figure data, counting units and private completeness snapshot bodies are protected and omitted; this is not full report or completeness reconstruction. Calendar policy, review/release history, declared source evidence and fixed receipt references follow current whole configured-team reporting scope. Exported snapshot hashes cannot reconstruct the omitted original body.
+  Columns named data, changes, counts and team_ids are JSON text.
 
 Audit chain
   audit_events rows with seq form one chain. content = SHA-256 of
@@ -308,3 +386,11 @@ export function tar(files: { path: string; bytes: Uint8Array }[], mtime: number)
   let at = 0; for (const b of blocks) { out.set(b, at); at += b.byteLength; }
   return out;
 }
+
+// Exact immutable/new-source basis, excluding export audit rows and org revision changed by this read.
+const COMPLETENESS_BASIS_TABLES=['reporting_calendars','reporting_calendar_events','reporting_coverage','reporting_completeness_receipts','reporting_completeness_snapshots','integrations','memberships','patients','operations'];
+export async function dataExitCompletenessBasis(db:D1Database,orgId:string){const rows=[];for(const table of COMPLETENESS_BASIS_TABLES){const spec=TABLES.find(s=>s.table===table)!;rows.push({table,rows:await readAll(db,spec,orgId)});}return digest(rows);}
+
+// Database columns are authoritative; JSON keeps programme/facility/locality policy fields.
+function storedExportPerson(r:Row){return {...JSON.parse(String(r.data)),id:String(r.id),teamId:String(r.team_id),assignedTo:r.assigned_to} as import('./types').Person;}
+export async function assertDataExitPatientScope(db:D1Database,orgId:string,m:Member,ids:string[]){if(!ids.length)return;const rows=(await db.prepare('SELECT id,team_id,assigned_to,data FROM patients WHERE org_id=? AND id IN (SELECT value FROM json_each(?))').bind(orgId,JSON.stringify(ids)).all<Row>()).results;if(rows.length!==ids.length||rows.some(r=>{try{return !normallyAllowed(m,storedExportPerson(r));}catch{return true;}}))fail(403,'Normal patient export scope changed. Nothing was downloaded.');}

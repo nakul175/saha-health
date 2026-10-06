@@ -1,0 +1,652 @@
+{
+  "date": "2026-10-05T21:08:00.877649+00:00",
+  "base": "b61c8d8d563862612f8f991c086c4d116626970b",
+  "executionRepair": "40bb4c59e51f79a0e93acc81aeb89feb5eac54d1",
+  "scope": "Bounded reviewed transition/adoption author; independent review and root integration pending. Full B12 and external/formal acceptance open.",
+  "source": [
+    {
+      "path": "app/api/installed-pack-transition/route.ts",
+      "sha256": "4aec5a612ff51f32425a6683290e1f631b71550f4a2539a21b24618bde58346e"
+    },
+    {
+      "path": "app/installed-pack-transition-panel.tsx",
+      "sha256": "7c855b2b0308c1d6d488c85a3f3863f69b08163ef9659701f748c2cf176bd974"
+    },
+    {
+      "path": "app/organisation.tsx",
+      "sha256": "b5ebc270819f0ca7b51d9c38dd42c55608c7b897e5c3c1ccf6f659cb974cccb1"
+    },
+    {
+      "path": "app/programmes.tsx",
+      "sha256": "90b53864c8a1fc917ebc4bf4c09ca4ea908a40fd0cf0e856132bf86563cd8eab"
+    },
+    {
+      "path": "db/schema.ts",
+      "sha256": "5f0eae04d0707edf1a31ec4844f91f0fa8d7341c7a65dbcf197bfb643a18ecf4"
+    },
+    {
+      "path": "drizzle/0032_installed_pack_transition.sql",
+      "sha256": "5a0a8999355222ffe4867ac30ef6a138d365c9f119cd707b999288de17536995"
+    },
+    {
+      "path": "lib/saha/action-plan.ts",
+      "sha256": "a091659e4f0a8b45704a9463258b22176bf61360ce5d78b85ff7d7b0d69df272"
+    },
+    {
+      "path": "lib/saha/continuity.ts",
+      "sha256": "3ea139bed181b9b2c5b30bdcdfda618f9bd8721c7137ca346066c00336065aad"
+    },
+    {
+      "path": "lib/saha/installed-pack-transition-server.ts",
+      "sha256": "a568a94c7331d4f82391f33a4bb8e3cfd048935ad03cd4d4fe2b0183a966dc6a"
+    },
+    {
+      "path": "lib/saha/installed-pack-transition.ts",
+      "sha256": "d0d5196bb1e0ea0cdb1a4f8ae90e67dd4a2237ce94c6d15989845f91d0615c6e"
+    },
+    {
+      "path": "lib/saha/installed-pack-work-server.ts",
+      "sha256": "9f2cedb0695806d8dfdd3424c61e96773575e5caa102420a6c7bd13190983e84"
+    },
+    {
+      "path": "lib/saha/installed-pack-work.ts",
+      "sha256": "1bbe2085218625ff6c7fe3a619c9481698da27f83cd695ce67a7a09adbeb656c"
+    },
+    {
+      "path": "lib/saha/installed-transition-authority.ts",
+      "sha256": "5b2faac1e33eea0f135f060077d2180c148c103606e38f17214aaeda20a33856"
+    },
+    {
+      "path": "lib/saha/programme-commands.ts",
+      "sha256": "3daccbc81c46cac20e622567a4c355081a7a6b208651b93c0660933e4134237c"
+    },
+    {
+      "path": "lib/saha/programmes.ts",
+      "sha256": "b85097af98872e7187bdbe58efd88b67709928d2ae41360f7b03fc7c95487077"
+    },
+    {
+      "path": "lib/saha/record-import.ts",
+      "sha256": "5f7491a921be80c32dee6555faf7b907b8af4dbc25cf3cecb3243f6a05c9ff27"
+    },
+    {
+      "path": "lib/saha/server.ts",
+      "sha256": "7eef39b185c3f0fd612378c9aac68967519ae4de6b56f4708422c4967885da27"
+    },
+    {
+      "path": "lib/saha/store.ts",
+      "sha256": "a16ec292082b8f73eabb89a01c6e4558dda71620803a1d8aaa58db653b4ff630"
+    },
+    {
+      "path": "lib/saha/team-pack-adoption.ts",
+      "sha256": "2e58eb482f5e4dd00ab131731aa577adc6f9d84b61fa641e09ba1fcbafc5a1fe"
+    },
+    {
+      "path": "lib/saha/worklist-views.ts",
+      "sha256": "ce8226232d8a7560650414ed2ea27d6abefcd982a5351f4af2c0b4f1d3e95f37"
+    },
+    {
+      "path": "lib/saha/worklists.ts",
+      "sha256": "fe33ecf6318e33ffb74920a80fb243d5fe9cfd8c5f77dc10b336686e4bd6eb4b"
+    }
+  ],
+  "drivers": [
+    {
+      "path": "tests/programme-transitions-contract.mjs",
+      "sha256": "171bb1d286dbc45927bb3acfa88e404af77b7a0d2b5dcb073c738c69f1165bd5"
+    },
+    {
+      "path": "tests/programme-transitions-primary.mjs",
+      "sha256": "64591960f13b94856fe9e6cb2d61e6e04a3fde83f4bf53fcb5e9ba768a353d93"
+    },
+    {
+      "path": "tests/programme-transitions-compatibility.mjs",
+      "sha256": "854248de680c9c5741f94a4bd3bdc5a4429172ff52f1932594389089a5495ad6"
+    },
+    {
+      "path": "tests/lib/programme-transition-phone.mjs",
+      "sha256": "9fbbc57e8ac6afb8cfea20b346031eb596597a30b47523721056535399fadf18"
+    }
+  ],
+  "assertions": {
+    "contract": 43,
+    "primary": 245,
+    "compatibility": 408,
+    "sumWithOverlappingSetup": 696,
+    "phoneIncludedInPrimary": 12
+  },
+  "evidence": [
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/action-plan-contract.mjs.log",
+      "sha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/action-plan-contract.mjs.result.json",
+      "sha256": "f73381d969d87cc40913050d904df6f900485845aa96389729f3ec928610c317"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/caseload-contract.mjs.log",
+      "sha256": "4544640fb15f1466c81e714c1cd78c3e483448777736c04af4b1b1450e00833d"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/caseload-contract.mjs.result.json",
+      "sha256": "3ba6f26febc03c7d5a669428a0666855bc3675a7ba221dda7f57c84ace9253d7"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/indicator-figure-material-contract.json",
+      "sha256": "40917911fb44e2f2c1b31f770bf1e52428394bde12c4d11ba782e6da07ba04f1"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/indicator-figure-material-contract.mjs.log",
+      "sha256": "9e74406c51210c387c2b8a85deddc580e224006555d7c5e4130176baaeb30502"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/installed-programme-execution-repair-contract/result.json",
+      "sha256": "a78d3594dc0f93265347423077a9c29c0961e98c0245fd7784f19348d48e272c"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/installed-programme-execution-repair-contract.mjs.log",
+      "sha256": "02863606cf2920a77b512831b725cddbbc8778a15cd5cde0e6a70b4df1b9283e"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/pack-installation-contract.mjs.log",
+      "sha256": "01951a67e762f79122a5d57a996fb28cb59a71a24bb86e266348752f2f3e3787"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/pack-installation-contract.mjs.result.json",
+      "sha256": "56dfb999e89bc6c4c050c99c452e94e0ad7edc0cad20ad7fcf1b364f5f38ba25"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/programme-migration-contract.mjs.log",
+      "sha256": "e57cda38a66c20d8f948434344b280ccf06ecb0e155ce70ac1a6a83584d1a4ed"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/programme-migration-contract.mjs.result.json",
+      "sha256": "d2f3cc97f54586a4e7879bce82e3a9ccf2ec999a6c08a8869fd38ffb1d260d2e"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/record-import-contract.mjs.log",
+      "sha256": "79574dc57f75970e92e6017cd30d7c3e122b61411f23cd6bbc6d2d1ac4280ae8"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/record-import-contract.mjs.result.json",
+      "sha256": "5fd24dee50fc92453ecb3777d57f3306dfa6d8e5113741f25a49e6e932334133"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/result.json",
+      "sha256": "4d7daa112731e585e7bb88b4b73f02c1915f43597e77a63a1a4dbc038699b4aa"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/worklists-contract.mjs.log",
+      "sha256": "07de71280d138398432cc8b66c627314ffc55ba8e9b2bd225a0cf6f89c9b61cf"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/compatibility/worklists-contract.mjs.result.json",
+      "sha256": "f7a5478425d4447381fedf43f3de3a169e7334fa015c7ff450ec143edd95cd0f"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/contract/result.json",
+      "sha256": "fd225f24eb98f01fae47bb2993be55943902ad6ef52a44b2cc581ddbb0db803f"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/initial-failures/contract-legacy-fallback.log",
+      "sha256": "d42c274d4d165d687137444f240f404acb6f3f7c5d92e08a26756bd4ac25f36c"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/initial-failures/contract-missing-original-cohort-fixture.log",
+      "sha256": "b1c8471a309fa2d4b6db731128f42e9e47798101f2565388ae08e6a480d12b6e"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/initial-failures/contract-review-fixture-syntax.log",
+      "sha256": "0f24593751922cda0ad3aa680a8cef97f98131c316b702250d916596c802b350"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/initial-failures/legacy-action-plan-loader.log",
+      "sha256": "3f9e684e428bb90c67689fffff7d6acaeb5bd41666533d65d6fb657852414829"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/initial-failures/miniflare-phone-identity.log",
+      "sha256": "41072901581fb6543c517b583008c7177e8a764d0fda9482785d0b1a2984c8f1"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/primary/native-withdrawal.json",
+      "sha256": "7d85aa2a85b78d7e4996c6c92638086afd961ecc7047f35d0ca37a752f3e7d5c"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/primary/observed.json",
+      "sha256": "3054dcbe2345ce03c6466e52eda0f88813d46ceebe4faee19f37dce37b676079"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/primary/phone/asha-retained-tasks.png",
+      "sha256": "ff4025210a2f3998a5db75e9c6d1a0d1702b58312e53cf503f7dd2c0cf8c93c3"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/primary/phone/independent-transition-review.png",
+      "sha256": "8d47834587457ed50791c0820975acdeccae8ff93fb83435ccc821d6e88ed41c"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/primary/phone/owner-transition-history.png",
+      "sha256": "fd05b1db53f34284ab7eb3687335750bead9d769924d6e2e5315e3a5ca0d8bf0"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/primary/result.json",
+      "sha256": "278de60576d93e33f66bfe1ca35562553cd628d291b48f9c3d7ec9e06a6c5e14"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/primary/review-basis.json",
+      "sha256": "c9b65bafe6e0754b034591b7aec9e1f6b10707214b7b436571f6352c991dfe91"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/verification/build.log",
+      "sha256": "c0a87a093ab0271de8dc872c76ea7c40575931e2485cd237ff66ab9854695223"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/verification/compatibility.log",
+      "sha256": "e1ea9476e6cdea2154b885e5d10c0c0b5c7ea90705e49350674172240dc7ffef"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/verification/contract.log",
+      "sha256": "d2298d72e8c1f90be239d9bb153c954133d1d31b43a2800244c550fc4ea0d334"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/verification/primary.log",
+      "sha256": "a70337bc2a5e78c6823fdb65b9ae41f2b22fb8b93ab98b8d4a5798ee9000f027"
+    },
+    {
+      "path": "tests/evidence/programme-transitions/verification/types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "preservedOriginalEvidence": [
+    {
+      "path": "tests/evidence/programme-transition-discovery/before-run.log",
+      "sha256": "b455007e0d1bbbf648fd3e45b6602018dd1690ccc7e89959e2ad9969f9e84c4e"
+    },
+    {
+      "path": "tests/evidence/programme-transition-discovery/build.log",
+      "sha256": "72fbae2c91de07c3d7ae5bc76a3f00b6192c16953aec762eec7d323d5eaa41b4"
+    },
+    {
+      "path": "tests/evidence/programme-transition-discovery/enabled-observed.json",
+      "sha256": "df9ea23a5660ca6007f13b53b839dc5dec2bbf668afb51a463d06a7634b90d87"
+    },
+    {
+      "path": "tests/evidence/programme-transition-discovery/manifest.json",
+      "sha256": "0b2e9f3b8abf167ff73b03007771a48abbc14867ca4fd450c7730034fd0dae1b"
+    },
+    {
+      "path": "tests/evidence/programme-transition-discovery/observed.json",
+      "sha256": "a2810ed684e6a468ecedd16fa30bbb0771827f94b3489b849c76d122184b3059"
+    },
+    {
+      "path": "tests/evidence/programme-transition-discovery/result.json",
+      "sha256": "d3ac38ffec8fd1e50af0d15b3036ae9cefd015feb50dd27d32d7062267fe1184"
+    },
+    {
+      "path": "tests/evidence/programme-transition-discovery/transition-observed.json",
+      "sha256": "b4cd05ed51e48d35021403b857ea7c11dc9b388ee6aa4928aa38816c50f177e4"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/adversarial/enabled-observed.json",
+      "sha256": "63d31a54996f33931080666d60f1add6f8bd9d0a95b4d71c71a513c1502bc0ff"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/adversarial/observations.json",
+      "sha256": "e5b1c916f62660a5a83239a179abd02d051969f2bc1c5248501a49bd2d3bbe7a"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/adversarial/observed.json",
+      "sha256": "99f904d3ab14b67dcc4e6df49793e9568f4720587645103ab03fecbe228f69bd"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/adversarial/result.json",
+      "sha256": "af21c0ba994de013ef0bf72636767db61499602c549bed3d973e6480bf4036b5"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/contract/result.json",
+      "sha256": "a78d3594dc0f93265347423077a9c29c0961e98c0245fd7784f19348d48e272c"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/final/adversarial.log",
+      "sha256": "5bfded69547b12690c5c191fe70a9ee78cbc1f8d442d8c5d33d1d530ae030d21"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/final/build.log",
+      "sha256": "6833d47cbed0ff7d3c26530bde06f2a6c744a631416f3c692d1b40ecd174b929"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/final/contract.log",
+      "sha256": "02863606cf2920a77b512831b725cddbbc8778a15cd5cde0e6a70b4df1b9283e"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/final/primary.log",
+      "sha256": "ac37170979ca76558622f59577cbcdc89789966f08460d1034ae3a4a59923be8"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/final/types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/final/uncertainty.log",
+      "sha256": "113e1d56fe31684f57335090d79766d745275d7ac0a1d064fee91e63f02dc910"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/initial/owner-purpose-fixture-refusal.log",
+      "sha256": "c51f513279955219d996eef64a859beb23cc47d10230a702d1de4eeb70cf39bd"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/initial/phone-lookup-busy-fixture-failure.log",
+      "sha256": "6738dc93af50e625e38d6a10f0c037f18aaece3fc65b84af01586ecc2fe82465"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/action-plan-contract-result.json",
+      "sha256": "5ec4969160eff0139836f486d78525e20b6794b6f771000b2d6c65ffc43970bf"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/action-plan.log",
+      "sha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/caseload-contract-result.json",
+      "sha256": "3ba3d48f2d16d0a855761be52ea221a4e0ac0049037a75272e38467daffc6b31"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/caseload.log",
+      "sha256": "dd335929322a87d2e728be52b5c0c35df5de9f649b67dc38ebd0895e27d0315f"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/pack-installation-contract-result.json",
+      "sha256": "92b30eff4d9a9c629cb6786ae801188981b7f4addff4f8970a8d043dceaefa5c"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/pack-installation.log",
+      "sha256": "2ce83b49baf1799349ba1b34be9772c8f322a5fd87ccd7661d6c0bfaaf5e4737"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/scheduled-job-contract-result.json",
+      "sha256": "7e4085aef34038ca2044194e3d380dd88d8fbaae93845f7d08a2a2914afa9c46"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/legacy/scheduled-job.log",
+      "sha256": "c72dad8598ba646ec63b65187f116407b042f4561dc8cd848c52175af8b8a616"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/manifest.json",
+      "sha256": "151929191367169874089e5d26c64ff6cebd8b1e079c0cb71da471108fcfabe8"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/enabled-observed.json",
+      "sha256": "62b9647ad1d5d08fdf1aea5cc9f67f9b1d14ca54c9bca41b13e8891b6a835b5d"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/observed.json",
+      "sha256": "3108ca2fe954f22b633a4dcaa08653c6519ba45d0519a999b73b3852b71afe0b"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/phone/governance-recovered.png",
+      "sha256": "f74badfcfb6e61ae9493a705180f415ed826ad15b075a3cb648d6f15dbc232d7"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/phone/governance.png",
+      "sha256": "61c5575b97eda0cda005063339e027be6dc927cd4804fba94cf1db90e00efa68"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/phone/independent-work.png",
+      "sha256": "c4c0e61319dc8b5e8f5ef1ec5941bdb049393fc4f5409c749022bce6f89f6261"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/phone/initial-body.txt",
+      "sha256": "3fdc87c36ca737e121b55a5251f4ab1decb1ce625fd8bc6cd8cd61f3d6a6a171"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/phone/initial-page.png",
+      "sha256": "c08ae4acbcb72f40577e699100e6c71ee22145236c8f61a196ed2ebedf9c20eb"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/phone/owner-work.png",
+      "sha256": "cb1b6833f3263fcc84820679f06451078c0185a1d791509d530778e8e18830ee"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/primary/result.json",
+      "sha256": "dcc229e565c9bd562838af4c20793228a874d69bdd6d864347de33cd13abfdab"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/enabled-observed.json",
+      "sha256": "a841e830dc9a31f0b0ee320252c3ac497539c1989b353752ad6e03326e8f4397"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/native-phone/known-accepted403.png",
+      "sha256": "f29ee0990472d34f67ef92b3ca120f464bb10690a8399726c0aea323dffbc285"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/native-phone/result.json",
+      "sha256": "993cf97813e991cfaac33629048cbcea0021c18e216ed36ce3f2cbcb424b6df1"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/observed.json",
+      "sha256": "c845971d0591903be26b9b18e25d950717e7671ee5f6b9a32a5245b0ccfbc237"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/governance.png",
+      "sha256": "3f33a3ab01ed5bd356fc6daa2adafd7a25f803ee97ea8faae9e3a44d1a6a4c1c"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/initial-body.txt",
+      "sha256": "b0401d55f5716e164d03372cbe64d23320a6a7a538956cb59a28a08bb46045a8"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/initial-page.png",
+      "sha256": "11d9cf6aa144e9532edb076e15b70091e6522e2d183628f17af83c7492f463dc"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/post-persist409.json",
+      "sha256": "c9a78025f672ae71f0f44c43250df6460a3e9507f2728085bbe0724c628f13aa"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/post-persist409.png",
+      "sha256": "f6f412962b5a136ebd26d7ff454e71d6b8c4fdb8d9be6d97bff025ba62004e07"
+    },
+    {
+      "path": "tests/evidence/installed-programme-governance-repair/uncertainty-phone/result.json",
+      "sha256": "b271feca9514ef1e254f5c022cd5d3738fd3483c5c1820b8546351b072f660c2"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/adversarial-http/first-four-observations.json",
+      "sha256": "d4ae35efa805a0dbf2eeb24c790b5ec44f0be845568d263fa5ee4ad033a95a02"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/adversarial-http/observations.json",
+      "sha256": "df4a3a4598fd1cb302b17ad2df0760f1d11935f8ac64045697bc2c853de801bb"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/build.log",
+      "sha256": "e9a22a06b2098a7108d40a91c83ed150002433fbef2da70e917ae5d5ccf7bc93"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/build.log.raw.gz",
+      "sha256": "0745089a199bf2a3c3812dd8c639626b57e7299ad3314048c80be935d256b376"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/first-native-before.log",
+      "sha256": "167c2dea22e3f4fcd601d48e651f5f0f14a9e6807f5c63f3b1a0d055512d5979"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/first-native-before.log.raw.gz",
+      "sha256": "10aac3f20352dc3c541069a8f8cf869c0ca1f727e22aea94e4b0766206fca523"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/fixture-setup-diagnostic.txt",
+      "sha256": "881484cb3d19d3f31377e800647727a150b0e843b4f9912ee15d2e4f9cde7eb2"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy/action-plan-contract-result.json",
+      "sha256": "2ba113c0abc609b84da054fa49efdcddae08233a458e391e6a17614a6e36de35"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy/caseload-contract-result.json",
+      "sha256": "40857124ca69ab8cc546545beee6e1e1382ae37c5c31531534926241aa40c88b"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy/pack-installation-contract-result.json",
+      "sha256": "600ec39cb7558e94208445d851425d64ec3f12fa3f0ee11fa7a25c724e0d4b3d"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy/scheduled-job-contract-result.json",
+      "sha256": "9053d395427e700ef336280a61b6c4f7212609e1d9dc7f7a580e6ab4f190d8d4"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-action-plan.log",
+      "sha256": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-action-plan.log.raw.gz",
+      "sha256": "12a2fe6fc201d87c3baeddf8e38147ff1ec2e3075a4b8d1f160f56ae2461f069"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-caseload.log",
+      "sha256": "2c92235c6b852f49a5b444664f6d9f57fb0472858681acf7aa080fb2e99daf2e"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-caseload.log.raw.gz",
+      "sha256": "6a52ff8c7d6c2fe215c75fd687e2381e2d60329055b28fe773c377ea00f8f616"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-pack.log",
+      "sha256": "caec5fead3c339c00d7af9afee90ed675fb45d714932a778b253674e6ada870b"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-pack.log.raw.gz",
+      "sha256": "f1807547fb1d62ba713bcdd9d648b6bb2209c8e24f72f542468bd67c85002be5"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-scheduled.log",
+      "sha256": "25fedb1bffc86bf2e1fa3656865b95efbb17d1547b944b34c6edbabef5896053"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/legacy-scheduled.log.raw.gz",
+      "sha256": "0b942055b8b630716da9b3811025f3955c100f60ae664906f8435c20eae6a384"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/manifest.json",
+      "sha256": "61d64d2144e8c98eda237bb039198099ae48518455e601544bf8f0fa3a94eccc"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/native-before.log",
+      "sha256": "57e1a0247975c9bb172921882d92e584201b7547e0e9af892032c2c6664baabb"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/native-before.log.raw.gz",
+      "sha256": "6e5a9b479a97776ac4f52dd552f6b1407804dc658a80d0cdc4f8c1b8898b1ab3"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/phone-uncertainty-before.log",
+      "sha256": "30dd2924416c934cfcc8517465e46139528bc73782ac187f3df9bc7bc4cf431e"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/phone-uncertainty-before.log.raw.gz",
+      "sha256": "7b040e402a144b4ea6f3a66001ceea1a6f51793a5c79abc26f78f6d77a608c35"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-contract/result.json",
+      "sha256": "3c72dfc429ed1230230863412be7620a487fe1f688b53936fef3a2265ee5b215"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-contract.log",
+      "sha256": "03331fa7ca0da6312562f627705c5a36e03e9d03ace857cd32922457ed2bfb0d"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-contract.log.raw.gz",
+      "sha256": "9c8ca3f948534781863fe2ff2d7cff7843decbe0cd183e0c26bcfcc572c7fb67"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/enabled-observed.json",
+      "sha256": "eff099e5d9525516fbc1eba3def300a6e97ae9e528b92e6b2cd98875048b499b"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/observed.json",
+      "sha256": "2aebf279276ef2196293aab2af27a17ce01a2006d03c07e4200dbd27df718141"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/governance-recovered.png",
+      "sha256": "0d4ad8122d758edc9a2db8028785a6218523c22214c1b50a749570b569fdffe4"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/governance.png",
+      "sha256": "5c1823f1540a9f5ad473248e594a670ba549416c5bc8ccbf7d659efbd75e2d07"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/independent-work.png",
+      "sha256": "5e09f16e1ffc5f63ca2e986902c230d7b8ea34c80cfb1131e4cf03b9c78ba440"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/initial-body.txt",
+      "sha256": "63bd7f5fe8eb43af190aeb7e92336b14b6b06ac73a7da6aed892ccbb305e2d30"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/initial-body.txt.raw.gz",
+      "sha256": "f0178273e631ae60d97d49f9c8f505d79815cda847314b78f90282abae9c4f03"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/initial-page.png",
+      "sha256": "caf05f2c97efda20bd27b581d152d3e1ff9580a0784ff0f7533fb2396e596c97"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/phone/owner-work.png",
+      "sha256": "dca12508482fd8aaa540691d7f9067265e601757e2de501c6b1ccfd2d2ce2a50"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone/result.json",
+      "sha256": "dcc229e565c9bd562838af4c20793228a874d69bdd6d864347de33cd13abfdab"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone.log",
+      "sha256": "0e0a8a36dc154a687103c7080a4bbc0d3baf1e8b7c57f883489172e1df4a6d80"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/repeat-worker-cron-phone.log.raw.gz",
+      "sha256": "af2415c99673a05be5d208eaf78c5556700ba10823f6d31bccc8b83bf005da4f"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/types.log.raw.gz",
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/governance.png",
+      "sha256": "5e45f659221d0ffdec2745b80487d45e56db31f113b4ac6afb828330a57e2508"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/initial-body.txt",
+      "sha256": "e25101cf87337ec7675a1600d73f3f7a7cf7c33fb4d91d8bac4d2c2090d9d916"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/initial-body.txt.raw.gz",
+      "sha256": "2b02bb94b82b458b4d131904ac654d94dbf7a20734ae34b4aef01a9169b48afb"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/initial-page.png",
+      "sha256": "7e83d95249c0e3395a6092758845946f5c1ef67083aa836d67b433c2817edea0"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/post-persist409.json",
+      "sha256": "81b91c2ecda4f418902d5e04160482ac6514dc8879bfc9ea450fabe88923a6c9"
+    },
+    {
+      "path": "tests/evidence/installed-programme-execution-independent/uncertainty-phone/phone/post-persist409.png",
+      "sha256": "e3e0e34ccba08b448cb83c242e6fafaca5c3fe73e5ea7ffc3e1af0e4fc0b8a4e"
+    }
+  ],
+  "newMigration": "0032_installed_pack_transition.sql; no0030 dependency; earlier migrations unchanged",
+  "requiredRootAliases": [
+    "installed-transition-authority",
+    "team-pack-adoption"
+  ],
+  "rootFollowup": [
+    "Protect0032 export/restore classification",
+    "register actual positive suites/minima",
+    "merge exact shared source changes preserving B05/B28/raw-key/guided",
+    "canonical generated inventory/documentation/requirement updates"
+  ]
+}

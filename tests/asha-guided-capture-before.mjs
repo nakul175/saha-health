@@ -1,0 +1,46 @@
+// Real Chromium against an isolated local D1 Worker. Synthetic dispatcher headers never go to a hosted endpoint.
+import assert from 'node:assert/strict';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {startWorker,identity,client} from './lib/worker.mjs';
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');
+let worker,browser,passed=0;
+const check=(value,message)=>{assert.ok(value,message);passed++};
+const evidence='tests/evidence/asha-guided-capture/before';mkdirSync(evidence,{recursive:true});
+try{
+ worker=await startWorker({port:process.env.SAHA_GUIDED_HOME_PORT??'9051',name:'saha-capture-before'});
+ const api=client(worker.base),run=crypto.randomUUID().slice(0,8),owner=identity('owner',run,'Synthetic Owner'),asha=identity('asha',run,'Synthetic ASHA');
+ const wo=await api.get(owner,'/api/workspace'),wa=await api.get(asha,'/api/workspace');
+ assert.equal(wo.status,200);assert.equal(wa.status,200);
+ const org=wo.json.organisation.id,p=wo.json.people.find(p=>p.name==='Meena Devi');
+ const invite=await api.command(owner,{type:'createInvite',accountCode:wa.json.user.accountCode,label:'Synthetic ASHA',role:'asha',teamIds:['default']},org);assert.equal(invite.status,200);
+ assert.equal((await api.command(asha,{type:'joinOrganisation',token:invite.json.result.token})).status,200);
+ assert.equal((await api.command(owner,{type:'assignPatient',personId:p.id,version:p.version,teamId:'default',assignedTo:wa.json.user.userId,reason:'Synthetic app UI check'},org)).status,200);
+ browser=await chromium.launch({headless:true,...(process.env.SAHA_CHROMIUM?{executablePath:process.env.SAHA_CHROMIUM}:{})});
+ const context=await browser.newContext({viewport:{width:390,height:844},extraHTTPHeaders:asha.headers});
+ const page=await context.newPage(),pageErrors=[],auditedOpens=[];page.on('pageerror',e=>pageErrors.push(String(e)));page.on('response',r=>{if(new URL(r.url()).pathname==='/api/record-opened'&&r.status()===200)auditedOpens.push(r.url());});
+ page.setDefaultTimeout(20000);await page.goto(worker.base+'/app');
+ const nav=page.getByRole('navigation',{name:'App navigation'});
+ await page.getByRole('heading',{name:'What would you like to do?',exact:true}).waitFor();check(await nav.isVisible(),'Guided navigation visible');check(await page.locator('.guided-choices button').count()===3,'Three clear primary choices');check(!await page.locator('.frontline-guidance input,.frontline-guidance textarea').count(),'No unsupported chat input');const primaryGeometry=await page.evaluate(()=>{const choices=[...document.querySelectorAll('.guided-choices button')],nav=document.querySelector('.frontline-bottom').getBoundingClientRect();return choices.map(b=>{const r=b.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return {bottom:r.bottom,navTop:nav.top,unoccluded:hit?.closest('button')===b};});});check(primaryGeometry.length===3&&primaryGeometry.every(x=>x.bottom<=x.navTop&&x.unoccluded),'All three choices visible and clickable above bottom navigation at390px');writeFileSync(evidence+'/primary-geometry.json',JSON.stringify(primaryGeometry,null,2)+'\n');await page.setViewportSize({width:320,height:844});check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'320px layout reflows without horizontal scroll');await page.getByRole('button',{name:/Check drafts and sync/}).scrollIntoViewIfNeeded();await page.getByRole('button',{name:/Check drafts and sync/}).click();await page.getByRole('heading',{name:'Your sync centre'}).waitFor();check(new URL(page.url()).pathname==='/app','320px saved work choice remains reachable');await nav.getByRole('button',{name:'Home',exact:true}).click();await page.setViewportSize({width:390,height:844});await page.screenshot({path:evidence+'/phone-home.png',fullPage:true});await page.getByRole('button',{name:/See my work/}).click();await page.getByRole('heading',{name:'Today',exact:true}).waitFor();check(await page.getByText('Whose record would you like to open?',{exact:true}).isVisible(),'Relevant follow-on prompt');await page.goBack();await page.getByRole('heading',{name:'What would you like to do?',exact:true}).waitFor();check(new URL(page.url()).pathname==='/app','Back returns to guided Home');await page.getByRole('button',{name:/See my work/}).click();
+ await page.getByText('This list is not filtered to today.',{exact:false}).waitFor();passed++;
+ check((await nav.getByRole('button').count())===5,'ASHA has five care tabs');
+ await page.screenshot({path:evidence+'/phone-today.png',fullPage:true});
+ await nav.getByRole('button',{name:'Sync',exact:true}).click();
+ await page.getByRole('heading',{name:'Your sync centre'}).waitFor();passed++;
+ check(await page.getByText('Its encrypted queue is not read by this screen.',{exact:false}).isVisible(),'No invented device queue count');
+ await page.getByRole('button',{name:'Open device drafts'}).click();await page.waitForURL('**/app/offline/');check(await page.getByRole('heading',{name:'Your offline app'}).isVisible(),'App Sync reaches shared encrypted device shell');await page.goBack();await nav.getByRole('button',{name:'Sync',exact:true}).click();await page.getByRole('heading',{name:'Your sync centre'}).waitFor();
+ await page.getByRole('button',{name:'View submissions'}).click();
+ await page.getByRole('heading',{name:'Programme submissions'}).waitFor();passed++;
+ await nav.getByRole('button',{name:'More',exact:true}).click();
+ check((await page.getByRole('link',{name:'Open full web workspace'}).getAttribute('href'))==='/','Original workspace accessible');
+ check(!(await page.getByRole('button',{name:'Connections',exact:true}).isVisible()),'ASHA connection administration hidden');
+ await nav.getByRole('button',{name:'Home',exact:true}).click();await page.getByRole('button',{name:/See my work/}).click();
+ await page.getByRole('button',{name:/Meena Devi/}).first().click();
+ await page.getByRole('heading',{name:'Meena Devi',exact:true}).waitFor();passed++;
+ await page.getByRole('button',{name:'Start visit',exact:true}).click();
+ await page.getByRole('textbox',{name:'Weight · kg',exact:true}).waitFor();
+ check(!await page.locator('.guided-capture').count(),'Original visit has no guided observation navigation');
+ check(await page.getByRole('textbox',{name:'Weight · kg',exact:true}).isVisible(),'Weight visible alongside other observations');
+ check(await page.getByRole('textbox',{name:'Temperature · °C',exact:true}).isVisible(),'Temperature concurrently visible');
+ await page.screenshot({path:evidence+'/original-visit.png',fullPage:true});
+ writeFileSync(evidence+'/gap.json',JSON.stringify({date:'2026-10-05',diagnostic:true,passed,failed:0,gap:'All observations shown together; no mounted one-observation navigation.'},null,2)+'\n');
+}finally{await browser?.close();await worker?.stop();}

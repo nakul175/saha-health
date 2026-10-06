@@ -1,0 +1,48 @@
+kspace","status":200,"durationMs":36}
+[wrangler:info] GET /api/workspace 200 OK (47ms)
+[wrangler:info] GET /api/workspace 200 OK (28ms)
+{"event":"saha_request","requestId":"986696b0-2ba8-4630-9780-ca42ff8f4c1a","route":"workspace","status":200,"durationMs":23}
+{"event":"saha_request","requestId":"e12cda84-411d-46d4-bcec-b84ab1329611","route":"workspace","status":200,"durationMs":21}
+[wrangler:info] GET /api/workspace 200 OK (25ms)
+{"event":"saha_request","requestId":"17131938-3828-43f1-817f-a90379ede7d9","route":"workspace","status":200,"durationMs":13}
+[wrangler:info] GET /api/workspace 200 OK (17ms)
+{"event":"saha_request","requestId":"58c22274-7b02-4207-96ed-654719f9c89d","route":"workspace","status":200,"durationMs":19}
+[wrangler:info] GET /api/workspace 200 OK (23ms)
+[wrangler:info] GET /api/workspace 200 OK (30ms)
+{"event":"saha_request","requestId":"302a7b03-1132-4013-be0e-a53356d2fb4b","route":"workspace","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"a18016d5-aea3-4fed-ba37-4668cdfdd01c","route":"commands","status":200,"durationMs":18}
+[wrangler:info] POST /api/commands 200 OK (21ms)
+{"event":"saha_request","requestId":"a8a120e8-d92c-45b4-8fbb-8ec630ac70ff","route":"commands","status":200,"durationMs":29}
+[wrangler:info] POST /api/commands 200 OK (33ms)
+{"event":"saha_request","requestId":"e7a0382c-920a-4a09-93c0-aa10d5d443e5","route":"commands","status":200,"durationMs":21}
+[wrangler:info] POST /api/commands 200 OK (25ms)
+{"event":"saha_request","requestId":"c7acf9b3-012a-4939-ad38-1773bc5990e7","route":"commands","status":200,"durationMs":19}
+[wrangler:info] POST /api/commands 200 OK (21ms)
+{"event":"saha_request","requestId":"38e657d4-37d6-4cb6-9896-c2cbc95403b4","route":"commands","status":200,"durationMs":19}
+[wrangler:info] POST /api/commands 200 OK (21ms)
+{"event":"saha_request","requestId":"259da3e9-a023-45ca-8df4-02e1de5ffada","route":"commands","status":409,"durationMs":8}
+[wrangler:info] POST /api/commands 409 Conflict (11ms)
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Possible patient matches need review before a new record is created."}
+
+409 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:9:213
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:7:186)
+    at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:9:196)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async coherentReportingFixture (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/lib/privacy-api-coherent-fixture.mjs:16:23)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/privacy-api-coherent-focus.mjs:10:13 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 409,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

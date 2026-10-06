@@ -33,6 +33,8 @@ try {
   refuses(() => C.checkFacts({ ...base, entered: { weeks: { value: '20+9', unit: 'wk+d' } } }, at), 422, /enter a positive number in weeks \+ days/);
   check(() => { assert.equal(P.enteredText({ value: '16', unit: 'kPa' }), '16 kPa'); assert.equal(P.enteredText({ value: '20+3', unit: 'wk+d' }), '20+3 weeks + days'); assert.equal(P.enteredText({ value: '154', unit: 'lb' }), '154 lb'); });
   check(() => { const t = P.tidyValues({ ...base, entered: { systolic: { value: '16', unit: 'kPa' }, diastolic: { value: '10', unit: 'kPa' } } }); assert.equal(t.systolic, '120'); assert.equal(t.diastolic, '75'); assert.deepEqual(t.entered.systolic, { value: '16', unit: 'kPa' }); });
+  check(() => assert.match(P.normaliseUnits({...base,entered:{unknown:{value:'1',unit:'fake'}}}).problem,/no alternative unit is accepted/));
+  refuses(() => C.checkFacts({...base,entered:{unknown:{value:'1',unit:'fake'}}},at),422,/no alternative unit is accepted/);
   // 2. Population-specific ranges: versioned, labelled, keyed by age/sex/pregnancy, defaulting to the slice 2i ranges.
   check(() => { assert.equal(P.POPULATION_RANGES.version, 'saha-value-ranges-0.2.0'); assert.equal(P.POPULATION_RANGES.status, 'engineering placeholder — not clinically approved'); assert.equal(P.POPULATION_RANGES.groups.length, 2); });
   check(() => { assert.equal(P.valueTier('weight', '180'), 'reason'); assert.equal(P.valueTier('systolic', '150'), 'expected'); });

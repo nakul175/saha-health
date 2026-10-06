@@ -1,0 +1,24 @@
+{
+  "completedAt": "2026-10-05T02:09:13.891044+00:00",
+  "status": "configuration-passed-build-pending-license",
+  "checks": {
+    "gradleTasks": "BUILD SUCCESSFUL",
+    "gradleDistributionSha256": "matched official checksum",
+    "xmlParsing": 4,
+    "contract": 20,
+    "catalogue": "passed"
+  },
+  "toolchain": {
+    "jdk": "17.0.20.1",
+    "gradle": "8.11.1",
+    "agp": "8.10.1",
+    "androidBrowserHelper": "2.7.3",
+    "compileSdk": 36,
+    "targetSdk": 35,
+    "minSdk": 24
+  },
+  "apkBuilt": false,
+  "deviceTested": false,
+  "blocker": "Android SDK License Agreement acceptance pending. SDK36/platform-tools/build-tools not installed; no APK or lint result claimed.",
+  "limits": "Only Gradle project configuration and source/certificate checks verified. No native auth bypass, no invented signing fingerprint, no clinical acceptance."
+}

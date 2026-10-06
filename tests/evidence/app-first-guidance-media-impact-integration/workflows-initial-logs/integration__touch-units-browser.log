@@ -1,0 +1,14 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/worker.mjs:39
+    const timer = setTimeout(() => { if (!done) { done = true; p.kill('SIGTERM'); failed(new Error('Worker did not start:\n' + output.slice(-2000))); } }, 60000);
+                                                                                         ^
+
+Error: Worker did not start:
+
+ ⛅️ wrangler 4.92.0
+───────────────────
+
+    at Timeout._onTimeout (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/lib/worker.mjs:39:90)
+    at listOnTimeout (node:internal/timers:635:17)
+    at process.processTimers (node:internal/timers:571:7)
+
+Node.js v24.19.0

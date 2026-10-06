@@ -1,0 +1,329 @@
+{
+  "generatedAt": "2026-10-05T05:00:59.475Z",
+  "startedAt": "2026-10-05T05:00:29.717Z",
+  "command": "node scripts/test.mjs unit integration --only unit/field-media-capacity-client,unit/field-capacity-client,unit/offline-programme-contract,unit/command-authority-contract,unit/read-audit-completion-contract,unit/scoped-read-contract,integration/app-offline-review-browser,integration/app-offline-scope-browser,integration/offline-programme-browser,integration/delta-read-audit-http,integration/command-authority-http --fast --guard --update-baseline --reason Add counted prepared programme and command authority suites from current synthetic checks; preserve all existing minima --report tests/reports/app-first-programme-authority-focused.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 6,
+      "passed": 145,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 16482,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 5,
+      "passed": 105,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 13075,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 11,
+    "passed": 250,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 29758
+  },
+  "suites": [
+    {
+      "id": "unit/command-authority-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/command-authority-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 747,
+      "exitCode": 0,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__command-authority-contract.log"
+    },
+    {
+      "id": "unit/field-capacity-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-capacity-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4601,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-capacity-client-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-capacity-client.log"
+    },
+    {
+      "id": "unit/field-media-capacity-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-media-capacity-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9122,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-media-capacity-client-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-media-capacity-client.log"
+    },
+    {
+      "id": "unit/offline-programme-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/offline-programme-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 933,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__offline-programme-contract.log"
+    },
+    {
+      "id": "unit/read-audit-completion-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/read-audit-completion-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 52,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 557,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/read-audit-completion-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__read-audit-completion-contract.log"
+    },
+    {
+      "id": "unit/scoped-read-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/scoped-read-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 522,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/scoped-read-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__scoped-read-contract.log"
+    },
+    {
+      "id": "integration/app-offline-review-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/app-offline-review-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3952,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/integration__app-offline-review-browser.log"
+    },
+    {
+      "id": "integration/app-offline-scope-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/app-offline-scope-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3493,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/integration__app-offline-scope-browser.log"
+    },
+    {
+      "id": "integration/command-authority-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/command-authority-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1270,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__command-authority-http.log"
+    },
+    {
+      "id": "integration/delta-read-audit-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/delta-read-audit-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1567,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__delta-read-audit-http.log"
+    },
+    {
+      "id": "integration/offline-programme-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-programme-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2793,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-programme-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 6,
+    "newSuites": [
+      "unit/command-authority-contract",
+      "unit/offline-programme-contract",
+      "integration/command-authority-http",
+      "integration/delta-read-audit-http",
+      "integration/offline-programme-browser"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/app-offline-review/expired-grant.png",
+      "tests/evidence/app-offline-review/offline-patient.png",
+      "tests/evidence/offline-programme/programme-offline-phone.png"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/field-capacity-client-result.json",
+      "tests/field-media-capacity-client-result.json",
+      "tests/read-audit-completion-contract-result.json",
+      "tests/scoped-read-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 147,
+        "components": 0,
+        "suitesCitingNoRequirement": 34,
+        "requirementsCited": 139
+      },
+      "integration": {
+        "suites": 17,
+        "components": 84,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 120
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 190,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 155,
+    "suitesCitingNoRequirement": 45,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 155
+  }
+}

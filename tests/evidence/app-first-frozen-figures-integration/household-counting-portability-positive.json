@@ -1,0 +1,303 @@
+{
+  "generatedAt": "2026-10-05T10:09:53.132Z",
+  "startedAt": "2026-10-05T10:09:34.666Z",
+  "command": "node scripts/test.mjs unit integration --only unit/household-completion-contract,unit/indicator-household-counting-contract,integration/household-completion-http,integration/household-completion-browser,integration/household-completion-independent-http,integration/household-completion-authority-review,integration/indicator-figures-submission-independent,integration/report-portability-http,integration/report-portability-after-http --fast --guard --update-baseline --reason Observe newly integrated reviewed household, V3 counting and protected portability suites; preserve original minima. --report tests/evidence/app-first-frozen-figures-integration/household-counting-portability-positive.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 2,
+      "passed": 77,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1966,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 7,
+      "passed": 541,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 16271,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 9,
+    "passed": 618,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 18466
+  },
+  "suites": [
+    {
+      "id": "unit/household-completion-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/household-completion-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 988,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/household-completion/contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__household-completion-contract.log"
+    },
+    {
+      "id": "unit/indicator-household-counting-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/indicator-household-counting-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 35,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 978,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/report-household-counting-repair/contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__indicator-household-counting-contract.log"
+    },
+    {
+      "id": "integration/household-completion-authority-review",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/household-completion-authority-review.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 118,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2139,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/household-completion-independent/authority.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__household-completion-authority-review.log"
+    },
+    {
+      "id": "integration/household-completion-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/household-completion-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 39,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4507,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/household-completion/browser.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__household-completion-browser.log"
+    },
+    {
+      "id": "integration/household-completion-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/household-completion-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 105,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3001,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/household-completion/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__household-completion-http.log"
+    },
+    {
+      "id": "integration/household-completion-independent-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/household-completion-independent-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 105,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2178,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/household-completion-independent/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__household-completion-independent-http.log"
+    },
+    {
+      "id": "integration/indicator-figures-submission-independent",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/indicator-figures-submission-independent.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1184,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/report-household-counting-independent/submission-freshness-http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__indicator-figures-submission-independent.log"
+    },
+    {
+      "id": "integration/report-portability-after-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/report-portability-after-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 87,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1622,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/report-portability-independent-after/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__report-portability-after-http.log"
+    },
+    {
+      "id": "integration/report-portability-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/report-portability-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 79,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1640,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/report-portability/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__report-portability-http.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 0,
+    "newSuites": [
+      "unit/household-completion-contract",
+      "unit/indicator-household-counting-contract",
+      "integration/household-completion-authority-review",
+      "integration/household-completion-browser",
+      "integration/household-completion-http",
+      "integration/household-completion-independent-http",
+      "integration/indicator-figures-submission-independent",
+      "integration/report-portability-after-http",
+      "integration/report-portability-http"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/household-completion/phone.png",
+      "tests/evidence/report-portability-independent-after/adversarial-after.json",
+      "tests/evidence/report-portability-independent-after/verifier.json",
+      "tests/evidence/report-portability/verifier.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 186,
+        "components": 0,
+        "suitesCitingNoRequirement": 51,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 86,
+        "components": 84,
+        "suitesCitingNoRequirement": 21,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 34,
+        "components": 0,
+        "suitesCitingNoRequirement": 30,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 322,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 106,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

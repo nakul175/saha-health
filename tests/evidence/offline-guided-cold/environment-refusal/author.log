@@ -1,0 +1,21 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-offline-guided-cold/tests/lib/migrate.mjs:23
+    throw new Error(`Migrating the fresh local database failed: ${String(e.stderr ?? e.message).slice(-1200)}`);
+          ^
+
+Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1
+    at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+    at listenInCluster (node:net:2224:12)
+    at node:net:2448:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EPERM',
+  errno: -1,
+  syscall: 'listen',
+  address: '127.0.0.1'
+}
+
+    at migrateOnce (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-offline-guided-cold/tests/lib/migrate.mjs:23:11)
+    at freshDatabase (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-offline-guided-cold/tests/lib/worker.mjs:18:3)
+    at startWorker (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-offline-guided-cold/tests/lib/worker.mjs:29:14)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-offline-guided-cold/tests/offline-guided-cold-author-browser.mjs:3:18
+
+Node.js v24.19.0

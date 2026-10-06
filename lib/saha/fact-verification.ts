@@ -1,7 +1,8 @@
+import { appendVerificationDispute, retainVerificationHolds } from './verification-disputes';
 import { z } from 'zod';
 import { fail, person, uuid, visit } from './core';
 import { allowed } from './access';
-import { MEASURES, MEASURE_LABEL, measureOf, VALUE_FIELDS, VALUE_RANGES, currentOverride, entryContent, factMeasuresPresent, factReview, overrideConfirmation, rangeText, stampAuthors, stampEntryAuthors, valueTier } from './fact-provenance';
+import { MEASURES, MEASURE_LABEL, measureOf, VALUE_FIELDS, VALUE_RANGES, currentOverride, entryContent, factMeasuresPresent, factReview, overrideConfirmation, rangeText, stampAuthors, stampEntryAuthors, selectionForVisit, rangeContextProblem, valueTier } from './fact-provenance';
 import type { Actor } from './store';
 import type { FactAuthor, FactReview, Member, OrgState, OverrideConfirmation, ValueOverride, Visit } from './types';
 // Slice 2e: per-measurement author and clinician verification (BR-DATA-02).
@@ -38,10 +39,12 @@ export function applyFactReview(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
  if((v.factAuthors?.[c.measure]?.userId??v.patientCheck?.by)===u.userId)fail(403,'A different clinician must verify or dispute a measurement you recorded.');
  if(factReview(v,c.measure)?.state===c.decision)fail(409,`${label} is already ${c.decision}.`);
  if((v.factReviews?.length??0)>=100)fail(422,'Measurement review limit reached for this visit.');
+ retainVerificationHolds(v);
  const r:FactReview={id:uuid(),measure:c.measure,state:c.decision,by:u.userId,byName:u.displayName,at:now,...(c.reason?{reason:c.reason}:{})};
  (v.factReviews??=[]).push(r);
- s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:v.id,personId:v.personId,detail:`${label} ${c.decision} by a clinician on a confirmed visit; facts unchanged.${c.reason?` Reason: ${c.reason}`:''}`});
- return {reviewId:r.id,measure:r.measure,state:r.state};
+ const finish=()=>{s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:v.id,personId:v.personId,detail:`${label} ${c.decision} by a clinician on a confirmed visit; facts unchanged.${c.reason?` Reason: ${c.reason}`:''}`});
+ return {reviewId:r.id,measure:r.measure,state:r.state};};
+ return r.state==='disputed'?appendVerificationDispute(v,r,'fact:'+r.measure,u,m).then(finish):finish();
 }
 // Slice 2i: the clinician confirmation is bound to one override (value, unit entry and reason). It is appended to the
 // visit and audited; facts and the visit version do not change, so the recorder's open draft stays current.
@@ -51,7 +54,7 @@ function confirmUnusual(s:OrgState,c:{visitId:string;version:number;field:(typeo
  if(v.state!=='draft')fail(409,'Unusual values are confirmed on the draft, before the visit is confirmed.');
  if(v.version!==c.version)fail(409,'This visit changed. Refresh before confirming an unusual value.');
  const o=currentOverride(v,c.field);if(!o||o.id!==c.overrideId)fail(409,`${label}: this unusual value is no longer the current one. Refresh the visit.`);
- if(valueTier(c.field,v.facts[c.field])!=='clinician')fail(409,`${label}: this value needs only the recorder's reason, not a clinician confirmation.`);
+ const staleRange=rangeContextProblem(v,s.workspace.people.find(p=>p.id===v.personId));if(staleRange)fail(409,staleRange);if(valueTier(c.field,v.facts[c.field],undefined,selectionForVisit(v))!=='clinician')fail(409,`${label}: this value needs only the recorder's reason, not a clinician confirmation.`);
  // Slice 6ab: the confirmer must not be the value's recorder (the measurement's author) nor the author of any override
  // carrying the same value in this visit's history; rewording the reason or re-entering the value in another unit
  // credits a new override to someone else but does not make the original recorder independent.
@@ -69,13 +72,13 @@ function confirmUnusual(s:OrgState,c:{visitId:string;version:number;field:(typeo
 // override and confirmation. Nothing is removed: earlier overrides stay as history.
 function recordOverrides(v:Visit,base:Visit|undefined,old:Visit|undefined,actor:FactAuthor,s:OrgState,u:Actor,m:Member,now:string){
  if(!old&&base&&!v.valueOverrides){if(base.valueOverrides)v.valueOverrides=structuredClone(base.valueOverrides);if(base.overrideConfirmations)v.overrideConfirmations=structuredClone(base.overrideConfirmations);}
- const added:string[]=[];
- for(const field of VALUE_FIELDS){const reason=v.facts.unusual?.[field],value=v.facts[field];if(!reason||!value)continue;const tier=valueTier(field,value);if(tier==='expected')continue;
+ const added:string[]=[],selection=selectionForVisit(v);
+ for(const field of VALUE_FIELDS){const reason=v.facts.unusual?.[field],value=v.facts[field];if(!reason||!value)continue;const tier=valueTier(field,value,undefined,selection);if(tier==='expected')continue;
   const entered=v.facts.entered?.[field],last=[...(v.valueOverrides??[])].reverse().find(o=>o.field===field);
-  if(last&&last.value===value&&last.reason===reason&&JSON.stringify(last.entered??null)===JSON.stringify(entered??null))continue;
-  const r=VALUE_RANGES.fields[field];const o:ValueOverride={id:uuid(),field,value,unit:r.unit,...(entered?{entered:{...entered}}:{}),reason,tier,expected:[...r.expected],confirm:[...r.confirm],rangesVersion:VALUE_RANGES.version,by:{...actor},at:now,visitId:v.id};
+  if(last&&last.value===value&&last.reason===reason&&last.rangeCaptureId===v.valueRangeCapture?.id&&JSON.stringify(last.entered??null)===JSON.stringify(entered??null))continue;
+  const r=selection.fields[field];const o:ValueOverride={id:uuid(),field,value,unit:r.unit,...(entered?{entered:{...entered}}:{}),reason,tier,expected:[...r.expected],confirm:[...r.confirm],rangesVersion:selection.version,...(v.valueRangeCapture?{rangeCaptureId:v.valueRangeCapture.id}:{}),by:{...actor},at:now,visitId:v.id};
   (v.valueOverrides??=[]).push(o);added.push(`${r.label} ${value} ${r.unit}${entered?` (entered as ${entered.value} ${entered.unit})`:''} outside ${rangeText(field,r.expected)}${tier==='clinician'?`, beyond ${rangeText(field,r.confirm)} so a clinician must confirm it`:''}; reason: ${reason}`);}
- if(added.length)s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'recordUnusualValue',subject:v.id,personId:v.personId,detail:`Unusual value recorded with a reason (${VALUE_RANGES.version}, ${VALUE_RANGES.status}): ${added.join('; ')}.`});
+ if(added.length)s.workspace.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:'recordUnusualValue',subject:v.id,personId:v.personId,detail:`Unusual value recorded with a reason (${selection.version}, ${selection.status}): ${added.join('; ')}.`});
 }
 // Credits changed measurements to the authenticated actor. Runs on the server after a command changed state.
 export function recordFactAuthors(before:OrgState,after:OrgState,u:Actor,m:Member,now=new Date().toISOString()){

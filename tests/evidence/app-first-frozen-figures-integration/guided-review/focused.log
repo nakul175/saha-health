@@ -1,0 +1,28 @@
+Running unit integration smoke --fast; 3 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/app-first-ui  15 passed  218ms
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/guided-home-browser ...
+  ok       integration/guided-home-browser  33 passed  9.9s
+
+[smoke] 1 suite(s)
+  running  smoke/app-back-browser ...
+  ok       smoke/app-back-browser  11 passed  5.3s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       1      15       0        0  218ms
+  integration  passed       1      33       0        0   9.9s
+  smoke        passed       1      11       0        0   5.3s
+  total        passed       3      59       0        0  15.7s
+
+Restored 3 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).
+  note     1 suite(s) are not in the baseline yet (integration/guided-home-browser); add them with --update-baseline.
+
+Baseline tests/regression-baseline.json updated: 1 added, 0 raised, 0 lowered, 0 removed, 2 unchanged.
+  Review the diff and commit it with the change that justifies it.

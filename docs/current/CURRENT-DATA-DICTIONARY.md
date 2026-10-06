@@ -1,6 +1,6 @@
 # Current data dictionary
 
-Generated from `db/schema.ts`: **34 application tables** and **234 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
+Generated from `db/schema.ts`: **60 application tables** and **475 declared SQL columns**. The local recovery report includes one additional D1 metadata table. The [CSV](DATA-DICTIONARY.csv) lists columns and source locations; constraints remain authoritative in schema and applied SQL.
 
 | Table | Declaration | SQL columns |
 | --- | --- | ---: |
@@ -20,7 +20,7 @@ Generated from `db/schema.ts`: **34 application tables** and **234 declared SQL 
 | `referrals` | `referrals` | 4 |
 | `record_revisions` | `recordRevisions` | 13 |
 | `audit_events` | `auditEvents` | 13 |
-| `command_receipts` | `commandReceipts` | 7 |
+| `command_receipts` | `commandReceipts` | 11 |
 | `legacy_migrations` | `legacyMigrations` | 6 |
 | `operations` | `operations` | 2 |
 | `request_metrics` | `requestMetrics` | 7 |
@@ -36,8 +36,34 @@ Generated from `db/schema.ts`: **34 application tables** and **234 declared SQL 
 | `identity_cases` | `identityCases` | 8 |
 | `rights_requests` | `rightsRequests` | 8 |
 | `retention` | `retention` | 2 |
-| `media` | `media` | 11 |
+| `media` | `media` | 12 |
 | `scheduled_cursor` | `scheduledCursor` | 3 |
+| `abha_review_reservations` | `abhaReviewReservations` | 7 |
+| `availability_samples` | `availabilitySamples` | 9 |
+| `device_work_grants` | `deviceWorkGrants` | 13 |
+| `device_work_events` | `deviceWorkEvents` | 9 |
+| `device_registration_grants` | `deviceRegistrationGrants` | 13 |
+| `device_registration_receipts` | `deviceRegistrationReceipts` | 6 |
+| `device_match_copies` | `deviceMatchCopies` | 8 |
+| `device_registration_wire_receipts` | `deviceRegistrationWireReceipts` | 7 |
+| `work_burden_samples` | `workBurdenSamples` | 16 |
+| `work_support_events` | `workSupportEvents` | 14 |
+| `offline_open_reports` | `offlineOpenReports` | 12 |
+| `offline_open_subjects` | `offlineOpenSubjects` | 6 |
+| `clinical_source_documents` | `clinicalSourceDocuments` | 8 |
+| `indicator_figures` | `indicatorFigures` | 8 |
+| `indicator_figure_units` | `indicatorFigureUnits` | 5 |
+| `indicator_figure_events` | `indicatorFigureEvents` | 11 |
+| `indicator_figure_receipts` | `indicatorFigureReceipts` | 6 |
+| `indicator_figure_disclosures` | `indicatorFigureDisclosures` | 6 |
+| `media_custody` | `mediaCustody` | 15 |
+| `reporting_calendars` | `reportingCalendars` | 8 |
+| `reporting_calendar_events` | `reportingCalendarEvents` | 11 |
+| `reporting_coverage` | `reportingCoverage` | 9 |
+| `reporting_completeness_snapshots` | `reportingCompletenessSnapshots` | 7 |
+| `reporting_completeness_receipts` | `reportingCompletenessReceipts` | 7 |
+| `installed_pack_work_events` | `installedPackWorkEvents` | 8 |
+| `installed_pack_transition_events` | `installedPackTransitionEvents` | 7 |
 
 ## JSON document owners
 

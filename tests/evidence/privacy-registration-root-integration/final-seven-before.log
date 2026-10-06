@@ -1,0 +1,38 @@
+Running smoke nfr uat --fast; 7 suite(s).
+
+[smoke] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/hosted-smoke ...
+  ok       smoke/hosted-smoke  8 passed  3.4s
+  running  smoke/local-smoke ...
+  FAILED   smoke/local-smoke  27 passed, 1 failed, 1 skipped  2.7s  [exit code 1]
+      | error lines:
+      |   FAIL the supervisor reads operations (aggregate, owner-only detail withheld) and sees the uncertain destination alert: Expected values to be strictly equal:
+      |   SMOKE (local) FAIL in 2.6 s (migrate 598 ms, Worker start 613 ms)
+      | FAIL the supervisor reads operations (aggregate, owner-only detail withheld) and sees the uncertain destination alert: Expected values to be strictly equal:
+      | {"suite":"Smoke (local)","passed":27,"failed":1,"skipped":1,"completedAt":"2026-10-05T21:51:15.423Z"}
+      | SMOKE (local) FAIL in 2.6 s (migrate 598 ms, Worker start 613 ms)
+
+[nfr] 2 suite(s)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  59 passed  10.4s
+  running  nfr/identity-hardening ...
+  ok       nfr/identity-hardening  29 passed  4.2s
+
+[uat] 3 suite(s)
+  running  uat/check-uat-register ...
+  ok       uat/check-uat-register  44 passed  179ms
+  running  uat/coverage-map ...
+  ok       uat/coverage-map  9 passed  212ms
+  running  uat/generate-uat-pack ...
+  ok       uat/generate-uat-pack  10 passed  221ms
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  smoke  failed       2      35       1        1   6.1s
+  nfr    passed       2      88       0        0  14.7s
+  uat    passed       3      63       0        0  612ms
+  total  FAILED       7     186       1        1  21.7s
+
+Regression guard: FAILED (7 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite smoke/local-smoke passed 27 assertion(s); baseline is 28 (down 1).

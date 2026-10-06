@@ -1,0 +1,17 @@
+{
+  "failed": 1,
+  "case": "First accepted registration report after wire dependency integration",
+  "actualStatus": 503,
+  "expectedStatus": 200,
+  "cause": "New B04 explicit command_type projection queried an optional column not present before0021. Changed to SELECT * and uses the field only when available, matching protected registration authority validator. Exact original grant/receipt/wire mapping remain required.",
+  "observedReceiptColumns": [
+    "actor_id",
+    "key",
+    "org_id",
+    "hash",
+    "result",
+    "person_id",
+    "created_at"
+  ],
+  "productionSchemaUnchanged": true
+}

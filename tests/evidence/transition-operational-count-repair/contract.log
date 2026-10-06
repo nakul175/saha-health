@@ -1,0 +1,9 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-transition-operational-parity-probe/.transition-contract-2c8pCf/operations.js:137
+    const today = now.toISOString().slice(0, 10), since = new Date(Date.parse(today + 'T00:00:00Z') - (days - 1) * 86400000).toISOString(), until = now.toISOString();
+                      ^
+
+TypeError: now.toISOString is not a function
+    at Module.careReport (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-transition-operational-parity-probe/.transition-contract-2c8pCf/operations.js:137:23)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-transition-operational-parity-probe/tests/transition-operational-count-repair-contract.mjs:17:668
+
+Node.js v24.19.0

@@ -1,3 +1,5 @@
+import {acquireSyntheticSource} from '../lib/clinical-source-fixture.mjs';
+import assert from 'node:assert/strict';
 // Slice 11d: authorisation matrix (non-functional: security). One organisation with an owner, an admin, a supervisor, two ASHAs (each
 // assigned different patients), a clinician and a stranger with their own organisation. Every GET route in docs/current/HTTP-ROUTES.csv is
 // requested as every role and anonymously, and a representative set of POST /api/commands commands is sent as every role.
@@ -32,14 +34,24 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/media': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
+  '/api/inbound-conflicts': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
+  '/api/indicator-figures': () => [{ q: '' }],
+  '/api/reporting-completeness': () => [{ q: '' }],
+  '/api/installed-pack-work': w => [{q:''},{q:`?personId=${w.people.a2}`,kind:'person'}],
+  '/api/installed-pack-transition': () => [{q:''}], // migration 0032: audited read of reviewed programme transitions; every principal is checked for patient, token and organisation leakage like the other GET routes
+  '/api/imported-evidence': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
+  '/api/clinical-sources': w => [{q:w.sourceQuery}],
   ...Object.fromEntries(PERSON.map(p => [p, w => [{ q: `?personId=${w.people.a2}`, kind: 'person' }]])),
   '/api/rights': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
+  '/api/work-burden/support': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
+  '/api/work-burden/attribution': () => [{ q: '' }],
   '/api/trace': w => [{ q: `?visit=${w.visits.v2}`, kind: 'visit' }],
   '/api/governance': w => [{ q: '' }, { q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/fhir/[id]': w => [{ path: `/api/fhir/${w.visits.v2}`, q: `?organisationId=${w.org}`, kind: 'visit' }],
   '/api/media/[id]': w => [{ path: `/api/media/${w.mediaId}`, q: `?organisationId=${w.org}`, kind: 'media' }],
   // Routes with no resource parameter (or only optional filters): requested bare.
-  ...Object.fromEntries(['/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
+  ...Object.fromEntries(['/api/work-burden/policy', '/api/work-burden', '/api/availability', '/api/value-range-protocols', '/api/aggregate-reports', '/api/alerts', '/api/anaemia-provider', '/api/audit/chain', '/api/audit', '/api/caseload', '/api/continuity', '/api/data-exit', '/api/delegations', '/api/environment', '/api/exceptional', '/api/exceptions', '/api/expansion', '/api/facility-scope', '/api/fixture-migration', '/api/frontline-providers', '/api/incentive-claims', '/api/indicators', '/api/notification-channel', '/api/operations', '/api/outreach', '/api/pack-installations', '/api/patients', '/api/pilot', '/api/programme-migration', '/api/provider-sandbox', '/api/purpose-scope', '/api/reassignment', '/api/referral-escalations', '/api/referral-requests', '/api/retention', '/api/worker-activity', '/api/worklists', '/api/workspace'].map(p => [p, () => [{ q: '' }]])),
 };
 const PRINCIPALS = ['anonymous', ...ROLES];
 const ABBR = { anonymous: 'anon', owner: 'owner', admin: 'admin', supervisor: 'super', asha1: 'asha1', asha2: 'asha2', clinician: 'clin', stranger: 'strngr' };
@@ -49,6 +61,7 @@ const worker = await startWorker({ port: PORT, name: 'nfr-authorisation' });
 let world;
 try {
   world = await buildWorld(worker.base);
+  world.sourceQuery=await acquireSyntheticSource(world.api,world.who.owner,world.org,'role-control');
   const { api, who, org } = world;
   console.log(`world built in ${Math.round(performance.now() - t0)} ms (7 roles, 3 patients, 2 confirmed visits, 1 draft visit with media)`);
   const as = l => (l === 'anonymous' ? null : who[l]);
@@ -105,7 +118,10 @@ try {
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
   await r.check('control: owner gets 2xx on every route (the requests are well formed, so refusals elsewhere are real refusals)', () => none(violations((c, p) => p === 'owner' && !(c.cells[p].status >= 200 && c.cells[p].status < 300) ? 'expected 2xx' : ''), 'owner control'));
-  await r.check('control: for every route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1\'s refusal is a scope refusal, not a malformed request)', () => none(violations((c, p) => p === 'asha2' && c.kind !== 'plain' && c.cells[p].status !== 200 ? 'expected 200' : ''), 'asha2 control'));
+  await r.check('control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1\'s refusal is a scope refusal, not a malformed request)', () => none(violations((c, p) => p === 'asha2' && c.kind !== 'plain' && c.kind !== 'clinical-source-person' && c.cells[p].status !== 200 ? 'expected 200' : ''), 'asha2 control'));
+  await r.check('clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA', () => { const c=cases.find(c=>c.route==='/api/imported-evidence');assert.ok(c);for(const p of ['owner','clinician'])assert.equal(c.cells[p].status,200,fmt(c,p));for(const p of ['asha1','asha2'])assert.equal(c.cells[p].status,403,fmt(c,p)); });
+  await r.check('inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator', () => { const c=cases.find(c=>c.route==='/api/inbound-conflicts');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','clinician','supervisor'].includes(p)?200:403,fmt(c,p)); });
+  await r.check('frozen figure metadata permits current reporting owner/supervisor and refuses other roles', () => { const c=cases.find(c=>c.route==='/api/indicator-figures');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','supervisor'].includes(p)?200:403,fmt(c,p)); });
   await r.check('(i) no route returns 5xx for any role or anonymously', () => none(violations((c, p) => c.cells[p].status >= 500 ? 'server error' : ''), '5xx'));
   await r.check('(ii) anonymous gets 401 on every GET /api/ route', () => none(violations((c, p) => p === 'anonymous' && c.cells[p].status !== 401 ? 'expected 401' : ''), 'anonymous'));
   await r.check('(iii-a) the stranger never gets 2xx for this organisation (every GET route refuses with 403)', () => none(violations((c, p) => p === 'stranger' && c.cells[p].status !== 403 ? 'expected 403' : ''), 'stranger status'));
@@ -116,6 +132,11 @@ try {
   await r.check('(v-b) the admin gets 403 or 404 on every route that names a patient, visit or media item', () => none(violations((c, p) => p === 'admin' && c.kind !== 'plain' && ![403, 404].includes(c.cells[p].status) ? 'expected 403 or 404' : ''), 'admin refusal'));
   await r.check('(vi) no response carries an invitation token or its stored hash (searched by value, for every principal)', () => none(violations((c, p) => c.cells[p].tokenHash.length ? `invitation secret in the response: ${c.cells[p].tokenHash.join(',')}` : ''), 'token hash'));
   await r.check('(vii) every API response is Cache-Control: no-store', () => none(violations((c, p) => !/no-store/.test(c.cells[p].cache ?? '') ? `cache-control: ${c.cells[p].cache}` : ''), 'caching'));
+
+  await r.check('work-burden policy requires current care membership for every role', () => { const c=cases.find(x=>x.route==='/api/work-burden/policy'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','asha1','asha2','clinician'].includes(p)?200:403,p); });
+  await r.check('work-burden report is operations-only for every current role', () => { const c=cases.find(x=>x.route==='/api/work-burden'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','admin'].includes(p)?200:403,p); });
+  await r.check('availability report is operations-only for every current role', () => { const c=cases.find(x=>x.route==='/api/availability'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','admin'].includes(p)?200:403,p); });
+  await r.check('value range publication report is owner/clinician-only for every current role', () => { const c=cases.find(x=>x.route==='/api/value-range-protocols'); for(const p of ROLES) assert.equal(c.cells[p].status,['owner','clinician'].includes(p)?200:403,p); });
 
   // ── Anonymous on the non-GET routes ─────────────────────────────────────────────────────────────────────────────────────────────────
   const png = new Uint8Array(2048); png.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
@@ -132,9 +153,12 @@ try {
   console.log('Anonymous on non-GET routes:\n' + anonRows.map(x => `${x.method.padEnd(7)}${x.route.padEnd(28)}${x.status}  ${x.error}`).join('\n') + '\n');
   // /api/mis/callback is a webhook authenticated by an HMAC signature and a per-organisation grant, not by a signed-in identity
   // (lib/saha/mis-callback.ts authenticateCallback), so an unsigned anonymous call is refused by validation or signature rather than 401.
-  const WEBHOOK = new Set(['/api/mis/callback']);
-  await r.check('(ii) anonymous gets 401 on every POST and DELETE /api/ route, except the signature-authenticated MIS webhook', () => none(anonRows.filter(x => !WEBHOOK.has(x.route) && x.status !== 401).map(x => `${x.method} ${x.route}: ${x.status} ${x.error}`), 'anonymous non-GET'));
+  // The synthetic reminder callback likewise requires a signature and exact organisation grant;
+  // malformed input can be refused before authentication. Both exceptions must independently refuse it.
+  const WEBHOOK = new Set(['/api/mis/callback', '/api/reminder-optout/callback']);
+  await r.check('(ii) anonymous gets 401 on every POST and DELETE /api/ route, except signature-authenticated callbacks', () => none(anonRows.filter(x => !WEBHOOK.has(x.route) && x.status !== 401).map(x => `${x.method} ${x.route}: ${x.status} ${x.error}`), 'anonymous non-GET'));
   await r.check('(ii) the MIS webhook refuses an unsigned anonymous call (4xx, never 2xx or 5xx)', () => { const x = anonRows.find(y => y.route === '/api/mis/callback'); if (!x || x.status < 400 || x.status >= 500) throw new Error(`/api/mis/callback: ${x?.status}`); });
+  await r.check('(ii) the reminder callback refuses an unsigned anonymous call (4xx, never 2xx or 5xx)', () => { const x = anonRows.find(y => y.route === '/api/reminder-optout/callback'); if (!x || x.status < 400 || x.status >= 500) throw new Error(`/api/reminder-optout/callback: ${x?.status}`); });
 
   // ── Search and write routes other than /api/commands ───────────────────────────────────────────────────────────────────────────────────
   const ownerSnap = await world.load('owner', org), a2 = ownerSnap.people.find(p => p.id === world.people.a2);

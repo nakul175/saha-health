@@ -1,0 +1,2852 @@
+{
+  "passed": 281,
+  "failed": 44,
+  "normalFetchNoRetry": true,
+  "actualWorker": true,
+  "actualD1": true,
+  "observations": [
+    {
+      "round": 0,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 0,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 4,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 5,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 6,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 7,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 8,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 9,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 10,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 11,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 12,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 13,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 14,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 15,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 16,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 17,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 18,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 19,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 20,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 21,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 22,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 23,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 24,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 25,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 26,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 27,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 28,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "UND_ERR_SOCKET"
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 29,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 30,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/attribution",
+      "kind": "malformed",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/attribution",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/attribution",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/attribution",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/attribution",
+      "kind": "stream",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/support",
+      "kind": "malformed",
+      "bytes": 1,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/support",
+      "kind": "plain",
+      "bytes": 1,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/support",
+      "kind": "cross-site",
+      "bytes": 1,
+      "status": 403,
+      "expected": 403,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/support",
+      "kind": "oversized",
+      "bytes": 10000,
+      "status": 401,
+      "expected": 401,
+      "ok": true
+    },
+    {
+      "round": 31,
+      "path": "/api/work-burden/support",
+      "kind": "stream",
+      "bytes": 10000,
+      "error": "TypeError: fetch failed",
+      "cause": "EPIPE"
+    }
+  ],
+  "counts": {
+    "audit_events": 0,
+    "command_receipts": 0,
+    "work_burden_samples": 0,
+    "work_support_events": 0,
+    "request_metrics": 0
+  }
+}

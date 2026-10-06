@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "actualSQLite": true,
+  "tables": 58,
+  "columns": 460,
+  "migrations": 31,
+  "allColumnNamesExact": true,
+  "compoundCalendarForeignKeys": {
+    "reporting_calendar_events": {
+      "declared": "org_id,calendar_id,calendar_version",
+      "actual": "org_id,calendar_id,calendar_version"
+    },
+    "reporting_coverage": {
+      "declared": "org_id,calendar_id,calendar_version",
+      "actual": "org_id,calendar_id,calendar_version"
+    },
+    "reporting_completeness_receipts": {
+      "declared": "org_id,calendar_id,calendar_version",
+      "actual": "org_id,calendar_id,calendar_version"
+    }
+  },
+  "appliedMigrationBytesUnchanged": true
+}

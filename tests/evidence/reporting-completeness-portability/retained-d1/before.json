@@ -1,0 +1,376 @@
+{
+  "source": "a33e2b4595faa3ae17d5cb30d487e87c66ce879f",
+  "response": {
+    "version": 1,
+    "evaluatedAt": "2026-10-05T20:04:19.679Z",
+    "window": {
+      "since": "2026-09-06T00:00:00.000Z",
+      "until": "2026-10-05T20:04:19.679Z",
+      "days": 30
+    },
+    "calendars": [
+      {
+        "id": "upgrade-calendar",
+        "version": 1,
+        "digest": "44e1c1317e846ab6dd1d06841a2bebd30f6546df6d4c8fedb5002077cd790677",
+        "effectiveAt": "2026-10-05T20:04:19.635Z",
+        "title": "Synthetic preserved calendar",
+        "definitions": [
+          "visits-confirmed@1"
+        ]
+      }
+    ],
+    "coverage": "operator-declared-complete",
+    "clinicalDenominator": "unknown",
+    "affectedDenominatorCoverage": [],
+    "affectedSourcePeriods": [],
+    "sources": [
+      {
+        "calendarId": "upgrade-calendar",
+        "calendarVersion": 1,
+        "calendarDigest": "44e1c1317e846ab6dd1d06841a2bebd30f6546df6d4c8fedb5002077cd790677",
+        "teamId": "default",
+        "periodId": "period-one",
+        "start": "2026-09-10T20:04:19.495Z",
+        "end": "2026-10-04T20:04:19.495Z",
+        "deadline": "2026-10-05T19:04:19.495Z",
+        "deadlinePassed": true,
+        "sourceId": "mis-source",
+        "source": "Programme source",
+        "kind": "mis",
+        "status": "declared-complete",
+        "affectedOperands": [
+          {
+            "definitionRef": "visits-confirmed@1",
+            "component": "numerator",
+            "coverage": "declared-complete",
+            "clinicalDenominator": "unknown"
+          }
+        ],
+        "lateHours": 24,
+        "syncHours": 6,
+        "coverageTimeliness": "declared coverage arrived late",
+        "refreshAt": "2026-10-05T20:04:19.657Z",
+        "evidence": {
+          "id": "86354dde-c426-4cc6-8e21-4471d577a0c0",
+          "version": 1,
+          "status": "complete",
+          "through": "2026-10-04T20:04:19.495Z",
+          "evidenceHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "actorId": "t-d95d2664-calendar-upgrade-reviewer",
+          "memberVersion": 1,
+          "role": "supervisor",
+          "at": "2026-10-05T20:04:19.657Z"
+        },
+        "warning": "Operator-declared source coverage; clinical denominator remains unknown."
+      }
+    ],
+    "notice": "Expected-source coverage is distinct from patient/clinical denominator. Observed receipts or activity never establish completeness. No matching released calendar or period means unknown coverage.",
+    "evidenceId": "651eb930-4659-49aa-a35d-4f6d39dae122",
+    "digest": "93048441eeea90d84e7e97a791f0d4c527ba7156ed659c622cb2f683c9382ea3"
+  },
+  "originals": {
+    "reporting_calendars": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "id": "upgrade-calendar",
+        "version": 1,
+        "author_id": "t-2bcf34af-calendar-upgrade-owner",
+        "author_version": 1,
+        "created_at": "2026-10-05T20:04:19.507Z",
+        "digest": "44e1c1317e846ab6dd1d06841a2bebd30f6546df6d4c8fedb5002077cd790677",
+        "data": "{\"title\":\"Synthetic preserved calendar\",\"teamIds\":[\"default\"],\"definitions\":[\"visits-confirmed@1\"],\"periods\":[{\"id\":\"period-one\",\"start\":\"2026-09-10T20:04:19.495Z\",\"end\":\"2026-10-04T20:04:19.495Z\",\"deadline\":\"2026-10-05T19:04:19.495Z\"}],\"sources\":[{\"id\":\"mis-source\",\"label\":\"Programme source\",\"kind\":\"mis\",\"integrationId\":\"mis_community\",\"lateHours\":24,\"syncHours\":6,\"affects\":[{\"definitionRef\":\"visits-confirmed@1\",\"component\":\"numerator\"}]}]}"
+      }
+    ],
+    "reporting_calendar_events": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "id": "84acd739-65c4-4807-a9c1-436d73ada24a",
+        "sequence": 1,
+        "kind": "proposed",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "member_version": 1,
+        "role": "clinician",
+        "at": "2026-10-05T20:04:19.507Z",
+        "data": "{\"id\":\"84acd739-65c4-4807-a9c1-436d73ada24a\",\"sequence\":1,\"kind\":\"proposed\",\"actorId\":\"t-2bcf34af-calendar-upgrade-owner\",\"memberVersion\":1,\"role\":\"clinician\",\"at\":\"2026-10-05T20:04:19.507Z\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "id": "ab1a2458-7d2c-4edc-b257-60830645a7c3",
+        "sequence": 2,
+        "kind": "approved",
+        "actor_id": "t-d95d2664-calendar-upgrade-reviewer",
+        "member_version": 1,
+        "role": "supervisor",
+        "at": "2026-10-05T20:04:19.526Z",
+        "data": "{\"id\":\"ab1a2458-7d2c-4edc-b257-60830645a7c3\",\"sequence\":2,\"kind\":\"approved\",\"actorId\":\"t-d95d2664-calendar-upgrade-reviewer\",\"memberVersion\":1,\"role\":\"supervisor\",\"at\":\"2026-10-05T20:04:19.526Z\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "id": "d2346128-4eb2-42a2-bb22-8c02d33ce8c9",
+        "sequence": 3,
+        "kind": "released",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "member_version": 1,
+        "role": "clinician",
+        "at": "2026-10-05T20:04:19.546Z",
+        "data": "{\"id\":\"d2346128-4eb2-42a2-bb22-8c02d33ce8c9\",\"sequence\":3,\"kind\":\"released\",\"actorId\":\"t-2bcf34af-calendar-upgrade-owner\",\"memberVersion\":1,\"role\":\"clinician\",\"at\":\"2026-10-05T20:04:19.546Z\",\"effectiveAt\":\"2026-10-05T20:04:19.635Z\",\"reviewId\":\"ab1a2458-7d2c-4edc-b257-60830645a7c3\"}"
+      }
+    ],
+    "reporting_coverage": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "team_id": "default",
+        "source_id": "mis-source",
+        "period_id": "period-one",
+        "version": 1,
+        "id": "86354dde-c426-4cc6-8e21-4471d577a0c0",
+        "data": "{\"id\":\"86354dde-c426-4cc6-8e21-4471d577a0c0\",\"calendarId\":\"upgrade-calendar\",\"calendarVersion\":1,\"teamId\":\"default\",\"sourceId\":\"mis-source\",\"periodId\":\"period-one\",\"version\":1,\"status\":\"complete\",\"through\":\"2026-10-04T20:04:19.495Z\",\"evidenceHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"actorId\":\"t-d95d2664-calendar-upgrade-reviewer\",\"memberVersion\":1,\"role\":\"supervisor\",\"at\":\"2026-10-05T20:04:19.657Z\"}"
+      }
+    ],
+    "reporting_completeness_snapshots": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "id": "651eb930-4659-49aa-a35d-4f6d39dae122",
+        "figure_id": null,
+        "created_at": "2026-10-05T20:04:19.679Z",
+        "digest": "93048441eeea90d84e7e97a791f0d4c527ba7156ed659c622cb2f683c9382ea3",
+        "basis": "155ff0dc224e4bfec5e32a4c153f262da73d74a7cb7e0e22680ab062790e934f",
+        "data": "{\"version\":1,\"evaluatedAt\":\"2026-10-05T20:04:19.679Z\",\"window\":{\"since\":\"2026-09-06T00:00:00.000Z\",\"until\":\"2026-10-05T20:04:19.679Z\",\"days\":30},\"calendars\":[{\"id\":\"upgrade-calendar\",\"version\":1,\"digest\":\"44e1c1317e846ab6dd1d06841a2bebd30f6546df6d4c8fedb5002077cd790677\",\"effectiveAt\":\"2026-10-05T20:04:19.635Z\",\"title\":\"Synthetic preserved calendar\",\"definitions\":[\"visits-confirmed@1\"]}],\"coverage\":\"operator-declared-complete\",\"clinicalDenominator\":\"unknown\",\"affectedDenominatorCoverage\":[],\"affectedSourcePeriods\":[],\"sources\":[{\"calendarId\":\"upgrade-calendar\",\"calendarVersion\":1,\"calendarDigest\":\"44e1c1317e846ab6dd1d06841a2bebd30f6546df6d4c8fedb5002077cd790677\",\"teamId\":\"default\",\"periodId\":\"period-one\",\"start\":\"2026-09-10T20:04:19.495Z\",\"end\":\"2026-10-04T20:04:19.495Z\",\"deadline\":\"2026-10-05T19:04:19.495Z\",\"deadlinePassed\":true,\"sourceId\":\"mis-source\",\"source\":\"Programme source\",\"kind\":\"mis\",\"status\":\"declared-complete\",\"affectedOperands\":[{\"definitionRef\":\"visits-confirmed@1\",\"component\":\"numerator\",\"coverage\":\"declared-complete\",\"clinicalDenominator\":\"unknown\"}],\"lateHours\":24,\"syncHours\":6,\"coverageTimeliness\":\"declared coverage arrived late\",\"refreshAt\":\"2026-10-05T20:04:19.657Z\",\"evidence\":{\"id\":\"86354dde-c426-4cc6-8e21-4471d577a0c0\",\"version\":1,\"status\":\"complete\",\"through\":\"2026-10-04T20:04:19.495Z\",\"evidenceHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"actorId\":\"t-d95d2664-calendar-upgrade-reviewer\",\"memberVersion\":1,\"role\":\"supervisor\",\"at\":\"2026-10-05T20:04:19.657Z\"},\"warning\":\"Operator-declared source coverage; clinical denominator remains unknown.\"}],\"notice\":\"Expected-source coverage is distinct from patient/clinical denominator. Observed receipts or activity never establish completeness. No matching released calendar or period means unknown coverage.\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "id": "06bae0c8-dc9c-41b2-ac21-67abd560a782",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "created_at": "2026-10-05T20:04:19.713Z",
+        "digest": "8960ae904dfcefd91717a78127957f5efbbfe0202ea8c466e70c55c387c44cc2",
+        "basis": "155ff0dc224e4bfec5e32a4c153f262da73d74a7cb7e0e22680ab062790e934f",
+        "data": "{\"version\":1,\"evaluatedAt\":\"2026-10-05T20:04:19.713Z\",\"window\":{\"since\":\"2026-09-06T00:00:00.000Z\",\"until\":\"2026-10-05T20:04:19.703Z\",\"days\":30},\"calendars\":[{\"id\":\"upgrade-calendar\",\"version\":1,\"digest\":\"44e1c1317e846ab6dd1d06841a2bebd30f6546df6d4c8fedb5002077cd790677\",\"effectiveAt\":\"2026-10-05T20:04:19.635Z\",\"title\":\"Synthetic preserved calendar\",\"definitions\":[\"visits-confirmed@1\"]}],\"coverage\":\"operator-declared-complete\",\"clinicalDenominator\":\"unknown\",\"affectedDenominatorCoverage\":[],\"affectedSourcePeriods\":[],\"sources\":[{\"calendarId\":\"upgrade-calendar\",\"calendarVersion\":1,\"calendarDigest\":\"44e1c1317e846ab6dd1d06841a2bebd30f6546df6d4c8fedb5002077cd790677\",\"teamId\":\"default\",\"periodId\":\"period-one\",\"start\":\"2026-09-10T20:04:19.495Z\",\"end\":\"2026-10-04T20:04:19.495Z\",\"deadline\":\"2026-10-05T19:04:19.495Z\",\"deadlinePassed\":true,\"sourceId\":\"mis-source\",\"source\":\"Programme source\",\"kind\":\"mis\",\"status\":\"declared-complete\",\"affectedOperands\":[{\"definitionRef\":\"visits-confirmed@1\",\"component\":\"numerator\",\"coverage\":\"declared-complete\",\"clinicalDenominator\":\"unknown\"}],\"lateHours\":24,\"syncHours\":6,\"coverageTimeliness\":\"declared coverage arrived late\",\"refreshAt\":\"2026-10-05T20:04:19.657Z\",\"evidence\":{\"id\":\"86354dde-c426-4cc6-8e21-4471d577a0c0\",\"version\":1,\"status\":\"complete\",\"through\":\"2026-10-04T20:04:19.495Z\",\"evidenceHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"actorId\":\"t-d95d2664-calendar-upgrade-reviewer\",\"memberVersion\":1,\"role\":\"supervisor\",\"at\":\"2026-10-05T20:04:19.657Z\"},\"warning\":\"Operator-declared source coverage; clinical denominator remains unknown.\"}],\"notice\":\"Expected-source coverage is distinct from patient/clinical denominator. Observed receipts or activity never establish completeness. No matching released calendar or period means unknown coverage.\"}"
+      }
+    ],
+    "reporting_completeness_receipts": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "key": "994384f9-421f-48d6-b55a-8d945e406aa7",
+        "body_hash": "f6a6a51ab916da42f719320d17c5d21ad749350b5179f7cfdeda58feb69b9b17",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "result": "{\"calendarId\":\"upgrade-calendar\",\"calendarVersion\":1,\"eventId\":\"84acd739-65c4-4807-a9c1-436d73ada24a\",\"sequence\":1,\"type\":\"propose\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "actor_id": "t-d95d2664-calendar-upgrade-reviewer",
+        "key": "48ca87e7-d094-4cdc-9ef0-d09eff79a467",
+        "body_hash": "0d94eb2129b67256d4148f080b52fedc3fd847762eabced2b5584be9ec1e2c0f",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "result": "{\"calendarId\":\"upgrade-calendar\",\"calendarVersion\":1,\"eventId\":\"ab1a2458-7d2c-4edc-b257-60830645a7c3\",\"sequence\":2,\"type\":\"review\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "key": "4233741b-110f-4dc9-8a10-799e1ffb872e",
+        "body_hash": "0c03d2864c136aad30dd69bb895f6672e37a4f0456b57f50f7feb985eabd69c7",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "result": "{\"calendarId\":\"upgrade-calendar\",\"calendarVersion\":1,\"eventId\":\"d2346128-4eb2-42a2-bb22-8c02d33ce8c9\",\"sequence\":3,\"type\":\"release\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "actor_id": "t-d95d2664-calendar-upgrade-reviewer",
+        "key": "a254ea9e-e0f5-4095-b7a7-946833bb0dde",
+        "body_hash": "10b7100b22a451f963909dceef606bf5645ef0482a457fcdef1147da8cff1ab2",
+        "calendar_id": "upgrade-calendar",
+        "calendar_version": 1,
+        "result": "{\"calendarId\":\"upgrade-calendar\",\"calendarVersion\":1,\"eventId\":\"86354dde-c426-4cc6-8e21-4471d577a0c0\",\"sequence\":1,\"type\":\"declare\"}"
+      }
+    ],
+    "indicator_figures": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "parent_id": null,
+        "author_id": "t-2bcf34af-calendar-upgrade-owner",
+        "author_version": 1,
+        "created_at": "2026-10-05T20:04:19.713Z",
+        "digest": "053a72a79db671efbbe32f5a23531083816fad77cf082283957ffc9a916a3ec7",
+        "data": "{\"version\":1,\"definitions\":[{\"id\":\"visits-confirmed\",\"version\":1,\"status\":\"active\",\"spec\":{\"title\":\"Confirmed visits\",\"unit\":\"count\",\"numerator\":\"visits-confirmed\",\"denominator\":null,\"filters\":{},\"exclude\":[],\"exclusionsNote\":\"Voided and superseded visits\",\"owner\":\"Programme manager\",\"cadence\":\"Weekly\",\"minimumCohort\":5},\"reason\":\"Built-in catalogue definition (slice 6d).\",\"by\":\"built-in\",\"byName\":\"Saha release\",\"at\":\"2026-09-30T00:00:00.000Z\",\"builtIn\":true}],\"query\":{\"ids\":[\"visits-confirmed@1\"],\"days\":30,\"group\":\"none\"},\"cutoff\":\"2026-10-05T20:04:19.703Z\",\"materialCapturedAt\":\"2026-10-05T20:04:19.713Z\",\"result\":{\"computedAt\":\"2026-10-05T20:04:19.703Z\",\"window\":{\"since\":\"2026-09-06T00:00:00.000Z\",\"until\":\"2026-10-05T20:04:19.703Z\",\"days\":30},\"cohort\":{\"people\":6,\"team\":null,\"village\":null,\"programme\":null},\"group\":\"none\",\"latestSourceRecord\":\"2026-10-05T20:04:19.464Z\",\"minimumCell\":5,\"results\":[{\"id\":\"visits-confirmed\",\"version\":1,\"title\":\"Confirmed visits\",\"unit\":\"count\",\"numerator\":\"Visits confirmed in the window\",\"denominator\":null,\"definition\":{\"id\":\"visits-confirmed\",\"version\":1,\"recordedAt\":\"2026-09-30T00:00:00.000Z\",\"canonical\":\"{\\\"id\\\":\\\"visits-confirmed\\\",\\\"version\\\":1,\\\"unit\\\":\\\"count\\\",\\\"numerator\\\":\\\"visits-confirmed\\\",\\\"denominator\\\":null,\\\"filters\\\":{},\\\"exclude\\\":[],\\\"minimumCohort\\\":5}\",\"governance\":{\"legacy\":true,\"reviewEventId\":null,\"releaseEventId\":null,\"effectiveAt\":null}},\"rows\":[{\"group\":\"All\",\"value\":6,\"numerator\":6,\"denominator\":null,\"suppressed\":false}]}],\"scope\":\"Current authorised teams and current assignments; merged records excluded. Counts from 1 to 4 and proportions built on them are suppressed, with one further cell suppressed where a total would reveal it.\"},\"series\":[{\"key\":\"cohort\",\"f\":{},\"cells\":{\"All\":6},\"ids\":[],\"n\":\"patients\",\"d\":null,\"gd\":\"none\",\"x\":[],\"w\":\"2026-09-06T00:00:00.000Z\",\"shown\":[\"All\"],\"u\":\"2026-10-05T20:04:19.703Z\"},{\"key\":\"none|\",\"f\":{},\"cells\":{\"All\":6},\"ids\":[\"visits-confirmed@1\"],\"u\":\"2026-10-05T20:04:19.703Z\"},{\"key\":\"none||visits-confirmed/\",\"f\":{},\"cells\":{\"All\":6},\"m\":{\"All\":[6,0]},\"n\":\"visits-confirmed\",\"d\":null,\"gd\":\"none\",\"x\":[],\"w\":\"2026-09-06T00:00:00.000Z\",\"shown\":[\"All\"],\"ids\":[\"visits-confirmed@1\"],\"u\":\"2026-10-05T20:04:19.703Z\"}],\"unitHashes\":[\"6d6cab8680bf3cdfe874f7ec050c473a514cfc5cf9914fa6fb528a2dc8b0e78a\",\"a1fd3274814344b1fa9a0bb115c364054380fe230aa2ea96d245fa5a29a30f1f\",\"3d6384968e6ba224fffa1e5aef810eab45c61ba37523b4b282b7a5ed4653c28b\",\"d37325dc305b88cbfca75f378da6b0c1d9cac0d764cb93f2e63e259119edca91\",\"e1178c11d773a2045aff47295dfab896bdfc5f93e8f2c11e55ff2be5144161b7\",\"5113df32d8281a9516b28128607d5a688387ff4b1d3f15561253662e5c4bbb3d\"]}"
+      }
+    ],
+    "indicator_figure_units": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "person_id": "p_aarav",
+        "person_version": 3,
+        "data": "{\"personId\":\"p_aarav\",\"personVersion\":3,\"sourceHashVersion\":3,\"sourceHash\":\"f22cc44b2cb78d10874c66b41ee5fea60e069686f3c40dd47b65fb4412fcecc8\",\"sourceVersions\":{\"submissions\":[],\"visits\":[{\"id\":\"244b4a9a-9a3c-4fa0-9af3-40ad0b11b11c\",\"version\":3,\"recordVersion\":4}]},\"f\":{\"team\":[\"e05a2ab19d3f1aea4fb7\"],\"village\":[\"c6073e4d79cd02715fe4\"],\"programme\":[\"f6f28d88a7972f3b49c4\",\"8a4c418a40d991c7d923\"],\"defProgramme\":[\"6a64a612ff933cc37644\",\"1664b6c7f48ca717890a\"],\"sex\":[\"f1aca861014d35ba19f7\"],\"ageBand\":[\"7425074fd2373a6f9713\"]},\"g\":{\"none\":[\"3b46d99c9b43bfce0af2\"],\"team\":[\"c9667f007af960bc513f\"],\"village\":[\"0829717f1b87640111db\"],\"programme\":[\"62d59f07f90534b4fc83\",\"df16830a263095a98555\"],\"age-band\":[\"28241adf4bb2c2ee7c6b\"]},\"x\":[],\"visits\":[{\"at\":\"2026-10-05T20:04:18.813Z\",\"signature\":\"37e02d93cfd310bc2a5d\",\"reuse\":[0,0,0]}],\"corrections\":[],\"referrals\":[{\"at\":\"2026-10-05T20:04:18.835Z\",\"completed\":false}],\"followupDue\":[],\"maternal\":0,\"unowned\":1,\"unresolved\":0,\"provisional\":0}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "person_id": "p_farida",
+        "person_version": 3,
+        "data": "{\"personId\":\"p_farida\",\"personVersion\":3,\"sourceHashVersion\":3,\"sourceHash\":\"839209f9658a22e5193bbccd28da780429ac10951d4b111e6443feaf7d672416\",\"sourceVersions\":{\"submissions\":[],\"visits\":[{\"id\":\"451d1fac-668c-4ebd-ab68-7516fbd32599\",\"version\":3,\"recordVersion\":4}]},\"f\":{\"team\":[\"e05a2ab19d3f1aea4fb7\"],\"village\":[\"5169eaea76b6801f6d26\"],\"programme\":[\"7db512e42f30c7238ad1\",\"8a4c418a40d991c7d923\"],\"defProgramme\":[\"9a25feeb61ba2f77a8de\",\"1664b6c7f48ca717890a\"],\"sex\":[\"d1ef475fb6831024d46f\"],\"ageBand\":[\"ea6308fc54d9cf9fed5b\"]},\"g\":{\"none\":[\"3b46d99c9b43bfce0af2\"],\"team\":[\"c9667f007af960bc513f\"],\"village\":[\"74693232119a4ae2104a\"],\"programme\":[\"378d42c794fd56867410\",\"df16830a263095a98555\"],\"age-band\":[\"e0be7634c3f590d14d52\"]},\"x\":[],\"visits\":[{\"at\":\"2026-10-05T20:04:18.939Z\",\"signature\":\"f9e7958387e42192e1c2\",\"reuse\":[0,0,0]}],\"corrections\":[],\"referrals\":[{\"at\":\"2026-10-05T20:04:18.961Z\",\"completed\":false}],\"followupDue\":[],\"maternal\":0,\"unowned\":1,\"unresolved\":0,\"provisional\":0}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "person_id": "p_kamla",
+        "person_version": 3,
+        "data": "{\"personId\":\"p_kamla\",\"personVersion\":3,\"sourceHashVersion\":3,\"sourceHash\":\"96218a46e3facd05a3a4169f6b216fcb3ae96afe127755e2d967a5ca05065fd3\",\"sourceVersions\":{\"submissions\":[],\"visits\":[{\"id\":\"60858037-5b46-4d03-8edc-22853e2be54f\",\"version\":3,\"recordVersion\":4}]},\"f\":{\"team\":[\"e05a2ab19d3f1aea4fb7\"],\"village\":[\"c6073e4d79cd02715fe4\"],\"programme\":[\"7db512e42f30c7238ad1\",\"8a4c418a40d991c7d923\"],\"defProgramme\":[\"9a25feeb61ba2f77a8de\",\"1664b6c7f48ca717890a\"],\"sex\":[\"d1ef475fb6831024d46f\"],\"ageBand\":[\"28e2f5f0ae4c4188d8a5\"]},\"g\":{\"none\":[\"3b46d99c9b43bfce0af2\"],\"team\":[\"c9667f007af960bc513f\"],\"village\":[\"0829717f1b87640111db\"],\"programme\":[\"378d42c794fd56867410\",\"df16830a263095a98555\"],\"age-band\":[\"8efe4b9c2387e4ec3842\"]},\"x\":[],\"visits\":[{\"at\":\"2026-10-05T20:04:19.073Z\",\"signature\":\"87261f1a9784c12d0684\",\"reuse\":[0,0,0]}],\"corrections\":[],\"referrals\":[{\"at\":\"2026-10-05T20:04:19.096Z\",\"completed\":false}],\"followupDue\":[],\"maternal\":0,\"unowned\":1,\"unresolved\":0,\"provisional\":0}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "person_id": "p_meena",
+        "person_version": 3,
+        "data": "{\"personId\":\"p_meena\",\"personVersion\":3,\"sourceHashVersion\":3,\"sourceHash\":\"7d589bc9b97ebded8d6d8e891ca3c7d29bf17ea3177485083a4a261fa77d358c\",\"sourceVersions\":{\"submissions\":[],\"visits\":[{\"id\":\"0f56b96c-a134-4bc6-9b7f-f207745f19c6\",\"version\":3,\"recordVersion\":4}]},\"f\":{\"team\":[\"e05a2ab19d3f1aea4fb7\"],\"village\":[\"5169eaea76b6801f6d26\"],\"programme\":[\"64d815ef71d72d791572\",\"8a4c418a40d991c7d923\"],\"defProgramme\":[\"25d111046c61fc8a9634\",\"1664b6c7f48ca717890a\"],\"sex\":[\"d1ef475fb6831024d46f\"],\"ageBand\":[\"ea6308fc54d9cf9fed5b\"]},\"g\":{\"none\":[\"3b46d99c9b43bfce0af2\"],\"team\":[\"c9667f007af960bc513f\"],\"village\":[\"74693232119a4ae2104a\"],\"programme\":[\"78541b36887069703a2b\",\"df16830a263095a98555\"],\"age-band\":[\"e0be7634c3f590d14d52\"]},\"x\":[],\"visits\":[{\"at\":\"2026-10-05T20:04:19.197Z\",\"signature\":\"83ea4b1ee914edc74b2a\",\"reuse\":[0,0,0]}],\"corrections\":[],\"referrals\":[{\"at\":\"2026-10-05T20:04:19.222Z\",\"completed\":false}],\"followupDue\":[],\"maternal\":0,\"unowned\":1,\"unresolved\":0,\"provisional\":0}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "person_id": "p_rajesh",
+        "person_version": 3,
+        "data": "{\"personId\":\"p_rajesh\",\"personVersion\":3,\"sourceHashVersion\":3,\"sourceHash\":\"eb5f076c97b71a1a4cb3259b1c6531ddbff9df068abd068875ab97d4cb85d92e\",\"sourceVersions\":{\"submissions\":[],\"visits\":[{\"id\":\"8d8d39ba-8b6f-4019-8c9e-6367574b5811\",\"version\":3,\"recordVersion\":4}]},\"f\":{\"team\":[\"e05a2ab19d3f1aea4fb7\"],\"village\":[\"5169eaea76b6801f6d26\"],\"programme\":[\"7db512e42f30c7238ad1\",\"8a4c418a40d991c7d923\"],\"defProgramme\":[\"9a25feeb61ba2f77a8de\",\"1664b6c7f48ca717890a\"],\"sex\":[\"f1aca861014d35ba19f7\"],\"ageBand\":[\"28e2f5f0ae4c4188d8a5\"]},\"g\":{\"none\":[\"3b46d99c9b43bfce0af2\"],\"team\":[\"c9667f007af960bc513f\"],\"village\":[\"74693232119a4ae2104a\"],\"programme\":[\"378d42c794fd56867410\",\"df16830a263095a98555\"],\"age-band\":[\"8efe4b9c2387e4ec3842\"]},\"x\":[],\"visits\":[{\"at\":\"2026-10-05T20:04:19.329Z\",\"signature\":\"c17a12967748f415382a\",\"reuse\":[0,0,0]}],\"corrections\":[],\"referrals\":[{\"at\":\"2026-10-05T20:04:19.354Z\",\"completed\":false}],\"followupDue\":[],\"maternal\":0,\"unowned\":1,\"unresolved\":0,\"provisional\":0}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "person_id": "p_sunita",
+        "person_version": 3,
+        "data": "{\"personId\":\"p_sunita\",\"personVersion\":3,\"sourceHashVersion\":3,\"sourceHash\":\"a5a606c0466ac089d524e9c684cebb3770f38650a87088d91962ef686ef13cab\",\"sourceVersions\":{\"submissions\":[],\"visits\":[{\"id\":\"17082c8f-dd45-44f1-adb9-9c351cb527a3\",\"version\":3,\"recordVersion\":4}]},\"f\":{\"team\":[\"e05a2ab19d3f1aea4fb7\"],\"village\":[\"c6073e4d79cd02715fe4\"],\"programme\":[\"0613c776d82c638a8f61\",\"8a4c418a40d991c7d923\"],\"defProgramme\":[\"3971c05e8e0eddaaf595\",\"1664b6c7f48ca717890a\"],\"sex\":[\"d1ef475fb6831024d46f\"],\"ageBand\":[\"ea6308fc54d9cf9fed5b\"]},\"g\":{\"none\":[\"3b46d99c9b43bfce0af2\"],\"team\":[\"c9667f007af960bc513f\"],\"village\":[\"0829717f1b87640111db\"],\"programme\":[\"9a6d1282a7e1d1e2d60f\",\"df16830a263095a98555\"],\"age-band\":[\"e0be7634c3f590d14d52\"]},\"x\":[],\"visits\":[{\"at\":\"2026-10-05T20:04:19.464Z\",\"signature\":\"5628ec4737230139267e\",\"reuse\":[0,0,0]}],\"corrections\":[],\"referrals\":[{\"at\":\"2026-10-05T20:04:19.483Z\",\"completed\":false}],\"followupDue\":[],\"maternal\":0,\"unowned\":1,\"unresolved\":0,\"provisional\":0}"
+      }
+    ],
+    "indicator_figure_events": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "id": "a16ec92c-5ecd-4fd6-9c50-1491dd418928",
+        "sequence": 1,
+        "kind": "prepared",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "member_version": 1,
+        "role": "clinician",
+        "at": "2026-10-05T20:04:19.713Z",
+        "reason": "Synthetic retained source coverage upgrade",
+        "review_id": null
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "id": "2219500d-7a7a-45b8-9a04-75ea2f1e8bcc",
+        "sequence": 2,
+        "kind": "approved",
+        "actor_id": "t-d95d2664-calendar-upgrade-reviewer",
+        "member_version": 1,
+        "role": "supervisor",
+        "at": "2026-10-05T20:04:19.741Z",
+        "reason": "Synthetic retained source coverage upgrade",
+        "review_id": null
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "id": "b196d4e5-2b84-45c0-9cf7-7f12f0bcfd17",
+        "sequence": 3,
+        "kind": "published",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "member_version": 1,
+        "role": "clinician",
+        "at": "2026-10-05T20:04:19.757Z",
+        "reason": "Synthetic retained source coverage upgrade",
+        "review_id": "2219500d-7a7a-45b8-9a04-75ea2f1e8bcc"
+      }
+    ],
+    "indicator_figure_receipts": [
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "key": "82417dc8-0893-4a73-b626-ee8431bd8902",
+        "body_hash": "ca8d5a907867e5e5957f857dd62b55a208291c49e037124bea838e7d5761256a",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "result": "{\"figureId\":\"f977e42c-6ead-4999-bd98-3e729b45ac08\",\"eventId\":\"a16ec92c-5ecd-4fd6-9c50-1491dd418928\",\"sequence\":1,\"status\":\"prepared\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "actor_id": "t-d95d2664-calendar-upgrade-reviewer",
+        "key": "8f1e37c4-5f7e-4870-b62d-015e1ca2ddd1",
+        "body_hash": "1bf9562ecc9bbb72f0092548eb9d1d72b3c2d602c2312fe1e479cd9e1ab0edcf",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "result": "{\"figureId\":\"f977e42c-6ead-4999-bd98-3e729b45ac08\",\"eventId\":\"2219500d-7a7a-45b8-9a04-75ea2f1e8bcc\",\"sequence\":2,\"status\":\"approved\"}"
+      },
+      {
+        "org_id": "org_464ec79f0aa2dcfb92b7e67c10603dba",
+        "actor_id": "t-2bcf34af-calendar-upgrade-owner",
+        "key": "43660b14-53a9-41db-b15f-c8d0983e3ec7",
+        "body_hash": "43273d851ee7d05f5e1101f85037e4e6b47801272e5024e95da4e73c08ee57cf",
+        "figure_id": "f977e42c-6ead-4999-bd98-3e729b45ac08",
+        "result": "{\"figureId\":\"f977e42c-6ead-4999-bd98-3e729b45ac08\",\"eventId\":\"b196d4e5-2b84-45c0-9cf7-7f12f0bcfd17\",\"sequence\":3,\"status\":\"published\"}"
+      }
+    ],
+    "indicator_figure_disclosures": []
+  },
+  "declaration": {
+    "type": "declare",
+    "id": "upgrade-calendar",
+    "version": 1,
+    "teamId": "default",
+    "sourceId": "mis-source",
+    "periodId": "period-one",
+    "expectedCoverageVersion": 0,
+    "status": "complete",
+    "through": "2026-10-04T20:04:19.495Z",
+    "evidenceHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "reason": "Synthetic retained source coverage upgrade"
+  },
+  "declarationKey": "a254ea9e-e0f5-4095-b7a7-946833bb0dde",
+  "proposed": {
+    "type": "propose",
+    "id": "upgrade-calendar",
+    "expectedVersion": 0,
+    "spec": {
+      "title": "Synthetic preserved calendar",
+      "teamIds": [
+        "default"
+      ],
+      "definitions": [
+        "visits-confirmed@1"
+      ],
+      "periods": [
+        {
+          "id": "period-one",
+          "start": "2026-09-10T20:04:19.495Z",
+          "end": "2026-10-04T20:04:19.495Z",
+          "deadline": "2026-10-05T19:04:19.495Z"
+        }
+      ],
+      "sources": [
+        {
+          "id": "mis-source",
+          "label": "Programme source",
+          "kind": "mis",
+          "integrationId": "mis_community",
+          "lateHours": 24,
+          "syncHours": 6,
+          "affects": [
+            {
+              "definitionRef": "visits-confirmed@1",
+              "component": "numerator"
+            }
+          ]
+        }
+      ]
+    },
+    "reason": "Synthetic retained source coverage upgrade"
+  },
+  "key": "994384f9-421f-48d6-b55a-8d945e406aa7"
+}

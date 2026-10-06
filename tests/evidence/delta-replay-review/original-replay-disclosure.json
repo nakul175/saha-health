@@ -1,0 +1,18 @@
+{
+  "reviewedSource": "5fd6ef85",
+  "actualWorker": true,
+  "actualLocalD1": true,
+  "synthetic": true,
+  "reproducer": "Seed501 synthetic patients before faulted startVisit; command/receipt commits; delta audit fails; retry saved key while audit fault retained and after removal.",
+  "faultActiveReplay": {
+    "status": 200,
+    "returnedPeople": 508,
+    "viewPatientRecordRows": 0
+  },
+  "faultRemovedReplay": {
+    "returnedPeople": 508,
+    "returnedUnseenSynthetic": 501,
+    "fullRecordAuditPeople": []
+  },
+  "originalAuthorSuitePassedDespiteGap": 18
+}

@@ -1,0 +1,37 @@
+{"event":"saha_request","requestId":"15961633-e060-4c71-9790-e6d99852e10b","route":"workspace","status":200,"durationMs":21}
+{"event":"saha_request","requestId":"1aacc9aa-d887-413b-8b29-9f1ea5ecf1ea","route":"record-import","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"d15afb48-bb81-4066-b1f4-24c4bb2449d0","route":"record-import","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"c8ae4463-1877-446e-b9db-e3bd6f73cf89","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"b2c4fe75-14dc-4406-a8ef-ea87ea80a5dd","route":"record-import","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"7d880998-b3ab-4572-9248-cd2f51b9cf37","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"eff2fe4f-487a-477d-8114-627127bc8475","route":"record-import","status":200,"durationMs":3}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"5a8b591e-e17b-4223-80b6-5de713fc7288","route":"record-import","status":503,"durationMs":4}
+{"event":"saha_request","requestId":"9db6277f-c276-4272-8ae7-b0a2dc3a79a5","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"987bad56-44ae-4775-9395-4c9858af1db9","route":"record-import","status":409,"durationMs":2}
+{"event":"saha_request","requestId":"b189f05f-2c63-4079-95c4-1578b865ef86","route":"record-import","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"98b958f1-fe3f-435d-af64-9d8949c387af","route":"record-import","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"dca6cca8-4de4-4006-be22-73ef04bfe470","route":"record-import","status":422,"durationMs":0}
+{"event":"saha_request","requestId":"6ac9a171-1cc3-4cc2-8064-182201b0c128","route":"record-import","status":403,"durationMs":6}
+{"event":"saha_request","requestId":"46b93ba7-3c00-43a1-865e-2964ecdf031c","route":"media","status":503,"durationMs":2}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+503 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/imported-evidence-http.mjs:3:4530
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/imported-evidence-http.mjs:2:74)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/imported-evidence-http.mjs:3:4513
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 503,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

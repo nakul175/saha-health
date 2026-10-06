@@ -1,3 +1,6 @@
+import {offlineOpenHarness} from './lib/offline-open-harness.mjs';
+// Device privacy is injected here; its server/IndexedDB effects are verified in device-work-contract/browser.
+import {deviceDigest} from '../public/field/device-work.js';
 // Slice 3k: field notebook at 200 visit drafts plus 100 queued photos and voice notes. Runs public/field/app.js in
 // Node with real Web Crypto and the real vault sealing, injected storage/network and a minimal DOM (harness from
 // tests/field-capacity-client.mjs). Covers the device media budget (100 open items, 25 MB), refusal of the 201st draft
@@ -13,19 +16,20 @@ let record=null,calls=[],network=async()=>{throw Error('Network disconnected')};
 const encode=src=>{const out=new Uint8Array(Math.max(1200,Math.round(src.length/4)));out.set([0xff,0xd8,0xff,0xe0]);for(let i=4;i<out.length;i++)out[i]=src[i%src.length]^0x5a;return out;};
 const isImage=b=>b.length>=512&&[0x89,0x50,0x4e,0x47].every((x,i)=>b[i]===x);
 class FakeCanvas{constructor(w,h){this.w=w;this.h=h;}getContext(){return {drawImage:bmp=>{this.src=bmp.src;}};}async convertToBlob({type}){return new Blob([encode(this.src)],{type});}}
-const context=vm.createContext({Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>{const b=new Uint8Array(await blob.arrayBuffer());if(!isImage(b))throw Error('decode failed');return {width:3000,height:2000,src:b,close(){}};},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Set,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+const context=vm.createContext({...offlineOpenHarness(()=>context.writeVault),deviceDigest,privacyReviewRequired:()=>false,clearPrivacyReviewRequired:()=>true,discardCachedRegistrationMatches:async(value,key,salt,revision)=>({book:value,revision}),reconcileRegistrationBook:async(value,key,salt,revision)=>({book:value,revision}),reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false,Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>{const b=new Uint8Array(await blob.arrayBuffer());if(!isImage(b))throw Error('decode failed');return {width:3000,height:2000,src:b,close(){}};},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Set,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{media.delete(id)},listMediaIds:async()=>[...media.keys()],
- fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
-vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/,''),context);
+ fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
+vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/gm,''),context);
 const run=code=>vm.runInContext(code,context),check=(name,fn)=>{fn();passed++;names.push(name);};let passed=0;const names=[];
 const settle=async()=>{for(let i=0;i<2000&&run('busy');i++)await new Promise(r=>setTimeout(r,5));};
 const PASS='synthetic-media-capacity-phrase';
 const unlock=async()=>{byId('passphrase').value=PASS;await byId('unlock-form').onsubmit({preventDefault(){}});await settle();};
 await unlock();assert.ok(run('book'));
 const pair=await crypto.subtle.generateKey({name:'ECDSA',namedCurve:'P-256'},true,['sign','verify']);
+// Signed fixture questions authorize the pre-existing synthetic capacity answers.
 async function draft(i){
- const payload={schema:1,leaseId:'lease-'+String(i).padStart(3,'0'),userId:'worker-1',organisationId:'org-1',personId:'p-'+i,personName:'Synthetic media capacity '+i,identityHash:'id',visitId:'v-'+i,visitVersion:1,expiresAt:new Date(Date.now()+24*3600000).toISOString(),issuedAt:new Date().toISOString(),facts:{date:new Date().toISOString().slice(0,16),source:'measured',notes:'Synthetic media capacity note '+i+' '.padEnd(120,'x'),weight:'61',systolic:'118',diastolic:'76',temperature:'',weeks:'',coughDays:''},programmeCapture:null};
+ const payload={schema:1,leaseId:'lease-'+String(i).padStart(3,'0'),userId:'worker-1',organisationId:'org-1',personId:'p-'+i,personName:'Synthetic media capacity '+i,identityHash:'id',visitId:'v-'+i,visitVersion:1,expiresAt:new Date(Date.now()+24*3600000).toISOString(),issuedAt:new Date().toISOString(),facts:{date:new Date().toISOString().slice(0,16),source:'measured',notes:'Synthetic media capacity note '+i+' '.padEnd(120,'x'),weight:'61',systolic:'118',diastolic:'76',temperature:'',weeks:'',coughDays:''},programmeCapture:{packs:[{enrolmentId:'synthetic-capacity-episode',pack:{id:'synthetic-capacity-pack',version:1,name:'Synthetic capacity documentary pack',programme:'Synthetic capacity fixture',purpose:'Synthetic capacity fixture only.',questions:[{id:'q-anc-visit',label:'Synthetic visit answer',options:['yes','no'],required:true}]}}],answers:{},absence:{}}};
  const packet={payload,signature:Array.from(new Uint8Array(await crypto.subtle.sign({name:'ECDSA',hash:'SHA-256'},pair.privateKey,new TextEncoder().encode(JSON.stringify(payload))))),publicKey:await crypto.subtle.exportKey('jwk',pair.publicKey)};
  return {packet,packageHash:await packetHash(packet),facts:structuredClone(payload.facts),answers:{'q-anc-visit':'yes'},absence:{},state:'draft',pending:null};
 }

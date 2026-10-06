@@ -1,0 +1,51 @@
+{
+  "reviewLate": {
+    "status": 403,
+    "body": {
+      "outcome": "accepted",
+      "operationReference": "e6b632a1-d730-43e5-b632-8cc14fc49c9b",
+      "error": "The original operation was saved, then permissions changed. Its governed result is withheld. Keep this reference; do not submit again."
+    },
+    "key": "e6b632a1-d730-43e5-b632-8cc14fc49c9b",
+    "receipt": {
+      "actor_id": "t-4f648088-installed-execution-reviewer",
+      "key": "installed-work:e6b632a1-d730-43e5-b632-8cc14fc49c9b",
+      "org_id": "org_1c24dca3a7c6c4b48d50f66aa14b2379",
+      "hash": "fdadd79cc53d86c9a964472e8f2f814ddd40aa9687c7c2bfa60098d56a6c0471",
+      "result": "{\"policyId\":\"22f54345-9b90-4700-95ec-47cc52741eec\",\"hash\":\"fe185085db8eccfe8e5760083a2971e52d2e5b92322be9c94e4e24b7a0c633d5\",\"version\":2,\"state\":\"approved\"}",
+      "person_id": null,
+      "created_at": "2026-10-05T20:36:38.677Z",
+      "command_type": "installedWork.review",
+      "mutation_subject_id": "22f54345-9b90-4700-95ec-47cc52741eec",
+      "mutation_event_id": "7c6eddab-696a-4b40-83d3-d3d09615eea1",
+      "mutation_context": null
+    },
+    "auditRows": [
+      {
+        "org_id": "org_1c24dca3a7c6c4b48d50f66aa14b2379",
+        "id": "7c6eddab-696a-4b40-83d3-d3d09615eea1",
+        "person_id": null,
+        "actor_id": "t-4f648088-installed-execution-reviewer",
+        "actor_name": "installed-execution-reviewer-4f648088@example.invalid",
+        "role": "clinician",
+        "action": "installedWork.review",
+        "subject": "22f54345-9b90-4700-95ec-47cc52741eec",
+        "detail": "Independent current clinician late-write authority check\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-4f648088-installed-execution-reviewer\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":4,\"isOwner\":true},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+        "at": "2026-10-05T20:36:38.675Z",
+        "seq": 157,
+        "prev_hash": "1217ec4076d9f3b3953134a816dfa9ad9524ff34feb88707ccd3b79fb735fdd9",
+        "hash": "f3b9295ac7cdc584df461a24d90ad3cc7b000ec04758d68ff63e2df92937993d"
+      }
+    ]
+  },
+  "patientRead": {
+    "status": 403,
+    "body": {
+      "error": "Your organisation membership is inactive or unavailable."
+    },
+    "member": {
+      "status": "suspended",
+      "version": 7
+    }
+  }
+}

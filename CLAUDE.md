@@ -1,5 +1,7 @@
 # Saha developer handover
 
+Latest sponsor handover: read [CLAUDE-RESUME-20261006.md](docs/current/CLAUDE-RESUME-20261006.md) first. Continue the preserved integration branch and named candidate branches; current combined checks are not cleared for main.
+
 Read [HANDOVER.md](HANDOVER.md) and [AGENTS.md](AGENTS.md), then [the documentation index](docs/DOCUMENTATION-INDEX.md), [implementation boundary](docs/IMPLEMENTATION.md), [next delivery](docs/NEXT-DELIVERY.md), and [qualification](docs/QUALIFICATION.md). These instructions apply to Claude and other developers continuing this repository.
 
 The application baseline is R11 / v1.3-readiness. Documentation edition 1.1 reconciles that implementation to the original BRD and design. It is ready for continued development; it is not accepted for production or real patient use. All 176 formal BRD acceptance criteria remain pending.

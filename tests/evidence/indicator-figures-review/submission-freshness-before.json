@@ -1,0 +1,29 @@
+{
+  "passed": 29,
+  "failed": 2,
+  "diagnosticBeforeMode": true,
+  "expectedSafeReviewStatus": 409,
+  "expectedSafePublishStatus": 409,
+  "actualWorker": true,
+  "actualD1": true,
+  "observations": [
+    {
+      "publishStatus": 200,
+      "beforeUnresolved": 1,
+      "afterUnresolved": 0,
+      "sourceHashUnchanged": true,
+      "reviewStatus": 200,
+      "reviewBody": {
+        "figureId": "22c7b1c3-ab79-415d-86dd-07a77300c5af",
+        "eventId": "e5f8560b-35a2-4b8c-932f-d9b60c2bdbff",
+        "sequence": 2,
+        "status": "approved"
+      },
+      "queuedAttempts": 0,
+      "personVersionUnchanged": true,
+      "visitVersionUnchanged": true,
+      "externalTransportEnabled": false
+    }
+  ],
+  "scope": "Historical diagnostic reproduction only: required safe review/publication both fail (observed200, required409); extra legacy figures seed the real preserved-D1 upgrade. Not positive product acceptance."
+}

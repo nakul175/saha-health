@@ -1,0 +1,40 @@
+Running integration resilience --fast; 2 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/run-api-smoke ...
+  FAILED   integration/run-api-smoke  no count  1m 08s  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: no contact detail in the audit event
+      |     actual: true,
+      |     expected: false,
+      | AssertionError [ERR_ASSERTION]: no contact detail in the audit event
+      | true !== false
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/notification-channel-smoke.mjs:70:155
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-smoke.mjs:9:20)
+      |     at notificationChannelSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/notification-channel-smoke.mjs:70:3)
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      |     at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-smoke.mjs:182:83 {
+      |   generatedMessage: false,
+      |   code: 'ERR_ASSERTION',
+      |   actual: true,
+      |   expected: false,
+      |   operator: 'strictEqual',
+      |   diff: 'simple'
+      | }
+      | api/commands 422 Unprocessable Entity (4ms)
+
+[resilience] 1 suite(s)
+  running  resilience/recovery-drill ...
+  ok       resilience/recovery-drill  21 passed  1.4s
+
+  layer        status  suites  passed  failed  skipped    time
+  -----------  ------  ------  ------  ------  -------  ------
+  integration  failed       1       0       0        0  1m 08s
+  resilience   passed       1      21       0        0    1.4s
+  total        FAILED       2      21       0        0  1m 11s
+
+Restored 2 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: FAILED (2 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/run-api-smoke reported no assertion count; baseline needs at least 4770.

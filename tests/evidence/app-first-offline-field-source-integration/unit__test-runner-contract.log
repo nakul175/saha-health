@@ -1,0 +1,15 @@
+FAIL an unclassified test file fails the catalogue: Expected values to be strictly deep-equal:
+FAIL a *-smoke.mjs module that tests/api-smoke.mjs does not import fails the catalogue: Expected values to be strictly equal:
+FAIL new layer directories are discovered when they appear and their support folders are not suites: Expected values to be strictly deep-equal:
+FAIL Playwright specs need a configuration: Expected values to be strictly deep-equal:
+FAIL runner: results from old-style files and the report library are counted, layers without a directory are "not present", the tree is restored: The test catalogue is inconsistent; nothing was run:
+FAIL runner: a failing suite makes the run fail and is reported with its exit code: Expected values to be strictly equal:
+FAIL runner: a manual suite that reads credentials on stdin is blocked with a reason, never started (pull request #126): Cannot read properties of null (reading 'suites')
+FAIL runner: a report written by an earlier suite is never counted for a later one, however close in time (slice 11h, the GitHub flake): Expected values to be strictly equal:
+FAIL runner: a suite that exits 0 but checks nothing is a failure, not a pass: Expected values to be strictly equal:
+FAIL runner: --check-catalogue fails on a stray test file and on an unimported *-smoke.mjs module, and passes otherwise: Expected values to be strictly equal:
+FAIL runner: the regression guard fails when a suite drops below its baseline or disappears, and --update-baseline is deliberate: The test catalogue is inconsistent; nothing was run:
+FAIL runner: the UI layer runs a Playwright configuration through the installed binary and reads its stats; without Playwright it is blocked, not skipped: Expected values to be strictly equal:
+FAIL runner: a suite that exceeds its time limit fails as timed out and the processes it started are stopped with it: Expected values to be strictly equal:
+FAIL runner: --only runs one suite, and an unknown id is a usage error: The test catalogue is inconsistent; nothing was run:
+{"suite":"Test runner, catalogue and regression guard (slice 11a)","passed":13,"failed":14,"skipped":0,"completedAt":"2026-10-05T07:14:35.874Z"}

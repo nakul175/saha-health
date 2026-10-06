@@ -1,0 +1,9 @@
+# Received unsent-form link lifecycle — independent finding
+
+P 2: local unsent-form correlation links persist after the form is cleared, even when every historical report is already received and no clinical request was dispatched. Three real phone UI Clear form→Load workspace cycles produce 2,4,6 retained links with no queued registration or receipt tombstone. The source stores a link after each local-registration acknowledgement and removes it only after accepted-mapping; cleared forms can never produce that acceptance.
+
+The bounded capacity witness fills the remaining 2000 slots using the actual public encrypted queue and historical HTTP upload modules. This fixture is explicit; it does not claim 2000 real UI cycles. Actual database history contains 2000 received count 1 reports, with zero pending reports and zero unresolved clinical receipts. Two real positive reconnect/new-form entry attempts still refuse before display and lock, preserving 2000 links. The suggested reconnect action cannot release this known-unsent backlog.
+
+Historical server evidence must remain immutable. A safe local follow-up could retain original unsent/unknown status on new links, release only explicitly known-unsent IDs absent from current form, registration and receipt/deletion tombstones, and retain legacy/untracked or unknown links conservatively. Accepted correlation must continue to require the exact protected receipt and count 0, without guessing patient identity. This review records the finding only; it does not implement or approve closure.
+
+The actual witness runs on the approved Worker static-phone harness. Direct Miniflare asset routing did not provide its static field HTML entry in the initial fixture, so that attempt is not used as product evidence. All records are synthetic and no external service is called.

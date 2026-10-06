@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-05T10:04:49.639Z",
+  "startedAt": "2026-10-05T10:04:48.653Z",
+  "command": "node scripts/test.mjs unit --only unit/data-exit-contract --fast --guard --report tests/evidence/app-first-frozen-figures-integration/verifier-legacy-positive.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 875,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 44,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 986
+  },
+  "suites": [
+    {
+      "id": "unit/data-exit-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/data-exit-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 875,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/data-exit-contract-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/unit__data-exit-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": [
+      "tests/data-exit-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 186,
+        "components": 0,
+        "suitesCitingNoRequirement": 51,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 84,
+        "components": 84,
+        "suitesCitingNoRequirement": 19,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 33,
+        "components": 0,
+        "suitesCitingNoRequirement": 29,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 319,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 103,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

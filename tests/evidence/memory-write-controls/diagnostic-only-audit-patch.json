@@ -1,0 +1,6 @@
+{
+  "diagnosticOnly": true,
+  "base": "0df447cc",
+  "neverApplyToProduction": true,
+  "patch": "diff --git a/lib/saha/read-audit.ts b/lib/saha/read-audit.ts\nindex 34f4d872..f8164285 100644\n--- a/lib/saha/read-audit.ts\n+++ b/lib/saha/read-audit.ts\n@@ -33,7 +33,9 @@ export function workspaceSummary(state: OrgState, m: Member, via: SnapshotVia, p\n }\n export async function recordWorkspaceLoad(db: D1Database, state: OrgState, actor: Actor, m: Member, via: SnapshotVia, paged: PagedInfo, now = new Date().toISOString()) {\n   const s = workspaceSummary(state, m, via, paged, now);\n-  await recordAccess(db, state, actor, m, { action: 'viewWorkspace', subject: state.organisation.id, personId: null, detail: s.detail }, now);\n+  // ISOLATED DIAGNOSTIC ONLY. Never publish or deploy this worktree.\n+  // Workspace read, scope, summary and all response/metrics work are retained.\n+  await Promise.resolve();\n   return s;\n }\n \n"
+}

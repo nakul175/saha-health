@@ -1,0 +1,47 @@
+{"event":"saha_request","requestId":"8eecd3e3-f505-4d25-be56-7a8983469e8a","route":"workspace","status":200,"durationMs":23}
+{"event":"saha_request","requestId":"c490a528-42ab-43cf-b3f8-85eabc8c5835","route":"workspace","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"5edc1cfb-611b-43dc-8090-6c1f56a07084","route":"commands","status":200,"durationMs":20}
+{"event":"saha_request","requestId":"7883f1e7-9671-4d5b-971e-c12982b1f6e5","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"52210653-43a1-4474-8e24-29ac93df3f3b","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"a001c7c2-fa19-4ff4-9b20-35ddd1f901bc","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"8164e3b0-6f53-4da1-84b6-3ae1d31c09e8","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"10a9e5a6-9f13-4db4-8133-214d2d66c171","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"1d3eabe5-d559-4d1a-a2b9-301956975285","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"237e2bca-c396-480e-9a18-9693431e8cea","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"8fefb9a5-17ae-4d55-b883-34078b554e05","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"124d4295-1d4a-4df8-9e74-f2e2e46701cb","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"872a8784-b12b-4094-a2ed-0c55f807a20d","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"50d6ab09-69b9-4497-8f84-4fb14c9282c3","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"17a36a8e-49e0-4627-aec8-e244994dc9cc","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"447377c3-f42f-47e1-abe8-21fe00289d21","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"00163226-5228-4134-8341-381a319b7a60","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"0808d6cb-4461-4f2f-9b87-f4e7417c832b","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"1bf468f8-7f43-4f71-8b1b-1344dd011598","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"d967db21-a68c-430c-ae69-368cd2e56950","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"d4cac75f-5284-4d5f-b902-84269ae08336","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"7a813ece-e038-49e9-a625-806594bc1420","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"c2fb2827-2322-41c1-bbe2-46494f9d74bf","route":"workspace","status":200,"durationMs":4}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"71d9beb9-b467-481e-919a-27e7cd6d0c32","route":"commands","status":503,"durationMs":13}
+{"event":"saha_request","requestId":"da83be96-8482-416f-8ca6-de38c0961032","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"cc327f4b-f569-49bc-98b7-bd06e9ebe572","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"94803930-fe48-4ea3-bb62-f9ebce029b53","route":"commands","status":200,"durationMs":14}
+conflict response 200
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Native version constraint is valid and active
+    at phoneCheck (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-handoff/tests/inbound-retrieval-browser.mjs:32:44)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-inbound-handoff/tests/inbound-retrieval-browser.mjs:33:1185
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:502:9) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

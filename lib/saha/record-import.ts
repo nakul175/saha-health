@@ -1,9 +1,11 @@
+import {adoptedVersionForTeam} from './team-pack-adoption';
+import { CONTACT_COLUMNS, authorizeContactImport, planContactRows, applyContactRows, contactBatch, applyContactReversal } from './contact-import';
 import { z } from 'zod';
 import { digest, fail, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
 import { environmentOf } from './environment';
 import { csvBytes, importsInto, MAX_CSV, MAX_ROWS, mayImport, parseCsv } from './patient-import';
-import { adoptedVersion, catalogueOf, enrollableAt } from './programmes';
+import { catalogueOf, enrollableAt } from './programmes';
 import { currentIdentifiers } from './types';
 import { VISIT_COLUMNS, VISIT_REFUSED, applyVisitRows, fileDigest, mayImportVisits, planVisitRows } from './visit-import';
 import type { Member, OrgState, Person } from './types';
@@ -17,9 +19,9 @@ import type { Actor } from './store';
 // revision each) and writes one counted audit event. Slice 10i adds kind `visits` (historical visits with clinical content, imported
 // as confirmed visits marked IMPORTED; lib/saha/visit-import.ts) on the same dry run, plan hash and apply, for owners and clinicians.
 export const RECORD_IMPORT='record-import-v1';
-export const KINDS=['enrolments','identifiers','visits'] as const;
+export const KINDS=['enrolments','identifiers','visits','contacts'] as const;
 export type ImportKind=typeof KINDS[number];
-export const COLUMNS:Record<ImportKind,readonly string[]>={enrolments:['person','pack','version','episode_label','start_date'],identifiers:['person','issuer','identifier'],visits:VISIT_COLUMNS};
+export const COLUMNS:Record<ImportKind,readonly string[]>={contacts:CONTACT_COLUMNS,enrolments:['person','pack','version','episode_label','start_date'],identifiers:['person','issuer','identifier'],visits:VISIT_COLUMNS};
 // Known issuers and their formats. Illustrative: the formats are not validated against the issuing registries.
 // ABHA numbers and addresses are linked through the ABHA verification flow (slice 7a), never imported.
 export const KNOWN_ISSUERS:Record<string,{label:string;pattern:RegExp;format:string}>={
@@ -38,6 +40,7 @@ const tooLarge=`The file is larger than ${MAX_CSV.toLocaleString('en-IN')} bytes
 const csv=z.string().min(1,'Paste or choose a CSV file.').max(MAX_CSV,tooLarge).refine(x=>csvBytes(x)<=MAX_CSV,tooLarge);
 export const recordImportInput=z.object({kind:z.enum(KINDS),csv}).strict();
 export const recordImportSchema=z.discriminatedUnion('type',[
+ z.object({type:z.literal('recordImportContactsReverse'),batchId:z.string().min(1).max(100),planHash:z.string().regex(/^[0-9a-f]{64}$/),reason}).strict(),
  z.object({type:z.literal('recordImportApply'),kind:z.enum(KINDS),csv,planHash:z.string().regex(/^[0-9a-f]{64}$/),reason}).strict(),
 ]);
 export type RecordRow={row:number;status:'accepted'|'rejected';reasons:string[];personId?:string;version?:number;conflict?:{personId:string;version:number};duplicateOf?:{visitId:string}};
@@ -69,6 +72,7 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
  if(!(kind==='visits'?mayImportVisits(m):mayImport(s,m,now)))fail(403,kind==='visits'?VISIT_REFUSED:'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');
  const table=parseCsv(text);if(!table.length)fail(422,'The CSV is empty.');const h=header(kind,table);
  const body=table.slice(1);if(!body.length)fail(422,'The CSV has a header but no rows.');if(body.length>MAX_ROWS)fail(422,`At most ${MAX_ROWS} rows per import; this file has ${body.length}.`);
+ if(kind==='contacts'){const plan=await planContactRows(s,m,h,body,text,envName,now,ref=>resolvePerson(s,m,ref,now,p=>normallyAllowed(m,p)&&importsInto(s,m,p.teamId,now)));return {import:RECORD_IMPORT,kind,environment:envName,...plan};}
  if(kind==='visits'){
   // Slice 10i: visits are resolved within the importer's normal care scope only (no emergency access, no owner widening).
   const plan=await planVisitRows(s,m,h,body,envName,now,await fileDigest(text),ref=>resolvePerson(s,m,ref,now,p=>normallyAllowed(m,p)&&m.teamIds.includes(p.teamId)));
@@ -85,7 +89,7 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
    const packId=col(r,'pack').toLowerCase(),versionText=col(r,'version'),label=col(r,'episode_label'),start=col(r,'start_date');
    let version=0;
    if(!catalogueOf(s).some(x=>x.id===packId))reasons.push('Programme pack is not in this organisation\'s catalogue.');
-   else if(!versionText){version=adoptedVersion(s,packId);if(!version)reasons.push('This programme pack cannot open new episodes.');}
+   else if(!versionText){version=adoptedVersionForTeam(s,packId,p?.teamId??'',now);if(!version)reasons.push('This programme pack cannot open new episodes.');}
    else if(!/^\d{1,4}$/.test(versionText)||!enrollableAt(packId,Number(versionText),s))reasons.push('Pack version must be a compiled or activated version of this pack, or left empty for the adopted version.');
    else version=Number(versionText);
    if(label.length<3||label.length>200)reasons.push('Episode label is required, 3 to 200 characters.');
@@ -125,17 +129,19 @@ export async function planRecordImport(s:OrgState,m:Member,kind:ImportKind,text:
 }
 // The dry run as returned over HTTP: the parsed rows (labels and identifier values) stay on the server.
 export const publicRecordPlan=({accepted,...plan}:Awaited<ReturnType<typeof planRecordImport>>)=>plan;
-export function authorizeRecordImport(s:OrgState,m:Member,c:any){if(c?.type!=='recordImportApply')return;if(c.kind==='visits'){if(!mayImportVisits(m))fail(403,VISIT_REFUSED);return;}if(!mayImport(s,m))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');}
+export function authorizeRecordImport(s:OrgState,m:Member,c:any){if(c?.type==='recordImportContactsReverse'){contactBatch(s,m,c.batchId);return;}if(c?.type!=='recordImportApply')return;if(c.kind==='contacts'){authorizeContactImport(s,m);const batches=new Set(s.workspace.people.flatMap(p=>(p.importedContacts??[]).filter(e=>e.planHash===c.planHash&&e.by===m.userId).map(e=>e.batchId)));for(const batchId of batches)contactBatch(s,m,batchId);return;}if(c.kind==='visits'){if(!mayImportVisits(m))fail(403,VISIT_REFUSED);return;}if(!mayImport(s,m))fail(403,'Only an owner or supervisor with a clinician or supervisor role can import, for teams they belong to.');}
 export async function applyRecordImport(s:OrgState,input:unknown,u:Actor,m:Member,env:Record<string,string|undefined>,now=new Date().toISOString()):Promise<any|null>{
  const parsed=recordImportSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeRecordImport(s,m,c);
  const e=environmentOf(env);if(e.name==='misconfigured')fail(409,'The environment is not configured correctly. Imports are refused until it is corrected.');
+ if(c.type==='recordImportContactsReverse')return applyContactReversal(s,m,u,c,e.name,now);
  const plan=await planRecordImport(s,m,c.kind,c.csv,e.name,now);
  if(plan.planHash!==c.planHash)fail(409,'The file or the records changed since the dry run. Run the dry run again and review it before applying.');
  if(!plan.accepted.length)fail(409,'The dry run has no rows to apply.');
+ if(c.kind==='contacts')return applyContactRows(s,plan as Awaited<ReturnType<typeof planContactRows>>,c.reason,u,m,now);
  if(c.kind==='visits')return applyVisitRows(s,plan as Awaited<ReturnType<typeof planVisitRows>>,c.reason,u,m,now);
  const batchId=uuid(),people=new Set<string>(),w=s.workspace,lineage=(row:number)=>({batchId,row,planHash:plan.planHash});
  for(const a of plan.accepted){
-  if(a.kind==='visits')continue;
+  if(a.kind==='visits'||a.kind==='contacts')continue;
   const p=w.people.find(x=>x.id===a.personId)!;importsInto(s,m,p.teamId,now,true);people.add(p.id);
   if(a.kind==='enrolments'){
    const pack=enrollableAt(a.packId,a.packVersion,s)!;p.enrolments??=[];p.followUps??=[];

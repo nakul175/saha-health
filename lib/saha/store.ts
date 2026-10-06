@@ -1,9 +1,11 @@
 import { allowed, bindAccessPolicy, policySql } from './access';
+import {hydrateTransitionAuthority} from './installed-transition-authority';
 export { allowed } from './access';
 import type { D1Database } from '@cloudflare/workers-types';
 import { digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
+import type { DelegationUse } from './delegation';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
 import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, chainBackoff, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
@@ -17,7 +19,7 @@ const j=(x:unknown)=>JSON.stringify(x);
 export const OPERATIONS_BYTES=1_000_000;
 // Slice 13f (review finding 7): safety actions are never refused by the bound, even when they grow a full document: pausing
 // for maintenance, revoking a purpose grant or a delegation, and recording an aggregate send's outcome or lookup.
-export const OPERATIONS_BOUND_EXEMPT:ReadonlySet<string>=new Set(['opsMaintenance','revokeAccessPurpose','delegationRevoke','sendAggregateReport','lookupAggregateReport']);
+export const OPERATIONS_BOUND_EXEMPT:ReadonlySet<string>=new Set(['serviceIdentityRevoke','opsMaintenance','revokeAccessPurpose','delegationRevoke','sendAggregateReport','lookupAggregateReport']);
 export const OPERATIONS_FULL='The organisation\'s settings document is full, so this change was not saved. Remove settings that are no longer needed, or ask for help.';
 export function operationsBytes(ops:unknown){if(!ops||typeof ops!=='object')return 0;const {indicatorReleases:_,...rest}=ops as Record<string,unknown>;return new TextEncoder().encode(JSON.stringify(rest)).length;}
 const same=(a:unknown,b:unknown)=>j(a)===j(b);
@@ -119,7 +121,8 @@ export async function readState(db:D1Database,orgId:string,personIds?:string[],v
  const teamIds=new Map<string,string[]>();for(const t of values.team_members)teamIds.set(t.user_id,[...(teamIds.get(t.user_id)??[]),t.team_id]);
  const w:Workspace={schemaVersion:1,revision:org.revision,role:'admin',people:values.patients.map(r=>({...JSON.parse(r.data),version:r.version,teamId:r.team_id,assignedTo:r.assigned_to,assigned:false})),visits:values.visits.map(r=>{const {planId,...data}=JSON.parse(r.data);const plan=planId?plans.get(planId):undefined;return {...data,version:r.version,recordVersion:r.record_version,plan:plan?JSON.parse(plan):undefined,aiResults:(ai.get(r.id)??[]).map(a=>JSON.parse(a))};}),integrations:values.integrations.map(r=>JSON.parse(r.data)),submissions:values.submissions.map(r=>JSON.parse(r.data)),referrals:values.referrals.map(r=>JSON.parse(r.data)),receipts:{},audit:values.audit_events.reverse().map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id}))};
  // Slice 13a: bind the organisation's access policy to its members (lib/saha/access.ts).
- return bindAccessPolicy({retention:values.retention[0]?JSON.parse(values.retention[0].data):undefined,governance:values.governance[0]?JSON.parse(values.governance[0].data):undefined,outreach:values.outreach[0]?JSON.parse(values.outreach[0].data):undefined,expansions:values.expansions[0]?JSON.parse(values.expansions[0].data):undefined,pilot:values.pilot[0]?JSON.parse(values.pilot[0].data):undefined,operations:values.operations[0]?JSON.parse(values.operations[0].data):undefined,organisation:{id:org.id,name:org.name,revision:org.revision,createdAt:org.created_at,patientRevision:org.patient_revision??0},teams:values.teams.map(r=>({id:r.id,name:r.name,createdAt:r.created_at})),members:namedMembers(values.memberships.map(r=>({userId:r.user_id,displayName:r.display_name,accountCode:r.account_code,role:r.role,isOwner:!!r.is_owner,status:r.status,version:r.version,createdAt:r.created_at,teamIds:teamIds.get(r.user_id)??[]})),values.invitations,values.operations[0]?.data),invitations:values.invitations.map(r=>({id:r.id,accountCode:r.account_code,label:r.label,role:r.role,teamIds:JSON.parse(r.team_ids),status:r.status,expiresAt:r.expires_at,createdBy:r.created_by,createdAt:r.created_at,tokenHash:r.token_hash,acceptedBy:r.accepted_by??undefined})),households:values.households.map(r=>({...JSON.parse(r.data),version:r.version,teamId:r.team_id})),...(ids?{}:{caseloads:values.caseload_transfers.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state}))}),identityCases:values.identity_cases.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state})),rightsRequests:values.rights_requests.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state})),workspace:w,patientRevs:Object.fromEntries(values.patients.map(r=>[r.id,r.rev??0])),...(ids&&!windowed?{partition:ids}:{}),...((!ids||windowed)&&viewer?{readOnlyFor:viewer}:{})});
+ const state=bindAccessPolicy({retention:values.retention[0]?JSON.parse(values.retention[0].data):undefined,governance:values.governance[0]?JSON.parse(values.governance[0].data):undefined,outreach:values.outreach[0]?JSON.parse(values.outreach[0].data):undefined,expansions:values.expansions[0]?JSON.parse(values.expansions[0].data):undefined,pilot:values.pilot[0]?JSON.parse(values.pilot[0].data):undefined,operations:values.operations[0]?JSON.parse(values.operations[0].data):undefined,organisation:{id:org.id,name:org.name,revision:org.revision,createdAt:org.created_at,patientRevision:org.patient_revision??0},teams:values.teams.map(r=>({id:r.id,name:r.name,createdAt:r.created_at})),members:namedMembers(values.memberships.map(r=>({userId:r.user_id,displayName:r.display_name,accountCode:r.account_code,role:r.role,isOwner:!!r.is_owner,status:r.status,version:r.version,createdAt:r.created_at,teamIds:teamIds.get(r.user_id)??[]})),values.invitations,values.operations[0]?.data),invitations:values.invitations.map(r=>({id:r.id,accountCode:r.account_code,label:r.label,role:r.role,teamIds:JSON.parse(r.team_ids),status:r.status,expiresAt:r.expires_at,createdBy:r.created_by,createdAt:r.created_at,tokenHash:r.token_hash,acceptedBy:r.accepted_by??undefined})),households:values.households.map(r=>({...JSON.parse(r.data),version:r.version,teamId:r.team_id})),...(ids?{}:{caseloads:values.caseload_transfers.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state}))}),identityCases:values.identity_cases.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state})),rightsRequests:values.rights_requests.map(r=>({...JSON.parse(r.data),version:r.version,state:r.state})),workspace:w,patientRevs:Object.fromEntries(values.patients.map(r=>[r.id,r.rev??0])),...(ids&&!windowed?{partition:ids}:{}),...((!ids||windowed)&&viewer?{readOnlyFor:viewer}:{})});
+ await hydrateTransitionAuthority(db,state);return state;
 }
 function revisionChanges(previous:unknown,current:unknown){
  const flatten=(value:any,prefix=''):Record<string,string>=>{const out:Record<string,string>={};for(const [key,val] of Object.entries(value??{})){if(['assigned','plan','aiResults','version','recordVersion'].includes(key))continue;const name=prefix?prefix+'.'+key:key;if(val!==null&&typeof val==='object'&&!Array.isArray(val))Object.assign(out,flatten(val,name));else out[name]=val==null?'—':Array.isArray(val)?val.join(', '):String(val);}return out;};
@@ -153,15 +156,32 @@ export function rowsForState(state:OrgState,previous:OrgState|null,actor:Actor,a
  return rows;
 }
 function auditRow(orgId:string,a:Audit,fallbackActor:string,w:Workspace){const personId=a.personId??(w.people.some(p=>p.id===a.subject)?a.subject:w.visits.find(v=>v.id===a.subject)?.personId??w.submissions.find(s=>s.id===a.subject)?.personId??null);return row('audit_events',{org_id:orgId,id:a.id,person_id:personId,actor_id:a.actorId??fallbackActor,actor_name:a.actor,role:a.role,action:a.action,subject:a.subject,detail:a.detail,at:a.at},['org_id','id'],true);}
+// Append only to new command events before chain hashing. Membership comes from
+// the pre-mutation state, not a self-edited member or the command receipt's actor.
+// Read/system operational writers keep their existing separate evidence semantics.
+export function appendCommandAuthority(rows:Row[],before:OrgState,uses:readonly DelegationUse[]|undefined=undefined,membershipSource:'pre-mutation'|'bootstrap'='pre-mutation',delegationActorId:string|null=null){
+ for(const r of rows){if(r.table!=='audit_events')continue;const v=r.values,member=before.members.find(m=>m.userId===v.actor_id),system=v.role==='system';
+  const envelope={format:'saha-command-authority-v1',initiatorId:v.actor_id,principal:system?'system':member?'member':'non-member',membershipSource,membership:system||!member?null:{role:member.role,status:member.status,version:member.version,isOwner:member.isOwner},delegationEvidence:system?'not-applicable':uses===undefined?'not-tracked':'recorded-uses',delegations:system||!member||member.userId!==delegationActorId?[]:(uses??[]).map(d=>({id:d.id,kind:d.kind,grantorId:d.grantorId,until:d.until}))};
+  v.detail=String(v.detail)+'\nCommand authority: '+j(envelope);
+ }
+}
 // Slice 6j: a commit that loses the audit-chain race is rebuilt on the new head this many times.
 export const CHAIN_ATTEMPTS=6;
-export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
+export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[];taskId?:string;parentId?:string;kind?:string;visitId?:string},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
  if(before.readOnlyFor)throw new Error('A viewer-scoped read cannot be persisted.');
  const orgId=before.organisation.id,now=new Date().toISOString();const rows=rowsForState(after,before,actor,command.type,command.reason??'',now);
  const actionEvent=after.workspace.audit.find(a=>!before.workspace.audit.some(b=>b.id===a.id));const patientId=actionEvent?.personId??after.workspace.people.find(p=>p.id===actionEvent?.subject)?.id??after.workspace.visits.find(v=>v.id===actionEvent?.subject)?.personId??after.workspace.visits.find(v=>v.id===result?.visitId)?.personId??null;
  // Slice 6t: an access-audit commit appends audit events only: no command receipt (a read is not replayed).
  const access=command.type===ACCESS_AUDIT;
- if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now},['actor_id','key'],true));rows.push(...extraRows);
+ // Only an unambiguous newly appended initiating-member event proves mutation
+ // linkage. Existing/imported/system/helper histories are never reconstructed.
+ const initiating=after.workspace.audit.filter(a=>!before.workspace.audit.some(b=>b.id===a.id)&&a.action===command.type&&(a.actorId??actor.userId)===actor.userId&&a.role===before.members.find(m=>m.userId===actor.userId)?.role);
+ const provenance=initiating.length===1?initiating[0]:null;
+ const programmeVisit=command.type==='saveProgrammeAnswers'&&command.visitId?after.workspace.visits.find(v=>v.id===command.visitId):null;
+ const programmeContext=provenance&&programmeVisit&&provenance.subject===programmeVisit.personId&&provenance.personId===programmeVisit.personId?{visitId:programmeVisit.id}:null;
+ const taskContext=provenance&&['assignReconciliationTask','acknowledgeReconciliationTask','closeCorrectionTask'].includes(command.type)&&command.taskId?{taskId:command.taskId,parentId:command.parentId??provenance.subject,kind:command.kind??'correction'}:null;
+ if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now,command_type:command.type,mutation_subject_id:provenance?.subject??null,mutation_event_id:provenance?.id??null,mutation_context:taskContext?j(taskContext):programmeContext?j(programmeContext):null},['actor_id','key'],true));rows.push(...extraRows);
+ if(!access)appendCommandAuthority(rows,before,command.authorityDelegations??after.delegationUsed,'pre-mutation',actor.userId);
  const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
  if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events'&&!ACCESS_SIDE_TABLES.has(r.table))||!rows.length))throw new Error('An access-audit commit may only append audit events.');
  const plan=access?{patients:null,reason:'access audit only'}:commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
@@ -251,8 +271,9 @@ export async function ensureAccount(db:D1Database,u:Actor,fixtures:(w:Workspace)
 }
 export async function createState(db:D1Database,state:OrgState,u:Actor,action:string,sourceRevision=0,sourceHash='',legacyReceipts:Workspace['receipts']={},operation?:{key:string;hash:string}){
  const orgId=state.organisation.id,token=uuid(),now=state.organisation.createdAt;
- state.workspace.audit.push({id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:'clinician',action,subject:orgId,detail:action==='migrateWorkspace'?'Legacy workspace copied to structured records. Original retained. Old unexecuted approvals require a new review.':'Organisation created with an owner and a care team.'});
+ const baselineEvent={id:uuid(),at:now,actor:u.displayName,actorId:u.userId,role:'clinician' as const,action,subject:orgId,detail:action==='migrateWorkspace'?'Legacy workspace copied to structured records. Original retained. Old unexecuted approvals require a new review.':'Organisation created with an owner and a care team.'};state.workspace.audit.push(baselineEvent);
  const rows=rowsForState(state,null,u,action,'Initial baseline; earlier events remain in the activity log.',now);
+ appendCommandAuthority(rows.filter(r=>r.table==='audit_events'&&r.values.id===baselineEvent.id),state,[],'bootstrap');
  rows.push(...state.members.flatMap(m=>m.teamIds.map(t=>row('team_members',{org_id:orgId,team_id:t,user_id:m.userId},['org_id','team_id','user_id']))));
  if(action!=='createOrganisation')rows.push(row('legacy_migrations',{owner_id:u.userId,org_id:orgId,source_revision:sourceRevision,source_hash:sourceHash,counts:j({people:state.workspace.people.length,visits:state.workspace.visits.length,integrations:state.workspace.integrations.length,submissions:state.workspace.submissions.length,referrals:state.workspace.referrals.length,audit:state.workspace.audit.length-1,receipts:Object.keys(legacyReceipts).length}),migrated_at:now},['owner_id'],true));
  for(const [key,r] of Object.entries(legacyReceipts))rows.push(row('command_receipts',{actor_id:u.userId,key,org_id:orgId,hash:r.hash,result:j(r.result),person_id:state.workspace.visits.find(v=>v.id===r.result?.visitId)?.personId??r.result?.personId??null,created_at:now},['actor_id','key'],true));
@@ -264,8 +285,62 @@ export async function history(db:D1Database,orgId:string,personId:string,cursor:
 export function parseCursor(value:string|null){if(!value)return null;if(value.length>500)fail(400,'Invalid history cursor.');try{const c=JSON.parse(value);if(!Array.isArray(c)||c.length!==2||c.some(x=>typeof x!=='string'||x.length>200))fail(400,'Invalid history cursor.');return c as [string,string];}catch{fail(400,'Invalid history cursor.');}}
 // Slice 10h: summary access events (workspace loads, searches, list pages, aggregate views) are left out of the default Activity
 // log page so that routine loads do not bury other events; `summaries` asks for them. The audit chain and its exports always hold them.
-export async function auditPage(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
+function auditPageStatement(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
  const q=`SELECT a.* FROM audit_events a JOIN memberships m ON m.org_id=a.org_id AND m.user_id=? AND m.status='active' WHERE a.org_id=? AND ((a.person_id IS NULL AND (m.is_owner=1 OR m.role='admin')) OR EXISTS (SELECT 1 FROM patients p JOIN team_members t ON t.org_id=p.org_id AND t.team_id=p.team_id AND t.user_id=m.user_id WHERE p.org_id=a.org_id AND p.id=a.person_id AND m.role NOT IN ('admin','provider') AND (m.role!='asha' OR p.assigned_to=m.user_id)))${summaries?'':` AND a.action NOT IN (${SUMMARY_ACCESS_ACTIONS.map(x=>`'${x}'`).join(',')})`}${cursor?' AND (a.at<? OR (a.at=? AND a.id<?))':''} ORDER BY a.at DESC,a.id DESC LIMIT 101`;
- const result=await db.prepare(q).bind(userId,orgId,...(cursor?[cursor[0],cursor[0],cursor[1]]:[])).all<Record<string,any>>();
- const rows=result.results.slice(0,100),last=rows.at(-1);return {events:rows.map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id})) as Audit[],nextCursor:result.results.length>100?j([last!.at,last!.id]):null};
+ return db.prepare(q).bind(userId,orgId,...(cursor?[cursor[0],cursor[0],cursor[1]]:[]));
+}
+function auditPageResult(results:Record<string,any>[]){
+ const rows=results.slice(0,100),last=rows.at(-1);return {events:rows.map(r=>({id:r.id,at:r.at,actor:r.actor_name,actorId:r.actor_id,role:r.role,action:r.action,subject:r.subject,detail:r.detail,personId:r.person_id})) as Audit[],nextCursor:results.length>100?j([last!.at,last!.id]):null};
+}
+export async function auditPage(db:D1Database,orgId:string,userId:string,cursor:[string,string]|null=null,summaries=false){
+ return auditPageResult((await auditPageStatement(db,orgId,userId,cursor,summaries).all<Record<string,any>>()).results);
+}
+// Response decorations are independent reads after the caller's durable workspace access audit.
+// Keep the same fresh SQL visibility predicate; batching does not reuse membership or patient scope.
+export async function snapshotDecorations(db:D1Database,orgId:string,userId:string){
+ const [orgs,migration,activity]=await db.batch([
+  db.prepare('SELECT o.id,o.name,m.role,m.is_owner FROM memberships m JOIN organisations o ON o.id=m.org_id WHERE m.user_id=? AND m.status=? ORDER BY o.created_at').bind(userId,'active'),
+  db.prepare('SELECT migrated_at,counts FROM legacy_migrations WHERE org_id=?').bind(orgId),
+  auditPageStatement(db,orgId,userId),
+ ]);
+ return {orgs:orgs.results as {id:string;name:string;role:Member['role'];is_owner:number}[],migration:(migration.results[0]??null) as {migrated_at:string;counts:string}|null,activity:auditPageResult(activity.results as Record<string,any>[])};
+}
+
+// The availability ledger is append-only. Its sample and chained audit commit together,
+// without moving clinical revisions. SQL guards recheck policy and human authority at
+// the write itself, including a revocation racing the audit-head read. First slot wins.
+export async function persistAvailabilitySample(db:D1Database,config:unknown,maintenance:boolean,sample:import('./availability-types').AvailabilitySample,event:Audit,member:Member|null,dependency:{id:string;version:number;kind:string;status:string;mode:string}|null,dependencyId:string|null):Promise<boolean>{
+ const orgId=sample.org_id,now=sample.recorded_at;
+ for(let attempt=1;;attempt++){
+  const token=uuid(),rows=[row('availability_samples',{...sample},['org_id','slot','source'],true),row('audit_events',{org_id:orgId,id:event.id,person_id:null,actor_id:event.actorId??'system',actor_name:event.actor,role:event.role,action:event.action,subject:orgId,detail:event.detail,at:event.at},['org_id','id'],true)],chain=await linkRows(db,orgId,rows,now);
+  const authority=member?' AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status=\'active\' AND role=? AND is_owner=? AND (is_owner=1 OR role=\'admin\'))':'';
+  const target=dependency?` AND EXISTS (SELECT 1 FROM integrations WHERE org_id=? AND id=? AND version=? AND kind=? AND status=? AND json_extract(data,'$.mode')=?)`:dependencyId?' AND NOT EXISTS (SELECT 1 FROM integrations WHERE org_id=? AND id=?)':'';
+  const targetArgs=dependency?[orgId,dependency.id,dependency.version,dependency.kind,dependency.status,dependency.mode]:dependencyId?[orgId,dependencyId]:[];
+  const head=db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json(json_extract(data,'$.availability'))=? AND COALESCE(json_extract(data,'$.maintenance'),0)=?) AND NOT EXISTS (SELECT 1 FROM availability_samples WHERE org_id=? AND slot=? AND source=?)${authority}${target}`).bind(token,orgId,orgId,j(config),maintenance?1:0,orgId,sample.slot,sample.source,...(member?[orgId,member.userId,member.role,member.isOwner?1:0]:[]),...targetArgs);
+  let saved;try{saved=await db.batch([head,...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)]);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}return false;}
+  return saved[0].meta.changes===1;
+ }
+}
+
+// B26: a count, protected receipt and chained count-only event commit atomically.
+// Current human care membership and exact opt-in configuration are checked at
+// the write. No clinical revisions move, and a saved event is never counted twice.
+export async function persistBurdenCounter(db:D1Database,state:OrgState,actor:Actor,member:Member,key:string,hash:string,code:import('./work-burden-types').BurdenCode){
+ const config=state.operations?.workBurden;if(!config?.enabled)return {recorded:false,replayed:false};
+ const orgId=state.organisation.id,now=new Date().toISOString(),day=new Date(now);day.setUTCHours(0,0,0,0);day.setUTCDate(day.getUTCDate()-((day.getUTCDay()+6)%7));const bucket=day.toISOString();
+ const receiptKey='burden:'+key;
+ const prior=async()=>{const r=await db.prepare('SELECT org_id,hash,result FROM command_receipts WHERE actor_id=? AND key=?').bind(actor.userId,receiptKey).first<{org_id:string;hash:string;result:string}>();if(!r)return null;if(r.org_id!==orgId||r.hash!==hash)fail(409,'This measurement key already identifies a different event.');return JSON.parse(r.result);};
+ if(await prior())return {recorded:false,replayed:true};
+ const event:Audit={id:uuid(),at:now,actorId:actor.userId,actor:actor.displayName,role:member.role,action:'workBurdenCounter',subject:orgId,detail:`Count-only work-burden event ${code}; UTC week ${bucket.slice(0,10)}; configuration ${config.version}.`};
+ const rows=[row('command_receipts',{actor_id:actor.userId,key:receiptKey,org_id:orgId,hash,result:j({code,recorded:true}),person_id:null,created_at:now},['actor_id','key'],true),auditRow(orgId,event,actor.userId,state.workspace)];
+ appendCommandAuthority(rows,state,[],'pre-mutation',actor.userId);
+ for(let attempt=1;;attempt++){
+  const token=uuid(),chain=await linkRows(db,orgId,rows,now);
+  const roles=code.startsWith('reconciliation-')?"'asha','clinician','supervisor'":"'asha','clinician'";
+  const head=db.prepare(`UPDATE organisations SET last_command=? WHERE id=? AND EXISTS (SELECT 1 FROM memberships WHERE org_id=? AND user_id=? AND status='active' AND role=? AND version=? AND role IN (${roles})) AND EXISTS (SELECT 1 FROM operations WHERE org_id=? AND json_extract(data,'$.workBurden.enabled')=1 AND json_extract(data,'$.workBurden.version')=?) AND NOT EXISTS (SELECT 1 FROM command_receipts WHERE actor_id=? AND key=?)`).bind(token,orgId,orgId,actor.userId,member.role,member.version,orgId,config.version,actor.userId,receiptKey);
+  const metric=db.prepare(`INSERT INTO request_metrics (org_id,bucket,route,status,count,total_ms,max_ms) SELECT ?,?,?,0,1,0,0 WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?) ON CONFLICT(org_id,bucket,route,status) DO UPDATE SET count=count+1`).bind(orgId,bucket,'burden:'+code,orgId,token);
+  let saved;try{saved=await db.batch([head,metric,...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)]);}catch(e){if(await prior())return {recorded:false,replayed:true};if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}fail(409,'Measurement contention; keep the same event key for retry.');}
+  if(saved[0].meta.changes===1)return {recorded:true,replayed:false};
+  if(await prior())return {recorded:false,replayed:true};fail(403,'Current care membership and enabled measurement are required.');
+ }
 }

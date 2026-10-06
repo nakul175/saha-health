@@ -1,0 +1,20 @@
+{"event":"saha_request","requestId":"333e497c-568a-4e4d-84a7-49b63ccde362","route":"alerts","status":200,"durationMs":28}
+{"event":"saha_request","requestId":"690d17b5-bbce-494c-8e01-94eae4219135","route":"alerts","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"06229201-925c-4109-b1b8-5a6915564277","route":"notification-channel","status":200,"durationMs":7}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Historical notifications preserved exact through current reads
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-disclosure-root-cold/tests/alert-recipient-retained-timing-before.mjs:2:449)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-alert-disclosure-root-cold/tests/alert-recipient-retained-timing-before.mjs:7:229
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

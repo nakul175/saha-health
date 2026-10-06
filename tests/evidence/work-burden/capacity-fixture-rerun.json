@@ -1,0 +1,135 @@
+{
+  "generatedAt": "2026-10-05T05:18:47.589Z",
+  "startedAt": "2026-10-05T05:18:34.845Z",
+  "command": "node scripts/test.mjs unit --only unit/field-capacity-client --only unit/field-media-capacity-client --report tests/evidence/work-burden/capacity-fixture-rerun.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 2,
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 12655,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 12744
+  },
+  "suites": [
+    {
+      "id": "unit/field-capacity-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-capacity-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4279,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-capacity-client-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-capacity-client.log"
+    },
+    {
+      "id": "unit/field-media-capacity-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-media-capacity-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8376,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-media-capacity-client-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-media-capacity-client.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": [
+      "tests/field-capacity-client-result.json",
+      "tests/field-media-capacity-client-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 148,
+        "components": 0,
+        "suitesCitingNoRequirement": 37,
+        "requirementsCited": 139
+      },
+      "integration": {
+        "suites": 19,
+        "components": 84,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 119
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 193,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 155,
+    "suitesCitingNoRequirement": 53,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 155
+  }
+}

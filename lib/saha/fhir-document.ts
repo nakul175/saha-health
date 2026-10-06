@@ -1,6 +1,6 @@
 import { fail, uuid } from './core';
 import { AUTHOR_ROLE_LABEL, MEASURES, MEASURE_LABEL, SOURCE_LABEL, currentOverride, factAuditText, factProvenance, factReview, measureOf, measureValue, overrideConfirmation, unusualNoteText } from './fact-provenance';
-import type { ConvertibleField, Measure, Person, Role, SignOff, ValueField, Visit } from './types';
+import { currentIdentifiers, type OrgState, type ConvertibleField, Measure, Person, Role, SignOff, ValueField, Visit } from './types';
 export type DocumentSummary={identifier:string;patientId:string;patientName:string;date:string;dates:string[];title:string;observations:{code:string;label:string;value:string;unit:string;date:string}[];notes:string[];warnings:string[]};
 const xml=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]!));
 const coding=(code:string,display:string)=>({coding:[{system:'http://loinc.org',code,display}]});
@@ -86,4 +86,37 @@ export function inspectDocument(raw:unknown,expectedPatientId?:string):DocumentS
  if(!Array.isArray(c.section)||!c.section.length)fail(422,'Document requires at least one section.');for(const section of c.section){if(section.section)fail(422,'Nested sections require a partner-specific document mapper.');if(!section.text&&!section.entry?.length)fail(422,'Empty document section.');for(const e of section.entry??[])resolve(e.reference);if(section.text?.div){if(typeof section.text.div!=='string'||section.text.div.length>6000)fail(422,'Section narrative is too large.');notes.push(section.text.div);}}
  const walk=(value:any,depth=0)=>{if(depth>20)fail(422,'Document nesting exceeds the supported limit.');if(!value||typeof value!=='object')return;for(const [key,item] of Object.entries(value)){if(key==='reference')resolve(item);else walk(item,depth+1);}};walk(b);
  return {identifier:String(b.identifier.system)+'|'+String(b.identifier.value),patientId:patient.id,patientName:patientName.trim(),date,dates,title:c.title,observations,notes,warnings:[...new Set(warnings),'Structural subset checks only. Full FHIR and ABDM profile validation has not been performed.']};
+}
+
+// Outbound contract is narrower than the inbound structural reader. It preserves
+// all mapped patient identity, quantities and author/review/override provenance.
+// Stored approvals are refused, never projected or rewritten to fit this contract.
+export function assertOutboundPrivacy(raw:unknown){
+ const refuse=()=>fail(409,'Prepared FHIR document differs from its mapped outbound contract. Review and prepare a fresh publication; nothing was sent.');
+ const object=(x:any,keys:string[])=>{if(!x||typeof x!=='object'||Array.isArray(x)||Object.keys(x).some(k=>!keys.includes(k)))refuse();for(const k of ['resourceType','id','fullUrl','system','value','display','versionId','status','gender','date','effectiveDateTime','start','end','recorded','reference','url','valueString','valueCode','valueDateTime','title','div','unit','family'])if(k in x&&typeof x[k]==='object')refuse();};
+ const list=(x:any,check:(v:any)=>void)=>{if(!Array.isArray(x)||x.length>80)refuse();for(const v of x)check(v);};
+ const ref=(x:any)=>object(x,['reference']);
+ const cod=(x:any)=>{object(x,['coding','text']);if(x.text!==undefined&&typeof x.text!=='string')refuse();if(x.coding)list(x.coding,v=>{object(v,['system','code','display']);if(typeof v.code!=='string')refuse();});};
+ const ext=(x:any,depth=0,allowed:string[]=[FHIR_UNUSUAL_VALUE_EXTENSION])=>{if(depth>3)refuse();object(x,['url','extension','valueString','valueCode','valueDateTime']);const urls=[FHIR_UNUSUAL_VALUE_EXTENSION,FHIR_RECORDED_AT_EXTENSION,FHIR_VERIFICATION_EXTENSION,'enteredValue','enteredUnit','reason','tier','rangesVersion','expectedRange','confirmRange','recordedBy','recordedByRole','recordedAt','confirmation','confirmedBy','confirmedAt','note'];if(!urls.includes(x.url)||!allowed.includes(x.url))refuse();if(x.extension)list(x.extension,v=>ext(v,depth+1,x.url===FHIR_UNUSUAL_VALUE_EXTENSION?['enteredValue','enteredUnit','reason','tier','rangesVersion','expectedRange','confirmRange','recordedBy','recordedByRole','recordedAt','confirmation']:x.url==='confirmation'?['confirmedBy','confirmedAt','note']:[]));};
+ const b=raw as any;object(b,['resourceType','id','meta','identifier','type','timestamp','entry']);if(b.meta){object(b.meta,['versionId','tag']);if(b.meta.tag)list(b.meta.tag,v=>object(v,['system','code','display']));}object(b.identifier,['system','value']);
+ list(b.entry,e=>{object(e,['fullUrl','resource']);const r=e.resource,base=['resourceType','id'];switch(r?.resourceType){
+  case 'Composition':object(r,[...base,'status','type','subject','encounter','date','author','title','custodian','section']);cod(r.type);ref(r.subject);if(r.encounter)ref(r.encounter);list(r.author,ref);if(r.custodian)ref(r.custodian);list(r.section,s=>{object(s,['title','text','entry']);if(s.text){object(s.text,['status','div']);if(typeof s.text.div!=='string'||!/^<div xmlns="http:\/\/www\.w3\.org\/1999\/xhtml"><p>[^<>]*<\/p><\/div>$/.test(s.text.div))refuse();}if(s.entry)list(s.entry,ref);});break;
+  case 'Patient':case 'Practitioner':object(r,[...base,'name',...(r.resourceType==='Patient'?['gender']:[])]);list(r.name,n=>{object(n,['text','given','family']);if(n.text!==undefined&&typeof n.text!=='string')refuse();if(n.given)list(n.given,v=>{if(typeof v!=='string')refuse();});});break;
+  case 'Organization':object(r,[...base,'name']);if(r.name!==undefined&&typeof r.name!=='string')refuse();break;
+  case 'Encounter':object(r,[...base,'status','class','subject','period']);object(r.class,['system','code','display']);ref(r.subject);if(r.period)object(r.period,['start','end']);break;
+  case 'Observation':object(r,[...base,'status','category','code','subject','encounter','effectiveDateTime','performer','extension','valueQuantity','method','note']);if(r.category)list(r.category,cod);cod(r.code);ref(r.subject);if(r.encounter)ref(r.encounter);if(r.performer)list(r.performer,ref);if(r.extension)list(r.extension,v=>ext(v));object(r.valueQuantity,['value','unit','system','code']);if(r.method){object(r.method,['text']);if(typeof r.method.text!=='string')refuse();}if(r.note)list(r.note,n=>{object(n,['text']);if(typeof n.text!=='string')refuse();});break;
+  case 'Provenance':object(r,[...base,'target','recorded','agent']);list(r.target,ref);list(r.agent,a=>{object(a,['type','role','who','extension']);cod(a.type);list(a.role,cod);object(a.who,['reference','display','identifier']);if(a.who.identifier)object(a.who.identifier,['system','value']);if(a.extension)list(a.extension,v=>ext(v,0,[FHIR_RECORDED_AT_EXTENSION,FHIR_VERIFICATION_EXTENSION,'reason']));});break;
+  default:refuse();
+ }});inspectDocument(b);
+}
+
+// Patient exchange intentionally includes the confirmed subject and care authors.
+// Free clinical narrative must not carry a different known patient's identity.
+export function assertPatientDocumentNotes(s:OrgState,personId:string,bundle:any){
+ const normalize=(x:string)=>x.normalize('NFKC').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/\s+/g,' ').trim().toLowerCase();
+ const values=(p:Person)=>[p.id,p.name,p.abha?.number,p.abha?.number?.replace(/-/g,''),p.abha?.address,...currentIdentifiers(p).map(x=>x.value)].filter((x):x is string=>typeof x==='string'&&x.trim().length>=3).map(normalize),own=s.workspace.people.find(p=>p.id===personId),allowed=new Set([...(own?values(own):[]),...(s.members??[]).map(m=>normalize(m.displayName??''))]);
+ const known=s.workspace.people.filter(p=>p.id!==personId).flatMap(values).filter(x=>!allowed.has(x)&&!/^\d{1,7}$/.test(x)),notes:string[]=[];
+ for(const e of bundle.entry??[]){const r=e.resource;if(r?.resourceType==='Composition')for(const section of r.section??[])if(typeof section.text?.div==='string')notes.push(section.text.div);if(r?.resourceType==='Observation')for(const n of r.note??[])if(typeof n.text==='string')notes.push(n.text);}
+ const contains=(text:string,value:string)=>{let start=0;for(;;){const n=text.indexOf(value,start);if(n<0)return false;const left=text[n-1]??'',right=text[n+value.length]??'';if(!/[\p{L}\p{N}]/u.test(left)&&!/[\p{L}\p{N}]/u.test(right))return true;start=n+1;}};
+ if(notes.some(text=>known.some(value=>contains(normalize(text),value)||contains(normalize(text),xml(value)))))fail(409,'Clinical narrative contains another known patient identity. Review the subject-specific note and prepare a fresh publication; nothing was sent.');
 }

@@ -1,0 +1,3199 @@
+{
+  "source": "e89cf6b7cf0978c4e07f8530281dadceefd34640",
+  "date": "2026-10-05T07:18:10.255Z",
+  "diagnostic": true,
+  "order": "d1-first",
+  "inspector": true,
+  "snapshotInducedCollection": true,
+  "forcedGcCommand": false,
+  "concurrency": 4,
+  "loads": 500,
+  "phases": [
+    {
+      "phase": "warm100",
+      "deleteQueueCount": 2105,
+      "deleteQueueBytes": 673600,
+      "mallocNodes": 225197,
+      "rssKb": 186720,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 3228400,
+          "totalSize": 5242880,
+          "embedderHeapUsedSize": 773776,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 9562728,
+          "totalSize": 16580608,
+          "embedderHeapUsedSize": 902736,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 28450828,
+          "totalSize": 44171264,
+          "embedderHeapUsedSize": 1031696,
+          "backingStorageSize": 1020304
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1313248,
+          "totalSize": 1736704,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 763712,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 2849900,
+          "totalSize": 5177344,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 696340,
+          "totalSize": 3670016,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 1854248,
+          "totalSize": 4620288,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "total500",
+      "deleteQueueCount": 3164,
+      "deleteQueueBytes": 1012480,
+      "mallocNodes": 378577,
+      "rssKb": 359424,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 4193336,
+          "totalSize": 6815744,
+          "embedderHeapUsedSize": 1063824,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 8975552,
+          "totalSize": 43335680,
+          "embedderHeapUsedSize": 1125784,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 72566328,
+          "totalSize": 109854720,
+          "embedderHeapUsedSize": 1547552,
+          "backingStorageSize": 1285493
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1313248,
+          "totalSize": 1736704,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 763712,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 4035720,
+          "totalSize": 7274496,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 1634904,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot d1:db:00000000-0000-4000-8000-000000000000",
+      "deleteQueueCount": 1198,
+      "deleteQueueBytes": 383360,
+      "mallocNodes": 290078,
+      "rssKb": 330816,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 8975552,
+          "totalSize": 43335680,
+          "embedderHeapUsedSize": 1125784,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 72566328,
+          "totalSize": 109854720,
+          "embedderHeapUsedSize": 1547552,
+          "backingStorageSize": 1285493
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1313248,
+          "totalSize": 1736704,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 763712,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 4035720,
+          "totalSize": 7274496,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 1634904,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot d1:db",
+      "deleteQueueCount": 1198,
+      "deleteQueueBytes": 383360,
+      "mallocNodes": 243838,
+      "rssKb": 302864,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 72566328,
+          "totalSize": 109854720,
+          "embedderHeapUsedSize": 1547552,
+          "backingStorageSize": 1285493
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1313248,
+          "totalSize": 1736704,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 763712,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 4035720,
+          "totalSize": 7274496,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 1634904,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot core:user:",
+      "deleteQueueCount": 838,
+      "deleteQueueBytes": 268160,
+      "mallocNodes": 77799,
+      "rssKb": 273760,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1313248,
+          "totalSize": 1736704,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 763712,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 4035720,
+          "totalSize": 7274496,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 1634904,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot assets:assets-service:undefined",
+      "deleteQueueCount": 838,
+      "deleteQueueBytes": 268160,
+      "mallocNodes": 77759,
+      "rssKb": 273568,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 763712,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 4035720,
+          "totalSize": 7274496,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 1634904,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot assets:kv:undefined",
+      "deleteQueueCount": 838,
+      "deleteQueueBytes": 268160,
+      "mallocNodes": 77698,
+      "rssKb": 273808,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 520536,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 4035720,
+          "totalSize": 7274496,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 1634904,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot assets:router:undefined",
+      "deleteQueueCount": 227,
+      "deleteQueueBytes": 72640,
+      "mallocNodes": 62706,
+      "rssKb": 269712,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 520536,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 1081564,
+          "totalSize": 2031616,
+          "embedderHeapUsedSize": 584,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 1634904,
+          "totalSize": 4194304,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot assets:rpc-proxy:undefined",
+      "deleteQueueCount": 116,
+      "deleteQueueBytes": 37120,
+      "mallocNodes": 51074,
+      "rssKb": 267152,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 520536,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 1081564,
+          "totalSize": 2031616,
+          "embedderHeapUsedSize": 584,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 222272,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 504,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 755072,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot cache:0",
+      "deleteQueueCount": 116,
+      "deleteQueueBytes": 37120,
+      "mallocNodes": 51009,
+      "rssKb": 267936,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 520536,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 1081564,
+          "totalSize": 2031616,
+          "embedderHeapUsedSize": 584,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 222272,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 504,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 516888,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 825488,
+          "totalSize": 1572864,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot cache:cache",
+      "deleteQueueCount": 116,
+      "deleteQueueBytes": 37120,
+      "mallocNodes": 50962,
+      "rssKb": 267760,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 520536,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 1081564,
+          "totalSize": 2031616,
+          "embedderHeapUsedSize": 584,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 222272,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 504,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 516888,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 576092,
+          "totalSize": 1310720,
+          "embedderHeapUsedSize": 624,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 2529368,
+          "totalSize": 6717440,
+          "embedderHeapUsedSize": 386896,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot core:entry",
+      "deleteQueueCount": 1,
+      "deleteQueueBytes": 320,
+      "mallocNodes": 41428,
+      "rssKb": 265216,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 520536,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 1081564,
+          "totalSize": 2031616,
+          "embedderHeapUsedSize": 584,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 222272,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 504,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 516888,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 576092,
+          "totalSize": 1310720,
+          "embedderHeapUsedSize": 624,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 1005064,
+          "totalSize": 1998848,
+          "embedderHeapUsedSize": 1144,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 388328,
+          "totalSize": 786432,
+          "embedderHeapUsedSize": 257936,
+          "backingStorageSize": 0
+        }
+      ]
+    },
+    {
+      "phase": "after snapshot strip-cf-connecting-ip:0",
+      "deleteQueueCount": 1,
+      "deleteQueueBytes": 320,
+      "mallocNodes": 41395,
+      "rssKb": 265088,
+      "heap": [
+        {
+          "id": "d1:db:00000000-0000-4000-8000-000000000000",
+          "usedSize": 208060,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 344,
+          "backingStorageSize": 0
+        },
+        {
+          "id": "d1:db",
+          "usedSize": 981732,
+          "totalSize": 1835008,
+          "embedderHeapUsedSize": 904,
+          "backingStorageSize": 432180
+        },
+        {
+          "id": "core:user:",
+          "usedSize": 11372604,
+          "totalSize": 11960320,
+          "embedderHeapUsedSize": 1824,
+          "backingStorageSize": 789968
+        },
+        {
+          "id": "assets:assets-service:undefined",
+          "usedSize": 1014712,
+          "totalSize": 1474560,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 7169
+        },
+        {
+          "id": "assets:kv:undefined",
+          "usedSize": 520536,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "assets:router:undefined",
+          "usedSize": 1081564,
+          "totalSize": 2031616,
+          "embedderHeapUsedSize": 584,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "assets:rpc-proxy:undefined",
+          "usedSize": 222272,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 504,
+          "backingStorageSize": 5989
+        },
+        {
+          "id": "cache:0",
+          "usedSize": 516888,
+          "totalSize": 1048576,
+          "embedderHeapUsedSize": 544,
+          "backingStorageSize": 322605
+        },
+        {
+          "id": "cache:cache",
+          "usedSize": 576092,
+          "totalSize": 1310720,
+          "embedderHeapUsedSize": 624,
+          "backingStorageSize": 323795
+        },
+        {
+          "id": "core:entry",
+          "usedSize": 1005064,
+          "totalSize": 1998848,
+          "embedderHeapUsedSize": 1144,
+          "backingStorageSize": 365920
+        },
+        {
+          "id": "strip-cf-connecting-ip:0",
+          "usedSize": 202504,
+          "totalSize": 524288,
+          "embedderHeapUsedSize": 304,
+          "backingStorageSize": 0
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "id": "d1:db:00000000-0000-4000-8000-000000000000",
+      "nodeCount": 68814,
+      "selfBytes": 210876,
+      "classes": [
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 1655,
+          "selfBytes": 65248
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 990,
+          "selfBytes": 57112
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 1051,
+          "selfBytes": 30092
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 5606,
+          "selfBytes": 18520
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 51,
+          "selfBytes": 16548
+        },
+        {
+          "type": "string",
+          "name": "string",
+          "count": 32039,
+          "selfBytes": 10396
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 217,
+          "selfBytes": 6032
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 17,
+          "selfBytes": 1176
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 8,
+          "selfBytes": 576
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 13,
+          "selfBytes": 364
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 26993,
+          "selfBytes": 192
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "TransformStream",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 24,
+          "selfBytes": 128
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 3,
+          "selfBytes": 120
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 3,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 3,
+          "selfBytes": 84
+        },
+        {
+          "type": "object",
+          "name": "ExtendableEvent",
+          "count": 3,
+          "selfBytes": 84
+        },
+        {
+          "type": "object",
+          "name": "WebAssembly.Module",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Body",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Fetcher",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 2,
+          "selfBytes": 52
+        },
+        {
+          "type": "object",
+          "name": "DurableObjectNamespace",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "LoopbackServiceStub",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "Request",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "ExecutionContext",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "DurableObjectId",
+          "count": 1,
+          "selfBytes": 32
+        }
+      ]
+    },
+    {
+      "id": "d1:db",
+      "nodeCount": 162845,
+      "selfBytes": 1419664,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 75551,
+          "selfBytes": 507380
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 10709,
+          "selfBytes": 443516
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 2901,
+          "selfBytes": 157968
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 3779,
+          "selfBytes": 136472
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 2863,
+          "selfBytes": 80888
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 575,
+          "selfBytes": 54660
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 436,
+          "selfBytes": 11864
+        },
+        {
+          "type": "concatenated string",
+          "name": "concatenated string",
+          "count": 180,
+          "selfBytes": 3600
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 88,
+          "selfBytes": 3492
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 48,
+          "selfBytes": 3204
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 38,
+          "selfBytes": 1680
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 22,
+          "selfBytes": 1584
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 31,
+          "selfBytes": 1408
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 64,
+          "selfBytes": 1024
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 39,
+          "selfBytes": 936
+        },
+        {
+          "type": "object",
+          "name": "_ZodString",
+          "count": 4,
+          "selfBytes": 640
+        },
+        {
+          "type": "object",
+          "name": "NodeError",
+          "count": 44,
+          "selfBytes": 528
+        },
+        {
+          "type": "object",
+          "name": "_ZodArray",
+          "count": 3,
+          "selfBytes": 480
+        },
+        {
+          "type": "object",
+          "name": "ZodType",
+          "count": 36,
+          "selfBytes": 432
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 18,
+          "selfBytes": 424
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "object",
+          "name": "_ZodNumber",
+          "count": 2,
+          "selfBytes": 328
+        },
+        {
+          "type": "object",
+          "name": "ZodUnion",
+          "count": 2,
+          "selfBytes": 320
+        },
+        {
+          "type": "object",
+          "name": "ZodEffects",
+          "count": 2,
+          "selfBytes": 320
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 33,
+          "selfBytes": 272
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 65182,
+          "selfBytes": 252
+        },
+        {
+          "type": "object",
+          "name": "NodeTypeError",
+          "count": 21,
+          "selfBytes": 252
+        },
+        {
+          "type": "object",
+          "name": "Uint8Array",
+          "count": 4,
+          "selfBytes": 208
+        },
+        {
+          "type": "object",
+          "name": "ArrayBuffer",
+          "count": 3,
+          "selfBytes": 172
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        }
+      ]
+    },
+    {
+      "id": "core:user:",
+      "nodeCount": 536285,
+      "selfBytes": 12172084,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 218204,
+          "selfBytes": 6469260
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 43661,
+          "selfBytes": 2948048
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 51424,
+          "selfBytes": 1277452
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 7232,
+          "selfBytes": 380836
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 4346,
+          "selfBytes": 278708
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 8592,
+          "selfBytes": 263280
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 6280,
+          "selfBytes": 176092
+        },
+        {
+          "type": "object",
+          "name": "e",
+          "count": 1015,
+          "selfBytes": 123200
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 2746,
+          "selfBytes": 95220
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 3099,
+          "selfBytes": 49596
+        },
+        {
+          "type": "object",
+          "name": "Le",
+          "count": 318,
+          "selfBytes": 36888
+        },
+        {
+          "type": "concatenated string",
+          "name": "concatenated string",
+          "count": 537,
+          "selfBytes": 10740
+        },
+        {
+          "type": "object",
+          "name": "at",
+          "count": 80,
+          "selfBytes": 9280
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 149,
+          "selfBytes": 6836
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 93,
+          "selfBytes": 6404
+        },
+        {
+          "type": "object",
+          "name": "it",
+          "count": 54,
+          "selfBytes": 6264
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 151,
+          "selfBytes": 3624
+        },
+        {
+          "type": "object",
+          "name": "Map",
+          "count": 224,
+          "selfBytes": 3596
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 45,
+          "selfBytes": 3240
+        },
+        {
+          "type": "object",
+          "name": "Ae",
+          "count": 27,
+          "selfBytes": 3132
+        },
+        {
+          "type": "object",
+          "name": "ot",
+          "count": 19,
+          "selfBytes": 2204
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 144,
+          "selfBytes": 2048
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 187277,
+          "selfBytes": 1440
+        },
+        {
+          "type": "object",
+          "name": "Set",
+          "count": 85,
+          "selfBytes": 1372
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 29,
+          "selfBytes": 552
+        },
+        {
+          "type": "object",
+          "name": "NodeError",
+          "count": 44,
+          "selfBytes": 528
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 21,
+          "selfBytes": 512
+        },
+        {
+          "type": "object",
+          "name": "st",
+          "count": 3,
+          "selfBytes": 480
+        },
+        {
+          "type": "object",
+          "name": "D",
+          "count": 35,
+          "selfBytes": 420
+        }
+      ]
+    },
+    {
+      "id": "assets:assets-service:undefined",
+      "nodeCount": 141482,
+      "selfBytes": 1025681,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 66434,
+          "selfBytes": 480633
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 9477,
+          "selfBytes": 216924
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 2738,
+          "selfBytes": 131180
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 2091,
+          "selfBytes": 78136
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 2069,
+          "selfBytes": 61028
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 114,
+          "selfBytes": 22976
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 664,
+          "selfBytes": 15204
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 274,
+          "selfBytes": 8812
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 28,
+          "selfBytes": 3140
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 13,
+          "selfBytes": 936
+        },
+        {
+          "type": "concatenated string",
+          "name": "concatenated string",
+          "count": 24,
+          "selfBytes": 480
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 16,
+          "selfBytes": 384
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 14,
+          "selfBytes": 376
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 19,
+          "selfBytes": 304
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 57313,
+          "selfBytes": 216
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 5,
+          "selfBytes": 212
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "TransformStream",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 24,
+          "selfBytes": 128
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 5,
+          "selfBytes": 124
+        },
+        {
+          "type": "object",
+          "name": "Response",
+          "count": 10,
+          "selfBytes": 120
+        },
+        {
+          "type": "object",
+          "name": "ArrayBuffer",
+          "count": 2,
+          "selfBytes": 100
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 3,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "ExtendableEvent",
+          "count": 3,
+          "selfBytes": 84
+        },
+        {
+          "type": "object",
+          "name": "WeakMap",
+          "count": 3,
+          "selfBytes": 60
+        },
+        {
+          "type": "object",
+          "name": "WebAssembly.Module",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Body",
+          "count": 2,
+          "selfBytes": 56
+        }
+      ]
+    },
+    {
+      "id": "assets:kv:undefined",
+      "nodeCount": 108704,
+      "selfBytes": 846669,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 50248,
+          "selfBytes": 363981
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 7717,
+          "selfBytes": 148428
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 2951,
+          "selfBytes": 105616
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 1841,
+          "selfBytes": 100508
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 1814,
+          "selfBytes": 53116
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 525,
+          "selfBytes": 51656
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 344,
+          "selfBytes": 9524
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 39,
+          "selfBytes": 1848
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 29,
+          "selfBytes": 1700
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 27,
+          "selfBytes": 1224
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 13,
+          "selfBytes": 936
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 47,
+          "selfBytes": 752
+        },
+        {
+          "type": "object",
+          "name": "NodeError",
+          "count": 44,
+          "selfBytes": 528
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 20,
+          "selfBytes": 480
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 17,
+          "selfBytes": 412
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 32,
+          "selfBytes": 256
+        },
+        {
+          "type": "object",
+          "name": "NodeTypeError",
+          "count": 21,
+          "selfBytes": 252
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 42795,
+          "selfBytes": 240
+        },
+        {
+          "type": "object",
+          "name": "Uint8Array",
+          "count": 4,
+          "selfBytes": 208
+        },
+        {
+          "type": "object",
+          "name": "ArrayBuffer",
+          "count": 3,
+          "selfBytes": 172
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 7,
+          "selfBytes": 160
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "TransformStream",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "NodeRangeError",
+          "count": 8,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 3,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "PerformanceEntry",
+          "count": 3,
+          "selfBytes": 84
+        },
+        {
+          "type": "object",
+          "name": "ExtendableEvent",
+          "count": 3,
+          "selfBytes": 84
+        }
+      ]
+    },
+    {
+      "id": "assets:router:undefined",
+      "nodeCount": 141081,
+      "selfBytes": 1091521,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 66187,
+          "selfBytes": 504897
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 9675,
+          "selfBytes": 262992
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 2743,
+          "selfBytes": 130448
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 2090,
+          "selfBytes": 78200
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 2013,
+          "selfBytes": 59396
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 107,
+          "selfBytes": 22040
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 673,
+          "selfBytes": 15420
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 265,
+          "selfBytes": 8436
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 29,
+          "selfBytes": 2088
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 14,
+          "selfBytes": 1008
+        },
+        {
+          "type": "concatenated string",
+          "name": "concatenated string",
+          "count": 24,
+          "selfBytes": 480
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 14,
+          "selfBytes": 376
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 14,
+          "selfBytes": 336
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 18,
+          "selfBytes": 288
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 57029,
+          "selfBytes": 240
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 5,
+          "selfBytes": 212
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "TransformStream",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 24,
+          "selfBytes": 128
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 5,
+          "selfBytes": 124
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 3,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "ExtendableEvent",
+          "count": 3,
+          "selfBytes": 84
+        },
+        {
+          "type": "object",
+          "name": "WeakMap",
+          "count": 3,
+          "selfBytes": 60
+        },
+        {
+          "type": "object",
+          "name": "Fetcher",
+          "count": 2,
+          "selfBytes": 60
+        },
+        {
+          "type": "object",
+          "name": "WebAssembly.Module",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Body",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Map",
+          "count": 2,
+          "selfBytes": 44
+        }
+      ]
+    },
+    {
+      "id": "assets:rpc-proxy:undefined",
+      "nodeCount": 70480,
+      "selfBytes": 231685,
+      "classes": [
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 1735,
+          "selfBytes": 68220
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 1008,
+          "selfBytes": 57936
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 1088,
+          "selfBytes": 31176
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 5706,
+          "selfBytes": 23520
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 94,
+          "selfBytes": 19136
+        },
+        {
+          "type": "string",
+          "name": "string",
+          "count": 32748,
+          "selfBytes": 17241
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 234,
+          "selfBytes": 6548
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 25,
+          "selfBytes": 1624
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 12,
+          "selfBytes": 864
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 13,
+          "selfBytes": 364
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 5,
+          "selfBytes": 212
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 27635,
+          "selfBytes": 192
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "TransformStream",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 24,
+          "selfBytes": 128
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 5,
+          "selfBytes": 124
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 4,
+          "selfBytes": 116
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 3,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "ExtendableEvent",
+          "count": 3,
+          "selfBytes": 84
+        },
+        {
+          "type": "object",
+          "name": "Fetcher",
+          "count": 2,
+          "selfBytes": 60
+        },
+        {
+          "type": "object",
+          "name": "WebAssembly.Module",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Body",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "EntrypointsModule",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "EnvModule",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "Tracing",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "LoopbackServiceStub",
+          "count": 1,
+          "selfBytes": 32
+        },
+        {
+          "type": "object",
+          "name": "ExecutionContext",
+          "count": 1,
+          "selfBytes": 32
+        }
+      ]
+    },
+    {
+      "id": "cache:0",
+      "nodeCount": 107238,
+      "selfBytes": 843029,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 49446,
+          "selfBytes": 360489
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 7728,
+          "selfBytes": 148948
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 2966,
+          "selfBytes": 106484
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 1814,
+          "selfBytes": 99064
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 1823,
+          "selfBytes": 53372
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 526,
+          "selfBytes": 51880
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 319,
+          "selfBytes": 8936
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 39,
+          "selfBytes": 1856
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 29,
+          "selfBytes": 1708
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 27,
+          "selfBytes": 1224
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 13,
+          "selfBytes": 936
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 47,
+          "selfBytes": 752
+        },
+        {
+          "type": "object",
+          "name": "NodeError",
+          "count": 44,
+          "selfBytes": 528
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 20,
+          "selfBytes": 480
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 17,
+          "selfBytes": 412
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 32,
+          "selfBytes": 256
+        },
+        {
+          "type": "object",
+          "name": "NodeTypeError",
+          "count": 21,
+          "selfBytes": 252
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 42147,
+          "selfBytes": 240
+        },
+        {
+          "type": "object",
+          "name": "Uint8Array",
+          "count": 4,
+          "selfBytes": 208
+        },
+        {
+          "type": "object",
+          "name": "ArrayBuffer",
+          "count": 3,
+          "selfBytes": 172
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 7,
+          "selfBytes": 160
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "TransformStream",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 3,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "NodeRangeError",
+          "count": 8,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "PerformanceEntry",
+          "count": 3,
+          "selfBytes": 84
+        },
+        {
+          "type": "object",
+          "name": "ExtendableEvent",
+          "count": 3,
+          "selfBytes": 84
+        }
+      ]
+    },
+    {
+      "id": "cache:cache",
+      "nodeCount": 112029,
+      "selfBytes": 903815,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 51656,
+          "selfBytes": 392371
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 8012,
+          "selfBytes": 163336
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 3074,
+          "selfBytes": 109448
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 1906,
+          "selfBytes": 104228
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 1882,
+          "selfBytes": 55108
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 573,
+          "selfBytes": 54588
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 325,
+          "selfBytes": 9172
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 48,
+          "selfBytes": 2180
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 33,
+          "selfBytes": 2020
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 31,
+          "selfBytes": 1408
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 15,
+          "selfBytes": 1080
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 55,
+          "selfBytes": 880
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 27,
+          "selfBytes": 648
+        },
+        {
+          "type": "object",
+          "name": "NodeError",
+          "count": 44,
+          "selfBytes": 528
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 17,
+          "selfBytes": 412
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 32,
+          "selfBytes": 256
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 44074,
+          "selfBytes": 252
+        },
+        {
+          "type": "object",
+          "name": "NodeTypeError",
+          "count": 21,
+          "selfBytes": 252
+        },
+        {
+          "type": "object",
+          "name": "Uint8Array",
+          "count": 4,
+          "selfBytes": 208
+        },
+        {
+          "type": "concatenated string",
+          "name": "concatenated string",
+          "count": 10,
+          "selfBytes": 200
+        },
+        {
+          "type": "object",
+          "name": "ArrayBuffer",
+          "count": 3,
+          "selfBytes": 172
+        },
+        {
+          "type": "object",
+          "name": "Event",
+          "count": 6,
+          "selfBytes": 168
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 7,
+          "selfBytes": 160
+        },
+        {
+          "type": "object",
+          "name": "TransformStream",
+          "count": 6,
+          "selfBytes": 152
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 5,
+          "selfBytes": 140
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 3,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "NodeRangeError",
+          "count": 8,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "Set",
+          "count": 5,
+          "selfBytes": 92
+        }
+      ]
+    },
+    {
+      "id": "core:entry",
+      "nodeCount": 136579,
+      "selfBytes": 1377144,
+      "classes": [
+        {
+          "type": "string",
+          "name": "string",
+          "count": 65767,
+          "selfBytes": 658036
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 8708,
+          "selfBytes": 277432
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 2304,
+          "selfBytes": 126176
+        },
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 3195,
+          "selfBytes": 115220
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 631,
+          "selfBytes": 110044
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 2017,
+          "selfBytes": 59240
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 303,
+          "selfBytes": 9092
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 61,
+          "selfBytes": 4004
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 55,
+          "selfBytes": 2752
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 28,
+          "selfBytes": 2016
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 39,
+          "selfBytes": 1776
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "object",
+          "name": "Array",
+          "count": 53,
+          "selfBytes": 848
+        },
+        {
+          "type": "regexp",
+          "name": "regexp",
+          "count": 29,
+          "selfBytes": 696
+        },
+        {
+          "type": "object",
+          "name": "NodeError",
+          "count": 44,
+          "selfBytes": 528
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 17,
+          "selfBytes": 396
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "object",
+          "name": "ArrayBuffer",
+          "count": 5,
+          "selfBytes": 316
+        },
+        {
+          "type": "object",
+          "name": "Uint8Array",
+          "count": 5,
+          "selfBytes": 284
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 32,
+          "selfBytes": 256
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 11,
+          "selfBytes": 256
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 52996,
+          "selfBytes": 252
+        },
+        {
+          "type": "object",
+          "name": "NodeTypeError",
+          "count": 21,
+          "selfBytes": 252
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 4,
+          "selfBytes": 124
+        },
+        {
+          "type": "concatenated string",
+          "name": "concatenated string",
+          "count": 6,
+          "selfBytes": 120
+        },
+        {
+          "type": "object",
+          "name": "NodeRangeError",
+          "count": 8,
+          "selfBytes": 96
+        },
+        {
+          "type": "object",
+          "name": "Float32Array",
+          "count": 1,
+          "selfBytes": 76
+        },
+        {
+          "type": "object",
+          "name": "Float64Array",
+          "count": 1,
+          "selfBytes": 76
+        },
+        {
+          "type": "object",
+          "name": "D1DatabaseSessionAlwaysPrimary",
+          "count": 1,
+          "selfBytes": 68
+        },
+        {
+          "type": "object",
+          "name": "NodeSyscallError",
+          "count": 5,
+          "selfBytes": 60
+        }
+      ]
+    },
+    {
+      "id": "strip-cf-connecting-ip:0",
+      "nodeCount": 67220,
+      "selfBytes": 205128,
+      "classes": [
+        {
+          "type": "hidden",
+          "name": "hidden",
+          "count": 1618,
+          "selfBytes": 64548
+        },
+        {
+          "type": "object shape",
+          "name": "object shape",
+          "count": 951,
+          "selfBytes": 56104
+        },
+        {
+          "type": "closure",
+          "name": "closure",
+          "count": 1034,
+          "selfBytes": 29600
+        },
+        {
+          "type": "code",
+          "name": "code",
+          "count": 5570,
+          "selfBytes": 16852
+        },
+        {
+          "type": "array",
+          "name": "array",
+          "count": 50,
+          "selfBytes": 16708
+        },
+        {
+          "type": "string",
+          "name": "string",
+          "count": 31274,
+          "selfBytes": 9196
+        },
+        {
+          "type": "object",
+          "name": "Object",
+          "count": 163,
+          "selfBytes": 4548
+        },
+        {
+          "type": "synthetic",
+          "name": "synthetic",
+          "count": 36,
+          "selfBytes": 1320
+        },
+        {
+          "type": "native",
+          "name": "[redacted]",
+          "count": 15,
+          "selfBytes": 1024
+        },
+        {
+          "type": "native",
+          "name": "CppgcShim",
+          "count": 7,
+          "selfBytes": 504
+        },
+        {
+          "type": "object",
+          "name": "Error",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "object",
+          "name": "TypedArray",
+          "count": 12,
+          "selfBytes": 336
+        },
+        {
+          "type": "number",
+          "name": "number",
+          "count": 26319,
+          "selfBytes": 192
+        },
+        {
+          "type": "symbol",
+          "name": "symbol",
+          "count": 24,
+          "selfBytes": 128
+        },
+        {
+          "type": "object",
+          "name": "ServiceWorkerGlobalScope",
+          "count": 4,
+          "selfBytes": 124
+        },
+        {
+          "type": "object",
+          "name": "Generator",
+          "count": 3,
+          "selfBytes": 120
+        },
+        {
+          "type": "object",
+          "name": "[redacted]",
+          "count": 3,
+          "selfBytes": 80
+        },
+        {
+          "type": "object",
+          "name": "LoopbackServiceStub",
+          "count": 2,
+          "selfBytes": 60
+        },
+        {
+          "type": "object",
+          "name": "WebAssembly.Module",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "EventTarget",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "WorkerGlobalScope",
+          "count": 2,
+          "selfBytes": 56
+        },
+        {
+          "type": "object",
+          "name": "Promise",
+          "count": 2,
+          "selfBytes": 52
+        },
+        {
+          "type": "object",
+          "name": "Array Iterator",
+          "count": 1,
+          "selfBytes": 28
+        },
+        {
+          "type": "object",
+          "name": "AsyncGenerator",
+          "count": 1,
+          "selfBytes": 28
+        },
+        {
+          "type": "object",
+          "name": "Iterator Helper",
+          "count": 1,
+          "selfBytes": 28
+        },
+        {
+          "type": "object",
+          "name": "Map Iterator",
+          "count": 1,
+          "selfBytes": 28
+        },
+        {
+          "type": "object",
+          "name": "Map",
+          "count": 1,
+          "selfBytes": 28
+        },
+        {
+          "type": "object",
+          "name": "Set Iterator",
+          "count": 1,
+          "selfBytes": 28
+        },
+        {
+          "type": "object",
+          "name": "Set",
+          "count": 1,
+          "selfBytes": 28
+        },
+        {
+          "type": "object",
+          "name": "String Iterator",
+          "count": 1,
+          "selfBytes": 28
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Each snapshot causes collection and changes timing; no plateau or runtime fix claim.",
+    "RSS is whole owned process, not hosted isolate memory. Native request graphs are proxies, not aggregate byte attribution.",
+    "Only synthetic six-patient workspace, normal audit and metrics; raw heap payloads and native addresses never exported."
+  ],
+  "successfulLoads": 500,
+  "auditRows": 500,
+  "metricCount": 500,
+  "completed": true
+}

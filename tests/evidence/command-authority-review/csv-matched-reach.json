@@ -1,0 +1,55 @@
+{
+  "sameTeamHeldGrantId": "94046bd4-527d-4a2e-b6d1-008125f05d2c",
+  "covered": {
+    "format": "saha-command-authority-v1",
+    "initiatorId": "t-8f37cb99-authority-doc",
+    "principal": "member",
+    "membershipSource": "pre-mutation",
+    "membership": {
+      "role": "supervisor",
+      "status": "active",
+      "version": 3,
+      "isOwner": false
+    },
+    "delegationEvidence": "recorded-uses",
+    "delegations": []
+  },
+  "widened": {
+    "format": "saha-command-authority-v1",
+    "initiatorId": "t-8f37cb99-authority-doc",
+    "principal": "member",
+    "membershipSource": "pre-mutation",
+    "membership": {
+      "role": "supervisor",
+      "status": "active",
+      "version": 3,
+      "isOwner": false
+    },
+    "delegationEvidence": "recorded-uses",
+    "delegations": [
+      {
+        "id": "94046bd4-527d-4a2e-b6d1-008125f05d2c",
+        "kind": "reporting",
+        "grantorId": "t-732e36df-authority-owner",
+        "until": "2026-10-06T05:01:07.369Z"
+      }
+    ]
+  },
+  "afterRevocation": {
+    "format": "saha-command-authority-v1",
+    "initiatorId": "t-8f37cb99-authority-doc",
+    "principal": "member",
+    "membershipSource": "pre-mutation",
+    "membership": {
+      "role": "supervisor",
+      "status": "active",
+      "version": 3,
+      "isOwner": false
+    },
+    "delegationEvidence": "recorded-uses",
+    "delegations": []
+  },
+  "widenedPatients": 6,
+  "nativeNarrowedPatients": 3,
+  "scope": "Actual Worker/D1 matched same-team reporting CSV: held grant unused for complete native scope, attributed when programme restriction narrows native patient scope, then revoked while native supervisor reporting remains."
+}

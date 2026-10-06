@@ -1,0 +1,14 @@
+{
+  "case": "loaded-owner-to-current-same-org-supervisor-before-declare",
+  "intendedActor": "t-a1ed7008-calendar-phone-owner",
+  "trustedChangedActor": "t-59e96250-calendar-phone-reviewer",
+  "persistedDeclarationActor": "t-59e96250-calendar-phone-reviewer",
+  "declarationCount": 1,
+  "postedOriginalBody": "{\"type\":\"declare\",\"id\":\"phone-calendar\",\"version\":1,\"teamId\":\"default\",\"periodId\":\"period-one\",\"sourceId\":\"phone-source\",\"expectedCoverageVersion\":0,\"status\":\"outage\",\"through\":null,\"evidenceHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"reason\":\"Synthetic phone operational calendar review\"}",
+  "postedKey": "d6b39387-0173-4d01-969c-0114f9f02c1d",
+  "intendedActorLookupStatus": 404,
+  "changedActorLookupStatus": 200,
+  "uiBody": "Back to Saha · Released figures\nReporting calendars and source coverage\n\nConfigure UTC reporting periods, independently review and release a calendar, then explicitly declare operational source coverage. Patient and clinical denominators remain unknown. Receipt activity cannot establish completeness.\n\nError: Signed-in account changed. Reopen the calendar workspace.\n\ndeclare saved · v1 · evidence b3f7f021-eed5-4f68-a03d-6e8639822710",
+  "pageErrors": [],
+  "expected": "Original actor binding before write; changed-account refusal must not save a declaration under another actor"
+}

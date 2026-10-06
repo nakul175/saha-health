@@ -7,7 +7,7 @@ import { csvLines } from './operations';
 // `verifyExportCsv` (report-export.ts) and `head -n -2 file.csv | sha256sum` check it.
 export const REJECTIONS_DEFINITION={id:'saha-import-rejections',version:'1.0.0'} as const;
 export const REJECTIONS_STATUS='Dry-run rejection report; nothing was imported by this download';
-export const REJECTION_KINDS=['people','enrolments','identifiers','workforce','visits'] as const;
+export const REJECTION_KINDS=['people','enrolments','identifiers','workforce','visits','contacts'] as const;
 type PlanRow={row:number;status:string;reasons:string[]};
 type Plan={import:string;planHash:string;counts:{rows:number;accepted:number};rows:PlanRow[]};
 async function sha256(text:string){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(b=>b.toString(16).padStart(2,'0')).join('');}

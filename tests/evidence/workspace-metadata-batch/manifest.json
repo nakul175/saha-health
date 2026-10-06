@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-05",
+  "baseline": "23cbcf89",
+  "productionChange": "three unchanged snapshot response metadata SELECTs in one D1 batch; shared direct audit query/projection",
+  "contractChecks": 147,
+  "actualWorkerHttpChecks": 20,
+  "readAuditChecks": 52,
+  "scopedReadChecks": 27,
+  "auditQueryPlanChecks": 12,
+  "typecheck": "passed",
+  "build": "passed",
+  "syntheticOnly": true,
+  "providerActivation": false,
+  "memoryPerformanceRun": false,
+  "o2Closed": false,
+  "initialHttpRun": "test expected four successful workspace requests although it makes three; corrected assertion only, then passed",
+  "limitations": [
+    "D1 API call reduction is verified at real helper through SQLite shim; no RSS/native-graph reduction asserted",
+    "Local Worker uses actual Miniflare D1; no hosted or acceptance qualification"
+  ],
+  "reports": {
+    "scoped-read-contract.json": {
+      "sha256": "aa711811674e29ef91c2f527915ce09bbec4f5b4dfcfc4fda53c09626a7b37e3",
+      "passed": 27
+    },
+    "http.json": {
+      "sha256": "7ad55c6f10a4f00f87870789814326ac2a62be2bd67e0f64df0926fdf793364f",
+      "passed": 20
+    },
+    "audit-query-plan.json": {
+      "sha256": "22006bbad23b37008758246c5c05adaa888a4dd2d40d66d2aba57d75d80e8302",
+      "passed": 12
+    },
+    "read-audit-contract.json": {
+      "sha256": "2c39a7c5ab7fce5338f15f7d601343217df8799e6da3bd471b8636c0b0a2196e",
+      "passed": 52
+    },
+    "contract.json": {
+      "sha256": "af13370d5cc85d4fa9b6c7edb3ff4ef225379cb4b7ec999fe2d16250842d1643",
+      "passed": 147
+    }
+  }
+}

@@ -19,7 +19,8 @@ const tmp = () => { const d = mkdtempSync(join(tmpdir(), 'saha-runner-')); made.
 const put = (root, file, text = '') => { mkdirSync(dirname(join(root, file)), { recursive: true }); writeFileSync(join(root, file), text); };
 /** The named files the catalogue insists on, so a fixture only has to add what a case is about. */
 const baseline = root => {
-  for (const f of ['tests/run-api-smoke.mjs', 'tests/recovery-drill.mjs', 'tests/a11y-audit.mjs', 'tests/load-envelope.mjs', 'tests/adapter-overhead-bench.mjs', 'tests/run-anaemia-http.mjs', 'tests/anaemia-ui.cjs', 'tests/anaemia-connected-worker.mjs', 'tests/anaemia-hosted-connection.mjs']) put(root, f, '// stub\n');
+  for (const {file} of buildCatalogue(process.cwd()).suites.filter(s => s.layer === 'manual')) put(root, file, '// registered manual-suite fixture\n');
+  for (const f of ['tests/nfr/memory-profile.mjs', 'tests/nfr/memory-profile-ledger.mjs', 'tests/app-first-browser.mjs', 'tests/run-api-smoke.mjs', 'tests/recovery-drill.mjs', 'tests/a11y-audit.mjs', 'tests/load-envelope.mjs', 'tests/adapter-overhead-bench.mjs', 'tests/run-anaemia-http.mjs', 'tests/anaemia-ui.cjs', 'tests/anaemia-connected-worker.mjs', 'tests/anaemia-hosted-connection.mjs']) put(root, f, '// stub\n');
   put(root, 'tests/api-smoke.mjs', "await import('./one-smoke.mjs');\n"); put(root, 'tests/one-smoke.mjs', '// component\n');
 };
 const errorsOf = root => buildCatalogue(root).errors;
@@ -50,7 +51,7 @@ try {
     const unit = cat.suites.filter(s => s.layer === 'unit');
     assert.ok(unit.length >= 105, `unit suites ${unit.length}`);
     // Playwright specs (tests/ui/*.spec.*) are components of the UI configuration; the rest are the HTTP suite's modules.
-    assert.equal(cat.components.filter(c => !c.file.startsWith('tests/ui/')).length, files.filter(f => /^tests\/[^/]+-smoke\.mjs$/.test(f) && !['tests/api-smoke.mjs', 'tests/run-api-smoke.mjs'].includes(f)).length);
+    assert.equal(cat.components.filter(c => !c.file.startsWith('tests/ui/')).length, files.filter(f => /^tests\/[^/]+-smoke\.mjs$/.test(f) && !['tests/api-smoke.mjs', 'tests/run-api-smoke.mjs', 'tests/workspace-metadata-smoke.mjs'].includes(f)).length);
     assert.ok(cat.suites.some(s => s.id === 'integration/run-api-smoke' && s.results.includes('tests/latest-result.json')), 'the HTTP suite result file is found in its entry module');
     assert.ok(cat.suites.find(s => s.id === 'resilience/recovery-drill').results.includes('tests/recovery-result.json'));
     assert.equal(new Set(cat.suites.map(s => s.id)).size, cat.suites.length, 'suite ids are unique');

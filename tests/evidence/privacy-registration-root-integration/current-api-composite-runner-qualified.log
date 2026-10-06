@@ -1,0 +1,21 @@
+Running unit integration --fast; 3 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/test-runner-contract  27 passed  9.8s
+
+[integration] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/composite-measures-http ...
+  ok       integration/composite-measures-http  133 passed  3.0s
+  running  integration/run-api-smoke ...
+  ok       integration/run-api-smoke  5020 passed  1m 20s
+
+  layer        status  suites  passed  failed  skipped    time
+  -----------  ------  ------  ------  ------  -------  ------
+  unit         passed       1      27       0        0    9.8s
+  integration  passed       2    5153       0        0  1m 23s
+  total        passed       3    5180       0        0  1m 34s
+
+Restored 2 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (3 baselined suite(s) checked, 0 excused by quarantine).

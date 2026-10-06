@@ -1,3 +1,4 @@
+import {acquireSyntheticSource} from '../lib/clinical-source-fixture.mjs';
 // Slice 11b: local smoke. "Is the build alive and are the main paths intact?" in well under 90 seconds.
 // One built Worker (dist/), one fresh migrated local D1, synthetic people only. It walks the path a new organisation takes:
 // anonymous refusal, a new owner's home organisation and demonstration clinical package, invitations, an ASHA's visit from
@@ -37,8 +38,12 @@ const need = (res, status, what) => assert.equal(res.status, status, `${what}: e
 const SIGN_IN = /sign in/i;
 // Query strings the GET routes need so that the owner (and an anonymous caller) reach the handler rather than a missing-parameter answer.
 const recipes = (visitId, org) => ({
+  '/api/media': `?visitId=${encodeURIComponent(visitId)}`,
+  '/api/inbound-conflicts': '?personId=p_meena',
+  '/api/imported-evidence': '?personId=p_meena',
   '/api/abdm': '?personId=p_meena', '/api/action-plan': '?personId=p_meena', '/api/history': '?personId=p_meena', '/api/household': '?personId=p_meena',
   '/api/identity-cases': '?personId=p_meena', '/api/patients/detail': '?personId=p_meena', '/api/trace': `?visit=${visitId}`, '/api/fhir/[id]': `?organisationId=${org}`,
+  '/api/work-burden/support': `?visitId=${encodeURIComponent(visitId)}`,
 });
 // Routes that cannot be exercised in this run, with the reason. Anything else that answers 4xx without a parameter recipe is skipped and reported too.
 const unsuppliable = { '/api/media/[id]': 'needs the id of an uploaded media file; this run uploads none' };
@@ -221,7 +226,7 @@ try {
   const csv = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split('\n'), header = csv.shift();
   assert.equal(header, 'method,route,source', 'HTTP-ROUTES.csv columns changed; update the smoke');
   const gets = csv.map(l => l.split(',')).filter(x => x[0] === 'GET').map(x => x[1]);
-  const query = recipes(visitId, org), pathOf = route => route.replace('[id]', visitId) + (query[route] ?? '');
+  const query = {...recipes(visitId, org), '/api/clinical-sources':await acquireSyntheticSource(c,owner,org,'smoke-control')}, pathOf = route => route.replace('[id]', visitId) + (query[route] ?? '');
   const sweep = [];
   await r.check(`all ${gets.length} GET routes in HTTP-ROUTES.csv refuse an anonymous caller (401)`, async () => {
     const wrong = [];

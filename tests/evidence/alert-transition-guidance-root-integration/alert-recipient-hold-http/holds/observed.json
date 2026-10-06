@@ -1,0 +1,1276 @@
+{
+  "proof": [
+    {
+      "kind": "no-recipients",
+      "org": "org_c21c6076fc7c922c0dc753961f545c3d",
+      "outcome": {
+        "outcome": "ok",
+        "noRetry": false
+      },
+      "originalClinical": {
+        "notifications": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "6fb50915-98b4-44c7-9ff4-fae847d42bba",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "9ae49113-a61d-4f3d-9fe0-39772c1e8c41",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "user_id": "t-501d6378-alert-before-supervisor",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          }
+        ],
+        "occurrences": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          }
+        ],
+        "messages": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "30fffb2b-dbfc-44cc-9bc0-13b5e7f85531",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-CDD0C0\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-7F44C213\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "c0db7375-fdbf-4a02-895f-bc74def6e15b",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "399f9aa8-43b0-41fb-ad3d-728f83c44058",
+            "occurrence_id": "4dd63931-ed14-4ac2-bcf6-4f342d874bb9",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5DB023\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-24E1EE87\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.146Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "2215db30-c997-46ba-9156-dc37a0c4f6e4",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "49d37d74-1d00-4331-a633-93d2fed94c0a",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5E9B0B\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-C794A64C\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "570a6109-1f66-4dc9-a775-ad55478ae8fa",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "d75ff39f-f514-41b2-a276-28a66f4edb11",
+            "occurrence_id": "d9d45aea-6d91-42ef-bce2-d508cbe42d29",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-749D37\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-D51481F9\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.257Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "018c5a8e-a0fa-489f-9ad6-6b4b4569e14a",
+            "config_version": 1
+          }
+        ],
+        "visits": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "55429951-c484-451a-b85f-899b2fc113e2",
+            "person_id": "1b2f7475-accc-494b-ac3e-e2158e41a77a",
+            "version": 3,
+            "record_version": 3,
+            "state": "confirmed",
+            "data": "{\"id\":\"55429951-c484-451a-b85f-899b2fc113e2\",\"personId\":\"1b2f7475-accc-494b-ac3e-e2158e41a77a\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-06T05:19\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"55\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic retained individual care facts\",\"source\":\"reported\"},\"createdAt\":\"2026-10-06T05:19:07.936Z\",\"recordVersion\":3,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-fa6f2915-alert-before-owner\",\"name\":\"alert-before-owner-fa6f2915@example.invalid\",\"accountCode\":\"AA43CE6BD3A732669120F89F\",\"role\":\"clinician\",\"at\":\"2026-10-06T05:19:07.990Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-fa6f2915-alert-before-owner\",\"name\":\"alert-before-owner-fa6f2915@example.invalid\",\"accountCode\":\"AA43CE6BD3A732669120F89F\",\"role\":\"clinician\",\"at\":\"2026-10-06T05:19:07.990Z\"}},\"patientCheck\":{\"personId\":\"1b2f7475-accc-494b-ac3e-e2158e41a77a\",\"personVersion\":2,\"by\":\"t-fa6f2915-alert-before-owner\",\"at\":\"2026-10-06T05:19:08.047Z\"},\"confirmedAt\":\"2026-10-06T05:19:08.047Z\"}"
+          }
+        ]
+      },
+      "afterClinical": {
+        "notifications": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "6fb50915-98b4-44c7-9ff4-fae847d42bba",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "9ae49113-a61d-4f3d-9fe0-39772c1e8c41",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "user_id": "t-501d6378-alert-before-supervisor",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          }
+        ],
+        "occurrences": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          }
+        ],
+        "messages": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "30fffb2b-dbfc-44cc-9bc0-13b5e7f85531",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-CDD0C0\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-7F44C213\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "c0db7375-fdbf-4a02-895f-bc74def6e15b",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "399f9aa8-43b0-41fb-ad3d-728f83c44058",
+            "occurrence_id": "4dd63931-ed14-4ac2-bcf6-4f342d874bb9",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5DB023\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-24E1EE87\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.146Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "2215db30-c997-46ba-9156-dc37a0c4f6e4",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "49d37d74-1d00-4331-a633-93d2fed94c0a",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5E9B0B\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-C794A64C\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "570a6109-1f66-4dc9-a775-ad55478ae8fa",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "d75ff39f-f514-41b2-a276-28a66f4edb11",
+            "occurrence_id": "d9d45aea-6d91-42ef-bce2-d508cbe42d29",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-749D37\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-D51481F9\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.257Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "018c5a8e-a0fa-489f-9ad6-6b4b4569e14a",
+            "config_version": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "adminCurrentReads",
+      "inbox": {
+        "aggregatePrivacy": {
+          "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+          "currentAvailable": false
+        },
+        "currentAggregateAlerts": [],
+        "rules": {
+          "delivery": "1.0.0",
+          "alerts": "1.2.0",
+          "escalateAfterMinutes": {
+            "critical": 30,
+            "high": 240,
+            "normal": 1440
+          },
+          "ladder": {
+            "operations": [
+              "operations",
+              "owners"
+            ],
+            "supervisors": [
+              "supervisors",
+              "owners"
+            ],
+            "owners": [
+              "owners"
+            ]
+          },
+          "evaluateEverySeconds": 60
+        },
+        "owns": [
+          "operations",
+          "owners"
+        ],
+        "evaluated": false,
+        "unread": 2,
+        "items": [
+          {
+            "id": "a2227432-e210-4a8a-b9f3-eb1e7399936e",
+            "alertId": "incident-critical-open",
+            "level": 2,
+            "kind": "escalation",
+            "severity": "critical",
+            "title": "Escalated: Critical incidents not resolved",
+            "count": null,
+            "detail": "Not acknowledged within 30 minutes; open since 2026-10-06T05:19:08.321Z. Owned by operations. Open Operations to see what your own scope shows.",
+            "deliveredAt": "2026-10-06T06:02:53.931Z",
+            "readAt": null,
+            "clearedAt": null,
+            "clearedReason": null,
+            "active": true
+          },
+          {
+            "id": "2c4ba0bb-bcf1-4020-bd1b-fe09b2536f6a",
+            "alertId": "incident-critical-open",
+            "level": 1,
+            "kind": "delivery",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "count": 1,
+            "detail": null,
+            "deliveredAt": "2026-10-06T05:19:08.321Z",
+            "readAt": null,
+            "clearedAt": null,
+            "clearedReason": null,
+            "active": true
+          }
+        ],
+        "escalations": [
+          {
+            "alertId": "incident-critical-open",
+            "owner": "operations",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "openedAt": "2026-10-06T05:19:08.321Z",
+            "closedAt": null,
+            "escalatedAt": "2026-10-06T06:02:53.931Z",
+            "escalatedTo": "owners",
+            "reason": "unacknowledged",
+            "recipients": 1
+          }
+        ],
+        "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+      },
+      "channel": {
+        "aggregatePrivacy": {
+          "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+          "currentAvailable": false
+        },
+        "currentAggregateAlerts": [],
+        "rules": {
+          "version": "1.0.0",
+          "sourceRules": "1.0.0",
+          "escalateMinutes": {
+            "min": 5,
+            "max": 1440,
+            "default": 30
+          },
+          "tiers": [
+            1,
+            2,
+            3
+          ],
+          "channels": [
+            "sms",
+            "email"
+          ],
+          "maxRecipients": 30,
+          "kinds": [
+            {
+              "id": "destination-uncertain",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "ehr-uncertain",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "referrals-overdue",
+              "owner": "supervisors",
+              "source": false
+            },
+            {
+              "id": "followups-overdue",
+              "owner": "supervisors",
+              "source": false
+            },
+            {
+              "id": "referrals-undated",
+              "owner": "supervisors",
+              "source": false
+            },
+            {
+              "id": "provider-usage-missing",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "server-errors",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "incident-critical-open",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "incident-open",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "maintenance",
+              "owner": "operations",
+              "source": false
+            },
+            {
+              "id": "ai-budget-reached",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "ai-budget-near",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "ai-invoice-variance",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "ai-invoice-unreconciled",
+              "owner": "owners",
+              "source": false
+            },
+            {
+              "id": "drift",
+              "owner": "owners",
+              "source": true
+            },
+            {
+              "id": "agent-timed-out",
+              "owner": "operations",
+              "source": true
+            },
+            {
+              "id": "exception-item",
+              "owner": "supervisors",
+              "source": true
+            },
+            {
+              "id": "referral-request",
+              "owner": "supervisors",
+              "source": true
+            }
+          ],
+          "notice": "Demonstration simulator. Messages are stored and shown inside Saha. Nothing is sent to any email address or phone number, and recipients hold no contact details."
+        },
+        "environment": "synthetic",
+        "available": true,
+        "refusal": null,
+        "channel": {
+          "version": 1,
+          "enabled": true,
+          "escalateAfterMinutes": 5,
+          "recipients": [
+            {
+              "userId": "t-fa6f2915-alert-before-owner",
+              "tier": 1,
+              "channel": "email",
+              "kinds": [
+                "referrals-undated"
+              ],
+              "displayName": "t-fa6f2915-alert-before-owner@example.invalid",
+              "role": "admin",
+              "status": "active",
+              "address": "demo-c704d8b4@simulator.invalid"
+            }
+          ],
+          "setBy": "t-fa6f2915-alert-before-owner",
+          "setAt": "2026-10-06T05:19:08.467Z",
+          "reason": "Synthetic local-only protected-count escape witness",
+          "history": [],
+          "setByName": "t-fa6f2915-alert-before-owner@example.invalid"
+        },
+        "members": [
+          {
+            "userId": "t-fa6f2915-alert-before-owner",
+            "displayName": "t-fa6f2915-alert-before-owner@example.invalid",
+            "role": "admin",
+            "isOwner": true,
+            "kinds": [
+              "destination-uncertain",
+              "ehr-uncertain",
+              "provider-usage-missing",
+              "server-errors",
+              "incident-critical-open",
+              "incident-open",
+              "maintenance",
+              "ai-budget-reached",
+              "ai-budget-near",
+              "ai-invoice-variance",
+              "ai-invoice-unreconciled",
+              "drift",
+              "agent-timed-out"
+            ]
+          }
+        ],
+        "open": [
+          {
+            "occurrenceId": "942640d9-f05c-42ef-a082-fae2c4521ab8",
+            "alertId": "incident-critical-open",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "openedAt": "2026-10-06T05:19:08.321Z",
+            "scope": "organisation",
+            "acknowledged": false,
+            "escalatedInApp": true,
+            "rungs": []
+          }
+        ],
+        "messages": [],
+        "total": 0
+      },
+      "operations": {
+        "release": "11 / v1.3-readiness",
+        "generatedAt": "2026-10-06T06:04:40.059Z",
+        "environment": "synthetic",
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "report": null,
+        "telemetry": {
+          "windowHours": 24,
+          "count": 34,
+          "serverErrors": 0,
+          "errorRate": 0,
+          "meanMs": 31,
+          "maxMs": 85,
+          "routes": [
+            {
+              "route": "action-plan",
+              "status": 200,
+              "count": 1,
+              "total_ms": 10,
+              "max_ms": 10
+            },
+            {
+              "route": "alerts",
+              "status": 200,
+              "count": 5,
+              "total_ms": 90,
+              "max_ms": 59
+            },
+            {
+              "route": "commands",
+              "status": 200,
+              "count": 17,
+              "total_ms": 607,
+              "max_ms": 84
+            },
+            {
+              "route": "exceptions",
+              "status": 200,
+              "count": 1,
+              "total_ms": 19,
+              "max_ms": 19
+            },
+            {
+              "route": "indicators",
+              "status": 200,
+              "count": 1,
+              "total_ms": 40,
+              "max_ms": 40
+            },
+            {
+              "route": "notification-channel",
+              "status": 200,
+              "count": 2,
+              "total_ms": 29,
+              "max_ms": 18
+            },
+            {
+              "route": "operations",
+              "status": 200,
+              "count": 2,
+              "total_ms": 111,
+              "max_ms": 85
+            },
+            {
+              "route": "workspace",
+              "status": 200,
+              "count": 5,
+              "total_ms": 151,
+              "max_ms": 55
+            }
+          ],
+          "coverage": "Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort."
+        },
+        "operations": {
+          "version": 1,
+          "maintenance": false,
+          "reason": "",
+          "updatedAt": "2026-10-06T05:19:08.318Z",
+          "incidents": [
+            {
+              "id": "bd2df349-9f0a-4ade-917c-1ecaf51ad02e",
+              "title": "Synthetic nonclinical critical incident",
+              "severity": "critical",
+              "state": "open",
+              "ownerId": "t-fa6f2915-alert-before-owner",
+              "createdAt": "2026-10-06T05:19:08.318Z",
+              "updatedAt": "2026-10-06T05:19:08.318Z"
+            }
+          ],
+          "rates": null
+        },
+        "operators": [
+          {
+            "id": "t-fa6f2915-alert-before-owner",
+            "name": "t-fa6f2915-alert-before-owner@example.invalid"
+          }
+        ],
+        "gates": [
+          {
+            "id": "clinical",
+            "label": "Clinical and programme approval",
+            "state": "external",
+            "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+          },
+          {
+            "id": "mis",
+            "label": "Two live programme destinations",
+            "state": "external",
+            "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+          },
+          {
+            "id": "ehr",
+            "label": "Live EHR acceptance",
+            "state": "external",
+            "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+          },
+          {
+            "id": "abdm",
+            "label": "ABDM exchange and conformance",
+            "state": "unbuilt",
+            "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+          },
+          {
+            "id": "model",
+            "label": "Approved live AI",
+            "state": "external",
+            "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+          },
+          {
+            "id": "device",
+            "label": "Disconnected field and speech testing",
+            "state": "external",
+            "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+          },
+          {
+            "id": "security",
+            "label": "Independent security and accessibility assessment",
+            "state": "external",
+            "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+          },
+          {
+            "id": "recovery",
+            "label": "Hosted disaster recovery and scale",
+            "state": "external",
+            "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+          }
+        ],
+        "pilotReady": false,
+        "serviceAuthority": {
+          "identities": [],
+          "bindings": {},
+          "targets": [
+            {
+              "id": "ai_completeness",
+              "name": "Record completeness",
+              "kind": "agent"
+            },
+            {
+              "id": "ai_summary",
+              "name": "Visit summariser",
+              "kind": "agent"
+            },
+            {
+              "id": "mis_community",
+              "name": "Community health MIS",
+              "kind": "connector"
+            },
+            {
+              "id": "mis_maternal",
+              "name": "Maternal & child register",
+              "kind": "connector"
+            },
+            {
+              "id": "openai",
+              "name": "openai",
+              "kind": "agent"
+            },
+            {
+              "id": "independent:anaemia",
+              "name": "independent:anaemia",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:oral-saathi",
+              "name": "frontline:oral-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:skin-saathi",
+              "name": "frontline:skin-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:shishu-breath",
+              "name": "frontline:shishu-breath",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:matri-check",
+              "name": "frontline:matri-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:poshan-check",
+              "name": "frontline:poshan-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:teeka-reader",
+              "name": "frontline:teeka-reader",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:dawa-follow",
+              "name": "frontline:dawa-follow",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:report-reader",
+              "name": "frontline:report-reader",
+              "kind": "agent"
+            }
+          ],
+          "owners": [
+            {
+              "id": "t-fa6f2915-alert-before-owner",
+              "name": "t-fa6f2915-alert-before-owner@example.invalid"
+            }
+          ]
+        },
+        "budgets": {
+          "notice": "Estimated from recorded cost assumptions and recorded or reserved token use; not an invoice or provider bill. Agent requests only; evaluations, hosting and other charges are excluded.",
+          "month": "2026-10",
+          "rows": []
+        },
+        "invoices": {
+          "notice": "Saha figures are estimates from recorded token use and the current cost assumptions (a sent request without recorded usage counts at the reserved allowance). The invoice figures are what an owner recorded from the provider. Agent requests only; evaluations, hosting and other charges are excluded. Reconciling never changes budgets or cost assumptions.",
+          "columns": [
+            "provider",
+            "model",
+            "month",
+            "input_tokens",
+            "output_tokens",
+            "amount_usd",
+            "invoice_reference"
+          ],
+          "maxLines": 12,
+          "records": []
+        },
+        "alerts": [
+          {
+            "id": "incident-critical-open",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "count": 1,
+            "owner": "operations",
+            "action": "The incident owner updates the incident with evidence, or resolves it.",
+            "tab": "service",
+            "acknowledged": null
+          }
+        ],
+        "alertRules": "1.2.0"
+      }
+    },
+    {
+      "kind": "admin-only",
+      "org": "org_c21c6076fc7c922c0dc753961f545c3d",
+      "outcome": {
+        "outcome": "ok",
+        "noRetry": false
+      },
+      "originalClinical": {
+        "notifications": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "6fb50915-98b4-44c7-9ff4-fae847d42bba",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "9ae49113-a61d-4f3d-9fe0-39772c1e8c41",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "user_id": "t-501d6378-alert-before-supervisor",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          }
+        ],
+        "occurrences": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          }
+        ],
+        "messages": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "30fffb2b-dbfc-44cc-9bc0-13b5e7f85531",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-CDD0C0\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-7F44C213\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "c0db7375-fdbf-4a02-895f-bc74def6e15b",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "399f9aa8-43b0-41fb-ad3d-728f83c44058",
+            "occurrence_id": "4dd63931-ed14-4ac2-bcf6-4f342d874bb9",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5DB023\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-24E1EE87\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.146Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "2215db30-c997-46ba-9156-dc37a0c4f6e4",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "49d37d74-1d00-4331-a633-93d2fed94c0a",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5E9B0B\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-C794A64C\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "570a6109-1f66-4dc9-a775-ad55478ae8fa",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "d75ff39f-f514-41b2-a276-28a66f4edb11",
+            "occurrence_id": "d9d45aea-6d91-42ef-bce2-d508cbe42d29",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-749D37\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-D51481F9\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.257Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "018c5a8e-a0fa-489f-9ad6-6b4b4569e14a",
+            "config_version": 1
+          }
+        ],
+        "visits": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "55429951-c484-451a-b85f-899b2fc113e2",
+            "person_id": "1b2f7475-accc-494b-ac3e-e2158e41a77a",
+            "version": 3,
+            "record_version": 3,
+            "state": "confirmed",
+            "data": "{\"id\":\"55429951-c484-451a-b85f-899b2fc113e2\",\"personId\":\"1b2f7475-accc-494b-ac3e-e2158e41a77a\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-06T05:19\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"55\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic retained individual care facts\",\"source\":\"reported\"},\"createdAt\":\"2026-10-06T05:19:07.936Z\",\"recordVersion\":3,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-fa6f2915-alert-before-owner\",\"name\":\"alert-before-owner-fa6f2915@example.invalid\",\"accountCode\":\"AA43CE6BD3A732669120F89F\",\"role\":\"clinician\",\"at\":\"2026-10-06T05:19:07.990Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-fa6f2915-alert-before-owner\",\"name\":\"alert-before-owner-fa6f2915@example.invalid\",\"accountCode\":\"AA43CE6BD3A732669120F89F\",\"role\":\"clinician\",\"at\":\"2026-10-06T05:19:07.990Z\"}},\"patientCheck\":{\"personId\":\"1b2f7475-accc-494b-ac3e-e2158e41a77a\",\"personVersion\":2,\"by\":\"t-fa6f2915-alert-before-owner\",\"at\":\"2026-10-06T05:19:08.047Z\"},\"confirmedAt\":\"2026-10-06T05:19:08.047Z\"}"
+          }
+        ]
+      },
+      "afterClinical": {
+        "notifications": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "6fb50915-98b4-44c7-9ff4-fae847d42bba",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "9ae49113-a61d-4f3d-9fe0-39772c1e8c41",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "user_id": "t-501d6378-alert-before-supervisor",
+            "level": 1,
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "delivered_at": "2026-10-06T05:19:09.069Z",
+            "read_at": null,
+            "cleared_at": null,
+            "cleared_reason": null
+          }
+        ],
+        "occurrences": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "owner_role": "supervisors",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "opened_at": "2026-10-06T05:19:09.069Z",
+            "closed_at": null,
+            "escalated_at": null,
+            "escalated_to": null,
+            "escalation_reason": null,
+            "escalation_recipients": null
+          }
+        ],
+        "messages": [
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "30fffb2b-dbfc-44cc-9bc0-13b5e7f85531",
+            "occurrence_id": "b3af9f5e-9d9c-4e2c-bd33-dbfed302ea16",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-CDD0C0\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-7F44C213\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "c0db7375-fdbf-4a02-895f-bc74def6e15b",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "399f9aa8-43b0-41fb-ad3d-728f83c44058",
+            "occurrence_id": "4dd63931-ed14-4ac2-bcf6-4f342d874bb9",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-fa6f2915-alert-before-owner",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount in your own view: 1\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5DB023\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-24E1EE87\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.146Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "2215db30-c997-46ba-9156-dc37a0c4f6e4",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "49d37d74-1d00-4331-a633-93d2fed94c0a",
+            "occurrence_id": "983103bc-26cb-48e5-8401-a6d860b72609",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-5E9B0B\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-C794A64C\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:09.069Z\"}",
+            "due_at": "2026-10-06T05:19:09.069Z",
+            "sent_at": "2026-10-06T05:19:09.069Z",
+            "audit_id": "570a6109-1f66-4dc9-a775-ad55478ae8fa",
+            "config_version": 1
+          },
+          {
+            "org_id": "org_c21c6076fc7c922c0dc753961f545c3d",
+            "id": "d75ff39f-f514-41b2-a276-28a66f4edb11",
+            "occurrence_id": "d9d45aea-6d91-42ef-bce2-d508cbe42d29",
+            "alert_id": "referrals-undated",
+            "scope_key": "t-501d6378-alert-before-supervisor",
+            "tier": 1,
+            "rung": 0,
+            "user_id": "t-fa6f2915-alert-before-owner",
+            "channel": "email",
+            "reason": "first",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": null,
+            "subject": "Saha normal alert: Open referrals without a due date",
+            "body": "Saha operational alert (demonstration simulator; this is not a real message).\nSeverity: normal\nAlert: Open referrals without a due date\nCount: not shown here. Open Saha to see the count in your own scope.\nFirst notification for this alert (tier 1).\nOpen: /?view=operations\nReference: NC-749D37\nThis message carries no patient names or identifiers.",
+            "link": "/?view=operations",
+            "address": "demo-c704d8b4@simulator.invalid",
+            "status": "simulated-delivered",
+            "receipt": "{\"receiptId\":\"SIM-D51481F9\",\"provider\":\"saha-demonstration-simulator\",\"status\":\"simulated-delivered\",\"simulated\":true,\"contacted\":false,\"address\":\"demo-c704d8b4@simulator.invalid\",\"at\":\"2026-10-06T05:19:08.469Z\"}",
+            "due_at": "2026-10-06T05:19:08.257Z",
+            "sent_at": "2026-10-06T05:19:08.469Z",
+            "audit_id": "018c5a8e-a0fa-489f-9ad6-6b4b4569e14a",
+            "config_version": 1
+          }
+        ]
+      }
+    }
+  ],
+  "originalSource": "c8e03108d76c65bbfb312c2f8780b5ab2e7caae2",
+  "noExternalDelivery": true
+}

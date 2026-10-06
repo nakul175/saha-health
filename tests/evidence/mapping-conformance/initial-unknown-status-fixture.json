@@ -1,0 +1,9 @@
+{
+  "kind": "review assertion status assumption",
+  "actualStatus": 200,
+  "actualResultState": "uncertain",
+  "expectedInitially": 409,
+  "productionFailure": false,
+  "meaning": "Existing public send route returns the preserved unknown outcome without attempting a blind send; refusal is expressed as unchanged uncertain state.",
+  "resolution": "Assert preserved uncertain state, wire, attempts and zero external calls, not invented HTTP refusal status."
+}

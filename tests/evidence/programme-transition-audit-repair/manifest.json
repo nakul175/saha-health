@@ -1,0 +1,63 @@
+{
+  "base": "0ff566fd46107a5fce58601b54a71eed7a607b79",
+  "runtimeFiles": [
+    "lib/saha/installed-pack-transition-server.ts"
+  ],
+  "drivers": [
+    "tests/programme-transition-read-audit-repair-http.mjs",
+    "tests/programme-transition-audit-repair-repeat-contract.mjs",
+    "tests/programme-transition-audit-repair-repeat-compatibility.mjs",
+    "tests/programme-transition-audit-repair-repeat-primary.mjs"
+  ],
+  "checks": {
+    "auditActual": 121,
+    "pureRepeat": 43,
+    "primaryWorkerPhoneRepeat": 245,
+    "compatibilityRepeat": 408
+  },
+  "countsOverlap": true,
+  "sha256": {
+    "docs/current/PROGRAMME-TRANSITION-READ-AUDIT-REPAIR.md": "93b97dd7d0f5baec9e192996ccf88b0e78693b1aeb4d96da46e583de1e84c3f5",
+    "lib/saha/installed-pack-transition-server.ts": "407261399ef73a19052f1ac69a633bba97c0ed001dfd754c400a36351790924c",
+    "tests/evidence/programme-transition-audit-repair/actual.log": "cddaa009b2c8898f9bf055f936e6da8e890428754463d6bb73cd3c183171f0c2",
+    "tests/evidence/programme-transition-audit-repair/actual/observed.json": "65a8da4157286d214b1ec0187edcb6eae143bedfa8a938ac8aa5f6b4f0bafaf0",
+    "tests/evidence/programme-transition-audit-repair/build-initial.log": "75a5af867a8509c43af38f2a5c5f228bb00be5a154e566669aaf286712ea4473",
+    "tests/evidence/programme-transition-audit-repair/build.log": "eb60d3eb83285b0d9c7c2bec5c57ad4c0252f132397d59e085d800f5ba70097e",
+    "tests/evidence/programme-transition-audit-repair/compatibility.log": "e1ea9476e6cdea2154b885e5d10c0c0b5c7ea90705e49350674172240dc7ffef",
+    "tests/evidence/programme-transition-audit-repair/contract.log": "d2298d72e8c1f90be239d9bb153c954133d1d31b43a2800244c550fc4ea0d334",
+    "tests/evidence/programme-transition-audit-repair/expanded-actual.log": "ff5d4e0adcfe40ea7b0f2dc008857b325795e4af6115e00495d8858be4197d94",
+    "tests/evidence/programme-transition-audit-repair/primary-after-fixture.log": "b6168f3c9e76746c347887724c3e369b981042fbad6bb3cbaf7e8b91da93b02e",
+    "tests/evidence/programme-transition-audit-repair/primary.log": "31ab60e83d42d4ee4e0c8eb4051c351ca4a8f5332908bd388e709c89120d0aae",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/action-plan-contract.mjs.log": "1ec149739a7bc468e018eaaa0e50e5303183450c3540c74c3619bc10b2e4a835",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/action-plan-contract.mjs.result.json": "1d5f4ed3f754107f0cb00734de0928ef9143ac6dec5aeefa29f69b68b2ec5e96",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/caseload-contract.mjs.log": "bd21bce2a9e34aed2cec2e19b8e8f6cf49cb3c305b7e30235818d76dcb00f242",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/caseload-contract.mjs.result.json": "862e86d7fce1be3e68377afef9aa1b3fd9c60fe8328c648c275b37a89e13b99a",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/indicator-figure-material-contract.json": "40917911fb44e2f2c1b31f770bf1e52428394bde12c4d11ba782e6da07ba04f1",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/indicator-figure-material-contract.mjs.log": "9e74406c51210c387c2b8a85deddc580e224006555d7c5e4130176baaeb30502",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/installed-programme-execution-repair-contract.mjs.log": "02863606cf2920a77b512831b725cddbbc8778a15cd5cde0e6a70b4df1b9283e",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/installed-programme-execution-repair-contract/result.json": "a78d3594dc0f93265347423077a9c29c0961e98c0245fd7784f19348d48e272c",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/pack-installation-contract.mjs.log": "91af7df1c4ec7c50a8840b933e0ba069f00842fab551d8927e3619a6d4844584",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/pack-installation-contract.mjs.result.json": "706e45ab89b6e07cd17ff96545d09c65ddd5567585c8a97c8efc68e3e3d8b072",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/programme-migration-contract.mjs.log": "24a75361aa418a7dac8ae4f8d21d588e988ff86a43670461eb22dfdfc85995c2",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/programme-migration-contract.mjs.result.json": "a601ff8f95f6c8c32503114cdb5b1fd6b417c907128de360071b7aa12c6629d3",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/record-import-contract.mjs.log": "79574dc57f75970e92e6017cd30d7c3e122b61411f23cd6bbc6d2d1ac4280ae8",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/record-import-contract.mjs.result.json": "36e5716ce12857aa999344797700687e52f7ec41c74cc3caab4138849cf04829",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/result.json": "4d7daa112731e585e7bb88b4b73f02c1915f43597e77a63a1a4dbc038699b4aa",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/worklists-contract.mjs.log": "07de71280d138398432cc8b66c627314ffc55ba8e9b2bd225a0cf6f89c9b61cf",
+    "tests/evidence/programme-transition-audit-repair/repeat/compatibility/worklists-contract.mjs.result.json": "3340c71e15fdf51bb978e64c32c837a7664ce7eb9d8b7b4669c29f3a5dc79485",
+    "tests/evidence/programme-transition-audit-repair/repeat/contract/result.json": "fd225f24eb98f01fae47bb2993be55943902ad6ef52a44b2cc581ddbb0db803f",
+    "tests/evidence/programme-transition-audit-repair/repeat/primary/native-withdrawal.json": "32dda2ae5e47db7341f7e6bcd17976fcde25e56716eb97fb54187b31d1143048",
+    "tests/evidence/programme-transition-audit-repair/repeat/primary/observed.json": "1ab3728a30dcfeaf6b893d1ce6ac281f4543bd4196619f158fd8da2dc4bc4078",
+    "tests/evidence/programme-transition-audit-repair/repeat/primary/phone/asha-retained-tasks.png": "9ef12dbb99f945d1dd719780256b5a4528f464698b56c1d7e2994190da31b5c0",
+    "tests/evidence/programme-transition-audit-repair/repeat/primary/phone/independent-transition-review.png": "b7384c78825cbff35c19f9be8a2282c879715678f47eb5398cfa9f7798b6e13d",
+    "tests/evidence/programme-transition-audit-repair/repeat/primary/phone/owner-transition-history.png": "39122187666f9b1629739a1706c6988288e9493015b81e325324f2e75652cedf",
+    "tests/evidence/programme-transition-audit-repair/repeat/primary/result.json": "278de60576d93e33f66bfe1ca35562553cd628d291b48f9c3d7ec9e06a6c5e14",
+    "tests/evidence/programme-transition-audit-repair/repeat/primary/review-basis.json": "3b5ad8219ddae1e2a2fbc4c9752fd79a879f7422e201875b4538db8c1abb9cd2",
+    "tests/evidence/programme-transition-audit-repair/types-initial.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/programme-transition-audit-repair/types.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/programme-transition-audit-repair-repeat-compatibility.mjs": "b915c26e9c4af19e4d55152de54a43786da100b8201d67117c6246a1e5aa5016",
+    "tests/programme-transition-audit-repair-repeat-contract.mjs": "b92129ce46d21b236018373e4230e1e018764b101ae8b3591494d43d1488bfa5",
+    "tests/programme-transition-audit-repair-repeat-primary.mjs": "e5416d636cc1e5cec8e9e37d90d98fcc5c9fc5dc7ccf7a43db963bd942597076",
+    "tests/programme-transition-read-audit-repair-http.mjs": "b94fa1f58dce621a19ccbd6a09e931ddf211ce40039a62c3986c6f811bea7aaa"
+  }
+}

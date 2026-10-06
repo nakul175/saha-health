@@ -180,6 +180,24 @@ function atomRisk(units: Unit[], cells: Cell[], windows0: string[], value0: (u: 
   }
   return worst;
 }
+// Owner calculations create relationships beyond the legacy fixed contained pairs. Compare the
+// actual joint per-person profiles of every disclosed operand whenever a calculation participates.
+// The profile is protected runtime material, never metadata or a stored patient-value record.
+// Repeated identical cells stay old: only a newly involved small profile or a split is refused.
+function expressionProfileRisk(rs:{r:Release;cand:boolean}[],pop:Population,min:number):number|null{
+ if(!rs.some(({r})=>[r.n,r.d].some(id=>id?.startsWith('expr-v1:'))))return null;
+ const cells=new Map<string,Cell&{measure:string}>();
+ for(const {r,cand} of rs)for(const measure of [r.n,r.d].filter((x):x is string=>!!x))for(const g of shownCells(r)){
+  const w=windowOf(r,pop.windowed.has(measure)),pred=predicate(r,g),key=JSON.stringify([measure,pred,w]),old=cells.get(key);
+  cells.set(key,{pred,r,g,w,measure,cand:old?old.cand&&cand:cand});
+ }
+ const list=[...cells.values()];if(!list.some(c=>c.cand))return null;
+ const atoms=new Map<string,{size:number;old:string;candidate:boolean}>(),splits=new Map<string,Set<string>>();
+ for(const u of pop.units){const membership=list.map(c=>memberOf(u,c.r)&&(u.g[c.r.gd??'none']??[]).includes(c.g));if(!membership.some(Boolean))continue;const values=list.map((c,i)=>membership[i]?u.q(c.measure,c.w):0);
+  const key=JSON.stringify(values),old=JSON.stringify(values.filter((_,i)=>!list[i].cand)),atom=atoms.get(key)??{size:0,old,candidate:membership.some((inside,i)=>inside&&list[i].cand)};atom.size++;atoms.set(key,atom);const split=splits.get(old)??new Set<string>();split.add(key);splits.set(old,split);
+ }
+ let worst:number|null=null;for(const a of atoms.values())if((a.candidate||(splits.get(a.old)?.size??0)>1)&&a.size>0&&a.size<min&&(worst===null||a.size<worst))worst=a.size;return worst;
+}
 export function populationRisk(ledger: Release[], candidate: Release, min: number, now: string, pop: Population): number | null {
   if (!candidate.n) return null;
   const same = (a: Release, b: Release) => a.k === b.k && filterKey(a.f) === filterKey(b.f) && (a.w ?? '') === (b.w ?? '') && (a.u ?? '') === (b.u ?? '') && a.n === b.n && (a.d ?? null) === (b.d ?? null);
@@ -192,6 +210,7 @@ export function populationRisk(ledger: Release[], candidate: Release, min: numbe
     // atomRisk orders these windows by containment (slice 6ad); `windows[k]` stays the key the value is read for.
     note(atomRisk(pop.units, cells, windows, (u, k) => u.q(measure, windows[k]), true, min));
   }
+  note(expressionProfileRisk(rs,pop,min));
   const pairs = new Map<string, [string, string]>();
   for (const [a, b] of [...CONTAINED_PAIRS, ...rs.filter(x => x.r.d).map(x => [x.r.n!, x.r.d!] as [string, string])])
     if ([a, b].some(x => x === candidate.n || x === candidate.d)) pairs.set(a + '/' + b, [a, b]);

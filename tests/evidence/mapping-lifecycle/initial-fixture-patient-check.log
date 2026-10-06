@@ -1,0 +1,33 @@
+{"event":"saha_request","requestId":"5b31061c-b3c6-4a12-b3be-2d4a70cac4fc","route":"workspace","status":200,"durationMs":38}
+{"event":"saha_request","requestId":"52f85cfd-10c9-48c3-bb53-63e1cfdf2738","route":"commands","status":200,"durationMs":29}
+{"event":"saha_request","requestId":"db22c440-ee25-41c7-84b6-b41b48480864","route":"workspace","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"e676c358-9321-4f18-b5cb-3a5404556e60","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"11744d22-7077-4376-afef-57be17eb6e43","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"6cc02dd9-b444-43e2-9207-17d0e57961b4","route":"commands","status":403,"durationMs":5}
+{"event":"saha_request","requestId":"dede125a-c3ed-46b4-8550-dd38ccc16226","route":"commands","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"c4855249-33ae-4362-bfa9-e3742779c0c3","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"b09431a0-b8ac-47e9-baec-9b92a708a9fe","route":"workspace","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"6482fe2e-7ba1-4ad6-9795-bbca0f7e81f1","route":"commands","status":200,"durationMs":16}
+{"event":"saha_request","requestId":"b86c2dab-f3e0-4bea-993e-9438cdc4276e","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"a8daed14-56a8-41c3-baa4-5f3d908b4bc7","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"dc829a12-fc99-4a7b-b249-809beb9983b7","route":"commands","status":422,"durationMs":0}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Required"}
+
+422 !== 200
+
+    at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:3:402)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:7:622 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 422,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

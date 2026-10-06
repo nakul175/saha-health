@@ -1,0 +1,1729 @@
+{
+  "classification": "Before gap evidence, not safety qualification",
+  "org": "org_f2ddb04988e949fe287612b54baf00f0",
+  "single": {
+    "pid": "284e0aba-08b6-4884-842c-8aa7e06ed371",
+    "vid": "f9d8dbfa-79b0-4234-8ddd-4023ffcbf52c"
+  },
+  "observations": [
+    {
+      "label": "one-person JSON",
+      "actor": "t-e4f8ae58-operational-privacy-owner",
+      "status": 200,
+      "format": "json",
+      "days": 30,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": {
+        "release": "11 / v1.3-readiness",
+        "generatedAt": "2026-10-05T20:29:22.874Z",
+        "environment": "synthetic",
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "report": {
+          "days": 30,
+          "since": "2026-09-06T00:00:00.000Z",
+          "until": "2026-10-05T20:29:22.873Z",
+          "scope": "Current authorised teams; current assignments, not historical membership",
+          "patients": 1,
+          "visitsStarted": 1,
+          "visitsConfirmed": 1,
+          "activeWorkers": 1,
+          "activeWorkersCoverage": "Distinct actors on authorised patient activity in the selected window.",
+          "backlog": {
+            "drafts": 0,
+            "openFollowUps": 0,
+            "overdueFollowUps": 0,
+            "openReferrals": 0,
+            "overdueReferrals": 0,
+            "undatedReferrals": 0,
+            "unresolvedSubmissions": 0,
+            "unresolvedEhr": 0
+          },
+          "programmes": [],
+          "destinations": [],
+          "daily": [
+            {
+              "date": "2026-09-06",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-07",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-08",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-09",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-10",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-11",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-12",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-13",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-14",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-15",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-16",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-17",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-18",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-19",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-20",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-21",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-22",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-23",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-24",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-25",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-26",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-27",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-28",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-29",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-30",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-01",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-02",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-03",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-04",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-05",
+              "confirmed": 1
+            }
+          ],
+          "usage": {
+            "requests": 0,
+            "localCalls": 0,
+            "liveCalls": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "missingUsage": 0,
+            "estimatedUsd": null,
+            "rates": null,
+            "coverage": "Agent requests only; legacy AI, hosting, storage, MIS and EHR charges are excluded."
+          }
+        },
+        "telemetry": {
+          "windowHours": 24,
+          "count": 12,
+          "serverErrors": 0,
+          "errorRate": 0,
+          "meanMs": 10,
+          "maxMs": 30,
+          "routes": [
+            {
+              "route": "commands",
+              "status": 200,
+              "count": 7,
+              "total_ms": 71,
+              "max_ms": 19
+            },
+            {
+              "route": "workspace",
+              "status": 200,
+              "count": 5,
+              "total_ms": 49,
+              "max_ms": 30
+            }
+          ],
+          "coverage": "Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort."
+        },
+        "operations": {
+          "version": 0,
+          "maintenance": false,
+          "reason": "",
+          "updatedAt": "",
+          "incidents": [],
+          "rates": null
+        },
+        "operators": [
+          {
+            "id": "t-e4f8ae58-operational-privacy-owner",
+            "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+          }
+        ],
+        "gates": [
+          {
+            "id": "clinical",
+            "label": "Clinical and programme approval",
+            "state": "external",
+            "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+          },
+          {
+            "id": "mis",
+            "label": "Two live programme destinations",
+            "state": "external",
+            "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+          },
+          {
+            "id": "ehr",
+            "label": "Live EHR acceptance",
+            "state": "external",
+            "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+          },
+          {
+            "id": "abdm",
+            "label": "ABDM exchange and conformance",
+            "state": "unbuilt",
+            "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+          },
+          {
+            "id": "model",
+            "label": "Approved live AI",
+            "state": "external",
+            "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+          },
+          {
+            "id": "device",
+            "label": "Disconnected field and speech testing",
+            "state": "external",
+            "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+          },
+          {
+            "id": "security",
+            "label": "Independent security and accessibility assessment",
+            "state": "external",
+            "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+          },
+          {
+            "id": "recovery",
+            "label": "Hosted disaster recovery and scale",
+            "state": "external",
+            "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+          }
+        ],
+        "pilotReady": false,
+        "serviceAuthority": {
+          "identities": [],
+          "bindings": {},
+          "targets": [
+            {
+              "id": "ai_completeness",
+              "name": "Record completeness",
+              "kind": "agent"
+            },
+            {
+              "id": "ai_summary",
+              "name": "Visit summariser",
+              "kind": "agent"
+            },
+            {
+              "id": "mis_community",
+              "name": "Community health MIS",
+              "kind": "connector"
+            },
+            {
+              "id": "mis_maternal",
+              "name": "Maternal & child register",
+              "kind": "connector"
+            },
+            {
+              "id": "openai",
+              "name": "openai",
+              "kind": "agent"
+            },
+            {
+              "id": "independent:anaemia",
+              "name": "independent:anaemia",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:oral-saathi",
+              "name": "frontline:oral-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:skin-saathi",
+              "name": "frontline:skin-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:shishu-breath",
+              "name": "frontline:shishu-breath",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:matri-check",
+              "name": "frontline:matri-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:poshan-check",
+              "name": "frontline:poshan-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:teeka-reader",
+              "name": "frontline:teeka-reader",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:dawa-follow",
+              "name": "frontline:dawa-follow",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:report-reader",
+              "name": "frontline:report-reader",
+              "kind": "agent"
+            }
+          ],
+          "owners": [
+            {
+              "id": "t-e4f8ae58-operational-privacy-owner",
+              "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+            }
+          ]
+        },
+        "budgets": {
+          "notice": "Estimated from recorded cost assumptions and recorded or reserved token use; not an invoice or provider bill. Agent requests only; evaluations, hosting and other charges are excluded.",
+          "month": "2026-10",
+          "rows": []
+        },
+        "invoices": {
+          "notice": "Saha figures are estimates from recorded token use and the current cost assumptions (a sent request without recorded usage counts at the reserved allowance). The invoice figures are what an owner recorded from the provider. Agent requests only; evaluations, hosting and other charges are excluded. Reconciling never changes budgets or cost assumptions.",
+          "columns": [
+            "provider",
+            "model",
+            "month",
+            "input_tokens",
+            "output_tokens",
+            "amount_usd",
+            "invoice_reference"
+          ],
+          "maxLines": 12,
+          "records": []
+        },
+        "alerts": [],
+        "alertRules": "1.2.0"
+      },
+      "headers": {
+        "cache": "no-store",
+        "exportId": null,
+        "sha256": null
+      }
+    },
+    {
+      "label": "one-person CSV",
+      "actor": "t-e4f8ae58-operational-privacy-owner",
+      "status": 200,
+      "format": "csv",
+      "days": 30,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": "\"Saha scoped operational report\",\"11 / v1.3-readiness\"\r\n\"Report definition\",\"saha-operational-report\",\"1.1.0\"\r\n\"Export identifier\",\"8337238e-e237-43fa-8f6a-6d60dcf16ebb\"\r\n\"Status\",\"Draft export; not an official or reviewed submission\"\r\n\"Generated by\",\"operational-privacy-owner-e4f8ae58@example.invalid\",\"clinician\"\r\n\"Reporting window days\",\"30\"\r\n\"Teams in scope\",\"Synthetic single-person aggregate team\"\r\n\"Generated UTC\",\"2026-10-05T20:29:22.886Z\"\r\n\"Window start UTC\",\"2026-09-06T00:00:00.000Z\"\r\n\"Scope\",\"Current authorised teams; current assignments, not historical membership\"\r\n\"Current authorised patients\",\"1\"\r\n\"Visits started in window\",\"1\"\r\n\"Visits confirmed in window\",\"1\"\r\n\"Active workers in window\",\"1\"\r\n\"drafts\",\"0\"\r\n\"openFollowUps\",\"0\"\r\n\"overdueFollowUps\",\"0\"\r\n\"openReferrals\",\"0\"\r\n\"overdueReferrals\",\"0\"\r\n\"undatedReferrals\",\"0\"\r\n\"unresolvedSubmissions\",\"0\"\r\n\"unresolvedEhr\",\"0\"\r\n\"Agent cost estimate USD (known usage only)\",\"Unknown\"\r\n\"Missing agent usage records\",\"0\"\r\n\"Daily confirmation date UTC\",\"Count\"\r\n\"2026-09-06\",\"0\"\r\n\"2026-09-07\",\"0\"\r\n\"2026-09-08\",\"0\"\r\n\"2026-09-09\",\"0\"\r\n\"2026-09-10\",\"0\"\r\n\"2026-09-11\",\"0\"\r\n\"2026-09-12\",\"0\"\r\n\"2026-09-13\",\"0\"\r\n\"2026-09-14\",\"0\"\r\n\"2026-09-15\",\"0\"\r\n\"2026-09-16\",\"0\"\r\n\"2026-09-17\",\"0\"\r\n\"2026-09-18\",\"0\"\r\n\"2026-09-19\",\"0\"\r\n\"2026-09-20\",\"0\"\r\n\"2026-09-21\",\"0\"\r\n\"2026-09-22\",\"0\"\r\n\"2026-09-23\",\"0\"\r\n\"2026-09-24\",\"0\"\r\n\"2026-09-25\",\"0\"\r\n\"2026-09-26\",\"0\"\r\n\"2026-09-27\",\"0\"\r\n\"2026-09-28\",\"0\"\r\n\"2026-09-29\",\"0\"\r\n\"2026-09-30\",\"0\"\r\n\"2026-10-01\",\"0\"\r\n\"2026-10-02\",\"0\"\r\n\"2026-10-03\",\"0\"\r\n\"2026-10-04\",\"0\"\r\n\"2026-10-05\",\"1\"\r\n\"Programme\",\"Active episodes\",\"Open tasks\",\"Overdue tasks\"\r\n\"Destination\",\"Mode\",\"Accepted in window\",\"Pending now\",\"Rejected in window\"\r\n\"Control total\",\"Displayed measure\",\"Sum of detail rows\",\"Detail rows\",\"Reconciled\"\r\n\"Visits confirmed in window\",\"1\",\"1\",\"Daily confirmations\",\"yes\"\r\n\"Open follow-ups\",\"0\",\"0\",\"Programme open tasks\",\"yes\"\r\n\"Overdue follow-ups\",\"0\",\"0\",\"Programme overdue tasks\",\"yes\"\r\n\"Unresolved programme receipts\",\"0\",\"0\",\"Destination pending now\",\"yes\"\r\n\"Manifest\",\"Data rows\",\"62\"\r\n\"Manifest\",\"Content SHA-256\",\"720a086b5dae33255fffc860035961c7d8805dd5c27dd57ca0f7e0b0537e78ea\"\r\n",
+      "headers": {
+        "cache": "no-store",
+        "exportId": "8337238e-e237-43fa-8f6a-6d60dcf16ebb",
+        "sha256": "720a086b5dae33255fffc860035961c7d8805dd5c27dd57ca0f7e0b0537e78ea"
+      }
+    },
+    {
+      "label": "six-person union JSON",
+      "actor": "t-e4f8ae58-operational-privacy-owner",
+      "status": 200,
+      "format": "json",
+      "days": 7,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": {
+        "release": "11 / v1.3-readiness",
+        "generatedAt": "2026-10-05T20:29:23.228Z",
+        "environment": "synthetic",
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "report": {
+          "days": 7,
+          "since": "2026-09-29T00:00:00.000Z",
+          "until": "2026-10-05T20:29:23.228Z",
+          "scope": "Current authorised teams; current assignments, not historical membership",
+          "patients": 6,
+          "visitsStarted": 6,
+          "visitsConfirmed": 6,
+          "activeWorkers": 1,
+          "activeWorkersCoverage": "Distinct actors on authorised patient activity in the selected window.",
+          "backlog": {
+            "drafts": 0,
+            "openFollowUps": 0,
+            "overdueFollowUps": 0,
+            "openReferrals": 0,
+            "overdueReferrals": 0,
+            "undatedReferrals": 0,
+            "unresolvedSubmissions": 0,
+            "unresolvedEhr": 0
+          },
+          "programmes": [],
+          "destinations": [],
+          "daily": [
+            {
+              "date": "2026-09-29",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-30",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-01",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-02",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-03",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-04",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-05",
+              "confirmed": 6
+            }
+          ],
+          "usage": {
+            "requests": 0,
+            "localCalls": 0,
+            "liveCalls": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "missingUsage": 0,
+            "estimatedUsd": null,
+            "rates": null,
+            "coverage": "Agent requests only; legacy AI, hosting, storage, MIS and EHR charges are excluded."
+          }
+        },
+        "telemetry": {
+          "windowHours": 24,
+          "count": 51,
+          "serverErrors": 0,
+          "errorRate": 0,
+          "meanMs": 7,
+          "maxMs": 30,
+          "routes": [
+            {
+              "route": "commands",
+              "status": 200,
+              "count": 32,
+              "total_ms": 260,
+              "max_ms": 19
+            },
+            {
+              "route": "indicators",
+              "status": 422,
+              "count": 1,
+              "total_ms": 4,
+              "max_ms": 4
+            },
+            {
+              "route": "operations",
+              "status": 200,
+              "count": 2,
+              "total_ms": 9,
+              "max_ms": 5
+            },
+            {
+              "route": "workspace",
+              "status": 200,
+              "count": 16,
+              "total_ms": 90,
+              "max_ms": 30
+            }
+          ],
+          "coverage": "Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort."
+        },
+        "operations": {
+          "version": 0,
+          "maintenance": false,
+          "reason": "",
+          "updatedAt": "",
+          "incidents": [],
+          "rates": null
+        },
+        "operators": [
+          {
+            "id": "t-e4f8ae58-operational-privacy-owner",
+            "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+          }
+        ],
+        "gates": [
+          {
+            "id": "clinical",
+            "label": "Clinical and programme approval",
+            "state": "external",
+            "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+          },
+          {
+            "id": "mis",
+            "label": "Two live programme destinations",
+            "state": "external",
+            "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+          },
+          {
+            "id": "ehr",
+            "label": "Live EHR acceptance",
+            "state": "external",
+            "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+          },
+          {
+            "id": "abdm",
+            "label": "ABDM exchange and conformance",
+            "state": "unbuilt",
+            "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+          },
+          {
+            "id": "model",
+            "label": "Approved live AI",
+            "state": "external",
+            "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+          },
+          {
+            "id": "device",
+            "label": "Disconnected field and speech testing",
+            "state": "external",
+            "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+          },
+          {
+            "id": "security",
+            "label": "Independent security and accessibility assessment",
+            "state": "external",
+            "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+          },
+          {
+            "id": "recovery",
+            "label": "Hosted disaster recovery and scale",
+            "state": "external",
+            "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+          }
+        ],
+        "pilotReady": false,
+        "serviceAuthority": {
+          "identities": [],
+          "bindings": {},
+          "targets": [
+            {
+              "id": "ai_completeness",
+              "name": "Record completeness",
+              "kind": "agent"
+            },
+            {
+              "id": "ai_summary",
+              "name": "Visit summariser",
+              "kind": "agent"
+            },
+            {
+              "id": "mis_community",
+              "name": "Community health MIS",
+              "kind": "connector"
+            },
+            {
+              "id": "mis_maternal",
+              "name": "Maternal & child register",
+              "kind": "connector"
+            },
+            {
+              "id": "openai",
+              "name": "openai",
+              "kind": "agent"
+            },
+            {
+              "id": "independent:anaemia",
+              "name": "independent:anaemia",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:oral-saathi",
+              "name": "frontline:oral-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:skin-saathi",
+              "name": "frontline:skin-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:shishu-breath",
+              "name": "frontline:shishu-breath",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:matri-check",
+              "name": "frontline:matri-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:poshan-check",
+              "name": "frontline:poshan-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:teeka-reader",
+              "name": "frontline:teeka-reader",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:dawa-follow",
+              "name": "frontline:dawa-follow",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:report-reader",
+              "name": "frontline:report-reader",
+              "kind": "agent"
+            }
+          ],
+          "owners": [
+            {
+              "id": "t-e4f8ae58-operational-privacy-owner",
+              "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+            }
+          ]
+        },
+        "budgets": {
+          "notice": "Estimated from recorded cost assumptions and recorded or reserved token use; not an invoice or provider bill. Agent requests only; evaluations, hosting and other charges are excluded.",
+          "month": "2026-10",
+          "rows": []
+        },
+        "invoices": {
+          "notice": "Saha figures are estimates from recorded token use and the current cost assumptions (a sent request without recorded usage counts at the reserved allowance). The invoice figures are what an owner recorded from the provider. Agent requests only; evaluations, hosting and other charges are excluded. Reconciling never changes budgets or cost assumptions.",
+          "columns": [
+            "provider",
+            "model",
+            "month",
+            "input_tokens",
+            "output_tokens",
+            "amount_usd",
+            "invoice_reference"
+          ],
+          "maxLines": 12,
+          "records": []
+        },
+        "alerts": [],
+        "alertRules": "1.2.0"
+      },
+      "headers": {
+        "cache": "no-store",
+        "exportId": null,
+        "sha256": null
+      }
+    },
+    {
+      "label": "same union neighbouring 30-day JSON",
+      "actor": "t-e4f8ae58-operational-privacy-owner",
+      "status": 200,
+      "format": "json",
+      "days": 30,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": {
+        "release": "11 / v1.3-readiness",
+        "generatedAt": "2026-10-05T20:29:23.239Z",
+        "environment": "synthetic",
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "report": {
+          "days": 30,
+          "since": "2026-09-06T00:00:00.000Z",
+          "until": "2026-10-05T20:29:23.238Z",
+          "scope": "Current authorised teams; current assignments, not historical membership",
+          "patients": 6,
+          "visitsStarted": 6,
+          "visitsConfirmed": 6,
+          "activeWorkers": 1,
+          "activeWorkersCoverage": "Distinct actors on authorised patient activity in the selected window.",
+          "backlog": {
+            "drafts": 0,
+            "openFollowUps": 0,
+            "overdueFollowUps": 0,
+            "openReferrals": 0,
+            "overdueReferrals": 0,
+            "undatedReferrals": 0,
+            "unresolvedSubmissions": 0,
+            "unresolvedEhr": 0
+          },
+          "programmes": [],
+          "destinations": [],
+          "daily": [
+            {
+              "date": "2026-09-06",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-07",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-08",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-09",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-10",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-11",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-12",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-13",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-14",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-15",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-16",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-17",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-18",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-19",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-20",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-21",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-22",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-23",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-24",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-25",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-26",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-27",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-28",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-29",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-30",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-01",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-02",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-03",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-04",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-05",
+              "confirmed": 6
+            }
+          ],
+          "usage": {
+            "requests": 0,
+            "localCalls": 0,
+            "liveCalls": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "missingUsage": 0,
+            "estimatedUsd": null,
+            "rates": null,
+            "coverage": "Agent requests only; legacy AI, hosting, storage, MIS and EHR charges are excluded."
+          }
+        },
+        "telemetry": {
+          "windowHours": 24,
+          "count": 52,
+          "serverErrors": 0,
+          "errorRate": 0,
+          "meanMs": 7,
+          "maxMs": 30,
+          "routes": [
+            {
+              "route": "commands",
+              "status": 200,
+              "count": 32,
+              "total_ms": 260,
+              "max_ms": 19
+            },
+            {
+              "route": "indicators",
+              "status": 422,
+              "count": 1,
+              "total_ms": 4,
+              "max_ms": 4
+            },
+            {
+              "route": "operations",
+              "status": 200,
+              "count": 3,
+              "total_ms": 13,
+              "max_ms": 5
+            },
+            {
+              "route": "workspace",
+              "status": 200,
+              "count": 16,
+              "total_ms": 90,
+              "max_ms": 30
+            }
+          ],
+          "coverage": "Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort."
+        },
+        "operations": {
+          "version": 0,
+          "maintenance": false,
+          "reason": "",
+          "updatedAt": "",
+          "incidents": [],
+          "rates": null
+        },
+        "operators": [
+          {
+            "id": "t-e4f8ae58-operational-privacy-owner",
+            "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+          }
+        ],
+        "gates": [
+          {
+            "id": "clinical",
+            "label": "Clinical and programme approval",
+            "state": "external",
+            "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+          },
+          {
+            "id": "mis",
+            "label": "Two live programme destinations",
+            "state": "external",
+            "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+          },
+          {
+            "id": "ehr",
+            "label": "Live EHR acceptance",
+            "state": "external",
+            "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+          },
+          {
+            "id": "abdm",
+            "label": "ABDM exchange and conformance",
+            "state": "unbuilt",
+            "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+          },
+          {
+            "id": "model",
+            "label": "Approved live AI",
+            "state": "external",
+            "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+          },
+          {
+            "id": "device",
+            "label": "Disconnected field and speech testing",
+            "state": "external",
+            "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+          },
+          {
+            "id": "security",
+            "label": "Independent security and accessibility assessment",
+            "state": "external",
+            "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+          },
+          {
+            "id": "recovery",
+            "label": "Hosted disaster recovery and scale",
+            "state": "external",
+            "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+          }
+        ],
+        "pilotReady": false,
+        "serviceAuthority": {
+          "identities": [],
+          "bindings": {},
+          "targets": [
+            {
+              "id": "ai_completeness",
+              "name": "Record completeness",
+              "kind": "agent"
+            },
+            {
+              "id": "ai_summary",
+              "name": "Visit summariser",
+              "kind": "agent"
+            },
+            {
+              "id": "mis_community",
+              "name": "Community health MIS",
+              "kind": "connector"
+            },
+            {
+              "id": "mis_maternal",
+              "name": "Maternal & child register",
+              "kind": "connector"
+            },
+            {
+              "id": "openai",
+              "name": "openai",
+              "kind": "agent"
+            },
+            {
+              "id": "independent:anaemia",
+              "name": "independent:anaemia",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:oral-saathi",
+              "name": "frontline:oral-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:skin-saathi",
+              "name": "frontline:skin-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:shishu-breath",
+              "name": "frontline:shishu-breath",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:matri-check",
+              "name": "frontline:matri-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:poshan-check",
+              "name": "frontline:poshan-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:teeka-reader",
+              "name": "frontline:teeka-reader",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:dawa-follow",
+              "name": "frontline:dawa-follow",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:report-reader",
+              "name": "frontline:report-reader",
+              "kind": "agent"
+            }
+          ],
+          "owners": [
+            {
+              "id": "t-e4f8ae58-operational-privacy-owner",
+              "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+            }
+          ]
+        },
+        "budgets": {
+          "notice": "Estimated from recorded cost assumptions and recorded or reserved token use; not an invoice or provider bill. Agent requests only; evaluations, hosting and other charges are excluded.",
+          "month": "2026-10",
+          "rows": []
+        },
+        "invoices": {
+          "notice": "Saha figures are estimates from recorded token use and the current cost assumptions (a sent request without recorded usage counts at the reserved allowance). The invoice figures are what an owner recorded from the provider. Agent requests only; evaluations, hosting and other charges are excluded. Reconciling never changes budgets or cost assumptions.",
+          "columns": [
+            "provider",
+            "model",
+            "month",
+            "input_tokens",
+            "output_tokens",
+            "amount_usd",
+            "invoice_reference"
+          ],
+          "maxLines": 12,
+          "records": []
+        },
+        "alerts": [],
+        "alertRules": "1.2.0"
+      },
+      "headers": {
+        "cache": "no-store",
+        "exportId": null,
+        "sha256": null
+      }
+    },
+    {
+      "label": "five-person neighbouring viewer JSON",
+      "actor": "t-67ddb0f7-operational-privacy-supervisor",
+      "status": 200,
+      "format": "json",
+      "days": 7,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": {
+        "release": "11 / v1.3-readiness",
+        "generatedAt": "2026-10-05T20:29:23.249Z",
+        "environment": "synthetic",
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "report": {
+          "days": 7,
+          "since": "2026-09-29T00:00:00.000Z",
+          "until": "2026-10-05T20:29:23.249Z",
+          "scope": "Current authorised teams; current assignments, not historical membership",
+          "patients": 5,
+          "visitsStarted": 5,
+          "visitsConfirmed": 5,
+          "activeWorkers": 1,
+          "activeWorkersCoverage": "Distinct actors on authorised patient activity in the selected window.",
+          "backlog": {
+            "drafts": 0,
+            "openFollowUps": 0,
+            "overdueFollowUps": 0,
+            "openReferrals": 0,
+            "overdueReferrals": 0,
+            "undatedReferrals": 0,
+            "unresolvedSubmissions": 0,
+            "unresolvedEhr": 0
+          },
+          "programmes": [],
+          "destinations": [],
+          "daily": [
+            {
+              "date": "2026-09-29",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-30",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-01",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-02",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-03",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-04",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-05",
+              "confirmed": 5
+            }
+          ],
+          "usage": {
+            "requests": 0,
+            "localCalls": 0,
+            "liveCalls": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "missingUsage": 0,
+            "estimatedUsd": null,
+            "rates": null,
+            "coverage": "Agent requests only; legacy AI, hosting, storage, MIS and EHR charges are excluded."
+          }
+        },
+        "telemetry": null,
+        "operations": null,
+        "operators": [],
+        "gates": [
+          {
+            "id": "clinical",
+            "label": "Clinical and programme approval",
+            "state": "external",
+            "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+          },
+          {
+            "id": "mis",
+            "label": "Two live programme destinations",
+            "state": "external",
+            "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+          },
+          {
+            "id": "ehr",
+            "label": "Live EHR acceptance",
+            "state": "external",
+            "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+          },
+          {
+            "id": "abdm",
+            "label": "ABDM exchange and conformance",
+            "state": "unbuilt",
+            "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+          },
+          {
+            "id": "model",
+            "label": "Approved live AI",
+            "state": "external",
+            "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+          },
+          {
+            "id": "device",
+            "label": "Disconnected field and speech testing",
+            "state": "external",
+            "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+          },
+          {
+            "id": "security",
+            "label": "Independent security and accessibility assessment",
+            "state": "external",
+            "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+          },
+          {
+            "id": "recovery",
+            "label": "Hosted disaster recovery and scale",
+            "state": "external",
+            "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+          }
+        ],
+        "pilotReady": false,
+        "serviceAuthority": null,
+        "budgets": null,
+        "invoices": null,
+        "alerts": [],
+        "alertRules": "1.2.0"
+      },
+      "headers": {
+        "cache": "no-store",
+        "exportId": null,
+        "sha256": null
+      }
+    },
+    {
+      "label": "five-person neighbouring viewer CSV",
+      "actor": "t-67ddb0f7-operational-privacy-supervisor",
+      "status": 200,
+      "format": "csv",
+      "days": 7,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": "\"Saha scoped operational report\",\"11 / v1.3-readiness\"\r\n\"Report definition\",\"saha-operational-report\",\"1.1.0\"\r\n\"Export identifier\",\"82d57322-ee3c-447d-af24-a8e5e0bea526\"\r\n\"Status\",\"Draft export; not an official or reviewed submission\"\r\n\"Generated by\",\"operational-privacy-supervisor-67ddb0f7@example.invalid\",\"supervisor\"\r\n\"Reporting window days\",\"7\"\r\n\"Teams in scope\",\"Synthetic five-person aggregate team\"\r\n\"Generated UTC\",\"2026-10-05T20:29:23.261Z\"\r\n\"Window start UTC\",\"2026-09-29T00:00:00.000Z\"\r\n\"Scope\",\"Current authorised teams; current assignments, not historical membership\"\r\n\"Current authorised patients\",\"5\"\r\n\"Visits started in window\",\"5\"\r\n\"Visits confirmed in window\",\"5\"\r\n\"Active workers in window\",\"1\"\r\n\"drafts\",\"0\"\r\n\"openFollowUps\",\"0\"\r\n\"overdueFollowUps\",\"0\"\r\n\"openReferrals\",\"0\"\r\n\"overdueReferrals\",\"0\"\r\n\"undatedReferrals\",\"0\"\r\n\"unresolvedSubmissions\",\"0\"\r\n\"unresolvedEhr\",\"0\"\r\n\"Agent cost estimate USD (known usage only)\",\"Unknown\"\r\n\"Missing agent usage records\",\"0\"\r\n\"Daily confirmation date UTC\",\"Count\"\r\n\"2026-09-29\",\"0\"\r\n\"2026-09-30\",\"0\"\r\n\"2026-10-01\",\"0\"\r\n\"2026-10-02\",\"0\"\r\n\"2026-10-03\",\"0\"\r\n\"2026-10-04\",\"0\"\r\n\"2026-10-05\",\"5\"\r\n\"Programme\",\"Active episodes\",\"Open tasks\",\"Overdue tasks\"\r\n\"Destination\",\"Mode\",\"Accepted in window\",\"Pending now\",\"Rejected in window\"\r\n\"Control total\",\"Displayed measure\",\"Sum of detail rows\",\"Detail rows\",\"Reconciled\"\r\n\"Visits confirmed in window\",\"5\",\"5\",\"Daily confirmations\",\"yes\"\r\n\"Open follow-ups\",\"0\",\"0\",\"Programme open tasks\",\"yes\"\r\n\"Overdue follow-ups\",\"0\",\"0\",\"Programme overdue tasks\",\"yes\"\r\n\"Unresolved programme receipts\",\"0\",\"0\",\"Destination pending now\",\"yes\"\r\n\"Manifest\",\"Data rows\",\"39\"\r\n\"Manifest\",\"Content SHA-256\",\"f056cfb22a9d5ec2d64b9390ce60b699f0a4bef846a7545874489c627c0dcb4d\"\r\n",
+      "headers": {
+        "cache": "no-store",
+        "exportId": "82d57322-ee3c-447d-af24-a8e5e0bea526",
+        "sha256": "f056cfb22a9d5ec2d64b9390ce60b699f0a4bef846a7545874489c627c0dcb4d"
+      }
+    },
+    {
+      "label": "same viewer supported narrowed cohort JSON",
+      "actor": "t-e4f8ae58-operational-privacy-owner",
+      "status": 200,
+      "format": "json",
+      "days": 7,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": {
+        "release": "11 / v1.3-readiness",
+        "generatedAt": "2026-10-05T20:29:23.299Z",
+        "environment": "synthetic",
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "report": {
+          "days": 7,
+          "since": "2026-09-29T00:00:00.000Z",
+          "until": "2026-10-05T20:29:23.299Z",
+          "scope": "Current authorised teams; current assignments, not historical membership",
+          "patients": 5,
+          "visitsStarted": 5,
+          "visitsConfirmed": 5,
+          "activeWorkers": 1,
+          "activeWorkersCoverage": "Distinct actors on authorised patient activity in the selected window.",
+          "backlog": {
+            "drafts": 0,
+            "openFollowUps": 0,
+            "overdueFollowUps": 0,
+            "openReferrals": 0,
+            "overdueReferrals": 0,
+            "undatedReferrals": 0,
+            "unresolvedSubmissions": 0,
+            "unresolvedEhr": 0
+          },
+          "programmes": [],
+          "destinations": [],
+          "daily": [
+            {
+              "date": "2026-09-29",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-30",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-01",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-02",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-03",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-04",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-05",
+              "confirmed": 5
+            }
+          ],
+          "usage": {
+            "requests": 0,
+            "localCalls": 0,
+            "liveCalls": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "missingUsage": 0,
+            "estimatedUsd": null,
+            "rates": null,
+            "coverage": "Agent requests only; legacy AI, hosting, storage, MIS and EHR charges are excluded."
+          }
+        },
+        "telemetry": {
+          "windowHours": 24,
+          "count": 57,
+          "serverErrors": 0,
+          "errorRate": 0,
+          "meanMs": 7,
+          "maxMs": 30,
+          "routes": [
+            {
+              "route": "commands",
+              "status": 200,
+              "count": 33,
+              "total_ms": 270,
+              "max_ms": 19
+            },
+            {
+              "route": "indicators",
+              "status": 422,
+              "count": 1,
+              "total_ms": 4,
+              "max_ms": 4
+            },
+            {
+              "route": "operations",
+              "status": 200,
+              "count": 6,
+              "total_ms": 23,
+              "max_ms": 5
+            },
+            {
+              "route": "workspace",
+              "status": 200,
+              "count": 17,
+              "total_ms": 94,
+              "max_ms": 30
+            }
+          ],
+          "coverage": "Authenticated application routes. Older buckets are pruned after 30 days when traffic resumes. Pre-authentication and platform outages are not counted. Metrics storage is best effort."
+        },
+        "operations": {
+          "version": 0,
+          "maintenance": false,
+          "reason": "",
+          "updatedAt": "",
+          "incidents": [],
+          "rates": null
+        },
+        "operators": [
+          {
+            "id": "t-e4f8ae58-operational-privacy-owner",
+            "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+          }
+        ],
+        "gates": [
+          {
+            "id": "clinical",
+            "label": "Clinical and programme approval",
+            "state": "external",
+            "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+          },
+          {
+            "id": "mis",
+            "label": "Two live programme destinations",
+            "state": "external",
+            "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+          },
+          {
+            "id": "ehr",
+            "label": "Live EHR acceptance",
+            "state": "external",
+            "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+          },
+          {
+            "id": "abdm",
+            "label": "ABDM exchange and conformance",
+            "state": "unbuilt",
+            "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+          },
+          {
+            "id": "model",
+            "label": "Approved live AI",
+            "state": "external",
+            "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+          },
+          {
+            "id": "device",
+            "label": "Disconnected field and speech testing",
+            "state": "external",
+            "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+          },
+          {
+            "id": "security",
+            "label": "Independent security and accessibility assessment",
+            "state": "external",
+            "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+          },
+          {
+            "id": "recovery",
+            "label": "Hosted disaster recovery and scale",
+            "state": "external",
+            "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+          }
+        ],
+        "pilotReady": false,
+        "serviceAuthority": {
+          "identities": [],
+          "bindings": {},
+          "targets": [
+            {
+              "id": "ai_completeness",
+              "name": "Record completeness",
+              "kind": "agent"
+            },
+            {
+              "id": "ai_summary",
+              "name": "Visit summariser",
+              "kind": "agent"
+            },
+            {
+              "id": "mis_community",
+              "name": "Community health MIS",
+              "kind": "connector"
+            },
+            {
+              "id": "mis_maternal",
+              "name": "Maternal & child register",
+              "kind": "connector"
+            },
+            {
+              "id": "openai",
+              "name": "openai",
+              "kind": "agent"
+            },
+            {
+              "id": "independent:anaemia",
+              "name": "independent:anaemia",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:oral-saathi",
+              "name": "frontline:oral-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:skin-saathi",
+              "name": "frontline:skin-saathi",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:shishu-breath",
+              "name": "frontline:shishu-breath",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:matri-check",
+              "name": "frontline:matri-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:poshan-check",
+              "name": "frontline:poshan-check",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:teeka-reader",
+              "name": "frontline:teeka-reader",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:dawa-follow",
+              "name": "frontline:dawa-follow",
+              "kind": "agent"
+            },
+            {
+              "id": "frontline:report-reader",
+              "name": "frontline:report-reader",
+              "kind": "agent"
+            }
+          ],
+          "owners": [
+            {
+              "id": "t-e4f8ae58-operational-privacy-owner",
+              "name": "operational-privacy-owner-e4f8ae58@example.invalid"
+            }
+          ]
+        },
+        "budgets": {
+          "notice": "Estimated from recorded cost assumptions and recorded or reserved token use; not an invoice or provider bill. Agent requests only; evaluations, hosting and other charges are excluded.",
+          "month": "2026-10",
+          "rows": []
+        },
+        "invoices": {
+          "notice": "Saha figures are estimates from recorded token use and the current cost assumptions (a sent request without recorded usage counts at the reserved allowance). The invoice figures are what an owner recorded from the provider. Agent requests only; evaluations, hosting and other charges are excluded. Reconciling never changes budgets or cost assumptions.",
+          "columns": [
+            "provider",
+            "model",
+            "month",
+            "input_tokens",
+            "output_tokens",
+            "amount_usd",
+            "invoice_reference"
+          ],
+          "maxLines": 12,
+          "records": []
+        },
+        "alerts": [],
+        "alertRules": "1.2.0"
+      },
+      "headers": {
+        "cache": "no-store",
+        "exportId": null,
+        "sha256": null
+      }
+    },
+    {
+      "label": "Reporting-purpose narrowed supervisor JSON",
+      "actor": "t-67ddb0f7-operational-privacy-supervisor",
+      "status": 200,
+      "format": "json",
+      "days": 7,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": {
+        "release": "11 / v1.3-readiness",
+        "generatedAt": "2026-10-05T20:29:23.343Z",
+        "environment": "synthetic",
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "report": {
+          "days": 7,
+          "since": "2026-09-29T00:00:00.000Z",
+          "until": "2026-10-05T20:29:23.342Z",
+          "scope": "Current authorised teams; current assignments, not historical membership",
+          "patients": 5,
+          "visitsStarted": 5,
+          "visitsConfirmed": 5,
+          "activeWorkers": 1,
+          "activeWorkersCoverage": "Distinct actors on authorised patient activity in the selected window.",
+          "backlog": {
+            "drafts": 0,
+            "openFollowUps": 0,
+            "overdueFollowUps": 0,
+            "openReferrals": 0,
+            "overdueReferrals": 0,
+            "undatedReferrals": 0,
+            "unresolvedSubmissions": 0,
+            "unresolvedEhr": 0
+          },
+          "programmes": [],
+          "destinations": [],
+          "daily": [
+            {
+              "date": "2026-09-29",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-09-30",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-01",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-02",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-03",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-04",
+              "confirmed": 0
+            },
+            {
+              "date": "2026-10-05",
+              "confirmed": 5
+            }
+          ],
+          "usage": {
+            "requests": 0,
+            "localCalls": 0,
+            "liveCalls": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "missingUsage": 0,
+            "estimatedUsd": null,
+            "rates": null,
+            "coverage": "Agent requests only; legacy AI, hosting, storage, MIS and EHR charges are excluded."
+          }
+        },
+        "telemetry": null,
+        "operations": null,
+        "operators": [],
+        "gates": [
+          {
+            "id": "clinical",
+            "label": "Clinical and programme approval",
+            "state": "external",
+            "detail": "Named clinical owners, approved programme content and deployment-specific safety evidence required."
+          },
+          {
+            "id": "mis",
+            "label": "Two live programme destinations",
+            "state": "external",
+            "detail": "Actual credentials, grants, signed callbacks and independent partner receipts are pending. Dispatch remains worker-triggered."
+          },
+          {
+            "id": "ehr",
+            "label": "Live EHR acceptance",
+            "state": "external",
+            "detail": "Selected EHR testing, identity matching and clinical ingestion evidence are pending."
+          },
+          {
+            "id": "abdm",
+            "label": "ABDM exchange and conformance",
+            "state": "unbuilt",
+            "detail": "ABHA linking and HIU consent artefacts exist against a local mock gateway only. HIP publication, encrypted transfer, sandbox onboarding and official profile validation remain outstanding."
+          },
+          {
+            "id": "model",
+            "label": "Approved live AI",
+            "state": "external",
+            "detail": "Credential activation and intended-use, accuracy and language validation are pending."
+          },
+          {
+            "id": "device",
+            "label": "Disconnected field and speech testing",
+            "state": "external",
+            "detail": "HTTPS physical-device restart, disconnected sync and on-device language validation are pending."
+          },
+          {
+            "id": "security",
+            "label": "Independent security and accessibility assessment",
+            "state": "external",
+            "detail": "Independent penetration review, screen-reader and physical-device accessibility evidence are pending."
+          },
+          {
+            "id": "recovery",
+            "label": "Hosted disaster recovery and scale",
+            "state": "external",
+            "detail": "Local encrypted restore drill and bounded local load checks do not establish hosted RPO/RTO or deployment capacity."
+          }
+        ],
+        "pilotReady": false,
+        "serviceAuthority": null,
+        "budgets": null,
+        "invoices": null,
+        "alerts": [],
+        "alertRules": "1.2.0"
+      },
+      "headers": {
+        "cache": "no-store",
+        "exportId": null,
+        "sha256": null
+      }
+    },
+    {
+      "label": "Reporting-purpose narrowed supervisor CSV",
+      "actor": "t-67ddb0f7-operational-privacy-supervisor",
+      "status": 200,
+      "format": "csv",
+      "days": 7,
+      "ledgerBefore": null,
+      "ledgerAfter": null,
+      "body": "\"Saha scoped operational report\",\"11 / v1.3-readiness\"\r\n\"Report definition\",\"saha-operational-report\",\"1.1.0\"\r\n\"Export identifier\",\"93a5b694-6a36-4b45-bf97-3087237d78cc\"\r\n\"Status\",\"Draft export; not an official or reviewed submission\"\r\n\"Generated by\",\"operational-privacy-supervisor-67ddb0f7@example.invalid\",\"supervisor\"\r\n\"Reporting window days\",\"7\"\r\n\"Teams in scope\",\"Synthetic five-person aggregate team\"\r\n\"Generated UTC\",\"2026-10-05T20:29:23.354Z\"\r\n\"Window start UTC\",\"2026-09-29T00:00:00.000Z\"\r\n\"Scope\",\"Current authorised teams; current assignments, not historical membership\"\r\n\"Current authorised patients\",\"5\"\r\n\"Visits started in window\",\"5\"\r\n\"Visits confirmed in window\",\"5\"\r\n\"Active workers in window\",\"1\"\r\n\"drafts\",\"0\"\r\n\"openFollowUps\",\"0\"\r\n\"overdueFollowUps\",\"0\"\r\n\"openReferrals\",\"0\"\r\n\"overdueReferrals\",\"0\"\r\n\"undatedReferrals\",\"0\"\r\n\"unresolvedSubmissions\",\"0\"\r\n\"unresolvedEhr\",\"0\"\r\n\"Agent cost estimate USD (known usage only)\",\"Unknown\"\r\n\"Missing agent usage records\",\"0\"\r\n\"Daily confirmation date UTC\",\"Count\"\r\n\"2026-09-29\",\"0\"\r\n\"2026-09-30\",\"0\"\r\n\"2026-10-01\",\"0\"\r\n\"2026-10-02\",\"0\"\r\n\"2026-10-03\",\"0\"\r\n\"2026-10-04\",\"0\"\r\n\"2026-10-05\",\"5\"\r\n\"Programme\",\"Active episodes\",\"Open tasks\",\"Overdue tasks\"\r\n\"Destination\",\"Mode\",\"Accepted in window\",\"Pending now\",\"Rejected in window\"\r\n\"Control total\",\"Displayed measure\",\"Sum of detail rows\",\"Detail rows\",\"Reconciled\"\r\n\"Visits confirmed in window\",\"5\",\"5\",\"Daily confirmations\",\"yes\"\r\n\"Open follow-ups\",\"0\",\"0\",\"Programme open tasks\",\"yes\"\r\n\"Overdue follow-ups\",\"0\",\"0\",\"Programme overdue tasks\",\"yes\"\r\n\"Unresolved programme receipts\",\"0\",\"0\",\"Destination pending now\",\"yes\"\r\n\"Manifest\",\"Data rows\",\"39\"\r\n\"Manifest\",\"Content SHA-256\",\"7d20aebc4a5eb2fd7b42e77d8ad1f2d853bc0abb668a1d40c0691ba364d427b5\"\r\n",
+      "headers": {
+        "cache": "no-store",
+        "exportId": "93a5b694-6a36-4b45-bf97-3087237d78cc",
+        "sha256": "7d20aebc4a5eb2fd7b42e77d8ad1f2d853bc0abb668a1d40c0691ba364d427b5"
+      }
+    }
+  ],
+  "subtraction": {
+    "crossViewer": 1,
+    "sameViewer": 1,
+    "adjacentWindow": 0
+  },
+  "purposeControl": {
+    "indicator": 403,
+    "operationsJson": 200,
+    "operationsCsv": 200
+  },
+  "scopeControl": {
+    "ordinaryClinician": 403,
+    "anonymous": 401,
+    "suspended": 403
+  },
+  "audits": [
+    {
+      "actor_id": "t-e4f8ae58-operational-privacy-owner",
+      "action": "opsExport",
+      "subject": "org_f2ddb04988e949fe287612b54baf00f0",
+      "detail": "Scoped aggregate report exported; 30-day period; definition saha-operational-report 1.1.0; export 8337238e-e237-43fa-8f6a-6d60dcf16ebb; 62 data rows; SHA-256 720a086b5dae33255fffc860035961c7d8805dd5c27dd57ca0f7e0b0537e78ea; control totals reconciled.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-e4f8ae58-operational-privacy-owner\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":2,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}"
+    },
+    {
+      "actor_id": "t-67ddb0f7-operational-privacy-supervisor",
+      "action": "opsExport",
+      "subject": "org_f2ddb04988e949fe287612b54baf00f0",
+      "detail": "Scoped aggregate report exported; 7-day period; definition saha-operational-report 1.1.0; export 82d57322-ee3c-447d-af24-a8e5e0bea526; 39 data rows; SHA-256 f056cfb22a9d5ec2d64b9390ce60b699f0a4bef846a7545874489c627c0dcb4d; control totals reconciled.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-67ddb0f7-operational-privacy-supervisor\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"supervisor\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}"
+    },
+    {
+      "actor_id": "t-67ddb0f7-operational-privacy-supervisor",
+      "action": "opsExport",
+      "subject": "org_f2ddb04988e949fe287612b54baf00f0",
+      "detail": "Scoped aggregate report exported; 7-day period; definition saha-operational-report 1.1.0; export 93a5b694-6a36-4b45-bf97-3087237d78cc; 39 data rows; SHA-256 7d20aebc4a5eb2fd7b42e77d8ad1f2d853bc0abb668a1d40c0691ba364d427b5; control totals reconciled.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-67ddb0f7-operational-privacy-supervisor\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"supervisor\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}"
+    }
+  ],
+  "noExternalDelivery": true
+}

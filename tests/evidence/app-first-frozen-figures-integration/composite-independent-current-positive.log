@@ -1,0 +1,14 @@
+Running integration --fast; 1 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/composite-authority-independent-extra-http ...
+  ok       integration/composite-authority-independent-extra-http  95 passed  2.9s
+
+  layer        status  suites  passed  failed  skipped  time
+  -----------  ------  ------  ------  ------  -------  ----
+  integration  passed       1      95       0        0  2.9s
+  total        passed       1      95       0        0  3.0s
+
+Regression guard: passed (0 baselined suite(s) checked, 0 excused by quarantine).
+  note     1 suite(s) are not in the baseline yet (integration/composite-authority-independent-extra-http); add them with --update-baseline.

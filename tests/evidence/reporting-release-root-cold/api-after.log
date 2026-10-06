@@ -1,0 +1,20 @@
+Running integration resilience --fast; 2 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/run-api-smoke ...
+  ok       integration/run-api-smoke  4770 passed  1m 14s
+
+[resilience] 1 suite(s)
+  running  resilience/recovery-drill ...
+  ok       resilience/recovery-drill  21 passed  2.5s
+
+  layer        status  suites  passed  failed  skipped    time
+  -----------  ------  ------  ------  ------  -------  ------
+  integration  passed       1    4770       0        0  1m 14s
+  resilience   passed       1      21       0        0    2.5s
+  total        passed       2    4791       0        0  1m 17s
+
+Restored 1 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).

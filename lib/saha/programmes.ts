@@ -1,3 +1,5 @@
+import {transitionEffectVerified,transitionReplacementVerified} from './installed-transition-authority';
+import type {PackCondition,CompletionContract} from './programme-completion';
 import type { Facts, Programme, Visit } from './types';
 // Slice 4f: pack ids are slugs. The three compiled packs keep their ids; an owner may install further packs (and
 // further versions of these) at runtime through the governed installation path in pack-installation.ts.
@@ -6,7 +8,7 @@ export const COMPILED_PACK_IDS=['maternal','tb','hypertension'] as const;
 export type Question={id:string;label:string;unit?:string;fact?:Exclude<keyof Facts,'provenance'|'entered'|'unusual'>;options?:string[];when?:{id:string;value:string};required:boolean;renamedFrom?:string};
 // Slice 4e: a pack version may describe its (illustrative) schedule and escalation text and the earlier versions it
 // declares a reviewed mapping from; a question renamed between versions names its earlier id in renamedFrom.
-export type Pack={id:PackId;version:number;name:string;programme:Programme;purpose:string;questions:Question[];schedule?:string;escalation?:string;migratesFrom?:number[];changeNote?:string;installed?:{installationId:string;manifestHash:string}};
+export type Pack={id:PackId;version:number;name:string;programme:Programme;purpose:string;questions:Question[];schedule?:string;escalation?:string;migratesFrom?:number[];changeNote?:string;installed?:{installationId:string;manifestHash:string};completionRules?:import('./programme-completion').CompletionRule[];referralNeeds?:import('./programme-completion').DeclaredReferralNeed[]};
 const weight:Question={id:'weight',label:'Weight',unit:'kg',fact:'weight',required:true};
 const bp:Question[]=[{id:'systolic',label:'Systolic blood pressure',unit:'mmHg',fact:'systolic',required:true},{id:'diastolic',label:'Diastolic blood pressure',unit:'mmHg',fact:'diastolic',required:true}];
 export const PACKS:readonly Pack[]=[
@@ -20,7 +22,7 @@ export const PACKS:readonly Pack[]=[
 export type Enrolment={id:string;packId:PackId;packVersion:number;state:'active'|'closed';episodeLabel:string;startDate:string|null;createdAt:string;createdBy:string;closedAt?:string;outcome?:string;registration:'not_submitted'|'submitted';destinationEnrolment?:import('./destination-enrolment').DestinationEnrolment;migrations?:EpisodeMigration[];imported?:{batchId:string;row:number;at:string;by:string;planHash:string}};
 // Slice 4e: each reviewed version change of an open episode, appended (never rewritten).
 export type EpisodeMigration={batchId:string;from:number;to:number;at:string;by:string;reason:string;planHash:string};
-export type FollowUp={id:string;enrolmentId:string;packId:PackId;title:string;due:string;ownerId:string;state:'open'|'completed'|'cancelled';createdAt:string;createdBy:string;closedAt?:string;resolution?:string};
+export type FollowUp={id:string;enrolmentId:string;packId:PackId;title:string;due:string;ownerId:string;state:'open'|'completed'|'cancelled';createdAt:string;createdBy:string;completionContract?:import('./programme-completion').CompletionContract;closedAt?:string;resolution?:string;completionReplacements?:{visitId:string;visitVersion:number;recordVersion:number;slotId:string;at:string;by:string}[];completionEvidence?:{visitId:string;visitVersion:number;recordVersion:number;slotId:string;at:string;by:string}};
 export type ProgrammeCapture={packs:{enrolmentId:string;pack:Pack}[];answers:Record<string,string>;absence:Record<string,string>;savedBy?:string;savedAt?:string};
 export const ABSENCE=['Unknown','Not measured','Declined','Unable to obtain'] as const;
 // Slice 6z (sixth review): answers and absence reasons are keyed by question id. They are read as own properties only,
@@ -45,3 +47,20 @@ export const packName=(id:PackId,s?:Installs)=>catalogueOf(s).filter(p=>p.id===i
 // The version new episodes open on: the adopted version while it can open episodes, else the lowest version that can
 // (v1 for the compiled packs; the first activated version for an installed pack). 0 when the pack cannot open episodes.
 export function adoptedVersion(s:Installs,id:PackId){const v=s.operations?.packVersions?.[id];if(v&&enrollableAt(id,v,s))return v;const vs=enrollablePacks(s).filter(p=>p.id===id).map(p=>p.version);return vs.length?Math.min(...vs):0;}
+
+// Prepared work permits documentary capture only; no offline clinical decision or task closure.
+export function offlineWorkFor(c?:ProgrammeCapture){
+ const packs=c?.packs??[];if(packs.length>20||packs.some(x=>x.pack.questions.length>25))throw new Error('Prepared programme work exceeds the bounded notebook contract.');
+ return {schema:1 as const,tasks:packs.length?['visit-facts','programme-answers']:['visit-facts'],clinicalApproval:'pending' as const,packs:packs.map(x=>({enrolmentId:x.enrolmentId,pack:structuredClone(x.pack)}))};
+}
+
+export function conditionMet(v:Visit,c?:PackCondition){if(!c)return true;const q=questions(v.programmeCapture).find(q=>q.id===c.questionId);if(!q)return false;const value=String(q.fact?v.facts[q.fact]:own(v.programmeCapture?.answers,q.id)??'').trim();if(c.operator==='missing')return !value;if(!value)return false;if(c.operator==='eq')return value===c.value;return /^-?\d+(\.\d+)?$/.test(value)&&Number.isFinite(Number(value))&&(c.operator==='gte'?Number(value)>=Number(c.value):Number(value)<=Number(c.value));}
+export function completionEligible(v:Visit,contract:CompletionContract,enrolmentId:string){
+ const cap=v.programmeCapture?.packs.find(x=>x.enrolmentId===enrolmentId);
+ if(!cap||cap.pack.id!==contract.packId||cap.pack.version!==contract.packVersion||cap.pack.installed?.installationId!==contract.installationId||cap.pack.installed?.manifestHash!==contract.manifestHash)return false;
+ const rule=cap.pack.completionRules?.find(x=>x.id===contract.rule.id);if(!rule||JSON.stringify(rule)!==JSON.stringify(contract.rule)||!conditionMet(v,rule.when))return false;
+ const qs=questions(v.programmeCapture);return rule.requiredQuestions.every(id=>{const q=qs.find(x=>x.id===id);return !!q&&!!String(q.fact?v.facts[q.fact]:own(v.programmeCapture?.answers,id)??'').trim()&&!own(v.programmeCapture?.absence,id);});
+}
+export function declaredNeed(pack:Pack,id:string|undefined,v:Visit){if(!pack.referralNeeds)return null;const d=pack.referralNeeds.find(x=>x.id===id);return d&&conditionMet(v,d.when)?d:null;}
+export function transitionSuperseded(s:import('./types').OrgState,t:import('./programmes').FollowUp){const marker=(t as any).transitionSupersessions?.at(-1);if(!marker)return false;const policy=((s.operations as any)?.installedTransitions??[]).find((x:any)=>x.id===marker.transitionId&&x.hash===marker.declarationHash&&x.state==='applied'&&x.reviewer&&x.reviewer!==x.proposer&&x.history.some((h:any)=>h.id===marker.eventId&&h.kind==='applied'&&h.at===marker.at&&h.by===marker.by&&h.reason===marker.reason));if(!policy||!transitionEffectVerified(s,policy,marker,t.id))return false;const person=s.workspace.people.find(p=>p.followUps?.some(x=>x.id===t.id));const replacement=person?.followUps?.find(x=>x.id===marker.replacementId),origin=(replacement as any)?.transitionOrigin;return !!person&&!!replacement&&transitionReplacementVerified(s,replacement,person.id)&&person.id===marker.personId&&marker.teamId===policy.teamId&&origin?.personId===person?.id&&origin.teamId===marker.teamId&&origin?.transitionId===policy.id&&origin.declarationHash===policy.hash&&origin.eventId===marker.eventId&&origin.originalId===t.id&&origin.originalHash===marker.originalHash;}
+export function followUpOpen(s:import('./types').OrgState,t:import('./programmes').FollowUp){if(transitionSuperseded(s,t))return false;if(t.state==='open')return true;if(t.state!=='completed')return false;const evidence=t.completionReplacements?.at(-1)??t.completionEvidence;if(!evidence)return false;const v=s.workspace.visits.find(x=>x.id===evidence.visitId);return !v||v.state!=='confirmed'||!!v.voidedAt||!!v.supersededBy;}

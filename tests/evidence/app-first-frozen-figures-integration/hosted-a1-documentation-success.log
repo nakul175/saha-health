@@ -1,0 +1,625 @@
+﻿2026-10-05T09:28:11.2726120Z Current runner version: '2.337.0'
+2026-10-05T09:28:11.2755322Z ##[group]Runner Image Provisioner
+2026-10-05T09:28:11.2756389Z Hosted Compute Agent
+2026-10-05T09:28:11.2757129Z Version: 20260901.588
+2026-10-05T09:28:11.2757920Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-05T09:28:11.2758990Z Build Date: 2026-09-01T19:56:44Z
+2026-10-05T09:28:11.2759880Z Worker ID: {1c08e2c7-967e-4e83-88a6-adbcb1f542ca}
+2026-10-05T09:28:11.2760945Z Azure Region: northcentralus
+2026-10-05T09:28:11.2761739Z ##[endgroup]
+2026-10-05T09:28:11.2763660Z ##[group]Operating System
+2026-10-05T09:28:11.2764480Z Ubuntu
+2026-10-05T09:28:11.2765163Z 24.04.5
+2026-10-05T09:28:11.2765890Z LTS
+2026-10-05T09:28:11.2766531Z ##[endgroup]
+2026-10-05T09:28:11.2767201Z ##[group]Runner Image
+2026-10-05T09:28:11.2768134Z Image: ubuntu-24.04
+2026-10-05T09:28:11.2768892Z Version: 20260927.320.1
+2026-10-05T09:28:11.2770601Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-05T09:28:11.2772991Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-05T09:28:11.2774422Z ##[endgroup]
+2026-10-05T09:28:11.2775817Z ##[group]GITHUB_TOKEN Permissions
+2026-10-05T09:28:11.2778299Z Contents: read
+2026-10-05T09:28:11.2779089Z Metadata: read
+2026-10-05T09:28:11.2779928Z ##[endgroup]
+2026-10-05T09:28:11.2782334Z Secret source: Actions
+2026-10-05T09:28:11.2783814Z Cache mode: write
+2026-10-05T09:28:11.2785122Z Prepare workflow directory
+2026-10-05T09:28:11.3110131Z Prepare all required actions
+2026-10-05T09:28:11.3164870Z Getting action download info
+2026-10-05T09:28:11.5404901Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-05T09:28:11.7757154Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-05T09:28:12.0865652Z Complete job name: docs
+2026-10-05T09:28:12.1471189Z ##[group]Run actions/checkout@v4
+2026-10-05T09:28:12.1471935Z with:
+2026-10-05T09:28:12.1472392Z   repository: nakul175/saha-health
+2026-10-05T09:28:12.1475828Z   token: ***
+2026-10-05T09:28:12.1476258Z   ssh-strict: true
+2026-10-05T09:28:12.1476695Z   ssh-user: git
+2026-10-05T09:28:12.1477127Z   persist-credentials: true
+2026-10-05T09:28:12.1477592Z   clean: true
+2026-10-05T09:28:12.1478017Z   sparse-checkout-cone-mode: true
+2026-10-05T09:28:12.1478504Z   fetch-depth: 1
+2026-10-05T09:28:12.1478917Z   fetch-tags: false
+2026-10-05T09:28:12.1479344Z   show-progress: true
+2026-10-05T09:28:12.1479776Z   lfs: false
+2026-10-05T09:28:12.1480178Z   submodules: false
+2026-10-05T09:28:12.1480612Z   set-safe-directory: true
+2026-10-05T09:28:12.1481093Z   allow-unsafe-pr-checkout: false
+2026-10-05T09:28:12.1481756Z ##[endgroup]
+2026-10-05T09:28:12.2473673Z Syncing repository: nakul175/saha-health
+2026-10-05T09:28:12.2476008Z ##[group]Getting Git version info
+2026-10-05T09:28:12.2477212Z Working directory is '/home/runner/work/saha-health/saha-health'
+2026-10-05T09:28:12.2478695Z [command]/usr/bin/git version
+2026-10-05T09:28:12.2682225Z git version 2.55.0
+2026-10-05T09:28:12.2723341Z ##[endgroup]
+2026-10-05T09:28:12.2730120Z Temporarily overriding HOME='/home/runner/work/_temp/b31bb78d-7271-40ad-b31f-6e5344ad1e0d' before making global git config changes
+2026-10-05T09:28:12.2732432Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T09:28:12.2734917Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T09:28:12.2738687Z Deleting the contents of '/home/runner/work/saha-health/saha-health'
+2026-10-05T09:28:12.2740863Z ##[group]Initializing the repository
+2026-10-05T09:28:12.2742489Z [command]/usr/bin/git init /home/runner/work/saha-health/saha-health
+2026-10-05T09:28:12.2792346Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-05T09:28:12.2794534Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-05T09:28:12.2796794Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-05T09:28:12.2798272Z hint: call:
+2026-10-05T09:28:12.2799433Z hint:
+2026-10-05T09:28:12.2801923Z hint: 	git config --global init.defaultBranch <name>
+2026-10-05T09:28:12.2803095Z hint:
+2026-10-05T09:28:12.2803985Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-05T09:28:12.2805373Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-05T09:28:12.2806493Z hint:
+2026-10-05T09:28:12.2807158Z hint: 	git branch -m <name>
+2026-10-05T09:28:12.2807895Z hint:
+2026-10-05T09:28:12.2808846Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-05T09:28:12.2810320Z Initialized empty Git repository in /home/runner/work/saha-health/saha-health/.git/
+2026-10-05T09:28:12.2812674Z [command]/usr/bin/git remote add origin https://github.com/nakul175/saha-health
+2026-10-05T09:28:12.2867389Z ##[endgroup]
+2026-10-05T09:28:12.2868943Z ##[group]Disabling automatic garbage collection
+2026-10-05T09:28:12.2870767Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-05T09:28:12.2897945Z ##[endgroup]
+2026-10-05T09:28:12.2899279Z ##[group]Setting up auth
+2026-10-05T09:28:12.2944713Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T09:28:12.2948784Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T09:28:12.4376727Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T09:28:12.4379508Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T09:28:12.4382208Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T09:28:12.4384604Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T09:28:12.4386601Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-05T09:28:12.4388356Z ##[endgroup]
+2026-10-05T09:28:12.4389136Z ##[group]Fetching the repository
+2026-10-05T09:28:12.4390387Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4b512b62e9bf2c027eb66dd2ffca105312c17969:refs/remotes/pull/161/merge
+2026-10-05T09:28:15.2719754Z From https://github.com/nakul175/saha-health
+2026-10-05T09:28:15.2724125Z  * [new ref]         4b512b62e9bf2c027eb66dd2ffca105312c17969 -> pull/161/merge
+2026-10-05T09:28:15.2733334Z ##[endgroup]
+2026-10-05T09:28:15.2734651Z ##[group]Determining the checkout info
+2026-10-05T09:28:15.2736179Z ##[endgroup]
+2026-10-05T09:28:15.2737142Z [command]/usr/bin/git sparse-checkout disable
+2026-10-05T09:28:15.3292792Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-05T09:28:15.4493869Z ##[group]Checking out the ref
+2026-10-05T09:28:15.4496948Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/161/merge
+2026-10-05T09:28:16.0509367Z Note: switching to 'refs/remotes/pull/161/merge'.
+2026-10-05T09:28:16.0526115Z 
+2026-10-05T09:28:16.0566875Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-05T09:28:16.0581699Z changes and commit them, and you can discard any commits you make in this
+2026-10-05T09:28:16.0582570Z state without impacting any branches by switching back to a branch.
+2026-10-05T09:28:16.0583306Z 
+2026-10-05T09:28:16.0583699Z If you want to create a new branch to retain commits you create, you may
+2026-10-05T09:28:16.0584536Z do so (now or later) by using -c with the switch command. Example:
+2026-10-05T09:28:16.0599092Z 
+2026-10-05T09:28:16.0617313Z   git switch -c <new-branch-name>
+2026-10-05T09:28:16.0638247Z 
+2026-10-05T09:28:16.0649253Z Or undo this operation with:
+2026-10-05T09:28:16.0649737Z 
+2026-10-05T09:28:16.0649959Z   git switch -
+2026-10-05T09:28:16.0650456Z 
+2026-10-05T09:28:16.0650913Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-05T09:28:16.0651446Z 
+2026-10-05T09:28:16.0652025Z HEAD is now at 4b512b6 Merge a1e08aefe49cc7ffb115bc9fb55da7dcea7946bf into 2adfbde1369b854d71962918bad3b81fdac746fe
+2026-10-05T09:28:16.0654253Z ##[endgroup]
+2026-10-05T09:28:16.0655364Z [command]/usr/bin/git log -1 --format=%H
+2026-10-05T09:28:16.0655900Z 4b512b62e9bf2c027eb66dd2ffca105312c17969
+2026-10-05T09:28:16.0867421Z ##[group]Run actions/setup-node@v4
+2026-10-05T09:28:16.0867660Z with:
+2026-10-05T09:28:16.0867838Z   node-version: 22
+2026-10-05T09:28:16.0868027Z   always-auth: false
+2026-10-05T09:28:16.0868210Z   check-latest: false
+2026-10-05T09:28:16.0870158Z   token: ***
+2026-10-05T09:28:16.0870337Z ##[endgroup]
+2026-10-05T09:28:16.2821219Z (node:1969) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-05T09:28:16.2834729Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-05T09:28:16.2836516Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+2026-10-05T09:28:16.2837353Z ##[group]Environment details
+2026-10-05T09:28:16.8944564Z node: v22.23.3
+2026-10-05T09:28:16.8945014Z npm: 10.9.9
+2026-10-05T09:28:16.8945502Z yarn: 1.22.22
+2026-10-05T09:28:16.8946758Z ##[endgroup]
+2026-10-05T09:28:16.9067762Z ##[group]Run python3 scripts/check-documentation.py
+2026-10-05T09:28:16.9068138Z [36;1mpython3 scripts/check-documentation.py[0m
+2026-10-05T09:28:16.9068452Z [36;1mnode scripts/audit-requirements.mjs --check[0m
+2026-10-05T09:28:16.9068743Z [36;1mnode scripts/test.mjs --check-catalogue[0m
+2026-10-05T09:28:16.9584692Z shell: /usr/bin/bash -e {0}
+2026-10-05T09:28:16.9584939Z ##[endgroup]
+2026-10-05T09:28:17.9127840Z {
+2026-10-05T09:28:17.9128648Z   "status": "passed",
+2026-10-05T09:28:17.9129936Z   "scope": "Documentation integrity against the current baseline (application-app-first-conformance-import-transport-20261005-sha256.json); not product execution or formal acceptance",
+2026-10-05T09:28:17.9131090Z   "baselineSourceFiles": 1032,
+2026-10-05T09:28:17.9131637Z   "originalFiles": 91,
+2026-10-05T09:28:17.9132095Z   "originalArchiveEntries": 89,
+2026-10-05T09:28:17.9132540Z   "unchangedOfficeFiles": 12,
+2026-10-05T09:28:17.9133143Z   "requirements": 176,
+2026-10-05T09:28:17.9133635Z   "preservedTestCases": 364,
+2026-10-05T09:28:17.9134088Z   "historicalProductAssertions": 1284,
+2026-10-05T09:28:17.9134550Z   "sliceEvidenceAssertions": 842302,
+2026-10-05T09:28:17.9135014Z   "currentRelativeLinks": 823,
+2026-10-05T09:28:17.9135424Z   "generatedFiles": 38,
+2026-10-05T09:28:17.9135859Z   "wordReferences": 10,
+2026-10-05T09:28:17.9136373Z   "workbookSheets": 13,
+2026-10-05T09:28:17.9136791Z   "workbookFormulas": 380,
+2026-10-05T09:28:17.9137217Z   "formalAccepted": 0,
+2026-10-05T09:28:17.9137653Z   "testCases": 364,
+2026-10-05T09:28:17.9138089Z   "formalCatalogueCasesRun": 0,
+2026-10-05T09:28:17.9138557Z   "httpRoutes": 85,
+2026-10-05T09:28:17.9139007Z   "commandDiscriminators": 251,
+2026-10-05T09:28:17.9139504Z   "applicationTables": 47,
+2026-10-05T09:28:17.9139946Z   "sqlColumns": 366,
+2026-10-05T09:28:17.9140362Z   "designScreens": 22,
+2026-10-05T09:28:17.9140853Z   "currentNavigationEntries": 14,
+2026-10-05T09:28:17.9141399Z   "historicalAssertions": 1284,
+2026-10-05T09:28:17.9141934Z   "migrationFiles": 27,
+2026-10-05T09:28:17.9142482Z   "prototypeScriptPreserved": true
+2026-10-05T09:28:17.9143156Z }
+2026-10-05T09:28:17.9586245Z 176 source IDs, assessments, evidence paths and generated records verified; acceptance remains pending.
+2026-10-05T09:28:18.0093360Z layer        suites  components  suites citing no requirement  requirement ids cited
+2026-10-05T09:28:18.0094725Z unit            182           0                            48                    141
+2026-10-05T09:28:18.0095824Z integration      67          84                             8                    124
+2026-10-05T09:28:18.0097045Z resilience        1           0                             0                      2
+2026-10-05T09:28:18.0097886Z smoke             5           0                             1                      4
+2026-10-05T09:28:18.0099560Z ui                2          12                             0                     12
+2026-10-05T09:28:18.0100581Z nfr               5           0                             0                     10
+2026-10-05T09:28:18.0101312Z uat               3           0                             3                      0
+2026-10-05T09:28:18.0102024Z manual           24           0                            20                      4
+2026-10-05T09:28:18.0102472Z 
+2026-10-05T09:28:18.0103153Z 289 suites, 96 component modules (run through their entry), 16 support files.
+2026-10-05T09:28:18.0104970Z 209 of 289 suites are cited by at least one requirement in requirements/evidence-map.json (80 cite none); 76 of 96 component modules are cited (20 cite none); 157 of 176 requirements cite at least one test file. A citation is evidence context, not acceptance.
+2026-10-05T09:28:18.0106155Z 
+2026-10-05T09:28:18.0106939Z Catalogue check passed: every test file is classified and every *-smoke.mjs module is imported by tests/api-smoke.mjs.
+2026-10-05T09:28:18.0164016Z ##[group]Run npm run install:ci
+2026-10-05T09:28:18.0164279Z [36;1mnpm run install:ci[0m
+2026-10-05T09:28:18.0219891Z shell: /usr/bin/bash -e {0}
+2026-10-05T09:28:18.0220116Z ##[endgroup]
+2026-10-05T09:28:18.1291798Z 
+2026-10-05T09:28:18.1292596Z > site-creator-vinext-starter@0.1.0 install:ci
+2026-10-05T09:28:18.1293260Z > bash scripts/install-pnpm.sh
+2026-10-05T09:28:18.1293671Z 
+2026-10-05T09:28:21.1979367Z Lockfile is up to date, resolution step is skipped
+2026-10-05T09:28:21.2673375Z Unsupported platform for @next/swc-darwin-arm64@16.3.6: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2678493Z Unsupported platform for @next/swc-darwin-x64@16.3.6: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2684097Z Unsupported platform for @next/swc-linux-arm64-gnu@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2685932Z Unsupported platform for @next/swc-linux-arm64-musl@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2687641Z Unsupported platform for @next/swc-linux-x64-musl@16.3.6: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2697047Z Unsupported platform for @next/swc-win32-arm64-msvc@16.3.6: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2698671Z Unsupported platform for @next/swc-win32-x64-msvc@16.3.6: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2794054Z Unsupported platform for fsevents@2.3.3: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2821838Z Unsupported platform for @img/sharp-darwin-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2826898Z Unsupported platform for @img/sharp-darwin-x64@0.35.4: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2894180Z Unsupported platform for @img/sharp-freebsd-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2915346Z Unsupported platform for @img/sharp-libvips-darwin-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2933940Z Unsupported platform for @img/sharp-libvips-darwin-x64@1.3.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2940176Z Unsupported platform for @img/sharp-libvips-linux-arm@1.3.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2941963Z Unsupported platform for @img/sharp-libvips-linux-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2943862Z Unsupported platform for @img/sharp-libvips-linux-ppc64@1.3.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2945645Z Unsupported platform for @img/sharp-libvips-linux-riscv64@1.3.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2947341Z Unsupported platform for @img/sharp-libvips-linux-s390x@1.3.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2949658Z Unsupported platform for @img/sharp-libvips-linuxmusl-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2951425Z Unsupported platform for @img/sharp-libvips-linuxmusl-x64@1.3.3: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2953186Z Unsupported platform for @img/sharp-linux-arm@0.35.4: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2954790Z Unsupported platform for @img/sharp-linux-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2956418Z Unsupported platform for @img/sharp-linux-ppc64@0.35.4: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2958043Z Unsupported platform for @img/sharp-linux-riscv64@0.35.4: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2959669Z Unsupported platform for @img/sharp-linux-s390x@0.35.4: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2961794Z Unsupported platform for @img/sharp-linuxmusl-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2963781Z Unsupported platform for @img/sharp-linuxmusl-x64@0.35.4: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2965496Z Unsupported platform for @img/sharp-webcontainers-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2968083Z Unsupported platform for @img/sharp-win32-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2969761Z Unsupported platform for @img/sharp-win32-ia32@0.35.4: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2992775Z Unsupported platform for @img/sharp-win32-x64@0.35.4: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2995358Z Unsupported platform for fsevents@2.3.2: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2997060Z Unsupported platform for @tailwindcss/oxide-android-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.2999002Z Unsupported platform for @tailwindcss/oxide-darwin-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3000674Z Unsupported platform for @tailwindcss/oxide-darwin-x64@4.2.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3002275Z Unsupported platform for @tailwindcss/oxide-freebsd-x64@4.2.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3004691Z Unsupported platform for @tailwindcss/oxide-linux-arm-gnueabihf@4.2.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3006300Z Unsupported platform for @tailwindcss/oxide-linux-arm64-gnu@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3008045Z Unsupported platform for @tailwindcss/oxide-linux-arm64-musl@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3009908Z Unsupported platform for @tailwindcss/oxide-linux-x64-musl@4.2.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3011710Z Unsupported platform for @tailwindcss/oxide-wasm32-wasi@4.2.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3013587Z Unsupported platform for @tailwindcss/oxide-win32-arm64-msvc@4.2.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3015362Z Unsupported platform for @tailwindcss/oxide-win32-x64-msvc@4.2.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3016982Z Unsupported platform for @esbuild/aix-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3018650Z Unsupported platform for @esbuild/android-arm@0.25.12: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3020259Z Unsupported platform for @esbuild/android-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3021937Z Unsupported platform for @esbuild/android-x64@0.25.12: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3023778Z Unsupported platform for @esbuild/darwin-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3025385Z Unsupported platform for @esbuild/darwin-x64@0.25.12: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3027010Z Unsupported platform for @esbuild/freebsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3028650Z Unsupported platform for @esbuild/freebsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3030184Z Unsupported platform for @esbuild/linux-arm@0.25.12: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3031977Z Unsupported platform for @esbuild/linux-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3033915Z Unsupported platform for @esbuild/linux-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3035590Z Unsupported platform for @esbuild/linux-loong64@0.25.12: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3037434Z Unsupported platform for @esbuild/linux-mips64el@0.25.12: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3054884Z Unsupported platform for @esbuild/linux-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3057515Z Unsupported platform for @esbuild/linux-riscv64@0.25.12: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3059464Z Unsupported platform for @esbuild/linux-s390x@0.25.12: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3061538Z Unsupported platform for @esbuild/netbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3091467Z Unsupported platform for @esbuild/netbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3095885Z Unsupported platform for @esbuild/openbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3099504Z Unsupported platform for @esbuild/openbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3101277Z Unsupported platform for @esbuild/openharmony-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3112382Z Unsupported platform for @esbuild/sunos-x64@0.25.12: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3116661Z Unsupported platform for @esbuild/win32-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3118700Z Unsupported platform for @esbuild/win32-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3401603Z Unsupported platform for @esbuild/win32-x64@0.25.12: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3424332Z Unsupported platform for lightningcss-android-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3793566Z Unsupported platform for lightningcss-darwin-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3892799Z Unsupported platform for lightningcss-darwin-x64@1.32.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3894902Z Unsupported platform for lightningcss-freebsd-x64@1.32.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3897022Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.32.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3901484Z Unsupported platform for lightningcss-linux-arm64-gnu@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3903200Z Unsupported platform for lightningcss-linux-arm64-musl@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3905181Z Unsupported platform for lightningcss-linux-x64-musl@1.32.0: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3906776Z Unsupported platform for lightningcss-win32-arm64-msvc@1.32.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3908284Z Unsupported platform for lightningcss-win32-x64-msvc@1.32.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3909787Z Unsupported platform for @rolldown/binding-android-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3911349Z Unsupported platform for @rolldown/binding-darwin-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3913251Z Unsupported platform for @rolldown/binding-darwin-x64@1.0.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3914803Z Unsupported platform for @rolldown/binding-freebsd-x64@1.0.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3916396Z Unsupported platform for @rolldown/binding-linux-arm-gnueabihf@1.0.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3918018Z Unsupported platform for @rolldown/binding-linux-arm64-gnu@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3919587Z Unsupported platform for @rolldown/binding-linux-arm64-musl@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3921170Z Unsupported platform for @rolldown/binding-linux-ppc64-gnu@1.0.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3922749Z Unsupported platform for @rolldown/binding-linux-s390x-gnu@1.0.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3964677Z Unsupported platform for @rolldown/binding-linux-x64-musl@1.0.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3966280Z Unsupported platform for @rolldown/binding-openharmony-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3967929Z Unsupported platform for @rolldown/binding-wasm32-wasi@1.0.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3969466Z Unsupported platform for @rolldown/binding-win32-arm64-msvc@1.0.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3971007Z Unsupported platform for @rolldown/binding-win32-x64-msvc@1.0.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3972461Z Unsupported platform for @esbuild/aix-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3974002Z Unsupported platform for @esbuild/android-arm@0.28.0: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.3975462Z Unsupported platform for @esbuild/android-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4014353Z Unsupported platform for @esbuild/android-x64@0.28.0: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4015851Z Unsupported platform for @esbuild/darwin-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4017287Z Unsupported platform for @esbuild/darwin-x64@0.28.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4018735Z Unsupported platform for @esbuild/freebsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4020155Z Unsupported platform for @esbuild/freebsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4021534Z Unsupported platform for @esbuild/linux-arm@0.28.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4054172Z Unsupported platform for @esbuild/linux-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4055696Z Unsupported platform for @esbuild/linux-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4057154Z Unsupported platform for @esbuild/linux-loong64@0.28.0: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4058584Z Unsupported platform for @esbuild/linux-mips64el@0.28.0: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4059998Z Unsupported platform for @esbuild/linux-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4061507Z Unsupported platform for @esbuild/linux-riscv64@0.28.0: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4063044Z Unsupported platform for @esbuild/linux-s390x@0.28.0: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4064403Z Unsupported platform for @esbuild/netbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4065777Z Unsupported platform for @esbuild/netbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4067156Z Unsupported platform for @esbuild/openbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4068568Z Unsupported platform for @esbuild/openbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4070025Z Unsupported platform for @esbuild/openharmony-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4071376Z Unsupported platform for @esbuild/sunos-x64@0.28.0: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4072681Z Unsupported platform for @esbuild/win32-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4074167Z Unsupported platform for @esbuild/win32-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4075769Z Unsupported platform for @esbuild/win32-x64@0.28.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4077117Z Unsupported platform for @esbuild/aix-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4078470Z Unsupported platform for @esbuild/android-arm@0.27.3: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4079844Z Unsupported platform for @esbuild/android-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4081204Z Unsupported platform for @esbuild/android-x64@0.27.3: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4082563Z Unsupported platform for @esbuild/darwin-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4084137Z Unsupported platform for @esbuild/darwin-x64@0.27.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4085746Z Unsupported platform for @esbuild/freebsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4087145Z Unsupported platform for @esbuild/freebsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4088475Z Unsupported platform for @esbuild/linux-arm@0.27.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4089840Z Unsupported platform for @esbuild/linux-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4091211Z Unsupported platform for @esbuild/linux-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4092598Z Unsupported platform for @esbuild/linux-loong64@0.27.3: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4094164Z Unsupported platform for @esbuild/linux-mips64el@0.27.3: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4095566Z Unsupported platform for @esbuild/linux-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4096961Z Unsupported platform for @esbuild/linux-riscv64@0.27.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4098354Z Unsupported platform for @esbuild/linux-s390x@0.27.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4099801Z Unsupported platform for @esbuild/netbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4101191Z Unsupported platform for @esbuild/netbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4102578Z Unsupported platform for @esbuild/openbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4104165Z Unsupported platform for @esbuild/openbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4105629Z Unsupported platform for @esbuild/openharmony-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4107260Z Unsupported platform for @esbuild/sunos-x64@0.27.3: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4108617Z Unsupported platform for @esbuild/win32-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4109978Z Unsupported platform for @esbuild/win32-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4111304Z Unsupported platform for @esbuild/win32-x64@0.27.3: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4112760Z Unsupported platform for @cloudflare/workerd-darwin-64@1.20260515.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4114520Z Unsupported platform for @cloudflare/workerd-darwin-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4116398Z Unsupported platform for @cloudflare/workerd-linux-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4118029Z Unsupported platform for @cloudflare/workerd-windows-64@1.20260515.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4119571Z Unsupported platform for lightningcss-android-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4121061Z Unsupported platform for lightningcss-darwin-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4122526Z Unsupported platform for lightningcss-darwin-x64@1.31.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4124285Z Unsupported platform for lightningcss-freebsd-x64@1.31.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4125817Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.31.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4127364Z Unsupported platform for lightningcss-linux-arm64-gnu@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4128876Z Unsupported platform for lightningcss-linux-arm64-musl@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4130394Z Unsupported platform for lightningcss-linux-x64-musl@1.31.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4131889Z Unsupported platform for lightningcss-win32-arm64-msvc@1.31.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4134948Z Unsupported platform for lightningcss-win32-x64-msvc@1.31.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4136550Z Unsupported platform for @unrs/resolver-binding-android-arm-eabi@1.11.1: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4138165Z Unsupported platform for @unrs/resolver-binding-android-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4140356Z Unsupported platform for @unrs/resolver-binding-darwin-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4141899Z Unsupported platform for @unrs/resolver-binding-darwin-x64@1.11.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4143566Z Unsupported platform for @unrs/resolver-binding-freebsd-x64@1.11.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4145144Z Unsupported platform for @unrs/resolver-binding-linux-arm-gnueabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4146782Z Unsupported platform for @unrs/resolver-binding-linux-arm-musleabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4148401Z Unsupported platform for @unrs/resolver-binding-linux-arm64-gnu@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4150188Z Unsupported platform for @unrs/resolver-binding-linux-arm64-musl@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4151841Z Unsupported platform for @unrs/resolver-binding-linux-ppc64-gnu@1.11.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4153605Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-gnu@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4155298Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-musl@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4156912Z Unsupported platform for @unrs/resolver-binding-linux-s390x-gnu@1.11.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4158506Z Unsupported platform for @unrs/resolver-binding-linux-x64-musl@1.11.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4160031Z Unsupported platform for @unrs/resolver-binding-wasm32-wasi@1.11.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4161574Z Unsupported platform for @unrs/resolver-binding-win32-arm64-msvc@1.11.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4163284Z Unsupported platform for @unrs/resolver-binding-win32-ia32-msvc@1.11.1: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4164819Z Unsupported platform for @unrs/resolver-binding-win32-x64-msvc@1.11.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4166259Z Unsupported platform for @esbuild/android-arm@0.18.20: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4167646Z Unsupported platform for @esbuild/android-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4168952Z Unsupported platform for @esbuild/android-x64@0.18.20: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4170322Z Unsupported platform for @esbuild/darwin-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4171961Z Unsupported platform for @esbuild/darwin-x64@0.18.20: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4173554Z Unsupported platform for @esbuild/freebsd-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4174926Z Unsupported platform for @esbuild/freebsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4176289Z Unsupported platform for @esbuild/linux-arm@0.18.20: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4177670Z Unsupported platform for @esbuild/linux-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4179048Z Unsupported platform for @esbuild/linux-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4180652Z Unsupported platform for @esbuild/linux-loong64@0.18.20: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4182111Z Unsupported platform for @esbuild/linux-mips64el@0.18.20: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4183651Z Unsupported platform for @esbuild/linux-ppc64@0.18.20: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4185041Z Unsupported platform for @esbuild/linux-riscv64@0.18.20: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4186428Z Unsupported platform for @esbuild/linux-s390x@0.18.20: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4187781Z Unsupported platform for @esbuild/netbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4189122Z Unsupported platform for @esbuild/openbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4190451Z Unsupported platform for @esbuild/sunos-x64@0.18.20: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4191771Z Unsupported platform for @esbuild/win32-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4193270Z Unsupported platform for @esbuild/win32-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4194585Z Unsupported platform for @esbuild/win32-x64@0.18.20: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4195944Z Unsupported platform for @next/swc-darwin-arm64@16.3.6: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4197363Z Unsupported platform for @next/swc-darwin-x64@16.3.6: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4198777Z Unsupported platform for @next/swc-linux-arm64-gnu@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4200217Z Unsupported platform for @next/swc-linux-arm64-musl@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4201905Z Unsupported platform for @next/swc-linux-x64-musl@16.3.6: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4203560Z Unsupported platform for @next/swc-win32-arm64-msvc@16.3.6: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4204936Z Unsupported platform for @next/swc-win32-x64-msvc@16.3.6: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4206232Z Unsupported platform for fsevents@2.3.3: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4207578Z Unsupported platform for @img/sharp-darwin-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4208963Z Unsupported platform for @img/sharp-darwin-x64@0.35.4: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4210389Z Unsupported platform for @img/sharp-freebsd-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4212041Z Unsupported platform for @img/sharp-libvips-darwin-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4213634Z Unsupported platform for @img/sharp-libvips-darwin-x64@1.3.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4215082Z Unsupported platform for @img/sharp-libvips-linux-arm@1.3.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4216539Z Unsupported platform for @img/sharp-libvips-linux-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4218062Z Unsupported platform for @img/sharp-libvips-linux-ppc64@1.3.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4219600Z Unsupported platform for @img/sharp-libvips-linux-riscv64@1.3.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4221147Z Unsupported platform for @img/sharp-libvips-linux-s390x@1.3.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4222675Z Unsupported platform for @img/sharp-libvips-linuxmusl-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4224384Z Unsupported platform for @img/sharp-libvips-linuxmusl-x64@1.3.3: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4225842Z Unsupported platform for @img/sharp-linux-arm@0.35.4: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4227259Z Unsupported platform for @img/sharp-linux-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4228647Z Unsupported platform for @img/sharp-linux-ppc64@0.35.4: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4230109Z Unsupported platform for @img/sharp-linux-riscv64@0.35.4: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4231582Z Unsupported platform for @img/sharp-linux-s390x@0.35.4: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4233370Z Unsupported platform for @img/sharp-linuxmusl-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4234785Z Unsupported platform for @img/sharp-linuxmusl-x64@0.35.4: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4236245Z Unsupported platform for @img/sharp-webcontainers-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4237679Z Unsupported platform for @img/sharp-win32-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4239040Z Unsupported platform for @img/sharp-win32-ia32@0.35.4: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4240393Z Unsupported platform for @img/sharp-win32-x64@0.35.4: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4241881Z Unsupported platform for fsevents@2.3.2: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4243452Z Unsupported platform for @tailwindcss/oxide-android-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4244903Z Unsupported platform for @tailwindcss/oxide-darwin-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4246358Z Unsupported platform for @tailwindcss/oxide-darwin-x64@4.2.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4247828Z Unsupported platform for @tailwindcss/oxide-freebsd-x64@4.2.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4249462Z Unsupported platform for @tailwindcss/oxide-linux-arm-gnueabihf@4.2.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4251068Z Unsupported platform for @tailwindcss/oxide-linux-arm64-gnu@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4252648Z Unsupported platform for @tailwindcss/oxide-linux-arm64-musl@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4254341Z Unsupported platform for @tailwindcss/oxide-linux-x64-musl@4.2.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4255859Z Unsupported platform for @tailwindcss/oxide-wasm32-wasi@4.2.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4257407Z Unsupported platform for @tailwindcss/oxide-win32-arm64-msvc@4.2.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4258946Z Unsupported platform for @tailwindcss/oxide-win32-x64-msvc@4.2.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4260380Z Unsupported platform for @esbuild/aix-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4261781Z Unsupported platform for @esbuild/android-arm@0.25.12: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4263321Z Unsupported platform for @esbuild/android-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4264944Z Unsupported platform for @esbuild/android-x64@0.25.12: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4266328Z Unsupported platform for @esbuild/darwin-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4267702Z Unsupported platform for @esbuild/darwin-x64@0.25.12: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4269084Z Unsupported platform for @esbuild/freebsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4270479Z Unsupported platform for @esbuild/freebsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4271826Z Unsupported platform for @esbuild/linux-arm@0.25.12: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4273503Z Unsupported platform for @esbuild/linux-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4274857Z Unsupported platform for @esbuild/linux-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4276257Z Unsupported platform for @esbuild/linux-loong64@0.25.12: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4277704Z Unsupported platform for @esbuild/linux-mips64el@0.25.12: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4279126Z Unsupported platform for @esbuild/linux-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4280560Z Unsupported platform for @esbuild/linux-riscv64@0.25.12: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4282008Z Unsupported platform for @esbuild/linux-s390x@0.25.12: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4283687Z Unsupported platform for @esbuild/netbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4285051Z Unsupported platform for @esbuild/netbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4286478Z Unsupported platform for @esbuild/openbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4287936Z Unsupported platform for @esbuild/openbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4289423Z Unsupported platform for @esbuild/openharmony-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4290868Z Unsupported platform for @esbuild/sunos-x64@0.25.12: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4292274Z Unsupported platform for @esbuild/win32-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4293798Z Unsupported platform for @esbuild/win32-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4295324Z Unsupported platform for @esbuild/win32-x64@0.25.12: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4296750Z Unsupported platform for lightningcss-android-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4298239Z Unsupported platform for lightningcss-darwin-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4299689Z Unsupported platform for lightningcss-darwin-x64@1.32.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4301121Z Unsupported platform for lightningcss-freebsd-x64@1.32.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4302617Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.32.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4304569Z Unsupported platform for lightningcss-linux-arm64-gnu@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4306187Z Unsupported platform for lightningcss-linux-arm64-musl@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4307684Z Unsupported platform for lightningcss-linux-x64-musl@1.32.0: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4309163Z Unsupported platform for lightningcss-win32-arm64-msvc@1.32.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4310666Z Unsupported platform for lightningcss-win32-x64-msvc@1.32.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4312157Z Unsupported platform for @rolldown/binding-android-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4313809Z Unsupported platform for @rolldown/binding-darwin-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4315269Z Unsupported platform for @rolldown/binding-darwin-x64@1.0.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4316753Z Unsupported platform for @rolldown/binding-freebsd-x64@1.0.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4318335Z Unsupported platform for @rolldown/binding-linux-arm-gnueabihf@1.0.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4319935Z Unsupported platform for @rolldown/binding-linux-arm64-gnu@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4321481Z Unsupported platform for @rolldown/binding-linux-arm64-musl@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4323210Z Unsupported platform for @rolldown/binding-linux-ppc64-gnu@1.0.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4324790Z Unsupported platform for @rolldown/binding-linux-s390x-gnu@1.0.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4326309Z Unsupported platform for @rolldown/binding-linux-x64-musl@1.0.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4328120Z Unsupported platform for @rolldown/binding-openharmony-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4329692Z Unsupported platform for @rolldown/binding-wasm32-wasi@1.0.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4331217Z Unsupported platform for @rolldown/binding-win32-arm64-msvc@1.0.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4332741Z Unsupported platform for @rolldown/binding-win32-x64-msvc@1.0.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4334322Z Unsupported platform for @esbuild/aix-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4335691Z Unsupported platform for @esbuild/android-arm@0.28.0: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4337193Z Unsupported platform for @esbuild/android-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4338567Z Unsupported platform for @esbuild/android-x64@0.28.0: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4339936Z Unsupported platform for @esbuild/darwin-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4341285Z Unsupported platform for @esbuild/darwin-x64@0.28.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4342747Z Unsupported platform for @esbuild/freebsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4344268Z Unsupported platform for @esbuild/freebsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4345621Z Unsupported platform for @esbuild/linux-arm@0.28.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4346948Z Unsupported platform for @esbuild/linux-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4348227Z Unsupported platform for @esbuild/linux-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4349491Z Unsupported platform for @esbuild/linux-loong64@0.28.0: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4350811Z Unsupported platform for @esbuild/linux-mips64el@0.28.0: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4352246Z Unsupported platform for @esbuild/linux-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4353711Z Unsupported platform for @esbuild/linux-riscv64@0.28.0: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4355049Z Unsupported platform for @esbuild/linux-s390x@0.28.0: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4356362Z Unsupported platform for @esbuild/netbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4357895Z Unsupported platform for @esbuild/netbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4359215Z Unsupported platform for @esbuild/openbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4360478Z Unsupported platform for @esbuild/openbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4361853Z Unsupported platform for @esbuild/openharmony-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4363284Z Unsupported platform for @esbuild/sunos-x64@0.28.0: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4364499Z Unsupported platform for @esbuild/win32-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4365875Z Unsupported platform for @esbuild/win32-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4367088Z Unsupported platform for @esbuild/win32-x64@0.28.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4368301Z Unsupported platform for @esbuild/aix-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4369568Z Unsupported platform for @esbuild/android-arm@0.27.3: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4370846Z Unsupported platform for @esbuild/android-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4372103Z Unsupported platform for @esbuild/android-x64@0.27.3: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4377233Z Unsupported platform for @esbuild/darwin-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4379207Z Unsupported platform for @esbuild/darwin-x64@0.27.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4385071Z Unsupported platform for @esbuild/freebsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4387374Z Unsupported platform for @esbuild/freebsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4390119Z Unsupported platform for @esbuild/linux-arm@0.27.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4390945Z Unsupported platform for @esbuild/linux-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4391731Z Unsupported platform for @esbuild/linux-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4392540Z Unsupported platform for @esbuild/linux-loong64@0.27.3: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4399043Z Unsupported platform for @esbuild/linux-mips64el@0.27.3: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4400488Z Unsupported platform for @esbuild/linux-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4401830Z Unsupported platform for @esbuild/linux-riscv64@0.27.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4403360Z Unsupported platform for @esbuild/linux-s390x@0.27.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4404729Z Unsupported platform for @esbuild/netbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4406096Z Unsupported platform for @esbuild/netbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4407509Z Unsupported platform for @esbuild/openbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4409092Z Unsupported platform for @esbuild/openbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4410574Z Unsupported platform for @esbuild/openharmony-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4411989Z Unsupported platform for @esbuild/sunos-x64@0.27.3: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4413536Z Unsupported platform for @esbuild/win32-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4414882Z Unsupported platform for @esbuild/win32-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4416205Z Unsupported platform for @esbuild/win32-x64@0.27.3: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4417638Z Unsupported platform for @cloudflare/workerd-darwin-64@1.20260515.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4419174Z Unsupported platform for @cloudflare/workerd-darwin-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4420732Z Unsupported platform for @cloudflare/workerd-linux-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4422244Z Unsupported platform for @cloudflare/workerd-windows-64@1.20260515.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4423905Z Unsupported platform for lightningcss-android-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4425393Z Unsupported platform for lightningcss-darwin-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4426822Z Unsupported platform for lightningcss-darwin-x64@1.31.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4428228Z Unsupported platform for lightningcss-freebsd-x64@1.31.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4429709Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.31.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4431460Z Unsupported platform for lightningcss-linux-arm64-gnu@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4433117Z Unsupported platform for lightningcss-linux-arm64-musl@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4434619Z Unsupported platform for lightningcss-linux-x64-musl@1.31.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4462158Z Unsupported platform for lightningcss-win32-arm64-msvc@1.31.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4463970Z Unsupported platform for lightningcss-win32-x64-msvc@1.31.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4465560Z Unsupported platform for @unrs/resolver-binding-android-arm-eabi@1.11.1: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4467368Z Unsupported platform for @unrs/resolver-binding-android-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4468996Z Unsupported platform for @unrs/resolver-binding-darwin-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4470538Z Unsupported platform for @unrs/resolver-binding-darwin-x64@1.11.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4472100Z Unsupported platform for @unrs/resolver-binding-freebsd-x64@1.11.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4473857Z Unsupported platform for @unrs/resolver-binding-linux-arm-gnueabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4475479Z Unsupported platform for @unrs/resolver-binding-linux-arm-musleabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4477083Z Unsupported platform for @unrs/resolver-binding-linux-arm64-gnu@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4478660Z Unsupported platform for @unrs/resolver-binding-linux-arm64-musl@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4480228Z Unsupported platform for @unrs/resolver-binding-linux-ppc64-gnu@1.11.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4481850Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-gnu@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4483725Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-musl@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4485311Z Unsupported platform for @unrs/resolver-binding-linux-s390x-gnu@1.11.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4486846Z Unsupported platform for @unrs/resolver-binding-linux-x64-musl@1.11.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4488387Z Unsupported platform for @unrs/resolver-binding-wasm32-wasi@1.11.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4490225Z Unsupported platform for @unrs/resolver-binding-win32-arm64-msvc@1.11.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4491795Z Unsupported platform for @unrs/resolver-binding-win32-ia32-msvc@1.11.1: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4493555Z Unsupported platform for @unrs/resolver-binding-win32-x64-msvc@1.11.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4495039Z Unsupported platform for @esbuild/android-arm@0.18.20: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4496404Z Unsupported platform for @esbuild/android-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4497780Z Unsupported platform for @esbuild/android-x64@0.18.20: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4499387Z Unsupported platform for @esbuild/darwin-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4500808Z Unsupported platform for @esbuild/darwin-x64@0.18.20: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4502239Z Unsupported platform for @esbuild/freebsd-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4503755Z Unsupported platform for @esbuild/freebsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4505067Z Unsupported platform for @esbuild/linux-arm@0.18.20: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4506410Z Unsupported platform for @esbuild/linux-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4507762Z Unsupported platform for @esbuild/linux-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4509130Z Unsupported platform for @esbuild/linux-loong64@0.18.20: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4510555Z Unsupported platform for @esbuild/linux-mips64el@0.18.20: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4511968Z Unsupported platform for @esbuild/linux-ppc64@0.18.20: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4513501Z Unsupported platform for @esbuild/linux-riscv64@0.18.20: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4514881Z Unsupported platform for @esbuild/linux-s390x@0.18.20: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4516243Z Unsupported platform for @esbuild/netbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4517597Z Unsupported platform for @esbuild/openbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4518929Z Unsupported platform for @esbuild/sunos-x64@0.18.20: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4520577Z Unsupported platform for @esbuild/win32-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4521936Z Unsupported platform for @esbuild/win32-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:28:21.4523416Z Unsupported platform for @esbuild/win32-x64@0.18.20: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T09:29:19.4638183Z [sites] pnpm reused 0 packages and downloaded 633
+2026-10-05T09:29:19.4638978Z [sites] dependency setup passed
+2026-10-05T09:29:19.4793318Z ##[group]Run node scripts/test.mjs uat --fast
+2026-10-05T09:29:19.4793811Z [36;1mnode scripts/test.mjs uat --fast[0m
+2026-10-05T09:29:19.4850646Z shell: /usr/bin/bash -e {0}
+2026-10-05T09:29:19.4850882Z ##[endgroup]
+2026-10-05T09:29:19.5576605Z Running uat --fast; 3 suite(s).
+2026-10-05T09:29:19.5577221Z 
+2026-10-05T09:29:19.5577582Z [uat] 3 suite(s)
+2026-10-05T09:29:19.5580381Z   running  uat/check-uat-register ...
+2026-10-05T09:29:20.0410344Z   ok       uat/check-uat-register  44 passed  480ms
+2026-10-05T09:29:20.0410887Z   running  uat/coverage-map ...
+2026-10-05T09:29:20.5701970Z   ok       uat/coverage-map  9 passed  526ms
+2026-10-05T09:29:20.5702709Z   running  uat/generate-uat-pack ...
+2026-10-05T09:29:21.1073252Z   ok       uat/generate-uat-pack  10 passed  537ms
+2026-10-05T09:29:21.1653492Z 
+2026-10-05T09:29:21.1654045Z   layer  status  suites  passed  failed  skipped  time
+2026-10-05T09:29:21.1654428Z   -----  ------  ------  ------  ------  -------  ----
+2026-10-05T09:29:21.1655016Z   uat    passed       3      63       0        0  1.5s
+2026-10-05T09:29:21.1655465Z   total  passed       3      63       0        0  1.6s
+2026-10-05T09:29:21.1775255Z Post job cleanup.
+2026-10-05T09:29:21.2804756Z (node:2321) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-05T09:29:21.2805903Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-05T09:29:21.3020922Z Post job cleanup.
+2026-10-05T09:29:21.3823858Z [command]/usr/bin/git version
+2026-10-05T09:29:21.3883452Z git version 2.55.0
+2026-10-05T09:29:21.3924656Z Temporarily overriding HOME='/home/runner/work/_temp/6a900291-98ac-4a66-9eb3-9b3e9c2fa192' before making global git config changes
+2026-10-05T09:29:21.3925763Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T09:29:21.3926839Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T09:29:21.3987455Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T09:29:21.4042636Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T09:29:21.4336350Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T09:29:21.4378826Z http.https://github.com/.extraheader
+2026-10-05T09:29:21.4389525Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-05T09:29:21.4432443Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T09:29:21.4760300Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T09:29:21.4851398Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T09:29:21.5354376Z Cleaning up orphan processes
+2026-10-05T09:29:21.5583175Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

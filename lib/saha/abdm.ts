@@ -63,6 +63,15 @@ export function consentAllows(p:Person,consentId:string,q:{purpose?:string;hiTyp
  if(q.date<c.from||q.date>c.to)return {allowed:false,reason:`Consent covers records dated ${c.from} to ${c.to} only.`};
  return {allowed:true,reason:`Allowed under ${c.purpose} until ${c.expiresAt}.`};
 }
+// All checks preceding a number lookup, shared with the atomic reservation path.
+export function validateAbhaLink(s:OrgState,c:any,m:Member){
+ authorizeAbdm(s,m,c);abdmOperation(s,c.type);
+ const p=person(s.workspace,c.personId);
+ if(p.version!==c.version)fail(409,'Patient changed. Refresh before continuing.');
+ if(p.mergedInto)fail(409,'This record was merged into another record.');
+ module(s,'abha');
+ if(p.abha?.state==='linked')fail(409,'An ABHA is already linked. Unlink it with a reason before linking another.');
+}
 export function applyAbdm(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{
  const parsed=abdmSchema.safeParse(input);if(!parsed.success)return null;const c=parsed.data;authorizeAbdm(s,m,c);
  abdmOperation(s,c.type);

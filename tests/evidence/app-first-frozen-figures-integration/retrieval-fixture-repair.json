@@ -1,0 +1,141 @@
+{
+  "generatedAt": "2026-10-05T10:32:43.492Z",
+  "startedAt": "2026-10-05T10:32:42.512Z",
+  "command": "node scripts/test.mjs unit --fast --guard --only unit/ehr-execution,unit/provider-ehr-execution-review --report tests/evidence/app-first-frozen-figures-integration/retrieval-fixture-repair.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 2,
+      "passed": 80,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 837,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 80,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 980
+  },
+  "suites": [
+    {
+      "id": "unit/ehr-execution",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/ehr-execution.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 372,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/ehr-execution-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__ehr-execution.log"
+    },
+    {
+      "id": "unit/provider-ehr-execution-review",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/provider-ehr-execution-review.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 465,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/provider-destination-independent/ehr-execution/result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__provider-ehr-execution-review.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/ehr-execution-result.json",
+      "tests/evidence/provider-destination-independent/ehr-execution/result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 187,
+        "components": 0,
+        "suitesCitingNoRequirement": 48,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 94,
+        "components": 84,
+        "suitesCitingNoRequirement": 15,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 7
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 40,
+        "components": 0,
+        "suitesCitingNoRequirement": 36,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 337,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 102,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

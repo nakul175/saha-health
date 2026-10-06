@@ -1,0 +1,124 @@
+{
+  "source": "75c0f3e5372b9eb08eab0717966b4638163294bc",
+  "classification": "Immutable actual unresolved count1 before; no runtime repair or acceptance",
+  "assertions": 29,
+  "previousObservation": 27,
+  "ports": [
+    20720,
+    20721,
+    20722
+  ],
+  "sourcePins": {
+    "lib/saha/alert-delivery-server.ts": {
+      "sha256": "8a1cf0cfece0611ebaee91e3af5cae443e14d0fcc763e804e0a2d2cd1f842ddf",
+      "bytes": 17334
+    },
+    "lib/saha/alert-delivery.ts": {
+      "sha256": "005e44db227a93caab9cdf2bd2d3f0f4fc1e55dfd5061e33886be73cd975ed68",
+      "bytes": 9230
+    },
+    "lib/saha/alerts.ts": {
+      "sha256": "7c5f4e68954d8d121efd055b0e544d2f0a6025dcbb97f2f87174f78c006fcf3e",
+      "bytes": 10492
+    },
+    "lib/saha/notification-channel-server.ts": {
+      "sha256": "89722df1446e9641ce23c770a4d8de6dfeac5239e61e16ac1d28a2e0d504ddf1",
+      "bytes": 13095
+    },
+    "lib/saha/notification-channel.ts": {
+      "sha256": "0061bd16013f58403e64fa79d5dc0df7aee56017767311f10eb792e615ebb39f",
+      "bytes": 23058
+    },
+    "lib/saha/operational-disclosure.ts": {
+      "sha256": "54cb477e391c2a110829ff92b9a1cd830e35c82e513ec52ef9835543e55e66a7",
+      "bytes": 5528
+    },
+    "lib/saha/operations-server.ts": {
+      "sha256": "ec6fe8281e69ad38991cfebff897e4ae2c65607446c9126c5019e70af26167d9",
+      "bytes": 11381
+    },
+    "lib/saha/indicator-ledger.ts": {
+      "sha256": "a32a03c58bd74167417b40b0428e71c9f314e2f35204c0d2eacedad8f8148eb8",
+      "bytes": 9051
+    },
+    "lib/saha/purpose-scope.ts": {
+      "sha256": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+      "bytes": 11334
+    },
+    "lib/saha/action-plan-server.ts": {
+      "sha256": "3c31303b43aa1d088b26eb4ca7ac28c3574e935c15784b9b8f9f52d35a9bff6f",
+      "bytes": 874
+    },
+    "lib/saha/scheduled-job.ts": {
+      "sha256": "ef83d94c8da5e70febf743ed7a3d4aa4507c776c5e2ca8c5ad497d2102e042e1",
+      "bytes": 18134
+    },
+    "app/alert-inbox.tsx": {
+      "sha256": "92fdaf9d86f48e84e72cab6659e02abd109d43e43388520af6f801f794c532ba",
+      "bytes": 4984
+    },
+    "worker/index.ts": {
+      "sha256": "98ce2df3bb94a648a47568d48c2e59b011470ad3a2e073cd8ad97cccee3c5dc7",
+      "bytes": 2081
+    },
+    "dist/server/index.js": {
+      "sha256": "8e6333f2a66113268e350e9c88cefeb6b4948e9ddcc33cfaf2a348b5c1a039c2",
+      "bytes": 312532
+    }
+  },
+  "rawPreimages": {},
+  "files": {
+    "tests/evidence/alert-disclosure-before/result.json": {
+      "sha256": "5f9b4bdb26f6264b83d0cba43e373c0230fe8c6cfb1d44b390af11da8eeccd95",
+      "bytes": 103
+    },
+    "tests/evidence/alert-disclosure-before/phone-worker.log": {
+      "sha256": "e45a2a9942e6759d6f3a3dd8b907ae28d7966075521bc8c555f7c6e56299a16f",
+      "bytes": 98061
+    },
+    "tests/evidence/alert-disclosure-before/run.log": {
+      "sha256": "63e76c4b5b7b8dbd77106004ae854a4760b5acb96d3a4180e8f2b5288ac4dee3",
+      "bytes": 3417
+    },
+    "tests/evidence/alert-disclosure-before/phone-before.png": {
+      "sha256": "7714be329a80cc42fc8182d8d3cb541315b35f17bbfb2d4599871d757f6e52fd",
+      "bytes": 639990
+    },
+    "tests/evidence/alert-disclosure-before/observed.json": {
+      "sha256": "0f2bd2bf8db67f181b86d7f705d7421a6c3d0d320ddb2b288b4ebc7a78ae2e33",
+      "bytes": 30894
+    },
+    "tests/evidence/alert-disclosure-before/first-inbox-scheduled-phone/result.json": {
+      "sha256": "4337a3d593f7b25f38153a7f56321ae64b758707fd0bbb2ad82df1f000c165be",
+      "bytes": 103
+    },
+    "tests/evidence/alert-disclosure-before/first-inbox-scheduled-phone/phone-worker.log": {
+      "sha256": "b98ad6c674a74bc177d4ae0ffb2d93e3865832b498f17c733f5af8a5c4428aa3",
+      "bytes": 98060
+    },
+    "tests/evidence/alert-disclosure-before/first-inbox-scheduled-phone/run.log": {
+      "sha256": "105936e6df886a937b6e61b8800c3fefcc8f4d4ee3d03b37b3f5ac70f6f43782",
+      "bytes": 3157
+    },
+    "tests/evidence/alert-disclosure-before/first-inbox-scheduled-phone/phone-before.png": {
+      "sha256": "39b8bcfadec4c12e2abbdb386c60ff50b089fdc25c0464f129dc55c2da7a9baa",
+      "bytes": 640134
+    },
+    "tests/evidence/alert-disclosure-before/first-inbox-scheduled-phone/driver.mjs.gz": {
+      "sha256": "c6d2580fb09fc3e275d8774cd60b3388795114c1c352ec28d956d8df7f29bc8f",
+      "bytes": 3278
+    },
+    "tests/evidence/alert-disclosure-before/first-inbox-scheduled-phone/observed.json": {
+      "sha256": "f50416e3e2f5eea1861914ae9516a5726eee64cd347c09eaeca66b494610d512",
+      "bytes": 20895
+    },
+    "tests/alert-disclosure-before.mjs": {
+      "sha256": "648e53bfe770cbb293405c0d27543f0e5290af60a43df5bbc0e1a991e581fcce",
+      "bytes": 9008
+    },
+    "docs/current/ALERT-AGGREGATE-DISCLOSURE-BEFORE.md": {
+      "sha256": "b8e4395a239b7273ca1172fa6902c37a27af79e27c8923e916fefc55697191a7",
+      "bytes": 3580
+    }
+  }
+}

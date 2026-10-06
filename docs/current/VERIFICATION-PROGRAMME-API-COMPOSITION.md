@@ -1,0 +1,13 @@
+# Current verification/programme API composition
+
+6 October 2026. Test-only compatibility composition on source `0de84078e727be6276f3f05c640f486cd1470fab` with the exact root-staged installed-work export metadata patch qualified and hash-pinned separately. No Worker guard, runtime, clinical command, catalogue or original driver change is delivered.
+
+The retained original full API run stopped at `note-answer-signoff-smoke.mjs` line 33: it expected preparation to succeed after a clinician had disputed `medication_access`. The current B05 contract correctly returns 409 for that carrying destination. A later verification or supervisor sign-off cannot clear this hold. The original recorder and the disputer cannot independently attest it.
+
+The owned `verification-api-note-answer-signoff-current.mjs` preserves every original fixture line and assertion in order. Before the original sign-off workflow resumes, it positively checks the 409 hold and both 403 self-resolution refusals. It creates a third clinician through supported workspace/invite/join commands, then appends an explicit current-content standing resolution through the normal scoped command route. It verifies the third actor and exact current-content hash, while retaining the disputed review and original dispute. The subsequent original role/version, sign-off, execution, saved-receipt replay and correction-history checks remain unchanged.
+
+`api-verification-programme-current.mjs` changes only the sign-off fixture import and owned result path from the existing reporting composition. `run-api-verification-programme-current.mjs` changes only that composition import from the existing reporting runner. Existing API groups, command assertions, current reporting adapter, disposable migration setup and same-state Worker recycling policy remain. The recycling is the existing local-runtime suite accommodation, not an O-2 application repair or qualification.
+
+The dedicated `tests/evidence/verification-api-composition/manifest.json` records the full fresh synthetic Worker/D1 API result, required original minimum of 4,770, build/types, original-driver hashes, exact staged runtime hash, failed original run and current owned outputs. The staged export metadata is root-owned and is not part of this test-only commit. Original drivers and evidence remain immutable. Run on dedicated ports 19580/19581 with providers disabled; there are no real provider messages or hosted acceptance claims.
+
+Root must register this owned current runner as the existing API suite identity and result path, retaining its minimum rather than counting it as an additional suite. This batch does not claim full-product acceptance, a whole fresh regression run or closure of the remaining B05/B12 requirements.

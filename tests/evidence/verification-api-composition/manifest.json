@@ -1,0 +1,107 @@
+{
+  "base": "0de84078e727be6276f3f05c640f486cd1470fab",
+  "classification": "Test-only owned full API composition; no production repair/full-regression or product acceptance claim",
+  "checks": {
+    "freshFullWorkerD1API": 4785,
+    "originalMinimum": 4770,
+    "build": "pass",
+    "types": "pass",
+    "originalFixtureLinesRetained": true
+  },
+  "originalPins": {
+    "tests/api-smoke.mjs": "84916f49354af7b52f4cf1359525fa43a8cee5d47de79c957d6275522e387e1d",
+    "tests/api-reporting-current.mjs": "85550ed817c86e73f7d96b48c0843e15f10856513c6a91d0727a153159f4eeaa",
+    "tests/run-api-smoke.mjs": "a8a3de3ea239bed62cf9ca186c7e5f5cd54afd7f7e2618f10d01021cdd9cb4ad",
+    "tests/run-api-reporting-current.mjs": "958e35d22016e635c181f05d30850cf9ada9904c0a3aeaf52bcc2e848fb3cb54",
+    "tests/note-answer-signoff-smoke.mjs": "557395a2eb647135e96e5fca3f29806b04e242aae3d6b191198d89d7866b069f",
+    "tests/verification-current-note-answer-signoff-smoke.mjs": "47182ddbc58f02a68935d12d4ea3e7216a335349b56748274cd7de527aadfb4e"
+  },
+  "qualifiedStagedRuntime": {
+    "lib/saha/data-exit.ts": "d57ff507b2f84b1a3fc06fdbd3b3b878cde2a769ee3a5e2351ce87c2d784adc0"
+  },
+  "rootPatchExcludedFromCommit": true,
+  "ports": [
+    19580,
+    19581
+  ],
+  "commands": [
+    "PATH=<bundled-node>/bin:$PATH node scripts/run-framework.mjs build",
+    "PATH=<bundled-node>/bin:$PATH node node_modules/typescript/bin/tsc --noEmit",
+    "node --input-type=module -e \"const {freshDatabase}=await import('./tests/lib/worker.mjs');freshDatabase('.wrangler/test-state')\"",
+    "SAHA_TEST_PORT=19580 SAHA_RESTORE_PORT=19581 node tests/run-api-verification-programme-current.mjs"
+  ],
+  "integratorMapping": {
+    "identity": "integration/run-api-smoke",
+    "file": "tests/run-api-verification-programme-current.mjs",
+    "supportFiles": [
+      "tests/api-verification-programme-current.mjs",
+      "tests/verification-api-note-answer-signoff-current.mjs"
+    ],
+    "resultPath": "tests/evidence/verification-api-composition/api-result.json",
+    "minimum": 4770,
+    "originalDrivers": "retain manual immutable drivers, no double suite count"
+  },
+  "artifacts": {
+    "tests/evidence/verification-api-composition/types.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/verification-api-composition/api-result.json": {
+      "sha256": "f205e478dec85b498ee50f0bac8d424b4e290f02b929cb9ee442d0a2416a390c",
+      "bytes": 8645
+    },
+    "tests/evidence/verification-api-composition/source-pins.json": {
+      "sha256": "cb026f4bf1316e34cd55b30e740b2ca8d1e27f2a79c44cfa5b7f38da8961ef45",
+      "bytes": 956
+    },
+    "tests/evidence/verification-api-composition/qualified-root-export-metadata.patch": {
+      "sha256": "43f04f9d5fffd775ea2a94fd1c1e419c5c0e88cb00cff98e7cc7a68d8339d985",
+      "bytes": 1483
+    },
+    "tests/evidence/verification-api-composition/database-setup.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/evidence/verification-api-composition/original-assertion-preservation.json": {
+      "sha256": "297367c3239bc99e0ec3dfd5a1819d4ee7a6347071baf1f8b7804b65981245c4",
+      "bytes": 260
+    },
+    "tests/evidence/verification-api-composition/api-first.log": {
+      "sha256": "1a4350417f04205020acae070114d162921b6d6cdc6b3b097c5491bd756c49f7",
+      "bytes": 8647
+    },
+    "tests/evidence/verification-api-composition/original-api-recovery-failure.log": {
+      "sha256": "76b1fc6e1cd8f1b63ee790dec4f2c884367733c84a48ad10140a96d4d8afbdf4",
+      "bytes": 2500
+    },
+    "tests/evidence/verification-api-composition/operations-load-result.json": {
+      "sha256": "2de08bff8cc141d2cf99a916798f6a82651556cbb954964b53fbbd9afce0bd9d",
+      "bytes": 318
+    },
+    "tests/evidence/verification-api-composition/build.log": {
+      "sha256": "2f18d3bf3a19cc388a7f06df791729677f842499953e73967198c9ec8c9765e9",
+      "bytes": 4739
+    },
+    "tests/api-verification-programme-current.mjs": {
+      "sha256": "8b7189e01ee627355225ed3354a96b8056e84340848c0b2d7e4a83ea06a17a7d",
+      "bytes": 38228
+    },
+    "tests/run-api-verification-programme-current.mjs": {
+      "sha256": "cf1212430707635c87df877559e05cf022359376f2212e5474ce8d4a5df6a3d7",
+      "bytes": 3186
+    },
+    "tests/verification-api-note-answer-signoff-current.mjs": {
+      "sha256": "4cda855a6db9c4c3964a0ac97218e61ee8368be4fee1c917beb43350ddc1085a",
+      "bytes": 9682
+    },
+    "docs/current/VERIFICATION-PROGRAMME-API-COMPOSITION.md": {
+      "sha256": "cd47809b4b8d9b882768cd6d6a4f4cdf6f607d55220f4318520092f800e6237e",
+      "bytes": 2764
+    }
+  },
+  "externalDelivery": false,
+  "workerRestarts": {
+    "count": 4,
+    "classification": "Unchanged existing same-D1 local suite policy, not runtime fix"
+  }
+}

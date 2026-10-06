@@ -1,0 +1,13 @@
+# Bounded offline phone failure diagnosis
+
+6October2026 (IST). Fresh isolated exact `65a93a63`; unchanged application and original test assertions. No wait, authority, capacity, outcome, storage or minimum-count relaxation. Named output/port adapters and observation-only encrypted-state captures are separate from all original evidence.
+
+Root's retained initial combined-run pruning failure asserted that actual reconnect drained/pruned the known-abandoned reports. Its registration failure asserted zero raw copies plus accepted/unknown receipt retention and durable deletion acknowledgement on `/app/offline/`. Both original logs are copied unchanged into the diagnostic evidence; they remain failed observations.
+
+A fresh build passed. Cold synthetic Chromium/Worker/D1 reruns pass all13 original pruning and32 original registration assertions. At the disputed pruning checkpoint the sealed queue has0 pending reports,2 retained live links and no abandonment marker, after a fixture with1998 pending and2 live. The sealed revision is120. Original Clear/Load loops, actual Discard, no clinical registration dispatch, full bounded recovery, new form entry, exact ciphertext preservation under injected CAS abort and durable historical server-report checks remain intact. This is not2000 physical UI cycles.
+
+At each disputed registration checkpoint, both `/app/offline/` and `/field/index.html` show0 local registrations, no `PRIVATE` fixture content, notebook visible, and one acknowledged tombstone retaining the exact accepted key/body hash and distinct unknown-attempt hash. The page DOM and encrypted-state metadata are saved. Original purge-abort hidden/exact-ciphertext and uncertain-reset refusal assertions are retained; supported registry/receipt, source scope and atomic failure checks also run unchanged.
+
+These bounded reruns do not reproduce a current product defect. They also do not prove that the earlier failures were merely test waits, a sleeping host, or an incomplete encryption/reconnect callback: the original failing run did not capture the corresponding DOM/vault state. No product fix or source reclassification is warranted from timing alone. Source inspection identifies awaited privacy reconciliation, historical report flush and guarded encrypted CAS boundaries as relevant to a future controlled failure capture, but does not independently establish causality. Preserve the earlier combined failure and continue full integration qualification separately.
+
+Evidence: `tests/evidence/offline-phone-independent/manifest.json`, unchanged original failure logs, fresh raw logs/results and observation-only captures. No broad full-suite, hosted, Android or clinical acceptance claim. No canonical/shared metadata edits or push.

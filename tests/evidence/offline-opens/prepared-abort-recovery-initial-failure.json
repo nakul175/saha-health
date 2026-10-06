@@ -1,0 +1,8 @@
+{
+  "actualChromium": true,
+  "actualWorkerD1": true,
+  "outcome": "failed before final report write",
+  "failure": "Storage abort clears withdrawn plaintext without writing over preserved ciphertext on /app/offline/",
+  "cause": "Recovery metadata flush ran on unchanged pre-purge revision and changed ciphertext after one-shot purge abort.",
+  "repair": "Only recover historical metadata when fresh stored revision is greater than starting privacy revision; initial abort remains exact unchanged ciphertext."
+}

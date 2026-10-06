@@ -1,0 +1,9 @@
+# Independent household completion review
+
+5 October 2026. Cold exact author7320bfc3, no application changes. Fresh build/types pass. Independent positives304:42 declared-contract checks,105 unchanged actual HTTP/D1,118 extended actual authority HTTP/D1 and39 Worker/390px Chromium checks (31 setup/authority plus8 phone outcomes). Original author artifacts remain unchanged; independent reports/drivers are retained separately.
+
+No additional blocking defect was grounded in the bounded household implementation. The extended test makes a non-owner clinician the accepted completion actor, narrows their access to reporting through supported commands, refuses the exact saved completion receipt403, then restores care access and permits historical receipt recovery without repeated closure. Current team withdrawal still refuses the receipt; void still makes its original visit unavailable. An ASHA assigned only one original covered member cannot prepare all-member outreach: refusal403 preserves slot bytes and creates no accepted receipt.
+
+Reviewed source retains exact installed episode/pack/version/manifest/rule eligibility, explicit absence refusal, selected-item atomicity and unresolved dependencies. Original task closure is retained when visit evidence is voided; current replacement evidence appends lineage. Open referrals cannot be closed by a visit. Original slot/date/current work/contact constraints remain checked before neutral message creation/approval/simulation; simulated failure retains owned recovery and does not call a real provider or infer care.
+
+The separately grounded live/frozen reporting-count defect is root-owned repair02b5e083 and needs independent review next. This clearance does not assert reporting repair integration, approved clinical content, external delivery, physical Android/accessibility or formal acceptance. No shared catalogue, requirements, migrations or canonical source was edited.

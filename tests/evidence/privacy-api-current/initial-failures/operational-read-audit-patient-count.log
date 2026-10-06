@@ -1,0 +1,57 @@
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^Operations view read \(JSON\): 30-day window; scoped care report included \(\d+ teams?, own reporting authority; \d+ patients counted\);/. Input:
+
+'Operations view read (JSON): 30-day window; scoped care report included (1 team, own reporting authority; protected projection); operator detail included. Aggregate figures only. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.'
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/read-audit-completion-smoke.mjs:107:112
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/api-privacy-registration-current.mjs:10:20)
+    at readAuditCompletionSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/read-audit-completion-smoke.mjs:107:2)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/api-privacy-registration-current.mjs:144:84 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'Operations view read (JSON): 30-day window; scoped care report included (1 team, own reporting authority; protected projection); operator detail included. Aggregate figures only. Authority: role clinician (organisation owner), membership version 1; delegated authority in force: none.',
+  expected: /^Operations view read \(JSON\): 30-day window; scoped care report included \(\d+ teams?, own reporting authority; \d+ patients counted\);/,
+  operator: 'match',
+  diff: 'simple'
+}
+T /api/record-opened 404 Not Found (10ms)
+{"event":"saha_request","requestId":"275cf123-99ef-4c79-844a-ca2a6d733390","route":"record-opened","status":404,"durationMs":2}
+[wrangler:info] POST /api/record-opened 404 Not Found (4ms)
+{"event":"saha_request","requestId":"903342fb-3034-4236-8cfe-cad4324c42b0","route":"record-opened","status":403,"durationMs":2}
+[wrangler:info] POST /api/record-opened 403 Forbidden (3ms)
+{"event":"saha_request","requestId":"5781ae27-6d4b-4091-9890-712882a27ea8","route":"record-opened","status":415,"durationMs":0}
+[wrangler:info] POST /api/record-opened 415 Unsupported Media Type (2ms)
+[wrangler:info] POST /api/record-opened 403 Forbidden (1ms)
+{"event":"saha_request","requestId":"5ea57f93-e7cc-435e-b9a3-7fc2844d0ae9","route":"record-opened","status":401,"durationMs":1}
+[wrangler:info] POST /api/record-opened 401 Unauthorized (2ms)
+{"event":"saha_request","requestId":"3bc247ff-50a0-419c-8d8b-ab1b3fc9ed4f","route":"patient-detail","status":200,"durationMs":2}
+[wrangler:info] GET /api/patients/detail 200 OK (4ms)
+{"event":"saha_request","requestId":"48eb8f2d-c542-46bb-b7ef-de7a9b598f1f","route":"patients","status":200,"durationMs":3}
+[wrangler:info] GET /api/patients 200 OK (5ms)
+{"event":"saha_request","requestId":"c16a4d8a-d023-440d-a476-972c77abbae3","route":"patients","status":200,"durationMs":3}
+[wrangler:info] POST /api/patients 200 OK (4ms)
+{"event":"saha_request","requestId":"1348cb11-3ce4-4a93-8665-196117d790d4","route":"patients","status":200,"durationMs":3}
+[wrangler:info] POST /api/patients 200 OK (5ms)
+{"event":"saha_request","requestId":"37044eea-8bca-479d-9e3b-bc78bd4cabb9","route":"patients","status":200,"durationMs":2}
+[wrangler:info] POST /api/patients 200 OK (4ms)
+{"event":"saha_request","requestId":"11d08217-5321-449a-9087-4cf9ed49a591","route":"patients","status":400,"durationMs":0}
+[wrangler:info] GET /api/patients 400 Bad Request (2ms)
+{"event":"saha_request","requestId":"d35043b2-a679-420d-ba33-2091c7f795eb","route":"patients","status":403,"durationMs":1}
+[wrangler:info] GET /api/patients 403 Forbidden (3ms)
+{"event":"saha_request","requestId":"a91dba26-2e85-4490-a246-f7e1cc4c1795","route":"worklists","status":200,"durationMs":3}
+[wrangler:info] GET /api/worklists 200 OK (5ms)
+{"event":"saha_request","requestId":"deb9f769-580c-4c28-9d5e-79caa333821c","route":"patient-matches","status":200,"durationMs":15}
+[wrangler:info] POST /api/patient-matches 200 OK (17ms)
+{"event":"saha_request","requestId":"8998dd1b-1f9d-4f65-a385-1afb32587af9","route":"indicators","status":200,"durationMs":2}
+[wrangler:info] GET /api/indicators 200 OK (4ms)
+{"event":"saha_request","requestId":"7c780247-dd31-419b-a1dc-493acd97b2d5","route":"indicators","status":200,"durationMs":10}
+[wrangler:info] POST /api/indicators 200 OK (11ms)
+{"event":"saha_request","requestId":"0d3b678c-9059-456b-af81-7535da9aa3e3","route":"indicators","status":200,"durationMs":3}
+[wrangler:info] GET /api/indicators 200 OK (5ms)
+{"event":"saha_request","requestId":"015d4c16-b53e-4dd9-b4c7-807c7e3eb049","route":"indicators","status":200,"durationMs":3}
+[wrangler:info] GET /api/indicators 200 OK (5ms)
+{"event":"saha_request","requestId":"e6852fe7-1dda-4539-b5ce-238d87441881","route":"indicators","status":200,"durationMs":9}
+[wrangler:info] POST /api/indicators 200 OK (10ms)
+{"event":"saha_request","requestId":"10bbca05-5179-4191-acd8-1d958666ac57","route":"operations","status":200,"durationMs":7}
+[wrangler:info] GET /api/operations 200 OK (9ms)
+

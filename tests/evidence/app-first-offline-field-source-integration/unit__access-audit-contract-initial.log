@@ -1,0 +1,249 @@
+Access audit not recorded Error
+Export audit not recorded Error
+Access audit not recorded Error
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /externalCall\(i,p,key,\(\)=>externalRequestAudit\(state,u,m,c,i\)\)/. Input:
+
+"import {collectSensitive,minimiseLegacyAiPayload} from './agent-minimisation';\n" +
+  "import {deviceGrantRows} from './device-work';\n" +
+  "import { rangeCaptureFor } from './fact-provenance';\n" +
+  "import {serviceDispatch} from './service-dispatch';\n" +
+  "import { applyReconciliation, authorizeReconciliation } from './reconciliation';\n" +
+  "import {checkSourceCommand} from './clinical-source';\n" +
+  "import { applyGovernance, authorizeGovernance } from './governance';\n" +
+  "import { applyShadow, authorizeShadow } from './shadow';\n" +
+  "import { applyEvaluation, authorizeEvaluation } from './evaluation';\n" +
+  "import { executeEvaluation } from './evaluation-execution';\n" +
+  "import { applyHousehold, authorizeHousehold } from './household';\n" +
+  "import { applyHouseholdVisit, authorizeHouseholdVisit } from './household-visit';\n" +
+  "import { applyProgrammeReferrals, authorizeProgrammeReferrals } from './referral-consolidation';\n" +
+  "import { applyCaseload, authorizeCaseload } from './caseload';\n" +
+  "import { applyDueCaseloads } from './caseload-schedule';\n" +
+  "import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';\n" +
+  "import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';\n" +
+  "import { applyRights, authorizeRights, ensureNotRestricted } from './rights';\n" +
+  "import { applyRetention, authorizeRetention } from './retention';\n" +
+  "import { applyFixtureMark, authorizeFixtureMark } from './fixture-migration';\n" +
+  "import { applyProgrammeMigration, authorizeProgrammeMigration } from './programme-migration';\n" +
+  "import { applyRangeProtocol, authorizeRangeProtocol, applyPackInstallation, authorizePackInstallation } from './pack-installation';\n" +
+  "import { catalogueOf, enrollableAt, installedPacks } from './programmes';\n" +
+  "import { applyConsent, authorizeConsent } from './consent';\n" +
+  "import { applyFactReview, authorizeFactReview, recordFactAuthors } from './fact-verification';\n" +
+  "import { applySignOff, authorizeSignOff, carryDisputes, ensureSignOff, signOffPolicy, stampSubmissions } from './visit-signoff';\n" +
+  "import { applyPatientImport, authorizePatientImport } from './patient-import';\n" +
+  "import { applyRecordImport, authorizeRecordImport } from './record-import';\n" +
+  "import { authorizeCrosswalk } from './crosswalk';\n" +
+  "import { crosswalkWithReview } from './crosswalk-server';\n" +
+  "import { applyCrosswalkCorrection, authorizeCrosswalkCorrection } from './crosswalk-correction';\n" +
+  "import { ensureNotImported } from './imported-visits';\n" +
+  "import { applyDelegation, authorizeDelegation, delegationAudit, heldBy } from './delegation';\n" +
+  "import { applyIndicatorRegistry, authorizeIndicatorRegistry } from './indicator-registry';\n" +
+  "import { applyReferral, authorizeReferralSource } from './referrals';\n" +
+  "import { applyActionPlan, authorizeActionPlan } from './action-plan';\n" +
+  "import { applyReassignment, authorizeReassignment } from './reassignment';\n" +
+  "import { applyCorrectionTask, authorizeCorrectionTask } from './correction-tasks';\n" +
+  "import { applyRoster } from './roster';\n" +
+  "import { applyWorkforceImport, authorizeWorkforceImport } from './workforce-import';\n" +
+  "import { reserveAbhaReview, releaseAbhaReview, recordAbhaReviewReservation } from './abha-review-reservation';\n" +
+  "import { AbhaHeldElsewhere, LINK_REFUSED, validateAbhaLink, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';\n" +
+  "import { applyTransfer, authorizeTransfer } from './abdm-transfer';\n" +
+  "import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';\n" +
+  "import { applyPilot, authorizePilotCommand } from './pilot';\n" +
+  "import { applyOutreach, authorizeOutreach } from './outreach';\n" +
+  "import { applyExpansion, authorizeExpansion } from './expansion';\n" +
+  "import { boundedJsonBody } from './request-body';\n" +
+  "import { accessRoute, recordAccess, recordAccesses } from './access-audit';\n" +
+  "import { applyOperations, ensureOperating, operator } from './operations';\n" +
+  "import { applyFacilityScope, authorizeFacilityScope } from './facility-scope';\n" +
+  "import { applyInvoiceReconciliation } from './ai-invoice';\n" +
+  "import { ALERT_OWNERS, applyAlertAck, canAcknowledge } from './alerts';\n" +
+  "import { authorizeInboxReplay, evaluateAfterCommand, markRead } from './alert-delivery-server';\n" +
+  "import { applyField } from './field';\n" +
+  "import { applyFieldRegistration, authorizeFieldRegistration } from './field-registration';\n" +
+  "import {registrationGrantRows,recordRegistrationWireReplay} from './registration-device-work';\n" +
+  "import { applyReferralRequest, authorizeReferralRequest } from './referral-request';\n" +
+  "import { applyEhr, ehrReadiness } from './ehr';\n" +
+  "import { executeEhr } from './ehr-execution';\n" +
+  "import { configureMis, misReadiness } from './mis';\n" +
+  "import { executeMis } from './mis-execution';\n" +
+  "import { authorizeDestinationEnrolment } from './destination-enrolment';\n" +
+  "import { executeDestinationEnrolment } from './destination-enrolment-execution';\n" +
+  "import { providers, agentApply } from './agent';\n" +
+  "import { executeAgent } from './agent-execution';\n" +
+  "import { linkTrace } from './trace';\n" +
+  "import { applyAdapterOperations } from './adapter-operations';\n" +
+  "import { applyPurposeScope, authorizePurposeScope, COMMAND_PURPOSE, ensurePurpose } from './purpose-scope';\n" +
+  "import { applyNotificationChannel } from './notification-channel';\n" +
+  "import { applySpeechPolicy, speechPolicyView } from './speech';\n" +
+  "import { authorizeAggregate } from './aggregate-delivery';\n" +
+  "import { applyIncentives, authorizeIncentives } from './incentives';\n" +
+  "import { executeAggregate } from './aggregate-execution';\n" +
+  "import { applySandbox, authorizeSandbox, SANDBOX_UNAVAILABLE } from './provider-sandbox';\n" +
+  "import { applyDemonstration, authorizeDemonstration, automaticInstall, prepareHome, writeFixtureAccounts } from './demonstration';\n" +
+  "import { env } from 'cloudflare:workers';\n" +
+  "import { headers } from 'next/headers';\n" +
+  "import { identityConfig, principalFromHeaders, signOutPath } from './identity';\n" +
+  "import { seedWorkspace } from './seed';\n" +
+  "import { effectiveRuntime, ensureEnvironment, environmentOf, ENVIRONMENT_LABEL, fixturesFor } from './environment';\n" +
+  "import { AppError, apply, digest, fail, person, visit, uuid, type Command } from './core';\n" +
+  "import { platformApply, platformSchema, validTeams } from './platform';\n" +
+  "import { languageOf } from './messages';\n" +
+  "import { patientTargets } from './partition';\n" +
+  "import { PAGED_THRESHOLD, pagedWindow, pagingRequest, type PagingRequest } from './patient-directory';\n" +
+  "import { auditWindow } from './access-audit';\n" +
+  "import { recordWorkspaceLoad, recordPartitionResponse, type SnapshotVia } from './read-audit';\n" +
+  "import { accountCode, auditPage, snapshotDecorations, parseCursor, createState, ensureAccount, history, persist, persistBurdenCounter, readState, scope, type Actor } from './store';\n" +
+  "import type { OrgState, Integration, Member, Snapshot } from './types';\n" +
+  "export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}\n" +
+  "export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unavailable. Your unsaved input has been kept on screen.');return env.DB!;}\n" +
+  'export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material:boolean|SnapshotVia=false){const id=await activeOrg(u,orgId);\n' +
+  ' // Slice 1f: due scheduled caseload transfers are applied (or held) before the organisation is read for this request.\n' +
+  ' await applyDueCaseloads(db(),id,u.userId);\n' +
+  ' const ids=targets?await targets(id):null;\n' +
+  ' // Slice 0b-3: a paging client with a large non-ASHA scope reads only its opened window of patients.\n' +
+  ' const paged=viewerScoped&&!ids&&paging?await pagedWindow(db(),id,u.userId,paging.window):null;\n' +
+  ' // Slice 6aa (seventh review, finding 3): the window audit is not opt-in. A workspace read without the paging request by a\n' +
+  ' // non-ASHA viewer above the threshold returns every in-scope record, so each one is audited first (fail closed).\n' +
+  ' const unpaged=material&&viewerScoped&&!ids&&!paging?await pagedWindow(db(),id,u.userId,[]):null;\n' +
+  ' let state=paged?await readState(db(),id,paged.ids,u.userId,true):await readState(db(),id,ids??undefined,viewerScoped&&!ids?u.userId:undefined);\n' +
+  " if(unpaged){const vm=scope(state,u.userId),all=state.workspace.people.filter(p=>p.assigned).map(p=>p.id),kept=await auditWindow(db(),state,u,vm,all,undefined,'full');if(kept.length!==all.length)state=await readState(db(),id,kept,u.userId,true);}\n" +
+  ' // Slice 6w (fifth review, finding 7): window records not opened through the detail route are audited first.\n' +
+  ' if(paged&&paged.ids.length){const kept=await auditWindow(db(),state,u,scope(state,u.userId),paged.ids);if(kept.length!==paged.ids.length){paged.ids=kept;state=await readState(db(),id,kept,u.userId,true);}}\n' +
+  ' if(paged)state.paging={total:paged.total,threshold:PAGED_THRESHOLD};const viewer=scope(state,u.userId);\n' +
+  ' // Slice 10h (BR-SEC-08): a whole-caseload snapshot is recorded as one summarised event (scope size, records returned, paging\n' +
+  ' // window), after the window audit and before the snapshot is returned; if it cannot be written nothing is returned.\n' +
+  " if(material)await recordWorkspaceLoad(db(),state,u,viewer,typeof material==='string'?material:'workspace load',paged?{total:paged.total,threshold:PAGED_THRESHOLD,window:paged.ids.length}:null);\n" +
+  ' return state;}\n' +
+  "// The organisation a request acts in: the named one, else the account's active membership.\n" +
+  '// Slice 9a: a new home organisation in the synthetic environment receives the demonstration clinical package.\n' +
+  'const ensureHome=(u:Actor)=>ensureAccount(db(),u,w=>fixturesFor(rawRuntime(),w),automaticInstall(rawRuntime())?state=>prepareHome(db(),state,u,environmentOf(rawRuntime()).name,accountCode):undefined);\n' +
+  'export async function activeOrg(u:Actor,orgId?:string|null){await ensureHome(u);let id=orgId;if(!id){const a=awa'... 34488 more characters
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/access-audit-contract.mjs:147:208
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/access-audit-contract.mjs:14:23)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/access-audit-contract.mjs:147:3 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: "import {collectSensitive,minimiseLegacyAiPayload} from './agent-minimisation';\n" +
+    "import {deviceGrantRows} from './device-work';\n" +
+    "import { rangeCaptureFor } from './fact-provenance';\n" +
+    "import {serviceDispatch} from './service-dispatch';\n" +
+    "import { applyReconciliation, authorizeReconciliation } from './reconciliation';\n" +
+    "import {checkSourceCommand} from './clinical-source';\n" +
+    "import { applyGovernance, authorizeGovernance } from './governance';\n" +
+    "import { applyShadow, authorizeShadow } from './shadow';\n" +
+    "import { applyEvaluation, authorizeEvaluation } from './evaluation';\n" +
+    "import { executeEvaluation } from './evaluation-execution';\n" +
+    "import { applyHousehold, authorizeHousehold } from './household';\n" +
+    "import { applyHouseholdVisit, authorizeHouseholdVisit } from './household-visit';\n" +
+    "import { applyProgrammeReferrals, authorizeProgrammeReferrals } from './referral-consolidation';\n" +
+    "import { applyCaseload, authorizeCaseload } from './caseload';\n" +
+    "import { applyDueCaseloads } from './caseload-schedule';\n" +
+    "import { applyMerge, authorizeMerge, ensureNotMerged } from './merge';\n" +
+    "import { applyExceptional, authorizeExceptional, ensureExceptionalScope } from './exceptional';\n" +
+    "import { applyRights, authorizeRights, ensureNotRestricted } from './rights';\n" +
+    "import { applyRetention, authorizeRetention } from './retention';\n" +
+    "import { applyFixtureMark, authorizeFixtureMark } from './fixture-migration';\n" +
+    "import { applyProgrammeMigration, authorizeProgrammeMigration } from './programme-migration';\n" +
+    "import { applyRangeProtocol, authorizeRangeProtocol, applyPackInstallation, authorizePackInstallation } from './pack-installation';\n" +
+    "import { catalogueOf, enrollableAt, installedPacks } from './programmes';\n" +
+    "import { applyConsent, authorizeConsent } from './consent';\n" +
+    "import { applyFactReview, authorizeFactReview, recordFactAuthors } from './fact-verification';\n" +
+    "import { applySignOff, authorizeSignOff, carryDisputes, ensureSignOff, signOffPolicy, stampSubmissions } from './visit-signoff';\n" +
+    "import { applyPatientImport, authorizePatientImport } from './patient-import';\n" +
+    "import { applyRecordImport, authorizeRecordImport } from './record-import';\n" +
+    "import { authorizeCrosswalk } from './crosswalk';\n" +
+    "import { crosswalkWithReview } from './crosswalk-server';\n" +
+    "import { applyCrosswalkCorrection, authorizeCrosswalkCorrection } from './crosswalk-correction';\n" +
+    "import { ensureNotImported } from './imported-visits';\n" +
+    "import { applyDelegation, authorizeDelegation, delegationAudit, heldBy } from './delegation';\n" +
+    "import { applyIndicatorRegistry, authorizeIndicatorRegistry } from './indicator-registry';\n" +
+    "import { applyReferral, authorizeReferralSource } from './referrals';\n" +
+    "import { applyActionPlan, authorizeActionPlan } from './action-plan';\n" +
+    "import { applyReassignment, authorizeReassignment } from './reassignment';\n" +
+    "import { applyCorrectionTask, authorizeCorrectionTask } from './correction-tasks';\n" +
+    "import { applyRoster } from './roster';\n" +
+    "import { applyWorkforceImport, authorizeWorkforceImport } from './workforce-import';\n" +
+    "import { reserveAbhaReview, releaseAbhaReview, recordAbhaReviewReservation } from './abha-review-reservation';\n" +
+    "import { AbhaHeldElsewhere, LINK_REFUSED, validateAbhaLink, applyAbdm, authorizeAbdm, redactAbha, redactRevision } from './abdm';\n" +
+    "import { applyTransfer, authorizeTransfer } from './abdm-transfer';\n" +
+    "import { applyContinuity, authorizeContinuity, ensurePatientIdentity, reviewRegistration } from './continuity';\n" +
+    "import { applyPilot, authorizePilotCommand } from './pilot';\n" +
+    "import { applyOutreach, authorizeOutreach } from './outreach';\n" +
+    "import { applyExpansion, authorizeExpansion } from './expansion';\n" +
+    "import { boundedJsonBody } from './request-body';\n" +
+    "import { accessRoute, recordAccess, recordAccesses } from './access-audit';\n" +
+    "import { applyOperations, ensureOperating, operator } from './operations';\n" +
+    "import { applyFacilityScope, authorizeFacilityScope } from './facility-scope';\n" +
+    "import { applyInvoiceReconciliation } from './ai-invoice';\n" +
+    "import { ALERT_OWNERS, applyAlertAck, canAcknowledge } from './alerts';\n" +
+    "import { authorizeInboxReplay, evaluateAfterCommand, markRead } from './alert-delivery-server';\n" +
+    "import { applyField } from './field';\n" +
+    "import { applyFieldRegistration, authorizeFieldRegistration } from './field-registration';\n" +
+    "import {registrationGrantRows,recordRegistrationWireReplay} from './registration-device-work';\n" +
+    "import { applyReferralRequest, authorizeReferralRequest } from './referral-request';\n" +
+    "import { applyEhr, ehrReadiness } from './ehr';\n" +
+    "import { executeEhr } from './ehr-execution';\n" +
+    "import { configureMis, misReadiness } from './mis';\n" +
+    "import { executeMis } from './mis-execution';\n" +
+    "import { authorizeDestinationEnrolment } from './destination-enrolment';\n" +
+    "import { executeDestinationEnrolment } from './destination-enrolment-execution';\n" +
+    "import { providers, agentApply } from './agent';\n" +
+    "import { executeAgent } from './agent-execution';\n" +
+    "import { linkTrace } from './trace';\n" +
+    "import { applyAdapterOperations } from './adapter-operations';\n" +
+    "import { applyPurposeScope, authorizePurposeScope, COMMAND_PURPOSE, ensurePurpose } from './purpose-scope';\n" +
+    "import { applyNotificationChannel } from './notification-channel';\n" +
+    "import { applySpeechPolicy, speechPolicyView } from './speech';\n" +
+    "import { authorizeAggregate } from './aggregate-delivery';\n" +
+    "import { applyIncentives, authorizeIncentives } from './incentives';\n" +
+    "import { executeAggregate } from './aggregate-execution';\n" +
+    "import { applySandbox, authorizeSandbox, SANDBOX_UNAVAILABLE } from './provider-sandbox';\n" +
+    "import { applyDemonstration, authorizeDemonstration, automaticInstall, prepareHome, writeFixtureAccounts } from './demonstration';\n" +
+    "import { env } from 'cloudflare:workers';\n" +
+    "import { headers } from 'next/headers';\n" +
+    "import { identityConfig, principalFromHeaders, signOutPath } from './identity';\n" +
+    "import { seedWorkspace } from './seed';\n" +
+    "import { effectiveRuntime, ensureEnvironment, environmentOf, ENVIRONMENT_LABEL, fixturesFor } from './environment';\n" +
+    "import { AppError, apply, digest, fail, person, visit, uuid, type Command } from './core';\n" +
+    "import { platformApply, platformSchema, validTeams } from './platform';\n" +
+    "import { languageOf } from './messages';\n" +
+    "import { patientTargets } from './partition';\n" +
+    "import { PAGED_THRESHOLD, pagedWindow, pagingRequest, type PagingRequest } from './patient-directory';\n" +
+    "import { auditWindow } from './access-audit';\n" +
+    "import { recordWorkspaceLoad, recordPartitionResponse, type SnapshotVia } from './read-audit';\n" +
+    "import { accountCode, auditPage, snapshotDecorations, parseCursor, createState, ensureAccount, history, persist, persistBurdenCounter, readState, scope, type Actor } from './store';\n" +
+    "import type { OrgState, Integration, Member, Snapshot } from './types';\n" +
+    "export async function identity(){const cfg=identityConfig(runtime());if(cfg.error)fail(503,'Sign-in is not configured for this deployment.');const u=await principalFromHeaders(await headers(),cfg);if(u)return u;if(import.meta.env.DEV&&cfg.provider==='sites-chatgpt')return {userId:'preview-synthetic-owner',displayName:'Preview owner',email:'preview@example.invalid',fullName:null};return fail(401,'Sign in to use your workspace.');}\n" +
+    "export function db(){if(!env.DB)fail(503,'Workspace storage is temporarily unavailable. Your unsaved input has been kept on screen.');return env.DB!;}\n" +
+    'export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material:boolean|SnapshotVia=false){const id=await activeOrg(u,orgId);\n' +
+    ' // Slice 1f: due scheduled caseload transfers are applied (or held) before the organisation is read for this request.\n' +
+    ' await applyDueCaseloads(db(),id,u.userId);\n' +
+    ' const ids=targets?await targets(id):null;\n' +
+    ' // Slice 0b-3: a paging client with a large non-ASHA scope reads only its opened window of patients.\n' +
+    ' const paged=viewerScoped&&!ids&&paging?await pagedWindow(db(),id,u.userId,paging.window):null;\n' +
+    ' // Slice 6aa (seventh review, finding 3): the window audit is not opt-in. A workspace read without the paging request by a\n' +
+    ' // non-ASHA viewer above the threshold returns every in-scope record, so each one is audited first (fail closed).\n' +
+    ' const unpaged=material&&viewerScoped&&!ids&&!paging?await pagedWindow(db(),id,u.userId,[]):null;\n' +
+    ' let state=paged?await readState(db(),id,paged.ids,u.userId,true):await readState(db(),id,ids??undefined,viewerScoped&&!ids?u.userId:undefined);\n' +
+    " if(unpaged){const vm=scope(state,u.userId),all=state.workspace.people.filter(p=>p.assigned).map(p=>p.id),kept=await auditWindow(db(),state,u,vm,all,undefined,'full');if(kept.length!==all.length)state=await readState(db(),id,kept,u.userId,true);}\n" +
+    ' // Slice 6w (fifth review, finding 7): window records not opened through the detail route are audited first.\n' +
+    ' if(paged&&paged.ids.length){const kept=await auditWindow(db(),state,u,scope(state,u.userId),paged.ids);if(kept.length!==paged.ids.length){paged.ids=kept;state=await readState(db(),id,kept,u.userId,true);}}\n' +
+    ' if(paged)state.paging={total:paged.total,threshold:PAGED_THRESHOLD};const viewer=scope(state,u.userId);\n' +
+    ' // Slice 10h (BR-SEC-08): a whole-caseload snapshot is recorded as one summarised event (scope size, records returned, paging\n' +
+    ' // window), after the window audit and before the snapshot is returned; if it cannot be written nothing is returned.\n' +
+    " if(material)await recordWorkspaceLoad(db(),state,u,viewer,typeof material==='string'?material:'workspace load',paged?{total:paged.total,threshold:PAGED_THRESHOLD,window:paged.ids.length}:null);\n" +
+    ' return state;}\n' +
+    "// The organisation a request acts in: the named one, else the account's active membership.\n" +
+    '// Slice 9a: a new home organisation in the synthetic environment receives the demonstration clinical package.\n' +
+    'const ensureHome=(u:Actor)=>ensureAccount(db(),u,w=>fixturesFor(rawRuntime(),w),automaticInstall(rawRuntime())?state=>prepareHome(db(),state,u,environmentOf(rawRuntime()).name,accountCode):undefined);\n' +
+    'export async function activeOrg(u:Actor,orgId?:string|null){await ensureHome(u);let id=orgId;if(!id){const a=awa'... 34488 more characters,
+  expected: /externalCall\(i,p,key,\(\)=>externalRequestAudit\(state,u,m,c,i\)\)/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

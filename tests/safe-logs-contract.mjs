@@ -9,6 +9,8 @@ let passed = 0;
 const check = fn => { fn(); passed++; };
 const files = [...globSync('lib/**/*.ts'), ...globSync('app/**/*.{ts,tsx}'), ...globSync('worker/**/*.ts'), ...globSync('public/field/*.js')].sort();
 const reviewed = [
+  // B26: fixed metadata-storage status; never a key, actor, raw error or body.
+  "lib/saha/server.ts: console.error('Saha work-burden counter unavailable')",
   "lib/saha/monitoring.ts: console.error('Saha request metrics unavailable')",
   "lib/saha/monitoring.ts: console.log(JSON.stringify({event:'saha_request',requestId,route,status:response.status,durationMs:elapsed}))",
   "lib/saha/server.ts: console.error('Workspace operation failed',e instanceof Error?e.name:'unknown')",

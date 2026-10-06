@@ -80,7 +80,7 @@ Read the [UAT plan](UAT-PLAN.md) first: entry and exit criteria, sign-in, test d
 
 <details><summary>What the build does today (assessment, current state of BR-ID-05)</summary>
 
-R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches. Slice 10e: search by one complete issuer identifier (a linked ABHA number, RCH ID or Ni-kshay ID) inside the searcher's own care scope only; exact whole-value formats, so a partial or wildcard identifier is refused rather than searched; each search is a material read audited before it returns and a search that finds nothing is audited too; per-searcher limits (30 an hour, 8 finding nothing an hour, 24 a day); a record outside the scope gets the same answer as no record. The programme issuer formats are illustrative and unchecked against the registries.
+R10 scoped exact/similar-name candidates, explicit separate/provisional decisions and clinician resolution. Slice 1c: merges need two different stewards and are never automatic; merged records are not offered as matches. Slice 10e: search by one complete issuer identifier (a linked ABHA number, RCH ID or Ni-kshay ID) inside the searcher's own care scope only; exact whole-value formats, so a partial or wildcard identifier is refused rather than searched; each search is a material read audited before it returns and a search that finds nothing is audited too; per-searcher limits (30 an hour, 8 finding nothing an hour, 24 a day); a record outside the scope gets the same answer as no record. The programme issuer formats are illustrative and unchecked against the registries. Atomic-review slice: D1 admission reservations bound concurrent ABHA review probes before lookup; stable retries do not probe again, generic refusal is preserved, and 32 local concurrent attempts admit exactly three. No raw ABHA or patient identifiers enter protection rows.
 
 </details>
 
@@ -178,11 +178,11 @@ Closed extraction/summary/review task catalogue and explicit unavailable states.
 
 **Expected result** (catalogue): A cross-patient prompt cannot retrieve another person's information without a separately authorised task and permission check.
 
-**Known gaps** (assessment, remaining work for BR-AG-02): Comprehensive sensitive-data minimisation, representative leak testing and purpose-specific review.
+**Known gaps** (assessment, remaining work for BR-AG-02): Representative sensitive-data leak evaluation across real profiles and purpose-specific review; provider agreements/retention and wider unmapped destination contracts remain external or incomplete.
 
 <details><summary>What the build does today (assessment, current state of BR-AG-02)</summary>
 
-Patient/task-scoped input, exact-source approval and rejection of common identifiers in external narratives.
+Patient/task-scoped input, exact-source approval and rejection of common identifiers in external narratives. Destination-specific structural/path allowlists and exact approved digest/mapping checks repeat at immediate transport for AI, frontline, image, MIS, EHR/ABDM, aggregate and mock enrolment. Decoded-source Unicode/contact guards and unrelated known narrative checks preserve approved body/hash rather than silently rewriting it.
 
 </details>
 
@@ -382,11 +382,11 @@ Conflicting extraction candidates are withheld; original results remain separate
 
 **Expected result** (catalogue): Reviewers can trace each consequential recommendation to its underlying rule or approved output; unsupported answers are withheld or escalated.
 
-**Known gaps** (assessment, remaining work for BR-AG-09): Verified clinical source content and consequential recommendation acceptance on representative scenarios.
+**Known gaps** (assessment, remaining work for BR-AG-09): Verified/licensed clinical source content and consequential recommendation acceptance on representative scenarios.
 
 <details><summary>What the build does today (assessment, current state of BR-AG-09)</summary>
 
-Exact field evidence plus saved protocol findings with source edition/link and service-version attribution.
+Exact field evidence plus saved protocol findings with source edition/link and service-version attribution. Protocols can retain exact acquired document digest alongside edition/link. All acquired dependencies are checked for integrity, source scope and expiry before review/activation; normal expiry and deliberate-corruption defensive tests are distinct.
 
 </details>
 
@@ -552,11 +552,11 @@ Original outputs, model/provider, versioned source and reasoned human decisions 
 
 **Expected result** (catalogue): Superseded or unapproved guidance cannot be offered as current advice, and each displayed recommendation links to its source.
 
-**Known gaps** (assessment, remaining work for BR-CLIN-01): Approved source acquisition/content verification, document retrieval and clinical authorisation.
+**Known gaps** (assessment, remaining work for BR-CLIN-01): Licensed approved clinical content acquisition, publisher/owner verification, clinical authorisation and representative recommendation acceptance; synthetic document transport does not approve content.
 
 <details><summary>What the build does today (assessment, current state of BR-CLIN-01)</summary>
 
-Immutable source metadata retains publisher/edition/link, applicability, owner, effective dates and independent review; protocols cite it.
+Immutable source metadata retains publisher/edition/link, applicability, owner, effective dates and independent review; protocols cite it. Immutable acquired source bytes now support bounded UTF-8/PDF upload, exact digest-pinned scoped download and default-off allowlisted HTTPS retrieval with size/expiry/redirect limits. Independent clinician review and activation remain separate; acquired dependencies must retain exact integrity/scope/expiry before activation.
 
 </details>
 
@@ -760,7 +760,7 @@ Imported source documents, timestamps and local submission provenance retained.
 
 <details><summary>What the build does today (assessment, current state of BR-INT-14)</summary>
 
-Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed. Slice 10e: an ABHA number is accepted as 14 digits or grouped 2-4-4-4 with hyphens and refused otherwise, in the link command and in search. No checksum is applied because no official specification of one was found: the PIB explainer and community guides call it a random 14-digit number, and abdm.gov.in and the sandbox documents could not be read from the build environment.
+Slice 7a: ABHA link after a mock one-time-code check, decline, unlink with history and consent revocation, one current record per ABHA number, masked display. Local mock gateway only. Slice 6r: patient history is redacted on read (ABHA numbers masked in revision data and field changes, received bundles withheld); stored revisions unchanged. Slice 6u: when the record already holding an ABHA number is outside the worker's scope, the link refusal is neutral and does not reveal it. Slice 6z: that refusal is now the ordinary link refusal (same status and text as a gateway refusal), and the server records the conflict as an audit event on the holding record for an identity steward; the requester is not told. Slice 6ab: an ABHA held by an out-of-scope record is refused before the one-time code is looked at; because the mock code is public the refusal is still distinguishable from a link, so the oracle is bounded (one steward review event per requester and holding record a day; after three in a day every further link by that requester is refused the same way), not removed. Slice 10e: an ABHA number is accepted as 14 digits or grouped 2-4-4-4 with hyphens and refused otherwise, in the link command and in search. No checksum is applied because no official specification of one was found: the PIB explainer and community guides call it a random 14-digit number, and abdm.gov.in and the sandbox documents could not be read from the build environment. ABHA review reservations apply before linking lookups, including audit-failure retention and rollout coverage; no live ABDM acceptance is implied.
 
 </details>
 

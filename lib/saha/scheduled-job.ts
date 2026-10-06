@@ -1,3 +1,5 @@
+import {materialiseInstalledWork,installedWorkRows} from './installed-pack-work';
+import {sampleAvailability} from './availability';
 import type { D1Database } from '@cloudflare/workers-types';
 import { AppError, digest, uuid } from './core';
 import { persist, persistScheduledRecord, readState } from './store';
@@ -49,6 +51,8 @@ export type OrganisationOutcome = {
   reviews: { marked: number; deferred: number } | null;
   alerts: { opened: number; closed: number; escalated: number; recipients: number } | null;
   chain: { verified: boolean; status: string | null; events: number; recorded: boolean } | null;
+  installedWork?: {created:number;invalidated:number};
+  availability?: Awaited<ReturnType<typeof sampleAvailability>>;
   recorded: boolean; problems: string[];
 };
 export type JobRun = { refused: string | null; at: string; stoppedBy: 'complete' | 'organisations' | 'queries' | 'time' | 'refused'; organisations: OrganisationOutcome[]; notReached: number; queries: number };
@@ -94,6 +98,9 @@ async function processOrganisation(d: D1Database, orgId: string, now: string, li
   // Maintenance pauses automatic application (slice 1f) and every write to the organisation record; alerts are still evaluated.
   out.maintenance = !!s.operations?.maintenance;
   if (!out.maintenance) {
+    // Reviewed installed work has bounded, idempotent recovery independent of traffic/AI.
+    try { const before=structuredClone(s);const result=await materialiseInstalledWork(s,JOB_ACTOR,undefined,now,20);if(result.created+result.invalidated||JSON.stringify(s.operations)!==JSON.stringify(before.operations))await persist(d,before,s,JOB_ACTOR,{type:'installedWork.recover'},'installed-work-'+uuid(),await digest(result),result,installedWorkRows(s,before));out.installedWork=result; } catch(e){out.problems.push(problem('installed-work',e));}
+    try{s=await readState(d,orgId);}catch(e){out.problems.push(problem('read',e));return out;}
     // 1. Due scheduled caseload transfers, applied or held by the existing path (slice 6ae).
     const due = dueTransfers(s, now);
     if (due.length) {
@@ -144,6 +151,7 @@ async function processOrganisation(d: D1Database, orgId: string, now: string, li
     out.chain = { verified: true, status: verification.status, events: verification.events, recorded: false };
     if (recordNow && !out.maintenance) out.chain.recorded = await recordChainVerification(d, orgId, previous, record);
   } catch (e) { out.problems.push(problem('chain', e)); }
+  if(s.operations?.availability?.enabled){try{const fresh=await readState(d,orgId,[]);out.availability=await sampleAvailability(d,fresh,'scheduler',JOB_ACTOR,null,now,env);}catch(e){out.problems.push(problem('availability',e));}}
   return out;
 }
 

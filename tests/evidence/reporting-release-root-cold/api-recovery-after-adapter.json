@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-10-05T20:40:21.528Z",
+  "startedAt": "2026-10-05T20:39:05.014Z",
+  "command": "node scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard --report tests/evidence/reporting-release-root-cold/api-recovery-after-adapter.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 4770,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 73804,
+      "failedSuites": 0
+    },
+    {
+      "layer": "resilience",
+      "status": "passed",
+      "suites": 1,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2522,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 4791,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 76514
+  },
+  "suites": [
+    {
+      "id": "integration/run-api-smoke",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/run-api-reporting-current.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 4770,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 73804,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/reporting-release-root-cold/api-current-result.json"
+      ],
+      "requirementsCited": 114,
+      "reason": null,
+      "log": "tests/reports/logs/integration__run-api-smoke.log"
+    },
+    {
+      "id": "resilience/recovery-drill",
+      "layer": "resilience",
+      "kind": "suite",
+      "file": "tests/recovery-drill.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2522,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/recovery-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/resilience__recovery-drill.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/recovery-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 194,
+        "components": 0,
+        "suitesCitingNoRequirement": 55,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 130,
+        "components": 84,
+        "suitesCitingNoRequirement": 59,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 200,
+        "components": 0,
+        "suitesCitingNoRequirement": 174,
+        "requirementsCited": 122
+      }
+    },
+    "supportFiles": 19,
+    "suites": 540,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 292,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "proof": [
+    {
+      "kind": "Current protected alert sidecar; original residual evidence retained",
+      "status": 200,
+      "body": {
+        "aggregatePrivacy": {
+          "notice": "Historical care reporting notifications have no certified original contribution evidence. Their counts, events and unread totals are unavailable here. Current reporting alerts are regenerated under your current reporting permissions and small-group protection. Open the individual care record for authorised clinical work.",
+          "currentAvailable": false
+        },
+        "currentAggregateAlerts": [],
+        "rules": {
+          "delivery": "1.0.0",
+          "alerts": "1.2.0",
+          "escalateAfterMinutes": {
+            "critical": 30,
+            "high": 240,
+            "normal": 1440
+          },
+          "ladder": {
+            "operations": [
+              "operations",
+              "owners"
+            ],
+            "supervisors": [
+              "supervisors",
+              "owners"
+            ],
+            "owners": [
+              "owners"
+            ]
+          },
+          "evaluateEverySeconds": 60
+        },
+        "owns": [
+          "operations",
+          "supervisors",
+          "owners"
+        ],
+        "evaluated": true,
+        "unread": 1,
+        "items": [
+          {
+            "id": "06272d75-f270-466d-a99a-a550a4ff38f8",
+            "alertId": "incident-critical-open",
+            "level": 1,
+            "kind": "delivery",
+            "severity": "critical",
+            "title": "Critical incidents not resolved",
+            "count": 1,
+            "detail": null,
+            "deliveredAt": "2026-10-06T09:29:44.040Z",
+            "readAt": null,
+            "clearedAt": null,
+            "clearedReason": null,
+            "active": true
+          }
+        ],
+        "escalations": [],
+        "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+      }
+    }
+  ],
+  "ledgerHashOnly": true
+}

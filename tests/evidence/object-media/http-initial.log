@@ -1,0 +1,17 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-http.mjs:15
+ const key=crypto.randomUUID(),first=await upload(bytes(),{key}),row=await db.prepare('SELECT * FROM media WHERE org_id=? AND id=?').bind(org,first.mediaId).first(),ref=JSON.parse(row.storage_ref);check(()=>assert.equal(row.data,''));check(()=>assert.equal(row.size,1024*1024));check(()=>assert.ok(!ref.key.includes(personId)&&!ref.key.includes(actor.id)));check(()=>assert.deepEqual(new Uint8Array(await (await open(first.mediaId)).arrayBuffer()),bytes()));
+                                                                                                                                                                                                                                                                                                                                                                                                               ^^^^^
+
+SyntaxError: Unexpected reserved word
+    at compileSourceTextModule (node:internal/modules/esm/utils:318:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:89:18)
+    at #translate (node:internal/modules/esm/loader:434:20)
+    at afterLoad (node:internal/modules/esm/loader:502:29)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:507:12)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:560:36)
+    at afterResolve (node:internal/modules/esm/loader:607:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:613:12)
+    at node:internal/modules/esm/loader:632:32
+    at TracingChannel.tracePromise (node:diagnostics_channel:362:14)
+
+Node.js v24.19.0

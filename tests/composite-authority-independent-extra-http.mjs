@@ -1,0 +1,49 @@
+import assert from 'node:assert/strict';import {mkdirSync,writeFileSync} from 'node:fs';import {identity,client} from './lib/worker.mjs';import {startMiniflare} from './lib/miniflare.mjs';
+const w=await startMiniflare({port:9092,name:'composite-authority-independent-extra'});let passed=0;const observations=[];const check=(v,m)=>{assert.ok(v,m);passed++;};
+try{const api=client(w.base),o=identity('composite-owner'),r=identity('composite-reviewer'),a=identity('composite-viewer-a'),b=identity('composite-viewer-b'),foreign=identity('composite-foreign'),s=(await api.get(o,'/api/workspace')).json,org=s.organisation.id,db=await w.mf.getD1Database('DB'),reason='Synthetic owner calculation independent software review';
+const cmd=async(who,c,status=200,key=crypto.randomUUID())=>{const x=await api.call(who,'/api/commands',{method:'POST',org,body:c,headers:{'Idempotency-Key':key}});check(x.status===status,x.text);return x.json;};const snapshot=async()=>(await api.get(o,'/api/workspace',org)).json;
+for(const who of [r,a,b]){const t=(await api.get(who,'/api/workspace')).json,inv=(await cmd(o,{type:'createInvite',accountCode:t.user.accountCode,label:'Synthetic independent calculation viewer',role:'supervisor',teamIds:['default']})).result;await cmd(who,{type:'joinOrganisation',token:inv.token});}
+const visits=[];for(const p of s.people){const id=(await cmd(o,{type:'startVisit',personId:p.id})).result.visitId;let t=await snapshot(),v=t.visits.find(v=>v.id===id);await cmd(o,{type:'saveVisit',visitId:id,version:v.version,facts:{date:new Date(Date.now()-60000).toISOString().slice(0,16),systolic:'',diastolic:'',weight:'55',temperature:'',weeks:'',coughDays:'',notes:'Synthetic composite reporting',source:'measured'}});t=await snapshot();v=t.visits.find(v=>v.id===id);await cmd(o,{type:'confirmVisit',visitId:id,version:v.version,patientCheck:{personId:p.id,personVersion:t.people.find(x=>x.id===p.id).version,confirmed:true}});visits.push(id);}
+const leaf={measure:'visits-confirmed'},person={measure:'patients'},expression=(op)=>op==='offset'?{op:'sum',terms:[leaf,{constant:100}]}:op==='threshold'?{op:'at-least',term:leaf,value:1}:{op,terms:[leaf,person]},operand=op=>({version:1,expression:expression(op),fixtures:[{inputs:op==='offset'||op==='threshold'?{'visits-confirmed':0}:{'visits-confirmed':0,patients:0},expected:op==='offset'?100:0},{inputs:op==='offset'||op==='threshold'?{'visits-confirmed':2}:{'visits-confirmed':2,patients:2},expected:({sum:4,min:2,max:2,any:1,all:1,threshold:1,offset:102})[op]}]}),spec=op=>({title:'Synthetic owner '+op,unit:'count',numerator:operand(op),denominator:null,filters:{},exclude:[],exclusionsNote:'Synthetic fixture only',owner:'Synthetic owner',cadence:'Monthly',minimumCohort:5});
+const lifecycle=async(id,sp)=>{const body={type:'addIndicatorDefinition',id,spec:sp,reason},key=crypto.randomUUID(),p=(await cmd(o,body,200,key)).result;const replay=(await cmd(o,body,200,key)).result;check(JSON.stringify(p)===JSON.stringify(replay),'Exact proposal receipt replay preserves configured body');await cmd(o,{type:'reviewIndicatorDefinition',id,expectedVersion:1,expectedGovernanceVersion:1,decision:'approve',reason},403);const approval=(await cmd(r,{type:'reviewIndicatorDefinition',id,expectedVersion:1,expectedGovernanceVersion:1,decision:'approve',reason})).result;const at=new Date(Date.now()+100).toISOString();await cmd(o,{type:'releaseIndicatorDefinition',id,expectedVersion:1,expectedGovernanceVersion:2,reviewEventId:approval.eventId,effectiveAt:at,reason});await new Promise(resolve=>setTimeout(resolve,120));};
+const ids=[];for(const op of ['sum','offset','any','all','threshold','min','max']){const id='composite-'+op;await lifecycle(id,spec(op));ids.push(id+'@1');}
+const report=async(who,ids,format)=>api.call(who,'/api/indicators',{method:'POST',org,body:{ids:ids.join(','),days:30,group:'none',...(format?{format}:{})}});
+
+
+const literal=v=>"'"+String(v).replaceAll("'","''")+"'";
+const grant=(await cmd(o,{type:'setAccessPurpose',memberId:r.id,version:0,programme:null,purposes:['reporting','care-coordination'],reason})).result;
+const operation=async()=>JSON.parse((await db.prepare('SELECT data FROM operations WHERE org_id=?').bind(org).first()).data);
+const vi=visits[0],beforeVisit=await db.prepare('SELECT * FROM visits WHERE org_id=? AND id=?').bind(org,vi).first();
+await cmd(o,{type:'voidVisit',visitId:vi,version:beforeVisit.record_version,reason:'Synthetic authorized void retained as exact concurrent-source fixture'});
+const afterVisit=await db.prepare('SELECT * FROM visits WHERE org_id=? AND id=?').bind(org,vi).first();
+const restoreVisit=()=>db.prepare('UPDATE visits SET data=?,state=?,version=?,record_version=? WHERE org_id=? AND id=?').bind(beforeVisit.data,beforeVisit.state,beforeVisit.version,beforeVisit.record_version,org,vi).run();await restoreVisit();
+const opsBefore=await operation(),eventsBefore=opsBefore.indicatorDefinitionEvents,defsBefore=opsBefore.indicatorDefinitions;
+await cmd(o,{type:'reviseIndicatorDefinition',id:'composite-sum',expectedVersion:1,spec:spec('max'),reason});
+const v2review=(await cmd(r,{type:'reviewIndicatorDefinition',id:'composite-sum',expectedVersion:2,expectedGovernanceVersion:4,decision:'approve',reason})).result;
+await cmd(o,{type:'releaseIndicatorDefinition',id:'composite-sum',expectedVersion:2,expectedGovernanceVersion:5,reviewEventId:v2review.eventId,effectiveAt:new Date(Date.now()+100).toISOString(),reason});await new Promise(resolve=>setTimeout(resolve,120));
+const opsAfter=await operation(),eventsAfter=opsAfter.indicatorDefinitionEvents,defsAfter=opsAfter.indicatorDefinitions;
+const restoreEvents=()=>db.prepare("UPDATE operations SET data=json_set(data,'$.indicatorDefinitionEvents',json(?),'$.indicatorDefinitions',json(?)) WHERE org_id=?").bind(JSON.stringify(eventsBefore),JSON.stringify(defsBefore),org).run();await restoreEvents();
+for(const format of [undefined,'csv']){
+ const safe=await report(r,[ids[0]],format);check(safe.status===200,'Current independent supervisor reports with permitted reporting purpose');
+ check(format?safe.text.includes('"All","12","12"'):safe.json.results[0].rows[0].value===12,'Actual six-person safe composite preserved');
+ const mutations={
+ purpose:{sql:"UPDATE operations SET data=json_set(data,'$.purposeGrants[0].purposes',json('[\"care-coordination\"]')) WHERE org_id=NEW.org_id;",status:[403]},
+ programme:{sql:"UPDATE operations SET data=json_set(data,'$.purposeGrants[0].programme','Maternal care') WHERE org_id=NEW.org_id;",status:[403]},
+ clinical:{sql:`UPDATE visits SET data=${literal(afterVisit.data)},state=${literal(afterVisit.state)},version=${afterVisit.version},record_version=${afterVisit.record_version} WHERE org_id=NEW.org_id AND id=${literal(vi)};`,status:[409]},
+ definition:{sql:`UPDATE operations SET data=json_set(data,'$.indicatorDefinitionEvents',json(${literal(JSON.stringify(eventsAfter))}),'$.indicatorDefinitions',json(${literal(JSON.stringify(defsAfter))})) WHERE org_id=NEW.org_id;`,status:[409]}
+ };
+ for(const [mode,{sql,status}] of Object.entries(mutations)){
+  const audit=format?"NEW.action='indicatorExport'":"NEW.action='viewAggregate' AND NEW.subject='indicator results'";
+  await db.prepare(`CREATE TRIGGER composite_extra_race AFTER INSERT ON audit_events WHEN ${audit} BEGIN ${sql} END`).run();
+  const result=await report(r,[mode==='definition'?'composite-sum':ids[0]],format);observations.push({format:format??'view',mode,status:result.status,error:result.json?.error});
+  check(status.includes(result.status),mode+' must fail closed: '+result.text);
+  check(!result.json?.results&&!result.text.includes('"All","12","12"'),'No protected cells survive '+mode+' drift');
+  await db.prepare('DROP TRIGGER composite_extra_race').run();
+  await db.prepare("UPDATE operations SET data=json_set(data,'$.purposeGrants[0].purposes',json('[\"reporting\",\"care-coordination\"]'),'$.purposeGrants[0].programme',null) WHERE org_id=?").bind(org).run();
+  await restoreVisit();await restoreEvents();
+ }
+ const primitive=await report(r,['visits-confirmed@1'],format);check(primitive.status===200,'Unchanged current primitive remains meaningful');
+ check(format?primitive.text.includes('"All","6","6"'):primitive.json.results[0].rows[0].value===6,'Primitive genuine source count remains six');
+}
+mkdirSync('tests/evidence/composite-authority-independent/extra-http',{recursive:true});writeFileSync('tests/evidence/composite-authority-independent/extra-http/http.json',JSON.stringify({passed,failed:0,actualWorker:true,actualD1:true,observations,scope:'Current independent supervisor reporting purpose/programme, exact supported clinical void and governed reviewed revision replayed only as audit-race fixtures; original ledger/receipts/history retained, no outbound activity.'},null,2)+'\n');console.log(JSON.stringify({passed,failed:0,observations}));
+}finally{await w.stop()}

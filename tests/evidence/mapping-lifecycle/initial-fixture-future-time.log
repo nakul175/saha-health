@@ -1,0 +1,32 @@
+{"event":"saha_request","requestId":"caac4309-4b97-4426-a86d-f9a183b13b52","route":"workspace","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"7fbbd86e-3546-4f7f-b88b-c2f9c4e1c5d6","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"8a8aaebe-599f-4753-9326-19062c20e67e","route":"workspace","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"6e458055-1843-46ee-845b-f280be1d62ec","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"c8288af1-f2cb-45eb-bff5-504d3a912adf","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"960fbd4c-a770-4c51-be71-827fc0bf2269","route":"commands","status":403,"durationMs":4}
+{"event":"saha_request","requestId":"eb9ba946-6b36-468f-8163-7896a45e353d","route":"commands","status":401,"durationMs":0}
+{"event":"saha_request","requestId":"d8cbd64c-c712-4c9f-94de-42d9a2c4baa4","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"94e9fc3e-1ded-4ab8-9ef0-974b423e0a40","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"9b71aa81-5c91-49e5-8c39-47f0bee9a144","route":"commands","status":200,"durationMs":30}
+{"event":"saha_request","requestId":"040e9ae3-5d6b-45bf-a4e1-844ee309dea9","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"20382abe-eb78-44d6-80f7-454ccd396d44","route":"commands","status":422,"durationMs":6}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Observation time cannot be in the future."}
+
+422 !== 200
+
+    at post (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:3:402)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-mapping-lifecycle/tests/mapping-lifecycle-http.mjs:7:330 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 422,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

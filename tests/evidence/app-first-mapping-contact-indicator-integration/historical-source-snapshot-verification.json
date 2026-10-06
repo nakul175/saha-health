@@ -1,0 +1,23 @@
+{
+  "passed": 3,
+  "failed": 0,
+  "checks": [
+    {
+      "file": "docs/verification/evidence-source-snapshots/cc004cb2f8eedc8c4c726517540162d1a85ebd626199c7e0d730e8e7367f19eb.txt",
+      "refused": true,
+      "exitCode": 1,
+      "expectedDiagnostic": "Changed slice evidence"
+    },
+    {
+      "file": "tests/evidence/contact-import/http-phone.json",
+      "refused": true,
+      "exitCode": 1,
+      "expectedDiagnostic": "Changed slice evidence"
+    },
+    {
+      "restoredOriginalBytes": true,
+      "positiveCheckerExitCode": 0
+    }
+  ],
+  "scope": "Actual documentation checker: original source snapshot and original evidence report tampering refused; exact originals restored and full positive check passes."
+}

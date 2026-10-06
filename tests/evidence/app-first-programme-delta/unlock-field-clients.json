@@ -1,0 +1,439 @@
+{
+  "generatedAt": "2026-10-05T05:11:10.846Z",
+  "startedAt": "2026-10-05T05:10:46.715Z",
+  "command": "node scripts/test.mjs unit integration --only unit/field-client,unit/field-contract,unit/field-capacity-client,unit/field-media-capacity-client,unit/field-media-client,unit/field-provenance-client,unit/field-recording-client,unit/field-registration-client,unit/field-shell,unit/field-storage-client,unit/field-units-client,unit/speech-contract,unit/app-offline-contract,unit/app-offline-scope-contract,integration/app-offline-browser,integration/app-offline-review-browser --fast --guard --update-baseline --reason Require held real verification, no disclosure and unchanged settled ciphertext in wrong-account unlock, without reducing existing workflow checks --report tests/reports/app-first-programme-unlock-final.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 14,
+      "passed": 414,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 16209,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 2,
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 7690,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 16,
+    "passed": 458,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 24131
+  },
+  "suites": [
+    {
+      "id": "unit/app-offline-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/app-offline-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 28,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/unit__app-offline-contract.log"
+    },
+    {
+      "id": "unit/app-offline-scope-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/app-offline-scope-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 31,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/unit__app-offline-scope-contract.log"
+    },
+    {
+      "id": "unit/field-capacity-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-capacity-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4826,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-capacity-client-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-capacity-client.log"
+    },
+    {
+      "id": "unit/field-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 120,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-client-result.json"
+      ],
+      "requirementsCited": 8,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-client.log"
+    },
+    {
+      "id": "unit/field-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 536,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-contract-result.json"
+      ],
+      "requirementsCited": 8,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-contract.log"
+    },
+    {
+      "id": "unit/field-media-capacity-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-media-capacity-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9272,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-media-capacity-client-result.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-media-capacity-client.log"
+    },
+    {
+      "id": "unit/field-media-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-media-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 97,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 138,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-media-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-media-client.log"
+    },
+    {
+      "id": "unit/field-provenance-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-provenance-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 73,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-provenance-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-provenance-client.log"
+    },
+    {
+      "id": "unit/field-recording-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-recording-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 227,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-recording-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-recording-client.log"
+    },
+    {
+      "id": "unit/field-registration-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-registration-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 550,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-registration-client-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-registration-client.log"
+    },
+    {
+      "id": "unit/field-shell",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-shell.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 41,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-shell-result.json"
+      ],
+      "requirementsCited": 8,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-shell.log"
+    },
+    {
+      "id": "unit/field-storage-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-storage-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 116,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-storage-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-storage-client.log"
+    },
+    {
+      "id": "unit/field-units-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-units-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 76,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-units-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-units-client.log"
+    },
+    {
+      "id": "unit/speech-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/speech-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 175,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/speech-contract-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__speech-contract.log"
+    },
+    {
+      "id": "integration/app-offline-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/app-offline-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3825,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/integration__app-offline-browser.log"
+    },
+    {
+      "id": "integration/app-offline-review-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/app-offline-review-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3865,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 4,
+      "reason": null,
+      "log": "tests/reports/logs/integration__app-offline-review-browser.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 16,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/field-client-result.json",
+      "tests/field-contract-result.json",
+      "tests/field-shell-result.json",
+      "tests/evidence/app-offline-review/expired-grant.png",
+      "tests/evidence/app-offline-review/offline-patient.png",
+      "tests/evidence/app-offline/expired-grant.png",
+      "tests/evidence/app-offline/offline-patient.png",
+      "tests/evidence/app-offline/result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/field-capacity-client-result.json",
+      "tests/field-media-capacity-client-result.json",
+      "tests/field-media-client-result.json",
+      "tests/field-provenance-client-result.json",
+      "tests/field-recording-client-result.json",
+      "tests/field-registration-client-result.json",
+      "tests/field-storage-client-result.json",
+      "tests/field-units-client-result.json",
+      "tests/speech-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 147,
+        "components": 0,
+        "suitesCitingNoRequirement": 34,
+        "requirementsCited": 139
+      },
+      "integration": {
+        "suites": 17,
+        "components": 84,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 120
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 190,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 155,
+    "suitesCitingNoRequirement": 45,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 155
+  }
+}

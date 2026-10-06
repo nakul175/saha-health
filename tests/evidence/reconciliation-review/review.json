@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-05",
+  "reviewedIntegration": "b4f55ca1",
+  "independentScope": "R27 reconciliation only; R77 excluded as reviewer-authored work",
+  "findings": [
+    {
+      "severity": "P1",
+      "file": "app/reconciliation-panel.tsx",
+      "issue": "Delayed requests from an old organisation or filter overwrite the active scoped view; late previews also survive patient switches.",
+      "status": "fixed",
+      "reproduction": "Real Chromium against the original component fails when OLD ORGANISATION SECRET becomes visible after switching to org_B."
+    },
+    {
+      "severity": "P2",
+      "file": "app/reconciliation-panel.tsx",
+      "issue": "A failed reconciliation read leaves previously rendered rows visible while reporting that the current audit/read was refused.",
+      "status": "fixed"
+    },
+    {
+      "severity": "P3",
+      "file": "app/reconciliation-panel.tsx",
+      "issue": "Opening a queue record from /app always navigates to the full web workspace.",
+      "status": "fixed",
+      "validation": "Real Chromium asserts /app?patient=p1 on /app and /?patient=p1 in the web workspace."
+    }
+  ],
+  "verifiedServerDesign": [
+    "Queue filters correction tasks by current normal care scope and merge rows by both records",
+    "Queue access is audited before results; audit failure refuses data",
+    "Assignments require eligible current owner access to all affected records and compare expected history plus owner",
+    "Command receipt replay invokes reconciliation authorisation again",
+    "Backfill applies only to absent task collections, validates amendment link and plan hash, uses deterministic IDs and appends audit without modifying downstream outputs"
+  ],
+  "tests": {
+    "realChromiumComponent": 10,
+    "typecheck": "passed",
+    "baselineRegressionReproduced": true,
+    "build": "passed; existing large client bundle warning"
+  },
+  "limits": "Browser component uses delayed synthetic responses; server source and existing HTTP evidence reviewed. This reviewer did not rerun the R27 HTTP/D1 suite or perform external acceptance. No formal requirement accepted."
+}

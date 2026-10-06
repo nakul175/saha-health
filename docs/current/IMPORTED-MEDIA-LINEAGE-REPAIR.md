@@ -1,0 +1,11 @@
+# Imported historical attachment lineage repair
+
+6 October 2026 (IST). Base `9ec9afd2f87dce2b046890a97f84f2e99900914a`. Independent review and broad integration qualification remain pending.
+
+Private-media integration checked only the ordinary visit attachment list. Documentary imported attachments deliberately belong to the original patient's imported source-evidence package, leaving the confirmed historical visit unchanged. A real synthetic Worker/D1 reproduction returned503 for a valid512-byte imported attachment whose row and retained reference matched. The before refusal, observed lineage and exact source preimages are retained under `tests/evidence/media-imported-lineage-before/` and pinned by its manifest.
+
+The repair permits the retained documentary reference only for a null-storage legacy D1 row, an imported historical visit with the row's exact patient, and a source-evidence package belonging to that current patient with the exact historical visit and attachment ID. All existing reference metadata comparisons, canonical base64 content digest, stored byte checks, current care purpose/scope, post-byte and post-audit rechecks remain. Private object custody cannot use this fallback. Confirmed historical visits remain immutable; source facts, original clinical bodies and hash formats are unchanged.
+
+Fresh types and build pass. A separately named output/port adapter of the preserved original imported-evidence HTTP driver passes all40 original assertions, including exact bytes, unchanged historical visit, explicit review/use, withdrawal, atomic failed audit, scoped receipt replay, data exit and audit chain. Reports and raw logs are pinned under `tests/evidence/media-imported-lineage-repair/`. An initial missing package-manager command and sandbox loopback refusal are retained as setup failures; neither is a product verdict. The build was executed through the repository framework runner and the isolated test rerun with local-server permission.
+
+This is synthetic local software evidence. It does not qualify the entire private-media integration, the Android package, external source accuracy or clinical acceptance. Root's earlier118-workflow integration run failed16 suites (102 positive suites/4305 passed assertions); that failure remains retained and further repairs/qualification are required.

@@ -1,3 +1,5 @@
+import { unresolvedDisputes } from './verification-disputes';
+export { targetContent, targetHash, targetText } from './verification-disputes';
 import { normallyAllowed } from './access';
 import { digest, fail } from './core';
 import { MEASURE_LABEL, entryContent, entryKeys, factMeasuresPresent, measureValue } from './fact-provenance';
@@ -36,22 +38,10 @@ export const DISPUTE_TARGET=/^(notes|fact:(bloodPressure|weight|temperature|week
 export const disputeLabel=(target:string,questionLabel?:string)=>target==='notes'?'Visit notes':target.startsWith('fact:')?MEASURE_LABEL[target.slice(5) as Measure]??target.slice(5):questionLabel??`Programme answer ${target.slice(7)}`;
 // What can be disputed on a visit: each recorded measurement, the notes and each recorded programme answer.
 export const disputeTargets=(v:Visit):string[]=>[...factMeasuresPresent(v.facts).map(m=>'fact:'+m),...entryKeys(v)];
-export function targetContent(v:Visit,target:string):unknown{
- if(target==='notes')return v.facts.notes??'';
- if(target.startsWith('fact:')){const m=target.slice(5) as Measure;return [m==='bloodPressure'?[v.facts.systolic,v.facts.diastolic]:measureValue(v.facts,m),v.facts.provenance?.[m]??null];}
- const k=target.slice(7),c=entryContent(v);return [own(c.answers,k)??null,own(c.absence,k)??null];
-}
-export const targetHash=(v:Visit,target:string)=>digest(targetContent(v,target));
-// A short display text for the disputed content (kept on the dispute as evidence of what was disputed).
-export function targetText(v:Visit,target:string):string{
- if(target==='notes')return (v.facts.notes??'').slice(0,200);
- if(target.startsWith('fact:')){const m=target.slice(5) as Measure;return m==='bloodPressure'?`${v.facts.systolic||'-'}/${v.facts.diastolic||'-'}`:String(measureValue(v.facts,m)||'not recorded').slice(0,60);}
- const k=target.slice(7),c=entryContent(v),a=own(c.answers,k),r=own(c.absence,k);return (a?a:r?`${r} (absence reason)`:'').slice(0,200);
-}
 export const resolutionOf=(v:Pick<Visit,'disputeResolutions'>,d:Pick<Dispute,'id'>):DisputeResolution|null=>(v.disputeResolutions??[]).find(r=>r.disputeId===d.id)??null;
-// Open disputes that can stop a send: a dispute on a visit that was corrected or voided is closed by that, and the
-// correction draft carries any still-open dispute forward (carryDisputes in visit-signoff).
-export const openDisputes=(v:Visit):Dispute[]=>live(v)?(v.disputes??[]).filter(d=>!resolutionOf(v,d)):[];
+// Current visits enforce unresolved explicit and verification-derived holds. Superseded/void source history is
+// retained, not resolved implicitly; amendments carry unresolved review holds forward in visit-signoff.
+export const openDisputes=(v:Visit):Dispute[]=>live(v)?unresolvedDisputes(v):[];
 const FIELDS:Record<string,string[]>={bloodPressure:['systolic','diastolic']};
 // Would this destination carry the disputed item? Demonstration programme destinations record the whole visit. A mapped
 // (HTTP) programme destination carries exactly the facts its mapping reads; programme answers are not part of any mapping

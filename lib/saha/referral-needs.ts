@@ -16,8 +16,8 @@ export const NEED_LABEL: Record<NeedId, string> = {
 export const MAX_PACK_REQUESTS = 20;
 export const MAX_REQUESTS_PER_COMMAND = 12;
 // The need a referral records, and each programme episode that asked for it (kept after the referral is created).
-export type ReferralNeed = { code: NeedId; label: string };
-export type PackRequest = { id: string; enrolmentId: string; packId: string; packVersion: number; packName: string; episodeLabel: string; reason: string; sourceId: string; requestedBy: string; requestedAt: string };
+export type ReferralNeed = { code: NeedId; label: string; declarationGroup?:string; compatibilityKey?:string|null };
+export type PackRequest = { id: string; enrolmentId: string; packId: string; packVersion: number; packName: string; episodeLabel: string; reason: string; sourceId: string; requestedBy: string; requestedAt: string; declaration?:{id:string;compatibilityKey:string|null;urgency:import('./referral-rules').Urgency;manifestHash:string} };
 export const normText = (s: string) => s.normalize('NFKC').toLocaleLowerCase().replace(/\s+/g, ' ').trim();
 // Two requests are the same need when this key matches (and they come from the same confirmed visit of the same person).
 export const needKey = (code: string, label: string, facility: string) => [code, code === 'other' ? normText(label) : '', normText(facility)].join('|');

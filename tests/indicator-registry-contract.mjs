@@ -28,52 +28,53 @@ try {
     workspace: { people, visits, submissions: [], referrals: [], integrations: [], audit: [] } };
   const M = id => s.members.find(m => m.userId === id), U = id => ({ userId: id, displayName: id, email: `${id}@example.invalid` });
   const spec = (over = {}) => ({ title: 'Older adults seen', unit: 'proportion', numerator: 'patients-seen', denominator: 'patients', filters: { ageBand: '50+' }, exclude: [], exclusionsNote: 'Merged records', owner: 'Programme manager', cadence: 'Monthly', minimumCohort: 5, ...over });
+  const applyReleased=(state,input,actor,member,at='2026-09-29T10:00:00.000Z')=>{const r=reg.applyIndicatorRegistry(state,input,actor,member,at);if(!r||r.status!=='proposed')return r;const reviewed=reg.applyIndicatorRegistry(state,{type:'reviewIndicatorDefinition',id:r.id,expectedVersion:r.version,expectedGovernanceVersion:r.governanceVersion,decision:'approve',reason:'Independent synthetic fixture governance review'},U('sup'),M('sup'),at);reg.applyIndicatorRegistry(state,{type:'releaseIndicatorDefinition',id:r.id,expectedVersion:r.version,expectedGovernanceVersion:reviewed.governanceVersion,reviewEventId:reviewed.eventId,effectiveAt:at,reason:'Synthetic fixture reviewed release'},actor,member,at);return {id:r.id,version:r.version,status:input.type==='retireIndicatorDefinition'?'retired':'active'};};
   const cmd = (type, over = {}) => ({ type, id: 'older-seen', reason: 'Quarterly review of older adult coverage', ...over });
   const q = (ids, over = {}) => ({ ids, days: 30, group: 'none', ...over });
 
   // Built-in catalogue definitions are the registry's version 1 entries.
   check(() => { const r = x.registryRecords(s); assert.equal(r.length, 12); assert.ok(r.every(d => d.version === 1 && d.builtIn && d.by === 'built-in' && d.status === 'active')); assert.equal(x.catalogue(s).length, 12); });
   // Only an active owner maintains the registry; the same check runs on replay.
-  check(() => { status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec() }), U('sup'), M('sup')), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), isOwner: false }, { type: 'retireIndicatorDefinition' }), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), status: 'suspended' }, { type: 'addIndicatorDefinition' }), 403); assert.equal(reg.applyIndicatorRegistry(s, { type: 'opsMaintenance' }, U('own'), M('own')), null); });
+  check(() => { status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec() }), U('sup'), M('sup')), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), isOwner: false }, { type: 'retireIndicatorDefinition' }), 403); status(() => reg.authorizeIndicatorRegistry(s, { ...M('own'), status: 'suspended' }, { type: 'addIndicatorDefinition' }), 403); assert.equal(applyReleased(s, { type: 'opsMaintenance' }, U('own'), M('own')), null); });
   // Definitions use the fixed vocabulary only.
   check(() => {
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec({ denominator: null }) }), U('own'), M('own')), 422);
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec({ unit: 'count' }) }), U('own'), M('own')), 422);
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec({ numerator: 'patient-names' }) }), U('own'), M('own')), 422);
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: { ...spec(), sql: 'select * from patients' } }), U('own'), M('own')), 422);
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec({ filters: { village: 'Chak' } }) }), U('own'), M('own')), 422);
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec({ minimumCohort: 3 }) }), U('own'), M('own')), 422);
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec(), reason: 'short' }), U('own'), M('own')), 422);
-    status(() => reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { id: 'visits-confirmed', spec: spec() }), U('own'), M('own')), 409);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec({ denominator: null }) }), U('own'), M('own')), 422);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec({ unit: 'count' }) }), U('own'), M('own')), 422);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec({ numerator: 'patient-names' }) }), U('own'), M('own')), 422);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: { ...spec(), sql: 'select * from patients' } }), U('own'), M('own')), 422);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec({ filters: { village: 'Chak' } }) }), U('own'), M('own')), 422);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec({ minimumCohort: 3 }) }), U('own'), M('own')), 422);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { spec: spec(), reason: 'short' }), U('own'), M('own')), 422);
+    status(() => applyReleased(s, cmd('addIndicatorDefinition', { id: 'visits-confirmed', spec: spec() }), U('own'), M('own')), 409);
   });
   // Add, then a result names the definition and version it used.
-  const added = reg.applyIndicatorRegistry(s, cmd('addIndicatorDefinition', { spec: spec() }), U('own'), M('own'), '2026-09-29T10:00:00.000Z');
+  const added = applyReleased(s, cmd('addIndicatorDefinition', { spec: spec() }), U('own'), M('own'), '2026-09-29T10:00:00.000Z');
   const first = x.indicatorQuery(s, M('sup'), q(['older-seen', 'visits-confirmed']), now);
   check(() => { assert.deepEqual(added, { id: 'older-seen', version: 1, status: 'active' }); const r = first.results[0]; assert.equal(r.version, 1); assert.equal(r.definition.id, 'older-seen'); assert.match(r.definition.canonical, /"ageBand":"50\+"/); assert.equal(r.rows[0].numerator, 7); assert.equal(r.rows[0].denominator, 7); assert.equal(s.workspace.audit.at(-1).action, 'indicatorDefinition'); });
   // Revise appends version 2; version 1 is unchanged and still reproduces the earlier result.
   const v1 = JSON.stringify(x.registryRecords(s).find(r => r.id === 'older-seen'));
-  check(() => { status(() => reg.applyIndicatorRegistry(s, cmd('reviseIndicatorDefinition', { expectedVersion: 2, spec: spec() }), U('own'), M('own')), 409); const r = reg.applyIndicatorRegistry(s, cmd('reviseIndicatorDefinition', { expectedVersion: 1, spec: spec({ filters: {}, title: 'Adults seen' }) }), U('own'), M('own')); assert.equal(r.version, 2); assert.equal(JSON.stringify(x.registryRecords(s).find(d => d.id === 'older-seen' && d.version === 1)), v1); });
+  check(() => { status(() => applyReleased(s, cmd('reviseIndicatorDefinition', { expectedVersion: 2, spec: spec() }), U('own'), M('own')), 409); const r = applyReleased(s, cmd('reviseIndicatorDefinition', { expectedVersion: 1, spec: spec({ filters: {}, title: 'Adults seen' }) }), U('own'), M('own')); assert.equal(r.version, 2); assert.equal(JSON.stringify(x.registryRecords(s).find(d => d.id === 'older-seen' && d.version === 1)), v1); });
   check(() => { const cur = x.indicatorQuery(s, M('sup'), q(['older-seen']), now).results[0]; assert.equal(cur.version, 2); assert.equal(cur.rows[0].denominator, 19); const again = x.indicatorQuery(s, M('sup'), q(['older-seen@1', 'visits-confirmed@1']), now); assert.deepEqual(again.results, first.results, 'an earlier result is reproduced from its recorded versions'); status(() => x.indicatorQuery(s, M('sup'), q(['older-seen@9']), now), 422); status(() => x.indicatorQuery(s, M('sup'), q(['older-seen@1;drop']), now), 422); });
   // A definition's own minimum cohort and exclusions apply after its filters.
   check(() => {
-    reg.applyIndicatorRegistry(s, cmd('reviseIndicatorDefinition', { expectedVersion: 2, spec: spec({ filters: {}, exclude: ['identity-provisional'], minimumCohort: 12 }) }), U('own'), M('own'));
+    applyReleased(s, cmd('reviseIndicatorDefinition', { expectedVersion: 2, spec: spec({ filters: {}, exclude: ['identity-provisional'], minimumCohort: 12 }) }), U('own'), M('own'));
     const all = x.indicatorQuery(s, M('sup'), q(['older-seen']), now).results[0]; assert.equal(all.rows[0].denominator, 17, 'provisional identities excluded');
     const bedi = x.indicatorQuery(s, M('sup'), q(['older-seen'], { village: 'Bedi' }), now).results[0]; assert.equal(bedi.refused, 'cohort'); assert.deepEqual(bedi.rows, []);
   });
   // Retiring stops current use, keeps every version reproducible and leaves the catalogue.
   check(() => {
-    reg.applyIndicatorRegistry(s, cmd('retireIndicatorDefinition', { expectedVersion: 3 }), U('own'), M('own'));
+    applyReleased(s, cmd('retireIndicatorDefinition', { expectedVersion: 3 }), U('own'), M('own'));
     const e = status(() => x.indicatorQuery(s, M('sup'), q(['older-seen']), now), 422); assert.match(e.message, /retired/);
     assert.deepEqual(x.indicatorQuery(s, M('sup'), q(['older-seen@1']), now).results[0].rows, first.results[0].rows);
-    assert.ok(!x.catalogue(s).some(d => d.id === 'older-seen')); status(() => reg.applyIndicatorRegistry(s, cmd('reviseIndicatorDefinition', { expectedVersion: 4, spec: spec() }), U('own'), M('own')), 409);
+    assert.ok(!x.catalogue(s).some(d => d.id === 'older-seen')); status(() => applyReleased(s, cmd('reviseIndicatorDefinition', { expectedVersion: 4, spec: spec() }), U('own'), M('own')), 409);
     status(() => x.indicatorQuery(s, M('sup'), q(['older-seen@4']), now), 422);
   });
   // A built-in can be revised by an owner; its version 1 stays reproducible; the interpreter follows the registry.
   check(() => {
-    reg.applyIndicatorRegistry(s, { type: 'reviseIndicatorDefinition', id: 'visits-confirmed', expectedVersion: 1, spec: { title: 'Confirmed visits, maternal care', unit: 'count', numerator: 'visits-confirmed', denominator: null, filters: { programme: 'Maternal care' }, exclude: [], exclusionsNote: 'Voided and superseded visits', owner: 'Maternal programme lead', cadence: 'Weekly', minimumCohort: 5 }, reason: 'Programme asked for a maternal-only count' }, U('own'), M('own'));
+    applyReleased(s, { type: 'reviseIndicatorDefinition', id: 'visits-confirmed', expectedVersion: 1, spec: { title: 'Confirmed visits, maternal care', unit: 'count', numerator: 'visits-confirmed', denominator: null, filters: { programme: 'Maternal care' }, exclude: [], exclusionsNote: 'Voided and superseded visits', owner: 'Maternal programme lead', cadence: 'Weekly', minimumCohort: 5 }, reason: 'Programme asked for a maternal-only count' }, U('own'), M('own'));
     assert.equal(x.indicatorQuery(s, M('sup'), q(['visits-confirmed']), now).results[0].refused, 'cohort');
     assert.equal(x.indicatorQuery(s, M('sup'), q(['visits-confirmed@1']), now).results[0].rows[0].value, 19);
-    reg.applyIndicatorRegistry(s, { type: 'retireIndicatorDefinition', id: 'corrections', expectedVersion: 1, reason: 'Superseded by the audit view' }, U('own'), M('own'));
+    applyReleased(s, { type: 'retireIndicatorDefinition', id: 'corrections', expectedVersion: 1, reason: 'Superseded by the audit view' }, U('own'), M('own'));
     assert.deepEqual(x.interpret('visit corrections last week', s).ids, ['visits-confirmed']);
   });
   // Series carry per-cell people counts only, never patient identifiers.

@@ -1,0 +1,34 @@
+{
+  "passed": 17,
+  "failed": 0,
+  "actualWorker": true,
+  "actualD1": true,
+  "currentQueryStatus": 200,
+  "historicalReportStatus": 200,
+  "error": null,
+  "reportPeriod": {
+    "start": "2026-10-04",
+    "end": "2026-10-04"
+  },
+  "effectiveAt": "2026-10-05T08:09:50.657Z",
+  "checks": [
+    "createInvite: expected 200, observed 200",
+    "joinOrganisation: expected 200, observed 200",
+    "addIndicatorDefinition: expected 200, observed 200",
+    "reviewIndicatorDefinition: expected 200, observed 200",
+    "releaseIndicatorDefinition: expected 200, observed 200",
+    "Released definition is currently eligible for an actual scoped query",
+    "setAdapterOperations: expected 200, observed 200",
+    "prepareAggregateReport: expected 200, observed 200",
+    "A currently released definition can prepare a historical-period report",
+    "addIndicatorDefinition: expected 200, observed 200",
+    "reviewIndicatorDefinition: expected 200, observed 200",
+    "releaseIndicatorDefinition: expected 200, observed 200",
+    "reviseIndicatorDefinition: expected 200, observed 200",
+    "withdrawIndicatorDefinition: expected 200, observed 200",
+    "Withdrawn older scheduled release stays refused after its effective time",
+    "Newer pending proposal does not resurrect withdrawn older release",
+    "Original release and withdrawal remain immutable history"
+  ],
+  "scope": "Current definition governance must use current trusted server time independently of historical reporting cutoff; no clinical approval."
+}

@@ -1,0 +1,17 @@
+Running integration; 1 suite(s).
+
+[integration] 1 suite(s)
+build: npm run build ...
+build: FAILED (3ms)
+    
+    spawn npm ENOENT
+  BLOCKED  integration/composite-measures-http: the build failed
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  build        failed       1       -       -        -    3ms
+  integration  failed       1       0       0        0    0ms
+  total        FAILED       1       0       0        0  183ms
+
+Regression guard: FAILED (1 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/composite-measures-http was due to run but reported nothing (blocked).

@@ -1,0 +1,72 @@
+{
+  "preFixEvidenceCommit": "95ff3ea9",
+  "build": "passed",
+  "typecheck": "passed",
+  "realProvidersCalled": false,
+  "checks": {
+    "decodedAgent": 39,
+    "decodedActualFrontline": 29,
+    "R42": 38,
+    "newAgent": 30,
+    "newFrontline": 21,
+    "newImage": 12,
+    "actualFrontlineHandlerSQLiteProvider": 109,
+    "actualAnaemiaHandlerSQLite": 58,
+    "agentProvider": 25,
+    "agentQuality": 50,
+    "EHRIdentityLineage": 48
+  },
+  "total": 459,
+  "sensitiveTransportCalls": 0,
+  "wireKeyDigestPreserved": true,
+  "files": {
+    "agent.json": {
+      "bytes": 432,
+      "sha256": "a84b8e92032fa1d2b964d0960cde843effc5d554c1e78d91b8ff2b57c59228a8"
+    },
+    "frontline.json": {
+      "bytes": 471,
+      "sha256": "48f7f1916f1deb9f76cb96de8ac0039f049c8a8bff71caacfc7661405bf59679"
+    },
+    "regressions/agent-contract-result.json": {
+      "bytes": 95,
+      "sha256": "1ad3dcaec8b69731638e136bf909970f200431d7c7961b970ff68192ab41ca4f"
+    },
+    "regressions/agent-contract.json": {
+      "bytes": 309,
+      "sha256": "cad8854f9fd7a9ec6276b31fb7038473ae2c2f72af5dbec953af878107c9cbad"
+    },
+    "regressions/agent-minimisation-contract-result.json": {
+      "bytes": 496,
+      "sha256": "59fa9936e092345b92c3874ccd14c2df3f8cf1bf5220ee223e9c663514209814"
+    },
+    "regressions/agent-quality-contract-result.json": {
+      "bytes": 132,
+      "sha256": "69da38a7573c8256c284f542b17c3059cc4fbb70ca1b33de894f3bbe54bbd118"
+    },
+    "regressions/anaemia-provider-contract-result.json": {
+      "bytes": 216,
+      "sha256": "bc6af4b2f67e68a567d1011f5b047def72f2c73859456091afc3c283dffdd967"
+    },
+    "regressions/ehr-contract-result.json": {
+      "bytes": 193,
+      "sha256": "5fdf9f053420c017b4a082394011b8b2917ac9c4b96d135918c7c1c285c924d0"
+    },
+    "regressions/ehr-synthetic-document.json": {
+      "bytes": 9316,
+      "sha256": "5e1197b3c889bb3e145eb0bc5ed67362e9b8031c3d47b8896466ad4586bcbd71"
+    },
+    "regressions/frontline-contract.json": {
+      "bytes": 372,
+      "sha256": "e35844910d17dde21f46fb031f3cfecac6081bb8748b1fef20a8c20d642b3c28"
+    },
+    "regressions/frontline-provider-contract-result.json": {
+      "bytes": 249,
+      "sha256": "4ab5e4f88f722bf656df608589cfe079d2214d473b88b383974f1ef5418bbdc4"
+    },
+    "regressions/image-contract.json": {
+      "bytes": 331,
+      "sha256": "cd16fccc20c0d673ac7e6cf70d0cb7d8ab1cfdfa485df18f957fe09adf3ad6f8"
+    }
+  }
+}

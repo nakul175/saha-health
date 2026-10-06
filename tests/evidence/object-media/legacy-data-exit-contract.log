@@ -1,0 +1,23 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: SCHEMA_MIGRATION names the last migration file
++ actual - expected
+
++ '0028_indicator_figure_disclosures'
+- '0029_object_media'
+      ^
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/data-exit-contract.mjs:118:22
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/data-exit-contract.mjs:17:23)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/data-exit-contract.mjs:118:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '0028_indicator_figure_disclosures',
+  expected: '0029_object_media',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

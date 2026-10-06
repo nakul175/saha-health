@@ -1,0 +1,60 @@
+{
+  "proof": [
+    {
+      "kind": "Residual separate inbox raw-count contract; not fixed by this bounded live release",
+      "status": 200,
+      "body": {
+        "rules": {
+          "delivery": "1.0.0",
+          "alerts": "1.2.0",
+          "escalateAfterMinutes": {
+            "critical": 30,
+            "high": 240,
+            "normal": 1440
+          },
+          "ladder": {
+            "operations": [
+              "operations",
+              "owners"
+            ],
+            "supervisors": [
+              "supervisors",
+              "owners"
+            ],
+            "owners": [
+              "owners"
+            ]
+          },
+          "evaluateEverySeconds": 60
+        },
+        "owns": [
+          "operations",
+          "supervisors",
+          "owners"
+        ],
+        "evaluated": true,
+        "unread": 1,
+        "items": [
+          {
+            "id": "2ce4eba7-abd1-4bca-8dd9-c7478bb2ed1c",
+            "alertId": "referrals-undated",
+            "level": 1,
+            "kind": "delivery",
+            "severity": "normal",
+            "title": "Open referrals without a due date",
+            "count": 1,
+            "detail": null,
+            "deliveredAt": "2026-10-05T20:43:00.811Z",
+            "readAt": null,
+            "clearedAt": null,
+            "clearedReason": null,
+            "active": true
+          }
+        ],
+        "escalations": [],
+        "channel": "In-app only. Nothing is emailed, texted or sent outside Saha."
+      }
+    }
+  ],
+  "ledgerHashOnly": true
+}

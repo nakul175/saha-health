@@ -1,0 +1,25 @@
+{
+  "passed": 18,
+  "failed": 0,
+  "actualWorker": true,
+  "actualChromium": true,
+  "posts": [
+    {
+      "key": "be6e2b04-86b7-4e9b-b86e-56cf5c6f5417",
+      "body": "{\"type\":\"propose\",\"id\":\"phone-calendar\",\"expectedVersion\":0,\"spec\":{\"title\":\"Synthetic phone calendar\",\"teamIds\":[\"default\"],\"definitions\":[\"visits-confirmed@1\"],\"periods\":[{\"id\":\"period-one\",\"start\":\"2026-09-10T19:15:01.766Z\",\"end\":\"2026-10-04T19:15:01.766Z\",\"deadline\":\"2026-10-05T18:15:01.766Z\"}],\"sources\":[{\"id\":\"phone-source\",\"label\":\"phone-source\",\"kind\":\"online-visits\",\"integrationId\":null,\"lateHours\":24,\"syncHours\":6,\"affects\":[{\"definitionRef\":\"visits-confirmed@1\",\"component\":\"numerator\"}]}]},\"reason\":\"Synthetic phone operational calendar review\"}"
+    },
+    {
+      "key": "ef3a1101-270a-4c13-a128-c9b9bf35fcfb",
+      "body": "{\"type\":\"review\",\"id\":\"phone-calendar\",\"version\":1,\"expectedSequence\":1,\"decision\":\"approve\",\"reason\":\"Synthetic phone operational calendar review\"}"
+    },
+    {
+      "key": "c5dcc1a8-dbdc-486c-bb88-10d68bece007",
+      "body": "{\"type\":\"release\",\"id\":\"phone-calendar\",\"version\":1,\"expectedSequence\":2,\"reviewId\":\"2996fb5f-a2a5-4616-91c5-f0681b760da2\",\"effectiveAt\":\"2026-10-05T19:15:04.425Z\",\"reason\":\"Synthetic phone operational calendar review\"}"
+    },
+    {
+      "key": "36767b39-b413-4676-9370-0d38ebfad245",
+      "body": "{\"type\":\"declare\",\"id\":\"phone-calendar\",\"version\":1,\"teamId\":\"default\",\"periodId\":\"period-one\",\"sourceId\":\"phone-source\",\"expectedCoverageVersion\":0,\"status\":\"outage\",\"through\":null,\"evidenceHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"reason\":\"Synthetic phone operational calendar review\"}"
+    }
+  ],
+  "scope": "Synthetic normal phone owner proposal/lost-ACK read-only receipt recovery/independent approval/effective release/outage/frozen sidecar/inspectable original evidence"
+}

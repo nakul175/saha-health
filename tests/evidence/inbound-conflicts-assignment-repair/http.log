@@ -1,0 +1,43 @@
+{"event":"saha_request","requestId":"b6d5d3e3-3b34-4e49-a96e-1c06b6484a04","route":"workspace","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"b40ea9ff-4800-4445-aa4e-a8c915b327b8","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"5d90b09e-32fa-40e4-bc82-a14e57b8b4e5","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"4ca555be-d890-4cf4-9ab7-b3be91efac53","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"0a7c9a04-4335-4c68-b49e-d1b737abaf63","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"f5fcd754-c96a-4a13-9549-82d6b9999b61","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"17791c14-e6a7-4696-baa3-2be51fabdd69","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"083d142e-cc37-4a40-b65b-42aace727e0c","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"05aaf4ed-841b-417b-8ec0-c415ba36a9aa","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"74602edd-91be-4c64-bf8b-91eb5bc80645","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"a0ce8213-7f3d-496e-b682-e187352f2df8","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"d4f243c5-eeb5-4f79-a9c6-c85309eff599","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"4f606557-7265-4793-b820-e620831e08e8","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"7d8ec367-bcab-4a75-bd6e-0dac9aee9ec9","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"38b9ed22-5b45-49ae-967c-05f2b1efa33e","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"b3f0e75a-df12-445a-b2fc-da1f1bc219ad","route":"commands","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"2117a1e7-f917-4d81-9a71-2b1dbdc8dd04","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"73f638bd-991e-4d9e-8acf-76415e844ee1","route":"commands","status":409,"durationMs":3}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+[TypeError: fetch failed] {
+  [cause]: SocketError: other side closed
+      at Socket.onHttpSocketEnd (/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-frontline/saha/node_modules/.pnpm/undici@7.24.8/node_modules/undici/lib/dispatcher/client-h1.js:896:22)
+      at Socket.emit (node:events:521:24)
+      at endReadableNT (node:internal/streams/readable:1736:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'UND_ERR_SOCKET',
+    socket: {
+      localAddress: '127.0.0.1',
+      localPort: 60730,
+      remoteAddress: undefined,
+      remotePort: undefined,
+      remoteFamily: undefined,
+      timeout: undefined,
+      bytesWritten: 22447,
+      bytesRead: 96365
+    }
+  }
+}
+
+Node.js v24.19.0

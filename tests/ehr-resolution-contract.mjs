@@ -20,7 +20,7 @@ let passed = 0;
 const check = async fn => { await fn(); passed++; };
 const status = async (fn, code, pattern) => { try { await fn(); } catch (e) { assert.equal(e.status, code, e.message); if (pattern) assert.match(e.message, pattern); return e; } assert.fail(`expected ${code}`); };
 try {
-  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'core', 'delegation', 'ehr', 'ehr-execution', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types'])
+  for (const f of ['abdm', 'abdm-transfer', 'access', 'access-audit', 'action-plan', 'adapter-operations', 'agent', 'agent-minimisation', 'ai-budget', 'alerts', 'anaemia', 'audit-chain', 'capability-lifecycle', 'caseload', 'consent', 'continuity', 'service-dispatch','core', 'delegation', 'ehr', 'ehr-execution','ehr-probe', 'ehr-provider', 'environment', 'evaluation', 'exceptional', 'exceptions', 'expansion', 'facility-scope', 'fact-provenance', 'fhir-document', 'fhir-validate', 'field', 'field-registration', 'governance', 'household', 'household-constants', 'household-visit', 'household-visit-constants', 'identity', 'imported-visits', 'media', 'merge', 'mis', 'operations', 'outreach', 'pack-installation', 'partition', 'pilot', 'programme-commands', 'programmes', 'provider-sandbox', 'purpose-scope', 'referral-needs', 'referral-request', 'referral-rules', 'referrals', 'retention', 'rights', 'seed', 'send-gate', 'service-identity', 'shadow', 'store', 'task-limits', 'trace', 'types'])
     writeFileSync(join(dir, f + '.js'), ts.transpileModule(readFileSync(`lib/saha/${f}.ts`, 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'"));
   writeFileSync(join(dir, 'store.js'), `import {AppError} from './core.js';
 export let saved;let hook=null;export function setup(s){saved=structuredClone(s);hook=null}export function setHook(f){hook=f}export function edit(f){f(saved)}
@@ -139,6 +139,15 @@ export async function recordAccess(db,s,u,m,a){if(failing)throw new AppError(503
     const q = exceptionQueue(store.saved, admin), row = q.items.find(x => x.id === 'ehr-publication:' + notStoredOp.id);
     assert.equal(row.severity, 'normal'); assert.match(row.what, /not stored/); assert.match(row.recovery, /Nothing was resent/); assert.equal(q.rulesVersion, '1.3.0');
     assert.equal(exceptionQueue(s, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), false);
+    // Preparation can append within the same millisecond. Only a later appended operation suppresses the resolved row.
+    const sameTime = structuredClone(s), operations = sameTime.workspace.people[0].ehr.operations;
+    const previous = operations.find(x => x.id === notStoredOp.id), replacement = operations.at(-1);
+    replacement.at = previous.at;
+    assert.equal(exceptionQueue(sameTime, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), false);
+    replacement.linkId = 'another-link';
+    assert.equal(exceptionQueue(sameTime, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), true);
+    replacement.linkId = previous.linkId; replacement.at = new Date(Date.parse(previous.at) - 1).toISOString();
+    assert.equal(exceptionQueue(sameTime, admin).items.some(x => x.id === 'ehr-publication:' + notStoredOp.id), true);
   });
   await check(async () => {
     // Several documents under one identifier: a conflict for the named reconciliation owner.

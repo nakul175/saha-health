@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-05",
+  "build": "pass",
+  "typescript": "pass",
+  "checks": {
+    "actualSQLiteD1ProbeLifecycle": 20,
+    "ehrExecution": 33,
+    "misDelivery": 16,
+    "adapterOperations": 14,
+    "ehrResolution": 13,
+    "sendGate": 29,
+    "accessAudit": 35,
+    "dispatchGate": 100,
+    "replaySoakInvariants": 8
+  },
+  "externalRequests": "none: all metadata/destination transports injected; actual migrations/store/audit/lifecycle validators execute locally",
+  "newModuleInventories": [
+    "adapter-operations-contract",
+    "adapter-overhead-bench",
+    "ehr-execution",
+    "ehr-resolution-contract",
+    "replay-soak-contract",
+    "send-gate-contract"
+  ]
+}

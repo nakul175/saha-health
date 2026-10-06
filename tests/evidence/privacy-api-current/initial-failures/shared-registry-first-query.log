@@ -1,0 +1,57 @@
+AssertionError [ERR_ASSERTION]: {"error":"Together with your indicator queries of the last seven days, this result would reveal a group of fewer than 5 people. Use the same filters as before or widen them."}
+
+422 !== 200
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/indicator-registry-reporting-current.mjs:14:352
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/api-privacy-registration-current.mjs:10:20)
+    at ask (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/indicator-registry-reporting-current.mjs:14:335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async indicatorRegistrySmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/indicator-registry-reporting-current.mjs:28:15)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-privacy-api-author/tests/api-privacy-registration-current.mjs:179:91 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 422,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+rangler:info] GET /api/fhir/b83eebbf-eba5-4156-a097-7e35952d5d79 409 Conflict (14ms)
+{"event":"saha_request","requestId":"c4809913-d80c-41ca-84c3-469508a0b987","route":"commands","status":200,"durationMs":16}
+[wrangler:info] POST /api/commands 200 OK (19ms)
+{"event":"saha_request","requestId":"a48cb2f5-1038-4499-ab6c-02826901f8e6","route":"record-import","status":200,"durationMs":7}
+[wrangler:info] POST /api/record-import 200 OK (9ms)
+{"event":"saha_request","requestId":"22f1e0ec-35bf-428b-98f3-ddc986bd7e31","route":"data-exit","status":200,"durationMs":174}
+[wrangler:info] GET /api/data-exit 200 OK (176ms)
+{"event":"saha_request","requestId":"cd052ff8-8205-4eb8-ab0f-c90f391bc801","route":"workspace","status":200,"durationMs":7}
+[wrangler:info] GET /api/workspace 200 OK (9ms)
+{"event":"saha_request","requestId":"4ae06cb0-ce8b-4878-8c42-9f67324c8fee","route":"commands","status":200,"durationMs":24}
+[wrangler:info] POST /api/commands 200 OK (26ms)
+{"event":"saha_request","requestId":"52d57921-499a-4082-bc1c-7cc080d7d2cc","route":"commands","status":200,"durationMs":22}
+[wrangler:info] POST /api/commands 200 OK (24ms)
+{"event":"saha_request","requestId":"55417c7f-508e-4dbb-8776-b93ad238d797","route":"indicators","status":200,"durationMs":8}
+[wrangler:info] POST /api/indicators 200 OK (10ms)
+{"event":"saha_request","requestId":"bf578f71-7b97-4643-b982-d66a83b1d330","route":"indicators","status":200,"durationMs":6}
+[wrangler:info] POST /api/indicators 200 OK (8ms)
+{"event":"saha_request","requestId":"a72bc628-bf85-45f6-adff-a87267a6107b","route":"commands","status":403,"durationMs":10}
+[wrangler:info] POST /api/commands 403 Forbidden (12ms)
+{"event":"saha_request","requestId":"35fe2861-e11d-478f-ad69-d9fae2ecec8a","route":"commands","status":403,"durationMs":10}
+[wrangler:info] POST /api/commands 403 Forbidden (17ms)
+{"event":"saha_request","requestId":"83503095-d2d7-4a8a-9ff9-d28c8b7e1c5f","route":"commands","status":422,"durationMs":0}
+[wrangler:info] POST /api/commands 422 Unprocessable Entity (2ms)
+{"event":"saha_request","requestId":"1e539a30-556d-427b-9166-a4ea784fe4fe","route":"commands","status":422,"durationMs":0}
+[wrangler:info] POST /api/commands 422 Unprocessable Entity (2ms)
+{"event":"saha_request","requestId":"33b7db91-8a04-4fa1-87ac-22567b9109d9","route":"commands","status":422,"durationMs":14}
+[wrangler:info] POST /api/commands 422 Unprocessable Entity (17ms)
+{"event":"saha_request","requestId":"00cfa1f8-2fc8-4ee1-9e57-1f50dbdd3088","route":"commands","status":200,"durationMs":39}
+[wrangler:info] POST /api/commands 200 OK (43ms)
+{"event":"saha_request","requestId":"a7509e9e-87f2-4860-a504-52d09d4a2a78","route":"commands","status":409,"durationMs":17}
+[wrangler:info] POST /api/commands 409 Conflict (21ms)
+{"event":"saha_request","requestId":"bcc37e97-6754-4872-9c48-2caccc1225d1","route":"indicators","status":422,"durationMs":9}
+[wrangler:info] POST /api/indicators 422 Unprocessable Entity (11ms)
+{"event":"saha_request","requestId":"80b4bb72-91c0-4035-a7f7-09c08e6137e4","route":"commands","status":200,"durationMs":25}
+[wrangler:info] POST /api/commands 200 OK (27ms)
+{"event":"saha_request","requestId":"21f22b79-0732-4184-a8ee-00c23c189381","route":"commands","status":200,"durationMs":33}
+[wrangler:info] POST /api/commands 200 OK (35ms)
+{"event":"saha_request","requestId":"4b90db00-b324-480e-adb4-4f86a5943005","route":"indicators","status":422,"durationMs":15}
+[wrangler:info] POST /api/indicators 422 Unprocessable Entity (16ms)
+

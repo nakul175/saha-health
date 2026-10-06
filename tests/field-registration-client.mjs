@@ -1,3 +1,6 @@
+import {offlineOpenHarness} from './lib/offline-open-harness.mjs';
+// Device privacy is injected here; its server/IndexedDB effects are verified in device-work-contract/browser.
+import {deviceDigest} from '../public/field/device-work.js';
 // Slice 3g: offline registration queue in the field notebook. Runs public/field/app.js in Node with real Web Crypto,
 // the real sealing functions, injected storage/network and a minimal DOM (the tests/field-media-client.mjs harness).
 // Every registration body the notebook sends is checked against the server's own command schema, transpiled from
@@ -10,11 +13,11 @@ try{for(const f of ['abdm', 'abdm-transfer', 'access', 'action-plan', 'adapter-o
 class Element{constructor(tag='div'){this.tag=tag;this.children=[];this.value='';this.hidden=false;this.style={};this.disabled=false;}append(...c){this.children.push(...c)}prepend(...c){this.children.unshift(...c)}replaceChildren(...c){this.children=c}querySelector(tag){return this.children.find(c=>c.tag===tag)||this.children.map(c=>c.querySelector?.(tag)).find(Boolean)||null}}
 const elements=new Map();const byId=id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id)};
 let record=null,calls=[],network=async()=>{throw Error('Network disconnected')};const media=new Map();
-const context=vm.createContext({Blob,OffscreenCanvas:class{},createImageBitmap:async()=>{throw Error('no images here')},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Object,Number,String,isNaN,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+const context=vm.createContext({...offlineOpenHarness(()=>context.writeVault),deviceDigest,privacyReviewRequired:()=>false,clearPrivacyReviewRequired:()=>true,discardCachedRegistrationMatches:async(value,key,salt,revision)=>({book:value,revision}),reconcileRegistrationBook:async(value,key,salt,revision)=>({book:value,revision}),reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false,Blob,OffscreenCanvas:class{},createImageBitmap:async()=>{throw Error('no images here')},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,Object,Number,String,isNaN,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{media.delete(id)},listMediaIds:async()=>[...media.keys()],
- fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
-vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/,''),context);
+ fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
+vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/gm,''),context);
 const run=code=>vm.runInContext(code,context),val=code=>JSON.parse(run('JSON.stringify('+code+')')),check=fn=>{fn();passed++};let passed=0;
 const rejects=async(code,pattern)=>{await assert.rejects(()=>run(code),pattern);passed++;};
 const idle=async()=>{for(let i=0;i<200&&run('busy');i++)await new Promise(r=>setTimeout(r,5));};
@@ -37,7 +40,7 @@ for(const [x,pattern] of [[{name:'  '},/Enter the person/],[{age:'130'},/whole y
  [{withVisit:true,withReferral:true,referral:{facility:'ab',reason:'Synthetic reason'}},/Name the facility/],[{withVisit:true,withReferral:true,referral:{facility:'Synthetic hospital',reason:'bad'}},/reason for the referral/]]){context.x=x;run('fill(x)');await rejects('queueRegistration()',pattern);}
 check(()=>assert.equal(run('book.registrations.length'),0));
 // Three registrations queued offline: plain, with a first visit and referral request, and one the server will find a match for.
-run("fill()");await run('queueRegistration()');
+run("fill()");const firstFormId=run("book.form.id");await run('queueRegistration()');check(()=>assert.equal(run("book.registrations[0].id"),firstFormId));check(()=>assert.notEqual(run("book.form.id"),firstFormId));
 context.x={name:'Synthetic Registration Beta',withVisit:true,withReferral:true,facts:{date:past,systolic:'150',diastolic:'96',weight:'61',notes:'Synthetic first visit.'},referral:{facility:'Synthetic block hospital',reason:'Synthetic high reading.'}};run('fill(x)');await run('queueRegistration()');
 context.x={name:'Synthetic Registration Gamma'};run('fill(x)');await run('queueRegistration()');
 check(()=>assert.equal(calls.length,offlineCalls,'queueing sends nothing'));
@@ -59,7 +62,7 @@ await run(`(async()=>{const d=book.drafts[0],bytes=new Uint8Array(${JSON.stringi
 const receipts=new Map(),registered=new Map(),bodies=[];let lose=new Set(),refuseOnce=new Map(),matchNames=new Set(['Synthetic Registration Gamma']),overflowNames=new Set(),noCandidateNames=new Set(),emptyOk=false,people=0;
 network=async(url,options)=>{
  if(url==='/api/workspace')return ok(workspace);
- if(url==='/api/patient-matches'){const b=JSON.parse(options.body);assert.equal(options.headers['x-saha-organisation'],'org-1');if(noCandidateNames.has(b.name))return ok({hash:'c'.repeat(64),candidates:[],overflow:false});return ok({hash:'a'.repeat(64),candidates:[{id:'p-existing',name:b.name,age:b.age,sex:b.sex,village:b.village,version:1,match:'Same normalised name'}],overflow:overflowNames.has(b.name)});}
+ if(url==='/api/patient-matches'){const b=JSON.parse(options.body);assert.equal(options.headers['x-saha-organisation'],'org-1');if(noCandidateNames.has(b.name))return ok({hash:'c'.repeat(64),candidates:[],overflow:false});return ok({copyId:'b'.repeat(64),hash:'a'.repeat(64),candidates:[{id:'p-existing',name:b.name,age:b.age,sex:b.sex,village:b.village,version:1,match:'Same normalised name'}],overflow:overflowNames.has(b.name)});}
  if(url.startsWith('/api/media'))return ok({mediaId:'m-1'});
  if(url==='/api/commands'){const b=JSON.parse(options.body),key=options.headers['Idempotency-Key'];
   if(b.type==='syncFieldVisit')return ok({result:{visitId:'v-1',version:2,leaseId:'lease-1'}});
@@ -125,8 +128,8 @@ await run('syncAll()');check(()=>{assert.equal(run('book.registrations[6].state'
 check(()=>assert.ok(bodies.every(b=>schema.safeParse(b.body).success),'bodies match fieldRegistrationSchema'));
 check(()=>assert.equal(schema.safeParse({...bodies[0].body,registrationId:'x'}).success,false));
 // 9. Discard and removal; the device limit.
-await run('discardRegistration(book.registrations[6])');await run("discardRegistration(book.registrations.find(r=>r.id==='"+A+"'))");check(()=>assert.equal(run('book.registrations.length'),6));
-for(let i=0;i<8;i++){context.x={name:'Synthetic Limit '+i};run('fill(x)');await run('queueRegistration()');}
+await rejects('discardRegistration(book.registrations[6])',/outcome is unknown/);await run('discardRegistration(book.registrations[5])');await run("discardRegistration(book.registrations.find(r=>r.id==='"+A+"'))");check(()=>assert.equal(run('book.registrations.length'),6));
+for(let i=0;i<7;i++){context.x={name:'Synthetic Limit '+i};run('fill(x)');await run('queueRegistration()');}
 check(()=>assert.equal(run("book.registrations.filter(r=>r.state!=='synced').length"),9));context.x={name:'Synthetic Limit over'};run('fill(x)');await run('queueRegistration()');await rejects('queueRegistration()',/At most 10 registrations/);
 // 10. A notebook for another account refuses to sync its registrations.
 workspace.user.userId='worker-2';from=calls.length;await rejects('syncAll()',/belongs to another account/);check(()=>assert.equal(order(from).length,0));

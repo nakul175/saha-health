@@ -1,3 +1,6 @@
+import {offlineOpenHarness} from './lib/offline-open-harness.mjs';
+// Device privacy is injected here; its server/IndexedDB effects are verified in device-work-contract/browser.
+import {deviceDigest} from '../public/field/device-work.js';
 // Slice 3a: offline media queue in the field notebook. Runs public/field/app.js in Node with real
 // Web Crypto, the real media sealing functions, injected storage/network and a minimal DOM.
 // Real IndexedDB, camera/microphone capture and service-worker behaviour are covered only by the
@@ -12,11 +15,11 @@ let record=null,calls=[],network=async()=>{throw Error('Network disconnected')},
 const encode=src=>{const out=new Uint8Array(Math.max(1200,Math.round(src.length/4)));out.set([0xff,0xd8,0xff,0xe0]);for(let i=4;i<out.length;i++)out[i]=src[i%src.length]^0x5a;return out;};
 const isImage=b=>b.length>=512&&([0x89,0x50,0x4e,0x47].every((x,i)=>b[i]===x)||[0xff,0xd8,0xff].every((x,i)=>b[i]===x));
 class FakeCanvas{constructor(w,h){this.w=w;this.h=h;}getContext(){return {drawImage:bmp=>{this.src=bmp.src;}};}async convertToBlob({type}){return new Blob([encode(this.src)],{type});}}
-const context=vm.createContext({Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>{const b=new Uint8Array(await blob.arrayBuffer());if(!isImage(b))throw Error('decode failed');return {width:3000,height:2000,src:b,close(){}};},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
+const context=vm.createContext({...offlineOpenHarness(()=>context.writeVault),deviceDigest,privacyReviewRequired:()=>false,clearPrivacyReviewRequired:()=>true,discardCachedRegistrationMatches:async(value,key,salt,revision)=>({book:value,revision}),reconcileRegistrationBook:async(value,key,salt,revision)=>({book:value,revision}),reconcileDeviceBook:async(book,_key,_salt,revision)=>({book,revision,removed:0}),reportDeviceFailure:async()=>false,Blob,OffscreenCanvas:FakeCanvas,createImageBitmap:async blob=>{const b=new Uint8Array(await blob.arrayBuffer());if(!isImage(b))throw Error('decode failed');return {width:3000,height:2000,src:b,close(){}};},console,crypto,TextEncoder,TextDecoder,structuredClone,Date,Map,Array,Promise,Error,JSON,Uint8Array,setTimeout:()=>0,clearTimeout:()=>{},derive,seal,unseal,verifyPacket,packetHash,sealBytes,unsealBytes,
  readVault:async()=>structuredClone(record),writeVault:async(value,expected)=>{if((record?.revision??0)!==expected)throw Error('Another tab changed the vault');record={...structuredClone(value),revision:expected+1};return record.revision;},deleteVault:async()=>{record=null;media.clear();},
  writeMedia:async(id,value)=>{media.set(id,structuredClone(value))},readMedia:async id=>structuredClone(media.get(id)??null),deleteMedia:async id=>{if(failDelete)throw Error('Delete failed');media.delete(id)},listMediaIds:async()=>[...media.keys()],
- fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
-vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/,''),context);
+ fetch:async(url,options)=>{calls.push({url,options});return network(url,options)},navigator:{onLine:true},window:{indexedDB:{},addEventListener:()=>{}},document:{body:{dataset:{}},hidden:false,documentElement:{},getElementById:byId,createElement:tag=>new Element(tag),addEventListener:()=>{}}});
+vm.runInContext(readFileSync('public/field/app.js','utf8').replace(/^import[^\n]*\n/gm,''),context);
 const run=code=>vm.runInContext(code,context),check=fn=>{fn();passed++};let passed=0;
 const rejects=async(code,pattern)=>{await assert.rejects(()=>run(code),pattern);passed++;};
 byId('passphrase').value='synthetic-media-test-phrase';await byId('unlock-form').onsubmit({preventDefault(){}});
@@ -78,7 +81,7 @@ check(()=>assert.equal(new Set(uploads.map(u=>u.key)).size,3));
 async function reviewCase(name,setup,pattern){
  const lease='lease-'+name;context.fixture=await draft(lease,'v-1',setup.hours??24);await run(`book.drafts.push(fixture);selected='${lease}';persist()`);
  context.f=file('image/png',PNG,1024+Math.floor(Math.random()*500));await run("attach(active(),f,'document-or-card')");
- await run("active().state='synced';persist()");if(setup.expire)await run("active().packet.payload.expiresAt=new Date(Date.now()-1000).toISOString()");if(setup.damage){const id=run('active().media[0].id'),r=media.get(id);r.cipher[0]^=1;}
+ await run("active().state='synced';persist()");if(setup.pending)await run("active().media[0].pending=true;persist()");if(setup.expire)await run("active().packet.payload.expiresAt=new Date(Date.now()-1000).toISOString()");if(setup.damage){const id=run('active().media[0].id'),r=media.get(id);r.cipher[0]^=1;}
  const before=uploads.length,beforeCalls=calls.filter(c=>c.url.startsWith('/api/media')).length;
  network=async(url,options)=>{if(url==='/api/workspace')return {ok:true,json:async()=>setup.workspace??workspace()};if(url.startsWith('/api/media')){if(setup.status)return {ok:false,status:setup.status,json:async()=>({error:setup.error})};uploads.push(url);return {ok:true,json:async()=>({mediaId:'x'})};}throw Error('Unexpected '+url);};
  if(setup.throws)await rejects('uploadMedia(active())',setup.throws);else await run('uploadMedia(active())');
@@ -94,6 +97,8 @@ await reviewCase('noaccess',{workspace:workspace('draft',[])},/no longer have ac
 await reviewCase('damaged',{damage:true},/missing or damaged/);
 const refused=await reviewCase('refused',{status:403,error:'You do not have access to this patient.'},/do not have access/);
 await run('discardMedia(active(),active().media[0])');check(()=>assert.equal(media.has(refused.id),false));
+// Prior uncertain attempts keep their stable keys even when upload now becomes impossible.
+for(const [name,setup,pattern] of [['prior-confirmed',{workspace:workspace('confirmed')},/no longer a draft/],['prior-damaged',{damage:true},/earlier upload outcome is unknown/],['prior-refused',{status:403,error:'Access withdrawn'},/earlier upload outcome is unknown/]]){const uncertain=await reviewCase(name,{...setup,pending:true},pattern);check(()=>assert.equal(uncertain.pending,true));await rejects('discardMedia(active(),active().media[0])',/pending upload/);}
 const retry=await reviewCase('server',{status:503,error:'Service unavailable.',throws:/Service unavailable/},null);
 check(()=>assert.equal(retry.state,'queued'));check(()=>assert.equal(retry.pending,true));check(()=>assert.equal(media.has(retry.id),true));
 // A synced copy cannot be removed while any media item is pending, queued or in review; after an explicit discard it can.

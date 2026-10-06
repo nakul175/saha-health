@@ -1,4 +1,4 @@
-import { ageBandOf, MEASURES, type MeasureId } from './indicators';
+import { ageBandOf, MEASURES, operandLeaves, type Operand } from './indicators';
 import type { Member, OrgState, Person, Visit } from './types';
 // Slice 6ac: source freshness and late arrivals beside indicator results (BR-REP-03). Read-only: nothing here is
 // written, recorded in the differencing ledger or included in a released cell. Figures are reported only per team
@@ -59,8 +59,8 @@ export function teamFreshness(s:OrgState,m:Member,q:{team?:string|null},window:{
     syncing:unsynced>0?{grants:band(unsynced),message:`Data still syncing: field work prepared more than ${SYNC_WARNING_HOURS} hours ago has not synced (${band(unsynced)} field grants). Results for this team may rise when it arrives.`}:null};})};
 }
 // Visit-based measures are the ones a late visit can change; a referral is created from a visit.
-const lateSensitive=(id:MeasureId)=>MEASURES.find(x=>x.id===id)!.sources.some(x=>x==='visits'||x==='referrals');
-type DefLike={spec:{numerator:MeasureId;denominator:MeasureId|null;filters:{programme?:string;ageBand?:string;sex?:string};exclude:string[]}};
+const lateSensitive=(o:Operand)=>operandLeaves(o).some(id=>MEASURES.find(x=>x.id===id)!.sources.some(x=>x==='visits'||x==='referrals'));
+type DefLike={spec:{numerator:Operand;denominator:Operand|null;filters:{programme?:string;ageBand?:string;sex?:string};exclude:string[]}};
 // For one released result: how many late visits arrived after the viewer's previous release of the same figure and now
 // count towards its numerator or denominator (inside the current window and the definition's cohort). Banded.
 export function lateSinceRelease(s:OrgState,people:Person[],def:DefLike,since:string,until:string,lastRelease:string|null){

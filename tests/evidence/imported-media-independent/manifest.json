@@ -1,0 +1,125 @@
+{
+  "reviewed": "ca2d10bfc3465942a705142ba843fd024ee535ad",
+  "date": "2026-10-06",
+  "verdict": "No blocking defect grounded in narrow imported-media lineage repair",
+  "applicationEdits": false,
+  "build": "pass",
+  "types": "pass",
+  "repeatedPositiveAssertions": 271,
+  "extendedPositiveAssertions": 84,
+  "extendedNewBeyondOriginal40": 44,
+  "finalExecutedPositiveAssertions": 355,
+  "distinctAcceptanceCasesClaimed": false,
+  "originalManifestsSha256": {
+    "media-imported-lineage-before": "5acdf8c6927a757aa19ff70a3dbd335c827ec2816a1dfdd9e7f59a76e7dc3f1c",
+    "media-imported-lineage-repair": "7329046ac9fd4998ecb95351872ebcf80307ef30ff699fce215a6ad3e6db6628"
+  },
+  "originalSourceHashesVerified": true,
+  "limits": [
+    "Synthetic local Worker/D1/R2/phone only",
+    "Native boundary injects context/stream adapter; separate actual HTTP/phone checks cover authentication",
+    "No full combined, hosted, clinical, Android or external qualification"
+  ],
+  "files": [
+    {
+      "path": "tests/evidence/imported-media-independent/build.log",
+      "sha256": "83573401394aaa8ff954c672b63355284b5e60ed478a6fe9b1207a9687544331"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/media-contract-output-rerun.log",
+      "sha256": "a47ef43ca9e4185befbd39ead40a3e1efd867ab69f2507cf64ce69bb08e3c62c"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/media-contract.log",
+      "sha256": "cf430eb919716fc46664782283a9af9da84c3eb9d14ed038d933523bbf539a13"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/media-imported-lineage-repair-http.log",
+      "sha256": "dee7f34e7d1262cf5941aaefa4a435ec838fe89a14e0c110f28a40177ec9a8e4"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/object-media-browser.log",
+      "sha256": "213f04448774cc5ca97feaba161ea9f59e09940ffac37b7d8e392b28a0de94e9"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/object-media-contract.log",
+      "sha256": "10e3ca2ccd5f0c7543c2ae37f9ef0d64af51ecbb4df0c08eacddd17f81071903"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/object-media-http.log",
+      "sha256": "947ea7d3cbf0ac2c56e70fa55dbcecb543324b752e936e986bab463fe6d5ea52"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/object-media-independent-extra-http.log",
+      "sha256": "4995148dd3994f4dcb5d1f0777ea70456d65f2cbf99831fb6dde72c858a1ca79"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/object-media-independent-storage-boundary.log",
+      "sha256": "03b372f5ccf95a993732430f7a9225ed0eec18f3ea5b33f0586bc853e9476d5d"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/object-media-legacy-http.log",
+      "sha256": "758af5f1e5930e9bed4b9b5412414440e3c1ff2d58b5257dc633a3317bea3186"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/probe/http.json",
+      "sha256": "5d876146487aaa6b40d11e01497180843bee56d3e854d80a658e2b927af5dd3a"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/probe-final.log",
+      "sha256": "4522ebe4b262b9da02fcfbf284e8373afc4107fe767b07197f53f9f163a951ae"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/probe-first.log",
+      "sha256": "e71568082d983a20e9c0e710ca641d851e52986c2ed0d696b6b10e4af6c0b5e4"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/probe-syntax-fixture-failure.log",
+      "sha256": "abe952e512101037d2789c50132d6b98e40a09d3341a64e8b42365a22b5ab997"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/media-contract/result.json",
+      "sha256": "2a294114b9fa4937cf97890cf4351d3cb29f7e2eceb3ab32f83a47f52271ff55"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/media-imported-lineage-repair-http/http.json",
+      "sha256": "b7c7302e7b0ffa5876bee83eeea0f2585c845ffbba1f1f23fe444f1e4fad9df5"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/object-media-browser/browser.json",
+      "sha256": "35f38c0a686fa1436899b4c80eb1b007f539c2c9cae969cb0e3ec6f9f9af5573"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/object-media-browser/phone.png",
+      "sha256": "6798ac2ca9e6536729076a2403dd85f84b688ee8c60f387c5ea4f8ef6f7cdf71"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/object-media-contract/contract.json",
+      "sha256": "aa3e9fb6492a18557547327101f3fd9c5e09851f5c4fff735b024814fdb6fe41"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/object-media-http/http.json",
+      "sha256": "af0f63cf638b0b58e88eeafa94be2e844ddb2dd2960dcc30595824f2a65f8c6e"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/object-media-independent-extra-http/extra-http.json",
+      "sha256": "30344d9e171f76e41c7dadaf26f706e35c26ddfeace25e7eea04bbe8d9762a58"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/object-media-independent-storage-boundary/storage-boundary.json",
+      "sha256": "56fb94bec7e8b1aae02fca7ab52c1d30f6126b646e6401a7d761f997a69b9809"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat/object-media-legacy-http/legacy-http.json",
+      "sha256": "f377b2d1005eddaa67c7d775aebe8bb81c5b1f87e7ef12decfe2eca05cbf8bf7"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/repeat-result.json",
+      "sha256": "99104373725b2a4efd223647bcbc52c7ce638f45dbce670eb6c1629c4dd442dd"
+    },
+    {
+      "path": "tests/evidence/imported-media-independent/types.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

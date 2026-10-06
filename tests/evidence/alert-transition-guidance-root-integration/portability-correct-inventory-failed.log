@@ -1,0 +1,62 @@
+Running unit --fast; 2 suite(s).
+
+[unit] 2 suite(s)
+  FAILED   unit/data-exit-contract  no count  905ms  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: SCHEMA_MIGRATION names the last migration file
+      |   + actual - expected
+      |     actual: '0031_installed_pack_work',
+      |     expected: '0032_installed_pack_transition',
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | AssertionError [ERR_ASSERTION]: SCHEMA_MIGRATION names the last migration file
+      | + actual - expected
+      | + '0031_installed_pack_work'
+      | - '0032_installed_pack_transition'
+      |       ^
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs:119:22
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs:18:23)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-data-exit-contract.mjs:119:3 {
+      |   generatedMessage: false,
+      |   code: 'ERR_ASSERTION',
+      |   actual: '0031_installed_pack_work',
+      |   expected: '0032_installed_pack_transition',
+      |   operator: 'strictEqual',
+      |   diff: 'simple'
+      | }
+      | Node.js v24.19.0
+  FAILED   unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract  no count  876ms  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: SCHEMA_MIGRATION names the last migration file
+      |   + actual - expected
+      |     actual: '0031_installed_pack_work',
+      |     expected: '0032_installed_pack_transition',
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | AssertionError [ERR_ASSERTION]: SCHEMA_MIGRATION names the last migration file
+      | + actual - expected
+      | + '0031_installed_pack_work'
+      | - '0032_installed_pack_transition'
+      |       ^
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs:119:22
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs:18:23)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/combined-reviewed-alert-export-cold-integration-media-data-exit-contract.mjs:119:3 {
+      |   generatedMessage: false,
+      |   code: 'ERR_ASSERTION',
+      |   actual: '0031_installed_pack_work',
+      |   expected: '0032_installed_pack_transition',
+      |   operator: 'strictEqual',
+      |   diff: 'simple'
+      | }
+      | Node.js v24.19.0
+
+  layer  status  suites  passed  failed  skipped  time
+  -----  ------  ------  ------  ------  -------  ----
+  unit   failed       2       0       0        0  1.8s
+  total  FAILED       2       0       0        0  1.9s
+
+Regression guard: FAILED (1 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite unit/data-exit-contract reported no assertion count; baseline needs at least 44.
+  note     1 suite(s) are not in the baseline yet (unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract); add them with --update-baseline.

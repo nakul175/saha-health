@@ -1,0 +1,1526 @@
+﻿2026-10-05T11:08:23.1066908Z Current runner version: '2.337.0'
+2026-10-05T11:08:23.1116350Z ##[group]Runner Image Provisioner
+2026-10-05T11:08:23.1137802Z Hosted Compute Agent
+2026-10-05T11:08:23.1138729Z Version: 20260901.588
+2026-10-05T11:08:23.1139510Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-05T11:08:23.1140461Z Build Date: 2026-09-01T19:56:44Z
+2026-10-05T11:08:23.1141359Z Worker ID: {2062871c-049f-4e93-bca2-419ec8cef25f}
+2026-10-05T11:08:23.1142236Z Azure Region: northcentralus
+2026-10-05T11:08:23.1143059Z ##[endgroup]
+2026-10-05T11:08:23.1144774Z ##[group]Operating System
+2026-10-05T11:08:23.1145598Z Ubuntu
+2026-10-05T11:08:23.1146277Z 24.04.5
+2026-10-05T11:08:23.1146883Z LTS
+2026-10-05T11:08:23.1147768Z ##[endgroup]
+2026-10-05T11:08:23.1148483Z ##[group]Runner Image
+2026-10-05T11:08:23.1149179Z Image: ubuntu-24.04
+2026-10-05T11:08:23.1149996Z Version: 20260927.320.1
+2026-10-05T11:08:23.1151510Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-05T11:08:23.1153515Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-05T11:08:23.1154704Z ##[endgroup]
+2026-10-05T11:08:23.1156186Z ##[group]GITHUB_TOKEN Permissions
+2026-10-05T11:08:23.1164308Z Contents: read
+2026-10-05T11:08:23.1165130Z Metadata: read
+2026-10-05T11:08:23.1165853Z ##[endgroup]
+2026-10-05T11:08:23.1168558Z Secret source: Actions
+2026-10-05T11:08:23.1169649Z Cache mode: write
+2026-10-05T11:08:23.1170841Z Prepare workflow directory
+2026-10-05T11:08:23.1790523Z Prepare all required actions
+2026-10-05T11:08:23.1910368Z Getting action download info
+2026-10-05T11:08:23.5213213Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-05T11:08:23.6100824Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-05T11:08:24.0328238Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-05T11:08:24.5100034Z Complete job name: checks
+2026-10-05T11:08:24.5845108Z ##[group]Run actions/checkout@v4
+2026-10-05T11:08:24.5846165Z with:
+2026-10-05T11:08:24.5846853Z   repository: nakul175/saha-health
+2026-10-05T11:08:24.5853903Z   token: ***
+2026-10-05T11:08:24.5854582Z   ssh-strict: true
+2026-10-05T11:08:24.5855274Z   ssh-user: git
+2026-10-05T11:08:24.5855982Z   persist-credentials: true
+2026-10-05T11:08:24.5856756Z   clean: true
+2026-10-05T11:08:24.5857560Z   sparse-checkout-cone-mode: true
+2026-10-05T11:08:24.5858390Z   fetch-depth: 1
+2026-10-05T11:08:24.5859075Z   fetch-tags: false
+2026-10-05T11:08:24.5859774Z   show-progress: true
+2026-10-05T11:08:24.5860495Z   lfs: false
+2026-10-05T11:08:24.5861164Z   submodules: false
+2026-10-05T11:08:24.5861894Z   set-safe-directory: true
+2026-10-05T11:08:24.5862706Z   allow-unsafe-pr-checkout: false
+2026-10-05T11:08:24.5863702Z ##[endgroup]
+2026-10-05T11:08:24.6786602Z Syncing repository: nakul175/saha-health
+2026-10-05T11:08:24.6810328Z ##[group]Getting Git version info
+2026-10-05T11:08:24.6812383Z Working directory is '/home/runner/work/saha-health/saha-health'
+2026-10-05T11:08:24.6818779Z [command]/usr/bin/git version
+2026-10-05T11:08:24.7061878Z git version 2.55.0
+2026-10-05T11:08:24.7081328Z ##[endgroup]
+2026-10-05T11:08:24.7090467Z Temporarily overriding HOME='/home/runner/work/_temp/1aa3b44c-ad21-4e18-a65a-5b1955e0f2f3' before making global git config changes
+2026-10-05T11:08:24.7099415Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T11:08:24.7102837Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T11:08:24.7110154Z Deleting the contents of '/home/runner/work/saha-health/saha-health'
+2026-10-05T11:08:24.7131656Z ##[group]Initializing the repository
+2026-10-05T11:08:24.7134093Z [command]/usr/bin/git init /home/runner/work/saha-health/saha-health
+2026-10-05T11:08:24.7228465Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-05T11:08:24.7231764Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-05T11:08:24.7234530Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-05T11:08:24.7236594Z hint: call:
+2026-10-05T11:08:24.7238251Z hint:
+2026-10-05T11:08:24.7239737Z hint: 	git config --global init.defaultBranch <name>
+2026-10-05T11:08:24.7242113Z hint:
+2026-10-05T11:08:24.7243838Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-05T11:08:24.7246636Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-05T11:08:24.7250345Z hint:
+2026-10-05T11:08:24.7251307Z hint: 	git branch -m <name>
+2026-10-05T11:08:24.7252392Z hint:
+2026-10-05T11:08:24.7253836Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-05T11:08:24.7256301Z Initialized empty Git repository in /home/runner/work/saha-health/saha-health/.git/
+2026-10-05T11:08:24.7260433Z [command]/usr/bin/git remote add origin https://github.com/nakul175/saha-health
+2026-10-05T11:08:24.7289726Z ##[endgroup]
+2026-10-05T11:08:24.7293390Z ##[group]Disabling automatic garbage collection
+2026-10-05T11:08:24.7295694Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-05T11:08:24.7441302Z ##[endgroup]
+2026-10-05T11:08:24.7443136Z ##[group]Setting up auth
+2026-10-05T11:08:24.7444961Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T11:08:24.7450629Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T11:08:24.8022261Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T11:08:24.8058118Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T11:08:24.8359102Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T11:08:24.8399196Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T11:08:24.8669287Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-05T11:08:24.8700560Z ##[endgroup]
+2026-10-05T11:08:24.8701273Z ##[group]Fetching the repository
+2026-10-05T11:08:24.8708535Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9cc11c04d62c1682646ce021608a941bf24f5d70:refs/remotes/pull/161/merge
+2026-10-05T11:08:28.5174877Z From https://github.com/nakul175/saha-health
+2026-10-05T11:08:28.5180146Z  * [new ref]         9cc11c04d62c1682646ce021608a941bf24f5d70 -> pull/161/merge
+2026-10-05T11:08:28.5185147Z ##[endgroup]
+2026-10-05T11:08:28.5185985Z ##[group]Determining the checkout info
+2026-10-05T11:08:28.5186871Z ##[endgroup]
+2026-10-05T11:08:28.5188521Z [command]/usr/bin/git sparse-checkout disable
+2026-10-05T11:08:28.5274143Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-05T11:08:28.5304333Z ##[group]Checking out the ref
+2026-10-05T11:08:28.5307972Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/161/merge
+2026-10-05T11:08:29.0716910Z Note: switching to 'refs/remotes/pull/161/merge'.
+2026-10-05T11:08:29.0717693Z 
+2026-10-05T11:08:29.0739493Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-05T11:08:29.0740127Z changes and commit them, and you can discard any commits you make in this
+2026-10-05T11:08:29.0740747Z state without impacting any branches by switching back to a branch.
+2026-10-05T11:08:29.0747743Z 
+2026-10-05T11:08:29.0748309Z If you want to create a new branch to retain commits you create, you may
+2026-10-05T11:08:29.0749158Z do so (now or later) by using -c with the switch command. Example:
+2026-10-05T11:08:29.0750071Z 
+2026-10-05T11:08:29.0750399Z   git switch -c <new-branch-name>
+2026-10-05T11:08:29.0750809Z 
+2026-10-05T11:08:29.0751117Z Or undo this operation with:
+2026-10-05T11:08:29.0751483Z 
+2026-10-05T11:08:29.0751759Z   git switch -
+2026-10-05T11:08:29.0752162Z 
+2026-10-05T11:08:29.0752705Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-05T11:08:29.0753336Z 
+2026-10-05T11:08:29.0753913Z HEAD is now at 9cc11c0 Merge 1f2bf7b4c734924da57b24d3c95b2362325c8765 into 2adfbde1369b854d71962918bad3b81fdac746fe
+2026-10-05T11:08:29.0756206Z ##[endgroup]
+2026-10-05T11:08:29.0849920Z [command]/usr/bin/git log -1 --format=%H
+2026-10-05T11:08:29.0879293Z 9cc11c04d62c1682646ce021608a941bf24f5d70
+2026-10-05T11:08:29.1114081Z ##[group]Run actions/setup-node@v4
+2026-10-05T11:08:29.1114326Z with:
+2026-10-05T11:08:29.1114500Z   node-version: 22
+2026-10-05T11:08:29.1114676Z   always-auth: false
+2026-10-05T11:08:29.1114856Z   check-latest: false
+2026-10-05T11:08:29.1116861Z   token: ***
+2026-10-05T11:08:29.1117033Z ##[endgroup]
+2026-10-05T11:08:29.2311306Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+2026-10-05T11:08:29.2313502Z (node:1984) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-05T11:08:29.2314582Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-05T11:08:29.2316198Z ##[group]Environment details
+2026-10-05T11:08:29.7438712Z node: v22.23.3
+2026-10-05T11:08:29.7457562Z npm: 10.9.9
+2026-10-05T11:08:29.7457738Z yarn: 1.22.22
+2026-10-05T11:08:29.7458796Z ##[endgroup]
+2026-10-05T11:08:29.7568565Z ##[group]Run python3 scripts/check-documentation.py
+2026-10-05T11:08:29.7568933Z [36;1mpython3 scripts/check-documentation.py[0m
+2026-10-05T11:08:29.7569237Z [36;1mnode scripts/audit-requirements.mjs --check[0m
+2026-10-05T11:08:29.8299961Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:08:29.8300228Z ##[endgroup]
+2026-10-05T11:08:30.7843036Z {
+2026-10-05T11:08:30.7843784Z   "status": "passed",
+2026-10-05T11:08:30.7888710Z   "scope": "Documentation integrity against the current baseline (application-app-first-reviewed-composite-household-retrieval-guidance-qualified-20261005-sha256.json); not product execution or formal acceptance",
+2026-10-05T11:08:30.7908202Z   "baselineSourceFiles": 1117,
+2026-10-05T11:08:30.7908695Z   "originalFiles": 91,
+2026-10-05T11:08:30.7909051Z   "originalArchiveEntries": 89,
+2026-10-05T11:08:30.7909409Z   "unchangedOfficeFiles": 12,
+2026-10-05T11:08:30.7909760Z   "requirements": 176,
+2026-10-05T11:08:30.7910054Z   "preservedTestCases": 364,
+2026-10-05T11:08:30.7910483Z   "historicalProductAssertions": 1284,
+2026-10-05T11:08:30.7910894Z   "sliceEvidenceAssertions": 843953,
+2026-10-05T11:08:30.7911269Z   "currentRelativeLinks": 852,
+2026-10-05T11:08:30.7911585Z   "generatedFiles": 38,
+2026-10-05T11:08:30.7911869Z   "wordReferences": 10,
+2026-10-05T11:08:30.7912154Z   "workbookSheets": 13,
+2026-10-05T11:08:30.7912438Z   "workbookFormulas": 380,
+2026-10-05T11:08:30.7912752Z   "formalAccepted": 0,
+2026-10-05T11:08:30.7913018Z   "testCases": 364,
+2026-10-05T11:08:30.7913292Z   "formalCatalogueCasesRun": 0,
+2026-10-05T11:08:30.7913590Z   "httpRoutes": 89,
+2026-10-05T11:08:30.7913879Z   "commandDiscriminators": 253,
+2026-10-05T11:08:30.7914160Z   "applicationTables": 52,
+2026-10-05T11:08:30.7914421Z   "sqlColumns": 402,
+2026-10-05T11:08:30.7914668Z   "designScreens": 22,
+2026-10-05T11:08:30.7914981Z   "currentNavigationEntries": 14,
+2026-10-05T11:08:30.7915342Z   "historicalAssertions": 1284,
+2026-10-05T11:08:30.7915684Z   "migrationFiles": 29,
+2026-10-05T11:08:30.7916018Z   "prototypeScriptPreserved": true
+2026-10-05T11:08:30.7916476Z }
+2026-10-05T11:08:30.8302987Z 176 source IDs, assessments, evidence paths and generated records verified; acceptance remains pending.
+2026-10-05T11:08:30.8377813Z ##[group]Run node scripts/test.mjs --check-catalogue
+2026-10-05T11:08:30.8378170Z [36;1mnode scripts/test.mjs --check-catalogue[0m
+2026-10-05T11:08:30.8434491Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:08:30.8434838Z ##[endgroup]
+2026-10-05T11:08:30.9058351Z layer        suites  components  suites citing no requirement  requirement ids cited
+2026-10-05T11:08:30.9059318Z unit            188           0                            48                    141
+2026-10-05T11:08:30.9059929Z integration      98          84                            15                    124
+2026-10-05T11:08:30.9060522Z resilience        1           0                             0                      2
+2026-10-05T11:08:30.9061105Z smoke             5           0                             0                      7
+2026-10-05T11:08:30.9061662Z ui                2          12                             0                     12
+2026-10-05T11:08:30.9062406Z nfr               5           0                             0                     10
+2026-10-05T11:08:30.9063386Z uat               3           0                             3                      0
+2026-10-05T11:08:30.9064343Z manual           58           0                            54                      4
+2026-10-05T11:08:30.9064849Z 
+2026-10-05T11:08:30.9065361Z 360 suites, 96 component modules (run through their entry), 16 support files.
+2026-10-05T11:08:30.9067290Z 240 of 360 suites are cited by at least one requirement in requirements/evidence-map.json (120 cite none); 76 of 96 component modules are cited (20 cite none); 157 of 176 requirements cite at least one test file. A citation is evidence context, not acceptance.
+2026-10-05T11:08:30.9068534Z 
+2026-10-05T11:08:30.9069228Z Catalogue check passed: every test file is classified and every *-smoke.mjs module is imported by tests/api-smoke.mjs.
+2026-10-05T11:08:30.9126380Z ##[group]Run npm run install:ci
+2026-10-05T11:08:30.9126630Z [36;1mnpm run install:ci[0m
+2026-10-05T11:08:30.9183960Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:08:30.9184180Z ##[endgroup]
+2026-10-05T11:08:31.0935125Z 
+2026-10-05T11:08:31.0936045Z > site-creator-vinext-starter@0.1.0 install:ci
+2026-10-05T11:08:31.0937301Z > bash scripts/install-pnpm.sh
+2026-10-05T11:08:31.0937840Z 
+2026-10-05T11:08:34.4418930Z Lockfile is up to date, resolution step is skipped
+2026-10-05T11:08:34.5269013Z Unsupported platform for @next/swc-darwin-arm64@16.3.6: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5276109Z Unsupported platform for @next/swc-darwin-x64@16.3.6: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5319154Z Unsupported platform for @next/swc-linux-arm64-gnu@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5339095Z Unsupported platform for @next/swc-linux-arm64-musl@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5355791Z Unsupported platform for @next/swc-linux-x64-musl@16.3.6: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5368567Z Unsupported platform for @next/swc-win32-arm64-msvc@16.3.6: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5370258Z Unsupported platform for @next/swc-win32-x64-msvc@16.3.6: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5371952Z Unsupported platform for fsevents@2.3.3: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5373594Z Unsupported platform for @img/sharp-darwin-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5375300Z Unsupported platform for @img/sharp-darwin-x64@0.35.4: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5377618Z Unsupported platform for @img/sharp-freebsd-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5379385Z Unsupported platform for @img/sharp-libvips-darwin-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5381150Z Unsupported platform for @img/sharp-libvips-darwin-x64@1.3.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5382884Z Unsupported platform for @img/sharp-libvips-linux-arm@1.3.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5384594Z Unsupported platform for @img/sharp-libvips-linux-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5386372Z Unsupported platform for @img/sharp-libvips-linux-ppc64@1.3.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5388340Z Unsupported platform for @img/sharp-libvips-linux-riscv64@1.3.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5390137Z Unsupported platform for @img/sharp-libvips-linux-s390x@1.3.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5392251Z Unsupported platform for @img/sharp-libvips-linuxmusl-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5394077Z Unsupported platform for @img/sharp-libvips-linuxmusl-x64@1.3.3: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5395703Z Unsupported platform for @img/sharp-linux-arm@0.35.4: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5397410Z Unsupported platform for @img/sharp-linux-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5399026Z Unsupported platform for @img/sharp-linux-ppc64@0.35.4: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5400684Z Unsupported platform for @img/sharp-linux-riscv64@0.35.4: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5402362Z Unsupported platform for @img/sharp-linux-s390x@0.35.4: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5404007Z Unsupported platform for @img/sharp-linuxmusl-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5405623Z Unsupported platform for @img/sharp-linuxmusl-x64@0.35.4: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5407366Z Unsupported platform for @img/sharp-webcontainers-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5409209Z Unsupported platform for @img/sharp-win32-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5410865Z Unsupported platform for @img/sharp-win32-ia32@0.35.4: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5412486Z Unsupported platform for @img/sharp-win32-x64@0.35.4: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5414628Z Unsupported platform for fsevents@2.3.2: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5416287Z Unsupported platform for @tailwindcss/oxide-android-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5418234Z Unsupported platform for @tailwindcss/oxide-darwin-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5419982Z Unsupported platform for @tailwindcss/oxide-darwin-x64@4.2.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5421700Z Unsupported platform for @tailwindcss/oxide-freebsd-x64@4.2.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5423552Z Unsupported platform for @tailwindcss/oxide-linux-arm-gnueabihf@4.2.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5425360Z Unsupported platform for @tailwindcss/oxide-linux-arm64-gnu@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5427306Z Unsupported platform for @tailwindcss/oxide-linux-arm64-musl@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5429334Z Unsupported platform for @tailwindcss/oxide-linux-x64-musl@4.2.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5431166Z Unsupported platform for @tailwindcss/oxide-wasm32-wasi@4.2.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5432944Z Unsupported platform for @tailwindcss/oxide-win32-arm64-msvc@4.2.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5434719Z Unsupported platform for @tailwindcss/oxide-win32-x64-msvc@4.2.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5436345Z Unsupported platform for @esbuild/aix-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5438136Z Unsupported platform for @esbuild/android-arm@0.25.12: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5439783Z Unsupported platform for @esbuild/android-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5441398Z Unsupported platform for @esbuild/android-x64@0.25.12: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5442992Z Unsupported platform for @esbuild/darwin-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5444563Z Unsupported platform for @esbuild/darwin-x64@0.25.12: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5446189Z Unsupported platform for @esbuild/freebsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5447979Z Unsupported platform for @esbuild/freebsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5449577Z Unsupported platform for @esbuild/linux-arm@0.25.12: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5451416Z Unsupported platform for @esbuild/linux-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5452909Z Unsupported platform for @esbuild/linux-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5454419Z Unsupported platform for @esbuild/linux-loong64@0.25.12: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5456013Z Unsupported platform for @esbuild/linux-mips64el@0.25.12: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5457825Z Unsupported platform for @esbuild/linux-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5459421Z Unsupported platform for @esbuild/linux-riscv64@0.25.12: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5460974Z Unsupported platform for @esbuild/linux-s390x@0.25.12: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5462470Z Unsupported platform for @esbuild/netbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5464419Z Unsupported platform for @esbuild/netbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5466097Z Unsupported platform for @esbuild/openbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5467911Z Unsupported platform for @esbuild/openbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5471568Z Unsupported platform for @esbuild/openharmony-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5473422Z Unsupported platform for @esbuild/sunos-x64@0.25.12: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5476872Z Unsupported platform for @esbuild/win32-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5478564Z Unsupported platform for @esbuild/win32-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5480081Z Unsupported platform for @esbuild/win32-x64@0.25.12: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5481529Z Unsupported platform for lightningcss-android-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5483011Z Unsupported platform for lightningcss-darwin-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5484429Z Unsupported platform for lightningcss-darwin-x64@1.32.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5485887Z Unsupported platform for lightningcss-freebsd-x64@1.32.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5487588Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.32.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5489391Z Unsupported platform for lightningcss-linux-arm64-gnu@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5490925Z Unsupported platform for lightningcss-linux-arm64-musl@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5492433Z Unsupported platform for lightningcss-linux-x64-musl@1.32.0: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5493930Z Unsupported platform for lightningcss-win32-arm64-msvc@1.32.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5495411Z Unsupported platform for lightningcss-win32-x64-msvc@1.32.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5496957Z Unsupported platform for @rolldown/binding-android-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5498789Z Unsupported platform for @rolldown/binding-darwin-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5500500Z Unsupported platform for @rolldown/binding-darwin-x64@1.0.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5502108Z Unsupported platform for @rolldown/binding-freebsd-x64@1.0.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5503616Z Unsupported platform for @rolldown/binding-linux-arm-gnueabihf@1.0.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5505218Z Unsupported platform for @rolldown/binding-linux-arm64-gnu@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5506825Z Unsupported platform for @rolldown/binding-linux-arm64-musl@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5508594Z Unsupported platform for @rolldown/binding-linux-ppc64-gnu@1.0.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5510167Z Unsupported platform for @rolldown/binding-linux-s390x-gnu@1.0.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5511677Z Unsupported platform for @rolldown/binding-linux-x64-musl@1.0.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5513248Z Unsupported platform for @rolldown/binding-openharmony-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5514757Z Unsupported platform for @rolldown/binding-wasm32-wasi@1.0.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5516216Z Unsupported platform for @rolldown/binding-win32-arm64-msvc@1.0.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5517933Z Unsupported platform for @rolldown/binding-win32-x64-msvc@1.0.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5519358Z Unsupported platform for @esbuild/aix-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5520916Z Unsupported platform for @esbuild/android-arm@0.28.0: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5522356Z Unsupported platform for @esbuild/android-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5523722Z Unsupported platform for @esbuild/android-x64@0.28.0: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5525027Z Unsupported platform for @esbuild/darwin-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5526322Z Unsupported platform for @esbuild/darwin-x64@0.28.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5527853Z Unsupported platform for @esbuild/freebsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5529233Z Unsupported platform for @esbuild/freebsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5530608Z Unsupported platform for @esbuild/linux-arm@0.28.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5532116Z Unsupported platform for @esbuild/linux-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5533484Z Unsupported platform for @esbuild/linux-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5534831Z Unsupported platform for @esbuild/linux-loong64@0.28.0: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5536167Z Unsupported platform for @esbuild/linux-mips64el@0.28.0: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5537753Z Unsupported platform for @esbuild/linux-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5539094Z Unsupported platform for @esbuild/linux-riscv64@0.28.0: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5540496Z Unsupported platform for @esbuild/linux-s390x@0.28.0: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5541902Z Unsupported platform for @esbuild/netbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5543227Z Unsupported platform for @esbuild/netbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5544568Z Unsupported platform for @esbuild/openbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5545988Z Unsupported platform for @esbuild/openbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5547647Z Unsupported platform for @esbuild/openharmony-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5549120Z Unsupported platform for @esbuild/sunos-x64@0.28.0: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5550722Z Unsupported platform for @esbuild/win32-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5552953Z Unsupported platform for @esbuild/win32-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5554749Z Unsupported platform for @esbuild/win32-x64@0.28.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5556636Z Unsupported platform for @esbuild/aix-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5558501Z Unsupported platform for @esbuild/android-arm@0.27.3: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5560441Z Unsupported platform for @esbuild/android-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5564025Z Unsupported platform for @esbuild/android-x64@0.27.3: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5565277Z Unsupported platform for @esbuild/darwin-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5597788Z Unsupported platform for @esbuild/darwin-x64@0.27.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5599603Z Unsupported platform for @esbuild/freebsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5601073Z Unsupported platform for @esbuild/freebsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5602492Z Unsupported platform for @esbuild/linux-arm@0.27.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5603869Z Unsupported platform for @esbuild/linux-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5605197Z Unsupported platform for @esbuild/linux-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5606580Z Unsupported platform for @esbuild/linux-loong64@0.27.3: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5608157Z Unsupported platform for @esbuild/linux-mips64el@0.27.3: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5609569Z Unsupported platform for @esbuild/linux-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5611022Z Unsupported platform for @esbuild/linux-riscv64@0.27.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5612469Z Unsupported platform for @esbuild/linux-s390x@0.27.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5613897Z Unsupported platform for @esbuild/netbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5615305Z Unsupported platform for @esbuild/netbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5616720Z Unsupported platform for @esbuild/openbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5618274Z Unsupported platform for @esbuild/openbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5619475Z Unsupported platform for @esbuild/openharmony-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5620671Z Unsupported platform for @esbuild/sunos-x64@0.27.3: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5621865Z Unsupported platform for @esbuild/win32-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5623067Z Unsupported platform for @esbuild/win32-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5624362Z Unsupported platform for @esbuild/win32-x64@0.27.3: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5625813Z Unsupported platform for @cloudflare/workerd-darwin-64@1.20260515.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5627978Z Unsupported platform for @cloudflare/workerd-darwin-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5629783Z Unsupported platform for @cloudflare/workerd-linux-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5631296Z Unsupported platform for @cloudflare/workerd-windows-64@1.20260515.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5632773Z Unsupported platform for lightningcss-android-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5634101Z Unsupported platform for lightningcss-darwin-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5635541Z Unsupported platform for lightningcss-darwin-x64@1.31.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5637415Z Unsupported platform for lightningcss-freebsd-x64@1.31.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5638983Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.31.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5640554Z Unsupported platform for lightningcss-linux-arm64-gnu@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5642085Z Unsupported platform for lightningcss-linux-arm64-musl@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5643571Z Unsupported platform for lightningcss-linux-x64-musl@1.31.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5645019Z Unsupported platform for lightningcss-win32-arm64-msvc@1.31.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5646525Z Unsupported platform for lightningcss-win32-x64-msvc@1.31.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5648420Z Unsupported platform for @unrs/resolver-binding-android-arm-eabi@1.11.1: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5650268Z Unsupported platform for @unrs/resolver-binding-android-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5651830Z Unsupported platform for @unrs/resolver-binding-darwin-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5653373Z Unsupported platform for @unrs/resolver-binding-darwin-x64@1.11.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5654881Z Unsupported platform for @unrs/resolver-binding-freebsd-x64@1.11.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5656508Z Unsupported platform for @unrs/resolver-binding-linux-arm-gnueabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5658280Z Unsupported platform for @unrs/resolver-binding-linux-arm-musleabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5659779Z Unsupported platform for @unrs/resolver-binding-linux-arm64-gnu@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5661533Z Unsupported platform for @unrs/resolver-binding-linux-arm64-musl@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5663101Z Unsupported platform for @unrs/resolver-binding-linux-ppc64-gnu@1.11.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5664732Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-gnu@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5666348Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-musl@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5668252Z Unsupported platform for @unrs/resolver-binding-linux-s390x-gnu@1.11.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5669825Z Unsupported platform for @unrs/resolver-binding-linux-x64-musl@1.11.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5671373Z Unsupported platform for @unrs/resolver-binding-wasm32-wasi@1.11.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5672929Z Unsupported platform for @unrs/resolver-binding-win32-arm64-msvc@1.11.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5674461Z Unsupported platform for @unrs/resolver-binding-win32-ia32-msvc@1.11.1: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5675977Z Unsupported platform for @unrs/resolver-binding-win32-x64-msvc@1.11.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5677649Z Unsupported platform for @esbuild/android-arm@0.18.20: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5679061Z Unsupported platform for @esbuild/android-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5680714Z Unsupported platform for @esbuild/android-x64@0.18.20: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5682091Z Unsupported platform for @esbuild/darwin-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5683500Z Unsupported platform for @esbuild/darwin-x64@0.18.20: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5684908Z Unsupported platform for @esbuild/freebsd-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5686341Z Unsupported platform for @esbuild/freebsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5687898Z Unsupported platform for @esbuild/linux-arm@0.18.20: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5689297Z Unsupported platform for @esbuild/linux-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5690696Z Unsupported platform for @esbuild/linux-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5692321Z Unsupported platform for @esbuild/linux-loong64@0.18.20: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5693844Z Unsupported platform for @esbuild/linux-mips64el@0.18.20: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5695231Z Unsupported platform for @esbuild/linux-ppc64@0.18.20: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5696591Z Unsupported platform for @esbuild/linux-riscv64@0.18.20: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5698201Z Unsupported platform for @esbuild/linux-s390x@0.18.20: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5699511Z Unsupported platform for @esbuild/netbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5700856Z Unsupported platform for @esbuild/openbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5702257Z Unsupported platform for @esbuild/sunos-x64@0.18.20: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5703644Z Unsupported platform for @esbuild/win32-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5704968Z Unsupported platform for @esbuild/win32-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.5706264Z Unsupported platform for @esbuild/win32-x64@0.18.20: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6299493Z Unsupported platform for @next/swc-darwin-arm64@16.3.6: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6301684Z Unsupported platform for @next/swc-darwin-x64@16.3.6: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6514325Z Unsupported platform for @next/swc-linux-arm64-gnu@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6516619Z Unsupported platform for @next/swc-linux-arm64-musl@16.3.6: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6519069Z Unsupported platform for @next/swc-linux-x64-musl@16.3.6: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6520864Z Unsupported platform for @next/swc-win32-arm64-msvc@16.3.6: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6522942Z Unsupported platform for @next/swc-win32-x64-msvc@16.3.6: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6524695Z Unsupported platform for fsevents@2.3.3: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6526826Z Unsupported platform for @img/sharp-darwin-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6528545Z Unsupported platform for @img/sharp-darwin-x64@0.35.4: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6530069Z Unsupported platform for @img/sharp-freebsd-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6538801Z Unsupported platform for @img/sharp-libvips-darwin-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6541323Z Unsupported platform for @img/sharp-libvips-darwin-x64@1.3.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6543150Z Unsupported platform for @img/sharp-libvips-linux-arm@1.3.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6551788Z Unsupported platform for @img/sharp-libvips-linux-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6553383Z Unsupported platform for @img/sharp-libvips-linux-ppc64@1.3.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6554954Z Unsupported platform for @img/sharp-libvips-linux-riscv64@1.3.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6556496Z Unsupported platform for @img/sharp-libvips-linux-s390x@1.3.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6558220Z Unsupported platform for @img/sharp-libvips-linuxmusl-arm64@1.3.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6559751Z Unsupported platform for @img/sharp-libvips-linuxmusl-x64@1.3.3: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6561201Z Unsupported platform for @img/sharp-linux-arm@0.35.4: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6562664Z Unsupported platform for @img/sharp-linux-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6564145Z Unsupported platform for @img/sharp-linux-ppc64@0.35.4: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6565925Z Unsupported platform for @img/sharp-linux-riscv64@0.35.4: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6567636Z Unsupported platform for @img/sharp-linux-s390x@0.35.4: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6569111Z Unsupported platform for @img/sharp-linuxmusl-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6570578Z Unsupported platform for @img/sharp-linuxmusl-x64@0.35.4: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6572021Z Unsupported platform for @img/sharp-webcontainers-wasm32@0.35.4: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6573469Z Unsupported platform for @img/sharp-win32-arm64@0.35.4: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6574888Z Unsupported platform for @img/sharp-win32-ia32@0.35.4: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6576297Z Unsupported platform for @img/sharp-win32-x64@0.35.4: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6577953Z Unsupported platform for fsevents@2.3.2: wanted {"cpu":["any"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6579420Z Unsupported platform for @tailwindcss/oxide-android-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6580980Z Unsupported platform for @tailwindcss/oxide-darwin-arm64@4.2.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6582484Z Unsupported platform for @tailwindcss/oxide-darwin-x64@4.2.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6583973Z Unsupported platform for @tailwindcss/oxide-freebsd-x64@4.2.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6585545Z Unsupported platform for @tailwindcss/oxide-linux-arm-gnueabihf@4.2.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6607382Z Unsupported platform for @tailwindcss/oxide-linux-arm64-gnu@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6609138Z Unsupported platform for @tailwindcss/oxide-linux-arm64-musl@4.2.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6610753Z Unsupported platform for @tailwindcss/oxide-linux-x64-musl@4.2.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6612320Z Unsupported platform for @tailwindcss/oxide-wasm32-wasi@4.2.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6613883Z Unsupported platform for @tailwindcss/oxide-win32-arm64-msvc@4.2.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6615405Z Unsupported platform for @tailwindcss/oxide-win32-x64-msvc@4.2.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6616851Z Unsupported platform for @esbuild/aix-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6618603Z Unsupported platform for @esbuild/android-arm@0.25.12: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6620061Z Unsupported platform for @esbuild/android-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6621524Z Unsupported platform for @esbuild/android-x64@0.25.12: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6622974Z Unsupported platform for @esbuild/darwin-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6624383Z Unsupported platform for @esbuild/darwin-x64@0.25.12: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6625805Z Unsupported platform for @esbuild/freebsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6647450Z Unsupported platform for @esbuild/freebsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6649010Z Unsupported platform for @esbuild/linux-arm@0.25.12: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6650693Z Unsupported platform for @esbuild/linux-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6652087Z Unsupported platform for @esbuild/linux-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6653518Z Unsupported platform for @esbuild/linux-loong64@0.25.12: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6655010Z Unsupported platform for @esbuild/linux-mips64el@0.25.12: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6656497Z Unsupported platform for @esbuild/linux-ppc64@0.25.12: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6658101Z Unsupported platform for @esbuild/linux-riscv64@0.25.12: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6659477Z Unsupported platform for @esbuild/linux-s390x@0.25.12: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6660873Z Unsupported platform for @esbuild/netbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6662276Z Unsupported platform for @esbuild/netbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6663702Z Unsupported platform for @esbuild/openbsd-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6665149Z Unsupported platform for @esbuild/openbsd-x64@0.25.12: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6666669Z Unsupported platform for @esbuild/openharmony-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6686475Z Unsupported platform for @esbuild/sunos-x64@0.25.12: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6688254Z Unsupported platform for @esbuild/win32-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6689646Z Unsupported platform for @esbuild/win32-ia32@0.25.12: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6691082Z Unsupported platform for @esbuild/win32-x64@0.25.12: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6692551Z Unsupported platform for lightningcss-android-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6694090Z Unsupported platform for lightningcss-darwin-arm64@1.32.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6695565Z Unsupported platform for lightningcss-darwin-x64@1.32.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6697006Z Unsupported platform for lightningcss-freebsd-x64@1.32.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6698694Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.32.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6700359Z Unsupported platform for lightningcss-linux-arm64-gnu@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6702009Z Unsupported platform for lightningcss-linux-arm64-musl@1.32.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6703658Z Unsupported platform for lightningcss-linux-x64-musl@1.32.0: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6705167Z Unsupported platform for lightningcss-win32-arm64-msvc@1.32.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6706678Z Unsupported platform for lightningcss-win32-x64-msvc@1.32.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6708403Z Unsupported platform for @rolldown/binding-android-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6709932Z Unsupported platform for @rolldown/binding-darwin-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6711420Z Unsupported platform for @rolldown/binding-darwin-x64@1.0.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6712907Z Unsupported platform for @rolldown/binding-freebsd-x64@1.0.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6714479Z Unsupported platform for @rolldown/binding-linux-arm-gnueabihf@1.0.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6716057Z Unsupported platform for @rolldown/binding-linux-arm64-gnu@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6717757Z Unsupported platform for @rolldown/binding-linux-arm64-musl@1.0.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6719325Z Unsupported platform for @rolldown/binding-linux-ppc64-gnu@1.0.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6721102Z Unsupported platform for @rolldown/binding-linux-s390x-gnu@1.0.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6722607Z Unsupported platform for @rolldown/binding-linux-x64-musl@1.0.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6724199Z Unsupported platform for @rolldown/binding-openharmony-arm64@1.0.1: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6725778Z Unsupported platform for @rolldown/binding-wasm32-wasi@1.0.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6727460Z Unsupported platform for @rolldown/binding-win32-arm64-msvc@1.0.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6728916Z Unsupported platform for @rolldown/binding-win32-x64-msvc@1.0.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6730340Z Unsupported platform for @esbuild/aix-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6731739Z Unsupported platform for @esbuild/android-arm@0.28.0: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6733379Z Unsupported platform for @esbuild/android-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6734805Z Unsupported platform for @esbuild/android-x64@0.28.0: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6736204Z Unsupported platform for @esbuild/darwin-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6737757Z Unsupported platform for @esbuild/darwin-x64@0.28.0: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6739177Z Unsupported platform for @esbuild/freebsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6740602Z Unsupported platform for @esbuild/freebsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6741976Z Unsupported platform for @esbuild/linux-arm@0.28.0: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6743368Z Unsupported platform for @esbuild/linux-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6744776Z Unsupported platform for @esbuild/linux-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6746206Z Unsupported platform for @esbuild/linux-loong64@0.28.0: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6747802Z Unsupported platform for @esbuild/linux-mips64el@0.28.0: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6749229Z Unsupported platform for @esbuild/linux-ppc64@0.28.0: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6750618Z Unsupported platform for @esbuild/linux-riscv64@0.28.0: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6752316Z Unsupported platform for @esbuild/linux-s390x@0.28.0: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6753717Z Unsupported platform for @esbuild/netbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6755095Z Unsupported platform for @esbuild/netbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6756506Z Unsupported platform for @esbuild/openbsd-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6758112Z Unsupported platform for @esbuild/openbsd-x64@0.28.0: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6759605Z Unsupported platform for @esbuild/openharmony-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6761032Z Unsupported platform for @esbuild/sunos-x64@0.28.0: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6762407Z Unsupported platform for @esbuild/win32-arm64@0.28.0: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6764010Z Unsupported platform for @esbuild/win32-ia32@0.28.0: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6765404Z Unsupported platform for @esbuild/win32-x64@0.28.0: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6766772Z Unsupported platform for @esbuild/aix-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["aix"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6768326Z Unsupported platform for @esbuild/android-arm@0.27.3: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6769731Z Unsupported platform for @esbuild/android-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6771177Z Unsupported platform for @esbuild/android-x64@0.27.3: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6772599Z Unsupported platform for @esbuild/darwin-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6773953Z Unsupported platform for @esbuild/darwin-x64@0.27.3: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6775382Z Unsupported platform for @esbuild/freebsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6776801Z Unsupported platform for @esbuild/freebsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6778336Z Unsupported platform for @esbuild/linux-arm@0.27.3: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6779721Z Unsupported platform for @esbuild/linux-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.6781119Z Unsupported platform for @esbuild/linux-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7739878Z Unsupported platform for @esbuild/linux-loong64@0.27.3: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7757806Z Unsupported platform for @esbuild/linux-mips64el@0.27.3: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7759641Z Unsupported platform for @esbuild/linux-ppc64@0.27.3: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7761737Z Unsupported platform for @esbuild/linux-riscv64@0.27.3: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7763538Z Unsupported platform for @esbuild/linux-s390x@0.27.3: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7768172Z Unsupported platform for @esbuild/netbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7773222Z Unsupported platform for @esbuild/netbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7775475Z Unsupported platform for @esbuild/openbsd-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7777885Z Unsupported platform for @esbuild/openbsd-x64@0.27.3: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7780235Z Unsupported platform for @esbuild/openharmony-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["openharmony"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7781985Z Unsupported platform for @esbuild/sunos-x64@0.27.3: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7784331Z Unsupported platform for @esbuild/win32-arm64@0.27.3: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7786048Z Unsupported platform for @esbuild/win32-ia32@0.27.3: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7788283Z Unsupported platform for @esbuild/win32-x64@0.27.3: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7790049Z Unsupported platform for @cloudflare/workerd-darwin-64@1.20260515.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7792311Z Unsupported platform for @cloudflare/workerd-darwin-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7794157Z Unsupported platform for @cloudflare/workerd-linux-arm64@1.20260515.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7796339Z Unsupported platform for @cloudflare/workerd-windows-64@1.20260515.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7798319Z Unsupported platform for lightningcss-android-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7800599Z Unsupported platform for lightningcss-darwin-arm64@1.31.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7802316Z Unsupported platform for lightningcss-darwin-x64@1.31.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7804743Z Unsupported platform for lightningcss-freebsd-x64@1.31.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7806558Z Unsupported platform for lightningcss-linux-arm-gnueabihf@1.31.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7808876Z Unsupported platform for lightningcss-linux-arm64-gnu@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7810750Z Unsupported platform for lightningcss-linux-arm64-musl@1.31.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7812986Z Unsupported platform for lightningcss-linux-x64-musl@1.31.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7814753Z Unsupported platform for lightningcss-win32-arm64-msvc@1.31.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7816910Z Unsupported platform for lightningcss-win32-x64-msvc@1.31.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7818971Z Unsupported platform for @unrs/resolver-binding-android-arm-eabi@1.11.1: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7821652Z Unsupported platform for @unrs/resolver-binding-android-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7823607Z Unsupported platform for @unrs/resolver-binding-darwin-arm64@1.11.1: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7825820Z Unsupported platform for @unrs/resolver-binding-darwin-x64@1.11.1: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7827778Z Unsupported platform for @unrs/resolver-binding-freebsd-x64@1.11.1: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7830109Z Unsupported platform for @unrs/resolver-binding-linux-arm-gnueabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7832060Z Unsupported platform for @unrs/resolver-binding-linux-arm-musleabihf@1.11.1: wanted {"cpu":["arm"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7834431Z Unsupported platform for @unrs/resolver-binding-linux-arm64-gnu@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7835775Z Unsupported platform for @unrs/resolver-binding-linux-arm64-musl@1.11.1: wanted {"cpu":["arm64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7837239Z Unsupported platform for @unrs/resolver-binding-linux-ppc64-gnu@1.11.1: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7838547Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-gnu@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7839865Z Unsupported platform for @unrs/resolver-binding-linux-riscv64-musl@1.11.1: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7841140Z Unsupported platform for @unrs/resolver-binding-linux-s390x-gnu@1.11.1: wanted {"cpu":["s390x"],"os":["linux"],"libc":["glibc"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7842583Z Unsupported platform for @unrs/resolver-binding-linux-x64-musl@1.11.1: wanted {"cpu":["x64"],"os":["linux"],"libc":["musl"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7843880Z Unsupported platform for @unrs/resolver-binding-wasm32-wasi@1.11.1: wanted {"cpu":["wasm32"],"os":["any"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7845576Z Unsupported platform for @unrs/resolver-binding-win32-arm64-msvc@1.11.1: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7858650Z Unsupported platform for @unrs/resolver-binding-win32-ia32-msvc@1.11.1: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7861054Z Unsupported platform for @unrs/resolver-binding-win32-x64-msvc@1.11.1: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7862814Z Unsupported platform for @esbuild/android-arm@0.18.20: wanted {"cpu":["arm"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7866125Z Unsupported platform for @esbuild/android-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7867772Z Unsupported platform for @esbuild/android-x64@0.18.20: wanted {"cpu":["x64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7869442Z Unsupported platform for @esbuild/darwin-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7870832Z Unsupported platform for @esbuild/darwin-x64@0.18.20: wanted {"cpu":["x64"],"os":["darwin"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7872243Z Unsupported platform for @esbuild/freebsd-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7873646Z Unsupported platform for @esbuild/freebsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["freebsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7875045Z Unsupported platform for @esbuild/linux-arm@0.18.20: wanted {"cpu":["arm"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7876468Z Unsupported platform for @esbuild/linux-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7878071Z Unsupported platform for @esbuild/linux-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7879526Z Unsupported platform for @esbuild/linux-loong64@0.18.20: wanted {"cpu":["loong64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7882662Z Unsupported platform for @esbuild/linux-mips64el@0.18.20: wanted {"cpu":["mips64el"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7885290Z Unsupported platform for @esbuild/linux-ppc64@0.18.20: wanted {"cpu":["ppc64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7888147Z Unsupported platform for @esbuild/linux-riscv64@0.18.20: wanted {"cpu":["riscv64"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7889951Z Unsupported platform for @esbuild/linux-s390x@0.18.20: wanted {"cpu":["s390x"],"os":["linux"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7891375Z Unsupported platform for @esbuild/netbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["netbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7893011Z Unsupported platform for @esbuild/openbsd-x64@0.18.20: wanted {"cpu":["x64"],"os":["openbsd"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7894411Z Unsupported platform for @esbuild/sunos-x64@0.18.20: wanted {"cpu":["x64"],"os":["sunos"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7895806Z Unsupported platform for @esbuild/win32-arm64@0.18.20: wanted {"cpu":["arm64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7897339Z Unsupported platform for @esbuild/win32-ia32@0.18.20: wanted {"cpu":["ia32"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:08:34.7900189Z Unsupported platform for @esbuild/win32-x64@0.18.20: wanted {"cpu":["x64"],"os":["win32"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+2026-10-05T11:09:41.1445983Z [sites] pnpm reused 0 packages and downloaded 633
+2026-10-05T11:09:41.1446867Z [sites] dependency setup passed
+2026-10-05T11:09:41.1600783Z ##[group]Run node node_modules/typescript/bin/tsc --noEmit
+2026-10-05T11:09:41.1601148Z [36;1mnode node_modules/typescript/bin/tsc --noEmit[0m
+2026-10-05T11:09:41.1658531Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:09:41.1658752Z ##[endgroup]
+2026-10-05T11:10:01.4635706Z ##[group]Run npm run build
+2026-10-05T11:10:01.4636027Z [36;1mnpm run build[0m
+2026-10-05T11:10:01.4714292Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:10:01.4714611Z ##[endgroup]
+2026-10-05T11:10:01.5581681Z 
+2026-10-05T11:10:01.5582449Z > site-creator-vinext-starter@0.1.0 build
+2026-10-05T11:10:01.5583279Z > node scripts/run-framework.mjs build
+2026-10-05T11:10:01.5583668Z 
+2026-10-05T11:10:01.9457490Z 
+2026-10-05T11:10:01.9477698Z   vinext build  (Vite 8.0.13)
+2026-10-05T11:10:01.9477966Z 
+2026-10-05T11:10:03.6070803Z [34m[1/5] analyze client references...[39m
+2026-10-05T11:10:03.6475821Z [2K
+2026-10-05T11:10:06.8558808Z transforming...✓ 523 modules transformed.
+2026-10-05T11:10:06.8772557Z rendering chunks...
+2026-10-05T11:10:06.8844041Z [33m[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+2026-10-05T11:10:06.8844661Z   - rsc:virtual-client-package (26%)
+2026-10-05T11:10:06.8845096Z   - alias (21%)
+2026-10-05T11:10:06.8848601Z [32m✓ built in 3.27s[39m
+2026-10-05T11:10:06.8849021Z   - vinext:og-inline-fetch-assets (12%)
+2026-10-05T11:10:06.8850680Z   - vinext:middleware-server-only (10%)
+2026-10-05T11:10:06.8851162Z   - vinext:css-data-url (10%)
+2026-10-05T11:10:06.8851845Z See https://rolldown.rs/options/checks#plugintimings for more details.
+2026-10-05T11:10:06.8852506Z [39m
+2026-10-05T11:10:06.9393562Z [34m[2/5] analyze server references...[39m
+2026-10-05T11:10:06.9588354Z [2K
+2026-10-05T11:10:08.2466392Z transforming...✓ 394 modules transformed.
+2026-10-05T11:10:08.2497872Z rendering chunks...
+2026-10-05T11:10:08.2520910Z [32m✓ built in 1.31s[39m
+2026-10-05T11:10:08.2737323Z [34m[3/5] build rsc environment...[39m
+2026-10-05T11:10:08.2930913Z [2K
+2026-10-05T11:10:09.9667697Z transforming...✓ 520 modules transformed.
+2026-10-05T11:10:10.1631814Z rendering chunks...
+2026-10-05T11:10:10.3359885Z computing gzip size...
+2026-10-05T11:10:10.3795001Z [32m✓ built in 2.10s[39m
+2026-10-05T11:10:11.9228039Z [34m[4/5] build client environment...[39m
+2026-10-05T11:10:11.9466739Z [2K
+2026-10-05T11:10:14.2676676Z transforming...✓ 2158 modules transformed.
+2026-10-05T11:10:14.3800178Z rendering chunks...
+2026-10-05T11:10:14.5154807Z computing gzip size...
+2026-10-05T11:10:14.5302470Z [33m[plugin builtin:vite-reporter] 
+2026-10-05T11:10:14.5303119Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-10-05T11:10:14.5303754Z - Using dynamic import() to code-split the application
+2026-10-05T11:10:14.5304752Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+2026-10-05T11:10:14.5306404Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2026-10-05T11:10:14.5328764Z [32m✓ built in 2.61s[39m
+2026-10-05T11:10:14.5544754Z [34m[5/5] build ssr environment...[39m
+2026-10-05T11:10:14.5778081Z [2K
+2026-10-05T11:10:15.7974524Z transforming...✓ 400 modules transformed.
+2026-10-05T11:10:15.9349584Z rendering chunks...
+2026-10-05T11:10:16.0363399Z computing gzip size...
+2026-10-05T11:10:16.0442367Z [32m✓ built in 1.49s[39m
+2026-10-05T11:10:16.0799467Z [0m
+2026-10-05T11:10:16.0800000Z   Route (app)
+2026-10-05T11:10:16.0812123Z   ┌ ƒ /                             
+2026-10-05T11:10:16.0813069Z   ├ λ /api/abdm                     
+2026-10-05T11:10:16.0813735Z   ├ λ /api/action-plan              
+2026-10-05T11:10:16.0814466Z   ├ λ /api/aggregate-reports        
+2026-10-05T11:10:16.0815112Z   ├ λ /api/alerts                   
+2026-10-05T11:10:16.0815868Z   ├ λ /api/anaemia-connection-test  
+2026-10-05T11:10:16.0816505Z   ├ λ /api/anaemia-demo-visit       
+2026-10-05T11:10:16.0817400Z   ├ λ /api/anaemia-provider         
+2026-10-05T11:10:16.0818029Z   ├ λ /api/anaemia-screenings       
+2026-10-05T11:10:16.0821904Z   ├ λ /api/audit                    
+2026-10-05T11:10:16.0822708Z   ├ λ /api/audit/chain              
+2026-10-05T11:10:16.0823509Z   ├ λ /api/availability             
+2026-10-05T11:10:16.0825127Z   ├ λ /api/caseload                 
+2026-10-05T11:10:16.0825761Z   ├ λ /api/clinical-sources         
+2026-10-05T11:10:16.0826546Z   ├ λ /api/commands                 
+2026-10-05T11:10:16.0828743Z   ├ λ /api/continuity               
+2026-10-05T11:10:16.0829110Z   ├ λ /api/data-exit                
+2026-10-05T11:10:16.0829462Z   ├ λ /api/delegations              
+2026-10-05T11:10:16.0829867Z   ├ λ /api/device-work              
+2026-10-05T11:10:16.0830203Z   ├ λ /api/environment              
+2026-10-05T11:10:16.0830539Z   ├ λ /api/exceptional              
+2026-10-05T11:10:16.0830879Z   ├ λ /api/exceptions               
+2026-10-05T11:10:16.0831247Z   ├ λ /api/expansion                
+2026-10-05T11:10:16.0831609Z   ├ λ /api/facility-scope           
+2026-10-05T11:10:16.0831983Z   ├ λ /api/fhir/:id                 
+2026-10-05T11:10:16.0832350Z   ├ λ /api/fixture-migration        
+2026-10-05T11:10:16.0832732Z   ├ λ /api/frontline-assessments    
+2026-10-05T11:10:16.0833162Z   ├ λ /api/frontline-connection-test
+2026-10-05T11:10:16.0833523Z   ├ λ /api/frontline-providers      
+2026-10-05T11:10:16.0833968Z   ├ λ /api/governance               
+2026-10-05T11:10:16.0834347Z   ├ λ /api/history                  
+2026-10-05T11:10:16.0834672Z   ├ λ /api/household                
+2026-10-05T11:10:16.0835016Z   ├ λ /api/identifier-search        
+2026-10-05T11:10:16.0835363Z   ├ λ /api/identity-cases           
+2026-10-05T11:10:16.0835713Z   ├ λ /api/import-rejections        
+2026-10-05T11:10:16.0836063Z   ├ λ /api/imported-evidence        
+2026-10-05T11:10:16.0836428Z   ├ λ /api/inbound-conflicts        
+2026-10-05T11:10:16.0836820Z   ├ λ /api/incentive-claims         
+2026-10-05T11:10:16.0837382Z   ├ λ /api/indicator-figures        
+2026-10-05T11:10:16.0837764Z   ├ λ /api/indicators               
+2026-10-05T11:10:16.0838118Z   ├ λ /api/media                    
+2026-10-05T11:10:16.0838363Z   ├ λ /api/media/:id                
+2026-10-05T11:10:16.0838622Z   ├ λ /api/mis/callback             
+2026-10-05T11:10:16.0838884Z   ├ λ /api/notification-channel     
+2026-10-05T11:10:16.0839133Z   ├ λ /api/offline-opens            
+2026-10-05T11:10:16.0839374Z   ├ λ /api/operations               
+2026-10-05T11:10:16.0839607Z   ├ λ /api/outreach                 
+2026-10-05T11:10:16.0839879Z   ├ λ /api/pack-installations       
+2026-10-05T11:10:16.0840122Z   ├ λ /api/patient-import           
+2026-10-05T11:10:16.0840381Z   ├ λ /api/patient-matches          
+2026-10-05T11:10:16.0840640Z   ├ λ /api/patients                 
+2026-10-05T11:10:16.0840882Z   ├ λ /api/patients/detail          
+2026-10-05T11:10:16.0841119Z   ├ λ /api/pilot                    
+2026-10-05T11:10:16.0841586Z   ├ λ /api/programme-migration      
+2026-10-05T11:10:16.0841836Z   ├ λ /api/provider-sandbox         
+2026-10-05T11:10:16.0842080Z   ├ λ /api/purpose-scope            
+2026-10-05T11:10:16.0842324Z   ├ λ /api/reassignment             
+2026-10-05T11:10:16.0842567Z   ├ λ /api/reconciliation           
+2026-10-05T11:10:16.0842807Z   ├ λ /api/record-import            
+2026-10-05T11:10:16.0843063Z   ├ λ /api/record-opened            
+2026-10-05T11:10:16.0843306Z   ├ λ /api/referral-escalations     
+2026-10-05T11:10:16.0843556Z   ├ λ /api/referral-requests        
+2026-10-05T11:10:16.0843823Z   ├ λ /api/reminder-optout          
+2026-10-05T11:10:16.0844125Z   ├ λ /api/reminder-optout/callback 
+2026-10-05T11:10:16.0844530Z   ├ λ /api/retention                
+2026-10-05T11:10:16.0844988Z   ├ λ /api/rights                   
+2026-10-05T11:10:16.0845322Z   ├ λ /api/roster                   
+2026-10-05T11:10:16.0845729Z   ├ λ /api/trace                    
+2026-10-05T11:10:16.0846074Z   ├ λ /api/value-range-protocols    
+2026-10-05T11:10:16.0846431Z   ├ λ /api/work-burden              
+2026-10-05T11:10:16.0846819Z   ├ λ /api/work-burden/attribution  
+2026-10-05T11:10:16.0867792Z   ├ λ /api/work-burden/policy       
+2026-10-05T11:10:16.0868579Z   ├ λ /api/work-burden/support      
+2026-10-05T11:10:16.0869134Z   ├ λ /api/worker-activity          
+2026-10-05T11:10:16.0869775Z   ├ λ /api/workforce-import         
+2026-10-05T11:10:16.0870418Z   ├ λ /api/worklists                
+2026-10-05T11:10:16.0870926Z   ├ λ /api/workspace                
+2026-10-05T11:10:16.0871458Z   ├ ƒ /app                          
+2026-10-05T11:10:16.0872107Z   ├ ? /indicator-definitions        
+2026-10-05T11:10:16.0872612Z   └ ? /indicator-figures            
+2026-10-05T11:10:16.0872905Z 
+2026-10-05T11:10:16.0873147Z   λ API  ƒ Dynamic  ? Unknown
+2026-10-05T11:10:16.0886512Z 
+2026-10-05T11:10:16.0886826Z   ? Some routes could not be classified. vinext currently uses static analysis
+2026-10-05T11:10:16.0887695Z     and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+2026-10-05T11:10:16.0888292Z     Automatic classification will be improved in a future release.
+2026-10-05T11:10:16.0888643Z 
+2026-10-05T11:10:16.0888899Z   Build complete. Run `vinext start` to start the production server.
+2026-10-05T11:10:16.0889201Z 
+2026-10-05T11:10:16.1514635Z ##[group]Run node scripts/security-gate.mjs
+2026-10-05T11:10:16.1514930Z [36;1mnode scripts/security-gate.mjs[0m
+2026-10-05T11:10:16.1572428Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:10:16.1572646Z ##[endgroup]
+2026-10-05T11:10:19.7858969Z {"passed":true,"productionComponents":226,"counts":{"info":0,"low":7,"moderate":19,"high":27,"critical":0},"blocking":0,"accepted":46}
+2026-10-05T11:10:19.7938382Z ##[group]Run node scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard
+2026-10-05T11:10:19.7939484Z [36;1mnode scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard[0m
+2026-10-05T11:10:19.7996893Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:10:19.7997204Z ##[endgroup]
+2026-10-05T11:10:19.9128551Z Running integration resilience --fast; 2 suite(s).
+2026-10-05T11:10:19.9128919Z 
+2026-10-05T11:10:19.9129062Z [integration] 1 suite(s)
+2026-10-05T11:10:19.9129448Z build: skipped (--fast, dist/ exists)
+2026-10-05T11:10:19.9129860Z   running  integration/run-api-smoke ...
+2026-10-05T11:14:31.3450895Z   ok       integration/run-api-smoke  4770 passed  4m 10s
+2026-10-05T11:14:31.4492501Z 
+2026-10-05T11:14:31.4493274Z [resilience] 1 suite(s)
+2026-10-05T11:14:31.4511996Z   running  resilience/recovery-drill ...
+2026-10-05T11:14:34.9986718Z   ok       resilience/recovery-drill  21 passed  3.5s
+2026-10-05T11:14:35.0727705Z 
+2026-10-05T11:14:35.0728332Z   layer        status  suites  passed  failed  skipped    time
+2026-10-05T11:14:35.0728901Z   -----------  ------  ------  ------  ------  -------  ------
+2026-10-05T11:14:35.0729417Z   integration  passed       1    4770       0        0  4m 10s
+2026-10-05T11:14:35.0730204Z   resilience   passed       1      21       0        0    3.5s
+2026-10-05T11:14:35.0730700Z   total        passed       2    4791       0        0  4m 15s
+2026-10-05T11:14:35.0731533Z 
+2026-10-05T11:14:35.0732190Z Restored 3 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+2026-10-05T11:14:35.0732812Z 
+2026-10-05T11:14:35.0733343Z Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).
+2026-10-05T11:14:35.0816780Z ##[group]Run node scripts/test.mjs unit --fast --guard
+2026-10-05T11:14:35.0817469Z [36;1mnode scripts/test.mjs unit --fast --guard[0m
+2026-10-05T11:14:35.0898572Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:14:35.0898786Z ##[endgroup]
+2026-10-05T11:14:35.1708300Z Running unit --fast; 188 suite(s).
+2026-10-05T11:14:35.1722114Z 
+2026-10-05T11:14:35.1737743Z [unit] 188 suite(s)
+2026-10-05T11:14:36.9559066Z   ok       unit/abdm-contract  14 passed  1.8s
+2026-10-05T11:14:38.7226953Z   ok       unit/abdm-transfer-contract  21 passed  1.8s
+2026-10-05T11:14:40.6638276Z   ok       unit/access-audit-contract  35 passed  1.9s
+2026-10-05T11:14:41.5918962Z   ok       unit/access-scope-contract  8 passed  927ms
+2026-10-05T11:14:43.3316038Z   ok       unit/action-plan-contract  8 passed  1.7s
+2026-10-05T11:14:45.2068326Z   ok       unit/adapter-operations-contract  14 passed  1.9s
+2026-10-05T11:14:46.9716629Z   ok       unit/agent-contract  25 passed  1.8s
+2026-10-05T11:14:48.7518419Z   ok       unit/agent-minimisation-contract  38 passed  1.8s
+2026-10-05T11:14:50.5671345Z   ok       unit/agent-quality-contract  50 passed  1.8s
+2026-10-05T11:14:53.7316867Z   ok       unit/aggregate-checkpoint-population-contract  4 passed  3.2s
+2026-10-05T11:14:55.1133581Z   ok       unit/aggregate-delivery-contract  12 passed  1.4s
+2026-10-05T11:14:56.8365534Z   ok       unit/ai-budget-contract  41 passed  1.7s
+2026-10-05T11:14:58.5882112Z   ok       unit/ai-invoice-contract  54 passed  1.8s
+2026-10-05T11:15:00.2816074Z   ok       unit/alert-delivery-contract  23 passed  1.7s
+2026-10-05T11:15:01.9983994Z   ok       unit/alerts-contract  25 passed  1.7s
+2026-10-05T11:15:03.5068862Z   ok       unit/anaemia-provider-contract  58 passed  1.5s
+2026-10-05T11:15:04.4308545Z   ok       unit/anaemia-worker-transport  7 passed  923ms
+2026-10-05T11:15:04.7089009Z   ok       unit/android-app-contract  20 passed  276ms
+2026-10-05T11:15:05.0093745Z   ok       unit/app-first-ui  15 passed  299ms
+2026-10-05T11:15:05.4149386Z   ok       unit/app-history-contract  17 passed  403ms
+2026-10-05T11:15:05.4469302Z   ok       unit/app-offline-contract  11 passed  30ms
+2026-10-05T11:15:05.4785401Z   ok       unit/app-offline-scope-contract  16 passed  29ms
+2026-10-05T11:15:05.5328491Z   ok       unit/app-sw-review-contract  16 passed  52ms
+2026-10-05T11:15:11.6948491Z   ok       unit/atomic-abha-review-contract  14 passed  6.2s
+2026-10-05T11:15:13.8670124Z   ok       unit/audit-chain-contract  48 passed  2.2s
+2026-10-05T11:15:16.9004850Z   ok       unit/audit-checkpoint-contract  15 passed  3.0s
+2026-10-05T11:15:21.0113099Z   ok       unit/audit-contention-contract  3 passed  4.1s
+2026-10-05T11:15:21.3104697Z   ok       unit/audit-query-plan-contract  12 passed  298ms
+2026-10-05T11:15:24.5060350Z   ok       unit/availability-contract  20 passed  3.2s
+2026-10-05T11:15:26.2678640Z   ok       unit/capability-lifecycle-contract  25 passed  1.8s
+2026-10-05T11:15:27.9734443Z   ok       unit/caseload-contract  30 passed  1.7s
+2026-10-05T11:15:29.7185092Z   ok       unit/caseload-schedule-contract  33 passed  1.7s
+2026-10-05T11:15:32.9293793Z   ok       unit/clinical-source-contract  16 passed  3.2s
+2026-10-05T11:15:35.9488892Z   ok       unit/clinical-source-dependency-contract  10 passed  3.0s
+2026-10-05T11:15:39.2081500Z   ok       unit/clinical-source-fetch-contract  25 passed  3.3s
+2026-10-05T11:15:39.2381794Z   ok       unit/cloudflare-staging-contract  39 passed  29ms
+2026-10-05T11:15:42.3182852Z   ok       unit/command-authority-contract  14 passed  3.1s
+2026-10-05T11:15:45.3087780Z   ok       unit/composite-measures-contract  57 passed  3.0s
+2026-10-05T11:15:47.0488275Z   ok       unit/consent-contract  25 passed  1.7s
+2026-10-05T11:15:50.1142290Z   ok       unit/contact-import-contract  18 passed  3.1s
+2026-10-05T11:15:51.8708377Z   ok       unit/continuity-contract  29 passed  1.8s
+2026-10-05T11:15:53.8436949Z   ok       unit/correction-tasks-contract  13 passed  2.0s
+2026-10-05T11:15:55.7486966Z   ok       unit/crosswalk-correction-contract  48 passed  1.9s
+2026-10-05T11:15:58.3011170Z   ok       unit/data-exit-contract  44 passed  2.5s
+2026-10-05T11:16:00.0388657Z   ok       unit/delegation-contract  22 passed  1.7s
+2026-10-05T11:16:01.8688664Z   ok       unit/demonstration-contract  52 passed  1.8s
+2026-10-05T11:16:02.9919256Z   ok       unit/destination-enrolment-contract  45 passed  1.1s
+2026-10-05T11:16:06.1285906Z   ok       unit/device-work-contract  46 passed  3.1s
+2026-10-05T11:16:07.9534363Z   ok       unit/drift-contract  15 passed  1.8s
+2026-10-05T11:16:09.7972337Z   ok       unit/ehr-contract  48 passed  1.8s
+2026-10-05T11:16:11.2618365Z   ok       unit/ehr-execution  33 passed  1.5s
+2026-10-05T11:16:14.7847514Z   ok       unit/ehr-probe-contract  20 passed  3.5s
+2026-10-05T11:16:16.7518632Z   ok       unit/ehr-resolution-contract  13 passed  2.0s
+2026-10-05T11:16:19.7937463Z   ok       unit/eighth-review-fixes-contract  18 passed  3.0s
+2026-10-05T11:16:21.6172401Z   ok       unit/environment-contract  26 passed  1.8s
+2026-10-05T11:16:23.4316958Z   ok       unit/exceptional-contract  19 passed  1.8s
+2026-10-05T11:16:25.5498432Z   ok       unit/exceptions-contract  8 passed  2.1s
+2026-10-05T11:16:27.3358614Z   ok       unit/facility-scope-contract  38 passed  1.8s
+2026-10-05T11:16:29.1371593Z   ok       unit/fact-provenance-contract  41 passed  1.8s
+2026-10-05T11:16:30.8824658Z   ok       unit/fact-reuse-contract  21 passed  1.7s
+2026-10-05T11:16:32.6700398Z   ok       unit/fact-verification-contract  37 passed  1.8s
+2026-10-05T11:16:34.4798788Z   ok       unit/fhir-provenance-contract  51 passed  1.8s
+2026-10-05T11:16:36.2437740Z   ok       unit/fhir-validate-contract  20 passed  1.8s
+2026-10-05T11:16:47.3151723Z   ok       unit/field-capacity-client  15 passed  11.1s
+2026-10-05T11:16:47.5488303Z   ok       unit/field-client  25 passed  234ms
+2026-10-05T11:16:49.4538183Z   ok       unit/field-contract  38 passed  1.9s
+2026-10-05T11:17:15.2877444Z   ok       unit/field-media-capacity-client  30 passed  25.8s
+2026-10-05T11:17:15.5522632Z   ok       unit/field-media-client  117 passed  263ms
+2026-10-05T11:17:15.6622828Z   ok       unit/field-provenance-client  17 passed  109ms
+2026-10-05T11:17:15.9353038Z   ok       unit/field-recording-client  28 passed  272ms
+2026-10-05T11:17:17.9721219Z   ok       unit/field-registration-client  69 passed  2.0s
+2026-10-05T11:17:18.0378250Z   ok       unit/field-shell  12 passed  64ms
+2026-10-05T11:17:18.1920553Z   ok       unit/field-storage-client  30 passed  154ms
+2026-10-05T11:17:18.3048428Z   ok       unit/field-units-client  14 passed  112ms
+2026-10-05T11:17:21.5821997Z   ok       unit/fifth-review-fixes-contract  33 passed  3.3s
+2026-10-05T11:17:23.4097819Z   ok       unit/fixture-migration-contract  22 passed  1.8s
+2026-10-05T11:17:26.5474297Z   ok       unit/fourth-review-fixes-contract  32 passed  3.1s
+2026-10-05T11:17:28.1342003Z   ok       unit/frontline-provider-contract  109 passed  1.6s
+2026-10-05T11:17:29.9814004Z   ok       unit/governance-contract  27 passed  1.8s
+2026-10-05T11:17:33.1809175Z   ok       unit/household-completion-contract  42 passed  3.2s
+2026-10-05T11:17:34.9500215Z   ok       unit/household-contract  12 passed  1.8s
+2026-10-05T11:17:36.7850811Z   ok       unit/household-reschedule-contract  35 passed  1.8s
+2026-10-05T11:17:38.5835408Z   ok       unit/household-visit-contract  19 passed  1.8s
+2026-10-05T11:17:39.0579073Z   ok       unit/i18n-contract  4318 passed  473ms
+2026-10-05T11:17:40.9682064Z   ok       unit/identifier-crosswalk-contract  84 passed  1.9s
+2026-10-05T11:17:41.5328324Z   ok       unit/identity-contract  19 passed  563ms
+2026-10-05T11:17:44.6818536Z   ok       unit/import-unit-parity-contract  18 passed  3.1s
+2026-10-05T11:17:47.7488867Z   ok       unit/imported-evidence-contract  26 passed  3.1s
+2026-10-05T11:17:49.6466967Z   ok       unit/inbound-conflicts-contract  85 passed  1.9s
+2026-10-05T11:17:51.5308728Z   ok       unit/inbound-retrieval-contract  115 passed  1.9s
+2026-10-05T11:17:53.3675764Z   ok       unit/incentive-claims-contract  35 passed  1.8s
+2026-10-05T11:17:56.3475184Z   ok       unit/indicator-figure-material-contract  86 passed  3.0s
+2026-10-05T11:17:58.1359314Z   ok       unit/indicator-freshness-contract  10 passed  1.8s
+2026-10-05T11:17:59.9658399Z   ok       unit/indicator-governance-contract  42 passed  1.8s
+2026-10-05T11:18:02.9996385Z   ok       unit/indicator-household-counting-contract  35 passed  3.0s
+2026-10-05T11:18:04.8314526Z   ok       unit/indicator-registry-contract  12 passed  1.8s
+2026-10-05T11:18:06.6743258Z   ok       unit/indicators-contract  9 passed  1.8s
+2026-10-05T11:18:08.4236963Z   ok       unit/main-review-fixes-contract  25 passed  1.7s
+2026-10-05T11:18:09.0190879Z   ok       unit/mapping-conformance-contract  50 passed  594ms
+2026-10-05T11:18:09.6158324Z   ok       unit/mapping-lifecycle-contract  23 passed  595ms
+2026-10-05T11:18:10.1961306Z   ok       unit/mapping-lifecycle-review-contract  23 passed  579ms
+2026-10-05T11:18:11.9724546Z   ok       unit/media-contract  5 passed  1.8s
+2026-10-05T11:18:13.7586261Z   ok       unit/merge-contract  27 passed  1.8s
+2026-10-05T11:18:15.5072694Z   ok       unit/mis-contract  45 passed  1.7s
+2026-10-05T11:18:16.6709790Z   ok       unit/mis-delivery  16 passed  1.2s
+2026-10-05T11:18:19.7804153Z   ok       unit/ninth-review-fixes-contract  13 passed  3.1s
+2026-10-05T11:18:21.6196950Z   ok       unit/note-answer-signoff-contract  52 passed  1.8s
+2026-10-05T11:18:23.4580559Z   ok       unit/notification-channel-contract  24 passed  1.8s
+2026-10-05T11:18:25.2906169Z   ok       unit/notification-sources-contract  19 passed  1.8s
+2026-10-05T11:18:25.3703510Z   ok       unit/offline-open-retirement-writer-contract  3 passed  78ms
+2026-10-05T11:18:25.4512319Z   ok       unit/offline-open-unsent-pruning-contract  20 passed  80ms
+2026-10-05T11:18:25.5679128Z   ok       unit/offline-opens-contract  64 passed  115ms
+2026-10-05T11:18:28.6428462Z   ok       unit/offline-programme-contract  21 passed  3.1s
+2026-10-05T11:18:29.8492569Z   ok       unit/operations-bound-contract  6 passed  1.2s
+2026-10-05T11:18:31.6442309Z   ok       unit/operations-contract  24 passed  1.8s
+2026-10-05T11:18:33.4146407Z   ok       unit/outreach-contract  55 passed  1.8s
+2026-10-05T11:18:35.1413064Z   ok       unit/pack-installation-contract  52 passed  1.7s
+2026-10-05T11:18:36.9636007Z   ok       unit/patient-directory-contract  56 passed  1.8s
+2026-10-05T11:18:38.7245458Z   ok       unit/patient-import-contract  38 passed  1.8s
+2026-10-05T11:18:39.1083287Z   ok       unit/photo-contract  10 passed  382ms
+2026-10-05T11:18:40.8406726Z   ok       unit/pilot-contract  24 passed  1.7s
+2026-10-05T11:18:42.5718275Z   ok       unit/plan-dependencies-contract  9 passed  1.7s
+2026-10-05T11:18:42.6603819Z   ok       unit/process-memory-contract  6 passed  87ms
+2026-10-05T11:18:44.4448365Z   ok       unit/programme-migration-contract  32 passed  1.8s
+2026-10-05T11:18:47.4894365Z   ok       unit/provider-agent-decoded-contract  39 passed  3.0s
+2026-10-05T11:18:50.4373159Z   ok       unit/provider-agent-envelope-contract  30 passed  2.9s
+2026-10-05T11:18:52.3268653Z   ok       unit/provider-ehr-envelope-contract  50 passed  1.9s
+2026-10-05T11:18:53.7998390Z   ok       unit/provider-ehr-execution-review  47 passed  1.5s
+2026-10-05T11:18:55.6668913Z   ok       unit/provider-ehr-headers-contract  92 passed  1.9s
+2026-10-05T11:18:57.5338530Z   ok       unit/provider-ehr-headers-independent-contract  81 passed  1.9s
+2026-10-05T11:18:58.8975219Z   ok       unit/provider-frontline-decoded-contract  29 passed  1.4s
+2026-10-05T11:19:00.3329149Z   ok       unit/provider-frontline-envelope-contract  21 passed  1.4s
+2026-10-05T11:19:02.0284852Z   ok       unit/provider-history-contract  13 passed  1.7s
+2026-10-05T11:19:03.4226575Z   ok       unit/provider-image-envelope-contract  12 passed  1.4s
+2026-10-05T11:19:04.6379747Z   ok       unit/provider-mis-envelope-contract  41 passed  1.2s
+2026-10-05T11:19:05.8001329Z   ok       unit/provider-mis-execution-review  45 passed  1.2s
+2026-10-05T11:19:07.4879828Z   ok       unit/provider-sandbox-contract  75 passed  1.7s
+2026-10-05T11:19:08.7956132Z   ok       unit/provider-specialised-envelope-contract  41 passed  1.3s
+2026-10-05T11:19:10.4935288Z   ok       unit/purpose-scope-contract  11 passed  1.7s
+2026-10-05T11:19:12.3458467Z   ok       unit/r26-correction-propagation-contract  8 passed  1.9s
+2026-10-05T11:19:15.3913980Z   ok       unit/range-protocol-contract  25 passed  3.0s
+2026-10-05T11:19:17.1882863Z   ok       unit/read-audit-completion-contract  52 passed  1.8s
+2026-10-05T11:19:18.8983327Z   ok       unit/reason-codes-contract  61 passed  1.7s
+2026-10-05T11:19:20.6478348Z   ok       unit/reassignment-contract  10 passed  1.7s
+2026-10-05T11:19:22.4565566Z   ok       unit/record-import-contract  49 passed  1.8s
+2026-10-05T11:19:24.2158457Z   ok       unit/referral-contract  10 passed  1.8s
+2026-10-05T11:19:25.9914498Z   ok       unit/referral-request-queue-contract  21 passed  1.8s
+2026-10-05T11:19:29.0478428Z   ok       unit/registration-device-contract  31 passed  3.1s
+2026-10-05T11:19:29.1649190Z   ok       unit/reminder-optout-contract  39 passed  115ms
+2026-10-05T11:19:33.7906020Z   ok       unit/replay-soak-contract  8 passed  4.6s
+2026-10-05T11:19:35.8371435Z   ok       unit/report-export-contract  7 passed  2.0s
+2026-10-05T11:19:37.5944356Z   ok       unit/request-body-transport-contract  8 passed  1.8s
+2026-10-05T11:19:39.3374764Z   ok       unit/retention-contract  11 passed  1.7s
+2026-10-05T11:19:41.1307343Z   ok       unit/reuse-contract  7 passed  1.8s
+2026-10-05T11:19:43.0148554Z   ok       unit/review-fixes-contract  41 passed  1.9s
+2026-10-05T11:19:44.7244394Z   ok       unit/rights-contract  17 passed  1.7s
+2026-10-05T11:19:46.4582185Z   ok       unit/roster-contract  13 passed  1.7s
+2026-10-05T11:19:46.5228266Z   ok       unit/safe-logs-contract  13 passed  62ms
+2026-10-05T11:19:49.7048418Z   ok       unit/scheduled-job-contract  37 passed  3.2s
+2026-10-05T11:19:51.4442192Z   ok       unit/scoped-read-contract  27 passed  1.7s
+2026-10-05T11:19:53.3419017Z   ok       unit/send-gate-contract  29 passed  1.9s
+2026-10-05T11:19:53.8233051Z   ok       unit/service-dispatch-contract  100 passed  481ms
+2026-10-05T11:19:55.5334160Z   ok       unit/service-identity-contract  10 passed  1.7s
+2026-10-05T11:19:58.7576310Z   ok       unit/seventh-review-fixes-contract  30 passed  3.2s
+2026-10-05T11:20:00.4674092Z   ok       unit/shadow-contract  55 passed  1.7s
+2026-10-05T11:20:01.5234122Z   ok       unit/shadow-recompute-contract  4 passed  1.1s
+2026-10-05T11:20:04.4908260Z   ok       unit/sixth-review-fixes-contract  41 passed  3.0s
+2026-10-05T11:20:04.9203617Z   ok       unit/speech-contract  19 passed  429ms
+2026-10-05T11:20:06.7547546Z   ok       unit/storage-contract  19 passed  1.8s
+2026-10-05T11:20:08.4775246Z   ok       unit/task-limits-contract  39 passed  1.7s
+2026-10-05T11:20:10.1779446Z   ok       unit/tenth-review-fixes-contract  12 passed  1.7s
+2026-10-05T11:20:16.5563458Z   ok       unit/test-runner-contract  27 passed  6.4s
+2026-10-05T11:20:18.3359174Z   ok       unit/trace-contract  27 passed  1.8s
+2026-10-05T11:20:20.0757532Z   ok       unit/value-override-agent-contract  4 passed  1.7s
+2026-10-05T11:20:21.8162522Z   ok       unit/value-override-contract  53 passed  1.7s
+2026-10-05T11:20:23.6078649Z   ok       unit/value-ranges-context-contract  26 passed  1.8s
+2026-10-05T11:20:25.5011061Z   ok       unit/visit-import-contract  54 passed  1.9s
+2026-10-05T11:20:28.4474567Z   ok       unit/work-burden-contract  19 passed  2.9s
+2026-10-05T11:20:28.5118558Z   ok       unit/work-burden-field-capture-contract  10 passed  63ms
+2026-10-05T11:20:28.5807687Z   ok       unit/work-burden-field-contract  20 passed  67ms
+2026-10-05T11:20:28.6219082Z   ok       unit/work-burden-field-writer-contract  4 passed  39ms
+2026-10-05T11:20:31.5665649Z   ok       unit/work-burden-ledger-contract  14 passed  2.9s
+2026-10-05T11:20:38.0771924Z   ok       unit/work-burden-policy-checkpoint  13 passed  6.5s
+2026-10-05T11:20:38.1214165Z   ok       unit/work-burden-session-migration-contract  8 passed  42ms
+2026-10-05T11:20:39.8824097Z   ok       unit/worker-activity-contract  12 passed  1.8s
+2026-10-05T11:20:41.7438603Z   ok       unit/workforce-import-contract  68 passed  1.9s
+2026-10-05T11:20:43.7888550Z   ok       unit/worklists-contract  111 passed  2.0s
+2026-10-05T11:20:46.7987016Z   ok       unit/workspace-metadata-contract  147 passed  3.0s
+2026-10-05T11:20:47.1142928Z 
+2026-10-05T11:20:47.1143822Z   layer  status  suites  passed  failed  skipped    time
+2026-10-05T11:20:47.1144529Z   -----  ------  ------  ------  ------  -------  ------
+2026-10-05T11:20:47.1145179Z   unit   passed     188   10102       0        0  6m 11s
+2026-10-05T11:20:47.1145811Z   total  passed     188   10102       0        0  6m 12s
+2026-10-05T11:20:47.1146326Z 
+2026-10-05T11:20:47.1147011Z Restored 25 tracked file(s) and deleted 116 untracked result file(s) so the tree matches HEAD.
+2026-10-05T11:20:47.1147856Z 
+2026-10-05T11:20:47.1148457Z Regression guard: passed (188 baselined suite(s) checked, 0 excused by quarantine).
+2026-10-05T11:20:47.1221017Z ##[group]Run node_modules/.bin/playwright install --with-deps chromium
+2026-10-05T11:20:47.1221413Z [36;1mnode_modules/.bin/playwright install --with-deps chromium[0m
+2026-10-05T11:20:47.1278012Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:20:47.1278219Z ##[endgroup]
+2026-10-05T11:20:47.7086946Z Installing dependencies...
+2026-10-05T11:20:47.7145756Z Switching to root user to install dependencies...
+2026-10-05T11:20:47.8530785Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-05T11:20:47.9396949Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+2026-10-05T11:20:47.9417878Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-10-05T11:20:47.9437980Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-10-05T11:20:47.9559590Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+2026-10-05T11:20:47.9579535Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-10-05T11:20:48.0916987Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [458 kB]
+2026-10-05T11:20:48.3918650Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1364 kB]
+2026-10-05T11:20:48.3947992Z Get:17 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.6 kB]
+2026-10-05T11:20:48.4015887Z Get:18 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [511 kB]
+2026-10-05T11:20:48.4188381Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [304 kB]
+2026-10-05T11:20:48.4268751Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+2026-10-05T11:20:48.4318128Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1699 kB]
+2026-10-05T11:20:48.4586251Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [341 kB]
+2026-10-05T11:20:48.4623664Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+2026-10-05T11:20:48.4698105Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1720 kB]
+2026-10-05T11:20:48.4928366Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [394 kB]
+2026-10-05T11:20:48.5008153Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+2026-10-05T11:20:48.5130869Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5776 B]
+2026-10-05T11:20:48.5588626Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+2026-10-05T11:20:48.5810337Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1069 kB]
+2026-10-05T11:20:48.5866295Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [221 kB]
+2026-10-05T11:20:48.5880655Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+2026-10-05T11:20:48.5898727Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1216 kB]
+2026-10-05T11:20:48.5961673Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [244 kB]
+2026-10-05T11:20:48.5986531Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.4 kB]
+2026-10-05T11:20:48.6003771Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1566 kB]
+2026-10-05T11:20:48.6087449Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [361 kB]
+2026-10-05T11:20:56.6481845Z Fetched 12.6 MB in 2s (7569 kB/s)
+2026-10-05T11:20:57.2919050Z Reading package lists...
+2026-10-05T11:20:57.3135452Z Reading package lists...
+2026-10-05T11:20:57.4776190Z Building dependency tree...
+2026-10-05T11:20:57.4783934Z Reading state information...
+2026-10-05T11:20:57.6064139Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+2026-10-05T11:20:57.6065025Z libasound2t64 set to manually installed.
+2026-10-05T11:20:57.6066006Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-05T11:20:57.6066797Z libatk-bridge2.0-0t64 set to manually installed.
+2026-10-05T11:20:57.6067802Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-05T11:20:57.6068492Z libatk1.0-0t64 set to manually installed.
+2026-10-05T11:20:57.6069262Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-05T11:20:57.6070043Z libatspi2.0-0t64 set to manually installed.
+2026-10-05T11:20:57.6070768Z libcairo2 is already the newest version (1.18.0-3build1).
+2026-10-05T11:20:57.6071440Z libcairo2 set to manually installed.
+2026-10-05T11:20:57.6072104Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+2026-10-05T11:20:57.6072687Z libcups2t64 set to manually installed.
+2026-10-05T11:20:57.6073336Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+2026-10-05T11:20:57.6073845Z libdbus-1-3 set to manually installed.
+2026-10-05T11:20:57.6074515Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+2026-10-05T11:20:57.6075035Z libdrm2 set to manually installed.
+2026-10-05T11:20:57.6075359Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+2026-10-05T11:20:57.6075674Z libglib2.0-0t64 set to manually installed.
+2026-10-05T11:20:57.6075995Z libnspr4 is already the newest version (2:4.35-1.1build1).
+2026-10-05T11:20:57.6076289Z libnspr4 set to manually installed.
+2026-10-05T11:20:57.6076590Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+2026-10-05T11:20:57.6076877Z libnss3 set to manually installed.
+2026-10-05T11:20:57.6077452Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+2026-10-05T11:20:57.6077829Z libpango-1.0-0 set to manually installed.
+2026-10-05T11:20:57.6078134Z libx11-6 is already the newest version (2:1.8.7-1build1).
+2026-10-05T11:20:57.6078416Z libx11-6 set to manually installed.
+2026-10-05T11:20:57.6078701Z libxcb1 is already the newest version (1.15-1ubuntu2).
+2026-10-05T11:20:57.6078986Z libxcb1 set to manually installed.
+2026-10-05T11:20:57.6079306Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+2026-10-05T11:20:57.6079622Z libxcomposite1 set to manually installed.
+2026-10-05T11:20:57.6079935Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+2026-10-05T11:20:57.6080242Z libxdamage1 set to manually installed.
+2026-10-05T11:20:57.6080554Z libxext6 is already the newest version (2:1.3.4-1build2).
+2026-10-05T11:20:57.6081050Z libxext6 set to manually installed.
+2026-10-05T11:20:57.6081352Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+2026-10-05T11:20:57.6081643Z libxfixes3 set to manually installed.
+2026-10-05T11:20:57.6081944Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+2026-10-05T11:20:57.6082242Z libxkbcommon0 set to manually installed.
+2026-10-05T11:20:57.6082536Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+2026-10-05T11:20:57.6082819Z libxrandr2 set to manually installed.
+2026-10-05T11:20:57.6083123Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+2026-10-05T11:20:57.6083525Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+2026-10-05T11:20:57.6083940Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+2026-10-05T11:20:57.6084253Z libfontconfig1 set to manually installed.
+2026-10-05T11:20:57.6084588Z libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.1).
+2026-10-05T11:20:57.6084912Z libfreetype6 set to manually installed.
+2026-10-05T11:20:57.6085222Z fonts-liberation is already the newest version (1:2.1.5-3).
+2026-10-05T11:20:57.6085526Z fonts-liberation set to manually installed.
+2026-10-05T11:20:57.6085830Z The following additional packages will be installed:
+2026-10-05T11:20:57.6086211Z   libgl1-mesa-dri libglx-mesa0 mesa-libgallium xfonts-encodings xfonts-utils
+2026-10-05T11:20:57.6086537Z Recommended packages:
+2026-10-05T11:20:57.6086889Z   fonts-ipafont-mincho fonts-tlwg-loma
+2026-10-05T11:20:57.6716554Z The following NEW packages will be installed:
+2026-10-05T11:20:57.6718053Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+2026-10-05T11:20:57.6721180Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+2026-10-05T11:20:57.6721896Z   xfonts-utils
+2026-10-05T11:20:57.6725378Z The following packages will be upgraded:
+2026-10-05T11:20:57.6729867Z   libgbm1 libgl1-mesa-dri libglx-mesa0 mesa-libgallium
+2026-10-05T11:20:57.6875913Z 4 upgraded, 9 newly installed, 0 to remove and 21 not upgraded.
+2026-10-05T11:20:57.6876729Z Need to get 32.1 MB of archives.
+2026-10-05T11:20:57.6878098Z After this operation, 79.5 MB of additional disk space will be used.
+2026-10-05T11:20:57.6879021Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-05T11:20:57.7471854Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+2026-10-05T11:20:57.9401670Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+2026-10-05T11:20:58.0187768Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+2026-10-05T11:20:58.0422864Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+2026-10-05T11:20:58.1278650Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+2026-10-05T11:20:58.2152024Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.4 [38.0 kB]
+2026-10-05T11:20:58.2381280Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.4 [110 kB]
+2026-10-05T11:20:58.2607443Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.4 [34.2 kB]
+2026-10-05T11:20:58.2828879Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.4 [10.8 MB]
+2026-10-05T11:20:58.3955441Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+2026-10-05T11:20:58.4213374Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+2026-10-05T11:20:58.4438851Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+2026-10-05T11:20:58.4683728Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+2026-10-05T11:20:58.8666666Z Fetched 32.1 MB in 1s (40.5 MB/s)
+2026-10-05T11:20:58.9129115Z Selecting previously unselected package fonts-ipafont-gothic.
+2026-10-05T11:20:58.9389623Z (Reading database ... 
+2026-10-05T11:20:58.9389978Z (Reading database ... 5%
+2026-10-05T11:20:58.9390294Z (Reading database ... 10%
+2026-10-05T11:20:58.9390727Z (Reading database ... 15%
+2026-10-05T11:20:58.9391185Z (Reading database ... 20%
+2026-10-05T11:20:58.9391477Z (Reading database ... 25%
+2026-10-05T11:20:58.9391757Z (Reading database ... 30%
+2026-10-05T11:20:58.9392041Z (Reading database ... 35%
+2026-10-05T11:20:58.9392292Z (Reading database ... 40%
+2026-10-05T11:20:58.9392485Z (Reading database ... 45%
+2026-10-05T11:20:58.9392674Z (Reading database ... 50%
+2026-10-05T11:20:58.9883080Z (Reading database ... 55%
+2026-10-05T11:20:59.1189252Z (Reading database ... 60%
+2026-10-05T11:20:59.4790161Z (Reading database ... 65%
+2026-10-05T11:20:59.7071394Z (Reading database ... 70%
+2026-10-05T11:20:59.9342110Z (Reading database ... 75%
+2026-10-05T11:21:00.1660859Z (Reading database ... 80%
+2026-10-05T11:21:00.5371993Z (Reading database ... 85%
+2026-10-05T11:21:00.7816334Z (Reading database ... 90%
+2026-10-05T11:21:00.9268393Z (Reading database ... 95%
+2026-10-05T11:21:00.9269090Z (Reading database ... 100%
+2026-10-05T11:21:00.9269743Z (Reading database ... 202296 files and directories currently installed.)
+2026-10-05T11:21:00.9304866Z Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+2026-10-05T11:21:00.9521267Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-10-05T11:21:01.2478473Z Selecting previously unselected package fonts-freefont-ttf.
+2026-10-05T11:21:01.2585068Z Preparing to unpack .../01-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+2026-10-05T11:21:01.2591655Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-10-05T11:21:01.4383503Z Selecting previously unselected package fonts-tlwg-loma-otf.
+2026-10-05T11:21:01.4494745Z Preparing to unpack .../02-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+2026-10-05T11:21:01.4501290Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-10-05T11:21:01.4706731Z Selecting previously unselected package fonts-unifont.
+2026-10-05T11:21:01.4814245Z Preparing to unpack .../03-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+2026-10-05T11:21:01.4824783Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+2026-10-05T11:21:01.8263135Z Selecting previously unselected package fonts-wqy-zenhei.
+2026-10-05T11:21:01.8373630Z Preparing to unpack .../04-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+2026-10-05T11:21:01.8459696Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+2026-10-05T11:21:02.3978845Z Preparing to unpack .../05-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-05T11:21:02.4128381Z Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-05T11:21:02.4548625Z Preparing to unpack .../06-libglx-mesa0_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-05T11:21:02.4574823Z Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-05T11:21:02.4914556Z Preparing to unpack .../07-libgbm1_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-05T11:21:02.4932835Z Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-05T11:21:02.5252171Z Preparing to unpack .../08-mesa-libgallium_25.2.8-0ubuntu0.24.04.4_amd64.deb ...
+2026-10-05T11:21:02.5277050Z Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) over (25.2.8-0ubuntu0.24.04.2) ...
+2026-10-05T11:21:03.0883039Z Selecting previously unselected package xfonts-encodings.
+2026-10-05T11:21:03.0996255Z Preparing to unpack .../09-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+2026-10-05T11:21:03.1001279Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-10-05T11:21:03.1338348Z Selecting previously unselected package xfonts-utils.
+2026-10-05T11:21:03.1446550Z Preparing to unpack .../10-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+2026-10-05T11:21:03.1453446Z Unpacking xfonts-utils (1:7.7+6build3) ...
+2026-10-05T11:21:03.1788194Z Selecting previously unselected package xfonts-cyrillic.
+2026-10-05T11:21:03.1881427Z Preparing to unpack .../11-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+2026-10-05T11:21:03.1886843Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-10-05T11:21:03.2294071Z Selecting previously unselected package xfonts-scalable.
+2026-10-05T11:21:03.2403183Z Preparing to unpack .../12-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+2026-10-05T11:21:03.2409107Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+2026-10-05T11:21:03.2946362Z Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-05T11:21:03.2970732Z Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-05T11:21:03.2985330Z Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-05T11:21:03.3050639Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+2026-10-05T11:21:03.3145023Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-10-05T11:21:03.3159147Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-10-05T11:21:03.3175165Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-10-05T11:21:03.3197813Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-10-05T11:21:03.3252445Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+2026-10-05T11:21:03.3264596Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+2026-10-05T11:21:03.3279082Z Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4) ...
+2026-10-05T11:21:03.3298443Z Setting up xfonts-utils (1:7.7+6build3) ...
+2026-10-05T11:21:03.3330081Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-10-05T11:21:03.3604999Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+2026-10-05T11:21:03.3845603Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+2026-10-05T11:21:03.5781669Z Processing triggers for man-db (2.12.0-4build2) ...
+2026-10-05T11:21:03.5799246Z Not building database; man-db/auto-update is not 'true'.
+2026-10-05T11:21:03.5810241Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+2026-10-05T11:21:04.5923796Z 
+2026-10-05T11:21:04.5924584Z Running kernel seems to be up-to-date.
+2026-10-05T11:21:04.5925133Z 
+2026-10-05T11:21:04.5925491Z No services need to be restarted.
+2026-10-05T11:21:04.5925851Z 
+2026-10-05T11:21:04.5926132Z No containers need to be restarted.
+2026-10-05T11:21:04.5926455Z 
+2026-10-05T11:21:04.5926830Z No user sessions are running outdated binaries.
+2026-10-05T11:21:04.5927461Z 
+2026-10-05T11:21:04.5927921Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-10-05T11:21:05.3674596Z Downloading Chromium 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip
+2026-10-05T11:21:05.4835960Z |                                                                                |   0% of 173.9 MiB
+2026-10-05T11:21:05.6031444Z |■■■■■■■■                                                                        |  10% of 173.9 MiB
+2026-10-05T11:21:05.6894237Z |■■■■■■■■■■■■■■■■                                                                |  20% of 173.9 MiB
+2026-10-05T11:21:05.7735205Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 173.9 MiB
+2026-10-05T11:21:05.8362165Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 173.9 MiB
+2026-10-05T11:21:05.8996214Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 173.9 MiB
+2026-10-05T11:21:05.9617491Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 173.9 MiB
+2026-10-05T11:21:06.0167567Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 173.9 MiB
+2026-10-05T11:21:06.0705154Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 173.9 MiB
+2026-10-05T11:21:06.1267926Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 173.9 MiB
+2026-10-05T11:21:06.1899164Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 173.9 MiB
+2026-10-05T11:21:09.3499692Z Chromium 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium-1194
+2026-10-05T11:21:09.3503490Z Downloading FFMPEG playwright build v1011 from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+2026-10-05T11:21:09.4752158Z |                                                                                |   0% of 2.3 MiB
+2026-10-05T11:21:09.4798900Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+2026-10-05T11:21:09.4825797Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+2026-10-05T11:21:09.4841686Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+2026-10-05T11:21:09.4864928Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+2026-10-05T11:21:09.4880403Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+2026-10-05T11:21:09.4894308Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+2026-10-05T11:21:09.4913878Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+2026-10-05T11:21:09.4926872Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+2026-10-05T11:21:09.4943351Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+2026-10-05T11:21:09.4952075Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+2026-10-05T11:21:09.5428330Z FFMPEG playwright build v1011 downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+2026-10-05T11:21:09.5430999Z Downloading Chromium Headless Shell 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip
+2026-10-05T11:21:09.6481950Z |                                                                                |   0% of 104.3 MiB
+2026-10-05T11:21:09.7303207Z |■■■■■■■■                                                                        |  10% of 104.3 MiB
+2026-10-05T11:21:09.7879210Z |■■■■■■■■■■■■■■■■                                                                |  20% of 104.3 MiB
+2026-10-05T11:21:09.8382449Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 104.3 MiB
+2026-10-05T11:21:09.8845057Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 104.3 MiB
+2026-10-05T11:21:09.9341452Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 104.3 MiB
+2026-10-05T11:21:09.9700603Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 104.3 MiB
+2026-10-05T11:21:10.0106228Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 104.3 MiB
+2026-10-05T11:21:10.0523493Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 104.3 MiB
+2026-10-05T11:21:10.0871932Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 104.3 MiB
+2026-10-05T11:21:10.1287734Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 104.3 MiB
+2026-10-05T11:21:12.0397996Z Chromium Headless Shell 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1194
+2026-10-05T11:21:12.1760696Z ##[group]Run node scripts/test.mjs integration smoke ui --only integration/app-offline-review-browser,integration/app-offline-scope-browser,integration/touch-units-browser,integration/app-offline-browser,integration/service-identity-management,integration/reconciliation-http,integration/reminder-optout-http,integration/auxiliary-read-http,integration/workspace-metadata-smoke,integration/range-protocol-browser,integration/range-first-tap-browser,integration/import-unit-parity-browser,integration/offline-programme-browser,integration/delta-read-audit-http,integration/command-authority-http,integration/device-work-browser,integration/device-work-purge-failure-browser,integration/work-burden-http,integration/work-burden-browser,integration/work-burden-field-http,integration/work-burden-field-browser,integration/registration-device-browser,integration/work-burden-account-transition-review-browser,integration/registration-wire-receipt-http,integration/work-burden-ledger-http,integration/work-burden-ledger-browser,integration/work-burden-auth-first-http,integration/work-burden-transport-http,integration/work-support-visibility-http,integration/offline-opens-auth-first-http,integration/offline-opens-http,integration/offline-opens-browser,integration/offline-open-account-binding-browser,integration/offline-open-unsent-pruning-browser,integration/work-burden-field-continuation-http,integration/work-burden-field-hooks-browser,integration/work-burden-field-identity-review,integration/work-burden-continuation-phone-review,integration/work-burden-continuation-adversarial-review,integration/clinical-source-http,integration/clinical-source-browser,integration/clinical-source-identity-http,integration/clinical-source-retrieval-http,integration/clinical-source-retrieval-browser,integration/clinical-source-dependency-http,integration/offline-opens-transport-http,integration/household-reschedule-http,integration/household-reschedule-independent-http,integration/contact-import-http,integration/contact-import-independent-review,integration/mapping-lifecycle-http,integration/mapping-lifecycle-review-http,integration/mapping-lifecycle-browser,integration/mapping-lifecycle-review-browser,integration/indicator-governance-http,integration/indicator-governance-clock-http,integration/indicator-governance-browser,integration/indicator-governance-independent-http,integration/indicator-figures-http,integration/indicator-figures-edition-http,integration/indicator-figures-browser,integration/indicator-figures-submission-http,integration/indicator-figures-review-authority,integration/indicator-figures-review-submission,integration/inbound-conflicts-http,integration/inbound-conflicts-browser,integration/inbound-conflicts-pressure-repair,integration/inbound-conflicts-transport-http,integration/inbound-conflicts-independent-authority,integration/inbound-conflicts-independent-handoff,integration/household-completion-http,integration/household-completion-browser,integration/household-completion-independent-http,integration/household-completion-authority-review,integration/indicator-figures-submission-independent,integration/report-portability-http,integration/report-portability-after-http,integration/composite-measures-http,integration/composite-measures-browser,integration/composite-authority-repair-http,integration/composite-authority-independent-extra-http,integration/guided-home-browser,integration/inbound-retrieval-http,integration/inbound-retrieval-browser,integration/inbound-retrieval-service-repair-http,integration/inbound-retrieval-after-http,integration/inbound-retrieval-after-browser,integration/inbound-retrieval-original-race-after,integration/inbound-retrieval-service-independent-http,integration/mapping-conformance-http,integration/mapping-conformance-browser,integration/mapping-conformance-independent-http,integration/imported-evidence-http,integration/imported-evidence-browser,integration/imported-evidence-independent-http,integration/imported-evidence-independent-browser,ui/availability,smoke/app-back-browser,smoke/reconciliation-ui,smoke/reminder-optout-refresh-browser --fast --guard
+2026-10-05T11:21:12.1803138Z [36;1mnode scripts/test.mjs integration smoke ui --only integration/app-offline-review-browser,integration/app-offline-scope-browser,integration/touch-units-browser,integration/app-offline-browser,integration/service-identity-management,integration/reconciliation-http,integration/reminder-optout-http,integration/auxiliary-read-http,integration/workspace-metadata-smoke,integration/range-protocol-browser,integration/range-first-tap-browser,integration/import-unit-parity-browser,integration/offline-programme-browser,integration/delta-read-audit-http,integration/command-authority-http,integration/device-work-browser,integration/device-work-purge-failure-browser,integration/work-burden-http,integration/work-burden-browser,integration/work-burden-field-http,integration/work-burden-field-browser,integration/registration-device-browser,integration/work-burden-account-transition-review-browser,integration/registration-wire-receipt-http,integration/work-burden-ledger-http,integration/work-burden-ledger-browser,integration/work-burden-auth-first-http,integration/work-burden-transport-http,integration/work-support-visibility-http,integration/offline-opens-auth-first-http,integration/offline-opens-http,integration/offline-opens-browser,integration/offline-open-account-binding-browser,integration/offline-open-unsent-pruning-browser,integration/work-burden-field-continuation-http,integration/work-burden-field-hooks-browser,integration/work-burden-field-identity-review,integration/work-burden-continuation-phone-review,integration/work-burden-continuation-adversarial-review,integration/clinical-source-http,integration/clinical-source-browser,integration/clinical-source-identity-http,integration/clinical-source-retrieval-http,integration/clinical-source-retrieval-browser,integration/clinical-source-dependency-http,integration/offline-opens-transport-http,integration/household-reschedule-http,integration/household-reschedule-independent-http,integration/contact-import-http,integration/contact-import-independent-review,integration/mapping-lifecycle-http,integration/mapping-lifecycle-review-http,integration/mapping-lifecycle-browser,integration/mapping-lifecycle-review-browser,integration/indicator-governance-http,integration/indicator-governance-clock-http,integration/indicator-governance-browser,integration/indicator-governance-independent-http,integration/indicator-figures-http,integration/indicator-figures-edition-http,integration/indicator-figures-browser,integration/indicator-figures-submission-http,integration/indicator-figures-review-authority,integration/indicator-figures-review-submission,integration/inbound-conflicts-http,integration/inbound-conflicts-browser,integration/inbound-conflicts-pressure-repair,integration/inbound-conflicts-transport-http,integration/inbound-conflicts-independent-authority,integration/inbound-conflicts-independent-handoff,integration/household-completion-http,integration/household-completion-browser,integration/household-completion-independent-http,integration/household-completion-authority-review,integration/indicator-figures-submission-independent,integration/report-portability-http,integration/report-portability-after-http,integration/composite-measures-http,integration/composite-measures-browser,integration/composite-authority-repair-http,integration/composite-authority-independent-extra-http,integration/guided-home-browser,integration/inbound-retrieval-http,integration/inbound-retrieval-browser,integration/inbound-retrieval-service-repair-http,integration/inbound-retrieval-after-http,integration/inbound-retrieval-after-browser,integration/inbound-retrieval-original-race-after,integration/inbound-retrieval-service-independent-http,integration/mapping-conformance-http,integration/mapping-conformance-browser,integration/mapping-conformance-independent-http,integration/imported-evidence-http,integration/imported-evidence-browser,integration/imported-evidence-independent-http,integration/imported-evidence-independent-browser,ui/availability,smoke/app-back-browser,smoke/reconciliation-ui,smoke/reminder-optout-refresh-browser --fast --guard[0m
+2026-10-05T11:21:12.1871877Z shell: /usr/bin/bash -e {0}
+2026-10-05T11:21:12.1872082Z env:
+2026-10-05T11:21:12.1872263Z   SAHA_BROWSER_PACKAGE: @playwright/test
+2026-10-05T11:21:12.1872483Z ##[endgroup]
+2026-10-05T11:21:12.3952127Z Running integration smoke ui --fast; 100 suite(s).
+2026-10-05T11:21:12.3962058Z 
+2026-10-05T11:21:12.3962385Z [integration] 96 suite(s)
+2026-10-05T11:21:12.3962949Z build: skipped (--fast, dist/ exists)
+2026-10-05T11:21:12.3963462Z   running  integration/app-offline-browser ...
+2026-10-05T11:21:21.1316044Z   ok       integration/app-offline-browser  22 passed  8.7s
+2026-10-05T11:21:21.1316933Z   running  integration/app-offline-review-browser ...
+2026-10-05T11:21:30.4888758Z   ok       integration/app-offline-review-browser  22 passed  9.4s
+2026-10-05T11:21:30.4889598Z   running  integration/app-offline-scope-browser ...
+2026-10-05T11:21:40.1406519Z   ok       integration/app-offline-scope-browser  15 passed  9.7s
+2026-10-05T11:21:40.1408397Z   running  integration/auxiliary-read-http ...
+2026-10-05T11:21:44.3785299Z   ok       integration/auxiliary-read-http  15 passed  4.2s
+2026-10-05T11:21:44.3789692Z   running  integration/clinical-source-browser ...
+2026-10-05T11:21:49.7818434Z   ok       integration/clinical-source-browser  9 passed  5.4s
+2026-10-05T11:21:49.7819484Z   running  integration/clinical-source-dependency-http ...
+2026-10-05T11:22:08.5593300Z   ok       integration/clinical-source-dependency-http  31 passed  18.8s
+2026-10-05T11:22:08.5594307Z   running  integration/clinical-source-http ...
+2026-10-05T11:22:19.0940018Z   ok       integration/clinical-source-http  28 passed  10.5s
+2026-10-05T11:22:19.0940833Z   running  integration/clinical-source-identity-http ...
+2026-10-05T11:22:22.5188542Z   ok       integration/clinical-source-identity-http  7 passed  3.4s
+2026-10-05T11:22:22.5189593Z   running  integration/clinical-source-retrieval-browser ...
+2026-10-05T11:22:28.8429457Z   ok       integration/clinical-source-retrieval-browser  9 passed  6.3s
+2026-10-05T11:22:28.8430799Z   running  integration/clinical-source-retrieval-http ...
+2026-10-05T11:22:37.0434537Z   ok       integration/clinical-source-retrieval-http  41 passed  8.2s
+2026-10-05T11:22:37.0435440Z   running  integration/command-authority-http ...
+2026-10-05T11:22:40.6851754Z   ok       integration/command-authority-http  30 passed  3.6s
+2026-10-05T11:22:40.6865231Z   running  integration/composite-authority-independent-extra-http ...
+2026-10-05T11:22:46.2660695Z   FAILED   integration/composite-authority-independent-extra-http  no count  5.6s  [exit code 1]
+2026-10-05T11:22:46.2661450Z       | error lines:
+2026-10-05T11:22:46.2678406Z       |   AssertionError [ERR_ASSERTION]: {"error":"Choose an effective time at or after this server check."}
+2026-10-05T11:22:46.2694217Z       |     actual: false,
+2026-10-05T11:22:46.2694835Z       |     expected: true,
+2026-10-05T11:22:46.2695409Z       | node:internal/modules/run_main:123
+2026-10-05T11:22:46.2695913Z       |     triggerUncaughtException(
+2026-10-05T11:22:46.2696353Z       |     ^
+2026-10-05T11:22:46.2697064Z       | AssertionError [ERR_ASSERTION]: {"error":"Choose an effective time at or after this server check."}
+2026-10-05T11:22:46.2698473Z       |     at check (file:///home/runner/work/saha-health/saha-health/tests/composite-authority-independent-extra-http.mjs:2:150)
+2026-10-05T11:22:46.2699772Z       |     at cmd (file:///home/runner/work/saha-health/saha-health/tests/composite-authority-independent-extra-http.mjs:4:164)
+2026-10-05T11:22:46.2700849Z       |     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-10-05T11:22:46.2702012Z       |     at async lifecycle (file:///home/runner/work/saha-health/saha-health/tests/composite-authority-independent-extra-http.mjs:8:632)
+2026-10-05T11:22:46.2703641Z       |     at async file:///home/runner/work/saha-health/saha-health/tests/composite-authority-independent-extra-http.mjs:9:109 {
+2026-10-05T11:22:46.2704486Z       |   generatedMessage: false,
+2026-10-05T11:22:46.2704945Z       |   code: 'ERR_ASSERTION',
+2026-10-05T11:22:46.2705366Z       |   actual: false,
+2026-10-05T11:22:46.2705762Z       |   expected: true,
+2026-10-05T11:22:46.2706153Z       |   operator: '==',
+2026-10-05T11:22:46.2706570Z       |   diff: 'simple'
+2026-10-05T11:22:46.2706930Z       | }
+2026-10-05T11:22:46.2707392Z       | Node.js v22.23.3
+2026-10-05T11:22:46.2707915Z   running  integration/composite-authority-repair-http ...
+2026-10-05T11:22:52.2168650Z   ok       integration/composite-authority-repair-http  86 passed  5.9s
+2026-10-05T11:22:52.2169764Z   running  integration/composite-measures-browser ...
+2026-10-05T11:23:04.6985689Z   ok       integration/composite-measures-browser  24 passed  12.5s
+2026-10-05T11:23:04.6986525Z   running  integration/composite-measures-http ...
+2026-10-05T11:23:11.2008408Z   ok       integration/composite-measures-http  131 passed  6.5s
+2026-10-05T11:23:11.2009046Z   running  integration/contact-import-http ...
+2026-10-05T11:23:20.4760788Z   ok       integration/contact-import-http  15 passed  9.3s
+2026-10-05T11:23:20.4761662Z   running  integration/contact-import-independent-review ...
+2026-10-05T11:23:23.4620239Z   ok       integration/contact-import-independent-review  14 passed  3.0s
+2026-10-05T11:23:23.4621061Z   running  integration/delta-read-audit-http ...
+2026-10-05T11:23:27.8185621Z   ok       integration/delta-read-audit-http  26 passed  4.4s
+2026-10-05T11:23:27.8186607Z   running  integration/device-work-browser ...
+2026-10-05T11:24:02.1621560Z   ok       integration/device-work-browser  64 passed  34.3s
+2026-10-05T11:24:02.1622423Z   running  integration/device-work-purge-failure-browser ...
+2026-10-05T11:24:21.0330938Z   ok       integration/device-work-purge-failure-browser  49 passed  18.9s
+2026-10-05T11:24:21.0331791Z   running  integration/guided-home-browser ...
+2026-10-05T11:24:35.1745623Z   ok       integration/guided-home-browser  33 passed  14.1s
+2026-10-05T11:24:35.1746272Z   running  integration/household-completion-authority-review ...
+2026-10-05T11:24:41.0977287Z   ok       integration/household-completion-authority-review  118 passed  5.9s
+2026-10-05T11:24:41.0978611Z   running  integration/household-completion-browser ...
+2026-10-05T11:24:48.2447041Z   FAILED   integration/household-completion-browser  no count  7.1s  [exit code 1]
+2026-10-05T11:24:48.2448659Z       | error lines:
+2026-10-05T11:24:48.2449405Z       |   Error: ENOENT: no such file or directory, open '/private/tmp/household-phone-initial.png'
+2026-10-05T11:24:48.2450107Z       | PHONE_INITIAL saha.
+2026-10-05T11:24:48.2450531Z       | Home
+2026-10-05T11:24:48.2451120Z       | …
+2026-10-05T11:24:48.2451562Z       | Loading the environment…
+2026-10-05T11:24:48.2452000Z       | More
+2026-10-05T11:24:48.2452407Z       | node:internal/fs/promises:639
+2026-10-05T11:24:48.2452962Z       |   return new FileHandle(await PromisePrototypeThen(
+2026-10-05T11:24:48.2453512Z       |                         ^
+2026-10-05T11:24:48.2454181Z       | Error: ENOENT: no such file or directory, open '/private/tmp/household-phone-initial.png'
+2026-10-05T11:24:48.2454936Z       |     at async open (node:internal/fs/promises:639:25)
+2026-10-05T11:24:48.2455558Z       |     at async Object.writeFile (node:internal/fs/promises:1222:14)
+2026-10-05T11:24:48.2456706Z       |     at async Page.screenshot (/home/runner/work/saha-health/saha-health/node_modules/.pnpm/playwright-core@1.56.1/node_modules/playwright-core/lib/client/page.js:476:7)
+2026-10-05T11:24:48.2460933Z       |     at async file:///home/runner/work/saha-health/saha-health/tests/household-completion-browser.mjs:16:586 {
+2026-10-05T11:24:48.2461706Z       |   errno: -2,
+2026-10-05T11:24:48.2462079Z       |   code: 'ENOENT',
+2026-10-05T11:24:48.2462454Z       |   syscall: 'open',
+2026-10-05T11:24:48.2462920Z       |   path: '/private/tmp/household-phone-initial.png'
+2026-10-05T11:24:48.2463375Z       | }
+2026-10-05T11:24:48.2464044Z       | Node.js v22.23.3
+2026-10-05T11:24:48.2464544Z   running  integration/household-completion-http ...
+2026-10-05T11:24:53.8509126Z   ok       integration/household-completion-http  105 passed  5.6s
+2026-10-05T11:24:53.8509844Z   running  integration/household-completion-independent-http ...
+2026-10-05T11:24:59.9068865Z   ok       integration/household-completion-independent-http  105 passed  6.1s
+2026-10-05T11:24:59.9069811Z   running  integration/household-reschedule-http ...
+2026-10-05T11:25:06.6738326Z   ok       integration/household-reschedule-http  10 passed  6.8s
+2026-10-05T11:25:06.6739319Z   running  integration/household-reschedule-independent-http ...
+2026-10-05T11:25:14.8948997Z   ok       integration/household-reschedule-independent-http  26 passed  8.2s
+2026-10-05T11:25:14.8956037Z   running  integration/import-unit-parity-browser ...
+2026-10-05T11:25:21.7128299Z   ok       integration/import-unit-parity-browser  13 passed  6.8s
+2026-10-05T11:25:21.7129192Z   running  integration/imported-evidence-browser ...
+2026-10-05T11:25:28.2691609Z   ok       integration/imported-evidence-browser  12 passed  6.6s
+2026-10-05T11:25:28.2692447Z   running  integration/imported-evidence-http ...
+2026-10-05T11:25:31.7597273Z   ok       integration/imported-evidence-http  40 passed  3.5s
+2026-10-05T11:25:31.7598141Z   running  integration/imported-evidence-independent-browser ...
+2026-10-05T11:25:37.9048525Z   ok       integration/imported-evidence-independent-browser  6 passed  6.1s
+2026-10-05T11:25:37.9049637Z   running  integration/imported-evidence-independent-http ...
+2026-10-05T11:25:40.7211176Z   ok       integration/imported-evidence-independent-http  13 passed  2.8s
+2026-10-05T11:25:40.7212329Z   running  integration/inbound-conflicts-browser ...
+2026-10-05T11:25:49.4191711Z   ok       integration/inbound-conflicts-browser  13 passed  8.7s
+2026-10-05T11:25:49.4192531Z   running  integration/inbound-conflicts-http ...
+2026-10-05T11:25:53.2428388Z   ok       integration/inbound-conflicts-http  48 passed  3.8s
+2026-10-05T11:25:53.2429324Z   running  integration/inbound-conflicts-independent-authority ...
+2026-10-05T11:25:57.2858589Z   ok       integration/inbound-conflicts-independent-authority  49 passed  4.0s
+2026-10-05T11:25:57.2865005Z   running  integration/inbound-conflicts-independent-handoff ...
+2026-10-05T11:26:01.0676866Z   ok       integration/inbound-conflicts-independent-handoff  50 passed  3.8s
+2026-10-05T11:26:01.0678128Z   running  integration/inbound-conflicts-pressure-repair ...
+2026-10-05T11:26:04.8777608Z   ok       integration/inbound-conflicts-pressure-repair  41 passed  3.8s
+2026-10-05T11:26:04.8778595Z   running  integration/inbound-conflicts-transport-http ...
+2026-10-05T11:26:07.9393948Z   ok       integration/inbound-conflicts-transport-http  325 passed  3.1s
+2026-10-05T11:26:07.9394989Z   running  integration/inbound-retrieval-after-browser ...
+2026-10-05T11:26:17.3560889Z   ok       integration/inbound-retrieval-after-browser  30 passed  9.4s
+2026-10-05T11:26:17.3561514Z   running  integration/inbound-retrieval-after-http ...
+2026-10-05T11:26:22.2676797Z   ok       integration/inbound-retrieval-after-http  30 passed  4.9s
+2026-10-05T11:26:22.2677970Z   running  integration/inbound-retrieval-browser ...
+2026-10-05T11:26:31.7225108Z   ok       integration/inbound-retrieval-browser  30 passed  9.5s
+2026-10-05T11:26:31.7225999Z   running  integration/inbound-retrieval-http ...
+2026-10-05T11:26:35.4101925Z   ok       integration/inbound-retrieval-http  30 passed  3.7s
+2026-10-05T11:26:35.4102909Z   running  integration/inbound-retrieval-original-race-after ...
+2026-10-05T11:26:39.3223670Z   ok       integration/inbound-retrieval-original-race-after  8 passed  3.9s
+2026-10-05T11:26:39.3224624Z   running  integration/inbound-retrieval-service-independent-http ...
+2026-10-05T11:26:49.1990913Z   ok       integration/inbound-retrieval-service-independent-http  38 passed  9.9s
+2026-10-05T11:26:49.1991901Z   running  integration/inbound-retrieval-service-repair-http ...
+2026-10-05T11:26:59.4110740Z   ok       integration/inbound-retrieval-service-repair-http  30 passed  10.2s
+2026-10-05T11:26:59.4111496Z   running  integration/indicator-figures-browser ...
+2026-10-05T11:27:07.5472395Z   ok       integration/indicator-figures-browser  15 passed  8.1s
+2026-10-05T11:27:07.5485057Z   running  integration/indicator-figures-edition-http ...
+2026-10-05T11:27:11.2777025Z   ok       integration/indicator-figures-edition-http  54 passed  3.7s
+2026-10-05T11:27:11.2778218Z   running  integration/indicator-figures-http ...
+2026-10-05T11:27:15.9552577Z   ok       integration/indicator-figures-http  72 passed  4.7s
+2026-10-05T11:27:15.9553508Z   running  integration/indicator-figures-review-authority ...
+2026-10-05T11:27:20.8993119Z   ok       integration/indicator-figures-review-authority  84 passed  4.9s
+2026-10-05T11:27:20.8994147Z   running  integration/indicator-figures-review-submission ...
+2026-10-05T11:27:24.2115773Z   ok       integration/indicator-figures-review-submission  26 passed  3.3s
+2026-10-05T11:27:24.2116786Z   running  integration/indicator-figures-submission-http ...
+2026-10-05T11:27:27.6391011Z   ok       integration/indicator-figures-submission-http  8 passed  3.4s
+2026-10-05T11:27:27.6392014Z   running  integration/indicator-figures-submission-independent ...
+2026-10-05T11:27:30.6546155Z   ok       integration/indicator-figures-submission-independent  8 passed  3.0s
+2026-10-05T11:27:30.6547070Z   running  integration/indicator-governance-browser ...
+2026-10-05T11:27:42.5519542Z   ok       integration/indicator-governance-browser  20 passed  11.9s
+2026-10-05T11:27:42.5520509Z   running  integration/indicator-governance-clock-http ...
+2026-10-05T11:27:45.7990980Z   ok       integration/indicator-governance-clock-http  18 passed  3.2s
+2026-10-05T11:27:45.7991959Z   running  integration/indicator-governance-http ...
+2026-10-05T11:27:51.6968203Z   ok       integration/indicator-governance-http  61 passed  5.9s
+2026-10-05T11:27:51.6969153Z   running  integration/indicator-governance-independent-http ...
+2026-10-05T11:27:56.5584267Z   ok       integration/indicator-governance-independent-http  17 passed  4.9s
+2026-10-05T11:27:56.5585248Z   running  integration/mapping-conformance-browser ...
+2026-10-05T11:28:04.9598769Z   ok       integration/mapping-conformance-browser  21 passed  8.4s
+2026-10-05T11:28:04.9607528Z   running  integration/mapping-conformance-http ...
+2026-10-05T11:28:12.5791755Z   ok       integration/mapping-conformance-http  91 passed  7.6s
+2026-10-05T11:28:12.5792410Z   running  integration/mapping-conformance-independent-http ...
+2026-10-05T11:28:17.3584140Z   ok       integration/mapping-conformance-independent-http  108 passed  4.8s
+2026-10-05T11:28:17.3584885Z   running  integration/mapping-lifecycle-browser ...
+2026-10-05T11:28:25.6719964Z   ok       integration/mapping-lifecycle-browser  11 passed  8.3s
+2026-10-05T11:28:25.6720618Z   running  integration/mapping-lifecycle-http ...
+2026-10-05T11:28:30.0001637Z   ok       integration/mapping-lifecycle-http  53 passed  4.3s
+2026-10-05T11:28:30.0002547Z   running  integration/mapping-lifecycle-review-browser ...
+2026-10-05T11:28:39.8416353Z   ok       integration/mapping-lifecycle-review-browser  12 passed  9.8s
+2026-10-05T11:28:39.8417480Z   running  integration/mapping-lifecycle-review-http ...
+2026-10-05T11:28:46.5308138Z   ok       integration/mapping-lifecycle-review-http  73 passed  6.7s
+2026-10-05T11:28:46.5309128Z   running  integration/offline-open-account-binding-browser ...
+2026-10-05T11:28:49.5865926Z   ok       integration/offline-open-account-binding-browser  8 passed  3.1s
+2026-10-05T11:28:49.5878385Z   running  integration/offline-open-unsent-pruning-browser ...
+2026-10-05T11:29:11.3124065Z   ok       integration/offline-open-unsent-pruning-browser  13 passed  21.7s
+2026-10-05T11:29:11.3125010Z   running  integration/offline-opens-auth-first-http ...
+2026-10-05T11:29:13.5065079Z   ok       integration/offline-opens-auth-first-http  13 passed  2.2s
+2026-10-05T11:29:13.5066332Z   running  integration/offline-opens-browser ...
+2026-10-05T11:29:30.6365588Z   ok       integration/offline-opens-browser  49 passed  17.1s
+2026-10-05T11:29:30.6366381Z   running  integration/offline-opens-http ...
+2026-10-05T11:29:35.4976013Z   ok       integration/offline-opens-http  39 passed  4.9s
+2026-10-05T11:29:35.4976820Z   running  integration/offline-opens-transport-http ...
+2026-10-05T11:29:38.2265281Z   ok       integration/offline-opens-transport-http  170 passed  2.7s
+2026-10-05T11:29:38.2266156Z   running  integration/offline-programme-browser ...
+2026-10-05T11:29:44.7284588Z   ok       integration/offline-programme-browser  17 passed  6.5s
+2026-10-05T11:29:44.7285408Z   running  integration/range-first-tap-browser ...
+2026-10-05T11:29:52.2043389Z   ok       integration/range-first-tap-browser  18 passed  7.5s
+2026-10-05T11:29:52.2044240Z   running  integration/range-protocol-browser ...
+2026-10-05T11:30:06.5842971Z   ok       integration/range-protocol-browser  26 passed  14.4s
+2026-10-05T11:30:06.5843791Z   running  integration/reconciliation-http ...
+2026-10-05T11:30:12.8466115Z   ok       integration/reconciliation-http  16 passed  6.3s
+2026-10-05T11:30:12.8466999Z   running  integration/registration-device-browser ...
+2026-10-05T11:30:23.5287517Z   ok       integration/registration-device-browser  32 passed  10.7s
+2026-10-05T11:30:23.5288505Z   running  integration/registration-wire-receipt-http ...
+2026-10-05T11:30:29.7032869Z   ok       integration/registration-wire-receipt-http  46 passed  6.2s
+2026-10-05T11:30:29.7033734Z   running  integration/reminder-optout-http ...
+2026-10-05T11:30:38.3711633Z   ok       integration/reminder-optout-http  55 passed  8.7s
+2026-10-05T11:30:38.3712465Z   running  integration/report-portability-after-http ...
+2026-10-05T11:30:42.6044044Z   ok       integration/report-portability-after-http  87 passed  4.2s
+2026-10-05T11:30:42.6044953Z   running  integration/report-portability-http ...
+2026-10-05T11:30:47.4337296Z   ok       integration/report-portability-http  79 passed  4.8s
+2026-10-05T11:30:47.4338170Z   running  integration/service-identity-management ...
+2026-10-05T11:30:56.9614791Z   ok       integration/service-identity-management  10 passed  9.5s
+2026-10-05T11:30:56.9615927Z   running  integration/touch-units-browser ...
+2026-10-05T11:31:07.3818245Z   ok       integration/touch-units-browser  20 passed  10.4s
+2026-10-05T11:31:07.3819318Z   running  integration/work-burden-account-transition-review-browser ...
+2026-10-05T11:31:12.5998974Z   ok       integration/work-burden-account-transition-review-browser  11 passed  5.2s
+2026-10-05T11:31:12.6000020Z   running  integration/work-burden-auth-first-http ...
+2026-10-05T11:31:14.8206547Z   ok       integration/work-burden-auth-first-http  17 passed  2.2s
+2026-10-05T11:31:14.8207610Z   running  integration/work-burden-browser ...
+2026-10-05T11:31:24.5101075Z   ok       integration/work-burden-browser  12 passed  9.7s
+2026-10-05T11:31:24.5101972Z   running  integration/work-burden-continuation-adversarial-review ...
+2026-10-05T11:31:27.8424402Z   ok       integration/work-burden-continuation-adversarial-review  21 passed  3.3s
+2026-10-05T11:31:27.8425421Z   running  integration/work-burden-continuation-phone-review ...
+2026-10-05T11:31:38.7951347Z   ok       integration/work-burden-continuation-phone-review  13 passed  11.0s
+2026-10-05T11:31:38.7952262Z   running  integration/work-burden-field-browser ...
+2026-10-05T11:31:44.0366767Z   ok       integration/work-burden-field-browser  12 passed  5.2s
+2026-10-05T11:31:44.0368066Z   running  integration/work-burden-field-continuation-http ...
+2026-10-05T11:31:47.1288118Z   ok       integration/work-burden-field-continuation-http  15 passed  3.1s
+2026-10-05T11:31:47.1289122Z   running  integration/work-burden-field-hooks-browser ...
+2026-10-05T11:32:01.9711667Z   ok       integration/work-burden-field-hooks-browser  15 passed  14.8s
+2026-10-05T11:32:01.9712537Z   running  integration/work-burden-field-http ...
+2026-10-05T11:32:05.6426257Z   ok       integration/work-burden-field-http  13 passed  3.7s
+2026-10-05T11:32:05.6427597Z   running  integration/work-burden-field-identity-review ...
+2026-10-05T11:32:24.7304952Z   ok       integration/work-burden-field-identity-review  19 passed  19.1s
+2026-10-05T11:32:24.7305860Z   running  integration/work-burden-http ...
+2026-10-05T11:32:28.6588488Z   ok       integration/work-burden-http  32 passed  3.9s
+2026-10-05T11:32:28.6594899Z   running  integration/work-burden-ledger-browser ...
+2026-10-05T11:32:39.3690817Z   ok       integration/work-burden-ledger-browser  11 passed  10.7s
+2026-10-05T11:32:39.3691735Z   running  integration/work-burden-ledger-http ...
+2026-10-05T11:32:43.1471362Z   ok       integration/work-burden-ledger-http  19 passed  3.8s
+2026-10-05T11:32:43.1472217Z   running  integration/work-burden-transport-http ...
+2026-10-05T11:32:46.0313145Z   ok       integration/work-burden-transport-http  325 passed  2.9s
+2026-10-05T11:32:46.0314148Z   running  integration/work-support-visibility-http ...
+2026-10-05T11:32:52.4437844Z   ok       integration/work-support-visibility-http  23 passed  6.4s
+2026-10-05T11:32:52.4438556Z   running  integration/workspace-metadata-smoke ...
+2026-10-05T11:32:54.8094635Z   ok       integration/workspace-metadata-smoke  20 passed  2.4s
+2026-10-05T11:32:54.9974311Z 
+2026-10-05T11:32:54.9975011Z [smoke] 3 suite(s)
+2026-10-05T11:32:54.9975594Z   running  smoke/reconciliation-ui ...
+2026-10-05T11:32:56.7754238Z   ok       smoke/reconciliation-ui  10 passed  1.8s
+2026-10-05T11:32:56.7755015Z   running  smoke/reminder-optout-refresh-browser ...
+2026-10-05T11:33:05.6360840Z   ok       smoke/reminder-optout-refresh-browser  13 passed  8.9s
+2026-10-05T11:33:05.6361702Z   running  smoke/app-back-browser ...
+2026-10-05T11:33:13.5080306Z   ok       smoke/app-back-browser  11 passed  7.9s
+2026-10-05T11:33:13.6706029Z 
+2026-10-05T11:33:13.6706875Z [ui] 1 suite(s)
+2026-10-05T11:33:13.6707607Z   running  ui/availability ...
+2026-10-05T11:33:23.2402557Z   ok       ui/availability  11 passed  9.6s
+2026-10-05T11:33:23.3537790Z 
+2026-10-05T11:33:23.3538561Z   layer        status  suites  passed  failed  skipped     time
+2026-10-05T11:33:23.3539280Z   -----------  ------  ------  ------  ------  -------  -------
+2026-10-05T11:33:23.3541306Z   integration  failed      96    3869       0        0  11m 42s
+2026-10-05T11:33:23.3541948Z   smoke        passed       3      34       0        0    18.5s
+2026-10-05T11:33:23.3542525Z   ui           passed       1      11       0        0     9.6s
+2026-10-05T11:33:23.3543097Z   total        FAILED     100    3914       0        0  12m 11s
+2026-10-05T11:33:23.3543505Z 
+2026-10-05T11:33:23.3544050Z Restored 86 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+2026-10-05T11:33:23.3544557Z 
+2026-10-05T11:33:23.3545075Z Regression guard: FAILED (100 baselined suite(s) checked, 0 excused by quarantine).
+2026-10-05T11:33:23.3546162Z   FAIL     Suite integration/composite-authority-independent-extra-http reported no assertion count; baseline needs at least 95.
+2026-10-05T11:33:23.3547595Z   FAIL     Suite integration/household-completion-browser reported no assertion count; baseline needs at least 39.
+2026-10-05T11:33:23.3596909Z ##[error]Process completed with exit code 1.
+2026-10-05T11:33:23.4021004Z ##[group]Run actions/upload-artifact@v4
+2026-10-05T11:33:23.4021249Z with:
+2026-10-05T11:33:23.4021418Z   name: engineering-evidence
+2026-10-05T11:33:23.4021730Z   path: tests/*-result.json
+tests/reports/
+dist/sbom.cdx.json
+dist/security-gate.json
+
+2026-10-05T11:33:23.4022057Z   if-no-files-found: warn
+2026-10-05T11:33:23.4022236Z   compression-level: 6
+2026-10-05T11:33:23.4022404Z   overwrite: false
+2026-10-05T11:33:23.4022569Z   include-hidden-files: false
+2026-10-05T11:33:23.4022754Z ##[endgroup]
+2026-10-05T11:33:23.7017911Z (node:16014) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-05T11:33:23.7019116Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-05T11:33:23.8309658Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-05T11:33:23.8312000Z The least common ancestor is /home/runner/work/saha-health/saha-health. This will be the root directory of the artifact
+2026-10-05T11:33:23.8313010Z With the provided path, there will be 502 files uploaded
+2026-10-05T11:33:23.8313947Z Artifact name is valid!
+2026-10-05T11:33:23.8314452Z Root directory input is valid!
+2026-10-05T11:33:24.0782591Z Beginning upload of artifact content to blob storage
+2026-10-05T11:33:24.4044868Z (node:16014) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-05T11:33:24.5899638Z Uploaded bytes 287758
+2026-10-05T11:33:24.6238496Z Finished uploading artifact content to blob storage!
+2026-10-05T11:33:24.6241693Z SHA256 digest of uploaded artifact zip is 7e4158f21f2182b12f9dca83284ddbe059fc155e7279237927cb72230827f160
+2026-10-05T11:33:24.6242366Z Finalizing artifact upload
+2026-10-05T11:33:24.8840358Z Artifact engineering-evidence.zip successfully finalized. Artifact ID 11342177503
+2026-10-05T11:33:24.8841622Z Artifact engineering-evidence has been successfully uploaded! Final size is 287758 bytes. Artifact ID is 11342177503
+2026-10-05T11:33:24.8845074Z Artifact download URL: https://github.com/nakul175/saha-health/actions/runs/37300996956/artifacts/11342177503
+2026-10-05T11:33:24.9053701Z Post job cleanup.
+2026-10-05T11:33:25.0010559Z [command]/usr/bin/git version
+2026-10-05T11:33:25.0041034Z git version 2.55.0
+2026-10-05T11:33:25.0108336Z Temporarily overriding HOME='/home/runner/work/_temp/adfb0b07-e5a1-4d66-bbb6-34788ebb79c4' before making global git config changes
+2026-10-05T11:33:25.0109603Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-05T11:33:25.0111269Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-05T11:33:25.0166853Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-05T11:33:25.0227034Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-05T11:33:25.0519539Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-05T11:33:25.0550926Z http.https://github.com/.extraheader
+2026-10-05T11:33:25.0574495Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-05T11:33:25.0619908Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-05T11:33:25.0949162Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-05T11:33:25.1057767Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-05T11:33:25.1716756Z Cleaning up orphan processes
+2026-10-05T11:33:25.1966475Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

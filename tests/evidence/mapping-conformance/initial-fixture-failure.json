@@ -1,0 +1,6 @@
+{
+  "error": "Source mismatch assertion unexpectedly did not throw",
+  "cause": "Synthetic manifest and conformance fixture intentionally shared the same source object; structuredClone preserved that alias and the mutation changed both.",
+  "productionFailure": false,
+  "resolution": "Create an independent changed contract source object to represent a real mismatch. Rerun required."
+}

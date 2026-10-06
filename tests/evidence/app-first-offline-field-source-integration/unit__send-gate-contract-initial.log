@@ -1,0 +1,57 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: MIS send refused before the checkpoint by an open dispute: stays queued, nothing sent: The input did not match the regular expression /Open dispute on Weight.*Programme MIS would receive this item/. Input:
+
+'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'
+
+MIS send: a dispute raised inside the checkpoint stops the request and closes the delivery as not sent: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.
+MIS send: a sign-off withdrawn inside the checkpoint stops the request: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.
+MIS send: a withdrawn sign-off holds sending before the checkpoint even when the policy is off: The input did not match the regular expression /withdrew the supervisor sign-off/. Input:
+
+'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'
+
+MIS send: the destination rule decides: The input did not match the regular expression /sign-off is missing or stale/. Input:
+
+'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'
+
++ actual - expected
+
++ [
++   'MIS send refused before the checkpoint by an open dispute: stays queued, nothing sent: The input did not match the regular expression /Open dispute on Weight.*Programme MIS would receive this item/. Input:\n' +
++     '\n' +
++     "'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'\n",
++   'MIS send: a dispute raised inside the checkpoint stops the request and closes the delivery as not sent: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.',
++   'MIS send: a sign-off withdrawn inside the checkpoint stops the request: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.',
++   'MIS send: a withdrawn sign-off holds sending before the checkpoint even when the policy is off: The input did not match the regular expression /withdrew the supervisor sign-off/. Input:\n' +
++     '\n' +
++     "'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'\n",
++   'MIS send: the destination rule decides: The input did not match the regular expression /sign-off is missing or stale/. Input:\n' +
++     '\n' +
++     "'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'\n"
++ ]
+- []
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/send-gate-contract.mjs:394:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'MIS send refused before the checkpoint by an open dispute: stays queued, nothing sent: The input did not match the regular expression /Open dispute on Weight.*Programme MIS would receive this item/. Input:\n' +
+      '\n' +
+      "'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'\n",
+    'MIS send: a dispute raised inside the checkpoint stops the request and closes the delivery as not sent: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.',
+    'MIS send: a sign-off withdrawn inside the checkpoint stops the request: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.',
+    'MIS send: a withdrawn sign-off holds sending before the checkpoint even when the policy is off: The input did not match the regular expression /withdrew the supervisor sign-off/. Input:\n' +
+      '\n' +
+      "'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'\n",
+    'MIS send: the destination rule decides: The input did not match the regular expression /sign-off is missing or stale/. Input:\n' +
+      '\n' +
+      "'Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.'\n"
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

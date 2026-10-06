@@ -1,6 +1,8 @@
+import type {InstalledOccurrence} from './installed-pack-work';
+import { transitionSuperseded, followUpOpen } from './programmes';
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
-import { allowed, normallyAllowed } from './access';
+import { allowed, normallyAllowed, allowedFor } from './access';
 import { PACKS } from './programmes';
 import { escalation, STATE_LABEL, TERMINAL, type ReferralState, type Urgency } from './referral-rules';
 import type { Actor } from './store';
@@ -39,7 +41,7 @@ const SOURCE_LABEL:Record<string,string>={visit:'Visit','protocol-evaluation':'P
 const canLink=(s:OrgState,m:Member,p:Person)=>steward(s,m,p)||(m.role==='clinician'&&normallyAllowed(m,p));
 // Reads one referenced item from its own record. found=false when it is not this patient's; open=true when it is still open work.
 export function describe(s:OrgState,p:Person,r:PlanItemRef):{found:boolean;open:boolean;title:string}{
- if(r.kind==='follow-up'){const f=p.followUps?.find(x=>x.id===r.id);return f?{found:true,open:f.state==='open',title:f.title}:{found:false,open:false,title:'Unknown follow-up'};}
+ if(r.kind==='follow-up'){const f=p.followUps?.find(x=>x.id===r.id);return f?{found:true,open:followUpOpen(s,f),title:f.title}:{found:false,open:false,title:'Unknown follow-up'};}
  if(r.kind==='referral'){const x=s.workspace.referrals.find(y=>y.id===r.id&&y.personId===p.id);return x?{found:true,open:!TERMINAL.has(x.state),title:`Referral to ${x.facility}`}:{found:false,open:false,title:'Unknown referral'};}
  for(const v of s.workspace.visits)if(v.personId===p.id){const c=v.protocolChecks?.find(x=>x.id===r.id);if(!c)continue;
   const open=!v.voidedAt&&!v.supersededBy&&v.protocolChecks!.at(-1)===c&&!c.decision&&c.findings.length>0;
@@ -58,13 +60,13 @@ export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOStri
  // Programme follow-ups. Same title, due date and owner across programme episodes are one reminder
  // with every source kept; different titles, dates or owners stay separate work (BR-CARE-05).
  const groups=new Map<string,NonNullable<Person['followUps']>>();
- for(const t of p.followUps??[])if(t.state==='open'){const k=[norm(t.title),t.due,t.ownerId].join('|');groups.set(k,[...(groups.get(k)??[]),t]);}
+ for(const t of p.followUps??[])if(followUpOpen(s,t)){const k=[norm(t.title),t.due,t.ownerId].join('|');groups.set(k,[...(groups.get(k)??[]),t]);}
  for(const group of groups.values()){
   const t=group[0],owner=who(t.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner),d=dated(t.due,now);
   const programmes=group.map(x=>PACKS.find(pk=>pk.id===x.packId)?.name??x.packId);
   items.push({key:'follow-up:'+group.map(x=>x.id).sort().join('+'),kind:'follow-up',title:t.title,reason:group.length>1?`Scheduled by ${group.length} programme episodes (${[...new Set(programmes)].join(', ')}); shown once`:`${programmes[0]} follow-up`,
    sources:group.map((x,i)=>({kind:'follow-up' as const,id:x.id,label:`${programmes[i]} follow-up`,programme:programmes[i]})),owner,queue:gap?`Supervisors of ${team}`:null,ownershipGap:gap,due:t.due,urgency:'routine',status:d.attention==='overdue'?'Overdue':'Open',daysOverdue:d.daysOverdue,attention:gap?'escalated':d.attention,
-   assignVia:'action-plan',targets:group.map(x=>({kind:'follow-up' as const,id:x.id,version:p.version})),canAssign:lead,canClaim:!!gap&&care,refs:group.map(x=>({kind:'follow-up' as const,id:x.id})),waitingOn:[],blocks:[]});
+   assignVia:'action-plan',targets:group.map(x=>({kind:'follow-up' as const,id:x.id,version:p.version})),canAssign:lead&&group.every(x=>x.state==='open'),canClaim:!!gap&&care&&group.every(x=>x.state==='open'),refs:group.map(x=>({kind:'follow-up' as const,id:x.id})),waitingOn:[],blocks:[]});
  }
  // Referrals, with the slice 4a escalation rules.
  for(const r of s.workspace.referrals)if(r.personId===p.id&&!TERMINAL.has(r.state)){
@@ -116,6 +118,8 @@ export function actionPlan(s:OrgState,m:Member,p:Person,now=new Date().toISOStri
   const owner=who(msg.recovery.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner);
   items.push({key:'message-follow-up:'+msg.id,kind:'message-follow-up',title:'Follow up a failed reminder',reason:'A simulated reminder failed; the patient has not been reached by message.',sources:[{kind:'message-follow-up',id:msg.id,label:'Message follow-up'}],owner,queue:gap?`Supervisors of ${team}`:null,ownershipGap:gap,due:null,urgency:'routine',status:'Open',daysOverdue:0,attention:gap?'escalated':'undated',assignVia:'outreach',targets:[],canAssign:false,canClaim:false,refs:[],waitingOn:[],blocks:[]});
  }
+ // Installed escalations are independent work, never hidden by visit void/correction, AI or follow-up completion.
+ for(const x of ((p as Person&{installedWork?:InstalledOccurrence[]}).installedWork??[]).filter(x=>x.kind==='escalation'&&x.state!=='resolved'&&normallyAllowed(m,p)&&allowedFor(m,p,s.operations?.purposeGrants,'care-coordination'))){const owner=who(x.ownerId,o=>eligibleOwner(o,p)),gap=gapFor(owner,'clinician reviewer');items.push({key:'installed:'+x.id,kind:'protocol-review',title:x.title,reason:'Installed rule '+x.ruleId+' · '+x.packId+' v'+x.packVersion+' · '+(x.sourceStatus==='review-required'?'Source changed: independent review required':'Confirmed source')+' · Synthetic governance; clinical approval pending',sources:[{kind:'protocol-review',id:x.id,label:'Installed rule '+x.ruleId,visitId:x.visitId,at:x.confirmedAt}],owner,queue:'Independent clinician',ownershipGap:gap,due:x.due,urgency:x.urgency==='urgent_review'?'urgent':'routine',status:x.state==='acknowledged'?'Acknowledged; still unresolved':'Unresolved installed escalation',daysOverdue:dated(x.due,now).daysOverdue,attention:'escalated',assignVia:'none',targets:[],canAssign:false,canClaim:false,refs:[],waitingOn:[],blocks:[]});}
  // Slice 4d: recorded dependencies. A dependent item waits while its blocker is open work in this plan; its own
  // due date does not make it overdue meanwhile, but an ownership gap still escalates it. The blocker keeps its own
  // attention, so an overdue blocker still surfaces. Nothing is derived automatically.
@@ -166,7 +170,7 @@ export function applyActionPlan(s:OrgState,input:unknown,u:Actor,m:Member,now=ne
  const lead=steward(s,m,p),changed:string[]=[];let personChanged=false;
  for(const t of c.targets){
   if(t.kind==='follow-up'){
-   const f=p.followUps?.find(x=>x.id===t.id);if(!f||f.state!=='open')fail(409,'Choose an open follow-up of this patient.');
+   const f=p.followUps?.find(x=>x.id===t.id);if(!f||f.state!=='open'||transitionSuperseded(s,f))fail(409,'Choose an open follow-up of this patient.');
    if(!lead&&eligibleOwner(s.members.find(x=>x.userId===f.ownerId&&x.status==='active'),p))fail(403,'This follow-up already has an owner with current access. Ask a supervisor to reassign it.');
    if(f.ownerId===owner!.userId)fail(409,'This follow-up already belongs to that care worker.');
    changed.push(`follow-up "${f.title}" from ${f.ownerId||'nobody'}`);f.ownerId=owner!.userId;personChanged=true;

@@ -1,0 +1,15 @@
+node:fs:1631
+  const result = binding.readdir(
+                         ^
+
+Error: ENOENT: no such file or directory, scandir '.wrangler/programme-raw-key-original-probe-state'
+    at readdirSync (node:fs:1631:26)
+    at walk (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-raw-key-cold/tests/raw-key-independent-repeat-programme-raw-key-original-probe.mjs:50:18)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-raw-key-cold/tests/raw-key-independent-repeat-programme-raw-key-original-probe.mjs:50:131 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '.wrangler/programme-raw-key-original-probe-state'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,32 @@
+Running unit integration --fast; 5 suite(s).
+
+[unit] 3 suite(s)
+  ok       unit/fifth-review-fixes-contract  33 passed  959ms
+  ok       unit/test-runner-contract  27 passed  8.8s
+  ok       unit/work-burden-policy-checkpoint  13 passed  2.3s
+
+[integration] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/contact-import-http ...
+  FAILED   integration/contact-import-http  no count  1.8s  [exit code 1]
+      | error lines:
+      |    if(!process.env.SAHA_BROWSER_PACKAGE)throw Error('Configure browser for the required real phone import/reversal journey.');
+      |   Error: Configure browser for the required real phone import/reversal journey.
+      | file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-release-cold/tests/integration-contact-import-owned-port.mjs:31
+      |  if(!process.env.SAHA_BROWSER_PACKAGE)throw Error('Configure browser for the required real phone import/reversal journey.');
+      |                                             ^
+      | Error: Configure browser for the required real phone import/reversal journey.
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-reporting-release-cold/tests/integration-contact-import-owned-port.mjs:31:45
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      | Node.js v24.19.0
+  running  integration/report-portability-after-http ...
+  ok       integration/report-portability-after-http  87 passed  1.7s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  unit         passed       3      73       0        0  12.1s
+  integration  failed       2      87       0        0   3.5s
+  total        FAILED       5     160       0        0  15.8s
+
+Regression guard: FAILED (5 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/contact-import-http reported no assertion count; baseline needs at least 15.

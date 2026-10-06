@@ -48,10 +48,12 @@ try {
     assert.deepEqual(await X.verifyExportCsv(out.csv), { ok: true, problems: [], rows: out.rows, sha256: out.sha256 });
   });
   await check(() => {
-    // The receiver recipe in the slice document, run literally with coreutils.
+    // The receiver recipe uses portable sed and shasum; preserve exact CRLF bytes in the digest.
     const file = join(dir, 'saha-report.csv'); writeFileSync(file, out.csv);
-    assert.equal(Number(execFileSync('bash', ['-c', `head -n -2 "${file}" | wc -l`]).toString().trim()), out.rows);
-    assert.equal(execFileSync('bash', ['-c', `head -n -2 "${file}" | sha256sum`]).toString().split(' ')[0], out.sha256);
+    const withoutLast = execFileSync('sed', ['$d', file]);
+    const body = execFileSync('sed', ['$d'], { input: withoutLast });
+    assert.equal(Number(execFileSync('wc', ['-l'], { input: body }).toString().trim()), out.rows);
+    assert.equal(execFileSync('shasum', ['-a', '256'], { input: body }).toString().split(' ')[0], out.sha256);
   });
   await check(async () => {
     const edited = out.csv.replace('"Visits confirmed in window","2"', '"Visits confirmed in window","3"');

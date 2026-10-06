@@ -1,0 +1,12 @@
+file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-send-discovery/tests/lib/verification-fixture-adapter.mjs:7
+ if(!source.includes("'send-gate'"))throw new Error('Expected explicit module inventory');
+                                          ^
+
+Error: Expected explicit module inventory
+    at verificationFixture (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-send-discovery/tests/lib/verification-fixture-adapter.mjs:7:43)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-verification-send-discovery/tests/verification-current-sixth-review-fixes-contract.mjs:2:7
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0

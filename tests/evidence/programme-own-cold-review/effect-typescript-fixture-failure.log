@@ -1,0 +1,12 @@
+<anonymous_script>:8
+    if(own(answers,key)===undefined)delete nextAnswers[key];else nextAnswers[key]=own(answers,key)!;
+                                                                                                  ^
+
+SyntaxError: Unexpected token '!'
+    at new Function (<anonymous>)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-programme-own-cold-review/tests/programme-own-cold-effect-contract.mjs:11:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0

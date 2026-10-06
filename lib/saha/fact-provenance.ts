@@ -1,4 +1,4 @@
-import type { AllConvertibleField, ConvertibleField, EnteredValue, EntryReview, FactAuthor, FactReview, Facts, FactSource, Measure, OverrideConfirmation, RangeContext, Role, ValueField, ValueOverride, Visit } from './types';
+import type { AllConvertibleField, ConvertibleField, EnteredValue, EntryReview, FactAuthor, FactReview, Facts, FactSource, Measure, OverrideConfirmation, RangeCapture, OrgState, Person, RangeContext, Role, ValueField, ValueOverride, Visit } from './types';
 // Slice 6z: entries are keyed by question id; read them as own properties only (the same rule as programmes.ts `own`,
 // repeated here so this module keeps no import of the programme catalogue).
 const own=<T>(r:Record<string,T>|undefined|null,k:string):T|undefined=>r&&Object.prototype.hasOwnProperty.call(r,k)?r[k]:undefined;
@@ -88,6 +88,7 @@ export const EXTRA_UNITS:Record<'systolic'|'diastolic',{unit:string;label:string
  diastolic:{unit:'kPa',label:'kPa (kilopascals)',decimals:1,convert:x=>x*7.50062},
 };
 export const WEEKS_DAYS={unit:'wk+d',label:'weeks + days',decimals:2} as const;
+export function alternativeUnit(field:AllConvertibleField){return field==='weeks'?WEEKS_DAYS:(ALT_UNITS as Record<string,{unit:string;label:string;decimals:number}>)[field]??(EXTRA_UNITS as Record<string,{unit:string;label:string;decimals:number}>)[field];}
 export const ALL_CONVERTIBLE_FIELDS=['weight','temperature','coughDays','systolic','diastolic','weeks'] as const satisfies readonly AllConvertibleField[];
 const NUMBER=/^[0-9]+(\.[0-9]+)?$/;
 // "20+3" means 20 weeks and 3 days; converted to decimal weeks to two decimals.
@@ -136,18 +137,19 @@ export function rangeSelection(context?:RangeContext):{fields:ValueRanges;versio
 }
 // The context for a person, inferred the same way a save path would: pregnancy from a Maternal care programme or an
 // active maternal enrolment. Pure and optional; the server's save path keeps the default ranges unless a caller passes it.
-export function rangeContextFor(p:{age?:number;sex?:'Female'|'Male'|'Other'|'Unknown';programmes?:readonly string[];enrolments?:readonly {packId?:string;state?:string}[]}|undefined):RangeContext|undefined{
+export function rangeContextFor(p:{age?:number;sex?:string;programmes?:readonly string[];enrolments?:readonly {packId?:string;state?:string}[]}|undefined):RangeContext|undefined{
  if(!p)return undefined;
  const pregnant=(p.programmes??[]).includes('Maternal care')||(p.enrolments??[]).some(e=>e.packId==='maternal'&&e.state==='active');
- return {age:p.age,sex:p.sex,pregnant};
+ return {age:p.age,...(['Female','Male','Other','Unknown'].includes(p.sex??'')?{sex:p.sex as RangeContext['sex']}:{}),pregnant};
 }
 // 'expected' inside the expected range; 'reason' outside it but inside the confirmation range; 'clinician' beyond that.
-export function valueTier(field:ValueField,value:string,context?:RangeContext):'expected'|'reason'|'clinician'{const x=+value,r=rangeSelection(context).fields[field];if(!value||!Number.isFinite(x))return 'expected';if(x>=r.expected[0]&&x<=r.expected[1])return 'expected';return x>=r.confirm[0]&&x<=r.confirm[1]?'reason':'clinician';}
+export function valueTier(field:ValueField,value:string,context?:RangeContext,selection?:{fields:ValueRanges}):'expected'|'reason'|'clinician'{const x=+value,r=(selection??rangeSelection(context)).fields[field];if(!value||!Number.isFinite(x))return 'expected';if(x>=r.expected[0]&&x<=r.expected[1])return 'expected';return x>=r.confirm[0]&&x<=r.confirm[1]?'reason':'clinician';}
 // Converts values entered in an alternative unit. Returns the converted facts, or a problem the server refuses with.
 export function normaliseUnits(f:Facts):{facts:Facts;problem?:string}{
  if(!f.entered)return {facts:f};const next:Facts={...f,entered:{}};
- for(const k of Object.keys(f.entered)){const field=k as AllConvertibleField,e=f.entered[field]!,label=VALUE_RANGES.fields[field].label,unitLabel=enteredUnitLabel(field);
+ for(const k of Object.keys(f.entered)){const field=k as AllConvertibleField;
   if(!(ALL_CONVERTIBLE_FIELDS as readonly string[]).includes(field))return {facts:f,problem:`${k}: no alternative unit is accepted for this measurement.`};
+  const e=f.entered[field]!,label=VALUE_RANGES.fields[field].label,unitLabel=enteredUnitLabel(field);
   const value=convertEntered(field,e);if(value===null)return {facts:f,problem:`${label}: enter a positive number in ${unitLabel}, or enter the value in ${VALUE_RANGES.fields[field].unit}.`};
   if(f[field]&&f[field]!==value)return {facts:f,problem:`${label}: ${f[field]} ${VALUE_RANGES.fields[field].unit} does not match the entered ${e.value} ${unitLabel} (${value} ${VALUE_RANGES.fields[field].unit}). Clear one of them.`};
   next[field]=value;next.entered![field]={value:e.value,unit:e.unit};}
@@ -155,29 +157,29 @@ export function normaliseUnits(f:Facts):{facts:Facts;problem?:string}{
 }
 // The first range problem in normalised facts: a value outside the expected range without a reason of at least 10
 // characters, or a reason without an unusual value. The server refuses with it; the notebook and screen show it early.
-export function rangeProblem(f:Facts,context?:RangeContext):string|null{
- const sel=rangeSelection(context);
- for(const field of VALUE_FIELDS){const value=f[field],reason=(f.unusual?.[field]??'').trim(),r=sel.fields[field],tier=valueTier(field,value,context);
+export function rangeProblem(f:Facts,context?:RangeContext,selection?:{fields:ValueRanges;version:string;status:string}):string|null{
+ const sel=selection??rangeSelection(context);
+ for(const field of VALUE_FIELDS){const value=f[field],reason=(f.unusual?.[field]??'').trim(),r=sel.fields[field],tier=valueTier(field,value,context,sel);
   if(tier!=='expected'&&reason.length<10)return `${r.label} ${value} ${r.unit} is outside the expected range ${rangeText(field,r.expected)} (${sel.status}). Check the value and its unit, or give a reason of at least 10 characters for this unusual value.`;
   if(tier==='expected'&&f.unusual?.[field]!==undefined)return `${r.label}: a reason applies only to a value outside the expected range ${rangeText(field,r.expected)}.`;}
  return null;
 }
 // The override that applies to a field now: the latest appended one for the same value and reason.
-export function currentOverride(v:Pick<Visit,'facts'|'valueOverrides'>,field:ValueField):ValueOverride|null{const reason=v.facts.unusual?.[field];if(!reason||!v.facts[field])return null;return [...(v.valueOverrides??[])].reverse().find(o=>o.field===field&&o.value===v.facts[field]&&o.reason===reason)??null;}
+export function currentOverride(v:Pick<Visit,'facts'|'valueOverrides'|'valueRangeCapture'>,field:ValueField):ValueOverride|null{const reason=v.facts.unusual?.[field];if(!reason||!v.facts[field])return null;return [...(v.valueOverrides??[])].reverse().find(o=>o.field===field&&o.value===v.facts[field]&&o.reason===reason&&o.rangeCaptureId===v.valueRangeCapture?.id)??null;}
 export const overrideConfirmation=(v:Pick<Visit,'overrideConfirmations'>,o:ValueOverride):OverrideConfirmation|null=>(v.overrideConfirmations??[]).find(c=>c.overrideId===o.id)??null;
 // Unusual values that still block confirming the visit: no recorded override, or a clinician confirmation is missing.
 export type UnconfirmedValue={field:ValueField;need:'reason'|'clinician';override?:ValueOverride};
-export function unconfirmedValues(v:Pick<Visit,'facts'|'valueOverrides'|'overrideConfirmations'>):UnconfirmedValue[]{return VALUE_FIELDS.flatMap((field):UnconfirmedValue[]=>{const tier=valueTier(field,v.facts[field]);if(tier==='expected')return [];const o=currentOverride(v,field);return !o?[{field,need:'reason' as const}]:tier==='clinician'&&!overrideConfirmation(v,o)?[{field,need:'clinician' as const,override:o}]:[];});}
+export function unconfirmedValues(v:Pick<Visit,'facts'|'valueOverrides'|'overrideConfirmations'|'valueRangeCapture'>):UnconfirmedValue[]{return VALUE_FIELDS.flatMap((field):UnconfirmedValue[]=>{const tier=valueTier(field,v.facts[field],undefined,selectionForVisit(v));if(tier==='expected')return [];const o=currentOverride(v,field);return !o?[{field,need:'reason' as const}]:tier==='clinician'&&!overrideConfirmation(v,o)?[{field,need:'clinician' as const,override:o}]:[];});}
 export function enteredText(e:EnteredValue|undefined){if(!e)return '';if(e.unit===WEEKS_DAYS.unit)return `${e.value} ${WEEKS_DAYS.label}`;const alt=[...Object.values(ALT_UNITS),...Object.values(EXTRA_UNITS)].find(a=>a.unit===e.unit);return `${e.value} ${alt?alt.label.split(' ')[0]:e.unit}`;}
 export function overrideText(o:ValueOverride){const r=VALUE_RANGES.fields[o.field];return `${r.label} ${o.value} ${r.unit}${o.entered?` (entered as ${enteredText(o.entered)})`:''} outside the expected range ${rangeText(o.field,o.expected)}; reason: ${o.reason}; recorded by ${authorText(o.by)}`;}
 // Text added to FHIR observation notes for a field with an unusual value; empty when none applies (output unchanged).
-export function unusualNoteText(v:Pick<Visit,'facts'|'valueOverrides'|'overrideConfirmations'>,field:ValueField){const o=currentOverride(v,field);const e=v.facts.entered?.[field];
- const parts=[e?` Entered as ${enteredText(e)}; converted by Saha.`:'',o?` Unusual value (${VALUE_RANGES.version}, ${VALUE_RANGES.status}): outside ${rangeText(field,o.expected)}; reason: ${o.reason.replace(/[.\s]+$/,'')}.${o.tier==='clinician'?(()=>{const c=overrideConfirmation(v,o);return c?` Confirmed by ${c.byName} (clinician), ${c.at.slice(0,16).replace('T',' ')} UTC.`:' Clinician confirmation pending.';})():''}`:''];return parts.join('');}
+export function unusualNoteText(v:Pick<Visit,'facts'|'valueOverrides'|'overrideConfirmations'|'valueRangeCapture'>,field:ValueField){const o=currentOverride(v,field);const e=v.facts.entered?.[field];
+ const parts=[e?` Entered as ${enteredText(e)}; converted by Saha.`:'',o?` Unusual value (${o.rangesVersion}, ${VALUE_RANGES.status}): outside ${rangeText(field,o.expected)}; reason: ${o.reason.replace(/[.\s]+$/,'')}.${o.tier==='clinician'?(()=>{const c=overrideConfirmation(v,o);return c?` Confirmed by ${c.byName} (clinician), ${c.at.slice(0,16).replace('T',' ')} UTC.`:' Clinician confirmation pending.';})():''}`:''];return parts.join('');}
 // Before a save: fills the base-unit value from an alternative-unit entry (the server recomputes and compares), drops
 // blank entries and reasons for values that are not unusual. Unconvertible entries are kept so the server refuses them.
-export function tidyValues(f:Facts):Facts{const next:Facts={...f};
+export function tidyValues(f:Facts,selection?:{fields:ValueRanges}):Facts{const next:Facts={...f};
  if(f.entered){const e:NonNullable<Facts['entered']>={};for(const k of ALL_CONVERTIBLE_FIELDS){const x=f.entered[k];if(!x||!x.value.trim())continue;e[k]={value:x.value.trim(),unit:x.unit};if(!next[k])next[k]=convertEntered(k,e[k]!)??'';}if(Object.keys(e).length)next.entered=e;else delete next.entered;}
- if(f.unusual){const u:NonNullable<Facts['unusual']>={};for(const k of VALUE_FIELDS){const r=f.unusual[k];if(r&&r.trim()&&valueTier(k,next[k])!=='expected')u[k]=r;}if(Object.keys(u).length)next.unusual=u;else delete next.unusual;}
+ if(f.unusual){const u:NonNullable<Facts['unusual']>={};for(const k of VALUE_FIELDS){const r=f.unusual[k];if(r&&r.trim()&&valueTier(k,next[k],undefined,selection)!=='expected')u[k]=r;}if(Object.keys(u).length)next.unusual=u;else delete next.unusual;}
  return next;}
 // Slice 2i: text for any facts entry in the record history and version-conflict views (strings unchanged).
 export function factEntryText(key:string,value:unknown):string{if(typeof value==='string')return value;if(!value||typeof value!=='object')return String(value??'');
@@ -186,3 +188,18 @@ export function factEntryText(key:string,value:unknown):string{if(typeof value==
  if(key==='unusual')return Object.entries(value as Record<string,string>).map(([k,r])=>`${label(k)}: ${r}`).join('; ');
  return provenanceText(value);}
 export const FACT_ENTRY_LABEL:Record<string,string>={entered:'Entered in another unit',unusual:'Reasons for unusual values'};
+
+// New captures pin the exact reviewed compiled policy. Absence preserves historical default behaviour.
+export const selectionForVisit=(v:Pick<Visit,'valueRangeCapture'>)=>v.valueRangeCapture??rangeSelection();
+export const rangeContextKey=(c:RangeContext|undefined)=>JSON.stringify([c?.age??null,c?.sex??null,c?.pregnant??false]);
+export function rangeCaptureFor(s:OrgState,p:Person|{age?:number;sex?:Person['sex'];programmes?:readonly string[]}):RangeCapture|undefined{
+ const x=(s.operations?.valueRangeProtocols??[]).find(x=>x.state==='active');if(!x)return undefined;
+ const manifest=x.manifest as {defaultRanges:typeof VALUE_RANGES;population?:{version:string;status:string;groups:{id:string;fields:Partial<ValueRanges>}[]}};
+ const context=x.mode==='population-demo'?rangeContextFor(p):undefined,contextKey=rangeContextKey(context),group=context?.age!==undefined&&context.age<18?'paediatric':context?.pregnant?'pregnant':'default';
+ const g=manifest.population?.groups.find(g=>g.id===group),sel={fields:{...manifest.defaultRanges.fields,...g?.fields},version:g?manifest.population!.version:manifest.defaultRanges.version,status:g?manifest.population!.status:manifest.defaultRanges.status};
+ return {id:x.id+':'+contextKey,protocolId:x.id,manifestHash:x.manifestHash,publicationVersion:x.publicationVersion,mode:x.mode,compiledVersion:x.mode==='population-demo'?manifest.population!.version:manifest.defaultRanges.version,version:sel.version,status:sel.status,clinicalApproval:'pending',...(context?{context}:{}),contextKey,group,fields:JSON.parse(JSON.stringify(sel.fields))};
+}
+export function rangeContextProblem(v:Pick<Visit,'valueRangeCapture'>,p:Person|undefined):string|null{
+ const c=v.valueRangeCapture;if(!c||c.mode!=='population-demo')return null;
+ return c.contextKey!==rangeContextKey(rangeContextFor(p))?'Patient age, sex or programme context changed. Review and refresh this draft’s range context before saving or confirming.':null;
+}

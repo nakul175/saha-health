@@ -1,0 +1,39 @@
+import assert from 'node:assert/strict';import {mkdirSync,writeFileSync} from 'node:fs';import {identity,client} from './lib/worker.mjs';import {startMiniflare} from './lib/miniflare.mjs';
+const w=await startMiniflare({port:9091,name:'composite-authority-independent-author'});let passed=0;const observations=[];const check=(v,m)=>{assert.ok(v,m);passed++;};
+try{const api=client(w.base),o=identity('composite-owner'),r=identity('composite-reviewer'),a=identity('composite-viewer-a'),b=identity('composite-viewer-b'),foreign=identity('composite-foreign'),s=(await api.get(o,'/api/workspace')).json,org=s.organisation.id,db=await w.mf.getD1Database('DB'),reason='Synthetic owner calculation independent software review';
+const cmd=async(who,c,status=200,key=crypto.randomUUID())=>{const x=await api.call(who,'/api/commands',{method:'POST',org,body:c,headers:{'Idempotency-Key':key}});check(x.status===status,x.text);return x.json;};const snapshot=async()=>(await api.get(o,'/api/workspace',org)).json;
+for(const who of [r,a,b]){const t=(await api.get(who,'/api/workspace')).json,inv=(await cmd(o,{type:'createInvite',accountCode:t.user.accountCode,label:'Synthetic independent calculation viewer',role:'supervisor',teamIds:['default']})).result;await cmd(who,{type:'joinOrganisation',token:inv.token});}
+const visits=[];for(const p of s.people){const id=(await cmd(o,{type:'startVisit',personId:p.id})).result.visitId;let t=await snapshot(),v=t.visits.find(v=>v.id===id);await cmd(o,{type:'saveVisit',visitId:id,version:v.version,facts:{date:new Date(Date.now()-60000).toISOString().slice(0,16),systolic:'',diastolic:'',weight:'55',temperature:'',weeks:'',coughDays:'',notes:'Synthetic composite reporting',source:'measured'}});t=await snapshot();v=t.visits.find(v=>v.id===id);await cmd(o,{type:'confirmVisit',visitId:id,version:v.version,patientCheck:{personId:p.id,personVersion:t.people.find(x=>x.id===p.id).version,confirmed:true}});visits.push(id);}
+const leaf={measure:'visits-confirmed'},person={measure:'patients'},expression=(op)=>op==='offset'?{op:'sum',terms:[leaf,{constant:100}]}:op==='threshold'?{op:'at-least',term:leaf,value:1}:{op,terms:[leaf,person]},operand=op=>({version:1,expression:expression(op),fixtures:[{inputs:op==='offset'||op==='threshold'?{'visits-confirmed':0}:{'visits-confirmed':0,patients:0},expected:op==='offset'?100:0},{inputs:op==='offset'||op==='threshold'?{'visits-confirmed':2}:{'visits-confirmed':2,patients:2},expected:({sum:4,min:2,max:2,any:1,all:1,threshold:1,offset:102})[op]}]}),spec=op=>({title:'Synthetic owner '+op,unit:'count',numerator:operand(op),denominator:null,filters:{},exclude:[],exclusionsNote:'Synthetic fixture only',owner:'Synthetic owner',cadence:'Monthly',minimumCohort:5});
+const lifecycle=async(id,sp)=>{const body={type:'addIndicatorDefinition',id,spec:sp,reason},key=crypto.randomUUID(),p=(await cmd(o,body,200,key)).result;const replay=(await cmd(o,body,200,key)).result;check(JSON.stringify(p)===JSON.stringify(replay),'Exact proposal receipt replay preserves configured body');await cmd(o,{type:'reviewIndicatorDefinition',id,expectedVersion:1,expectedGovernanceVersion:1,decision:'approve',reason},403);const approval=(await cmd(r,{type:'reviewIndicatorDefinition',id,expectedVersion:1,expectedGovernanceVersion:1,decision:'approve',reason})).result;const at=new Date(Date.now()+100).toISOString();await cmd(o,{type:'releaseIndicatorDefinition',id,expectedVersion:1,expectedGovernanceVersion:2,reviewEventId:approval.eventId,effectiveAt:at,reason});await new Promise(resolve=>setTimeout(resolve,120));};
+const ids=[];for(const op of ['sum','offset','any','all','threshold','min','max']){const id='composite-'+op;await lifecycle(id,spec(op));ids.push(id+'@1');}
+const report=async(who,ids,format)=>api.call(who,'/api/indicators',{method:'POST',org,body:{ids:ids.join(','),days:30,group:'none',...(format?{format}:{})}});
+
+const membership=await db.prepare('SELECT status,role,version FROM memberships WHERE org_id=? AND user_id=?').bind(org,o.id).first();
+const memberTeams=(await db.prepare('SELECT team_id FROM team_members WHERE org_id=? AND user_id=?').bind(org,o.id).all()).results;
+const personId=s.people[0].id,personTeam=(await db.prepare('SELECT team_id FROM patients WHERE org_id=? AND id=?').bind(org,personId).first()).team_id;
+for(const format of [undefined,'csv']) {
+ const safe=await report(o,[ids[0]],format);check(safe.status===200,'Current authorised '+(format??'view')+' succeeds');
+ check(format?safe.text.split('\r\n').includes('"All","12","12",""'):safe.json.results[0].rows[0].value===12,'Original per-person sum is retained');
+ const mutations={
+  suspended:"UPDATE memberships SET status='suspended',version=version+1 WHERE org_id=NEW.org_id AND user_id=NEW.actor_id;",
+  role:"UPDATE memberships SET role='admin',version=version+1 WHERE org_id=NEW.org_id AND user_id=NEW.actor_id;",
+  teams:"DELETE FROM team_members WHERE org_id=NEW.org_id AND user_id=NEW.actor_id;",
+  patientTeam:`UPDATE patients SET team_id='outside-current-scope' WHERE org_id=NEW.org_id AND id='${personId}';`
+ };
+ for(const [mode,mutation] of Object.entries(mutations)) {
+  const audit=format?"NEW.action='indicatorExport'":"NEW.action='viewAggregate' AND NEW.subject='indicator results'";
+  await db.prepare(`CREATE TRIGGER composite_report_scope_race AFTER INSERT ON audit_events WHEN ${audit} BEGIN ${mutation} END`).run();
+  const result=await report(o,[ids[0]],format);
+  const current=await db.prepare('SELECT status,role,version FROM memberships WHERE org_id=? AND user_id=?').bind(org,o.id).first();
+  observations.push({format:format??'view',mode,status:result.status,currentMembership:current});
+  check(result.status===403,'Current '+mode+' withdrawal refuses '+(format??'view')+': '+result.text);
+  check(!result.json?.results&&!result.text.split('\r\n').includes('"All","12","12",""'),'No former-scope figures or CSV returned');
+  await db.prepare('DROP TRIGGER composite_report_scope_race').run();
+  await db.prepare('UPDATE memberships SET status=?,role=?,version=? WHERE org_id=? AND user_id=?').bind(membership.status,membership.role,membership.version,org,o.id).run();
+  for(const team of memberTeams)await db.prepare('INSERT OR IGNORE INTO team_members(org_id,user_id,team_id) VALUES(?,?,?)').bind(org,o.id,team.team_id).run();
+  await db.prepare('UPDATE patients SET team_id=? WHERE org_id=? AND id=?').bind(personTeam,org,personId).run();
+ }
+}
+mkdirSync('tests/evidence/composite-authority-independent/author-http',{recursive:true});writeFileSync('tests/evidence/composite-authority-independent/author-http/http.json',JSON.stringify({passed,failed:0,actualWorker:true,actualD1:true,observations,scope:'Post-audit current membership, role, team and person scope for live and CSV; no clinical write or mutation retry.'},null,2)+'\n');console.log(JSON.stringify({passed,failed:0,observations}));
+}finally{await w.stop()}

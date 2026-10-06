@@ -1,0 +1,21 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Your organisation membership is inactive or unavailable."}
+
+403 !== 200
+
+    at get (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-governance/tests/evidence/indicator-governance/registry-compatibility-driver.mjs:2:376)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async indicatorRegistrySmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-governance/tests/indicator-registry-smoke.mjs:12:2)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-governance/tests/evidence/indicator-governance/registry-compatibility-driver.mjs:2:1528 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 403,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

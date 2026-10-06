@@ -1,0 +1,30 @@
+[
+  {
+    "case": "supported-source-version-change",
+    "beforeIntegrationVersion": 1,
+    "afterIntegrationVersion": 3,
+    "afterStatus": "active",
+    "originalDeclarationId": "c1783996-a427-4362-92d4-b98fd4c15c50",
+    "originalDeclarationHasIntegrationVersion": false,
+    "observedCoverage": "declared-complete",
+    "observedOverall": "operator-declared-complete",
+    "warning": "Operator-declared source coverage; clinical denominator remains unknown.",
+    "expected": "Changed source configuration requires explicit original-basis attribution or unknown/redeclaration; old evidence must not silently adopt new semantics."
+  },
+  {
+    "case": "saved-post-replay-whole-cohort",
+    "savedPostStatus": 200,
+    "savedPostResult": {
+      "calendarId": "calendar-one",
+      "calendarVersion": 1,
+      "eventId": "c1783996-a427-4362-92d4-b98fd4c15c50",
+      "sequence": 2,
+      "type": "declare",
+      "replayed": true
+    },
+    "savedGetStatus": 403,
+    "freshPostStatus": 403,
+    "expected": 403,
+    "authorityChange": "Supported TB-screening/reporting narrowing of original supervisor while team remains default"
+  }
+]

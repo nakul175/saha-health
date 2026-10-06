@@ -1,0 +1,48 @@
+{"event":"saha_request","requestId":"818fe6ff-9879-424d-810e-c7a78f85bcf0","route":"workspace","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"ce2a76fc-139f-43bb-8065-08eb409926cc","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"b429b68d-9df2-446e-a01f-0f7f361386fc","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"bc94f6cd-0212-449d-b8fc-3dbf33a6c614","route":"media","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"5d185a8a-a940-46c7-9c2a-061cdd2d637c","route":"media","status":401,"durationMs":2}
+{"event":"saha_request","requestId":"51343a5e-6c33-4719-bc11-7e0954a58167","route":"media","status":403,"durationMs":8}
+{"event":"saha_request","requestId":"30faff90-a686-451f-b149-019f5eb2c407","route":"media","status":403,"durationMs":1}
+{"event":"saha_request","requestId":"65624613-542c-4362-9583-6399da528aba","route":"media","status":413,"durationMs":4}
+{"event":"saha_request","requestId":"4fdd094a-0871-4c6b-92cc-107a94da3664","route":"media","status":413,"durationMs":11}
+{"event":"saha_request","requestId":"573e344f-c3c5-4e31-b0ff-e9db744bdfe9","route":"media","status":200,"durationMs":23}
+{"event":"saha_request","requestId":"0e99ed8a-b9b0-4c8b-8c8e-5d0a3a43d2c7","route":"media","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"3789a861-5d07-40a8-84fc-bd2a6620d954","route":"media","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"c39800e7-2b0b-4d25-9278-cdee37387095","route":"media","status":403,"durationMs":3}
+{"event":"saha_request","requestId":"b7eacd30-50eb-47bb-85e3-73df66fdff14","route":"media","status":403,"durationMs":3}
+{"event":"saha_request","requestId":"07f2d150-bca2-47a4-aad7-2243f29eb093","route":"media","status":403,"durationMs":3}
+{"event":"saha_request","requestId":"91d3232b-bfc0-4183-a068-cf5a75771350","route":"media","status":403,"durationMs":2}
+{"event":"saha_request","requestId":"d08470c3-33ee-42e8-8184-9693d9a30aa6","route":"media","status":403,"durationMs":10}
+{"event":"saha_request","requestId":"7bc9bf2e-cb33-4a53-9094-4e77df07618e","route":"data-exit","status":200,"durationMs":24}
+{"event":"saha_request","requestId":"896532bf-7f06-402e-8475-5a15077d4c93","route":"data-exit","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"eff1ca09-312a-49e4-8c6a-c979011fd0cf","route":"media","status":200,"durationMs":47}
+{"event":"saha_request","requestId":"7048f1b9-6e86-44e1-8d3b-3432de0a0cf7","route":"media","status":413,"durationMs":9}
+Workspace operation failed Error
+{"event":"saha_request","requestId":"aa74225a-816d-4199-a74b-2cb17963697d","route":"media","status":503,"durationMs":18}
+{"event":"saha_request","requestId":"0be7ef0e-139d-4900-b845-8b0672f3d22e","route":"media","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"2d3752ea-adbd-48bc-b9d3-4aadf9293577","route":"media","status":403,"durationMs":6}
+{"event":"saha_request","requestId":"66af0eef-24d0-4935-abde-7e4d4d7bd226","route":"media","status":409,"durationMs":7}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Current media authority changed before custody reservation."}
+
+409 !== 403
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-http.mjs:14:413
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-http.mjs:7:112)
+    at upload (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-http.mjs:14:391)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-object-media/tests/object-media-http.mjs:27:239 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 409,
+  expected: 403,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

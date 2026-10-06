@@ -1,0 +1,27 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: /sign-off is missing or stale/
+    at async refuses (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/note-answer-signoff-contract.mjs:12:50)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/note-answer-signoff-contract.mjs:131:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: AppError: Programme envelope differs from its approved contract. Review or cancel unsent delivery and prepare a fresh plan; nothing was sent.
+      at fail (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/.note-answer-signoff-contract-q01xwD/core.js:14:47)
+      at assertMisEnvelope (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/.note-answer-signoff-contract-q01xwD/mis.js:185:5)
+      at executeMis (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/.note-answer-signoff-contract-q01xwD/mis-execution.js:136:15)
+      at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/note-answer-signoff-contract.mjs:131:23
+      at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/note-answer-signoff-contract.mjs:12:83
+      at waitForActual (node:assert:632:21)
+      at strict.rejects (node:assert:769:31)
+      at refuses (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/note-answer-signoff-contract.mjs:12:63)
+      at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/note-answer-signoff-contract.mjs:131:9 {
+    status: 409
+  },
+  expected: [Function (anonymous)],
+  operator: 'rejects',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

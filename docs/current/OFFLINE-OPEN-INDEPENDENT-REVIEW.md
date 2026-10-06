@@ -1,0 +1,11 @@
+# Independent offline-open review — before repair
+
+Reviewed stable B04 delta1b0936ba on a separate checkout from committed237497f6, with the original additive schema/export integrations. No review of this agent's field timing hooks is included.
+
+The author harnesses independently passed63 encrypted-queue contracts,36 actual local Worker/D1 checks and49 Chromium phone checks. These cover both public surfaces before material display, storage/CAS faults, exact ciphertext preservation on known-purge abort, original issuance/registration/candidate proofs, former-member historical upload without clinical renewal, unknown receipt retention, zero-count accepted mappings, lost acknowledgements, concurrent deduplication and atomic audit rollback. Production build passed.
+
+One grounded P2 finding remains: local-registration history can be misattributed after an account transition. The actual encrypted notebook belongs to the original worker and its queued event was produced by the public presentation module. Changing trusted local ingress to another current care member of the same organisation before flush creates a count1 report and device-reported audit under that second actor. The client subsequently refuses the response because its returned userId differs, retaining the original queue, but the wrong-actor durable write already occurred. Prepared/accepted/candidate proofs enforce original issuance; an unresolved local-form report only requires an organisation relationship. No patient subject or clinical authority is inferred in this witness.
+
+The separately committed browser witness and fixed summary retain this before-fix behavior. The required repair is an explicit original actor binding on each historical batch, compared to trusted identity before reference resolution or persistence. It must not select identity or confer authority, and missing or mismatched bindings must refuse without writes. Original-account retry and former-member historical-only acceptance must continue.
+
+The requested discarded-form link-capacity lifecycle remains under investigation and is not approved by this evidence. External timestamps/permission remain explicitly client claims; these checks are local synthetic execution, not hosted or physical-phone acceptance.

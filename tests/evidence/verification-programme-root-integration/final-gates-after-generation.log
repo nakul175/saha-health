@@ -1,0 +1,31 @@
+Running smoke nfr uat --fast; 7 suite(s).
+
+[smoke] 2 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/hosted-smoke ...
+  ok       smoke/hosted-smoke  8 passed  4.1s
+  running  smoke/local-smoke ...
+  ok       smoke/local-smoke  28 passed, 1 skipped  3.3s
+
+[nfr] 2 suite(s)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  59 passed  12.6s
+  running  nfr/identity-hardening ...
+  ok       nfr/identity-hardening  29 passed  4.3s
+
+[uat] 3 suite(s)
+  running  uat/check-uat-register ...
+  ok       uat/check-uat-register  44 passed  192ms
+  running  uat/coverage-map ...
+  ok       uat/coverage-map  9 passed  204ms
+  running  uat/generate-uat-pack ...
+  ok       uat/generate-uat-pack  10 passed  218ms
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  smoke  passed       2      36       0        1   7.4s
+  nfr    passed       2      88       0        0  16.9s
+  uat    passed       3      63       0        0  614ms
+  total  passed       7     187       0        1  25.2s
+
+Regression guard: passed (7 baselined suite(s) checked, 0 excused by quarantine).

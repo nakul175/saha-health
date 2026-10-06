@@ -1,8 +1,10 @@
+import { followUpOpen } from './programmes';
 import { z } from 'zod';
 import { fail, person, uuid } from './core';
 import { allowed, normallyAllowed } from './access';
 import { actionPlan } from './action-plan';
 import { supervises } from './delegation';
+import { ensurePurpose } from './purpose-scope';
 import { TERMINAL } from './referral-rules';
 import { CANCEL_REASONS, ITEM_KINDS, MAX_AHEAD_DAYS, MAX_COVERS, MAX_ITEMS, MAX_PLANNED, MAX_SLOTS, VISIT_WINDOWS, type CancelReason, type VisitItemKind, type VisitWindow } from './household-visit-constants';
 import type { Household } from './household';
@@ -21,13 +23,14 @@ import type { Member, OrgState, Person } from './types';
 // Timing: an item whose due date is before the slot date is shown as late by that many days, never silently treated as on
 // time. These are local defaults, not an approved timing or privacy policy.
 export type HouseholdVisitItem = { kind: VisitItemKind; id: string };
-export type HouseholdVisit = { id: string; date: string; window: VisitWindow; workerId: string; covers: { personId: string; items: HouseholdVisitItem[] }[]; state: 'planned' | 'cancelled'; createdAt: string; createdBy: string; cancelledAt?: string; cancelledBy?: string; cancelReason?: CancelReason };
+export type HouseholdVisit = { id: string; date: string; window: VisitWindow; workerId: string; covers: { personId: string; items: HouseholdVisitItem[] }[]; state: 'planned' | 'cancelled'; createdAt: string; createdBy: string; cancelledAt?: string; cancelledBy?: string; cancelReason?: CancelReason; replacesVisitId?: string; replacedByVisitId?: string; completions?:import('./household-visit-work').SlotCompletion[];outreachPlanIds?:string[] };
 
 const id = z.string().trim().min(1).max(100), ver = z.number().int().positive();
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(x => !isNaN(Date.parse(x)) && new Date(x).toISOString().slice(0, 10) === x, 'Enter a valid date.');
 const item = z.object({ kind: z.enum(ITEM_KINDS), id }).strict();
 export const householdVisitSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('householdVisitSchedule'), householdId: id, version: ver, date, window: z.enum(VISIT_WINDOWS), covers: z.array(z.object({ personId: id, items: z.array(item).min(1).max(MAX_ITEMS) }).strict()).min(1).max(MAX_COVERS) }).strict(),
+  z.object({ type: z.literal('householdVisitReschedule'), householdId: id, version: ver, visitId: id, date, window: z.enum(VISIT_WINDOWS), personVersions: z.array(z.object({personId: id, version: ver}).strict()).min(1).max(MAX_COVERS) }).strict(),
   z.object({ type: z.literal('householdVisitCancel'), householdId: id, version: ver, visitId: id, reason: z.enum(CANCEL_REASONS) }).strict(),
 ]);
 export type HouseholdVisitCommand = z.infer<typeof householdVisitSchema>;
@@ -39,18 +42,25 @@ const careIn = (m: Member, h: Household) => ['asha', 'clinician'].includes(m.rol
 
 // One item as its own record states it now: title, whether it is still open work, and its own due date.
 export function resolveItem(s: OrgState, p: Person, r: HouseholdVisitItem): { found: boolean; open: boolean; title: string; due: string | null } {
-  if (r.kind === 'follow-up') { const f = p.followUps?.find(x => x.id === r.id); return f ? { found: true, open: f.state === 'open', title: f.title, due: f.due } : { found: false, open: false, title: 'Follow-up', due: null }; }
+  if (r.kind === 'follow-up') { const f = p.followUps?.find(x => x.id === r.id); return f ? { found: true, open: followUpOpen(s,f), title: f.title, due: f.due } : { found: false, open: false, title: 'Follow-up', due: null }; }
   if (r.kind === 'referral') { const x = s.workspace.referrals.find(y => y.id === r.id && y.personId === p.id); return x ? { found: true, open: !TERMINAL.has(x.state), title: `Referral to ${x.facility}`, due: x.due ?? null } : { found: false, open: false, title: 'Referral', due: null }; }
   return r.id === p.id ? { found: true, open: p.status !== 'completed', title: 'Routine home visit', due: p.due ?? null } : { found: false, open: false, title: 'Routine home visit', due: null };
 }
 
 // Also applied when an idempotent request is replayed.
 export function authorizeHouseholdVisit(s: OrgState, m: Member, c: any) {
-  if (c?.type !== 'householdVisitSchedule' && c?.type !== 'householdVisitCancel') return;
+  if (!['householdVisitSchedule','householdVisitCancel','householdVisitReschedule'].includes(c?.type)) return;
   if (!['asha', 'clinician'].includes(m.role) && !(c.type === 'householdVisitCancel' && m.role === 'supervisor')) fail(403, 'A care role is required to plan household visits.');
   const h = (s.households ?? []).find(x => x.id === c.householdId);
   if (!h) fail(404, 'Household not found.');
   if (!m.teamIds.includes(h.teamId)) fail(403, 'This household belongs to a care team you are not in.');
+  if(c.type==='householdVisitReschedule'){
+    ensurePurpose(m,'household-sharing');
+    const slot=h.visits?.find(x=>x.id===c.visitId);if(!slot)fail(404,'Household visit not found.');
+    if(slot.createdBy!==m.userId)fail(403,'Only the care worker who planned this visit may reschedule it.');
+    const members=new Set(current(h).map(x=>x.personId));
+    for(const cv of slot.covers){const p=s.workspace.people.find(x=>x.id===cv.personId);if(!p||!members.has(p.id)||!p.assigned||!normallyAllowed(m,p)||p.mergedInto)fail(403,'Current care access to every covered household member is required to reschedule.');}
+  }
 }
 
 const MESSAGE_MEMBERS = 'Choose current household members within your care scope.';
@@ -61,6 +71,23 @@ export function applyHouseholdVisit(s: OrgState, input: unknown, u: Actor, m: Me
   authorizeHouseholdVisit(s, m, c);
   const h = (s.households ?? []).find(x => x.id === c.householdId)!, today = now.slice(0, 10), slots = h.visits ??= [];
   if (h.version !== c.version) fail(409, 'This household changed. Refresh before planning a visit.');
+  if(c.type==='householdVisitReschedule'){
+    const slot=slots.find(x=>x.id===c.visitId)!;
+    if(slot.state!=='planned')fail(409,'Only a planned household visit can be rescheduled.');
+    if(c.date<today||c.date>addDays(today,MAX_AHEAD_DAYS))fail(422,`Choose a date from today to ${MAX_AHEAD_DAYS} days ahead.`);
+    if(slot.date===c.date&&slot.window===c.window)fail(409,'Choose a different date or time window.');
+    if(slots.length>=MAX_SLOTS)fail(422,'A household can hold up to 100 recorded visit slots.');
+    const versions=new Map(c.personVersions.map(x=>[x.personId,x.version]));
+    if(versions.size!==c.personVersions.length||versions.size!==slot.covers.length||slot.covers.some(cv=>!versions.has(cv.personId)))fail(422,'Refresh the versions of every covered household member.');
+    for(const cv of slot.covers){const p=w.people.find(x=>x.id===cv.personId)!;if(p.version!==versions.get(p.id))fail(409,'A covered record changed. Refresh before rescheduling.');
+      for(const ref of cv.items){const r=resolveItem(s,p,ref);if(!r.found||!r.open)fail(409,'Covered work changed or completed. Refresh the household plan.');
+        if(slots.some(x=>x.id!==slot.id&&x.state==='planned'&&x.covers.some(y=>y.personId===p.id&&y.items.some(i=>same(i,ref)))))fail(409,'Covered work is already included in another planned slot. Refresh the household plan.');}}
+    // Validate everything before changing either record. Persisted history and receipt commit together.
+    const replacement:HouseholdVisit={id:uuid(),date:c.date,window:c.window,workerId:slot.workerId,covers:structuredClone(slot.covers),state:'planned',createdAt:now,createdBy:u.userId,replacesVisitId:slot.id};
+    Object.assign(slot,{state:'cancelled',cancelledAt:now,cancelledBy:u.userId,cancelReason:'rescheduled',replacedByVisitId:replacement.id});slots.push(replacement);h.version++;
+    for(const cv of slot.covers)w.audit.push({id:uuid(),at:now,actorId:u.userId,actor:u.displayName,role:m.role,action:c.type,subject:cv.personId,personId:cv.personId,detail:`Household visit rescheduled from ${slot.date} (${slot.window}) to ${replacement.date} (${replacement.window}); ${cv.items.length} item references retained for this person. Due dates, owners and completion conditions unchanged.`});
+    return {visitId:replacement.id,replacesVisitId:slot.id,date:replacement.date,window:replacement.window,members:replacement.covers.length,items:replacement.covers.reduce((n,x)=>n+x.items.length,0)};
+  }
   if (c.type === 'householdVisitCancel') {
     const slot = slots.find(x => x.id === c.visitId);
     if (!slot) fail(404, 'Household visit not found.');
@@ -127,10 +154,12 @@ export function householdVisitPlan(s: OrgState, m: Member, h: Household, now = n
   const seeable = (personId: string) => { const q = s.workspace.people.find(p => p.id === personId); return q && allowed(m, q, now) ? q : undefined; };
   const visits = slots.filter(x => x.covers.some(cv => seeable(cv.personId))).slice(-30).reverse().map(x => {
     const shown = x.covers.flatMap(cv => { const q = seeable(cv.personId); return q ? [{ cv, q }] : []; }).map(({ cv, q }) => {
-      const items = cv.items.map(ref => { const r = resolveItem(s, q, ref); return { kind: ref.kind, id: ref.id, title: r.title, open: r.open, due: r.due, lateByDays: iso(r.due) && x.date > r.due ? Math.round((Date.parse(x.date) - Date.parse(r.due)) / day) : 0 }; });
-      return { personId: q.id, name: q.name, left: !current(h).some(y => y.personId === q.id), items, stillOpen: items.filter(i => i.open).length };
+      const items = cv.items.map(ref => { const r = resolveItem(s, q, ref); const completion=x.completions?.filter(e=>e.personId===q.id&&e.kind===ref.kind&&e.itemId===ref.id).at(-1);return { kind: ref.kind, id: ref.id, title: r.title, open: r.open,canLink:ref.kind==='home-visit'||(ref.kind==='follow-up'?!!q.followUps?.find(f=>f.id===ref.id&&(f.completionContract||f.state==='completed')):s.workspace.referrals.some(r=>r.id===ref.id&&r.personId===q.id&&r.state==='completed')),completion:completion?{...completion,current:slotCompletionCurrent(s,completion)}:null, due: r.due, lateByDays: iso(r.due) && x.date > r.due ? Math.round((Date.parse(x.date) - Date.parse(r.due)) / day) : 0 }; });
+      return { personId: q.id, version: q.version, name: q.name,canRecord:careIn(m,h)&&normallyAllowed(m,q)&&current(h).some(y=>y.personId===q.id)&&x.state==='planned', left: !current(h).some(y => y.personId === q.id), items, stillOpen: items.filter(i => i.open).length };
     });
-    return { id: x.id, date: x.date, window: x.window, state: x.state, when: x.date < today ? 'past' : x.date === today ? 'today' : 'upcoming', worker: names.get(x.workerId) ?? 'Former member', covers: shown, outsideScopeCovered: x.covers.length - shown.length,
+    return { id: x.id,createdAt:x.createdAt, date: x.date, window: x.window, state: x.state, when: x.date < today ? 'past' : x.date === today ? 'today' : 'upcoming', worker: names.get(x.workerId) ?? 'Former member', covers: shown, outsideScopeCovered: x.covers.length - shown.length,
+      outreachPlanIds:x.outreachPlanIds??[],canPrepareOutreach:x.state==='planned'&&care&&x.covers.every(cv=>{const q=seeable(cv.personId);return q&&normallyAllowed(m,q)&&current(h).some(y=>y.personId===q.id);}),replacesVisitId:x.replacesVisitId??null,replacedByVisitId:x.replacedByVisitId??null,
+      canReschedule:x.state==='planned'&&x.createdBy===m.userId&&care&&x.covers.every(cv=>{const q=s.workspace.people.find(p=>p.id===cv.personId);return q&&q.assigned&&normallyAllowed(m,q)&&!q.mergedInto&&current(h).some(y=>y.personId===q.id)&&cv.items.every(i=>{const r=resolveItem(s,q,i);return r.found&&r.open;});}),
       cancelReason: x.cancelReason ?? null, canCancel: x.state === 'planned' && ((x.createdBy === m.userId && care) || lead) };
   });
   return {
@@ -138,3 +167,5 @@ export function householdVisitPlan(s: OrgState, m: Member, h: Household, now = n
     rules: 'A household visit slot covers the open items you choose, member by member. It does not change any due date, owner or completion condition, and an item stays open until its own record is resolved. Each member keeps their own observations, visit and permissions; a slot holds only references, a date and a window, and no free text. Items due before the slot date are shown as late, never as on time. Members outside your care scope are counted, not named. Nothing is sent to anyone. These are local defaults, not an approved timing or privacy policy.',
   };
 }
+
+export function slotCompletionCurrent(s:OrgState,e:import('./household-visit-work').SlotCompletion){const v=s.workspace.visits.find(v=>v.id===e.visitId&&v.personId===e.personId);return !!v&&v.state==='confirmed'&&!v.voidedAt&&!v.supersededBy&&!v.imported;}

@@ -1,0 +1,18 @@
+{"event":"saha_request","requestId":"3182e236-fc73-4a5a-b1bb-8c8be68275ab","route":"workspace","status":200,"durationMs":20}
+{"event":"saha_request","requestId":"a64efeb2-7238-4a82-aac2-35a41533eb44","route":"workspace","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"ab35ab0d-c387-4ec0-aa18-427bb64f3a33","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"8c13dba8-7649-44f1-994f-4d5c3dc20963","route":"commands","status":200,"durationMs":6}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByLabel('Identifier', { exact: true })[22m
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-indicator-governance/tests/indicator-governance-browser.mjs:2:1380 {
+  log: [ "  - waiting for getByLabel('Identifier', { exact: true })" ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

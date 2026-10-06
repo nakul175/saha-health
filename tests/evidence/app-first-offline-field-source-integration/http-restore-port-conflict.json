@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-10-05T07:53:01.904Z",
+  "startedAt": "2026-10-05T07:52:50.560Z",
+  "command": "node scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard --report tests/reports/combined-http-restore-final.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10638,
+      "failedSuites": 1
+    },
+    {
+      "layer": "resilience",
+      "status": "failed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 0,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 2,
+    "durationMs": 11344
+  },
+  "suites": [
+    {
+      "id": "integration/run-api-smoke",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/run-api-smoke.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 10638,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 115,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__run-api-smoke.log"
+    },
+    {
+      "id": "resilience/recovery-drill",
+      "layer": "resilience",
+      "kind": "suite",
+      "file": "tests/recovery-drill.mjs",
+      "tier": "pr",
+      "status": "blocked",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 0,
+      "exitCode": null,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 2,
+      "reason": "it restores the database the HTTP suite populated; run the integration layer first (node scripts/test.mjs integration resilience)"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/run-api-smoke",
+        "kind": "uncounted",
+        "message": "Suite integration/run-api-smoke reported no assertion count; baseline needs at least 4758.",
+        "excused": false
+      },
+      {
+        "id": "resilience/recovery-drill",
+        "kind": "missing",
+        "message": "Suite resilience/recovery-drill was due to run but reported nothing (blocked).",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 176,
+        "components": 0,
+        "suitesCitingNoRequirement": 47,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 49,
+        "components": 84,
+        "suitesCitingNoRequirement": 7,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 21,
+        "components": 0,
+        "suitesCitingNoRequirement": 17,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 262,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 75,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,33 @@
+// Real Chromium component regression for delayed scope/filter/preview responses; injected fetch, no patient data or provider calls.
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+const require=createRequire(import.meta.url),build=require(require.resolve('esbuild',{paths:[require.resolve('vite')]}));
+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test');
+mkdirSync('.sites-runtime',{recursive:true});
+const panel=process.env.SAHA_RECONCILIATION_COMPONENT??'./app/reconciliation-panel';
+build.buildSync({stdin:{contents:`import React,{useState} from 'react';import {createRoot} from 'react-dom/client';import {ReconciliationPanel} from '${panel}';
+window.requests=[];window.commands=[];window.fetch=(url,options)=>new Promise(resolve=>window.requests.push({org:options.headers['x-saha-organisation'],body:JSON.parse(options.body),resolve}));
+function App(){const [data,setData]=useState({organisation:{id:'org_A',revision:1,patientRevision:0},membership:{userId:'worker',version:1},role:'clinician',people:[{id:'p1',name:'Synthetic patient one'},{id:'p2',name:'Synthetic patient two'}]});window.switchOrg=id=>setData(d=>({...d,organisation:{...d.organisation,id,revision:1}}));window.revise=()=>setData(d=>({...d,organisation:{...d.organisation,revision:d.organisation.revision+1}}));const command=c=>new Promise(resolve=>window.commands.push({body:c,resolve:value=>{setData(d=>({...d,organisation:{...d.organisation,revision:d.organisation.revision+1}}));setTimeout(()=>resolve(value),0)}}));return <ReconciliationPanel data={data} busy={false} command={command}/>};createRoot(document.getElementById('root')).render(<App/>);`,resolveDir:process.cwd(),sourcefile:'reconciliation-ui-entry.tsx',loader:'tsx'},bundle:true,platform:'browser',format:'iife',outfile:'.sites-runtime/reconciliation-ui.js',tsconfig:'tsconfig.json',logLevel:'silent'});
+let browser,passed=0;const evidence='tests/evidence/reconciliation-review';mkdirSync(evidence,{recursive:true});
+const row=name=>({kind:'correction',parentId:'visit',taskId:'task',personId:'p1',personName:name,title:'Synthetic review task',ownerName:'Synthetic clinician',instruction:'Keep evidence intact',assignmentHistory:[],newAssignment:false,eligibleOwners:[],canAssign:false,href:'/?patient=p1'});
+try{
+ browser=await chromium.launch({headless:true,...(process.env.SAHA_CHROMIUM?{executablePath:process.env.SAHA_CHROMIUM}:{})});const page=await browser.newPage({viewport:{width:900,height:900}});
+ await page.setContent('<div id="root"></div>');await page.addScriptTag({content:readFileSync('.sites-runtime/reconciliation-ui.js','utf8')});
+ const waitRequests=n=>page.waitForFunction(n=>window.requests.length>=n,n);
+ const respond=async(index,name,status=200)=>page.evaluate(({index,name,status})=>window.requests[index].resolve({ok:status===200,json:async()=>status===200?{rows:[name],total:1,newAssignments:0,next:null}:{error:'Audit read refused'}}),{index,name:row(name),status});
+ const includes=async(text)=>page.locator('body').innerText().then(s=>s.includes(text));
+ await waitRequests(1);await page.evaluate(()=>window.switchOrg('org_B'));await waitRequests(2);await respond(1,'NEW ORGANISATION PATIENT');await page.getByText('NEW ORGANISATION PATIENT · Synthetic review task').waitFor();
+ await respond(0,'OLD ORGANISATION SECRET');await page.waitForTimeout(40);assert.equal(await includes('OLD ORGANISATION SECRET'),false);passed++;
+ assert.equal(await includes('NEW ORGANISATION PATIENT'),true);passed++;
+ await page.evaluate(()=>window.revise());await waitRequests(3);await page.getByRole('checkbox',{name:'My assignments'}).check();await waitRequests(4);await respond(3,'MY CURRENT ASSIGNMENT');await page.getByText('MY CURRENT ASSIGNMENT · Synthetic review task').waitFor();await respond(2,'OUTDATED ALL TASKS');await page.waitForTimeout(40);assert.equal(await includes('OUTDATED ALL TASKS'),false);passed++;
+ assert.equal(await includes('MY CURRENT ASSIGNMENT'),true);passed++;
+ assert.equal(await page.getByRole('link',{name:'Open original record and evidence'}).getAttribute('href'),'/?patient=p1');passed++;
+ await page.getByRole('button',{name:'Refresh reconciliation'}).click();await waitRequests(5);await respond(4,'',503);await page.getByRole('alert').waitFor();assert.equal(await includes('MY CURRENT ASSIGNMENT'),false);passed++;
+ await page.getByText('Review historical corrections without tasks').click();await page.getByLabel('Patient',{exact:true}).selectOption('p1');await page.getByRole('button',{name:'Preview missing tasks'}).click();await page.waitForFunction(()=>window.commands.length===1);
+ await page.getByLabel('Patient',{exact:true}).selectOption('p2');await page.evaluate(()=>window.commands[0].resolve({planHash:'a'.repeat(64),visits:[{visitId:'OLD PATIENT PREVIEW',cause:'void',tasks:[]}]}));await page.waitForTimeout(50);assert.equal(await includes('historical visits · no external sends'),false);passed++;
+ await page.getByRole('button',{name:'Preview missing tasks'}).click();await page.waitForFunction(()=>window.commands.length===2);await page.evaluate(()=>window.commands[1].resolve({planHash:'b'.repeat(64),visits:[{visitId:'valid-current',cause:'void',tasks:[]}]}));await page.getByText('1 historical visits · no external sends').waitFor();passed++;
+ await page.evaluate(()=>window.switchOrg('org_C'));await page.waitForTimeout(40);assert.equal(await includes('1 historical visits · no external sends'),false);passed++;
+ const appPage=await browser.newPage();await appPage.route('https://saha.example.invalid/**',route=>route.fulfill({contentType:'text/html',body:'<div id="root"></div>'}));await appPage.goto('https://saha.example.invalid/app');await appPage.addScriptTag({content:readFileSync('.sites-runtime/reconciliation-ui.js','utf8')});await appPage.waitForFunction(()=>window.requests.length===1);await appPage.evaluate(row=>window.requests[0].resolve({ok:true,json:async()=>({rows:[row],total:1,newAssignments:0,next:null})}),row('APP SCOPE PATIENT'));await appPage.getByRole('link',{name:'Open original record and evidence'}).waitFor();assert.equal(await appPage.getByRole('link',{name:'Open original record and evidence'}).getAttribute('href'),'/app?patient=p1');passed++;
+ const report={date:'2026-10-05',passed,failed:0,scope:'Real Chromium component with injected delayed requests; old organisation/filter responses discarded, denied reads cleared, patient-bound historical previews and valid preview across audit revision update'};writeFileSync(evidence+'/ui-result.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
+}finally{await browser?.close();}

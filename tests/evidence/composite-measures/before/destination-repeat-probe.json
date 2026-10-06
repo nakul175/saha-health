@@ -1,0 +1,124 @@
+{
+  "original": {
+    "contract": "saha-aggregate-v1",
+    "environment": "synthetic",
+    "operation": "aggregate",
+    "report": {
+      "id": "01584afe-f749-4919-a959-cb94d75a0964",
+      "period": {
+        "start": "2026-09-06",
+        "end": "2026-10-05"
+      },
+      "group": "none",
+      "minimumCell": 5,
+      "computedAt": "2026-10-05T10:14:31.817Z"
+    },
+    "manifest": {
+      "definitions": [
+        {
+          "id": "composite-sum",
+          "version": 1,
+          "canonicalSha256": "e6897e4bacce9438308fdb7ca82ce12999c061b4f6d0a297ea90c04a084c84da"
+        },
+        {
+          "id": "composite-threshold",
+          "version": 1,
+          "canonicalSha256": "79cfe69e51fa87382236b7201dadfda490ec18ab4b9753079ca7276a10e983a9"
+        }
+      ],
+      "rows": 2,
+      "sha256": "65eb0724b2bf66fba2bf288cb1702d9c11aaf774805b2f7e3e5b1ecd05fe1cdd"
+    },
+    "blocks": [
+      {
+        "team": "Rampur care team",
+        "indicator": "composite-sum",
+        "version": 1,
+        "unit": "count",
+        "withheld": null,
+        "cells": [
+          {
+            "group": "All",
+            "value": 12,
+            "numerator": 12,
+            "denominator": null,
+            "suppressed": false
+          }
+        ]
+      },
+      {
+        "team": "Rampur care team",
+        "indicator": "composite-threshold",
+        "version": 1,
+        "unit": "count",
+        "withheld": null,
+        "cells": [
+          {
+            "group": "All",
+            "value": 6,
+            "numerator": 6,
+            "denominator": null,
+            "suppressed": false
+          }
+        ]
+      }
+    ]
+  },
+  "current": {
+    "contract": "saha-aggregate-v1",
+    "environment": "synthetic",
+    "operation": "aggregate",
+    "report": {
+      "id": "d3a22177-9a43-4da9-8b96-a4867e8c7a79",
+      "period": {
+        "start": "2026-09-06",
+        "end": "2026-10-05"
+      },
+      "group": "none",
+      "minimumCell": 5,
+      "computedAt": "2026-10-05T10:14:31.948Z"
+    },
+    "manifest": {
+      "definitions": [
+        {
+          "id": "composite-sum",
+          "version": 1,
+          "canonicalSha256": "e6897e4bacce9438308fdb7ca82ce12999c061b4f6d0a297ea90c04a084c84da"
+        },
+        {
+          "id": "composite-threshold",
+          "version": 1,
+          "canonicalSha256": "79cfe69e51fa87382236b7201dadfda490ec18ab4b9753079ca7276a10e983a9"
+        }
+      ],
+      "rows": 1,
+      "sha256": "4f417cfd2301034e848c6af4f30fd2c181854cda94ea4b591043d12833a05326"
+    },
+    "blocks": [
+      {
+        "team": "Rampur care team",
+        "indicator": "composite-sum",
+        "version": 1,
+        "unit": "count",
+        "withheld": "differencing",
+        "cells": []
+      },
+      {
+        "team": "Rampur care team",
+        "indicator": "composite-threshold",
+        "version": 1,
+        "unit": "count",
+        "withheld": null,
+        "cells": [
+          {
+            "group": "All",
+            "value": 5,
+            "numerator": 5,
+            "denominator": null,
+            "suppressed": false
+          }
+        ]
+      }
+    ]
+  }
+}

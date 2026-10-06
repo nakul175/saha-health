@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-05",
+  "base": "built current checkout; see saved evidence commit",
+  "variant": "candidate-20260930",
+  "inspector": false,
+  "snapshots": false,
+  "forcedGc": false,
+  "concurrency": 4,
+  "loadsPerRound": 200,
+  "warmupLoads": 100,
+  "phases": [
+    {
+      "phase": "cold",
+      "rssKb": 81232,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 650592
+    },
+    {
+      "phase": "warm",
+      "rssKb": 214656,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 4906592
+    },
+    {
+      "phase": "round 1",
+      "rssKb": 405520,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 5168856
+    },
+    {
+      "phase": "round 2",
+      "rssKb": 528304,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 5381896
+    },
+    {
+      "phase": "idle 5s",
+      "rssKb": 528320,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 5381896
+    },
+    {
+      "phase": "idle 10s",
+      "rssKb": 528288,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 1212496
+    },
+    {
+      "phase": "idle 15s",
+      "rssKb": 528288,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 1212496
+    },
+    {
+      "phase": "idle 20s",
+      "rssKb": 528288,
+      "pids": [
+        2327
+      ],
+      "databaseBytes": 1212496
+    }
+  ],
+  "http200": 500,
+  "durableViewWorkspaceRows": 500,
+  "metricRows": 1,
+  "workspaceMetricsCount": 500,
+  "peopleRows": 6,
+  "visitRows": 0,
+  "responseByteRange": [
+    17012,
+    17012
+  ],
+  "completed": true
+}

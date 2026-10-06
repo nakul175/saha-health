@@ -1,0 +1,129 @@
+{
+  "productionFunction": "teamFreshness",
+  "active": {
+    "thresholdHours": 72,
+    "syncWarningHours": 12,
+    "shareMinimum": 20,
+    "note": "Per team you belong to; village and programme filters are not applied. A record is late when it arrived more than 72 hours after the time it describes. Counts are shown in bands and the late share to the nearest 10 percentage points; none of these figures are part of a released result.",
+    "teams": [
+      {
+        "team": "Synthetic team",
+        "sources": [
+          {
+            "source": "online-visits",
+            "label": "Online visits",
+            "arrival": "confirmed",
+            "described": "visit date entered by the worker",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          },
+          {
+            "source": "field-syncs",
+            "label": "Field-notebook syncs",
+            "arrival": "synced from the field notebook",
+            "described": "visit date entered offline",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          },
+          {
+            "source": "imports",
+            "label": "Imports",
+            "arrival": "applied from an import batch",
+            "described": "enrolment start date (imported patients, identifiers and visits carry no source time)",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          },
+          {
+            "source": "programme-receipts",
+            "label": "Programme receipts",
+            "arrival": "accepted with a receipt",
+            "described": "time the submission was queued",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          }
+        ],
+        "syncing": null
+      }
+    ]
+  },
+  "suspended": {
+    "thresholdHours": 72,
+    "syncWarningHours": 12,
+    "shareMinimum": 20,
+    "note": "Per team you belong to; village and programme filters are not applied. A record is late when it arrived more than 72 hours after the time it describes. Counts are shown in bands and the late share to the nearest 10 percentage points; none of these figures are part of a released result.",
+    "teams": [
+      {
+        "team": "Synthetic team",
+        "sources": [
+          {
+            "source": "online-visits",
+            "label": "Online visits",
+            "arrival": "confirmed",
+            "described": "visit date entered by the worker",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          },
+          {
+            "source": "field-syncs",
+            "label": "Field-notebook syncs",
+            "arrival": "synced from the field notebook",
+            "described": "visit date entered offline",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          },
+          {
+            "source": "imports",
+            "label": "Imports",
+            "arrival": "applied from an import batch",
+            "described": "enrolment start date (imported patients, identifiers and visits carry no source time)",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          },
+          {
+            "source": "programme-receipts",
+            "label": "Programme receipts",
+            "arrival": "accepted with a receipt",
+            "described": "time the submission was queued",
+            "latestAt": null,
+            "arrivals": "fewer than 5",
+            "late": "fewer than 5",
+            "lateShare": null,
+            "lateShareNote": "Not stated: fewer than 20 records with a stated time, or 1 to 4 late or on-time records."
+          }
+        ],
+        "syncing": null
+      }
+    ]
+  },
+  "byteIdentical": true,
+  "fixedLateHours": 72,
+  "fixedSyncHours": 12,
+  "csvFreshnessAbsent": true,
+  "sourceHashes": {
+    "indicator-freshness.ts": "72242f2382f5b4bcf32af92685c7d77a95fcd0ef4913d84dde8592ae9307c114",
+    "indicators-server.ts": "4b1f9111d0c7a9d5865f43c2a85645acbd6a1556990ba7a5eb40e2f8b7055076",
+    "indicators.ts": "073240c736dda5e0b6defc8acb8948cbeb3c436ec94fbaf5ed68d8e6183ebfbe"
+  },
+  "acceptance": false
+}

@@ -1,0 +1,49 @@
+Running integration resilience --fast; 2 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/run-api-smoke ...
+  FAILED   integration/run-api-smoke  no count  4.4s  [exit code 1]
+      | error lines:
+      |   AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+      |     assert.ok(overview.report.patients>0)
+      |     actual: false,
+      |     expected: true,
+      | AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+      |   assert.ok(overview.report.patients>0)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/operations-smoke.mjs:7:203
+      |     at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-verification-programme-current.mjs:10:20)
+      |     at operationsSmoke (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/operations-smoke.mjs:7:54)
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      |     at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/api-verification-programme-current.mjs:105:64 {
+      |   generatedMessage: true,
+      |   code: 'ERR_ASSERTION',
+      |   actual: false,
+      |   expected: true,
+      |   operator: '==',
+      |   diff: 'simple'
+      | }
+      | a38d69e","route":"commands","status":409,"durationMs":7}
+
+[resilience] 1 suite(s)
+  running  resilience/recovery-drill ...
+  FAILED   resilience/recovery-drill  no count  212ms  [exit code 1]
+      | error lines:
+      |    const db=new DatabaseSync(target);const actor=db.prepare("SELECT a.user_id,a.active_org_id FROM accounts a JOIN memberships m ON m.user_id=a.user_id AND m.org_id=a.active_org_id WHERE a.user_id LIKE 'r1-%-owner' AND m.status='active' ORDER BY a.created_at DESC LIMIT 1").get();assert.ok(actor);const
+      |   TypeError: Cannot read properties of undefined (reading 'data')
+      | file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/recovery-drill.mjs:55
+      |  const db=new DatabaseSync(target);const actor=db.prepare("SELECT a.user_id,a.active_org_id FROM accounts a JOIN memberships m ON m.user_id=a.user_id AND m.org_id=a.active_org_id WHERE a.user_id LIKE 'r1-%-owner' AND m.s
+      |                                                                                                                                                                                                                             
+      | TypeError: Cannot read properties of undefined (reading 'data')
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-first/tests/recovery-drill.mjs:55:401
+      | Node.js v24.19.0
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  integration  failed       1       0       0        0   4.4s
+  resilience   failed       1       0       0        0  212ms
+  total        FAILED       2       0       0        0   5.3s
+
+Regression guard: FAILED (2 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/run-api-smoke reported no assertion count; baseline needs at least 4770.
+  FAIL     Suite resilience/recovery-drill reported no assertion count; baseline needs at least 21.

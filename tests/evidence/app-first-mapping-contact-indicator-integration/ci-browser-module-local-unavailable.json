@@ -1,0 +1,197 @@
+{
+  "generatedAt": "2026-10-05T08:32:18.256Z",
+  "startedAt": "2026-10-05T08:32:12.316Z",
+  "command": "node scripts/test.mjs integration --only integration/offline-opens-browser,integration/reminder-optout-http,integration/household-reschedule-http,integration/household-reschedule-independent-http --fast --guard --report tests/reports/hosted-workflow-followup-mapping-contact-indicator.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 4,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 5797,
+      "failedSuites": 4
+    }
+  ],
+  "totals": {
+    "suites": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 4,
+    "durationMs": 5940
+  },
+  "suites": [
+    {
+      "id": "integration/household-reschedule-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/household-reschedule-http.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 1452,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__household-reschedule-http.log"
+    },
+    {
+      "id": "integration/household-reschedule-independent-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/household-reschedule-independent-http.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 1717,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__household-reschedule-independent-http.log"
+    },
+    {
+      "id": "integration/offline-opens-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-opens-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 26,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__offline-opens-browser.log"
+    },
+    {
+      "id": "integration/reminder-optout-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/reminder-optout-http.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 2602,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__reminder-optout-http.log"
+    }
+  ],
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/household-reschedule-http",
+        "kind": "uncounted",
+        "message": "Suite integration/household-reschedule-http reported no assertion count; baseline needs at least 10.",
+        "excused": false
+      },
+      {
+        "id": "integration/household-reschedule-independent-http",
+        "kind": "uncounted",
+        "message": "Suite integration/household-reschedule-independent-http reported no assertion count; baseline needs at least 26.",
+        "excused": false
+      },
+      {
+        "id": "integration/offline-opens-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/offline-opens-browser reported no assertion count; baseline needs at least 49.",
+        "excused": false
+      },
+      {
+        "id": "integration/reminder-optout-http",
+        "kind": "uncounted",
+        "message": "Suite integration/reminder-optout-http reported no assertion count; baseline needs at least 55.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 4,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/reminder-optout/http-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 180,
+        "components": 0,
+        "suitesCitingNoRequirement": 48,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 59,
+        "components": 84,
+        "suitesCitingNoRequirement": 7,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 22,
+        "components": 0,
+        "suitesCitingNoRequirement": 18,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 16,
+    "suites": 277,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 77,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

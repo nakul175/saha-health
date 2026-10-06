@@ -1,0 +1,41 @@
+{"event":"saha_request","requestId":"f6cf17f5-820e-4067-b2fa-e187cec3e6a9","route":"workspace","status":200,"durationMs":21}
+{"event":"saha_request","requestId":"a2b015e3-17b1-4dd0-9a6f-75ef3f75fa6f","route":"commands","status":200,"durationMs":26}
+{"event":"saha_request","requestId":"22a8b892-3d1d-410e-905b-8cb53bb357a2","route":"clinical-sources","status":200,"durationMs":22}
+{"event":"saha_request","requestId":"7b7fafbd-355f-46e4-ae61-7b1bf3e4970e","route":"clinical-sources","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"f6cb2ec8-229b-4ff8-a9d2-ecaf3fe6f197","route":"clinical-sources","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"15f5ac28-8403-4901-b796-ed4f9e133fd6","route":"clinical-sources","status":502,"durationMs":8}
+{"event":"saha_request","requestId":"3d991e9b-dd96-40e8-bd6b-38ef723c3da0","route":"clinical-sources","status":502,"durationMs":4}
+{"event":"saha_request","requestId":"edf00219-074c-4318-adb2-f5c568b58879","route":"clinical-sources","status":413,"durationMs":4}
+{"event":"saha_request","requestId":"f66823d6-63f4-46f1-b670-c3a1bef28ea2","route":"clinical-sources","status":502,"durationMs":104}
+{"event":"saha_request","requestId":"f3098739-d873-465b-bef8-602f57eb3a0b","route":"clinical-sources","status":409,"durationMs":6}
+{"event":"saha_request","requestId":"d3b2068f-e87a-4338-b9da-f989a48b2b59","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"f51f58c7-22db-4a75-b4a3-ce2007737bf0","route":"clinical-sources","status":403,"durationMs":5}
+{"event":"saha_request","requestId":"8162b63f-3855-4a7e-9f09-324a2228cb24","route":"clinical-sources","status":409,"durationMs":2}
+{"event":"saha_request","requestId":"a06372ea-686e-4cc1-a6aa-8535d6cfe23c","route":"workspace","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"57bae10a-37d6-4a3b-9f8f-3c30570825d4","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"34b4df1d-d1dc-468a-bed4-f8bb39a34688","route":"commands","status":200,"durationMs":16}
+{"event":"saha_request","requestId":"2b949508-0c32-4777-9556-065cf2462dcd","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"d5d47dc3-714a-472b-94a1-07cc6eca17c1","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"d6b1b606-1c23-457e-a9de-81f2640e5d36","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"37cd6ace-2728-4279-ab20-5554a457a769","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"e273c474-fd31-41b8-a4a5-88f5fad276c1","route":"clinical-sources","status":502,"durationMs":105}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":"Source retrieval timed out."}
+
+502 !== 409
+
+    at stage (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-ci-transport/tests/evidence/ci-transport-review/source-race-before-probe.mjs:2:2512)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-app-ci-transport/tests/evidence/ci-transport-review/source-race-before-probe.mjs:4:219 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 502,
+  expected: 409,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

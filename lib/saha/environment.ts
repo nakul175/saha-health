@@ -81,7 +81,9 @@ export function fixturesFor(env: Env, w: Workspace): Workspace {
 
 // Command guard: demonstration connectors and synthetic fixture records stay out of non-synthetic destinations.
 export function ensureEnvironment(s: OrgState, c: any, env: Env) {
+  if(c.type==='opsAvailability'&&c.enabled&&!POLICY[environmentOf(env).name].fixtures)fail(403,'Synthetic availability checks require a synthetic or training environment.');
   const e = environmentOf(env), p = POLICY[e.name], w = s.workspace;
+  if(!['synthetic','training'].includes(e.name)){const v=w.visits.find(x=>x.id===c.visitId),active=s.operations?.valueRangeProtocols?.find(x=>x.state==='active');if(v?.valueRangeCapture?.mode==='population-demo'&&['saveVisit','confirmVisit','applyAgent','confirmUnusualValue','refreshVisitRanges'].includes(c.type)||active?.mode==='population-demo'&&['startVisit','prepareFieldVisit','registerFieldPerson','recordImportApply'].includes(c.type))fail(409,'Illustrative population ranges require a synthetic or training environment while clinical approval is pending.');}
   if (!p.demoConnectors) {
     const demo = (id: string) => w.integrations.find(i => i.id === id)?.mode === 'demo';
     if (c.type === 'toggleIntegration' && demo(c.integrationId) && w.integrations.find(i => i.id === c.integrationId)?.status !== 'active') fail(409, `Demonstration connectors cannot be activated in the ${e.name} environment.`);

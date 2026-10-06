@@ -1,0 +1,25 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [Object: null prototype] {
+    patient_revision: 0,
++   revision: 2
+-   revision: 1
+  }
+
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/fifth-review-fixes-contract.mjs:139:88
+    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/fifth-review-fixes-contract.mjs:28:37)
+    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-operational-privacy-discovery/tests/fifth-review-fixes-contract.mjs:139:5 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Object: null prototype] { revision: 2, patient_revision: 0 },
+  expected: [Object: null prototype] { revision: 1, patient_revision: 0 },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-05T02:54:50.701Z",
+  "startedAt": "2026-10-05T02:54:49.218Z",
+  "command": "node scripts/test.mjs unit --fast --only unit/replay-soak-contract --guard --report tests/reports/app-first-soak-followup.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1396,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 1483
+  },
+  "suites": [
+    {
+      "id": "unit/replay-soak-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/replay-soak-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1396,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/replay-soak-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": null,
+      "log": "tests/reports/logs/unit__replay-soak-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": [
+      "tests/replay-soak-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 140,
+        "components": 0,
+        "suitesCitingNoRequirement": 34,
+        "requirementsCited": 138
+      },
+      "integration": {
+        "suites": 9,
+        "components": 84,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 119
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 1,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 1,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 9
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 10,
+        "components": 0,
+        "suitesCitingNoRequirement": 6,
+        "requirementsCited": 4
+      }
+    },
+    "supportFiles": 14,
+    "suites": 174,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 154,
+    "suitesCitingNoRequirement": 44,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 154
+  }
+}
