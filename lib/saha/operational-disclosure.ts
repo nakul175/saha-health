@@ -3,7 +3,7 @@ import type {Member,OrgState,Person} from './types';
 import {careReport,type ReleasedCareReport} from './operations';
 import {MIN_CELL} from './indicators';
 import {disclosureProfile,disclosureRisk,ledgerHash,readLedger,writeLedger,untrackedDisclosureHistory,type DisclosureProfile} from './indicator-ledger';
-import {ledgerFull,pruneLedger} from './indicator-differencing';
+import {ledgerFull,pruneLedger,type Release} from './indicator-differencing';
 import {fail} from './core';
 import {followUpOpen} from './programmes';
 type Report=ReturnType<typeof careReport>;
@@ -25,8 +25,35 @@ export function projectOperational(raw:Report,withheld:boolean,reason:string):Re
  if(withheld){r.patients=null;r.visitsStarted=null;r.visitsConfirmed=null;for(const k of Object.keys(r.backlog))r.backlog[k as keyof typeof r.backlog]=null;for(const k of Object.keys(r.usage))if(typeof r.usage[k as keyof typeof r.usage]==='number')Object.assign(r.usage,{[k]:null});r.programmes=[];r.destinations=[];r.daily=r.daily.map(d=>({...d,confirmed:null}));}
  r.privacy={withheld,reason,minimumCell:MIN_CELL,activeWorkers:r.activeWorkersCoverage};return r;
 }
+// Slice 14a: the differencing check and the ledger write are separate steps. `checkProfiles` is read-only: it reports
+// whether the profiles may be released against the current ledger and returns what a write would append. `commitProfiles`
+// is the compare-and-swap write, unchanged from the former releaseOperational loop. A projection that is computed but never
+// shown to anyone (an evaluation that opens no alert for a recipient) is checked, never recorded.
+const WITHHELD_RISK='Withheld because recent aggregate disclosures may reveal a small group; legacy history without exact contribution evidence is also withheld.';
+const WITHHELD_FULL='Withheld because protected disclosure history reached its capacity. Older protecting evidence is retained.';
+const RELEASED='Protected live aggregate projection; distinct active-worker count is withheld.';
+async function checkProfiles(db:D1Database,orgId:string,profiles:DisclosureProfile[],at:string):Promise<{withheld:string}|{withheld:null;ledger:Release[];text:string|null}>{
+ const {ledger,text}=await readLedger(db,orgId);let risky:boolean;
+ try{risky=await untrackedDisclosureHistory(ledger,at,orgId);const working=[...ledger];for(const p of profiles){if(disclosureRisk(working,p,MIN_CELL,at)){risky=true;break;}working.push(p);}}catch{fail(503,'Disclosure protection history is uncertain. Nothing was released.');}
+ if(risky)return {withheld:WITHHELD_RISK};
+ if(ledgerFull(ledger,[...profiles],at))return {withheld:WITHHELD_FULL};
+ return {withheld:null,ledger,text};
+}
+// Records the profiles (check, then compare-and-swap write; up to three attempts). Returns null when recorded, or the
+// withheld reason when the profiles may not be released. Throws 503/409 exactly as the former release path did.
+export async function commitProfiles(db:D1Database,orgId:string,profiles:DisclosureProfile[],at:string):Promise<string|null>{
+ for(let attempt=0;attempt<3;attempt++){const c=await checkProfiles(db,orgId,profiles,at);if(!("ledger" in c))return c.withheld;try{if(await writeLedger(db,orgId,c.text,pruneLedger([...c.ledger,...profiles],at)))return null;}catch{fail(503,'Disclosure protection history could not be committed. Nothing was released.');}}
+ fail(409,'Concurrent aggregate disclosures changed. Nothing was released. Refresh the report.');
+}
 export async function releaseOperational(db:D1Database,s:OrgState,m:Member,raw:Report,include:(p:Person)=>boolean,at:string){
  const {profiles,small}=await operationalProfiles(s,m,raw,include,at);if(small)return projectOperational(raw,true,'Withheld to protect a group or contributing group smaller than five.');
- for(let attempt=0;attempt<3;attempt++){const {ledger,text}=await readLedger(db,s.organisation.id);let risky:boolean;try{risky=await untrackedDisclosureHistory(ledger,at,s.organisation.id);const working=[...ledger];for(const p of profiles){if(disclosureRisk(working,p,MIN_CELL,at)){risky=true;break;}working.push(p);}}catch{fail(503,'Disclosure protection history is uncertain. Nothing was released.');}if(risky)return projectOperational(raw,true,'Withheld because recent aggregate disclosures may reveal a small group; legacy history without exact contribution evidence is also withheld.');const adding=[...profiles];if(ledgerFull(ledger,adding,at))return projectOperational(raw,true,'Withheld because protected disclosure history reached its capacity. Older protecting evidence is retained.');try{if(await writeLedger(db,s.organisation.id,text,pruneLedger([...ledger,...adding],at)))return projectOperational(raw,false,'Protected live aggregate projection; distinct active-worker count is withheld.');}catch{fail(503,'Disclosure protection history could not be committed. Nothing was released.');}}
- fail(409,'Concurrent aggregate disclosures changed. Nothing was released. Refresh the report.');
+ const withheld=await commitProfiles(db,s.organisation.id,profiles,at);
+ return withheld?projectOperational(raw,true,withheld):projectOperational(raw,false,RELEASED);
+}
+// Read-only counterpart: the projection releaseOperational would return right now, plus the profiles a disclosure of it
+// must record. Writes nothing. The caller records the profiles (commitProfiles) at the moment the projection is shown.
+export async function previewOperational(db:D1Database,s:OrgState,m:Member,raw:Report,include:(p:Person)=>boolean,at:string){
+ const {profiles,small}=await operationalProfiles(s,m,raw,include,at);if(small)return {projection:projectOperational(raw,true,'Withheld to protect a group or contributing group smaller than five.'),profiles:[] as DisclosureProfile[]};
+ const c=await checkProfiles(db,s.organisation.id,profiles,at);
+ return c.withheld?{projection:projectOperational(raw,true,c.withheld),profiles:[] as DisclosureProfile[]}:{projection:projectOperational(raw,false,RELEASED),profiles};
 }

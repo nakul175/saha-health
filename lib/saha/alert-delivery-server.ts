@@ -1,4 +1,4 @@
-import {captureAggregateAlerts,checkAggregateAlertContext,clinicalAggregateAlert,AGGREGATE_ALERT_NOTICE,aggregateAlertTransactionGuard} from './aggregate-alert-disclosure';
+import {captureAggregateAlerts,checkAggregateAlertContext,clinicalAggregateAlert,AGGREGATE_ALERT_NOTICE,aggregateAlertTransactionGuard,discloseAggregateAlerts} from './aggregate-alert-disclosure';
 import {recordAggregateView} from './read-audit';
 // Slice 6v: evaluation of in-app alert delivery and escalation, the inbox read and mark-read.
 //
@@ -88,7 +88,7 @@ export async function evaluateDelivery(d: D1Database, s: OrgState, now = new Dat
   // Slice 10b: out-of-app messages (demonstration simulator) for what is now open. A failure here is reported in the result and never
   // undoes or blocks the in-app delivery above; the next evaluation tries again (messages are unique per occurrence, tier and recipient).
   let channel: Awaited<ReturnType<typeof evaluateChannel>> | { error: string } | null = null;
-  try {for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);channel = await evaluateChannel(d, s, present, now, env); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
+  try {for(const view of views)if(view.aggregateAvailable)await checkAggregateAlertContext(d,orgId,view.aggregateContext);channel = await evaluateChannel(d, s, present, now, env, new Map(views.map(v => [v.member.userId, v.aggregateContext]))); } catch (e) { channel = { error: e instanceof Error ? e.name : 'unknown' }; }
   // Slice r03: additional sources (drift, timed-out requests, exception items, referral requests) in the same
   // demonstration-simulator channel. Isolated so a failure never undoes or blocks the in-app delivery above.
   let sources: Awaited<ReturnType<typeof evaluateChannelSources>> | { error: string } | null = null;
@@ -111,7 +111,13 @@ export async function evaluateIfDue(orgId: string, loaded?: OrgState | null, now
 // their patients (slice 0a), so they are picked up by the next read, which sees that the patient revision moved.
 export async function evaluateAfterCommand(s: OrgState) {
   if (s.partition || s.paging || s.readOnlyFor) return false;
-  try { const d = db(), nowMs = Date.now(); await evaluateDelivery(d, s, new Date(nowMs).toISOString()); last.set(s.organisation.id, { basis: await basisOf(d, s.organisation.id), at: nowMs }); return true; }
+  // Slice 14a: `s` is the post-command state, but persist moves the stored organisation revisions without writing them back to it.
+  // The aggregate-alert transaction guard compares exactly those revisions, so a clinical alert that is available made every
+  // after-command evaluation fail on a stale revision (the incident of an organisation-wide command then opened no occurrence
+  // until the next read). Evaluate on the committed revisions; everything else in `s` is already the committed state.
+  try { const d = db(), nowMs = Date.now(), rev = await d.prepare('SELECT revision,patient_revision FROM organisations WHERE id=?').bind(s.organisation.id).first<{ revision: number; patient_revision: number | null }>(); // Fail closed: a command moves each revision by at most one. Anything further means another commit intervened, so this state is not the committed one.
+    if (!rev || rev.revision - s.organisation.revision < 0 || rev.revision - s.organisation.revision > 1 || (rev.patient_revision ?? 0) - (s.organisation.patientRevision ?? 0) < 0 || (rev.patient_revision ?? 0) - (s.organisation.patientRevision ?? 0) > 1) return false;
+    await evaluateDelivery(d, { ...s, organisation: { ...s.organisation, revision: rev.revision, patientRevision: rev.patient_revision ?? 0 } }, new Date(nowMs).toISOString()); last.set(s.organisation.id, { basis: await basisOf(d, s.organisation.id), at: nowMs }); return true; }
   catch (e) { console.error('Alert delivery evaluation failed', e instanceof Error ? e.name : 'unknown'); return false; }
 }
 async function membership(d: D1Database, orgId: string, userId: string) {
@@ -131,7 +137,7 @@ export async function alertInbox(request: Request) {
   const items = rows.slice(0, INBOX_LIMIT).map(r => ({ id: r.id, alertId: r.alert_id, level: r.level, kind: r.level === 1 ? 'delivery' : 'escalation', severity: r.severity, title: r.title, count: r.count, detail: r.detail, deliveredAt: r.delivered_at, readAt: r.read_at, clearedAt: r.cleared_at, clearedReason: r.cleared_reason, active: !r.cleared_at }));
   const escalations = m.isOwner ? (await d.prepare(`SELECT alert_id,owner_role,severity,title,opened_at,closed_at,escalated_at,escalated_to,escalation_reason,escalation_recipients FROM alert_occurrences WHERE org_id=? AND escalated_at IS NOT NULL AND alert_id NOT IN ('destination-uncertain','ehr-uncertain','referrals-overdue','followups-overdue','referrals-undated','provider-usage-missing') ORDER BY escalated_at DESC LIMIT 20`).bind(orgId).all<any>()).results.map(r => ({ alertId: r.alert_id, owner: r.owner_role, severity: r.severity, title: r.title, openedAt: r.opened_at, closedAt: r.closed_at, escalatedAt: r.escalated_at, escalatedTo: r.escalated_to, reason: r.escalation_reason, recipients: r.escalation_recipients })) : null;
   await recordAggregateView(d,state,u,context.m,'current aggregate reporting alerts','Current protected reporting sidecar read; historical clinical notification counts and event metadata withheld.');
-  await checkAggregateAlertContext(d,orgId,context);
+  await checkAggregateAlertContext(d,orgId,context);await discloseAggregateAlerts(d,orgId,context);
   return json({ aggregatePrivacy:{notice:AGGREGATE_ALERT_NOTICE,currentAvailable:context.available},currentAggregateAlerts:context.current.map(a=>({id:a.id,title:a.title,severity:a.severity,count:a.count,action:a.action})),rules: { delivery: DELIVERY_RULES_VERSION, alerts: ALERT_RULES_VERSION, escalateAfterMinutes: ESCALATE_AFTER_MINUTES, ladder: ESCALATION_LADDER, evaluateEverySeconds: EVALUATE_EVERY_SECONDS }, owns, evaluated, unread: rows.filter(r => !r.cleared_at && !r.read_at).length, items, escalations, channel: 'In-app only. Nothing is emailed, texted or sent outside Saha.' });
 }
 // Mark-read (command `alertInboxMarkRead`): only the viewer's own notifications that their current membership may hold.

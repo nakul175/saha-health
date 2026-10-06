@@ -1,4 +1,4 @@
-import {captureAggregateAlerts,checkAggregateAlertContext,AGGREGATE_ALERT_NOTICE,clinicalAggregateAlert,aggregateAlertGuardedDatabase} from './aggregate-alert-disclosure';
+import {captureAggregateAlerts,checkAggregateAlertContext,AGGREGATE_ALERT_NOTICE,clinicalAggregateAlert,aggregateAlertGuardedDatabase,discloseAggregateAlerts,type AggregateAlertContext} from './aggregate-alert-disclosure';
 import {recordAggregateView} from './read-audit';
 // Slice 10b: evaluation and the owner read for the out-of-app notification channel (demonstration simulator only).
 //
@@ -14,7 +14,7 @@ import { ACCESS_AUDIT } from './audit-chain';
 import { persist, scope, type Actor, type Row } from './store';
 import { evaluateIfDue } from './alert-delivery-server';
 import { fail, uuid } from './core';
-import { CHANNELS, CHANNEL_RULES_VERSION, DEFAULT_ESCALATE_MINUTES, LOG_LIMIT, MAX_ESCALATE_MINUTES, MAX_RECIPIENTS, MAX_SENDS_PER_EVALUATION, MIN_ESCALATE_MINUTES, NOTIFIABLE_KINDS, NOTIFIABLE_OWNERS, SIMULATOR_NOTICE, SOURCE_KINDS, TIERS, channelOf, demoAddress, ladderFor, messageKey, notifiableKindsFor, planNotifications, planSourceNotifications, redactFor, simulatorRefusal, sourceKey, type ChannelOccurrence, type ChannelPresent, type PlannedMessage } from './notification-channel';
+import { CARE_SCOPED, SOURCE_SCOPED, CHANNELS, CHANNEL_RULES_VERSION, DEFAULT_ESCALATE_MINUTES, LOG_LIMIT, MAX_ESCALATE_MINUTES, MAX_RECIPIENTS, MAX_SENDS_PER_EVALUATION, MIN_ESCALATE_MINUTES, NOTIFIABLE_KINDS, NOTIFIABLE_OWNERS, SIMULATOR_NOTICE, SOURCE_KINDS, TIERS, channelOf, demoAddress, ladderFor, messageKey, notifiableKindsFor, planNotifications, planSourceNotifications, redactFor, simulatorRefusal, sourceKey, type ChannelOccurrence, type ChannelPresent, type PlannedMessage } from './notification-channel';
 import { channelSources, SOURCE_RULES_VERSION } from './notification-sources';
 import type { Audit, OrgState, Role } from './types';
 
@@ -23,7 +23,9 @@ export const SYSTEM_ACTOR: Actor = { userId: 'system:notification-simulator', di
 const CHUNK = 20;
 const shell = (s: OrgState): OrgState => ({ organisation: s.organisation, teams: [], members: [], invitations: [], workspace: { ...s.workspace, people: [], visits: [], integrations: [], submissions: [], referrals: [], audit: [], receipts: {} } });
 const kind = (c: string) => c === 'sms' ? 'SMS' : 'email';
-export const auditDetail = (m: PlannedMessage) => `Simulated ${kind(m.channel)} to ${m.recipientName} (tier ${m.tier}${m.reason === 'escalation' ? ', escalation' : ''}) for alert ${m.alertId}${m.count === null ? '' : `, count ${m.count}`}. Receipt ${m.receipt.receiptId}. Stored in Saha only: no address or number was contacted. The message carries no patient names or identifiers.`;
+// Slice 14a: a count computed from a care scope is never written to the audit log (audit reads are not care-scope filtered).
+const scopedCount = (id: string) => (CARE_SCOPED as readonly string[]).includes(id) || (SOURCE_SCOPED as readonly string[]).includes(id);
+export const auditDetail = (m: PlannedMessage) => `Simulated ${kind(m.channel)} to ${m.recipientName} (tier ${m.tier}${m.reason === 'escalation' ? ', escalation' : ''}) for alert ${m.alertId}${m.count === null || scopedCount(m.alertId) ? '' : `, count ${m.count}`}. Receipt ${m.receipt.receiptId}. Stored in Saha only: no address or number was contacted. The message carries no patient names or identifiers.`;
 
 // Writes up to CHUNK messages and their audit events in one commit. Throws if the commit fails; nothing is half written.
 async function commit(d: D1Database, s: OrgState, messages: PlannedMessage[], now: string, configVersion: number) {
@@ -38,7 +40,7 @@ async function commit(d: D1Database, s: OrgState, messages: PlannedMessage[], no
 // a refusal; a storage failure throws to the caller, which records it without failing the read or command.
 // Slice 13d (round-10 review L4): `env` is the caller's environment (the scheduled job passes the one its handler received);
 // without it, the request's runtime environment is used, as before.
-export async function evaluateChannel(d: D1Database, s: OrgState, present: ChannelPresent[], now = new Date().toISOString(), env?: Record<string, string | undefined>) {
+export async function evaluateChannel(d: D1Database, s: OrgState, present: ChannelPresent[], now = new Date().toISOString(), env?: Record<string, string | undefined>, contexts?: Map<string, AggregateAlertContext>) {
   const config = channelOf(s), result = { sent: 0, planned: 0, refused: null as string | null, skipped: 0 };
   if (!config?.enabled || !config.recipients.length) return result;
   const orgId = s.organisation.id, environment = environmentOf(env ?? rawRuntime()).name;
@@ -50,7 +52,18 @@ export async function evaluateChannel(d: D1Database, s: OrgState, present: Chann
   const sent = new Set((await d.prepare('SELECT occurrence_id,tier,user_id FROM notification_messages WHERE org_id=? AND occurrence_id IN (SELECT id FROM alert_occurrences WHERE org_id=? AND closed_at IS NULL)').bind(orgId, orgId).all<{ occurrence_id: string; tier: number; user_id: string }>()).results.map(r => messageKey(r.occurrence_id, r.tier, r.user_id)));
   const plan = planNotifications({ config, environment, occurrences:visibleOccurrences, present, sent, members: s.members, now });
   result.planned = plan.messages.length; result.skipped = plan.skipped.length;
-  const due = plan.messages.slice(0, MAX_SENDS_PER_EVALUATION);
+  // Slice 14a: a message that carries a current clinical aggregate alert is a disclosure to its recipient (a count from their own
+  // view, or, without a count, the existence of an alert in a view that has one). The differencing ledger records it here, when
+  // the message is about to be committed, not when the evaluation merely computed the alert. A message whose disclosure cannot
+  // be recorded, or whose view is not in this evaluation, is not sent now; the next evaluation tries again.
+  const due: PlannedMessage[] = [];
+  for (const m of plan.messages.slice(0, MAX_SENDS_PER_EVALUATION)) {
+    if (!clinicalAggregateAlert(m.alertId)) { due.push(m); continue; }
+    const holders = m.count !== null ? [m.userId] : (present.find(p => p.alertId === m.alertId && p.scopeKey === m.scopeKey)?.recipients.map(r => r.userId) ?? [m.userId]);
+    let ok = holders.length > 0;
+    for (const id of holders) { const c = contexts?.get(id); if (!c || !(await discloseAggregateAlerts(d, orgId, c))) ok = false; }
+    if (ok) due.push(m); else result.skipped++;
+  }
   for (let i = 0; i < due.length; i += CHUNK) { const part = due.slice(i, i + CHUNK); await commit(d, s, part, now, config.version); result.sent += part.length; }
   return result;
 }
@@ -97,7 +110,7 @@ export async function notificationChannelRead(request: Request) {
   });
   const members = s.members.filter(x => x.status === 'active').map(x => ({ userId: x.userId, displayName: x.displayName, role: x.role, isOwner: x.isOwner, kinds: notifiableKindsFor(x) })).filter(x => x.kinds.length);
   const body = config ?? { version: 0, enabled: false, escalateAfterMinutes: DEFAULT_ESCALATE_MINUTES, recipients: [], setBy: '', setAt: '', reason: '', history: [] };
-  const context=await captureAggregateAlerts(d,s,u.userId);await recordAggregateView(d,s,u,m,'current aggregate reporting alert channel','Current protected aggregate sidecar read; historical clinical channel payload and occurrence metadata withheld.');await checkAggregateAlertContext(d,orgId,context);
+  const context=await captureAggregateAlerts(d,s,u.userId);await recordAggregateView(d,s,u,m,'current aggregate reporting alert channel','Current protected aggregate sidecar read; historical clinical channel payload and occurrence metadata withheld.');await checkAggregateAlertContext(d,orgId,context);await discloseAggregateAlerts(d,orgId,context);
   return json({aggregatePrivacy:{notice:AGGREGATE_ALERT_NOTICE,currentAvailable:context.available},currentAggregateAlerts:context.current.map(a=>({id:a.id,title:a.title,severity:a.severity,count:a.count,action:a.action})),
     rules: { version: CHANNEL_RULES_VERSION, sourceRules: SOURCE_RULES_VERSION, escalateMinutes: { min: MIN_ESCALATE_MINUTES, max: MAX_ESCALATE_MINUTES, default: DEFAULT_ESCALATE_MINUTES }, tiers: TIERS, channels: CHANNELS, maxRecipients: MAX_RECIPIENTS, kinds: NOTIFIABLE_KINDS.map(id => ({ id, owner: NOTIFIABLE_OWNERS[id], source: (SOURCE_KINDS as readonly string[]).includes(id) })), notice: SIMULATOR_NOTICE },
     environment, available: !refusal, refusal,
