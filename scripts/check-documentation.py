@@ -107,7 +107,7 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
-for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json']:
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-person-dates.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
         for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():

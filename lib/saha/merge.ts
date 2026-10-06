@@ -10,7 +10,7 @@ import type { Member, OrgState, Person, ReconciliationAssignment, Reconciliation
 // are required, pending approvals on the duplicate are invalidated, and every downstream effect
 // that software cannot safely repair becomes an item in the impact queue.
 export type Ident={name:string;age:number;sex:string;village:string};
-export type MergeItemKind='programme-record'|'ehr-link'|'referral'|'follow-up'|'enrolment'|'household'|'proxy'|'post-merge-review';
+export type MergeItemKind='programme-record'|'ehr-link'|'referral'|'follow-up'|'enrolment'|'household'|'proxy'|'dates'|'post-merge-review';
 export type MergeItem={ownerId?:string|null;assignmentHistory?:ReconciliationAssignment[];assignmentNotice?:ReconciliationNotice;id:string;kind:MergeItemKind;personId:string;ref:string;detail:string;state:'open'|'resolved';createdAt:string;resolved?:{by:string;at:string;note:string}};
 export type MergeCase={id:string;version:number;survivorId:string;duplicateId:string;state:'proposed'|'merged'|'rejected'|'unmerged';reason:string;evidence:string;snapshot:{survivor:Ident;duplicate:Ident};proposedBy:string;proposedAt:string;
  decided?:{by:string;at:string;decision:'approve'|'reject';reason:string};unmerged?:{by:string;at:string;reason:string};invalidated?:{plans:number;leases:number;messages:number};items:MergeItem[]};
@@ -46,7 +46,7 @@ function mergeable(s:OrgState,survivor:Person,duplicate:Person,ignore?:string){
 }
 // Actions refused on a merged record. Reconciliation of existing external work, closing open
 // work and revoking links or leases stay possible so the impact queue can be worked down.
-export const BLOCKED_WHEN_MERGED=new Set(['startVisit','saveVisit','confirmVisit','preparePlan','approvePlan','executePlan','runAI','reviewAI','createReferral','createDirectoryReferral','amendVisit','correctIdentity','assignPatient','enrolProgramme','scheduleFollowUp','saveProgrammeAnswers','prepareFieldVisit','setConsent','setContactPreferences','linkEhr','grantEhrPermission','importEhrDocument','prepareEhrPublish','executeEhrPublish','sendSubmission','messageCreate','messageApprove','prepareAgent','executeAgent','applyAgent','householdCreate','householdAddMember','proxyGrant','identityMergePropose','checkProtocol','saveClinicalConcern','attachMedia','assignPlanItem','linkPlanItems','linkReferralSource','identifierLink']);
+export const BLOCKED_WHEN_MERGED=new Set(['startVisit','saveVisit','confirmVisit','preparePlan','approvePlan','executePlan','runAI','reviewAI','createReferral','createDirectoryReferral','amendVisit','correctIdentity','assignPatient','enrolProgramme','scheduleFollowUp','saveProgrammeAnswers','prepareFieldVisit','setConsent','setContactPreferences','linkEhr','grantEhrPermission','importEhrDocument','prepareEhrPublish','executeEhrPublish','sendSubmission','messageCreate','messageApprove','prepareAgent','executeAgent','applyAgent','householdCreate','householdAddMember','proxyGrant','personDateRecord','personDateWithdraw','identityMergePropose','checkProtocol','saveClinicalConcern','attachMedia','assignPlanItem','linkPlanItems','linkReferralSource','identifierLink']);
 export function ensureNotMerged(s:OrgState,c:any){
  if(!BLOCKED_WHEN_MERGED.has(c.type))return;const w=s.workspace;
  let pid:string|undefined=c.type==='identityMergePropose'?undefined:c.personId;
@@ -68,6 +68,7 @@ function mergeEffects(s:OrgState,d:Person,now:string){
  for(const e of d.enrolments??[])if(e.state==='active')items.push(item('enrolment',d.id,e.id,`Active ${e.packId} episode "${e.episodeLabel}". Enrol the surviving record if appropriate and close this episode.`,now));
  if(d.householdId)items.push(item('household',d.id,d.householdId,'Household membership on the duplicate. End it and add the surviving record if appropriate.',now));
  for(const g of d.proxies??[])if(!g.revokedAt&&g.expiresAt>now)items.push(item('proxy',d.id,g.id,'Current proxy grant on the duplicate. Record it again on the surviving record if the authority still applies, then revoke it here.',now));
+ if((d.dateEntries??[]).some(e=>!e.withdrawn))items.push(item('dates',d.id,d.id,'Dates recorded on the duplicate. Record any that are still correct on the surviving record, then withdraw them here.',now));
  return {items,invalidated:{plans,leases,messages}};
 }
 export function applyMerge(s:OrgState,input:unknown,u:Actor,m:Member,now=new Date().toISOString()):any|null{

@@ -1,6 +1,7 @@
 import { reconciliationSchema } from './reconciliation';
 import { withinPolicy } from './access';
 import { householdSchema } from './household';
+import { personDatesSchema } from './person-dates';
 import { householdWorkSchema } from './household-visit-work';
 import { householdVisitSchema } from './household-visit';
 import { programmeReferralSchema } from './referral-consolidation';
@@ -69,6 +70,7 @@ export const platformSchema=z.discriminatedUnion('type',[
  ...commandSchema.options,
  ...continuitySchema.options,
  ...householdSchema.options,
+ ...personDatesSchema.options,
  ...householdVisitSchema.options,
  ...householdWorkSchema.options,
  ...caseloadSchema.options,

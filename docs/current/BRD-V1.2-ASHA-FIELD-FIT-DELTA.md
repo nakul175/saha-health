@@ -13,7 +13,7 @@ Legend: *Amend* changes an existing v1.1 requirement; *New* proposes an ID that 
 | # | Implication (short) | v1.1 requirements touched | Proposal | Evidence tag | Built in 14a |
 |---|---|---|---|---|---|
 | 1 | MCP card as the integration record | BR-PROG-02, BR-DATA-02 | New BR-PROG-09 | Evidenced | No |
-| 2 | LMP/EDD, birth and delivery dates, generated due list | BR-PROG-02, BR-PROG-05, BR-CARE-04, BR-ID-06 | Amend BR-PROG-02/05; New BR-DATA-13 (dates on person record) | Evidenced | Rule layer only: `lib/saha/mch-schedule.ts` due list. The person-record fields, migration and screens are not built |
+| 2 | LMP/EDD, birth and delivery dates, generated due list | BR-PROG-02, BR-PROG-05, BR-CARE-04, BR-ID-06 | Amend BR-PROG-02/05; New BR-DATA-13 (dates on person record) | Evidenced | Rule layer (14a `lib/saha/mch-schedule.ts`) and, in 14b, the stored dates: `personDateRecord` / `personDateWithdraw` commands and `dateEntries` on the person record (no migration needed: the person is a JSON document). No screen and no route that joins the two yet |
 | 3 | Payable event is the verified composite, not the visit | BR-CARE-08 | Amend BR-CARE-08; New BR-CARE-09 | Evidenced | Rule layer only: `evaluateComposite` |
 | 4 | Newborn and young-child packs from official HBNC/HBYC forms | BR-PROG-08, BR-PROG-01 | Amend BR-PROG-08 | Evidenced; needs field validation (which HBNC schedule) | Visit windows are policy data; no pack |
 | 5 | Encode the ANC content she is paid to check, within scope of practice | BR-PROG-02, BR-CLIN-04 | Amend BR-PROG-02 | Evidenced | No |
@@ -45,11 +45,27 @@ Delivered: `lib/saha/mch-schedule.ts` (pure functions, no storage, no clock, no 
 
 Not delivered: person-record fields and migration, any screen, any route, the offline notebook change, delivery of alerts to the ASHA, the incentive ledger, the register exports, newborn and child packs. Until those exist, the rule layer does not change what an ASHA or supervisor sees in Saha, and no requirement moves from its v1.1 assessment.
 
+## Slice 14b: dates on the person record
+
+Delivered: `lib/saha/person-dates.ts`, wired into the command dispatcher (`lib/saha/server.ts`).
+
+- Four kinds: LMP, EDD, birth date, date of birth. Each entry carries source (reported, document, measured, estimated), who recorded it and when.
+- Append-only. A different value for a kind supersedes the current entry and needs a reason; a withdrawal keeps the entry with its reason. Nothing is edited in place.
+- Bounds are checked on the server (no future LMP or birth date; LMP not older than 320 days; EDD within 60 days past and 300 ahead; no date more than 125 years back). An LMP and EDD that disagree by more than 14 days return a warning and both are kept; the worker or clinician decides.
+- Audit text never names the kind or the value, because an LMP or EDD discloses a pregnancy to anyone who reads the audit log. The values sit on the person record behind the existing patient scope.
+- Care roles only (ASHA, clinician); an administrator is refused; a person outside the caller's assignment is refused.
+- A duplicate record's current dates are listed as an open item when records are merged, so they are re-recorded on the surviving record rather than lost.
+- No location is captured.
+
+Not delivered: any screen to enter or see the dates, a route that turns them into a due list, delivery of due alerts to the ASHA, or the offline notebook carrying them. The dates also ride the existing patient export row, but no export check specific to them was added.
+
+Tests: `unit/person-dates-contract` (32 checks) and `integration/person-dates-http` (21 checks on the real Worker and D1).
+
 ## Decisions needed from the sponsor
 
 1. Choose the target state and district, so a `SchedulePolicy` can be written from that state's orders rather than the national summary.
 2. Approve or reject the proposed new IDs (BR-PROG-09, BR-DATA-13, BR-DATA-14, BR-CARE-09, BR-CARE-10, BR-REP-08, BR-SEC-15, NFR-29). Adoption would make a v1.2 requirement set and would need `requirements/` regenerated and the 176 count revised; that is a separate reviewed change.
-3. Whether the next slice is the person-record dates (needs an additive D1 migration, which must not alter 0001 to 0032) or the incentive ledger.
+3. Slice 14c: the sponsor said "All", read as both next slices. The incentive claim module (slice 10c) already exists with a synthetic schedule; 14c will adapt it to take rates and verification from a `SchedulePolicy` rather than build a second ledger.
 
 ## Field validation before final build
 

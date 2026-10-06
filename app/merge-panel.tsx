@@ -8,7 +8,7 @@ import type { Person, Snapshot } from '@/lib/saha/types';
 import { useI18n } from './i18n';
 type Command=(c:any,s?:string)=>Promise<any>;
 function Field({label,children}:{label:string;children:React.ReactNode}){return <label className="field"><span>{label}</span>{children}</label>}
-const KIND:Record<string,string>={'programme-record':'Programme record','ehr-link':'EHR link','referral':'Referral','follow-up':'Follow-up','enrolment':'Episode','household':'Household','proxy':'Proxy grant','post-merge-review':'Created while merged'};
+const KIND:Record<string,string>={'programme-record':'Programme record','ehr-link':'EHR link','referral':'Referral','follow-up':'Follow-up','enrolment':'Episode','dates':'Dates','household':'Household','proxy':'Proxy grant','post-merge-review':'Created while merged'};
 
 // Slice 1c: duplicate-record merge proposals, two-person review, impact queue and unmerge for one patient.
 export function MergeNotice({p}:{p:Person}){
