@@ -4,7 +4,8 @@ import {scope,readState} from './store';
 import {careReport} from './operations';
 import {reportingScope} from './delegation';
 import {ensurePurpose} from './purpose-scope';
-import {releaseOperational} from './operational-disclosure';
+import {previewOperational,commitProfiles} from './operational-disclosure';
+import type {DisclosureProfile} from './indicator-ledger';
 import {alertsFor} from './alerts';
 import {digest,fail} from './core';
 export const CLINICAL_AGGREGATE_ALERTS=['destination-uncertain','ehr-uncertain','referrals-overdue','followups-overdue','referrals-undated','provider-usage-missing'] as const;
@@ -15,10 +16,22 @@ const sourceBasis=(s:OrgState,m:Member,at:string)=>{const reach=reportingScope(s
 // Historical event counts cannot be certified by a new current projection. They stay immutable
 // and private; this sidecar is a newly governed current view, without historical event IDs/times.
 export async function captureAggregateAlerts(d:D1Database,s:OrgState,userId:string,at=new Date().toISOString()){
- const m=scope(s,userId);let basis:string|null=null,available=false,current:ReturnType<typeof alertsFor>=[];
- try{if(m.role==='admin')throw Error('No clinical reporting');ensurePurpose(m,'reporting',s.operations?.purposeGrants);const reach=reportingScope(s,m,at),raw=careReport(s,m,7,new Date(at),reach.include);basis=await digest(sourceBasis(s,m,at));const projected=await releaseOperational(d,s,m,raw,reach.include,at);if(projected.privacy?.withheld===false){available=true;current=alertsFor({report:projected,telemetry:null,operations:null}).filter(a=>clinicalAggregateAlert(a.id));}}
+ const m=scope(s,userId);let basis:string|null=null,available=false,current:ReturnType<typeof alertsFor>=[],profiles:DisclosureProfile[]=[];
+ try{if(m.role==='admin')throw Error('No clinical reporting');ensurePurpose(m,'reporting',s.operations?.purposeGrants);const reach=reportingScope(s,m,at),raw=careReport(s,m,7,new Date(at),reach.include);basis=await digest(sourceBasis(s,m,at));const {projection:projected,profiles:pending}=await previewOperational(d,s,m,raw,reach.include,at);if(projected.privacy?.withheld===false){available=true;profiles=pending;current=alertsFor({report:projected,telemetry:null,operations:null}).filter(a=>clinicalAggregateAlert(a.id));}}
  catch{available=false;current=[];}
- return {m,at,basis,available,current,notice:AGGREGATE_ALERT_NOTICE};
+ return {m,at,basis,available,current,profiles,disclosed:false,notice:AGGREGATE_ALERT_NOTICE};
+}
+// Slice 14a: capture is read-only. The differencing ledger records an aggregate projection only when it is actually shown
+// or sent to a person: this is called at the GET /api/alerts and GET /api/notification-channel reads and before an
+// out-of-app message that carries a current clinical alert is committed. An alert that is computed and then discarded
+// (nobody is shown or sent it) discloses nothing and records nothing. Nothing is recorded when no clinical alert is
+// present. If the profiles may no longer be released (recent history, capacity, concurrent change, storage fault) the
+// context is emptied, as an unavailable projection, and false is returned: the caller must not show or send it.
+export async function discloseAggregateAlerts(d:D1Database,orgId:string,ctx:AggregateAlertContext):Promise<boolean>{
+ if(!ctx.available||!ctx.current.length)return true;
+ if(ctx.disclosed)return true;
+ try{if(await commitProfiles(d,orgId,ctx.profiles,ctx.at)===null){ctx.disclosed=true;return true;}}catch{/* uncertain: nothing is shown */}
+ ctx.available=false;ctx.current=[];return false;
 }
 export async function checkAggregateAlertContext(d:D1Database,orgId:string,ctx:AggregateAlertContext){
  const s=await readState(d,orgId),m=scope(s,ctx.m.userId);if(m.version!==ctx.m.version||m.role!==ctx.m.role||m.isOwner!==ctx.m.isOwner)fail(409,'Notification authority changed. Refresh the current view.');
