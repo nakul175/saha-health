@@ -1,6 +1,6 @@
 {
   "baseline": "Slice 14a MCH schedule rule layer and BRD v1.2 delta",
-  "previous": "application-ci-split-sha256.json",
+  "previous": "application-mch-schedule-14a-sha256.json",
   "note": "Source digests at the end of this development slice. Historical baselines are retained unchanged.",
   "files": {
     ".env.example": "4bb939ced1ce9fad6478d772263c2c12400fa45a73dfe24d203c3f830d22f72e",
@@ -31,7 +31,7 @@
     "RELEASE-9.md": "bb14d3b56a8f66cbb364a500e7d5e2d0ae8541c6056ba9f7526cdaad0297a21a",
     "REMAINING-RELEASES.md": "e6baadb0ca9153629e04168f5e68539dc351bdd12f84840a8b44334a63edd578",
     "REQUIREMENTS-TRACEABILITY.md": "803d58a32f39de4d83af965a87b76b57ae1465c9fe3a5ec06c7ac368d7c6df52",
-    "VALIDATION.md": "7b49b10a87db616c3d76d1de214914036465d57bc575ce7f3dd3ddea56e4c2a0",
+    "VALIDATION.md": "235d52b0eb85f54ce5ce4e96802191092640ea292a87d1aaa875eb711cfcb991",
     "android/.gitattributes": "ae58971fd773ee1c787aabb95003ac562a6e70406754341dc00e8bc0469cb661",
     "android/.gitignore": "7398faafc6b9f75b2b16f3fdb6f1235d454f4a329fbf300e18c3760765732e2f",
     "android/app/build.gradle": "aa433d0a3816507ac5244e8a726d61997d25c4fde3d1be76cc6c0bc7dd983ef7",
@@ -482,6 +482,7 @@
     "lib/saha/installed-pack-work-server.ts": "9f2cedb0695806d8dfdd3424c61e96773575e5caa102420a6c7bd13190983e84",
     "lib/saha/installed-pack-work.ts": "1bbe2085218625ff6c7fe3a619c9481698da27f83cd695ce67a7a09adbeb656c",
     "lib/saha/installed-transition-authority.ts": "5b2faac1e33eea0f135f060077d2180c148c103606e38f17214aaeda20a33856",
+    "lib/saha/mch-schedule.ts": "67094bdf9a6a0ff8ffc84d7506a503d5910ce85b252d0237439b4ce2b7795ce8",
     "lib/saha/media-server.ts": "1acd30010883701b7e86d771f9581ae9205076ebcebad65b84da941b85f75512",
     "lib/saha/media-storage.ts": "61171d1ce545ca35df5c92749684d89e414cb38d258f7c70fc8d128e91ce7c76",
     "lib/saha/media.ts": "f5b7a79329377473eb9c6824d19ece6a9ac6ae76b811dd4a24d6a28e1796badd",
@@ -1152,6 +1153,7 @@
     "tests/mapping-lifecycle-review-contract.mjs": "081969adcd623c677c00fe1f5259d628351178ab6a58d7400ad28015f9e3ee2b",
     "tests/mapping-lifecycle-review-http.mjs": "416db36d095d43b5b18924bdeb6f2148054c42492f83eacb5ee26240d7c09f88",
     "tests/mapping-remaining-contract-http.mjs": "44b874136c235af2ba7cc7caf9dbae1ed435b272f21d859fcc89786feadcb2ea",
+    "tests/mch-schedule-contract.mjs": "56cecea2eff1d545fb5ac68cf819c1bdda910d1f9e0c2b5d9a57450ddc70d9d4",
     "tests/media-contract.mjs": "cfa2a3b64b26142554b4c909fe59c818716b991218af03fa43ebd7581d2003ba",
     "tests/media-imported-lineage-before.mjs": "baf6a0e471ff985489a16bb991d12fe0a5586111064ba6f1d2417701cc6ed96e",
     "tests/media-imported-lineage-repair-http.mjs": "33e801044a81315e2f2c947308792de3c1521aae939955a0991cbd68abbf45f9",
