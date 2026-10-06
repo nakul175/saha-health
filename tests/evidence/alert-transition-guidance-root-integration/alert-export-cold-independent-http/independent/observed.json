@@ -1,0 +1,19 @@
+{
+  "passed": 72,
+  "filesScanned": 59,
+  "values": 2891,
+  "scopeRace": {
+    "status": 403,
+    "body": "{\"error\":\"Normal patient export scope changed. Nothing was downloaded.\"}"
+  },
+  "roleRace": {
+    "status": 409,
+    "body": "{\"error\":\"Your care scope changed while the export was prepared. Export again.\"}"
+  },
+  "auditFault": {
+    "status": 503,
+    "body": "{\"error\":\"Saha could not record this export in the audit log, so the export was not delivered. Try again; if this continues, tell your organisation owner.\"}"
+  },
+  "confirmedRowsUnchanged": true,
+  "limits": "Structural audit positions/cardinality and existing patient total/withheld metadata remain explicitly open; fixed historical families only."
+}

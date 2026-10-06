@@ -1,0 +1,58 @@
+{
+  "purpose": "Legacy-runtime history for the combined-reviewed alert adapters. State/evidence are instance-specific (random organisation ids); only this manifest is tracked. Rebuild with node scripts/build-legacy-alert-fixtures.mjs.",
+  "owned": {
+    "beforeState": ".wrangler/alert-disclosure-before-state-combined-review",
+    "beforeEvidence": ".wrangler/alert-disclosure-before-evidence-combined-review",
+    "exportState": ".wrangler/alert-export-cold-state-combined-review",
+    "exportEvidence": ".wrangler/alert-export-cold-evidence-combined-review"
+  },
+  "fixtures": {
+    "alertDisclosureBefore": {
+      "sourceCommit": "75c0f3e5372b9eb08eab0717966b4638163294bc",
+      "driver": "tests/alert-disclosure-before.mjs",
+      "driverSha256": "648e53bfe770cbb293405c0d27543f0e5290af60a43df5bbc0e1a991e581fcce",
+      "assertions": 29,
+      "ports": [
+        20720,
+        20721,
+        20722
+      ],
+      "originalActualBeforeNotReplaced": "tests/evidence/alert-disclosure-before is untouched; this is a regeneration by the same driver on the same source",
+      "stateSha256BeforeForwardMigration": {
+        "v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite": "c39140f3e45c2572a8eb1e5c05cc99ad2c4baf15262349a769bf73e748fbc894"
+      },
+      "forwardMigrations": [
+        "0031_installed_pack_work.sql",
+        "0032_installed_pack_transition.sql"
+      ],
+      "stateSha256": {
+        "v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite": "f010ebd74ae5d9c2d18d31912c7d0ad760dcce36d029130add501c70de5d0779"
+      },
+      "evidenceSha256": {
+        "observed.json": "95ef9f2efa07ab67974befa0875bafbdd0788d46f34ffeba378a962d6c5687ff"
+      }
+    },
+    "alertExportCold": {
+      "sourceCommit": "8eedc606ef015bd2cf5a8bddb3ed9e50249b5a30",
+      "driver": "tests/alert-export-cold-http.mjs",
+      "driverSha256": "1187d1d14a0b12e9d35ef3dc97c3495db15a688a2fddf087dd4fc20c4a61722e",
+      "legacyAssertions": 17,
+      "currentPhaseAssertions": 285,
+      "ports": [
+        21221
+      ],
+      "stateSha256BeforeForwardMigration": {
+        "v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite": "2a4499499204d70286cd77c56a0963a3c858d3a7facfe8c8c53b0d4f0abf8d2e"
+      },
+      "forwardMigrations": [
+        "0032_installed_pack_transition.sql"
+      ],
+      "stateSha256": {
+        "v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite": "d820ae30fecf3fadf99891ad3427cc992fb8ce2cfa89fd6892fef10c22127cf1"
+      },
+      "evidenceSha256": {
+        "legacy.json": "700678c8b6dcaf2d7302bd93c2cf32580baf030e9b1b13bf645db6caa407b4dd"
+      }
+    }
+  }
+}
