@@ -57,7 +57,9 @@ Delivered: `lib/saha/person-dates.ts`, wired into the command dispatcher (`lib/s
 - A duplicate record's current dates are listed as an open item when records are merged, so they are re-recorded on the surviving record rather than lost.
 - No location is captured.
 
-Not delivered: any screen to enter or see the dates, a route that turns them into a due list, delivery of due alerts to the ASHA, or the offline notebook carrying them. The dates also ride the existing patient export row, but no export check specific to them was added.
+Slice 14c adds the screen: a "Pregnancy & birth dates" dialog in Record tools (`app/person-dates-panel.tsx`) to see the current dates, record or replace one (a reason is required to replace), see the history and withdraw an entry. It is English only and has not been reviewed with ASHAs or in Hindi.
+
+Not delivered: a route that turns the dates into a due list, delivery of due alerts to the ASHA, or the offline notebook carrying them. The dates also ride the existing patient export row, but no export check specific to them was added.
 
 Tests: `unit/person-dates-contract` (32 checks) and `integration/person-dates-http` (21 checks on the real Worker and D1).
 

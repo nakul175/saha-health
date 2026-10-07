@@ -12,21 +12,16 @@ import type { Member, OrgState } from './types';
 import type { Actor } from './store';
 import { dayNumber } from './mch-schedule';
 
-export const DATE_KINDS = ['lmp', 'edd', 'birthDate', 'dob'] as const;
-export const DATE_SOURCES = ['reported', 'document', 'measured', 'estimated'] as const;
-export type DateKind = typeof DATE_KINDS[number];
-export type PersonDateEntry = { id: string; kind: DateKind; value: string; source: typeof DATE_SOURCES[number]; recordedAt: string; recordedBy: string; supersedes?: string; reason?: string; withdrawn?: { at: string; by: string; reason: string } };
+import { DATE_KINDS, DATE_SOURCES, currentDate, currentDates } from './person-dates-constants';
+import type { DateKind, PersonDateEntry } from './person-dates-constants';
+export { DATE_KINDS, DATE_SOURCES, currentDate, currentDates };
+export type { DateKind, PersonDateEntry };
 const id = z.string().trim().min(1).max(100), ver = z.number().int().positive(), reason = z.string().trim().min(5).max(300);
 export const personDatesSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('personDateRecord'), personId: id, version: ver, kind: z.enum(DATE_KINDS), value: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), source: z.enum(DATE_SOURCES), reason: reason.optional() }).strict(),
   z.object({ type: z.literal('personDateWithdraw'), personId: id, version: ver, entryId: id, reason }).strict(),
 ]);
 const MAX_ENTRIES = 60;
-export const currentDate = (entries: PersonDateEntry[] | undefined, kind: DateKind): PersonDateEntry | undefined => {
-  const list = entries ?? [], superseded = new Set(list.map(e => e.supersedes).filter(Boolean));
-  return list.filter(e => e.kind === kind && !e.withdrawn && !superseded.has(e.id)).at(-1);
-};
-export const currentDates = (entries: PersonDateEntry[] | undefined) => Object.fromEntries(DATE_KINDS.map(k => [k, currentDate(entries, k)?.value]).filter(([, v]) => v)) as Partial<Record<DateKind, string>>;
 export function authorizePersonDates(s: OrgState, m: Member, c: any) {
   if (!['personDateRecord', 'personDateWithdraw'].includes(c?.type)) return;
   if (!['asha', 'clinician'].includes(m.role)) fail(403, 'A care role is required to record dates on a person.');
