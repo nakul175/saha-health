@@ -14,6 +14,23 @@ Saha is a private synthetic engineering implementation of the Health AI Orchestr
 
 The current pack contains reconciled BRD/FSD/HLD/LLD, API/data/security/test/delivery/runbook/acceptance specifications, user/admin/support guides, source-derived inventories and exact requirement/test registers. Original Word/Excel/HTML documents and engineering archives are retained in [history](docs/history/README.md).
 
+## Run it locally
+
+Needs Node 22.13 or later (Node 24 for the full test and recovery workflow) and pnpm 11.25.0. Synthetic data only; the development identity is a synthetic fallback.
+
+```sh
+npm run install:ci
+node node_modules/typescript/bin/tsc --noEmit
+npm run build
+npm run dev        # http://localhost:5173
+```
+
+The commands are those in [Development and CI](docs/current/DEVELOPMENT-AND-CI.md); the whole sequence has not been timed against a ten-minute target. Run checks with `npm test` (see [Testing Saha](docs/current/TESTING.md)). Configuration names are in [.env.example](.env.example) and the [configuration reference](docs/governance/CONFIGURATION-REFERENCE.md).
+
+## Governance documents
+
+Security policy: [SECURITY.md](SECURITY.md). Contribution rules: [CONTRIBUTING.md](CONTRIBUTING.md). Licence: [LICENSE](LICENSE) (placeholder, all rights reserved). The map of all 27 standard documents (architecture, runbooks, backup and DR, privacy, threat model, SBOM, accessibility, AI model card, compliance mapping) is [docs/governance/README.md](docs/governance/README.md).
+
 ## Status
 
 | Item | Current record |
