@@ -1,0 +1,7 @@
+[Unit]
+Description=Run the Saha Health scheduled job once (the Cloudflare Cron Trigger equivalent)
+After=saha-health.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl -fsS --max-time 120 -o /dev/null "http://127.0.0.1:3400/cdn-cgi/handler/scheduled?cron=*/5+*+*+*+*"

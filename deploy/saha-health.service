@@ -1,0 +1,20 @@
+[Unit]
+Description=Saha Health (Workers runtime, local D1 on disk, synthetic environment)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=saha
+Group=saha
+WorkingDirectory=/opt/saha-health/src
+Environment=SITES_RUNTIME_ROOT=/var/lib/saha-health/runtime
+ExecStart=/usr/bin/node --import ./scripts/sites-env.mjs /opt/saha-health/runtime/node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.droplet.json --test-scheduled --local --persist-to /var/lib/saha-health/state --ip 127.0.0.1 --port 3400 --inspector-port 0
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
