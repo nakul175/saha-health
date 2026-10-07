@@ -44,3 +44,11 @@ Rollback: revert the commit on `main`; the next timer run redeploys it. Data is 
 ## Memory
 
 Measured on 7 October 2026: `pnpm run build` peaked at about 1.66 GB resident (21 s, one sandbox run). The running app (`wrangler dev --local`) needs further memory beside it, and the build runs while the old release is still serving. A 2 GB droplet with the 2 GB swapfile that `provision.sh` adds should work but will swap during builds; use 4 GB to avoid that. A 1 GB droplet will fail.
+
+## Sharing one droplet with other Saha apps
+
+Several apps can run on one droplet (recommended: 8 GB RAM for four apps). Each app has its own port, system service, database file and sign-in list. Run each app's `provision.sh` in turn with its own `SAHA_HOST` (for example `health.<ip-dashed>.sslip.io`, `agriculture.<ip-dashed>.sslip.io`).
+
+- Caddy: each app writes `/etc/caddy/conf.d/<app>.caddy`; `/etc/caddy/Caddyfile` only imports that folder.
+- Builds share one lock (`/var/lock/saha-build.lock`), so update timers never build two apps at once.
+- Failure domain: one droplet means one crash, disk or build problem affects every app on it, and one backup covers all of them.

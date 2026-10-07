@@ -67,7 +67,10 @@ install -m 0644 "$SRC/${APP}-scheduled.service" "/etc/systemd/system/${APP}-sche
 install -m 0644 "$SRC/${APP}-scheduled.timer" "/etc/systemd/system/${APP}-scheduled.timer"
 install -m 0755 "$SRC/add-user.sh" "/usr/local/bin/${APP}-add-user"
 if [ ! -s "/etc/saha/${APP}.users" ]; then "/usr/local/bin/${APP}-add-user" "$SAHA_FIRST_USER"; fi
-sed "s/SAHA_HOST/${SAHA_HOST}/" "$SRC/Caddyfile" > /etc/caddy/Caddyfile
+# One Caddy serves every app on this droplet: the main Caddyfile only imports one file per app.
+install -d -m 0755 /etc/caddy/conf.d
+grep -q '^import /etc/caddy/conf.d/' /etc/caddy/Caddyfile 2>/dev/null || printf 'import /etc/caddy/conf.d/*.caddy\n' > /etc/caddy/Caddyfile
+sed "s/SAHA_HOST/${SAHA_HOST}/" "$SRC/Caddyfile" > "/etc/caddy/conf.d/${APP}.caddy"
 caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
 systemctl daemon-reload
 systemctl enable caddy "${APP}.service" "${APP}-update.timer" "${APP}-scheduled.timer"
