@@ -1,7 +1,7 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
   "updatedAt": "2026-10-06",
-  "node": "v24.19.0",
+  "node": "v22.22.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
       "layer": "integration",
@@ -582,6 +582,11 @@
       "layer": "integration",
       "file": "tests/operational-privacy-http.mjs",
       "minPassed": 79
+    },
+    "integration/person-dates-http": {
+      "layer": "integration",
+      "file": "tests/person-dates-http.mjs",
+      "minPassed": 21
     },
     "integration/programme-raw-key-http": {
       "layer": "integration",
@@ -1393,6 +1398,11 @@
       "file": "tests/mapping-lifecycle-review-contract.mjs",
       "minPassed": 23
     },
+    "unit/mch-schedule-contract": {
+      "layer": "unit",
+      "file": "tests/mch-schedule-contract.mjs",
+      "minPassed": 31
+    },
     "unit/media-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-media-contract.mjs",
@@ -1502,6 +1512,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-patient-import-contract.mjs",
       "minPassed": 38
+    },
+    "unit/person-dates-contract": {
+      "layer": "unit",
+      "file": "tests/person-dates-contract.mjs",
+      "minPassed": 32
     },
     "unit/photo-contract": {
       "layer": "unit",
