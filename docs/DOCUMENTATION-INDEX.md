@@ -9,6 +9,8 @@ This pack follows the TolaData handover approach: current implementation, preser
 3. [Qualification](QUALIFICATION.md): historical engineering evidence and unpassed acceptance gates.
 4. [Current document index](current/DOCUMENTATION-INDEX.md): specifications, operating guides and registers.
 
+The [governance documents](governance/README.md) map the 27 standard documents (security policy, runbooks, backup and DR, privacy, threat model, SBOM, accessibility, AI model card, compliance mapping), added 8 October 2026 and agent-drafted.
+
 [HANDOVER.md](../HANDOVER.md) is the entry point for a developer or coding agent (written 3 October 2026 for the hand-over to the next agent); [CLAUDE.md](../CLAUDE.md) carries the same rules for Claude. [AGENTS.md](../AGENTS.md) remains the repository workflow authority.
 
 The source baseline is GitHub commit `c60c717a3b9ed48df1b918606e33e35412e1b373` on `release-11-ai-clinical-governance`, with tree `230f0744a621891c057b53118eab5d39c0c54ee7`. The equivalent Sites checkout commit is `f7f834524a9dc4a6f0388f5d82f313d2e4ef9bce`. Commit IDs differ because the two repositories have different histories. The documentation publication does not redeploy the application.
