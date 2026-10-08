@@ -53,6 +53,14 @@ Several apps can run on one droplet (recommended: 8 GB RAM for four apps). Each 
 - Builds share one lock (`/var/lock/saha-build.lock`), so update timers never build two apps at once.
 - Failure domain: one droplet means one crash, disk or build problem affects every app on it, and one backup covers all of them.
 
+## Public origin (one host per app)
+
+The Worker is started with `--local-upstream SAHA_HOST --upstream-protocol https` (`saha-health.service`; `provision.sh` substitutes the host). Without these flags Miniflare presents the Worker's own address, `http://127.0.0.1:3400`, as `request.url`, so the application's same-origin checks (`origin !== new URL(request.url).origin` in the API routes) compared the browser's `Origin` header with that address and refused every write with 403 behind the proxy. This was found on 8 October 2026 on the shared droplet; with the flags `request.url` carries the public https origin and the writes pass (verified with curl probes on all four apps).
+
+One process can claim only one origin, so `SAHA_HOST` is the app's single canonical name. Any second name for the same app (for example the `<app>.<ip-dashed>.sslip.io` name used before a domain existed) must be a redirect to `SAHA_HOST` in Caddy, not a second site block proxying to the same port: writes through a served second name fail with the same 403.
+
+State of the shared droplet on 8 October 2026: the installed unit predates this change, so the two flags live in the drop-in `/etc/systemd/system/saha-health.service.d/public-origin.conf` (an empty `ExecStart=` followed by the full command line with the flags). The canonical host is `health.aplyd.org`; `health.64-227-190-72.sslip.io` answers 301 to it. That redirect was added to Caddy on the droplet by hand and is not in this kit's `Caddyfile` (the Caddy files from before the change are kept as `/root/saha-health.caddy.bak-origin-fix`). When the unit is next installed from this kit (a re-run of `provision.sh`), delete the drop-in before `systemctl daemon-reload`, so that there is one `ExecStart` line and the kit's unit and the drop-in cannot drift apart; check the redirect for the old name again afterwards, because `provision.sh` rewrites `/etc/caddy/conf.d/saha-health.caddy`.
+
 ## Git access: token or deploy key
 
 `provision.sh` reaches the private repository in one of two ways:
