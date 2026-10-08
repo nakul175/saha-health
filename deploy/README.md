@@ -1,6 +1,6 @@
 # Hosting Saha Health on DigitalOcean (synthetic staging copy)
 
-Status: deployment kit, not yet run on a droplet. The Cloudflare staging copy (saha-staging.nakul17.workers.dev) is untouched and stays live until this host is verified. Synthetic data only. Real identity provider, paid AI and real-recipient delivery stay disabled, as in HANDOVER.md.
+Status: in use on the shared DigitalOcean droplet `saha-apps` since 7 October 2026 (https://health.aplyd.org; the sslip.io name redirects there since 8 October 2026). The Cloudflare staging copy is frozen (`SAHA_DEPLOY_FREEZE`) and still serves its 3 October build. Synthetic data only. Real identity provider, paid AI and real-recipient delivery stay disabled, as in HANDOVER.md.
 
 ## What runs where
 
