@@ -23,7 +23,9 @@ Read first: [HANDOVER.md](HANDOVER.md), [AGENTS.md](AGENTS.md), [CLAUDE.md](CLAU
 | Change | Run |
 | --- | --- |
 | Documentation | `python3 scripts/check-documentation.py` and `node scripts/audit-requirements.mjs --check` |
-| Code | Type check (`node node_modules/typescript/bin/tsc --noEmit`), `npm run build`, `node scripts/security-gate.mjs`, and the affected suites from `npm test` / [Testing Saha](docs/current/TESTING.md) |
+| Code | `pnpm run lint:baseline`, `pnpm run typecheck`, `npm run build`, `node scripts/security-gate.mjs`, and the affected suites from `npm test` / [Testing Saha](docs/current/TESTING.md) |
+
+`pnpm run lint:baseline` is a ratchet, not a clean-lint gate: it runs ESLint over the repository and fails only when the error count rises above the number committed in `.lint-baseline.json` (warnings are recorded, not gated). After fixing problems, lower the baseline with `node scripts/lint-baseline.mjs --update` and commit the file in the same change; a PR that raises it is red unless it states why. `pnpm run typecheck` runs `tsc --noEmit` over the `tsconfig.json` include set and must report no errors. The `checks` job of `.github/workflows/ci.yml` runs both after installing dependencies.
 
 Record code results, with date and limits, in [VALIDATION.md](VALIDATION.md). Update the implementation boundary, requirement assessments, next delivery and evidence together; do not promote a whole acceptance case because a related unit assertion passes.
 
