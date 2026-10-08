@@ -12,6 +12,17 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Checkout-local output and tool state (see .gitignore). Flat config lints dot-directories, and the
+    // corepack cache that scripts/install-pnpm.sh writes under .sites-runtime/ holds a 13.9 MB pnpm bundle
+    // that made `eslint .` run out of memory and made the error count depend on the machine.
+    ".sites-runtime/**",
+    ".wrangler/**",
+    ".vinext/**",
+    "dist/**",
+    "tests/reports/**",
+    "test-results/**",
+    "playwright-report/**",
+    "coverage/**",
   ]),
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],

@@ -34,8 +34,13 @@ jobs:
         run: node scripts/test.mjs --check-catalogue
       - name: Install pinned dependencies
         run: npm run install:ci
+      # Wave 0 hygiene gates (8 October 2026). The lint ratchet compares the ESLint error count with .lint-baseline.json and
+      # fails only when it rises; lower the baseline with `node scripts/lint-baseline.mjs --update` after fixing problems.
+      # Both run through the package scripts (`npm run`, because install:ci puts pnpm behind corepack, not on PATH).
+      - name: Lint (ratchet against .lint-baseline.json)
+        run: npm run lint:baseline
       - name: Type check
-        run: node node_modules/typescript/bin/tsc --noEmit
+        run: npm run typecheck
       - name: Build
         run: npm run build
       - name: Supply-chain gate (SBOM and audit)
