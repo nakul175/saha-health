@@ -1,6 +1,6 @@
 # Audited support workflow snapshot
 
-5 October2026. A support read now performs exactly one additional bounded authorized latest-workflow query after its durable read audit and fresh requester/patient/operator check. The complete initial51-row snapshot is compared with the complete post-audit51-row snapshot, including latest sequence, helper, state and all fixed metadata columns. Any change refuses409 with explicit queue-refresh guidance; it returns neither old nor newly unaudited entries. There is no reload/audit retry loop.
+5 October 2026. A support read now performs exactly one additional bounded authorized latest-workflow query after its durable read audit and fresh requester/patient/operator check. The complete initial51-row snapshot is compared with the complete post-audit51-row snapshot, including latest sequence, helper, state and all fixed metadata columns. Any change refuses409 with explicit queue-refresh guidance; it returns neither old nor newly unaudited entries. There is no reload/audit retry loop.
 
 Both queries apply requester/helper visibility before ORDER/LIMIT. Operators retain their authorized set; response50/sentinel51 and true overflow stay unchanged. Offered helper candidates still derive from fresh.members and the fresh patient. Historical workflow rows, role/owner/patient gates, assignment authorization and clinical mutation behavior remain unchanged.
 

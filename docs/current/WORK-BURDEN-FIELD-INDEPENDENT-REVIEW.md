@@ -1,6 +1,6 @@
 # Independent encrypted field-hook review
 
-5 October2026. Read-only production delta7fffb589 reviewed in an isolated checkout with canonical237497f6, continuation77c15835 and mandatory offline-open prerequisite1b0936ba. Additive schema/export conflicts retain both protected work ledgers and offline reports, and the latest schema marker0026. The reviewer authoredB04; this verdict covers the field-hook delta, not an independent approval ofB04 itself.
+5 October 2026. Read-only production delta7fffb589 reviewed in an isolated checkout with canonical237497f6, continuation77c15835 and mandatory offline-open prerequisite1b0936ba. Additive schema/export conflicts retain both protected work ledgers and offline reports, and the latest schema marker0026. The reviewer authoredB04; this verdict covers the field-hook delta, not an independent approval ofB04 itself.
 
 The field hooks use the existing serialized vault chain. Their writer clones the latest original-owner notebook at execution, checks owner/key/epoch before encryption and immediately before CAS, and does not persist after lock(false)/privacy refusal. Clinical/presentation storage precedes optional prepare timing; explicit save precedes optional active-time sealing. Sync retains its original pending body/key, and only observed unknown/5xx transport can add the separate fixed counter. Accepted receipt timing is queued only after the local synced marker. Current policy and expected actor bind each optional transport; metadata cannot resend care.
 
