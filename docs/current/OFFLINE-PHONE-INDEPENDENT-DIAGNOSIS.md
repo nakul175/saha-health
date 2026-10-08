@@ -1,6 +1,6 @@
 # Bounded offline phone failure diagnosis
 
-6October2026 (IST). Fresh isolated exact `65a93a63`; unchanged application and original test assertions. No wait, authority, capacity, outcome, storage or minimum-count relaxation. Named output/port adapters and observation-only encrypted-state captures are separate from all original evidence.
+6 October 2026 (IST). Fresh isolated exact `65a93a63`; unchanged application and original test assertions. No wait, authority, capacity, outcome, storage or minimum-count relaxation. Named output/port adapters and observation-only encrypted-state captures are separate from all original evidence.
 
 Root's retained initial combined-run pruning failure asserted that actual reconnect drained/pruned the known-abandoned reports. Its registration failure asserted zero raw copies plus accepted/unknown receipt retention and durable deletion acknowledgement on `/app/offline/`. Both original logs are copied unchanged into the diagnostic evidence; they remain failed observations.
 

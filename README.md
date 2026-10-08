@@ -2,7 +2,7 @@
 
 Saha is a private synthetic engineering implementation of the Health AI Orchestration Platform: one care-record workspace with reviewed assistance, programme/EHR integration foundations, field continuity and accountable follow-through.
 
-**Current application: R11 / v1.3-readiness. Documentation: edition 1.1, reconciled 28 September 2026.** Ready for continued development; real-patient use and production acceptance remain pending.
+**Current state:** [CLAUDE.md](CLAUDE.md) records what is merged to `main` and where the synthetic staging copy runs, and [HANDOVER.md](HANDOVER.md) the latest handover and its evidence; the last named baseline is R11 / v1.3-readiness with documentation edition 1.1, and real-patient use and production acceptance remain pending.
 
 ## Start here
 

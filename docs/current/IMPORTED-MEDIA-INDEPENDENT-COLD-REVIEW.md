@@ -1,6 +1,6 @@
 # Imported attachment lineage: independent cold review
 
-6 October2026 (IST). Reviewed exact frozen `ca2d10bfc3465942a705142ba843fd024ee535ad` in a fresh isolated checkout. No application, runtime, migration or shared metadata edits. The original before failure/preimages and author40-check repair evidence remain unchanged.
+6 October 2026 (IST). Reviewed exact frozen `ca2d10bfc3465942a705142ba843fd024ee535ad` in a fresh isolated checkout. No application, runtime, migration or shared metadata edits. The original before failure/preimages and author40-check repair evidence remain unchanged.
 
 No blocking defect was grounded in the narrow repair. A newly built application and types pass. Eight affected cold-repeat adapters preserve the source assertions while using separate output directories/ports: imported-evidence40, private-object HTTP65, original media HTTP44 in each of default D1 and opt-in local R2, prior independent object HTTP26, native storage checkpoint9, normal phone16, object contract22 and original media contract5. These total271 executed positive assertions, including overlapping regression coverage. The native driver explicitly injects trusted context/body-stream adaptation into production handlers and is not a full-framework identity test; the HTTP and phone suites exercise the actual built routes. Local synthetic D1/R2 only, no provider or hosted bucket calls.
 

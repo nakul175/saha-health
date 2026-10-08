@@ -1,6 +1,6 @@
 # Registration and operational privacy integrated qualification
 
-6 October2026 IST. Canonical runtime8eedc606 plus test-only qualified API composition a2fb38d6. Bounded guided ASHA registration and operational disclosure changes retain immutable before/author/independent evidence. No whole-product completion or formal acceptance is claimed.
+6 October 2026 IST. Canonical runtime8eedc606 plus test-only qualified API composition a2fb38d6. Bounded guided ASHA registration and operational disclosure changes retain immutable before/author/independent evidence. No whole-product completion or formal acceptance is claimed.
 
 Fresh198 units pass10574 assertions. Current completeAPI5020 preserves the original4770 minimum; current runner27 and named expression131-original-group adapter133 pass. A full147-workflow rerun passes7691 assertions, every140 existing workflow minimum and zero quarantine. Reports are separate invocations and overlap setup/author cases; numbers are not unique acceptance cases.
 

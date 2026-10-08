@@ -1,6 +1,6 @@
 # Independent support visibility repair review
 
-5 October2026. Production-source deltaed10fcd1 cherry-picked alone onto the isolated existing ledger review source. Fresh build and actual original11-check positive Worker/D1 suite pass. The original deliberate-bug driver remains unchanged as historical direct-only evidence; it is not a positive regression on repaired source.
+5 October 2026. Production-source deltaed10fcd1 cherry-picked alone onto the isolated existing ledger review source. Fresh build and actual original11-check positive Worker/D1 suite pass. The original deliberate-bug driver remains unchanged as historical direct-only evidence; it is not a positive regression on repaired source.
 
 The requester/helper visibility predicate now runs before ORDER/LIMIT. A non-owner's own request and assigned helper queue remain reachable after51 unrelated workflows; genuine authorized overflow still returns50 with an explicit flag, unrelated workers receive no unrelated rows or false overflow, and assign/attest/ack, stable ordering, audit failure and patient withdrawal pass.
 

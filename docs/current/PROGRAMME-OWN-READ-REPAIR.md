@@ -1,6 +1,6 @@
 # Programme merge own-property reads
 
-6 October2026 IST. Root's fresh191-unit integration run failed:10127 positive assertions, one runner assertion failure and a programme safety suite abort. Original raw run/report remain under `tests/evidence/app-first-guidance-media-impact-integration/units-initial-failure.*`; specific failures and the original programme source preimage are retained under `tests/evidence/programme-own-read-repair/before/`.
+6 October 2026 IST. Root's fresh191-unit integration run failed:10127 positive assertions, one runner assertion failure and a programme safety suite abort. Original raw run/report remain under `tests/evidence/app-first-guidance-media-impact-integration/units-initial-failure.*`; specific failures and the original programme source preimage are retained under `tests/evidence/programme-own-read-repair/before/`.
 
 The reviewed guided three-way merge introduced direct `answers[key]` and `absence[key]` reads. The existing prototype-name safety contract correctly caught the departure from the existing own-property reader. Three merge lines now use that original `own()` helper for local and previous values; saved-state resets, exact current eligibility, explicit Save/Load/Merge, receipts and server authority are unchanged. No inherited prototype member becomes a recorded answer or absence. Writes still target the explicit local own-key union, and deletion semantics are retained.
 

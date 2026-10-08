@@ -4,7 +4,7 @@
 
 ## Status on 8 October 2026
 
-The sponsor moved hosting to a DigitalOcean droplet (`deploy/README.md`, shared droplet `saha-apps`, address `health.64-227-190-72.sslip.io`). The repository variable `SAHA_DEPLOY_FREEZE` was set to `true` on 8 October 2026, so a merge into `main` no longer deploys this Cloudflare Worker; the frozen Worker keeps serving the build it last received. A hand-started run (workflow_dispatch) would still deploy. The Worker, its D1 database and the Access policy were left in place for the sponsor to delete when the droplet copy has been in use long enough. Everything below describes the Cloudflare arrangement as it was built and still applies to a hand-started deploy.
+The sponsor moved hosting to a DigitalOcean droplet (`deploy/README.md`, shared droplet `saha-apps`). The application has run there since 7 October 2026 at `https://health.aplyd.org`, behind a Caddy password wall, with synthetic data only; the earlier `health.64-227-190-72.sslip.io` name redirects to it since 8 October 2026. The repository variable `SAHA_DEPLOY_FREEZE` was set to `true` on 8 October 2026, so a merge into `main` no longer deploys this Cloudflare Worker; the frozen Worker keeps serving the build it last received. A hand-started run (workflow_dispatch) would still deploy. The Worker, its D1 database and the Access policy were left in place for the sponsor to delete when the droplet copy has been in use long enough. Everything below describes the Cloudflare arrangement as it was built and still applies to a hand-started deploy.
 
 ## What runs where
 
