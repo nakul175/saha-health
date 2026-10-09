@@ -1,0 +1,96 @@
+id	owner_id	kind	text
+CWO-001-AC01	SAHA-151	New acceptance	Given an isolated checkout, when qualification begins, the report identifies the exact commit, dependency lock and migration set used.
+CWO-001-AC02	SAHA-151	New acceptance	Given each selected check, when it finishes or is blocked, its actual command, outcome and limitation are recorded; an old pass is not substituted.
+CWO-001-AC03	SAHA-151	New acceptance	Given existing failed checks, when a proposed feature branch is assessed, before/after results distinguish inherited failure from a regression.
+CWO-001-AC04	SAHA-151	New acceptance	Given a proposed reusable component, its decision links a current source path, a behaviour to preserve and an explicit unverified boundary.
+CWO-001-NEG01	SAHA-151	Expected refusal / recovery	A mixed main/candidate checkout is refused as a baseline; it must not produce a clean-baseline label.
+CWO-001-NEG02	SAHA-151	Expected refusal / recovery	Missing runtime access or credentials yields a blocked evidence row, not an inferred pass.
+CWO-001-NEG03	SAHA-151	Expected refusal / recovery	A legacy test catalogue or requirement status change cannot be justified solely by a new similarly named test.
+CWO-001-RJ01	SAHA-151	Delivery rejection	Reject the enabler when it claims full-repository or production qualification from the bounded selections.
+CWO-001-RJ02	SAHA-151	Delivery rejection	Reject when original failing evidence or minimum assertions are silently removed.
+CWO-002-AC01	SAHA-001	New acceptance	Given current assigned work, Today shows the same permitted task identities as the scoped source, without exposing another worker’s household details.
+CWO-002-AC02	SAHA-001	New acceptance	Given an existing draft for the selected task/person, starting from Today resumes it or clearly identifies the choice without silently duplicating the visit.
+CWO-002-AC03	SAHA-001	New acceptance	Given no assigned work, a useful empty state appears without invented visits or partner promotions.
+CWO-002-AC04	SAHA-144	New acceptance	Given the specified compact phone viewport, the primary next action is visible without horizontal scrolling and remains operable with touch and keyboard.
+CWO-002-NEG01	SAHA-011	Expected refusal / recovery	A stale or revoked assignment cannot be opened by supplying its ID directly; retain the rest of the permitted list.
+CWO-002-NEG02	SAHA-001	Expected refusal / recovery	A failed source request must not be shown as an empty caseload or completed work.
+CWO-002-NEG03	SAHA-014	Expected refusal / recovery	Selecting two similarly named people must not silently infer identity from conversational text.
+CWO-002-RJ01	SAHA-001	Delivery rejection	Reject a twelve-module home hidden behind a chatbot.
+CWO-002-RJ02	SAHA-001	Delivery rejection	Reject any implementation that gives the client authority to start out-of-scope work or loses an existing draft.
+CWO-003-AC01	SAHA-036	New acceptance	Given an assigned worker’s own planned slot, a valid reschedule changes its planned date/window with no supervisor approval request.
+CWO-003-AC02	SAHA-036	New acceptance	After success, the old and replacement slots are linked and exactly one is planned; covered programme due dates, owners and completion conditions remain unchanged.
+CWO-003-AC03	SAHA-075	New acceptance	Given a repeated submission with the same operation identity and payload, no second planned replacement or duplicate activity is created.
+CWO-003-AC04	SAHA-036	New acceptance	Given a worker who cancels the UI action before submission, no stored slot, receipt or clinical record changes.
+CWO-003-AC05	SAHA-036	New acceptance	The worker can understand the new schedule and any unchanged overdue status from the mobile result without opening a programme administration screen.
+CWO-003-NEG01	SAHA-036	Expected refusal / recovery	A stale household/member version is refused with a refresh path; neither the old nor replacement slot is partially modified.
+CWO-003-NEG02	SAHA-011	Expected refusal / recovery	An out-of-scope member, another worker’s slot or closed covered work is refused by the server, without revealing otherwise inaccessible records.
+CWO-003-NEG03	SAHA-075	Expected refusal / recovery	A reused idempotency key with changed input is refused; a lost acknowledgement does not trigger a fresh-key duplicate.
+CWO-003-RJ01	SAHA-036	Delivery rejection	Reject if rescheduling changes a clinical due date, completion state or entitlement.
+CWO-003-RJ02	SAHA-036	Delivery rejection	Reject a newly added supervisor approval or compulsory explanatory form unsupported by the current departmental process.
+CWO-003-RJ03	SAHA-036	Delivery rejection	Reject if the UI describes a local pending change as an accepted remote change.
+CWO-004-AC01	SAHA-020	New acceptance	Given two reviewed synthetic packs sharing an equivalent field for the same encounter, the worker enters it once and each pack’s output references that entry.
+CWO-004-AC02	SAHA-023	New acceptance	Given an old observation, the review card retains its original observed time and does not silently classify it as a measurement from this visit.
+CWO-004-AC03	SAHA-004	New acceptance	Given a correction before save, only the intended field changes; person context and other answers remain intact.
+CWO-004-AC04	SAHA-006	New acceptance	Given a valid save, the persisted visit/pack snapshot agrees with the review card and returns an appropriate local/server state.
+CWO-004-AC05	SAHA-049	New acceptance	Given absent optional AI, the worker completes the manual path without waiting for an inference.
+CWO-004-NEG01	SAHA-020	Expected refusal / recovery	Conflicting definitions using the same question ID are refused as a configuration error; do not silently choose one definition.
+CWO-004-NEG02	SAHA-024	Expected refusal / recovery	Missing mandatory information uses the pack’s documented absent-value rule or an actionable error; never fabricate a normal finding.
+CWO-004-NEG03	SAHA-002	Expected refusal / recovery	A person switch with unsaved work requires safe preservation or deliberate discard, not reassignment of the data to the newly selected person.
+CWO-004-RJ01	SAHA-023	Delivery rejection	Reject stale-data reuse presented as a new observation.
+CWO-004-RJ02	SAHA-049	Delivery rejection	Reject a routine visit that is blocked by optional speech, advice, Academy or study participation.
+CWO-004-RJ03	SAHA-020	Delivery rejection	Reject a mandatory new review/approval role inferred from a generic software pattern.
+CWO-005-AC01	SAHA-091	New acceptance	Given previously prepared permitted work, airplane mode does not prevent completing manual capture and obtaining a local-save receipt.
+CWO-005-AC02	SAHA-092	New acceptance	After a confirmed durable save, force-closing and reopening the supported app/browser restores the same record and reviewed values after authorised unlock.
+CWO-005-AC03	SAHA-092	New acceptance	An interrupted write leaves either the previous committed version or the next committed version, not a partially mixed record.
+CWO-005-AC04	SAHA-049	New acceptance	External AI unavailability changes the assistance state but does not disable routine capture/review/save.
+CWO-005-AC05	SAHA-006	New acceptance	The receipt distinguishes locally completed capture, pending server sync and pending programme acceptance.
+CWO-005-NEG01	SAHA-093	Expected refusal / recovery	An unprepared or expired-authority offline task cannot masquerade as authorised current work; expose the limitation without deleting permitted pending drafts.
+CWO-005-NEG02	SAHA-092	Expected refusal / recovery	Quota exhaustion or a failed encryption/write must not return a success receipt.
+CWO-005-NEG03	SAHA-097	Expected refusal / recovery	Another account cannot decrypt or display the first worker’s drafts merely by opening the same phone shell.
+CWO-005-RJ01	SAHA-091	Delivery rejection	Reject any implementation requiring a new online sign-off merely to finish normal manual capture that the existing process permits.
+CWO-005-RJ02	SAHA-092	Delivery rejection	Reject a restart test that uses only mocked storage but is reported as handset durability.
+CWO-005-RJ03	SAHA-091	Delivery rejection	Reject unreviewed weakening of encryption or silently dropping queued media.
+CWO-006-AC01	SAHA-095	New acceptance	Given a local completed capture, reconnection produces one corresponding server record or one explicit unresolved state, without requesting the worker to recapture the data.
+CWO-006-AC02	SAHA-075	New acceptance	Given the server committed but the client lost the acknowledgement, recovery identifies the existing effect and does not create a duplicate visit or charge.
+CWO-006-AC03	SAHA-076	New acceptance	Given several queued items, one refusal does not erase acknowledgements for successful items or delete the refused draft.
+CWO-006-AC04	SAHA-006	New acceptance	Given a destination still has not acknowledged the record, the interface does not display programme acceptance.
+CWO-006-AC05	SAHA-075	New acceptance	After a process restart during reconciliation, the same operation identity and original payload remain available for safe recovery.
+CWO-006-NEG01	SAHA-075	Expected refusal / recovery	A key reused for a different payload is refused with no second effect.
+CWO-006-NEG02	SAHA-096	Expected refusal / recovery	Revoked authority or a changed record version causes a scoped refusal/reconciliation path, not a forced overwrite or fresh-key bypass.
+CWO-006-NEG03	SAHA-075	Expected refusal / recovery	A provider timeout or malformed receipt remains uncertain until an authoritative reconciliation result exists.
+CWO-006-RJ01	SAHA-006	Delivery rejection	Reject boolean-only synced state that hides failed or pending destination delivery.
+CWO-006-RJ02	SAHA-075	Delivery rejection	Reject blind automatic retries of an uncertain payment, provider request or external record submission.
+CWO-006-RJ03	SAHA-124	Delivery rejection	Reject any path that discards local work before a verified retention/reconciliation decision.
+CWO-007-AC01	SAHA-040	New acceptance	Given a recognised navigation intent, the worker reaches the same permitted screen and task as through the visual controls.
+CWO-007-AC02	SAHA-014	New acceptance	Given two matching people, the assistant requires disambiguation before preparing a person-specific action.
+CWO-007-AC03	SAHA-044	New acceptance	Given a mutation proposal, the resulting operation retains all the existing server scope, version and idempotency rules; chat never grants broader authority.
+CWO-007-AC04	SAHA-040	New acceptance	Given the worker cancels or corrects a proposal, no unintended stored action occurs.
+CWO-007-AC05	SAHA-049	New acceptance	Given the language service is unavailable or the request unsupported, the app still offers the ordinary visual task path.
+CWO-007-NEG01	SAHA-043	Expected refusal / recovery	An instruction embedded in a provider answer to reveal records or bypass permissions is refused as untrusted content.
+CWO-007-NEG02	SAHA-044	Expected refusal / recovery	An assistant proposal referencing a stale visit cannot be executed against the current record without the normal reconciliation path.
+CWO-007-NEG03	SAHA-040	Expected refusal / recovery	A household-facing request must not silently change the assistant into a patient-chatbot role.
+CWO-007-RJ01	SAHA-040	Delivery rejection	Reject a chatbot layered over an unchanged module maze as completion of this story.
+CWO-007-RJ02	SAHA-043	Delivery rejection	Reject direct free-form model calls to database writes or API routes outside the allowlist.
+CWO-007-RJ03	SAHA-040	Delivery rejection	Reject a mocked assistant presented as an integrated live provider.
+CWO-008-AC01	SAHA-152	New acceptance	For a rehearsal deployment, the reported served source/build identity matches the release manifest rather than simply the newest main SHA.
+CWO-008-AC02	SAHA-152	New acceptance	A failed build or failed new-release health check does not replace a previously serving qualified synthetic copy.
+CWO-008-AC03	SAHA-152	New acceptance	An interrupted migration rehearsal has a declared observable recovery state; it does not mark an unapplied or partly applied migration as successfully applied.
+CWO-008-AC04	SAHA-152	New acceptance	A code rollback is allowed only when schema/queue compatibility has been checked, with recovery evidence attached.
+CWO-008-AC05	SAHA-152	New acceptance	The plan identifies and separately controls the Cloudflare and DigitalOcean deployment mechanisms.
+CWO-008-NEG01	SAHA-152	Expected refusal / recovery	Missing release evidence or a mismatched build digest blocks promotion.
+CWO-008-NEG02	SAHA-152	Expected refusal / recovery	A migration whose data compatibility is unknown is not silently rolled back by switching the source tree.
+CWO-008-NEG03	SAHA-152	Expected refusal / recovery	Unavailable host access produces a not-inspected status, not a simulated claim that the live host was checked.
+CWO-008-RJ01	SAHA-152	Delivery rejection	Reject any deployment claim produced only from reading deploy/README.md.
+CWO-008-RJ02	SAHA-152	Delivery rejection	Reject exposure of secrets or a release process that overwrites persistent data.
+CWO-008-RJ03	SAHA-152	Delivery rejection	Reject presenting this development-runtime deployment as production-ready.
+CWO-009-AC01	SAHA-144	New acceptance	The evidence names the exact handset, OS, browser/app, build, synthetic caseload and network mode; results are reproducible from that profile.
+CWO-009-AC02	SAHA-144	New acceptance	Every essential control remains visible or reachable with the keyboard open and at 200% text size, with no horizontal page overflow at the reference viewport.
+CWO-009-AC03	SAHA-144	New acceptance	Essential controls have accessible names and a usable focus order; screen-reader testing reaches, activates and corrects the core visit fields.
+CWO-009-AC04	SAHA-139	New acceptance	Local-save and warm-open latency meet the ratified budgets with sample counts and p95 calculation supplied.
+CWO-009-AC05	SAHA-092	New acceptance	The declared process-kill/offline/reconnect sample loses no acknowledged save; any failure is reported and prevents qualification of that durability claim.
+CWO-009-NEG01	SAHA-092	Expected refusal / recovery	A browser-simulated storage run cannot be labelled physical-device persistence evidence.
+CWO-009-NEG02	SAHA-139	Expected refusal / recovery	Missing or post-hoc device/budget selection yields unqualified performance, not a pass.
+CWO-009-NEG03	SAHA-144	Expected refusal / recovery	Keyboard occlusion, unreachable actions or storage failure without an accurate receipt cause a failed relevant criterion.
+CWO-009-RJ01	SAHA-144	Delivery rejection	Reject a blanket accessibility or offline certification derived from a single screenshot or automated scan.
+CWO-009-RJ02	SAHA-139	Delivery rejection	Reject performance targets weakened after the run merely to make results green.
+CWO-009-RJ03	SAHA-139	Delivery rejection	Reject hiding serious errors in averaged task duration.
