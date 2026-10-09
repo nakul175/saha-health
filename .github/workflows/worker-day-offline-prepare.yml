@@ -1,0 +1,80 @@
+name: worker-day-offline-preparation
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - '.github/workflows/worker-day-offline-prepare.yml'
+      - 'docs/current/worker-day-offline/**'
+      - 'public/field/worker-day.js'
+      - 'tests/worker-day-offline-contract.mjs'
+      - 'tests/smoke/worker-day-offline-browser.mjs'
+permissions:
+  contents: read
+jobs:
+  prepare:
+    if: github.repository == 'nakul175/saha-health' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feat/worker-day-offline-2026-10-09' && github.event.pull_request.base.ref == 'feat/worker-day-2026-10-09'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    outputs:
+      prepared_sha: ${{ steps.publish.outputs.prepared_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install pinned tooling without repository credentials
+        run: |
+          npm run install:ci
+          git diff -- pnpm-workspace.yaml
+          git restore --source=HEAD -- pnpm-workspace.yaml
+      - name: Apply reviewed exact-source edits and preserve history
+        run: |
+          python3 docs/current/worker-day-offline/prepare.py
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+          node tests/uat/coverage-map.mjs --check
+          git diff --cached --check
+      - name: Publish only to the named dependent feature branch
+        id: publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          BRANCH='feat/worker-day-offline-2026-10-09'
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          gh auth setup-git
+          test "$(git ls-remote origin "refs/heads/$BRANCH" | cut -f1)" = "$EXPECTED_HEAD"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat: connect prepared worker visits to encrypted offline resume'
+          git push origin "HEAD:refs/heads/$BRANCH"
+          echo "prepared_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  verify:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.prepared_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Test actual prepared commit, not the unpatched seed
+        env:
+          SAHA_BROWSER_PACKAGE: '@playwright/test'
+        run: bash docs/current/worker-day-offline/verify.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: worker-day-offline-evidence
+          path: tests/reports/
+          retention-days: 14
