@@ -42,7 +42,8 @@ try {
   await page.screenshot({ path: folder + '/today-360.png', fullPage: true });
   await primary.click();
   await page.getByRole('heading', { name: 'Meena Devi', exact: true }).waitFor();
-  check(!await page.locator('#worker-today-title').count(), 'Person context replaces Today');
+  await page.locator('#worker-today-title').waitFor({ state: 'hidden' });
+  check(!await page.locator('#worker-today-title').isVisible(), 'Person context replaces Today');
   await page.getByRole('button', { name: 'Start visit', exact: true }).click();
   const picker = page.getByRole('combobox', { name: 'Go to observation or save', exact: true });
   await picker.waitFor();

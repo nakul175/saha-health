@@ -1,4 +1,5 @@
 'use client';
+import { useWorkerDayRequest } from './worker-day-request';
 import { WorkerToday, WorkerNavigation, WorkerSpace } from './worker-day';
 import { workerDayEnabled } from '@/lib/saha/worker-day';
 import { GuidedCapture, captureProblems, CaptureStage, CaptureSecondary, type CaptureStep } from './guided-capture';
@@ -98,8 +99,7 @@ function SideNav({view,go,data,busy,switchOrg,pilotTask,lang,setLanguage}:{view:
 export default function WorkspaceApp({appFirst=false}:{appFirst?:boolean}={}){
  const [appTab,setAppTab]=useState<AppTab>(appFirst?'home':'workspace');
  const [data,setData]=useState<Snapshot|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[online,setOnline]=useState(true),[view,setView]=useState<View>('work'),[selected,setSelected]=useState<string|null>(null),[visitId,setVisitId]=useState<string|null>(null),[search,setSearch]=useState(''),[filter,setFilter]=useState('All programmes'),[newPerson,setNewPerson]=useState(false),[consent,setConsent]=useState(false),[register,setRegister]=useState(false),[guide,setGuide]=useState(false),[referral,setReferral]=useState(false),[aiConfirm,setAiConfirm]=useState<Integration|null>(null),[detail,setDetail]=useState<string|null>(null);
- const [workerDayRequested,setWorkerDayRequested]=useState(false);
- useEffect(()=>{setWorkerDayRequested(appFirst&&new URLSearchParams(window.location.search).get('experience')==='worker-day');},[appFirst]);
+ const workerDayRequested=useWorkerDayRequest();
  const workerDay=workerDayEnabled(appFirst,workerDayRequested,data);
  const orgRef=useRef<string|null>(null);
  // Slice 10j: the member's saved language for this organisation (English until they choose Hindi, a draft translation).

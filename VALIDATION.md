@@ -1691,3 +1691,8 @@ Two unit contracts had never run on the combined source. unit/availability-contr
 ## 9 October 2026 — Worker-day entry candidate
 
 See [worker-day delivery](docs/current/worker-day-delivery/README.md). Opt-in synthetic ASHA Today presentation reuses current scoped records, audited open and existing guided capture/save. No schema, domain command, role, clinical rule or acceptance status changed. Tests and production/device boundaries are recorded in that document and the associated draft PR; source presence is not a passed acceptance case.
+
+
+## 9 October 2026 — Worker-day initial failures and candidate repair
+
+Run 37922392180 on 4e012f8 failed the lint ratchet (1393 vs 1392 errors) and the new browser assertion after six positives; the later HTTP run was cancelled by a newer revision. No full pass is claimed. The added effect is replaced with an external-store query hook, without suppressing a rule or raising the baseline. The browser assertion now waits for actual hidden state, because the unchanged workspace deliberately keeps inactive panels mounted. It still requires the person context to replace Today visually. All assertions remain; original failure artifacts and Git history are retained. Fresh exact-source qualification is required.
