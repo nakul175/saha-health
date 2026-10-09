@@ -1,0 +1,43 @@
+name: worker-today-preview
+on:
+  pull_request:
+    paths:
+      - 'public/worker-today/**'
+      - 'tests/worker-today-contract.mjs'
+      - 'docs/current/community-worker-os/check-today-ui.py'
+      - '.github/workflows/worker-today.yml'
+permissions:
+  contents: read
+concurrency:
+  group: worker-today-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Presentation contracts
+        run: node tests/worker-today-contract.mjs
+      - name: Install declared browser test dependency
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Synthetic browser tests (mock workspace, not backend)
+        run: python docs/current/community-worker-os/check-today-ui.py --out /tmp/worker-today-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: worker-today-preview-evidence
+          retention-days: 7
+          path: |
+            tests/reports/worker-today-contract-result.json
+            /tmp/worker-today-evidence/
