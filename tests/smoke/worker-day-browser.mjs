@@ -5,7 +5,7 @@ import { startWorker, identity, client } from '../lib/worker.mjs';
 const { chromium } = await import(process.env.SAHA_BROWSER_PACKAGE ?? '@playwright/test');
 const folder = 'tests/reports/worker-day';
 mkdirSync(folder, { recursive: true });
-let worker, browser, passed = 0;
+let worker, browser, page, passed = 0;
 const check = (value, message) => { assert.ok(value, message); passed++; };
 try {
   worker = await startWorker({ port: process.env.SAHA_WORKER_DAY_PORT ?? '9157', name: 'saha-worker-day' });
@@ -21,7 +21,8 @@ try {
   assert.equal((await api.command(owner, { type: 'assignPatient', personId: p.id, version: p.version, teamId: 'default', assignedTo: wa.json.user.userId, reason: 'Synthetic worker-day check' }, org)).status, 200);
   browser = await chromium.launch({ headless: true, ...(process.env.SAHA_CHROMIUM ? { executablePath: process.env.SAHA_CHROMIUM } : {}) });
   const context = await browser.newContext({ viewport: { width: 360, height: 640 }, extraHTTPHeaders: asha.headers });
-  const page = await context.newPage(), errors = [];
+  page = await context.newPage();
+  const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
   page.setDefaultTimeout(25000);
   await page.goto(worker.base + '/app');
@@ -43,12 +44,20 @@ try {
   await page.getByRole('heading', { name: 'Meena Devi', exact: true }).waitFor();
   check(!await page.locator('#worker-today-title').count(), 'Person context replaces Today');
   await page.getByRole('button', { name: 'Start visit', exact: true }).click();
+  const picker = page.getByRole('combobox', { name: 'Go to observation or save', exact: true });
+  await picker.waitFor();
+  const choose = async id => {
+    await picker.selectOption(id);
+    await page.locator('.capture-stage[data-capture-step="' + id + '"]:visible').first().waitFor();
+  };
+  await choose('fact:weight');
   const weight = page.getByRole('textbox', { name: 'Weight · kg', exact: true });
   await weight.fill('57.5');
   await nav.getByRole('button', { name: 'My Space', exact: true }).click();
   await page.getByRole('alertdialog').waitFor();
   await page.getByRole('button', { name: 'Keep editing', exact: true }).click();
   check(await weight.inputValue() === '57.5', 'Existing dirty-navigation protection retains data');
+  await choose('facts-save');
   await page.getByRole('button', { name: 'Save draft', exact: true }).click();
   await page.getByText('Draft saved in the workspace.', { exact: true }).waitFor();
   const saved = (await api.get(asha, '/api/workspace', org)).json;
@@ -86,6 +95,9 @@ try {
   writeFileSync(folder + '/result.json', JSON.stringify(result, null, 2));
   console.log(JSON.stringify(result));
 } catch (error) {
+  if (page) {
+    try { await page.screenshot({ path: folder + '/failed-state.png', fullPage: true }); } catch { /* The browser may have terminated; retain the original failure. */ }
+  }
   writeFileSync(folder + '/result.json', JSON.stringify({ passed, failed: 1, error: String(error) }, null, 2));
   throw error;
 } finally { await browser?.close(); await worker?.stop(); }

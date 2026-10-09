@@ -40,6 +40,15 @@ jobs:
           set -euo pipefail
           if ! grep -Fq "import { WorkerToday, WorkerNavigation, WorkerSpace }" app/workspace.tsx; then
             python3 docs/current/worker-day-delivery/apply.py
+          else
+            # A revised source/test file needs a new immutable baseline, not edits to an old manifest.
+            SLUG="worker-day-${EXPECTED_HEAD:0:12}"
+            export SLUG
+            CURRENT=$(python3 -c "import json; print(json.load(open('docs/verification/current-baseline.json'))['manifest'])")
+            if [ "$CURRENT" != "application-${SLUG}-sha256.json" ]; then
+              python3 scripts/update-baseline.py "$SLUG" 'Worker-day candidate revision; source integrity only'
+              python3 scripts/build-documentation.py
+            fi
           fi
           python3 scripts/check-documentation.py
           node scripts/audit-requirements.mjs --check
