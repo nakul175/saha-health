@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "enabled": false,
+  "enabled": true,
   "repository": "nakul175/saha-health",
   "dashboard_issue": 188,
   "control_branch": "ops/story-delivery-2026-10-09",
@@ -32,6 +32,8 @@
     "branch": null,
     "pr": null,
     "required_criteria": [],
+    "post_deploy_criteria": [],
+    "author": null,
     "qa": null,
     "review": null,
     "merge": null,
@@ -41,7 +43,14 @@
   "queue": [176, 177, 178, 179],
   "completed": [],
   "lease": null,
-  "role_tasks": {},
+  "role_tasks": {
+    "product": "6ac9062a661881919c8a9e3cd643b7ba",
+    "engineer": "6ac90641968c8191af38c1ff29fb8421",
+    "qa": "6ac90655d41c819192476b74be367555",
+    "review": "6ac9066b2d2481918d6cca4276b33e33",
+    "release": "6ac90683d5108191b82fabed3f910c22"
+  },
+  "cadence": "Each role scheduled hourly, flexible timing; stage/lease, not clock order, controls handoff.",
   "last_notified_key": null,
-  "status_note": "Bootstrap configuration only; zero newly accepted/merged/deployed stories. Previous evidence is retained but not transferred."
+  "status_note": "Five recurring role tasks registered and enabled. Bootstrap helper: 24 local unit tests passed; remote gate/test blob hashes match tested source. No scheduled role outcome, isolated product rebuild, application merge or deployment is claimed yet."
 }
