@@ -18,6 +18,19 @@ Today -> existing assigned person -> bounded guided capture -> review -> saved r
 
 [DELIVERY.md](DELIVERY.md) specifies eight initial slices. Refine only upcoming work. Each contains requirement/value, functional and UX behaviour, data/API changes, applicable NFRs, acceptance/refusal/rejection criteria, reuse, evidence and release boundaries. They do not add eight items to the 160 scope count.
 
+| Delivery | Tracking issue | Outcome |
+|---|---|---|
+| D01 | #174 | Reproducible original-source baseline |
+| D02 | #175 | Mobile Today into existing work |
+| D03 | #176 | Bounded visit review and save |
+| D04 | #177 | Offline capture and restart |
+| D05 | #178 | Duplicate-safe synchronisation |
+| D06 | #179 | Bounded conversational assistance |
+| D07 | #180 | Synthetic DigitalOcean release/recovery |
+| D08 | #181 | Declared phone-profile qualification |
+
+The integrated product candidate is PR #184. Earlier standalone entry experiments #182 and #183 are superseded without merge; their evidence does not qualify #184. Current implementation/verification status belongs in the linked issues and PR, not in counts of scope items.
+
 ## Decision register
 
 - DEC-01: Original local-save p95 is 500 ms. The later one-second proposal is not approved; do not weaken the target or change a test profile after observing failure.
@@ -37,4 +50,4 @@ Use branches and draft PRs. No merge or deployment is authorised here. The docum
 
 ## Baseline execution
 
-The native checkout attempt in this environment failed with `Could not resolve host: github.com`. Authenticated connector reads work. A dedicated pull-request workflow captures the unmodified baseline source and runs documented checks on a GitHub runner. It has read-only repository permissions, no environment/secrets/deploy step, pinned source, independent failure reporting and artifacts. A workflow being queued is not a passing baseline. See BASELINE.md for the procedure and limitations.
+[BASELINE.md](BASELINE.md) records the now-executed original-source run, exact source/environment, actual outcomes, artifact hashes and limits. Its latest observed result supersedes earlier not-yet-run statements about D01, but does not establish a candidate or formal acceptance pass. Native Git DNS failed locally; authenticated connector access and the independently executed GitHub runner provided the source and qualification evidence. A queued or continue-on-error step conclusion is not a pass: inspect the actual outcome and final gate.
