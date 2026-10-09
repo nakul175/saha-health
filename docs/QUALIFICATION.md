@@ -28,3 +28,8 @@ Reproduction instructions are in [Development and CI](current/DEVELOPMENT-AND-CI
 ### Worker-day entry candidate — 9 October 2026
 
 [Bounded delivery and remaining qualification](current/worker-day-delivery/README.md). Opt-in synthetic presentation; no formal requirement or clinical acceptance promoted.
+
+
+### Worker-day offline continuation — candidate
+
+[Story, implementation and verification boundary](current/worker-day-offline/README.md). Existing encrypted vault, scoped packets and draft sync are reused; no new approval or data store. Parent requirements remain pending.

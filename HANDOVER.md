@@ -169,3 +169,8 @@ The owner-private Sites demonstration now has eight independent speech/OCR workf
 ## 9 October 2026 — Worker-day entry candidate
 
 See [worker-day delivery](docs/current/worker-day-delivery/README.md). Opt-in synthetic ASHA Today presentation reuses current scoped records, audited open and existing guided capture/save. No schema, domain command, role, clinical rule or acceptance status changed. Tests and production/device boundaries are recorded in that document and the associated draft PR; source presence is not a passed acceptance case.
+
+
+## 9 October 2026 — Worker-day offline continuation candidate
+
+See [offline delivery](docs/current/worker-day-offline/README.md). Existing encrypted storage and sync contracts support the prepared-visit journey. No clinical, programme, production or complete D04/D05 acceptance follows from source publication. No merge or deployment is authorised.

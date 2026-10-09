@@ -1696,3 +1696,10 @@ See [worker-day delivery](docs/current/worker-day-delivery/README.md). Opt-in sy
 ## 9 October 2026 — Worker-day initial failures and candidate repair
 
 Run 37922392180 on 4e012f8 failed the lint ratchet (1393 vs 1392 errors) and the new browser assertion after six positives; the later HTTP run was cancelled by a newer revision. No full pass is claimed. The added effect is replaced with an external-store query hook, without suppressing a rule or raising the baseline. The browser assertion now waits for actual hidden state, because the unchanged workspace deliberately keeps inactive panels mounted. It still requires the person context to replace Today visually. All assertions remain; original failure artifacts and Git history are retained. Fresh exact-source qualification is required.
+
+
+## 9 October 2026 — Worker-day offline continuation candidate
+
+See [offline delivery](docs/current/worker-day-offline/README.md). Existing encrypted storage and sync contracts support the prepared-visit journey. No clinical, programme, production or complete D04/D05 acceptance follows from source publication. No merge or deployment is authorised.
+
+Preparation run 37937029543 failed immutable historical-test preservation before publication. The original driver now remains unchanged; its current successor preserves all 12 assertions and the stable unit/field-shell minimum with an explicit thirteen-asset fixture. Run 37937764564 passed preparation integrity but its bot could not publish a new workflow. Workflow publication remains with the authorised repository connector; this script now stages application/documentation only and does not request broader bot permissions. Both failures remain recorded.
