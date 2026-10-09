@@ -1,0 +1,22 @@
+.worker-day { max-width: 28rem; margin: 0 auto; padding-bottom: 1rem; }
+.worker-day-intro h1 { font-size: 1.75rem; line-height: 1.2; margin: .25rem 0 .4rem; }
+.worker-day-intro p { margin: 0 0 1rem; color: #4b5563; line-height: 1.45; }
+.worker-day-kicker { font-size: .73rem; letter-spacing: .08em; font-weight: 700; color: #4b5563; }
+.worker-day-card { border: 1px solid #d8dce5; background: #fff; border-radius: 1rem; padding: 1rem; }
+.worker-day-card h2 { margin: .35rem 0; font-size: 1.45rem; line-height: 1.25; overflow-wrap: anywhere; }
+.worker-day-context { font-size: .875rem; color: #4b5563; margin: .25rem 0 .8rem; overflow-wrap: anywhere; }
+.worker-day-task { font-size: 1rem; line-height: 1.4; margin: .5rem 0; overflow-wrap: anywhere; }
+.worker-day-due { display: block; font-size: .875rem; margin-bottom: .85rem; }
+.worker-day button { min-height: 44px; padding: .7rem .85rem; border-radius: .65rem; font-size: 1rem; display: flex; align-items: center; justify-content: space-between; gap: .6rem; cursor: pointer; }
+.worker-day button svg { flex: 0 0 auto; }
+.worker-day-primary { width: 100%; background: #2c2f71; color: #fff; border: 1px solid #2c2f71; font-weight: 650; }
+.worker-day-secondary { background: #fff; color: #2c2f71; border: 1px solid #cbd0e0; width: 100%; }
+.worker-day-rest h2 { font-size: 1rem; margin: 1.25rem 0 .35rem; }
+.worker-day-rest > button { width: 100%; border: 0; border-bottom: 1px solid #e0e4ec; border-radius: 0; background: transparent; text-align: left; padding: .85rem .2rem; }
+.worker-day-rest strong, .worker-day-rest small { display: block; line-height: 1.4; overflow-wrap: anywhere; }
+.worker-day-rest small { font-size: .8rem; color: #4b5563; }
+.worker-day-note { font-size: .8rem; color: #4b5563; line-height: 1.45; margin: 1rem 0; }
+.worker-day button:focus-visible, .worker-day-nav button:focus-visible { outline: 3px solid #2c2f71; outline-offset: 3px; }
+.worker-day button:disabled { opacity: .6; cursor: wait; }
+.worker-day-nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.worker-day-nav button { min-height: 52px; }
