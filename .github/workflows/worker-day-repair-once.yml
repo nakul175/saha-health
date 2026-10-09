@@ -1,0 +1,44 @@
+name: worker-day-repair-once
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/worker-day-repair-once.yml'
+permissions:
+  contents: read
+jobs:
+  repair:
+    if: github.repository == 'nakul175/saha-health' && github.event.pull_request.number == 184 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feat/worker-day-2026-10-09' && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Apply only reviewed repair and remove this one-time authoring workflow
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          python3 docs/current/worker-day-delivery/repair-candidate.py
+          git rm .github/workflows/worker-day-repair-once.yml
+          git add app tests/smoke/worker-day-browser.mjs docs VALIDATION.md
+          python3 scripts/update-baseline.py worker-day-repair-2026-10-09 'Worker-day repair; source integrity only'
+          python3 scripts/build-documentation.py
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+          git add app tests/smoke/worker-day-browser.mjs docs VALIDATION.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: repair worker-day subscription and context visibility test'
+          REMOTE="$(git ls-remote origin refs/heads/feat/worker-day-2026-10-09 | cut -f1)"
+          test "$REMOTE" = "$EXPECTED_HEAD" || { echo 'Remote moved; refusing to overwrite.'; exit 1; }
+          git push origin HEAD:refs/heads/feat/worker-day-2026-10-09
+          echo 'Repair is committed, not tested or deployed. Normal verification remains read-only.' >> "$GITHUB_STEP_SUMMARY"
