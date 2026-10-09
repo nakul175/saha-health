@@ -126,6 +126,7 @@ Edition 1.1 reconciles application R11 to BRD v1.1. Read [Implementation](../IMP
 | [Operational runbooks](09_Operational-Runbooks_v1.1.md) | Current safe recovery procedures and target-only steps |
 | [Pilot and release acceptance](10_Pilot-and-Release-Acceptance_v1.1.md) | Rehearsal boundary and all eight open gates |
 | [Development and CI](DEVELOPMENT-AND-CI.md) | Setup, test execution and maintenance workflow |
+| [Engineering guide](ENGINEERING-GUIDE.md) | Naming, layout, helpers, gates and the baseline procedure for engineers |
 | [Architecture decisions](ARCHITECTURE-DECISIONS.md) | Reconciliation of all twelve original ADRs |
 | [User guide](USER-GUIDE.md) | Safe care-record workflow in the current interface |
 | [Administrator guide](ADMINISTRATOR-GUIDE.md) | Membership, teams, connections and governance |

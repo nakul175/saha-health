@@ -15,3 +15,5 @@ The application baseline is R11 / v1.3-readiness. Documentation edition 1.1 reco
 - Update the implementation boundary, exact requirement assessments, next delivery and evidence together. Do not promote a whole acceptance case to passed merely because a related unit assertion passes.
 
 Setup, safe test commands and module ownership are in [Development and CI](docs/current/DEVELOPMENT-AND-CI.md). Finish one reviewable slice, commit it, publish it to GitHub and verify the resulting tree, following AGENTS.md.
+
+Engineers: how to write code, name files, find things and ship a change is in [docs/current/ENGINEERING-GUIDE.md](docs/current/ENGINEERING-GUIDE.md).

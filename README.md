@@ -54,3 +54,5 @@ node scripts/audit-requirements.mjs --check
 ```
 
 Detailed release history remains in [VALIDATION.md](VALIDATION.md), [RELEASE-11.md](RELEASE-11.md), [the remaining plan](REMAINING-RELEASES.md) and the preserved [pre-handover README](docs/history/README-R11-before-handover.md).
+
+Engineers: start with the [engineering guide](docs/current/ENGINEERING-GUIDE.md).
