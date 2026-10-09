@@ -1,0 +1,124 @@
+name: community-worker-entry
+on:
+  pull_request:
+    paths:
+      - 'public/worker-today/**'
+      - 'tests/ui/worker-today.mjs'
+      - '.github/workflows/community-worker-entry.yml'
+permissions:
+  contents: read
+concurrency:
+  group: community-worker-entry-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  qualify:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/community-worker-today-2026-10-09'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Check inherited documentation and catalogue
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Build and types
+        run: |
+          npm run typecheck
+          npm run build
+      - name: Install browser
+        run: node_modules/.bin/playwright install --with-deps chromium
+      - name: Test real browser with synthetic API and add its actual minimum
+        env:
+          SAHA_BROWSER_PACKAGE: '@playwright/test'
+          SAHA_EVIDENCE_DIR: /tmp/worker-today-evidence
+        run: node scripts/test.mjs ui --only ui/worker-today --fast --guard --update-baseline --reason 'Add new read-only worker Today browser suite from its actual run; preserve every existing minimum.'
+      - name: Prepare source and evidence metadata without publishing a ref
+        env:
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import json,os,subprocess,hashlib,shutil
+          from pathlib import Path
+          result=json.loads(Path('/tmp/worker-today-evidence/worker-today-result.json').read_text())
+          assert result['failed']==0 and result['passed']==22
+          original=json.loads(subprocess.check_output(['git','show','HEAD:tests/regression-baseline.json']))
+          current=json.loads(Path('tests/regression-baseline.json').read_text())
+          assert all(current['suites'].get(k)==v for k,v in original['suites'].items()), 'Original minima changed'
+          assert set(current['suites'])-set(original['suites'])=={'ui/worker-today'}
+          note='\n\n## Community Worker OS Today candidate — 9 October 2026\n\nAn opt-in read-only entry is added at `/worker-today/`; existing protected `/app` guided capture/save remains unchanged. See [implementation boundary](docs/current/COMMUNITY-WORKER-TODAY.md). No original requirement or formal acceptance is promoted. Actual runner source '+os.environ['SOURCE_HEAD']+'; run '+os.environ['RUN_ID']+'; 22 real-browser checks passed with a mocked scoped API. No built-backend journey, clinical, physical-device or offline qualification is implied. Existing minima are preserved; only the new suite minimum is added. No merge or deployment performed.\n'
+          p=Path('VALIDATION.md');p.write_text(p.read_text()+note)
+          for name,heading in [('docs/IMPLEMENTATION.md','Candidate implementation boundary'),('docs/NEXT-DELIVERY.md','Next Community Worker OS slice')]:
+              p=Path(name);p.write_text(p.read_text()+'\n\n## '+heading+' — 9 October 2026\n\nSee [Today entry](current/COMMUNITY-WORKER-TODAY.md). This read-only candidate reuses the existing protected guided visit. Parent requirements remain partial/pending; next qualify the actual entry-to-save backend journey, then extend offline continuity. No clinical, formal, physical-device or deployment acceptance.\n')
+          p=Path('docs/DOCUMENTATION-INDEX.md');p.write_text(p.read_text()+'\n\n## Community Worker OS candidate\n\n[Read-only mobile Today entry](current/COMMUNITY-WORKER-TODAY.md): implementation and verification boundaries.\n')
+          subprocess.run(['python3','scripts/update-baseline.py','community-worker-today','Community Worker OS read-only Today candidate; source integrity only, not acceptance'],check=True)
+          files=['docs/verification/application-community-worker-today-sha256.json','docs/verification/current-baseline.json','tests/regression-baseline.json','VALIDATION.md','docs/IMPLEMENTATION.md','docs/NEXT-DELIVERY.md','docs/DOCUMENTATION-INDEX.md']
+          target=Path('/tmp/worker-today-prepared');target.mkdir()
+          for name in files:
+              out=target/name;out.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(name,out)
+          (target/'manifest.json').write_text(json.dumps({'source_head':os.environ['SOURCE_HEAD'],'run_id':os.environ['RUN_ID'],'files':{n:hashlib.sha256(Path(n).read_bytes()).hexdigest() for n in files}},indent=2))
+          PY
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: worker-today-prepared-metadata
+          path: /tmp/worker-today-prepared/
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: worker-today-test-evidence
+          path: |
+            /tmp/worker-today-evidence/
+            tests/reports/
+          retention-days: 7
+  prepare-blobs:
+    needs: qualify
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/community-worker-today-2026-10-09'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      # No checkout or candidate-code execution in this job. It uploads only seven allowlisted Git blobs.
+      # It cannot merge, update a ref, deploy or reach the Droplet. Publication still needs an explicit connector commit.
+      - uses: actions/download-artifact@v4
+        with:
+          name: worker-today-prepared-metadata
+          path: /tmp/prepared
+      - name: Store reviewed metadata as unattached Git blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import os,json,base64,hashlib,urllib.request
+          from pathlib import Path
+          root=Path('/tmp/prepared');meta=json.loads((root/'manifest.json').read_text())
+          assert meta['source_head']==os.environ['SOURCE_HEAD']
+          allowed={'docs/verification/application-community-worker-today-sha256.json','docs/verification/current-baseline.json','tests/regression-baseline.json','VALIDATION.md','docs/IMPLEMENTATION.md','docs/NEXT-DELIVERY.md','docs/DOCUMENTATION-INDEX.md'}
+          assert set(meta['files'])==allowed and os.environ['REPO']=='nakul175/saha-health'
+          result={'source_head':meta['source_head'],'run_id':meta['run_id'],'blobs':[]}
+          for name in sorted(allowed):
+              data=(root/name).read_bytes();assert hashlib.sha256(data).hexdigest()==meta['files'][name]
+              request=urllib.request.Request('https://api.github.com/repos/'+os.environ['REPO']+'/git/blobs',data=json.dumps({'content':base64.b64encode(data).decode(),'encoding':'base64'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'},method='POST')
+              with urllib.request.urlopen(request) as response: blob=json.load(response)
+              result['blobs'].append({'path':name,'sha':blob['sha'],'sha256':meta['files'][name]})
+          Path('/tmp/prepared-blobs.json').write_text(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: worker-today-prepared-blobs
+          path: /tmp/prepared-blobs.json
+          retention-days: 7

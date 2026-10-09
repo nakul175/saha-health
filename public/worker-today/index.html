@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light">
+<title>Saha · Today</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#172b29;background:#f5f8f5;font-size:16px;line-height:1.5}*{box-sizing:border-box}body{margin:0}button,input,a{font:inherit}button,a{touch-action:manipulation}button,.action{min-height:48px;border:1px solid #baccc6;border-radius:14px;background:white;color:#183f36;padding:12px 16px;cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #775d11;outline-offset:3px}button:disabled{opacity:.6;cursor:wait}a{color:#174f43}header,main,nav{width:min(100%,520px);margin:auto}header{padding:18px 20px 8px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:26px;font-weight:750;letter-spacing:-1px}.badge{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#53665f}main{padding:12px 20px 110px;overflow-wrap:anywhere}h1{font-size:30px;line-height:1.15;margin:4px 0 12px;letter-spacing:-.7px}h2{font-size:21px;margin:4px 0 6px}p{margin:0 0 12px}.muted{color:#53665f;font-size:14px}.brief{margin-bottom:20px}.card{background:white;border:1px solid #d5e2dc;border-radius:20px;padding:18px;margin-bottom:14px}.next{background:#e8f2ec;border-color:#c1d7c8}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;color:#39574c}.primary{display:block;text-align:center;text-decoration:none;background:#174f43;color:white;border:0;font-weight:650}.list{display:grid;gap:10px}.person{display:flex;justify-content:space-between;gap:14px;text-decoration:none;border:1px solid #d5e2dc;border-radius:16px;padding:15px;background:white;min-height:72px}.person strong{display:block}.person small{display:block;color:#53665f}.person>span:last-child{align-self:center;font-size:22px}.search{width:100%;min-height:48px;border:1px solid #b8c9c1;border-radius:12px;padding:12px;margin:8px 0 16px;background:white;color:inherit}.section-label{font-size:15px;font-weight:650;margin:20px 0 10px}.status{background:#fff5d8;border:1px solid #d8bc6c;color:#544111}.status h2{font-size:20px}.status a{display:inline-block;padding:12px 0;min-height:44px}.footnote{font-size:12px;color:#53665f;margin-top:18px}nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #d5e2dc;padding:10px 12px max(10px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,1fr);gap:6px}nav button{border:0;border-radius:12px;font-size:14px;padding:10px 4px}nav button[aria-current=page]{background:#e5f0e9;font-weight:700}#refresh{font-size:14px;min-height:44px;padding:8px 12px}#notice{margin-bottom:14px}details summary{cursor:pointer;min-height:44px;padding:10px 0}details a{display:block;padding:12px 0;min-height:44px}.hidden{display:none!important}[hidden]{display:none!important}@media(prefers-reduced-motion:no-preference){button,a{transition:background .15s}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">saha.</div><div class="badge">Worker experience · preview</div></div><button type="button" id="refresh">Refresh</button></header>
+<main id="main" tabindex="-1"><div id="notice" role="status" aria-live="polite">Loading your current work…</div><div id="content"></div></main>
+<nav aria-label="Main navigation"><button type="button" data-tab="today" aria-current="page">Today</button><button type="button" data-tab="people">People</button><button type="button" data-tab="space">My Space</button></nav>
+<script type="module" src="./today.js"></script>
+</body></html>
