@@ -30,6 +30,10 @@ jobs:
       - name: Regenerate coverage without changing assertions or acceptance
         run: |
           set -euo pipefail
+          # The existing dependency installer alters this tracked workspace file.
+          # Preserve the diff in the job log, then restore the exact reviewed input.
+          git diff -- pnpm-workspace.yaml
+          git restore --source=HEAD -- pnpm-workspace.yaml
           node tests/uat/coverage-map.mjs
           node tests/uat/check-uat-register.mjs
           node tests/uat/coverage-map.mjs --check
@@ -37,6 +41,8 @@ jobs:
           node scripts/audit-requirements.mjs --check
           node scripts/test.mjs --check-catalogue
           git add docs/testing/COVERAGE.md docs/testing/coverage.csv
+          # Do not leave a branch-writing maintenance job in the finished PR.
+          git rm .github/workflows/worker-day-coverage.yml
           git diff --cached --stat
       - name: Publish generated documents to the same draft branch only
         env:
@@ -46,10 +52,9 @@ jobs:
           set -euo pipefail
           BRANCH='feat/worker-day-2026-10-09'
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
-          if git diff --cached --quiet; then echo 'Coverage already current'; exit 0; fi
           python3 - <<'PY'
           import subprocess
-          allowed={'docs/testing/COVERAGE.md','docs/testing/coverage.csv'}
+          allowed={'docs/testing/COVERAGE.md','docs/testing/coverage.csv','.github/workflows/worker-day-coverage.yml'}
           actual=set(subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines())
           assert actual and actual <= allowed, actual
           PY
@@ -58,7 +63,7 @@ jobs:
           test "$REMOTE" = "$EXPECTED_HEAD"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'docs: reconcile coverage for the worker-day tests'
+          git commit -m 'docs: reconcile worker-day coverage and remove authoring workflow'
           git push origin "HEAD:refs/heads/$BRANCH"
           echo "Generated coverage commit: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
           echo 'Draft branch only. No main update, deployment, requirement status or test assertion changes.' >> "$GITHUB_STEP_SUMMARY"
