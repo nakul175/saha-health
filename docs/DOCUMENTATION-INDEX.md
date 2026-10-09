@@ -32,3 +32,6 @@ Current specifications use Markdown and registers use CSV/JSON for GitHub review
 
 
 [Worker-day entry candidate](current/worker-day-delivery/README.md): opt-in synthetic entry, source reuse, tests and limits.
+
+
+[Worker-day offline continuation](current/worker-day-offline/README.md): prepared-visit resume and duplicate-safe-sync qualification.

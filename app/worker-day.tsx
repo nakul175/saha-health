@@ -53,6 +53,9 @@ export function WorkerToday({ data, busy, open, work, sync }: TodayProps) {
         <ArrowRight size={18} aria-hidden="true"/>
       </button>)}
     </section>}
+    <a className="worker-day-secondary" href={'/app/offline/?experience=worker-day'+(next?'&personId='+encodeURIComponent(next.id)+'&organisationId='+encodeURIComponent(data.organisation.id):'')} aria-disabled={busy} onClick={event=>{if(busy)event.preventDefault();}}>
+      {hi ? 'फ़ोन पर विज़िट तैयार करें या जारी रखें' : 'Prepare or continue visits on this phone'}
+    </a>
     <p className="worker-day-note">{hi ? 'मौजूदा सूची का क्रम है, AI की प्राथमिकता नहीं। इसमें बाकी तारीखों के काम भी हो सकते हैं।' : 'Existing list order, not an AI priority. Overdue and upcoming work may also appear.'}</p>
     <button className="worker-day-secondary" disabled={busy} onClick={work}>{hi ? 'पूरी सूची देखें' : 'View full work list'}</button>
   </section>;
