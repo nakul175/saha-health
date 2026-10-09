@@ -23,3 +23,8 @@ The original catalogue contains 364 application acceptance definitions. [TEST-CA
 - The documentation checker verifies hashes, relationships and coverage. It cannot judge clinical correctness or replace a human acceptance decision.
 
 Reproduction instructions are in [Development and CI](current/DEVELOPMENT-AND-CI.md). Full product reruns were not needed for this documentation-only update; runtime source, migrations and saved test results are checked against the baseline manifest. The new documentation verification record is [DOCUMENTATION-QA.md](current/DOCUMENTATION-QA.md).
+
+
+### Worker-day entry candidate — 9 October 2026
+
+[Bounded delivery and remaining qualification](current/worker-day-delivery/README.md). Opt-in synthetic presentation; no formal requirement or clinical acceptance promoted.

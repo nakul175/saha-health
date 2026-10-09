@@ -224,3 +224,8 @@ Combined validation now passes147 unit suites/8,594 checks, fullHTTP/restore/sec
 | B27 frozen reports | Immutable original editions and reviewed corrections; independent cancellation freshness repair | Final independent review complete in isolated source, not yet integrated |
 
 Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-REMAINING-WORK.md). B09 inbound conflicts, B13 household completion and hosted transport diagnosis proceed in parallel. SDK licence decision, APK/device and all clinical/external/formal acceptance remain pending.
+
+
+### Worker-day entry candidate — 9 October 2026
+
+[Bounded delivery and remaining qualification](current/worker-day-delivery/README.md). Opt-in synthetic presentation; no formal requirement or clinical acceptance promoted.

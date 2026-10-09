@@ -1,0 +1,115 @@
+name: worker-day-candidate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'app/worker-day*'
+      - 'app/workspace.tsx'
+      - 'lib/saha/worker-day.ts'
+      - 'tests/worker-day-contract.mjs'
+      - 'tests/smoke/worker-day-browser.mjs'
+      - 'docs/current/worker-day-delivery/**'
+      - '.github/workflows/worker-day-candidate.yml'
+permissions:
+  contents: read
+concurrency:
+  group: worker-day-candidate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Integrity and original requirement register
+        id: integrity
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        id: dependencies
+        continue-on-error: true
+        run: npm run install:ci
+      - name: Lint ratchet and types
+        id: static
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          npm run lint:baseline
+          npm run typecheck
+      - name: Build exact candidate
+        id: build
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: npm run build
+      - name: Browser installation
+        id: chromium
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: node_modules/.bin/playwright install --with-deps chromium
+      - name: Worker-day pure contract
+        id: contract
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/test.mjs unit --only unit/worker-day-contract --fast --guard
+      - name: Today to real synthetic saved draft
+        id: journey
+        if: steps.chromium.outcome == 'success'
+        continue-on-error: true
+        env:
+          SAHA_BROWSER_PACKAGE: '@playwright/test'
+        run: node scripts/test.mjs smoke --only smoke/worker-day-browser --fast --guard
+      - name: Existing security gate
+        id: security
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/security-gate.mjs
+      - name: Existing HTTP and recovery regressions
+        id: integration
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/test.mjs integration resilience --only integration/run-api-smoke,resilience/recovery-drill --fast --guard
+      - name: Record exact candidate outcomes
+        if: always()
+        env:
+          OUTCOMES: ${{ toJSON(steps) }}
+        run: |
+          python3 - <<'PY'
+          import os,json,subprocess
+          from pathlib import Path
+          steps=json.loads(os.environ['OUTCOMES'])
+          names=['integrity','dependencies','static','build','chromium','contract','journey','security','integration']
+          r={'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'outcomes':{n:steps.get(n,{}).get('outcome','not-run') for n in names},'boundary':'Committed candidate engineering evidence only. No branch writes, deployment, physical handset, ASHA, clinical or programme acceptance.'}
+          Path('tests/reports').mkdir(parents=True,exist_ok=True)
+          Path('tests/reports/worker-day-outcomes.json').write_text(json.dumps(r,indent=2))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+              f.write('## Candidate '+r['commit']+'\n\n'+''.join('- '+k+': '+v+'\n' for k,v in r['outcomes'].items()))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: worker-day-candidate-results
+          path: |
+            tests/reports/
+            dist/security-gate.json
+          retention-days: 7
+      - name: Require every selected check
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path('tests/reports/worker-day-outcomes.json')
+          if not p.exists(): sys.exit(1)
+          sys.exit(int(any(v!='success' for v in json.loads(p.read_text())['outcomes'].values())))
+          PY
