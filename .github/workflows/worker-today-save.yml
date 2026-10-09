@@ -1,0 +1,85 @@
+name: worker-today-save
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/worker-today/**'
+      - 'tests/smoke/worker-today-save.mjs'
+      - 'tests/worker-today-contract.mjs'
+      - 'docs/current/WORKER-TODAY-PREVIEW.md'
+      - 'docs/current/community-worker-os/prepare-today-metadata.py'
+      - '.github/workflows/worker-today-save.yml'
+permissions:
+  contents: read
+concurrency:
+  group: worker-today-save-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  qualify:
+    if: github.repository == 'nakul175/saha-health' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feat/worker-today-entry-2026-10-09'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install existing pinned dependencies
+        run: npm run install:ci
+      - name: Regenerate coverage and full source metadata
+        run: python3 docs/current/community-worker-os/prepare-today-metadata.py
+      - name: Existing type check and build
+        run: |
+          npm run typecheck
+          npm run build
+          node scripts/security-gate.mjs
+      - name: Install declared browser
+        run: node node_modules/@playwright/test/cli.js install --with-deps chromium
+      - name: Presentation contract
+        run: node tests/worker-today-contract.mjs
+      - name: New entry through real backend save
+        env:
+          SAHA_BROWSER_PACKAGE: '@playwright/test'
+        run: node tests/smoke/worker-today-save.mjs
+      - name: Verify generated coverage
+        run: |
+          node tests/uat/coverage-map.mjs --check
+          python3 scripts/check-documentation.py
+          node scripts/audit-requirements.mjs --check
+      - name: Preserve source and result evidence
+        if: always()
+        run: |
+          mkdir -p /tmp/worker-today-source
+          git rev-parse HEAD > /tmp/worker-today-source/source-commit.txt
+          git archive --format=zip HEAD -o /tmp/worker-today-source/source.zip
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: worker-today-save-evidence
+          retention-days: 7
+          path: |
+            tests/reports/worker-today-save/
+            tests/reports/worker-today-contract-result.json
+            /tmp/worker-today-source/
+      - name: Publish generated metadata to this feature branch only
+        env:
+          TOKEN: ${{ github.token }}
+          EXPECTED: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch='feat/worker-today-entry-2026-10-09'
+          auth="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)"
+          remote=$(git -c "http.https://github.com/.extraheader=$auth" ls-remote origin "refs/heads/$branch" | cut -f1)
+          test "$remote" = "$EXPECTED" || { echo 'Remote moved; retain evidence and rebase. No push.'; exit 1; }
+          git add VALIDATION.md HANDOVER.md docs/IMPLEMENTATION.md docs/NEXT-DELIVERY.md docs/QUALIFICATION.md docs/DOCUMENTATION-INDEX.md docs/testing/COVERAGE.md docs/testing/coverage.csv docs/verification/current-baseline.json docs/verification/application-worker-today-*-sha256.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'Saha delivery automation'
+          git config user.email 'saha-delivery@users.noreply.github.com'
+          git commit -m 'docs: register verified worker Today source and coverage'
+          git -c "http.https://github.com/.extraheader=$auth" push origin "HEAD:refs/heads/$branch"
