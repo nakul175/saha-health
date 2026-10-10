@@ -23,7 +23,8 @@
     "outputs/d02-evidence/baseline-signoff-failure.log": "08c3a04cb722b63d45c48d6683219c2039210988279ad9bb5071c298777ba1c0",
     "outputs/d02-evidence/nfr-initial.json": "a039bf035e08ef8c62efd79a290aae81b74cecef1fa06f10837b77d3b6daec74",
     "outputs/d02-evidence/nfr-initial.log": "de3f31934dfc103c28cf59a3a32bf61220d174c6f320dedc757434e0a30f85a9",
-    "outputs/d02-evidence/nfr-final.json": "2c4dde1a3ee5adedc0823aa9d0d26ca02f1cc48ea023f41ebc3f454ce6ba2f36"
+    "outputs/d02-evidence/nfr-final.json": "2c4dde1a3ee5adedc0823aa9d0d26ca02f1cc48ea023f41ebc3f454ce6ba2f36",
+    "outputs/d02-evidence/ci-initial-doc-failure.log": "b21a2eeb4d1ce199621e10bbc43b0af1c4059fa49eb22a5f8ec09914fd608611"
   },
   "independentQaReceiptSha256": "87b50f6d84ced60e8d6e4baee28768d7a3424b40a2477650aad131eb77f0f446",
   "evidenceLocation": "Ignored outputs/d02-evidence in this checkout; real CI uploads tests/reports and reports through existing artifact step. Historical receipts are preserved.",
@@ -38,6 +39,7 @@
       "failed": 0
     }
   },
-  "documentation": "passed: 1781 baseline files, 176 retained requirements, 364 retained formal cases; zero accepted",
-  "lint": "1392 errors/618 warnings, unchanged baseline"
+  "documentation": "Initial local check passed before final validation-prose edit; e418c442 CI correctly failed stale VALIDATION baseline. New chained baseline/check must qualify this follow-up.",
+  "lint": "1392 errors/618 warnings, unchanged baseline",
+  "initialPublishedCandidate": "e418c4425fe4d279c7bfd5872a432389b0cff241"
 }

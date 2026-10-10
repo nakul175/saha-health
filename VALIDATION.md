@@ -1,3 +1,7 @@
+# D02 CI baseline repair — 10 October 2026
+
+First published candidatee418c442 had a final validation-prose edit after its baseline was generated. Actual documentation job114113071650 in run38018183957 failed `Changed baseline file: VALIDATION.md`; engineering checks also stopped before install/build/Today execution. Local documentation had passed before that final prose edit and did not qualify the published head. The failed source and exact log are retained. This documentation-only follow-up records the failure before generating a NEW chained baseline; earlier manifests remain immutable. Product/spec/browser-test bytes and independent QA source hashes are unchanged. Rebind agent receipts and inspect new-head CI; no earlier CI success is inferred. Full unit signoff and hosted A10 blockers remain.
+
 # D02 isolated candidate — 10 October 2026
 
 Base `43f445acf4c54352cd2084e0bcd88bfbf605d757`. One active story, D02/#175. Frozen spec: [revision 1](docs/current/d02/SPECIFICATION.md), SHA256 `67ccc13d2f5cc1421c96c85adbeb35a3e290874bfce46e4abd18434206b56bb2`. New `/today` entry and GET-only `/api/today`; no code is bulk-reused from #184/#187, no legacy UI activated and no visit/clinical write added. Authoritative identity, scope and audit dependencies are reused from main. Source/evidence pins: [manifest](docs/current/d02/EVIDENCE.json).
