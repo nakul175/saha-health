@@ -826,7 +826,7 @@
     "smoke/local-smoke": {
       "layer": "smoke",
       "file": "tests/smoke/local-smoke.mjs",
-      "minPassed": 28
+      "minPassed": 30
     },
     "smoke/reconciliation-ui": {
       "layer": "smoke",
@@ -1421,7 +1421,7 @@
     "unit/note-answer-signoff-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-note-answer-signoff-contract.mjs",
-      "minPassed": 52
+      "minPassed": 58
     },
     "unit/notification-channel-contract": {
       "layer": "unit",
@@ -1867,6 +1867,11 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
+    },
+    "smoke/today-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/today-browser.mjs",
+      "minPassed": 58
     }
   },
   "log": [
@@ -1894,6 +1899,23 @@
       "reason": "Added 14 suites from verified 2026-10-06 runs (additions only; no existing minimum changed). Existing ids operational-privacy-adverse/extra, report-portability, sixth-review-fixes now point at current adapters with unchanged minima.",
       "lowered": {},
       "removed": []
+    },
+    {
+      "date": "2026-10-10",
+      "reason": "D02 real journey independently repeated58; preserve signoff52 plus6 refusal groups and local smoke28 plus2 Today controls. No lowered or removed minima.",
+      "raised": {
+        "unit/note-answer-signoff-contract": [
+          52,
+          58
+        ],
+        "smoke/local-smoke": [
+          28,
+          30
+        ]
+      },
+      "added": [
+        "smoke/today-browser"
+      ]
     }
   ]
 }

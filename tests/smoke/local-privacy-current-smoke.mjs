@@ -234,16 +234,39 @@ try {
     for (const route of gets) { const res = await c.get(null, pathOf(route)); if (res.status !== 401) wrong.push(`${res.status} ${route}`); }
     assert.equal(wrong.length, 0, `routes that did not answer 401 to an anonymous caller: ${wrong.join('; ')}`);
   });
-  await r.check(`every GET route in HTTP-ROUTES.csv answers the owner without a 5xx (200 wherever it can be called)`, async () => {
+  await r.check(`every GET route in HTTP-ROUTES.csv answers the owner with its declared contract (Today refuses; legacy routes succeed)`, async () => {
     const bad = [];
     for (const route of gets) {
       const res = await c.get(owner, pathOf(route), org); sweep.push({ route, path: pathOf(route), status: res.status, ms: Math.round(res.ms) });
+      if (route === '/api/today') {
+        assert.equal(res.status, 403, 'Today requires ASHA membership, even for an owner');
+        assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
+        continue;
+      }
       if (res.status >= 500) bad.push(`${res.status} ${route}`);
       // Slice 11g (test review M6): an owner 4xx on a route that needs no parameters is a failure, not a skip.
       else if (res.status !== 200 && !(route in unsuppliable) && !(route in query)) bad.push(`${res.status} (expected 200 without parameters) ${route} ${res.json?.error ?? ''}`);
       else if (res.status !== 200 && !(route in unsuppliable)) bad.push(`${res.status} (expected 200) ${route} ${res.json?.error ?? ''}`);
     }
     assert.equal(bad.length, 0, `routes that failed: ${bad.join('; ')}`);
+  });
+  await r.check('Today returns only the assigned ASHA record and opens its exact read-only identity context', async () => {
+    const list = await c.get(asha, '/api/today', org); need(list, 200, 'ASHA Today list');
+    assert.deepEqual(list.json, {records: [{id: 'p_meena', name: asha.snap.people[0].name, village: asha.snap.people[0].village}]});
+    const detail = await c.get(asha, '/api/today?personId=p_meena', org); need(detail, 200, 'ASHA Today detail');
+    const person = asha.snap.people[0];
+    assert.deepEqual(detail.json, {record: {id: person.id, name: person.name, village: person.village, age: person.age, sex: person.sex}});
+  });
+  await r.check('Today refuses unassigned records, non-ASHA membership and a different organisation without any records', async () => {
+    for (const [who, path, codes] of [
+      [asha, '/api/today?personId=p_rajesh', [403, 404]],
+      [supervisor, '/api/today', [403]],
+      [stranger, '/api/today', [403]],
+    ]) {
+      const res = await c.get(who, path, org);
+      assert.ok(codes.includes(res.status), `expected refusal for ${who.label}, got ${res.status}`);
+      assert.deepEqual(Object.keys(res.json).sort(), ['error'], 'refusal carries no record payload');
+    }
   });
   for (const row of sweep) if (row.skipped) r.skip(`GET ${row.route}`, row.skipped);
   for (const route of gets.filter(x => x in unsuppliable)) r.skip(`GET ${route}`, unsuppliable[route]);

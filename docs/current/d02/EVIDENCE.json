@@ -2,7 +2,7 @@
   "date": "2026-10-10",
   "base": "43f445acf4c54352cd2084e0bcd88bfbf605d757",
   "story": 175,
-  "gate": "8/9 pre-merge locally passed; A9 blocked by baseline signoff unit + pending final CI/review; A10 hosting blocked",
+  "gate": "8/9 pre-merge; all201 local units now pass, targeted repair separately repeated; A9 awaits repaired-head CI/final review; A10 hosting blocked",
   "scope": "Synthetic local Worker/D1 and Chromium only",
   "sourceHashes": {
     "app/today/page.tsx": "bae5b52807ca9b66d275238a16aad272db53abd936c7766bf0af4af44cb6fb0a",
@@ -12,7 +12,11 @@
     "lib/saha/today.ts": "c13651c7d7cb8c1a8a335886b4086a73f98daca7328ec2d1eb642b38adae4ee7",
     "lib/saha/today-server.ts": "1b4c978a012d962beecfac74e0c9ff9e4baa98e35e3792db5339f9fb8181a585",
     "tests/smoke/today-browser.mjs": "b9a990e0051e175558951a0462554e901af1cfe6849558da41567381deba45d2",
-    "docs/current/d02/SPECIFICATION.md": "67ccc13d2f5cc1421c96c85adbeb35a3e290874bfce46e4abd18434206b56bb2"
+    "docs/current/d02/SPECIFICATION.md": "67ccc13d2f5cc1421c96c85adbeb35a3e290874bfce46e4abd18434206b56bb2",
+    "tests/lib/verification-root-fixture-adapter.mjs": "c3d71f37fe66b5a9490a708525539b32653b7ea942b947dc1b1804e2597224bd",
+    "tests/root-verification-current-note-answer-signoff-contract.mjs": "23feffa40221a874cb006953188671cbf437e5288575dbb9c8b06d41d2a9b177",
+    "tests/smoke/local-privacy-current-smoke.mjs": "d41d2f300ace3c4c73740c2c34dd72b37e3cf19f76a7c4536b65b3e6ad8fdcc7",
+    "tests/regression-baseline.json": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c"
   },
   "evidence": {
     "outputs/d02-evidence/api.json": "34fed6f0966a7eb9d5ebf6cf932ba27bce90ddd6e0d66be219907dd5a97b93e8",
@@ -26,7 +30,18 @@
     "outputs/d02-evidence/nfr-final.json": "2c4dde1a3ee5adedc0823aa9d0d26ca02f1cc48ea023f41ebc3f454ce6ba2f36",
     "outputs/d02-evidence/ci-initial-doc-failure.log": "b21a2eeb4d1ce199621e10bbc43b0af1c4059fa49eb22a5f8ec09914fd608611",
     "outputs/d02-evidence/ci-uat-drift.log": "43512491998df6c91c865aafee5a2d3bc997379cf243cefafb90826d10a1e7e0",
-    "outputs/d02-evidence/uat-final.json": "7958606e2204613850936b34ac2d0c5d671da0c3456d33eab86efa1f3e28366f"
+    "outputs/d02-evidence/uat-final.json": "7958606e2204613850936b34ac2d0c5d671da0c3456d33eab86efa1f3e28366f",
+    "outputs/d02-evidence/repair-targeted-initial.log": "7565369185a738eb6f46b2a3e21c348ecc6aae86d76f67c0eac3614a6fd99d26",
+    "outputs/d02-evidence/repair-qa-summary.json": "ec8a6699db95a66e88f8137b3e3b3c876ae98b4ca333c083da4e80d8a981c828",
+    "outputs/d02-evidence/repair-qa.json": "cf1d46261b6ebde6b5cf8383a42444f5d7add94f413ea7e4b3c6f1791ee2827b",
+    "outputs/d02-evidence/repair-targeted-final.log": "4bd0fa3c0177346a92b36110a56c2c1bed46a87fbd992f29955fbca283b22dda",
+    "outputs/d02-evidence/repair-full-units.json": "c11c051eb4606ccbda08598fb643ceea49585a95f3cfacdccc284e1f24721612",
+    "outputs/d02-evidence/repair-qa.log": "885c5dfc95a0a91ed9313dd9dd59f44208553806690e39268fb4da4c257b0811",
+    "outputs/d02-evidence/repair-full-units.log": "9ad82ddfad607ce8f39fe24d48a660122d92c827075a6d68bfd1ee841bdff542",
+    "outputs/d02-evidence/ci-dee0-failed.log": "201c75b8759e2eef5cc771bb4ed4cee3dc2336efdbe789ae2b9a9ca241f163e1",
+    "outputs/d02-evidence/ci-dee0-full.log": "e8cd7a5a92988562e01cf099b56326e4511738e9a64fffa6933c0a5f25c046e6",
+    "outputs/d02-evidence/repair-final-gates.json": "936b30a2e53673f906b6c99ccd153f6c8293cf1146f9fd4a7df8ff44b24f2ece",
+    "outputs/d02-evidence/repair-final-gates.log": "e72e6da1f1073064f206abe8fc762988d29319530a4484e44fccd0544011104a"
   },
   "independentQaReceiptSha256": "87b50f6d84ced60e8d6e4baee28768d7a3424b40a2477650aad131eb77f0f446",
   "evidenceLocation": "Ignored outputs/d02-evidence in this checkout; real CI uploads tests/reports and reports through existing artifact step. Historical receipts are preserved.",
@@ -49,5 +64,32 @@
     "failed": 0,
     "skipped": 0,
     "formalAcceptance": 0
+  },
+  "repair": {
+    "scope": "Test-only current adapters; production authorization and immutable historical drivers unchanged",
+    "fixtureClock": "2026-10-01T06:00:00.000Z only in isolated signoff unit; real execution timestamp in wrapper/runner",
+    "fullUnits": {
+      "suites": 201,
+      "passed": 10702,
+      "failed": 0,
+      "skipped": 0,
+      "guard": "passed"
+    },
+    "independentTargetedQa": {
+      "passed": 168,
+      "failed": 0,
+      "skipped": 1,
+      "skip": "existing media upload ID not supplied"
+    },
+    "minima": "signoff52->58, local smoke28->30; new Today58; none lowered/removed",
+    "previousCI": "dee0 run38018545871 failed only signoff unit and owner Today smoke expectation;147 workflows7691 and API/recovery5041 passed",
+    "finalLocalGates": {
+      "suites": 8,
+      "passed": 248,
+      "failed": 0,
+      "skipped": 1,
+      "guard": "passed",
+      "formalUatAccepted": 0
+    }
   }
 }
