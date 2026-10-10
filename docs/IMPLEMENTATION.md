@@ -1,3 +1,7 @@
+# Current D03 recovery boundary — 11 October 2026
+
+Today and routine capture retain the authorized selected organisation across account changes. Unknown writes retain their original key through comparison. A matching server disposition can release a stale unknown attempt only after an audited higher visit version and absence of the original actor/key receipt; no GET or generic error establishes that outcome. Inputs remain unsaved until explicit review/save/readback. All routine links receive the existing 44px target styling. See [the checkpoint](current/d03/OVERNIGHT-RECOVERY-20261011.md) for source and remaining gates; no parent requirement or formal acceptance is promoted.
+
 # D03 implementation boundary — 10 October 2026
 
 D02 is delivered on synthetic staging with its declared gate10/10 and restored clinician role; formal UAT0/364 and whole-product acceptance remain unchanged. D03/#176 is the only active story on clean main7668 base. See [frozen scope](current/d03/SPECIFICATION.md). Separate connected routine presentation delegates four existing commands, bound to one assigned person. Actual local build/types and42 initial real-backend/browser checks pass; final expanded evidence, affected checks, CI, separate review and live hosted smoke remain pending. Existing encrypted local-storage component timing is separately measured; this screen does not acknowledge a durable local save. Original SAHA-004/006/020/021/024/049 and parent BRD/NFR assessments are not promoted to formal acceptance. Old PRs173/184/187 and legacy/history preserved.

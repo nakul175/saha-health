@@ -1,0 +1,39 @@
+{
+  "recordedAtUtc": "2026-10-10T18:36:51.333270+00:00",
+  "story": 176,
+  "scope": "Add candidate routine screen to role-specific static UAT mapping; regenerate affected scripts, not formalcaseexecution",
+  "failureRetained": {
+    "selection": 3,
+    "passed": 61,
+    "failed": 2,
+    "reason": [
+      "missingroutine PANEL_HOME",
+      "stalegeneratedASHA/CLINICIAN/E2Epacks"
+    ],
+    "rawSummarySha256": "bfbb5de4a56836a47b319b302b1c1fd1df9c80cb5d47f9a4f88f0aaec9a55646",
+    "logSha256": "c3239b44092f63b19e0bfbe79edcd9170a4203414413cdf36066e6b280cbdb34"
+  },
+  "repair": "Named candidate/deployment-pending routine screen mappedonlytoASHA visibility; no role/case/default-blocked/acceptancepolicy/oraclechanges",
+  "freshConsistency": {
+    "suites": 3,
+    "passed": 63,
+    "failed": 0,
+    "guard": "passed",
+    "summarySha256": "56bf51e9b220552510e2a7b00233eab7fd65b4a5ba220f90ab10ce44411922d3",
+    "logSha256": "905ffbdfd09a9866c8e644e6e9fa2dd25fe09d9bbde9818f6da238540f2c637b"
+  },
+  "sourceSha256": {
+    "tests/lib/uat-selection.mjs": "b61ff73af8b0bf5c1b331e21a560bdef7b8d9692c22acdf60d58613a752d7886",
+    "tests/uat/generate-uat-pack.mjs": "4411567f0ac6d83b875a9365a3af8e7bcd24ac77a2a25e44c63bd08e3a6037cd",
+    "docs/testing/uat/UAT-ASHA.md": "370a58174894b8a953b0e063dc588b6db694cb9e39444ad9569e84a71809a48a",
+    "docs/testing/uat/UAT-CLINICIAN.md": "ed3635ece68fdbb909ea36c4231d9c68b930738e7495225109c69d064298cd40",
+    "docs/testing/uat/UAT-END-TO-END.md": "71162a679c226941ab9858bef7ea2b172bd5776e6e5331674ee9ea90dd734da8",
+    "docs/testing/uat/uat-results.csv": "506f5a24b71252f0ce6e498f7cabbbe7fe9d3d7e37dc1f887adada7c1a2a9fc1"
+  },
+  "registerByteIdenticalToPreservedCandidate": true,
+  "formalUatAccepted": 0,
+  "formalCases": 364,
+  "previousReceipt": "EVIDENCE-20261011-RECOVERY.json",
+  "previousReceiptRetainedUnchanged": true,
+  "remaining": "Full unit auditcontention repair, final-headCI, qualifiedmerge and liveA10 unchanged; no newfeaturedelivery"
+}

@@ -130,7 +130,9 @@ export async function loadNavigation() {
 // Which screen hosts each panel file, from the import graph of app/*.tsx and the view guards in app/workspace.tsx at the base commit
 // (a panel imported by another panel is hosted wherever that panel is). 'Person page' is a person's page opened from My work or People.
 const PERSON = 'Person page and visit';
+export const ROUTINE_CAPTURE_SCREEN = 'Candidate ASHA routine visit (Today > Review routine visit; deployment pending)';
 export const PANEL_HOME = {
+  'app/routine-visit/routine-visit.tsx': [ROUTINE_CAPTURE_SCREEN],
   'app/registration-guidance.tsx': ['My work', 'People'],
   'app/frontline-guidance.tsx': ['ASHA app Home (/app)'],
   'app/inbound-conflicts-panel.tsx': [PERSON],

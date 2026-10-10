@@ -1,3 +1,7 @@
+# Active sequential coding — 11 October 2026
+
+D03/#176 remains the only active feature story; continue [the saved recovery checkpoint](current/d03/OVERNIGHT-RECOVERY-20261011.md) and resolve its actual full-unit contention failure. A9/A10 remain incomplete. Do not start D04 before the frozen ten gates pass. Owner-authorized local coding ends 08:00 IST; preserve the safe checkpoint and pause the heartbeat then. Older handover pauses below are historical and do not cancel this fresh local development authorization. Main merge and paid actions still need their own authority.
+
 # Active delivery — D03 / #176
 
 D02/#175 passed its declared10/10 delivery gate on10 October2026: exact hosted merge7668a03d, actual synthetic ASHA list/open/back/refusal, then clinician restoration with owner/teams preserved. Isolated PR189 alone was merged. Live receipts are linked in GitHub issues175/188; formal UAT0/364 remains unchanged.

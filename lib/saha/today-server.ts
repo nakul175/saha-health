@@ -39,7 +39,9 @@ export async function todayRead(request: Request) {
       personId: id,
       detail: `Read-only identity context opened from Today.${accessRoute(member, person!)}`,
     });
-    return json({ record: todayRecord(person!) });
+    const response = json({ record: todayRecord(person!) });
+    response.headers.set('x-saha-organisation', state.organisation.id);
+    return response;
   }
   await recordPatientList(
     db(),
@@ -50,5 +52,7 @@ export async function todayRead(request: Request) {
     records.length,
     records.length,
   );
-  return json({ records: records.map(todayRow) });
+  const response = json({ records: records.map(todayRow) });
+  response.headers.set('x-saha-organisation', state.organisation.id);
+  return response;
 }

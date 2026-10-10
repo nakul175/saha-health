@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import { db, identity, json, loadFor, runtime, command } from './server';
-import { fail } from './core';
+import { AppError, fail } from './core';
 import { scope } from './store';
 import { environmentOf } from './environment';
 import { patientId } from './patient-directory';
 import { recordAccess, accessRoute } from './access-audit';
 import { boundedJsonBody } from './request-body';
-import { routineVisit, type RoutineContext } from './routine-visit';
+import { routineVisit, type RoutineContext, type RoutineStaleRefusal } from './routine-visit';
 
 const operation = z.object({ personId: z.string(), command: z.record(z.unknown()) }).strict();
 const permitted = new Set(['startVisit', 'saveVisit', 'saveProgrammeAnswers', 'confirmVisit']);
@@ -62,7 +62,27 @@ export async function routineWrite(request: Request) {
   const headers = new Headers(request.headers);
   headers.delete('content-length');
   // The existing dispatcher remains the only writer, including version, purpose, receipt and audit checks.
-  const result = await command(new Request(request.url, { method: 'POST', headers, body: JSON.stringify(c) }));
+  let result: Awaited<ReturnType<typeof command>>;
+  try {
+    result = await command(new Request(request.url, { method: 'POST', headers, body: JSON.stringify(c) }));
+  } catch (cause) {
+    const key = request.headers.get('idempotency-key');
+    if (!(cause instanceof AppError) || cause.status !== 409 || !selected || !key ||
+        !['saveVisit', 'saveProgrammeAnswers', 'confirmVisit'].includes(c.type) ||
+        typeof c.version !== 'number' || !Number.isSafeInteger(c.version) || c.version < 1) throw cause;
+    const current = await context(request, id, selected);
+    if (!current.visit || !Number.isSafeInteger(current.visit.version) || current.visit.version <= c.version) throw cause;
+    const actor = await identity();
+    const saved = await db().prepare('SELECT key FROM command_receipts WHERE actor_id=? AND key=?')
+      .bind(actor.userId, key).first();
+    if (saved) throw cause;
+    // Receipt absence alone is not an outcome. The higher visit version also
+    // prevents any in-flight old-version command from passing the existing atomic CAS.
+    const refused: RoutineStaleRefusal = { outcome: 'not-applied-stale-version', key,
+      organisationId: current.organisationId, personId: id, visitId: selected,
+      expectedVersion: c.version, currentVersion: current.visit.version };
+    return json({ error: cause.message, operation: refused }, 409);
+  }
   const visitId = c.type === 'startVisit' ? result.result?.visitId : selected;
   return json({ result: result.result, replayed: Boolean(result.replayed),
     context: await context(request, id, typeof visitId === 'string' ? visitId : selected) });

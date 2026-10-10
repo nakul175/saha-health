@@ -7,7 +7,7 @@ import './today.css';
 type View =
   | { kind: 'loading' | 'unavailable' | 'refused' | 'unsupported' }
   | { kind: 'list'; records: TodayRow[] }
-  | { kind: 'record'; record: TodayRecord };
+  | { kind: 'record'; record: TodayRecord; organisationId: string };
 
 const notices = {
   loading: 'Loading assigned records…',
@@ -19,12 +19,19 @@ const notices = {
 export default function Today() {
   const [view, setView] = useState<View>({ kind: 'loading' });
   const request = useRef<AbortController | null>(null);
+  const organisation = useRef<string | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const load = useCallback(async (id?: string) => {
     request.current?.abort();
+    const selectedOrganisation = id ? organisation.current : null;
+    if (!id) organisation.current = null;
     const controller = new AbortController();
     request.current = controller;
     setView({ kind: 'loading' });
+    if (id && !selectedOrganisation) {
+      setView({ kind: 'unsupported' });
+      return;
+    }
     if (!navigator.onLine) {
       setView({ kind: 'unavailable' });
       return;
@@ -34,6 +41,7 @@ export default function Today() {
         cache: 'no-store',
         credentials: 'same-origin',
         signal: controller.signal,
+        headers: selectedOrganisation ? { 'x-saha-organisation': selectedOrganisation } : {},
       });
       if (controller.signal.aborted) return;
       if (!response.ok) {
@@ -48,7 +56,14 @@ export default function Today() {
       }
       const body: TodayResponse = await response.json();
       if (controller.signal.aborted) return;
-      if (id && 'record' in body && body.record.id === id) setView({ kind: 'record', record: body.record });
+      const organisationId = response.headers.get('x-saha-organisation');
+      if (!organisationId || (selectedOrganisation && organisationId !== selectedOrganisation)) {
+        setView({ kind: 'unsupported' });
+        return;
+      }
+      organisation.current = organisationId;
+      if (id && 'record' in body && body.record.id === id)
+        setView({ kind: 'record', record: body.record, organisationId });
       else if (!id && 'records' in body && Array.isArray(body.records))
         setView({ kind: 'list', records: body.records });
       else setView({ kind: 'unsupported' });
@@ -61,6 +76,7 @@ export default function Today() {
     const initialFrame = requestAnimationFrame(() => void load());
     const clear = () => {
       request.current?.abort();
+      organisation.current = null;
       setView({ kind: 'unavailable' });
     };
     const refresh = () => {
@@ -110,7 +126,8 @@ export default function Today() {
             <dd>{record.sex || 'Not recorded'}</dd>
           </dl>
           <button onClick={() => void load()}>Back to Today</button>
-          <a href={'/routine-visit?personId=' + encodeURIComponent(record.id)}>Review routine visit</a>
+          <a href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
+            encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</a>
         </>
       ) : (
         <>

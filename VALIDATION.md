@@ -1,3 +1,11 @@
+# D03 static UAT mapping repair — 11 October 2026
+
+The first fresh consistency gate retained two actual failures: an unmapped routine panel and stale generated role/journey scripts. A named candidate/deployment-pending screen now maps only to ASHA visibility; the existing generator regenerates its affected scripts. Original role/case/default-blocked rules and all test oracles remain. Canonical three-suite consistency passes63 with guards; the formal register is byte-identical to the preserved candidate, not executed. [Append-only receipt](docs/current/d03/EVIDENCE-20261011-UAT-MAP.json) records failed/repaired hashes. The earlier recovery/source receipts remain unchanged; append a new chained baseline. Full unit/CI/A10 remain incomplete.
+
+# D03 recovery qualification — 11 October 2026
+
+[The current recovery record](docs/current/d03/OVERNIGHT-RECOVERY-20261011.md) and [append-only receipt](docs/current/d03/EVIDENCE-20261011-RECOVERY.json) retain the actual source/build pins, before/after browser witnesses, unchanged existing checks and full unit failure. The routine journey passes locally after organisation-binding, exact-key recovery, bounded stale-disposition and nested-link target repairs. The full unit gate remains FAILED on audited-read contention; focused green repeats do not clear it. Formal BRD/UAT acceptance remains unchanged. No final-head CI, merge, hosted routine qualification or full physical-device NFR is claimed. The previous D03 evidence and every earlier baseline remain immutable.
+
 # D02 CI fixture repair — 10 October 2026
 
 Actual final-head run38018545871 on dee0ae52 failed only the expired historical delegation success fixture and local smoke's blanket owner200 expectation on the ASHA-only Today route. Its complete log is preserved:147 workflow/browser suites7691 and API/recovery5041 passed; types/build/lint/security and the58-check Today journey also passed. The runtime correctly refuses an expired delegation and a non-ASHA owner.

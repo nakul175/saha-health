@@ -946,7 +946,7 @@ Slice 6a: clinician emergency access to one out-of-scope patient by record refer
 - **Catalogue:** Functional, fixture FX-RULE-03, catalogue owner "QA with All actors".
 - **Run as:** Clinician. Basis: requirement area default (BR-RULE; catalogue owner "QA with All actors").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-RULE-03: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** None of the screens the evidence map cites is in this role's navigation. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Clinician signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -964,7 +964,7 @@ Slice 6a: clinician emergency access to one out-of-scope patient by record refer
 
 <details><summary>What the build does today (assessment, current state of BR-RULE-03)</summary>
 
-Visit/person/consent/connector/plan versions bind approvals and stale actions fail. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json.
+Visit/person/consent/connector/plan versions bind approvals and stale actions fail. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json. Overnight recovery checkpoint (11 October 2026): originating organisation and unresolved exact-key continuity are repaired; a bounded audited higher-version/no-receipt disposition permits explicit stale recovery. Current source/evidence and the unresolved full-unit contention failure are in docs/current/d03/OVERNIGHT-RECOVERY-20261011.md. Local browser/component evidence is not full NFR, CI, hosted or formal acceptance.
 
 </details>
 

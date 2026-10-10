@@ -5,10 +5,10 @@ import { ProgrammeQuestions } from '../programmes';
 import { MEASURES, FACT_SOURCES, SOURCE_LABEL, VALUE_FIELDS, VALUE_RANGES, measureOf,
   factProvenance, authorText, alternativeUnit } from '@/lib/saha/fact-provenance';
 import type { Facts, FactSource, Measure, ValueField } from '@/lib/saha/types';
-import type { RoutineContext } from '@/lib/saha/routine-visit';
+import type { RoutineContext, RoutineStaleRefusal } from '@/lib/saha/routine-visit';
 import './routine-visit.css';
 
-type Attempt = { key: string; command: Record<string, unknown>; personId: string };
+type Attempt = { key: string; command: Record<string, unknown>; personId: string; organisationId: string };
 export default function RoutineVisit() {
   const [context, setContext] = useState<RoutineContext | null>(null);
   const [facts, setFacts] = useState<Facts | null>(null);
@@ -32,15 +32,20 @@ export default function RoutineVisit() {
   useEffect(() => {
     mounted.current = true;
     const controller = new AbortController(), query = new URLSearchParams(window.location.search);
-    if (query.getAll('personId').length !== 1 || [...query.keys()].some(k => k !== 'personId')) {
+    if (query.getAll('personId').length !== 1 || query.getAll('organisationId').length !== 1 ||
+        !query.get('organisationId') || [...query.keys()].some(k => !['personId', 'organisationId'].includes(k))) {
       const frame = requestAnimationFrame(() => setNotice('Choose one existing assigned person from Today.'));
       return () => { mounted.current = false; cancelAnimationFrame(frame); controller.abort(); };
     }
-    void fetch(endpoint(query.get('personId')!), { cache: 'no-store', credentials: 'same-origin', signal: controller.signal })
+    const selectedPerson = query.get('personId')!, selectedOrganisation = query.get('organisationId')!;
+    void fetch(endpoint(selectedPerson), { cache: 'no-store', credentials: 'same-origin', signal: controller.signal,
+      headers: { 'x-saha-organisation': selectedOrganisation } })
       .then(async response => {
         if (!response.ok) throw Error([401,403,404].includes(response.status) ? 'Access refused. Check your active ASHA membership and assignment.' : 'Routine visit unavailable. Try again with a connection.');
         const value: RoutineContext = await response.json();
         if (controller.signal.aborted) return;
+        if (value.person.id !== selectedPerson || value.organisationId !== selectedOrganisation)
+          throw Error('Selected record could not be matched. Return to Today and choose the person again.');
         receive(value, true); setNotice(value.visit ? 'Current server draft loaded. Review before saving.' : 'No current draft. Opening this screen creates nothing.');
         heading.current?.focus();
       }).catch(cause => { if (!controller.signal.aborted) setNotice(cause.message); });
@@ -52,27 +57,37 @@ export default function RoutineVisit() {
   }, [dirty, uncertain]);
 
   const send = async (c: Record<string, unknown>, message = 'Server draft saved and read back.', retry = false) => {
-    if (!context || inFlight.current || (uncertain && !retry)) return null;
+    if (!context || inFlight.current || (!retry && (uncertain || attempt.current))) return null;
     if (!retry && c.type === 'saveProgrammeAnswers' && factsDirty) { setNotice('Save corrected observations before programme evidence. Your answers remain on screen.'); return null; }
     if (!navigator.onLine) { setNotice('Offline: your entries remain on this screen, unsaved. Reconnect before saving.'); return null; }
-    const current = retry ? attempt.current : { key: crypto.randomUUID(), command: structuredClone(c), personId: context.person.id };
+    const current = retry ? attempt.current : { key: crypto.randomUUID(), command: structuredClone(c),
+      personId: context.person.id, organisationId: context.organisationId };
     if (!current) return null;
     attempt.current = current; inFlight.current = true; setBusy(true);
     try {
       const response = await fetch('/api/routine-visit', { method: 'POST', credentials: 'same-origin', cache: 'no-store',
-        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': current.key, 'x-saha-organisation': context.organisationId },
+        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': current.key, 'x-saha-organisation': current.organisationId },
         body: JSON.stringify({ personId: current.personId, command: current.command }) });
       if (!mounted.current) return null;
       if (!response.ok) {
         if ([401,403,404].includes(response.status)) { setContext(null); setFacts(null); setLatest(null); setNotice('Access refused. Protected content cleared.'); attempt.current = null; setUncertain(false); return null; }
         if (response.status >= 500) throw Error('Write outcome is uncertain. Keep this screen and check the exact attempt.');
-        const problem = await response.json() as { error?: string };
+        const problem = await response.json() as { error?: string; operation?: Partial<RoutineStaleRefusal> };
+        const refusal = problem.operation;
+        const staleAttempt = response.status === 409 && refusal &&
+          refusal.outcome === 'not-applied-stale-version' && refusal.key === current.key &&
+          refusal.organisationId === current.organisationId && refusal.personId === current.personId &&
+          refusal.visitId === current.command.visitId && refusal.expectedVersion === current.command.version &&
+          Number.isSafeInteger(refusal.currentVersion) && typeof refusal.currentVersion === 'number' &&
+          typeof refusal.expectedVersion === 'number' && refusal.currentVersion > refusal.expectedVersion;
         setNotice((typeof problem.error === 'string' ? problem.error : 'Save refused.') + ' Your entries remain unsaved on this screen.');
-        if (!retry) attempt.current = null;
+        if (!retry || staleAttempt) { attempt.current = null; setUncertain(false); }
+        if (staleAttempt) { setLatest(null); setChecked(false); }
         return null;
       }
       const value = await response.json() as { context: RoutineContext; result: unknown };
       if (!value.context || value.context.person.id !== current.personId ||
+          value.context.organisationId !== current.organisationId ||
           (current.command.type !== 'startVisit' && value.context.visit?.id !== current.command.visitId))
         throw Error('Saved result could not be matched. Check the exact attempt.');
       receive(value.context, ['startVisit','saveVisit'].includes(String(current.command.type)));
@@ -91,7 +106,10 @@ export default function RoutineVisit() {
       const response = await fetch(endpoint(context.person.id, visit?.id), { cache: 'no-store', credentials: 'same-origin', headers: { 'x-saha-organisation': context.organisationId } });
       if ([401,403,404].includes(response.status)) { setContext(null); setFacts(null); setLatest(null); setNotice('Access refused. Protected content cleared.'); return; }
       if (!response.ok) throw Error();
-      setLatest(await response.json()); setNotice('Latest saved record loaded for comparison. Your entries have not been replaced.');
+      const value: RoutineContext = await response.json();
+      if (value.person.id !== context.person.id || value.organisationId !== context.organisationId ||
+          value.visit?.id !== visit?.id) throw Error();
+      setLatest(value); setNotice('Latest saved record loaded for comparison. Your entries have not been replaced.');
     } catch { setNotice('Saved record unavailable. Your entries remain on screen.'); }
     finally { setBusy(false); }
   };
@@ -142,7 +160,9 @@ export default function RoutineVisit() {
       {uncertain && <button disabled={busy} onClick={() => attempt.current && void send(attempt.current.command,'Exact operation reconciled and read back.',true)}>Check exact write attempt</button>}
       {visit && <button disabled={busy} onClick={() => void compare()}>Compare latest saved record</button>}
       {latest && <section aria-label="Saved record comparison"><h2>Saved version {latest.visit?.version}</h2><p>Your version {visit?.version}; unsaved entries remain in the editor.</p><pre>{JSON.stringify(latest.visit?.facts,null,2)}</pre>
-        <button onClick={() => { receive(latest,true); attempt.current = null; setUncertain(false); setReadChoice(previous => ({token:previous.token+1,kind:'load'})); setNotice('Explicitly replaced entries with the saved record.'); }}>Replace unsaved entries with saved record</button></section>}
+        <button disabled={busy || uncertain} onClick={() => { if (inFlight.current || attempt.current) return;
+          receive(latest,true); setReadChoice(previous => ({token:previous.token+1,kind:'load'}));
+          setNotice('Explicitly replaced entries with the saved record.'); }}>Replace unsaved entries with saved record</button></section>}
     </>}
     <a href="/today">Back to Today</a><p>Entries on this screen are not a durable local save. This connected flow needs the server; prepared encrypted offline work is a separate journey.</p>
   </main>;

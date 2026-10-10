@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-10",
+  "updatedAt": "2026-10-10T18:32:19.472255+00:00",
   "node": "v24.19.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -841,7 +841,7 @@
     "smoke/routine-visit-browser": {
       "layer": "smoke",
       "file": "tests/smoke/routine-visit-browser.mjs",
-      "minPassed": 51
+      "minPassed": 244
     },
     "smoke/today-browser": {
       "layer": "smoke",
@@ -1921,6 +1921,18 @@
       "added": [
         "smoke/today-browser"
       ]
+    },
+    {
+      "date": "2026-10-11",
+      "reason": "D03 original routine semantics retained; complete built synthetic browser run244/0 independently reviewed. No other minimum lowered, removed or quarantined.",
+      "raised": {
+        "smoke/routine-visit-browser": [
+          51,
+          244
+        ]
+      },
+      "lowered": {},
+      "removed": []
     }
   ]
 }
