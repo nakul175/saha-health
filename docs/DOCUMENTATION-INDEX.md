@@ -29,3 +29,5 @@ All 176 BRD acceptance criteria remain pending. The audited implementation count
 | [QA record](current/DOCUMENTATION-QA.md) | Integrity checks for this documentation edition; separate from product tests |
 
 Current specifications use Markdown and registers use CSV/JSON for GitHub review and maintenance. The original editable Word and Excel files remain available in history. Their original statuses have not been silently rewritten or presented as current execution results.
+
+- [D02 frozen specification](current/d02/SPECIFICATION.md) — isolated assigned-list/read-only identity-context delivery.

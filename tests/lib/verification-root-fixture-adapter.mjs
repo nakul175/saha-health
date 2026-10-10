@@ -5,8 +5,8 @@ import {readFileSync,writeFileSync,unlinkSync,mkdirSync,existsSync,statSync} fro
 import {pathToFileURL} from 'node:url';
 import {resolve,dirname} from 'node:path';
 import {countsFromReport} from '../../scripts/test-guard.mjs';
-export async function verificationRootFixture(file){
- const source=readFileSync(resolve('tests',file),'utf8');
+export async function verificationRootFixture(file,{sourceTransform=source=>source}={}){
+ const source=sourceTransform(readFileSync(resolve('tests',file),'utf8'));
  if(!/['"]send-gate['"]/.test(source)&&!source.includes('readdirSync'))throw Error('Expected explicit module inventory');
  const current= file==='report-export-contract.mjs'?source.replace('\"saha-operational-report\",\"1.1.0\"','\"saha-operational-report\",\"1.2.0\"'):source;
  const adapted=current.replace(/(\[[^\]]*['"]send-gate['"][^\]]*)(\])/g,'$1, "verification-disputes", "abdm", "abdm-transfer", "access", "action-plan", "adapter-operations", "agent", "agent-minimisation", "aggregate-alert-disclosure", "ai-budget", "alerts", "anaemia", "audit-chain", "availability-types", "capability-lifecycle", "caseload", "consent", "continuity", "core", "delegation", "ehr", "environment", "evaluation", "exceptional", "expansion", "facility-scope", "fact-provenance", "fhir-document", "fhir-validate", "field", "field-registration", "frontline", "governance", "household", "household-constants", "household-visit", "household-visit-constants", "identity", "imported-visits", "indicator-differencing", "indicator-ledger", "indicators", "installed-pack-work", "installed-transition-authority", "media", "merge", "mis", "mis-callback", "operational-disclosure", "operations", "outreach", "pack-installation", "partition", "pilot", "programme-commands", "programme-completion", "programmes", "provider-sandbox", "purpose-scope", "referral-needs", "referral-request", "referral-rules", "reminder-optout", "retention", "rights", "seed", "send-gate", "service-identity", "shadow", "speech", "store", "task-limits", "team-pack-adoption", "types", "verification-disputes"$2').replace(/^(  )F\.applyFactReview\(/gm,'$1await F.applyFactReview(');
