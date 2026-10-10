@@ -98,6 +98,32 @@ export const CHAIN_BACKOFF_MAX_MS = 320;
 export const chainBackoffMs = (attempt: number) => Math.floor(Math.random() * (Math.min(CHAIN_BACKOFF_MAX_MS, 10 * 2 ** attempt) + 1));
 export const chainBackoff = (attempt: number) => new Promise<void>(resolve => setTimeout(resolve, chainBackoffMs(attempt)));
 
+// Access-only reads may lose to every other reader in a 24-request burst. Allow
+// that many collision rebuilds without expanding clinical writers' six attempts.
+// Maximum access sleep: 20 + 22 * 25 = 570 ms (shared writers retain 620 ms).
+// This bounds sleep only; database/network/hash time and hosted capacity are separate.
+export const ACCESS_CHAIN_ATTEMPTS = 24;
+export const ACCESS_CHAIN_BACKOFF_MAX_MS = 25;
+export const accessChainBackoffMs = (attempt: number) => Math.floor(Math.random() * (Math.min(ACCESS_CHAIN_BACKOFF_MAX_MS, 10 * 2 ** attempt) + 1));
+export const accessChainBackoff = (attempt: number) => new Promise<void>(resolve => setTimeout(resolve, accessChainBackoffMs(attempt)));
+
+// Recognise only the sequence UNIQUE error observed in Node SQLite and local
+// native D1. Unknown failures, other constraints and trigger lookalikes fail closed.
+// D1 wraps its error in Error.cause; inspect at most three distinct Error objects.
+export function isAuditSequenceConflict(error: unknown): boolean {
+  const seen = new Set<Error>();
+  for (let current = error, depth = 0; depth < 3 && current instanceof Error && !seen.has(current); depth++) {
+    seen.add(current);
+    const fault = current as Error & { errcode?: unknown; cause?: unknown };
+    if (fault.errcode !== undefined && fault.errcode !== 2067) return false;
+    const sqlite = fault.errcode === 2067 && /^UNIQUE constraint failed: audit_events\.org_id, audit_events\.seq$/.test(fault.message);
+    const nativeD1 = /^(?:D1_ERROR: )?UNIQUE constraint failed: audit_events\.org_id, audit_events\.seq: SQLITE_CONSTRAINT \(extended: SQLITE_CONSTRAINT_UNIQUE\)$/.test(fault.message);
+    if (sqlite || nativeD1) return true;
+    current = fault.cause;
+  }
+  return false;
+}
+
 // Walks the chain in sequence order and reports the first break. Content is never returned.
 // Slice 6w (fifth review, finding 8): verification can start from an anchor (a checkpoint the owner kept, or the
 // last checkpoint issued and recorded in the chain): the event at the anchor must still hold the anchor's hash,

@@ -34,6 +34,9 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/integration/routine-authority-http.mjs': ['tests/reports/routine-authority-http-result.json'],
+  'tests/integration/routine-organisation-http.mjs': ['tests/reports/routine-organisation-http-result.json'],
+  'tests/integration/routine-attempt-browser.mjs': ['tests/reports/routine-attempt-browser-result.json'],
   'tests/smoke/routine-visit-browser.mjs': ['tests/reports/d03/result.json'],
  'tests/smoke/local-privacy-current-smoke.mjs':['tests/evidence/privacy-registration-root-integration/smoke-local-current.json'],
   'tests/composite-measures-privacy-current-http.mjs':['tests/evidence/privacy-registration-root-integration/composite-current/http.json'],
@@ -252,6 +255,9 @@ export function classify(file){
  return classifyBase(file);
 }
 function classifyBase(file) {
+  if (file === 'tests/integration/routine-authority-http.mjs') return { id: 'integration/routine-authority-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'D03 native HTTP/D1 post-audit current ASHA authority, scoped refusal and committed exact-key replay' };
+  if (file === 'tests/integration/routine-organisation-http.mjs') return { id: 'integration/routine-organisation-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'D03 whole-operation initial organisation pinning, mutable active-account controls and exact original receipt replay' };
+  if (file === 'tests/integration/routine-attempt-browser.mjs') return { id: 'integration/routine-attempt-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'D03 actual browser exact-attempt recovery after scope refusal, original actor precondition and explicit conflict recovery' };
   if(file==='tests/test-runner-verification-current-contract.mjs')return {id:'unit/test-runner-contract',layer:'unit',role:'suite',tier:'pr',runner:'node',reason:'All27 original assertion groups/minimum; explicit verification aliases preserve stable active identity'};
   if(file==='tests/test-runner-reporting-current-contract.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable reporting-only catalogue fixture; active verification adapter preserves original27 minimum'};
   if(file==='tests/installed-programme-phone-runtime-diagnostic.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable diagnostic source qualification; current real phone gate remains active'};

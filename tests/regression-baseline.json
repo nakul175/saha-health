@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-10T18:32:19.472255+00:00",
+  "updatedAt": "2026-10-10",
   "node": "v24.19.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -653,6 +653,21 @@
       "file": "tests/reporting-completeness-repaired-http.mjs",
       "minPassed": 97
     },
+    "integration/routine-attempt-browser": {
+      "layer": "integration",
+      "file": "tests/integration/routine-attempt-browser.mjs",
+      "minPassed": 97
+    },
+    "integration/routine-authority-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-authority-http.mjs",
+      "minPassed": 245
+    },
+    "integration/routine-organisation-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-organisation-http.mjs",
+      "minPassed": 52
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-privacy-registration-current.mjs",
@@ -992,6 +1007,11 @@
       "layer": "unit",
       "file": "tests/atomic-abha-review-contract.mjs",
       "minPassed": 14
+    },
+    "unit/audit-access-contention-contract": {
+      "layer": "unit",
+      "file": "tests/audit-access-contention-contract.mjs",
+      "minPassed": 12
     },
     "unit/audit-chain-contract": {
       "layer": "unit",
@@ -1712,6 +1732,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-roster-contract.mjs",
       "minPassed": 13
+    },
+    "unit/routine-read-guard-contract": {
+      "layer": "unit",
+      "file": "tests/routine-read-guard-contract.mjs",
+      "minPassed": 34
     },
     "unit/safe-logs-contract": {
       "layer": "unit",

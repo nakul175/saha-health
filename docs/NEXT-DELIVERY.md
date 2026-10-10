@@ -1,3 +1,7 @@
+# D03 final qualification and delivery remain active — 11 October 2026
+
+The scoped audited-read contention, final-read privacy, whole-operation organisation and original-account recovery repairs now pass local qualification; continue [the current checkpoint](current/d03/OVERNIGHT-AUTHORITY-20261011.md). Publish the coherent source/test/documentation batch and verify actual remote head/tree. A9 still requires final-head CI, complete applicable NFR and final review; A10 requires sponsor-authorised isolated merge and observed hosted commit with authorised synthetic save/readback/refusal. D04 cannot start before all unchanged D03 gates pass. Owner-authorised local coding ends08:00 IST; save a safe checkpoint and pause the heartbeat. Preserve prior failure witnesses and all dated records. Main merge and paid actions need actual applicable authority.
+
 # Active sequential coding — 11 October 2026
 
 D03/#176 remains the only active feature story; continue [the saved recovery checkpoint](current/d03/OVERNIGHT-RECOVERY-20261011.md) and resolve its actual full-unit contention failure. A9/A10 remain incomplete. Do not start D04 before the frozen ten gates pass. Owner-authorized local coding ends 08:00 IST; preserve the safe checkpoint and pause the heartbeat then. Older handover pauses below are historical and do not cancel this fresh local development authorization. Main merge and paid actions still need their own authority.

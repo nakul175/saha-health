@@ -7,7 +7,7 @@ import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
 import type { DelegationUse } from './delegation';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
-import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, chainBackoff, chainMoved, linkRows } from './audit-chain';
+import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, ACCESS_CHAIN_ATTEMPTS, accessChainBackoff, isAuditSequenceConflict, chainBackoff, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
 type Value=string|number|null;
 export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
@@ -188,6 +188,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  // Slice 6j: audit rows are linked to the chain head read just before the batch. The unique
  // (org_id, seq) index refuses a second commit built on the same head; nothing of that batch
  // is written, so it is rebuilt on the new head. Patient and organisation guards are unchanged.
+ const chainAttempts=access?ACCESS_CHAIN_ATTEMPTS:CHAIN_ATTEMPTS;
  for(let attempt=1;;attempt++){
  const token=uuid(),chain=await linkRows(db,orgId,rows,now);
  // Organisation-wide commits still serialise on the organisation revision and also refuse to
@@ -207,7 +208,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
   if(m.teamIds.length)stmts.push(...guarded(db,orgId,token,m.teamIds.map(t=>row('team_members',{org_id:orgId,team_id:t,user_id:m.userId},['org_id','team_id','user_id']))));
  }
  if(switchOrg)stmts.push(db.prepare('UPDATE accounts SET active_org_id=? WHERE user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,actor.userId,orgId,token));
- let saved;try{saved=await db.batch(stmts);}catch(e){if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<CHAIN_ATTEMPTS){await chainBackoff(attempt);continue;}fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
+ let saved;try{saved=await db.batch(stmts);}catch(e){if(access&&!isAuditSequenceConflict(e))throw e;if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<chainAttempts){await(access?accessChainBackoff(attempt):chainBackoff(attempt));continue;}fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
  if(saved[0].meta.changes!==1)fail(409,plan.patients?'A teammate changed this patient record. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.':'A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.');
  return {...plan,attempts:attempt};
  }

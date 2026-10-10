@@ -1,3 +1,7 @@
+# Current D03 scoped local qualification — 11 October 2026
+
+Final combined203 unit suites/10748 assertions and API5020/restore21 pass with guards; same-driver authority245, organisation52 and original-account recovery97 all pass after retained red witnesses. Original routine/Today and optional shared programme browser checks remain evidence within their declared scopes. [The current checkpoint](current/d03/OVERNIGHT-AUTHORITY-20261011.md) and [new receipt](current/d03/EVIDENCE-20261011-AUTHORITY.json) bind source and raw-result digests. Original A1–A10 remain unchanged. Final published-head CI, complete applicable NFR, sponsor-authorised merge and exact-host synthetic qualification remain unresolved; the wider captured-member helper is outside this repair. Warm encrypted component timing does not qualify physical-device or connected-screen persistence. BRD0/176 and formal UAT0/364 remain unchanged. Earlier failures/results below retain their dates and scope.
+
 # Current D03 qualification — 11 October 2026
 
 [The recovery checkpoint](current/d03/OVERNIGHT-RECOVERY-20261011.md) records the actual local checks and retained failure witnesses. Its original frozen A1–A10 remain; current routine browser evidence does not clear the failed full unit gate, final-head CI, physical/reference-device NFR, qualified merge or exact-host live qualification. Related parent assessments, formal BRD acceptance and formal UAT remain unchanged. Historical evidence below retains its original scope and date.

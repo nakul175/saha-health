@@ -204,7 +204,9 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json"
   ],
   "NFR-03": [
     "lib/saha/agent.ts",
@@ -235,7 +237,13 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "lib/saha/routine-read-guard.ts",
+    "tests/routine-read-guard-contract.mjs",
+    "tests/integration/routine-authority-http.mjs",
+    "tests/audit-access-contention-contract.mjs"
   ],
   "NFR-06": [
     "scripts/recovery.mjs",
@@ -267,7 +275,13 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "lib/saha/routine-read-guard.ts",
+    "tests/routine-read-guard-contract.mjs",
+    "tests/integration/routine-authority-http.mjs",
+    "tests/audit-access-contention-contract.mjs"
   ],
   "NFR-10": [
     "lib/saha/store.ts",
@@ -293,7 +307,10 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/audit-access-contention-contract.mjs"
   ],
   "NFR-11": [
     "lib/saha/field.ts",
@@ -334,7 +351,10 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/audit-access-contention-contract.mjs"
   ],
   "NFR-14": [
     "REMAINING-RELEASES.md"
@@ -855,7 +875,11 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs"
   ],
   "BR-CARE-01": [
     "lib/saha/continuity.ts",
@@ -1014,7 +1038,15 @@
     "tests/offline-opens-http.mjs",
     "tests/offline-opens-browser.mjs",
     "tests/offline-open-account-binding-browser.mjs",
-    "tests/offline-open-unsent-pruning-browser.mjs"
+    "tests/offline-open-unsent-pruning-browser.mjs",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "lib/saha/routine-read-guard.ts",
+    "tests/routine-read-guard-contract.mjs",
+    "tests/integration/routine-authority-http.mjs",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs",
+    "tests/audit-access-contention-contract.mjs"
   ],
   "BR-AG-07": [
     "lib/saha/agent.ts",
@@ -1304,7 +1336,14 @@
     "tests/access-scope-contract.mjs",
     "tests/access-scope-smoke.mjs",
     "docs/current/SLICE-13A-ACCESS-SCOPE.md",
-    "docs/current/SLICE-13F-REVIEW-FIXES.md"
+    "docs/current/SLICE-13F-REVIEW-FIXES.md",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "lib/saha/routine-read-guard.ts",
+    "tests/routine-read-guard-contract.mjs",
+    "tests/integration/routine-authority-http.mjs",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs"
   ],
   "BR-ID-09": [
     "lib/saha/continuity.ts",
@@ -1708,7 +1747,12 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "lib/saha/routine-read-guard.ts",
+    "tests/routine-read-guard-contract.mjs",
+    "tests/integration/routine-authority-http.mjs"
   ],
   "BR-INT-21": [
     "lib/saha/mis.ts",
@@ -1975,7 +2019,11 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs"
   ],
   "BR-DATA-03": [
     "lib/saha/core.ts",
@@ -2009,7 +2057,11 @@
     "tests/access-scope-contract.mjs",
     "tests/access-scope-smoke.mjs",
     "docs/current/SLICE-13A-ACCESS-SCOPE.md",
-    "docs/current/SLICE-13F-REVIEW-FIXES.md"
+    "docs/current/SLICE-13F-REVIEW-FIXES.md",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs"
   ],
   "BR-UX-02": [
     "app/app/page.tsx",
@@ -2026,7 +2078,11 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs"
   ],
   "BR-UX-06": [
     "app/app/page.tsx",
@@ -2305,7 +2361,11 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs"
   ],
   "BR-DATA-01": [
     "app/routine-visit/routine-visit.tsx",
@@ -2314,6 +2374,10 @@
     "docs/current/d03/SPECIFICATION.md",
     "docs/current/d03/EVIDENCE.json",
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json"
+    "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
+    "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "tests/integration/routine-attempt-browser.mjs",
+    "tests/integration/routine-organisation-http.mjs"
   ]
 }
