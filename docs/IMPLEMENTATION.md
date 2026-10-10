@@ -1,3 +1,11 @@
+# Current implementation checkpoint 10 October 2026
+
+Main 7668a03d97c1ae62174f09e65ccd5a5717120be6 contains isolated D02 PR189. Current product-plan evidence records D02's bounded 10/10 delivery; the existing D03 routine-review/save changes remain a local candidate awaiting final qualification. See [current engineering baseline](current/engineering-handoff/CURRENT-ENGINEERING-BASELINE.md) and [D01–D03 packet](current/engineering-handoff/D01-D03-CODING-PACKET.md). No new runtime, application tests or hosting observation is supplied by this documentation change.
+
+Current generated inventory is 97 HTTP routes, 253 command discriminators, 60 application tables, 475 SQL columns and 33 migration files. Trusted identity is selected through lib/saha/identity.ts; current deployment documentation describes the synthetic DigitalOcean health.aplyd.org host and frozen automatic Cloudflare deployment. A documented topology is distinct from freshly observed availability.
+
+The pre-merge D02 and older R11/integration ledger below is preserved as chronological evidence. Use fresh source and the linked supplement for today's implementation boundary. All 176 source acceptances and 364 formal catalogue cases remain pending/not run; a local component witness does not close them.
+
 # D02 isolated read-only candidate — 10 October 2026
 
 `/today` adds a separate mobile client and GET-only `/api/today` projection for active synthetic/training ASHAs. Existing server identity, assignment/policy scope and durable access audits remain authoritative. Only ID/name/village and read-only age/sex context are exposed; no visit or clinical write is added. The legacy `/app` is preserved separately. Source implementation and local tests do not establish merge, hosted deployment or formal acceptance. See [frozen D02 specification](current/d02/SPECIFICATION.md) and [validation](../VALIDATION.md). Parent capture, scheduling, offline and localisation remain pending.

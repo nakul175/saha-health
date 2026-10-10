@@ -1,3 +1,9 @@
+# Current evidence boundary 10 October 2026
+
+Read [the engineering baseline](current/engineering-handoff/CURRENT-ENGINEERING-BASELINE.md), [D03 criterion traceability](current/engineering-handoff/D03-TRACEABILITY.csv) and [test and recovery plan](current/engineering-handoff/TEST-AND-RECOVERY-PLAN.md) for the next candidate. Current planning records historical D02 delivery 10/10 and an unfinished existing D03 candidate; its author results are retained evidence with their original scope, not a new final-head qualification.
+
+This documentation update runs only documentation/source integrity checks and the separate advisory product-plan checker. Application tests, CI, separate review, authorised live behavior, clinical/device and full-product acceptance remain separate. The R11 record below retains its original date and meaning; its counts must not be represented as today's rerun or completion percentage.
+
 # Qualification record
 
 The retained R11 product checks ran on 27 September 2026. This documentation edition was checked separately on 28 September. Publishing this pack does not create a new product test run, clinical sign-off, partner acceptance or production certification.

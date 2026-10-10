@@ -1,3 +1,9 @@
+# Current API authority and selected delivery 10 October 2026
+
+Use [CURRENT-API-INVENTORY.md](CURRENT-API-INVENTORY.md), [HTTP-ROUTES.csv](HTTP-ROUTES.csv) and [COMMAND-CATALOGUE.csv](COMMAND-CATALOGUE.csv) for the current 97 HTTP routes and 253 command discriminators. Server identity is selected by lib/saha/identity.ts from the configured trusted provider; the Sites dispatcher is one provider boundary, not a universal public-header authentication contract. A configured synthetic portable deployment and a production identity setup have different trust boundaries.
+
+Main's D02 /api/today projection is read-only. D03's routine-save API is still in its existing local candidate; inspect the [coding packet](engineering-handoff/D01-D03-CODING-PACKET.md) for exact methods, payload/version/receipt and recovery boundaries. Do not invent target /v1 endpoints, a new patient store or an independent generic save protocol. The inherited command, current scope, audit, receipt, no-store and refusal rules below continue to apply where their actual handler uses them. The retained R11 statement of 39 certified patient commands is historical; current partition.ts enumerates 57. Use that inspected source list and the current LLD for actual delta eligibility, rather than the old count.
+
 # API and integration specification
 
 The running application exposes the [current HTTP routes](HTTP-ROUTES.csv) and a typed JSON command API. The original 74 `/v1` operations and sixteen events are preserved in the [target specification](../reference/04_API-and-Integration-Specification_v1.0.md) and history engineering assets. They are not a served OpenAPI contract for R11.

@@ -1,0 +1,139 @@
+{
+  "recordedAtUtc": "2026-10-10T17:53:19.211464+00:00",
+  "scope": "Fresh advisory run of unchanged pre-existing portable planning assessment revision 3. Newly authored engineering-handoff supplements are not included in this assessment and are separately source/link reviewed.",
+  "documentId": "saha-product-planning-v42",
+  "revision": 3,
+  "stage": "planning",
+  "qualityState": {
+    "status": "needs_input",
+    "passed": 1513,
+    "applicable": 6050,
+    "exemptions": 0,
+    "counts": {
+      "passed": 1513,
+      "not_applicable": 0,
+      "missing": 4537,
+      "failed": 0,
+      "stale": 0,
+      "invalid": 0
+    },
+    "score": null,
+    "exitRule": "Every selected mandatory stage gate and integrity check must pass with current evidence and supplied review. Deferred/reference-sampled checks cannot certify the full catalogue. No averaging, timeout or iteration limit grants a pass.",
+    "certificationGranted": false
+  },
+  "catalogueIdentity": {
+    "status": "matched",
+    "enginePinned": true,
+    "expectedCatalogueVersion": "3.0-generic",
+    "actualCatalogueVersion": "3.0-generic",
+    "expectedCanonicalHash": "a72502ce4dcfe5ec1e8537cd377f93e77ad32b9d998fdad62c252605089759fe",
+    "actualCanonicalHash": "a72502ce4dcfe5ec1e8537cd377f93e77ad32b9d998fdad62c252605089759fe"
+  },
+  "assessmentCoverage": {
+    "assessmentMode": "profile",
+    "stage": "planning",
+    "selectedMandatoryReviewCount": 4536,
+    "integrityChecksAlwaysRun": true,
+    "referenceCheckInstances": 155804,
+    "referenceChecksFullyAssessed": false,
+    "referenceInstancesDeferred": 155804,
+    "advisorySampleCount": 16,
+    "advisoryUnreviewedCount": 16,
+    "legacyDefaultWarning": null,
+    "conclusion": "Only the selected stage's seven mandatory gates per assessed item were checked. Advisory samples and deferred reference details do not count as passed."
+  },
+  "reviewerAuthentication": {
+    "status": "not_authenticated_offline",
+    "advisoryOnly": true,
+    "registryCanBeAuthorCreated": true,
+    "externalApprovalRequired": true
+  },
+  "commands": [
+    {
+      "operation": "loop",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-plan-v4.2/checker/quality_checker.py",
+        "loop",
+        "--document",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-plan-v4.2/assessment/document.json",
+        "--report",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/report.json",
+        "--state-dir",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/state",
+        "--batch-size",
+        "3"
+      ],
+      "exitCode": 2,
+      "stdoutPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/loop.stdout.txt",
+      "stdoutSha256": "642a2beede5fdef0231f39f721f058cec265bdb1b613a2f0412419cf2554ad73",
+      "stderrPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/loop.stderr.txt",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "summary",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-plan-v4.2/checker/quality_checker.py",
+        "summary",
+        "--report",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/report.json",
+        "--state-dir",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/state"
+      ],
+      "exitCode": 0,
+      "stdoutPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/summary.stdout.txt",
+      "stdoutSha256": "2179d2d1c09b71982ef3b9cb35a4d3f266e14271f41e2478b61799083441e883",
+      "stderrPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/summary.stderr.txt",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "next",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-plan-v4.2/checker/quality_checker.py",
+        "next",
+        "--state-dir",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/state",
+        "--queue",
+        "all",
+        "--limit",
+        "3"
+      ],
+      "exitCode": 0,
+      "stdoutPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/next.stdout.txt",
+      "stdoutSha256": "eb9ed8217ea32eaa3b9cf00d81d0ac03906c28902b1bfb70a1643675c8970fc5",
+      "stderrPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/next.stderr.txt",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "inputPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-plan-v4.2/assessment/document.json",
+  "inputSha256": "aeeb2061eb1094c5592b3faff2d683906699d3b672660a020808737c95a49930",
+  "reportPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-coding-handoff-20261011/quality/report.json",
+  "reportSha256": "e68cc8c9842ce930b3dc7f4f2ecbfbf0d011a376ca21604e8f30974f189fb584",
+  "shippedCheckerUnchanged": {
+    "quality_checker.py": true,
+    "quality_tools.py": true,
+    "quality_loop.py": true,
+    "catalogue.json": true
+  },
+  "next": {
+    "ownerQueueTotal": 1,
+    "reviewerQueueTotal": 4536,
+    "repairQueueTotal": 0,
+    "ownerGap": "Real mode requires separately supplied independent review profiles and a verification receipt pinned to this catalogue.",
+    "nextReviewerChecks": [
+      "gate.vision.planning.01",
+      "gate.vision.planning.02",
+      "gate.vision.planning.03"
+    ]
+  },
+  "certificationGranted": false,
+  "approvalGranted": false,
+  "applicationTestsRun": false,
+  "trustStoreCreated": false,
+  "nativeWritesPerformed": false
+}

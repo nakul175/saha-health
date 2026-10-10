@@ -1,3 +1,9 @@
+# Current routine-work journey 10 October 2026
+
+The bounded delivered entry is Today: an individually signed-in synthetic/training ASHA sees only permitted assigned existing people and opens read-only person context. Opening creates no visit. D02 is merged in main 7668a03d97c1ae62174f09e65ccd5a5717120be6; its historical delivery evidence remains separate from full BRD acceptance.
+
+The next candidate is explicit routine start/resume, manual review/correction, versioned audited save/readback and truthful refusal/error/conflict/uncertain states. It is not yet a delivered D03 path. The unchanged [frozen D03](engineering-handoff/source/frozen-d03.md), [coding packet](engineering-handoff/D01-D03-CODING-PACKET.md) and [test plan](engineering-handoff/TEST-AND-RECOVERY-PLAN.md) define that exact scope. The broader R11 journey ledger below remains useful background and is not a requirement to expose the entire legacy UI in Today.
+
 # Functional specification
 
 R11 implements a bounded synthetic subset of the product. This specification gives developers the current journey and its guards. The complete original 148 functional expansions, twelve journeys and screen contracts remain in the [target specification](../reference/01_Functional-Specification_v1.0.md), with all 176 source requirements tracked separately.

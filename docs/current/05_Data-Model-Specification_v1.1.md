@@ -1,5 +1,47 @@
 # Data model specification
 
+## Current source reconciliation — 10 October 2026
+
+This supplement records inspected main `7668a03d97c1ae62174f09e65ccd5a5717120be6` for the
+11 October coding handoff. The earlier edition's 24-table/six-migration figures below are retained historical
+statements, not current schema or upgrade instructions. Read [the current engineering baseline](engineering-handoff/CURRENT-ENGINEERING-BASELINE.md)
+and the source-derived [inventory](../verification/generated-inventory.json) for the pinned checkpoint.
+
+Current declarations are [db/schema.ts](../../db/schema.ts), the [generated physical dictionary](CURRENT-DATA-DICTIONARY.md)
+and [column CSV](DATA-DICTIONARY.csv). There are 33 ordered SQL migration files, `0000` through `0032`, at this source
+checkpoint. Source inventory describes declarations/files; this documentation pass did not apply them, inspect a
+hosted database or establish populated upgrade/recovery success. D1 metadata is separate from application table
+declarations. Nested JSON properties are not automatically SQL columns or new normalized entities.
+
+| Storage concern | Current source to inspect | Important boundary |
+| --- | --- | --- |
+| Identity, organisations, workforce and assignment | `accounts`, `organisations`, `memberships`, `team_members`, `patients`; [schema](../../db/schema.ts), [store](../../lib/saha/store.ts), [access policy](../../lib/saha/access.ts) | Provider principal and current membership drive permission; organisation/person references fence data. |
+| Visit and programme capture | `visits`, `plans`, `ai_results`, `submissions`, `referrals`; [types](../../lib/saha/types.ts), [programmes](../../lib/saha/programmes.ts) | Indexed relational fields plus versioned domain JSON; confirmation, correction and external outcome retain distinct evidence. |
+| Revisions, audit and replay | `record_revisions`, `audit_events`, `command_receipts`; [store](../../lib/saha/store.ts), [server](../../lib/saha/server.ts) | Preserve append-only historical evidence, exact operation identity and current-authority replay; do not rewrite a receipt or revision. |
+| Prepared device work and registration | `device_work_grants`, `device_work_events`, registration/copy/receipt tables; [field](../../lib/saha/field.ts), [field registration](../../lib/saha/field-registration.ts), [field client](../../public/field/) | Server grant/receipt records and client ciphertext have different custody. Source does not establish physical-device, key-recovery or approved production-lease policy. |
+| Reporting, released evidence and operational tracking | Reporting calendar/coverage/snapshot/receipt tables, indicator figure tables, media custody, work burden and support tables; [physical dictionary](CURRENT-DATA-DICTIONARY.md) | Inspect each owning module's current privacy/export contract; hashes or a general export permission do not authorise protected body reconstruction. |
+| Installed programme work and transitions | `installed_pack_work_events`, `installed_pack_transition_events`; [physical dictionary](CURRENT-DATA-DICTIONARY.md) | Versioned execution/adoption evidence is not clinical approval or an external programme receipt. |
+
+### Schema and migration rules for the next coding slice
+
+Use the actual SQL and Drizzle declaration for keys, constraints, indexes and types; the dictionary is navigation,
+not an alternative executable schema. Some relationships are enforced by domain policy and JSON contracts, so do
+not infer a SQL foreign key merely from a domain reference. Certified patient guards and organisation guards use
+the existing write-set classification; any change must preserve revision/audit/receipt atomicity.
+
+The D03 manual presentation candidate needs no new patient store or schema migration. If a later bounded task
+requires a delta, append a new migration after the actual current maximum, inspect populated upgrade behavior and
+current source pins, and qualify recovery separately. Never edit applied SQL or migration snapshots. The original
+PostgreSQL foundation SQL and 26-entity blueprint remain read-only design references, not instructions for this D1
+application. Roll-forward/recovery must preserve legacy source, historical records and uncertain external outcomes.
+
+## Retained R11 model and recovery description
+
+The remainder retains the original edition for provenance. Its migration range, table counts and R11 restore
+figures apply only to that earlier checkpoint; they must not be reported as current execution or host evidence.
+
+# Data model specification
+
 The physical application schema is [db/schema.ts](../../db/schema.ts), with six ordered migrations in `drizzle/`. The generated [current dictionary](CURRENT-DATA-DICTIONARY.md) and [field CSV](DATA-DICTIONARY.csv) enumerate its 24 application tables and declared columns. The [original data model](../reference/05_Data-Model-Specification_v1.0.md) remains a 26-entity PostgreSQL target blueprint.
 
 | Storage group | Tables | Meaning |

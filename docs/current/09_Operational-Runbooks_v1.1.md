@@ -1,3 +1,9 @@
+# Current operating topology and candidate recovery 10 October 2026
+
+Read [the engineering baseline](engineering-handoff/CURRENT-ENGINEERING-BASELINE.md) and [HOSTED-STAGING.md](HOSTED-STAGING.md) for the documented existing synthetic DigitalOcean host and frozen Cloudflare copy. Cloudflare's deployment freeze does not prove the separate DigitalOcean updater stopped. No fresh live health/schema/commit inspection or hosted recovery is performed here.
+
+For the next D03 gate, preserve the exact attempt key, durable server receipt and unsaved-input/uncertain-outcome distinction; [the recovery plan](engineering-handoff/TEST-AND-RECOVERY-PLAN.md) defines proposed adverse checks. Local recovery tooling, code rollback and reconciliation have distinct boundaries. None permits reversing applied history, clearing a queue to obtain green, or dispatching a possibly completed external write again.
+
 # Operational runbooks
 
 Use these procedures for the current synthetic application. The full ten target runbooks are preserved in the [original document](../reference/09_Operational-Runbooks_v1.0.md). Steps requiring hosted backup, native device management, partner delivery or institutional decisions remain deployment work.

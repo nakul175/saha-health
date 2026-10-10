@@ -1,3 +1,9 @@
+# Current selected-slice safety boundary 10 October 2026
+
+The next routine-work candidate stays within the existing synthetic/training ASHA, assigned-person and manual review/save boundary. Trusted identity comes through lib/saha/identity.ts and the deployment's verified boundary; Sites is one configured provider, and the current synthetic droplet has its documented Caddy boundary. The old Sites-only threat entry below describes the preserved R11 checkpoint, not every current deployment.
+
+[D03's exact contract](engineering-handoff/source/frozen-d03.md) and [proposed test cases](engineering-handoff/TEST-AND-RECOVERY-PLAN.md) retain current-authority refusal, no protected-content disclosure, immutable confirmed history, audit failure and no invented values/external calls. Production patient-processing, clinical rules, provider and device approvals remain separate; no compliance or clinical acceptance is granted by this supplement.
+
 # Security privacy and clinical safety
 
 The current controls support synthetic engineering use. The complete ten-threat and ten-hazard target catalogue is retained in the [original specification](../reference/06_Security-Privacy-and-Clinical-Safety_v1.0.md). This edition records implemented mitigations and residual gaps; it is not a compliance assessment or an approved clinical safety case.

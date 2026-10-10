@@ -1,3 +1,22 @@
+# Current product and coding documentation 10 October 2026
+
+Start with [the 11 October engineering handover](current/engineering-handoff/START-HERE.md). It links the current v4.2 product direction, recommended defaults, actual runtime map, existing D01/D03 packet, exact criterion traceability, test/recovery plan and D04/D05 preparation. Main was independently read at 7668a03d97c1ae62174f09e65ccd5a5717120be6; the original edition index below retains its historical source baseline.
+
+Use [Linear's current product-plan entry](https://linear.app/aplyd-sandbox/document/saha-current-product-plan-and-coding-start-8ae95cae358c) for vision → strategy → roadmap → product release goal → epic → story/support item → acceptance criterion → technical task. The source-backed engineering supplement and original acceptance documents remain separate from full-product certification.
+
+| Current engineering document | Purpose |
+| --- | --- |
+| [Coding start](current/engineering-handoff/START-HERE.md) | Select the correct source and first morning task. |
+| [Product decisions](current/engineering-handoff/PRODUCT-DECISIONS.md) | Scope, recommended defaults, authority gaps and learning. |
+| [Engineering baseline](current/engineering-handoff/CURRENT-ENGINEERING-BASELINE.md) | Current architecture, hosting, identity, API/data source pins. |
+| [D01 and D03 packet](current/engineering-handoff/D01-D03-CODING-PACKET.md) | Existing candidate, unchanged contract and qualification tasks. |
+| [D03 traceability](current/engineering-handoff/D03-TRACEABILITY.csv) | A1–A10 source and evidence mapping. |
+| [Exact frozen D03 copy](current/engineering-handoff/source/frozen-d03.md) | Immutable original revision 1 acceptance oracle. |
+| [Test and recovery plan](current/engineering-handoff/TEST-AND-RECOVERY-PLAN.md) | Proposed cases, fixtures, commands and results boundary. |
+| [D04 and D05 preparation](current/engineering-handoff/D04-D05-PREPARATION.md) | Subsequent offline contracts and prerequisite gates. |
+| [Documentation quality status](current/engineering-handoff/QUALITY-STATUS.md) | Actual source/check results and open execution gates. |
+
+
 # Saha documentation and developer handover
 
 Edition 1.1 · 28 September 2026 · application R11 / v1.3-readiness.
