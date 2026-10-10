@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-10",
+  "base": "43f445acf4c54352cd2084e0bcd88bfbf605d757",
+  "story": 175,
+  "gate": "8/9 pre-merge locally passed; A9 blocked by baseline signoff unit + pending final CI/review; A10 hosting blocked",
+  "scope": "Synthetic local Worker/D1 and Chromium only",
+  "sourceHashes": {
+    "app/today/page.tsx": "bae5b52807ca9b66d275238a16aad272db53abd936c7766bf0af4af44cb6fb0a",
+    "app/today/today.tsx": "c4e6abd9981ef77bac3492ff86f03ed611cf87e8ef6593f3f4a4613176b64d5e",
+    "app/today/today.css": "0ef7ff61b125fcd81a4919cf0057c131a622e296e928900a9249b4dacb2de5ca",
+    "app/api/today/route.ts": "abd801efb6b600239cc3b5bc5064bb295a19315264c33def4b8850502274ca80",
+    "lib/saha/today.ts": "c13651c7d7cb8c1a8a335886b4086a73f98daca7328ec2d1eb642b38adae4ee7",
+    "lib/saha/today-server.ts": "1b4c978a012d962beecfac74e0c9ff9e4baa98e35e3792db5339f9fb8181a585",
+    "tests/smoke/today-browser.mjs": "b9a990e0051e175558951a0462554e901af1cfe6849558da41567381deba45d2",
+    "docs/current/d02/SPECIFICATION.md": "67ccc13d2f5cc1421c96c85adbeb35a3e290874bfce46e4abd18434206b56bb2"
+  },
+  "evidence": {
+    "outputs/d02-evidence/api.json": "34fed6f0966a7eb9d5ebf6cf932ba27bce90ddd6e0d66be219907dd5a97b93e8",
+    "outputs/d02-evidence/units-initial.json": "e34973e2dd3e0cd70ff44897774f7106ad5b37fe77003b191913040509d1a88b",
+    "outputs/d02-evidence/units-permission-retry.json": "b6a6edb59e6f4e546a335961d557fe16fdc84d4b9b7a0eb9ac8216a6fd2dfcee",
+    "outputs/d02-evidence/security.json": "18115061929a6d2aada6b83b0f27d74c9a205df556776879754b4b233c410205",
+    "outputs/d02-evidence/author-and-qa-today.json": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a",
+    "outputs/d02-evidence/baseline-signoff-failure.log": "08c3a04cb722b63d45c48d6683219c2039210988279ad9bb5071c298777ba1c0",
+    "outputs/d02-evidence/nfr-initial.json": "a039bf035e08ef8c62efd79a290aae81b74cecef1fa06f10837b77d3b6daec74",
+    "outputs/d02-evidence/nfr-initial.log": "de3f31934dfc103c28cf59a3a32bf61220d174c6f320dedc757434e0a30f85a9",
+    "outputs/d02-evidence/nfr-final.json": "2c4dde1a3ee5adedc0823aa9d0d26ca02f1cc48ea023f41ebc3f454ce6ba2f36"
+  },
+  "independentQaReceiptSha256": "87b50f6d84ced60e8d6e4baee28768d7a3424b40a2477650aad131eb77f0f446",
+  "evidenceLocation": "Ignored outputs/d02-evidence in this checkout; real CI uploads tests/reports and reports through existing artifact step. Historical receipts are preserved.",
+  "nfr": {
+    "authorisationMatrix": {
+      "passed": 60,
+      "failed": 0,
+      "guard": "passed"
+    },
+    "identityHardening": {
+      "passed": 29,
+      "failed": 0
+    }
+  },
+  "documentation": "passed: 1781 baseline files, 176 retained requirements, 364 retained formal cases; zero accepted",
+  "lint": "1392 errors/618 warnings, unchanged baseline"
+}

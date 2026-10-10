@@ -34,6 +34,7 @@ const ROUTES = readFileSync('docs/current/HTTP-ROUTES.csv', 'utf8').trim().split
 // Documented query parameters per GET route (read from the route readers). kind: which resource the request names.
 const PERSON = ['/api/abdm', '/api/action-plan', '/api/household', '/api/identity-cases', '/api/history', '/api/patients/detail'];
 const ROUTE_PARAMS = {
+  '/api/today': w => [{ q: '' }, { q: `?personId=${w.people.a2}`, kind: 'person' }],
   '/api/media': w => [{ q: `?visitId=${w.visits.v2}`, kind: 'visit' }],
   '/api/inbound-conflicts': w => [{ q: `?personId=${w.people.a2}`, kind: 'clinical-source-person' }],
   '/api/indicator-figures': () => [{ q: '' }],
@@ -117,7 +118,16 @@ try {
 
   await r.check('route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)', () => none(unclassified, `unclassified GET routes: ${unclassified.join(', ')}`));
   await r.check(`grid is complete: ${cases.length} requests x ${PRINCIPALS.length} principals, every cell has a status`, () => { if (cases.length < 40) throw new Error(`only ${cases.length} cases`); none(violations((c, p) => (Number.isInteger(c.cells[p].status) ? '' : 'no status')), 'cells'); });
-  await r.check('control: owner gets 2xx on every route (the requests are well formed, so refusals elsewhere are real refusals)', () => none(violations((c, p) => p === 'owner' && !(c.cells[p].status >= 200 && c.cells[p].status < 300) ? 'expected 2xx' : ''), 'owner control'));
+  // Today deliberately has an ASHA-only contract: owner authority cannot widen it.
+  await r.check('control: owner gets 2xx on legacy routes and 403 on the ASHA-only Today route', () => none(violations((c, p) => p === 'owner' && (c.route === '/api/today' ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'));
+  await r.check('Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record', () => {
+    const list = cases.find(c => c.route === '/api/today' && c.kind === 'plain');
+    const detail = cases.find(c => c.route === '/api/today' && c.kind === 'person');
+    assert.ok(list && detail);
+    for (const p of ROLES) assert.equal(list.cells[p].status, p.startsWith('asha') ? 200 : 403, fmt(list, p));
+    assert.equal(detail.cells.asha2.status, 200);
+    assert.ok([403, 404].includes(detail.cells.asha1.status));
+  });
   await r.check('control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1\'s refusal is a scope refusal, not a malformed request)', () => none(violations((c, p) => p === 'asha2' && c.kind !== 'plain' && c.kind !== 'clinical-source-person' && c.cells[p].status !== 200 ? 'expected 200' : ''), 'asha2 control'));
   await r.check('clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA', () => { const c=cases.find(c=>c.route==='/api/imported-evidence');assert.ok(c);for(const p of ['owner','clinician'])assert.equal(c.cells[p].status,200,fmt(c,p));for(const p of ['asha1','asha2'])assert.equal(c.cells[p].status,403,fmt(c,p)); });
   await r.check('inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator', () => { const c=cases.find(c=>c.route==='/api/inbound-conflicts');assert.ok(c);for(const p of ROLES)assert.equal(c.cells[p].status,['owner','clinician','supervisor'].includes(p)?200:403,fmt(c,p)); });

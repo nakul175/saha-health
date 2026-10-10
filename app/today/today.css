@@ -1,0 +1,59 @@
+.saha-today {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 1rem;
+  color: #17362e;
+  background: #f6faf8;
+  min-height: 100dvh;
+  font:
+    1rem/1.6 system-ui,
+    sans-serif;
+  overflow-wrap: anywhere;
+}
+.saha-today h1 {
+  font-size: 2rem;
+  line-height: 1.25;
+}
+.saha-today h2,
+.saha-today h3 {
+  font-size: 1.25rem;
+}
+.saha-today p {
+  margin: 0.75rem 0;
+}
+.saha-today ol {
+  list-style: none;
+  padding: 0;
+}
+.saha-today li {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #a8c4b9;
+  border-radius: 0.75rem;
+  background: white;
+}
+.saha-today button {
+  min-height: 44px;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: #17634b;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+.saha-today button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+.saha-today :focus-visible {
+  outline: 3px solid #bd6c00;
+  outline-offset: 3px;
+}
+.saha-today dt {
+  font-weight: 700;
+  margin-top: 1rem;
+}
+.saha-today dd {
+  margin: 0;
+}

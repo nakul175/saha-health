@@ -1,3 +1,7 @@
+# Active delivery — D02 / #175
+
+Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Pre-merge exact-source tests, independent QA/review and CI gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.
+
 # Claude handover checkpoint
 
 Continue the preserved integration branch using [CLAUDE-RESUME-20261006.md](current/CLAUDE-RESUME-20261006.md). Repair current combined qualification and finish interrupted offline cold review before main merge. Scope, requirements and original minima remain unchanged. Unattended build is paused at the sponsor handover request.
