@@ -1,3 +1,9 @@
+# Current release and acceptance boundary 10 October 2026
+
+The product roadmap's original R1 pilot, R2 expansion and source-decision-gated CWO extensions are distinct from the small D01–D08 engineering queue. Current planning retains historical D02 delivery 10/10 and an unfinished sole existing D03 candidate. Qualifying D03 A1–A10 cannot accept a broader story, all 176 BRD requirements, the 364 formal cases or the G0–G7 pilot gates below.
+
+Use [the product decisions](engineering-handoff/PRODUCT-DECISIONS.md) and [D03 coding packet](engineering-handoff/D01-D03-CODING-PACKET.md) for the next scoped goal and evidence. A qualified isolated merge, observed served identity and authorised live synthetic journey are separate conditions. Proposed engineering checklists and agent review do not create institutional, clinical, privacy, provider or production approval.
+
 # Pilot and release acceptance
 
 No original gate is accepted and all 176 formal requirement decisions remain pending. R8–R11 supply synthetic rehearsal controls and evidence registers; a record in those registers is not real training, an institutional approval or a completed clinical pilot. The [original acceptance document](../reference/10_Pilot-and-Release-Acceptance_v1.0.md) retains the measurement definitions and full evidence requirements.

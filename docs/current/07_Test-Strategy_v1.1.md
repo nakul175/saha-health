@@ -1,3 +1,9 @@
+# Current candidate test plan 10 October 2026
+
+Use the [test and recovery plan](engineering-handoff/TEST-AND-RECOVERY-PLAN.md) for 21 proposed D03 cases and five proposed recovery cases, and [D04/D05 preparation](engineering-handoff/D04-D05-PREPARATION.md) for eight retention and eight reconnect cases. All 42 are Not run in this documentation session. Their CASE-* IDs are separate from existing native D03-T01–T06 qualification tasks and original formal TC-* cases.
+
+The [D03 traceability register](engineering-handoff/D03-TRACEABILITY.csv) maps unchanged A1–A10 to candidate/current source, retained author evidence and outstanding final qualification. Commands are plans, not results. Original NFRs, failed evidence and assertion minima remain intact; documentation checks or a proposed case cannot increase application assertion/formal acceptance totals. The older evidence table below retains its dates.
+
 # Test strategy
 
 Since round 11 (3 October 2026) the layers, commands and CI tiers are described in [Testing Saha](TESTING.md); this page keeps the evidence rules.

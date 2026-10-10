@@ -1,3 +1,9 @@
+# Current engineering sequence 10 October 2026
+
+The current source is main 7668a03d97c1ae62174f09e65ccd5a5717120be6. D02 is a historically delivered isolated gate; freshly resolve D01 impact for the sole existing D03 candidate, then finish its unchanged A1–A10. See [the coding entry](engineering-handoff/START-HERE.md). Continue one bounded implementation at a time; prepare D04/D05 contracts without prematurely dispatching them.
+
+The original eleven product work packages, R1/R2/CWO product goals, historical R11–R16 engineering batches and D01–D08 queue are distinct. The R12-first and stacked-PR wording below describes the older engineering plan and does not supersede the current D01→D03 sequence. GitHub publication, qualified isolated merge and observed hosting are separate evidence events; the current staging topology is documented in [HOSTED-STAGING.md](HOSTED-STAGING.md).
+
 # Engineering implementation plan
 
 Continue from R11 / v1.3-readiness and the [next-delivery slice](../NEXT-DELIVERY.md). The original eleven work packages and 176 backlog items remain in the [target plan](../reference/08_Engineering-Implementation-Plan_v1.0.md) and preserved workbook exports. Their original business phases are distinct from engineering releases.

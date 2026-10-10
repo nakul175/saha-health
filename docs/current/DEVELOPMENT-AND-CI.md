@@ -1,3 +1,9 @@
+# Current coding environment 10 October 2026
+
+Use [the selected engineering baseline](engineering-handoff/CURRENT-ENGINEERING-BASELINE.md) and [test plan](engineering-handoff/TEST-AND-RECOVERY-PLAN.md) with this reproduction guide. The current synthetic host is documented as health.aplyd.org on the existing DigitalOcean droplet behind Caddy; automatic Cloudflare staging deployment is frozen. This is a source/documentation statement, not a fresh live-service observation. Inspect the actual updater and configuration before any authorised release; a Cloudflare freeze does not freeze a separate DigitalOcean updater.
+
+Documentation-only changes skip engineering CI under its current paths-ignore rule; the separate documentation-checks workflow normally applies to a docs pull request. Run the required documentation checks locally for this preparation. A docs preservation commit may explicitly skip hosted CI, with that skip retained as a limit; it cannot become a required application-CI pass or release approval. New manual CI/provider/cloud spending still needs the repository's actual financial permission; this preparation does not start those actions.
+
 # Development and CI
 
 Use this guide with [CLAUDE.md](../../CLAUDE.md) and [AGENTS.md](../../AGENTS.md). A clean clone should branch from GitHub `main`, which has contained R11 and development slices 0a–3f, and the later slices and review fixes 3g–6r (#36–#70), since 30 September 2026, and the overnight slices and review fixes 0b-4 to 6ae (#74–#99) and the demonstration slices 9a–9c (#101–#103) since 2 October 2026, and the round-10 slices 10a–10k (#105–#115) since 3 October 2026. Start with [HANDOVER.md](../../HANDOVER.md). Test layers, commands and CI tiers are in [Testing Saha](TESTING.md).
@@ -14,13 +20,13 @@ node node_modules/typescript/bin/tsc --noEmit
 npm run build
 ```
 
-`npm run dev` starts the portable development application on port 5173 when no managed profile is selected. Managed Sites previews use their existing supervisor. Development fallback identity is explicitly synthetic. A production worker depends on the trusted Sites dispatcher and must not be publicly exposed with user-supplied identity headers.
+`npm run dev` starts the portable development application on port 5173 when no managed profile is selected. Managed Sites previews use their existing supervisor. Development fallback identity is explicitly synthetic. The current trusted provider is selected by `lib/saha/identity.ts`; Sites and Cloudflare Access have different verification paths. Never expose a production service using the development identity or user-supplied identity headers.
 
 External APIs default to disabled in [.env.example](../../.env.example). Do not copy secrets into Git or a documentation file. Configuration, a secure server secret binding and approved current capability/partner grants are separate requirements; an environment toggle alone does not activate a live workflow.
 
 ## Local database and application checks
 
-Build before the HTTP suite. Apply every migration file in `drizzle/` in order (sixteen after slice 10b) to **disposable local test state**, using the built Worker config and its DB binding. The current test harness expects `.wrangler/test-state`; reserve that directory for synthetic fixtures. Never point these commands at a hosted database or real records.
+Build before the HTTP suite. Apply every migration file in `drizzle/` in order (33 in the inspected 10 October baseline; enumerate fresh source rather than assuming this count) to **disposable local test state**, using the built Worker config and its DB binding. The current test harness expects `.wrangler/test-state`; reserve that directory for synthetic fixtures. Never point these commands at a hosted database or real records.
 
 The initialization below refuses an existing test-state directory. For an existing test database, inspect its schema and apply only new migration files; do not rerun the entire sequence or delete it blindly. The built config does not set Wrangler's migration directory, so use the repository's actual Drizzle SQL files explicitly.
 

@@ -1,5 +1,61 @@
 # Low level design
 
+## Current source reconciliation — 10 October 2026
+
+This supplement applies to inspected main `7668a03d97c1ae62174f09e65ccd5a5717120be6` for the
+11 October coding handoff. Read [the current engineering baseline](engineering-handoff/CURRENT-ENGINEERING-BASELINE.md)
+for source pins and the distinction between main and the preserved D03 candidate. No runtime behavior, frozen
+criterion, evidence receipt or approval is changed by this documentation revision.
+
+### Actual request, mutation and recovery contract
+
+1. [worker/index.ts](../../worker/index.ts) applies the cross-site gate. Routes resolve the configured trusted
+   principal through [identity.ts](../../lib/saha/identity.ts) and [server.ts](../../lib/saha/server.ts).
+   A browser-supplied role, author or identity header cannot grant application authority.
+2. The command parser checks same-origin/fetch metadata, JSON content type, the existing 8–100-character operation
+   key format and a 20,000-byte body, then validates `platformSchema`. `x-saha-organisation` selects context; active
+   membership, person scope, purpose, versions and domain policy still decide permission.
+3. Receipt recovery binds actor, exact key, organisation and payload hash. [The dispatcher](../../lib/saha/server.ts)
+   reloads current access and command-specific authority before returning the saved result. Keep the unchanged
+   request/key through an uncertain acknowledgement. Changed input under the same key conflicts; an old successful
+   receipt is not continuing permission to disclose protected content.
+4. [partition.ts](../../lib/saha/partition.ts) identifies certified patient-local commands and permitted side tables.
+   [store.ts](../../lib/saha/store.ts) selects patient or organisation concurrency guards from the actual write set,
+   then commits guarded domain rows, revisions, audit and the command receipt atomically. The audit-chain head has
+   its own guarded conflict/rebuild behavior. A read-audit commit does not manufacture a clinical revision.
+5. Responses may contain a full scoped `snapshot` or a certified `delta` plus `partition` when the client requests
+   that shape. [mergeDelta](../../lib/saha/delta.ts) reconciles the affected patient collections. Receipt replay still
+   obtains a fresh scoped snapshot. Client code must inspect the actual response rather than assume one shape.
+6. External adapters retain their explicit checkpoint and outcome contracts. A timeout, lost response or changed
+   permission does not prove that an external effect never happened. Use the existing lookup/reconciliation path;
+   do not create a new operation key to conceal an uncertain effect.
+
+`json()` marks application JSON responses `no-store` and `nosniff`; the generic unavailable contract in `error()`
+returns 503 without an application stack or SQL disclosure. Feature routes may have additional validated query,
+role and read-audit contracts. Inspect the owning route rather than apply a generic success/error shortcut.
+
+### Bounded mobile slice boundary
+
+Main's [GET /api/today](../../app/api/today/route.ts) uses [todayRead](../../lib/saha/today-server.ts): only
+synthetic/training, active ASHA membership and assigned unmerged records; identity/detail reads are durably audited.
+It introduces no routine-visit write. The preserved D03 candidate delegates `startVisit`, `saveVisit`,
+`saveProgrammeAnswers` and `confirmVisit` to existing authority/version/audit logic and needs its unchanged frozen
+A1–A10 qualification. Its separate `/routine-visit` route must not be presented as deployed main at this checkpoint.
+
+Draft persistence, confirmed clinical state and destination acceptance remain separate. Keep exact person/visit,
+source/time/unit, server author, pack versions and explicit conflict comparison. Opening a screen must not start a
+visit. Saving after a failure must not acknowledge durability without authoritative readback. Prepared encrypted
+restart retention and reconnect are subsequent D04/D05 contracts; local-save p95 ≤500 ms remains an unchanged
+applicable source NFR, not a substitute for connected-server timing or physical-device qualification.
+
+## Retained R11 design description
+
+The remainder preserves the earlier edition. Its single organisation-guard and snapshot-only descriptions are
+superseded by the current patient-partition/response contract above. Broader target state machines remain reference
+design unless the selected source actually implements them.
+
+# Low level design
+
 This is the current command and persistence design. The [original LLD](../reference/03_Low-Level-Design_v1.0.md) retains broader target state machines, worker leases, observation equivalence, native offline behavior and event consumers that are not all implemented.
 
 ## Command lifecycle
