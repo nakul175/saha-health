@@ -31,3 +31,7 @@ All 176 BRD acceptance criteria remain pending. The audited implementation count
 Current specifications use Markdown and registers use CSV/JSON for GitHub review and maintenance. The original editable Word and Excel files remain available in history. Their original statuses have not been silently rewritten or presented as current execution results.
 
 - [D02 frozen specification](current/d02/SPECIFICATION.md) — isolated assigned-list/read-only identity-context delivery.
+
+## Active D03 story
+
+[Frozen D03 specification](current/d03/SPECIFICATION.md) describes the bounded routine review/save contract and delivery gates, after D02 exact-host synthetic delivery. Final D03 evidence is pending; no parent/formal acceptance is claimed.

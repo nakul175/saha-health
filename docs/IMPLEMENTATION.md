@@ -1,3 +1,7 @@
+# D03 implementation boundary — 10 October 2026
+
+D02 is delivered on synthetic staging with its declared gate10/10 and restored clinician role; formal UAT0/364 and whole-product acceptance remain unchanged. D03/#176 is the only active story on clean main7668 base. See [frozen scope](current/d03/SPECIFICATION.md). Separate connected routine presentation delegates four existing commands, bound to one assigned person. Actual local build/types and42 initial real-backend/browser checks pass; final expanded evidence, affected checks, CI, separate review and live hosted smoke remain pending. Existing encrypted local-storage component timing is separately measured; this screen does not acknowledge a durable local save. Original SAHA-004/006/020/021/024/049 and parent BRD/NFR assessments are not promoted to formal acceptance. Old PRs173/184/187 and legacy/history preserved.
+
 # D02 isolated read-only candidate — 10 October 2026
 
 `/today` adds a separate mobile client and GET-only `/api/today` projection for active synthetic/training ASHAs. Existing server identity, assignment/policy scope and durable access audits remain authoritative. Only ID/name/village and read-only age/sex context are exposed; no visit or clinical write is added. The legacy `/app` is preserved separately. Source implementation and local tests do not establish merge, hosted deployment or formal acceptance. See [frozen D02 specification](current/d02/SPECIFICATION.md) and [validation](../VALIDATION.md). Parent capture, scheduling, offline and localisation remain pending.

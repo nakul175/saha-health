@@ -93,7 +93,7 @@ jobs:
       # Slices 11b and 11f: local smoke and the hosted smoke's self-test; the authorisation matrix over every GET route and role,
       # and identity hardening under Cloudflare Access; the UAT register check and the drift checks of the generated documents.
       - name: Smoke, security suites and UAT checks
-        run: node scripts/test.mjs smoke nfr uat --only smoke/local-smoke,smoke/hosted-smoke,nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast --guard
+        run: node scripts/test.mjs smoke nfr uat --only smoke/routine-visit-browser,smoke/today-browser,smoke/local-smoke,smoke/hosted-smoke,nfr/authorisation-matrix,nfr/identity-hardening,uat/check-uat-register,uat/generate-uat-pack,uat/coverage-map --fast --guard
       - uses: actions/upload-artifact@v4
         if: always()
         with:

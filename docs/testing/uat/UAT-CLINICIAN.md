@@ -964,7 +964,7 @@ Slice 6a: clinician emergency access to one out-of-scope patient by record refer
 
 <details><summary>What the build does today (assessment, current state of BR-RULE-03)</summary>
 
-Visit/person/consent/connector/plan versions bind approvals and stale actions fail.
+Visit/person/consent/connector/plan versions bind approvals and stale actions fail. D03 isolated routine candidate reuses current guided controls and four audited commands bound to one selected person;50 built synthetic backend/browser checks cover shared three-pack capture, provenance, lost committed acknowledgement, explicit conflict recovery and changed-authority refusal. Existing encrypted local component full-fixture p95 is separately measured under the unchanged500ms target; the connected screen does not acknowledge durable local work. Final CI/review/host gate and representative-device/worker/formal acceptance remain pending. See docs/current/d03/SPECIFICATION.md and EVIDENCE.json.
 
 </details>
 

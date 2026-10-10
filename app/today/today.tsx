@@ -110,6 +110,7 @@ export default function Today() {
             <dd>{record.sex || 'Not recorded'}</dd>
           </dl>
           <button onClick={() => void load()}>Back to Today</button>
+          <a href={'/routine-visit?personId=' + encodeURIComponent(record.id)}>Review routine visit</a>
         </>
       ) : (
         <>

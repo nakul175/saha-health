@@ -1,0 +1,114 @@
+{
+  "story": 176,
+  "specRevision": 1,
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "observedAt": "2026-10-10T08:39:50.286155+00:00",
+  "state": "IMPLEMENTED; LOCAL ROUTINE/TODAY JOURNEYS PASS; FULL QUALIFICATION PENDING",
+  "routine": {
+    "passed": 51,
+    "failed": 0,
+    "localP95Ms": 0.8999999761581421,
+    "localTransactionCount": 100,
+    "timingBoundary": "Actual existing encrypted vault seal/revisioned commit/read/unseal of full captured three-pack fixture, separately from connected-server timing. Connected screen makes no durable local-save acknowledgement. Physical device not measured."
+  },
+  "todayRegression": {
+    "passed": 58,
+    "failed": 0
+  },
+  "types": "passed",
+  "build": "passed",
+  "focusedLint": "passed; no suppression or baseline increase",
+  "sourceSha256": {
+    "app/routine-visit/page.tsx": "3f715c35694267a2896dcc9ed560550cf32d19e469a8ace09e1b9927c07623d8",
+    "app/routine-visit/routine-visit.tsx": "514ee949f8381351ff1bf3cfd04d67d12ec857f615771700d39a9c60a8e7fa99",
+    "app/routine-visit/routine-visit.css": "c26320805d62f2e1c9bcb9f0d5bc32f9a103b7775cce7b085e533952b3767e82",
+    "app/api/routine-visit/route.ts": "48a0ac955ffd39ce0f22a6a472bca25ae2a7edcbceffab71a910e76ea0f203f0",
+    "lib/saha/routine-visit.ts": "859273d6e32fe775a39b23dae4baf4927043bdd4f195021c2fe613ced680d8cb",
+    "lib/saha/routine-visit-server.ts": "081a364a79e07078d721fa6100eb58b190d7fd077f85c4c5c0cf126eb154dbc6",
+    "app/today/today.tsx": "c8223922eaa70abce742af12fa6f832ee13f1a2b769c8ae9dca2200ccb233668",
+    "tests/smoke/routine-visit-browser.mjs": "0a3dcca0734adf25a342335e3d8624e290f9d12420ae072e920c053c2692c129",
+    "scripts/test-catalogue.mjs": "4d3fa0d4149ca5f5ad9204bed44160966e379cf1fcfb65c77328404a8d7f31f8",
+    "tests/regression-baseline.json": "79c521dad37a3956af72e1802c61f90e4bf5d33775c11efc9887536728c6fa5d",
+    "docs/current/d03/SPECIFICATION.md": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+    "app/today/today.css": "f743b1e51aaae451e6eb21c60509bb9c110305605d5b1bf2b4795da76a52cd98",
+    "public/field/vault.js": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210",
+    "app/guided-capture.tsx": "c43ae3fabfdc04952ac28b95df1495ebd094f7c34aa0f0857ee6d542a0ae1de3",
+    "app/programmes.tsx": "38a6b8c003f120d0a308e40b1da5f087d9587d0d5c1165db1b14172235c03a32",
+    "lib/saha/core.ts": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+    "lib/saha/server.ts": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+    "lib/saha/platform.ts": "079c93aa8219fd01ddccb119e55f2e7b8ce3eb4ce72a98212540e026857f6f40",
+    "lib/saha/fact-provenance.ts": "6d4bc63c8ecc72a80530e611d1a1051e1a11495ed1cc6129c4c138aeb198c3cb",
+    "lib/saha/programmes.ts": "b85097af98872e7187bdbe58efd88b67709928d2ae41360f7b03fc7c95487077"
+  },
+  "localEvidence": {
+    "routine50.json": "089238bbb4ff6ff21f13381dfaa83aaa0e0b67b3e00ff298c5905500abd9e9ea",
+    "smoke50.log": "82e6a236430d9ce5bef65d5ce726d1f21cbf8d37c123304e86069e7ff5df0234",
+    "smoke108-summary.json": "67f0dd34e42658239b64ecd85e3e17a26006523a075b4d00dea7ecfbe5858110",
+    "units-concurrent-rejected.log": "b7dce6c2edf496e19e5bf3688437c0bb1eeae24d83a8c16cbc4f1d26400c0f7a",
+    "smoke-concurrent-rejected.log": "ce39945dfe378be6f54216ab8cd7a2c32fe54ec35e543fa71832fc4e1c1e532d",
+    "export-retry88.log": "21146f0d0d239deae7ae07d142cf65a2c934ff2ce53964dfec2d43cee747465d",
+    "export-retry88.json": "f6f1101f9f89b3e20ff9b97d395d5dd26b7cfd16f27916822bd9f246907c3c0e",
+    "units-sequential199-plus-two-environment-failures.log": "5ba1ddd6cc5d9dca35efd214cb253f3c3225e81598d1d746d69e5b334a910ebd",
+    "units-sequential199-plus-two-environment-failures.json": "52c9247f4860a1cbba8b3fe74f5a0afa07984a6f0f8b5920cd0d02c2e3c4541b",
+    "lint-final.log": "db43f8945c2e7fbe07dd1733d24f8dbb18f65ba6185fab1f3c8d6474805c8f7e",
+    "http5041.log": "d30ad7c2afe708662d6d72af7520f76c665fffe6ef722cd6adc71cbfa068127b",
+    "http5041-summary.json": "f4bc2c45a752abc7f5ae7cb9f4d8aae2f248f306e93ac479359bffcef72de583",
+    "final-runtime-smoke.log": "d311c6db876b7ecbccfd7b154c8285b3176918fefcf372b3bdd6d0834bc68449",
+    "final-routine50.json": "7fdb6a03d55d0e30ac71e3d173ddd595b3b6ba34faf48b1dceac7bd10efbfc5c",
+    "security.log": "11704ffe83bfc427219041752fc3ad7ad0343d32ecf8975c1fae7904d8c8d913",
+    "reviewed-smoke.log": "4ffcb841a3ea0390b1197aa279419e2371c07634e73e8500715d2d09a27dad11",
+    "reviewed-routine.json": "5dd6ffb641129bf9f07215ddf73a740af0de3e1cb0445725b06868bb9f0230ea"
+  },
+  "rejectedEvidence": "Concurrent smoke aggregate4536 was contaminated by shared report discovery and is rejected. Both broad unit attempts failed two export suites because this Mac lacks the GNU sha256sum executable; source logs establish ENOENT, not an application assertion defect.199 suites passed10614. Temporary ignored sha256sum launcher delegates unchanged -c checks to native shasum -a256; the two original suites are rerunning. Initial audit test expected500 but authoritative generic outage is503; exact contract corrected and sequential50 passed. Historical failures preserved.",
+  "pending": [
+    "fresh all201 final-head CI unit gate",
+    "documentation/source integrity",
+    "final-head CI",
+    "separate final diff/evidence review",
+    "qualified isolated merge",
+    "exact-host authorised live synthetic smoke"
+  ],
+  "formalUatAccepted": 0,
+  "historicalPrs": "173/184/187 remain untouched",
+  "units": {
+    "broadAttempt": {
+      "suites": 201,
+      "passedAssertions": 10614,
+      "passedSuites": 199,
+      "blockedSuites": 2,
+      "reason": "missing GNU sha256sum on macOS; failed raw attempts retained"
+    },
+    "unchangedEnvironmentRetry": {
+      "suites": 2,
+      "passedAssertions": 88,
+      "failed": 0,
+      "guard": "passed",
+      "tool": "ignored launcher exec /usr/bin/shasum -a256 with unchanged arguments"
+    },
+    "coverage": "All201 current suites executed;199 positives plus two environment-repaired repeated44-assertion positives. Fresh all201 single CI pass still pending."
+  },
+  "lint": "1392 errors/618 warnings, unchanged ratchet; focused new runtime lint0 errors",
+  "workflowSha256": "1331c35efd787621aae49f510bc92a899c5ceec10c28799541cb889f812c4e5b",
+  "httpRecovery": {
+    "passed": 5041,
+    "failed": 0,
+    "guard": "passed",
+    "http": 5020,
+    "recovery": 21
+  },
+  "supplyChain": {
+    "passed": true,
+    "productionComponents": 226,
+    "blocking": 0,
+    "critical": 0,
+    "boundary": "Existing pinned gate; unchanged package/lockfile.53 high/moderate/low findings accepted under unchanged gate policy; not a whole-security certification."
+  },
+  "reviewPhase": {
+    "findings": [
+      "Known voided/superseded drafts should remain read-only in presentation; corrected edit eligibility.",
+      "An uncertain write should permit read-only comparison without requiring replay; comparison enabled, explicit saved-record replacement can end uncertainty."
+    ],
+    "status": "Repairs applied; real updated journey repeated before publishing. Final published diff/evidence review and CI pending.",
+    "independentHumanApproval": "Not claimed; actual native branch requirements still govern merge."
+  }
+}

@@ -197,7 +197,12 @@
     "tests/app-first-ui.cjs",
     "tests/ui/app-first-phone.spec.mjs",
     "docs/current/APP-FIRST-UI.md",
-    "docs/current/ANDROID-APP.md"
+    "docs/current/ANDROID-APP.md",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "NFR-03": [
     "lib/saha/agent.ts",
@@ -221,7 +226,12 @@
     "app/api/mis/callback/route.ts",
     "docs/current/SLICE-6AB-EIGHTH-REVIEW-FIXES.md",
     "tests/nfr/load-burst.mjs",
-    "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+    "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "NFR-06": [
     "scripts/recovery.mjs",
@@ -246,7 +256,12 @@
     "tests/service-dispatch-contract.mjs",
     "docs/current/SERVICE-IDENTITY-WIRING.md",
     "docs/current/MEMORY-NATIVE-RETENTION.md",
-    "docs/current/WORKSPACE-METADATA-BATCH.md"
+    "docs/current/WORKSPACE-METADATA-BATCH.md",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "NFR-10": [
     "lib/saha/store.ts",
@@ -265,7 +280,12 @@
     "docs/current/SLICE-13E-PERFORMANCE.md",
     "lib/saha/ehr-probe.ts",
     "tests/ehr-probe-contract.mjs",
-    "docs/current/EHR-PROBE-AUDIT-AND-ELIGIBILITY.md"
+    "docs/current/EHR-PROBE-AUDIT-AND-ELIGIBILITY.md",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "NFR-11": [
     "lib/saha/field.ts",
@@ -299,7 +319,12 @@
     "tests/evidence/slice-6x/a11y-audit-result.json",
     "components/ui/return-focus.ts",
     "tests/ui/phone.spec.mjs",
-    "tests/ui/support/fixtures.mjs"
+    "tests/ui/support/fixtures.mjs",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "NFR-14": [
     "REMAINING-RELEASES.md"
@@ -813,7 +838,12 @@
     "lib/saha/mis.ts",
     "tests/mapping-lifecycle-contract.mjs",
     "tests/mapping-lifecycle-review-http.mjs",
-    "docs/current/MIS-MAPPING-LIFECYCLE.md"
+    "docs/current/MIS-MAPPING-LIFECYCLE.md",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "BR-CARE-01": [
     "lib/saha/continuity.ts",
@@ -1659,7 +1689,12 @@
     "tests/import-unit-parity-contract.mjs",
     "tests/import-unit-parity-browser.mjs",
     "docs/current/APP-VALUE-RANGE-PROTOCOL.md",
-    "docs/current/APP-IMPORT-UNIT-PARITY.md"
+    "docs/current/APP-IMPORT-UNIT-PARITY.md",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "BR-INT-21": [
     "lib/saha/mis.ts",
@@ -1919,7 +1954,12 @@
     "app/registration-guidance.tsx",
     "tests/guided-registration-browser.mjs",
     "tests/guided-registration-overflow-browser.mjs",
-    "tests/guided-registration-root-independent-browser.mjs"
+    "tests/guided-registration-root-independent-browser.mjs",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "BR-DATA-03": [
     "lib/saha/core.ts",
@@ -1963,7 +2003,12 @@
     "docs/current/APP-FIRST-UI.md",
     "docs/current/ANDROID-APP.md",
     "app/registration-guidance.tsx",
-    "tests/guided-registration-browser.mjs"
+    "tests/guided-registration-browser.mjs",
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ],
   "BR-UX-06": [
     "app/app/page.tsx",
@@ -2234,5 +2279,19 @@
     "tests/inbound-retrieval-service-independent-http.mjs",
     "tests/inbound-retrieval-original-race-after.mjs",
     "docs/current/INBOUND-RETRIEVAL-SERVICE-INDEPENDENT-REVIEW.md"
+  ],
+  "BR-RULE-03": [
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
+  ],
+  "BR-DATA-01": [
+    "app/routine-visit/routine-visit.tsx",
+    "lib/saha/routine-visit-server.ts",
+    "tests/smoke/routine-visit-browser.mjs",
+    "docs/current/d03/SPECIFICATION.md",
+    "docs/current/d03/EVIDENCE.json"
   ]
 }

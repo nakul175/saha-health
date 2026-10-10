@@ -1,6 +1,8 @@
-# Active delivery — D02 / #175
+# Active delivery — D03 / #176
 
-Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Test-only current fixture repair passes201 units10702 and independent targeted QA168; repaired-head CI/final review still gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.
+D02/#175 passed its declared10/10 delivery gate on10 October2026: exact hosted merge7668a03d, actual synthetic ASHA list/open/back/refusal, then clinician restoration with owner/teams preserved. Isolated PR189 alone was merged. Live receipts are linked in GitHub issues175/188; formal UAT0/364 remains unchanged.
+
+D03 now starts independently from that current main. See [frozen revision1](current/d03/SPECIFICATION.md). Guided current-source controls and audited start/save/programme/confirm commands are reused through a bounded selected-person API. No old PR is bulk merged or legacy workspace activated. Real local build/types and42 initial built-backend/browser checks pass, including a genuinely committed lost acknowledgement, exact-key replay, programme input retention and UI confirmation. Further audit/authority checks, affected gates, final CI and separate review are underway. A10 remains pending; do not dispatch D04/#177. Server timing and existing encrypted local component timing are separate; no durable local save is claimed for the connected screen.
 
 # Claude handover checkpoint
 
