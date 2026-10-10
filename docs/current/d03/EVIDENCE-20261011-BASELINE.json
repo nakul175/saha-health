@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-10T20:08:10.413653+00:00",
+  "sourceHead": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "sourceTree": "dba0dc9184374d23f31b8ec8e1b8db1556b41ccc",
+  "freshBuildExitCode": 0,
+  "sourceFiles": 16637,
+  "buildFiles": 265,
+  "canonicalPair": {
+    "suites": 2,
+    "passed": 188,
+    "failed": 0,
+    "skipped": 0,
+    "compositeMinimumAndObserved": 133,
+    "reminderMinimumAndObserved": 55,
+    "guardPassed": true,
+    "quarantined": 0
+  },
+  "externalEvidenceRoot": "outputs/saha-health-overnight-20261011/",
+  "externalEvidenceSha256": {
+    "qa/d01-main7668-dependency-impact/FRESH-MAIN-PAIR-PASS-RECEIPT.json": "f2206fc7eae76954ee4ab54825af89d153c578c30b44bab3ca6051cb9951d76e",
+    "qa/d01-main7668-dependency-impact/CANONICAL-PAIR-SUMMARY.json": "090447f8d27d8eeaaf1749bc8597f060e54c576c5252f59e852fdc4a382f2b79",
+    "qa/d01-main7668-dependency-impact/REMINDER-BROWSER-EVIDENCE-RECEIPT.json": "b9103b541763cfc3566ba6bacfc75b3a0ddd4027c89a1454b69d7a43fdc49b3a",
+    "qa/d01-main7668-dependency-impact/FRESH-MAIN-BUILD-AND-PAIR-PREFLIGHT-RECEIPT.json": "403acd97e47a5324c8d24c30e2cb819c7dc9aace5a01de2ae69f7330ad243058"
+  },
+  "decision": "Continue qualification of the single existing D03 candidate. Require its final compatible source to repeat both unchanged stable suites in the wider guarded run. Do not close inherited issues or promote formal D01/product acceptance.",
+  "limits": [
+    "Fresh synthetic local main pair only, not final D03 candidate CI or a new hosted smoke.",
+    "Historical source43f445a/run37920175529 faults remain evidence; current green does not diagnose or reproduce their cause.",
+    "Reminder browser observations use unchanged1280x900 desktop, not phone qualification.",
+    "No issue185/186 close, dashboard188 edit, Linear status change, live role mutation, paid action or main merge."
+  ]
+}

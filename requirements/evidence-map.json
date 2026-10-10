@@ -206,7 +206,11 @@
     "docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
-    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json"
+    "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
   ],
   "NFR-03": [
     "lib/saha/agent.ts",
@@ -243,7 +247,11 @@
     "lib/saha/routine-read-guard.ts",
     "tests/routine-read-guard-contract.mjs",
     "tests/integration/routine-authority-http.mjs",
-    "tests/audit-access-contention-contract.mjs"
+    "tests/audit-access-contention-contract.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
   ],
   "NFR-06": [
     "scripts/recovery.mjs",
@@ -281,7 +289,15 @@
     "lib/saha/routine-read-guard.ts",
     "tests/routine-read-guard-contract.mjs",
     "tests/integration/routine-authority-http.mjs",
-    "tests/audit-access-contention-contract.mjs"
+    "tests/audit-access-contention-contract.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+    "lib/saha/access-audit.ts",
+    "lib/saha/store.ts",
+    "tests/access-membership-contract.mjs",
+    "tests/access-audit-excess-metadata-contract.mjs"
   ],
   "NFR-10": [
     "lib/saha/store.ts",
@@ -310,7 +326,13 @@
     "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
-    "tests/audit-access-contention-contract.mjs"
+    "tests/audit-access-contention-contract.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+    "tests/access-membership-contract.mjs",
+    "tests/access-audit-excess-metadata-contract.mjs"
   ],
   "NFR-11": [
     "lib/saha/field.ts",
@@ -354,7 +376,12 @@
     "docs/current/d03/EVIDENCE-20261011-RECOVERY.json",
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
-    "tests/audit-access-contention-contract.mjs"
+    "tests/audit-access-contention-contract.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+    "tests/current-guided-simplicity-capabilities-browser.mjs"
   ],
   "NFR-14": [
     "REMAINING-RELEASES.md"
@@ -879,7 +906,11 @@
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
     "tests/integration/routine-attempt-browser.mjs",
-    "tests/integration/routine-organisation-http.mjs"
+    "tests/integration/routine-organisation-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
   ],
   "BR-CARE-01": [
     "lib/saha/continuity.ts",
@@ -1046,7 +1077,14 @@
     "tests/integration/routine-authority-http.mjs",
     "tests/integration/routine-attempt-browser.mjs",
     "tests/integration/routine-organisation-http.mjs",
-    "tests/audit-access-contention-contract.mjs"
+    "tests/audit-access-contention-contract.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+    "tests/access-membership-contract.mjs",
+    "tests/access-audit-excess-metadata-contract.mjs",
+    "tests/smoke/local-routine-current-smoke.mjs"
   ],
   "BR-AG-07": [
     "lib/saha/agent.ts",
@@ -1343,7 +1381,16 @@
     "tests/routine-read-guard-contract.mjs",
     "tests/integration/routine-authority-http.mjs",
     "tests/integration/routine-attempt-browser.mjs",
-    "tests/integration/routine-organisation-http.mjs"
+    "tests/integration/routine-organisation-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+    "lib/saha/access-audit.ts",
+    "lib/saha/store.ts",
+    "tests/access-membership-contract.mjs",
+    "tests/access-audit-excess-metadata-contract.mjs",
+    "tests/smoke/local-routine-current-smoke.mjs"
   ],
   "BR-ID-09": [
     "lib/saha/continuity.ts",
@@ -1752,7 +1799,11 @@
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
     "lib/saha/routine-read-guard.ts",
     "tests/routine-read-guard-contract.mjs",
-    "tests/integration/routine-authority-http.mjs"
+    "tests/integration/routine-authority-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
   ],
   "BR-INT-21": [
     "lib/saha/mis.ts",
@@ -2023,7 +2074,12 @@
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
     "tests/integration/routine-attempt-browser.mjs",
-    "tests/integration/routine-organisation-http.mjs"
+    "tests/integration/routine-organisation-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+    "tests/smoke/local-routine-current-smoke.mjs"
   ],
   "BR-DATA-03": [
     "lib/saha/core.ts",
@@ -2061,7 +2117,11 @@
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
     "tests/integration/routine-attempt-browser.mjs",
-    "tests/integration/routine-organisation-http.mjs"
+    "tests/integration/routine-organisation-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
   ],
   "BR-UX-02": [
     "app/app/page.tsx",
@@ -2082,7 +2142,12 @@
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
     "tests/integration/routine-attempt-browser.mjs",
-    "tests/integration/routine-organisation-http.mjs"
+    "tests/integration/routine-organisation-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json",
+    "tests/smoke/local-routine-current-smoke.mjs"
   ],
   "BR-UX-06": [
     "app/app/page.tsx",
@@ -2365,7 +2430,11 @@
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
     "tests/integration/routine-attempt-browser.mjs",
-    "tests/integration/routine-organisation-http.mjs"
+    "tests/integration/routine-organisation-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
   ],
   "BR-DATA-01": [
     "app/routine-visit/routine-visit.tsx",
@@ -2378,6 +2447,10 @@
     "docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
     "docs/current/d03/EVIDENCE-20261011-AUTHORITY.json",
     "tests/integration/routine-attempt-browser.mjs",
-    "tests/integration/routine-organisation-http.mjs"
+    "tests/integration/routine-organisation-http.mjs",
+    "docs/current/d03/AUDIT-GUARD-QUALIFICATION-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-AUDIT-GUARD.json",
+    "docs/current/d03/BASELINE-IMPACT-20261011.md",
+    "docs/current/d03/EVIDENCE-20261011-BASELINE.json"
   ]
 }

@@ -2,13 +2,18 @@ import { allowed, bindAccessPolicy, policySql } from './access';
 import {hydrateTransitionAuthority} from './installed-transition-authority';
 export { allowed } from './access';
 import type { D1Database } from '@cloudflare/workers-types';
-import { digest, fail, uuid } from './core';
+import { AppError, digest, fail, uuid } from './core';
 import { seedWorkspace } from './seed';
 import type { OrgState, Workspace, Member, Person, Visit, Audit, RecordRevision } from './types';
 import type { DelegationUse } from './delegation';
 import { PATIENT_COMMANDS, PATIENT_TABLES } from './partition';
 import { ACCESS_AUDIT, SUMMARY_ACCESS_ACTIONS, ACCESS_SIDE_TABLES, ACCESS_CHAIN_ATTEMPTS, accessChainBackoff, isAuditSequenceConflict, chainBackoff, chainMoved, linkRows } from './audit-chain';
 export type Actor={userId:string;displayName:string;email:string};
+// Human access-only audit writes pin the membership already used to shape the read.
+// System access writers omit this; this snapshot never grants patient or purpose scope.
+export type AccessMembership={userId:string;version:number;role:Member['role'];isOwner:boolean};
+// A known read-authority refusal never proves an earlier clinical write was unapplied.
+export class AccessMembershipRefused extends AppError{constructor(){super(403,'Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored.');}}
 type Value=string|number|null;
 export type Row={table:string;values:Record<string,Value>;keys:string[];append?:boolean};
 const row=(table:string,values:Record<string,Value>,keys=['org_id','id'],append=false):Row=>({table,values,keys,append});
@@ -34,13 +39,18 @@ export const homeOrg=async(id:string)=>`org_${(await digest(`saha-home:${id}`)).
 // are written by `persistScheduledRecord` below without moving the organisation revision.
 export const SCHEDULED_RECORD_KEYS=['scheduledJob','auditChain'] as const;
 const KEEP_LEDGER='data='+['indicatorReleases',...SCHEDULED_RECORD_KEYS].reduce((x,k)=>`CASE WHEN json_type(operations.data,'$.${k}') IS NULL THEN json_remove(${x},'$.${k}') ELSE json_set(${x},'$.${k}',json(json_extract(operations.data,'$.${k}'))) END`,'excluded.data');
-export function guarded(db:D1Database,orgId:string,token:string,rows:Row[]){
+export function guarded(db:D1Database,orgId:string,token:string,rows:Row[],accessMembership?:AccessMembership,expectedChanges?:number[]){
+ if(accessMembership&&rows.some(r=>r.table!=='audit_events'||r.append!==true||r.values.org_id!==orgId))throw new Error('Human access audits require same-organisation append-only audit rows.');
  const groups=new Map<string,Row[]>();for(const r of rows){const key=r.table+'|'+Object.keys(r.values).join(',')+'|'+r.append;groups.set(key,[...(groups.get(key)??[]),r]);}
  const statements=[];
  for(const rs of groups.values()){
   const first=rs[0],cols=Object.keys(first.values),size=Math.max(1,Math.floor(88/cols.length));
   for(let n=0;n<rs.length;n+=size){const part=rs.slice(n,n+size);const binds=part.flatMap(r=>cols.map(k=>r.values[k]));const select=cols.map((_,i)=>`column${i+1}`).join(',');const updates=cols.filter(c=>!first.keys.includes(c));const conflict=first.append?'':updates.length?` ON CONFLICT (${first.keys.join(',')}) DO UPDATE SET ${updates.map(c=>first.table==='operations'&&c==='data'?KEEP_LEDGER:`${c}=excluded.${c}`).join(',')}`:' ON CONFLICT DO NOTHING';
-   statements.push(db.prepare(`INSERT INTO ${first.table} (${cols.join(',')}) SELECT ${select} FROM (VALUES ${part.map(()=>`(${cols.map(()=>'?').join(',')})`).join(',')}) WHERE EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)${conflict}`).bind(...binds,orgId,token));
+   expectedChanges?.push(part.length);
+   const permission=accessMembership
+    ?{sql:"EXISTS (SELECT 1 FROM organisations o JOIN memberships m ON m.org_id=o.id WHERE o.id=? AND m.user_id=? AND m.status='active' AND m.version=? AND m.role=? AND m.is_owner=?)",binds:[orgId,accessMembership.userId,accessMembership.version,accessMembership.role,accessMembership.isOwner?1:0]}
+    :{sql:'EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)',binds:[orgId,token]};
+   statements.push(db.prepare(`INSERT INTO ${first.table} (${cols.join(',')}) SELECT ${select} FROM (VALUES ${part.map(()=>`(${cols.map(()=>'?').join(',')})`).join(',')}) WHERE ${permission.sql}${conflict}`).bind(...binds,...permission.binds));
   }
  }
  return statements;
@@ -167,12 +177,14 @@ export function appendCommandAuthority(rows:Row[],before:OrgState,uses:readonly 
 }
 // Slice 6j: a commit that loses the audit-chain race is rebuilt on the new head this many times.
 export const CHAIN_ATTEMPTS=6;
-export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[];taskId?:string;parentId?:string;kind?:string;visitId?:string},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
+export async function persist(db:D1Database,before:OrgState,after:OrgState,actor:Actor,command:{type:string;reason?:string;authorityDelegations?:readonly DelegationUse[];taskId?:string;parentId?:string;kind?:string;visitId?:string;accessMembership?:AccessMembership},key:string,hash:string,result:any,extraRows:Row[]=[],switchOrg=false){
  if(before.readOnlyFor)throw new Error('A viewer-scoped read cannot be persisted.');
  const orgId=before.organisation.id,now=new Date().toISOString();const rows=rowsForState(after,before,actor,command.type,command.reason??'',now);
  const actionEvent=after.workspace.audit.find(a=>!before.workspace.audit.some(b=>b.id===a.id));const patientId=actionEvent?.personId??after.workspace.people.find(p=>p.id===actionEvent?.subject)?.id??after.workspace.visits.find(v=>v.id===actionEvent?.subject)?.personId??after.workspace.visits.find(v=>v.id===result?.visitId)?.personId??null;
  // Slice 6t: an access-audit commit appends audit events only: no command receipt (a read is not replayed).
  const access=command.type===ACCESS_AUDIT;
+ const accessMembership=access?command.accessMembership:undefined;
+ if(accessMembership!==undefined&&(!accessMembership||typeof accessMembership!=='object'||Array.isArray(accessMembership)||accessMembership.userId!==actor.userId||!Number.isSafeInteger(accessMembership.version)||accessMembership.version<1||typeof accessMembership.role!=='string'||!accessMembership.role||typeof accessMembership.isOwner!=='boolean'))throw new Error('Invalid initiating access membership.');
  // Only an unambiguous newly appended initiating-member event proves mutation
  // linkage. Existing/imported/system/helper histories are never reconstructed.
  const initiating=after.workspace.audit.filter(a=>!before.workspace.audit.some(b=>b.id===a.id)&&a.action===command.type&&(a.actorId??actor.userId)===actor.userId&&a.role===before.members.find(m=>m.userId===actor.userId)?.role);
@@ -183,6 +195,7 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
  if(!access)rows.push(row('command_receipts',{actor_id:actor.userId,key,org_id:orgId,hash,result:j(result),person_id:patientId,created_at:now,command_type:command.type,mutation_subject_id:provenance?.subject??null,mutation_event_id:provenance?.id??null,mutation_context:taskContext?j(taskContext):programmeContext?j(programmeContext):null},['actor_id','key'],true));rows.push(...extraRows);
  if(!access)appendCommandAuthority(rows,before,command.authorityDelegations??after.delegationUsed,'pre-mutation',actor.userId);
  const teamChanges=after.members.filter(m=>!same(before.members.find(x=>x.userId===m.userId)?.teamIds,m.teamIds));
+ if(accessMembership&&rows.some(r=>r.table!=='audit_events'||r.append!==true||r.values.org_id!==orgId))throw new Error('Human access audits require same-organisation append-only audit rows.');
  if(access&&(teamChanges.length||switchOrg||rows.some(r=>r.table!=='audit_events'&&!ACCESS_SIDE_TABLES.has(r.table))||!rows.length))throw new Error('An access-audit commit may only append audit events.');
  const plan=access?{patients:null,reason:'access audit only'}:commitPlan(before,after,command.type,rows,teamChanges.length>0,switchOrg);
  // Slice 6j: audit rows are linked to the chain head read just before the batch. The unique
@@ -202,14 +215,39 @@ export async function persist(db:D1Database,before:OrgState,after:OrgState,actor
   :plan.patients
   ?db.prepare(`UPDATE organisations SET patient_revision=patient_revision+1,last_command=? WHERE id=? AND revision=? AND (SELECT count(*) FROM patients WHERE org_id=? AND (${plan.patients.map(()=>'(id=? AND rev=?)').join(' OR ')}))=?`).bind(token,orgId,before.organisation.revision,orgId,...plan.patients.flatMap(id=>[id,before.patientRevs![id]]),plan.patients.length)
   :db.prepare('UPDATE organisations SET revision=revision+1,patient_revision=patient_revision+1,last_command=?,name=? WHERE id=? AND revision=? AND patient_revision=?').bind(token,after.organisation.name,orgId,before.organisation.revision,before.organisation.patientRevision??0);
- const stmts=[head,...(plan.patients?[db.prepare(`UPDATE patients SET rev=rev+1 WHERE org_id=? AND id IN (${plan.patients.map(()=>'?').join(',')}) AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)`).bind(orgId,...plan.patients,orgId,token)]:[]),...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)];
+ const auditRows=chain.genesis?[chain.genesis,...rows]:rows;
+ // Human read audits need no organisation token: the exact current membership
+ // guards each append and the unique audit sequence is their atomic chain CAS.
+ // System/clinical writers retain their original token acquisition and gating.
+ const expectedAccessChanges:number[]=[];
+ const stmts=accessMembership?guarded(db,orgId,token,auditRows,accessMembership,expectedAccessChanges):[head,...(plan.patients?[db.prepare(`UPDATE patients SET rev=rev+1 WHERE org_id=? AND id IN (${plan.patients.map(()=>'?').join(',')}) AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)`).bind(orgId,...plan.patients,orgId,token)]:[]),...guarded(db,orgId,token,chain.genesis?[chain.genesis,...rows]:rows)];
  for(const m of teamChanges){
   stmts.push(db.prepare('DELETE FROM team_members WHERE org_id=? AND user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,m.userId,orgId,token));
   if(m.teamIds.length)stmts.push(...guarded(db,orgId,token,m.teamIds.map(t=>row('team_members',{org_id:orgId,team_id:t,user_id:m.userId},['org_id','team_id','user_id']))));
  }
  if(switchOrg)stmts.push(db.prepare('UPDATE accounts SET active_org_id=? WHERE user_id=? AND EXISTS (SELECT 1 FROM organisations WHERE id=? AND last_command=?)').bind(orgId,actor.userId,orgId,token));
  let saved;try{saved=await db.batch(stmts);}catch(e){if(access&&!isAuditSequenceConflict(e))throw e;if(!await chainMoved(db,orgId,chain.base))throw e;if(attempt<chainAttempts){await(access?accessChainBackoff(attempt):chainBackoff(attempt));continue;}fail(409,'Many changes are being saved in this organisation at once. Nothing was saved; your input is kept on screen. Please try again.');}
- if(saved[0].meta.changes!==1)fail(409,plan.patients?'A teammate changed this patient record. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.':'A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.');
+ if(accessMembership){
+  if(saved.length!==expectedAccessChanges.length||saved.some(result=>!Number.isSafeInteger(result.meta?.changes)||result.meta.changes<0))throw new Error('Access audit append result is unavailable.');
+  if(saved.some((result,i)=>result.meta.changes<expectedAccessChanges[i])){
+   const current=await db.prepare('SELECT role,status,version,is_owner FROM memberships WHERE org_id=? AND user_id=?').bind(orgId,actor.userId).first<{role:string;status:string;version:number;is_owner:number}>();
+   if(!current||current.status!=='active'||current.version!==accessMembership.version||current.role!==accessMembership.role||current.is_owner!==(accessMembership.isOwner?1:0))throw new AccessMembershipRefused();
+   throw new Error('Access audit append was incomplete.');
+  }
+  if(saved.some((result,i)=>result.meta.changes>expectedAccessChanges[i])){
+   // Native D1 includes trigger side writes in changes. Excess alone proves no
+   // append: verify every intended immutable event before the helper's final
+   // membership checkpoint. A deficit is never compensated by another chunk.
+   const cols=['org_id','id','person_id','actor_id','actor_name','role','action','subject','detail','at','seq','prev_hash','hash'];
+   for(let n=0;n<auditRows.length;n+=88){
+    const part=auditRows.slice(n,n+88),ids=part.map(r=>r.values.id);
+    if(new Set(ids).size!==part.length||part.some(r=>Object.keys(r.values).length!==cols.length))throw new Error('Access audit append witness is invalid.');
+    const observed=(await db.prepare(`SELECT ${cols.join(',')} FROM audit_events WHERE org_id=? AND id IN (${part.map(()=>'?').join(',')})`).bind(orgId,...ids).all<Record<string,Value>>()).results;
+    const actual=new Map(observed.map(r=>[r.id,r]));
+    if(observed.length!==part.length||actual.size!==part.length||part.some(r=>cols.some(c=>actual.get(r.values.id)?.[c]!==r.values[c])))throw new Error('Access audit append could not be verified.');
+   }
+  }
+ }else if(saved[0].meta.changes!==1)fail(409,plan.patients?'A teammate changed this patient record. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.':'A teammate changed this organisation. Refresh to load their changes, then review and retry. Your unsaved input is kept on screen.');
  return {...plan,attempts:attempt};
  }
 }

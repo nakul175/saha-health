@@ -1,0 +1,170 @@
+{
+  "reviewedAtUtc": "2026-10-10T20:08:20.792747+00:00",
+  "reviewer": "saha_baseline_audit",
+  "scope": "Independent unchanged-driver before/after13 causal repetition, candidate original30 and ten unchanged security/compatibility component suites, Node24.19/realSQLite in separate owned copies. No Workers, parent source edits, paid/provider/CI or live database mutation.",
+  "source": {
+    "baseHead": "c980898efc9e75aee67460a675c4dfbc1ead1158",
+    "accessSha256": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+    "beforeStoreSha256": "36233acdf0e6dd018d25d58d51c5434cf45c63be2761b3c8221e7472f1071389",
+    "candidateStoreSha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "candidateDeltaSha256": "a49cb2e6c739697622950c56ce36f935e98160d1c4cf93c09d724b3f068a162b",
+    "new13DriverSha256": "8c10682d2ed6375ba3534b68495c5473a380498fb96e7a93ed59c9c0f8607cc5",
+    "old30DriverSha256": "9edbd916897d3b51b41482a67f1600365a6fd876100563418a96679549305191",
+    "authorSourcePinsSha256": "db56239e39d82b5bcbb68b58986f9d7987c63d993d7fc9230908348816dddc0b",
+    "beforeSnapshotSha256": "289cecf8f2206cc4efb569bcf7f2cccd79a0b558c22de1e7d255cec24bb733f8",
+    "candidateSnapshotSha256": "e15286854018f434565eeba657b012b12b43cdee0d887219dfac7c902a25616c",
+    "bothOwned16663SourcePinsUnchangedAfterOwnGeneratedResultCaptureRestore": true
+  },
+  "execution": {
+    "node": "v24.19.0",
+    "new13SameDriverBefore": {
+      "passed": 5,
+      "failed": 8,
+      "exitCode": 1,
+      "resultSha256": "ad15d8e75fad009f522c34850f76290043bc5470c6a58b6e04963527bba674d6"
+    },
+    "new13SameDriverAfter": {
+      "passed": 13,
+      "failed": 0,
+      "exitCode": 0,
+      "resultSha256": "c022c116c242de16a09bbfbd8475803c5622625ee75fc4539c4fbe2d02720f71"
+    },
+    "candidateOriginalAndAdditiveChecks": [
+      {
+        "driver": "tests/access-audit-excess-metadata-contract.mjs",
+        "driverSha256": "8c10682d2ed6375ba3534b68495c5473a380498fb96e7a93ed59c9c0f8607cc5",
+        "passed": 13,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "4db1223d146adeabed574b2ca19b947132defcd0cfaada8d5a0fe73e9f7aae2f"
+      },
+      {
+        "driver": "tests/access-membership-contract.mjs",
+        "driverSha256": "9edbd916897d3b51b41482a67f1600365a6fd876100563418a96679549305191",
+        "passed": 30,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "241da5e76a7fd0911e5632486aba939992deae5507816805a3b8d3d82fbfe090"
+      },
+      {
+        "driver": "tests/audit-access-contention-contract.mjs",
+        "driverSha256": "b80ea6dfe194d80721c4690e169fac3a4d82a11bc84c7ede6fede5ca39e1984b",
+        "passed": 12,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "383c2be89476e081604f300b1125ba5465df1c9c7c40f5738170e4faa0d12139"
+      },
+      {
+        "driver": "tests/audit-contention-contract.mjs",
+        "driverSha256": "469bc3a1d7eae410859166f4ebca7db326f2136df02af36f2b277bad0a24c8bc",
+        "passed": 3,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "e6b24c0f75f72e76f8c6731ba233736d20c13ff874d57c8871daeadf2d5c57a5"
+      },
+      {
+        "driver": "tests/root-verification-current-access-audit-contract.mjs",
+        "driverSha256": "3c850402b7f4cb8cae15a5ab6d20288f8a7d2175f6ba5a5d46116223e5fbf951",
+        "passed": 35,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "45624e0bf7de9ba15b827de1ddff131dd82581d38953e525d8be2c149fd6a15f"
+      },
+      {
+        "driver": "tests/root-verification-current-audit-chain-contract.mjs",
+        "driverSha256": "56e46d88871227d1ea6b1185edd20db4e661f02003bb638361fa48b25db139ca",
+        "passed": 48,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "22b4a986a61db46f6e06979c4ef0f22056bb929362d8b63825dccb8b72e5ad5a"
+      },
+      {
+        "driver": "tests/root-verification-current-read-audit-completion-contract.mjs",
+        "driverSha256": "07820166e8fb22e0c4a499a45eb76266b124370d7b4aef42ee24d4043b766d5b",
+        "passed": 52,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "8ed9a4e28d758b3e05133a392141e903e476e483a1c9c3bfcb7adad87e6f2616"
+      },
+      {
+        "driver": "tests/aggregate-checkpoint-population-contract.mjs",
+        "driverSha256": "cba8dc70e42c638d451ee8d9fd4def31b544d7427cfc91228200c15a6d5ad6ac",
+        "passed": 4,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "d4514dcf9153e23615d5e862196230d80513ec5641fd78eb79c37573049716a9"
+      },
+      {
+        "driver": "tests/destination-enrolment-contract.mjs",
+        "driverSha256": "d034fa2cfffb24df31811c1be62761bc346770a28547e0ed2a17777f43de6d98",
+        "passed": 45,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "3e24ee89508fb3ae11d71dd1a8c13dc0f50c96688c6c470c9c9864b1c59917e9"
+      },
+      {
+        "driver": "tests/eighth-review-fixes-contract.mjs",
+        "driverSha256": "401860408fab76ac86836169aa2118d5007da404c1de2964d21d0b8a5602fd0f",
+        "passed": 18,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "a42ad024fe0e5af0be97380cccbb2b468e2cfc52f82c1e0e4808b14165e91f26"
+      },
+      {
+        "driver": "tests/ninth-review-fixes-contract.mjs",
+        "driverSha256": "8d5dc56234acfd6576a38af1250651ff35d9806aa65bea178f7dc738e2ab0571",
+        "passed": 13,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "6f199c1de4dc0dc424890dba6c17fc605524db85a438c7998cb0f8610b177e27"
+      },
+      {
+        "driver": "tests/root-verification-current-note-answer-signoff-contract.mjs",
+        "driverSha256": "23feffa40221a874cb006953188671cbf437e5288575dbb9c8b06d41d2a9b177",
+        "passed": 58,
+        "exitCode": 0,
+        "countEvidence": "Retained raw driver output (structured final JSON when supplied; unchanged textual driver report otherwise). Driver assertions execute unchanged, no inferred count.",
+        "logSha256": "9a90631441e73aac05e2178ca4ba4fd8d1b0977d2391bc51cdd5457e1dd664f0"
+      }
+    ],
+    "original30OutputCapture": "Initial orchestration used SAHA_ACCESS_RESULT but unchanged driver expects SAHA_ACCESS_MEMBERSHIP_RESULT. It wrote its own normal untracked result in the owned candidate copy; exact existing30/0 result was copied into this receipt directory afterwards, without rerun or source change. Raw log and original run summary retained.",
+    "authorNativeEvidence": [
+      {
+        "kind": "native-before",
+        "passed": 8,
+        "failed": 3,
+        "resultSha256": "c94e1cfb3703f3f40372b673a19a5d335b281c86dbb987a94ef32eac329d322c",
+        "buildSourcePinsSha256": "3e834f7135fd9da9bdb3c8e7b169a0ecaccd910ebf5cd9ddeb99ad00e51d9e4f",
+        "scope": "Author executed native helper evidence, not independently repeated by this reviewer."
+      },
+      {
+        "kind": "native-after",
+        "passed": 11,
+        "failed": 0,
+        "resultSha256": "33853cf1f12d4aada83e3f188b0b082e8c1c05d1b2387f35394ff1da94e408d3",
+        "buildSourcePinsSha256": "988c1607cdb1b5dcbe8b769289bb5ee455b37dc1e9f5e8456f95e60897075cfe",
+        "scope": "Author executed native helper evidence, not independently repeated by this reviewer."
+      }
+    ]
+  },
+  "sourceReview": {
+    "materialFindings": [],
+    "deficitsRemainFailclosedAndNeverCompensatedByOtherChunks": true,
+    "excessRequiresEveryIntendedPersistedRowAll13FieldsExactIncludingGenesis": true,
+    "witnessChunkMaxIds": 88,
+    "maximumWitnessBindCount": 89,
+    "normalExactMetadataHotPathStill3Queries": true,
+    "onlySuppliedHumanAuditBranchTouched": true,
+    "sharedClinicalSYSTEMTokensRetryReceiptSemanticsUnchanged": true,
+    "helperFinalFreshMembership403AndStorage503Unchanged": true
+  },
+  "boundaries": [
+    "The new13 shim uses realSQLite and total_changes deltas to model native trigger-inclusive metadata; native D1 claims are attributed to author separately.",
+    "Native excessive metadata is not accepted by >= alone. Exact same-org intended audit row/content/sequence/predecessor/hash witnesses must match; any deficit, malformed result or witness error remains refusal.",
+    "Hot exact-count metadata still assumes current trusted applied schema. Arbitrary BEFORE INSERT trigger with one side write plus RAISE(IGNORE) could mask omission at exact count; that equal-count fault is excluded explicitly. Current33 applied migrations contain immutable audit UPDATE/DELETE triggers and no such INSERT side trigger. No all-trigger/all-audit-completeness claim.",
+    "These are component assertions with overlap, not331 independent clinical acceptance cases. No formal0/364 or patient/policy/team/assignment/purpose/delegation/last await clearance.",
+    "Root actual full204 red and prior fourquery budget reds remain preserved. Before5/8 remains real red. Original work-burden native13 and final combined whole-unit/build/runtime gates must pass on actual integrated current source.",
+    "Prepared NFR229/362 source/build remains unchanged and performance Workers are held. New repaired NFR source copy is required after root freeze and QA timing release."
+  ],
+  "recommendation": "Source and independent port-free probes support integrating exacta46070 store plus additive13 driver for qualification, preserving old30,380baseline rows and all originals. Register additive observedmin13. No release/CI/deployment clearance."
+}

@@ -1,0 +1,91 @@
+{
+  "recordedAtUTC": "2026-10-10T20:30:08.623561+00:00",
+  "status": "PASS",
+  "scope": "Canonical full PR runtime excluding static and units; local synthetic Worker/D1/browser/recovery/smoke only.",
+  "invocationExitCode": 0,
+  "totals": {
+    "suites": 166,
+    "passed": 14529,
+    "failed": 0,
+    "skipped": 1,
+    "failedSuites": 0,
+    "durationMs": 659907
+  },
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 166,
+    "newSuites": []
+  },
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 158,
+      "passed": 14132,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 630461,
+      "failedSuites": 0
+    },
+    {
+      "layer": "resilience",
+      "status": "passed",
+      "suites": 1,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1494,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 7,
+      "passed": 376,
+      "failed": 0,
+      "skipped": 1,
+      "durationMs": 25562,
+      "failedSuites": 0
+    }
+  ],
+  "inheritedSkippedSuites": [
+    {
+      "id": "smoke/local-smoke",
+      "skipped": 1,
+      "reason": null
+    }
+  ],
+  "selectedSuiteCounts": {
+    "integration": 158,
+    "resilience": 1,
+    "smoke": 7
+  },
+  "sourceManifestEntriesVerifiedUnchanged": 16667,
+  "distManifestEntriesVerifiedUnchanged": 278,
+  "sourceBuildClaim": "Exact c980 baseline plus explicit eight runtime/test/catalogue deltas and two context documentation files, with the shipped-generated legacy fixture manifest declared separately. No executed published-head equality claim.",
+  "runtimeSHA256": {
+    "access-audit.ts": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+    "store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb"
+  },
+  "unitCleanupBoundary": "Excluded old13 fixture8c10 remains frozen here. Parent test-only305e unused-helper cleanup requires separate fresh205 repeat; no current166 input mutation.",
+  "receiptInputs": {
+    "canonical-summary.json": "48c8e8296481f255df5c8cefa3061814781b3e1c1f83f97bc28710650fc66afc",
+    "canonical.log": "908bb8950438fb1159df7f1673cf0d9da2033bde4d83cf0c43121f0c2f83e787",
+    "PRE-FULL-ACTUAL-SOURCE-MANIFEST.json": "4498c771b52084fa0e1a810deea62d5ce48ce8748ed613a0486fb7643d369c0a",
+    "EXCESS-FROZEN-DIST-MANIFEST.json": "254688b78fed16ab923ea06d583aa24fef2e373cf6ce34f3ea79bfbc410633a9",
+    "POST-RUN-INPUT-INTEGRITY.json": "77bc3a113fb517db76cfbf115fb93a93e70f84f15eaefd85a965d07771f10afa",
+    "PROCESS-DISPOSAL-RECEIPT.json": "36600bacd11376ddfa5c7c67788fb35719c5b3003cb1aa74a621157e14146a7a",
+    "PRESERVED-ARTIFACT-MANIFEST.json": "bd36881fdc8e7ad9a2ac073bf7f3a9a54ecbf56f7687116694b3f955e9faf131",
+    "UNIT-ONLY-CLEANUP-CONTEXT.json": "aaea45ee9247380ee626e73c480e48837d3ef8a5aa6f853f6ad418f8f80114ae"
+  },
+  "limitations": [
+    "No hosted CI, deployment, live-provider, physical-device, field UAT or formal acceptance claim.",
+    "Original historical failures and original smoke/native capability diagnostics remain preserved.",
+    "Capability absence/availability and deliberate principal interposition are declared local fixture controls; native speech quality and provider authentication are not qualified.",
+    "NFR original five controls remain pending exclusive timing after parent205 repeat/release."
+  ],
+  "workerBrowserLaneReleased": true,
+  "next": "Parent fresh205 unit repeat for the unit-only305e cleanup, then parent-controlled NFR lane."
+}

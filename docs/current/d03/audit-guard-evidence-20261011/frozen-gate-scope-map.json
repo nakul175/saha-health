@@ -1,0 +1,526 @@
+{
+  "recordedAtUtc": "2026-10-10T20:12:44.253280+00:00",
+  "type": "Read-only clause/evidence scope audit, not acceptance execution or product document revision",
+  "readOnlyAppSource": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011",
+  "localGitHead": "c980898efc9e75aee67460a675c4dfbc1ead1158",
+  "dirtySourceStatus": " M lib/saha/access-audit.ts\n M lib/saha/store.ts\n M scripts/test-catalogue.mjs\n M tests/evidence/alert-transition-guidance-root-integration/alert-export-cold-data-exit-contract/data-exit-contract-result.json\n M tests/evidence/alert-transition-guidance-root-integration/alert-export-cold-integration-media-data-exit-contract/media-data-exit-contract-result.json\n M tests/evidence/android-app/contract-result.json\n M tests/evidence/app-back-navigation/contract-result.json\n M tests/evidence/app-offline-review/sw-contract.json\n M tests/evidence/atomic-abha-review/contract.json\n M tests/evidence/contact-import/contract.json\n M tests/evidence/unit-contract-repair/compatibility/sixth-review-fixes-contract.json\n M tests/field-client-result.json\n M tests/regression-baseline.json\n?? docs/current/d03/BASELINE-IMPACT-20261011.md\n?? docs/current/d03/EVIDENCE-20261011-BASELINE.json\n?? tests/access-audit-excess-metadata-contract-result.json\n?? tests/access-audit-excess-metadata-contract.mjs\n?? tests/access-membership-contract-result.json\n?? tests/access-membership-contract.mjs\n?? tests/access-scope-contract-result.json\n?? tests/aggregate-checkpoint-population-contract-result.json\n?? tests/aggregate-delivery-contract-result.json\n?? tests/anaemia-provider-contract-result.json\n?? tests/anaemia-worker-transport-result.json\n?? tests/audit-access-contention-contract-result.json\n?? tests/audit-checkpoint-contract-result.json\n?? tests/audit-contention-contract-result.json\n?? tests/audit-query-plan-contract-result.json\n?? tests/cloudflare-staging-contract-result.json\n?? tests/current-guided-simplicity-capabilities-browser.mjs\n?? tests/destination-enrolment-contract-result.json\n?? tests/eighth-review-fixes-contract-result.json\n?? tests/field-capacity-client-result.json\n?? tests/smoke/local-routine-current-smoke.mjs\n",
+  "frozenSpecificationSha256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+  "unchangedFrozenCopySha256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+  "formalAcceptance": {
+    "BRD": "0/176",
+    "UAT": "0/364",
+    "D04": "Held until original A1-A10 all pass"
+  },
+  "gates": [
+    {
+      "id": "A1",
+      "originalRequirement": "Compatible multi-programme fixture captures a semantically identical shared fact once, retaining distinct and conditional questions.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Real routine244 native/browser fixture binds exactly three compatible captured packs, observes one weight field, retains distinct maternal/hypertension evidence; shared programme30+53 controls cover conditional absence/answer pruning and unchanged competing answers.",
+        "Opening and explicit start/reuse behavior are independently checked; no draft on open."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244",
+        "actorRecovery97"
+      ],
+      "limits": [
+        "Fixture-local semantic composition, not every clinical pack or clinical approval."
+      ],
+      "remaining": [
+        "Preserve original oracles in final fresh integrated regression; no new feature needed."
+      ]
+    },
+    {
+      "id": "A2",
+      "originalRequirement": "Correction/readback preserves exact person/visit, source, observation time, entered/canonical unit, server author and pinned pack version; missing/uncertain data is explicit.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Original routine244 proves canonical/entered unit, trusted author, source/observation time, exact person/visit and pinned three-pack context readback; actual browser correction and programme evidence persist.",
+        "Missing and uncertainty text/source reasons are visible; comparison and actor-recovery97 preserve original local choices while retaining untouched newer saved choices."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244",
+        "actorRecovery97",
+        "organisation52"
+      ],
+      "limits": [
+        "Synthetic values and engineering ranges only; not clinical correctness or representative-user acceptance."
+      ],
+      "remaining": [
+        "Final integrated repeat on source containing reviewed membership metadata repair."
+      ]
+    },
+    {
+      "id": "A3",
+      "originalRequirement": "Wrong person, stale version, invalid values, confirmed immutable visit and changed scope cause no authoritative clinical mutation.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Original routine244 rejects wrong start/save person, ambiguous values, stale version and wrong confirmation person without clinical mutation; confirmed record remains immutable.",
+        "Native authority245 before-command revocation refuses403 without new receipt or clinical mutation; final indexed guard34 checks ownership/version/current discovered draft."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244",
+        "authority245",
+        "organisation52"
+      ],
+      "limits": [
+        "A refusal after a previously committed save does not imply zero clinical mutation: post-save revocation intentionally withholds readback and retains the already committed receipt/history."
+      ],
+      "remaining": [
+        "Retain no-mutation oracle at pre-command boundary and committed-evidence preservation after save; repeat current combined suite."
+      ]
+    },
+    {
+      "id": "A4",
+      "originalRequirement": "Saved acknowledgement requires actual persistence and readback; replay/dropped acknowledgement retains exact key and does not duplicate a logical visit. Draft/confirmed/destination states are separate.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Exact-key start/save replay, abort before commit, committed dropped ACK and one-revision-only replay are actual native/browser controls.",
+        "Generic409 and mismatched stale proof cannot unlock unknown attempt; real exact stale-version proof enables explicit recovery.",
+        "Actor97 protects original natural-person namespace, expected-actor race precondition, original org/body/key/version, and retained unresolved attempts after401/403/404. Draft/confirmed/destination-not-submitted ACKs are distinct."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244",
+        "actorRecovery97",
+        "organisation52"
+      ],
+      "limits": [
+        "Mounted-page RAM recovery only; no page reload/offline restart or real identity-provider-cookie reauthentication claim."
+      ],
+      "remaining": [
+        "Keep original key/body/actor/org assertions in final built native/browser rerun. No native10000 requirement is invented from NFR05."
+      ]
+    },
+    {
+      "id": "A5",
+      "originalRequirement": "Active ASHA, organisation, assignment and purpose are checked server-side; anonymous/other role/tenant/unassigned refusals disclose no patient content; read/write audit is durable and fail closed.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Original routine244 tests anonymous/owner-other-role/other actor/tenant/unassigned and duplicate selection refusals with error-only bodies; actual durable read/write audit and native audit outage fail closed.",
+        "Same native245 authority driver repairs32 disclosed private200 cases and passes245 across34 fault cases; current member/assignment/programme/facility/role+owner revocation before/after audit no longer returns protected bodies.",
+        "Routine/Today final single-batch guard enforces current scope after durable audit. Reviewed shared-helper membership repair closes actual captured activev1/inactivev2 append paths; new excess metadata13/11+old native policy13 pass in isolated candidate."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244",
+        "authority245",
+        "actorRecovery97",
+        "newExcessMetadataAuthor",
+        "newExcessMetadataIndependent"
+      ],
+      "limits": [
+        "Shared membership check is membership-only. It does not certify every patient/team/purpose/delegation/coalesced/no-append/later-await path. Equal-count arbitrary BEFORE trigger compensation is a declared helper fault-model limit.",
+        "Native proof timing/selected-visit controls have SQLite and code review where not executed by the bounded HTTP driver."
+      ],
+      "remaining": [
+        "New helper source must be imported and rerun against unchanged245+97/browser contracts and current broad suites; do not reuse old203 as current final-head pass."
+      ]
+    },
+    {
+      "id": "A6",
+      "originalRequirement": "Loading/empty/refused/error/offline/conflict/uncertain states differ; save failures keep input and conflict cannot silently overwrite it.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Routine244 covers actual transport failure, offline unsaved input, unknown-key editing freeze, read-only comparison, generic/wrong-proof409, real stale conflict and explicit replacement.",
+        "Actor97 covers protected DOM clearing and reachable original-actor recovery after post-save403/compare403, with facts and changed programme choices retained privately until fresh original authority.",
+        "Today58 separately observes held loading, real empty assigned-list state, unsupported/error/refused/offline states; Routine no-current-draft start state is observed."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244",
+        "originalToday58",
+        "actorRecovery97"
+      ],
+      "limits": [
+        "Today state assertions do not prove every initial RoutineGET failure rendering; source implements initial loading/no-current-draft/unavailable, but this is not an exhaustive state cross-product."
+      ],
+      "remaining": [
+        "Optional smallest remaining state check: hold initial RoutineGET then release503/offline, verify loading→unavailable/no protected body/no saved ACK; keep original244 unmodified. This is extra confidence, not a rewritten criterion."
+      ]
+    },
+    {
+      "id": "A7",
+      "originalRequirement": "Manual capture/review/save remains usable with model/providers unavailable and no external calls, invented values or new approval.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Real manual routine/browser flow records zero external/model requests. Four-command server allowlist and shared manual capture/review/save require no provider or new approval."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244",
+        "actorRecovery97"
+      ],
+      "limits": [
+        "Actual declared synthetic manual-flow environment only; not every optional provider configuration or external-service qualification."
+      ],
+      "remaining": [
+        "Retain zero external calls in final regression; no paid provider needed."
+      ]
+    },
+    {
+      "id": "A8",
+      "originalRequirement": "Real browser flow at 360×640 and taller phone, keyboard/focus, 200% text and labelled 44px controls; no horizontal page overflow.",
+      "status": "BOUNDED_LOCAL_EVIDENCE_PRESENT_LATEST_INTEGRATED_REPEAT_PENDING",
+      "observed": [
+        "Real Chromium runs360x640 and390x844, all13 stages plus comparison at100/200% computed font,56 layout snapshots and619 visible labelled controls.",
+        "Observed minheight44px/minwidth50.484375px and zero horizontal page overflow; genuine Tab/Enter correction/save/backend readback passes."
+      ],
+      "evidenceAliases": [
+        "originalRoutine244"
+      ],
+      "limits": [
+        "Desktop Chromium viewport/font simulation, not physical Android/native accessibility or complete WCAG2.2AA/manual assistive-tech/representative-user testing."
+      ],
+      "remaining": [
+        "Existing A8 browser oracles should pass on final fresh build; physical/manual acceptance stays explicitly pending under A9."
+      ]
+    },
+    {
+      "id": "A9",
+      "originalRequirement": "Real build/types, affected existing checks, built local synthetic backend E2E, applicable NFR including original local-save p95 ≤500ms separately from connected-server timing, final-head CI and separate final diff/evidence review. Untested physical-device/clinical/formal UAT remain pending.",
+      "status": "OPEN",
+      "observed": [
+        "Real local build/types and separate source/driver reviews exist; earlier203 unit10748/API5020/restore21 and696 native/browser guarded selections passed on their recorded frozen inputs.",
+        "Current204 integration retained a genuine native policy compatibility red; isolated reviewed excess-count repair now passes exact old13, but current combined204 and broad166 reruns are not inferred.",
+        "1000 warm encrypted vault component timings give p50~0.5ms,p95~0.6ms,p99~1.2ms with exact transaction/readback, preserving500ms target.",
+        "10022-event supported-connector simulator8 guards passes within declared in-memory/current-route fixture scope."
+      ],
+      "evidenceAliases": [
+        "combined203",
+        "first204CompatibilityRed",
+        "newExcessMetadataAuthor",
+        "newExcessMetadataIndependent",
+        "originalRoutine244",
+        "portfreeConnector10022",
+        "separateFinalD03Review"
+      ],
+      "limits": [
+        "Original local-save complete handler/path, cached-screen2s and connected-screen3s representative1000 timings are not yet supplied by this component test.",
+        "Original five NFR suites use their documented local API/security/load regression budgets;30 API timings are not1000 UI timings or reference Android/R1/device/network acceptance.",
+        "Physical-device/clinical/formalUAT may explicitly remain pending per frozen A9; that exception does not delete numerical local-save/interface targets.",
+        "No observed final published-head CI pass or independent final publication review is inferred from local green runs."
+      ],
+      "remaining": [
+        "Finish exact final-source local204/broad166/API/restore/build/types/ratchet and affected NFR tests; preserve all reds.",
+        "Run smallest local-only real UI NFR controls below, keeping original500/2000/3000 targets and raw errors/outliers.",
+        "Publish exact reviewed candidate; only with actual financial authority observe required current-head hostedCI and final diff/publication review."
+      ]
+    },
+    {
+      "id": "A10",
+      "originalRequirement": "Qualified isolated merge under actual required checks/protections, exact observed hosted commit, authorised live synthetic review/save/readback/refusal evidence. Merge alone is not deployment.",
+      "status": "NOT_EXECUTED_OR_AUTHORISED",
+      "observed": [],
+      "evidenceAliases": [],
+      "limits": [
+        "Current work is isolated/draftPR192; main base7668 unchanged in latest recorded evidence.",
+        "Repository mandates sponsor-authorised main merge and actual required checks/protections. Tola merge authorisation and its four-job assumption do not silently authorise Health Saha merge/spend/host role changes.",
+        "Deployment is frozen/shared-host dependent; merge is not an observed deployment or hosted identity/readback pass."
+      ],
+      "remaining": [
+        "Obtain/retain actual Saha sponsor merge authority and any financial/live scope needed. Observe actual required check names/protections on exact candidate head.",
+        "After qualified isolated merge observe exact hosted commit/schema/health and authorised signed-in synthetic review/save/readback/refusal evidence. No live tenant/provider/role mutation without actual authority."
+      ]
+    }
+  ],
+  "originalApplicableNFR": {
+    "NFR-02": {
+      "id": "NFR-02",
+      "title": "Responsive field interface",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "On the reference device, local field saves shall complete within 500 ms at the 95th percentile and cached patient or task screens within 2 seconds. Connected core screens shall target 3 seconds at the 95th percentile under the reference network.",
+      "acceptance": "Verification: Instrument representative tasks under R1 load and report failed requests and slow outliers, not just averages.",
+      "sourceTextLine": 693
+    },
+    "NFR-05": {
+      "id": "NFR-05",
+      "title": "Duplicate-safe execution",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Repeated delivery, retries and replay of the same logical action shall not create duplicate business events where the connector contract supports idempotency or reconciliation. Unsupported cases shall remain unresolved instead of being blindly retried.",
+      "acceptance": "Verification: At least 10000 replay and timeout test events produce no duplicate accepted activity in the supported connector fixtures.",
+      "sourceTextLine": 702
+    },
+    "NFR-09": {
+      "id": "NFR-09",
+      "title": "Online revocation",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Role removal or account suspension shall stop new online access and actions within 5 minutes. A disconnected device is constrained by its offline grant and local lock policy; it cannot be promised immediate remote revocation.",
+      "acceptance": "Verification: Session, background job and reconnect tests enforce the limit and record the residual offline window.",
+      "sourceTextLine": 714
+    },
+    "NFR-10": {
+      "id": "NFR-10",
+      "title": "Audit completeness and timing",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "All mandatory audit events shall be durable before or atomically with the consequential action where feasible. If durable audit cannot be established, external writes and privileged changes shall stop. Local capture may continue with its local audit queue.",
+      "acceptance": "Verification: Audit-store failure blocks the designated actions, while recovery preserves event order and detects clock skew.",
+      "sourceTextLine": 717
+    },
+    "NFR-13": {
+      "id": "NFR-13",
+      "title": "Accessibility",
+      "priority": "Must",
+      "brdRelease": "R1",
+      "requirement": "Web workflows shall target WCAG 2.2 AA; mobile workflows shall implement corresponding applicable principles and native accessibility support [S6]. Essential tasks shall support readable scaling, labelled controls, focus navigation and non-colour status cues.",
+      "acceptance": "Verification: Automated assessment plus manual assistive-technology and representative-user testing covers all core journeys.",
+      "sourceTextLine": 726
+    }
+  },
+  "originalReferenceProfile": {
+    "sourceDocumentParagraphIndices": [
+      1042,
+      1043
+    ],
+    "R1": "200 registered workers,100 concurrent authenticated users,100000 person records,2000 encounters/day;50 core requests/second for30minutes, mixedpermission/retrieval/update/queue. Media/model latency separately measured.",
+    "device": "Supported Android3GBRAM,fourcores,>=1GB available application storage; exactmodel/OSrange selectedafterfieldinventory. Desktop supervisor testedseparately.",
+    "connected": "at least1Mbps usablebandwidth,300msRTT",
+    "degraded": "256kbps,800mslatency,intermittentloss",
+    "offline": "no network"
+  },
+  "warmVaultAssessment": {
+    "validBoundedComponentWitness": true,
+    "qualifiesCompleteNFR02": false,
+    "originalTargetMs": 500,
+    "sampleCount": 1000,
+    "p50Ms": 0.5,
+    "p95Ms": 0.6000000238418579,
+    "p99Ms": 1.1999999284744263,
+    "included": "AESGCM seal(JSONserialize inside),revision-checked IndexedDB transaction completion,readtransaction completion,decrypt/JSONreadback; exactfacts/packs/revision oracle.",
+    "excluded": "PBKDF2 derivedonce before loop;payload structuredClone before timer;actualfieldpersist queue/UIhandler/status+render/measurement burden;BRDrepresentativefieldnotebook/referencephysical/R1network conditions.",
+    "KDFPerSaveRequiredByOriginalWording": false,
+    "reason": "Actual field unlock derives once(app.js374);persist268-269 uses key already in RAM. OriginalNFR02 localfieldsave doesnot redefine unlock as partofeverywarm save. Cold unlock must be separately labelled; no invented500msunlock threshold.",
+    "importantRemainingGap": "Timer bypassesactualpersistclone/queue/UIACK and uses smallRoutineContext ratherthanrepresentativenotebook; it is engineeringcomponent evidence, not completefieldinterface qualification."
+  },
+  "smallestLocalOnlyControls": [
+    {
+      "id": "LOCAL-SAVE-WARM-UI1000",
+      "priority": 1,
+      "reusedSources": [
+        "tests/app-offline-browser.mjs:13",
+        "public/field/app.js:268",
+        "public/field/app.js:375",
+        "public/field/vault.js:13"
+      ],
+      "fixture": "Existing server-issued prepareFieldVisit packet, isolated actual encrypted notebook, original warm unlock, synthetic original actor. Reuse old app-offline fixture; add no durable Routine feature or D04 story.",
+      "measurement": "1000 actual existing field UI saves, each timed in the page from real input/save activation before payload clone/queue until matching durable transaction completes and corresponding saved acknowledgement paints. Observe exact revision increment; preserve payload size and active draft count; verify unique changed fact and packet/person/visit on decrypt readback. Measure readback separately if outside user ACK path.",
+      "targetMs": 500,
+      "report": [
+        "raw1000 timings per declared representative payload/path",
+        "median,p95,p99,max",
+        "errors,failed requests,outliers",
+        "payload bytes,draft count,device/browser conditions",
+        "exact durable revision/readback,zeroplaintextstorage",
+        "declare prederivedkey and warm state"
+      ],
+      "limits": "Desktop local surrogate only; physical Android/R1 load acceptance remains pending. Instrument existing UI rather than timing only imported seal/write/read/unseal.",
+      "KDF": "Measure unlock/KDF separately if useful. No original requirement places repeated PBKDF2 inside every already-unlocked local save or gives unlock its own500ms target."
+    },
+    {
+      "id": "CACHED-SCREEN-UI1000",
+      "priority": 2,
+      "reusedSources": [
+        "tests/app-offline-browser.mjs:16",
+        "tests/offline-guided-author-browser.mjs",
+        "public/field/app.js"
+      ],
+      "fixture": "Same signed existing prepared notebook; assets warmed and actual current permitted draft/task screen. Distinguish unlocked cached screen transition from locked page+unlock; keep no-network condition explicit.",
+      "measurement": "1000 actual Today/prepared-task→exact patient transitions from user activation until identity and expected current editable stage are rendered and usable, preserving source/time/pack and zero authenticated API caching. Include UI rendering and permission handling; no API-only substitute.",
+      "targetMs": 2000,
+      "report": [
+        "raw timings,median,p95,p99,max/errors",
+        "current actor/person/visit/pack checks",
+        "declared cache/unlock/network state and payload size"
+      ],
+      "limits": "No claim of physical reference-device/restart/D04 qualification; use existing implementation as measured reuse only."
+    },
+    {
+      "id": "CONNECTED-SCREEN-UI1000",
+      "priority": 3,
+      "reusedSources": [
+        "tests/smoke/today-browser.mjs",
+        "tests/smoke/routine-visit-browser.mjs",
+        "tests/lib/worker.mjs",
+        "tests/nfr/performance-budgets.mjs"
+      ],
+      "fixture": "Isolated fresh built native backend/current authorised synthetic ASHA, actual Today detail→Routine selection; preserve audited real responses. Separate connected save+readback path if counted.",
+      "measurement": "1000 actual connected screen opens/action-to-ready timings on named paths. Apply declared emulation of >=1Mbps usable/300msRTT for a local network-surrogate profile; repeat256kbps/800ms+declared loss without applying reference target silently to degraded runs. For save path count actual write/readback and one logical receipt per attempt. Never fulfil canned positive UI data.",
+      "targetMs": 3000,
+      "report": [
+        "raw1000 per path median,p95,p99,max",
+        "all failed requests/errors and slowoutliers",
+        "actual network setup,cache state,payload/tenant size,concurrency",
+        "native audit/receipt/readback and no clinicalduplicate orprivacy leak"
+      ],
+      "limits": "Emulation is local surrogate, not observed network/referencephysicaldevice or fullR1 load. Do not certify the200workers/100concurrency/100000records/50rps30min envelope from an isolated small fixture."
+    }
+  ],
+  "NFR05Boundary": "Source requires10000events in supportedconnectorfixtures. Recorded10022simulator is validbounded fixturecount evidence; do not invent10000nativeclinicalAPI gate. Native10kstress is optional additive confidence, not substitute or targetrevision.",
+  "evidence": [
+    {
+      "alias": "originalRoutine244",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qualification/final-root-browser-artifacts/tests/reports/d03/result.json",
+      "sha256": "dd8ed625c28e9eabcf7125867213b1feb62413b97466142ca0722993cb41f8ae"
+    },
+    {
+      "alias": "originalToday58",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qualification/existing-checks/today/tests-reports/today/result.json",
+      "sha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a"
+    },
+    {
+      "alias": "authority245",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qa/current-authority/SAME-DRIVER-RED-GREEN-RECEIPT.json",
+      "sha256": "2df287df9cb91ee7fb6e25d344566ea6ded7658477d1938c306bff93b9523e3d"
+    },
+    {
+      "alias": "organisation52",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qa/organisation-pinning/SAME-DRIVER-ORGANISATION-RED-GREEN-RECEIPT.json",
+      "sha256": "a1676b81d29afb63cb26a0c7ff13529c9e66720349f0a55de93dba5969245039"
+    },
+    {
+      "alias": "actorRecovery97",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qa/attempt-recovery/SAME-DRIVER-BROWSER-RED-GREEN-RECEIPT.json",
+      "sha256": "96939a9465433531f58554f226d929a7fa7ff4c584b07a17939a40022841ceb5"
+    },
+    {
+      "alias": "combined203",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qualification/final-combined/FINAL-COMBINED-RESULT.json",
+      "sha256": "61d50bf5519268623e2c1f2b78cdf3ffbef7d0298e4fc62788ae1193d65354ef"
+    },
+    {
+      "alias": "separateFinalD03Review",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-FINAL-SOURCE-DRIVER-EVIDENCE-DISPOSITION.json",
+      "sha256": "b8b7ec48747334365208edccc4c81a0a14d674b6447101a883fadbd3fba24a8c"
+    },
+    {
+      "alias": "portfreeConnector10022",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qualification/nfr-scope-followup/REPLAY-SOAK-CHECKPOINT-RESULT.json",
+      "sha256": "866ef3bcf287762f997919dd35e3413dea3e8bf0e7a8e87184ea54ba5ce26d82"
+    },
+    {
+      "alias": "first204CompatibilityRed",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qualification/shared-membership-integrated/compatible-full-204-one-red/reports/summary-unit.json",
+      "sha256": "7edea0adeee24b83cd1907b704e6fcabbdf9b0da8c3ae23203cf3eb78f2b5bd0"
+    },
+    {
+      "alias": "newExcessMetadataAuthor",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-membership-three-query/excess-count-verification/FINAL-REVIEW.json",
+      "sha256": "9c9f9a077ea381bf4c9b9d907978606fedb179327229ad80b198086073487ab8"
+    },
+    {
+      "alias": "newExcessMetadataIndependent",
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/shared-access-excess-independent/INDEPENDENT-REVIEW.json",
+      "sha256": "323e18893d6c0b84d80f27354f87f6e63ca94c9f33b81fc6c97586cacafc76e3"
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/docs/current/d03/SPECIFICATION.md",
+      "sha256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/docs/current/d03/OVERNIGHT-RECOVERY-20261011.md",
+      "sha256": "b3e0b8a5a190cd1d7bf088e6e7d842baf6c5606dd7ee1c5e85fc633c7815b9d7"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/docs/current/d03/OVERNIGHT-AUTHORITY-20261011.md",
+      "sha256": "6f395a7f81cadd973494964cf39e34bdafa2889bd0c36f25f93f4893cbe8e4bd"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/requirements/brd-v1.1.json",
+      "sha256": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/docs/history/v1.0/source/Health-AI-Orchestration-Platform-BRD-v1.1.docx",
+      "sha256": "8dcc0a392fe46e342d8524a722328e2e8889143d532db9769d09683caf30a1c8"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/docs/reference/07_Test-Strategy_v1.0.md",
+      "sha256": "7d05629ef0ff05a24f9adf1d1f73ecaf5814fe93709b09db269c1f0cd7ff6645"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/docs/reference/workbook/Engineering-Backlog.csv",
+      "sha256": "7a5cc11cce8cfaf898289496f8046c8a0f3e7b890abcf476660dd79bd6367e00"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/docs/reference/workbook/Test-Catalogue.csv",
+      "sha256": "368d282b4bc06dcf5de71b1623f6539c63ad2aa55ed553e186e0bac42546aa6a"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/public/field/app.js",
+      "sha256": "58b1ea093958d1a4def8f679af8b0de04c59b18fab231ff01ae22692ae5f74dd"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/public/field/vault.js",
+      "sha256": "67c5135c4d758e1138fc710e73ecaec6ca43a092e2e43ce6c16b1ee65f587210"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/smoke/routine-visit-browser.mjs",
+      "sha256": "fbae0c7f7519b44758a5abc0f58b7f30262b40bdb7955e9357015a863e2274cf"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/smoke/today-browser.mjs",
+      "sha256": "b9a990e0051e175558951a0462554e901af1cfe6849558da41567381deba45d2"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/integration/routine-attempt-browser.mjs",
+      "sha256": "a397daf9620b75ffa99636fb969dcc21d6099ea426ed46a269dfad2989ba5c47"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/app-offline-browser.mjs",
+      "sha256": "cb19ea305410de6a5f1bd2efbdaeb73c914ae6c942ab9ee1e8e3293e03dfe2d8"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/offline-guided-author-browser.mjs",
+      "sha256": "95237cf12004c611471487cadfb861b309eb22e61ff7525220791adde8dca1c0"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/nfr/performance-budgets.mjs",
+      "sha256": "775fe01b82b6df09bcac7bba76ef25213bdba0c441fba9074f961acd25f00402"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/nfr/load-burst.mjs",
+      "sha256": "d76ec6b3480db15222d0046c33cdff1e1babd61ac68f92dd0b4c6eeda78cf6b4"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/nfr/authorisation-matrix.mjs",
+      "sha256": "cf8f1a93f3c462747f5731a48274937bfc9384a0867048004fef391b22f2abcf"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/tests/nfr/identity-hardening.mjs",
+      "sha256": "5fb3fe3369aed2a9fc8d690192fb7cbaa248cf485ece8b4e6e4e41bc7e332bbc"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/lib/saha/access-audit.ts",
+      "sha256": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/lib/saha/store.ts",
+      "sha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/lib/saha/routine-read-guard.ts",
+      "sha256": "ace88a65caf6ff18fbd79f8f4d2135c690ea856778c2514f2f3a66b7456f81f9"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/.github/workflows/ci.yml",
+      "sha256": "555a8ca1e131dddd4e993c31f15553e5af85b1c3ddb7b908a47d92a71a518329"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/AGENTS.md",
+      "sha256": "f3cee5edb0d76a22614dbbe4344c88652dd084e28c8e8159f67895c7124cb14b"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-health-overnight-20261011/CLAUDE.md",
+      "sha256": "83e541ee169e594f0a5125b336b4e37560801d9ba42aca1f99aa24217b1183e4"
+    }
+  ],
+  "noWorkersOrAppEditsInThisAudit": true,
+  "limits": [
+    "Statuses apply only to the named recordedsource/evidence; final integrated/currentpublishedhead checks remain independently required.",
+    "This snapshot may precede parentimport of reviewed metadatacandidate; parentactivelyownssource andmustappendactualnew resultstoitsreleaseevidence.",
+    "No paidCI/provider/cloud/externalmessages/publication/merge/liveexecution from this workstream.",
+    "No whole-story completion percentage or fabricated clinical/human/physical/final-headCI acceptance."
+  ]
+}

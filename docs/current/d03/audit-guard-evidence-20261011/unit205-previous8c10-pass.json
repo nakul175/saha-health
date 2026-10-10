@@ -1,0 +1,43 @@
+{
+  "recordedAtUtc": "2026-10-10T20:15:23.298568+00:00",
+  "exitCode": 0,
+  "totals": {
+    "suites": 205,
+    "passed": 10791,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 176819
+  },
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 205,
+    "newSuites": []
+  },
+  "originalBaselineRecordsUnchanged": 380,
+  "newMinima": {
+    "unit/access-membership-contract": 30,
+    "unit/access-audit-excess-metadata-contract": 13
+  },
+  "sourcePinsUnchanged": true,
+  "buildFilesUnchanged": 278,
+  "source": {
+    "lib/saha/access-audit.ts": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+    "lib/saha/store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "tests/access-membership-contract.mjs": "9edbd916897d3b51b41482a67f1600365a6fd876100563418a96679549305191",
+    "tests/access-audit-excess-metadata-contract.mjs": "8c10682d2ed6375ba3534b68495c5473a380498fb96e7a93ed59c9c0f8607cc5",
+    "tests/current-guided-simplicity-capabilities-browser.mjs": "cb7b1a2e55efd9e93c304166c24376ec7dea2a92b334d14f53810f43dd60f717",
+    "tests/smoke/local-routine-current-smoke.mjs": "cb4d00a8e9b06c9459e1d83bb25f23603570f4576f2af8d1f05e9111ca1d9c39",
+    "scripts/test-catalogue.mjs": "66ff645030b8b6fe4f4b326c2dcb55812dbb7949912cb06067de6f66b7ed5a72",
+    "tests/regression-baseline.json": "c5a067e76a457ae405812b711cbae8843380bb790bc4ebc3f20e22d9a384eb6e",
+    "docs/current/d03/SPECIFICATION.md": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df"
+  },
+  "summarySha256": "7264e98b5f3d341e728ea2cf50e7f6ddfebe15796de527060fa3c860c6f7c246",
+  "limits": [
+    "Actual integrated local synthetic unit regression only; runtime166 and NFR remain pending.",
+    "No hosted CI, main merge, live deployment or formal acceptance.",
+    "Both preceding failed204 runs remain immutable."
+  ]
+}
