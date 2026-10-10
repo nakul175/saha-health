@@ -1,0 +1,261 @@
+{
+  "frameworkEdition": "v4.2",
+  "assessmentMode": "real",
+  "stage": "planning",
+  "revision": 4,
+  "catalogueCanonicalHash": "a72502ce4dcfe5ec1e8537cd377f93e77ad32b9d998fdad62c252605089759fe",
+  "catalogueMatched": true,
+  "selection": {
+    "vision": 1,
+    "strategy": 1,
+    "roadmap": 1,
+    "release_goal": 3,
+    "epic": 11,
+    "user_story": 160,
+    "technical_task": 200,
+    "acceptance_criterion": 271
+  },
+  "nativeIssueCount": 371,
+  "sourceKindPreserved": {
+    "spike": 2,
+    "functional": 140,
+    "non-functional": 14,
+    "enabler": 2,
+    "guardrail": 2
+  },
+  "acceptanceCoverage": {
+    "originalBrdClauses": 176,
+    "publishedCwoClauses": 95,
+    "literalClauseCount": 271,
+    "originalDistinctFormalCases": 364,
+    "formalCaseOwnerReferences": 389,
+    "proposedCwoCaseContracts": 95
+  },
+  "mappedFieldCount": 17589,
+  "unresolvedMappedFieldValues": {
+    "baseline": 2819,
+    "improved": 0,
+    "meaning": "Presence/attributable source mapping only; not an approved or semantic quality score."
+  },
+  "baseline": {
+    "inputSha256": "4b5b33ed574207b2a927caff02c000da2a171155e37d07b8c7013c1eaa3ce182",
+    "reportSha256": "2d70912633a715457d107c83652bb54d65719ee73187eafcad692dd967c0e38d",
+    "automaticCheckStatuses": {
+      "passed": 1038,
+      "missing": 1
+    },
+    "aggregateGateStatuses": {
+      "missing": 4536
+    },
+    "qualityState": {
+      "status": "needs_input",
+      "passed": 1038,
+      "applicable": 5575,
+      "exemptions": 0,
+      "counts": {
+        "passed": 1038,
+        "not_applicable": 0,
+        "missing": 4537,
+        "failed": 0,
+        "stale": 0,
+        "invalid": 0
+      },
+      "score": null,
+      "exitRule": "Every selected mandatory stage gate and integrity check must pass with current evidence and supplied review. Deferred/reference-sampled checks cannot certify the full catalogue. No averaging, timeout or iteration limit grants a pass.",
+      "certificationGranted": false
+    }
+  },
+  "improved": {
+    "inputSha256": "192595180a420918ed495b04f34a1cb5293e8ca97ce310fd6f9945d9af31bc9a",
+    "reportSha256": "8f1f28c5532d57c3cfd1f4ea3cac906744a3f23fb2ba5c98445f706c21e17e17",
+    "automaticCheckStatuses": {
+      "passed": 1513,
+      "missing": 1
+    },
+    "aggregateGateStatuses": {
+      "missing": 4536
+    },
+    "qualityState": {
+      "status": "needs_input",
+      "passed": 1513,
+      "applicable": 6050,
+      "exemptions": 0,
+      "counts": {
+        "passed": 1513,
+        "not_applicable": 0,
+        "missing": 4537,
+        "failed": 0,
+        "stale": 0,
+        "invalid": 0
+      },
+      "score": null,
+      "exitRule": "Every selected mandatory stage gate and integrity check must pass with current evidence and supplied review. Deferred/reference-sampled checks cannot certify the full catalogue. No averaging, timeout or iteration limit grants a pass.",
+      "certificationGranted": false
+    },
+    "reviewerAuthentication": {
+      "status": "not_authenticated_offline",
+      "advisoryOnly": true,
+      "registryCanBeAuthorCreated": true,
+      "externalApprovalRequired": true
+    }
+  },
+  "actualFinalCommandResults": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/product-management-generic-v4.2/checker/quality_checker.py",
+        "loop",
+        "--document",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/document.json",
+        "--report",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/report.json",
+        "--state-dir",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/review-state",
+        "--batch-size",
+        "3"
+      ],
+      "exitCode": 2,
+      "durationSeconds": 114.744
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/product-management-generic-v4.2/checker/quality_checker.py",
+        "summary",
+        "--report",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/report.json",
+        "--state-dir",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/review-state"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.427
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/product-management-generic-v4.2/checker/quality_checker.py",
+        "next",
+        "--state-dir",
+        "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/review-state",
+        "--queue",
+        "all",
+        "--limit",
+        "3"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.1
+    }
+  ],
+  "protectedSourceCount": 377,
+  "retainedRevisionSnapshots": 3,
+  "durableQueues": {
+    "pendingAuthorDecisionQuestions": 1,
+    "independentReviewerQueue": 4536,
+    "repairQueue": 0,
+    "actualAnswersCreated": 0,
+    "questionStatePreserved": true
+  },
+  "sourceAdapterVerification": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/source-adapter-verification.json",
+    "sha256": "6c889955a4db7902102646c8f2b8858773cc6c3c7980ef913276147c3f61975d",
+    "assertionGroups": 17,
+    "status": "passed",
+    "scope": "Exact source/adapter integrity only."
+  },
+  "independentAdvisoryNarrativeReview": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/independent-narrative-review.json",
+    "sha256": "65ac03ff5f4a6e43da48f34108fb51d2ecf2c8fbe283d89361ca0d2fa15dac94",
+    "scope": "Five full product documents and their source/authority/target/sequence boundaries; no favourable checker review created."
+  },
+  "finalFrozenFilePins": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/strategy/vision-strategy.md",
+      "sha256": "4ec746be076f0f01e0d246054bf6aa638125e2b9513085a72356731ce7acd63b"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/strategy/roadmap-release-goals.md",
+      "sha256": "e75895c5b83492f67e5c7d538406a8465cb3636c8d70c423dd8288a86d4611f8"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/strategy/ai-discovery-learning.md",
+      "sha256": "b7f6129bd709f3ce7f33392bcf70e7ee98c7eb99522ea15fa0377ea6c4a7398a"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/coding-start-here.md",
+      "sha256": "c92e4bfece5bc490da8a73856c92bb62cc87450248f03dd177e1865c3d8f26b0"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/shared-checklists.md",
+      "sha256": "d988080eb88f28e1dd114f5366646330a490a0a05e6a269c687288ec46a23c5f"
+    }
+  ],
+  "remainingConstraints": [
+    "Missing genuine current semantic review for all 4,536 selected planning gates and external trust verification. This advisory narrative review does not supply that registry or counterfeit verdicts.",
+    "Eight SAHA-153–160 approved-source/adoption gaps are retained; proposed scenarios cannot approve them.",
+    "D01 current-baseline/defect-impact decision, D03 final source/CI/review/qualified release/live authority and physical-device/clinical/formal acceptance remain open at their actual gates.",
+    "Actual institutional/privacy/clinical/system-owner rights, participants, empirical targets, provider permission and measured evaluation/outcomes cannot be supplied by planning assumptions."
+  ],
+  "certificationGranted": false,
+  "approvalGranted": false,
+  "noApplicationChangesOrExecutionClaimed": true,
+  "nextPermittedAction": "Freshly inspect current main and the existing D03 candidate, resolve the bounded D01 baseline/impact prerequisite, then qualify that sole candidate against its frozen spec and actual local/CI/release/live gates. Outside reviews and action authority remain genuine requirements; no next story before D03 delivery gate.",
+  "sourceScopeDelta": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/source-scope-delta.json",
+    "sha256": "22182196f53e3611977293594b266eda2f163c44b1f6fcc76b8e1662919708fc",
+    "sources": 852,
+    "unchangedProtectedOriginals": 377,
+    "changedProposalSources": [
+      "proposal-APL-808",
+      "proposal-APL-809",
+      "proposal-APL-810",
+      "proposal-APL-811",
+      "proposal-APL-812",
+      "proposal-APL-813",
+      "proposal-APL-814",
+      "proposal-APL-815",
+      "proposal-APL-816",
+      "proposal-APL-817"
+    ],
+    "changedSubjects": [
+      "APL-808",
+      "APL-809",
+      "APL-810",
+      "APL-811",
+      "APL-812",
+      "APL-813",
+      "APL-814",
+      "APL-815",
+      "APL-816",
+      "APL-817"
+    ],
+    "changedMappedFieldValues": 70,
+    "allOtherElementsUnchanged": 638,
+    "auditAndPackageReceiptsExcluded": true
+  },
+  "sourceOutputRepairReview": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/source-output-repair-review.json",
+    "sha256": "fb5218565b7211eb7207c1d3aeffaf1ad7dee2577bd479cd23d11b96ca469d59",
+    "scope": "Current ten-task copied-output/source coherence only; reviewer recommendation contribution disclosed."
+  },
+  "independentAdvisoryOutputRepairReview": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/review-guide/cwo-ten-output-independent-review.json",
+    "sha256": "dd175c4ca952a43cd4cc47c7b59a1f87e6d08ac16025343d7c8569ffbce6937d",
+    "checksPassed": 17,
+    "trustedRegistryApprovalGranted": false
+  },
+  "publicationVerification": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/FINAL-PUBLICATION-VERIFICATION.json",
+    "sha256": "f230d4f526e5d6e082d23b9a0d3af13c27cc66b22c9a098163dc27c02235cf76",
+    "currentIssuePatchSha256": "aeedb3ba4fe54b753291e3eae8333c527a3e8979ad1f5f1d79780deb6f76910c",
+    "declaredProductDocumentsVerified": 20,
+    "nativeAppendResponsesVerified": 371,
+    "separateFullNativeGETsVerified": 371,
+    "tenCorrectionsSeparatelyReadBack": true,
+    "emptyOutputSummaries": 0,
+    "semanticCertificationGranted": false
+  },
+  "recordedAtUTC": "2026-10-10T18:16:41.387335+00:00"
+}

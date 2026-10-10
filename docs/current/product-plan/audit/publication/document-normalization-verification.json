@@ -1,0 +1,523 @@
+{
+  "verificationScope": "All 20 current document full readback bodies against final draft text. Presentation equality only; not semantic quality approval.",
+  "normalizationPolicy": [
+    {
+      "id": "terminal_lf",
+      "criterion": "Only terminal LF characters may be omitted by the native rich-text readback. Interior newlines, spaces and all text remain exact."
+    },
+    {
+      "id": "table_delimiter_dash",
+      "criterion": "Only complete pipe-table separator lines with cells consisting solely of two or three dashes (optional alignment colons) may use two dashes. Cell count, spaces, pipes and alignment are retained."
+    },
+    {
+      "id": "markdown_url_angles",
+      "criterion": "Only angle wrappers around an HTTP(S) Markdown link destination are removed. Link label and every destination character remain exact."
+    },
+    {
+      "id": "known_pull_request_tag",
+      "criterion": "Only the two exact preverified native PR tag tuples below map to the same bare #173/#184 reference. Unknown IDs, names, numbers, attributes or targets remain unchanged and fail equality."
+    },
+    {
+      "id": "known_pr_source_citation",
+      "criterion": "Only the exact source citation [#173](https://github.com/nakul175/saha-health/pull/173) maps to the same preverified native #173 identity; other URLs and citation labels are not removed."
+    }
+  ],
+  "exactPreverifiedPullRequestTagMap": {
+    "<pull-request id=\"94589fb7-9d6c-4c8a-ac61-26dc0216cfb7\" href=\"https://linear.app/aplyd-sandbox/review/docs-start-community-worker-os-delivery-from-reconciled-scope-712ac20b0f3b\">nakul175/saha-health#173</pull-request>": "#173",
+    "<pull-request id=\"34f499b5-4440-42e9-89a1-7a2501b11950\" href=\"https://linear.app/aplyd-sandbox/review/feat-connect-mobile-today-to-the-existing-visit-workflow-c6b33174d866\">nakul175/saha-health#184</pull-request>": "#184"
+  },
+  "exactPreverifiedSourceCitationMap": {
+    "[#173](https://github.com/nakul175/saha-health/pull/173)": "#173"
+  },
+  "noGeneralWhitespaceOrTextStripping": true,
+  "numbersUnitsCriteriaAndLinkDestinationsPreserved": true,
+  "expectedDocumentCount": 20,
+  "actualReadbackCount": 20,
+  "statusCounts": {
+    "passed": 20
+  },
+  "differenceClassCounts": {
+    "permitted_native_presentation_only": 20
+  },
+  "status": "passed",
+  "remainingContentDefects": [],
+  "documents": [
+    {
+      "id": "01cbdced-7b7f-4b63-bea8-6b44c304fa48",
+      "title": "SAHA quality rules — Product vision",
+      "file": "drafts/rules-vision.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-product-vision-49010cebadfa",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-vision.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/01cbdced-7b7f-4b63-bea8-6b44c304fa48.json",
+      "readbackUpdatedAt": "2026-10-10T17:27:55.616Z",
+      "sourceRawSha256": "834f052e2e152814a061716c6d1c7ea32e311a8c8f0cd6ea9c0be75c67b82090",
+      "readbackRawSha256": "6a74fa7f68af36b5894a529a2bec78efdf5656ce22b03b29dabe0cbf06354b6e",
+      "sourceNormalizedSha256": "6a74fa7f68af36b5894a529a2bec78efdf5656ce22b03b29dabe0cbf06354b6e",
+      "readbackNormalizedSha256": "6a74fa7f68af36b5894a529a2bec78efdf5656ce22b03b29dabe0cbf06354b6e",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "4d9ec0b7-79b3-420e-835a-7bb9cab59d06",
+      "title": "SAHA quality rules — Product strategy",
+      "file": "drafts/rules-strategy.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-product-strategy-458b9ab47670",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-strategy.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/4d9ec0b7-79b3-420e-835a-7bb9cab59d06.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:00.554Z",
+      "sourceRawSha256": "2eba6420cf21211180edc31e11809697c083fa6e7d0488a2d6469878eb6f0e16",
+      "readbackRawSha256": "7ca415d817e9d37fdf024f13b5a0f2d9177b8692aadca3e9f911449f2f046e73",
+      "sourceNormalizedSha256": "7ca415d817e9d37fdf024f13b5a0f2d9177b8692aadca3e9f911449f2f046e73",
+      "readbackNormalizedSha256": "7ca415d817e9d37fdf024f13b5a0f2d9177b8692aadca3e9f911449f2f046e73",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "01236bf9-07c5-4964-9174-3d00abef96ca",
+      "title": "SAHA quality rules — Roadmap",
+      "file": "drafts/rules-roadmap.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-roadmap-56178332b999",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-roadmap.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/01236bf9-07c5-4964-9174-3d00abef96ca.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:04.850Z",
+      "sourceRawSha256": "86115e8161b2ddf89efc70a33dd8cb8f57324e9e3a96b9ffaec8a230d7a5e602",
+      "readbackRawSha256": "813ffe9f91606b56ace2c9906002edbedb5895f574efd71b4708cd61ef2479a4",
+      "sourceNormalizedSha256": "813ffe9f91606b56ace2c9906002edbedb5895f574efd71b4708cd61ef2479a4",
+      "readbackNormalizedSha256": "813ffe9f91606b56ace2c9906002edbedb5895f574efd71b4708cd61ef2479a4",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "3c70f0ff-8d01-4656-9c05-7c002e13faa7",
+      "title": "SAHA quality rules — Release goal",
+      "file": "drafts/rules-release_goal.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-release-goal-64504dbc064c",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-release_goal.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/3c70f0ff-8d01-4656-9c05-7c002e13faa7.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:12.721Z",
+      "sourceRawSha256": "02911f22b0bfe9f61d2167ee9c3ef0cf0d9faca88c25c8fd78b5f5fc089d4466",
+      "readbackRawSha256": "773974ccd3839a7e6bf0d0b0052835be9d2336fc049e2ae3a337c5a0b40c29e6",
+      "sourceNormalizedSha256": "773974ccd3839a7e6bf0d0b0052835be9d2336fc049e2ae3a337c5a0b40c29e6",
+      "readbackNormalizedSha256": "773974ccd3839a7e6bf0d0b0052835be9d2336fc049e2ae3a337c5a0b40c29e6",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "83d5f697-3b2c-4cd4-b335-e81a08d2c1ed",
+      "title": "SAHA quality rules — Epic",
+      "file": "drafts/rules-epic.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-epic-27d23b7f4966",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-epic.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/83d5f697-3b2c-4cd4-b335-e81a08d2c1ed.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:30.911Z",
+      "sourceRawSha256": "bd8f3cbb7944dabda7317d255d12407ebda46dde2bd49b32f64e3edb51cc785f",
+      "readbackRawSha256": "fde6dbf446ca8cfba458cea2cb6fbb298c1c7628f9cddbebd38fb8678b80ac91",
+      "sourceNormalizedSha256": "fde6dbf446ca8cfba458cea2cb6fbb298c1c7628f9cddbebd38fb8678b80ac91",
+      "readbackNormalizedSha256": "fde6dbf446ca8cfba458cea2cb6fbb298c1c7628f9cddbebd38fb8678b80ac91",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "e970a8bf-153b-4567-8ff6-86ad90362f7b",
+      "title": "SAHA quality rules — User story",
+      "file": "drafts/rules-user_story.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-user-story-df7d0f2546f3",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-user_story.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/e970a8bf-153b-4567-8ff6-86ad90362f7b.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:35.675Z",
+      "sourceRawSha256": "be38f43e107073349df0a9bf13bba346cd7e30ecba3a7a9c3e8578d71ba111f4",
+      "readbackRawSha256": "51c9b9a5f47138f025f63b30f0756c47180bfd57899ce531d8fd16d5775e5083",
+      "sourceNormalizedSha256": "51c9b9a5f47138f025f63b30f0756c47180bfd57899ce531d8fd16d5775e5083",
+      "readbackNormalizedSha256": "51c9b9a5f47138f025f63b30f0756c47180bfd57899ce531d8fd16d5775e5083",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "8af6d662-cd5d-4c34-b0db-1af2c860987f",
+      "title": "SAHA quality rules — Acceptance criteria",
+      "file": "drafts/rules-acceptance_criterion.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-acceptance-criteria-a3c3879d589d",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-acceptance_criterion.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/8af6d662-cd5d-4c34-b0db-1af2c860987f.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:40.393Z",
+      "sourceRawSha256": "1307496f342ef8e3d97e0a981b497cfbfb6744e73caadf8b459eb20b291c9fad",
+      "readbackRawSha256": "2a1f95bce2e4a5d95eda3323361aafe09f2eff0810dd7a577ed71b7724aa7ba4",
+      "sourceNormalizedSha256": "2a1f95bce2e4a5d95eda3323361aafe09f2eff0810dd7a577ed71b7724aa7ba4",
+      "readbackNormalizedSha256": "2a1f95bce2e4a5d95eda3323361aafe09f2eff0810dd7a577ed71b7724aa7ba4",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "9abe8b50-72bc-4e58-bca2-42015a6c2d2c",
+      "title": "SAHA quality rules — Technical task",
+      "file": "drafts/rules-technical_task.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-technical-task-5104849e25b7",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-technical_task.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/9abe8b50-72bc-4e58-bca2-42015a6c2d2c.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:45.670Z",
+      "sourceRawSha256": "028981e455d171cef162fdd088e8ffa9cd93e0c04f7e6baa947d626726cb2dd7",
+      "readbackRawSha256": "47344a370db2ff43cae683ba63f973520d3757250fe39c753a941cfcaa149b72",
+      "sourceNormalizedSha256": "47344a370db2ff43cae683ba63f973520d3757250fe39c753a941cfcaa149b72",
+      "readbackNormalizedSha256": "47344a370db2ff43cae683ba63f973520d3757250fe39c753a941cfcaa149b72",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "f1263626-9588-4104-bc7d-1bd7fee84c20",
+      "title": "SAHA quality rules — Shared fields and whole-hierarchy checks",
+      "file": "drafts/rules-shared.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-quality-rules-shared-fields-and-whole-hierarchy-checks-b255e60a9536",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/rules-shared.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/f1263626-9588-4104-bc7d-1bd7fee84c20.json",
+      "readbackUpdatedAt": "2026-10-10T17:36:18.234Z",
+      "sourceRawSha256": "89d4c2b6ab97777e1c8467e4a8e821397bd37995420bc989693d00920ad727ec",
+      "readbackRawSha256": "ada52fcff2ef25f3544abeaee2c5d41a0c5f91748750fac2f483f45360c9a3c2",
+      "sourceNormalizedSha256": "ada52fcff2ef25f3544abeaee2c5d41a0c5f91748750fac2f483f45360c9a3c2",
+      "readbackNormalizedSha256": "ada52fcff2ef25f3544abeaee2c5d41a0c5f91748750fac2f483f45360c9a3c2",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "table_delimiter_dash": 2,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "0e0d4155-d061-454e-97a0-39b50920d536",
+      "title": "SAHA — Documentation standards and templates for every hierarchy level",
+      "file": "drafts/documentation-standards.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-documentation-standards-and-templates-for-every-hierarchy-level-c5336c6c1dbc",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/documentation-standards.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/0e0d4155-d061-454e-97a0-39b50920d536.json",
+      "readbackUpdatedAt": "2026-10-10T17:28:56.490Z",
+      "sourceRawSha256": "a0475547937a70fa97030b4b876117c25106f63a2142ee6be3a89c032c4bc9e2",
+      "readbackRawSha256": "40adcd9625990ea220b4c002a57b255fd14a2f8179207d16688a5b4a28f2b716",
+      "sourceNormalizedSha256": "40adcd9625990ea220b4c002a57b255fd14a2f8179207d16688a5b4a28f2b716",
+      "readbackNormalizedSha256": "40adcd9625990ea220b4c002a57b255fd14a2f8179207d16688a5b4a28f2b716",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "table_delimiter_dash": 27,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "2b7f4125-bedf-42f8-b35f-374bf464ae16",
+      "title": "SAHA — Product quality checker and improvement loop",
+      "file": "drafts/quality-workflow.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-product-quality-checker-and-improvement-loop-b24bac7169a4",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/quality-workflow.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/2b7f4125-bedf-42f8-b35f-374bf464ae16.json",
+      "readbackUpdatedAt": "2026-10-10T17:36:13.872Z",
+      "sourceRawSha256": "2b09889e2274355b8f766a1d1d3c65049f4b6f3c3a6467cec3d28ca35f4b6e7a",
+      "readbackRawSha256": "af049aa5012d153a29c409862f50fdef278f881080a030d6ca9d352b8a0c09be",
+      "sourceNormalizedSha256": "af049aa5012d153a29c409862f50fdef278f881080a030d6ca9d352b8a0c09be",
+      "readbackNormalizedSha256": "af049aa5012d153a29c409862f50fdef278f881080a030d6ca9d352b8a0c09be",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {},
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "02596566-f8e6-433b-add5-a6ede316b342",
+      "title": "SAHA — Story readiness and delivery gates",
+      "file": "drafts/shared-checklists.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/shared-checklists.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/02596566-f8e6-433b-add5-a6ede316b342.json",
+      "readbackUpdatedAt": "2026-10-10T17:35:36.290Z",
+      "sourceRawSha256": "d988080eb88f28e1dd114f5366646330a490a0a05e6a269c687288ec46a23c5f",
+      "readbackRawSha256": "46ef345eecf740224815a0cf0510bf043c12912d6bda25c4d6f74c2242353a3a",
+      "sourceNormalizedSha256": "c587d0c5b85902c9b9655cae1757a4dada180b03e25f19a980f34a5509db1449",
+      "readbackNormalizedSha256": "c587d0c5b85902c9b9655cae1757a4dada180b03e25f19a980f34a5509db1449",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "table_delimiter_dash": 6,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 6,
+        "known_pull_request_tag": 1
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "61552a62-6537-4b1a-9523-c2f41a328c9f",
+      "title": "SAHA — Full product planning hub and operating rules",
+      "file": "drafts/planning-hub.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-full-product-planning-hub-and-operating-rules-a94ec8f76c24",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/planning-hub.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/61552a62-6537-4b1a-9523-c2f41a328c9f.json",
+      "readbackUpdatedAt": "2026-10-10T17:29:14.299Z",
+      "sourceRawSha256": "2f6a3f65e638e9520ae65683f84f1ff7b3b25428681876519fd4f9ad74bc3157",
+      "readbackRawSha256": "ff7cf5888a924cd5ed77b90c97775a46fcbeb3eca26aaa3f79183a58fd6949b7",
+      "sourceNormalizedSha256": "24977337c9bd2bb25f2f40b43fc5e59262af81913462625d4609b6c97ac4ba1c",
+      "readbackNormalizedSha256": "24977337c9bd2bb25f2f40b43fc5e59262af81913462625d4609b6c97ac4ba1c",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "table_delimiter_dash": 2,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 10
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "49def4ad-d577-4da6-aafa-89dd9cbb2964",
+      "title": "SAHA — Decisions and validation register",
+      "file": "drafts/decisions-register.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-decisions-and-validation-register-1293df5cd202",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/decisions-register.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/49def4ad-d577-4da6-aafa-89dd9cbb2964.json",
+      "readbackUpdatedAt": "2026-10-10T17:29:19.204Z",
+      "sourceRawSha256": "bbea356c1d2b8be8b7b7a977ef75708f3b1b5be3c3a5fe368ca4ca781b0c521d",
+      "readbackRawSha256": "e858ed2db8f660cc481ace5489b19506a3434492e8463e0697a98a44c241efbd",
+      "sourceNormalizedSha256": "2ad691ea4ddbad32e19b4fb73bde4a23b81e23a6fc01e034d44c97684d7f33d3",
+      "readbackNormalizedSha256": "2ad691ea4ddbad32e19b4fb73bde4a23b81e23a6fc01e034d44c97684d7f33d3",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "markdown_url_angles": 3,
+        "known_pull_request_tag": 1,
+        "table_delimiter_dash": 4
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 8,
+        "known_pull_request_tag": 1
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "bdd2df78-9aa9-4e7d-ada2-74d90d1670e3",
+      "title": "SAHA — Full scope and requirement mapping",
+      "file": "drafts/scope-mapping.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-full-scope-and-requirement-mapping-99faedfc92c7",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/scope-mapping.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/bdd2df78-9aa9-4e7d-ada2-74d90d1670e3.json",
+      "readbackUpdatedAt": "2026-10-10T17:29:27.039Z",
+      "sourceRawSha256": "b47934859d8469ceae5b4a8d23c8ee9d66f2208837c31251f140d6ae3f53c7d5",
+      "readbackRawSha256": "27909088fa0869f81b10920942554050437b6986b09b8d21962d7dd4cc68676d",
+      "sourceNormalizedSha256": "080e5eb2f576d59b45c81b604e2dbd4bde610dd7ebb89fb440a75bb1b02d9ea9",
+      "readbackNormalizedSha256": "080e5eb2f576d59b45c81b604e2dbd4bde610dd7ebb89fb440a75bb1b02d9ea9",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "markdown_url_angles": 326
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 331
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "f097624a-d935-45e6-958a-4bc1d97639df",
+      "title": "SAHA — Unified task register",
+      "file": "drafts/task-register.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-unified-task-register-ab4f929db6d4",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/task-register.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/f097624a-d935-45e6-958a-4bc1d97639df.json",
+      "readbackUpdatedAt": "2026-10-10T17:29:32.932Z",
+      "sourceRawSha256": "1f010bf414946d9e32947d36fe8eee0c26f2dcf23151e81eb3d8ae0e53427807",
+      "readbackRawSha256": "9bcf558ebd37d8eefd680a0aa28f820e5aea9c73f7b4b210aede7a9b196df6b6",
+      "sourceNormalizedSha256": "ff5923f394b08ba7d37b1ce7701e89278c8914025ddc53002d32465374f7e4b2",
+      "readbackNormalizedSha256": "ff5923f394b08ba7d37b1ce7701e89278c8914025ddc53002d32465374f7e4b2",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "markdown_url_angles": 204
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 209
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "891098d2-a2b8-4b68-9c0c-450a23ee1412",
+      "title": "SAHA — Product vision and strategy",
+      "file": "drafts/strategy/vision-strategy.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-product-vision-and-strategy-dbc1026736ea",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/strategy/vision-strategy.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/891098d2-a2b8-4b68-9c0c-450a23ee1412.json",
+      "readbackUpdatedAt": "2026-10-10T17:31:50.584Z",
+      "sourceRawSha256": "4ec746be076f0f01e0d246054bf6aa638125e2b9513085a72356731ce7acd63b",
+      "readbackRawSha256": "176205582b233ea73d7b9e0592c24bfed5c5e2e7c79b7cfd1056f3234a1c7bdd",
+      "sourceNormalizedSha256": "de03fd3b43dece06a24d29ba5c9dad9035518628aa48ef44f72b56103d6e6490",
+      "readbackNormalizedSha256": "de03fd3b43dece06a24d29ba5c9dad9035518628aa48ef44f72b56103d6e6490",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "known_pr_source_citation": 1,
+        "table_delimiter_dash": 14,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 15,
+        "known_pull_request_tag": 3
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "5f178e44-9cd4-4eab-9afc-1fdd32f0818d",
+      "title": "SAHA — Roadmap and release goals",
+      "file": "drafts/strategy/roadmap-release-goals.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-roadmap-and-release-goals-b710e5c7276c",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/strategy/roadmap-release-goals.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/5f178e44-9cd4-4eab-9afc-1fdd32f0818d.json",
+      "readbackUpdatedAt": "2026-10-10T17:31:56.839Z",
+      "sourceRawSha256": "e75895c5b83492f67e5c7d538406a8465cb3636c8d70c423dd8288a86d4611f8",
+      "readbackRawSha256": "111969ba379216669012284f3e570a5bf1c93ee91d77929f1af9e4d92c5ae906",
+      "sourceNormalizedSha256": "c711aeeb0bd8279cc8826005b39e2be4ba8c90185a538b4991db0fa8811d1df3",
+      "readbackNormalizedSha256": "c711aeeb0bd8279cc8826005b39e2be4ba8c90185a538b4991db0fa8811d1df3",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "known_pr_source_citation": 1,
+        "table_delimiter_dash": 20,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 37,
+        "known_pull_request_tag": 3
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "5623e7a5-0cbb-43a0-883d-648acf7ddb3e",
+      "title": "SAHA — Current product plan and coding start",
+      "file": "drafts/coding-start-here.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-current-product-plan-and-coding-start-8ae95cae358c",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/coding-start-here.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/5623e7a5-0cbb-43a0-883d-648acf7ddb3e.json",
+      "readbackUpdatedAt": "2026-10-10T17:36:09.426Z",
+      "sourceRawSha256": "c92e4bfece5bc490da8a73856c92bb62cc87450248f03dd177e1865c3d8f26b0",
+      "readbackRawSha256": "27d36cfad9361e3efbca1456ad2a3e883f93b913c9bf4f35e5e9d11df39ae95e",
+      "sourceNormalizedSha256": "555bab7b5b3fc19269e3e6330b280f55de3edeebbbca65da57f70193f18e6a48",
+      "readbackNormalizedSha256": "555bab7b5b3fc19269e3e6330b280f55de3edeebbbca65da57f70193f18e6a48",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "table_delimiter_dash": 2,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 5,
+        "known_pull_request_tag": 1
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    },
+    {
+      "id": "37c8b7a6-3f1c-4756-99db-aa972760efd9",
+      "title": "SAHA — AI assurance, discovery and release learning",
+      "file": "drafts/strategy/ai-discovery-learning.md",
+      "url": "https://linear.app/aplyd-sandbox/document/saha-ai-assurance-discovery-and-release-learning-9e1b1616111e",
+      "sourcePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/drafts/strategy/ai-discovery-learning.md",
+      "readbackPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/publication/documents/37c8b7a6-3f1c-4756-99db-aa972760efd9.json",
+      "readbackUpdatedAt": "2026-10-10T17:32:06.888Z",
+      "sourceRawSha256": "b7f6129bd709f3ce7f33392bcf70e7ee98c7eb99522ea15fa0377ea6c4a7398a",
+      "readbackRawSha256": "b9d652da3bea8380ee27ec4b958b1f3992f69eab8e63b15a56ef56576a31eba4",
+      "sourceNormalizedSha256": "5ab23603b93b0a6bcf806686a359aa99a9f79a6f25b846eb7c462141cc973ef9",
+      "readbackNormalizedSha256": "5ab23603b93b0a6bcf806686a359aa99a9f79a6f25b846eb7c462141cc973ef9",
+      "rawEqual": false,
+      "normalizedEqual": true,
+      "diffClassification": "permitted_native_presentation_only",
+      "sourceNormalizationCounts": {
+        "table_delimiter_dash": 20,
+        "terminal_lf": 1
+      },
+      "readbackNormalizationCounts": {
+        "markdown_url_angles": 16
+      },
+      "status": "passed",
+      "remainingContentDiff": []
+    }
+  ],
+  "sourcePatchManifestSha256": "30473ea2ceac848aaf88653ffddef907e25947e6888ebb5eb31bdee2df82abb8",
+  "outsideApprovalCreated": false
+}

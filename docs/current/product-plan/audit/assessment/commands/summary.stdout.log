@@ -1,0 +1,148 @@
+{
+  "documentId": "saha-product-planning-v42",
+  "revision": 4,
+  "catalogueIdentity": {
+    "status": "matched",
+    "enginePinned": true,
+    "expectedCatalogueVersion": "3.0-generic",
+    "actualCatalogueVersion": "3.0-generic",
+    "expectedCanonicalHash": "a72502ce4dcfe5ec1e8537cd377f93e77ad32b9d998fdad62c252605089759fe",
+    "actualCanonicalHash": "a72502ce4dcfe5ec1e8537cd377f93e77ad32b9d998fdad62c252605089759fe"
+  },
+  "qualityState": {
+    "status": "needs_input",
+    "passed": 1513,
+    "applicable": 6050,
+    "exemptions": 0,
+    "counts": {
+      "passed": 1513,
+      "not_applicable": 0,
+      "missing": 4537,
+      "failed": 0,
+      "stale": 0,
+      "invalid": 0
+    },
+    "score": null,
+    "exitRule": "Every selected mandatory stage gate and integrity check must pass with current evidence and supplied review. Deferred/reference-sampled checks cannot certify the full catalogue. No averaging, timeout or iteration limit grants a pass.",
+    "certificationGranted": false
+  },
+  "assessmentCoverage": {
+    "assessmentMode": "profile",
+    "stage": "planning",
+    "selectedMandatoryReviewCount": 4536,
+    "integrityChecksAlwaysRun": true,
+    "referenceCheckInstances": 155804,
+    "referenceChecksFullyAssessed": false,
+    "referenceInstancesDeferred": 155804,
+    "advisorySampleCount": 16,
+    "advisoryUnreviewedCount": 16,
+    "legacyDefaultWarning": null,
+    "conclusion": "Only the selected stage's seven mandatory gates per assessed item were checked. Advisory samples and deferred reference details do not count as passed."
+  },
+  "unresolvedByResolutionKind": {
+    "author_repair_or_owner_decision": 1,
+    "independent_review_task": 4536
+  },
+  "unresolvedBlockingCount": 4537,
+  "advisorySamples": {
+    "count": 16,
+    "unreviewed": 16,
+    "failed": 0
+  },
+  "reviewerAuthentication": {
+    "status": "not_authenticated_offline",
+    "advisoryOnly": true,
+    "registryCanBeAuthorCreated": true,
+    "externalApprovalRequired": true
+  },
+  "readinessState": {
+    "status": "supplied_unverified",
+    "suppliedClaim": {
+      "status": "unverified",
+      "reason": "Planning adapter and proposed engineering checklists do not establish actual human approval, code prerequisite qualification or institutional readiness."
+    },
+    "assessedByChecker": false,
+    "authorizationGranted": false
+  },
+  "deliveryState": {
+    "status": "supplied_unverified",
+    "suppliedClaim": {
+      "status": "unverified",
+      "reason": "Prior D02 delivery is a retained historical source statement; no fresh hosting, acceptance, AI evaluation, CI or D03 execution claimed."
+    },
+    "assessedByChecker": false,
+    "deliveryObservedByChecker": false
+  },
+  "assurance": "ADVISORY ONLY. Documentation checks relative to the selected stage/catalogue and supplied review files. An author can create a reviewer registry or trust store; the offline checker does not authenticate people, prove independence or semantic truth, or grant execution, business, legal, safety, contractual or release approval. Authority must be verified outside the authoring agent.",
+  "inspectionOnly": true,
+  "next": {
+    "loopStatus": "needs_input",
+    "currentBatchId": "B-a0fc55915622e8ba2138",
+    "pendingQuestionCount": 1,
+    "awaitingAnswerIds": [],
+    "inspectionOnly": true,
+    "ownerQueue": [
+      {
+        "id": "Q-5150b7c71aedf9d9e9cf",
+        "groupId": "check:workspace:external_trust_catalogue",
+        "elementId": null,
+        "fieldId": null,
+        "checkId": "external_trust_catalogue",
+        "question": "For workspace, resolve external_trust_catalogue: Real mode requires separately supplied independent review profiles and a verification receipt pinned to this catalogue. What verified fact, explicit decision or evidence resolves this current gap? The decision owner is unresolved; identify the actual accountable decision owner if this requires a decision.",
+        "reason": "Real mode requires separately supplied independent review profiles and a verification receipt pinned to this catalogue.",
+        "decisionOwnerId": null,
+        "status": "unanswered",
+        "resolutionKind": "author_repair_or_owner_decision",
+        "occurrence": 1
+      }
+    ],
+    "ownerQueueTotal": 1,
+    "ownerQueueTruncated": false,
+    "reviewerQueue": [
+      {
+        "id": "vision-saha:gate.vision.planning.01",
+        "elementId": "vision-saha",
+        "fieldId": null,
+        "checkId": "gate.vision.planning.01",
+        "reason": {
+          "excerpt": "Exactly one current review for this field/check is required.",
+          "truncated": false,
+          "contentDigest": "c5fb005c1faebf69b85480bbb8228b97843a1fd83d5dd7cccc6c204421f88e9e"
+        },
+        "decisionOwnerId": null,
+        "status": "missing"
+      },
+      {
+        "id": "vision-saha:gate.vision.planning.02",
+        "elementId": "vision-saha",
+        "fieldId": null,
+        "checkId": "gate.vision.planning.02",
+        "reason": {
+          "excerpt": "Exactly one current review for this field/check is required.",
+          "truncated": false,
+          "contentDigest": "c5fb005c1faebf69b85480bbb8228b97843a1fd83d5dd7cccc6c204421f88e9e"
+        },
+        "decisionOwnerId": null,
+        "status": "missing"
+      },
+      {
+        "id": "vision-saha:gate.vision.planning.03",
+        "elementId": "vision-saha",
+        "fieldId": null,
+        "checkId": "gate.vision.planning.03",
+        "reason": {
+          "excerpt": "Exactly one current review for this field/check is required.",
+          "truncated": false,
+          "contentDigest": "c5fb005c1faebf69b85480bbb8228b97843a1fd83d5dd7cccc6c204421f88e9e"
+        },
+        "decisionOwnerId": null,
+        "status": "missing"
+      }
+    ],
+    "reviewerQueueTotal": 4536,
+    "reviewerQueueTruncated": true,
+    "repairQueue": [],
+    "repairQueueTotal": 0,
+    "repairQueueTruncated": false
+  }
+}

@@ -1,0 +1,108 @@
+# APL-26 — \[SAHA-003\] Voice text and guided entry
+
+[Backlog index](../README.md) · [Current product plan](../../START-HERE.md)
+
+Canonical record: [APL-26](https://linear.app/aplyd-sandbox/issue/APL-26/saha-003-voice-text-and-guided-entry)  
+Stable UUID: `f28a2317-7540-428f-907d-e42bca081a9b`  
+Hierarchy kind: `functional_story`  
+Native parent: [APL-15](APL-15.md)  
+Native blockers: None recorded in source snapshot  
+Recorded native status: **Backlog** at source revision `2026-10-10T13:11:14.742Z`; this documentation snapshot does not change native state.  
+Original description SHA-256: `d7e65597034e37616396b13895e4d84d7340ddf8887f9205217edd4f72ed759e`  
+Source plus v4.2 refinement SHA-256: `9cf69d8adbaa1d17ca425f36f7e7519c38e6ed1c51d997146748b21fa4e57863`
+
+The body below retains the entire original description followed by the final reviewed planning refinement. Original acceptance, source targets and frozen specifications retain their authority; added assumptions, scenarios and forecasts retain their proposed status. Protected native metadata is stored in the sanitized records; creator/profile/contact data is omitted.
+
+<!-- Exact original-description + final-append body begins after this line. -->
+## User / outcome
+
+As a frontline worker, I want to speak, type or answer guided questions in the same core workflow, so I can complete pilot work with or without a microphone and correct extracted values before confirmation.
+
+**Scope boundary:** Voice is optional, background listening is disabled, and the user controls recording, playback and deletion before submission.
+
+## Canonical scope and hierarchy
+
+Scope ID: SAHA-003; type: functional. Original IDs: BR-UX-03.
+CWO references: CWO-018. Decision references: None recorded.
+Primary epic: WP03; related work packages: WP03. Source original release(s): R1.
+This is one of the 160 reconciled scope items. 1 original requirement(s) map here exactly once.
+
+## Original requirement and acceptance text
+
+### BR-UX-03 — Voice text and guided entry
+
+Priority: Must; original release: R1.
+
+Workers shall be able to speak, type or use structured questions for the same core workflow. Voice shall be optional; background listening shall be disabled. Users shall control recording, playback and deletion before submission.
+
+Acceptance: A user completes each pilot journey without using a microphone and can review or correct a voice-derived value before confirmation.
+
+## Additional CWO acceptance / refusal criteria
+
+No additional CWO criterion assigned to this owner; original criteria are retained unchanged.
+
+## Original test scenarios — not executed acceptance
+
+### TC-BR-UX-03-A — Voice text and guided entry acceptance
+
+Type: Functional; source role: QA with Frontline worker; fixture: FX-UX-03.
+Preconditions: Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution.
+Steps: 1. Load FX-UX-03. 2. Voice capture has visible start, stop, playback and discard actions; the same fields accept typed or guided input. 3. Capture UI/API results and stored receipt or audit evidence.
+Expected: A user completes each pilot journey without using a microphone and can review or correct a voice-derived value before confirmation.
+Formal status: Not run; no engineering subset automatically passes this case.
+
+### TC-BR-UX-03-B — Voice text and guided entry adverse condition
+
+Type: Negative or recovery; source role: QA with Frontline worker; fixture: FX-UX-03-NEG.
+Preconditions: Isolated synthetic tenant; begin from the corresponding acceptance scenario; inject only the named adverse condition.
+Steps: 1. Establish the normal precondition. 2. Deny microphone permission and complete the encounter with guided input. 3. Inspect user state, side effects, audit and any recovery queue.
+Expected: Deny microphone permission and complete the encounter with guided input. Evidence must show the actual final state and any accountable unresolved work.
+Formal status: Not run; no engineering subset automatically passes this case.
+
+## Authorization, error and recovery contract
+
+Current server role/tenant/assignment/purpose, audit and version constraints remain applicable. Before execution, freeze authorised positive behaviour, out-of-scope/changed-authority refusal, invalid input, unavailable dependency, stale version and uncertain-save recovery wherever relevant. Inspect actual code/API/data and inherited failures; preserve targets and no-side-effect guarantees. Do not substitute an assumed UI or reference API catalogue for a current implementation contract.
+
+## Current evidence and readiness
+
+BR-UX-03: source assessment "partial"; target checkpoint R14. Full remaining scope stays open; see authoritative requirements/assessment.tsv and current evidence-map. Remaining: Real-device recording quality and interruption handling, recognizer accuracy in Hindi and English on field phones, and complete common workflow coverage with representative workers.
+Canonical item remains Backlog/unqualified. Current local source/assessment may contain bounded implemented components; original formal acceptance is not thereby passed. No named executor, estimate or delivery date is invented.
+Not part of the first D01–D08 implementation tasks; later prioritisation requires sponsor decision and dependency checks.
+
+## Technical work and delivery
+
+Requirement-linked engineering subtasks retain ENG IDs, source outcomes, owner roles, dependencies and tests. Inspect current reuse and freeze a minimal ready slice before coding; no bulk implementation dispatch. GitHub #188 remains the single delivery controller. Isolated qualified story PRs, final-code CI/review/native approvals and exact hosting/smoke evidence govern delivery.
+No real patient/recipient, provider activation, paid services, new hosting, parallel database, clinical policy or destructive migration is authorised by this backlog.
+
+Sources: [scope row](<https://github.com/nakul175/saha-health/blob/9e74b6a4648aa0a0a9e3fa32474cb4c943f1aea1/docs/current/community-worker-os/scope.tsv>), [additional criteria](<https://github.com/nakul175/saha-health/blob/9e74b6a4648aa0a0a9e3fa32474cb4c943f1aea1/docs/current/community-worker-os/new-criteria.tsv>), [source BRD requirements](<https://github.com/nakul175/saha-health/blob/7668a03d97c1ae62174f09e65ccd5a5717120be6/requirements/brd-v1.1.json>), [formal catalogue](<https://github.com/nakul175/saha-health/blob/7668a03d97c1ae62174f09e65ccd5a5717120be6/docs/reference/workbook/Test-Catalogue.csv>), [delivery gates](<https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7>).
+
+## v4.2 planning refinement — source preserved
+
+Author recommendation for planning only. Original requirements, frozen criteria, native status/priority/milestone/assignee and historic evidence remain unchanged. Do not weaken criteria to obtain a pass.
+
+### Priority, sequence and forecast
+
+Retain original Must-before-Should/Could and source-release ordering; use risk reduction and prerequisites to choose one bounded slice before adding further product surface.
+
+Source priorities: Must; release: R1. Source package inputs: WP01, WP02. These are inspection inputs, not whole-epic completion requirements.
+
+Recommended size: 2–5 engineering effort days, low confidence. Method: owned requirement count plus interface/device/source-gap uncertainty; inspect current reuse first. Excludes approval/partner wait, participant recruitment and observation windows; no staffing/date commitment.
+
+### Scenario coverage and evidence contract
+
+* Positive: Run TC-BR-UX-03-A using the source-named fixture, actor, preconditions and exact Expected oracle; cover speak, type or answer guided questions in the same core workflow.
+* Refusal/adverse: Run TC-BR-UX-03-B; retained source adverse/recovery case: Deny microphone permission and complete the encounter with guided input.. Its source label does not by itself establish refusal coverage.
+* Error/recovery refinement: Lose microphone permission or cancel a recording after partial capture. Continue through guided/text entry; an unsubmitted deleted recording must not leave an extractable draft reference.
+* Authorization refinement: For frontline worker performing “speak, type or answer guided questions in the same core workflow”: Remove the source actor’s task/record purpose or change person/assignment between preparation and commitment; deny the protected operation at its existing server/action boundary, preserving previously accepted history.
+
+Bind source/configuration and synthetic fixture version to actual UI/API/state/side-effect/audit outputs; record every failed, skipped and untested case separately. Planned scenarios remain Not run, and local reuse evidence cannot satisfy full formal or live/domain approval.
+
+AI applicability: version the intended use, permitted data, model/prompt/tool configuration and evaluation dataset; preserve every existing proposed/approved threshold and subgroup/critical-field requirement. Safety, malformed/unsupported output, non-generative fallback and drift/incident triggers require distinct evidence before activation.
+
+Use the [SAHA AI assurance, discovery and release-learning recommendation](https://linear.app/aplyd-sandbox/document/saha-ai-assurance-discovery-and-release-learning-9e1b1616111e) for the versioned dataset/evaluation, safety/fallback, privacy and drift contract; this link does not approve provider/clinical activation.
+
+### Shared gates and remaining decisions
+
+Link [SAHA-READY-1.0 and SAHA-DONE-1.0](https://linear.app/aplyd-sandbox/document/saha-story-readiness-and-delivery-gates-3fbcfc7ee2e7); apply the engineering/synthetic scope and exact version, alongside this issue’s unchanged source acceptance. Shared checklist completeness cannot approve domain decisions or stand in for observed delivery.
+
+Use the existing Current evidence/readiness and original formal cases for unresolved authority/evidence; this refinement does not mark the canonical item Ready or accepted.

@@ -1,0 +1,151 @@
+{
+  "reviewer": "Separate product-plan-author agent reviewing backlog agent drafts; advisory agent review, not trusted external/human approval",
+  "reviewDate": "2026-10-10",
+  "scope": "All371 metadata/source/append/reference checks; read all160 tailored error/recovery recommendations; sampled plus grouped actor-specific authorization review and representative11-epic/task handoffs. No application tests or actual acceptance execution.",
+  "sourceFiles": {
+    "full-issues.json": {
+      "path": "outputs/saha-product-docs-v4.2/drafts/backlog/full-issues.json",
+      "sha256": "f82f7c71e56c02d1c2c887ceb939b60849c9ee9bfa1c03dfdd991ff7acce9485"
+    },
+    "issue-patches.json": {
+      "path": "outputs/saha-product-docs-v4.2/drafts/backlog/issue-patches.json",
+      "sha256": "6b72d873c99ea8466a820983054045362aba1fd88d560a2a6c536b069627ef76"
+    },
+    "audit-findings.json": {
+      "path": "outputs/saha-product-docs-v4.2/drafts/backlog/audit-findings.json",
+      "sha256": "78790f8c776be6d7e9aa62a36e1500e6271c9e25928df1b0c00bf295a463671f"
+    }
+  },
+  "checks": [
+    {
+      "criterion": "371 unique actual source records",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "371 patches exactly match source UUID inventory",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "Exact371 source hashes/proposed append hashes/source versions",
+      "passed": true,
+      "details": []
+    },
+    {
+      "criterion": "Native protected metadata exactly equals source values",
+      "passed": true,
+      "details": []
+    },
+    {
+      "criterion": "Patch schema contains no native mutation fields",
+      "passed": true,
+      "details": []
+    },
+    {
+      "criterion": "All linked original requirement/formal/CWO identifiers occur in owning source",
+      "passed": true,
+      "details": []
+    },
+    {
+      "criterion": "Kindcounts11epics140functional20support200tasks",
+      "passed": true,
+      "details": {
+        "technical_task": 200,
+        "epic": 11,
+        "functional_story": 140,
+        "canonical_support": 20
+      }
+    },
+    {
+      "criterion": "176 original requirement IDs have one canonical owner",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "No-weaken instruction present in every append",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "360 item/task Ready/Done version references exact",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "Every forecast has effort-day unit, valid range and low confidence",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "160 error/recovery refinements unique",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "160 actor/outcome-scoped authorization recommendations unique",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "11 epic riskiest assumptions unique",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "200 tasks have bounded output/input/evidence handoffs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "SAHA153–160 criterion-source gaps explicitly blocked and unapproved",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "APL105 historical success-labelled-adverse receives no refusal credit",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "Optional CWO no guaranteed payment/no broad pay consequence claim",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "Offline authorization does not require online capture dependency",
+      "passed": true,
+      "details": null
+    },
+    {
+      "criterion": "D03T06 cannot reuse D02 temporary-role write authority",
+      "passed": true,
+      "details": null
+    }
+  ],
+  "passed": 20,
+  "total": 20,
+  "findings": [
+    {
+      "id": "BQ-R1",
+      "issue": "APL-105",
+      "status": "repaired and read back in current patch",
+      "detail": "Successful two-destination source case retains historical adverse label but receives no refusal credit; separate proposed refusal now explicit."
+    },
+    {
+      "id": "BQ-R2",
+      "issues": [
+        "APL-177",
+        "APL-178",
+        "APL-179",
+        "APL-181",
+        "APL-182",
+        "APL-183"
+      ],
+      "status": "repaired and read back in current patch",
+      "detail": "Optional refusal boundary no longer guarantees pay or rules out every legitimate consequence; prevents automatic sanctions/tracking/ordinary-care restrictions and contains no invented payment."
+    }
+  ],
+  "unresolvedMandatoryFindings": [],
+  "qualificationLimit": "The actual saved Linear content must still be read back after publication. Recommended size ranges are uncalibrated forecasts, not measured estimates/capacity. Source gaps and domain/clinical/privacy/approval/readiness/delivery/learning gates remain open; this receipt does not certify every semantic catalogue check or any native acceptance status."
+}
