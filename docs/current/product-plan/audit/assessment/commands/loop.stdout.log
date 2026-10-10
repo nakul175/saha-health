@@ -1,0 +1,55 @@
+{
+  "qualityState": {
+    "status": "needs_input",
+    "passed": 1513,
+    "applicable": 6050,
+    "exemptions": 0,
+    "counts": {
+      "passed": 1513,
+      "not_applicable": 0,
+      "missing": 4537,
+      "failed": 0,
+      "stale": 0,
+      "invalid": 0
+    },
+    "score": null,
+    "exitRule": "Every selected mandatory stage gate and integrity check must pass with current evidence and supplied review. Deferred/reference-sampled checks cannot certify the full catalogue. No averaging, timeout or iteration limit grants a pass.",
+    "certificationGranted": false
+  },
+  "readinessState": {
+    "status": "supplied_unverified",
+    "suppliedClaim": {
+      "status": "unverified",
+      "reason": "Planning adapter and proposed engineering checklists do not establish actual human approval, code prerequisite qualification or institutional readiness."
+    },
+    "assessedByChecker": false,
+    "authorizationGranted": false
+  },
+  "deliveryState": {
+    "status": "supplied_unverified",
+    "suppliedClaim": {
+      "status": "unverified",
+      "reason": "Prior D02 delivery is a retained historical source statement; no fresh hosting, acceptance, AI evaluation, CI or D03 execution claimed."
+    },
+    "assessedByChecker": false,
+    "deliveryObservedByChecker": false
+  },
+  "assurance": "ADVISORY ONLY. Documentation checks relative to the selected stage/catalogue and supplied review files. An author can create a reviewer registry or trust store; the offline checker does not authenticate people, prove independence or semantic truth, or grant execution, business, legal, safety, contractual or release approval. Authority must be verified outside the authoring agent.",
+  "report": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/report.json",
+  "questionPacket": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-product-docs-v4.2/assessment/improved/review-state/questions.json",
+  "loopStatus": "needs_input",
+  "newQuestionCount": 0,
+  "pendingQuestionCount": 1,
+  "reviewerQueueCount": 4536,
+  "repairQueueCount": 0,
+  "currentBatchId": "B-a0fc55915622e8ba2138",
+  "nextBatch": [
+    {
+      "id": "Q-5150b7c71aedf9d9e9cf",
+      "elementId": null,
+      "fieldId": null,
+      "question": "For workspace, resolve external_trust_catalogue: Real mode requires separately supplied independent review profiles and a verification receipt pinned to this catalogue. What verified fact, explicit decision or evidence resolves this current gap? The decision owner is unresolved; identify the actual accountable decision owner if this requires a decision.",
+      "checksToResolve": 1
+    }
+  ]
+}

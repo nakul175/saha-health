@@ -1,0 +1,115 @@
+{
+  "assessmentMode": "real",
+  "purpose": "Source fidelity and adapter integrity only; these assertions do not certify semantic planning quality, approval, engineering readiness, acceptance or delivery.",
+  "inputSha256": "192595180a420918ed495b04f34a1cb5293e8ca97ce310fd6f9945d9af31bc9a",
+  "originalSourceSha256": "f82f7c71e56c02d1c2c887ceb939b60849c9ee9bfa1c03dfdd991ff7acce9485",
+  "issuePatchesSha256": "aeedb3ba4fe54b753291e3eae8333c527a3e8979ad1f5f1d79780deb6f76910c",
+  "cwoContractsSha256": "f8c3062845ea8298318e88300a798d8cc7f9b2df1b8924fa5e0ab081493a4139",
+  "checkerSourceSha256": "48477e9e7a522ab37cbcb66203041781d014bfdc7479f339e8e67f4011e8c327",
+  "catalogueCanonicalHash": "a72502ce4dcfe5ec1e8537cd377f93e77ad32b9d998fdad62c252605089759fe",
+  "status": "passed",
+  "assertionGroups": 17,
+  "checks": [
+    {
+      "criterion": "Real planning mode, current protected revision, and all eight hierarchy levels retained",
+      "status": "passed",
+      "verifiedCount": 648
+    },
+    {
+      "criterion": "Baseline 377 protected original sources retained exactly including provenance",
+      "status": "passed",
+      "verifiedCount": 377
+    },
+    {
+      "criterion": "All 371 full original Linear descriptions retained literally and protected",
+      "status": "passed",
+      "verifiedCount": 371
+    },
+    {
+      "criterion": "All six original product document contents retained literally and protected",
+      "status": "passed",
+      "verifiedCount": 6
+    },
+    {
+      "criterion": "Every source pin equals the unchanged checker's source hash",
+      "status": "passed",
+      "verifiedCount": 852
+    },
+    {
+      "criterion": "Every source content hash agrees with exact text",
+      "status": "passed",
+      "verifiedCount": 852
+    },
+    {
+      "criterion": "All 371 native identities, source states, parent records and observed metadata unchanged",
+      "status": "passed",
+      "verifiedCount": 371
+    },
+    {
+      "criterion": "All 371 addenda retain actual original-description hashes and draft-only sources",
+      "status": "passed",
+      "verifiedCount": 371
+    },
+    {
+      "criterion": "All 271 acceptance Then fields equal their literal source clauses byte-for-byte",
+      "status": "passed",
+      "verifiedCount": 271
+    },
+    {
+      "criterion": "All 95 CWO scenario contracts preserve exact original clauses and proposed-only fixtures",
+      "status": "passed",
+      "verifiedCount": 95
+    },
+    {
+      "criterion": "All 364 distinct formal cases and 389 native owner references retain their actual source blocks",
+      "status": "passed",
+      "verifiedCount": 364
+    },
+    {
+      "criterion": "No reviewer identities, authority appointments, approvals or execution evidence created",
+      "status": "passed",
+      "verifiedCount": 0
+    },
+    {
+      "criterion": "All 17,589 field-map entries accurately report mapped values without hidden unresolved placeholders",
+      "status": "passed",
+      "verifiedCount": 17589
+    },
+    {
+      "criterion": "Latest frozen coding entry and shared checklist texts bound exactly in source records",
+      "status": "passed",
+      "verifiedCount": 2
+    },
+    {
+      "criterion": "Catalogue identity is engine-pinned and checker source bytes remain unchanged",
+      "status": "passed",
+      "verifiedCount": 2
+    },
+    {
+      "criterion": "Every actual protected revision preserves its prior exact history snapshot",
+      "status": "passed",
+      "verifiedCount": 3
+    },
+    {
+      "criterion": "All ten repaired output summaries and current derived values equal exact retained Required output literals",
+      "status": "passed",
+      "verifiedCount": 10
+    }
+  ],
+  "formalSemanticReviewsCreated": 0,
+  "approvalsCreated": 0,
+  "certificationGranted": false,
+  "protectedSourceCount": 377,
+  "literalAcceptanceCount": 271,
+  "formalScenarioCount": 364,
+  "elementCounts": {
+    "vision": 1,
+    "strategy": 1,
+    "roadmap": 1,
+    "release_goal": 3,
+    "epic": 11,
+    "user_story": 160,
+    "technical_task": 200,
+    "acceptance_criterion": 271
+  }
+}

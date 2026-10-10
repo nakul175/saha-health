@@ -1,3 +1,21 @@
+# Current product-planning handoff — 10 October 2026
+
+Read [the current product plan](docs/current/product-plan/START-HERE.md), then its [coding handoff](docs/current/product-plan/navigation/coding-start-here.md). The [local index](docs/current/product-plan/INDEX.md) maps all hierarchy levels, the complete source-preserving backlog and shared Ready/Done versions. This planning revision is documentation only: it changes no application, source acceptance target, native task state, approval or live service.
+
+Last observed source baseline for this planning revision: `7668a03d97c1ae62174f09e65ccd5a5717120be6`. Use fresh GitHub main and the latest evidenced [delivery controller #188](https://github.com/nakul175/saha-health/issues/188) checkpoint before execution; the snapshot is not a claim about a later running service.
+
+Historical D02 checkpoint: the isolated [PR #189](https://github.com/nakul175/saha-health/pull/189) delivered its declared 10/10 scoped gate on 10 October 2026, with merge/source identity `7668a03d97c1ae62174f09e65ccd5a5717120be6` and a previously observed synthetic hosting journey. That prior host/synthetic receipt remains historical; **no fresh live smoke was performed by this documentation revision**. Preserve formal product acceptance and UAT status separately.
+
+Next candidate: the existing isolated D03 work, after a fresh bounded D01 baseline dependency decision. Preserve [D03 frozen specification revision 1](docs/current/product-plan/reference/D03-FROZEN-SPECIFICATION.md), including all A1–A10 criteria. Do not duplicate or dispatch competing D03 coding. Applicable independent review, native checks, merge authority, synthetic write authority and observed delivery remain separate gates. No old PR #173/#184/#187 bulk merge, legacy activation, real patient/recipient use, new provider, paid service, secret handling or destructive migration is authorized by this documentation update.
+
+Read only the current entry point and selected item by default. `docs/current/product-plan/audit/history/` retains historical sources and obsolete planning instructions; open those only for provenance or a disputed source. Agent reviews/checker reports are advisory and do not establish externally trusted approval. **Do not weaken criteria to obtain a pass.**
+
+---
+
+## Historical checkpoints retained below
+
+Everything below this boundary is preserved byte-for-byte from the pre-v4.2 HANDOVER. Its “active” or “next” labels describe their original dates; the dated current handoff above supersedes stale D02 pre-merge/hosting-pending instructions where the evidenced PR #189 checkpoint conflicts. Source evidence, remaining limitations and all original records remain intact.
+
 # Active D02 checkpoint — 10 October 2026
 
 This branch starts at main `43f445acf4c54352cd2084e0bcd88bfbf605d757` and implements only D02/#175 on separate `/today`. See [frozen specification](docs/current/d02/SPECIFICATION.md) and [current validation](VALIDATION.md). No main merge or verified deployment is claimed by this checkpoint. Existing old draft PRs and legacy archive are preserved. Hosting verification is blocked: this desktop SSH agent has no identities and no trusted ED25519 host key for the documented droplet; no new key/credential or trust override was introduced. Existing DigitalOcean updater is documented as following main every three minutes, while `SAHA_DEPLOY_FREEZE=true` freezes Cloudflare only. Do not equate merge with observed hosting. CI fixture repair now passes full201 units10702 and separate targeted QA168. Production authority and historical drivers are unchanged. Next action: observe repaired-head CI and final bound review, then qualified isolated merge if all gates pass, then existing authorised host SHA/live smoke. Until A10 passes, no next story.

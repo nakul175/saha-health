@@ -1,0 +1,109 @@
+{
+  "scope": "Local negative controls of publication verifier guard behavior using cloned actual readbacks. Mutated controls are never remote observations, approvals, product acceptance or framework verdicts.",
+  "status": "passed",
+  "testCount": 24,
+  "checks": [
+    {
+      "criterion": "Actual unchanged full native readback passes exact source/metadata verification",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing one original source character is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing original source whitespace is rejected without normalization",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing native lifecycle status is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing the native parent is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing a native blocked-by relation is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Inventing an unobserved native estimate is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Omitting an observed metadata field from a full GET is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Adding an unknown native metadata field is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Adding a non-description history event is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "A description event with an unrelated metadata key is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Duplicating the proposed refinement section is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Deleting the proposed refinement section is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing a literal acceptance clause is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing proposed scope text is rejected",
+      "status": "passed"
+    },
+    {
+      "criterion": "Only an explicit appended description-only event is permitted",
+      "status": "passed"
+    },
+    {
+      "criterion": "Partial update-response metadata is explicitly unverified and never substitutes for a full GET",
+      "status": "passed"
+    },
+    {
+      "criterion": "A preobserved exact UUID/workspace/identifier native issue link is presentation only",
+      "status": "passed"
+    },
+    {
+      "criterion": "Native issue link with unknown UUID is not normalized away",
+      "status": "passed"
+    },
+    {
+      "criterion": "Native issue link with wrong host is not normalized away",
+      "status": "passed"
+    },
+    {
+      "criterion": "Native issue link with changed visible identifier is not normalized away",
+      "status": "passed"
+    },
+    {
+      "criterion": "Native issue link with query-bearing target is not normalized away",
+      "status": "passed"
+    },
+    {
+      "criterion": "Changing a meaningful proposed threshold is not normalized away",
+      "status": "passed"
+    },
+    {
+      "criterion": "The single exact historical empty-summary trailing space normalization creates no output text",
+      "status": "passed"
+    }
+  ],
+  "actualReadbackIssue": "APL-175",
+  "actualReadbackSha256": "3567da8f154ada00b187f166bd48e12288d40faa5c0c36837a276f4dda8c4c72",
+  "verifierSha256": "e2fb5d0feca82cf4f89e7d701c4ba532a9f074526803b57f55d038157b57df34",
+  "normalizationSha256": "ed5c14189962e2f5f822f6fd21a41c2c8dec803804e51b8799179bd26f2c79b1",
+  "noMutationPerformed": true,
+  "outsideAuthorityCreated": false
+}
