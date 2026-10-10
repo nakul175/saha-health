@@ -24,7 +24,9 @@
     "outputs/d02-evidence/nfr-initial.json": "a039bf035e08ef8c62efd79a290aae81b74cecef1fa06f10837b77d3b6daec74",
     "outputs/d02-evidence/nfr-initial.log": "de3f31934dfc103c28cf59a3a32bf61220d174c6f320dedc757434e0a30f85a9",
     "outputs/d02-evidence/nfr-final.json": "2c4dde1a3ee5adedc0823aa9d0d26ca02f1cc48ea023f41ebc3f454ce6ba2f36",
-    "outputs/d02-evidence/ci-initial-doc-failure.log": "b21a2eeb4d1ce199621e10bbc43b0af1c4059fa49eb22a5f8ec09914fd608611"
+    "outputs/d02-evidence/ci-initial-doc-failure.log": "b21a2eeb4d1ce199621e10bbc43b0af1c4059fa49eb22a5f8ec09914fd608611",
+    "outputs/d02-evidence/ci-uat-drift.log": "43512491998df6c91c865aafee5a2d3bc997379cf243cefafb90826d10a1e7e0",
+    "outputs/d02-evidence/uat-final.json": "7958606e2204613850936b34ac2d0c5d671da0c3456d33eab86efa1f3e28366f"
   },
   "independentQaReceiptSha256": "87b50f6d84ced60e8d6e4baee28768d7a3424b40a2477650aad131eb77f0f446",
   "evidenceLocation": "Ignored outputs/d02-evidence in this checkout; real CI uploads tests/reports and reports through existing artifact step. Historical receipts are preserved.",
@@ -39,7 +41,13 @@
       "failed": 0
     }
   },
-  "documentation": "Initial local check passed before final validation-prose edit; e418c442 CI correctly failed stale VALIDATION baseline. New chained baseline/check must qualify this follow-up.",
+  "documentation": "Local final baseline/requirements/catalogue and generated UAT/coverage checks to be executed after this complete note; previous CI baseline and UAT drift failures preserved.",
   "lint": "1392 errors/618 warnings, unchanged baseline",
-  "initialPublishedCandidate": "e418c4425fe4d279c7bfd5872a432389b0cff241"
+  "initialPublishedCandidate": "e418c4425fe4d279c7bfd5872a432389b0cff241",
+  "generatedUatChecks": {
+    "passed": 63,
+    "failed": 0,
+    "skipped": 0,
+    "formalAcceptance": 0
+  }
 }
