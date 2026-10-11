@@ -1,0 +1,12 @@
+# Merge into the product repository's .github/CODEOWNERS on the protected base branch.
+# Replace EVERY placeholder with the actual human reviewer/team with repository write access.
+# This template is inactive and intentionally not installed as a real CODEOWNERS file.
+# Adjust paths to the adopted layout; source snapshots outside this layout also need ownership.
+# Place these rules after broader rules; later matching rules can override earlier ownership.
+/docs/qa/evidence/criteria-source.json @REPLACE_WITH_REAL_HUMAN_SCOPE_OWNER
+/docs/qa/registers/scope.json @REPLACE_WITH_REAL_HUMAN_SCOPE_OWNER
+/docs/qa/checker/ @REPLACE_WITH_REAL_HUMAN_QA_CONTROL_OWNER
+/docs/qa/standards/ @REPLACE_WITH_REAL_HUMAN_QA_CONTROL_OWNER
+/docs/qa/workflow/ @REPLACE_WITH_REAL_HUMAN_QA_CONTROL_OWNER
+/.github/CODEOWNERS @REPLACE_WITH_REAL_HUMAN_REPOSITORY_OWNER
+/.github/workflows/ @REPLACE_WITH_REAL_HUMAN_REPOSITORY_OWNER

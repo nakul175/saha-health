@@ -1,0 +1,6 @@
+# Reruns, flakes and AI repetition
+The rule is never rerun **until green to hide failure**, not never rerun. A changed fixed build gets a new qualification attempt and linked retest. Diagnostic reruns preserve the original decision result.
+
+Before execution declare attempt group, purpose, count, seeds/sampling and aggregate decision rule. Ordinary deterministic gates require successful meaningful assertions; flaky required behavior cannot be rescued by a majority vote. Statistical AI evaluations may use a risk-justified predeclared repeat/success or distribution rule; record all samples, counts, intervals, slices and critical invariant failures. A `4 of 5` rule is an example only, not a default.
+
+One run-register record represents the completed qualification group and references full per-attempt evidence. A PASS cannot be recorded until the predeclared group finishes and meets its rule. Extra unplanned attempts are DIAGNOSTIC and excluded from gate selection/counts. Diagnostic insight can prompt a new versioned plan and new qualification group; do not rewrite the failed group. Case/run registers retain `protocol_ref`; the checker requires it for executed runs but does not infer statistical validity from a filename.

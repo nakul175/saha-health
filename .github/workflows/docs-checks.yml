@@ -23,6 +23,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: QA adoption integrity and planning records
+        run: |
+          python3 -B -m unittest discover -s docs/qa/checker/tests -v
+          python3 -B docs/qa/checker/verify_saha_adoption.py
+          python3 -B docs/qa/checker/check_pm_mapping.py --catalogue docs/qa/sources/pm-catalogue.json
+          python3 -B docs/qa/checker/qa_lint.py --registers docs/qa/saha-registers --root .
       # Before install, as in ci.yml: install rewrites checkout-local files that the documentation check pins.
       - name: Documentation, requirements and test catalogue
         run: |

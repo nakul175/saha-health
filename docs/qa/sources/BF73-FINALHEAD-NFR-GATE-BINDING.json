@@ -1,0 +1,295 @@
+{
+  "recordedAtUtc": "2026-10-11T01:48:06.353299+00:00",
+  "reviewerTask": "/root/saha_framework_review",
+  "classification": "Finite independent final-published-head execution source binding; not a full64file semantic review, rerun, product approval or release clearance",
+  "published": {
+    "observedAtUtc": "2026-10-11 01:47:11 UTC",
+    "classification": "Independent read-only fresh native GitHub fetches; no mutations",
+    "sources": [
+      {
+        "url": "https://api.github.com/repos/nakul175/saha-health/pulls/192"
+      },
+      {
+        "url": "https://api.github.com/repos/nakul175/saha-health/commits/bf73fa61004855abd0651fae0cf5003a565a4f48"
+      },
+      {
+        "url": "https://api.github.com/repos/nakul175/saha-health/actions/runs?head_sha=bf73fa61004855abd0651fae0cf5003a565a4f48&per_page=100"
+      },
+      {
+        "url": "https://api.github.com/repos/nakul175/saha-health/commits/bf73fa61004855abd0651fae0cf5003a565a4f48/check-runs"
+      }
+    ],
+    "pr": {
+      "url": "https://github.com/nakul175/saha-health/pull/192",
+      "head": "bf73fa61004855abd0651fae0cf5003a565a4f48",
+      "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "draft": true,
+      "state": "open",
+      "merged": false,
+      "mergeable_state": "clean",
+      "updatedAt": "2026-10-11T01:42:50Z"
+    },
+    "commit": {
+      "sha": "bf73fa61004855abd0651fae0cf5003a565a4f48",
+      "tree": "73bc210517026383a92651d8b26706043eccb37e",
+      "parent": [
+        "791782c754bb2de4804a2c75cf8566be3abbfee4"
+      ],
+      "message": "test: qualify D03 fixtures and preserve NFR failures [skip ci]"
+    },
+    "headWorkflowRuns": {
+      "total": 0,
+      "runs": []
+    },
+    "headChecks": {
+      "total": 0,
+      "checks": []
+    },
+    "meaning": "Draft remains open/unmerged. Commit contains [skip ci], and exact-head native run/check inventories are empty at observation. mergeable_state clean is not required-check success, human approval, merge or hosting."
+  },
+  "localCommittedIdentity": {
+    "head": "bf73fa61004855abd0651fae0cf5003a565a4f48",
+    "tree": "73bc210517026383a92651d8b26706043eccb37e",
+    "parent": "791782c754bb2de4804a2c75cf8566be3abbfee4",
+    "method": "One read-only git archive of exact committed head hashed against actual saved execution source pins; no many-file Git subprocesses and no checkout/state writes."
+  },
+  "applicationDeltaFromParent": {
+    "scopedPaths": [
+      "app",
+      "lib",
+      "components",
+      "hooks",
+      "worker",
+      "public",
+      "db",
+      "drizzle",
+      "deploy",
+      "build",
+      "vite.config.ts",
+      "next.config.ts",
+      "package.json",
+      "pnpm-lock.yaml",
+      "tsconfig.json",
+      ".github"
+    ],
+    "changedPaths": [],
+    "applicationUnchanged": true
+  },
+  "sourceApplicability": {
+    "actualUnit206": {
+      "savedCounts": {
+        "suites": 206,
+        "passed": 10802,
+        "failed": 0,
+        "skipped": 0,
+        "exitCode": 0
+      },
+      "summaryRecomputation": {
+        "recordCount": 206,
+        "passed": 10802,
+        "failed": 0,
+        "skipped": 0,
+        "failedRecordIds": []
+      },
+      "committedExecutedRuntimeAndDriverPaths": 1573,
+      "mismatches": [],
+      "meaning": "All1573 enumerated actual unit drivers/support/scripts/application/configuration paths match committed bf73. Documentation/evidence exclusions from the original run remain excluded; no full-head CI or NFR gate inferred."
+    },
+    "currentNfr094c": {
+      "allSixExecutedProposalFilesMatch": true,
+      "files": [
+        {
+          "path": "scripts/test-catalogue.mjs",
+          "executedProposalSha256": "d1f3bacb4233bd341bc0926b4467eae5698b26da1fca78585db67de677fb6212",
+          "committedSha256": "d1f3bacb4233bd341bc0926b4467eae5698b26da1fca78585db67de677fb6212",
+          "exact": true
+        },
+        {
+          "path": "tests/nfr/authorisation-matrix-current-fixture.mjs",
+          "executedProposalSha256": "8db2c3fb31781b7913a08e3d94c9bb4bcd2ed372fe905f21d6994e5c31111266",
+          "committedSha256": "8db2c3fb31781b7913a08e3d94c9bb4bcd2ed372fe905f21d6994e5c31111266",
+          "exact": true
+        },
+        {
+          "path": "tests/nfr/load-burst-current-fixture.mjs",
+          "executedProposalSha256": "3734ea65ac1e2231792fde5d2d8f6a89a5ac03428bd363519b3e61fe35bc90d3",
+          "committedSha256": "3734ea65ac1e2231792fde5d2d8f6a89a5ac03428bd363519b3e61fe35bc90d3",
+          "exact": true
+        },
+        {
+          "path": "tests/lib/report-source-refusal.mjs",
+          "executedProposalSha256": "02536a08bb9a556a7620cd41521f182b5c63cadbccc78f89a70c82d403848f38",
+          "committedSha256": "02536a08bb9a556a7620cd41521f182b5c63cadbccc78f89a70c82d403848f38",
+          "exact": true
+        },
+        {
+          "path": "tests/report-source-refusal-contract.mjs",
+          "executedProposalSha256": "51db5dcda06e774d612b8942e6f3577f98d6a1370fcd26c5a82e2916fb4b7939",
+          "committedSha256": "51db5dcda06e774d612b8942e6f3577f98d6a1370fcd26c5a82e2916fb4b7939",
+          "exact": true
+        },
+        {
+          "path": "tests/integration/report-source-drift-native.mjs",
+          "executedProposalSha256": "c1d04c3907f95409397763b2e537c734e011813a56ec2cb2b91e181926c84691",
+          "committedSha256": "c1d04c3907f95409397763b2e537c734e011813a56ec2cb2b91e181926c84691",
+          "exact": true
+        }
+      ],
+      "applicationSourceSharesExactReferenceBinding": true,
+      "actualResult": {
+        "authorizationPassed": 63,
+        "authorizationFailed": 0,
+        "loadPassed": 12,
+        "loadFailed": 3,
+        "requiredLoadMinPassed": 13,
+        "logicalCompleted": 360,
+        "logicalRequired": 400
+      },
+      "publishedSavedResultByteExact": true,
+      "meaning": "Execution remains the failed current load fixture; source binding does not change its result."
+    },
+    "originalReference004": {
+      "applicationPrefixes": [
+        "app",
+        "lib",
+        "components",
+        "hooks",
+        "worker"
+      ],
+      "executedCommittedApplicationPaths": 489,
+      "mismatches": [],
+      "drivers": [
+        {
+          "path": "docs/current/d03/nfr-checkpoint-evidence-20261011/drivers/d03-real-ui-measurements.mjs.txt",
+          "executedSha256": "b4922ff8d1cd4b942215fdf636e029ad57c7cdb4130ec6d1363351bf0cfb56b9",
+          "committedSha256": "b4922ff8d1cd4b942215fdf636e029ad57c7cdb4130ec6d1363351bf0cfb56b9",
+          "exact": true
+        },
+        {
+          "path": "docs/current/d03/nfr-checkpoint-evidence-20261011/drivers/d03-ui-observer.mjs.txt",
+          "executedSha256": "a72fc6254fd12ae84f23b1fabf9ae3ab6cf462dd344234c9d0e8ac5656c3b20a",
+          "committedSha256": "a72fc6254fd12ae84f23b1fabf9ae3ab6cf462dd344234c9d0e8ac5656c3b20a",
+          "exact": true
+        }
+      ],
+      "publishedSavedResultByteExact": true,
+      "complete": true,
+      "samples": 8000,
+      "originalRoutineP95Ms": 3132.308874999988,
+      "originalCeilingMs": 3000,
+      "degraded": "NOT RUN; pending",
+      "meaning": "Actual application and exact driver/observer bytes bind to bf73; original captured Nodev24.21.0/desktopsurrogate/build remains historical captured identity, not a new bf73 run or physical acceptance."
+    },
+    "withdrawnLink": {
+      "currentTodaySha256": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+      "matchesOriginalToday": true,
+      "imported": false,
+      "meaning": "Withdrawn NextLink candidate remains preserved failed evidence only. Static public-router alternative also not adopted; no success is inherited."
+    },
+    "frozenSpecification": {
+      "path": "docs/current/d03/SPECIFICATION.md",
+      "sha256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+      "unchanged": true
+    }
+  },
+  "ciScope": {
+    "newHeadContainsSkipCi": true,
+    "newHeadWorkflowRunsObserved": 0,
+    "newHeadChecksObserved": 0,
+    "prior791Startup": {
+      "head": "791782c754bb2de4804a2c75cf8566be3abbfee4",
+      "run": 38101237143,
+      "observedAtUtc": "2026-10-11T01:17:16.309607+00:00",
+      "testsExecuted": false,
+      "runnerIdsAllZero": true,
+      "annotationMeaning": "Actual GitHub annotation states job not started because recent account payments failed or spending limit requires increase. This is the observed startup condition, not authority to change billing or a claim that the skip commit ran."
+    },
+    "meaning": "No bf73 CI pass. Prior791 startup failure is not test assertion failure or executed engineering evidence."
+  },
+  "gateDisposition": {
+    "A1_A8": "Not re-audited or formally approved by this binding check; separate final source/evidence reviewer owns full semantic assessment.",
+    "A9": "HELD: original Routine3s exceedance, current load12/3/360of400, unrun degraded and original reference/R1/device scope unresolved, final-head required CI absent. Local206 pass cannot override those.",
+    "A10": "HELD: PR192 is draft/open/unmerged; no qualified merge, exact new hosted head or authorized live synthetic save/readback/refusal shown.",
+    "formalAndDevice": "Untested physical/clinical/formal scope stays pending as frozen; no stricter device gate invented or entire NFR pass granted.",
+    "hosting": "Earlier observed main7668 hosting is historical; this review performed no fresh hosted observation and does not claim bf73 deployed."
+  },
+  "sourcePins": [
+    {
+      "path": "outputs/saha-health-independent-20261011/baseline-review/BF73-REMOTE-OBSERVATION.json",
+      "sha256": "d6d4ab2f3351e7498fe448777e939bc225ccf2689d94ca67dc219cd375fe1b85",
+      "bytes": 1612
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/ACTUAL-UNIT206-RECEIPT.json",
+      "sha256": "62ea84182b426db7b303326ecf2ff3f7d184f8f18eca5d61179be7e33a15c07e",
+      "bytes": 15485
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/summary.json",
+      "sha256": "b777fa5fc817c3d6f4cd3f410e61d076060402943f9f6e8ad2739bccf3ddb806",
+      "bytes": 108982
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/CURRENT-ROOT-SOURCE-SCOPE-COMPARISON.json",
+      "sha256": "db2a764dde185799035a4c8751eca25c92031a0ce43f16ae88d71f6b0cbaad41",
+      "bytes": 386020
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/FINAL-UNIT206-APPLICABILITY-RECEIPT.json",
+      "sha256": "08d45c94bf72c568e41cebf668396ba937591473ca6bedef5d754d9a19c97e00",
+      "bytes": 8654
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/integrated-source-and-unit206/full-unit-once/SOURCE-INPUT-PINS.json",
+      "sha256": "f8accdc8fa979a155afe5d7ca7c6aee064097cde40a967892f12e839d27ce47b",
+      "bytes": 2393095
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/FROZEN-PROPOSAL-RECEIPT.json",
+      "sha256": "8b7140d2d8797e6241a54d6fa005dd855c6089e00cf699fe46c6162759deccb9",
+      "bytes": 5628
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/actual-reviewed-094c-once/ACTUAL-QUALIFICATION-RECEIPT.json",
+      "sha256": "8adf3c87f0f857d191d6ec3c9def44929b4c6c2647f7b28fca312a22cfe0e7b6",
+      "bytes": 4538
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/INPUT-PINS.json",
+      "sha256": "70ceff85871d69c1153674b396070a4c74ad828768cfc340d9787d9221682394",
+      "bytes": 576893
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/RESULT.json",
+      "sha256": "bf66539cfbd111ef653e0c1c4c0e307f4408f030309b1b70366030fd105e437f",
+      "bytes": 138208
+    },
+    {
+      "path": "outputs/saha-health-independent-20261011/baseline-review/CI-791-STARTUP-ANNOTATIONS-202610110117.json",
+      "sha256": "7a83bff68802fd10de823c35685b04270bb3f30eed51032514059e75c88789cb",
+      "bytes": 3899
+    },
+    {
+      "path": "outputs/saha-health-independent-20261011/baseline-review/REFERENCE-004-COMPLETION-WATERFALL-REVIEW.json",
+      "sha256": "2e994e91a867acc3ba2a5b8bba19f5a6e0271db802e2c968ee38e965691901b3",
+      "bytes": 30896
+    },
+    {
+      "path": "outputs/saha-health-independent-20261011/baseline-review/FAILED-LINK-NAVIGATION-BUNDLE-REVIEW.json",
+      "sha256": "3573c8f154d9803ba81079a41441d81f428d93203c02d12f1b937f37b0d1b02f",
+      "bytes": 9709
+    }
+  ],
+  "noActions": {
+    "applicationEdits": false,
+    "testReruns": false,
+    "ownerChanges": false,
+    "remoteWrites": false,
+    "ciDispatch": false,
+    "roleChanges": false,
+    "humanApproval": false,
+    "merge": false,
+    "releaseQualification": false
+  },
+  "stopAfterReview": true
+}

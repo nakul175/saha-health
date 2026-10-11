@@ -1,0 +1,77 @@
+{
+  "recordedAtUTC": "2026-10-11T04:56:22.563801+00:00",
+  "scope": "Actual local QA adoption checks; no product runtime test or independent approval",
+  "baseMain": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "checkerTests": {
+    "first": {
+      "total": 57,
+      "failed": 1,
+      "reason": "Upstream test expects empty generic templates; actual Saha data had been written there."
+    },
+    "final": {
+      "total": 57,
+      "passed": 57,
+      "failed": 0,
+      "fix": "Restore all upstream generic templates byte-exact; configure actual Saha data in saha-registers. No checker/test changes."
+    }
+  },
+  "pmMapping": {
+    "exit": 0,
+    "fullInstalledCatalogue": true
+  },
+  "structure": {
+    "exit": 0,
+    "criteria": 271,
+    "mapped": 271,
+    "validated": 0,
+    "selectedRequiredMappingsNotRun": 447
+  },
+  "releaseNegative": {
+    "exit": 1,
+    "expected": true,
+    "reasons": [
+      "unknown applicability",
+      "no qualified selected executions",
+      "unbound runtime artifact/config/data"
+    ]
+  },
+  "documentation": {
+    "firstExit": 1,
+    "reason": "Baseline changed AGENTS; system Python lacks zip strict support. Used bundled supported Python and created additive baseline; old manifests retained.",
+    "finalExit": 0,
+    "sourceBaselineFiles": 1781
+  },
+  "requirements": {
+    "exit": 0,
+    "verified": 176,
+    "formalAccepted": 0
+  },
+  "productTestsExecuted": 0,
+  "requiredExternalReviewGranted": false,
+  "sourceProtection": "NOT_CONFIGURED",
+  "evidence": {
+    "source-inventory-final.json": "034a0c819c352266dd6a6d7c286ee35bdb025ef4bcef84e07c276a7779d08c7e",
+    "requirements-final.log": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+    "catalogue-final.log": "d8f82ac735128b115e10ee5f74e55d778ffc866aabe3e60d57f1341023513e23",
+    "checker-first-failure.log": "8c3ccef469843f136b1f13ca78e35224d5f1dfc4e050d5c9e13bfe57c6ec493c",
+    "pm-mapping.log": "b87c20fc824a31129d85f876fd1b8277b84e5bc0f00054fa96cb0bd9aa3887a0",
+    "documentation-final.json": "06d014d138e00e67a1427bc51a7d7d761bb1aa0956e2c970c013579942315828",
+    "release-negative-final.json": "ebbb607038a7e5dc83be2022f7596d2b31f33ae82e9eaa5acdd4f4f3178e9770",
+    "requirements.log": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+    "structure-final.json": "544292cbbce6b7b0c0411c1047ffe539a220af2284c792d2fca26be389e69069",
+    "documentation-first-failure.log": "3c4be9d4596b709cf810cf0243d67a8f2d5f396d2a49b4cdb88b39ca84bc1744",
+    "checker-final.log": "61c46c3493572886f4982921eed8056c335b6082579365ee0e10ebc046d94f38"
+  },
+  "sourceInventory": {
+    "passed": 10,
+    "total": 10
+  },
+  "catalogueExit": 0,
+  "diffWhitespaceCheckExit": 0,
+  "sourceBaselineChangedPins": [
+    "AGENTS.md",
+    "VALIDATION.md"
+  ],
+  "historicalManifestPreserved": true,
+  "whitespaceQualification": "Original CRLF CSV and raw captured log endings preserved through scoped .gitattributes; ordinary staged diff check passes. No criterion/assertion changes."
+}

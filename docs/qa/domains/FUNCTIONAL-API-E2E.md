@@ -1,0 +1,8 @@
+# Functional, API and E2E testing
+Derive cases from ACs and risks; include positive, negative, boundaries, missing/null/malformed inputs, state transitions and concurrency where meaningful. Unit tests cover business rules; component tests cover user-visible state; integration tests cover actual dependencies; contract tests cover provider/consumer compatibility; E2E covers a small set of critical journeys. Test the user outcome rather than internal method calls alone.
+
+API matrix: methods/routes, schema and semantic validation, required/optional fields, errors/status codes, authentication/authorization at object and tenant level, rate limits, pagination, filtering, idempotency/retry, duplicate and concurrent requests, timeouts, backward compatibility and versioning. Verify denied requests create no side effects; public errors reveal no sensitive internals. Mocked dependency tests and real sandbox integration evidence must be labeled separately.
+
+E2E matrix: roles, devices, locales, network conditions, first/returning users, empty/loading/error states, interruption/resume and persistence. Use isolated seeded accounts, stable accessible selectors, bounded waits and deterministic cleanup. Assert the persisted outcome, not merely a success toast. Keep visual regression baselines reviewed; don't update them to mask defects.
+
+Manual exploratory charter: purpose, risk, session duration, environment/build/data, areas explored, notes/evidence, findings and follow-up. UAT records participant relevance, scenarios, consent/data boundary, observed outcomes and acceptance authority. User approval and technical test pass remain separate.

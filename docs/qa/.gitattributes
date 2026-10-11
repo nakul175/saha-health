@@ -1,0 +1,6 @@
+# Imported/register CSVs use RFC4180 CRLF. Preserve their exact source bytes.
+registers/*.csv -text whitespace=cr-at-eol
+saha-registers/*.csv -text whitespace=cr-at-eol
+examples/lifecycle/registers/*.csv -text whitespace=cr-at-eol
+# Raw captured log endings are execution evidence, not edited prose.
+evidence/adoption-20261011/*.log -text whitespace=-blank-at-eof

@@ -1,0 +1,212 @@
+{
+  "recordedAtUtc": "2026-10-11T01:23:19.347430+00:00",
+  "reviewerTask": "/root/saha_framework_review",
+  "classification": "Read-only current completed one-run fixture observation, not a rerun or independent execution",
+  "sourcePins": [
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/FROZEN-PROPOSAL-RECEIPT.json",
+      "sha256": "8b7140d2d8797e6241a54d6fa005dd855c6089e00cf699fe46c6162759deccb9",
+      "bytes": 5628
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/CANDIDATE.patch",
+      "sha256": "094c697795b0b264659490d3691c99b63684fcb5b42133c29296393fdce68b45",
+      "bytes": 109249
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/ORACLE-SOURCE-PRESERVATION.json",
+      "sha256": "dd02fe55c1568929872e0d2bffec7d81d7b0129ee463984c3d51b9526831f60b",
+      "bytes": 1723
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/actual-reviewed-094c-once/ACTUAL-QUALIFICATION-RECEIPT.json",
+      "sha256": "8adf3c87f0f857d191d6ec3c9def44929b4c6c2647f7b28fca312a22cfe0e7b6",
+      "bytes": 4538
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/actual-reviewed-094c-once/current-nfr-summary.json",
+      "sha256": "ada1a17cace8879cd3b48dbf92f4bef4849d2965fe709158fc4c0261183f6d8f",
+      "bytes": 3726
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/actual-reviewed-094c-once/POST-RUN-AND-DISPOSAL.json",
+      "sha256": "6fc4be507c021c9ca6557c3beecffa0228b1ff39892c496114465fa4ddd109da",
+      "bytes": 2145
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/actual-reviewed-094c-once/STEP-RESULTS.json",
+      "sha256": "450f085789d32015ab34d8437e3e1f27b8348e62db1a861c50256286b251201c",
+      "bytes": 1659
+    },
+    {
+      "path": "outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/actual-reviewed-094c-once/load-current-actual-trace/CURRENT-FIXTURE-COMPLETION.json",
+      "sha256": "3c93d4baf53c1e72c1ed3a71b9bc39db8ef598dd8df25a83d7c11f9df06f3672",
+      "bytes": 111994
+    }
+  ],
+  "actualStatus": "ACTUAL PARTIAL PASS; LOAD LIVENESS/REGRESSION GATE STILL RED",
+  "actualCompletedAtUtc": "2026-10-11T01:18:06.211948+00:00",
+  "namedProposalFiles": [
+    "scripts/test-catalogue.mjs",
+    "tests/nfr/authorisation-matrix-current-fixture.mjs",
+    "tests/nfr/load-burst-current-fixture.mjs",
+    "tests/lib/report-source-refusal.mjs",
+    "tests/report-source-refusal-contract.mjs",
+    "tests/integration/report-source-drift-native.mjs"
+  ],
+  "proposalCheckout": "work/saha-nfr-current-fixture-review-20261011",
+  "actualClassifier": {
+    "passed": 11,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "actualNativeCausalControl": {
+    "passed": 10,
+    "failed": 0,
+    "exitCode": 0,
+    "actualBuiltHttp": true,
+    "actualNativeD1": true,
+    "statuses": [
+      200,
+      409,
+      200
+    ],
+    "noDataRefusal": true,
+    "ownedTriggerDropped": true,
+    "membershipVisitReceiptAuditHistoryControlsPassed": true
+  },
+  "actualCanonicalRecords": [
+    {
+      "id": "nfr/authorisation-matrix",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/authorisation-matrix-current-fixture.mjs",
+      "tier": "extended",
+      "status": "passed",
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9330,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/authorisation-matrix-result.json"
+      ],
+      "requirementsCited": 5,
+      "reason": null,
+      "log": "tests/reports/logs/nfr__authorisation-matrix.log"
+    },
+    {
+      "id": "nfr/load-burst",
+      "layer": "nfr",
+      "kind": "suite",
+      "file": "tests/nfr/load-burst-current-fixture.mjs",
+      "tier": "extended",
+      "status": "failed",
+      "passed": 12,
+      "failed": 3,
+      "skipped": 0,
+      "durationMs": 5967,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/load-burst-result.json"
+      ],
+      "requirementsCited": 2,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/nfr__load-burst.log"
+    }
+  ],
+  "actualLoad": {
+    "logicalSlotsStarted": 361,
+    "logicalSlotsCompleted": 360,
+    "requiredLogicalSlots": 400,
+    "slotStarts": [
+      11,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "slotCompletions": [
+      10,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "slotFailures": [
+      {
+        "client": 0,
+        "role": "owner",
+        "slot": 10,
+        "error": "Error: client 0 (owner) read /api/operations: 409 {\"error\":\"Reporting authority or source changed while the report was released. Refresh before viewing it.\"}"
+      }
+    ],
+    "httpAttempts": 489,
+    "reportCounters": {
+      "refusedResponses": 23,
+      "retryRequests": 22,
+      "exhaustedSlots": 1
+    },
+    "reportRetryExhaustions": [
+      {
+        "client": 0,
+        "role": "owner",
+        "slot": 10,
+        "path": "/api/operations",
+        "additionalAttempts": 4,
+        "status": 409,
+        "body": "{\"error\":\"Reporting authority or source changed while the report was released. Refresh before viewing it.\"}"
+      }
+    ],
+    "allAttemptLogicalReadLatency": {
+      "observedSlots": 273,
+      "completed": 272,
+      "failed": 1,
+      "p50Ms": 36.407499999999345,
+      "p95Ms": 107.45224999999982,
+      "maximumMs": 862.8325,
+      "basis": "All attempted logical read slots, including every retry, backoff, failed transport/response, body parse and synchronous evidence instrumentation; additional diagnostic, not a replacement reference-device/R1 target."
+    },
+    "transportFailures": []
+  },
+  "originalMinimaUnchanged": {
+    "nfr/authorisation-matrix": 59,
+    "nfr/load-burst": 13
+  },
+  "finalScope": {
+    "sourceExactAfter": true,
+    "sourceCount": 16670,
+    "distExactAfter": true,
+    "distCount": 278,
+    "ownedPortsFree": true,
+    "ownedProcessMatches": [],
+    "noSuiteRerun": true,
+    "noBudgetRaised": true,
+    "original198and2CheckpointSha256": "5a1d1b58eca36f3bcda575506f095f587990e2fa525c3d8ddccf608ed6e20d39",
+    "noAcceptanceGranted": true,
+    "noFinalGitHeadCIClaim": true
+  },
+  "remaining": [
+    "Bounded report refresh policy exhausted under original eight-way workload; required400 logical slots did not complete, and current load gate12<min13 remains red.",
+    "Source diagnosis/native causal control does not reconstruct missing private original load basis or qualify reporting liveness.",
+    "Full physical reference-device/R1/production/CI/formalA9 remain pending; original fullUI Routine3s numerical breach remains separate red."
+  ],
+  "meaning": "The 20:54 source-only proposal checkpoint is stale. Authorization is actually green in this bounded fixture; load remains red, not unexecuted. Do not duplicate source changes or silently rerun/raise retry limits until there is a separate justified repair. Native authority refusals remain genuine fail-closed outcomes; the liveness/completion gate is not waived. No former c980/reference UI pass or human approval is inherited.",
+  "runtimeAttribution": "Actual current-fixture wrapper pins bundled Node v24.19.0; captured reference004 process.version was v24.21.0, so identities are not conflated.",
+  "noActions": {
+    "applicationEdits": false,
+    "benchmarkRun": false,
+    "fixtureRun": false,
+    "remoteMutations": false,
+    "ciDispatch": false,
+    "approvalGranted": false
+  }
+}
