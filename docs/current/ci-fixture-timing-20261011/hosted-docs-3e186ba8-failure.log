@@ -1,0 +1,40 @@
+026-10-11T08:33:29.4446986Z [36;1mnode scripts/test.mjs uat --fast[0m
+2026-10-11T08:33:29.4521276Z shell: /usr/bin/bash -e {0}
+2026-10-11T08:33:29.4521554Z ##[endgroup]
+2026-10-11T08:33:29.6121071Z Running uat --fast; 3 suite(s).
+2026-10-11T08:33:29.6130489Z 
+2026-10-11T08:33:29.6130927Z [uat] 3 suite(s)
+2026-10-11T08:33:29.6131316Z   running  uat/check-uat-register ...
+2026-10-11T08:33:30.0424293Z   ok       uat/check-uat-register  44 passed  422ms
+2026-10-11T08:33:30.0447240Z   running  uat/coverage-map ...
+2026-10-11T08:33:30.5021592Z   FAILED   uat/coverage-map  8 passed, 1 failed  460ms  [exit code 1]
+2026-10-11T08:33:30.5028881Z       | error lines:
+2026-10-11T08:33:30.5040159Z       |   FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md
+2026-10-11T08:33:30.5050759Z       | FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md
+2026-10-11T08:33:30.5081141Z       | coverage: 176 requirements; no test cited 19; one layer 43; no UAT case 30; 736/1065 test files cited by no requirement; formally executed 0/364
+2026-10-11T08:33:30.5081835Z       | {"suite":"Coverage map generator","passed":8,"failed":1,"skipped":0,"completedAt":"2026-10-11T08:33:30.487Z"}
+2026-10-11T08:33:30.5082305Z   running  uat/generate-uat-pack ...
+2026-10-11T08:33:30.9468883Z   ok       uat/generate-uat-pack  10 passed  438ms
+2026-10-11T08:33:31.1581494Z 
+2026-10-11T08:33:31.1582195Z   layer  status  suites  passed  failed  skipped  time
+2026-10-11T08:33:31.1584175Z   -----  ------  ------  ------  ------  -------  ----
+2026-10-11T08:33:31.1584578Z   uat    failed       3      62       1        0  1.3s
+2026-10-11T08:33:31.1584908Z   total  FAILED       3      62       1        0  1.5s
+2026-10-11T08:33:31.1639592Z ##[error]Process completed with exit code 1.
+2026-10-11T08:33:31.1731245Z Post job cleanup.
+2026-10-11T08:33:31.2451035Z [command]/usr/bin/git version
+2026-10-11T08:33:31.2451571Z git version 2.55.0
+2026-10-11T08:33:31.2455475Z Temporarily overriding HOME='/home/runner/work/_temp/4aacb142-43c9-4d57-97d3-fcb6d5d4548b' before making global git config changes
+2026-10-11T08:33:31.2462378Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-11T08:33:31.2544121Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/saha-health/saha-health
+2026-10-11T08:33:31.2546353Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-11T08:33:31.2548490Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-11T08:33:31.2936224Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-11T08:33:31.2940510Z http.https://github.com/.extraheader
+2026-10-11T08:33:31.2976207Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-11T08:33:31.3060557Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-11T08:33:31.3345826Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-11T08:33:31.3380896Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-11T08:33:31.3713487Z Cleaning up orphan processes
+2026-10-11T08:33:31.3902775Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+
