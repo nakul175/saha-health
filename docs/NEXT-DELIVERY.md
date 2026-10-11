@@ -1,3 +1,7 @@
+# Current routine qualification — 11 October 2026
+
+Read [final synthetic qualification](current/d03/FINAL-QUALIFICATION-20261011.md) and the current HANDOVER top router. Candidate918ed has separate code-review and QA PASS, current five-jobCI green and complete source-scoped local surrogate evidence:9/10 at that source. Qualified isolated merge, exact observed hosting and authorized live synthetic journey remain separate and held. A documentation-only successor needs current requiredCI/incrementalreview. Canonical parent acceptance and formal0/176/364 are unchanged. Explicitly authorized independent engineering preparation uses isolated scope/leases; dependent offline release still waits for its declared prerequisites. New window ends22:49:55UTC, not the expired deadlines below. Earlier checkpoints preserve historical evidence.
+
 # Routine visit — current qualification work
 
 See the dated [validation checkpoint](../VALIDATION.md). One active user story, eight of ten delivery criteria supported; current completeCI, final-source NFR, final separate diff/evidence review, qualified merge and observed live synthetic journey remain held. No formal requirement or whole story is promoted by prerequisite checks. Previous assessments below retain their source and dates.
