@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { normalizeK6 } from '../../scripts/testing-links/import-k6.mjs';
+import { normalizeK6 } from '../import-k6.mjs';
 const meta = { runId: 'contract-fixture', codeSha: 'a'.repeat(40), environment: 'synthetic adapter test', scenarioIds: ['SCN-TEST'] };
 const registry = { scenarios: { 'SCN-TEST': { ownerIds: ['APL-27'] } } };
 const good = { metrics: { checks: { values: { passes: 20, fails: 0 }, thresholds: { 'rate==1': { ok: true } } } } };

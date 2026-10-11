@@ -31,6 +31,7 @@ export default class LinkedReporter {
     const final = [...byTest.values()];
     const report = { schemaVersion: '1.0', tool: 'playwright', metadata: this.metadata,
       startedAt: this.startedAt, finishedAt: new Date().toISOString(), runnerStatus: result.status,
+      result: invalid ? 'invalid_mapping' : this.errors.length ? 'runner_error' : result.status,
       mappingStatus: invalid ? 'invalid' : 'valid', assertionsCount: null,
       counts: { testCases: final.length, attempts: this.attempts.length,
         passed: final.filter(x => x.status === 'passed').length,
