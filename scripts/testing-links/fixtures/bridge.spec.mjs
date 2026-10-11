@@ -1,4 +1,6 @@
-const { test, expect } = require(process.env.SAHA_PLAYWRIGHT_MODULE ?? '@playwright/test');
+import { pathToFileURL } from 'node:url';
+const moduleSpecifier = process.env.SAHA_PLAYWRIGHT_MODULE ? pathToFileURL(process.env.SAHA_PLAYWRIGHT_MODULE + '/index.mjs').href : '@playwright/test';
+const { test, expect } = await import(moduleSpecifier);
 test('reporting bridge synthetic browser action', async ({ page }) => {
   test.info().annotations.push({ type: 'scenario', description: process.env.SAHA_BRIDGE_SCENARIO ?? 'SCN-TC-BR-UX-01-A' });
   await page.setContent('<button id="review">Review synthetic record</button><p id="status">Pending</p><script>document.querySelector("button").onclick=()=>document.querySelector("p").textContent="Reviewed"</script>');

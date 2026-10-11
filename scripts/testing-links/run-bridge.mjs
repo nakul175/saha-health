@@ -39,8 +39,8 @@ let server, completed = false;
 try {
   await run('adapter-contract', process.execPath, ['scripts/testing-links/fixtures/adapter-contract.mjs']);
   await run('reporter-contract', process.execPath, ['scripts/testing-links/fixtures/reporter-contract.mjs']);
-  await run('playwright', process.execPath, [resolve(modulePath,'cli.js'),'test','--config','scripts/testing-links/fixtures/playwright.config.cjs'], browserEnv);
-  await run('invalid-scenario-control', process.execPath, [resolve(modulePath,'cli.js'),'test','--config','scripts/testing-links/fixtures/playwright.config.cjs'], {
+  await run('playwright', process.execPath, [resolve(modulePath,'cli.js'),'test','--config','scripts/testing-links/fixtures/playwright.config.mjs'], browserEnv);
+  await run('invalid-scenario-control', process.execPath, [resolve(modulePath,'cli.js'),'test','--config','scripts/testing-links/fixtures/playwright.config.mjs'], {
     ...browserEnv, SAHA_BRIDGE_SCENARIO: 'SCN-NOT-IN-CATALOGUE', SAHA_LINKED_OUTPUT: resolve(output,'playwright-invalid-mapping.json'),
     SAHA_BRIDGE_ARTIFACTS: resolve(output,'invalid-mapping-artifacts') }, 1);
   const invalid = JSON.parse(readFileSync(resolve(output,'playwright-invalid-mapping.json')));
