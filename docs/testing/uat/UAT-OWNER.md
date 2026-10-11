@@ -1788,11 +1788,11 @@ Slice 6b: access, correction, restriction, deletion and grievance requests with 
 
 **Expected result** (catalogue): An unresolved critical vulnerability affecting the deployment blocks release or disables the affected component until the approved remedy is implemented.
 
-**Known gaps** (assessment, remaining work for BR-SEC-12): SBOM/vulnerability gates, supplier controls/subprocessors and material-change assurance.
+**Known gaps** (assessment, remaining work for BR-SEC-12): Complete current-source CI/NFR/review and observed staging qualification, plus supplier controls/subprocessors and material-change assurance; formal acceptance remains pending.
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-12)</summary>
 
-Dependency lockfile and provider configuration inventory. Slice 0c: production SBOM (CycloneDX) and an audit gate failing on critical advisories or high advisories present in the built bundle.
+Dependency lockfile and provider configuration inventory. Slice 0c: production SBOM (CycloneDX) and an audit gate failing on critical advisories or high advisories present in the built bundle. Current isolated repair uses compiler-bound runtime membership and audited version coverage, invalidates stale results and refuses malformed/error audit responses; minimally patched React19.2.8 passes local focused/build/real registry checks, final current-source delivery gates pending.
 
 </details>
 

@@ -9,7 +9,7 @@ For each of the 176 requirements: its assessment status, the test files its evid
 ## Read this first
 
 - **A cited test file is context, not acceptance.** The evidence map (`requirements/evidence-map.json`) lists files related to a requirement. It does not say that a test checks the requirement's acceptance criterion, and no number here is a completion percentage. All 176 BRD acceptances are pending.
-- **53 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
+- **52 of 176 requirements have no entry of their own** in the evidence map and inherit the list of their area (for example every BR-UX requirement shows the same files). For those, the counts below describe the area, not the requirement. The `evidenceEntry` column in the CSV says which is which.
 - **The map is incomplete in both directions.** 756 of 1092 test files on disk are cited by no requirement (listed below), so "no automated test cited" overstates the gap: for example the ABDM contract and integration tests exist, yet BR-INT-13, BR-INT-15, BR-INT-18 and BR-INT-19 cite none. Conversely, citing a broad suite such as `tests/api-smoke.mjs` makes a requirement look covered when that suite may check little about it.
 - **Formal execution is 0 of 364 catalogue cases.** A case counts only when its row in docs/testing/uat/uat-results.csv is a Pass or Fail executed by a named person and reviewed by a different one, with build, actual result and evidence or defect (strategy 07). Unit, integration and resilience assertions do not count. Every catalogue record still says Not run.
 - **Counts are files, not assertions**, and say nothing about whether a test passes today. Assessment audit date: 2026-09-30 (requirements/audit-meta.json); statuses are read from requirements/assessment.tsv as committed.
@@ -126,7 +126,7 @@ Read with the caveat above: the evidence map names no test file for these. Some 
 | BR-SEC-02 | partial | area list | Understandable notice and consent |
 | BR-SEC-04 | partial | own | Sensitive data and proxy handling |
 | BR-SEC-05 | partial | area list | Encryption and secrets |
-| BR-SEC-12 | partial | area list | Provider and supply-chain assurance |
+| BR-SEC-12 | partial | own | Provider and supply-chain assurance |
 | BR-SEC-13 | partial | area list | Incident response |
 | BR-SEC-14 | partial | area list | Hosting and cross-border controls |
 | NFR-14 | unverified | own | Usability and training burden |
@@ -1092,7 +1092,7 @@ Layer columns count distinct cited files. Cases: F functional, N negative or rec
 | BR-SEC-09 | partial | own | 1 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-SEC-10 | partial | own | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
 | BR-SEC-11 | partial | own | 2 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | one layer only |
-| BR-SEC-12 | partial | area | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
+| BR-SEC-12 | partial | own | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-SEC-13 | partial | area | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-SEC-14 | partial | area | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | no automated test cited |
 | BR-RULE-01 | partial | area | 1 | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | - |
