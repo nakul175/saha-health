@@ -17,3 +17,10 @@ The BRD's R1/R2/R3 phases are business scope phases. Saha's R1–R16 sequence is
 Core unresolved scope includes household/proxy authority, sensitive-data segmentation, approved clinical/programme semantics, two live programme systems, EHR/ABDM onboarding, real messaging, device/media/language durability, rights/retention, representative scale and formal pilot outcomes. Use the exact per-row remaining work to plan changes; this overview does not narrow any requirement.
 
 An acceptance decision requires the exact build/configuration, approved scenario and population, evidence including failures and exclusions, accountable reviewer and dated disposition. Technical contributors may record implemented behavior and tests; they must not invent sponsor, clinical, privacy or partner acceptance. See [release acceptance](10_Pilot-and-Release-Acceptance_v1.1.md).
+
+
+## Test-only fixture boundary — 11 October 2026
+
+See [fixture timing contract](CI-FIXTURE-TIMING-20261011.md). Isolated test setup correction from main7668a03d; no application behavior, API/data/permission or original acceptance change. All176 requirement assessments and364 formal case statuses remain unchanged. Build passes; first local run blocked by sandbox loopback EPERM, authorized synthetic rerun passes86/86 with original guard and zero quarantine. Exact-head CI, independent review and merge pending; current user story remains held. No deployment or production release claimed.
+
+Final current-driver local run:86passed/0failed/0skipped, original minimum86/zero quarantine, actual synthetic Worker+D1. Build and TypeScript pass. Task https://github.com/nakul175/saha-health/issues/196. Source/runner evidence in [current run](ci-fixture-timing-20261011/current-driver-run.json). Exact-head hosted CI, independent review and merge remain pending.

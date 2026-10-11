@@ -1,0 +1,38 @@
+Running integration --fast; 1 suite(s).
+
+[integration] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  integration/composite-authority-repair-http ...
+  FAILED   integration/composite-authority-repair-http  no count  366ms  [exit code 1]
+      | error lines:
+      |       throw new Error(`Migrating the fresh local database failed: ${String(e.stderr ?? e.message).slice(-1200)}`);
+      |   Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1
+      | file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-ci-fixture-20261011/tests/lib/migrate.mjs:23
+      |     throw new Error(`Migrating the fresh local database failed: ${String(e.stderr ?? e.message).slice(-1200)}`);
+      |           ^
+      | Error: Migrating the fresh local database failed: Error: listen EPERM: operation not permitted 127.0.0.1
+      |     at Server.setupListenHandle [as _listen2] (node:net:2145:21)
+      |     at listenInCluster (node:net:2224:12)
+      |     at node:net:2448:7
+      |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+      |   code: 'EPERM',
+      |   errno: -1,
+      |   syscall: 'listen',
+      |   address: '127.0.0.1'
+      | }
+      |     at migrateOnce (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-ci-fixture-20261011/tests/lib/migrate.mjs:23:11)
+      |     at freshDatabase (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-ci-fixture-20261011/tests/lib/worker.mjs:18:3)
+      |     at startMiniflare (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-ci-fixture-20261011/tests/lib/miniflare.mjs:36:14)
+      |     at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-ci-fixture-20261011/tests/composite-authority-repair-http.mjs:2:15
+      |     at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+      |     at async node:internal/modules/esm/loader:643:26
+      |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+      | Node.js v24.19.0
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  integration  failed       1       0       0        0  366ms
+  total        FAILED       1       0       0        0  496ms
+
+Regression guard: FAILED (1 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/composite-authority-repair-http reported no assertion count; baseline needs at least 86.
