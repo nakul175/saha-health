@@ -1,0 +1,84 @@
+{
+  "atUtc": "2026-10-11T18:54:56.354325+00:00",
+  "reviewerAgent": "/root/routine_independent_qa",
+  "authorAgent": "/root/routine_final_review",
+  "verdict": "PASS_SCOPED_ACTUAL_AVAILABILITY_11_ORIGINAL_GROUPS_AND_FINAL_DISABLE_JOURNAL",
+  "head": "914175509d52e3fd33ac3b6b1c3dcc46c02f399d",
+  "tree": "87ebe673b0f475186576c6343cc77a88168816ba",
+  "syntheticCICheckout": "0a6560c2b9f90aa43fb2a2d7ab052031713d93cf",
+  "syntheticTreeEqualsPublishedHead": true,
+  "ci": {
+    "run": 38165380186,
+    "job": 114546750127,
+    "conclusion": "success",
+    "finishedAt": "2026-10-11T18:51:01Z",
+    "artifactID": 11711454407,
+    "artifactSHA256": "ef7d9ec8fb8623b228e63b1fbc32fbb02bc69a17030428ecec41b8bb8e34ff31",
+    "jobLogSHA256": "58935a1efcc0765194582d9cf4b1ab6176ee168efcab152246e570767a8e2349"
+  },
+  "sourceReviewSHA256": "e727bd6c2b77b0ab4457b69a112bc54725ee67b1f5cce7d89af1fa59b0d0eb96",
+  "actual": {
+    "originalGroups": 11,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "originalGuardMinimum": 11,
+    "guardEvaluated": 1,
+    "wholeRunDurationMs": 13646,
+    "finalPhaseBudgetMs": 30000,
+    "journalEvents": 14,
+    "overflow": false,
+    "explicitSourceRefreshClick": 1,
+    "actualDisablePOSTRequests": 1,
+    "renderedAndSubmittedVersion": 3,
+    "filledSubmittedReasonLength": 43,
+    "reasonDigestEquality": true,
+    "refreshAvailabilityDisableStatuses": [
+      200,
+      200,
+      200
+    ],
+    "all11OriginalNamesExecuted": true,
+    "journalSHA256": "0dfd0b2c836dd487c338b92b7ba5aab6e583c5c960e0ee143022cd6446c2cd30",
+    "currentSummarySHA256": "a485131a3285ed4b3426a2dab858708ccd69f1a60541078409b30008d71f8d8d"
+  },
+  "historicalRestoredArtifactsExcluded": [
+    {
+      "path": "evidence/availability/http-browser.json",
+      "sha256": "842318b35642209d22b6f209c40d2c19e55695bb14075763718b2d1edc357e0e",
+      "disposition": "Runner restores tracked fixture evidence before upload; excluded from fresh current execution/visual/count qualification."
+    },
+    {
+      "path": "evidence/availability/validation.json",
+      "sha256": "bdebb225759c08ba4965fd4c7db523e5a5cd9bcefd5782fcce21992d8da08cc3",
+      "disposition": "Runner restores tracked fixture evidence before upload; excluded from fresh current execution/visual/count qualification."
+    },
+    {
+      "path": "evidence/availability/unit-regression.json",
+      "sha256": "2200ea405c2d45bf26f7d464ce2dfd76f563c080a071d5dbec5c1595ef545f83",
+      "disposition": "Runner restores tracked fixture evidence before upload; excluded from fresh current execution/visual/count qualification."
+    },
+    {
+      "path": "evidence/availability/contract.json",
+      "sha256": "7ab78f74f984ee0bc582c263e7531d69916d45f5c89a88f7d6673580ce043590",
+      "disposition": "Runner restores tracked fixture evidence before upload; excluded from fresh current execution/visual/count qualification."
+    },
+    {
+      "path": "evidence/availability/manifest.json",
+      "sha256": "9f4912c22f11509dec97a006cf5a52f7f11db40ce1e956be1460589bcc559d8b",
+      "disposition": "Runner restores tracked fixture evidence before upload; excluded from fresh current execution/visual/count qualification."
+    },
+    {
+      "path": "evidence/availability/availability-owner.png",
+      "sha256": "a015f3d9b4b7095c8709686050ed0fe69aa8b959901295ee70e17d11b1cf1bd3",
+      "disposition": "Runner restores tracked fixture evidence before upload; excluded from fresh current execution/visual/count qualification."
+    }
+  ],
+  "limits": [
+    "Original historical failure retains unknown stale-version cause; this fresh run proves successful current fixture execution, not retrospective cause.",
+    "No literal entire-phase singleGET claim; application automatically refreshes after command; one explicit tested Refresh and one actual disablePOST.",
+    "Original setup/direct report/legacy lifecycle remain outside newly bounded final phase; no wider cancellation/timeout promise.",
+    "Actual broad regression and whole6engineering jobs still pending; no wholeCI/A9/story/merge/live/human/domain/formal/physical acceptance."
+  ]
+}

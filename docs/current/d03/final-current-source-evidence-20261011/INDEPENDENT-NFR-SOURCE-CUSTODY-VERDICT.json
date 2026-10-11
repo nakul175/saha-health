@@ -1,0 +1,109 @@
+{
+  "reviewerAgent": "/root/routine_final_review",
+  "authorAgent": "/root/routine_independent_qa",
+  "authority": "Human explicit parallel-agent coding authority, separate from author; root assigned read-only current NFR source/evidence review.",
+  "reviewedAtUtc": "2026-10-11T18:59:29.079514+00:00",
+  "verdict": "PASS_SCOPED_SOURCE_INVARIANTS_AND_INTERIM_INPUT_CUSTODY_ONLY",
+  "fullMeasurementVerdict": "PENDING_ACTUAL_COMPLETED_RESULT_RAW_RECORDS_AND_FINAL_CUSTODY",
+  "measurementPassClaim": false,
+  "acceptanceReadinessMergeDeploymentClaim": false,
+  "sourceCommit": "04f00953347ff2733ba6a83235c06688d9b2f0f5",
+  "sourceTree": "eb9241108581463277963c88afe380806f450e26",
+  "currentCandidate": "914175509d52e3fd33ac3b6b1c3dcc46c02f399d",
+  "driver": {
+    "path": "work/saha-retention-final-nfr-20261011/tests/reports/retention-final-nfr/native-cache-flush-readback-v3.mjs",
+    "sha256": "d7d59dbb2fe2221c22c7d2d49ca0e2b978cc6b8033abd467ae35508dcdd374e7"
+  },
+  "observer": {
+    "path": "work/saha-retention-final-nfr-20261011/tests/reports/retention-final-nfr/d03-ui-observer.mjs",
+    "sha256": "a72fc6254fd12ae84f23b1fabf9ae3ab6cf462dd344234c9d0e8ac5656c3b20a"
+  },
+  "actualINPUT-PINS_SHA256": "25cfab80387a3f77c1aacafb48cbc38df414ab7e60a798ba87e1a814b0d4247e",
+  "independentInterimReadback": {
+    "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/nfr-source-independent-review/INTERIM-SOURCE-CUSTODY-READBACK.json",
+    "sha256": "a258c5c6913ff70007930ce5a3079b0a843a4f850b2777140bb3b8b555e2f743",
+    "all3138LengthAndHashRecordsMatch": true,
+    "all281CompiledDistIncludedInSourceRecords": true,
+    "568ProductionRootInputsByteEqualToPublished914": true,
+    "candidateRawCompiledIdentityClaim": false
+  },
+  "administrativeOnlyDriverAdaptation": {
+    "historicalDonorSHA256": "bef00930950c9aa82c4253967e9f8e98b70056bb499521dfe423576e7c8fd7ff",
+    "exactDonorToCurrentReplacements": [
+      {
+        "before": "2026-10-11T18:59:35Z",
+        "after": "2026-10-11T22:49:55Z"
+      },
+      {
+        "before": "current10hour window ended18:59:35UTC",
+        "after": "current8hour window ended22:49:55UTC"
+      }
+    ],
+    "allOtherDriverBytesEqual": true,
+    "actualDeadline": "2026-10-11T22:49:55.000Z"
+  },
+  "sourceChecklist": [
+    {
+      "criterion": "Original fixed attempts, numerical targets, profiles and mode",
+      "lines": "driver24-26,46-49,80-82",
+      "review": "PASS source. INPUT all/both/1000, four device and six connected primary lanes; two additional whole-journey lanes. Warm saves500ms p95, cached presentations every entry2000ms, connected screens3000ms p95. Composite has no newly assigned3s target."
+    },
+    {
+      "criterion": "Authoritative synthetic actor/org/person/visit and actual backend body",
+      "lines": "driver105-135,235-261",
+      "review": "PASS source. Fixture/native existing trusted provider current ASHA, scope and signed grant verified. Each successful connected body must200/no-store, exact org/header/person/visit/current version/facts plus usable DOM; no public identity substitution or patient database."
+    },
+    {
+      "criterion": "Native browser cache and real degraded connection faults",
+      "lines": "driver92-102,263-304",
+      "review": "PASS source. Transparent own-origin proxy preserves returned native status/body/headers; foreign origin and CONNECT refused before forwarding. Native CDP cache enabled; authority API cache hits refused. Degraded every97th actual API connection destroyed, each fault written before destruction; no success response substitution."
+    },
+    {
+      "criterion": "Trusted warm action, actual commit/ack/readback and evidence durability",
+      "lines": "observer5-35,45-53,84-132,151-156; driver147-234",
+      "review": "PASS source. Instrumentation invokes unchanged native IndexedDB methods; fresh revision/put after trusted event, commit then new saved acknowledgement, exact usable DOM and frame endpoints. Exact crypto/signature/current grant/owner/hash/new notes/durable presentation ID readback is outside interval and required. PBKDF2 setup explicitly outside warm500ms. Native-method restoration tested."
+    },
+    {
+      "criterion": "Real bounded cohort flush and cold-start intervals",
+      "lines": "driver195-234,382",
+      "review": "PASS source. Five real200-presentation cohorts per cached path; original60000ms outside-timing queue flush with actual encrypted empty queue and exact server accepted IDs/status. Connected native Worker restart after200/400/600/800 preserves original cold tails and durable localD1; no warm-start relabeling."
+    },
+    {
+      "criterion": "Failure retention, fixed attempt identities and percentile/error policy",
+      "lines": "driver317-382,391-445",
+      "review": "PASS source. Timed failures and setup non-entry retained, no replacement success observations. Outside-phase read-only setup recoveries separately retained. Nearest-rank p95/p99 computed separately for successes and all finite actual stop/failure intervals; incomplete/missing/error findings fail. Cached every-completed-entry2s failure preserved. Conservative unexplained-error budget0 is disclosed as local-control policy, not formal BRD policy."
+    },
+    {
+      "criterion": "Source, compiled inputs, selected clinical state and final cleanup disposition",
+      "lines": "driver69-82,450-486",
+      "review": "PASS source scope. Final map checks every initial path unchanged and actual selected server clinical facts/version, page errors/proxy external observations. Dispose attempts and Worker port-free observation required for process exit0. Actual completed witnesses/final runtime cleanup not yet available; limitations below remain explicit."
+    }
+  ],
+  "findings": [],
+  "preciseLimits": [
+    "Run is still active and RESULT/FINAL-SOURCE-PINS/ORIGIN-PROXY-OBSERVATIONS are absent at readback. Source-only PASS is not measurement success, original delivery gate A9, release, merge or deployment.",
+    "Desktop Chromium390x844 and CDP declared throughput/latency are surrogate controls; sequential one-browser run does not qualify Android hardware, physical durability, accessibility,100users/100000people/50rps30min capacity, clinical/domain or formalUAT0/364.",
+    "Driver records Node version but does not itself call browser.version() or record actual launched Chromium executable/version. RUN-PLAN cachedChromium1194/Playwright1.56.1 is a preparation declaration; actual runtime provenance requires separately observed custody, not inference.",
+    "Source pin traversal excludes node_modules/.git/.wrangler/reports/evidence. Driver and observer hashes are separately bound in plan and final origin receipt; installed dependency/runtime custody remains separate. Candidate914 compiled bytes cannot be inferred equal from unchanged568 production inputs.",
+    "Driver explicitly verifies selected visit server facts/version unchanged, not whole clinical/receipt/audit tables. Separate nine-case native retention custody can support its own broader scope only; do not promote the NFR check to whole-ledger preservation.",
+    "Proxy foreign-origin refusal proves the monitored browser path, not a global server network interceptor. Selected actions are synthetic manual/read/offline-presentation paths; do not claim unseen provider activity was instrumented.",
+    "Finally catches browser/Worker disposal exceptions and records stop attempted; native Worker port21293 must be observed free for exit0, but this alone does not certify all child PIDs gone or proxy21292 free. Root final owned-group/port custody is separate and must be examined when available.",
+    "Original driver backend setup/body consumption and legacy Worker helper remain outside the newly reviewed bounded retention harness; no generic all-stage starvation/startup bound is claimed.",
+    "SuccessfulSamplesAtLeast1000 is a separate result field. Fixed1000 attempts do not imply1000 successful completions when declared transport errors exist; final raw identities/outcomes must be counted independently."
+  ],
+  "reviewHistory": [
+    {
+      "event": "Reviewer initially selected older donor file when checking deadline",
+      "selectedSHA256": "bef00930950c9aa82c4253967e9f8e98b70056bb499521dfe423576e7c8fd7ff",
+      "warning": "Old donor18:59 deadline warning was inapplicable to current running clone.",
+      "correction": "Immediately inspected exact current d7d59 driver and actual INPUT25cf; deadline22:49 already correct, two administrative substitutions only. Parent independently confirmed and no stop/edit/action taken. Retained as reviewer method error, not a runtime/source defect."
+    }
+  ],
+  "completedEvidenceReviewRequired": [
+    "All ten primary and two composite lanes exact unique IDs0..999 with raw outcomes/elapsed values; independent ceil-rank distributions and original target/error findings",
+    "Five real cohort custody/flushes, eight outside-timing native restarts, every97th retained fault and actual no-store/API cache metadata",
+    "Final exact input/compiled/driver/observer hashes, current synthetic fixture/selected server facts/version, no page errors/proxy foreign network observations",
+    "Actual terminal exit/result disposition and independently observed owned PID/group/Worker+proxy port cleanup; retain mixed supported Nodebuild/runtime identities and actual browser provenance limits",
+    "Final914 exact-source wholeCI and its compiled/security/install inputs reviewed separately; no source-HEAD-only applicability assertion"
+  ]
+}

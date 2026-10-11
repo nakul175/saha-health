@@ -1,0 +1,1991 @@
+{
+  "schema": "independent-current-CI-evidence-readback-v1",
+  "recordedAt": "2026-10-11T19:16:26.543844+00:00",
+  "reviewerAgent": "/root/routine_independent_qa",
+  "verdict": "PASS_SCOPED_COMPLETED_CHECKS_ARTIFACT__WHOLE_CI_NFR_AND_A10_HELD",
+  "pullRequest": 202,
+  "head": "914175509d52e3fd33ac3b6b1c3dcc46c02f399d",
+  "publishedTree": "87ebe673b0f475186576c6343cc77a88168816ba",
+  "actualCICheckout": "0a6560c2b9f90aa43fb2a2d7ab052031713d93cf",
+  "actualCICheckoutTreeEqualsPublishedTree": true,
+  "run": 38165380186,
+  "job": 114546750159,
+  "jobConclusion": "success",
+  "artifact": {
+    "id": 11712078003,
+    "name": "engineering-evidence",
+    "zip": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/ACTUAL-engineering-11712078003.zip",
+    "sha256": "c98cd9bd6c3710c2499a6bcef9c56856e299e85baf88cd2b4a4e3041bd35b619",
+    "bytes": 28441412,
+    "safeFileMembers": 524,
+    "uncompressedBytes": 179181924,
+    "memberHashes": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/ACTUAL-engineering-MEMBER-HASHES.json"
+  },
+  "summaries": {
+    "tests/reports/summary-unit.json": {
+      "totals": {
+        "suites": 211,
+        "passed": 11480,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 742702
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 211,
+        "newSuites": []
+      },
+      "completedAt": "2026-10-11T19:11:55.536Z",
+      "perSuite": [
+        {
+          "id": "unit/access-audit-excess-metadata-contract",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/access-membership-contract",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/access-scope-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/aggregate-checkpoint-population-contract",
+          "status": "passed",
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/aggregate-delivery-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/sixth-review-fixes-contract",
+          "status": "passed",
+          "passed": 42,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/anaemia-provider-contract",
+          "status": "passed",
+          "passed": 58,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/anaemia-worker-transport",
+          "status": "passed",
+          "passed": 7,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/android-app-contract",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/app-first-ui",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/app-history-contract",
+          "status": "passed",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/app-offline-contract",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/app-offline-scope-contract",
+          "status": "passed",
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/app-sw-review-contract",
+          "status": "passed",
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/atomic-abha-review-contract",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/audit-access-contention-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/audit-checkpoint-contract",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/audit-contention-contract",
+          "status": "passed",
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/audit-query-plan-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/availability-contract",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/bundle-audit-coverage-contract",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/bundle-provenance-contract",
+          "status": "passed",
+          "passed": 50,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/clinical-source-contract",
+          "status": "passed",
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/clinical-source-dependency-contract",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/clinical-source-fetch-contract",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/cloudflare-staging-contract",
+          "status": "passed",
+          "passed": 39,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/data-exit-contract",
+          "status": "passed",
+          "passed": 44,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/combined-reviewed-alert-export-cold-integration-media-data-exit-contract",
+          "status": "passed",
+          "passed": 44,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/combined-reviewed-simplicity-independent-guided-instructions-contract",
+          "status": "passed",
+          "passed": 28,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/combined-reviewed-transition-parity-cold-repair-contract",
+          "status": "passed",
+          "passed": 49,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/command-authority-contract",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/composite-measures-contract",
+          "status": "passed",
+          "passed": 57,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/contact-import-contract",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/destination-enrolment-contract",
+          "status": "passed",
+          "passed": 45,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/device-work-contract",
+          "status": "passed",
+          "passed": 46,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/ehr-probe-contract",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/eighth-review-fixes-contract",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-capacity-client",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-client",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-media-capacity-client",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-media-client",
+          "status": "passed",
+          "passed": 117,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-provenance-client",
+          "status": "passed",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-recording-client",
+          "status": "passed",
+          "passed": 28,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-shell",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-storage-client",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-units-client",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fifth-review-fixes-contract",
+          "status": "passed",
+          "passed": 33,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/figure-impact-contract",
+          "status": "passed",
+          "passed": 37,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fourth-review-fixes-contract",
+          "status": "passed",
+          "passed": 32,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/frontline-provider-contract",
+          "status": "passed",
+          "passed": 109,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/household-completion-contract",
+          "status": "passed",
+          "passed": 42,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/i18n-contract",
+          "status": "passed",
+          "passed": 4318,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/identity-contract",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/import-unit-parity-contract",
+          "status": "passed",
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/imported-evidence-contract",
+          "status": "passed",
+          "passed": 26,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/indicator-figure-material-contract",
+          "status": "passed",
+          "passed": 86,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/indicator-household-counting-contract",
+          "status": "passed",
+          "passed": 35,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/installed-programme-execution-contract",
+          "status": "passed",
+          "passed": 40,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/reporting-completeness-contract",
+          "status": "passed",
+          "passed": 51,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/mapping-conformance-contract",
+          "status": "passed",
+          "passed": 50,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/mapping-lifecycle-contract",
+          "status": "passed",
+          "passed": 23,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/mapping-lifecycle-review-contract",
+          "status": "passed",
+          "passed": 23,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/ninth-review-fixes-contract",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/object-media-contract",
+          "status": "passed",
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/object-media-independent-discard-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/offline-open-retirement-writer-contract",
+          "status": "passed",
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/offline-open-unsent-pruning-contract",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/offline-opens-contract",
+          "status": "passed",
+          "passed": 64,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/offline-programme-contract",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/operational-privacy-contract",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/operational-privacy-extra-contract",
+          "status": "passed",
+          "passed": 49,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/operations-bound-contract",
+          "status": "passed",
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/operations-pre-alert-recovery-contract",
+          "status": "passed",
+          "passed": 60,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/photo-contract",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/process-memory-contract",
+          "status": "passed",
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/programme-raw-key-contract",
+          "status": "passed",
+          "passed": 94,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-agent-decoded-contract",
+          "status": "passed",
+          "passed": 39,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-agent-envelope-contract",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-frontline-decoded-contract",
+          "status": "passed",
+          "passed": 29,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-frontline-envelope-contract",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-image-envelope-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-specialised-envelope-contract",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/range-protocol-contract",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/registration-device-contract",
+          "status": "passed",
+          "passed": 31,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/reminder-optout-contract",
+          "status": "passed",
+          "passed": 39,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/report-edition-recovery-contract",
+          "status": "passed",
+          "passed": 47,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/report-source-refusal-contract",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/abdm-contract",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/abdm-transfer-contract",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/access-audit-contract",
+          "status": "passed",
+          "passed": 35,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/action-plan-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/adapter-operations-contract",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/agent-contract",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/agent-minimisation-contract",
+          "status": "passed",
+          "passed": 38,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/agent-quality-contract",
+          "status": "passed",
+          "passed": 50,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/ai-budget-contract",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/ai-invoice-contract",
+          "status": "passed",
+          "passed": 54,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/alert-delivery-contract",
+          "status": "passed",
+          "passed": 23,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/alerts-contract",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/audit-chain-contract",
+          "status": "passed",
+          "passed": 48,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/capability-lifecycle-contract",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/caseload-contract",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/caseload-schedule-contract",
+          "status": "passed",
+          "passed": 33,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/consent-contract",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/continuity-contract",
+          "status": "passed",
+          "passed": 29,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/correction-tasks-contract",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/crosswalk-correction-contract",
+          "status": "passed",
+          "passed": 48,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/delegation-contract",
+          "status": "passed",
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/demonstration-contract",
+          "status": "passed",
+          "passed": 52,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/drift-contract",
+          "status": "passed",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/ehr-contract",
+          "status": "passed",
+          "passed": 48,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/ehr-execution",
+          "status": "passed",
+          "passed": 33,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/ehr-resolution-contract",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/environment-contract",
+          "status": "passed",
+          "passed": 26,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/exceptional-contract",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/exceptions-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/facility-scope-contract",
+          "status": "passed",
+          "passed": 38,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fact-provenance-contract",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fact-reuse-contract",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fact-verification-contract",
+          "status": "passed",
+          "passed": 37,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fhir-provenance-contract",
+          "status": "passed",
+          "passed": 51,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fhir-validate-contract",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-contract",
+          "status": "passed",
+          "passed": 38,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/field-registration-client",
+          "status": "passed",
+          "passed": 69,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/fixture-migration-contract",
+          "status": "passed",
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/governance-contract",
+          "status": "passed",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/household-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/household-reschedule-contract",
+          "status": "passed",
+          "passed": 35,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/household-visit-contract",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/identifier-crosswalk-contract",
+          "status": "passed",
+          "passed": 84,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/inbound-conflicts-contract",
+          "status": "passed",
+          "passed": 85,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/inbound-retrieval-contract",
+          "status": "passed",
+          "passed": 115,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/incentive-claims-contract",
+          "status": "passed",
+          "passed": 35,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/indicator-freshness-contract",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/indicator-governance-contract",
+          "status": "passed",
+          "passed": 42,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/indicator-registry-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/indicators-contract",
+          "status": "passed",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/main-review-fixes-contract",
+          "status": "passed",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/media-contract",
+          "status": "passed",
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/merge-contract",
+          "status": "passed",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/mis-contract",
+          "status": "passed",
+          "passed": 45,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/mis-delivery",
+          "status": "passed",
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/note-answer-signoff-contract",
+          "status": "passed",
+          "passed": 58,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/notification-channel-contract",
+          "status": "passed",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/notification-sources-contract",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/operations-contract",
+          "status": "passed",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/outreach-contract",
+          "status": "passed",
+          "passed": 55,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/pack-installation-contract",
+          "status": "passed",
+          "passed": 52,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/patient-directory-contract",
+          "status": "passed",
+          "passed": 56,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/patient-import-contract",
+          "status": "passed",
+          "passed": 38,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/pilot-contract",
+          "status": "passed",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/plan-dependencies-contract",
+          "status": "passed",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/programme-migration-contract",
+          "status": "passed",
+          "passed": 32,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-ehr-envelope-contract",
+          "status": "passed",
+          "passed": 50,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-ehr-execution-review",
+          "status": "passed",
+          "passed": 47,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-ehr-headers-contract",
+          "status": "passed",
+          "passed": 92,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-ehr-headers-independent-contract",
+          "status": "passed",
+          "passed": 81,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-history-contract",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-mis-envelope-contract",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-mis-execution-review",
+          "status": "passed",
+          "passed": 45,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/provider-sandbox-contract",
+          "status": "passed",
+          "passed": 75,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/purpose-scope-contract",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/r26-correction-propagation-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/read-audit-completion-contract",
+          "status": "passed",
+          "passed": 52,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/reason-codes-contract",
+          "status": "passed",
+          "passed": 61,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/reassignment-contract",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/record-import-contract",
+          "status": "passed",
+          "passed": 49,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/referral-contract",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/referral-request-queue-contract",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/replay-soak-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/report-export-contract",
+          "status": "passed",
+          "passed": 7,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/request-body-transport-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/retention-contract",
+          "status": "passed",
+          "passed": 11,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/reuse-contract",
+          "status": "passed",
+          "passed": 7,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/review-fixes-contract",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/rights-contract",
+          "status": "passed",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/roster-contract",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/scoped-read-contract",
+          "status": "passed",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/send-gate-contract",
+          "status": "passed",
+          "passed": 29,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/service-identity-contract",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/shadow-contract",
+          "status": "passed",
+          "passed": 55,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/storage-contract",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/task-limits-contract",
+          "status": "passed",
+          "passed": 39,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/tenth-review-fixes-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/trace-contract",
+          "status": "passed",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/value-override-agent-contract",
+          "status": "passed",
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/value-override-contract",
+          "status": "passed",
+          "passed": 53,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/value-ranges-context-contract",
+          "status": "passed",
+          "passed": 26,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/visit-import-contract",
+          "status": "passed",
+          "passed": 54,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/worker-activity-contract",
+          "status": "passed",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/workforce-import-contract",
+          "status": "passed",
+          "passed": 68,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/worklists-contract",
+          "status": "passed",
+          "passed": 111,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/verification-dispute-contract",
+          "status": "passed",
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/routine-read-guard-contract",
+          "status": "passed",
+          "passed": 34,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/safe-logs-contract",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/scheduled-job-contract",
+          "status": "passed",
+          "passed": 37,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/security-audit-response-contract",
+          "status": "passed",
+          "passed": 499,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/service-dispatch-contract",
+          "status": "passed",
+          "passed": 100,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/seventh-review-fixes-contract",
+          "status": "passed",
+          "passed": 30,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/shadow-recompute-contract",
+          "status": "passed",
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/speech-contract",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/sync-receipt-projection",
+          "status": "passed",
+          "passed": 89,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/test-runner-contract",
+          "status": "passed",
+          "passed": 28,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/work-burden-contract",
+          "status": "passed",
+          "passed": 19,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/work-burden-field-capture-contract",
+          "status": "passed",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/work-burden-field-contract",
+          "status": "passed",
+          "passed": 20,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/work-burden-field-writer-contract",
+          "status": "passed",
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/work-burden-ledger-contract",
+          "status": "passed",
+          "passed": 14,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/work-burden-policy-checkpoint",
+          "status": "passed",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/work-burden-session-migration-contract",
+          "status": "passed",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "unit/workspace-metadata-contract",
+          "status": "passed",
+          "passed": 147,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        }
+      ]
+    },
+    "tests/reports/summary-integration+smoke-only.json": {
+      "totals": {
+        "suites": 5,
+        "passed": 702,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 86287
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 5,
+        "newSuites": []
+      },
+      "completedAt": "2026-10-11T18:54:15.003Z",
+      "perSuite": [
+        {
+          "id": "integration/routine-attempt-browser",
+          "status": "passed",
+          "passed": 97,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "integration/routine-authority-http",
+          "status": "passed",
+          "passed": 245,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "integration/routine-organisation-http",
+          "status": "passed",
+          "passed": 52,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "integration/routine-telemetry-retention-http",
+          "status": "passed",
+          "passed": 64,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "smoke/routine-visit-browser",
+          "status": "passed",
+          "passed": 244,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        }
+      ]
+    },
+    "tests/reports/summary-smoke-only.json": {
+      "totals": {
+        "suites": 1,
+        "passed": 58,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 13379
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "completedAt": "2026-10-11T18:52:48.127Z",
+      "perSuite": [
+        {
+          "id": "smoke/today-browser",
+          "status": "passed",
+          "passed": 58,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        }
+      ]
+    },
+    "tests/reports/summary-integration+resilience-only.json": {
+      "totals": {
+        "suites": 2,
+        "passed": 5041,
+        "failed": 0,
+        "skipped": 0,
+        "failedSuites": 0,
+        "durationMs": 310255
+      },
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 2,
+        "newSuites": []
+      },
+      "completedAt": "2026-10-11T18:59:32.668Z",
+      "perSuite": [
+        {
+          "id": "integration/run-api-smoke",
+          "status": "passed",
+          "passed": 5020,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        },
+        {
+          "id": "resilience/recovery-drill",
+          "status": "passed",
+          "passed": 21,
+          "failed": 0,
+          "skipped": 0,
+          "exitCode": 0
+        }
+      ]
+    }
+  },
+  "rawNamedCheckReconciliation": [
+    {
+      "file": "tests/reports/d03-native/result.json",
+      "namedChecks": 244,
+      "failed": 0,
+      "limits": "Synthetic built local backend and simulated viewports only. 1000 warm local component timings measure seal/revisioned commit/read/unseal after key derivation and payload cloning; they are the existing encrypted field-vault path, not a durable local-save feature of the connected screen or BRD reference-device/network acceptance. Not physical-device, clinical or formal UAT. A10 not executed."
+    },
+    {
+      "file": "tests/reports/routine-authority-http-result.json",
+      "namedChecks": 245,
+      "failed": 0,
+      "limits": [
+        "Synthetic built local Worker/D1 HTTP with native timing faults only.",
+        "No full NFR/device/UAT/hosted/provider acceptance. Shared inherited helper boundary outside these routes remains unqualified."
+      ]
+    },
+    {
+      "file": "tests/reports/routine-organisation-http-result.json",
+      "namedChecks": 52,
+      "failed": 0,
+      "limits": [
+        "Built local Worker/native D1 with two synthetic organisations and native audit interposition only.",
+        "No global ACL, full NFR, physical device, clinical/UAT, hosted/provider acceptance."
+      ]
+    },
+    {
+      "file": "tests/reports/routine-attempt-browser-result.json",
+      "namedChecks": 97,
+      "failed": 0,
+      "limits": [
+        "Actual local built Worker/native D1 and Chromium with synthetic principals.",
+        "Native audit faults and declared browser-wire header/network faults only; no global ACL, full NFR, physical-device, clinical/UAT or hosted acceptance.",
+        "Recovery retained only in the mounted page; no durable device recovery claim."
+      ]
+    },
+    {
+      "file": "tests/reports/today/result.json",
+      "namedChecks": 58,
+      "failed": 0,
+      "limits": "Synthetic local Worker/D1 + desktop Chromium. No hosted, physical-phone, clinical or human acceptance."
+    }
+  ],
+  "warmVaultComponentTiming": {
+    "sampleCount": 1000,
+    "nearestRankP95Ms": 5.100000000034925,
+    "reportedP95Ms": 5.100000000034925,
+    "simulatedLayoutObservations": 56,
+    "limits": "Synthetic built local backend and simulated viewports only. 1000 warm local component timings measure seal/revisioned commit/read/unseal after key derivation and payload cloning; they are the existing encrypted field-vault path, not a durable local-save feature of the connected screen or BRD reference-device/network acceptance. Not physical-device, clinical or formal UAT. A10 not executed."
+  },
+  "securityEvidence": {
+    "passed": true,
+    "components": 247,
+    "auditedLockComponents": 837,
+    "runtimeChunks": 179,
+    "runtimePackageIdentities": 57,
+    "ReactDomRSCVersion": "19.2.8",
+    "registrySeverityCounts": {
+      "info": 0,
+      "low": 8,
+      "moderate": 23,
+      "high": 29,
+      "critical": 0
+    },
+    "blockingAdvisories": 0,
+    "acceptedAdvisories": 52,
+    "fingerprintAndEvidenceHashIndependentlyReconciled": true,
+    "limits": "Archive contains gate/provenance evidence and SBOM, not all emitted chunk bytes or external compiler receipts; underlying producer/classifier source has separate genuine independent review. No claim raw complete CI/local build byte identity."
+  },
+  "evidence": {
+    "tests/reports/summary-unit.json": {
+      "sha256": "8b4498941ef1cad7d15505deffd30b2a332b986e0b50c0baf9a86c27a9793394",
+      "bytes": 127970
+    },
+    "tests/reports/summary-integration+smoke-only.json": {
+      "sha256": "49734887b3223616504022ddf77c7b8b5d776cc701b11f878839e8b77089d184",
+      "bytes": 5520
+    },
+    "tests/reports/summary-smoke-only.json": {
+      "sha256": "2b3d98629af2d72a3b3e38f66ea98e32fd6de7aed69ef571f1bb711d8af83a07",
+      "bytes": 2666
+    },
+    "tests/reports/summary-integration+resilience-only.json": {
+      "sha256": "8896133a52ab6c6f723d9903a4bda225c880ff828477077272284280e5674e90",
+      "bytes": 3701
+    },
+    "tests/reports/d03-native/result.json": {
+      "sha256": "e7d5c9f41103129db40845f8f69e37b1ac3b5817ca3ca0cf61a42bd1f6b3d9c2",
+      "bytes": 184281
+    },
+    "tests/reports/routine-authority-http-result.json": {
+      "sha256": "b906d9c2cd40bf7c7f03fc0eeeb4d4a52f802056ed87a4d24fa0a58a829c59fb",
+      "bytes": 86019
+    },
+    "tests/reports/routine-organisation-http-result.json": {
+      "sha256": "ab30af83da5fb452104dd64ea617a601908eef950adb5f1a5af6416f57bbb655",
+      "bytes": 14612
+    },
+    "tests/reports/routine-attempt-browser-result.json": {
+      "sha256": "c8d0eeed1980ecf290080803ac69cdf453c529168448b24f6bb721dd0f24f057",
+      "bytes": 31268
+    },
+    "tests/reports/today/result.json": {
+      "sha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a",
+      "bytes": 2517
+    },
+    "dist/security-gate.json": {
+      "sha256": "b3197c116e0b89ab40de9456487a459a3d3f757a22d56101ba4cf250ba8f43e8",
+      "bytes": 27728
+    },
+    "dist/bundle-provenance-evidence.json": {
+      "sha256": "4d5fb4d37bde31785d364a6181c874f6a796a87795a00fe077dc5d14b4930e16",
+      "bytes": 72994
+    }
+  },
+  "selfAuthoredRetentionHarness": {
+    "actualSummaryReadbackPassed": 64,
+    "scenarios": 9,
+    "independentPredicateAcceptance": "Requires separate reviewer; this reviewer authored its harness and does not self-approve predicates",
+    "priorSeparateReviewer": "/root/routine_final_review"
+  },
+  "excludedHistoricalEvidence": [
+    "tests/latest-result.json (902, September27)",
+    "tests/recovery-result.json (21, September27)",
+    "Tracked historical availability/browser files restored by runner"
+  ],
+  "holds": [
+    "Whole current-source regression job still pending at last snapshot",
+    "Original immutable04 full NFR requires terminal raw results and before/after custody/cleanup plus independent applicability",
+    "A10 merge, observed hosting SHA and live synthetic journey remain separate",
+    "No physical/reference-device, clinical, formal UAT, domain or human acceptance"
+  ],
+  "sourceOrCriteriaEdits": false,
+  "newRuntimeExecutionByReviewer": false
+}

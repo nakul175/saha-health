@@ -1,0 +1,743 @@
+{
+  "schema": "independent-current-story-task-and-gate-eligibility-v1",
+  "reviewedAtUtc": "2026-10-11T20:03:59.659993+00:00",
+  "reviewerAgent": "/root/routine_independent_qa",
+  "authority": "Human explicitly authorized parallel agents; root delegated genuine independent current-story source/evidence/task eligibility assessment. No cloud status, code or acceptance register is changed by this report.",
+  "verdict": "PASS_CURRENT914_BOUNDED_TECHNICAL_OUTPUTS_AND_LOCAL_A9_EVIDENCE__A10_NOT_SATISFIED",
+  "candidate": {
+    "pullRequest": 202,
+    "head": "914175509d52e3fd33ac3b6b1c3dcc46c02f399d",
+    "tree": "87ebe673b0f475186576c6343cc77a88168816ba",
+    "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+    "completeMainDiffPaths": 286,
+    "spec": "docs/current/d03/SPECIFICATION.md",
+    "specSHA256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+    "specRevision": 1,
+    "story": "ASHA reviews and saves an assigned existing person routine visit"
+  },
+  "independence": {
+    "productionAuthor": "root/previous inspected author; this reviewer did not edit current production source",
+    "availabilityAuthor": "/root/routine_final_review; current source/actual execution independently reviewed here",
+    "NFRAndRetentionHarnessAuthor": "/root/routine_independent_qa; no self-approval of these harness predicates or execution; genuine separate Rf0 and44ed required and verified",
+    "independentAgentReviewIsHumanDomainOrGitHubApproval": false
+  },
+  "tasks": [
+    {
+      "id": "APL-818",
+      "title": "[D03-T01] Bounded current-identity API and exact-person audited commands",
+      "observedNativeStatus": "In Progress",
+      "observedNativeUpdatedAt": "2026-10-11T01:22:51.540Z",
+      "recommendation": "ELIGIBLE_FOR_TECHNICAL_DONE_AT_CURRENT914_BOUNDED_SYNTHETIC_ENGINEERING_SCOPE",
+      "scope": "The named source-pinned API/command or UI-flow reviewable output, not a delivered canonical product story. Required frozen parent criteria are not weakened. Root must publish actual evidence prefix and perform native status mutation if it accepts this recommendation.",
+      "criterionCoverage": [
+        "A2",
+        "A3",
+        "A4",
+        "A5"
+      ],
+      "requiredOutputAssessment": [
+        {
+          "outcome": "Selected person/visit, source/time/entered-canonical units, trusted author and real programme readback",
+          "criteria": [
+            "A2"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/15",
+              "label": "A2 canonical and entered unit preserved"
+            },
+            {
+              "pointer": "#/checks/16",
+              "label": "A2 trusted author and observation time"
+            },
+            {
+              "pointer": "#/checks/23",
+              "label": "A2 real Today to exact existing person"
+            },
+            {
+              "pointer": "#/checks/33",
+              "label": "A2 UI correction actually read back as server draft with explicit canonical unit"
+            },
+            {
+              "pointer": "#/checks/219",
+              "label": "A2 real UI programme evidence and trusted author readback"
+            }
+          ]
+        },
+        {
+          "outcome": "Stale version, wrong checked person and immutable confirmed visit refuse without authoritative clinical mutation",
+          "criteria": [
+            "A3"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/19",
+              "label": "A3 stale version changes nothing"
+            },
+            {
+              "pointer": "#/checks/20",
+              "label": "A3 wrong checked person changes nothing"
+            },
+            {
+              "pointer": "#/checks/228",
+              "label": "A3 refused stale retry leaves the competing authoritative save unchanged"
+            },
+            {
+              "pointer": "#/checks/236",
+              "label": "A3 normal existing confirmation succeeds"
+            },
+            {
+              "pointer": "#/checks/237",
+              "label": "A3 confirmed record immutable"
+            }
+          ]
+        },
+        {
+          "outcome": "Existing four commands only; operation-key/content replay and original uncertain attempt remain bound to actor, organisation, person, visit and authoritative version",
+          "criteria": [
+            "A4"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/8",
+              "label": "A4 start replay does not duplicate"
+            },
+            {
+              "pointer": "#/checks/9",
+              "label": "A4 explicit start resolves existing draft"
+            },
+            {
+              "pointer": "#/checks/17",
+              "label": "A4 saved operation replay retains exact revision"
+            },
+            {
+              "pointer": "#/checks/18",
+              "label": "A4 same key changed content refused"
+            },
+            {
+              "pointer": "#/checks/25",
+              "label": "A4 original POST aborted before commit leaves authoritative version unchanged"
+            },
+            {
+              "pointer": "#/checks/28",
+              "label": "A4 uncommitted uncertain attempt reconciles exact original key and payload"
+            },
+            {
+              "pointer": "#/checks/29",
+              "label": "A4 before-commit reconciliation writes once to the exact selected organisation/person"
+            },
+            {
+              "pointer": "#/checks/32",
+              "label": "A4 lost committed acknowledgement uses original exact key"
+            },
+            {
+              "pointer": "#/checks/34",
+              "label": "A4 committed lost-ack replay increments version only once"
+            },
+            {
+              "pointer": "#/checks/220",
+              "label": "A4 existing global actor-key receipt in another organisation refuses without stale proof or clinical mutation"
+            },
+            {
+              "pointer": "#/checks/225",
+              "label": "A4 exact original retry conclusively refuses the stale version after competing save"
+            },
+            {
+              "pointer": "#/checks/226",
+              "label": "A4 stale refusal proof binds exact key organisation person visit and advanced authoritative version"
+            },
+            {
+              "pointer": "#/checks/227",
+              "label": "A4 stale exact retry preserves original key and payload"
+            }
+          ]
+        },
+        {
+          "outcome": "Current authority checked at disclosure; wrong tenant/purpose/assignment/account and audit outage remain fail closed",
+          "criteria": [
+            "A5"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/221",
+              "label": "A5 second current-authority proof-read audit failure returns error only without clinical mutation or operation proof"
+            },
+            {
+              "pointer": "#/checks/238",
+              "label": "A5 actual durable read/write audit"
+            },
+            {
+              "pointer": "#/checks/239",
+              "label": "A5 audit outage fails closed without clinical mutation or disclosure"
+            },
+            {
+              "pointer": "#/checks/240",
+              "label": "A5 changed assignment immediately refuses protected context"
+            },
+            {
+              "pointer": "#/checks/241",
+              "label": "A5 changed role immediately refused"
+            },
+            {
+              "pointer": "#/checks/243",
+              "label": "A5 every browser routine GET POST and readback retains selected organisation"
+            }
+          ],
+          "additionalCurrentActualEvidence": {
+            "authorityHTTP": {
+              "actualCases": 34,
+              "passed": 245,
+              "failed": 0,
+              "unsafeDisclosures": 0
+            },
+            "organisationHTTP": {
+              "actualCases": 6,
+              "passed": 52,
+              "failed": 0,
+              "wrongOrganisationMutations": 0
+            },
+            "minimalRetentionBoundary": "Genuine separate current914 native9/64 verdict44ed; refused requests preserve foreign/own metric rows and whole captured clinical/audit history; own allowed retention removes only old own non-burden metric."
+          }
+        }
+      ],
+      "sourcePins": [
+        {
+          "path": "app/api/routine-visit/route.ts",
+          "sha256": "48a0ac955ffd39ce0f22a6a472bca25ae2a7edcbceffab71a910e76ea0f203f0",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/programmes.tsx",
+          "sha256": "2ba8f3b9fe2f05ce971ab449d93bdc4d48ab13600a13f07f61c680b10a328de0",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/routine-visit/page.tsx",
+          "sha256": "3f715c35694267a2896dcc9ed560550cf32d19e469a8ace09e1b9927c07623d8",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/routine-visit/routine-visit.css",
+          "sha256": "793dc91a5a80742b71dd8ae84debad007ec26434eb88ba1f90d0900aa4ef79d6",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/routine-visit/routine-visit.tsx",
+          "sha256": "02fd56320974f1197de7d25d98bbc19b3bf93e72b7af0ed6ad573e3c45ad69f9",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/today/today.css",
+          "sha256": "f743b1e51aaae451e6eb21c60509bb9c110305605d5b1bf2b4795da76a52cd98",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/today/today.tsx",
+          "sha256": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/access-audit.ts",
+          "sha256": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/audit-chain.ts",
+          "sha256": "45faa44559373a52ad5ee2418878522105eca5b9b28384ef36a24f85684749ee",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/indicator-figures-server.ts",
+          "sha256": "033dd8abec0003759adec0d8d583c3e51de337108f33a47290de2fd837133f22",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/operations-server.ts",
+          "sha256": "f45e5ba74f98c50ec0fb115d67c146a7fadcddd54aec0c8372cc8e65630007e3",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/routine-read-guard.ts",
+          "sha256": "ace88a65caf6ff18fbd79f8f4d2135c690ea856778c2514f2f3a66b7456f81f9",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/routine-visit-server.ts",
+          "sha256": "1c949a1a4a9e325e6a9488a20686af53bbeea8447792b29fe7ca18e94a8aa382",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/routine-visit.ts",
+          "sha256": "6763f01d61325bf758757b20a4b57034fc46da60efd575b2f2a8744c9e1503a6",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/store.ts",
+          "sha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/today-server.ts",
+          "sha256": "e7cd44cd64febb49b53e93359d4a63360bbb13d29680b4fbf6a21a3dc7aff10d",
+          "unchangedSinceIndependent918Review": true
+        }
+      ],
+      "evidenceRefs": [
+        "complete286",
+        "runtimeReconciliation",
+        "currentChecks",
+        "currentFullCI",
+        "genuineSeparateCurrentRetention"
+      ],
+      "defects": []
+    },
+    {
+      "id": "APL-819",
+      "title": "[D03-T02] Guided routine UI and truthful save/recovery states",
+      "observedNativeStatus": "In Progress",
+      "observedNativeUpdatedAt": "2026-10-11T01:22:55.579Z",
+      "recommendation": "ELIGIBLE_FOR_TECHNICAL_DONE_AT_CURRENT914_BOUNDED_SYNTHETIC_ENGINEERING_SCOPE",
+      "scope": "The named source-pinned API/command or UI-flow reviewable output, not a delivered canonical product story. Required frozen parent criteria are not weakened. Root must publish actual evidence prefix and perform native status mutation if it accepts this recommendation.",
+      "criterionCoverage": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A6",
+        "A7",
+        "A8"
+      ],
+      "requiredOutputAssessment": [
+        {
+          "outcome": "No draft on open, exact Today-selected person, compatible shared fact once with distinct maternal/HTN questions",
+          "criteria": [
+            "A1",
+            "A2"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/0",
+              "label": "A1 open creates no draft"
+            },
+            {
+              "pointer": "#/checks/10",
+              "label": "A1 exact compatible three-programme fixture pinned"
+            },
+            {
+              "pointer": "#/checks/23",
+              "label": "A2 real Today to exact existing person"
+            },
+            {
+              "pointer": "#/checks/24",
+              "label": "A1 shared weight captured once across three packs"
+            },
+            {
+              "pointer": "#/checks/35",
+              "label": "A1 distinct maternal question retained"
+            },
+            {
+              "pointer": "#/checks/37",
+              "label": "A1 distinct hypertension question retained"
+            }
+          ]
+        },
+        {
+          "outcome": "Entered/canonical units, source/time/author/pack provenance and explicitly missing data remain reviewable; real UI save/readback",
+          "criteria": [
+            "A2"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/15",
+              "label": "A2 canonical and entered unit preserved"
+            },
+            {
+              "pointer": "#/checks/16",
+              "label": "A2 trusted author and observation time"
+            },
+            {
+              "pointer": "#/checks/33",
+              "label": "A2 UI correction actually read back as server draft with explicit canonical unit"
+            },
+            {
+              "pointer": "#/checks/219",
+              "label": "A2 real UI programme evidence and trusted author readback"
+            }
+          ],
+          "sourceInspection": "Current routine UI renders source/missing reason and observation time per measurement, original entered-unit annotation, saved author and pinned pack versions; no carried different-visit fact is introduced."
+        },
+        {
+          "outcome": "Read-only confirmed context is actually exercised; voided/superseded contexts are guarded in inspected source",
+          "criteria": [
+            "A3"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/236",
+              "label": "A3 normal existing confirmation succeeds"
+            },
+            {
+              "pointer": "#/checks/237",
+              "label": "A3 confirmed record immutable"
+            }
+          ],
+          "voidedQualificationLimit": "No separately named native voided/superseded scenario was found in current244 result. Review verifies edit requires draft plus no voidedAt/supersededBy, all edit/save controls use this guard, and routine projection preserves these fields. This is source inspection, not a claimed extra executed case."
+        },
+        {
+          "outcome": "Dropped acknowledgement before/after commit reconciles original exact key/body once; generic409/wrong-key proof cannot unlock uncertain replacement",
+          "criteria": [
+            "A4",
+            "A6"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/25",
+              "label": "A4 original POST aborted before commit leaves authoritative version unchanged"
+            },
+            {
+              "pointer": "#/checks/26",
+              "label": "A4 read comparison/replacement cannot discard unresolved attempt or enable a fresh write"
+            },
+            {
+              "pointer": "#/checks/27",
+              "label": "A6 unresolved original attempt keeps the editor frozen"
+            },
+            {
+              "pointer": "#/checks/28",
+              "label": "A4 uncommitted uncertain attempt reconciles exact original key and payload"
+            },
+            {
+              "pointer": "#/checks/29",
+              "label": "A4 before-commit reconciliation writes once to the exact selected organisation/person"
+            },
+            {
+              "pointer": "#/checks/30",
+              "label": "A6 failed transport retains correction"
+            },
+            {
+              "pointer": "#/checks/31",
+              "label": "A6 uncertain save permits read-only comparison without replacing input"
+            },
+            {
+              "pointer": "#/checks/32",
+              "label": "A4 lost committed acknowledgement uses original exact key"
+            },
+            {
+              "pointer": "#/checks/34",
+              "label": "A4 committed lost-ack replay increments version only once"
+            },
+            {
+              "pointer": "#/checks/222",
+              "label": "A4 generic409 without authoritative exact operation proof retains unknown attempt and has no clinical side effect"
+            },
+            {
+              "pointer": "#/checks/223",
+              "label": "A6 generic409 and plain saved-record comparison cannot unlock replacement of uncertain input"
+            },
+            {
+              "pointer": "#/checks/224",
+              "label": "A4 wrong-key409 proof cannot release the original unknown attempt or mutate the clinical record"
+            },
+            {
+              "pointer": "#/checks/225",
+              "label": "A4 exact original retry conclusively refuses the stale version after competing save"
+            },
+            {
+              "pointer": "#/checks/226",
+              "label": "A4 stale refusal proof binds exact key organisation person visit and advanced authoritative version"
+            },
+            {
+              "pointer": "#/checks/227",
+              "label": "A4 stale exact retry preserves original key and payload"
+            }
+          ]
+        },
+        {
+          "outcome": "Pending programme answers survive observation save; offline/conflict keeps input, comparison does not overwrite, explicit load changes it; authoritative refusal clears protected context",
+          "criteria": [
+            "A6"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/36",
+              "label": "A6 unsaved programme answer survives observation save/readback"
+            },
+            {
+              "pointer": "#/checks/229",
+              "label": "A6 conclusive stale refusal retains the unsaved correction for review"
+            },
+            {
+              "pointer": "#/checks/230",
+              "label": "A6 conclusive stale refusal unlocks explicit comparison replacement rather than deadlocking recovery"
+            },
+            {
+              "pointer": "#/checks/231",
+              "label": "A6 explicit stale recovery loads only the authoritative saved correction"
+            },
+            {
+              "pointer": "#/checks/232",
+              "label": "A6 offline save retains unsaved input without saved acknowledgement"
+            },
+            {
+              "pointer": "#/checks/233",
+              "label": "A6 actual version conflict keeps local correction"
+            },
+            {
+              "pointer": "#/checks/234",
+              "label": "A6 read-only comparison does not overwrite input"
+            },
+            {
+              "pointer": "#/checks/235",
+              "label": "A6 explicit conflict recovery loads exact saved value"
+            },
+            {
+              "pointer": "#/checks/242",
+              "label": "A6 authoritative refusal clears protected UI"
+            }
+          ],
+          "additionalBrowserEvidence": "Actual current actor-recovery6 browser cases/97 named checks and7 raw observations. Four POST aborts are declared fault scenarios, no external request. Retention is mounted-page memory; no reload/device durability claim."
+        },
+        {
+          "outcome": "Manual capture/review/save works without external/model calls",
+          "criteria": [
+            "A7"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/218",
+              "label": "A7 manual flow made zero external/model requests"
+            }
+          ]
+        },
+        {
+          "outcome": "Phone viewport, keyboard stage navigation and real keyboard save/readback, 200% text, label/control/overflow observations",
+          "criteria": [
+            "A8"
+          ],
+          "nativeChecks": [
+            {
+              "pointer": "#/checks/38",
+              "label": "A8 no horizontal overflow 360"
+            },
+            {
+              "pointer": "#/checks/40",
+              "label": "A8 no horizontal overflow 390"
+            },
+            {
+              "pointer": "#/checks/42",
+              "label": "A8 200% text no horizontal overflow"
+            },
+            {
+              "pointer": "#/checks/43",
+              "label": "A8 keyboard primary control focus"
+            },
+            {
+              "pointer": "#/checks/44",
+              "label": "A8 real keyboard stage navigation retains typed correction"
+            },
+            {
+              "pointer": "#/checks/45",
+              "label": "A8 keyboard-only edit/review/save actually read back on exact record"
+            }
+          ],
+          "layout": "56 actual observations; original244 includes170 label/44px/no-overflow checks across all14 stages and declared viewport/text cases. Desktop simulated viewport evidence, not physical assistive-technology acceptance."
+        }
+      ],
+      "sourcePins": [
+        {
+          "path": "app/api/routine-visit/route.ts",
+          "sha256": "48a0ac955ffd39ce0f22a6a472bca25ae2a7edcbceffab71a910e76ea0f203f0",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/programmes.tsx",
+          "sha256": "2ba8f3b9fe2f05ce971ab449d93bdc4d48ab13600a13f07f61c680b10a328de0",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/routine-visit/page.tsx",
+          "sha256": "3f715c35694267a2896dcc9ed560550cf32d19e469a8ace09e1b9927c07623d8",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/routine-visit/routine-visit.css",
+          "sha256": "793dc91a5a80742b71dd8ae84debad007ec26434eb88ba1f90d0900aa4ef79d6",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/routine-visit/routine-visit.tsx",
+          "sha256": "02fd56320974f1197de7d25d98bbc19b3bf93e72b7af0ed6ad573e3c45ad69f9",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/today/today.css",
+          "sha256": "f743b1e51aaae451e6eb21c60509bb9c110305605d5b1bf2b4795da76a52cd98",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "app/today/today.tsx",
+          "sha256": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+          "unchangedSinceIndependent918Review": true
+        },
+        {
+          "path": "lib/saha/routine-visit.ts",
+          "sha256": "6763f01d61325bf758757b20a4b57034fc46da60efd575b2f2a8744c9e1503a6",
+          "unchangedSinceIndependent918Review": true
+        }
+      ],
+      "evidenceRefs": [
+        "complete286",
+        "runtimeReconciliation",
+        "currentChecks",
+        "currentFullCI",
+        "genuineSeparateCurrentRetention"
+      ],
+      "defects": []
+    },
+    {
+      "id": "APL-820",
+      "title": "[D03-T03] Real synthetic backend/browser, authorization and NFR qualification",
+      "observedNativeStatus": "In Progress",
+      "observedNativeUpdatedAt": "2026-10-11T19:21:40.009Z",
+      "recommendation": "ELIGIBLE_FOR_TECHNICAL_DONE_AFTER_ROOT_RECORDS_REVIEWED818_AND819_BOUNDARIES",
+      "dependencies": [
+        "APL-818",
+        "APL-819"
+      ],
+      "scope": "Actual integrated synthetic backend/browser, authorization, dropped-acknowledgement and local original NFR portion of A9 only. The original contract explicitly separates final publication/source/integrity/CI/final review into821/822; task completion does not automatically mark allA9 or parent Done.",
+      "requiredOutputAssessment": {
+        "currentRoutine": "Actual97+245+52+64+244=702 named checks across five current routine suites, all original guards pass;64 retention checks are genuinely separately reviewed and not counted as64 scenarios. Original51 kernel/58 Today receipts remain preserved; current Today58 and fullHTTP5020+21 are actually executed.",
+        "originalLocalEncryptedSave": "Current1000 warm field-vault-component transactions p95=5.100000ms/500. Completed immutable04 actualautosave38.799805ms andexplicit-save50.399902ms/500,1000 each, separately reviewedR. These are existing encrypted device/component paths, not a newly implemented durable offline connected routine feature.",
+        "connectedNFR": "Original1000 attempts per Today-list/detail/Routine entry for both profiles: reference701.225/384.577/751.707ms anddegraded1769.016/901.180/1850.644ms p95/3000. Originalcoldoutliers7722/5598ms remain in their1000 cohorts; no allrequests<=3s claim.",
+        "wholeNFR": "12 cohorts \u00d71000=12000 retained observations,33 source/clinical/custody/cleanup checks,0 terminal errors;31 actual aborts/8 cold restarts/5 real cohortflushes retained. Fullraw/invariant/cipher review is genuine separate Rf0, not author self-review.",
+        "runtimeBuildApplicability": "All3138 postrun actual inputs and281 local compiled files rehashed;568 production inputs,15 standalone configs/package files and37 scripts match current914 immutableGit. Fresh canonical build16864 before/after inputs unchanged; actual portable profile absence and recorded package/compiler identities verified. Current914 CI independently executes separate fresh build/tests.",
+        "focusScaling": "Current244 browser checks/56 layout observations cover keyboard/focus, all14 guided stages, phone sizes/200% text and original44px controls.",
+        "failuresPreserved": "Original3132.31/3000 failure, prior interrupted/source-build/native/availability/whole-CI failures and reviewer-method preimages remain history; current passing run does not reinterpret or erase them."
+      },
+      "evidenceRefs": [
+        "currentChecks",
+        "currentFullCI",
+        "currentNativeAndLoad",
+        "originalBackendNFR",
+        "genuineSeparateNFR",
+        "completed04To914Applicability",
+        "genuineSeparateCurrentRetention"
+      ],
+      "defects": []
+    }
+  ],
+  "currentA9Recommendation": {
+    "eligible": true,
+    "scope": "Exact current914 original frozen A9 local synthetic scope, based on source-pinned full build/types/affected checks/native E2E/localNFR/final-headCI/genuine composed final source and evidence reviews. Physical-device/clinical/formal UAT remain pending exactly as frozen spec explicitly requires.",
+    "noNewFinding": true,
+    "sourceReview": "Complete286ab8 + original16 runtime918 chain/current raw Git reconciliation + separately reviewedsecurity/one-line retention guard/normalCI fixtures/availability increment; no wholePR48-path misstatement.",
+    "currentCI": {
+      "engineeringRun": 38165380186,
+      "engineeringJobsSucceeded": 6,
+      "documentationRun": 38165380194,
+      "documentationSucceeded": true,
+      "checks": {
+        "unitSuites": 211,
+        "passed": 11480,
+        "failed": 0,
+        "skipped": 0
+      },
+      "appFirst": {
+        "suites": 147,
+        "passed": 7691,
+        "failed": 0,
+        "skipped": 0
+      },
+      "downstream": {
+        "suites": 9,
+        "passed": 497,
+        "failed": 0,
+        "skipped": 1,
+        "skipMeaning": "Original media-ID subcheck unexecuted because smoke fixture uploads none; never treated aspassed and no media/formal acceptance claim."
+      }
+    },
+    "docOnlySuccessorRule": "This verdict is exact914 only. A later documentation/evidence commit must receive genuine incremental source/integrity review and all actually required current-head checks before finalA9/merge. No source-affecting change may inherit these results without an explicit applicability assessment.",
+    "futureGateCountIfRootAccepts": "Current frozen story may be reported9/10 at914; A10 still pending. This is not a source merge, observed deployment or delivered story."
+  },
+  "a10": {
+    "satisfied": false,
+    "mergeObservedByThisReview": false,
+    "hostedCommitObservedByThisReview": null,
+    "liveSyntheticStoryObservedByThisReview": false,
+    "blocker": "Existing DigitalOcean read-only access blocked by unavailable admin browser-security policy check. No alternate browser/API/CLI/SSH/headless access or indirect bypass. Root must separately inspect current checks/protection/reviews/head before any normal expected-SHA merge and independently observe exact hosting plus authorized synthetic live journey.",
+    "domainHumanFormalApprovalInvented": false
+  },
+  "explicitRemainingLimits": [
+    "No physical Android/assistive-technology/power-loss, calibrated network orR1capacity100users/100000people/50rps30min/clinical/government acceptance; formal UAT0/364 and BRD status separate.",
+    "Existing encrypted device storage was measured separately; connected routine retains unsaved inputs only in mounted memory. Offline prepared routine work/reload recovery remains a different held story.",
+    "Both full NFR profiles recorded0 publicdisk/service-worker cache hits. No claimed native publiccache speed benefit or0transportfaults;31 actual aborts remain raw.",
+    "Current CI retention artifact records281 compiled hash custody but archives no281 compiled bytes. Three recovered compiler receipt content hashes were verified. Local04 fully rehashed281 compiled bytes are not confused withCI or claimed byte-equal generatedCI binaries.",
+    "Current CI captured initial source contains exact known installerworkspace modificationec304575 and inherited CRLF conversion; other16871 captured Git blobs exact. No clean initial whole-workspace claim.",
+    "One original downstream media-ID smoke skip is unexecuted, notpassed; hosted-smoke8 is a local stand-in selftest, not actual hosting.",
+    "Task, suite, scenario, named check, timing observation, formal case and story counts are distinct. Overlapping suites/job reruns are not summed asunique tests or new delivered stories.",
+    "Read-only voided/superseded edit controls are source-inspected; separately named current nativevoided scenario was not observed and is not invented."
+  ],
+  "countsWithoutPromotion": {
+    "activeStory": 1,
+    "technicalTaskOutputsEligible": 3,
+    "nativeTaskStatusesMutatedByReviewer": 0,
+    "newDeliveredStoriesClaimed": 0,
+    "newMergedStoriesClaimed": 0,
+    "newObservedHostedStoriesClaimed": 0,
+    "formalExecutedCasesClaimed": 0
+  },
+  "native244Evidence": {
+    "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/artifacts-engineering/tests/reports/d03-native/result.json",
+    "sha256": "e7d5c9f41103129db40845f8f69e37b1ac3b5817ca3ca0cf61a42bd1f6b3d9c2"
+  },
+  "evidenceRefs": {
+    "complete286": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/INDEPENDENT-COMPLETE286-SOURCE-ASSESSMENT.json",
+      "sha256": "ab8e863d97d7063cf1369599784151b1d0f9df4d15b43d0c3c26a826e43fc31a"
+    },
+    "currentChecks": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/INDEPENDENT-ACTUAL-CHECKS-ARTIFACT-VERDICT.json",
+      "sha256": "6b322549544434e1cb702afffc7ac594a070439629b80327c60fbdad8bb49f13"
+    },
+    "currentFullCI": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/INDEPENDENT-ACTUAL-FINAL-REGRESSION-CI-VERDICT.json",
+      "sha256": "f1860fdd61a365224b0989e4282f0b2e093decac1a03cd6de62e74f4c83fa8eb"
+    },
+    "currentNativeAndLoad": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/INDEPENDENT-ACTUAL-NATIVE-AND-LOAD-VERDICT.json",
+      "sha256": "53a7c2330c04f9d9f87566697ba369cb8aa8995e5c6475b796cebcd275673b04"
+    },
+    "originalBackendNFR": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/INDEPENDENT-ACTUAL-ORIGINAL-BACKEND-NFR-VERDICT.json",
+      "sha256": "3ec60f2c838cb8d4ff5e127c280147ccfd232474cdb79c9b34f4fac7634fc9e9"
+    },
+    "completed04To914Applicability": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/INDEPENDENT-COMPLETED04-TO914-RUNTIME-BUILD-APPLICABILITY.json",
+      "sha256": "4e63012e0aa12a20de41f60e1e59bc41e3d3e39007ff9094badf46fae0730def"
+    },
+    "runtimeReconciliation": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/COMPLETE-PRODUCTION-AND-ORIGINAL-TEST-SOURCE-RECONCILIATION.json",
+      "sha256": "43a89f6c2d229943d125171ad9f7c4e9d7745a11cf187c9d9ceeb0bcd4142534"
+    },
+    "genuineSeparateNFR": {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/nfr-final-independent-review/INDEPENDENT-FINAL-COMPLETE-NFR-VERDICT.json",
+      "sha256": "f0f425422227e51f1054d9d2b30875e8b5c226f41c9020e0288d30077ca804ac"
+    },
+    "genuineSeparateCurrentRetention": {
+      "path": "outputs/saha-eight-hour-20261011/retention-final-nfr/current914-retention-independent-review/INDEPENDENT-CURRENT914-RETENTION-CI-VERDICT.json",
+      "sha256": "44ed0450aa9e97d3d92c233478074347811569c93c3a9e15d21b2d00d63e891e"
+    },
+    "actualNativeContracts": {
+      "path": "outputs/saha-eight-hour-20261011/final-pr202-914-independent-review/ACTUAL-NATIVE-TASK-CONTRACTS-818-820.json",
+      "sha256": "f8eddb85790e85f1173954ef7e1a28c6164ca1df52b3f6e5833be1ba80f4dae0",
+      "recordedAt": "2026-10-11T19:55:52.913124+00:00"
+    }
+  },
+  "findings": [],
+  "reviewerActivity": {
+    "newApplicationBuildOrBackendOrBrowserOrNFRRun": false,
+    "sourceOrCriteriaEdits": false,
+    "cloudMutation": false,
+    "artifactParsingCorrection": "Earlier labelscan assumed every checks field was anarray; corrected to inspect lists only. No check/outcome changed and no extra acceptance execution counted."
+  }
+}
