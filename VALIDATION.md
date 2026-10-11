@@ -1743,3 +1743,10 @@ Actual root-installed-package preflight exposed a lexical Wrangler-path resoluti
 ### Complete Git metadata bounds
 
 The primary repository filename stream exceeded Node’s default 1 MiB subprocess limit. All five test-only source-custody Git reads now use explicit 16 MiB/20-second/SIGKILL bounds without filtering names. Real overflow and full 16,842-name output evidence, exact metadata helper extraction, actual error output and source-bound 24/0/0 launcher controls are retained in [current evidence](tests/evidence/scoped-locality-containment-preparation-20261011/EVIDENCE.json). Prior705a source remains historical; current source requires independent review. No build, Worker, browser, D1, CI/formal acceptance or delivery is claimed; native scenarios remain 0/8.
+
+
+# 11 October 2026 — APL-194 isolated installer custody proposal
+
+Draft PR #206 at `7177e8d5` failed the unchanged complete clean-source guard after the existing installer changed `pnpm-workspace.yaml`: 24/24 real launcher controls passed, but build/native scenarios were not reached. Documentation CI separately recorded only generated coverage freshness failure (register 44 passed; coverage 8 passed / 1 failed; pack 10 passed; formal 0/364). Exact raw failures are retained in `tests/evidence/scoped-locality-install-custody-repair-20261011/`.
+
+The narrow dedicated CI wrapper records and validates only the installer-declared project store/cache substitutions, preserves all other policy/source/profile/lock inputs and installed identities, restores the exact saved workspace bytes, then runs the complete original clean-source guard unchanged. Twenty-two bounded local pinned-parser/temporary-file/initial-CLI positive/refusal controls passed, zero failed/skipped; no local install/build/native runtime ran. Independent staged review and successor CI remain held. No original criterion, baseline minimum, installer/dependency/runtime policy, formal status or delivered-story count changed.

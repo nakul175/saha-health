@@ -15,7 +15,9 @@ jobs:
         with:
           node-version: '22'
       - name: Install existing pinned dependencies
-        run: npm run install:ci
+        run: node scripts/scoped-locality-install-custody.mjs
+      - name: Controlled installer custody positive and refusal tests
+        run: node tests/scoped-locality-install-custody-contract.mjs
       - name: Controlled containment failure tests
         run: node tests/scoped-locality-containment-contract.mjs
       - name: Fresh canonical build and contained native locality scenarios
