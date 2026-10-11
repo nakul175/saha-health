@@ -1,3 +1,7 @@
+# Active stable synthetic Worker qualification — 11 October 2026
+
+Two fixture drivers preserve original device64 and optout55 checks/minima while using direct built-Worker/D1 execution, with an explicit asset-first browser option that leaves the shared helper default unchanged. See [current contract/evidence](current/WORKER-CI-FIXTURES-20261011.md). The prior native routing failure76/2 is retained; corrected local119pass does not establish hosted CI, independent approval, merge or routine-story completion. No application/migration/provider change. Historical sections below retain their original dates and scope.
+
 # D02 isolated read-only candidate — 10 October 2026
 
 `/today` adds a separate mobile client and GET-only `/api/today` projection for active synthetic/training ASHAs. Existing server identity, assignment/policy scope and durable access audits remain authoritative. Only ID/name/village and read-only age/sex context are exposed; no visit or clinical write is added. The legacy `/app` is preserved separately. Source implementation and local tests do not establish merge, hosted deployment or formal acceptance. See [frozen D02 specification](current/d02/SPECIFICATION.md) and [validation](../VALIDATION.md). Parent capture, scheduling, offline and localisation remain pending.

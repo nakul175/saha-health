@@ -1,0 +1,45 @@
+{"event":"saha_request","requestId":"25c729db-db77-4985-b0ba-a5542bd7edd1","route":"workspace","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"72b41be8-8c74-4c04-b51a-96861626bda0","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"d7ee3776-204e-4746-981a-89800c4e986a","route":"commands","status":200,"durationMs":18}
+{"event":"saha_request","requestId":"9c494660-7215-40b0-a700-69d3e77f8bce","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"6445b116-4862-449f-a7ec-d37502659d35","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"8336a94f-dbb1-4dba-a38f-3661a87c5dc2","route":"commands","status":200,"durationMs":9}
+{"event":"saha_request","requestId":"82d15bd5-e658-4426-9952-77c91b12d9fd","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"43910fe6-e88f-412b-ac5f-52ad2ebf22f2","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"b5995534-f964-4ee6-bed0-664a14e42609","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"fd0eb0d3-1804-49e7-8101-b40156d9b52c","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"b79bdc63-46a4-40bf-ae2b-4c47cdee8937","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"e2128565-c771-47cb-833a-f23be8586039","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"a8d10e06-ce9f-4bf3-bc76-0090dd680b6d","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"1c1a05e6-64a5-449a-bf71-164af3329fc8","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"c602a232-92ab-49f4-b8fe-83fa2730ccc4","route":"workspace","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"4d1832b5-fe0c-4653-a90a-fa3b8f29210d","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"0754308b-1e6a-46ea-97a8-c914f182350a","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"f9627e70-7669-45a6-a871-ac6ca7a7f199","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"7ae9709b-ab87-4516-98a1-b09d1d8017f7","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"c8c276ad-7d18-47c1-a62f-15d6ddc98223","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"08ca0f27-fce8-4538-a978-65139bb2d204","route":"outreach","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"8470ffa7-8cdb-495f-89e1-96330ca9e996","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"53e80d16-214d-4a91-b25e-ccc7ea412596","route":"outreach","status":200,"durationMs":1}
+{"event":"saha_request","requestId":"2db0fac3-d4d5-4380-ac3f-ae00753580e9","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"376b1bce-b161-49a9-85e6-cb2b20339e11","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"b5e2315c-eef6-4054-af70-75758e70979a","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"d9a353cc-d5e8-4820-937d-19910ce7e4a9","route":"outreach","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"d817bc4d-97a1-4c7c-ae81-9dd510198e7a","route":"workspace","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"976c614d-343a-4504-8ae7-3e375c266758","route":"outreach","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"5265f4d6-9983-4433-9087-51287af5be56","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"af2c6d52-2faa-41fd-abf9-6998b9a5adda","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"5bba0aeb-e13a-41a3-94c3-24ec9c79f30f","route":"commands","status":200,"durationMs":13}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('tab', { name: 'Contact preferences', exact: true })
+
+    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-worker-fixtures-20261011/tests/reminder-optout-current-http.mjs:51:172 {
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0
