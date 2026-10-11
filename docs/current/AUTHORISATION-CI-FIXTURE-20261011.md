@@ -1,0 +1,9 @@
+# Security qualification fixture — 11 October 2026
+
+The exact hosted PR198 run38128030498 passed147 workflow suites with7691 assertions, then failed the authorization matrix59/1: anonymous POST `/api/reporting-completeness` returned Wrangler’s mid-request restart503 rather than the unchanged required401. The actual failed artifact is retained. This is a fixture failure, not an authorization pass or a waived check.
+
+This isolated branch from main7668a03d changes only the security fixture launcher to the existing direct Miniflare built-Worker/D1 harness. The new current driver preserves all original route/role/scope/privacy/no-store/revocation assertions and the original stable `nfr/authorisation-matrix` identity and minimum. No failed request is retried. All original executable check bodies and original driver bytes remain unchanged. Native API routing uses the existing default Worker-first mode, without PR199’s assets option or PR198’s application fix. No production runtime, policy, provider, migration or real patient is changed.
+
+The current-source driver and registration are prepared; real local60-check and exact-head hosted qualification remain pending. The regression minimum is inherited unchanged, not raised or replaced by fabricated run evidence. Historic catalogue source preimage is retained for source-pinned reports; older manifests/reports remain immutable. Required independent review and merge gates remain open.176 formal criteria and364 formal cases remain pending. One active routine-visit feature story, zero new accepted stories.
+
+Actual syntax/catalogue, source integrity1782 and generated-UAT tooling63/0/0 (three original guarded suites, no quarantine) pass. Product security execution remains pending; no performance test or physical acceptance is claimed. All374 original regression records remain unchanged.
