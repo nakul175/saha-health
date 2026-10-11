@@ -1,0 +1,106 @@
+{
+  "frozenAt": "2026-10-11T16:25:18.164534+00:00",
+  "title": "PR204 original programme/device CI fixture custody repair",
+  "author": "routine_independent_qa; independent review delegated to root/other reviewer, not self",
+  "branch": "story/saha-128-route-telemetry-20261011",
+  "baseMain": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "parentCommit": "fa9e8285e0b02fc0bc4c811c1166c026377e74de",
+  "remoteConfirmed": "fa9e8285e0b02fc0bc4c811c1166c026377e74de",
+  "risk": "Test infrastructure moderate: guarded scenario routing changes. Application/security/dependency source cannot change.",
+  "scope": "Select individually verified71b native adapters for two same original guarded IDs; no bulkmerge/cherrypick. Single direct runtime owns each built Worker/D1 and shared phone/API/fault injection.",
+  "qualifiedComponentCommit": "71b4131b72541a47ce8f33f9caaa682242f9fbf4",
+  "qualifiedComponentPins": {
+    "tests/installed-programme-single-runtime-current.mjs": "7ffded9bfe55fe143849661cb1ee907124051b37ace0d26eb1742d0428fb234f",
+    "tests/native-device-privacy-current-browser.mjs": "09f382fdbc2eb7dfed70c7b944b57d1c76f6a2e4cf6137bbf289393a6ec12c2d",
+    "tests/lib/miniflare.mjs": "3ed3643dfcdc07c46d8fe40e8104d3378479e116d7f234220d976f5a0138e3c8"
+  },
+  "dependencyPins": {
+    "tests/lib/worker.mjs": {
+      "fa9": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128",
+      "71b": "a3d2939f199f5f622aaee75ea945a54e829230b520c060a498f5b7f16f62d8a3"
+    },
+    "tests/lib/migrate.mjs": {
+      "fa9": "8054c2684e581eb8b9fb230ad1d7643a80ff06bba9572b6e5dddf08d165bf4f9",
+      "71b": "8054c2684e581eb8b9fb230ad1d7643a80ff06bba9572b6e5dddf08d165bf4f9"
+    },
+    "tests/lib/process-memory.mjs": {
+      "fa9": "be64917117fef6b875bd6482337614f0a24e97adbcea45c11e26ca9f9b50df93",
+      "71b": "be64917117fef6b875bd6482337614f0a24e97adbcea45c11e26ca9f9b50df93"
+    },
+    "tests/lib/installed-work-repair-uncertainty-phone.mjs": {
+      "fa9": "385e9a3a688a82b5e003d69af423d44d81e5f15aa4a9768cb752c517d1dee3a3",
+      "71b": "385e9a3a688a82b5e003d69af423d44d81e5f15aa4a9768cb752c517d1dee3a3"
+    },
+    "tests/lib/installed-work-repair-native-phone.mjs": {
+      "fa9": "0d2af8982bc0343e61d3074b282697ef8dadcb9f0a078a486db8ea09afc1d00a",
+      "71b": "0d2af8982bc0343e61d3074b282697ef8dadcb9f0a078a486db8ea09afc1d00a"
+    }
+  },
+  "unchangedTelemetry10Pins": {
+    "lib/saha/monitoring.ts": "d9ae3eee545e1451d4b3db8d63dc922eb9727bfb358de697e037c5d388993b37",
+    "lib/saha/request-metric-routes.ts": "592848a22c5b1fd19a972ee47ef44f6a0af2d6e452ce09a0e93bc405eabd1113",
+    "lib/saha/identity.ts": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "docs/current/saha-128/SPECIFICATION.md": "3f59cba00e547ddce805627a39d736f6dbf33f451ed38414550cc3d491398e77",
+    "tests/request-metric-privacy-contract.mjs": "1372825775d653fc236ff142ee674e181fbb8708898c4fcdfa6d719fda97299c",
+    "tests/request-metric-native-contract.mjs": "af51570f7ecc886271d20c9d8406d3e493ccd9c6f52dbb1b1b432a5685965927",
+    "tests/fixtures/request-metric-routes-main.json": "dd6ab2b49eb15c9433f86c2a851c9fbc3fd052b8211a1bde01179fdd26092495",
+    "tests/safe-logs-contract.mjs": "3f1ab8f79b8f3454634fc4e733130c0a42ce195316a719e3b1cb4a521c1df9bd",
+    "tests/safe-logs-smoke.mjs": "e2d909ae1fddd6fa5bae0c2deacd553861d68e401b75261951870f93332e7fe4",
+    "tests/regression-baseline.json": "4e320771688613240f7bfb1a1db4af05ef4ba3b6ad6c44a75aac0295b3601709"
+  },
+  "originalIdsAndRecords": {
+    "integration/installed-programme-execution-browser": {
+      "layer": "integration",
+      "file": "tests/installed-programme-execution-repair-uncertainty.mjs",
+      "minPassed": 121
+    },
+    "integration/device-work-browser": {
+      "layer": "integration",
+      "file": "tests/integration-offline-guided-device-browser.mjs",
+      "minPassed": 64
+    }
+  },
+  "preserve": [
+    "Original failed multi-runtime/dev-watcher drivers byteexact, retain asmanual/direct historical checks",
+    "Original121/64 minimum guard objects and all376 current guard records whole unchanged",
+    "Original assertions/status expectations/faults/replay/privacy/authority criteria no edits",
+    "Actual failed38152196066/114507827711 log+artifact permanently retained; no retroactive pass",
+    "Original app/security/deps/CI selections/clinical sources/history/formal364Notrun unchanged",
+    "No new response/request retry or quarantine; no body substitution forqualification"
+  ],
+  "ownedTestPaths": [
+    "tests/installed-programme-single-runtime-current.mjs",
+    "tests/native-device-privacy-current-browser.mjs",
+    "tests/lib/miniflare.mjs",
+    "scripts/test-catalogue.mjs"
+  ],
+  "derivedDocsMayRegenerate": [
+    "docs/current/TEST-CATALOGUE.csv",
+    "docs/testing/COVERAGE.md",
+    "docs/testing/coverage.csv",
+    "docs/testing/uat/UAT-ADMIN.md",
+    "docs/testing/uat/UAT-OWNER.md",
+    "docs/testing/uat/UAT-FIELD.md"
+  ],
+  "evidenceDocPaths": [
+    "docs/current/saha-128/CI-FIXTURE-REPAIR.md",
+    "docs/current/saha-128/ci-fixture-repair-evidence-20261011",
+    "VALIDATION.md",
+    "HANDOVER.md",
+    "docs/NEXT-DELIVERY.md",
+    "docs/IMPLEMENTATION.md"
+  ],
+  "sourceBaseline": "Branch-local source manifest may be refreshed with alloriginal entries retained; never change historicalmanifest or originalcontract/minima.",
+  "checksNow": [
+    "Static exact source reuse/app dependency/oracle/guardpin checks",
+    "Documentation integrity/requirement drift/catalogue and UAT tooling only; these are not browser acceptance"
+  ],
+  "checksHeld": [
+    "No build/install/backend/browser/fullunits while rootimmutable NFRrunning",
+    "No commit/push until root exact source/oracle/applicability review",
+    "Fresh exactsource complete CI and independent review after publication",
+    "Changed main/React19.2.8/security composition acceptance stillheld",
+    "Actual hosted journey/fullparentacceptance held"
+  ],
+  "exitToRoot": "Prepared source+honest receipts+independent review needed; no runtime green or fullstoryDone claim."
+}

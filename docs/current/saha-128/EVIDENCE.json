@@ -1,0 +1,196 @@
+{
+  "recordedAt": "2026-10-11T15:25:55.820616+00:00",
+  "date": "2026-10-11",
+  "story": "SAHA-128 / APL-151",
+  "engineeringTask": "ENG-BR-SEC-07 / APL-764",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "branch": "story/saha-128-route-telemetry-20261011",
+  "specificationRevision": 2,
+  "gate": "5/6 bounded runtime engineering criteria locally supported; M6 HELD by current dependency-security defects plus exact published-head CI/final release review. Whole parent story remains partial.",
+  "syntheticOnly": true,
+  "scope": "Actual production measured()/identity() component and existing whole synthetic Worker/D1 integration and recovery checks; no hosted telemetry/configuration qualification.",
+  "sourceHashes": {
+    "lib/saha/monitoring.ts": "d9ae3eee545e1451d4b3db8d63dc922eb9727bfb358de697e037c5d388993b37",
+    "lib/saha/request-metric-routes.ts": "592848a22c5b1fd19a972ee47ef44f6a0af2d6e452ce09a0e93bc405eabd1113",
+    "lib/saha/identity.ts": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "docs/current/saha-128/SPECIFICATION.md": "3f59cba00e547ddce805627a39d736f6dbf33f451ed38414550cc3d491398e77",
+    "tests/request-metric-privacy-contract.mjs": "1372825775d653fc236ff142ee674e181fbb8708898c4fcdfa6d719fda97299c",
+    "tests/request-metric-native-contract.mjs": "af51570f7ecc886271d20c9d8406d3e493ccd9c6f52dbb1b1b432a5685965927",
+    "tests/fixtures/request-metric-routes-main.json": "dd6ab2b49eb15c9433f86c2a851c9fbc3fd052b8211a1bde01179fdd26092495",
+    "tests/safe-logs-contract.mjs": "3f1ab8f79b8f3454634fc4e733130c0a42ce195316a719e3b1cb4a521c1df9bd",
+    "tests/safe-logs-smoke.mjs": "e2d909ae1fddd6fa5bae0c2deacd553861d68e401b75261951870f93332e7fe4",
+    "tests/regression-baseline.json": "4e320771688613240f7bfb1a1db4af05ef4ba3b6ad6c44a75aac0295b3601709"
+  },
+  "evidence": {
+    "tests/evidence/saha-128/initial-module-before.json": "6ee87c26b8ffffd803e44c02f8456eb5d202515c6440fbe657dbdd792b518b88",
+    "tests/evidence/saha-128/initial-import-failure.json": "4c01b48b261ee9c7db28a82f77b3cfa2530cc1d6829b0b5609a564eee46e1156",
+    "tests/evidence/saha-128/native-original-before.json": "3f28afba18809f567456011859402b72bc35e3783a02296158adf33f153e65b0",
+    "tests/evidence/saha-128/native-label-only-failure.json": "12e34dc033d0bf33afa47c5f7ae663e74585e3f85d2570d5fe95f40bd24270c1",
+    "tests/evidence/saha-128/native-revision2-before.json": "fd07129329ec94d6727938cc85de3b1e258b5078a687497cf633c4901ee0f9f5",
+    "tests/evidence/saha-128/native-revision2-after.json": "e0e0cc924bb1c82938d76ad219298754fff60bd7c06cf488a7470d946ce3f751",
+    "tests/evidence/saha-128/final-module.json": "fab8602d14ab87d0488037c315929dd3e670e0ebb254fc27bd87b26702169a57",
+    "tests/evidence/saha-128/final-native.json": "9a2552f255c759bade1e462bb433e65eac6be023312aecabc9e2db6872c5ceaa",
+    "tests/evidence/saha-128/full-unit-summary.json": "cd692e3a760047421ae4107bc47ab061fd13f4767c91ab7977b9e5f3fee85da7",
+    "tests/evidence/saha-128/api-recovery-summary.json": "3f8ce744a7dab4fce99076da078fac7f44c43201487cf43fa676db3851340c9c",
+    "tests/evidence/saha-128/baseline-preservation.json": "510fae71fe515c21c482b4b921651188acaaff9a8b568018f51cc9fdf2d58ce9",
+    "tests/evidence/saha-128/source-freeze.json": "3d1d8e8f28c4e5188e3f4aeae1aa2654d14539920f96db13e4aaadd93289c5a4",
+    "tests/evidence/saha-128/advisory-source-review.json": "72e16e9656c3fee40578e812613360a3417d1eb13d3707b8b887a8a1ed05ddc5",
+    "tests/evidence/saha-128/advisory-source-review.md": "66bf543831b0f9647c1c9b95a86c32477f49ed2dadf87a0666e7c4ea672fb388",
+    "tests/evidence/saha-128/historical-source-restoration.json": "7094a05b730a0e62f9614808f09e66279e825e2bd79b2bf9b9dcf26335711210",
+    "tests/evidence/saha-128/build.log": "80f253458b030b3b0cc84249c4f14d92ac687ce5c9047075faa1f07d28753171",
+    "tests/evidence/saha-128/final-typecheck.log": "c35f2424235ba232f059514b72746d95f8a42286c454677ef748954aed7c5f36",
+    "tests/evidence/saha-128/final-lint.log": "7dca4a33e244e4c0433627d4f9fcde6bff1b502905f6bc09f5710e61f792a05c",
+    "tests/evidence/saha-128/supply-chain-network.json": "b36dc85b13c800d3bf47c89ec7d29541e26fa507fa93cf9b099bdb5465224e97",
+    "tests/evidence/saha-128/actual-registry-audit.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "tests/evidence/saha-128/supply-chain-sandbox-incomplete.json": "1eaa2bc4eca4cdcd0d818436e4a791abb86cd601c524474821255831f66b7e65",
+    "tests/evidence/saha-128/uat-summary.json": "cf4caa147d9571bb9db9e965699b6abe25190f4b8f1d03e9c839ed0320b813d0",
+    "tests/evidence/saha-128/historical-driver-revision2-85.mjs.txt": "73a53ff8453fa4402be5892c0556fdda1313727618e3da6b43e43f2b51008a35",
+    "tests/evidence/saha-128/historical-driver-revision1-reconstructed.mjs.txt": "5279f364b825ccf8c846f128279e8fb3824d681fd3d33c8f84ee0ef134c3e8e3",
+    "tests/evidence/saha-128/historical-monitoring-label-only.ts.txt": "f52ee061e79b504e1c157bd7ced58ce82a62ec8a79aa4856bfea697db5b34639",
+    "tests/evidence/saha-128/historical-monitoring-base7668.ts.txt": "5ef114ac5c2849674ad04c44667efcd1d46a981af4e190a0c62794d85141a3af",
+    "tests/evidence/saha-128/post-evidence-lint.log": "7dca4a33e244e4c0433627d4f9fcde6bff1b502905f6bc09f5710e61f792a05c"
+  },
+  "runs": {
+    "moduleFinal": {
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0
+    },
+    "nativeComponentFinal": {
+      "passed": 86,
+      "failed": 0,
+      "skipped": 0,
+      "realWorkerdHttp": true,
+      "realSqliteD1": true
+    },
+    "fullUnit": {
+      "suites": 203,
+      "passed": 10882,
+      "failed": 0,
+      "skipped": 0,
+      "guard": "passed",
+      "quarantine": 0
+    },
+    "originalApiAndRecovery": {
+      "suites": 2,
+      "passed": 5041,
+      "failed": 0,
+      "skipped": 0,
+      "api": 5020,
+      "recovery": 21,
+      "guards": "both passed"
+    },
+    "types": {
+      "exitCode": 0
+    },
+    "portableBuild": {
+      "exitCode": 0
+    },
+    "lint": {
+      "exitCode": 0,
+      "errors": 1392,
+      "warnings": 618,
+      "baselineErrors": 1392,
+      "baselineWarnings": 618,
+      "afterEvidenceFilesAdded": true
+    },
+    "supplyChain": {
+      "exitCode": 0,
+      "registryRead": "actual authorized network read",
+      "productionComponents": 226,
+      "counts": {
+        "info": 0,
+        "low": 8,
+        "moderate": 23,
+        "high": 30,
+        "critical": 0
+      },
+      "blocking": 0,
+      "acceptedDevelopmentOrBuildTimeFindings": 53,
+      "classification": "Historical unchanged gate output classified53 findings as development/build-time non-shipped. Subsequent independent exact-source review found actually bundled react-server-dom-webpack19.2.6/high1124314 falsely classified unshipped, plus error-shaped JSON falsely accepted. This classifier output is unqualified for current release; root handles both separate repairs.",
+      "currentReleaseQualification": "HELD: actual bundled RSC applicability and unavailable-audit fail-open defects"
+    },
+    "generatedUatConsistency": {
+      "suites": 3,
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "formalExecuted": 0,
+      "formalCatalogue": 364
+    }
+  },
+  "preservation": {
+    "originalRegressionEntries": 374,
+    "allOriginalEntriesByteEquivalentAsJsonValues": true,
+    "newOnly": [
+      "unit/request-metric-native-contract min86",
+      "unit/request-metric-privacy-contract min94"
+    ],
+    "sourceAcceptance": "TC-BR-SEC-07-A/B unchanged and not run as formal acceptance",
+    "clinicalWriters": "unchanged",
+    "identityProvider": "unchanged",
+    "migrationTables": "unchanged; test-only disposable subsets of existing DDL"
+  },
+  "criteria": [
+    {
+      "id": "M1",
+      "localStatus": "supported",
+      "evidence": "All61 exact original labels preserved in module/native checks."
+    },
+    {
+      "id": "M2",
+      "localStatus": "supported",
+      "evidence": "17 module and11 native adversarial runtime labels become unclassified; no raw sensitive route console leakage. No original public HTTP route-label leak was reproduced."
+    },
+    {
+      "id": "M3",
+      "localStatus": "supported",
+      "evidence": "Actual response/status/action-once/upsert/max/total/authorized retention and burden exemption preserved."
+    },
+    {
+      "id": "M4",
+      "localStatus": "supported",
+      "evidence": "Real D1 original source72/13 and revision2 source85/0 on same85 labels; latest receipt-strengthened fixture86/0. Both SQL statements carry exact current actor/org active-membership EXISTS."
+    },
+    {
+      "id": "M5",
+      "localStatus": "supported",
+      "evidence": "Fixed DB failure logging, response headers/body handling and existing full SafeLogsSmoke preserved. Large-body cancellation is preserved source behavior, not newly native-qualified."
+    },
+    {
+      "id": "M6",
+      "localStatus": "held",
+      "evidence": "Local author checks are retained as observations; current security remains HELD for bundled RSC applicability and unavailable-audit fail-open. Exact new-head CI, changed-base integration when applicable and final root release review remain separate."
+    }
+  ],
+  "history": {
+    "moduleOriginal": "76/17 preserved",
+    "firstImportFailure": "0/93 preserved",
+    "nativeOriginal": "73/12 preserved",
+    "labelOnlyFailure": "84/1 preserved; actual wrong-tenant eligible old row removed",
+    "revisedFixtureOriginal": "72/13 preserved; strengthened suspended-member eligible old row",
+    "revisedFixtureFixed": "85/0 preserved",
+    "recoveredHistoricalSources": "Explicitly reconstructed after execution; revision2 driver matches contemporaneous independent pin. Initial revision1 driver has no contemporaneous direct-source pin. Initial compiled bundles have retained hashes only; no retained bundle bytes claimed.",
+    "historicalFreeze": "source-freeze.json records the earlier pending gates at its actual capture time, superseded for current completed local API/type/lint by this later evidence record."
+  },
+  "cleanup": {
+    "ports9530And9531Listening": false,
+    "observedAt": "2026-10-11T15:22:30.697067+00:00",
+    "method": "lsof listener inventory; both empty",
+    "heavyLaneReleased": true
+  },
+  "openGates": [
+    "Current dependency security HELD: independently observed bundled RSC high1124314 and error-shaped audit fail-open require separately reviewed qualified remedies.",
+    "Exact published-head CI and final root review",
+    "Changed-base integration checks if main advances beyond7668",
+    "Actual hosted path logs/crash/analytics configuration and retention",
+    "Approved separately necessary diagnostics policy/store",
+    "Independent human and formal acceptance; observed hosting; measured benefit"
+  ],
+  "mergedSha": null,
+  "deployedSha": null,
+  "wholeStoryDone": false,
+  "humanApproval": false,
+  "deploymentObserved": false,
+  "dependencyAudit": "Historical actual registry read and existing gate exit0/full counters retained. Current security qualification is HELD: bundled RSC high1124314 was incorrectly classified unshipped, and unavailable error JSON can be falsely accepted. A complete response alone does not qualify dependency applicability."
+}

@@ -1,0 +1,131 @@
+// Actual monitoring/identity modules in workerd, real HTTP and SQLite-backed D1.
+// The wrapper is a test-only component entry, not an application endpoint or
+// hosted telemetry acceptance. No clinical command/writer is invoked.
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { createRequire } from 'node:module';
+import { execFileSync } from 'node:child_process';
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve, dirname } from 'node:path';
+
+const require = createRequire(import.meta.url);
+const { Miniflare } = await import(require.resolve('miniflare', { paths: [require.resolve('wrangler')] }));
+const { build } = await import(require.resolve('esbuild', { paths: [require.resolve('vite')] }));
+const fixture = JSON.parse(readFileSync('tests/fixtures/request-metric-routes-main.json', 'utf8'));
+const before = process.argv.includes('--before');
+const monitoring = before ? execFileSync('git', ['show', `${fixture.sourceHead}:lib/saha/monitoring.ts`], { encoding: 'utf8' }) : readFileSync('lib/saha/monitoring.ts', 'utf8');
+if (before) assert.equal(createHash('sha256').update(monitoring).digest('hex'), fixture.sourceSha256);
+const temporary = mkdtempSync(join(tmpdir(), 'saha-native-metric-'));
+const capturedSource = join(temporary, 'monitoring.ts');
+// Only import resolution moves; the measured() function bytes are untouched.
+writeFileSync(capturedSource, monitoring.replace("from './identity'", `from ${JSON.stringify(resolve('lib/saha/identity.ts'))}`).replace("from './request-metric-routes'", `from ${JSON.stringify(resolve('lib/saha/request-metric-routes.ts'))}`));
+const sentinel = 'SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441';
+const script = (await build({ stdin: { contents: `
+import { measured } from ${JSON.stringify(capturedSource)};
+let lastCapture=null;
+export default {async fetch(request){
+ if(new URL(request.url).pathname==='/fixture-capture')return Response.json(lastCapture);
+ const route=JSON.parse(request.headers.get('x-fixture-route')??'"patients"');
+ const original=new Response(${JSON.stringify(sentinel)},{status:Number(request.headers.get('x-fixture-status')??'200')});
+ const events=[],errors=[];let actions=0;
+ const log=console.log,error=console.error;
+ console.log=(...values)=>events.push(values);console.error=(...values)=>errors.push(values);
+ try{const returned=await measured(request,route,async()=>{actions++;return original;});
+  lastCapture={events,errors,actions,sameResponse:returned===original};return returned;
+ }finally{console.log=log;console.error=error;}
+}};`, resolveDir: process.cwd(), loader: 'ts' }, bundle: true, format: 'esm', platform: 'browser', target: 'es2022', external: ['cloudflare:workers'], write: false, logLevel: 'silent' })).outputFiles[0].text;
+const port = Number(process.env.SAHA_METRIC_NATIVE_PORT ?? '9530');
+const mf = new Miniflare({ host: '127.0.0.1', port, inspectorPort: 0, modules: true, script, compatibilityDate: '2026-05-15', compatibilityFlags: ['nodejs_compat'], bindings: { SAHA_IDENTITY_PROVIDER: 'sites-chatgpt' }, d1Databases: { DB: 'request-metric-contract' }, d1Persist: false });
+const checks = [], observations = [];
+const sourcePins = {
+  monitoring: createHash('sha256').update(monitoring).digest('hex'),
+  identity: createHash('sha256').update(readFileSync('lib/saha/identity.ts')).digest('hex'),
+  script: createHash('sha256').update(script).digest('hex'),
+  fixture: createHash('sha256').update(readFileSync('tests/fixtures/request-metric-routes-main.json')).digest('hex'),
+};
+const startedAt = new Date().toISOString();
+let db, origin, disposed = false;
+function headers(route, status = 200, options = {}) {
+  const h = new Headers({ 'x-fixture-route': JSON.stringify(route), 'x-fixture-status': String(status), 'oai-authenticated-user-id': options.actor ?? 'metric-actor', 'oai-authenticated-user-email': 'metric-fixture@example.invalid', 'x-saha-organisation': options.org ?? 'metric-org', authorization: 'Bearer ' + sentinel });
+  if (options.anonymous) h.delete('oai-authenticated-user-id');
+  if (options.defaultOrg) h.delete('x-saha-organisation');
+  return h;
+}
+async function rows() { return (await db.prepare('SELECT * FROM request_metrics ORDER BY org_id,bucket,route,status').all()).results; }
+async function invoke(route, status = 200, options = {}) {
+  const response = await fetch(new URL('/fixture-request?notes=' + sentinel, origin), { method: 'POST', headers: headers(route, status, options), body: sentinel, signal: AbortSignal.timeout(15000) });
+  const body = await response.text();
+  const captureResponse = await fetch(new URL('/fixture-capture', origin), { signal: AbortSignal.timeout(15000) });
+  const capture = await captureResponse.json();
+  assert.equal(response.status, status); assert.equal(body, sentinel);
+  assert.equal(capture.actions, 1); assert.equal(capture.sameResponse, true);
+  assert.equal(capture.events.length, 1); assert.equal(capture.events[0].length, 1);
+  const event = JSON.parse(capture.events[0][0]);
+  assert.deepEqual(Object.keys(event), ['event', 'requestId', 'route', 'status', 'durationMs']);
+  assert.equal(event.event, 'saha_request'); assert.equal(event.status, status);
+  assert.match(event.requestId, /^[a-f0-9-]{36}$/); assert.equal(response.headers.get('X-Saha-Request-Id'), event.requestId);
+  assert.equal(response.headers.get('Referrer-Policy'), 'no-referrer');
+  observations.push({ label: route, status, event, capture, bodySha256: createHash('sha256').update(body).digest('hex') });
+  return { response, event, capture };
+}
+async function check(label, fn) { try { await fn(); checks.push({ label, passed: true }); } catch (error) { checks.push({ label, passed: false, error: String(error) }); } }
+try {
+  origin = await mf.ready;
+  db = await mf.getD1Database('DB');
+  // Exact existing migration DDL for these four existing tables, not a substitute
+  // database implementation or new application schema. No clinical tables needed.
+  const first = readFileSync('drizzle/0001_tearful_victor_mancha.sql', 'utf8');
+  const second = readFileSync('drizzle/0002_petite_marten_broadcloak.sql', 'utf8');
+  for (const [name, text] of [['organisations', first], ['accounts', first], ['memberships', first], ['request_metrics', second]]) {
+    const ddl = text.match(new RegExp('CREATE TABLE `' + name + '` \\([\\s\\S]*?\\n\\);'))?.[0];
+    assert.ok(ddl, 'original table DDL ' + name);
+    await db.prepare(ddl).run();
+  }
+  await db.prepare("INSERT INTO organisations(id,name,last_command,created_at) VALUES ('metric-org','Synthetic metric org','','2026-10-11'),('other-org','Synthetic other org','','2026-10-11')").run();
+  await db.prepare("INSERT INTO accounts(user_id,account_code,display_name,email,active_org_id,created_at) VALUES ('metric-actor','metric-code','Synthetic actor','metric-fixture@example.invalid','metric-org','2026-10-11')").run();
+  await db.prepare("INSERT INTO memberships(org_id,user_id,role,status,version,created_at) VALUES ('metric-org','metric-actor','asha','active',1,'2026-10-11')").run();
+  for (const route of fixture.routes) await check('M1 native original route ' + route, async () => {
+    const { event } = await invoke(route); assert.equal(event.route, route);
+    const row = (await rows()).find(x => x.route === route && x.org_id === 'metric-org'); assert.equal(row.count, 1); assert.equal(row.total_ms, event.durationMs); assert.equal(row.max_ms, event.durationMs);
+  });
+  for (const [label, route] of [['path/query', '/api/patients/private?notes=' + sentinel], ['narrative', sentinel], ['credential', 'Bearer ' + sentinel], ['recording', 'RAWRECORDING-' + sentinel], ['known suffix', 'patients/' + sentinel], ['query on known label', 'patients?token=' + sentinel], ['case', 'PATIENTS'], ['empty', ''], ['null', null], ['array', ['patients', sentinel]], ['number', 441]]) await check('M2 native unclassified ' + label, async () => {
+    const { event, capture } = await invoke(route); assert.equal(event.route, 'unclassified');
+    assert.ok(!JSON.stringify(capture).includes(sentinel)); assert.ok(!(await rows()).some(x => JSON.stringify(x).includes(sentinel)));
+  });
+  await check('M3 native count/total/max upsert and original response', async () => {
+    const initial = (await rows()).find(x => x.route === 'patients');
+    const a = await invoke('patients'), b = await invoke('patients');
+    const current = (await rows()).find(x => x.route === 'patients');
+    assert.equal(current.count, initial.count + 2); assert.equal(current.total_ms, initial.total_ms + a.event.durationMs + b.event.durationMs); assert.equal(current.max_ms, Math.max(initial.max_ms, a.event.durationMs, b.event.durationMs));
+  });
+  for (const status of [403, 409, 422, 503]) await check('M3 native exact refused/error status ' + status, async () => {
+    const { event } = await invoke('commands', status); assert.equal(event.status, status); assert.equal((await rows()).find(x => x.route === 'commands' && x.status === status).count, 1);
+  });
+  await check('M3 native existing thirty-day prune keeps recent/burden/other tenant', async () => {
+    for (const [org, bucket, route] of [['metric-org', '2000-01-01T00:00:00.000Z', 'patients'], ['metric-org', '2000-01-01T00:00:00.000Z', 'burden:preserved'], ['other-org', '2000-01-01T00:00:00.000Z', 'patients']]) await db.prepare('INSERT INTO request_metrics(org_id,bucket,route,status,count,total_ms,max_ms) VALUES (?,?,?,200,1,1,1)').bind(org, bucket, route).run();
+    await invoke('history'); const all = await rows(); assert.ok(!all.some(x => x.org_id === 'metric-org' && x.bucket.startsWith('2000') && x.route === 'patients')); assert.ok(all.some(x => x.route === 'burden:preserved')); assert.ok(all.some(x => x.org_id === 'other-org')); assert.ok(all.some(x => x.org_id === 'metric-org' && x.route === 'history' && !x.bucket.startsWith('2000')));
+  });
+  for (const [label, options] of [['anonymous', { anonymous: true }], ['reserved', { actor: 'fixture:reserved' }], ['wrong tenant', { org: 'other-org' }], ['unknown actor', { actor: 'unknown-synthetic-actor' }]]) await check('M4 native no new authenticated metric for ' + label, async () => {
+    const prior = JSON.stringify(await rows()); const { capture } = await invoke('audit', 403, options); assert.equal(JSON.stringify(await rows()), prior); assert.ok(!JSON.stringify(capture).includes(sentinel));
+  });
+  await check('M4 native suspended membership prevents increment and expired-row deletion', async () => {
+    await db.prepare("INSERT INTO request_metrics(org_id,bucket,route,status,count,total_ms,max_ms) VALUES ('metric-org','2000-01-01T00:00:00.000Z','history',200,1,1,1)").run();
+    await db.prepare("UPDATE memberships SET status='suspended' WHERE org_id='metric-org' AND user_id='metric-actor'").run();
+    try { const prior = JSON.stringify(await rows()); await invoke('patients', 403); assert.equal(JSON.stringify(await rows()), prior); }
+    finally { await db.prepare("UPDATE memberships SET status='active' WHERE org_id='metric-org' AND user_id='metric-actor'").run(); }
+  });
+  await check('M4 native account default organisation uses trusted actor', async () => {
+    await invoke('data-exit', 200, { defaultOrg: true }); assert.equal((await rows()).find(x => x.route === 'data-exit').org_id, 'metric-org');
+  });
+  await check('M5 native database failure preserves response and fixed log', async () => {
+    await db.prepare('DROP TABLE request_metrics').run(); const { capture } = await invoke('patients', 409); assert.deepEqual(capture.errors, [['Saha request metrics unavailable']]); assert.ok(!JSON.stringify(capture).includes(sentinel));
+  });
+} finally {
+  await mf.dispose(); disposed = true; rmSync(temporary, { recursive: true, force: true });
+}
+const report = { suite: 'native request metric privacy contract', before, startedAt, completedAt: new Date().toISOString(), node: process.version, port, origin: String(origin), pid: process.pid, sourcePins, passed: checks.filter(x => x.passed).length, failed: checks.filter(x => !x.passed).length, skipped: 0, checks, observations, cleanup: { miniflareDisposed: disposed, persistence: 'disposable in-memory local D1', sourceTemporaryRemoved: true }, limits: ['Real HTTP to test-only component wrapper, actual production measured()/identity and native D1 SQL. Not a mounted Saha application endpoint, hosted logs/retention, clinical command, full story or physical device test.'] };
+const output = resolve(process.env.SAHA_METRIC_NATIVE_RESULT ?? 'tests/request-metric-native-contract-result.json');
+mkdirSync(dirname(output), { recursive: true }); writeFileSync(output, JSON.stringify(report, null, 2) + '\n');
+console.log(JSON.stringify({ suite: report.suite, before, passed: report.passed, failed: report.failed, output, cleanup: report.cleanup }));
+if (report.failed) process.exitCode = 1;

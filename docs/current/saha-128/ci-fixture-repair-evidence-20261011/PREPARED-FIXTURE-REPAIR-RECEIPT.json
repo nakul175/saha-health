@@ -1,0 +1,233 @@
+{
+  "preparedAt": "2026-10-11T16:30:07.755899+00:00",
+  "branch": "story/saha-128-route-telemetry-20261011",
+  "parent": "fa9e8285e0b02fc0bc4c811c1166c026377e74de",
+  "mainBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "contractSha256": "86e56b95cffb97298827e0afcc35bb43c6c67c9741ef3c7924c798214201f983",
+  "oracleProofSha256": "6d595c577219e0fcea41da030bc3d8869f27351e2e301503c1b89ca626e5370e",
+  "qualifiedComponentCommit": "71b4131b72541a47ce8f33f9caaa682242f9fbf4",
+  "componentsExactPins": {
+    "tests/installed-programme-single-runtime-current.mjs": "7ffded9bfe55fe143849661cb1ee907124051b37ace0d26eb1742d0428fb234f",
+    "tests/native-device-privacy-current-browser.mjs": "09f382fdbc2eb7dfed70c7b944b57d1c76f6a2e4cf6137bbf289393a6ec12c2d",
+    "tests/lib/miniflare.mjs": "3ed3643dfcdc07c46d8fe40e8104d3378479e116d7f234220d976f5a0138e3c8"
+  },
+  "original376GuardRecordsUnchanged": true,
+  "telemetry10PinsUnchanged": true,
+  "guardedSuiteMapping": {
+    "integration/installed-programme-execution-browser": {
+      "id": "integration/installed-programme-execution-browser",
+      "file": "tests/installed-programme-single-runtime-current.mjs",
+      "layer": "integration",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [
+        "build"
+      ],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/reports/installed-programme-single-runtime-current/result.json"
+      ],
+      "note": "Original121 checks and same synthetic authority/phone/D1-fault scenarios on one owned native runtime; no duplicate SQLite isolate or request retry"
+    },
+    "integration/device-work-browser": {
+      "id": "integration/device-work-browser",
+      "file": "tests/native-device-privacy-current-browser.mjs",
+      "layer": "integration",
+      "tier": "pr",
+      "runner": "node",
+      "needs": [
+        "build"
+      ],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/reports/native-device-privacy-current/browser-result.json"
+      ],
+      "note": "All original64 device authority/privacy/atomic purge checks, stable native runtime and exact SQLite fault injection, no request retry"
+    }
+  },
+  "sourceBaseline": {
+    "oldFiles": 1785,
+    "newFiles": 1787,
+    "newManifest": "application-saha-128-native-fixture-20261011-sha256.json",
+    "added": [
+      "tests/installed-programme-single-runtime-current.mjs",
+      "tests/native-device-privacy-current-browser.mjs"
+    ],
+    "removed": [],
+    "changed": [
+      "VALIDATION.md",
+      "scripts/test-catalogue.mjs",
+      "tests/lib/miniflare.mjs"
+    ],
+    "oldManifestBytesPreserved": true,
+    "initialPreparedManifestRetained": "INITIAL-PREPARED-SOURCE-MANIFEST.json; finalauthorbaseline reruns unchangedupdater after observedtooling paragraph"
+  },
+  "protectedApplicationDepsCISourcesFormalInputsUnchanged": [
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    ".github/workflows/ci.yml",
+    "lib/saha/monitoring.ts",
+    "lib/saha/request-metric-routes.ts",
+    "requirements/assessment.tsv",
+    "requirements/evidence-map.json",
+    "requirements/traceability.csv",
+    "requirements/traceability.json",
+    "requirements/brd-v1.1.json",
+    "docs/current/TEST-CATALOGUE.csv",
+    "docs/testing/uat/uat-results.csv",
+    "scripts/update-baseline.py",
+    "scripts/check-documentation.py",
+    "tests/uat/coverage-map.mjs",
+    "tests/uat/generate-uat-pack.mjs"
+  ],
+  "historicalSuffixesByteExact": {
+    "HANDOVER.md": true,
+    "VALIDATION.md": true,
+    "docs/IMPLEMENTATION.md": true,
+    "docs/NEXT-DELIVERY.md": true
+  },
+  "tools": [
+    {
+      "name": "generate-inventory",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/build-documentation.py"
+      ],
+      "startedAt": "2026-10-11T16:27:38.621730+00:00",
+      "completedAt": "2026-10-11T16:27:38.745843+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "f168a79337e260d8a290507651aaf506c80e6280698acec784b6f66e5561ea73",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "generate-coverage",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "tests/uat/coverage-map.mjs"
+      ],
+      "startedAt": "2026-10-11T16:27:38.746001+00:00",
+      "completedAt": "2026-10-11T16:27:38.933153+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "d6ee1197218fcc1917ec6e2a33a808ec58d86d705fc1b3274fd547a2c31d65f4",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "generate-uat",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "tests/uat/generate-uat-pack.mjs"
+      ],
+      "startedAt": "2026-10-11T16:27:38.933297+00:00",
+      "completedAt": "2026-10-11T16:27:39.116851+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "127fae15928ec572c8d0762650851200c76dc73051ce8b62bcc3ef51c5d10118",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source-baseline",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/update-baseline.py",
+        "saha-128-native-fixture-20261011",
+        "Prepared original121/64native fixture repair;376guard records/application10pins preserved; exact-source runtimeCIpending"
+      ],
+      "startedAt": "2026-10-11T16:27:39.117004+00:00",
+      "completedAt": "2026-10-11T16:27:39.320976+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "51d1c5baa1b13efb69c2cfcc108bbaa90841d4fa62a96a4820787e1178f8c3c8",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "catalogue",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/test.mjs",
+        "--check-catalogue"
+      ],
+      "startedAt": "2026-10-11T16:27:39.321131+00:00",
+      "completedAt": "2026-10-11T16:27:39.377687+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "b0b9e399e463cf3d5b2a73ad60515ca2a70d1ebb84658b744c63e2a5c2fa4957",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "docs",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check-documentation.py"
+      ],
+      "startedAt": "2026-10-11T16:27:39.377835+00:00",
+      "completedAt": "2026-10-11T16:27:41.288235+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "c72dac570a07768a88e62c55ad946f9f0c4c8a3b9384f72109aff8c684b72a78",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "requirements",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/audit-requirements.mjs",
+        "--check"
+      ],
+      "startedAt": "2026-10-11T16:27:41.288402+00:00",
+      "completedAt": "2026-10-11T16:27:41.318294+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "uat-tooling",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/test.mjs",
+        "uat",
+        "--fast",
+        "--guard"
+      ],
+      "startedAt": "2026-10-11T16:27:41.318472+00:00",
+      "completedAt": "2026-10-11T16:27:42.048232+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "31bb2f19ed055da8567aee5bbb285e020d000c3d759a2cf74baf88540026a201",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-source-baseline",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/update-baseline.py",
+        "saha-128-native-fixture-20261011",
+        "Prepared original121/64 native fixture repair;376guard records/application10pins preserved; exact-source runtimeCIpending"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "51d1c5baa1b13efb69c2cfcc108bbaa90841d4fa62a96a4820787e1178f8c3c8",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-docs",
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check-documentation.py"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "c72dac570a07768a88e62c55ad946f9f0c4c8a3b9384f72109aff8c684b72a78",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "uatTooling": {
+    "suites": 3,
+    "passed": 63,
+    "failed": 0,
+    "skipped": 0,
+    "guardEvaluated": 3
+  },
+  "actualNativeCurrentSourceRun": "Not run. No build/install/backend/browser/full-unit process started; source remainsprepared/uncommitted.",
+  "realFailedCi": "fa9 run38152196066/job114507827711 remainsfailed, log/artifact retained, not waived/exonerated",
+  "independentReview": "Root exact source/oracle/applicability review required; author preparation receipt notapproval",
+  "releaseHeld": [
+    "Exact final CI after publication",
+    "Changed main/sharedReact19.2.8/security composition qualification",
+    "Observed staging andfullparentacceptance"
+  ],
+  "commitOrPush": false
+}

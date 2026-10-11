@@ -1,0 +1,2271 @@
+{
+  "suite": "native request metric privacy contract",
+  "before": false,
+  "startedAt": "2026-10-11T15:06:29.049Z",
+  "completedAt": "2026-10-11T15:06:29.421Z",
+  "node": "v24.19.0",
+  "port": 9530,
+  "origin": "http://127.0.0.1:9530/",
+  "pid": 66551,
+  "sourcePins": {
+    "monitoring": "f52ee061e79b504e1c157bd7ced58ce82a62ec8a79aa4856bfea697db5b34639",
+    "identity": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "script": "92188ad0ead3dad64d2b458488c903a551f27342cca57c389019ea637d2f3c73",
+    "fixture": "dd6ab2b49eb15c9433f86c2a851c9fbc3fd052b8211a1bde01179fdd26092495"
+  },
+  "passed": 84,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [
+    {
+      "label": "M1 native original route clinical-sources",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route device-work",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route reconciliation",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route frontline-providers",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route frontline-assessments",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route frontline-connection-test",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route anaemia-provider",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route anaemia-screenings",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route workforce-import",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route incentive-claims",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route identifier-search",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route trace",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route record-opened",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route aggregate-reports",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route alerts",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route notification-channel",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route record-import",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route import-rejections",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route household",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route value-range-protocols",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route pack-installations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route referral-requests",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patients",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patient-detail",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route worklists",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route delegations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route worker-activity",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route action-plan",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route exceptions",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route reassignment",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route caseload",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route identity-cases",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route exceptional",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route rights",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route retention",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route indicators",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route referral-escalations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route roster",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route abdm",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route media",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route governance",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route provider-sandbox",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patient-matches",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route continuity",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route workspace",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route commands",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route operations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route pilot",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route outreach",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route expansion",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route history",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route audit",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route audit-chain",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route data-exit",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route environment",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route fixture-migration",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route programme-migration",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patient-import",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route facility-scope",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route purpose-scope",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route fhir",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified path/query",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified narrative",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified credential",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified recording",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified known suffix",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified query on known label",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified case",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified empty",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified null",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified array",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified number",
+      "passed": true
+    },
+    {
+      "label": "M3 native count/total/max upsert and original response",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 403",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 409",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 422",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 503",
+      "passed": true
+    },
+    {
+      "label": "M3 native existing thirty-day prune keeps recent/burden/other tenant",
+      "passed": true
+    },
+    {
+      "label": "M4 native no new authenticated metric for anonymous",
+      "passed": true
+    },
+    {
+      "label": "M4 native no new authenticated metric for reserved",
+      "passed": true
+    },
+    {
+      "label": "M4 native no new authenticated metric for wrong tenant",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '[{\"org_id\":\"metric-org\",\"bucket\":\"2000-01-01T00:00:00.000Z\",\"route\":\"burden:preserved\",\"status\":200,\"count\":1,\"total_ms\":1,\"max_ms\":1},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"abdm\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"action-plan\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"aggregate-reports\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"alerts\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"anaemia-provider\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"anaemia-screenings\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"audit\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"audit-chain\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"caseload\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"clinical-sources\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":403,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":409,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":422,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":503,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"continuity\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"data-exit\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"delegations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"device-work\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"environment\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"exceptional\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"exceptions\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"expansion\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"facility-scope\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"fhir\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"fixture-migration\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"frontline-assessments\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"frontline-connection-test\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"frontline-providers\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"governance\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"history\",\"status\":200,\"count\":2,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"household\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"identifier-search\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"identity-cases\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"import-rejections\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"incentive-claims\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"indicators\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"media\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"notification-channel\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"operations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"outreach\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"pack-installations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patient-detail\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patient-import\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patient-matches\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patients\",\"status\":200,\"count\":3,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"pilot\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"programme-migration\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"provider-sandbox\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"purpose-scope\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"reassignment\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"reconciliation\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"record-import\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"record-opened\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"referral-escalations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"referral-requests\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"retention\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"rights\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"roster\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"trace\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"unclassified\",\"status\":200,\"count\":11,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"value-range-protocols\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"worker-activity\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"workforce-import\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"worklists\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"workspace\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0}]'\n- '[{\"org_id\":\"metric-org\",\"bucket\":\"2000-01-01T00:00:00.000Z\",\"route\":\"burden:preserved\",\"status\":200,\"count\":1,\"total_ms\":1,\"max_ms\":1},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"abdm\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"action-plan\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"aggregate-reports\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"alerts\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"anaemia-provider\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"anaemia-screenings\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"audit\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"audit-chain\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"caseload\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"clinical-sources\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":403,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":409,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":422,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"commands\",\"status\":503,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"continuity\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"data-exit\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"delegations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"device-work\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"environment\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"exceptional\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"exceptions\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"expansion\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"facility-scope\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"fhir\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"fixture-migration\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"frontline-assessments\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"frontline-connection-test\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"frontline-providers\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"governance\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"history\",\"status\":200,\"count\":2,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"household\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"identifier-search\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"identity-cases\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"import-rejections\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"incentive-claims\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"indicators\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"media\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"notification-channel\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"operations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"outreach\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"pack-installations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patient-detail\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patient-import\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patient-matches\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"patients\",\"status\":200,\"count\":3,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"pilot\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"programme-migration\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"provider-sandbox\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"purpose-scope\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"reassignment\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"reconciliation\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"record-import\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"record-opened\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"referral-escalations\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"referral-requests\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"retention\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"rights\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"roster\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"trace\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"unclassified\",\"status\":200,\"count\":11,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"value-range-protocols\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"worker-activity\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"workforce-import\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"worklists\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"metric-org\",\"bucket\":\"2026-10-11T15:00:00.000Z\",\"route\":\"workspace\",\"status\":200,\"count\":1,\"total_ms\":0,\"max_ms\":0},{\"org_id\":\"other-org\",\"bucket\":\"2000-01-01T00:00:00.000Z\",\"route\":\"patients\",\"status\":200,\"count\":1,\"total_ms\":1,\"max_ms\":1}]'\n"
+    },
+    {
+      "label": "M4 native no new authenticated metric for unknown actor",
+      "passed": true
+    },
+    {
+      "label": "M4 native suspended membership prevents metric increment",
+      "passed": true
+    },
+    {
+      "label": "M4 native account default organisation uses trusted actor",
+      "passed": true
+    },
+    {
+      "label": "M5 native database failure preserves response and fixed log",
+      "passed": true
+    }
+  ],
+  "observations": [
+    {
+      "label": "clinical-sources",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "dffc2810-c564-4373-b1d0-ae44b6d45423",
+        "route": "clinical-sources",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"dffc2810-c564-4373-b1d0-ae44b6d45423\",\"route\":\"clinical-sources\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "device-work",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "44925447-fa5a-4262-aed6-908067bef8ed",
+        "route": "device-work",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"44925447-fa5a-4262-aed6-908067bef8ed\",\"route\":\"device-work\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "reconciliation",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "4b4b9383-76d7-4c33-a8b3-02440ea9238c",
+        "route": "reconciliation",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"4b4b9383-76d7-4c33-a8b3-02440ea9238c\",\"route\":\"reconciliation\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "frontline-providers",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "aaf3c614-ded7-4274-90a6-032f07131c96",
+        "route": "frontline-providers",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"aaf3c614-ded7-4274-90a6-032f07131c96\",\"route\":\"frontline-providers\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "frontline-assessments",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e84396cd-869b-47be-b0fa-7c93e0c87bf2",
+        "route": "frontline-assessments",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e84396cd-869b-47be-b0fa-7c93e0c87bf2\",\"route\":\"frontline-assessments\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "frontline-connection-test",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c0afaecd-edda-4124-a711-0189c149af6d",
+        "route": "frontline-connection-test",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c0afaecd-edda-4124-a711-0189c149af6d\",\"route\":\"frontline-connection-test\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "anaemia-provider",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "f6da533c-4c4c-49a0-82a5-b82e43765502",
+        "route": "anaemia-provider",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"f6da533c-4c4c-49a0-82a5-b82e43765502\",\"route\":\"anaemia-provider\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "anaemia-screenings",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "3e6f63a4-7f61-4447-a759-bebc71ea8408",
+        "route": "anaemia-screenings",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"3e6f63a4-7f61-4447-a759-bebc71ea8408\",\"route\":\"anaemia-screenings\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "workforce-import",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d0744985-3a1e-4d6b-b831-d9de5d11d8a4",
+        "route": "workforce-import",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d0744985-3a1e-4d6b-b831-d9de5d11d8a4\",\"route\":\"workforce-import\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "incentive-claims",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "f36c2ae1-2cd3-4969-882a-4700f7f69a95",
+        "route": "incentive-claims",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"f36c2ae1-2cd3-4969-882a-4700f7f69a95\",\"route\":\"incentive-claims\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "identifier-search",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "b532dfdb-447c-427b-9a41-e370843ab092",
+        "route": "identifier-search",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"b532dfdb-447c-427b-9a41-e370843ab092\",\"route\":\"identifier-search\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "trace",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "91aa7ca4-cdee-4ffa-858a-0182dd49d9fa",
+        "route": "trace",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"91aa7ca4-cdee-4ffa-858a-0182dd49d9fa\",\"route\":\"trace\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "record-opened",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "555eaec0-e0aa-42c9-872b-f6220b11a2cf",
+        "route": "record-opened",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"555eaec0-e0aa-42c9-872b-f6220b11a2cf\",\"route\":\"record-opened\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "aggregate-reports",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e040ee42-6b78-4969-96e8-01138bd00510",
+        "route": "aggregate-reports",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e040ee42-6b78-4969-96e8-01138bd00510\",\"route\":\"aggregate-reports\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "alerts",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "09a209b1-2ce9-4a47-8da0-b3eadab5bd00",
+        "route": "alerts",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"09a209b1-2ce9-4a47-8da0-b3eadab5bd00\",\"route\":\"alerts\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "notification-channel",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "046495c1-f867-4d4a-9209-a9519a8c2bf5",
+        "route": "notification-channel",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"046495c1-f867-4d4a-9209-a9519a8c2bf5\",\"route\":\"notification-channel\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "record-import",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "4b7609be-d3fd-49fd-a184-7fcb2e1feb1c",
+        "route": "record-import",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"4b7609be-d3fd-49fd-a184-7fcb2e1feb1c\",\"route\":\"record-import\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "import-rejections",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "fb92985b-23e0-40f1-bebf-3b6434a408dd",
+        "route": "import-rejections",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"fb92985b-23e0-40f1-bebf-3b6434a408dd\",\"route\":\"import-rejections\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "household",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9d42d97a-60ac-42db-983c-d687e1f8f48a",
+        "route": "household",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9d42d97a-60ac-42db-983c-d687e1f8f48a\",\"route\":\"household\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "value-range-protocols",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "0a68004d-c0f4-40d6-a139-ba0dac8bc9fb",
+        "route": "value-range-protocols",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"0a68004d-c0f4-40d6-a139-ba0dac8bc9fb\",\"route\":\"value-range-protocols\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "pack-installations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "64df0a04-6b03-4c6c-af39-b8cd68c5a65a",
+        "route": "pack-installations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"64df0a04-6b03-4c6c-af39-b8cd68c5a65a\",\"route\":\"pack-installations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "referral-requests",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "154e2cf6-d884-4101-95cd-114b4376ccd1",
+        "route": "referral-requests",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"154e2cf6-d884-4101-95cd-114b4376ccd1\",\"route\":\"referral-requests\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "fda5dec6-fd98-44ff-9fe8-ebc498291a37",
+        "route": "patients",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"fda5dec6-fd98-44ff-9fe8-ebc498291a37\",\"route\":\"patients\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patient-detail",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "575464d2-b046-4d24-922c-2888972fdca2",
+        "route": "patient-detail",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"575464d2-b046-4d24-922c-2888972fdca2\",\"route\":\"patient-detail\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "worklists",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "1353f727-58ba-4f1a-b809-91999c0e853a",
+        "route": "worklists",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"1353f727-58ba-4f1a-b809-91999c0e853a\",\"route\":\"worklists\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "delegations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "483b26c2-624d-4080-b3a2-1e00aa6ae7c8",
+        "route": "delegations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"483b26c2-624d-4080-b3a2-1e00aa6ae7c8\",\"route\":\"delegations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "worker-activity",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "eef68abe-d9ea-406b-8279-b7bb5aa55ae6",
+        "route": "worker-activity",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"eef68abe-d9ea-406b-8279-b7bb5aa55ae6\",\"route\":\"worker-activity\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "action-plan",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9d24815f-041e-4b3f-a0b0-ec7e36f45c15",
+        "route": "action-plan",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9d24815f-041e-4b3f-a0b0-ec7e36f45c15\",\"route\":\"action-plan\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "exceptions",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "be34c86b-8c0a-4013-b9bf-09225cc7600d",
+        "route": "exceptions",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"be34c86b-8c0a-4013-b9bf-09225cc7600d\",\"route\":\"exceptions\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "reassignment",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "55d027ef-873c-4449-9121-0b6c2048e3e0",
+        "route": "reassignment",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"55d027ef-873c-4449-9121-0b6c2048e3e0\",\"route\":\"reassignment\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "caseload",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "eda71714-fe6a-41f4-b326-31042d1cec0c",
+        "route": "caseload",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"eda71714-fe6a-41f4-b326-31042d1cec0c\",\"route\":\"caseload\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "identity-cases",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9c806f9c-b0a3-4c27-9b00-59b76add2ac7",
+        "route": "identity-cases",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9c806f9c-b0a3-4c27-9b00-59b76add2ac7\",\"route\":\"identity-cases\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "exceptional",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "ab9f8a8c-8449-4bd4-8f5e-beeab14108a3",
+        "route": "exceptional",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"ab9f8a8c-8449-4bd4-8f5e-beeab14108a3\",\"route\":\"exceptional\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "rights",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "16a230d8-147c-4a1b-b217-cb9eb8030b6b",
+        "route": "rights",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"16a230d8-147c-4a1b-b217-cb9eb8030b6b\",\"route\":\"rights\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "retention",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "25bef536-fc1f-4f0a-a7f7-08f1ea64a384",
+        "route": "retention",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"25bef536-fc1f-4f0a-a7f7-08f1ea64a384\",\"route\":\"retention\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "indicators",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9f611185-bebf-45d6-8872-dd1a00e1d690",
+        "route": "indicators",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9f611185-bebf-45d6-8872-dd1a00e1d690\",\"route\":\"indicators\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "referral-escalations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "03668884-2c54-420f-8588-1f4025d8fb4e",
+        "route": "referral-escalations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"03668884-2c54-420f-8588-1f4025d8fb4e\",\"route\":\"referral-escalations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "roster",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "ef0452c4-f313-4a54-a4ac-6c62a8b4d588",
+        "route": "roster",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"ef0452c4-f313-4a54-a4ac-6c62a8b4d588\",\"route\":\"roster\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "abdm",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "78b400ff-7964-4dcd-b14e-a84abd977545",
+        "route": "abdm",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"78b400ff-7964-4dcd-b14e-a84abd977545\",\"route\":\"abdm\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "media",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "0df1b1e9-7e73-4dc7-85b6-dbf4315136ee",
+        "route": "media",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"0df1b1e9-7e73-4dc7-85b6-dbf4315136ee\",\"route\":\"media\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "governance",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "34dce066-aaea-4807-b4e8-ce0822caf27c",
+        "route": "governance",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"34dce066-aaea-4807-b4e8-ce0822caf27c\",\"route\":\"governance\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "provider-sandbox",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "965d918c-afb5-46be-82ec-9a53ad9307b4",
+        "route": "provider-sandbox",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"965d918c-afb5-46be-82ec-9a53ad9307b4\",\"route\":\"provider-sandbox\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patient-matches",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a37c5853-a02f-4c67-a5d7-18f51d33a1c1",
+        "route": "patient-matches",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a37c5853-a02f-4c67-a5d7-18f51d33a1c1\",\"route\":\"patient-matches\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "continuity",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "efbc8a6f-fd76-4e45-8afe-e4730b9d899b",
+        "route": "continuity",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"efbc8a6f-fd76-4e45-8afe-e4730b9d899b\",\"route\":\"continuity\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "workspace",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "190d5b79-a92b-40e1-8a16-3873ec9c767d",
+        "route": "workspace",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"190d5b79-a92b-40e1-8a16-3873ec9c767d\",\"route\":\"workspace\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "f6ef24c6-bf6c-49e9-94f6-743377e15987",
+        "route": "commands",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"f6ef24c6-bf6c-49e9-94f6-743377e15987\",\"route\":\"commands\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "operations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "56cd348c-1763-4ab1-be86-c5a61e80d569",
+        "route": "operations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"56cd348c-1763-4ab1-be86-c5a61e80d569\",\"route\":\"operations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "pilot",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "35337f3f-8438-47f1-aca3-3a5a3f0fa274",
+        "route": "pilot",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"35337f3f-8438-47f1-aca3-3a5a3f0fa274\",\"route\":\"pilot\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "outreach",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d3944d32-755c-4eb1-8192-86a1e0269f24",
+        "route": "outreach",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d3944d32-755c-4eb1-8192-86a1e0269f24\",\"route\":\"outreach\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "expansion",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "fd26f466-0a7e-4667-a053-e9b4e2e39919",
+        "route": "expansion",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"fd26f466-0a7e-4667-a053-e9b4e2e39919\",\"route\":\"expansion\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "history",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "09cd6753-2df7-481c-a1cb-3ef43b8c16a7",
+        "route": "history",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"09cd6753-2df7-481c-a1cb-3ef43b8c16a7\",\"route\":\"history\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "81852560-fde0-4182-9bb8-e1f49f47eb97",
+        "route": "audit",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"81852560-fde0-4182-9bb8-e1f49f47eb97\",\"route\":\"audit\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit-chain",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d7ee2304-6140-41b8-93ae-28d5480257bf",
+        "route": "audit-chain",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d7ee2304-6140-41b8-93ae-28d5480257bf\",\"route\":\"audit-chain\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "data-exit",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "71d3fe90-eae4-49cc-a59c-bc435c0e56d5",
+        "route": "data-exit",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"71d3fe90-eae4-49cc-a59c-bc435c0e56d5\",\"route\":\"data-exit\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "environment",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "8b47d260-4f96-4b3d-abba-c62c4f15e640",
+        "route": "environment",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"8b47d260-4f96-4b3d-abba-c62c4f15e640\",\"route\":\"environment\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "fixture-migration",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "af600b38-8621-4e07-ba9c-c2c17059ffd5",
+        "route": "fixture-migration",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"af600b38-8621-4e07-ba9c-c2c17059ffd5\",\"route\":\"fixture-migration\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "programme-migration",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "bcbb2298-f728-432d-a66e-7638243b7be0",
+        "route": "programme-migration",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"bcbb2298-f728-432d-a66e-7638243b7be0\",\"route\":\"programme-migration\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patient-import",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "850a6367-e15b-401f-9ea6-a7c6dfe17165",
+        "route": "patient-import",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"850a6367-e15b-401f-9ea6-a7c6dfe17165\",\"route\":\"patient-import\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "facility-scope",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "564b38e2-f022-494a-a85b-adc6f811d1c5",
+        "route": "facility-scope",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"564b38e2-f022-494a-a85b-adc6f811d1c5\",\"route\":\"facility-scope\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "purpose-scope",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "2c4ef43d-92f1-4375-a1fb-a15fc817cf0e",
+        "route": "purpose-scope",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"2c4ef43d-92f1-4375-a1fb-a15fc817cf0e\",\"route\":\"purpose-scope\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "fhir",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d936aaad-1182-4212-9b0b-ec1d0148dcb1",
+        "route": "fhir",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d936aaad-1182-4212-9b0b-ec1d0148dcb1\",\"route\":\"fhir\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "/api/patients/private?notes=SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "5c5f640f-f3f4-4686-a8c4-f19a41f06fc9",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"5c5f640f-f3f4-4686-a8c4-f19a41f06fc9\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "f4f8e656-e20d-42a2-8141-29bbc74a6387",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"f4f8e656-e20d-42a2-8141-29bbc74a6387\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "Bearer SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "da79ae46-0696-4e77-8bf6-a0e63ccb1602",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"da79ae46-0696-4e77-8bf6-a0e63ccb1602\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "RAWRECORDING-SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "91c54e78-395a-4ede-b026-d9fc32eec2e7",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"91c54e78-395a-4ede-b026-d9fc32eec2e7\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients/SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "939baaf8-df3b-4946-8a55-008219884a4d",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"939baaf8-df3b-4946-8a55-008219884a4d\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients?token=SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "448a28bb-f97e-4109-9028-f0a4fe8fad36",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"448a28bb-f97e-4109-9028-f0a4fe8fad36\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "PATIENTS",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "51882753-a44d-43c4-b3d2-c39c826e5f70",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"51882753-a44d-43c4-b3d2-c39c826e5f70\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c98ce72c-d91e-4d5c-8a97-c03b8da16db1",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c98ce72c-d91e-4d5c-8a97-c03b8da16db1\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": null,
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "1c26ff27-7d42-4f8c-94f7-bf836a8d343d",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"1c26ff27-7d42-4f8c-94f7-bf836a8d343d\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": [
+        "patients",
+        "SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441"
+      ],
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "5e001029-d019-463d-a560-3c810737907e",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"5e001029-d019-463d-a560-3c810737907e\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": 441,
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "59c81ad2-bfb6-4ba0-86c7-582bafdbeaa2",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"59c81ad2-bfb6-4ba0-86c7-582bafdbeaa2\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e2be24df-2afa-4e73-adf4-0b502a8f007e",
+        "route": "patients",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e2be24df-2afa-4e73-adf4-0b502a8f007e\",\"route\":\"patients\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "26fac90a-da22-4e63-ac5c-6ab4176f1e75",
+        "route": "patients",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"26fac90a-da22-4e63-ac5c-6ab4176f1e75\",\"route\":\"patients\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "beac8f7c-2629-429b-95f0-bc5462dfb7a6",
+        "route": "commands",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"beac8f7c-2629-429b-95f0-bc5462dfb7a6\",\"route\":\"commands\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 409,
+      "event": {
+        "event": "saha_request",
+        "requestId": "901e40d5-10e5-4f8a-8ef0-2c081a52b77e",
+        "route": "commands",
+        "status": 409,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"901e40d5-10e5-4f8a-8ef0-2c081a52b77e\",\"route\":\"commands\",\"status\":409,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 422,
+      "event": {
+        "event": "saha_request",
+        "requestId": "935f2443-4ede-4e70-b241-db9b2d54b028",
+        "route": "commands",
+        "status": 422,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"935f2443-4ede-4e70-b241-db9b2d54b028\",\"route\":\"commands\",\"status\":422,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 503,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a61eccbd-4e75-46d9-bcb6-ea1765ed6366",
+        "route": "commands",
+        "status": 503,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a61eccbd-4e75-46d9-bcb6-ea1765ed6366\",\"route\":\"commands\",\"status\":503,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "history",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "96c66a2c-9eca-4717-8a38-da22f647194f",
+        "route": "history",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"96c66a2c-9eca-4717-8a38-da22f647194f\",\"route\":\"history\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c5086e31-95f2-40f1-b061-e0e5fd97cc73",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c5086e31-95f2-40f1-b061-e0e5fd97cc73\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "8690e3f5-7c19-4767-b8ec-0d5538d227a8",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"8690e3f5-7c19-4767-b8ec-0d5538d227a8\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9633de4d-fbaf-49b9-b335-a92040b346fb",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9633de4d-fbaf-49b9-b335-a92040b346fb\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d39f3144-6e71-4abc-9c85-8dbe084fb5e7",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d39f3144-6e71-4abc-9c85-8dbe084fb5e7\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "fda880ab-09e1-4e69-8bcf-8bb2ccdff3ad",
+        "route": "patients",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"fda880ab-09e1-4e69-8bcf-8bb2ccdff3ad\",\"route\":\"patients\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "data-exit",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "1bc7305d-e225-4733-94b6-b98f36eed3e1",
+        "route": "data-exit",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"1bc7305d-e225-4733-94b6-b98f36eed3e1\",\"route\":\"data-exit\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 409,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9c532a87-0ab7-4ee6-8f19-fd1347a32c51",
+        "route": "patients",
+        "status": 409,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9c532a87-0ab7-4ee6-8f19-fd1347a32c51\",\"route\":\"patients\",\"status\":409,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [
+          [
+            "Saha request metrics unavailable"
+          ]
+        ],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    }
+  ],
+  "cleanup": {
+    "miniflareDisposed": true,
+    "persistence": "disposable in-memory local D1",
+    "sourceTemporaryRemoved": true
+  },
+  "limits": [
+    "Real HTTP to test-only component wrapper, actual production measured()/identity and native D1 SQL. Not a mounted Saha application endpoint, hosted logs/retention, clinical command, full story or physical device test."
+  ]
+}

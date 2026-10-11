@@ -1,0 +1,14 @@
+{
+  "resultLines": [
+    " 'tests/installed-programme-single-runtime-current.mjs':['tests/reports/installed-programme-single-runtime-current/result.json'],",
+    " 'tests/native-device-privacy-current-browser.mjs':['tests/reports/native-device-privacy-current/browser-result.json'],"
+  ],
+  "classifyLines": [
+    " if(file==='tests/installed-programme-single-runtime-current.mjs')return {id:'integration/installed-programme-execution-browser',layer:'integration',role:'suite',tier:'pr',runner:'node',reason:'Original121 checks and same synthetic authority/phone/D1-fault scenarios on one owned native runtime; no duplicate SQLite isolate or request retry'};",
+    " if(file==='tests/installed-programme-execution-repair-uncertainty.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable actual failed multi-runtime phone/D1 fixture; original121 checks retained by single-runtime adapter'};",
+    " if(file==='tests/native-device-privacy-current-browser.mjs')return {id:'integration/device-work-browser',layer:'integration',role:'suite',tier:'pr',runner:'node',reason:'All original64 device authority/privacy/atomic purge checks, stable native runtime and exact SQLite fault injection, no request retry'};",
+    " if(file==='tests/integration-offline-guided-device-browser.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable actual failed development-watcher fixture; original64 checks retained by native device privacy adapter'};"
+  ],
+  "sourceCommit": "71b4131b72541a47ce8f33f9caaa682242f9fbf4",
+  "copiedSourceFileSha256": "3ecab43b149aee94795f3d9f04258c5e1c3605ab87cff6c6fd24c29802ac7f0c"
+}

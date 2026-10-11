@@ -1,0 +1,44 @@
+{
+  "completedAt": "2026-10-11T15:20:38.312166+00:00",
+  "status": "no-unresolved-blocking-findings-in-bounded-source-test-review",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "sourceChangedSinceFinalReviewCapture": false,
+  "drift": {},
+  "method": "Independent read-only source/evidence review; no reruns, runtime, backend, build, network or source edits",
+  "humanApproval": false,
+  "fullGateCertification": false,
+  "wholeStoryDone": false,
+  "deploymentObserved": false,
+  "reviewedSourcePins": {
+    "lib/saha/monitoring.ts": "d9ae3eee545e1451d4b3db8d63dc922eb9727bfb358de697e037c5d388993b37",
+    "lib/saha/request-metric-routes.ts": "592848a22c5b1fd19a972ee47ef44f6a0af2d6e452ce09a0e93bc405eabd1113",
+    "lib/saha/identity.ts": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "docs/current/saha-128/SPECIFICATION.md": "3f59cba00e547ddce805627a39d736f6dbf33f451ed38414550cc3d491398e77",
+    "tests/request-metric-privacy-contract.mjs": "1372825775d653fc236ff142ee674e181fbb8708898c4fcdfa6d719fda97299c",
+    "tests/request-metric-native-contract.mjs": "af51570f7ecc886271d20c9d8406d3e493ccd9c6f52dbb1b1b432a5685965927",
+    "tests/fixtures/request-metric-routes-main.json": "dd6ab2b49eb15c9433f86c2a851c9fbc3fd052b8211a1bde01179fdd26092495",
+    "tests/safe-logs-contract.mjs": "3f1ab8f79b8f3454634fc4e733130c0a42ce195316a719e3b1cb4a521c1df9bd",
+    "tests/safe-logs-smoke.mjs": "e2d909ae1fddd6fa5bae0c2deacd553861d68e401b75261951870f93332e7fe4",
+    "tests/regression-baseline.json": "4e320771688613240f7bfb1a1db4af05ef4ba3b6ad6c44a75aac0295b3601709",
+    "docs/current/saha-128/history/SPECIFICATION-revision-1.md": "8138d41478e576d60b2add67fa3ae6ceb7f3ba92cedd32f691b17d6d064d5086",
+    "drizzle/0001_tearful_victor_mancha.sql": "139f64838d42486d5a2c0563eca6ad65d9a64db71733fb81155d345189f76ee0",
+    "drizzle/0002_petite_marten_broadcloak.sql": "f6af8de70b458aede86cfd9e60339fdcc2f5cfc3844b21281994f52718502f55"
+  },
+  "freezeSha256": "3d1d8e8f28c4e5188e3f4aeae1aa2654d14539920f96db13e4aaadd93289c5a4",
+  "report": "review.final.md",
+  "reportSha256": "66bf543831b0f9647c1c9b95a86c32477f49ed2dadf87a0666e7c4ea672fb388",
+  "pinsManifest": "source-and-evidence-pins.final.json",
+  "pinsManifestSha256": "89e961653050aa3d4915f5f31f1430e1aa1817a907310028dc42af6a17b563b5",
+  "boundedEvidence": {
+    "finalModule": "94/0 source-bound recorded author checks",
+    "finalNative": "86/0 source-bound recorded author checks",
+    "unitRunner": "203 suites/10882, original201 guards; evidence inspected only",
+    "baseline": "all374 original JSON entries exact; only native86/module94 added"
+  },
+  "openGates": [
+    "Complete final-published-head M6 and CI",
+    "Changed-main integration checks if necessary",
+    "Hosted path logs/crash retention/diagnostic policy and live telemetry",
+    "Human/formal acceptance, observed deployment and measured benefit"
+  ]
+}
