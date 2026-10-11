@@ -1,3 +1,7 @@
+# Native load fixture follow-up — 11 October 2026 11:05 UTC
+
+Current e939 actual native63 permission and97 calendar checks pass. Its original400-slot load completes all slots but fails14/1 due one actual503 development-watcher restart during same-key POST race; native transcripts and response hashes retained. Minimum13 guard pass does not convert a failing assertion to acceptance. Current native launcher and optional actual stdout/stderr/structured-console capture retain all15 original assertions,400slots, no-unhandled5xx budget and existing safe conflict semantics. No clinical command retry added. Real runtime logging control and new native load remain pending. All384 current baseline records/minima remain exact; currentsource NFR/finalreview/merge/live held, one story8/10.
+
 # Current integrated routine source — 11 October 2026 10:53 UTC
 
 Current unmerged routine branch individually selects eight exact current components plus a native-launcher/connection adaptation of its existing stronger63 permission fixture. Every63 original assertion is preserved; the main-only60 fixture is not substituted. Existing coherent privacy133 primary and all383 previous baseline records/minima remain exact. New protected-report contract47 passed and was added by the actual updater, with zero lowered/removed minima. Current source/catalogue/integrity1811/requirements176 pass; exact combined build/backend/fullCI/NFR/finalreview/merge/live remain pending.
