@@ -1,3 +1,15 @@
+# Current bounded tenant-isolation preparation — 11 October 2026
+
+Existing task APL-763 under user story APL-150 now has a prepared detached native supervisor and synchronous cleanup handle before migration/readiness. The reviewed generic containment/runtime blocks are copied with exact extraction proof; locality scenarios are excluded. Each HTTP request has a 15-second complete-body deadline, with elapsed-time guards as well as abort timers. The whole owned native attempt has a 300-second deadline; state, partial responses, source/build custody, startup/disposal logs and exact child-group observations are retained. Cleanup or observation uncertainty fails qualification. No build, backend, browser, dependency installation or native scenario has run in this preparation.
+
+The original 13 tenant scenario IDs and every original oracle are preserved. The original 374 regression records and all minima are unchanged. The new transport passed 11 in-process controls and 71 actual assertion calls; this is separate from native scenario execution, which remains **0/13, Not run**. The original 10 control bodies/60-pass receipts are preserved. An extra probe exposed a timer-starvation false pass (1ms target, 49.063ms completion); that failed receipt remains, and the successor refuses both that exact probe and the new responsive-stream control. Root independently reviewed the monotonic transport successor; full composed native source review is still pending.
+
+Read [the current preparation](current/tenant-isolation-preparation/PREPARATION.md) and its frozen contract. No new native baseline count, source publication, PR, story completion, full formal acceptance, merge or observed staging is claimed. Fresh existing CI and any changed-main/dependency composition require actual qualification. Parent RLS/backup/index/asynchronous and hosted/privacy/domain acceptance remain open. Earlier dated material below is preserved as history.
+
+# Current preparation — qualify tenant/record isolation evidence
+
+11 October 2026: [APL-763](current/tenant-isolation-preparation/PREPARATION.md) prepares 13 existing-contract synthetic scenarios. Next: final root independent source/oracle/custody review, authorized isolated publication and draft PR, actual existing CI and retained raw outputs. The local heavy lane remains owned by immutable NFR. All original 374 guard records and CI selections/configuration/minima remain. No pass or whole-story Done is claimed. Fresh-main/shared-dependency and hosted/full-parent gates remain open. Earlier dated plan below remains history.
+
 # Active delivery — D02 / #175
 
 Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Test-only current fixture repair passes201 units10702 and independent targeted QA168; repaired-head CI/final review still gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.

@@ -1,0 +1,57 @@
+{
+  "observedAtUtc": "2026-10-11T18:26:24.635964+00:00",
+  "newSourceControls": {
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "kind": "Actual lightweight adapted parsed-policy/file/Git checks; no install/native/build"
+  },
+  "sourceSyntax": {
+    "files": 3,
+    "exitCodes": [
+      0,
+      0,
+      0
+    ]
+  },
+  "documentation": {
+    "baselineSourceFiles": 1790,
+    "status": "PASS",
+    "pythonVersion": "3.12.14",
+    "rawStdoutSha256": "f4258da78e90f0edfbb5a919e92d03449a0e7696ce9ccc30b703478387c63769",
+    "rawStderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "priorDocumentationAttempt": {
+    "status": "FAIL",
+    "cause": "System Python3.9.6 does not support unchanged builder zip(strict=True). Exact failure retained; no source workaround.",
+    "rawStderrSha256": "66e503720f995a1e72b3e990ae42095f73edc624b29af1efe290fd7b90049bb0"
+  },
+  "requirements": {
+    "originalIds": 176,
+    "status": "PASS",
+    "acceptance": "pending"
+  },
+  "catalogue": {
+    "suites": 968,
+    "status": "PASS"
+  },
+  "uatTooling": {
+    "suites": 3,
+    "passed": 63,
+    "failed": 0,
+    "skipped": 0,
+    "originalGuardsPassed": 3,
+    "formalAccepted": 0,
+    "formalCasesRun": 0
+  },
+  "nativeTenantScenarios": {
+    "actual": 0,
+    "expected": 13,
+    "priorActualAttempt": "FAILED during pre-runtime source custody"
+  },
+  "limits": [
+    "New adapted installer not executed",
+    "No local build/backend/browser/MF/D1 or native scenario",
+    "Separate source review/publication/fullCI/currentmain/security/formal/live/fullparent gates still held"
+  ]
+}

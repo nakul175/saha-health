@@ -1,0 +1,604 @@
+{
+  "edition": "APL-763 isolated native CI source custody revision7",
+  "status": "Source-only dedicated CI installer-custody successor; actual previous native attempt failed before cases,0/13; final review/publication held.",
+  "frozenAt": "2026-10-11T18:29:46.076826+00:00",
+  "authoringAgent": "/root/routine_final_review",
+  "sourceMain": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "branch": "test/tenant-record-adversarial-contract-20261011",
+  "canonicalStory": {
+    "id": "APL-150",
+    "scopeId": "SAHA-127",
+    "kind": "functional_story",
+    "url": "https://linear.app/aplyd-sandbox/issue/APL-150/saha-127-tenant-and-record-isolation",
+    "originalDescriptionSha256": "bb14e0dadb2bba199a34e2ca488b490d092207fe2d32cc12887908e405edd9c7"
+  },
+  "canonicalTask": {
+    "id": "APL-763",
+    "key": "ENG-BR-SEC-06",
+    "designId": "FR-SEC-06",
+    "epic": "WP02/APL-14",
+    "url": "https://linear.app/aplyd-sandbox/issue/APL-763/eng-br-sec-06-tenant-and-record-isolation",
+    "originalTechnicalOutcome": "Every object query and attachment token enforces tenant and record policy; database RLS supplies a second tenant boundary."
+  },
+  "exactOriginalRequirement": {
+    "id": "BR-SEC-06",
+    "title": "Tenant and record isolation",
+    "priority": "Must",
+    "brdRelease": "R1",
+    "requirement": "Isolation shall apply to transactional records, searches, indexes, retrieval stores, reports, file links, backups and asynchronous tasks. High-privilege operations shall require explicit scoped authority.",
+    "acceptance": "Acceptance: Cross-tenant adversarial tests and wrong-record reference tests result in denial with no content disclosure.",
+    "sourceTextLine": 563
+  },
+  "exactOriginalFormalScenarios": [
+    {
+      "id": "TC-BR-SEC-06-A",
+      "exactRetainedProcedure": "Type: Functional; source role: QA with Privacy and security owners; fixture: FX-SEC-06.\nPreconditions: Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution.\nSteps: 1. Load FX-SEC-06. 2. Every object query and attachment token enforces tenant and record policy; database RLS supplies a second tenant boundary. 3. Capture UI/API results and stored receipt or audit evidence.\nExpected: Cross-tenant adversarial tests and wrong-record reference tests result in denial with no content disclosure.\nFormal status: Not run; no engineering subset automatically passes this case.",
+      "status": "Not run; this bounded witness does not grant full formal acceptance."
+    },
+    {
+      "id": "TC-BR-SEC-06-B",
+      "exactRetainedProcedure": "Type: Negative or recovery; source role: QA with Privacy and security owners; fixture: FX-SEC-06-NEG.\nPreconditions: Isolated synthetic tenant; begin from the corresponding acceptance scenario; inject only the named adverse condition.\nSteps: 1. Establish the normal precondition. 2. Reuse another tenant object key or export URL; deny with no content disclosure. 3. Inspect user state, side effects, audit and any recovery queue.\nExpected: Reuse another tenant object key or export URL; deny with no content disclosure. Evidence must show the actual final state and any accountable unresolved work.\nFormal status: Not run; no engineering subset automatically passes this case.",
+      "status": "Not run; this bounded witness does not grant full formal acceptance."
+    }
+  ],
+  "protectedCriteriaRule": "Do not weaken criteria to obtain a pass. No original criterion, scenario, minimum, fixture or oracle is replaced.",
+  "scope": {
+    "actor": "Two newly synthetic trusted local dispatcher identities, each clinician owner of its own distinct organisation; no cross-membership or real account. Anonymous is one negative control. Owner authority never grants another tenant.",
+    "outcome": "A current server reader returns only the selected authorized tenant and record, including a deliberate identical record id across two tenants, scalar-count search, contradictory media context, export refusal and required audit failure.",
+    "included": [
+      "Existing patient detail, patient search, media file and owner data-exit reader routes only.",
+      "One explicitly seeded synthetic composite-key patient collision, plus new valid draft/media setup through existing APIs.",
+      "Raw HTTP bodies/selected headers, raw media byte hashes, protected clinical/receipt/member rows and foreign audit before/after witnesses."
+    ],
+    "excluded": [
+      "Any production or hosted access, real persons, clinical decisions, external recipient/provider, new database/store/schema/hosting/paid service.",
+      "Changes to authoritative runtime policy, routine/offline/support implementation, original CI selections/config/minima or checker policy or prior regression minima.",
+      "Publicly trusting dispatcher headers, qualified hosted identity, PostgreSQL RLS, future indexes, hosted backups, asynchronous services, physical/device/field or full-story/formal acceptance."
+    ]
+  },
+  "fixture": {
+    "id": "FX-SEC-06 bounded tenant-collision extension revision3",
+    "environment": "Existing built synthetic loopback application with owned disposable native D1 and all existing migrations; no code or schema changes.",
+    "construction": [
+      "Create two distinct synthetic accounts/home organisations through existing workspace route. Create one unique existing-shape person per tenant through createPerson. Seed distinct per-side synthetic name and locality canaries, with explicit positive age13/87 controls; do not claim unseeded clinical-note coverage.",
+      "Copy every actual B patient database column into one additional B fixture with id/data.id equal A person id; keep both original rows and explicitly disclose the direct fixture seed.",
+      "Start one new draft visit per tenant for its shared id and attach one valid 2048-byte synthetic PNG-signature payload with differing bytes through existing routes. No confirmed record or real recipient touched.",
+      "Assert positive controls from both tenants before interpreting any negative refusal."
+    ],
+    "identityLimit": "Test headers model the trusted Sites dispatcher only on loopback; do not send them to any host."
+  },
+  "coverageInventory": [
+    {
+      "source": "tests/nfr/authorisation-matrix.mjs",
+      "existing": "Every declared GET by anonymous/seven roles; ASHA wrong-person/nonmember/admin secrecy, secrets, no-store, next-request revocation, representative POST families.",
+      "explicitLimit": "No provider/delegation/emergency paths; marker search misses unnamed scalar/count/village disclosures. Existing source/minima unchanged."
+    },
+    {
+      "source": "tests/smoke/local-smoke.mjs:217",
+      "existing": "Stranger refused workspace/patients/governance/FHIR/commands for another org."
+    },
+    {
+      "source": "tests/smoke/today-browser.mjs:140",
+      "existing": "Today cross-tenant/detail refusal already covered. Do not copy Today or routine/offline journeys."
+    },
+    {
+      "source": "tests/work-support-visibility-http.mjs",
+      "existing": "Current support membership/helper/scope and audit races; owned by support repair, excluded here."
+    }
+  ],
+  "justifiedNewBoundary": "The existing broad matrix does not seed one identical person key in two tenant partitions or contradictory media organisation query/header pairs, and it explicitly cannot detect unnamed scalar/count/village leaks. The new bounded witness retains distinct canaries and exact expected counts/bytes plus state and foreign-audit equality. Positive/anonymous/audit controls are controls, not thirteen new functional stories.",
+  "cases": [
+    {
+      "id": "TI-C01",
+      "kind": "Positive A collision control",
+      "request": "A owner/detail/shared person id/A org",
+      "expected": "200; exact A name, village and age13, no B name/locality canary; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "A material read audit permitted; B audit unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C02",
+      "kind": "Positive B collision control",
+      "request": "B owner/detail/same shared person id/B org",
+      "expected": "200; exact B name, village and age87, no A name/locality canary; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B material read audit permitted",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C03",
+      "kind": "Foreign organisation with colliding valid id",
+      "request": "A owner/detail/shared person id/B org",
+      "expected": "403; no delta or B village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B audit and all protected rows unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C04",
+      "kind": "Foreign unique record with own organisation",
+      "request": "A owner/detail/B unique person id/A org",
+      "expected": "404; no delta or B village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B audit and all protected rows unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C05",
+      "kind": "Foreign scalar search and count",
+      "request": "A owner/POST patients/q exact B village/A org",
+      "expected": "200; rows[], total0, nextCursor null; no B name/locality canary; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "A search audit permitted; query text not a returned match; B audit unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C06",
+      "kind": "Cross-tenant search",
+      "request": "A owner/POST patients/q exact B village/B org",
+      "expected": "403; no rows, total or B village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B audit and all protected rows unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C07",
+      "kind": "Foreign export URL reuse",
+      "request": "A owner/data-exit fhir0/tar/B org",
+      "expected": "403; no archive MIME/disposition/export id/content digest or B village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "No foreign export/audit; all protected rows unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C08",
+      "kind": "Foreign media query against own header",
+      "request": "A owner/B media id/query orgB/header orgA",
+      "expected": "403; no B bytes or village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B audit and all protected rows unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C09",
+      "kind": "Own media query against foreign header positive control",
+      "request": "A owner/A media id/query orgA/header orgB",
+      "expected": "200; exact A bytes, not B bytes. Current query-first reader contract retained; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "A media read audit permitted; B audit unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C10",
+      "kind": "B media query against A header positive control",
+      "request": "B owner/B media id/query orgB/header orgA",
+      "expected": "200; exact B bytes, not A bytes. Current query-first reader contract retained; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B media read audit permitted",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C11",
+      "kind": "Anonymous contradictory media context",
+      "request": "Anonymous/B media id/query orgB/header orgA",
+      "expected": "401; no B bytes or village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B audit and all protected rows unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C12",
+      "kind": "Foreign media key in own tenant",
+      "request": "A owner/B media id/query orgA/header orgA",
+      "expected": "404; no B bytes or village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "B audit and all protected rows unchanged",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    },
+    {
+      "id": "TI-C13",
+      "kind": "Required audit fault with valid collision",
+      "request": "A owner/detail/shared id/A org under exact local BEFORE INSERT audit fault",
+      "expected": "503; no delta, A village or B village; Cache-Control includes original no-store on the actual response",
+      "sideEffects": "Trigger removed in finally; no protected row or foreign audit change",
+      "state": "Not run",
+      "formalParentIds": [
+        "TC-BR-SEC-06-A",
+        "TC-BR-SEC-06-B"
+      ]
+    }
+  ],
+  "newCaseCount": 13,
+  "observedCaseCount": 0,
+  "observedPassed": 0,
+  "observedFailed": 0,
+  "priorBaselines": "Unchanged and not rerun; no new baseline or CI registry is added before meaningful observed execution.",
+  "sideEffectOracle": {
+    "protectedTables": [
+      "patients",
+      "visits",
+      "media",
+      "command_receipts",
+      "memberships",
+      "team_members"
+    ],
+    "organisationColumns": [
+      "id",
+      "revision"
+    ],
+    "perCaseRule": "All protected rows and revisions equal before/after. Legitimate read audit in the selected authorized tenant is permitted; foreign tenant B audit must remain byte-equivalent for A-only/refused/anonymous cases.",
+    "evidence": "Store actual state/audit objects keyed by recomputable hashes, all response bodies/selected headers and raw media hashes. Preserve failed-case responses and before/after state. Do not retry failed product requests."
+  },
+  "sourceMechanics": {
+    "identity": "lib/saha/identity.ts selected trusted provider; lib/saha/server.ts identity and loadFor active membership.",
+    "tenantAndRecord": "Current D1 composite org/id keys, store scoping and access.ts role/team/assignment/facility/programme policies. Application owns these boundaries; no PostgreSQL RLS claim.",
+    "media": "lib/saha/media-server.ts mediaFile explicitly chooses organisationId query before x-saha-organisation header, then checks current tenant/record/lineage and durable read audit. Preserve that actual precedence; do not invent contradictory-context rejection.",
+    "export": "lib/saha/data-exit-server.ts owner guard does not override current care scope; export auditing/headers must not appear on nonmember refusal.",
+    "audit": "lib/saha/access-audit.ts writes chained material-read events before content; exact local collision-read fault must refuse503."
+  },
+  "executionHold": {
+    "reason": "Local root NFR lane remains occupied; existing isolated GitHub CI may execute only after final root source/oracle review and publication. No runtime scenario has executed.",
+    "proposedAllocation": {
+      "checkout": "work/saha-tenant-isolation-prep-20261011",
+      "branch": "test/tenant-record-adversarial-contract-20261011",
+      "ownedModule": "tests/lib/tenant-record-isolation-prepared.mjs export-only; importing starts no runtime and executes no case.",
+      "runtime": "Root reviews exact prepared source before draftPR/publication. Existing GitHub CI owns its isolated loopback/native D1 state; local execution remains held until root releases its exclusive lane. CLI creates a unique initially nonexistent state and own resource lease, uses existing migrations/helpers, disposes only its returned runtime and retains raw state.",
+      "source": "Refresh source/main/dependency/build receipt and actual source pins before any execution; changed renderer means old source/build evidence cannot auto-transfer.",
+      "scopeSeparation": "Permission APL-194 agent owns supported programme/facility/geography/purpose/action/revocation axes; this task owns collision/scalar/media context and exact side effects only.",
+      "ownedRunner": "tests/tenant-record-isolation-http.mjs; actual one-native-runtime integration CLI, no browser or simulated response substitutions.",
+      "ci": "One additive integration/tenant-record-isolation-http ID in the existing original regression job; every original ID/config/timeout retained. No original runner/guard change."
+    }
+  },
+  "qualificationAndDoneHolds": [
+    "Root acceptance of this exact proposed preparation/allocation; separate independent test-oracle review because author is not reviewer of own new harness.",
+    "Actual source/build/D1 custody, meaningful execution of all13 cases, retained failures and original relevant controls/minima. An unrun module/contract is not a pass.",
+    "Any observed runtime defect must be reported and isolated before repair; no permission-policy repair is silently authorized by this preparation.",
+    "Current required checks/document generators and separate final diff/evidence review on published candidate before qualified merge.",
+    "Whole APL-150/APL-763 RLS/hosted backup/index/asynchronous and formal Security/Privacy acceptance remain open; staging designation does not erase them."
+  ],
+  "sourcePins": {
+    "AGENTS.md": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "f3cee5edb0d76a22614dbbe4344c88652dd084e28c8e8159f67895c7124cb14b",
+      "bytes": 2703
+    },
+    "CLAUDE.md": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "83e541ee169e594f0a5125b336b4e37560801d9ba42aca1f99aa24217b1183e4",
+      "bytes": 6153
+    },
+    "HANDOVER.md": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "6aa5950d4bf84644beaea425d6a48abee23cea0eb5534cda1982141226035b45",
+      "bytes": 43951
+    },
+    "requirements/brd-v1.1.json": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+      "bytes": 102234
+    },
+    "requirements/assessment.tsv": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "03b854a7f80c96ea27c656a8f6a19488b06043c553508e87f85936393944a0de",
+      "bytes": 132825
+    },
+    "requirements/evidence-map.json": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "5af82e569d9d6a3cf6f623188de6c6c0af42afb9459dbf1e01144e9f166fee10",
+      "bytes": 79002
+    },
+    "docs/reference/workbook/Test-Catalogue.csv": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "368d282b4bc06dcf5de71b1623f6539c63ad2aa55ed553e186e0bac42546aa6a",
+      "bytes": 246903
+    },
+    "docs/reference/workbook/Engineering-Backlog.csv": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "7a5cc11cce8cfaf898289496f8046c8a0f3e7b890abcf476660dd79bd6367e00",
+      "bytes": 48915
+    },
+    "tests/regression-baseline.json": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+      "bytes": 62551
+    },
+    "docs/current/HTTP-ROUTES.csv": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "326f5e8aef32527ef0c2463da1ccf2a3901ee8bbd2306956818e21a2e21e9440",
+      "bytes": 5463
+    },
+    "lib/saha/identity.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+      "bytes": 9047
+    },
+    "lib/saha/access.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "26f5fdc7fe7bedd29de9f07773e7d2e4d1ba1249503c8a27773f007219c32789",
+      "bytes": 6285
+    },
+    "lib/saha/store.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "a16ec292082b8f73eabb89a01c6e4558dda71620803a1d8aaa58db653b4ff630",
+      "bytes": 50590
+    },
+    "lib/saha/server.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+      "bytes": 45366
+    },
+    "lib/saha/access-audit.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "baab508e35efb3c94b44864d9b77a4b6af5370dcb15e2b14adfd4fc355e5549d",
+      "bytes": 11526
+    },
+    "lib/saha/read-audit.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "c92858bb4fd67332b48c3dddea73fa678f439f8182a0cf26064f2c1a0f8583c0",
+      "bytes": 9530
+    },
+    "lib/saha/patient-directory.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "c5e6b589f7ff962a2bdfd1b18a358b8de4712a02d4947848c5b0d927e130fc52",
+      "bytes": 7327
+    },
+    "lib/saha/patient-directory-server.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "736f0e6d37b0cf46db1c29b0c67b78a45a8e5e9f3b16f38df5ddf78541f38253",
+      "bytes": 3757
+    },
+    "lib/saha/media-server.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "1acd30010883701b7e86d771f9581ae9205076ebcebad65b84da941b85f75512",
+      "bytes": 14656
+    },
+    "lib/saha/data-exit-server.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "36eafde156edbce93084f5008cee2215bbd752d1cdb8ddb94875211a7b2c26c1",
+      "bytes": 5978
+    },
+    "lib/saha/core.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+      "bytes": 26118
+    },
+    "lib/saha/partition.ts": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "b96f00919b22781ede58080979e123a577c5b86d14acf963d12baad59ea80715",
+      "bytes": 4522
+    },
+    "tests/lib/worker.mjs": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128",
+      "bytes": 5777
+    },
+    "tests/lib/miniflare.mjs": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "b2c96cb687dbca94b26eacede6833ecc1f5a919c7317d84071cba12a937d82f1",
+      "bytes": 5574
+    },
+    "tests/lib/nfr-world.mjs": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "c8e916d966d59d5297a69c2daef7d33dd71b55a01c02a17e196885f21dea7e52",
+      "bytes": 6835
+    },
+    "tests/nfr/authorisation-matrix.mjs": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "cf8f1a93f3c462747f5731a48274937bfc9384a0867048004fef391b22f2abcf",
+      "bytes": 43197
+    },
+    "tests/smoke/local-smoke.mjs": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "65c3d8f060bf5ad8ca9b784727df40d55f12bbaf76b27216266a4ad61ccf73cb",
+      "bytes": 24123
+    },
+    "tests/smoke/today-browser.mjs": {
+      "gitBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+      "sha256": "b9a990e0051e175558951a0462554e901af1cfe6849558da41567381deba45d2",
+      "bytes": 15728
+    }
+  },
+  "testModulePin": {
+    "path": "tests/lib/tenant-record-isolation-prepared.mjs",
+    "sha256": "92ceb3f3d31778abbbeee2c0a3ccbe49211e6cd01f3b4a4c0e503e792d54c363",
+    "executed": false,
+    "bytes": 16050
+  },
+  "staticPreparationStatus": {
+    "standaloneSyntax": "CLI and revised helper grammar pass; no module execution.",
+    "documentationIntegrity": "Pass:1783 current source digests; originals91/archive89/Office12 preserved; original176 requirements/364 cases/formal0; source prep only.",
+    "requirements": "Pass: unchanged176 IDs/assessments/evidencepaths/generatedrecords; acceptance pending.",
+    "catalogue": "Pass:966 suites/96components/34supportfiles.",
+    "scenarioExecution": "Not run:0/13; no assertion pass count exists for native execution.",
+    "buildOrRuntime": "Not started locally; existing GitHub CI not published yet.",
+    "commit": null,
+    "published": false,
+    "uatTooling": "Pass63/0/0:44register+9coverage+10pack with three originalguards. Missing-TypeScript generator attempts retained; exact5.9.3 tool-only resolver disclosed. Formal0/364.",
+    "metadataSuccessor": "Source-only metadata delta; fresh syntax/documentation/requirements/catalogue checks retained outside the source after freeze. Native 0/13; no new native minimum."
+  },
+  "disclosureOracle": {
+    "seededCanaries": "Two independent per-side strings: exact synthetic person name and exact locality. All forbidden bodies must lack every foreign canary. TI-C13 also forbids own A canaries.",
+    "positiveControls": "Exact own name/village/age13 or87, own media byte equality plus other media inequality, exact empty rows/total0/null cursor.",
+    "cacheControl": "Every actual matrix response must include the original no-store directive; response evidence is retained before cache assertions.",
+    "limits": "No arbitrary age-digit ban; no unseeded note/clinical-field, arbitrary derived scalar or partial-string content absence claim. Original formal no-disclosure acceptance remains open."
+  },
+  "nativeRunnerPin": {
+    "path": "tests/tenant-record-isolation-http.mjs",
+    "sha256": "dfac33ed2bdf190608011af8b9e16e07b61418da9f07e2603106f398c7a20123",
+    "executed": false,
+    "bytes": 9792
+  },
+  "countSemantics": {
+    "assertions": "Per-run ledger wraps only this new helper/CLI actual ok/equal/notEqual/deepEqual calls. No Node-library mutation. Report successful/failed assertion calls and raw invocation ledger; no static predicted pass count.",
+    "scenarios": "Distinct scenarioPassed/scenarioFailed/caseIds/caseCount/terminalCaseCount fields; same13 original planned IDs. Exact13 unique ordered terminal cases must pass independently of assertion aggregate.",
+    "failClosed": "Setup/transport/custody/lease/port/disposal errors exit nonzero even when no assertion failed. Interrupted or partial evidence is running/failed, never Done. Every response/state/audit snapshot is checkpointed before assertions or at case transitions.",
+    "regressionBaseline": "All374 main baseline objects and full file bytes unchanged. No new baseline count until actual observed native execution."
+  },
+  "runtimeCustody": {
+    "sourceAndBuild": "Before/after whole tracked-source and actual dist file digests plus real gitHEAD, with equality required. This is observed custody, not a rebuild or malicious-writer/compiler attestation. Existing CI build is separate.",
+    "records": "Each actual protected-row/foreign-audit object retained by recomputable hash; raw HTTP text/selected headers and exact binary media base64/hash retained. Final native D1 rows/file digests and owned lease retained, including setup failures.",
+    "freshState": "Unique UUID-named .wrangler path must not exist before existing freshDatabase/migrations are called. No existing state/database is reset. No real records/hosting/provider."
+  },
+  "toolingEnvironment": {
+    "resolverReceipt": "outputs/saha-eight-hour-20261011/tenant-isolation-preparation/native-cli-static/TOOL-RESOLVER-CUSTODY.json",
+    "scope": "Unchanged UAT document generators and tooling only; no install/backend/build.",
+    "typescriptVersion": "5.9.3",
+    "sourceLockUnchanged": true,
+    "limit": "Installed compiler bytes and exact lock resolution observed; no new published archive verification or product qualification."
+  },
+  "executionSourcePins": {
+    "tests/integration/tenant-record-isolation-native.mjs": {
+      "path": "tests/integration/tenant-record-isolation-native.mjs",
+      "sha256": "0ee69ee72592a90358c6747105288f59a26342e76c13a4b2c612e386612b39af",
+      "bytes": 14234
+    },
+    "tests/lib/tenant-record-transport.mjs": {
+      "path": "tests/lib/tenant-record-transport.mjs",
+      "sha256": "d6401aa71c0b71bcb9c85d9469c2572a346ff76f2a664fc1b5f47eaf031032ac",
+      "bytes": 6262
+    },
+    "tests/lib/tenant-record-containment.mjs": {
+      "path": "tests/lib/tenant-record-containment.mjs",
+      "sha256": "c8ab94f0c0c3c738a1d49ce5132cb6c9b88ffb094b3f6201f1aaab27dd00c6a1",
+      "bytes": 12013
+    },
+    "tests/lib/tenant-record-native-runtime.mjs": {
+      "path": "tests/lib/tenant-record-native-runtime.mjs",
+      "sha256": "4f66edebf7bb08ea21775b60b4e06c6d9266d7af67bb858e20066996b1aebe9e",
+      "bytes": 8373
+    },
+    "tests/tenant-record-transport-contract.mjs": {
+      "path": "tests/tenant-record-transport-contract.mjs",
+      "sha256": "b3358e842d052b64901f0f8bc515303e704a14e06ce4b5fa6b52cd65a252305c",
+      "bytes": 12620
+    },
+    "scripts/tenant-record-install-custody.mjs": {
+      "path": "scripts/tenant-record-install-custody.mjs",
+      "sha256": "5ba48891dcf8abcd12e7ff971a95a7d27275feaac30debee6df4c1df00f20d61",
+      "bytes": 13279
+    },
+    "tests/tenant-record-install-custody-contract.mjs": {
+      "path": "tests/tenant-record-install-custody-contract.mjs",
+      "sha256": "5f61db7a5d73c6bed46be0280b1384b092a0504c4cbdab35b492b51f10b0377e",
+      "bytes": 12440
+    }
+  },
+  "boundedExecution": {
+    "nativeDeadlineMs": 300000,
+    "headersAndCompleteBodyDeadlineMs": 15000,
+    "migrationDeadlineMs": 60000,
+    "readinessDeadlineMs": 30000,
+    "disposalDeadlineMs": 10000,
+    "method": "Exact reviewed owned-process generic extraction, detached native driver handle recorded before waiting, synchronous owned Miniflare handle before migration/readiness, actual original migrations/native D1/compiled application. No tests skipped/retried or HTTP status/response substitution. State is retained.",
+    "groupCustody": "Actual child exit and observed empty registered group mandatory; observer permission loss is a failure, never a guessed disposal or blind stale-group signal.",
+    "transport": "Timer plus monotonic deadline guards retain headers/partial bytes and refuse responsive-stream timer starvation. Original10controls60checks preserved; newTT-C11 gives actual11controls71assertioncalls in-process only, no native scenario acceptance.",
+    "build": "Existing canonical CI build only; source/build before-after custody observed, not cryptographic compiler/host attestation.",
+    "independentTransportReview": "646811d354de9e508cbaceefd1067845d9b39ac0de7e0b4fd84aa15f5275e296",
+    "genericReuseAuthority": "Root explicit reuse approval after independent QA ecec26aa13f10099638beb0d7597c20da59e09655bcb16dabde3669a1306a356",
+    "priorFalsePass": "Original1msdeadline acceptedstatus200after49.062917ms/2501reads under in-process doubles; preserved outside source in transport-deadline-probe/REPRODUCED-FAILURE.json SHA2c4743a1f6ec38dcdbc8b047c2a5d7cb83030da74c6fe6bbe03553225f900a49; oldtransportPASS stale for this failure.",
+    "nativePackageResolution": "Use actual installed Wrangler package.json realpath before createRequire; root and QA retained lexical MODULE_NOT_FOUND failure then actual resolvedMiniflare/workerdmetadata preflight. This test-only adaptation is source-prepared, no runtime/install.",
+    "completeMetadataEnumeration": {
+      "maxBufferBytes": 16777216,
+      "timeoutMs": 20000,
+      "killSignal": "SIGKILL",
+      "exclusionOrTruncation": false,
+      "custody": "Enumerate every git ls-files -z entry without omission. Journal source-custody phase before enumeration, and retain actual error code/signal/status in setup or custody failure. Never start a runtime after metadata failure.",
+      "readOnlyPreparationObservation": "Own checkout full filename metadata is 1,106,962 bytes and 16,642 paths, above default Node one-MiB maxBuffer; root retained an actual ENOBUFS on a separate routine witness before any build/native startup. No tenant runtime or default-buffer failure is claimed executed."
+    }
+  },
+  "nativeAssertionBaseline": "Not observed; no new native minimum/count invented. Exactly13 declared unique terminal scenarios mandatory independent of aggregate assertions.",
+  "isolatedInstallerCustody": {
+    "historicalFailedCI": {
+      "pr": 207,
+      "head": "c0a0042a71d4eb7d01260b2dab8636d812ce4864",
+      "run": 38161234419,
+      "nativeCasesReached": 0,
+      "actualAssertions": 0,
+      "phase": "pre-runtime complete source/build custody",
+      "cause": "Strict clean checkout rejected installer workspace substitution and earlier suite tracked evidence rewrites. All147 other suites passed; whole148/7691 pass assertions/one setup-failed suite."
+    },
+    "source": "Individually inspected reviewed711 bounded installer custody component only; no branch merge or application policy repair. Existinginstaller/package/lock/strict complete clean-source and all13 oracles remain unchanged.",
+    "workflow": "Dedicated fresh-checkout job runs validated project-store installer, exact original source restoration,22 unchanged lightweight custody controls, canonical build then original normal13-case native entry with guard. Old broad regression workflow bytes are recovered exactly after removing sole own new suite prefix.",
+    "security": "Retain actual generated workspace/diff/all tracked hashes/installed identity/parser/profile before restoration; accept only existingstore/cache substitutions with every other nested policy key exact. Unknown mutation/staging/cancellation/install error fails; race-hashguard before byte-exact HEAD restoration and fullsource equality.",
+    "newSourcePins": {
+      "scripts/tenant-record-install-custody.mjs": {
+        "sha256": "5ba48891dcf8abcd12e7ff971a95a7d27275feaac30debee6df4c1df00f20d61",
+        "bytes": 13279
+      },
+      "tests/tenant-record-install-custody-contract.mjs": {
+        "sha256": "5f61db7a5d73c6bed46be0280b1384b092a0504c4cbdab35b492b51f10b0377e",
+        "bytes": 12440
+      }
+    },
+    "currentRunStatus": "Actual adapted lightweight controls22/0/0; no installer/build/backend/native execution. Native0/13, no new native minimum, independent successor source review/exact-head CI/publication held.",
+    "controlEvidence": {
+      "path": "tests/evidence/tenant-record-ci-custody-repair-20261011/controls-001/result.json",
+      "sha256": "999d77bc4b965401c3dc97094e279a0d3d53f11370f6f6c998de9847c48baeb5",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Lightweight actual parser/file/disposableGit controls; not native scenarios or installer run."
+    },
+    "controlInputSuccessor": {
+      "problem": "Old normal checks job unit discovery runs after installer generatedworkspace; copied generated context actually fails21/1 on initial9ed source.",
+      "repair": "Only unit original-policy fixture bytes are read from exact gitHEAD with16MiB/20s/SIGKILL; actual workingworkspace inputhashes remain separately retained before/after. No clean-source/installer qualification inferred from unit fixtures.",
+      "oracles": "All22 original callback statement regions unchanged. Wrapper predicates, original strict native guard and13 scenario bodies/minima remain unchanged.",
+      "observations": [
+        {
+          "context": "Own observed HEAD committed-policy fixture",
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "resultSha256": "739a28704ce11df9c47c14f5233ca8893c2a2cb725ee3ed3b42265884fcd3082"
+        },
+        {
+          "context": "Copied generated workingworkspace with committed original policy",
+          "passed": 22,
+          "failed": 0,
+          "skipped": 0,
+          "resultSha256": "338040537e8941587c8c83383826c67cf7bf4c71a595fe2bcfc99c9eea2bcc58",
+          "workingBytesUnchanged": true
+        }
+      ],
+      "overlap": "Two runs of same22 controls; not44 distinct criteria, native cases or stories.",
+      "historicalFailure": "tests/evidence/tenant-record-ci-custody-repair-20261011/control-fixture-history/REPRODUCED-FAILURE.json"
+    }
+  }
+}

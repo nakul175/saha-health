@@ -103,3 +103,33 @@ jobs:
             tests/reports/
             dist/sbom.cdx.json
             dist/security-gate.json
+
+  # Isolated newly added tenant witness: prior regression suites rewrite tracked evidence.
+  # The original clean-source guard stays strict; validated installer bytes are retained
+  # before exact restoration, and this fresh checkout has no earlier application test writes.
+  tenant-record-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install pinned dependencies with exact source custody
+        run: node scripts/tenant-record-install-custody.mjs
+      - name: Installer custody positive and refusal controls
+        run: node tests/tenant-record-install-custody-contract.mjs
+      - name: Canonical build
+        run: npm run build
+      - name: Thirteen native synthetic tenant scenarios
+        run: node scripts/test.mjs integration --only integration/tenant-record-isolation-http --fast --guard
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tenant-record-native-evidence
+          path: |
+            tests/reports/tenant-record*
+            tests/reports/summary.json
+            tests/reports/results/integration__tenant-record-isolation-http.json
+            tests/reports/logs/integration__tenant-record-isolation-http.log
+          if-no-files-found: error
