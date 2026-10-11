@@ -1,0 +1,112 @@
+{
+  "generatedAt": "2026-10-11T15:16:40.067Z",
+  "startedAt": "2026-10-11T15:16:38.504Z",
+  "command": "node scripts/test.mjs integration --only integration/work-support-context-component-browser --update-baseline --reason Add only actually observed 34-check support component context regression; preserve all 374 prior suite objects and original support minimum23; API doubles only. --report tests/reports/support-context-registered.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 1,
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1425,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 1563
+  },
+  "suites": [
+    {
+      "id": "integration/work-support-context-component-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/work-support-context-component-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1425,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/support-context-component/result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__work-support-context-component-browser.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 201,
+        "components": 0,
+        "suitesCitingNoRequirement": 61,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 157,
+        "components": 84,
+        "suitesCitingNoRequirement": 80,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 591,
+        "components": 0,
+        "suitesCitingNoRequirement": 477,
+        "requirementsCited": 143
+      }
+    },
+    "supportFiles": 33,
+    "suites": 966,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 623,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

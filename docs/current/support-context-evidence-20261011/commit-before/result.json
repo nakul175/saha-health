@@ -1,0 +1,48 @@
+{
+  "passed": 7,
+  "failed": 1,
+  "skipped": 0,
+  "sourceHash": "879f25a5a5092df79cdb8863abe560aed6a8703f74f69d9d61f5b6a6c3ad804b",
+  "checks": [
+    {
+      "criterion": "Actual original support action is in flight before transition",
+      "passed": true
+    },
+    {
+      "criterion": "React startTransition actually commits the changed account/organisation/visit",
+      "passed": true
+    },
+    {
+      "criterion": "Former POST response is resolved from committed layout before parent passive work",
+      "passed": true
+    },
+    {
+      "criterion": "Former action receives its successful acknowledgement during the commit interval",
+      "passed": true
+    },
+    {
+      "criterion": "Former-context POST success cannot launch any old-context GET after the new commit",
+      "passed": false
+    },
+    {
+      "criterion": "Current context independently starts exactly one correctly scoped read",
+      "passed": true
+    },
+    {
+      "criterion": "Context transition never creates or retries another support action",
+      "passed": true
+    },
+    {
+      "criterion": "Actual component deferred transition has no uncaught browser error",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "actualReact": true,
+  "actualChromium": true,
+  "scope": "Actual source/Button; non-synchronous React startTransition and layout-observer response delivery before passive work. Explicit synthetic API double, not backend/clinical/formal/physical/hosting acceptance.",
+  "cleanup": {
+    "serverClosed": true,
+    "browserClosed": true
+  }
+}

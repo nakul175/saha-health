@@ -1,0 +1,152 @@
+{
+  "passed": 34,
+  "failed": 0,
+  "skipped": 0,
+  "actualReactComponent": true,
+  "actualChromium": true,
+  "sourceHash": "879f25a5a5092df79cdb8863abe560aed6a8703f74f69d9d61f5b6a6c3ad804b",
+  "checks": [
+    {
+      "criterion": "Actual initial queue and helper guidance render; assignment requires a selection",
+      "passed": true
+    },
+    {
+      "criterion": "actor transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "actor transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "organisation transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "organisation transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "visit transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "visit transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "person transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "person transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "membership version transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "membership version transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "role transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "role transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "owner authority transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "owner authority transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "measurement version transition first committed DOM contains no previous helper/queue",
+      "passed": true
+    },
+    {
+      "criterion": "measurement version transition starts a fresh scoped queue read",
+      "passed": true
+    },
+    {
+      "criterion": "Disabled measurement removes the entire support component at commit",
+      "passed": true
+    },
+    {
+      "criterion": "Disabled measurement sends no support request",
+      "passed": true
+    },
+    {
+      "criterion": "Re-enabled current context independently loads its queue",
+      "passed": true
+    },
+    {
+      "criterion": "Late old-context GET cannot populate the current queue",
+      "passed": true
+    },
+    {
+      "criterion": "Late old-context GET cannot clear or replace the current queue",
+      "passed": true
+    },
+    {
+      "criterion": "Same-context uncertain transport retry keeps its exact metadata key",
+      "passed": true
+    },
+    {
+      "criterion": "Same-context retry preserves the full original metadata action",
+      "passed": true
+    },
+    {
+      "criterion": "Actor transition first committed DOM has no old pending retry control",
+      "passed": true
+    },
+    {
+      "criterion": "Actor transition first committed DOM has no previous action error",
+      "passed": true
+    },
+    {
+      "criterion": "Old-context POST success never starts another read for the former context",
+      "passed": true
+    },
+    {
+      "criterion": "Old-context POST success leaves current queue intact",
+      "passed": true
+    },
+    {
+      "criterion": "Old-context POST success cannot recreate a pending retry",
+      "passed": true
+    },
+    {
+      "criterion": "Late former-context transport failure cannot add an error to the current screen",
+      "passed": true
+    },
+    {
+      "criterion": "Late former-context transport failure leaves current queue intact",
+      "passed": true
+    },
+    {
+      "criterion": "Manual refresh still displays a fresh same-context queue",
+      "passed": true
+    },
+    {
+      "criterion": "Observed request actions contain only the existing fixed support metadata fields",
+      "passed": true
+    },
+    {
+      "criterion": "Actual bundled React component and actual Button have no uncaught browser errors",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "scope": "Actual source component and Button bundled and committed in desktop Chromium at 390x844; parent layout observer records pre-passive-effect DOM. Deterministic API doubles; no server authorization, clinical, physical-device, formal TC-BR-OPS-05 or hosting acceptance.",
+  "cleanup": {
+    "serverClosed": true,
+    "browserClosed": true
+  }
+}

@@ -1,0 +1,16 @@
+Running uat --fast; 3 suite(s).
+
+[uat] 3 suite(s)
+  running  uat/check-uat-register ...
+  ok       uat/check-uat-register  44 passed  158ms
+  running  uat/coverage-map ...
+  ok       uat/coverage-map  9 passed  179ms
+  running  uat/generate-uat-pack ...
+  ok       uat/generate-uat-pack  10 passed  185ms
+
+  layer  status  suites  passed  failed  skipped   time
+  -----  ------  ------  ------  ------  -------  -----
+  uat    passed       3      63       0        0  522ms
+  total  passed       3      63       0        0  666ms
+
+Regression guard: passed (3 baselined suite(s) checked, 0 excused by quarantine).

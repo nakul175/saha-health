@@ -1,0 +1,104 @@
+{
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "originalSuiteRecords": 374,
+  "historicalFiles": {
+    "HANDOVER.md": {
+      "oldSha256": "6aa5950d4bf84644beaea425d6a48abee23cea0eb5534cda1982141226035b45",
+      "preserved": "suffix",
+      "exact": true
+    },
+    "VALIDATION.md": {
+      "oldSha256": "fe62cfd37a4dc33a500b64fe97484ba548c5635314bfd4124b392105458fa698",
+      "preserved": "prefix",
+      "exact": true
+    },
+    "docs/IMPLEMENTATION.md": {
+      "oldSha256": "b2dfb73668ff8bcb8f1899539910755af197458279ddc22c9a93e1855ad84561",
+      "preserved": "prefix",
+      "exact": true
+    },
+    "docs/NEXT-DELIVERY.md": {
+      "oldSha256": "3ffee35b86d900d449dc137f7f85d82f6639425c06dfb74dcef682d1d4340d1a",
+      "preserved": "prefix",
+      "exact": true
+    }
+  },
+  "formalCases": "Not run",
+  "originalRequirementAcceptanceUnchanged": true,
+  "baseline": {
+    "pointer": "#/suites",
+    "old": 374,
+    "new": 375,
+    "allPriorObjectsExact": true,
+    "added": [
+      "integration/work-support-context-component-browser"
+    ],
+    "newMinimum": 34,
+    "supportMinimum": 23
+  },
+  "reviewRepair": {
+    "priorObjectsExact": 375,
+    "newTotal": 376,
+    "addedOnly": [
+      "integration/work-support-commit-transition-browser"
+    ],
+    "newMinimum": 8,
+    "originalSupportMinimum": 23,
+    "originalComponentMinimum": 34,
+    "originalOperationsProvenanceRetained": [
+      "lib/saha/operations.ts",
+      "lib/saha/pilot.ts",
+      "tests/operations-smoke.mjs",
+      "tests/pilot-smoke.mjs"
+    ]
+  },
+  "finalLocal": {
+    "runtimeSha256": "e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7",
+    "all374MainSuiteObjectsExact": true,
+    "all375PublishedSuiteObjectsExact": true,
+    "current376SuiteObjects": true,
+    "componentTestFrozenHashUnchanged": true,
+    "originalSupportTestSha256": "e0b30f8c1ab306d8c4f78284bca20a3592e95c952f87dd3c1bf758a2439a7b76",
+    "originalAnonymousTestSha256": "54f0374ffc15bad7a8ec7c14e2a0d2175194c469d884a33c5742253ba906ade8",
+    "originalSupportTestBytesEqualMain": true,
+    "originalAnonymousTestBytesEqualMain": true
+  },
+  "documentationCiRepair": {
+    "actualParentHead": "f888bc818e9bb4a3f637ef5f6cdd28abcfd2f7e1",
+    "runtimeAndBothComponentTestsUnchanged": true,
+    "uatMapping": "app/work-support-panel.tsx -> actual Person page and visit, workspace import58/render263",
+    "originalUatMappingBytesExactAfterRemovingOneAddedEntry": true,
+    "originalWorkflowBytesExactAfterRemovingTwoAddedSuiteNames": true,
+    "addedSuites": [
+      "integration/work-support-context-component-browser",
+      "integration/work-support-commit-transition-browser"
+    ],
+    "originalSelectorsGuardsTimeoutsPreserved": true,
+    "noAcceptanceOrRoleRuleChange": true,
+    "sourceCustody": {
+      "app/work-support-panel.tsx": "e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7",
+      "tests/work-support-context-component-browser.mjs": "0d8b7011cab91324abd23afe6c812a49137fcad77ed03f540758196909347ae1",
+      "tests/work-support-commit-transition-browser.mjs": "7776d23fef88316eb45ea470d12b98927ffe36cbd49b5ca426e649469a40ed6c",
+      "tests/regression-baseline.json": "cc5f75874109ae76c21ca72d3d53b2e682ad0226b0493ba480d4282cafa63277",
+      "docs/testing/uat/uat-results.csv": "506f5a24b71252f0ce6e498f7cabbbe7fe9d3d7e37dc1f887adada7c1a2a9fc1"
+    },
+    "uatToolingBefore": {
+      "passed": 60,
+      "failed": 3,
+      "skipped": 0,
+      "exit": 1
+    },
+    "uatToolingAfter": {
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "exit": 0,
+      "originalMinima": [
+        44,
+        9,
+        10
+      ]
+    },
+    "limits": "Static UAT document/register checks only; zero formal cases executed or accepted. Fresh exact successor CI and incremental independent review required."
+  }
+}

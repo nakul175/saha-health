@@ -228,3 +228,19 @@ Combined validation now passes147 unit suites/8,594 checks, fullHTTP/restore/sec
 | B27 frozen reports | Immutable original editions and reviewed corrections; independent cancellation freshness repair | Final independent review complete in isolated source, not yet integrated |
 
 Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-REMAINING-WORK.md). B09 inbound conflicts, B13 household completion and hosted transport diagnosis proceed in parallel. SDK licence decision, APK/device and all clinical/external/formal acceptance remain pending.
+
+
+## Support context prerequisite — 11 October 2026
+
+| Canonical owner | Current bounded result | Remaining delivery work |
+| --- | --- | --- |
+| APL-754 under SAHA-118/APL-141 | [Actual React component context protection](current/SUPPORT-CONTEXT-ISOLATION-20261011.md): original20/14/0, fixed34/0/0, unchanged criteria and original support23 guard. Explicit API doubles only. | Candidate build/types/lint, actual-server support regression, separate final review and exact final CI; full canonical outcome and formal/live gates remain open. |
+
+
+11 October review repair: actual deferred commit7/1/0→8/0/0 with unchanged criteria proves and closes the remaining old-context GET callback interval via layout cleanup. Original34 harness again passes34/0/0, unchanged. Retain original375 prior baseline objects; only observed8 added. Original four operations/pilot evidence pointers remain additive provenance. See current/SUPPORT-CONTEXT-ISOLATION-20261011.md; full support task/story, formal and live acceptance remain open.
+
+
+11 October final support runtime `e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7`: unchanged original34/0 and deferred8/0; original actual Worker/D1 support23/0 and anonymous refusal/no-write17/0; ledger14/0 with guard. Fresh build/typecheck0; lint1392/618 equals original baseline. Exact port/import-only adapter proofs and owned-runtime disposal retained in docs/current/support-context-evidence-20261011/final-local. No full APL-754/SAHA-118 completion, formal/live/merge claim; fresh final-head CI and separate review remain gates.
+
+
+11 October f888 documentation CI failure reproduced60/3 with unchanged UAT tooling; additive actual support screen mapping and regenerated coverage/pack repair63/0 under original44/9/10 minima. Both34/8 support suites are added to existing CI with all prior selections/guards/timeouts preserved. Runtime/component criteria/baseline/formal register remain byte-exact f888; static tools are not formal acceptance. Fresh successor CI and independent incremental review remain pending. See docs/current/support-context-evidence-20261011/ci-uat-repair.

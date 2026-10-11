@@ -203,3 +203,17 @@ ASHA /app now opens a guided prompt with three current-work/person/drafts choice
 ### Reviewed bounded owner calculations — 5 October 2026
 
 Owner expression fixtures and per-person primitive/joint cohort dependencies now share reviewed definitions and frozen edition lineage, preserving original primitive strings and historical editions. Current reporting authority, original visible care scope and exact pinned-time source/definition are rechecked after final live/CSV audit; withdrawal403 and changed data409 disclose no old figures. Original independent failures are preserved; repair7c716b97 has cold review31e398b8. Four primary suites298, independent extra95, full188-unit10102 and API/recovery4791 pass locally;100 workflows4048 and final seven187 pass with one documented media skip; documentation baseline qualification/publication remain. See [bounded calculation contract](current/OWNER-COMPOSITE-MEASURES.md) and [cold authority clearance](current/COMPOSITE-CURRENT-AUTHORITY-INDEPENDENT-AFTER.md). Broader B27/B28/B31, clinical/official reporting and formal acceptance remain pending.
+
+
+## Support component context prerequisite — 11 October 2026
+
+[Support queue context isolation](current/SUPPORT-CONTEXT-ISOLATION-20261011.md) replaces local support state at actor/organisation/visit/person/current membership and measurement boundaries before the new DOM commits, and ignores late former-context responses. The exact34-check actual React regression retains the original14 failures; synthetic API doubles do not qualify server authority. Existing support ledger/audit/patient scope and clinical records are unchanged. BR-OPS-05 remains partial; full support cases/expiring content access, original formal cases and live delivery remain open.
+
+
+11 October review repair: actual deferred commit7/1/0→8/0/0 with unchanged criteria proves and closes the remaining old-context GET callback interval via layout cleanup. Original34 harness again passes34/0/0, unchanged. Retain original375 prior baseline objects; only observed8 added. Original four operations/pilot evidence pointers remain additive provenance. See current/SUPPORT-CONTEXT-ISOLATION-20261011.md; full support task/story, formal and live acceptance remain open.
+
+
+11 October final support runtime `e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7`: unchanged original34/0 and deferred8/0; original actual Worker/D1 support23/0 and anonymous refusal/no-write17/0; ledger14/0 with guard. Fresh build/typecheck0; lint1392/618 equals original baseline. Exact port/import-only adapter proofs and owned-runtime disposal retained in docs/current/support-context-evidence-20261011/final-local. No full APL-754/SAHA-118 completion, formal/live/merge claim; fresh final-head CI and separate review remain gates.
+
+
+11 October f888 documentation CI failure reproduced60/3 with unchanged UAT tooling; additive actual support screen mapping and regenerated coverage/pack repair63/0 under original44/9/10 minima. Both34/8 support suites are added to existing CI with all prior selections/guards/timeouts preserved. Runtime/component criteria/baseline/formal register remain byte-exact f888; static tools are not formal acceptance. Fresh successor CI and independent incremental review remain pending. See docs/current/support-context-evidence-20261011/ci-uat-repair.
