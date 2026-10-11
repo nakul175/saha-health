@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-11",
+  "recordedAt": "2026-10-11T15:50:14.963254+00:00",
+  "canonicalTask": "APL-769 / ENG-BR-SEC-12",
+  "parent": "APL-156 / SAHA-133",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "branch": "story/saha-133-audit-failclosed-20261011",
+  "specificationRevision": 1,
+  "sourceHashes": {
+    "scripts/security-gate.mjs": "8a152e26fc5122a3cb23a78023b2fd61e93f0159e028832160944813e907e205",
+    "scripts/lib/security-audit-response.mjs": "8e8274e1b3de29e6116ff45beccdc0b4260d13d31fc44b0da74a2c41e6211edd",
+    "tests/security-audit-response-contract.mjs": "8a90a1abcb4144d870bf836963fd0f20f5e7fb5209998abaea640be629c6efe7",
+    "tests/fixtures/security-audit-error-response.json": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "tests/fixtures/security-audit-supported-pnpm.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "docs/current/saha-133/SPECIFICATION.md": "ae66b2c3ef7c07c5cee45299b5d08ac5b07dab53a9f07fbfc521a133aac1a43c"
+  },
+  "evidence": {
+    "tests/evidence/saha-133/reviewed-before.json": "aea53918acb208bed26bd9244bfd83ddefb989e5aa131524c9355b91ad75c37a",
+    "tests/evidence/saha-133/reviewed-after.json": "527d4752dc8c59239f6ed683a0ee5cd1eb73b3de72ec3c8a3581e7f02e2cc908",
+    "tests/evidence/saha-133/guarded-summary.json": "b8eb8856f8b03e008f6a8fd44a98d034d3dd6f1952e1080faa5bfcaca8073c1a",
+    "tests/evidence/saha-133/baseline-preservation.json": "bcba65b9b3fb2726fe3ec038360e2c7bbf7d8157c5f80bfca94a213f636410db",
+    "tests/evidence/saha-133/source-freeze.json": "4b10f3fd577f2cd8b59b08ae2eaa1fccc1db0c6eb5b1978ebfe18c994e2129cf",
+    "tests/evidence/saha-133/spec-freeze.json": "aca7245efbbd9451e86573487c2b0fe4b76822b06ac204c8b0c957139be7bb47",
+    "tests/evidence/saha-133/original-gate.mjs.txt": "3878e45cba01125729261e77516d3eb67444121ec9ac2e90d6007d85dc285139",
+    "tests/evidence/saha-133/actual-incomplete-pass.json": "1eaa2bc4eca4cdcd0d818436e4a791abb86cd601c524474821255831f66b7e65",
+    "tests/evidence/saha-133/initial54-before.json": "7ad446de83663e6b49f8356c3fed97cf2a7c02ed1e689a7f10135edf4fc743b4",
+    "tests/evidence/saha-133/initial63-before.json": "e291916d54c1cbcbc0b3fc2e73ba8f4435fd1fb422b08903fc176a9b509c5cb6",
+    "tests/evidence/saha-133/intermediate63-after.json": "0836ebff625e57471cb80aedd6de21b3c2d215bab104a87842a968f5c9bb2eef",
+    "tests/evidence/saha-133/initial54-driver.mjs.txt": "414af2da248d67d531bb833f5661bf693657c7f080bb9e2fcad8078721366844",
+    "tests/evidence/saha-133/intermediate63-driver.mjs.txt": "0568d6a97022357e0d834322a13829c3fc6c0ef7a240718a430191e39e621e24",
+    "tests/evidence/saha-133/intermediate63-gate.mjs.txt": "4cfc55f549227d597300f7e2a2fe86383efddb0542e400d0f05572e3f881d520",
+    "tests/evidence/saha-133/focused-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/saha-133/dependency-tree-before.json": "d3e246967787e82e3e09db943847d26795b93226463c01a283416a15351c8abf",
+    "tests/evidence/saha-133/dependency-tree-after.json": "c196b080703c2db2c35d2ec5e2495ad56ebcc585b04342f321b7e9d3881c6721",
+    "tests/evidence/saha-133/dependency-tree-guarded-summary.json": "ceec8d81fa7ad251e882ede74f72851e96beaa847dc3c7df074d783b7dd0c3bf",
+    "tests/evidence/saha-133/dependency-tree-baseline-preservation.json": "888620320ef0b71d747a32c96d9e2a0cde75d432f7b61709ec29a9fbb92f8417",
+    "tests/evidence/saha-133/dependency-tree-freeze-before.json": "ca515623e82980a9bf031ce176b9ec496b239a5a98e6993418cbbc249e095daf",
+    "tests/evidence/saha-133/historical68-gate.mjs.txt": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253",
+    "tests/evidence/saha-133/historical68-helper.mjs.txt": "6d75161041ec644390ea3e8b9343297e943663ab2e9426e43b4a53786f9da543",
+    "tests/evidence/saha-133/historical68-driver.mjs.txt": "efc93389e685e38c8bd2d1d7c7a3a7034dc68cc544b98198cbe37eac9b57a293",
+    "tests/evidence/saha-133/historical68-archive-receipt.json": "ad644df335ed818f85ffc3bf14aac4be22a713cc87b8d58d55a9c6b24c19a783",
+    "tests/evidence/saha-133/dependency-tree-focused-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/evidence/saha-133/dependency-tree-source-freeze.json": "a700cefb548b8ccbab41ed933a54d6fdf7bdc6a1f80266114edce6204c955462",
+    "tests/evidence/saha-133/uat-summary.json": "e547278d0c8d952fd9f3b313b57c7bec659effb0d3333821bfaca7ee9d38c4da",
+    "tests/evidence/saha-133/runner-contract-summary.json": "254dc9f3b8f6df0cd8043a8259d8087ae0264363419eb70cb347c1a55330bfb9",
+    "tests/evidence/saha-133/dependency-tree-independent-review.json": "48eee54ccf067a0edf5acf11968db14afe79dd72257fe67f8938a91d2ea25ce2",
+    "tests/evidence/saha-133/historical68-independent-review.json": "88d96a315a7e5d37040855344868c8897ace91e3dfb77c04fb68c58564427101",
+    "tests/evidence/saha-133/manifest.json": "64f58b3272b94a40932499b4e522a47f5b01fe4801045ba8c29c7aab5dd32efa"
+  },
+  "localCriteriaSupported": 5,
+  "engineeringCriteria": 6,
+  "gate": "G1-G5 locally supported; G6 published-head CI/separate final review pending. Whole provider/supply-chain acceptance remains HELD.",
+  "runs": {
+    "originalGateSameFinalDriver": {
+      "passed": 193,
+      "failed": 216,
+      "cases": 68,
+      "actualExecutedSource": "3878e45cba01125729261e77516d3eb67444121ec9ac2e90d6007d85dc285139"
+    },
+    "fixedGateSameDriver": {
+      "passed": 409,
+      "failed": 0,
+      "skipped": 0,
+      "cases": 68,
+      "actualExecutedSource": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253"
+    },
+    "canonicalFocusedUnitGuard": {
+      "suites": 1,
+      "passed": 493,
+      "failed": 0,
+      "skipped": 0,
+      "guard": "passed",
+      "excusedByQuarantine": 0
+    },
+    "focusedLint": {
+      "exitCode": 0,
+      "newFindings": 0
+    },
+    "catalogue": {
+      "exitCode": 0
+    },
+    "currentDependencyTreeBefore": {
+      "passed": 437,
+      "failed": 56,
+      "cases": 82,
+      "actualExecutedSource": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253"
+    },
+    "currentDependencyTreeAfter": {
+      "passed": 493,
+      "failed": 0,
+      "skipped": 0,
+      "cases": 82,
+      "actualExecutedSource": "8a152e26fc5122a3cb23a78023b2fd61e93f0159e028832160944813e907e205"
+    },
+    "actualLocalProductionListCompatibility": {
+      "command": "corepack pnpm list --prod --json --depth Infinity",
+      "exitCode": 0,
+      "bytes": 483326,
+      "sha256": "8fa4ed7821da17be0968f513e83467dbb4d7ef0824a2e1a442384272c067f638",
+      "nestedEntries": 883,
+      "validated": true,
+      "scope": "Actual local production list format; no registry audit, build or shipment qualification"
+    },
+    "testRunnerCompatibility": {
+      "suites": 1,
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "guard": "passed",
+      "scope": "Existing runner contract on disposable subprocess repositories; no product backend"
+    },
+    "generatedUatConsistency": {
+      "suites": 3,
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "guard": "passed",
+      "scope": "Generated pack/register/coverage consistency; formal register remains0/364"
+    }
+  },
+  "testBoundary": "Actual production gate command with declared controlled subprocess stdout/status/signal and disposable synthetic dependency/dist fixtures. QA-only selected original source path allows byte-exact preserved main script to execute as before oracle. No production hook, real registry read, app build, backend or hosting in this task.",
+  "provenance": "reviewed-before.json explicitly records executedGateSource/Sha256 of actual old script. Other input hash snapshots are observed test inputs, not a claim that unused current helper/default script executed in the before run. The final default entrypoint is actual branch production gate. Current dependency-tree before executes the actual previous repaired gate b2bfe47d; the helper/default pins are observed test inputs, while executedGateSourceSha256 defines executed source. Current source returns the original consumed dependency tree, preserving SBOM walk and classifier tail.",
+  "caseMeaning": "82 controlled tool-response fixture cases, 493 assertions including source stability; not product stories or formal acceptance cases.",
+  "history": "Initial54case196/129 and initial63case229/150 failures retained. Intermediate63case379/0 did not satisfy G5 list diagnostics; independent review found uncaught list error. Stronger exact fixed-stderr and five list failure cases produced final68before193/216, then409/0 after. No earlier failure waived. Later consumed dependency-list review reproduced null/array dependency maps, malformed package info/versions and unsupported list envelope: same82 driver before437/56, then493/0. Original68-case/409 raw observations, source and independent review remain unchanged historical evidence.",
+  "preservation": {
+    "original374BaselineEntriesExact": true,
+    "addedOnly": "unit/security-audit-response-contract added at409, then raised to493 after14 additional genuine fixture cases; all374 original entries unchanged.",
+    "criticalHighAndShippedPolicy": "Existing classifier tail byte-exact unchanged; helper only validates availability/shape. Root independently observed literal shipped-heuristic/RSC P1 remains unqualified.",
+    "dependencyVersions": "unchanged",
+    "appClinicalIdentityMigrations": "unchanged",
+    "TC-BR-SEC-12-A/B": "originalcriteria unchanged; formalNotrun"
+  },
+  "cleanup": {
+    "temporaryFixturesRemoved": true,
+    "backendStarted": false,
+    "buildStarted": false,
+    "noHeavyLaneUsed": true
+  },
+  "openGates": [
+    "Exact published-head CI and independent final source review",
+    "Root-owned genuine bundle provenance/RSC dependency remediation and current live audit qualification",
+    "Full supplier controls/subprocessors/incident/update/material-change assurance",
+    "Formal human/provider/hosted acceptance; noactivationauthorized"
+  ],
+  "wholeParentDone": false,
+  "formalApproval": false,
+  "mergedSha": null,
+  "deployedSha": null,
+  "independentReviews": {
+    "current": {
+      "path": "tests/evidence/saha-133/dependency-tree-independent-review.json",
+      "sha256": "48eee54ccf067a0edf5acf11968db14afe79dd72257fe67f8938a91d2ea25ce2",
+      "reviewerAgent": "/root/saha_backlog_quality/telemetry_review",
+      "mode": "Read-only independent source/retained-result review",
+      "verdict": "No blocking finding in bounded consumed-tree delta; excludes human/full-gate/CI approval"
+    },
+    "historical68": {
+      "path": "tests/evidence/saha-133/historical68-independent-review.json",
+      "sha256": "88d96a315a7e5d37040855344868c8897ace91e3dfb77c04fb68c58564427101",
+      "scope": "Historical 68-case audit-envelope/list diagnostics snapshot, before later consumed-tree finding"
+    }
+  }
+}

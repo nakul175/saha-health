@@ -1,0 +1,536 @@
+{
+  "completedAt": "2026-10-11T15:45:00.919045+00:00",
+  "task": "APL-769 / ENG-BR-SEC-12",
+  "parent": "SAHA-133 / APL-156",
+  "status": "no-unresolved-blocking-finding-in-bounded-audit-availability-repair",
+  "reviewMethod": "Independent read-only source and retained actual-process-fixture evidence inspection; no reruns, runtime/app/backend/build/network/source/remote edits",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "sourcePins": {
+    "scripts/security-gate.mjs": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253",
+    "scripts/lib/security-audit-response.mjs": "6d75161041ec644390ea3e8b9343297e943663ab2e9426e43b4a53786f9da543",
+    "tests/security-audit-response-contract.mjs": "efc93389e685e38c8bd2d1d7c7a3a7034dc68cc544b98198cbe37eac9b57a293",
+    "tests/fixtures/security-audit-error-response.json": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "tests/fixtures/security-audit-supported-pnpm.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "docs/current/saha-133/SPECIFICATION.md": "ae66b2c3ef7c07c5cee45299b5d08ac5b07dab53a9f07fbfc521a133aac1a43c",
+    "tests/regression-baseline.json": "eeaddcaa38f75b484bc13be4689cfc02c43fd23c401eac47c6da51cf386b7dcc",
+    "package.json": "2764291274d0c219caf71c39c983fa6f60eb57a85da3e371939fb63956babd2d",
+    "pnpm-lock.yaml": "0041e61a9783811cc34c5261f815bbe6ca7337348e62c9f7f17b43880c5fae71"
+  },
+  "evidencePins": {
+    "CURRENT-SOURCE-FREEZE.json": "4b10f3fd577f2cd8b59b08ae2eaa1fccc1db0c6eb5b1978ebfe18c994e2129cf",
+    "SPEC-FREEZE.json": "aca7245efbbd9451e86573487c2b0fe4b76822b06ac204c8b0c957139be7bb47",
+    "reviewed-before/result.json": "aea53918acb208bed26bd9244bfd83ddefb989e5aa131524c9355b91ad75c37a",
+    "reviewed-after/result.json": "527d4752dc8c59239f6ed683a0ee5cd1eb73b3de72ec3c8a3581e7f02e2cc908",
+    "reviewed-before.log": "cdfa8c631ff7ddd219d47916aedc857b9140dd75b89daa508692b4941830e025",
+    "reviewed-after.log": "cb564332467afe10cb8a5878aebe73acdd1c42211ee703debdc1837338b3a232",
+    "focused-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source-intermediate/security-gate.mjs": "4cfc55f549227d597300f7e2a2fe86383efddb0542e400d0f05572e3f881d520",
+    "source-intermediate/security-audit-response.mjs": "6d75161041ec644390ea3e8b9343297e943663ab2e9426e43b4a53786f9da543",
+    "source-intermediate/security-audit-response-contract.mjs": "0568d6a97022357e0d834322a13829c3fc6c0ef7a240718a430191e39e621e24",
+    "source-before/security-gate.mjs": "3878e45cba01125729261e77516d3eb67444121ec9ac2e90d6007d85dc285139",
+    "before-final/result.json": "e291916d54c1cbcbc0b3fc2e73ba8f4435fd1fb422b08903fc176a9b509c5cb6",
+    "after/result.json": "0836ebff625e57471cb80aedd6de21b3c2d215bab104a87842a968f5c9bb2eef"
+  },
+  "sourceDriftAtReceipt": {},
+  "sourceAndResultBindings": {
+    "allFreezeSourcePinsMatch": true,
+    "beforeExecutedExactMainBase": true,
+    "afterExecutedOwnProductionEntrypoint": true,
+    "sameDriverHash": true,
+    "identicalOrdered68CaseNames": true,
+    "beforeInputsStable": true,
+    "afterInputsStable": true,
+    "afterInputPinsMatchCurrentSource": true,
+    "beforeAfterRawAuditHashesIdentical": true
+  },
+  "preservedOriginalPolicyAndDependencies": {
+    "sbomTraversalAndBundleShippedCodeByteIdentical": true,
+    "completeFindingsClassifierReportTailByteIdentical": true,
+    "baselineByteIdenticalToBase": false,
+    "packageJsonByteIdenticalToBase": true,
+    "lockfileByteIdenticalToBase": true,
+    "originalGateCopyExactlyBase": true,
+    "noProductionSourceSelectionHook": true,
+    "allOriginalBaselineJsonEntriesIdentical": true
+  },
+  "retainedEarlierSourceAndEvidence": {
+    "intermediateGateMatchesPriorReviewerPin": true,
+    "intermediateHelperMatchesPriorReviewerPin": true,
+    "intermediate63CaseDriverMatchesPriorReviewerPin": true,
+    "priorBeforeFinalResultUnchanged": true,
+    "priorAfterResultUnchanged": true
+  },
+  "rawDiagnosticPrivacyChecks": {
+    "allUnavailableCasesExactFixedStderr": true,
+    "allUnavailableCasesEmptyGateStdout": true,
+    "allUnavailableReportsPassedFalseAndUnavailable": true,
+    "noRawMarkerInAnyGateOutputOrWrittenReport": true
+  },
+  "sourceFindings": {
+    "priorP2G5": "Resolved: list subprocess/JSON parse/unusable first-record failures now use shared fixed unavailable diagnostic after early failed-report publication. Five added list cases and exact stderr oracle witness closure.",
+    "envelope": "Helper unchanged6d751610 validates declared pnpm advisory map, consumed fields/booleans, known severities, five safe integer counters and advisory-object tallies. No material gap identified in that declared audit-envelope scope.",
+    "auditProcess": "Only completed success or expected exit1 stdout enters validation; signal/unexpected exit/no output fail before classification.",
+    "staleReport": "Selected failed report is written before any dependency subprocess; spawn failure with zero trace retains current failed report.",
+    "policy": "Original critical/high-shipped rule, accepted reasons, SBOM traversal, shipped classifier and dependency versions are unchanged. Every original374 baseline suite value is retained; one new security-audit-response-contract minimum409 is added. Known bundled-RSC/shipped P1 stays outside repair and release HELD.",
+    "productionHooks": "Before-source selection is test-driver-only; repaired production gate has no alternate-source environment hook."
+  },
+  "recordedChecks": {
+    "reviewedBefore": {
+      "passed": 193,
+      "failed": 216,
+      "skipped": 0,
+      "cases": 68,
+      "actualExecutedSource": "3878e45cba01125729261e77516d3eb67444121ec9ac2e90d6007d85dc285139"
+    },
+    "reviewedAfter": {
+      "passed": 409,
+      "failed": 0,
+      "skipped": 0,
+      "cases": 68,
+      "actualExecutedSource": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253"
+    },
+    "countMeaning": "409 is68 cases with six verdicts each plus one source-stability receipt; overlapping assertions, not409 independent acceptance outcomes."
+  },
+  "selectedRecordedObservations": [
+    {
+      "name": "expected-nonzero-high-unshipped",
+      "gateProcess": {
+        "status": 0,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": true,
+      "auditAvailable": null,
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 1,
+        "critical": 0
+      },
+      "stdoutEmpty": false,
+      "stderr": "",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "a12c3a88c811e020178ed37e0ff7af832a2ddddfaccaef6ae2c4acb056f0aaa0",
+          "signal": false,
+          "configuredExit": 0
+        },
+        {
+          "args": [
+            "pnpm",
+            "audit",
+            "--json"
+          ],
+          "stdoutSha256": "5afd8968c84a6e49b373d528f8fa970787a32ba2a0be07323206cb2b4b6c1e49",
+          "signal": false,
+          "configuredExit": 1
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "expected-nonzero-high-declared-shipped",
+      "gateProcess": {
+        "status": 1,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": null,
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 1,
+        "critical": 0
+      },
+      "stdoutEmpty": false,
+      "stderr": "",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "a12c3a88c811e020178ed37e0ff7af832a2ddddfaccaef6ae2c4acb056f0aaa0",
+          "signal": false,
+          "configuredExit": 0
+        },
+        {
+          "args": [
+            "pnpm",
+            "audit",
+            "--json"
+          ],
+          "stdoutSha256": "5afd8968c84a6e49b373d528f8fa970787a32ba2a0be07323206cb2b4b6c1e49",
+          "signal": false,
+          "configuredExit": 1
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "critical-development-still-blocks",
+      "gateProcess": {
+        "status": 1,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": null,
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 1
+      },
+      "stdoutEmpty": false,
+      "stderr": "",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "a12c3a88c811e020178ed37e0ff7af832a2ddddfaccaef6ae2c4acb056f0aaa0",
+          "signal": false,
+          "configuredExit": 0
+        },
+        {
+          "args": [
+            "pnpm",
+            "audit",
+            "--json"
+          ],
+          "stdoutSha256": "2f45e5c15097e08239e96eec47e2471d51195d52021ba9e00742f6a0709a1677",
+          "signal": false,
+          "configuredExit": 1
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "exact-actual-fetch-error-json",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "a12c3a88c811e020178ed37e0ff7af832a2ddddfaccaef6ae2c4acb056f0aaa0",
+          "signal": false,
+          "configuredExit": 0
+        },
+        {
+          "args": [
+            "pnpm",
+            "audit",
+            "--json"
+          ],
+          "stdoutSha256": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+          "signal": false,
+          "configuredExit": 1
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "unexpected-exit-valid-stdout",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "a12c3a88c811e020178ed37e0ff7af832a2ddddfaccaef6ae2c4acb056f0aaa0",
+          "signal": false,
+          "configuredExit": 0
+        },
+        {
+          "args": [
+            "pnpm",
+            "audit",
+            "--json"
+          ],
+          "stdoutSha256": "b2ff4df6847d95b6a7497e66ec37155c7d4f92551f2a4ded14c4eb5005691937",
+          "signal": false,
+          "configuredExit": 2
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "signal-with-valid-stdout",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "a12c3a88c811e020178ed37e0ff7af832a2ddddfaccaef6ae2c4acb056f0aaa0",
+          "signal": false,
+          "configuredExit": 0
+        },
+        {
+          "args": [
+            "pnpm",
+            "audit",
+            "--json"
+          ],
+          "stdoutSha256": "b2ff4df6847d95b6a7497e66ec37155c7d4f92551f2a4ded14c4eb5005691937",
+          "signal": true,
+          "configuredExit": 1
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "spawn-unavailable-prior-passed-report",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "list-failed-tool-raw-marker",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "083c4b7456e41a1722299b98206eec59d76c3cd2e484620625af56f5fe41dbff",
+          "signal": false,
+          "configuredExit": 2
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "list-malformed-json-marker",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "40b131755752eb1db7e376ae9c5d9f1b133e881aa1701569a8beed574f9b3bba",
+          "signal": false,
+          "configuredExit": 0
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "list-no-output",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "signal": false,
+          "configuredExit": 0
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "list-signal-valid-output",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "a12c3a88c811e020178ed37e0ff7af832a2ddddfaccaef6ae2c4acb056f0aaa0",
+          "signal": true,
+          "configuredExit": 0
+        }
+      ],
+      "allSixVerdictsPassed": true
+    },
+    {
+      "name": "list-unsupported-root",
+      "gateProcess": {
+        "status": 3,
+        "signal": null,
+        "error": null
+      },
+      "currentReportPassed": false,
+      "auditAvailable": false,
+      "counts": null,
+      "stdoutEmpty": true,
+      "stderr": "Dependency audit unavailable; failing closed.\n",
+      "commandTrace": [
+        {
+          "args": [
+            "pnpm",
+            "list",
+            "--prod",
+            "--json",
+            "--depth",
+            "Infinity"
+          ],
+          "stdoutSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "signal": false,
+          "configuredExit": 0
+        }
+      ],
+      "allSixVerdictsPassed": true
+    }
+  ],
+  "coverageLimits": [
+    "Controlled corepack tool-response process tests and synthetic dist marker; not real registry/app build/production bundle/hosted evidence",
+    "Trace configuredExit/signal describes fixture configuration; gateProcess describes observed gate process",
+    "Default report path exercised; custom selected path is source inspection only",
+    "Dependency enumeration algorithm is preserved rather than a new complete schema/semantic qualification of all SBOM list content",
+    "Focused lint file is empty; this receipt does not independently certify a lint exit or full CI",
+    "Author reports focused lint exit0; empty retained log is hashed. This reviewer did not rerun lint or certify full CI."
+  ],
+  "parentReleaseHeld": true,
+  "humanApproval": false,
+  "fullGateCertification": false,
+  "wholeStoryDone": false,
+  "formalAcceptanceChanged": false,
+  "originalFormalCases": "TC-BR-SEC-12-A/B remain unchanged and Not run",
+  "baselineComparison": {
+    "originalEntries": 374,
+    "currentEntries": 375,
+    "missingOriginal": [],
+    "changedOriginal": [],
+    "addedEntries": {
+      "unit/security-audit-response-contract": {
+        "layer": "unit",
+        "file": "tests/security-audit-response-contract.mjs",
+        "minPassed": 409
+      }
+    },
+    "interpretation": "Baseline file bytes changed only for the new counted409 guard and metadata; every original374 suite value is retained exactly."
+  }
+}

@@ -1,0 +1,27 @@
+// Availability/shape contract for the declared pnpm audit JSON map format.
+// This validates data used by the existing classifier; it does not decide severity,
+// shipped-package applicability or whether a dependency is approved.
+const severities = ['info', 'low', 'moderate', 'high', 'critical'];
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+
+export function parseSecurityAuditResponse(raw) {
+  const audit = JSON.parse(raw);
+  const unavailable = () => { throw new Error('Dependency audit unavailable or unsupported'); };
+  if (!object(audit) || Object.hasOwn(audit, 'error') || !object(audit.advisories) || !object(audit.metadata) || !object(audit.metadata.vulnerabilities)) unavailable();
+  const counts = audit.metadata.vulnerabilities;
+  for (const severity of severities) if (!Object.hasOwn(counts, severity) || !Number.isSafeInteger(counts[severity]) || counts[severity] < 0) unavailable();
+  const observed = Object.fromEntries(severities.map(severity => [severity, 0]));
+  for (const advisory of Object.values(audit.advisories)) {
+    if (!object(advisory) || !severities.includes(advisory.severity)
+      || typeof advisory.module_name !== 'string' || !advisory.module_name.trim()
+      || typeof advisory.vulnerable_versions !== 'string'
+      || typeof advisory.title !== 'string'
+      || !(typeof advisory.id === 'string' && advisory.id.trim() || Number.isSafeInteger(advisory.id) && advisory.id >= 0)
+      || !Array.isArray(advisory.findings) || advisory.findings.length === 0
+      || !advisory.findings.every(finding => object(finding) && typeof finding.dev === 'boolean')) unavailable();
+    observed[advisory.severity]++;
+  }
+  // The supported envelope counts advisory objects, not finding/path occurrences.
+  for (const severity of severities) if (counts[severity] !== observed[severity]) unavailable();
+  return audit;
+}

@@ -1,0 +1,549 @@
+{
+  "completedAt": "2026-10-11T15:53:33.566594+00:00",
+  "task": "APL-769 / ENG-BR-SEC-12 dependency-tree validation delta",
+  "parent": "SAHA-133 / APL-156",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "workspace": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-133-audit-failclosed-20261011",
+  "status": "no-unresolved-blocking-finding-in-bounded-consumed-dependency-tree-delta",
+  "reviewMethod": "Independent read-only source, static JSON shape/hash comparison and retained actual-process-fixture evidence inspection. No production/test reruns, build, backend, registry/network, source/driver/runtime/remote edits. Only this new review receipt written.",
+  "sourcePins": {
+    "scripts/security-gate.mjs": "8a152e26fc5122a3cb23a78023b2fd61e93f0159e028832160944813e907e205",
+    "scripts/lib/security-audit-response.mjs": "8e8274e1b3de29e6116ff45beccdc0b4260d13d31fc44b0da74a2c41e6211edd",
+    "tests/security-audit-response-contract.mjs": "8a90a1abcb4144d870bf836963fd0f20f5e7fb5209998abaea640be629c6efe7",
+    "tests/fixtures/security-audit-error-response.json": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "tests/fixtures/security-audit-supported-pnpm.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "docs/current/saha-133/SPECIFICATION.md": "ae66b2c3ef7c07c5cee45299b5d08ac5b07dab53a9f07fbfc521a133aac1a43c",
+    "tests/regression-baseline.json": "04b1cd5a39c13d88a5721a20c2e55850a02ffefaf842cbdfea3b5c2182a38d7d",
+    "package.json": "2764291274d0c219caf71c39c983fa6f60eb57a85da3e371939fb63956babd2d",
+    "pnpm-lock.yaml": "0041e61a9783811cc34c5261f815bbe6ca7337348e62c9f7f17b43880c5fae71"
+  },
+  "evidencePins": {
+    "DEPENDENCY-TREE-SOURCE-FREEZE.json": "a700cefb548b8ccbab41ed933a54d6fdf7bdc6a1f80266114edce6204c955462",
+    "DEPENDENCY-TREE-BASELINE-PRESERVATION.json": "888620320ef0b71d747a32c96d9e2a0cde75d432f7b61709ec29a9fbb92f8417",
+    "dependency-tree-before/FREEZE-RECEIPT.json": "ca515623e82980a9bf031ce176b9ec496b239a5a98e6993418cbbc249e095daf",
+    "dependency-tree-before/result.json": "d3e246967787e82e3e09db943847d26795b93226463c01a283416a15351c8abf",
+    "dependency-tree-after/result.json": "c196b080703c2db2c35d2ec5e2495ad56ebcc585b04342f321b7e9d3881c6721",
+    "dependency-tree-guarded-summary.json": "ceec8d81fa7ad251e882ede74f72851e96beaa847dc3c7df074d783b7dd0c3bf",
+    "dependency-tree-focused-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual-local-production-list.json": "8fa4ed7821da17be0968f513e83467dbb4d7ef0824a2e1a442384272c067f638",
+    "history/68-cases-before-dependency-tree-review/ARCHIVE-RECEIPT.json": "ad644df335ed818f85ffc3bf14aac4be22a713cc87b8d58d55a9c6b24c19a783",
+    "CURRENT-SOURCE-FREEZE.json": "4b10f3fd577f2cd8b59b08ae2eaa1fccc1db0c6eb5b1978ebfe18c994e2129cf",
+    "reviewed-before/result.json": "aea53918acb208bed26bd9244bfd83ddefb989e5aa131524c9355b91ad75c37a",
+    "reviewed-after/result.json": "527d4752dc8c59239f6ed683a0ee5cd1eb73b3de72ec3c8a3581e7f02e2cc908",
+    "reviewed-before.log": "cdfa8c631ff7ddd219d47916aedc857b9140dd75b89daa508692b4941830e025",
+    "reviewed-after.log": "cb564332467afe10cb8a5878aebe73acdd1c42211ee703debdc1837338b3a232",
+    "independent-review/FINAL-REVIEW-RECEIPT.json": "88d96a315a7e5d37040855344868c8897ace91e3dfb77c04fb68c58564427101"
+  },
+  "comparisons": {
+    "allCurrentFreezeSourcePinsMatch": true,
+    "allAfterInputSourcePinsMatchCurrent": true,
+    "beforeAndAfterInputHashesEqualTheirAfterSnapshots": true,
+    "afterExecutedOwnProductionEntrypoint": true,
+    "beforeExecutedPrior68Repair": true,
+    "same82DriverBytesBeforeAfter": true,
+    "sameOrdered82NamesAndExpectations": true,
+    "same82VerdictLabels": true,
+    "same82AuditStdoutHashes": true,
+    "same82ListStdoutHashes": true,
+    "all14NewObservedListStdoutHashesMatchStaticDeclaredFixtures": true,
+    "original68FixtureDeclarationsByteIdentical": true,
+    "original68ObservationsIdenticalExceptCheckedAtBefore": true,
+    "original68ObservationsIdenticalExceptCheckedAtAfter": true,
+    "original68VerdictLabelsAndResultsRetained": true,
+    "historical409RawResultByteUnchanged": true,
+    "allOriginal374BaselineSuiteRowsExact": true,
+    "noOriginalBaselineRowsRemoved": true,
+    "onlyOneAddedBaselineRow": true,
+    "newTaskMinimumRaised409To493": true,
+    "packageAndLockfileByteIdenticalToBase": true,
+    "auditParserBytesPreserved": true,
+    "sbomWalkWriterBundleAndShippedCodeByteIdenticalToBase": true,
+    "findingsClassifierReportTailByteIdenticalToBase": true,
+    "archived68SourceMatchesPriorReviewerPins": true,
+    "currentHistoricalFreezeByteUnchanged": true
+  },
+  "criteriaBoundary": {
+    "specificationSha256Unchanged": "ae66b2c3ef7c07c5cee45299b5d08ac5b07dab53a9f07fbfc521a133aac1a43c",
+    "frozenG5Witness": "Existing malformed/unavailable-response, current-report invalidation and fixed-diagnostic criteria extended to consumed dependency-list data; declared before-edit 82-case receipt retained.",
+    "currentFreeze": "DEPENDENCY-TREE-SOURCE-FREEZE.json is current. CURRENT-SOURCE-FREEZE.json remains the immutable historical 68-case freeze.",
+    "sameDriverMeaning": "82 driver bytes, ordered fixture names, expected decisions and six verdict labels are identical before/after this production delta. The full driver differs from historical 68-case bytes because 14 cases are added and valid component expectation uses c.components ?? 1.",
+    "oldOraclePreservation": "All original 68 fixture declarations are byte-identical. They define no components override, so c.components ?? 1 still requires 1. Other original generic oracles are unchanged; original recorded observations are identical except checkedAt timestamps in both current 82-case runs."
+  },
+  "sourceReview": {
+    "gateIntegration": "New named helper export/import is compatible with ESM gate use. The existing pnpm list argv returns UTF-8 into the validator and the returned first object feeds the original walk. JSON, structural and recursive-validator failures enter the existing fixed unavailable catch before walk/SBOM publication or audit invocation.",
+    "validatedBoundary": "Require an array with a non-array, non-null first object and no own error field. Absent dependencies remains allowed. Any present dependencies at every consumed node must be a non-array, non-null object; each package info must be an object with a nonblank string version. Traversal validates nested maps before the unchanged SBOM walk reads them.",
+    "compatibility": "Validation does not parse semantic versions or reject unused metadata, workspace/link version strings, optional fields or extra root records. Like the original algorithm, inventory consumes the first record only. Extra roots/full workspace completeness are not qualified here.",
+    "fixedDiagnostics": "Helper throws contain internal fixed text only. Gate catch discards the error object and invokes fixed unavailable text/status 3. Selected passed:false report is written before the first dependency subprocess, inherited unchanged from the 68-case repair.",
+    "originalPolicy": "Audit parser bytes, SBOM walk/writer, bundle scan, shipped predicate and complete findings/classifier/report tail remain unchanged. Dependency versions are unchanged. Known actual bundled-RSC/shipped-classifier P1 is outside this delta and parent release stays HELD.",
+    "cause": "Prior root-only validation allowed malformed dependencies and info values into Object.entries and version reads. Eleven new malformed-list fixtures falsely passed; null package info failed with an uncaught TypeError/source stack. The same twelve after fixtures all reject before audit with current false report and fixed diagnostic."
+  },
+  "recordedChecks": {
+    "before": {
+      "cases": 82,
+      "passed": 437,
+      "failed": 56,
+      "skipped": 0,
+      "actualExecutedGateSourceSha256": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253",
+      "inputStabilityPassed": true
+    },
+    "after": {
+      "cases": 82,
+      "passed": 493,
+      "failed": 0,
+      "skipped": 0,
+      "actualExecutedGateSourceSha256": "8a152e26fc5122a3cb23a78023b2fd61e93f0159e028832160944813e907e205",
+      "inputStabilityPassed": true
+    },
+    "original68": {
+      "fixtureCases": 68,
+      "sixPerCaseVerdicts": 408,
+      "sourceStability": 1,
+      "retainedHistoricalTotal": 409,
+      "allOriginalVerdictsPassInBoth82Runs": true
+    },
+    "added14": {
+      "malformedCases": 12,
+      "supportedCases": 2,
+      "additionalVerdicts": 84,
+      "beforeFailedVerdicts": 56,
+      "afterFailedVerdicts": 0
+    },
+    "countMeaning": "493 is 82 overlapping six-verdict fixture cases plus one source-stability assertion, not 493 independent requirements, stories or formal acceptance outcomes.",
+    "focusedRunnerGuard": "Retained dependency-tree-guarded-summary.json records one focused suite493/0, exit0, guard.ok=true; no broader full-gate execution claimed by this reviewer."
+  },
+  "retainedActualLocalList": {
+    "bytes": 483326,
+    "sha256": "8fa4ed7821da17be0968f513e83467dbb4d7ef0824a2e1a442384272c067f638",
+    "firstRootDependencyEntriesIncludingNested": 883,
+    "staticConsumedShapeErrors": [],
+    "independentMethod": "Read and recursively inspect retained JSON fields without executing gate/helper/pnpm. Matches the parent current-freeze hash/size/count.",
+    "scope": "Local pnpm output format compatibility only; no registry, actual shipped bundle, full SBOM correctness, supplier inventory or vulnerability classification qualification."
+  },
+  "privacyChecks": {
+    "unavailableCaseCount": 70,
+    "allFixedStderrExactInRecordedAfter": true,
+    "allUnavailableStdoutEmpty": true,
+    "allUnavailableReportsFalseWithNullCounts": true,
+    "noRawMarkerInAnyAfterOutputOrReport": true
+  },
+  "selectedNewObservations": [
+    {
+      "name": "list-null-dependencies",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "0a76c549b56d7c8e016253054cc4c2f59c91551c6edc481515ead8c9c918f63c",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 0,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-null-dependencies:process-release-decision",
+          "list-null-dependencies:report-current-decision",
+          "list-null-dependencies:availability-and-policy",
+          "list-null-dependencies:no-raw-diagnostic-disclosure",
+          "list-null-dependencies:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-array-dependencies",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "dc3da72ef715b39ca7227366d8dca0deb4d7b548893dcb42a968c94cc60b4dac",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 0,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-array-dependencies:process-release-decision",
+          "list-array-dependencies:report-current-decision",
+          "list-array-dependencies:availability-and-policy",
+          "list-array-dependencies:no-raw-diagnostic-disclosure",
+          "list-array-dependencies:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-string-dependencies",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "61bc8212aae6c0079e4b47b522d50e90a06f9e932f2ffb892e9de0cd1ae458dc",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 21,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-string-dependencies:process-release-decision",
+          "list-string-dependencies:report-current-decision",
+          "list-string-dependencies:availability-and-policy",
+          "list-string-dependencies:no-raw-diagnostic-disclosure",
+          "list-string-dependencies:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-null-package-info",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "8fc624779a9678e64ecd11bfa40a9ceb68a87384062f46d0cafa4dd6d55f870e",
+      "before": {
+        "gateStatus": 1,
+        "reportPassed": false,
+        "productionComponents": null,
+        "diagnostic": "unhandled-TypeError-with-source-stack",
+        "subprocessCount": 1,
+        "failedVerdictLabels": [
+          "list-null-package-info:no-raw-diagnostic-disclosure"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-array-package-info",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "791332208b607220391a985c0cd2edeab2bf89cfbfbb1e54adbc248f1d0feaeb",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 1,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-array-package-info:process-release-decision",
+          "list-array-package-info:report-current-decision",
+          "list-array-package-info:availability-and-policy",
+          "list-array-package-info:no-raw-diagnostic-disclosure",
+          "list-array-package-info:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-missing-package-version",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "94e5cfa42a365da3ebdfe4aa6ef31c15dedcd042ca610cf6d4d78e51a25f4000",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 1,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-missing-package-version:process-release-decision",
+          "list-missing-package-version:report-current-decision",
+          "list-missing-package-version:availability-and-policy",
+          "list-missing-package-version:no-raw-diagnostic-disclosure",
+          "list-missing-package-version:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-non-string-package-version",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "675f56afb10efc6979b49f9aa9821f717045f5c638f97a1cb51f5116e9143f6d",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 1,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-non-string-package-version:process-release-decision",
+          "list-non-string-package-version:report-current-decision",
+          "list-non-string-package-version:availability-and-policy",
+          "list-non-string-package-version:no-raw-diagnostic-disclosure",
+          "list-non-string-package-version:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-empty-package-version",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "765004263319c546ee64312fd3fba090643c1910c6f01b9abb5aabb3b4afd4ad",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 1,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-empty-package-version:process-release-decision",
+          "list-empty-package-version:report-current-decision",
+          "list-empty-package-version:availability-and-policy",
+          "list-empty-package-version:no-raw-diagnostic-disclosure",
+          "list-empty-package-version:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-null-nested-dependencies",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "85fe16d442b4603ab98e98a29a9755d875a8adcccef63f4a4e39d77935814cca",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 1,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-null-nested-dependencies:process-release-decision",
+          "list-null-nested-dependencies:report-current-decision",
+          "list-null-nested-dependencies:availability-and-policy",
+          "list-null-nested-dependencies:no-raw-diagnostic-disclosure",
+          "list-null-nested-dependencies:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-array-nested-dependencies",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "77934de313a1f01762722018ddbc57da99799f88c871fad170d42ca7b52a850c",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 1,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-array-nested-dependencies:process-release-decision",
+          "list-array-nested-dependencies:report-current-decision",
+          "list-array-nested-dependencies:availability-and-policy",
+          "list-array-nested-dependencies:no-raw-diagnostic-disclosure",
+          "list-array-nested-dependencies:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-missing-nested-package-version",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "9c1de9c38775a81f1fb788c82877a49e4fd0f61c59b5b540ec485387c55a10b3",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 2,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-missing-nested-package-version:process-release-decision",
+          "list-missing-nested-package-version:report-current-decision",
+          "list-missing-nested-package-version:availability-and-policy",
+          "list-missing-nested-package-version:no-raw-diagnostic-disclosure",
+          "list-missing-nested-package-version:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-object-wrapped-array-index",
+      "expected": "unavailable",
+      "declaredAndObservedListStdoutSha256": "4b67a7e81359d0ae49520b4f21efc7493f326dcc94eedf97aab649796adef4f9",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 0,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": [
+          "list-object-wrapped-array-index:process-release-decision",
+          "list-object-wrapped-array-index:report-current-decision",
+          "list-object-wrapped-array-index:availability-and-policy",
+          "list-object-wrapped-array-index:no-raw-diagnostic-disclosure",
+          "list-object-wrapped-array-index:actual-subprocess-contract"
+        ]
+      },
+      "after": {
+        "gateStatus": 3,
+        "reportPassed": false,
+        "auditAvailable": false,
+        "productionComponents": null,
+        "stdoutEmpty": true,
+        "stderr": "Dependency audit unavailable; failing closed.\n",
+        "subprocessCount": 1,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-supported-no-production-dependencies",
+      "expected": "pass",
+      "declaredAndObservedListStdoutSha256": "e10808d43975dc400731053386849f864f297e6c4f7519c380f3dbaf7067a840",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 0,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": []
+      },
+      "after": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "auditAvailable": null,
+        "productionComponents": 0,
+        "stdoutEmpty": false,
+        "stderr": "",
+        "subprocessCount": 2,
+        "allSixVerdictsPassed": true
+      }
+    },
+    {
+      "name": "list-supported-nested-dependencies",
+      "expected": "pass",
+      "declaredAndObservedListStdoutSha256": "1b5064c26f29aa637ef085bd44bd0c60569ba6aad2fbbdf70c8993f38cb34b59",
+      "before": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "productionComponents": 2,
+        "diagnostic": "empty",
+        "subprocessCount": 2,
+        "failedVerdictLabels": []
+      },
+      "after": {
+        "gateStatus": 0,
+        "reportPassed": true,
+        "auditAvailable": null,
+        "productionComponents": 2,
+        "stdoutEmpty": false,
+        "stderr": "",
+        "subprocessCount": 2,
+        "allSixVerdictsPassed": true
+      }
+    }
+  ],
+  "baseline": {
+    "baseOriginalSuiteCount": 374,
+    "currentSuiteCount": 375,
+    "allOriginal374RowsExact": true,
+    "onlyNewTaskRow": {
+      "layer": "unit",
+      "file": "tests/security-audit-response-contract.mjs",
+      "minPassed": 493
+    },
+    "previousNewTaskMinimum": 409,
+    "currentNewTaskMinimum": 493,
+    "historical409ResultAndDriverRetained": true
+  },
+  "coverageLimits": [
+    "Read-only bounded review; author-controlled subprocess fixture traces are retained evidence, not an independently executed registry run.",
+    "Recorded trace configuredExit is fixture configuration, not a claim of directly observed child exit; gate process status/stdout/stderr and reports are actual subprocess observations.",
+    "Tests verify productionComponents counts for supported trees; temporary emitted SBOM fixtures are removed, so full component-by-component SBOM content is not independently retained/qualified. Original algorithm byte preservation supplies the narrow preservation evidence.",
+    "Custom report paths, all possible dependency names/versions/workspace layouts and adversarial resource limits are outside this finite delta review.",
+    "Source publication, exact published-head CI, parent provider/supplier controls, vulnerable-component remediation, human review, hosted qualification and formal UAT remain separate."
+  ],
+  "parentReleaseHeld": true,
+  "humanApproval": false,
+  "fullGateCertification": false,
+  "wholeStoryDone": false,
+  "formalAcceptanceChanged": false,
+  "originalFormalCases": "TC-BR-SEC-12-A/B unchanged and Not run",
+  "sourceDriftAtReceipt": {},
+  "evidenceDriftAtReceipt": {}
+}

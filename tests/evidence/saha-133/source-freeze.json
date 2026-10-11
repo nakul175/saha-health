@@ -1,0 +1,37 @@
+{
+  "frozenAt": "2026-10-11T15:42:08.011649+00:00",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "caseFixtureCount": 68,
+  "assertionsAfter": 409,
+  "failedAfter": 0,
+  "sameDriverAndOrderedCasesBeforeAfter": true,
+  "before": {
+    "passed": 193,
+    "failed": 216,
+    "source": "3878e45cba01125729261e77516d3eb67444121ec9ac2e90d6007d85dc285139",
+    "resultSha256": "aea53918acb208bed26bd9244bfd83ddefb989e5aa131524c9355b91ad75c37a"
+  },
+  "after": {
+    "passed": 409,
+    "failed": 0,
+    "source": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253",
+    "resultSha256": "527d4752dc8c59239f6ed683a0ee5cd1eb73b3de72ec3c8a3581e7f02e2cc908"
+  },
+  "sourcePins": {
+    "scripts/security-gate.mjs": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253",
+    "scripts/lib/security-audit-response.mjs": "6d75161041ec644390ea3e8b9343297e943663ab2e9426e43b4a53786f9da543",
+    "tests/security-audit-response-contract.mjs": "efc93389e685e38c8bd2d1d7c7a3a7034dc68cc544b98198cbe37eac9b57a293",
+    "tests/fixtures/security-audit-error-response.json": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "tests/fixtures/security-audit-supported-pnpm.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "docs/current/saha-133/SPECIFICATION.md": "ae66b2c3ef7c07c5cee45299b5d08ac5b07dab53a9f07fbfc521a133aac1a43c"
+  },
+  "scope": "Actual command entrypoint with declared controlled subprocess responses and disposable synthetic dist; no live registry/application build/backend/hosted qualification",
+  "observedCleanup": {
+    "temporaryFixturesRemoved": true
+  },
+  "open": [
+    "Published-head CI/final source review",
+    "Root-owned original shipped-classifier/RSC applicability remediation",
+    "Whole provider/supplier inventory/formal acceptance"
+  ]
+}
