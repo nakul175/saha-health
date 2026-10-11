@@ -1,0 +1,136 @@
+{
+  "suite": "Authorisation matrix (non-functional: security)",
+  "layer": "non-functional",
+  "passed": 22,
+  "failed": 1,
+  "skipped": 0,
+  "startedAt": "2026-10-11T10:27:16.527Z",
+  "completedAt": "2026-10-11T10:27:26.596Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Local built Worker with the Sites dispatcher header model; this proves server-side authorisation of the implemented routes, not the hosted Cloudflare Access sign-in (see identity-hardening).",
+    "Requests are built from the route parameters read from the route readers in lib/saha/*-server.ts; a route reader that adds a parameter must be added to ROUTE_PARAMS here (the suite fails on an unclassified route).",
+    "Seven roles in one organisation: owner (clinician with owner authority), admin, supervisor, two ASHAs, clinician, and a stranger. The provider role, delegation and emergency-access paths are not exercised here.",
+    "A response is judged by status and by searching its text for synthetic patient names and identifiers; a leak of an unnamed derived value (a count, a village) would not be found.",
+    "Commands: a representative set (27 rows in the command table) across patient, organisation, owner-only, import and identity families, not the 211 command names in docs/current/COMMAND-CATALOGUE.csv; the role refusals are asserted; for owner-only commands whose valid input needs configuration this suite does not build, the owner receives a validation or state answer (404, 409 or 422), which is recorded but not judged."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "grid is complete: 64 requests x 8 principals, every cell has a status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "control: owner gets 2xx on legacy routes and 403 on the ASHA-only Today route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1's refusal is a scope refusal, not a malformed request)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "frozen figure metadata permits current reporting owner/supervisor and refuses other roles",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(i) no route returns 5xx for any role or anonymously",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(ii) anonymous gets 401 on every GET /api/ route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iii-a) the stranger never gets 2xx for this organisation (every GET route refuses with 403)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iii-b) no response to the stranger (success or error) carries this organisation's id, name, patients, visits, media or members",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iv-a) ASHA 1 asking for ASHA 2's patient, visit or media gets 403 or 404 on every such route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iv-b) on every route, ASHA 1 never receives ASHA 2's patient names, patient ids, visit ids or media id, and ASHA 2 never receives ASHA 1's",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(v-a) the admin (no patient scope) never receives a patient name on any route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(v-b) the admin gets 403 or 404 on every route that names a patient, visit or media item",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(vi) no response carries an invitation token or its stored hash (searched by value, for every principal)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(vii) every API response is Cache-Control: no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "work-burden policy requires current care membership for every role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "work-burden report is operations-only for every current role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "availability report is operations-only for every current role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "value range publication report is owner/clinician-only for every current role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suite setup",
+      "ok": false,
+      "ms": 0,
+      "error": "fetch failed"
+    }
+  ]
+}

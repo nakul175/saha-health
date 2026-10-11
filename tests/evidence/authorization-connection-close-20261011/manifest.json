@@ -1,0 +1,16 @@
+{
+  "scope": "Synthetic test transport only; real HTTP after change pending. Connection reset hypothesis is not confirmed root cause. No request replay. Original statuses/assertions/minimum59 unchanged.",
+  "parentSource": "c88dc8dbc5d8db47362a15b3cc671b0038ea87a5",
+  "beforeRun": 38130462708,
+  "before": "147workflow suites7691/0/0; native authorization22/1 aborted ECONNRESET and minimum59 guard failed; overall CI failed",
+  "controlledClient": "15/0 controlled collaborators, byte-equivalent default requests and exact single request on rejected fetch; not realHTTP",
+  "sourceSha256": {
+    "tests/lib/worker.mjs": "a3d2939f199f5f622aaee75ea945a54e829230b520c060a498f5b7f16f62d8a3",
+    "tests/lib/nfr-world.mjs": "f9cb956463b3e609cce2448833b4cd17caf4432106a2056bb9d28420411913ac",
+    "tests/nfr/authorisation-matrix-current.mjs": "2a1e0b39ccbe1bee09cef4bf8278914d7ee4b3280104c5801d636343391f4c37"
+  },
+  "sha256": {
+    "tests/evidence/authorization-connection-close-20261011/before-native-result.json": "5ee6ae0b1d4e7f100ef6c27d03f8df5b301d3adb2aab7bf5c57aa0031d6d5492",
+    "tests/evidence/authorization-connection-close-20261011/controlled-client-result.json": "2dca4d2c76de070846bc0b349a8a0f5936ebedd9b7f81b631de7e58e01ac1331"
+  }
+}

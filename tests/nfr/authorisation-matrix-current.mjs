@@ -62,7 +62,7 @@ const t0 = performance.now();
 const worker = await startMiniflare({ port: PORT, name: 'nfr-authorisation-current' });
 let world;
 try {
-  world = await buildWorld(worker.base);
+  world = await buildWorld(worker.base, { connectionClose: true });
   world.sourceQuery=await acquireSyntheticSource(world.api,world.who.owner,world.org,'role-control');
   const { api, who, org } = world;
   console.log(`world built in ${Math.round(performance.now() - t0)} ms (7 roles, 3 patients, 2 confirmed visits, 1 draft visit with media)`);
@@ -157,7 +157,7 @@ try {
     const body = route === '/api/commands' ? { type: 'startVisit', personId: 'abc12345' } : route === '/api/record-opened' ? { personId: 'abc12345' } : route === '/api/media/[id]' ? { reason: 'Synthetic reason' } : route === '/api/media' ? undefined : {};
     const key = crypto.randomUUID();
     const res = route === '/api/media'
-      ? await fetch(worker.base + path, { method, headers: { 'Content-Type': 'image/png', 'Idempotency-Key': key, 'x-saha-organisation': org }, body: png }).then(async x => ({ status: x.status, text: await x.text() }))
+      ? await fetch(worker.base + path, { method, headers: { Connection: 'close', 'Content-Type': 'image/png', 'Idempotency-Key': key, 'x-saha-organisation': org }, body: png }).then(async x => ({ status: x.status, text: await x.text() }))
       : await api.call(null, path, { method, body, org, headers: { 'Idempotency-Key': key } });
     anonRows.push({ method, route, status: res.status, error: res.text.slice(0, 90) });
   }
@@ -204,11 +204,11 @@ try {
     if (bad.length) throw new Error(bad.join('; '));
   });
   await r.check('POST /api/media and DELETE /api/media/<id> on ASHA 2\'s draft visit: ASHA 1, the admin and the stranger are refused, and ASHA 2\'s media survives', async () => {
-    const upload = l => fetch(`${worker.base}/api/media?visitId=${encodeURIComponent(world.visits.draft2)}&purpose=wound-or-skin`, { method: 'POST', headers: { ...as(l).headers, 'Content-Type': 'image/png', 'Idempotency-Key': crypto.randomUUID(), 'x-saha-organisation': org }, body: pngBytes(2048, 5) }).then(async x => ({ status: x.status, text: await x.text() }));
+    const upload = l => fetch(`${worker.base}/api/media?visitId=${encodeURIComponent(world.visits.draft2)}&purpose=wound-or-skin`, { method: 'POST', headers: { Connection: 'close', ...as(l).headers, 'Content-Type': 'image/png', 'Idempotency-Key': crypto.randomUUID(), 'x-saha-organisation': org }, body: pngBytes(2048, 5) }).then(async x => ({ status: x.status, text: await x.text() }));
     const remove = l => api.call(as(l), `/api/media/${world.mediaId}`, { method: 'DELETE', body: { reason: 'Synthetic removal attempt' }, org });
     const bad = [];
     for (const l of ['asha1', 'admin', 'stranger']) { const u = await upload(l), d = await remove(l); if (![403, 404].includes(u.status)) bad.push(`${l} upload got ${u.status}`); if (![403, 404].includes(d.status)) bad.push(`${l} delete got ${d.status}`); }
-    const still = await fetch(`${worker.base}/api/media/${world.mediaId}?organisationId=${org}`, { headers: who.asha2.headers });
+    const still = await fetch(`${worker.base}/api/media/${world.mediaId}?organisationId=${org}`, { headers: { ...who.asha2.headers, Connection: 'close' } });
     if (still.status !== 200) bad.push(`ASHA 2's media is gone or unreadable: ${still.status}`);
     if (bad.length) throw new Error(bad.join('; '));
   });

@@ -22,8 +22,8 @@ export function must(r, want, what) {
  * Build the organisation. Roles: owner (clinician with owner authority), admin (no patient scope), supervisor, two ASHAs each assigned
  * different patients, clinician, and a stranger with their own home organisation. Returns the helpers and the ids the suites need.
  */
-export async function buildWorld(base, { run = crypto.randomUUID().slice(0, 8) } = {}) {
-  const api = client(base);
+export async function buildWorld(base, { run = crypto.randomUUID().slice(0, 8), connectionClose = false } = {}) {
+  const api = client(base, { connectionClose });
   const who = Object.fromEntries(ROLES.map(l => [l, identity(l, run)]));
   const snap = {};
   // Setup only: a 503 on a load (seen once when the shared machine was out of memory) is retried a few times and reported; suites assert on responses, never through this helper.

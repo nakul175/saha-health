@@ -13,3 +13,9 @@ Actual current-combination unit/runner74 assertions pass. The existing updater a
 Required separate review and merge remain open; author inspection is advisory.176 formal criteria and364 formal cases remain pending. One active routine-visit feature story, zero new accepted stories/Done tasks or hosting changes. The source-only repair bundle is a prerequisite, not a delivered product release. Separate bounded pre-alert load repair is not included here and still requires its original400-slot/min13 real qualification.
 
 Current source integrity1787 and generated-UAT tooling63/0/0 pass (guarded3/no quarantine). Combined build/API/native security/fullCI still pending.
+
+## Exact combined source and transport follow-up
+
+Published c88dc8d in run38130462708 built the actual Worker and passed all147 workflow suites with7691 assertions. The subsequent native authorization matrix aborted at22passed/1failed with ECONNRESET during the anonymous POST sequence, then failed its unchanged59 minimum. CompleteCI therefore failed. Earlier preparation status and SELECTION.json are historical receipts, not a current pass.
+
+The next test-only candidate explicitly closes each native authorization HTTP connection. This is a transport hypothesis, not a confirmed root cause. The default client is unchanged; request bodies, idempotency keys, status checks and all original authorization assertions remain. A controlled comparison passes15 checks and proves a rejected fetch is attempted exactly once; it does not prove realHTTP. The independent native-authorization-control CI job builds and exercises the real Worker even if another regression job fails. Actual exact-head results remain required. The original c88 selection and failing result are retained, and new source digests are separately recorded.
