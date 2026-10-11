@@ -1792,7 +1792,7 @@ Slice 6b: access, correction, restriction, deletion and grievance requests with 
 
 <details><summary>What the build does today (assessment, current state of BR-SEC-12)</summary>
 
-Dependency lockfile and provider configuration inventory. Slice 0c: production SBOM (CycloneDX) and an audit gate failing on critical advisories or high advisories present in the built bundle.
+Dependency lockfile and provider configuration inventory. Slice 0c: production SBOM (CycloneDX) and an audit gate failing on critical advisories or high advisories present in the built bundle. SAHA-133 / APL-769 adds explicit supported pnpm audit-envelope validation, expected nonzero finding exit handling, prior-report invalidation and fixed diagnostics for unavailable/malformed list/audit responses. The original 68-case command evidence is retained: 193 passed/216 failed on main, then 409/0 after the envelope repair. Consumed dependency-tree review extends the same driver to 82 cases: 437/56 before, then 493/0 after; all original cases and minima remain. An actual local pnpm production list also validates. No live registry or bundle qualification is claimed. Current release security remains HELD for independently observed bundled RSC/literal shipped-classifier defects, separately owned by root.
 
 </details>
 

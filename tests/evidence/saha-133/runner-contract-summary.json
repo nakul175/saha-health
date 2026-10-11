@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-11T15:51:30.170Z",
+  "startedAt": "2026-10-11T15:51:19.692Z",
+  "command": "node scripts/test.mjs unit --only unit/test-runner-contract --guard --report ../../outputs/saha-ten-hour-20261011/saha-133-audit-failclosed/runner-contract-summary.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10314,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 10478
+  },
+  "suites": [
+    {
+      "id": "unit/test-runner-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/test-runner-privacy-registration-current-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10314,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/privacy-registration-root-integration/runner-current.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__test-runner-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/privacy-registration-root-integration/runner-current.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 202,
+        "components": 0,
+        "suitesCitingNoRequirement": 61,
+        "requirementsCited": 142
+      },
+      "integration": {
+        "suites": 156,
+        "components": 84,
+        "suitesCitingNoRequirement": 80,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 591,
+        "components": 0,
+        "suitesCitingNoRequirement": 477,
+        "requirementsCited": 144
+      }
+    },
+    "supportFiles": 33,
+    "suites": 966,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 158,
+    "suitesCitingNoRequirement": 623,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 158
+  }
+}

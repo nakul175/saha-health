@@ -9,14 +9,23 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { parseSecurityAuditResponse, parseProductionDependencyTree } from './lib/security-audit-response.mjs';
 
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
 const sbomPath = arg('--sbom', 'dist/sbom.cdx.json'), reportPath = arg('--report', 'dist/security-gate.json');
 const pnpm = args => execFileSync('corepack', ['pnpm', ...args], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] });
 if (!existsSync('dist')) { console.error('Build first: dist/ is missing.'); process.exit(2); }
 
+// A previous selected report must not masquerade as this run if a tool fails.
+mkdirSync(dirname(reportPath), { recursive: true });
+writeFileSync(reportPath, JSON.stringify({ gate: 'supply-chain (slice 0c)', sbom: sbomPath, productionComponents: null, counts: null, blocking: [], accepted: [], passed: false, auditAvailable: false, checkedAt: new Date().toISOString() }, null, 2) + '\n');
+const unavailable = () => { console.error('Dependency audit unavailable; failing closed.'); process.exit(3); };
+
 // SBOM of production dependencies.
-const tree = JSON.parse(pnpm(['list', '--prod', '--json', '--depth', 'Infinity']))[0];
+let tree;
+try {
+  tree = parseProductionDependencyTree(pnpm(['list', '--prod', '--json', '--depth', 'Infinity']));
+} catch { unavailable(); }
 const components = new Map();
 const walk = deps => { for (const [name, info] of Object.entries(deps ?? {})) { const key = `${name}@${info.version}`; if (components.has(key)) continue; components.set(key, { type: 'library', name, version: info.version, purl: `pkg:npm/${name.startsWith('@') ? '%40' + name.slice(1) : name}@${info.version}`, scope: 'required' }); walk(info.dependencies); } };
 walk(tree.dependencies);
@@ -32,11 +41,12 @@ const collect = d => { for (const f of readdirSync(d)) { const p = join(d, f); i
 collect('dist');
 const shipped = name => bundle.some(text => text.includes(`node_modules/${name}/`) || text.includes(`"${name}"`) || text.includes(`'${name}'`));
 
-let audit;
-try { audit = JSON.parse(pnpm(['audit', '--json'])); } catch (e) {
-  // pnpm audit exits non-zero when advisories exist; its JSON is still on stdout.
-  if (e.stdout) audit = JSON.parse(e.stdout); else { console.error('Dependency audit unavailable; failing closed.'); process.exit(3); }
+let audit, auditOutput;
+try { auditOutput = pnpm(['audit', '--json']); } catch (e) {
+  // Expected exit1 for findings is usable only with a complete validated envelope.
+  if (e.status === 1 && !e.signal && e.stdout) auditOutput = e.stdout; else unavailable();
 }
+try { audit = parseSecurityAuditResponse(auditOutput); } catch { unavailable(); }
 const findings = Object.values(audit.advisories ?? {}).map(a => ({ id: a.id, module: a.module_name, severity: a.severity, vulnerable: a.vulnerable_versions, devOnly: a.findings.every(f => f.dev), shipped: shipped(a.module_name), title: a.title }));
 const blocking = findings.filter(f => f.severity === 'critical' || (f.severity === 'high' && f.shipped));
 const report = { gate: 'supply-chain (slice 0c)', sbom: sbomPath, productionComponents: components.size, counts: audit.metadata?.vulnerabilities ?? {}, blocking, accepted: findings.filter(f => !blocking.includes(f) && ['high', 'moderate'].includes(f.severity)).map(f => ({ ...f, reason: f.devOnly ? 'development tooling only' : 'build-time dependency not present in dist/' })), passed: blocking.length === 0, checkedAt: new Date().toISOString() };

@@ -1,3 +1,7 @@
+# Current engineering prerequisite — SAHA-133 / APL-769
+
+The exact unavailable-audit error response previously produced a false pass. [Frozen revision1](current/saha-133/SPECIFICATION.md) and [evidence](current/saha-133/EVIDENCE.json) bind its narrow availability repair to observed main7668 and preserve all original requirements/minima. Five of six engineering criteria have local support; exact published-head CI/review and separate bundle-provenance/RSC remedies remain held. This prerequisite does not qualify whole SAHA-133 or waive D03/D04 delivery dependencies. Root alone controls Linear and release updates. Earlier notes below are inherited historical checkpoints.
+
 # Active delivery — D02 / #175
 
 Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Test-only current fixture repair passes201 units10702 and independent targeted QA168; repaired-head CI/final review still gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.

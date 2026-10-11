@@ -1,0 +1,44 @@
+{
+  "recordedAt": "2026-10-11T15:50:14.963254+00:00",
+  "scope": "Current dependency-tree repair, original audit-envelope repair retained as history",
+  "sourceHashes": {
+    "scripts/security-gate.mjs": "8a152e26fc5122a3cb23a78023b2fd61e93f0159e028832160944813e907e205",
+    "scripts/lib/security-audit-response.mjs": "8e8274e1b3de29e6116ff45beccdc0b4260d13d31fc44b0da74a2c41e6211edd",
+    "tests/security-audit-response-contract.mjs": "8a90a1abcb4144d870bf836963fd0f20f5e7fb5209998abaea640be629c6efe7",
+    "tests/fixtures/security-audit-error-response.json": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "tests/fixtures/security-audit-supported-pnpm.json": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989",
+    "docs/current/saha-133/SPECIFICATION.md": "ae66b2c3ef7c07c5cee45299b5d08ac5b07dab53a9f07fbfc521a133aac1a43c"
+  },
+  "before": {
+    "cases": 82,
+    "passed": 437,
+    "failed": 56,
+    "source": "b2bfe47d21f7d3974385bac2bd94e69d4981af3e3c962530eced6c157b194253"
+  },
+  "after": {
+    "cases": 82,
+    "passed": 493,
+    "failed": 0,
+    "source": "8a152e26fc5122a3cb23a78023b2fd61e93f0159e028832160944813e907e205"
+  },
+  "same82NamesAndDriverBytes": true,
+  "original68CasesAnd409ObservationsRetained": true,
+  "originalClassifierTailAndSbomWalkByteExact": true,
+  "actualLocalListCompatibility": {
+    "command": "corepack pnpm list --prod --json --depth Infinity",
+    "exitCode": 0,
+    "bytes": 483326,
+    "sha256": "8fa4ed7821da17be0968f513e83467dbb4d7ef0824a2e1a442384272c067f638",
+    "nestedEntries": 883,
+    "validated": true,
+    "scope": "Actual local production list format; no registry audit, build or shipment qualification"
+  },
+  "tempFixtureCleanupBefore": {
+    "temporaryFixturesRemoved": true
+  },
+  "tempFixtureCleanupAfter": {
+    "temporaryFixturesRemoved": true
+  },
+  "noHeavyRuntimeUsed": true,
+  "formalOrParentApproval": false
+}

@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-11T15:49:40.306Z",
+  "startedAt": "2026-10-11T15:49:31.098Z",
+  "command": "node scripts/test.mjs unit --only unit/security-audit-response-contract --guard --report ../../outputs/saha-ten-hour-20261011/saha-133-audit-failclosed/dependency-tree-guarded-summary.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 493,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9074,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 493,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 9208
+  },
+  "suites": [
+    {
+      "id": "unit/security-audit-response-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/security-audit-response-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 493,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 9074,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/security-audit-response-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__security-audit-response-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 1,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": [
+      "tests/security-audit-response-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 202,
+        "components": 0,
+        "suitesCitingNoRequirement": 61,
+        "requirementsCited": 142
+      },
+      "integration": {
+        "suites": 156,
+        "components": 84,
+        "suitesCitingNoRequirement": 80,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 591,
+        "components": 0,
+        "suitesCitingNoRequirement": 477,
+        "requirementsCited": 144
+      }
+    },
+    "supportFiles": 33,
+    "suites": 966,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 158,
+    "suitesCitingNoRequirement": 623,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 158
+  }
+}
