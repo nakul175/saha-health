@@ -1,0 +1,127 @@
+[
+  {
+    "name": "generate-inventory",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "scripts/build-documentation.py"
+    ],
+    "startedAt": "2026-10-11T16:27:38.621730+00:00",
+    "completedAt": "2026-10-11T16:27:38.745843+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "f168a79337e260d8a290507651aaf506c80e6280698acec784b6f66e5561ea73",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "generate-coverage",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "tests/uat/coverage-map.mjs"
+    ],
+    "startedAt": "2026-10-11T16:27:38.746001+00:00",
+    "completedAt": "2026-10-11T16:27:38.933153+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "d6ee1197218fcc1917ec6e2a33a808ec58d86d705fc1b3274fd547a2c31d65f4",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "generate-uat",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "tests/uat/generate-uat-pack.mjs"
+    ],
+    "startedAt": "2026-10-11T16:27:38.933297+00:00",
+    "completedAt": "2026-10-11T16:27:39.116851+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "127fae15928ec572c8d0762650851200c76dc73051ce8b62bcc3ef51c5d10118",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "source-baseline",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "scripts/update-baseline.py",
+      "saha-128-native-fixture-20261011",
+      "Prepared original121/64native fixture repair;376guard records/application10pins preserved; exact-source runtimeCIpending"
+    ],
+    "startedAt": "2026-10-11T16:27:39.117004+00:00",
+    "completedAt": "2026-10-11T16:27:39.320976+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "51d1c5baa1b13efb69c2cfcc108bbaa90841d4fa62a96a4820787e1178f8c3c8",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "catalogue",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "scripts/test.mjs",
+      "--check-catalogue"
+    ],
+    "startedAt": "2026-10-11T16:27:39.321131+00:00",
+    "completedAt": "2026-10-11T16:27:39.377687+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "b0b9e399e463cf3d5b2a73ad60515ca2a70d1ebb84658b744c63e2a5c2fa4957",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "docs",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "scripts/check-documentation.py"
+    ],
+    "startedAt": "2026-10-11T16:27:39.377835+00:00",
+    "completedAt": "2026-10-11T16:27:41.288235+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "c72dac570a07768a88e62c55ad946f9f0c4c8a3b9384f72109aff8c684b72a78",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "requirements",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "scripts/audit-requirements.mjs",
+      "--check"
+    ],
+    "startedAt": "2026-10-11T16:27:41.288402+00:00",
+    "completedAt": "2026-10-11T16:27:41.318294+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "e8314d97040468fa6aa247e21857a7d7bdeaadc91fc754387f3cc2da3b6e392c",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "uat-tooling",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "scripts/test.mjs",
+      "uat",
+      "--fast",
+      "--guard"
+    ],
+    "startedAt": "2026-10-11T16:27:41.318472+00:00",
+    "completedAt": "2026-10-11T16:27:42.048232+00:00",
+    "exitCode": 0,
+    "stdoutSha256": "31bb2f19ed055da8567aee5bbb285e020d000c3d759a2cf74baf88540026a201",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "final-source-baseline",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "scripts/update-baseline.py",
+      "saha-128-native-fixture-20261011",
+      "Prepared original121/64 native fixture repair;376guard records/application10pins preserved; exact-source runtimeCIpending"
+    ],
+    "exitCode": 0,
+    "stdoutSha256": "51d1c5baa1b13efb69c2cfcc108bbaa90841d4fa62a96a4820787e1178f8c3c8",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "final-docs",
+    "command": [
+      "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "scripts/check-documentation.py"
+    ],
+    "exitCode": 0,
+    "stdoutSha256": "c72dac570a07768a88e62c55ad946f9f0c4c8a3b9384f72109aff8c684b72a78",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

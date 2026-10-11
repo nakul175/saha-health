@@ -1,0 +1,146 @@
+{
+  "scope": "Static source/oracle custody only; actual fa9runtime/fullCI failures remain and tests not executed yet.",
+  "parent": "fa9e8285e0b02fc0bc4c811c1166c026377e74de",
+  "qualifiedComponentCommit": "71b4131b72541a47ce8f33f9caaa682242f9fbf4",
+  "contractSha256": "86e56b95cffb97298827e0afcc35bb43c6c67c9741ef3c7924c798214201f983",
+  "guardsUnchanged": {
+    "entireBaselineSha256": "4e320771688613240f7bfb1a1db4af05ef4ba3b6ad6c44a75aac0295b3601709",
+    "wholeObjects": 376,
+    "minima": {
+      "integration/installed-programme-execution-browser": {
+        "layer": "integration",
+        "file": "tests/installed-programme-execution-repair-uncertainty.mjs",
+        "minPassed": 121
+      },
+      "integration/device-work-browser": {
+        "layer": "integration",
+        "file": "tests/integration-offline-guided-device-browser.mjs",
+        "minPassed": 64
+      }
+    },
+    "changes": 0
+  },
+  "telemetry10PinsUnchanged": true,
+  "originalDriversUnchanged": true,
+  "newFilesByteExact71b": true,
+  "oraclePreservation": [
+    {
+      "original": "tests/installed-programme-execution-repair-uncertainty.mjs",
+      "adapter": "tests/installed-programme-single-runtime-current.mjs",
+      "originalSha256": "84e810ef4ed9931a0922a0bc270425c39cef5698027ecf0c7385a0e5f40261c9",
+      "adapterSha256": "7ffded9bfe55fe143849661cb1ee907124051b37ace0d26eb1742d0428fb234f",
+      "wholeSourceEqualAfterOnlyAllowedSubstitutions": true,
+      "assertionOrStatusOrScenarioChanges": 0,
+      "allowedSubstitutions": [
+        {
+          "before": "import {identity,client,startWorker} from './lib/worker.mjs';",
+          "after": "import {identity,client} from './lib/worker.mjs';"
+        },
+        {
+          "before": "const out='tests/evidence/installed-programme-governance-repair/uncertainty-phone';",
+          "after": "const out='tests/reports/installed-programme-single-runtime-current';"
+        },
+        {
+          "before": "name:'installed-execution-repair-uncertainty',bindings:",
+          "after": "name:'installed-execution-repair-uncertainty',assetsFirst:true,bindings:"
+        },
+        {
+          "before": "const phoneWorker=await startWorker({port:'19895',name:'installed-execution-repair-uncertainty-phone',state:'.wrangler/installed-execution-repair-uncertainty-state',fresh:false});",
+          "after": "const phoneWorker=w;"
+        },
+        {
+          "before": "finally{await phoneWorker.stop();}",
+          "after": "finally{/* The shared native runtime is disposed once by the outer owner. */}"
+        },
+        {
+          "before": "const nativeWorker=await startWorker({port:'19897',name:'installed-native-repair-phone',state:'.wrangler/installed-execution-repair-uncertainty-state',fresh:false});",
+          "after": "const nativeWorker=w;"
+        },
+        {
+          "before": "finally{await nativeWorker.stop();}",
+          "after": "finally{/* The shared native runtime is disposed once by the outer owner. */}"
+        }
+      ],
+      "diff": [
+        "--- tests/installed-programme-execution-repair-uncertainty.mjs",
+        "+++ tests/installed-programme-single-runtime-current.mjs",
+        "@@ -1,10 +1,11 @@",
+        "+// Original121 assertions retained; phone/API/fault-injection D1 use one owned built native runtime, no competing Wrangler isolate or clinical request retry.",
+        " process.env.SAHA_INSTALLED_WORK_PHONE='1';",
+        " import assert from 'node:assert/strict';",
+        " import {mkdirSync,writeFileSync} from 'node:fs';",
+        "-import {identity,client,startWorker} from './lib/worker.mjs';",
+        "+import {identity,client} from './lib/worker.mjs';",
+        " import {startMiniflare} from './lib/miniflare.mjs';",
+        "-const out='tests/evidence/installed-programme-governance-repair/uncertainty-phone';mkdirSync(out,{recursive:true});",
+        "-const w=await startMiniflare({port:19892,name:'installed-execution-repair-uncertainty',bindings:{SAHA_EXTERNAL_APIS_ENABLED:'false'}});",
+        "+const out='tests/reports/installed-programme-single-runtime-current';mkdirSync(out,{recursive:true});",
+        "+const w=await startMiniflare({port:19892,name:'installed-execution-repair-uncertainty',assetsFirst:true,bindings:{SAHA_EXTERNAL_APIS_ENABLED:'false'}});",
+        " let passed=0;const check=(value,label)=>{assert.ok(value,label);passed++};",
+        " try{",
+        "  const api=client(w.base),o=identity('installed-execution-owner'),r=identity('installed-execution-reviewer');",
+        "@@ -57,7 +58,7 @@",
+        "  const failed=await api.call(o,'/api/commands',{method:'POST',org,body:confirm,headers:{'Idempotency-Key':confirmKey}});check(failed.status===503,'Injected ledger failure refuses atomic confirmation');s=await snap();check(pv().state==='draft'&&!(pp().installedWork??[]).length,'No false confirmation or work after failed transaction');check(!(await db.prepare('SELECT key FROM command_receipts WHERE actor_id=? AND key=?').bind(initial.user.userId,confirmKey).first()),'Failed atomic attempt has no accepted receipt');",
+        "  await db.exec('DROP TRIGGER fail_installed_event');const ok=await api.call(o,'/api/commands',{method:'POST',org,body:confirm,headers:{'Idempotency-Key':confirmKey}});check(ok.status===200,ok.text);s=await snap();const immutable=JSON.stringify(pv()),work=pp().installedWork;",
+        "  check(work.length===2&&work.every(x=>x.sourceStatus==='current'),'Confirmed exact rule creates due and escalation occurrences');check(pp().followUps.length===1&&pp().followUps[0].id===work.find(x=>x.kind==='follow-up').id,'Native task/caseload source-backed follow-up');check(work.find(x=>x.kind==='follow-up').due===new Date(Date.parse(pv().confirmedAt)+3*86400000).toISOString().slice(0,10),'Declared days use exact trusted confirmed-time anchor');check(work.every(x=>x.manifestHash===staged.manifestHash&&x.policyHash===proposal.hash&&x.visitVersion===pv().version),'Immutable exact policy/captured source lineage');",
+        "- if(process.env.SAHA_INSTALLED_WORK_PHONE==='1'){const phoneWorker=await startWorker({port:'19895',name:'installed-execution-repair-uncertainty-phone',state:'.wrangler/installed-execution-repair-uncertainty-state',fresh:false});try{const continuity=await client(phoneWorker.base).get(o,'/api/workspace',org);check(continuity.status===200&&continuity.json.people.find(x=>x.id===second)?.installedWork?.length===2,'Phone fixture reads exact already-confirmed original D1 source/work');const {phone}=await import('./lib/installed-work-repair-uncertainty-phone.mjs');await phone({base:phoneWorker.base,owner:o,reviewer:r,org,personId:second,title:'Synthetic executed installed visit',ownerName:initial.membership.displayName,reviewerName:'Synthetic independent clinician',out,check});}finally{await phoneWorker.stop();}}",
+        "+ if(process.env.SAHA_INSTALLED_WORK_PHONE==='1'){const phoneWorker=w;try{const continuity=await client(phoneWorker.base).get(o,'/api/workspace',org);check(continuity.status===200&&continuity.json.people.find(x=>x.id===second)?.installedWork?.length===2,'Phone fixture reads exact already-confirmed original D1 source/work');const {phone}=await import('./lib/installed-work-repair-uncertainty-phone.mjs');await phone({base:phoneWorker.base,owner:o,reviewer:r,org,personId:second,title:'Synthetic executed installed visit',ownerName:initial.membership.displayName,reviewerName:'Synthetic independent clinician',out,check});}finally{/* The shared native runtime is disposed once by the outer owner. */}}",
+        "  const same=await api.call(o,'/api/commands',{method:'POST',org,body:confirm,headers:{'Idempotency-Key':confirmKey}});check(same.status===200&&same.json.replayed,'Exact same confirmation receipt recovers without work duplication');s=await snap();check(pp().installedWork.length===2&&JSON.stringify(pv())===immutable,'Repeated confirmation retains original body and single occurrences');",
+        "  const cron=await (await w.mf.getWorker()).scheduled({cron:'*/5 * * * *',scheduledTime:Date.now()});check(cron.outcome==='ok','Actual scheduled Worker event completes');s=await snap();check(pp().installedWork.length===2&&JSON.stringify(pv())===immutable,'Scheduled recovery is idempotent and preserves original confirmed body');",
+        "  const plan2=await api.get(o,'/api/action-plan?personId='+second,org);check(plan2.status===200&&plan2.json.items.some(x=>x.key.startsWith('installed:')),'Installed escalation reaches audited common action plan');",
+        "@@ -80,7 +81,7 @@",
+        "  const oldPerson=(await snap()).people.find(x=>x.id===personId);check(!(oldPerson.installedWork??[]).length,'Pre-activation confirmed evidence is not retrospectively reinterpreted');",
+        "  const durable=(await db.prepare('SELECT id,kind,person_id FROM installed_pack_work_events WHERE org_id=? ORDER BY rowid').bind(org).all()).results;check(durable.length>=8,'Protected append-only governance/occurrence/source/decision event history persisted');",
+        "  s=await snap();const reviewMember=s.members.find(m=>m.userId===reviewer.user.userId);await cmd(o,{type:'updateMember',userId:reviewMember.userId,version:reviewMember.version,role:'clinician',isOwner:true,status:'active',teamIds:['default'],reason:'Synthetic independent owner for controlled native phone recovery'});",
+        "- const nativeWorker=await startWorker({port:'19897',name:'installed-native-repair-phone',state:'.wrangler/installed-execution-repair-uncertainty-state',fresh:false});try{const {nativePhone}=await import('./lib/installed-work-repair-native-phone.mjs');await nativePhone({base:nativeWorker.base,owner:o,reviewer:r,org,ownerId:initial.user.userId,ownerName:initial.membership.displayName,cmd,api,db,out,check});}finally{await nativeWorker.stop();}",
+        "+ const nativeWorker=w;try{const {nativePhone}=await import('./lib/installed-work-repair-native-phone.mjs');await nativePhone({base:nativeWorker.base,owner:o,reviewer:r,org,ownerId:initial.user.userId,ownerName:initial.membership.displayName,cmd,api,db,out,check});}finally{/* The shared native runtime is disposed once by the outer owner. */}",
+        "  writeFileSync(out+'/enabled-observed.json',JSON.stringify({proposal,work,invalid,durable},null,2)+'\\n');",
+        "  writeFileSync(out+'/observed.json',JSON.stringify(witness,null,2)+'\\n');writeFileSync(out+'/result.json',JSON.stringify({passed,failed:0,classification:'bounded synthetic enabled execution author, default-disabled before witness retained'},null,2)+'\\n');console.log(JSON.stringify({passed,observedNoGeneratedFollowup:true,observedNoEscalation:true}));",
+        " }finally{await w.stop();}"
+      ]
+    },
+    {
+      "original": "tests/integration-offline-guided-device-browser.mjs",
+      "adapter": "tests/native-device-privacy-current-browser.mjs",
+      "originalSha256": "9c5782ddb923aae6d2a11aaf4e9431670c5cfb943590f4c7fd451a6004f99ba7",
+      "adapterSha256": "09f382fdbc2eb7dfed70c7b944b57d1c76f6a2e4cf6137bbf289393a6ec12c2d",
+      "wholeSourceEqualAfterOnlyAllowedSubstitutions": true,
+      "assertionOrStatusOrScenarioChanges": 0,
+      "allowedSubstitutions": [
+        {
+          "before": "import {startWorker,identity,client} from './lib/worker.mjs';",
+          "after": "import {identity,client} from './lib/worker.mjs';import {startMiniflare} from './lib/miniflare.mjs';const startWorker=options=>startMiniflare({...options,assetsFirst:true});"
+        },
+        {
+          "before": "evidence='tests/evidence/integration-offline-guided-device-browser'",
+          "after": "evidence='tests/reports/native-device-privacy-current'"
+        }
+      ],
+      "diff": [
+        "--- tests/integration-offline-guided-device-browser.mjs",
+        "+++ tests/native-device-privacy-current-browser.mjs",
+        "@@ -1,6 +1,7 @@",
+        "+// Same original64 assertions and local SQLite fault injection; owned direct native runtime avoids development watcher restarts, no request retry.",
+        " // Every original device privacy assertion retained; app connected preparation is explicitly opened before manual Load.",
+        "-import assert from 'node:assert/strict';import {mkdirSync,writeFileSync,readdirSync} from 'node:fs';import {execFileSync} from 'node:child_process';import {join} from 'node:path';import {startWorker,identity,client} from './lib/worker.mjs';",
+        "-const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test'),evidence='tests/evidence/integration-offline-guided-device-browser';mkdirSync(evidence,{recursive:true});let worker,browser,passed=0;const check=(v,m)=>{assert.ok(v,m);passed++},quote=s=>\"'\"+String(s).replace(/'/g,\"''\")+\"'\";",
+        "+import assert from 'node:assert/strict';import {mkdirSync,writeFileSync,readdirSync} from 'node:fs';import {execFileSync} from 'node:child_process';import {join} from 'node:path';import {identity,client} from './lib/worker.mjs';import {startMiniflare} from './lib/miniflare.mjs';const startWorker=options=>startMiniflare({...options,assetsFirst:true});",
+        "+const {chromium}=await import(process.env.SAHA_BROWSER_PACKAGE??'@playwright/test'),evidence='tests/reports/native-device-privacy-current';mkdirSync(evidence,{recursive:true});let worker,browser,passed=0;const check=(v,m)=>{assert.ok(v,m);passed++},quote=s=>\"'\"+String(s).replace(/'/g,\"''\")+\"'\";",
+        " try{worker=await startWorker({port:'19544',name:'saha-device-work'});const api=client(worker.base),run=crypto.randomUUID().slice(0,8),owner=identity('privacy-owner',run,'Synthetic Privacy Owner'),other=identity('privacy-other',run,'Synthetic Privacy Other');let s=(await api.get(owner,'/api/workspace')).json;const org=s.organisation.id;await api.get(other,'/api/workspace');const dbPath=readdirSync('.wrangler/saha-device-work-state',{recursive:true}).filter(f=>f.includes('/d1/')&&f.endsWith('.sqlite'))[0],sql=q=>execFileSync('/usr/bin/sqlite3',[join('.wrangler/saha-device-work-state',dbPath),q],{encoding:'utf8'}).trim();const cmd=async(c,status=200,key)=>{const r=key?await api.call(owner,'/api/commands',{method:'POST',body:c,org,headers:{'Idempotency-Key':key}}):await api.command(owner,c,org);assert.equal(r.status,status,JSON.stringify(r.json));return r.json;},meta=async(who,c,status=200,chosenOrg=org)=>{const r=await api.call(who,'/api/device-work',{method:'POST',body:c,org:chosenOrg});assert.equal(r.status,status,JSON.stringify({parsed:r.json,contentType:r.headers.get('content-type'),response:r.text.slice(0,1000)}));return r.json;};const create=async(name,place='Synthetic Private Place')=>{const id=(await cmd({type:'createPerson',name,age:30,sex:'Female',village:place,programme:'General care',teamId:'default'})).result.personId;for(const purpose of ['exchange','ai']){const snap=(await api.get(owner,'/api/workspace',org)).json;await cmd({type:'setConsent',personId:id,version:snap.people.find(p=>p.id===id).version,purpose,active:true});}return id;};",
+        "  const pid=await create('PRIVATE SYNTHETIC PATIENT');s=(await api.get(owner,'/api/workspace',org)).json;const prepareVersion=s.people.find(p=>p.id===pid).version,prepareHead=sql('SELECT max(seq) FROM audit_events'),prepareReceipts=sql('SELECT count(*) FROM command_receipts');sql(\"CREATE TRIGGER synthetic_grant_failure BEFORE INSERT ON device_work_grants BEGIN SELECT RAISE(ABORT,'Synthetic registry failure'); END;\");await cmd({type:'prepareFieldVisit',personId:pid,version:prepareVersion},503);const prepareRolledBack=sql('SELECT max(seq) FROM audit_events')===prepareHead&&sql('SELECT count(*) FROM command_receipts')===prepareReceipts;const rejected=(await api.get(owner,'/api/workspace',org)).json;check(rejected.people.find(x=>x.id===pid).version===prepareVersion&&!(rejected.people.find(x=>x.id===pid).fieldLeases??[]).length&&prepareRolledBack,'Registry failure rolls back lease, patient version, receipt and audit atomically');sql('DROP TRIGGER synthetic_grant_failure');const prepared=(await cmd({type:'prepareFieldVisit',personId:pid,version:prepareVersion})).result,p=prepared.packet.payload;check(+sql('SELECT count(*) FROM device_work_grants')===1,'Real prepare atomically registers opaque provenance');check(sql('SELECT original_role FROM device_work_grants')==='clinician'&&+sql('SELECT visit_version FROM device_work_grants')===p.visitVersion&&sql('SELECT expires_at FROM device_work_grants')===p.expiresAt,'New registry binds actual issuance role and signed visit/version/expiry provenance');",
+        "  const report={type:'report',operationId:crypto.randomUUID(),code:'storage-write',draftCount:1,pendingCount:1};await meta(owner,{...report,stack:'PRIVATE SYNTHETIC PATIENT'},422);await meta(owner,{...report,url:'https://private.invalid'},422);passed+=2;check((await api.call(owner,'/api/device-work',{method:'POST',org,headers:{'Content-Type':'application/json','Origin':'https://forged.invalid'},body:report})).status===403,'Cross-origin metadata write refused');check((await api.call(owner,'/api/device-work',{method:'POST',org,headers:{'Content-Type':'application/json'},body:{...report,padding:'x'.repeat(17000)}})).status===413,'Route enforces actual streamed payload cap');await meta(owner,report);await meta(owner,report);check(+sql(\"SELECT count(*) FROM device_work_events WHERE kind='report'\")===1,'Stable diagnostic operation replays once');check(+sql(\"SELECT count(*) FROM audit_events WHERE action='deviceWorkreport'\")===1,'Diagnostic ledger and chained audit are one batch');await meta(owner,{...report,code:'storage-quota'},403);passed++;"
+      ]
+    }
+  ],
+  "changedTracked": [
+    "scripts/test-catalogue.mjs",
+    "tests/lib/miniflare.mjs"
+  ],
+  "newFiles": [
+    "tests/installed-programme-single-runtime-current.mjs",
+    "tests/native-device-privacy-current-browser.mjs"
+  ],
+  "noRetryAdded": true,
+  "counts": "121/64 are original minimum runtimeassertions, not static count. Copied originalassertion bodies/loops/status checks unchanged.",
+  "sharedReactSecurityBaseQualificationHeld": true
+}

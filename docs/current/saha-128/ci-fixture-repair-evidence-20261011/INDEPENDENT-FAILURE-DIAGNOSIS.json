@@ -1,0 +1,146 @@
+{
+  "scope": "Independent read-only diagnosis of actual PR204 fa9 engineering regression failure; downloaded existing GitHub evidence, no rerun/source edit/network service experiment.",
+  "pr": 204,
+  "head": "fa9e8285e0b02fc0bc4c811c1166c026377e74de",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "runId": 38152196066,
+  "jobId": 114507827711,
+  "verdict": "BLOCK exact-source full CI",
+  "actualTotals": {
+    "suites": 147,
+    "passed": 7506,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 2,
+    "durationMs": 1412340
+  },
+  "guard": {
+    "ok": false,
+    "findings": [
+      {
+        "id": "integration/device-work-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/device-work-browser reported no assertion count; baseline needs at least 64.",
+        "excused": false
+      },
+      {
+        "id": "integration/installed-programme-execution-browser",
+        "kind": "uncounted",
+        "message": "Suite integration/installed-programme-execution-browser reported no assertion count; baseline needs at least 121.",
+        "excused": false
+      }
+    ],
+    "warnings": [],
+    "evaluated": 147,
+    "newSuites": []
+  },
+  "failedSuites": [
+    {
+      "id": "integration/installed-programme-execution-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/installed-programme-execution-repair-uncertainty.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 13724,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__installed-programme-execution-browser.log"
+    },
+    {
+      "id": "integration/device-work-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-offline-guided-device-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 5294,
+      "exitCode": 1,
+      "countSource": "none",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__device-work-browser.log"
+    }
+  ],
+  "exactFailures": [
+    {
+      "id": "integration/installed-programme-execution-browser",
+      "error": "SQLITE_BUSY_SNAPSHOT then D1_ERROR JSON parse during nativePhone CREATE TRIGGER; stack tests/lib/installed-work-repair-native-phone.mjs:9:1177",
+      "fixtureSource": "tests/installed-programme-execution-repair-uncertainty.mjs:83 starts a second Wrangler runtime against the running Miniflare D1 state withfresh=false and passes the original db into nativePhone. This structural competing-owner condition is observed in source; failure log records database-lock symptom.",
+      "minimum": 121
+    },
+    {
+      "id": "integration/device-work-browser",
+      "error": "POST/api/device-work received actual503 plain-text worker-restarted mid-request vs expected200; stack tests/integration-offline-guided-device-browser.mjs:4:1008 at meta helper, caller line6:680",
+      "minimum": 64
+    }
+  ],
+  "originalMinimaObjectsByteEquivalent": true,
+  "sourceCustody": [
+    {
+      "path": "tests/installed-programme-execution-repair-uncertainty.mjs",
+      "headSha256": "84e810ef4ed9931a0922a0bc270425c39cef5698027ecf0c7385a0e5f40261c9",
+      "baseSha256": "84e810ef4ed9931a0922a0bc270425c39cef5698027ecf0c7385a0e5f40261c9",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "tests/lib/installed-work-repair-native-phone.mjs",
+      "headSha256": "0d2af8982bc0343e61d3074b282697ef8dadcb9f0a078a486db8ea09afc1d00a",
+      "baseSha256": "0d2af8982bc0343e61d3074b282697ef8dadcb9f0a078a486db8ea09afc1d00a",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "tests/integration-offline-guided-device-browser.mjs",
+      "headSha256": "9c5782ddb923aae6d2a11aaf4e9431670c5cfb943590f4c7fd451a6004f99ba7",
+      "baseSha256": "9c5782ddb923aae6d2a11aaf4e9431670c5cfb943590f4c7fd451a6004f99ba7",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "tests/lib/worker.mjs",
+      "headSha256": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128",
+      "baseSha256": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128",
+      "unchangedFromBase": true
+    },
+    {
+      "path": "scripts/test-catalogue.mjs",
+      "headSha256": "7f67c1328b067246db61c7e3ad8223ea69f9431d517d7fc1e6b7e14717222222",
+      "baseSha256": "7f67c1328b067246db61c7e3ad8223ea69f9431d517d7fc1e6b7e14717222222",
+      "unchangedFromBase": true
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "headSha256": "0ee74cd0cdf3e5572dade0e6d370707b56c2e13fb6622c7f1b17f15228f81be5",
+      "baseSha256": "0ee74cd0cdf3e5572dade0e6d370707b56c2e13fb6622c7f1b17f15228f81be5",
+      "unchangedFromBase": true
+    }
+  ],
+  "runtimeDelta": "Only lib/saha/monitoring.ts and lib/saha/request-metric-routes.ts change runtime relative7668. Existing metricsDBbatch retained; new fixed-route validation and membership guard for retentionDELETE. No conclusion that runtime cannot contribute solely from these infrastructure symptoms.",
+  "qualifiedFixtureReference": {
+    "commit": "71b4131b72541a47ce8f33f9caaa682242f9fbf4",
+    "mapping": "scripts/test-catalogue.mjs:244\u2013246 map the same original IDs to installed-programme-single-runtime-current.mjs and native-device-privacy-current-browser.mjs; original121/64 guard objects unchanged",
+    "appliesToFa9": false,
+    "recommendation": "After main qualification, integrate original-preserving fixture/current runtime in a clean base and run all actual required CI on integrated source; retain this failure and do not quarantine or add clinical request retries."
+  },
+  "artifact": {
+    "id": 11707339257,
+    "sizeBytes": 247125,
+    "sha256": "ee2de2c61b0135eb5ef7c4d5d52db09804102ad17d76ff36397010909ab0f7eb",
+    "shaMatchesGitHubDigest": true,
+    "zipFiles": 227,
+    "summaryPath": "artifact/tests/reports/summary-integration+smoke+ui-only.json",
+    "summarySha256": "a2e2ae4dd9087e4f592c1c92dceacba87a922abc4664a00ab09152d814293909"
+  },
+  "logSha256": "e08753f683a8acc33093b2fbbf468b876ba7c0be98434d6945cbd3461efe11d8",
+  "releaseHeld": true,
+  "countsAre": "7506 positive assertions and0countedfailed do not imply pass: two mandatory suites terminated without counts,0quarantine, failed guard. Not story acceptance or hosted delivery."
+}

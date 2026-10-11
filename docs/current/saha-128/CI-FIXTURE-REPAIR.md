@@ -1,0 +1,23 @@
+# Telemetry task: original CI fixture custody repair
+
+11 October 2026. Parent candidate is draft [PR #204](https://github.com/nakul175/saha-health/pull/204), exact `fa9e8285e0b02fc0bc4c811c1166c026377e74de` from main `7668a03d97c1ae62174f09e65ccd5a5717120be6`. This is a test-only prerequisite for the existing SAHA-128 / APL-764 engineering task. Its frozen metric-label/pruning specification and ten source pins remain unchanged. No new user story or whole-parent acceptance follows from this preparation.
+
+## Observed defect and preserved failure
+
+Actual engineering run [38152196066](https://github.com/nakul175/saha-health/actions/runs/38152196066), regression job 114507827711, failed two mandatory suites. Installed-programme phone fixture launched a second Wrangler runtime on the live Miniflare SQLite/D1 state; its trigger setup failed with `SQLITE_BUSY_SNAPSHOT` and D1 JSON parsing error. Device privacy's development-watcher runtime returned plain-text 503 (`worker restarted mid-request`) instead of expected 200 for a POST. The complete log, failed summary, original artifact metadata/hash and diagnosis are preserved in [evidence](ci-fixture-repair-evidence-20261011/MANIFEST.json). The original failed drivers remain byte-for-byte in source and available as manual/direct historical fixtures.
+
+The report contains 147 suites, 7,506 positive assertions, zero counted assertion failures and two **failed suites without counts**. It is a failure: the original minimum 121 for `integration/installed-programme-execution-browser` and 64 for `integration/device-work-browser` were unmet; zero quarantine. Infrastructure symptoms alone do not exonerate telemetry runtime. Fresh exact-source integration and CI must establish the outcome.
+
+## Narrow implementation and original oracles
+
+Only individually verified native components from commit `71b4131b72541a47ce8f33f9caaa682242f9fbf4` are reused: `tests/installed-programme-single-runtime-current.mjs`, `tests/native-device-privacy-current-browser.mjs` and the optional `assetsFirst = false` fixture option in `tests/lib/miniflare.mjs`. The defaults for existing suites stay Worker-first; these two phone fixtures explicitly route public built assets first while missing/API targets use the real built Worker. There is one owned runtime per fixture, with the same phone/API/SQLite authority, fault-injection, unknown/accepted receipts, consent, privacy, atomic rollback and no-resend scenarios.
+
+Six exact result/classification lines in `scripts/test-catalogue.mjs` bind the same two original IDs to fresh counted results. The old drivers become explicit manual/direct history. CI suite selection and **all 376 existing guard objects, including original 121/64**, are unchanged. The static preservation proof transforms the whole original drivers using only launch/owned cleanup/result-path/import/comment substitutions and then compares complete bytes; zero assertion, expected status, scenario or criteria changes. Phone helper, migrations and process-memory dependencies match the individually qualified source. The original Worker helper is retained; its later optional connection-close feature is unnecessary here.
+
+No app, security gate, classifier, dependency, provider, database schema, migration, clinical policy or hosted configuration changes. No request retry, quarantine, hidden response replacement or copy of unrelated PR202 work.
+
+## Current qualification boundary
+
+Observed preparatory checks: static byte/oracle custody and Node syntax checks pass; unchanged documentation checker verifies 1,787 source digests, the requirement audit verifies 176 pending requirements, catalogue mapping checks pass, and all three UAT-tooling guards pass with 63 assertions, zero failures and zero skips. These are tooling checks, not executed programme/device browser scenarios. No local application build, install, Worker/backend, browser or full-unit execution is authorised while the root's immutable patched-runtime NFR run owns the heavy lane. Documentation, catalogue and UAT-tooling checks may execute separately; they are not formal UAT or native browser acceptance. Root review must precede commit/push, followed by real final-source CI and separately scoped review.
+
+Changed-main integration, React 19.2.8/shared-security qualification, exact deployment and live synthetic checks remain held. The fa9 source remains unqualified by its failed CI. Parent SAHA-128 is partial; all 176 formal requirements and 364 formal catalogue cases retain their declared pending/Not-run state. The evidence is a synthetic engineering prerequisite and does not increase a deployed-user-story count.

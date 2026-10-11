@@ -1,3 +1,7 @@
+# Current prerequisite — repair original mandatory CI fixtures
+
+11 October 2026: PR204 fa9 remains blocked by original121/64 uncountedCI failures. [Test-only native fixture repair](current/saha-128/CI-FIXTURE-REPAIR.md) is prepared using individually qualified71b source andunchangedguard/oracle/telemetry pins. Next: root exactdiff/applicability review, authorised isolated publication, full final-sourceCI andindependent review. Changed main, sharedReact/security andhosted acceptance remain separate gates. No whole SAHA-128 completion or next-feature release follows from static/tooling checks. Original scope/history below is retained.
+
 # Current engineering task — SAHA-128 / APL-764
 
 11 October 2026: isolated branch `story/saha-128-route-telemetry-20261011` starts from observed main `7668a03d97c1ae62174f09e65ccd5a5717120be6`. Existing [SAHA-128 / APL-151](https://linear.app/aplyd-sandbox/issue/APL-151/saha-128-safe-logs-and-analytics) owns the [APL-764 technical task](https://linear.app/aplyd-sandbox/issue/APL-764/eng-br-sec-07-safe-logs-and-analytics). [Frozen revision 2](current/saha-128/SPECIFICATION.md) adds runtime label protection and the same current-membership guard to telemetry pruning. Original before failures remain evidence, with original requirements and all 374 prior baseline entries unchanged.

@@ -1,3 +1,7 @@
+# Latest prepared checkpoint — telemetry CI fixture custody
+
+11 October 2026: PR204 fa9 full regression CI failed two original mandatory fixtures (Miniflare/Wrangler shared-D1 lock; watcher restart503). [Narrow test-only repair](docs/current/saha-128/CI-FIXTURE-REPAIR.md) reuses individually qualified71b native components, preserving original121/64 andall376guard records plustelemetry10pins. Application/security/dependencies/main untouched. Root must review exact source/oracles before publication and realCI; current-source browser/build acceptance not yet observed. Changed-base/React19.2.8/security integration, hosting andwholeparent acceptance remain held. Preserve failedfa9 receipts; no quarantine/clinical request retry. Earlier checkpoint text below is byte-preserved dated history.
+
 # Current isolated task — safe operational metrics
 
 11 October 2026: this branch owns only SAHA-128 / APL-764 runtime metric-label protection and authorized retention cleanup from main `7668a03d97c1ae62174f09e65ccd5a5717120be6`. Read [frozen revision 2](docs/current/saha-128/SPECIFICATION.md), [evidence](docs/current/saha-128/EVIDENCE.json) and the latest dated [validation](VALIDATION.md). Known routes, trusted identity, original responses and clinical/audit writers retain their contracts. Parent SAHA-128 remains partial; local code publication does not prove hosted logging/retention or full acceptance.

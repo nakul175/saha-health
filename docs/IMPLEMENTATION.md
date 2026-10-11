@@ -1,3 +1,7 @@
+# Test infrastructure preparation — telemetry candidate
+
+11 October 2026: [PR204 fixture custody repair](current/saha-128/CI-FIXTURE-REPAIR.md) prepares two original121/64 guarded phone scenarios on individually verified71b native runtime adapters; thetelemetry application, protected records/criteria andall376guard objects are unchanged. Original failedfa9CI evidence/fixtures are preserved. Application build/native/browser/finalCI andchanged-base/shareddependency qualification are pending; this paragraph does not promote product implementation orformal acceptance. Historical implementation boundary below remains unchanged.
+
 # D02 isolated read-only candidate — 10 October 2026
 
 `/today` adds a separate mobile client and GET-only `/api/today` projection for active synthetic/training ASHAs. Existing server identity, assignment/policy scope and durable access audits remain authoritative. Only ID/name/village and read-only age/sex context are exposed; no visit or clinical write is added. The legacy `/app` is preserved separately. Source implementation and local tests do not establish merge, hosted deployment or formal acceptance. See [frozen D02 specification](current/d02/SPECIFICATION.md) and [validation](../VALIDATION.md). Parent capture, scheduling, offline and localisation remain pending.
