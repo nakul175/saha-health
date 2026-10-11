@@ -1,3 +1,7 @@
+# Routine visit — current qualification work
+
+See the dated [validation checkpoint](../VALIDATION.md). One active user story, eight of ten delivery criteria supported; current completeCI, final-source NFR, final separate diff/evidence review, qualified merge and observed live synthetic journey remain held. No formal requirement or whole story is promoted by prerequisite checks. Previous assessments below retain their source and dates.
+
 # Active delivery — D02 / #175
 
 Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Test-only current fixture repair passes201 units10702 and independent targeted QA168; repaired-head CI/final review still gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.

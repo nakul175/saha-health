@@ -1,3 +1,7 @@
+# Routine visit — current qualification work
+
+See the dated [validation checkpoint](../VALIDATION.md). One active user story, eight of ten delivery criteria supported; current completeCI, final-source NFR, final separate diff/evidence review, qualified merge and observed live synthetic journey remain held. No formal requirement or whole story is promoted by prerequisite checks. Previous assessments below retain their source and dates.
+
 # Qualification record
 
 The retained R11 product checks ran on 27 September 2026. This documentation edition was checked separately on 28 September. Publishing this pack does not create a new product test run, clinical sign-off, partner acceptance or production certification.

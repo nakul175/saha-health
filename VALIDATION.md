@@ -1,3 +1,15 @@
+# Sequential routine-visit qualification — 11 October 2026
+
+One routine review/save user story remains active, with eight of ten declared delivery criteria supported and final qualification/merge/live gates held. No new user story or task is accepted by this checkpoint. Formal176 requirements and364 UAT cases remain pending. Original tests, acceptance clauses, source history and failed runs are preserved.
+
+Combined prerequisite f5dde363 real hosted native authorization passes60/0/0, original minimum59, run38132548322/job114449683873. Earlier c88 source passed147 workflows/7691 assertions but native security aborted22/1 ECONNRESET, wholeCI failed. Current completeCI is still required. Default client is unchanged; explicit synthetic fixture connection close never retries a failed request.
+
+Bounded routine load cf311f7 real build passes60 contracts and original400/400-slot load15/0, unchanged minimum13, run38131008154/job114445157191. CompleteCI failed: routine browser216/244 timed out in vault evaluation and device64 aborted. Current e2460820 named native browser fixture retains every original assertion,1000 encrypted durable transactions and500ms target; observations occur outside timings. Actual new-head browser/completeCI pending. This is not physical-phone, clinical or formal acceptance.
+
+Unchanged bf73 source reference1000/path measurement has zero errors, p95 list701.095/detail384.277/routine766.124ms; degraded fixed1000/path run continues. These desktop-surrogate results do not automatically qualify changed-source candidates. No local competing browser/build is launched during that measurement. Original3132ms failure remains retained.
+
+Fresh authorized GitHub rules read: main branch protection returns404/Branch not protected and effective branch rules[] on11October10:41UTC. PR192 reviews[]; this supplies no human review or independent signoff. Final diff/evidence review must still happen against the final integrated source. No protection is changed or bypassed; current source merge and observed hosted source remain absent.
+
 # D02 CI fixture repair — 10 October 2026
 
 Actual final-head run38018545871 on dee0ae52 failed only the expired historical delegation success fixture and local smoke's blanket owner200 expectation on the ASHA-only Today route. Its complete log is preserved:147 workflow/browser suites7691 and API/recovery5041 passed; types/build/lint/security and the58-check Today journey also passed. The runtime correctly refuses an expired delegation and a non-ASHA owner.
