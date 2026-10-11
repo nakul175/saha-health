@@ -1,0 +1,63 @@
+{
+  "reviewedAtUtc": "2026-10-11T18:37:46.337635+00:00",
+  "author": "/root/routine_final_review",
+  "reviewer": "/root/routine_independent_qa",
+  "verdict": "BLOCK_PREPARED_SOURCE_ON_TWO_NEW_GUARD_GAPS",
+  "scope": "Read-only exact10-file prepared-source review; no browser/backend/build/installer/NFR or real11-group execution",
+  "base": "04f00953347ff2733ba6a83235c06688d9b2f0f5",
+  "freezeSHA256": "6cf9f8fcdd3c607ded3ae17f11d0d59c0a960f5f344f5a8d1de36886e27c1362",
+  "fixtureSHA256": "d160545c2c74b9acc1f2790f15f9333926e3494c7c661a81a7965ab799bae878",
+  "exactPatchSHA256": "fc1188e775a84fa48dde9d89d1e0fc8ae3bd2119845b8651653ae4ac103a918f",
+  "sourcePreservation": {
+    "all10ActualWorkingAndIndexPins": true,
+    "all11NamedGroupsExact": true,
+    "tenOtherBodiesByteExact": true,
+    "originalNinthFinalAssertionsByteExact": true,
+    "activationFixtureExact": true,
+    "all389GuardObjectsAndMinimum11ByteExact": true,
+    "applicationDependenciesCIWorkerSpecProtectedPinsExact": true,
+    "historicalHandoverValidationSuffixesExact": true,
+    "oneOriginalRefreshAndDisableNoRetry": true
+  },
+  "positiveAssessment": [
+    "Actual own-origin/organisation response status/version/reason correlation and mismatches refuse; no network substitution or retry.",
+    "New journal retains only matching operational metadata, reason hashes/length and trusted generated request IDs, no raw org/identity/reason/payload.",
+    "Actual original04 failure retained as8f6c/c196; stale rendered context remains a hypothesis.",
+    "Underlying response.json cancellation and legacy direct report/lifecycle are explicitly excluded; no broad rewrite requested."
+  ],
+  "findings": [
+    {
+      "priority": "P2",
+      "file": "tests/ui/availability.mjs",
+      "line": 77,
+      "title": "Check monotonic deadline after final wait resolves",
+      "detail": "The final Enable-button wait gets the remaining timeout but no remaining() check follows its await. The new30s final-phase predicate can therefore accept completion after its declared monotonic deadline if timer execution was delayed. The original direct report is deliberately outside the new bound; add the check immediately after the awaited button wait and before that report.",
+      "minimumRepair": "phase.remaining() immediately after awaited final Enable wait; preserve original report/assertion block."
+    },
+    {
+      "priority": "P2",
+      "file": "tests/ui/availability.mjs",
+      "line": 49,
+      "title": "Refuse diagnostic overflow through the end of the instrumented group",
+      "detail": "Overflow is asserted before finalDisable returns, while request/response listeners remain attached across the final Enable wait and original final report. A late65th event only sets overflow=true and the group still completes. This contradicts the declared overflow refusal.",
+      "minimumRepair": "Expose a final journal guard and assert no overflow after the final awaited steps before group completion, while retaining listener cleanup in finally."
+    }
+  ],
+  "holds": [
+    "Fresh exact successor source review",
+    "Real original11-group execution and full changed-sourceCI",
+    "Complete original04 NFR and successor runtime applicability",
+    "Separate requiredapproval/qualifiedmerge/exacthosting/liveA10",
+    "Formal0/364/human/domain/physical acceptance unchanged"
+  ],
+  "noPassOrNativeOutcomeInferred": true,
+  "manifestReview": {
+    "files": 1835,
+    "exactActualBytesAll": true,
+    "oldWholeManifestUntouched": true,
+    "onlyTwoChangedPins": [
+      "VALIDATION.md",
+      "tests/ui/availability.mjs"
+    ]
+  }
+}

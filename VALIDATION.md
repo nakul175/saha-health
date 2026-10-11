@@ -1,3 +1,11 @@
+# Availability source successor, execution held — 11 October 2026
+
+[Two-guard fixture successor and additive CI diagnostic lane](docs/current/d03/AVAILABILITY-FIXTURE-PREPARATION-20261011.md) retain the original11 groups/minimum, all389 baseline records and complete existing CI. Separate V1 refusal is preserved; monotonic completion and final overflow predicates are repaired in source only. Actual prepared execution0/11; exact successor review and realCI remain pending. No runtime or accepted story/merge/live claim. Earlier records retain their own sources and dates.
+
+# Availability fixture preparation hold — 11 October 2026
+
+The exact published04 whole CI failed its original availability suite at the final disable UI step. [Test-only synchronized refresh and diagnostic preparation](docs/current/d03/AVAILABILITY-FIXTURE-PREPARATION-20261011.md) preserves all11 original named groups/minimum and the30s deadline; cause is unproved, actual prepared execution0/11. No runtime/dependency/policy change or accepted story is claimed. Separate review, real original suite and full successor CI remain required; routine NFR/merge/hosting gates stay open. Earlier checkpoints below retain their own dates and scopes.
+
 # Current routine retention authorization hold — 11 October 2026
 
 [Minimal server repair and source evidence](docs/current/d03/TELEMETRY-RETENTION-QUALIFICATION-20261011.md) supersedes earlier applicability below. The minimal membership predicate passes a fresh canonical build and all nine native routine scenarios,64 named groups/0failed/0skipped, with independently verified clinical/receipt/audit/metric/source/build custody and owned cleanup. Published a8fd has all five engineering jobs and documentation green on its predecessor source. The normal CI fixture now genuinely rebuilds and passes9scenarios/64groups/0failed/0skipped; type checking, the existing lint baseline and13safe-logs unit checks pass. Exact successor CI, original full NFR, merge and observed hosting/live remain pending. Working frozen gate8/10; original ten criteria and388 guard objects unchanged, one new observed minimum64 is additive. No new Done, merge or hosted story. Earlier records below retain their own source/date/scope.
