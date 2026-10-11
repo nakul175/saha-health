@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-10-11T09:25:33.802Z",
+  "startedAt": "2026-10-11T09:25:18.500Z",
+  "command": "node scripts/test.mjs integration --only integration/offline-sync-hash-device-browser,integration/reminder-optout-http --guard --report ../../outputs/saha-ten-hour-20261011/worker-restart-fixtures/assets-current-summary.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "build",
+      "status": "passed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4926,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 2,
+      "passed": 119,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10225,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 119,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 15302
+  },
+  "suites": [
+    {
+      "id": "build",
+      "layer": "build",
+      "kind": "step",
+      "file": "npm run build",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 4926,
+      "exitCode": 0,
+      "log": "tests/reports/logs/build.log"
+    },
+    {
+      "id": "integration/offline-sync-hash-device-browser",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/offline-sync-device-current-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 8212,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/offline-sync-device-current/browser-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__offline-sync-hash-device-browser.log"
+    },
+    {
+      "id": "integration/reminder-optout-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/reminder-optout-current-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2013,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/reminder-optout-current/http-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/integration__reminder-optout-http.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 201,
+        "components": 0,
+        "suitesCitingNoRequirement": 61,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 156,
+        "components": 84,
+        "suitesCitingNoRequirement": 80,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 593,
+        "components": 0,
+        "suitesCitingNoRequirement": 478,
+        "requirementsCited": 145
+      }
+    },
+    "supportFiles": 33,
+    "suites": 967,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 624,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

@@ -1,0 +1,17 @@
+Running integration; 2 suite(s).
+
+[integration] 2 suite(s)
+build: npm run build ...
+build: ok (4.9s)
+  running  integration/offline-sync-hash-device-browser ...
+  ok       integration/offline-sync-hash-device-browser  64 passed  8.2s
+  running  integration/reminder-optout-http ...
+  ok       integration/reminder-optout-http  55 passed  2.0s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  build        passed       1       -       -        -   4.9s
+  integration  passed       2     119       0        0  10.2s
+  total        passed       2     119       0        0  15.3s
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).

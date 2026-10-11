@@ -1,0 +1,49 @@
+Running integration; 2 suite(s).
+
+[integration] 2 suite(s)
+build: npm run build ...
+build: ok (4.4s)
+  running  integration/offline-sync-hash-device-browser ...
+  FAILED   integration/offline-sync-hash-device-browser  33 passed, 1 failed  21.9s  [exit code 1]
+      | error lines:
+      |   Workspace operation failed Error
+      |   Workspace operation failed Error
+      |   locator.fill: Timeout 20000ms exceeded.
+      |     name: 'TimeoutError'
+      | Workspace operation failed Error
+      | Workspace operation failed Error
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | locator.fill: Timeout 20000ms exceeded.
+      | Call log:
+      |   - waiting for locator('#passphrase')
+      |     at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-worker-fixtures-20261011/tests/offline-sync-device-current-browser.mjs:19:175 {
+      |   name: 'TimeoutError'
+      | }
+      | Node.js v24.19.0
+  running  integration/reminder-optout-http ...
+  FAILED   integration/reminder-optout-http  43 passed, 1 failed  31.5s  [exit code 1]
+      | error lines:
+      |   locator.click: Timeout 30000ms exceeded.
+      |     name: 'TimeoutError'
+      | node:internal/modules/run_main:107
+      |     triggerUncaughtException(
+      |     ^
+      | locator.click: Timeout 30000ms exceeded.
+      | Call log:
+      |   - waiting for getByRole('tab', { name: 'Contact preferences', exact: true })
+      |     at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-worker-fixtures-20261011/tests/reminder-optout-current-http.mjs:51:172 {
+      |   name: 'TimeoutError'
+      | }
+      | Node.js v24.19.0
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  build        passed       1       -       -        -   4.4s
+  integration  failed       2      76       2        0  53.4s
+  total        FAILED       2      76       2        0  57.9s
+
+Regression guard: FAILED (2 baselined suite(s) checked, 0 excused by quarantine).
+  FAIL     Suite integration/offline-sync-hash-device-browser passed 33 assertion(s); baseline is 64 (down 31).
+  FAIL     Suite integration/reminder-optout-http passed 43 assertion(s); baseline is 55 (down 12).

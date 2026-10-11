@@ -1,0 +1,21 @@
+Running unit integration; 2 suite(s).
+
+[unit] 1 suite(s)
+  ok       unit/test-runner-contract  27 passed  10.3s
+
+[integration] 1 suite(s)
+build: npm run build ...
+build: ok (4.4s)
+  running  integration/indicator-figures-http ...
+  ok       integration/indicator-figures-http  72 passed  1.5s
+
+  layer        status  suites  passed  failed  skipped   time
+  -----------  ------  ------  ------  ------  -------  -----
+  build        passed       1       -       -        -   4.4s
+  unit         passed       1      27       0        0  10.3s
+  integration  passed       1      72       0        0   1.5s
+  total        passed       2      99       0        0  16.5s
+
+Restored 1 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).

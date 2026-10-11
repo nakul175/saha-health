@@ -1,3 +1,7 @@
+# Active stable synthetic Worker qualification — 11 October 2026
+
+Two fixture drivers preserve original device64 and optout55 checks/minima while using direct built-Worker/D1 execution, with an explicit asset-first browser option that leaves the shared helper default unchanged. See [current contract/evidence](current/WORKER-CI-FIXTURES-20261011.md). The prior native routing failure76/2 is retained; corrected local119pass does not establish hosted CI, independent approval, merge or routine-story completion. No application/migration/provider change. Historical sections below retain their original dates and scope.
+
 # Active delivery — D02 / #175
 
 Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Test-only current fixture repair passes201 units10702 and independent targeted QA168; repaired-head CI/final review still gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.
