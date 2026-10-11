@@ -74,3 +74,8 @@ UAT is done by people on the hosted synthetic site, following [the UAT plan](../
 - Screenshot baselines were rendered on one container's fonts and may need regenerating on GitHub's runner (`npx playwright test -c tests/ui/playwright.config.mjs --update-snapshots`).
 - The coverage map shows citations, not proof; 72 requirements inherit their area's citations, and some test files cite no requirement.
 - Formal execution of the acceptance catalogue is 0 of 364. Until people run the UAT pack, the automated layers are engineering evidence only.
+
+
+## Linear-linked reporting — 11 October 2026
+
+[Testing links and qualified reporting evidence](TESTING-LINEAR-LINKS.md) add explicit scenario IDs, immutable Playwright/k6 reports and agent-published Linear run summaries. Existing suites, budgets and formal case statuses stay unchanged. The opt-in reporting smoke is not full product acceptance.
