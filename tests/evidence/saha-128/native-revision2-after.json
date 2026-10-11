@@ -1,0 +1,2270 @@
+{
+  "suite": "native request metric privacy contract",
+  "before": false,
+  "startedAt": "2026-10-11T15:10:38.486Z",
+  "completedAt": "2026-10-11T15:10:38.858Z",
+  "node": "v24.19.0",
+  "port": 9530,
+  "origin": "http://127.0.0.1:9530/",
+  "pid": 68291,
+  "sourcePins": {
+    "monitoring": "d9ae3eee545e1451d4b3db8d63dc922eb9727bfb358de697e037c5d388993b37",
+    "identity": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+    "script": "cffc5f3db158f1da0e1c0c6cedfe99e2217122e268f07ac2181cb02dd32b8e28",
+    "fixture": "dd6ab2b49eb15c9433f86c2a851c9fbc3fd052b8211a1bde01179fdd26092495"
+  },
+  "passed": 85,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    {
+      "label": "M1 native original route clinical-sources",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route device-work",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route reconciliation",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route frontline-providers",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route frontline-assessments",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route frontline-connection-test",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route anaemia-provider",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route anaemia-screenings",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route workforce-import",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route incentive-claims",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route identifier-search",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route trace",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route record-opened",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route aggregate-reports",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route alerts",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route notification-channel",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route record-import",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route import-rejections",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route household",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route value-range-protocols",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route pack-installations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route referral-requests",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patients",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patient-detail",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route worklists",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route delegations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route worker-activity",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route action-plan",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route exceptions",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route reassignment",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route caseload",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route identity-cases",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route exceptional",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route rights",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route retention",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route indicators",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route referral-escalations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route roster",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route abdm",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route media",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route governance",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route provider-sandbox",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patient-matches",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route continuity",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route workspace",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route commands",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route operations",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route pilot",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route outreach",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route expansion",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route history",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route audit",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route audit-chain",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route data-exit",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route environment",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route fixture-migration",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route programme-migration",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route patient-import",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route facility-scope",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route purpose-scope",
+      "passed": true
+    },
+    {
+      "label": "M1 native original route fhir",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified path/query",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified narrative",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified credential",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified recording",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified known suffix",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified query on known label",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified case",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified empty",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified null",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified array",
+      "passed": true
+    },
+    {
+      "label": "M2 native unclassified number",
+      "passed": true
+    },
+    {
+      "label": "M3 native count/total/max upsert and original response",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 403",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 409",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 422",
+      "passed": true
+    },
+    {
+      "label": "M3 native exact refused/error status 503",
+      "passed": true
+    },
+    {
+      "label": "M3 native existing thirty-day prune keeps recent/burden/other tenant",
+      "passed": true
+    },
+    {
+      "label": "M4 native no new authenticated metric for anonymous",
+      "passed": true
+    },
+    {
+      "label": "M4 native no new authenticated metric for reserved",
+      "passed": true
+    },
+    {
+      "label": "M4 native no new authenticated metric for wrong tenant",
+      "passed": true
+    },
+    {
+      "label": "M4 native no new authenticated metric for unknown actor",
+      "passed": true
+    },
+    {
+      "label": "M4 native suspended membership prevents increment and expired-row deletion",
+      "passed": true
+    },
+    {
+      "label": "M4 native account default organisation uses trusted actor",
+      "passed": true
+    },
+    {
+      "label": "M5 native database failure preserves response and fixed log",
+      "passed": true
+    }
+  ],
+  "observations": [
+    {
+      "label": "clinical-sources",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "46aa05e6-4647-4702-8750-b167b0487a87",
+        "route": "clinical-sources",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"46aa05e6-4647-4702-8750-b167b0487a87\",\"route\":\"clinical-sources\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "device-work",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a28cb13a-8d3e-4b40-82b0-c3f02b90997f",
+        "route": "device-work",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a28cb13a-8d3e-4b40-82b0-c3f02b90997f\",\"route\":\"device-work\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "reconciliation",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c5760aad-d212-4cb6-b776-3cd65d42ecc2",
+        "route": "reconciliation",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c5760aad-d212-4cb6-b776-3cd65d42ecc2\",\"route\":\"reconciliation\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "frontline-providers",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "521f9641-13c8-45f6-8022-2f9abf863ada",
+        "route": "frontline-providers",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"521f9641-13c8-45f6-8022-2f9abf863ada\",\"route\":\"frontline-providers\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "frontline-assessments",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "144ae980-a1c1-447e-b026-6a1d411e22da",
+        "route": "frontline-assessments",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"144ae980-a1c1-447e-b026-6a1d411e22da\",\"route\":\"frontline-assessments\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "frontline-connection-test",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "4d54d50a-5750-46d8-a851-124201274728",
+        "route": "frontline-connection-test",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"4d54d50a-5750-46d8-a851-124201274728\",\"route\":\"frontline-connection-test\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "anaemia-provider",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "6914986e-e0f3-4b9b-b94e-f6205ef4795b",
+        "route": "anaemia-provider",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"6914986e-e0f3-4b9b-b94e-f6205ef4795b\",\"route\":\"anaemia-provider\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "anaemia-screenings",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9ab685dd-e5b3-414b-8c79-cd77be3553ae",
+        "route": "anaemia-screenings",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9ab685dd-e5b3-414b-8c79-cd77be3553ae\",\"route\":\"anaemia-screenings\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "workforce-import",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e8243895-9ee9-4bd6-9785-ede7ae1b2afd",
+        "route": "workforce-import",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e8243895-9ee9-4bd6-9785-ede7ae1b2afd\",\"route\":\"workforce-import\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "incentive-claims",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "26956ff3-5db2-429d-a282-4ee59452aced",
+        "route": "incentive-claims",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"26956ff3-5db2-429d-a282-4ee59452aced\",\"route\":\"incentive-claims\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "identifier-search",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "514dfe5c-5f79-47ff-a267-56d3e7e71313",
+        "route": "identifier-search",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"514dfe5c-5f79-47ff-a267-56d3e7e71313\",\"route\":\"identifier-search\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "trace",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "00b3e127-eae0-4ceb-826c-538fcb312069",
+        "route": "trace",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"00b3e127-eae0-4ceb-826c-538fcb312069\",\"route\":\"trace\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "record-opened",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "dd0dff88-2b9e-438b-a298-c181b2e220b3",
+        "route": "record-opened",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"dd0dff88-2b9e-438b-a298-c181b2e220b3\",\"route\":\"record-opened\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "aggregate-reports",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "5bf5f3d3-f894-4935-8b3d-a4fcc5d2dfb4",
+        "route": "aggregate-reports",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"5bf5f3d3-f894-4935-8b3d-a4fcc5d2dfb4\",\"route\":\"aggregate-reports\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "alerts",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "0211e830-a141-4c8e-b139-31d0ac91f61a",
+        "route": "alerts",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"0211e830-a141-4c8e-b139-31d0ac91f61a\",\"route\":\"alerts\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "notification-channel",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "6e1a5864-9064-4000-87f4-4fd7635c562d",
+        "route": "notification-channel",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"6e1a5864-9064-4000-87f4-4fd7635c562d\",\"route\":\"notification-channel\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "record-import",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "09b903ef-a391-42be-bb12-96578f3b1868",
+        "route": "record-import",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"09b903ef-a391-42be-bb12-96578f3b1868\",\"route\":\"record-import\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "import-rejections",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e35356c4-5bc3-4426-95ab-b4983b7ec642",
+        "route": "import-rejections",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e35356c4-5bc3-4426-95ab-b4983b7ec642\",\"route\":\"import-rejections\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "household",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "5298b769-fffe-4744-a08b-87bb3fbed1a2",
+        "route": "household",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"5298b769-fffe-4744-a08b-87bb3fbed1a2\",\"route\":\"household\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "value-range-protocols",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "0f0ec2bf-9345-4810-a828-010faf98564c",
+        "route": "value-range-protocols",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"0f0ec2bf-9345-4810-a828-010faf98564c\",\"route\":\"value-range-protocols\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "pack-installations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "31b774b4-a74f-4c18-ba6d-8e8d534c1b17",
+        "route": "pack-installations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"31b774b4-a74f-4c18-ba6d-8e8d534c1b17\",\"route\":\"pack-installations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "referral-requests",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "f3743229-948c-4a72-8c4c-be9c966a0ce0",
+        "route": "referral-requests",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"f3743229-948c-4a72-8c4c-be9c966a0ce0\",\"route\":\"referral-requests\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "34bf8f92-47c2-419a-acd9-f4651dba2cc6",
+        "route": "patients",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"34bf8f92-47c2-419a-acd9-f4651dba2cc6\",\"route\":\"patients\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patient-detail",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "efdc2c0b-eae4-40dd-abac-8cd21dad924f",
+        "route": "patient-detail",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"efdc2c0b-eae4-40dd-abac-8cd21dad924f\",\"route\":\"patient-detail\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "worklists",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "ab5955a6-3a12-4f44-bfe0-c8f79d9d218e",
+        "route": "worklists",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"ab5955a6-3a12-4f44-bfe0-c8f79d9d218e\",\"route\":\"worklists\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "delegations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e3a91923-7d13-4113-83d5-e3ea16f3904e",
+        "route": "delegations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e3a91923-7d13-4113-83d5-e3ea16f3904e\",\"route\":\"delegations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "worker-activity",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "30e23e4d-d23a-4976-a3b5-b20d9d84f997",
+        "route": "worker-activity",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"30e23e4d-d23a-4976-a3b5-b20d9d84f997\",\"route\":\"worker-activity\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "action-plan",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "667d354a-68c3-49d7-bc01-9253bbeb6d2c",
+        "route": "action-plan",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"667d354a-68c3-49d7-bc01-9253bbeb6d2c\",\"route\":\"action-plan\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "exceptions",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "4dfa3fbb-8e5a-43b2-aece-32d198d6ca1d",
+        "route": "exceptions",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"4dfa3fbb-8e5a-43b2-aece-32d198d6ca1d\",\"route\":\"exceptions\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "reassignment",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "4af3dde5-55a4-4d76-8f3c-eee10725ed27",
+        "route": "reassignment",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"4af3dde5-55a4-4d76-8f3c-eee10725ed27\",\"route\":\"reassignment\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "caseload",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "54e64cd8-b1ea-4fbb-9116-a08cbbd56f58",
+        "route": "caseload",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"54e64cd8-b1ea-4fbb-9116-a08cbbd56f58\",\"route\":\"caseload\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "identity-cases",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "0f3c85be-42ad-4d23-828e-75d4c7ab5a25",
+        "route": "identity-cases",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"0f3c85be-42ad-4d23-828e-75d4c7ab5a25\",\"route\":\"identity-cases\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "exceptional",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a406ee5e-0e48-44fc-98ee-e68b98131ad8",
+        "route": "exceptional",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a406ee5e-0e48-44fc-98ee-e68b98131ad8\",\"route\":\"exceptional\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "rights",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "b5c807a0-d6cd-461f-8956-688fcbc80952",
+        "route": "rights",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"b5c807a0-d6cd-461f-8956-688fcbc80952\",\"route\":\"rights\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "retention",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "b525e3e5-a9fb-4f66-8c4d-e793639537ec",
+        "route": "retention",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"b525e3e5-a9fb-4f66-8c4d-e793639537ec\",\"route\":\"retention\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "indicators",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "5540688a-1a93-4720-833d-dc046fc9c045",
+        "route": "indicators",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"5540688a-1a93-4720-833d-dc046fc9c045\",\"route\":\"indicators\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "referral-escalations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a8b3e0cc-3a24-42a7-a86c-3ec63bd79551",
+        "route": "referral-escalations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a8b3e0cc-3a24-42a7-a86c-3ec63bd79551\",\"route\":\"referral-escalations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "roster",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "fb193b1a-3ae5-43b9-bf8a-48253904758b",
+        "route": "roster",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"fb193b1a-3ae5-43b9-bf8a-48253904758b\",\"route\":\"roster\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "abdm",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "ed475487-ab3b-4d7b-a494-b229d06be277",
+        "route": "abdm",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"ed475487-ab3b-4d7b-a494-b229d06be277\",\"route\":\"abdm\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "media",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "606a5602-87e6-4a24-be53-7afb9e6f7c5a",
+        "route": "media",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"606a5602-87e6-4a24-be53-7afb9e6f7c5a\",\"route\":\"media\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "governance",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "2c8effe9-41e2-43e3-85e0-4bf23b50743d",
+        "route": "governance",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"2c8effe9-41e2-43e3-85e0-4bf23b50743d\",\"route\":\"governance\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "provider-sandbox",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "00203641-2231-4d5f-94b9-e81384c4c5e1",
+        "route": "provider-sandbox",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"00203641-2231-4d5f-94b9-e81384c4c5e1\",\"route\":\"provider-sandbox\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patient-matches",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "bef66a0a-fca2-494e-94de-fdf66b7c82d7",
+        "route": "patient-matches",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"bef66a0a-fca2-494e-94de-fdf66b7c82d7\",\"route\":\"patient-matches\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "continuity",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "59cf6cd5-c3f8-4174-905d-30df3924f052",
+        "route": "continuity",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"59cf6cd5-c3f8-4174-905d-30df3924f052\",\"route\":\"continuity\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "workspace",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "0eeec360-5310-4496-ba69-607fe568956c",
+        "route": "workspace",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"0eeec360-5310-4496-ba69-607fe568956c\",\"route\":\"workspace\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "7a6a25e0-6467-43e9-8613-da0286dfe5e9",
+        "route": "commands",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"7a6a25e0-6467-43e9-8613-da0286dfe5e9\",\"route\":\"commands\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "operations",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d251fdfc-bceb-4513-8f94-ac25e08f5212",
+        "route": "operations",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d251fdfc-bceb-4513-8f94-ac25e08f5212\",\"route\":\"operations\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "pilot",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "1e0523f8-a6fa-4852-960a-c471168ccf5f",
+        "route": "pilot",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"1e0523f8-a6fa-4852-960a-c471168ccf5f\",\"route\":\"pilot\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "outreach",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "378f7bcd-3428-4089-b953-c12e4fdaf3ce",
+        "route": "outreach",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"378f7bcd-3428-4089-b953-c12e4fdaf3ce\",\"route\":\"outreach\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "expansion",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "271e5b51-7e70-4aa2-b293-b15674e1dbd8",
+        "route": "expansion",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"271e5b51-7e70-4aa2-b293-b15674e1dbd8\",\"route\":\"expansion\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "history",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e3ef41b3-3184-4fde-8943-b2323baedb2b",
+        "route": "history",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e3ef41b3-3184-4fde-8943-b2323baedb2b\",\"route\":\"history\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "046672f3-2628-47e1-aed8-e5fbf366f066",
+        "route": "audit",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"046672f3-2628-47e1-aed8-e5fbf366f066\",\"route\":\"audit\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit-chain",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c12b43d7-1ca1-4839-a4dc-54e94246c72e",
+        "route": "audit-chain",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c12b43d7-1ca1-4839-a4dc-54e94246c72e\",\"route\":\"audit-chain\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "data-exit",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a38fc637-c4a2-4e6c-80d7-a0bed86c54aa",
+        "route": "data-exit",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a38fc637-c4a2-4e6c-80d7-a0bed86c54aa\",\"route\":\"data-exit\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "environment",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "1df3d388-f12e-4885-81dc-2d4341d9e51f",
+        "route": "environment",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"1df3d388-f12e-4885-81dc-2d4341d9e51f\",\"route\":\"environment\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "fixture-migration",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "b5b8aba1-c454-4d99-8a0a-0ded158d6afb",
+        "route": "fixture-migration",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"b5b8aba1-c454-4d99-8a0a-0ded158d6afb\",\"route\":\"fixture-migration\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "programme-migration",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "eab5a024-61ce-42d0-b1d5-ac37f9b7ce9a",
+        "route": "programme-migration",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"eab5a024-61ce-42d0-b1d5-ac37f9b7ce9a\",\"route\":\"programme-migration\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patient-import",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "29460fc5-c92d-4fb8-b91d-2be924009c56",
+        "route": "patient-import",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"29460fc5-c92d-4fb8-b91d-2be924009c56\",\"route\":\"patient-import\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "facility-scope",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "46cfb6f1-431e-441f-8084-797600c401e8",
+        "route": "facility-scope",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"46cfb6f1-431e-441f-8084-797600c401e8\",\"route\":\"facility-scope\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "purpose-scope",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "159b9682-c6e3-487b-aa18-d4dda2d3060d",
+        "route": "purpose-scope",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"159b9682-c6e3-487b-aa18-d4dda2d3060d\",\"route\":\"purpose-scope\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "fhir",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a257a273-6a82-49b0-9fa8-c8b35ad30eee",
+        "route": "fhir",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a257a273-6a82-49b0-9fa8-c8b35ad30eee\",\"route\":\"fhir\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "/api/patients/private?notes=SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "6991c3df-6b86-4196-8573-09009370a6d0",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"6991c3df-6b86-4196-8573-09009370a6d0\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a72d2fb8-ba84-41c3-b413-1933e01560b8",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a72d2fb8-ba84-41c3-b413-1933e01560b8\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "Bearer SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "ee357655-f3df-4195-b048-fe7ddae20af1",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"ee357655-f3df-4195-b048-fe7ddae20af1\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "RAWRECORDING-SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d65da51c-6504-4c5e-9f2e-632c0ad2aff0",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d65da51c-6504-4c5e-9f2e-632c0ad2aff0\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients/SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "f2476c36-2bbf-43e1-8faa-0f8218967672",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"f2476c36-2bbf-43e1-8faa-0f8218967672\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients?token=SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "21baec32-683d-4e70-80e7-dda13d86448d",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"21baec32-683d-4e70-80e7-dda13d86448d\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "PATIENTS",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c1289305-b999-4833-b5fa-f41c8142f225",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c1289305-b999-4833-b5fa-f41c8142f225\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "ed589ed0-bab1-4d7f-a45c-0671a4bb2630",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"ed589ed0-bab1-4d7f-a45c-0671a4bb2630\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": null,
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "a5f15866-ff31-4282-83b6-1aeb7c2ac38a",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"a5f15866-ff31-4282-83b6-1aeb7c2ac38a\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": [
+        "patients",
+        "SYNTHETIC-PRIVATE-NARRATIVE-CREDENTIAL-441"
+      ],
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c4973084-f4bc-4728-9d77-0494aadaaa4d",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c4973084-f4bc-4728-9d77-0494aadaaa4d\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": 441,
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "ab5d931e-cbbf-498a-a6e9-f8ade7be5b0e",
+        "route": "unclassified",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"ab5d931e-cbbf-498a-a6e9-f8ade7be5b0e\",\"route\":\"unclassified\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "38cce41b-c9b5-478e-8997-3d95609b969a",
+        "route": "patients",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"38cce41b-c9b5-478e-8997-3d95609b969a\",\"route\":\"patients\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "49f164aa-746c-46fc-86eb-de6e8d7ad86a",
+        "route": "patients",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"49f164aa-746c-46fc-86eb-de6e8d7ad86a\",\"route\":\"patients\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d1108185-f6b0-4190-b2f9-5ad3513bcc3c",
+        "route": "commands",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d1108185-f6b0-4190-b2f9-5ad3513bcc3c\",\"route\":\"commands\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 409,
+      "event": {
+        "event": "saha_request",
+        "requestId": "afcf2958-42be-4f4c-a245-3aa0dbbdbc33",
+        "route": "commands",
+        "status": 409,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"afcf2958-42be-4f4c-a245-3aa0dbbdbc33\",\"route\":\"commands\",\"status\":409,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 422,
+      "event": {
+        "event": "saha_request",
+        "requestId": "f41df976-b209-47ef-8e4e-72cab2634c1c",
+        "route": "commands",
+        "status": 422,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"f41df976-b209-47ef-8e4e-72cab2634c1c\",\"route\":\"commands\",\"status\":422,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "commands",
+      "status": 503,
+      "event": {
+        "event": "saha_request",
+        "requestId": "72cfd74d-7c97-4530-ad28-c7ad404bd9d0",
+        "route": "commands",
+        "status": 503,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"72cfd74d-7c97-4530-ad28-c7ad404bd9d0\",\"route\":\"commands\",\"status\":503,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "history",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "dc197620-db52-4e64-84f7-a09ab75579f2",
+        "route": "history",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"dc197620-db52-4e64-84f7-a09ab75579f2\",\"route\":\"history\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "9b1fe022-39d2-4b0b-a560-e064d0574c8f",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"9b1fe022-39d2-4b0b-a560-e064d0574c8f\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "c9c527a9-ddba-439d-99fa-18b89c113b2f",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"c9c527a9-ddba-439d-99fa-18b89c113b2f\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "d7755f30-84be-4d52-a31d-5d988d406826",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"d7755f30-84be-4d52-a31d-5d988d406826\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "audit",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "e1542e2f-6e65-4c97-b513-5075c0cce82a",
+        "route": "audit",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"e1542e2f-6e65-4c97-b513-5075c0cce82a\",\"route\":\"audit\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 403,
+      "event": {
+        "event": "saha_request",
+        "requestId": "4373b049-4897-4f55-82c8-58ab65c36212",
+        "route": "patients",
+        "status": 403,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"4373b049-4897-4f55-82c8-58ab65c36212\",\"route\":\"patients\",\"status\":403,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "data-exit",
+      "status": 200,
+      "event": {
+        "event": "saha_request",
+        "requestId": "bcd1b435-94f7-40bf-a1e8-0814cd5b29a7",
+        "route": "data-exit",
+        "status": 200,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"bcd1b435-94f7-40bf-a1e8-0814cd5b29a7\",\"route\":\"data-exit\",\"status\":200,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    },
+    {
+      "label": "patients",
+      "status": 409,
+      "event": {
+        "event": "saha_request",
+        "requestId": "4c99ed94-c8aa-41e1-8c1f-3fc6ef0b5de6",
+        "route": "patients",
+        "status": 409,
+        "durationMs": 0
+      },
+      "capture": {
+        "events": [
+          [
+            "{\"event\":\"saha_request\",\"requestId\":\"4c99ed94-c8aa-41e1-8c1f-3fc6ef0b5de6\",\"route\":\"patients\",\"status\":409,\"durationMs\":0}"
+          ]
+        ],
+        "errors": [
+          [
+            "Saha request metrics unavailable"
+          ]
+        ],
+        "actions": 1,
+        "sameResponse": true
+      },
+      "bodySha256": "2fde1aa77572603b619d64b00701ecfd3de60906b382a74969f0a2ef2e938863"
+    }
+  ],
+  "cleanup": {
+    "miniflareDisposed": true,
+    "persistence": "disposable in-memory local D1",
+    "sourceTemporaryRemoved": true
+  },
+  "limits": [
+    "Real HTTP to test-only component wrapper, actual production measured()/identity and native D1 SQL. Not a mounted Saha application endpoint, hosted logs/retention, clinical command, full story or physical device test."
+  ]
+}

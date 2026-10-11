@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-06",
+  "updatedAt": "2026-10-11",
   "node": "v24.19.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -837,6 +837,11 @@
       "layer": "smoke",
       "file": "tests/reminder-optout-refresh-browser.mjs",
       "minPassed": 13
+    },
+    "smoke/today-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/today-browser.mjs",
+      "minPassed": 58
     },
     "uat/check-uat-register": {
       "layer": "uat",
@@ -1678,6 +1683,16 @@
       "file": "tests/root-verification-current-request-body-transport-contract.mjs",
       "minPassed": 8
     },
+    "unit/request-metric-native-contract": {
+      "layer": "unit",
+      "file": "tests/request-metric-native-contract.mjs",
+      "minPassed": 86
+    },
+    "unit/request-metric-privacy-contract": {
+      "layer": "unit",
+      "file": "tests/request-metric-privacy-contract.mjs",
+      "minPassed": 94
+    },
     "unit/retention-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-retention-contract.mjs",
@@ -1867,11 +1882,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "smoke/today-browser": {
-      "layer": "smoke",
-      "file": "tests/smoke/today-browser.mjs",
-      "minPassed": 58
     }
   },
   "log": [
@@ -1915,6 +1925,14 @@
       },
       "added": [
         "smoke/today-browser"
+      ]
+    },
+    {
+      "action": "add",
+      "reason": "Only actual module94/native86 metric privacy checks added. Existing374baseline entries preserved byte-equivalent as JSON values; unrelated generator raise/alias edits not adopted.",
+      "added": [
+        "unit/request-metric-native-contract",
+        "unit/request-metric-privacy-contract"
       ]
     }
   ]

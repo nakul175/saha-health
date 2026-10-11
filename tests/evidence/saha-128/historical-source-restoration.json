@@ -1,0 +1,22 @@
+{
+  "restoredAt": "2026-10-11T15:15:41.014240+00:00",
+  "method": "Byte restoration by reversing only recorded later edits in this sole-owned checkout. Revision2 driver73a53 and label-only monitoringf52ee matched contemporaneous independent observed hashes. Revision1 driver5279 is reconstructed from the recorded sole-owned edit, with no contemporaneous driver hash claim. These are reproduction inputs, not newly claimed execution-time captures. Original reports unchanged.",
+  "files": {
+    "native-revision2-85.mjs": "73a53ff8453fa4402be5892c0556fdda1313727618e3da6b43e43f2b51008a35",
+    "monitoring-label-only.ts": "f52ee061e79b504e1c157bd7ced58ce82a62ec8a79aa4856bfea697db5b34639",
+    "native-revision1-reconstructed.mjs": "5279f364b825ccf8c846f128279e8fb3824d681fd3d33c8f84ee0ef134c3e8e3",
+    "monitoring-base7668.ts": "5ef114ac5c2849674ad04c44667efcd1d46a981af4e190a0c62794d85141a3af"
+  },
+  "driverBindings": {
+    "native-revision1-reconstructed.mjs": [
+      "native-before-local/result.json (73/12)",
+      "native-after-label-only/result.json (84/1)"
+    ],
+    "native-revision2-85.mjs": [
+      "native-revision2-before/result.json (72/13)",
+      "native-revision2-after/result.json (85/0)"
+    ]
+  },
+  "oldBundleLimit": "Native sourcePins.script hashes the actual esbuild worker bundle string passed toMiniflare; these old bundle bytes were not retained. Do not misidentify it as the mjs driverhash.",
+  "currentDriver": "af51570f7ecc886271d20c9d8406d3e493ccd9c6f52dbb1b1b432a5685965927 adds before/build/after input hashes and one86th receiptcheck; finalrequiredunits execute it."
+}

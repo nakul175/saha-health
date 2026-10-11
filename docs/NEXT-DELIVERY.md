@@ -1,3 +1,11 @@
+# Current engineering task — SAHA-128 / APL-764
+
+11 October 2026: isolated branch `story/saha-128-route-telemetry-20261011` starts from observed main `7668a03d97c1ae62174f09e65ccd5a5717120be6`. Existing [SAHA-128 / APL-151](https://linear.app/aplyd-sandbox/issue/APL-151/saha-128-safe-logs-and-analytics) owns the [APL-764 technical task](https://linear.app/aplyd-sandbox/issue/APL-764/eng-br-sec-07-safe-logs-and-analytics). [Frozen revision 2](current/saha-128/SPECIFICATION.md) adds runtime label protection and the same current-membership guard to telemetry pruning. Original before failures remain evidence, with original requirements and all 374 prior baseline entries unchanged.
+
+This is a bounded engineering task, not a newly delivered user story. Parent acceptance remains held for hosted telemetry/crash/analytics configuration and retention, request-path logs and necessary sensitive-diagnostic policy/store. Final published-head CI/review, qualified merge and observed hosting are separate gates. If main changes before release, reconcile the exact changed base and rerun affected checks. The human has authorized parallel preparation; that does not waive the D03-to-D04 delivery dependency. Root serializes Linear and release updates.
+
+Earlier checkpoints below are inherited history with their original dates and claims; they do not state this task's current execution or hosting status.
+
 # Active delivery — D02 / #175
 
 Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Test-only current fixture repair passes201 units10702 and independent targeted QA168; repaired-head CI/final review still gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.
