@@ -1,3 +1,7 @@
+# Current support CI documentation repair — 11 October 2026
+
+Fresh f888 documentation CI failed stale coverage/UAT and missing actual support-panel screen mapping. The exact unchanged tooling repeats60/3; additive mapping/regeneration repairs63/0 with44/9/10 minima intact. Both34/8 suites join existing CI without removing any prior selection/guard/timeout. Runtime, both original/fixed component criteria and formal register stay unchanged. [Current source-bound status](docs/current/SUPPORT-CONTEXT-ISOLATION-20261011.md) preserves all failed receipts. Fresh successor CI and incremental independent review remain pending; no merge/live, full story/task or formal acceptance claimed.
+
 # Current support prerequisite — final local checks, 11 October 2026
 
 [Current source-bound qualification](docs/current/SUPPORT-CONTEXT-ISOLATION-20261011.md) records final runtime `e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7`: original component34/0, deferred commit8/0, original actual support23/0, anonymous refusal17/0 and ledger14/0 with unchanged guards. Fresh build/types pass; lint retains1392/618 baseline. Owned synthetic runtimes are disposed and port9540 is free. Published beba4cbe is historical and requires the reviewed repair. Final-head CI and independent review are pending; root owns qualified integration/merge and exact hosted checks. APL-754/SAHA-118 stay partial and formal support cases Not run. Older source/gate statements below retain their dates and exact bytes.

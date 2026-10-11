@@ -1,3 +1,11 @@
+# Documentation CI repair — 11 October 2026
+
+Fresh f888 documentation CI genuinely failed: the added support evidence made coverage/UAT documents stale and cited a panel missing from the screen map. The same unchanged local tooling reproduces60 passed/3 failed/0 skipped. An additive screen-map entry records the actual existing Person page and visit host; regenerated coverage/UAT documents then pass63/0/0 under unchanged44/9/10 minima. The support runtime, both component test files, regression baseline and blank formal register remain byte-for-byte f888. Both34/8 suites are added to the existing CI selection while every original selector, guard and timeout remains identical.
+
+[Exact failed CI, local before/after and additive proof](support-context-evidence-20261011/ci-uat-repair/UAT-CI-ADDITIVE-REPAIR-PROOF.json) are preserved. These are static tooling checks; formal cases remain Not run and whole APL-754/SAHA-118 remain partial. Fresh successor CI and independent incremental source/evidence review are pending. Final local runtime/backend receipts below remain applicable because their source is unchanged.
+
+---
+
 # Final local qualification after separate review — 11 October 2026
 
 The final runtime SHA-256 is `e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7`. The former-context validity guard now expires in layout cleanup, before a deferred transition's former POST acknowledgement can start a stale queue read. Queue loading remains passive. Removing the redundant passive sequence cleanup leaves the original lint baseline unchanged.

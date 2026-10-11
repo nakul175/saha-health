@@ -172,7 +172,7 @@ Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: 
 - **Catalogue:** Functional, fixture FX-OPS-05, catalogue owner "QA with Deployment operations".
 - **Run as:** Administrator. Basis: requirement area default (BR-OPS; catalogue owner "QA with Deployment operations").
 - **Default result:** Not run
-- **Start from:** No screen is documented for BR-OPS-05: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Administrator signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -190,7 +190,7 @@ Hourly request metrics, incidents, queue counts and cost assumptions. Slice 6g: 
 
 <details><summary>What the build does today (assessment, current state of BR-OPS-05)</summary>
 
-Redacted technical support export and generic incidents.
+Redacted technical support export and generic incidents. 11 October 2026: a bounded actual React component regression removes old support queue/helper/error/pending state in the first new actor/organisation/visit/person/membership/role/owner/measurement commit; exact metadata-key retries and late-response refusal pass34 checks after an unchanged14-failure pre-fix control. Explicit synthetic API doubles only; server support regression, final review/CI and original formal support cases remain pending. Independent review identified a remaining passive-cleanup callback interval; actual deferred React commit7/1/0 is preserved, layout invalidation repairs it8/0/0 with original34 again34/0/0. All original operations/pilot evidence remains cited; full task and formal acceptance stay partial/pending. Final bounded local qualification: support Worker/D123/0, anonymous refusal/no-write17/0, ledger14/0, source component34/0 plus deferred8/0; build/types/lint pass with original minima/baseline. Separate f888 documentation CI failure60/3 is repaired locally63/0 by additive actual screen mapping and unchanged generators. Final successor CI/review/live remain pending; no formal or full-task acceptance.
 
 </details>
 

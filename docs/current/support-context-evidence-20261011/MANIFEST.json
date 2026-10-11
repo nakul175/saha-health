@@ -3,12 +3,20 @@
     "COMMIT-FROZEN-CRITERIA.json": "a2ef3e38e4e86970a16a4abf9a8b577abbe1afb21bb7957e623a1861e346509b",
     "COMMIT-REGISTERED-RUNNER-RESULT.json": "0e26de3b23f26ec221b7cab2b7bdbb8b26a439233699a2a3f340d0917a85ea34",
     "FROZEN-CRITERIA.json": "c514b24506bd64ca56bab817e6c22bac53c01d7d9d1377634cb1afc9eab0b165",
-    "PRESERVATION-PROOF.json": "b0a20b0dce6c9bcd2bcbea21a9f1f2315bf5df074d8d8f0a55c06879f0d0d69d",
+    "PRESERVATION-PROOF.json": "dd6082751c720f8d94dcdf7675f242a9290724839ad438c3971d3ba99b8af560",
     "REGISTERED-RUNNER-RESULT.json": "0174008bf6823e06c7e36b3d3ab7a6fa0e3328482a4248cfc0eb9b92475d5096",
     "after/observations.json": "f820f6f8987770e183c2eaab010433fbb011c69f083fc474837aa5ece190a73a",
     "after/result.json": "0bac681ec6c7e523dc3412c75c30938fe94709e7bcaee290a0cf6de40ad1b4a8",
     "before/observations.json": "4c8092f8866f501348f9dde495c83ddc9c9dc96352cc33b898d70e40ece681ca",
     "before/result.json": "2dd3f60f2aa5438b0e2d307b6a7f867562d38d166d7677dd9f136340518717c0",
+    "ci-uat-repair/CI-f888-docs-failure.log": "d73ca974e56005fb7cfcf6d3fb4186ce489f816f554cea351661477b2158e172",
+    "ci-uat-repair/UAT-AFTER-RESULT.json": "82cb58c22a5e07c2677eff9c57dc5b6271ff10b79db50b4d0960738ae4b874d1",
+    "ci-uat-repair/UAT-BEFORE-RESULT.json": "aed6821e8e65ddd4629a42b394ed6b1ee1c64b3366f69d775dc4f34a2d2ca29b",
+    "ci-uat-repair/UAT-CI-ADDITIVE-REPAIR-PROOF.json": "bd3368c5da501a3ba07b193b03302a31380c1cf1bf9ed813a08f283f1ad2cfc2",
+    "ci-uat-repair/UAT-FINAL-RESULT.json": "0baa85771abafb0fd09720539a74503745687dc36c9796cfb29f05be170d3f54",
+    "ci-uat-repair/uat-after.log": "9c24693da6df77c660066c191e32342b241283a14038277b6ac86afd36d8a44b",
+    "ci-uat-repair/uat-before.log": "c7d69e896fd991d41c2843a7933d6ffb22f6439ba99a90e5cd89ef4b180ea0dc",
+    "ci-uat-repair/uat-final.log": "dea11ab25a480f51c8a2b27757095d3870fbf356336cd8800e001c2c27bfa55a",
     "commit-after/observations.json": "c97c9054cefd1dfcf5c73d84d6c1b241e474462724190eeef6553bd1dbb682b0",
     "commit-after/result.json": "0cf33d01a8a7e7cac3baf4683ae1cf3077205230f4393189b724a1d396c7266a",
     "commit-before/observations.json": "30a4f6d73b045409fc9b747f089efd8facd29a8bf70751897c298f26eb573134",
@@ -35,5 +43,5 @@
     "layout-final/observations.json": "0b379daafba0ba0316a154045bdc4e6e76155f64a197eac4e937308900b71671",
     "layout-final/result.json": "3c2c5d58af352a59a158c50c21d439df3204a9822f01700003be5fe0c41c770c"
   },
-  "note": "All original and failed receipts are retained; final-local and layout-final/commit-final bind the latest author-qualified runtime. Historical pending claims apply only to their checkpoints."
+  "note": "Original failures and source-bound results retained; ci-uat-repair is additive static tooling repair only."
 }

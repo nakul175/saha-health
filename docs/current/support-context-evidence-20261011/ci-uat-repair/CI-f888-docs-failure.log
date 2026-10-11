@@ -1,0 +1,31 @@
+docs	UAT register and generated documents	﻿2026-10-11T15:35:16.9626664Z ##[group]Run node scripts/test.mjs uat --fast
+docs	UAT register and generated documents	2026-10-11T15:35:16.9627066Z [36;1mnode scripts/test.mjs uat --fast[0m
+docs	UAT register and generated documents	2026-10-11T15:35:16.9692200Z shell: /usr/bin/bash -e {0}
+docs	UAT register and generated documents	2026-10-11T15:35:16.9692490Z ##[endgroup]
+docs	UAT register and generated documents	2026-10-11T15:35:17.3735476Z Running uat --fast; 3 suite(s).
+docs	UAT register and generated documents	2026-10-11T15:35:17.3755077Z 
+docs	UAT register and generated documents	2026-10-11T15:35:17.3775083Z [uat] 3 suite(s)
+docs	UAT register and generated documents	2026-10-11T15:35:17.3780417Z   running  uat/check-uat-register ...
+docs	UAT register and generated documents	2026-10-11T15:35:18.1117234Z   ok       uat/check-uat-register  44 passed  731ms
+docs	UAT register and generated documents	2026-10-11T15:35:18.1118242Z   running  uat/coverage-map ...
+docs	UAT register and generated documents	2026-10-11T15:35:18.8239414Z   FAILED   uat/coverage-map  8 passed, 1 failed  709ms  [exit code 1]
+docs	UAT register and generated documents	2026-10-11T15:35:18.8241699Z       | error lines:
+docs	UAT register and generated documents	2026-10-11T15:35:18.8243430Z       |   FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md, docs/testing/coverage.csv
+docs	UAT register and generated documents	2026-10-11T15:35:18.8246108Z       | FAIL committed COVERAGE.md and coverage.csv equal the regenerated files: stale or missing, regenerate: docs/testing/COVERAGE.md, docs/testing/coverage.csv
+docs	UAT register and generated documents	2026-10-11T15:35:18.8248369Z       | coverage: 176 requirements; no test cited 19; one layer 42; no UAT case 30; 735/1066 test files cited by no requirement; formally executed 0/364
+docs	UAT register and generated documents	2026-10-11T15:35:18.8250076Z       | {"suite":"Coverage map generator","passed":8,"failed":1,"skipped":0,"completedAt":"2026-10-11T15:35:18.767Z"}
+docs	UAT register and generated documents	2026-10-11T15:35:18.8251141Z   running  uat/generate-uat-pack ...
+docs	UAT register and generated documents	2026-10-11T15:35:19.5626200Z   FAILED   uat/generate-uat-pack  8 passed, 2 failed  733ms  [exit code 1]
+docs	UAT register and generated documents	2026-10-11T15:35:19.5645682Z       | error lines:
+docs	UAT register and generated documents	2026-10-11T15:35:19.5647337Z       |   FAIL every cited screen file is mapped to a screen or is the generic shell: unmapped panel files (add them to PANEL_HOME): app/work-support-panel.tsx
+docs	UAT register and generated documents	2026-10-11T15:35:19.5649449Z       |   FAIL committed pack equals the regenerated pack (plan and scripts): stale or missing, regenerate: docs/testing/uat/UAT-ADMIN.md
+docs	UAT register and generated documents	2026-10-11T15:35:19.5651536Z       | FAIL every cited screen file is mapped to a screen or is the generic shell: unmapped panel files (add them to PANEL_HOME): app/work-support-panel.tsx
+docs	UAT register and generated documents	2026-10-11T15:35:19.5653566Z       | FAIL committed pack equals the regenerated pack (plan and scripts): stale or missing, regenerate: docs/testing/uat/UAT-ADMIN.md
+docs	UAT register and generated documents	2026-10-11T15:35:19.5655629Z       | UAT pack: 158 cases (OWNER 53, ASHA 44, SUPERVISOR 13, CLINICIAN 29, ADMIN 7, END_TO_END 12); 2 excluded; 7 documents
+docs	UAT register and generated documents	2026-10-11T15:35:19.5656928Z       | {"suite":"UAT pack generator","passed":8,"failed":2,"skipped":0,"completedAt":"2026-10-11T15:35:19.541Z"}
+docs	UAT register and generated documents	2026-10-11T15:35:20.2042646Z 
+docs	UAT register and generated documents	2026-10-11T15:35:20.2043326Z   layer  status  suites  passed  failed  skipped  time
+docs	UAT register and generated documents	2026-10-11T15:35:20.2045900Z   -----  ------  ------  ------  ------  -------  ----
+docs	UAT register and generated documents	2026-10-11T15:35:20.2047026Z   uat    failed       3      60       3        0  2.2s
+docs	UAT register and generated documents	2026-10-11T15:35:20.2048091Z   total  FAILED       3      60       3        0  2.8s
+docs	UAT register and generated documents	2026-10-11T15:35:20.2130778Z ##[error]Process completed with exit code 1.
