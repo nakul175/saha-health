@@ -1,0 +1,8 @@
+# Bootstrapping targets without historical baselines
+A first release may use an approved provisional target derived from user tolerances, contract boundaries, harm analysis, capacity estimates and bounded experiments. A provisional target is a real predeclared acceptance bar, not a waiver for a failed or undefined metric. It cannot weaken mandatory rights, safety invariants or external obligations.
+
+Record target ID/version; metric/unit/direction; population/slices; workload/sample/window; uncertainty and repetition rule; rationale/source and known uncertainty; responsible owner; actual approval reference; allowed release/cohort/exposure; expiry; monitoring/stop conditions; baseline-establishment release/window; and review/replace action. Unknown mandatory bounds or unsupported severe-harm decisions block release rather than justify a provisional target.
+
+Before qualification execute an authorized pilot where necessary to assess feasibility, but do not choose the target after inspecting held-out qualification outcomes. Separate exploration data from qualification data. If a target changes, version it and re-plan/re-execute affected qualification; preserve failed results.
+
+Release N establishes an observed baseline in a declared window, with denominators and environment/cohort limits. Review target suitability at that date or earlier on incidents/drift; replace or reaffirm with source-backed approval. Expired or out-of-scope targets cannot support a gate. An observed provisional-target pass is still limited to the declared metric/population; it does not certify total quality.

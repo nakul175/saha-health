@@ -1,0 +1,13 @@
+# Normalized traceability and coverage
+Canonical chain: vision → strategy → roadmap → release goal → operating release → epic → story → AC → technical task → case → execution → defect → decision. Preserve existing canonical IDs. Strategy and release goal are planning concepts; an operating release identifies the deployable candidate. Nonfunctional requirements may attach at release/epic level with an explicit AC/oracle; no fictional story is required.
+
+`ac-register.csv` is the denominator: one row per in-scope AC/version, including unmapped requirements. `case-register.csv` defines cases. `traceability.csv` contains AC-to-case links only, with a `required` YES/NO flag. `run-register.csv` holds immutable executions only. `coverage-selection.csv` chooses a qualification run for each mapping in `scope.json`. Missing selection derives NOT_RUN. No run/result/evidence belongs in traceability rows.
+
+Planned coverage = applicable ACs with at least one required mapping / applicable ACs. Validated coverage = applicable ACs with at least one required mapping and every required mapping having selected PASS/CURRENT evidence matching the snapshot / applicable ACs. UNKNOWN applicability remains in the denominator conservatively and never validates; NO is excluded only with rationale/source/review. Zero denominator gives null, not 100%. Report partial coverage and unknown applicability separately.
+
+Six case-result counts count selected required **mappings**, not unique code tests or historical run rows; a shared case mapped to two ACs counts twice, explicitly. Required completion counts current executed PASS/FAIL mappings / required mappings; current PASS counts / required mappings is separately reported. Historical execution counts include all qualification run rows and are labeled separately. A required NOT_APPLICABLE needs a reviewed requirement/mapping update or exception and never silently validates a YES AC. STALE/UNASSESSED are separate freshness counts; they cannot validate ACs even if raw result is PASS.
+
+The checker prints exact numerators/denominators and structural errors. Scope freeze and completeness of the supplied AC population require human/source review; the checker cannot discover omitted requirements.
+
+## v1.2 denominator integrity
+Release mode now matches the AC inventory to an independently reviewed canonical criteria export with pinned count, identity/version-set hash and exact source-byte hash. See CRITERIA-SOURCE-PINNING.md. This detects omission from the QA register while retaining the external trust boundary for PM source completeness and approval.

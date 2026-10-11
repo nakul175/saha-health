@@ -1,0 +1,5 @@
+event_id,defect_id,previous_event_id,severity,priority,status,case_id,run_id,build_sha,owner,details_ref,fix_pr,retest_run,close_evidence,severity_change_rationale,severity_review_ref
+EV-DEMO-01,BUG-DEMO-01,,D4,P0,OPEN,TC-DEMO-02,RUN-DEMO-FAIL,demo-original-sha,FICTIONAL-OWNER,RECORDS.md#defect,,,,,
+EV-DEMO-02,BUG-DEMO-01,EV-DEMO-01,D4,P0,FIXED,TC-DEMO-02,RUN-DEMO-FAIL,demo-fixed-sha,FICTIONAL-OWNER,RECORDS.md#defect,FICTIONAL-PR-01,,,,
+EV-DEMO-03,BUG-DEMO-01,EV-DEMO-02,D4,P0,CLOSED,TC-DEMO-02,RUN-DEMO-FAIL,demo-fixed-sha,FICTIONAL-OWNER,RECORDS.md#defect,FICTIONAL-PR-01,RUN-DEMO-RETEST,RECORDS.md#defect,,
+EV-DEMO-04,BUG-DEMO-02,,D2,P2,OPEN,TC-DEMO-06,RUN-DEMO-MEDIUM,demo-fixed-sha,FICTIONAL-OWNER,RECORDS.md#defect,,,,,

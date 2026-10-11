@@ -1,0 +1,70 @@
+test_alias_is_not_canonical_field (test_pm_mapping.MappingTests) ... ok
+test_alias_target_must_exist (test_pm_mapping.MappingTests) ... ok
+test_every_mapping_is_a_real_field (test_pm_mapping.MappingTests) ... ok
+test_hash_mismatch_rejected (test_pm_mapping.MappingTests) ... ok
+test_stage_prefix_is_not_a_field (test_pm_mapping.MappingTests) ... ok
+test_unknown_gate_prefix_rejected (test_pm_mapping.MappingTests) ... ok
+test_absolute_cli_override_rejected_by_default (test_qa_lint.CheckerTests) ... ok
+test_absolute_evidence_root_rejected_by_default (test_qa_lint.CheckerTests) ... ok
+test_absolute_reference_rejected_even_inside_store (test_qa_lint.CheckerTests) ... ok
+test_applicability_cannot_be_removed_silently (test_qa_lint.CheckerTests) ... ok
+test_auto_locator_marker (test_qa_lint.CheckerTests) ... ok
+test_broken_evidence (test_qa_lint.CheckerTests) ... ok
+test_changed_source_snapshot_rejected (test_qa_lint.CheckerTests) ... ok
+test_cli_style_evidence_override (test_qa_lint.CheckerTests) ... ok
+test_csv_utf8_bom_accepted (test_qa_lint.CheckerTests) ... ok
+test_defect_case_change_cannot_redirect_retest (test_qa_lint.CheckerTests) ... ok
+test_defect_cycle (test_qa_lint.CheckerTests) ... ok
+test_demo_metrics (test_qa_lint.CheckerTests) ... ok
+test_diagnostic_selected (test_qa_lint.CheckerTests) ... ok
+test_duplicate_mapping (test_qa_lint.CheckerTests) ... ok
+test_duplicate_run (test_qa_lint.CheckerTests) ... ok
+test_empty_plan_has_null_ratios_and_release_block (test_qa_lint.CheckerTests) ... FAIL
+test_expired_exception (test_qa_lint.CheckerTests) ... ok
+test_failed_closure (test_qa_lint.CheckerTests) ... ok
+test_in_store_relative_reference_still_passes (test_qa_lint.CheckerTests) ... ok
+test_invalid_status (test_qa_lint.CheckerTests) ... ok
+test_lowercase_freshness (test_qa_lint.CheckerTests) ... ok
+test_malformed_csv (test_qa_lint.CheckerTests) ... ok
+test_missing_artifact (test_qa_lint.CheckerTests) ... ok
+test_missing_ref_error_prints_absolute_path (test_qa_lint.CheckerTests) ... ok
+test_na_required_not_pass (test_qa_lint.CheckerTests) ... ok
+test_no_without_review (test_qa_lint.CheckerTests) ... ok
+test_omitted_ac_fails_release_source_pin (test_qa_lint.CheckerTests) ... ok
+test_package_anchor_escape_rejected (test_qa_lint.CheckerTests) ... ok
+test_package_anchored_evidence_root (test_qa_lint.CheckerTests) ... ok
+test_registers_relocate_with_evidence_root (test_qa_lint.CheckerTests) ... ok
+test_release_current_all_pass_records (test_qa_lint.CheckerTests) ... ok
+test_release_rejects_failed_required_even_with_exception (test_qa_lint.CheckerTests) ... ok
+test_replace_ac_same_count_fails_hash (test_qa_lint.CheckerTests) ... ok
+test_repo_anchor_escape_rejected (test_qa_lint.CheckerTests) ... ok
+test_retest_wrong_closed_build_rejected (test_qa_lint.CheckerTests) ... ok
+test_reviewed_severity_downgrade_record_allowed (test_qa_lint.CheckerTests) ... ok
+test_risk_override (test_qa_lint.CheckerTests) ... ok
+test_severity_downgrade_unreviewed_blocks (test_qa_lint.CheckerTests) ... ok
+test_severity_review_without_rationale_blocks (test_qa_lint.CheckerTests) ... ok
+test_source_snapshot_escape_rejected (test_qa_lint.CheckerTests) ... ok
+test_stale_pass_does_not_validate (test_qa_lint.CheckerTests) ... ok
+test_symlink_escape_rejected (test_qa_lint.CheckerTests) ... ok
+test_timestamp_timezone (test_qa_lint.CheckerTests) ... ok
+test_traversal_reference_rejected (test_qa_lint.CheckerTests) ... ok
+test_unknown_ac (test_qa_lint.CheckerTests) ... ok
+test_unknown_applicability (test_qa_lint.CheckerTests) ... ok
+test_unknown_expected_population_blocks_release (test_qa_lint.CheckerTests) ... ok
+test_unmapped_ac_stays_denominator (test_qa_lint.CheckerTests) ... ok
+test_unrelated_passing_retest_rejected (test_qa_lint.CheckerTests) ... ok
+test_windows_absolute_reference_rejected (test_qa_lint.CheckerTests) ... ok
+test_wrong_selected_build (test_qa_lint.CheckerTests) ... ok
+
+======================================================================
+FAIL: test_empty_plan_has_null_ratios_and_release_block (test_qa_lint.CheckerTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-qa-adoption-20261011/docs/qa/checker/tests/test_qa_lint.py", line 30, in test_empty_plan_has_null_ratios_and_release_block
+    r=assess(PACKAGE/'registers');self.assertFalse(r['errors']);self.assertIsNone(r['planned_coverage']['ratio'])
+AssertionError: 1.0 is not None
+
+----------------------------------------------------------------------
+Ran 57 tests in 0.234s
+
+FAILED (failures=1)

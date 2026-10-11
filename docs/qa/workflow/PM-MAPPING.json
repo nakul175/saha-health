@@ -1,0 +1,69 @@
+{
+  "mapping_version": "1.2",
+  "reference_framework": "Generic product management quality framework",
+  "reference_edition": "3.0-generic",
+  "catalogue_sha256": "cec6bc14f5976dd7e1a48ba9f224e18b1258abb08ed0479a7f080b2dc6245456",
+  "reference_only_not_input_schema": true,
+  "hierarchy": {
+    "vision": "canonical vision",
+    "strategy": "canonical strategy",
+    "roadmap": "canonical roadmap",
+    "release_goal": "canonical release_goal",
+    "release": "operating candidate/artifact linked to release_goal",
+    "epic": "canonical epic",
+    "story": "canonical user_story",
+    "AC": "canonical acceptance_criterion",
+    "task": "canonical technical_task"
+  },
+  "verified_catalogue_field_ids": [
+    "acceptance_criterion.actual_execution",
+    "acceptance_criterion.ai_evaluation_measurement",
+    "acceptance_criterion.approval_state",
+    "acceptance_criterion.evaluation_method",
+    "acceptance_criterion.expected_evidence",
+    "acceptance_criterion.gap_resume",
+    "acceptance_criterion.given",
+    "acceptance_criterion.identity_owner",
+    "acceptance_criterion.measurement",
+    "acceptance_criterion.observed_evidence",
+    "acceptance_criterion.prohibited_effects",
+    "acceptance_criterion.scenario_kind",
+    "acceptance_criterion.source_provenance",
+    "acceptance_criterion.then",
+    "acceptance_criterion.when",
+    "common.ai_assurance_reference",
+    "common.context_profile",
+    "common.traceability",
+    "release_goal.ai_release_controls",
+    "release_goal.final_tests_review",
+    "release_goal.post_release_review",
+    "user_story.ai_acceptance_contract",
+    "user_story.evaluation_mapping"
+  ],
+  "bindings": {
+    "team_readiness_completion": "Link authoritative shared checklist IDs/versions/hashes from product context; do not create competing checklists",
+    "ai_assurance": "Link canonical AI assurance; QA eval records provide stage-specific evidence, not new product authority",
+    "release_checks": "Bind QA plan/runs/readiness/learning evidence to applicable release_goal gates",
+    "acceptance": "AC register pins canonical acceptance_criterion ID/version/source; QA test expected outcomes must agree"
+  },
+  "adoption": "Configure actual canonical locators and field bindings for the installed PM edition. Newer v4.x compatibility is not verified; review differences before adopting.",
+  "legacy_field_aliases": {
+    "acceptance_criterion.fixture_method": "acceptance_criterion.evaluation_method",
+    "user_story.fixtures_testmap": "user_story.evaluation_mapping"
+  },
+  "stage_gate_prefixes": [
+    "gate.acceptance_criterion.delivery.",
+    "gate.acceptance_criterion.discovery.",
+    "gate.acceptance_criterion.learning.",
+    "gate.acceptance_criterion.planning.",
+    "gate.acceptance_criterion.ready."
+  ],
+  "nonfield_stage_labels": [
+    "acceptance_criterion.delivery",
+    "acceptance_criterion.discovery",
+    "acceptance_criterion.learning",
+    "acceptance_criterion.planning",
+    "acceptance_criterion.ready"
+  ],
+  "validation": "Each field is checked against catalogue.fields[*].id. Aliases and gate prefixes are separate; validate the installed full catalogue using checker/check_pm_mapping.py --catalogue PATH."
+}

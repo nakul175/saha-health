@@ -1,0 +1,51 @@
+{
+  "mode": "RELEASE_RECORD_GATE",
+  "errors": [
+    "release scope: missing artifact_digest",
+    "release scope: missing config_version",
+    "release scope: missing data_version",
+    "release: unknown applicability",
+    "release: incomplete validated AC coverage",
+    "release: required mapping not PASS/CURRENT"
+  ],
+  "warnings": [],
+  "counts_unit": "selected required AC-to-case mappings (not unique tests)",
+  "result_counts": {
+    "PASS": 0,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 447,
+    "SKIPPED": 0,
+    "NOT_APPLICABLE": 0
+  },
+  "freshness_counts": {
+    "CURRENT": 0,
+    "STALE": 0,
+    "UNASSESSED": 447
+  },
+  "historical_qualification_counts": {},
+  "selected_unique_runs": 0,
+  "unknown_applicability": 271,
+  "planned_coverage": {
+    "numerator": 271,
+    "denominator": 271,
+    "ratio": 1.0
+  },
+  "validated_coverage": {
+    "numerator": 0,
+    "denominator": 271,
+    "ratio": 0.0
+  },
+  "required_completion": {
+    "numerator": 0,
+    "denominator": 447,
+    "ratio": 0.0
+  },
+  "selected_pass_rate": {
+    "numerator": 0,
+    "denominator": 0,
+    "ratio": null
+  },
+  "resolved_evidence_root": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-qa-adoption-20261011/docs/qa",
+  "disclaimer": "Offline structural/coverage check only. Does not authenticate evidence, verify omitted ACs, approvals, numeric thresholds or complete release readiness."
+}
