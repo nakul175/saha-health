@@ -11,3 +11,9 @@ An additional isolated existing-platform CI job builds this exact source and run
 The original fixed1000/path reference/degraded measurement continues on unchangedbf73 source in a separate checkout. Those results do not automatically qualify this changed source. Required final source/evidence review and original A9/A10/live delivery gate remain open. No next feature story or new Done/mainmerge/hosting claim.
 
 Current source integrity1804 and generated-UAT tooling63/0/0 pass (guarded3/no quarantine). New evidence digest omission was caught by the checker and corrected with actual report hashes, no exception. Build/backend load/fullCI remain pending.
+
+## Real load and browser qualification follow-up
+
+Exact cf311f7 hosted run38131008154 built the actual Worker, passed60 contract checks and the original400-slot load15/0 guarded minimum13. Slot400/400, zero transport/slot/audit failures; two safe report409 refreshed by the existing load client, no report exhaustion. This is bounded single-instance synthetic load, not whole release acceptance.
+
+CompleteCI failed: checks browser216/244 timed out after20minutes at the local vault evaluation; regressions also aborted the unchanged device64 fixture. Failed browser output is retained. Current named browser driver preserves every244 oracle and1000durable transaction samples, uses individually selected native Miniflare launcher with optional assets-first routing, and adds progress observations before module/key work and every100 completed transactions outside timing. Original driver and runtime vault are unchanged. Root cause and actual new-head browser qualification remain pending; no timeout/minimum/speed threshold lowered.
