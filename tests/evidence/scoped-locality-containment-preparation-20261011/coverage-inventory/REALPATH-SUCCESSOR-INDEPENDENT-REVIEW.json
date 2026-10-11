@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T17:25:30.296026+00:00",
+  "reviewer": "Independent telemetry_review subagent",
+  "scope": "Read-only finite review of only the frozen two-file realpath package-anchor successor and actual retained donor installed-package resolution. No executable, process, runtime, constructor, build, dependency install, D1, browser or network was invoked by this reviewer.",
+  "status": "No material defect found in the sole anchor/import delta. Historical lexical package-resolution defect is closed for the observed donor package-loading scope. Advisory source/association review only; native/CI/human/full-parent qualification remains separate.",
+  "pins": {
+    "successorFreeze": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-realpath-successor/REALPATH-SOURCE-FREEZE.json",
+      "sha256": "8ee61ed4e9fe4100c3da5bc8b8ad050969f207a6643368280e2f9146a21d0c4d",
+      "bytes": 1277
+    },
+    "predecessorFreezeSha256": "9959593ed42b2c645a5981696547eb49e509c3a59d3ecb128f1b2e2fdfd136b6",
+    "exactPatch": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-realpath-successor/REALPATH-ONLY.patch",
+      "sha256": "d58e65583bd76965a1d63ae1051226a2998267a9d6cb6e6272906033a129ec57",
+      "bytes": 2137,
+      "recomputedUnifiedDiffByteExact": true
+    },
+    "source": {
+      "tests/lib/scoped-locality-native-runtime.mjs": {
+        "beforeSha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+        "afterSha256": "88bd5f1cf327ad67caa472bfb30610d7224d8cc54b8117738650479fe332a608",
+        "bytes": 8386,
+        "beforeCopyExactHistorical9959GitObject": true,
+        "successorCopyExactCurrentCheckout": true,
+        "soleExpectedTextReplacements": true
+      },
+      "scripts/scoped-locality-runner.mjs": {
+        "beforeSha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+        "afterSha256": "4c48e07ddbec2499762706cd511604cffb767e6ddc33f77362b9d536c8f61529",
+        "bytes": 9614,
+        "beforeCopyExactHistorical9959GitObject": true,
+        "successorCopyExactCurrentCheckout": true,
+        "soleExpectedTextReplacements": true
+      }
+    },
+    "actualPreflight": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-realpath-successor/PACKAGE-RESOLUTION-PREFLIGHT.json",
+      "sha256": "26bc26461f0428a7b27179e8fdd2a921ac1970320a7557a1d60ead26f4bd1fdd",
+      "bytes": 3396
+    },
+    "preflightProducerSource": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-realpath-successor/package-resolution-preflight.mjs",
+      "sha256": "a240f4f9b26fea3a2368a49b93a8ddecfed715d383faf86adfc5cc8e854cd5a1",
+      "bytes": 3036
+    },
+    "historicalStagedReview": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/STAGED-FINAL-DIFF-INDEPENDENT-REVIEW.json",
+      "sha256": "e559185b768726c850236c278e586ff211f6a153f720939238f91584cb9c3bf1"
+    },
+    "pnpmLock": {
+      "path": "pnpm-lock.yaml",
+      "sha256": "0041e61a9783811cc34c5261f815bbe6ca7337348e62c9f7f17b43880c5fae71",
+      "exactMain": true
+    }
+  },
+  "reviewFindings": [
+    {
+      "id": "REALPATH-01",
+      "status": "Closed in source and observed donor loading; native proof held",
+      "files": [
+        {
+          "path": "tests/lib/scoped-locality-native-runtime.mjs",
+          "line": 65
+        },
+        {
+          "path": "scripts/scoped-locality-runner.mjs",
+          "line": 18
+        },
+        {
+          "path": "tests/lib/scoped-locality-native-runtime.mjs",
+          "line": 6
+        }
+      ],
+      "cause": "The old createRequire anchor preserved the lexical top-level Wrangler symlink path. pnpm nested dependencies are siblings of the real Wrangler directory. The retained actual lexical test fails while the physical anchor resolves the packages.",
+      "repair": "Resolve the actual installed Wrangler package.json symlink once before creating the require function. Both metadata resolution and native Miniflare loading use the same physical anchor. Native fs import adds realpathSync; runner already imports it.",
+      "precision": "This does not search for a pnpm-store candidate or choose a new library version. It uses the installed Wrangler dependency context. Missing package/symlink still throws and fails setup instead of synthesizing a reusable native success.",
+      "newMaterialSourceDefectObserved": false
+    }
+  ],
+  "exactDeltaBoundaries": {
+    "files": 2,
+    "changes": 3,
+    "nativeLine6": "Only import realpathSync added",
+    "nativeLine65": "Only realpathSync wrapping original anchor",
+    "runnerLine18": "Only realpathSync wrapping original anchor",
+    "migrationStartupReadinessDisposal": "Byte-exact to9959",
+    "nativeOptionalBindingsAndOutboundService": "Byte-exact to authorized revision2",
+    "runnerBuildSourceResultCustody": "Byte-exact apart from package anchor",
+    "containmentHelper": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e unchanged",
+    "GEOChildFileSha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+    "eightGEOBodiesSha256": "214aff099d25ff3f9a41b759a62b4d9b5f145e8b1b3dd96ae40874fec21c8666",
+    "eightOraclesChanged": false
+  },
+  "observedDonorResolution": {
+    "node": {
+      "executable": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "version": "v24.19.0"
+    },
+    "lexicalAnchor": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/wrangler/package.json",
+    "physicalAnchor": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/wrangler@4.92.0_@cloudflare+workers-types@4.20260515.1_@types+node@22.19.19/node_modules/wrangler/package.json",
+    "currentSymlinkRealpathMatchesCaptured": true,
+    "oldLexicalOutcome": {
+      "unexpectedlyResolved": false,
+      "code": "MODULE_NOT_FOUND",
+      "message": "Cannot find module 'miniflare'\nRequire stack:\n- /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/wrangler/package.json"
+    },
+    "fixedOutcome": {
+      "resolutionSucceeded": true,
+      "miniflareExportType": "function",
+      "sourceBeforeAfterExact": true
+    },
+    "actualPackages": {
+      "wrangler": {
+        "name": "wrangler",
+        "version": "4.92.0",
+        "packageJson": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/wrangler@4.92.0_@cloudflare+workers-types@4.20260515.1_@types+node@22.19.19/node_modules/wrangler/package.json",
+        "packageJsonSha256": "b659402d435053012c1843c226a701964abbeb4ce8a9a560d57c5be0ced4916d",
+        "independentlyReadCurrentPackageJsonHashMatches": true,
+        "engines": {
+          "node": ">=22.0.0"
+        }
+      },
+      "miniflare": {
+        "name": "miniflare",
+        "version": "4.20260515.0",
+        "packageJson": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/package.json",
+        "packageJsonSha256": "c3b5ee81d42c56d71e1fd448b134d38ee2d7e14f6418f1ab26d0cba400e163b2",
+        "independentlyReadCurrentPackageJsonHashMatches": true,
+        "engines": {
+          "node": ">=22.0.0"
+        }
+      },
+      "workerd": {
+        "name": "workerd",
+        "version": "1.20260515.1",
+        "packageJson": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/package.json",
+        "packageJsonSha256": "db07f3fbd0cb0f43a9502f22aede4f96170469287066788d98a5e555a562431b",
+        "independentlyReadCurrentPackageJsonHashMatches": true,
+        "engines": {
+          "node": ">=16"
+        }
+      }
+    },
+    "WranglerPhysicalSiblingBindings": {
+      "miniflare": {
+        "WranglerDeclaredExactDependency": "4.20260515.0",
+        "physicalSiblingResolvesToObservedPackage": true,
+        "resolved": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare"
+      },
+      "workerd": {
+        "WranglerDeclaredExactDependency": "1.20260515.1",
+        "physicalSiblingResolvesToObservedPackage": true,
+        "resolved": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd"
+      }
+    },
+    "miniflareEntry": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js",
+      "sha256": "9584409d464f6c21d720b20da3c5dc6e5bdab0393f9cb19b36cb960beaf0958b",
+      "independentlyReadCurrentEntryHashMatches": true
+    }
+  },
+  "producerSemantics": {
+    "scriptLines": {
+      "lexicalNegativeAttempt": {
+        "first": 22,
+        "last": 27
+      },
+      "physicalPackageReads": {
+        "first": 28,
+        "last": 35
+      },
+      "MiniflareModuleLoadOnly": {
+        "first": 36,
+        "last": 39
+      },
+      "packageAndSourceStability": {
+        "first": 40,
+        "last": 42
+      },
+      "exclusiveOutput": 45
+    },
+    "actualRequireModuleLoadingObserved": true,
+    "MiniflareInstancesConstructed": 0,
+    "WorkerStarted": false,
+    "buildStarted": false,
+    "portBound": false,
+    "D1StateCreated": false,
+    "limits": "The script records actual package versions and export type. It rechecks package JSON and two source hashes. It hashes the Miniflare entry once; it does not prove the complete transitive module tree/workerd binary, immutable installed bytes throughout a future run or supply-chain classification."
+  },
+  "remaining": {
+    "newStagedSuccessorReview": "Assigned separately against705a freeze; this receipt covers only anchor/source/donor resolution.",
+    "controlledLauncherResults": "Separate actual24-control c8f556 report is retained; no Miniflare constructor/native oracle is executed by that control suite.",
+    "CI": "Donor Nodev24.19.0/package loading is not proof of fresh CI Node22 install. Actual exact-head clean-checkout build/native CI remains required.",
+    "nativeGroupsDeclared": 8,
+    "nativeGroupsQualifiedByThisReview": 0,
+    "formalCasesQualified": 0,
+    "parentBRID02Acceptance": false,
+    "humanApproval": false,
+    "releaseApproval": false,
+    "rootReuse": "The two-file package-anchor repair is suitable for bounded root reuse within its already authorized synthetic/exclusive allocation, subject to the separate real runtime/build/source custody evidence."
+  },
+  "inputStabilityAtReceipt": {
+    "currentTwoSourcesEqualFrozenCopies": true,
+    "sourceFreezeUnchanged": true,
+    "packageReceiptUnchanged": true
+  },
+  "sourceAndIndexModifiedByReviewer": false
+}

@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-10-11T17:22:21.950746+00:00",
+  "status": "Actual changed artifact final checks; earlier raw patch whitespace observation preserved",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check-documentation.py"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"status\": \"passed\",\n  \"scope\": \"Documentation integrity against the current baseline (application-scoped-locality-realpath-preparation-20261011-sha256.json); not product execution or formal acceptance\",\n  \"baselineSourceFiles\": 1787,\n  \"originalFiles\": 91,\n  \"originalArchiveEntries\": 89,\n  \"unchangedOfficeFiles\": 12,\n  \"requirements\": 176,\n  \"preservedTestCases\": 364,\n  \"historicalProductAssertions\": 1284,\n  \"sliceEvidenceAssertions\": 844773,\n  \"currentRelativeLinks\": 893,\n  \"generatedFiles\": 38,\n  \"wordReferences\": 10,\n  \"workbookSheets\": 13,\n  \"workbookFormulas\": 380,\n  \"formalAccepted\": 0,\n  \"testCases\": 364,\n  \"formalCatalogueCasesRun\": 0,\n  \"httpRoutes\": 97,\n  \"commandDiscriminators\": 253,\n  \"applicationTables\": 60,\n  \"sqlColumns\": 475,\n  \"designScreens\": 22,\n  \"currentNavigationEntries\": 14,\n  \"historicalAssertions\": 1284,\n  \"migrationFiles\": 33,\n  \"prototypeScriptPreserved\": true\n}\n",
+      "stderr": ""
+    }
+  ],
+  "allExitZero": true,
+  "unchangedPreviousStaticResults": "STATIC-CHECKS.json: all seven syntax, requirements and catalogue checks passed; only raw patch context whitespace originally failed",
+  "scope": "Source/docs only, no build/native/runtime/formal approval"
+}

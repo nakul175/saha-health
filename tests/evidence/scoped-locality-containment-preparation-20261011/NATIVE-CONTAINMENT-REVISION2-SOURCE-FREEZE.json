@@ -1,0 +1,127 @@
+{
+  "recordedAt": "2026-10-11T17:08:10.173627+00:00",
+  "revision": 2,
+  "status": "Frozen source-only preparation plus actual lightweight controls; native eight-group execution remains unexecuted",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "branch": "test/scoped-permissions-matrix-20261011",
+  "ownedCheckout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011",
+  "sourcePins": {
+    "tests/lib/scoped-locality-containment.mjs": {
+      "sha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+      "bytes": 14066
+    },
+    "tests/lib/scoped-locality-native-runtime.mjs": {
+      "sha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+      "bytes": 8358
+    },
+    "scripts/scoped-locality-runner.mjs": {
+      "sha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+      "bytes": 9600
+    },
+    "tests/integration/scoped-locality-policy-http.mjs": {
+      "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+      "bytes": 20942
+    },
+    "tests/scoped-locality-containment-contract.mjs": {
+      "sha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+      "bytes": 14512
+    },
+    "tests/scoped-locality-native-current.mjs": {
+      "sha256": "85d09c10b94fa525e19466ba577673b718f7cd909d2c503343028b3f1b8fa4d7",
+      "bytes": 189
+    },
+    "scripts/test-catalogue.mjs": {
+      "sha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+      "bytes": 95518
+    },
+    ".github/workflows/scoped-permission-checks.yml": {
+      "sha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+      "bytes": 1070
+    },
+    "docs/current/saha-011/SPECIFICATION.md": {
+      "sha256": "c0161938358f6ceac329e6d14f8bcfc56709a89e024442272bf33e54dc3fd991",
+      "bytes": 8888
+    },
+    "docs/current/saha-011/POLICY-AXIS-MATRIX.json": {
+      "sha256": "65a0301815e24eb0ff1e22d95e9967de3c31e69eecf47f07d7411a13115302f9",
+      "bytes": 33333
+    }
+  },
+  "nativeAPI": {
+    "path": "tests/lib/scoped-locality-native-runtime.mjs",
+    "factory": "ownedLocalityRuntime({state,port,evidence,bindings={},outboundService})",
+    "synchronousReturn": [
+      "base",
+      "lifecycle",
+      "start()",
+      "stop()",
+      "output()",
+      "mf getter after ready before disposal"
+    ],
+    "D1": "after await start(): await fixture.mf.getD1Database('DB'); the actual same Miniflare runtime/database, no mock",
+    "deadlineMs": {
+      "migration": 60000,
+      "readiness": 30000,
+      "disposal": 10000,
+      "canonicalBuild": 240000,
+      "wholeNativeDriver": 210000,
+      "completeHTTPBody": 30000
+    },
+    "groupPrecondition": "Native caller must be launched as its own registered detached process-group leader by the reviewed outer CLI; migration inspects this group before starting Miniflare. No direct uncontained import execution.",
+    "state": "initially absent; retained, never reused/deleted",
+    "disposal": "lifecycle.disposed true only after completed dispose or no constructed runtime; successful qualification also requires ready, migration, no surviving migration child and final outer actual owned-group empty observation",
+    "observer": "separate bounded ps process group, exact observer PID/status retained; no name-based filtering",
+    "optionalBindings": "Forwarded unchanged to actual Miniflare; caller may preserve explicit reviewed SAHA_IDENTITY_PROVIDER=sites-chatgpt, SAHA_ENVIRONMENT=synthetic, SAHA_EXTERNAL_APIS_ENABLED=false; no new provider enabled.",
+    "optionalOutboundService": "Existing Miniflare outboundService option only when supplied; caller-owned actual outbound refusal/counter adapter, not a fake application backend."
+  },
+  "controls": {
+    "result": "CONTAINMENT-CONTROLS-REVISION2-RESULT.json",
+    "sha256": "b4da09c57d82ce99518a5ff3b476807a10350023161012c35e64d7c442acad46",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "actualChildAttempts": 15,
+    "evidence": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence",
+    "processReceiptsSha256": "10d7e7517e8fa1552abfc5f9b3d17ab98a80ea26def844b58c46aa6938f0702f",
+    "inputsUnchanged": true,
+    "applicationRuntimeStarted": false
+  },
+  "originalEightGroups": {
+    "unchanged": true,
+    "exactBodySha256": "214aff099d25ff3f9a41b759a62b4d9b5f145e8b1b3dd96ae40874fec21c8666"
+  },
+  "originalBaseline": {
+    "suites": 374,
+    "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+    "unchanged": true
+  },
+  "held": [
+    "No build/install/Worker/browser/native D1/policy scenarios executed.",
+    "No commit/push/source copy into other execution checkouts until root frozen review.",
+    "Mandatory documentation source-baseline check presently reports only changed scripts/test-catalogue.mjs; normal derived baseline update remains pending reviewed publication.",
+    "A late loss of process-observation permission leaves cleanup failed/unverified, requiring separately revalidated current ownership; no blind stale-group signal.",
+    "Abrupt SIGKILL of supervisor cannot execute JavaScript cleanup and is outside successful disposal proof.",
+    "Full BR-ID-02/TC-BR-ID-02-A/B and parent SAHA-011 remain unqualified."
+  ],
+  "newDeliveredStories": 0,
+  "previousFreeze": {
+    "path": "NATIVE-CONTAINMENT-SOURCE-FREEZE.json",
+    "sha256": "1da46760db2ad91217de664c988fec4869b3c3fd92271c555a3a2543caf4a821",
+    "preservedByteExact": true
+  },
+  "revisionDelta": {
+    "changedFiles": [
+      "tests/lib/scoped-locality-native-runtime.mjs"
+    ],
+    "onlyChange": "Root-authorized additive optional bindings={} and outboundService factory params forwarded to actual Miniflare; unchanged default locality configuration and all eight oracles.",
+    "patch": "native-containment-revision2/ADDITIVE-OPTIONS.patch",
+    "patchSha256": "4933bc45751c58eaa4ad952aea4eb8b139cd934f6d5ee96fba7afb475f3830d5",
+    "nativeExecutionClaim": false
+  },
+  "changedSourceSyntaxCheck": {
+    "command": "node --check tests/lib/scoped-locality-native-runtime.mjs",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

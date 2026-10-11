@@ -168,3 +168,18 @@ Cloudflare account settings, Access policy and the `CLOUDFLARE_API_TOKEN` secret
 ## Eight independent frontline apps (3 October 2026)
 
 The owner-private Sites demonstration now has eight independent speech/OCR workflow providers and Saha integration. Read [scope and evidence](docs/current/FRONTLINE-EIGHT-APPS.md). Merged into `main` on 3 October 2026 at the sponsor's instruction (#145), after an agent review whose medium findings M1 and M3 were fixed; the runtime CDN import of the inference libraries without an integrity check remained open after the merge (slice 13b, on a branch, isolates it in a sandboxed frame and checks receipts against what was sent). Four method/route handlers added; no certified command or migration. Synthetic-only; clinical use disabled; hosted staging cannot reach the providers.
+
+
+## APL-194 test-only preparation on main7668 — 11 October 2026
+
+[Scoped-permission specification](docs/current/saha-011/SPECIFICATION.md) and [policy-axis matrix](docs/current/saha-011/POLICY-AXIS-MATRIX.json) preserve the current BR-ID-02 contract and distinguish supported policy decisions from remaining institutional/directory/full-action gaps. The new owned native runner is source-prepared; eight locality policy groups remain unexecuted. Its local containment controls passed 24/24 (15 attempt records, 13 actual PID records), with failures/history and exact evidence retained in [EVIDENCE.json](tests/evidence/scoped-locality-containment-preparation-20261011/EVIDENCE.json). This does not advance a formal acceptance case or delivered-story count.
+
+Next: independently review the staged test-only diff and actual static-check receipts, then allocate a fresh exclusive build/native lane before running the guarded entry. Use a fresh checkout without `dist`, fresh explicit port/state/evidence, the reviewed allocation latch, and the real canonical build. Do not reuse a previous build association, database or successful result. A changed application/store requires an explicit reviewed source rebind; these main7668 plans do not automatically qualify an unmerged routine candidate. Existing D02/history/legacy and original delivery gates remain authoritative.
+
+### Package-resolution correction — historical scope retained
+
+Actual root-installed-package preflight exposed a lexical Wrangler-path resolution failure before native startup. The two test-only `createRequire` anchors now use the real installed Wrangler package path. Exact old source, failed lookup, corrected package identities and source-bound 24/0/0 launcher controls are retained in [current evidence](tests/evidence/scoped-locality-containment-preparation-20261011/EVIDENCE.json). This starts no application, build, Worker, browser, port or D1. Earlier source-only reviews remain historical; native cases are still 0/8 and formal acceptance/delivered stories remain unchanged. Independent successor source review and a separate root lane are required before native execution.
+
+### Complete Git metadata bounds
+
+The primary repository filename stream exceeded Node’s default 1 MiB subprocess limit. All five test-only source-custody Git reads now use explicit 16 MiB/20-second/SIGKILL bounds without filtering names. Real overflow and full 16,842-name output evidence, exact metadata helper extraction, actual error output and source-bound 24/0/0 launcher controls are retained in [current evidence](tests/evidence/scoped-locality-containment-preparation-20261011/EVIDENCE.json). Prior705a source remains historical; current source requires independent review. No build, Worker, browser, D1, CI/formal acceptance or delivery is claimed; native scenarios remain 0/8.

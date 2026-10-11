@@ -1,0 +1,140 @@
+{
+  "recordedAt": "2026-10-11T17:14:14.023522+00:00",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "scope": "Actual static checks only. No native/app build or acceptance.",
+  "commands": [
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check-documentation.py"
+      ],
+      "exitCode": 0,
+      "stdout": "{\n  \"status\": \"passed\",\n  \"scope\": \"Documentation integrity against the current baseline (application-scoped-locality-test-preparation-20261011-sha256.json); not product execution or formal acceptance\",\n  \"baselineSourceFiles\": 1787,\n  \"originalFiles\": 91,\n  \"originalArchiveEntries\": 89,\n  \"unchangedOfficeFiles\": 12,\n  \"requirements\": 176,\n  \"preservedTestCases\": 364,\n  \"historicalProductAssertions\": 1284,\n  \"sliceEvidenceAssertions\": 844773,\n  \"currentRelativeLinks\": 893,\n  \"generatedFiles\": 38,\n  \"wordReferences\": 10,\n  \"workbookSheets\": 13,\n  \"workbookFormulas\": 380,\n  \"formalAccepted\": 0,\n  \"testCases\": 364,\n  \"formalCatalogueCasesRun\": 0,\n  \"httpRoutes\": 97,\n  \"commandDiscriminators\": 253,\n  \"applicationTables\": 60,\n  \"sqlColumns\": 475,\n  \"designScreens\": 22,\n  \"currentNavigationEntries\": 14,\n  \"historicalAssertions\": 1284,\n  \"migrationFiles\": 33,\n  \"prototypeScriptPreserved\": true\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/audit-requirements.mjs",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": "176 source IDs, assessments, evidence paths and generated records verified; acceptance remains pending.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/test.mjs",
+        "--check-catalogue"
+      ],
+      "exitCode": 0,
+      "stdout": "layer        suites  components  suites citing no requirement  requirement ids cited\nunit            202           0                            62                    141\nintegration     156          84                            80                    123\nresilience        1           0                             0                      2\nsmoke             6           0                             2                      4\nui                2          12                             0                     12\nnfr               5           0                             0                     10\nuat               3           0                             3                      0\nmanual          592           0                           478                    144\n\n967 suites, 96 component modules (run through their entry), 36 support files.\n342 of 967 suites are cited by at least one requirement in requirements/evidence-map.json (625 cite none); 76 of 96 component modules are cited (20 cite none); 157 of 176 requirements cite at least one test file. A citation is evidence context, not acceptance.\n\nCatalogue check passed: every test file is classified and every *-smoke.mjs module is imported by tests/api-smoke.mjs.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/scoped-locality-containment-contract.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/lib/scoped-locality-containment.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/lib/scoped-locality-native-runtime.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "scripts/scoped-locality-runner.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/scoped-locality-native-current.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/integration/scoped-locality-policy-http.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "scripts/test-catalogue.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "totalCommands": 11,
+  "allExitZero": true,
+  "controls": {
+    "report": "CONTAINMENT-CONTROLS-PREPUBLICATION-RESULT.json",
+    "sha256": "50424220330c09c5046650e7b668b7e0eca0a5ad8eb2cdcf5e94f16d5d53efec",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "attemptRecords": 15,
+    "actualPIDRecords": 13
+  },
+  "sourceManifest": {
+    "path": "docs/verification/application-scoped-locality-test-preparation-20261011-sha256.json",
+    "sha256": "894fcc4eb674d26727c96c9dedb3b3ec6c681d342dd3f4363d7ff6b7bba32417",
+    "updaterUnchanged": true,
+    "previousManifestPreserved": true
+  },
+  "originalFormalCases": {
+    "total": 364,
+    "executed": 0,
+    "accepted": 0
+  },
+  "newDeliveredStories": 0
+}

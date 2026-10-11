@@ -1,0 +1,57 @@
+{
+  "startedAt": "2026-10-11T17:28:38.482Z",
+  "scope": "Exact extracted metadata helper plus genuine read-only Git process; not sourceCheckoutPins clean-checkout qualification or native execution",
+  "donor": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011",
+  "node": "v24.19.0",
+  "executable": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+  "helperSha256": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+  "helperLiteralSha256": "546cf6fe5f076d3870162233fc7a535c5238ccccc770eea6dc9cde102238c8e9",
+  "extraction": {
+    "beginOffset": 11103,
+    "endOffset": 11873
+  },
+  "bounds": {
+    "maxBuffer": 16777216,
+    "timeoutMs": 20000,
+    "killSignal": "SIGKILL"
+  },
+  "runtimeStarted": false,
+  "before": {
+    "unexpectedlySucceeded": false,
+    "code": "ENOBUFS",
+    "status": null,
+    "signal": "SIGTERM",
+    "message": "spawnSync git ENOBUFS",
+    "capturedStdoutBytes": 1114112,
+    "capturedStdoutSha256": "d91d4458769aebf5fd08234384893ffdc1477a9b66a6adb4f8aef48ba386a9cc",
+    "capturedStderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "after": {
+    "bytes": 1120955,
+    "filenames": 16842,
+    "uniqueFilenames": 16842,
+    "sha256": "4fe0c1dc387989624f742e5b0cecf0499b95809d6ec57e78db2719aad961f93e",
+    "independentRawGitSha256": "4fe0c1dc387989624f742e5b0cecf0499b95809d6ec57e78db2719aad961f93e",
+    "exactFullOutputMatches": true,
+    "noNamesFilteredOrOmitted": true
+  },
+  "realFailureControl": {
+    "command": [
+      "git",
+      "--git-dir=/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir",
+      "rev-parse",
+      "HEAD"
+    ],
+    "maxBuffer": 16777216,
+    "timeoutMs": 20000,
+    "killSignal": "SIGKILL",
+    "code": null,
+    "status": 128,
+    "signal": null,
+    "message": "Command failed: git --git-dir=/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir rev-parse HEAD\nfatal: not a git repository: '/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir'\n",
+    "stdout": "",
+    "stderr": "fatal: not a git repository: '/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir'\n"
+  },
+  "sourceUnchanged": true,
+  "completedAt": "2026-10-11T17:28:38.530Z"
+}

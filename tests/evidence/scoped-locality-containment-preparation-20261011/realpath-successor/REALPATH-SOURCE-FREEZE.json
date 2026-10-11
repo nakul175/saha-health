@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-10-11T17:20:13.221024+00:00",
+  "status": "Source-only successor; native application unexecuted; independent successor review pending",
+  "revision": "realpath-package-anchor-successor",
+  "predecessor": {
+    "freeze": "../STAGED-FINAL-SOURCE-FREEZE.json",
+    "sha256": "9959593ed42b2c645a5981696547eb49e509c3a59d3ecb128f1b2e2fdfd136b6",
+    "scope": "Historical source-only lifecycle/control qualification; package-resolution preflight later blocked native start"
+  },
+  "sourcePins": {
+    "tests/lib/scoped-locality-native-runtime.mjs": "88bd5f1cf327ad67caa472bfb30610d7224d8cc54b8117738650479fe332a608",
+    "scripts/scoped-locality-runner.mjs": "4c48e07ddbec2499762706cd511604cffb767e6ddc33f77362b9d536c8f61529"
+  },
+  "delta": "Only native fs realpathSync import and both createRequire anchors changed; lifecycle/options/oracles unchanged",
+  "patchSha256": "d58e65583bd76965a1d63ae1051226a2998267a9d6cb6e6272906033a129ec57",
+  "preflight": {
+    "file": "PACKAGE-RESOLUTION-PREFLIGHT.json",
+    "sha256": "26bc26461f0428a7b27179e8fdd2a921ac1970320a7557a1d60ead26f4bd1fdd",
+    "scope": "Actual root donor installed packages read only; no constructor/runtime/build/native/CI acceptance"
+  },
+  "nativeExecuted": 0,
+  "formalAcceptance": false
+}

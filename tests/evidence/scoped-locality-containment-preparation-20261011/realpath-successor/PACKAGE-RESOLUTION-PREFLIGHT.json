@@ -1,0 +1,53 @@
+{
+  "recordedAt": "2026-10-11T17:20:02.373Z",
+  "scope": "Read-only installed-package resolution in the root donor checkout; not a native test or proof of an independent CI install",
+  "node": {
+    "executable": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "version": "v24.19.0"
+  },
+  "lexicalAnchor": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/wrangler/package.json",
+  "realpathAnchor": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/wrangler@4.92.0_@cloudflare+workers-types@4.20260515.1_@types+node@22.19.19/node_modules/wrangler/package.json",
+  "modulesConstructed": 0,
+  "workerStarted": false,
+  "buildStarted": false,
+  "portBound": false,
+  "stateCreated": false,
+  "sourcePins": {
+    "tests/lib/scoped-locality-native-runtime.mjs": "88bd5f1cf327ad67caa472bfb30610d7224d8cc54b8117738650479fe332a608",
+    "scripts/scoped-locality-runner.mjs": "4c48e07ddbec2499762706cd511604cffb767e6ddc33f77362b9d536c8f61529"
+  },
+  "lexicalResolution": {
+    "unexpectedlyResolved": false,
+    "code": "MODULE_NOT_FOUND",
+    "message": "Cannot find module 'miniflare'\nRequire stack:\n- /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/wrangler/package.json"
+  },
+  "packages": {
+    "wrangler": {
+      "name": "wrangler",
+      "version": "4.92.0",
+      "packageJson": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/wrangler@4.92.0_@cloudflare+workers-types@4.20260515.1_@types+node@22.19.19/node_modules/wrangler/package.json",
+      "packageJsonSha256": "b659402d435053012c1843c226a701964abbeb4ce8a9a560d57c5be0ced4916d"
+    },
+    "miniflare": {
+      "name": "miniflare",
+      "version": "4.20260515.0",
+      "packageJson": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/package.json",
+      "packageJsonSha256": "c3b5ee81d42c56d71e1fd448b134d38ee2d7e14f6418f1ab26d0cba400e163b2"
+    },
+    "workerd": {
+      "name": "workerd",
+      "version": "1.20260515.1",
+      "packageJson": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/workerd@1.20260515.1/node_modules/workerd/package.json",
+      "packageJsonSha256": "db07f3fbd0cb0f43a9502f22aede4f96170469287066788d98a5e555a562431b"
+    }
+  },
+  "miniflareEntry": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/miniflare@4.20260515.0_@types+node@22.19.19/node_modules/miniflare/dist/src/index.js",
+  "miniflareEntrySha256": "9584409d464f6c21d720b20da3c5dc6e5bdab0393f9cb19b36cb960beaf0958b",
+  "miniflareExportType": "function",
+  "sourcePinsAfter": {
+    "tests/lib/scoped-locality-native-runtime.mjs": "88bd5f1cf327ad67caa472bfb30610d7224d8cc54b8117738650479fe332a608",
+    "scripts/scoped-locality-runner.mjs": "4c48e07ddbec2499762706cd511604cffb767e6ddc33f77362b9d536c8f61529"
+  },
+  "resolutionSucceeded": true,
+  "completedAt": "2026-10-11T17:20:02.493Z"
+}

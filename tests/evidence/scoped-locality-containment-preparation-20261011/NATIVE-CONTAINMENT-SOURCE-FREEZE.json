@@ -1,0 +1,105 @@
+{
+  "recordedAt": "2026-10-11T17:05:30.233592+00:00",
+  "revision": 1,
+  "status": "Frozen source-only preparation plus actual lightweight controls; native eight-group execution remains unexecuted",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "branch": "test/scoped-permissions-matrix-20261011",
+  "ownedCheckout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011",
+  "sourcePins": {
+    "tests/lib/scoped-locality-containment.mjs": {
+      "sha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+      "bytes": 14066
+    },
+    "tests/lib/scoped-locality-native-runtime.mjs": {
+      "sha256": "4e8e916ba91aefcc8b6965f06459cb90fb0f9c3c78e17407f1424b0e6336a8a1",
+      "bytes": 8259
+    },
+    "scripts/scoped-locality-runner.mjs": {
+      "sha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+      "bytes": 9600
+    },
+    "tests/integration/scoped-locality-policy-http.mjs": {
+      "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+      "bytes": 20942
+    },
+    "tests/scoped-locality-containment-contract.mjs": {
+      "sha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+      "bytes": 14512
+    },
+    "tests/scoped-locality-native-current.mjs": {
+      "sha256": "85d09c10b94fa525e19466ba577673b718f7cd909d2c503343028b3f1b8fa4d7",
+      "bytes": 189
+    },
+    "scripts/test-catalogue.mjs": {
+      "sha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+      "bytes": 95518
+    },
+    ".github/workflows/scoped-permission-checks.yml": {
+      "sha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+      "bytes": 1070
+    },
+    "docs/current/saha-011/SPECIFICATION.md": {
+      "sha256": "c0161938358f6ceac329e6d14f8bcfc56709a89e024442272bf33e54dc3fd991",
+      "bytes": 8888
+    },
+    "docs/current/saha-011/POLICY-AXIS-MATRIX.json": {
+      "sha256": "65a0301815e24eb0ff1e22d95e9967de3c31e69eecf47f07d7411a13115302f9",
+      "bytes": 33333
+    }
+  },
+  "nativeAPI": {
+    "path": "tests/lib/scoped-locality-native-runtime.mjs",
+    "factory": "ownedLocalityRuntime({state,port,evidence})",
+    "synchronousReturn": [
+      "base",
+      "lifecycle",
+      "start()",
+      "stop()",
+      "output()",
+      "mf getter after ready before disposal"
+    ],
+    "D1": "after await start(): await fixture.mf.getD1Database('DB'); the actual same Miniflare runtime/database, no mock",
+    "deadlineMs": {
+      "migration": 60000,
+      "readiness": 30000,
+      "disposal": 10000,
+      "canonicalBuild": 240000,
+      "wholeNativeDriver": 210000,
+      "completeHTTPBody": 30000
+    },
+    "groupPrecondition": "Native caller must be launched as its own registered detached process-group leader by the reviewed outer CLI; migration inspects this group before starting Miniflare. No direct uncontained import execution.",
+    "state": "initially absent; retained, never reused/deleted",
+    "disposal": "lifecycle.disposed true only after completed dispose or no constructed runtime; successful qualification also requires ready, migration, no surviving migration child and final outer actual owned-group empty observation",
+    "observer": "separate bounded ps process group, exact observer PID/status retained; no name-based filtering"
+  },
+  "controls": {
+    "result": "CONTAINMENT-CONTROLS-FROZEN-RESULT.json",
+    "sha256": "3ce214a899d8de964ae817cf773644fbf74b3271056ca82fdf0aea9d9088c4eb",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "actualChildAttempts": 15,
+    "evidence": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-frozen-process-evidence",
+    "processReceiptsSha256": "bc79ef692208c0ef4807fa54e640134e11c2a8d79b4440f46b0b3dc7a159de78",
+    "inputsUnchanged": true,
+    "applicationRuntimeStarted": false
+  },
+  "originalEightGroups": {
+    "unchanged": true,
+    "exactBodySha256": "214aff099d25ff3f9a41b759a62b4d9b5f145e8b1b3dd96ae40874fec21c8666"
+  },
+  "originalBaseline": {
+    "suites": 374,
+    "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+    "unchanged": true
+  },
+  "held": [
+    "No build/install/Worker/browser/native D1/policy scenarios executed.",
+    "No commit/push/source copy into other execution checkouts until root frozen review.",
+    "Mandatory documentation source-baseline check presently reports only changed scripts/test-catalogue.mjs; normal derived baseline update remains pending reviewed publication.",
+    "A late loss of process-observation permission leaves cleanup failed/unverified, requiring separately revalidated current ownership; no blind stale-group signal.",
+    "Abrupt SIGKILL of supervisor cannot execute JavaScript cleanup and is outside successful disposal proof.",
+    "Full BR-ID-02/TC-BR-ID-02-A/B and parent SAHA-011 remain unqualified."
+  ],
+  "newDeliveredStories": 0
+}

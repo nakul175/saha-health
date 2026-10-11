@@ -1,0 +1,21 @@
+--- native-revision1
++++ native-revision2
+@@ -13,7 +13,7 @@
+ /** This synchronous factory returns the cleanup handle before migration or readiness.
+  * Migration children and workerd inherit the outer CLI's registered detached group.
+  * The CLI enforces an additional whole-attempt deadline and proves group disposal. */
+-export function ownedLocalityRuntime({ state, port, evidence }) {
++export function ownedLocalityRuntime({ state, port, evidence, bindings = {}, outboundService }) {
+   state = resolve(state); evidence = resolve(evidence);
+   assert.equal(existsSync(state), false, 'Native D1 state must be initially absent; never delete or reuse a database.');
+   assert.ok(existsSync(evidence), 'The driver must retain an owned evidence directory before startup.');
+@@ -68,7 +68,8 @@
+       mf = new Miniflare({
+         modules: walk('dist/server').filter(file => /\.m?js$/.test(file)).sort((a, b) => a === index ? -1 : b === index ? 1 : a.localeCompare(b)).map(path => ({ type: 'ESModule', path })), modulesRoot: 'dist/server',
+         compatibilityDate: wr.compatibility_date, compatibilityFlags: wr.compatibility_flags ?? [],
+-        d1Databases: { DB: wr.d1_databases[0].database_id }, d1Persist: join(state, 'v3/d1'), host: '127.0.0.1', port,
++        d1Databases: { DB: wr.d1_databases[0].database_id }, d1Persist: join(state, 'v3/d1'), host: '127.0.0.1', port, bindings,
++        ...(outboundService ? { outboundService } : {}),
+         assets: { directory: 'dist/client', binding: 'ASSETS', routerConfig: { has_user_worker: true, invoke_user_worker_ahead_of_assets: true } },
+         handleRuntimeStdio: (out, err) => { out.on('data', chunk => { stdout += chunk.toString(); }); err.on('data', chunk => { stderr += chunk.toString(); }); },
+         handleStructuredLogs: event => { structured += `[console:${event.level}] ${event.message}\n`; },
