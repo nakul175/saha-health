@@ -208,3 +208,9 @@ Owner expression fixtures and per-person primitive/joint cohort dependencies now
 ## Support component context prerequisite — 11 October 2026
 
 [Support queue context isolation](current/SUPPORT-CONTEXT-ISOLATION-20261011.md) replaces local support state at actor/organisation/visit/person/current membership and measurement boundaries before the new DOM commits, and ignores late former-context responses. The exact34-check actual React regression retains the original14 failures; synthetic API doubles do not qualify server authority. Existing support ledger/audit/patient scope and clinical records are unchanged. BR-OPS-05 remains partial; full support cases/expiring content access, original formal cases and live delivery remain open.
+
+
+11 October review repair: actual deferred commit7/1/0→8/0/0 with unchanged criteria proves and closes the remaining old-context GET callback interval via layout cleanup. Original34 harness again passes34/0/0, unchanged. Retain original375 prior baseline objects; only observed8 added. Original four operations/pilot evidence pointers remain additive provenance. See current/SUPPORT-CONTEXT-ISOLATION-20261011.md; full support task/story, formal and live acceptance remain open.
+
+
+11 October final support runtime `e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7`: unchanged original34/0 and deferred8/0; original actual Worker/D1 support23/0 and anonymous refusal/no-write17/0; ledger14/0 with guard. Fresh build/typecheck0; lint1392/618 equals original baseline. Exact port/import-only adapter proofs and owned-runtime disposal retained in docs/current/support-context-evidence-20261011/final-local. No full APL-754/SAHA-118 completion, formal/live/merge claim; fresh final-head CI and separate review remain gates.

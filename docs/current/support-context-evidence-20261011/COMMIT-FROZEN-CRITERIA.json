@@ -1,0 +1,36 @@
+{
+  "previousCandidate": "beba4cbe506e71b670ec984a331766eef032f64a",
+  "beforeSourceHash": "879f25a5a5092df79cdb8863abe560aed6a8703f74f69d9d61f5b6a6c3ad804b",
+  "afterSourceHash": "19e5dd53b59cf246ff8fbe8675d8d86a0d10ab809212dc3ade9ec21ab881034b",
+  "testFile": "tests/work-support-commit-transition-browser.mjs",
+  "testSha256": "7776d23fef88316eb45ea470d12b98927ffe36cbd49b5ca426e649469a40ed6c",
+  "criteria": [
+    "Actual original support action is in flight before transition",
+    "React startTransition actually commits the changed account/organisation/visit",
+    "Former POST response is resolved from committed layout before parent passive work",
+    "Former action receives its successful acknowledgement during the commit interval",
+    "Former-context POST success cannot launch any old-context GET after the new commit",
+    "Current context independently starts exactly one correctly scoped read",
+    "Context transition never creates or retries another support action",
+    "Actual component deferred transition has no uncaught browser error"
+  ],
+  "criteriaIdentical": true,
+  "preservedOriginal34TestHash": "0d8b7011cab91324abd23afe6c812a49137fcad77ed03f540758196909347ae1",
+  "before": [
+    7,
+    1,
+    0
+  ],
+  "after": [
+    8,
+    0,
+    0
+  ],
+  "original34After": [
+    34,
+    0,
+    0
+  ],
+  "originalFormalStatus": "Not run",
+  "scope": "Deferred React commit component-only API double; no server/clinical/live acceptance"
+}

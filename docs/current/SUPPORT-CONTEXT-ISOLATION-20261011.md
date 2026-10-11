@@ -1,3 +1,31 @@
+# Final local qualification after separate review — 11 October 2026
+
+The final runtime SHA-256 is `e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7`. The former-context validity guard now expires in layout cleanup, before a deferred transition's former POST acknowledgement can start a stale queue read. Queue loading remains passive. Removing the redundant passive sequence cleanup leaves the original lint baseline unchanged.
+
+| Final local check | Passed | Failed | Skipped | Exit |
+| --- | ---: | ---: | ---: | ---: |
+| Original component checks, unchanged | 34 | 0 | 0 | 0 |
+| Actual deferred-commit response variant | 8 | 0 | 0 | 0 |
+| Original support Worker/D1 regression | 23 | 0 | 0 | 0 |
+| Original anonymous refusal/no-write Worker/D1 regression | 17 | 0 | 0 | 0 |
+| Original ledger contract with guard | 14 | 0 | 0 | 0 |
+
+Fresh build and typecheck exit0. Lint exits0 at the unchanged1392 error /618 warning baseline. These are five suites' overlapping assertion counts, not96 unique acceptance cases. The [final source-bound receipt](support-context-evidence-20261011/final-local/QUALIFICATION.json), [original34 result](support-context-evidence-20261011/layout-final/result.json), [deferred8 result](support-context-evidence-20261011/commit-final/result.json), build logs, actual backend outputs and cleanup proof are retained. Both actual Worker/D1 suites keep their original test bytes and assertions; the isolated drivers change only port to9540, relative import location and runtime receipt. Exact reverse-normalization proofs are preserved. All owned process IDs stopped and a final actual bind verified port9540 free.
+
+The original failed14 checks, the narrower passive-cleanup34 pass, and the genuinely failed7/1 deferred-commit variant remain evidence. All374 main baseline objects and375 first-candidate objects remain exact; only observed34 and8 guards were added. Original support23, anonymous17 and ledger14 minima are unchanged. Original operations/pilot provenance remains alongside the additive support evidence. Full APL-754 and SAHA-118 remain partial; task-linked redacted cases and approved purpose/time-limited exceptional access are open. Formal TC-BR-OPS-05-A/B remain Not run. Fresh final-head CI, separate final review, root qualified integration/merge and observed hosting/live checks remain distinct pending gates.
+
+The sections below are dated historical author receipts, whose pending gates and earlier source hashes describe those checkpoints.
+
+---
+
+# Current review repair — commit-phase invalidation
+
+Separate review found the first keyed-child candidate still invalidated only in passive cleanup. A real asynchronous `startTransition` variant resolves a former POST from the parent layout observer after the new DOM commits but before passive work. On the published beba4cbe component it genuinely reports7/1/0: the former callback starts an old organisation/visit GET during layout-B. The unchanged variant on commit-phase layout cleanup reports8/0/0. The original34-check harness is unchanged and again reports34/0/0 on this repaired runtime. Queue loading remains passive; only validity cleanup moves to the unmount commit.
+
+[Exact before/fix trace and criteria](support-context-evidence-20261011/COMMIT-FROZEN-CRITERIA.json), [failed before](support-context-evidence-20261011/commit-before/result.json), [repaired after](support-context-evidence-20261011/commit-after/result.json), [original34 repeated](support-context-evidence-20261011/layout-after/result.json) and [registered8 receipt](support-context-evidence-20261011/COMMIT-REGISTERED-RUNNER-RESULT.json) are preserved. The two suites report42 assertion checks with overlapping setup; this is not42 distinct user/formal cases. Every original375 baseline object from beba4cbe and all374 from main are exact; only observed8 is added. Original operations/pilot provenance pointers are restored alongside new evidence. All server/CI/independent final review/merge/live gates remain pending; the initial qualification below is historical and narrower.
+
+Current runtime SHA-256: `19e5dd53b59cf246ff8fbe8675d8d86a0d10ab809212dc3ade9ec21ab881034b`.
+
 # Support queue context isolation — 11 October 2026
 
 This is a bounded privacy prerequisite under [ENG-BR-OPS-05 / APL-754](https://linear.app/aplyd-sandbox/issue/APL-754/eng-br-ops-05-support-without-unnecessary-disclosure), whose parent is [SAHA-118 / APL-141](https://linear.app/aplyd-sandbox/issue/APL-141/saha-118-support-without-unnecessary-disclosure). It fixes the current component's metadata and recovery controls. It does not complete either canonical item, create support tickets, or approve exceptional patient access.

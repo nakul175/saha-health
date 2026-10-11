@@ -1,0 +1,86 @@
+{
+  "trace": [
+    {
+      "event": "layout-commit",
+      "actor": "A",
+      "text": "Deferred support context AWork support requestsFixed categories only. Assistance is counted after a distinct assigned helper attests it and the requester acknowledges it. No clinical permission changes or external messages.Support categoryCaptureSync recoveryCorrectionReconciliationRequest work supportRefresh support queue"
+    },
+    {
+      "event": "request",
+      "index": 0,
+      "phase": "layout-A"
+    },
+    {
+      "event": "parent-passive",
+      "actor": "A"
+    },
+    {
+      "event": "request",
+      "index": 1,
+      "phase": "passive-A"
+    },
+    {
+      "event": "layout-commit",
+      "actor": "B",
+      "text": "Deferred support context BWork support requestsFixed categories only. Assistance is counted after a distinct assigned helper attests it and the requester acknowledges it. No clinical permission changes or external messages.Support categoryCaptureSync recoveryCorrectionReconciliationRequest work supportRefresh support queue"
+    },
+    {
+      "event": "resolve-former-post-from-layout",
+      "index": 1
+    },
+    {
+      "event": "request",
+      "index": 2,
+      "phase": "layout-B"
+    },
+    {
+      "event": "parent-passive",
+      "actor": "B"
+    }
+  ],
+  "events": [
+    {
+      "index": 0,
+      "url": "/api/work-burden/support?visitId=visit-A",
+      "method": "GET",
+      "headers": {
+        "x-saha-organisation": "org-A"
+      },
+      "body": null,
+      "settled": true,
+      "phase": "layout-A"
+    },
+    {
+      "index": 1,
+      "url": "/api/work-burden/support",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        "x-saha-organisation": "org-A"
+      },
+      "body": {
+        "type": "request",
+        "visitId": "visit-A",
+        "category": "capture",
+        "key": "ba4a8c82-4b64-4e21-8669-fa86c2289f50",
+        "expectedActorId": "actor-A"
+      },
+      "settled": true,
+      "phase": "passive-A"
+    },
+    {
+      "index": 2,
+      "url": "/api/work-burden/support?visitId=visit-B",
+      "method": "GET",
+      "headers": {
+        "x-saha-organisation": "org-B"
+      },
+      "body": null,
+      "settled": false,
+      "phase": "layout-B"
+    }
+  ],
+  "text": "Deferred support context BWork support requestsFixed categories only. Assistance is counted after a distinct assigned helper attests it and the requester acknowledges it. No clinical permission changes or external messages.Support categoryCaptureSync recoveryCorrectionReconciliationRequest work supportRefresh support queue",
+  "oldReads": [],
+  "errors": []
+}

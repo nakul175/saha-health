@@ -235,3 +235,9 @@ Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-R
 | Canonical owner | Current bounded result | Remaining delivery work |
 | --- | --- | --- |
 | APL-754 under SAHA-118/APL-141 | [Actual React component context protection](current/SUPPORT-CONTEXT-ISOLATION-20261011.md): original20/14/0, fixed34/0/0, unchanged criteria and original support23 guard. Explicit API doubles only. | Candidate build/types/lint, actual-server support regression, separate final review and exact final CI; full canonical outcome and formal/live gates remain open. |
+
+
+11 October review repair: actual deferred commit7/1/0→8/0/0 with unchanged criteria proves and closes the remaining old-context GET callback interval via layout cleanup. Original34 harness again passes34/0/0, unchanged. Retain original375 prior baseline objects; only observed8 added. Original four operations/pilot evidence pointers remain additive provenance. See current/SUPPORT-CONTEXT-ISOLATION-20261011.md; full support task/story, formal and live acceptance remain open.
+
+
+11 October final support runtime `e071e65b2186ce2eafd501e1cdbbf78c3342f53f819fae567de907e2584121a7`: unchanged original34/0 and deferred8/0; original actual Worker/D1 support23/0 and anonymous refusal/no-write17/0; ledger14/0 with guard. Fresh build/typecheck0; lint1392/618 equals original baseline. Exact port/import-only adapter proofs and owned-runtime disposal retained in docs/current/support-context-evidence-20261011/final-local. No full APL-754/SAHA-118 completion, formal/live/merge claim; fresh final-head CI and separate review remain gates.
