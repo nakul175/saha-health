@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-06",
+  "updatedAt": "2026-10-11",
   "node": "v24.19.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -773,6 +773,11 @@
       "file": "tests/work-burden-transport-http.mjs",
       "minPassed": 325
     },
+    "integration/work-support-context-component-browser": {
+      "layer": "integration",
+      "file": "tests/work-support-context-component-browser.mjs",
+      "minPassed": 34
+    },
     "integration/work-support-visibility-http": {
       "layer": "integration",
       "file": "tests/work-support-visibility-http.mjs",
@@ -837,6 +842,11 @@
       "layer": "smoke",
       "file": "tests/reminder-optout-refresh-browser.mjs",
       "minPassed": 13
+    },
+    "smoke/today-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/today-browser.mjs",
+      "minPassed": 58
     },
     "uat/check-uat-register": {
       "layer": "uat",
@@ -1867,11 +1877,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "smoke/today-browser": {
-      "layer": "smoke",
-      "file": "tests/smoke/today-browser.mjs",
-      "minPassed": 58
     }
   },
   "log": [

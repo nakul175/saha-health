@@ -34,6 +34,7 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+  'tests/work-support-context-component-browser.mjs': ['tests/reports/support-context-component/result.json'],
  'tests/smoke/local-privacy-current-smoke.mjs':['tests/evidence/privacy-registration-root-integration/smoke-local-current.json'],
   'tests/composite-measures-privacy-current-http.mjs':['tests/evidence/privacy-registration-root-integration/composite-current/http.json'],
   'tests/run-api-privacy-registration-current.mjs':['tests/evidence/privacy-api-current/api-result.json'],
@@ -251,6 +252,7 @@ export function classify(file){
  return classifyBase(file);
 }
 function classifyBase(file) {
+  if (file === 'tests/work-support-context-component-browser.mjs') return { layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual React support component transitions and late-response/retry recovery with explicit synthetic API doubles; no backend authority acceptance' };
   if(file==='tests/test-runner-verification-current-contract.mjs')return {id:'unit/test-runner-contract',layer:'unit',role:'suite',tier:'pr',runner:'node',reason:'All27 original assertion groups/minimum; explicit verification aliases preserve stable active identity'};
   if(file==='tests/test-runner-reporting-current-contract.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable reporting-only catalogue fixture; active verification adapter preserves original27 minimum'};
   if(file==='tests/installed-programme-phone-runtime-diagnostic.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'Immutable diagnostic source qualification; current real phone gate remains active'};
@@ -451,7 +453,7 @@ export function buildCatalogue(root = process.cwd()) {
       e.results = SUITE_RESULTS[e.file] ?? resultHints(root, e.id === 'integration/run-api-smoke' ? [e.file, entry?.file??'tests/api-smoke.mjs'] : [e.file]);
       if (e.layer === 'manual') Object.assign(e, MANUAL[e.file]);
       // Suites that start the built Worker need dist/; unit suites, UAT generators, the in-process benchmark and the accessibility audit (which talks to a Worker you started) do not.
-      e.needs = ['unit', 'uat'].includes(e.layer) || ['tests/adapter-overhead-bench.mjs', 'tests/a11y-audit.mjs'].includes(e.file) ? [] : ['build'];
+      e.needs = ['unit', 'uat'].includes(e.layer) || ['tests/adapter-overhead-bench.mjs', 'tests/a11y-audit.mjs', 'tests/work-support-context-component-browser.mjs'].includes(e.file) ? [] : ['build'];
     } else if (e.role === 'component') e.requirements = cited(e.file).sort();
   }
   const suites = entries.filter(e => e.role === 'suite');
