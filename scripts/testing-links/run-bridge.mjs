@@ -38,6 +38,7 @@ const browserEnv = { SAHA_RUN_METADATA: resolve(output,'playwright-metadata.json
 let server, completed = false;
 try {
   await run('adapter-contract', process.execPath, ['scripts/testing-links/fixtures/adapter-contract.mjs']);
+  await run('reporter-contract', process.execPath, ['scripts/testing-links/fixtures/reporter-contract.mjs']);
   await run('playwright', process.execPath, [resolve(modulePath,'cli.js'),'test','--config','scripts/testing-links/fixtures/playwright.config.cjs'], browserEnv);
   await run('invalid-scenario-control', process.execPath, [resolve(modulePath,'cli.js'),'test','--config','scripts/testing-links/fixtures/playwright.config.cjs'], {
     ...browserEnv, SAHA_BRIDGE_SCENARIO: 'SCN-NOT-IN-CATALOGUE', SAHA_LINKED_OUTPUT: resolve(output,'playwright-invalid-mapping.json'),

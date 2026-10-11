@@ -29,20 +29,22 @@ export default class LinkedReporter {
     const byTest = new Map();
     for (const attempt of this.attempts) byTest.set(attempt.testId, attempt);
     const final = [...byTest.values()];
+    const flaky = final.some(x => x.retry > 0 && x.status === 'passed');
     const report = { schemaVersion: '1.0', tool: 'playwright', metadata: this.metadata,
       startedAt: this.startedAt, finishedAt: new Date().toISOString(), runnerStatus: result.status,
-      result: invalid ? 'invalid_mapping' : this.errors.length ? 'runner_error' : result.status,
+      result: invalid ? 'invalid_mapping' : this.errors.length ? 'runner_error' : flaky ? 'flaky' : result.status,
       mappingStatus: invalid ? 'invalid' : 'valid', assertionsCount: null,
       counts: { testCases: final.length, attempts: this.attempts.length,
         passed: final.filter(x => x.status === 'passed').length,
         failed: final.filter(x => ['failed','timedOut','interrupted'].includes(x.status)).length,
         skipped: final.filter(x => x.status === 'skipped').length,
         unmapped: final.filter(x => x.unmapped).length,
-        retried: final.filter(x => x.retry > 0).length },
+        retried: final.filter(x => x.retry > 0).length,
+        flaky: final.filter(x => x.retry > 0 && x.status === 'passed').length },
       attempts: this.attempts, globalErrors: this.errors,
       formalAcceptanceGranted: false, storyDoneGranted: false, humanApprovalGranted: false };
     mkdirSync(dirname(this.output), { recursive: true });
     writeFileSync(this.output, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
-    return { status: invalid || this.errors.length ? 'failed' : result.status };
+    return { status: invalid || this.errors.length || flaky ? 'failed' : result.status };
   }
 }
