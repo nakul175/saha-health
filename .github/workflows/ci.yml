@@ -168,3 +168,27 @@ jobs:
         with:
           name: native-authorization-current-evidence
           path: tests/reports/
+
+  original-backend-nfr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify current source and original catalogue
+        run: |
+          python3 scripts/check-documentation.py
+          node scripts/test.mjs --check-catalogue
+      - name: Install pinned dependencies
+        run: npm run install:ci
+      - name: Build actual candidate Worker
+        run: npm run build
+      - name: Original backend performance and no-inspector memory controls
+        run: node scripts/test.mjs nfr --only nfr/performance-budgets,nfr/memory-growth --fast --guard --report tests/reports/original-backend-nfr-current-summary.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-backend-nfr-current-evidence
+          path: tests/reports/
