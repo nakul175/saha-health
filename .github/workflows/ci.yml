@@ -126,7 +126,7 @@ jobs:
       - name: Bounded pre-alert recovery contract
         run: node scripts/test.mjs unit --only unit/operations-pre-alert-recovery-contract --fast --guard
       - name: Actual native runtime log observation control
-        run: node tests/native-runtime-log-probe.mjs
+        run: node tests/native-runtime-log-probe-v2.mjs
       - name: Original400-slot load and unchanged13-check guard
         env:
           SAHA_TEST_PORT: '8832'

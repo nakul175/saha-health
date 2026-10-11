@@ -1,3 +1,7 @@
+# Native runtime-error observation — 11 October 2026 11:15 UTC
+
+Exact c4d185 actual logging control fails at criterion12 “Actual thrown runtime error retained”; native load never ran, no pass inferred. Published failed source/report history stays immutable. Version2 read-only owned loopback Runtime.exceptionThrown observer records actual event JSON, preserves all12 control criteria/15load assertions/400slots/errorbudget/actualapplication-transcript guard. No Networkcapture, app command, fake log, response retry or criterion waiver. All384 baseline records unchanged. Currentnew source/control/backend/fullCI/NFR/finalindependentreview remain pending; one story8/10.
+
 # Native load fixture follow-up — 11 October 2026 11:05 UTC
 
 Current e939 actual native63 permission and97 calendar checks pass. Its original400-slot load completes all slots but fails14/1 due one actual503 development-watcher restart during same-key POST race; native transcripts and response hashes retained. Minimum13 guard pass does not convert a failing assertion to acceptance. Current native launcher and optional actual stdout/stderr/structured-console capture retain all15 original assertions,400slots, no-unhandled5xx budget and existing safe conflict semantics. No clinical command retry added. Real runtime logging control and new native load remain pending. All384 current baseline records/minima remain exact; currentsource NFR/finalreview/merge/live held, one story8/10.
