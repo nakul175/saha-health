@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import { normalizeK6 } from '../../scripts/testing-links/import-k6.mjs';
+const meta = { runId: 'contract-fixture', codeSha: 'a'.repeat(40), environment: 'synthetic adapter test', scenarioIds: ['SCN-TEST'] };
+const registry = { scenarios: { 'SCN-TEST': { ownerIds: ['APL-27'] } } };
+const good = { metrics: { checks: { values: { passes: 20, fails: 0 }, thresholds: { 'rate==1': { ok: true } } } } };
+assert.equal(normalizeK6(good, meta, registry).result, 'passed');
+assert.equal(normalizeK6({ metrics: { checks: { values: { passes: 19, fails: 1 }, thresholds: { 'rate==1': { ok: false } } } } }, meta, registry).result, 'failed');
+assert.throws(() => normalizeK6({ metrics: {} }, meta, registry), /Missing actual/);
+assert.throws(() => normalizeK6({ metrics: { checks: { values: { passes: 20, fails: 0 } } } }, meta, registry), /threshold/);
+assert.throws(() => normalizeK6(good, { ...meta, scenarioIds: ['UNKNOWN'] }, registry), /Unknown scenario/);
+assert.throws(() => normalizeK6(good, { ...meta, codeSha: 'main' }, registry), /identity/);
+assert.throws(() => normalizeK6({ metrics: { checks: { values: { passes: 0, fails: 0 }, thresholds: { 'rate==1': { ok: true } } } } }, meta, registry), /No executed/);
+assert.equal(normalizeK6({ metrics: { checks: { values: { passes: 20, fails: 0 }, thresholds: { 'rate==1': { ok: false } } } } }, meta, registry).result, 'failed');
+const r = normalizeK6(good, meta, registry);
+assert.equal(r.formalAcceptanceGranted, false);
+assert.equal(r.storyDoneGranted, false);
+assert.equal(r.counts.formalTestCasesExecuted, null);
+console.log('11 adapter boundary checks passed; fixtures do not establish product acceptance');
