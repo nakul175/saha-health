@@ -1,7 +1,7 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
   "updatedAt": "2026-10-11",
-  "node": "v24.19.0",
+  "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
       "layer": "integration",
@@ -1048,6 +1048,16 @@
       "file": "tests/availability-contract.mjs",
       "minPassed": 20
     },
+    "unit/bundle-audit-coverage-contract": {
+      "layer": "unit",
+      "file": "tests/bundle-audit-coverage-contract.mjs",
+      "minPassed": 21
+    },
+    "unit/bundle-provenance-contract": {
+      "layer": "unit",
+      "file": "tests/bundle-provenance-contract.mjs",
+      "minPassed": 50
+    },
     "unit/capability-lifecycle-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-capability-lifecycle-contract.mjs",
@@ -1777,6 +1787,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-scoped-read-contract.mjs",
       "minPassed": 27
+    },
+    "unit/security-audit-response-contract": {
+      "layer": "unit",
+      "file": "tests/security-audit-response-contract.mjs",
+      "minPassed": 499
     },
     "unit/send-gate-contract": {
       "layer": "unit",

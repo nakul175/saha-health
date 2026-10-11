@@ -69,6 +69,7 @@ jobs:
             tests/reports/
             dist/sbom.cdx.json
             dist/security-gate.json
+            dist/bundle-provenance-evidence.json
 
   # Split from `checks` on 6 October 2026: the browser regressions plus smoke selection no longer fit the 30-minute hosted limit
   # together with the unit and API layers. The selections, guards and baseline are unchanged; both jobs must pass.
@@ -105,6 +106,7 @@ jobs:
             tests/reports/
             dist/sbom.cdx.json
             dist/security-gate.json
+            dist/bundle-provenance-evidence.json
 
   # Actual unchanged synthetic load guard on an isolated hosted runner; does not deploy or use secrets.
   bounded-report-load:

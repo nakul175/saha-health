@@ -1,3 +1,7 @@
+# Current security qualification hold — 11 October 2026
+
+[Composed security repair and actual evidence](current/d03/SECURITY-QUALIFICATION-20261011.md) supersedes earlier release applicability below. Separate review confirmed two P1 false passes despite predecessor71b green CI. New compiler custody/version coverage, strict audit handling and compatibleReact19.2.8 patch pass570 focused assertions and the real registry audit with0blocking findings; complete changed-source CI/NFR/final review remain pending. Frozen story8/10; no new merge/hosting/whole-story Done. Original criteria,385 regression records, failed runs and dated history remain unchanged. Explicit parallel coding window ends22:49:55UTC.
+
 # Current routine qualification — 11 October 2026
 
 Read [final synthetic qualification](current/d03/FINAL-QUALIFICATION-20261011.md) and the current HANDOVER top router. Candidate918ed has separate code-review and QA PASS, current five-jobCI green and complete source-scoped local surrogate evidence:9/10 at that source. Qualified isolated merge, exact observed hosting and authorized live synthetic journey remain separate and held. A documentation-only successor needs current requiredCI/incrementalreview. Canonical parent acceptance and formal0/176/364 are unchanged. Explicitly authorized independent engineering preparation uses isolated scope/leases; dependent offline release still waits for its declared prerequisites. New window ends22:49:55UTC, not the expired deadlines below. Earlier checkpoints preserve historical evidence.

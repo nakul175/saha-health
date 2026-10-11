@@ -1,0 +1,140 @@
+{
+  "reviewer": "/root/routine_final_review",
+  "reviewAuthority": "Actual independent collaboration reviewer under direct human parallel-agent authorization; no source authorship or approval under root credentials.",
+  "sourceSHA": "71b4131b72541a47ce8f33f9caaa682242f9fbf4",
+  "baseSHA": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "verdict": "SECURITY_QUALIFICATION_BLOCKED_BY_CONFIRMED_BUNDLE_CLASSIFICATION_DEFECT",
+  "supersedesPriorReleaseApplicability": "Prior routine code/incremental review found no blocking application defect; this new supply-chain evidence now blocks required security qualification. Green CI output does not cure a falsely implemented gate.",
+  "blockingFindings": [
+    {
+      "priority": 1,
+      "file": "scripts/security-gate.mjs",
+      "start": 33,
+      "end": 41,
+      "title": "Identify shipped dependencies by actual bundle provenance",
+      "details": "The literal package-name/path heuristic returns false after minification/bundling strips names. Actual retained candidate Worker contains RSC production decodeReply/renderToReadableStream/registerClientReference code and client/SSR RSC consumers. Current audit accepts high advisory1124314 on pinned19.2.6 as devOnly/unshipped, although the original policy blocks any high advisory in shipped runtime. Being listed in devDependencies is not a runtime absence proof.",
+      "recommendedAction": "Hold qualification; obtain robust fail-closed bundled-module/package provenance and fix the actual shipped advisory using compatible verified versions. Keep original critical/high policy and all checks/minima. No exploit execution or current hosted exposure is claimed."
+    },
+    {
+      "priority": 1,
+      "file": "scripts/security-gate.mjs",
+      "start": 36,
+      "end": 42,
+      "title": "Refuse error-shaped or incomplete audit JSON",
+      "details": "Actual retained error-shaped pnpm output contains only error:{code:pnpm,message:fetch failed}; unchanged gate defaults missing advisories/counts to empty and reports passed:true/counts{}. Validate a complete recognized audit result before classifying advisories, refuse registry errors/missing or inconsistent metadata, and retain actual failed receipts. This is an existing implementation defect, not a waived registry requirement."
+    }
+  ],
+  "currentGenuineCIReport": {
+    "sha256": "35a381e36df3955923afd7c359af37de82653b1d17e6b3d4802ffbc6db547459",
+    "counts": {
+      "info": 0,
+      "low": 8,
+      "moderate": 23,
+      "high": 30,
+      "critical": 0
+    },
+    "productionComponents": 226,
+    "sbomActualComponents": 226,
+    "blocking": [],
+    "acceptedHighModerate": 53,
+    "acceptedOnlyHighModerate": true,
+    "eightLowNotInAcceptedList": true,
+    "reactServerDomAccepted": {
+      "id": 1124314,
+      "module": "react-server-dom-webpack",
+      "severity": "high",
+      "vulnerable": ">=19.2.0 <19.2.8",
+      "devOnly": true,
+      "shipped": false,
+      "title": "react-server-dom: Denial of Service in Server Functions",
+      "reason": "development tooling only"
+    },
+    "ciDistInventory": [
+      "sbom.cdx.json",
+      "security-gate.json"
+    ]
+  },
+  "actualBuildProof": {
+    "buildCustody": "Retained final918ed local build; all278 actual files match recorded final-manifest digests. No runtime/config/package/lock input changed918ed\u219271b documentation-only successor. CI attachment contains only SBOM/security report, not complete built Worker, so full CI binary identity is not claimed.",
+    "actual278FilesMatch": 278,
+    "mismatches": [],
+    "literalGateMatchesForRSC": [],
+    "decoderFile": "dist/server/_next/static/framework~index~page~page~page~page~page~page~page~app-route-handler-dispatch-BTXudw3K.js",
+    "decoderSHA256": "16b738693fb5333a2a82094d426799777c875db251b21df04b82019d35a7c148",
+    "decoderBytes": 56617,
+    "productionSourceFile": "node_modules/.pnpm/react-server-dom-webpack@19.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6_webpack@5.1_0661e1050d8a3159106f5b501580506b/node_modules/react-server-dom-webpack/cjs/react-server-dom-webpack-server.edge.production.js",
+    "productionSourceSHA256": "0d305b21121887becb69f0871795916ae9700b3372f7b576f0e15497e8e18217",
+    "productionSourcePackageVersion": "19.2.6",
+    "distinctiveUnchangedProductionLiteralMatches": [
+      " from the server but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.",
+      " is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.",
+      " on the server. You cannot dot into a client module from a server component. You can only pass the imported name through.",
+      " on the server. You cannot dot into a temporary client reference from a server component. You can only pass the value through to the client.",
+      ". onError should return a string and may return null or undefined but must not return anything else. It received something of type ",
+      "Attempted to call a temporary Client Reference from the server but it is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.",
+      "Cannot await or return from a thenable. You cannot await a client module from a server component.",
+      "Cannot read Symbol exports. Only named exports are supported on a client module imported on the server.",
+      "Cannot render a Client Context Provider on the Server. Instead, you can export a Client Component wrapper that itself renders a Client Context Provider.",
+      "Could not reference an opaque temporary reference. This is likely due to misconfiguring the temporaryReferences options on the server.",
+      "Existence of byteLengthOfChunk should have already been checked. This is a bug in React.",
+      "Expected an initialized chunk but got an initialized stream chunk instead. This payload may have been submitted by an older version of React.",
+      "Maximum array nesting exceeded. Large nested arrays can be dangerous. Try adding intermediate objects.",
+      "Only global symbols received from Symbol.for(...) can be passed to Client Components. The symbol Symbol.for(",
+      "Only plain objects, and a few built-ins, can be passed to Client Components from Server Components. Classes or null prototypes are not supported.",
+      "Suspense Exception: This is not a real error! It's an implementation detail of `use` to interrupt the current render. You must either rethrow it immediately, or move the `use` call outside of the `try/catch` block. Capturing without rethrowing will lead to unexpected behavior.\\n\\nTo handle async errors, wrap your component in an error boundary, or call the promise's `.catch` method and pass the result to `use`.",
+      "This render completed successfully. All cacheSignals are now aborted to allow clean up of any unused resources.",
+      "Values cannot be passed to next() of AsyncIterables passed to Client Components."
+    ],
+    "decoderExportsPresent": [
+      "decodeReply=function",
+      "renderToReadableStream=function",
+      "registerClientReference=function"
+    ],
+    "SSRConsumerSHA256": "46ea2a9a7ab8832aa854fd5160ff009f769c897aabae993ec6f0d454d2c1edc5",
+    "clientConsumerSHA256": "a402a7bd68f9f093f975f1da534757868c85b760244393c83badb9a11cd7241f",
+    "compilerProvenance": "vite config vinext+RSC build; plugin react/rsc imports vendor server.edge/client.edge; plugin-BhzHKRFo config recognizes installedRSC and pre-resolve alias routes vendor paths to react-server-dom-webpack. Pinned package+lock19.2.6 and raw audit installed paths agree. This establishes runtime RSC presence; exploitation/reachable malicious payload not tested.",
+    "productionSBOMRSCComponentPresent": false
+  },
+  "actualRetainedAuditAdvisory": {
+    "id": 1124314,
+    "module_name": "react-server-dom-webpack",
+    "severity": "high",
+    "vulnerable_versions": ">=19.2.0 <19.2.8",
+    "patched_versions": ">=19.2.8",
+    "findings": [
+      {
+        "version": "19.2.6",
+        "paths": [
+          ".>@vitejs/plugin-rsc>react-server-dom-webpack",
+          ".>react-server-dom-webpack",
+          ".>vinext>@vitejs/plugin-rsc>react-server-dom-webpack",
+          ".>vinext>react-server-dom-webpack"
+        ],
+        "dev": true,
+        "optional": false,
+        "bundled": false
+      }
+    ],
+    "title": "react-server-dom: Denial of Service in Server Functions",
+    "url": "https://github.com/advisories/GHSA-wx67-qw84-cm4g"
+  },
+  "actualErrorShapeProof": {
+    "rawPath": "outputs/saha-ten-hour-20261011/saha-128-safe-telemetry/checks/actual-pnpm-audit.json",
+    "rawSHA256": "1cf39c12597e369266d82ea7fd9caac58ad95be4d2ff4c51fa76359466424061",
+    "rawError": {
+      "error": {
+        "code": "pnpm",
+        "message": "fetch failed"
+      }
+    },
+    "falsePassPath": "outputs/saha-ten-hour-20261011/saha-128-safe-telemetry/checks/security-gate.json",
+    "falsePassSHA256": "1eaa2bc4eca4cdcd0d818436e4a791abb86cd601c524474821255831f66b7e65",
+    "falsePassCounts": {},
+    "falsePassBlocking": [],
+    "falsePassPassed": true,
+    "genuineNetworkAuditPath": "outputs/saha-ten-hour-20261011/saha-128-safe-telemetry/checks/actual-pnpm-audit-network.json",
+    "genuineSHA256": "346bdc2515be342cc66507b32fa52b7a06a4717aba21b24054e682d8fff55989"
+  },
+  "scope": "Read-only actual source/build/evidence inspection. No network audit, registry lookup, build, browser/backend, exploit, source edit, criterion waiver, merge or deployment. Not a complete assessment of all accepted dependency advisories. High shipped RSC finding alone is enough to hold the existing gate.",
+  "reviewedAt": "2026-10-11T15:30:34.771187+00:00"
+}

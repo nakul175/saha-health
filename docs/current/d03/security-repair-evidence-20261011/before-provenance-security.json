@@ -1,0 +1,821 @@
+{
+  "gate": "supply-chain (slice 0c)",
+  "sbom": "../../outputs/saha-eight-hour-20261011/security-bundle-repair/provenance-before-patch-sbom.json",
+  "productionComponents": 235,
+  "bundleProvenance": {
+    "chunks": 179,
+    "copiedScripts": 12,
+    "generatedDataScripts": [
+      {
+        "file": "client/_next/static/cde9b095-0c6f-420b-8354-c382254b6907/_buildManifest.js",
+        "sha256": "47f02b34be6dc481257b6efce4c19e19111f37ef5c437f8ffed44f0da97fa9bb"
+      },
+      {
+        "file": "client/_next/static/cde9b095-0c6f-420b-8354-c382254b6907/_ssgManifest.js",
+        "sha256": "653f3e53e89b4f8548ff86c19e92bb3c6b84b6be7485a320b1e00893ed877479"
+      },
+      {
+        "file": "server/__vite_rsc_assets_manifest.js",
+        "sha256": "c087d6258b7cbc767438ff84fbae3c8e9d56508f2e77210b10e567dd34ca84eb"
+      },
+      {
+        "file": "server/ssr/__vite_rsc_assets_manifest.js",
+        "sha256": "c087d6258b7cbc767438ff84fbae3c8e9d56508f2e77210b10e567dd34ca84eb"
+      },
+      {
+        "file": "server/ssr/vinext-client-assets.js",
+        "sha256": "c079561311e6c935ab844e4a0627e6816fafb5c6eeb1ba023d3b024f58735c91"
+      },
+      {
+        "file": "server/vinext-client-assets.js",
+        "sha256": "c079561311e6c935ab844e4a0627e6816fafb5c6eeb1ba023d3b024f58735c91"
+      }
+    ],
+    "manifests": [
+      {
+        "file": "client/saha-bundle-provenance.json",
+        "sha256": "49dc7b09d11529d183ade9a0bd7d1cebf5d80847cd7aaa01b9ca6c57cc834ff4"
+      },
+      {
+        "file": "server/saha-bundle-provenance.json",
+        "sha256": "a6afde5a2414e7166d64d0413e8ead1f8314ec56eff1dbb8f089959e8533ca65"
+      },
+      {
+        "file": "server/ssr/saha-bundle-provenance.json",
+        "sha256": "9a536a5cdbbb4c5d36717a8409ab135e343196fd8e36a73a0747bae5fb62bd1f"
+      }
+    ],
+    "runtimePackages": [
+      {
+        "name": "vinext",
+        "version": "1.0.0-beta.5"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.6"
+      },
+      {
+        "name": "react",
+        "version": "19.2.6"
+      },
+      {
+        "name": "scheduler",
+        "version": "0.27.0"
+      },
+      {
+        "name": "@vitejs/plugin-rsc",
+        "version": "0.5.26"
+      },
+      {
+        "name": "react-server-dom-webpack",
+        "version": "19.2.6"
+      },
+      {
+        "name": "@radix-ui/react-checkbox",
+        "version": "1.3.11"
+      },
+      {
+        "name": "zod",
+        "version": "3.25.76"
+      },
+      {
+        "name": "@floating-ui/core",
+        "version": "1.8.0"
+      },
+      {
+        "name": "@floating-ui/dom",
+        "version": "1.8.0"
+      },
+      {
+        "name": "@floating-ui/react-dom",
+        "version": "2.1.9"
+      },
+      {
+        "name": "@floating-ui/utils",
+        "version": "0.2.12"
+      },
+      {
+        "name": "@radix-ui/number",
+        "version": "1.1.3"
+      },
+      {
+        "name": "@radix-ui/primitive",
+        "version": "1.1.7"
+      },
+      {
+        "name": "@radix-ui/react-arrow",
+        "version": "1.1.15"
+      },
+      {
+        "name": "@radix-ui/react-collection",
+        "version": "1.1.15"
+      },
+      {
+        "name": "@radix-ui/react-compose-refs",
+        "version": "1.1.5"
+      },
+      {
+        "name": "@radix-ui/react-context",
+        "version": "1.2.2"
+      },
+      {
+        "name": "@radix-ui/react-direction",
+        "version": "1.1.4"
+      },
+      {
+        "name": "@radix-ui/react-dismissable-layer",
+        "version": "1.1.19"
+      },
+      {
+        "name": "@radix-ui/react-focus-guards",
+        "version": "1.1.6"
+      },
+      {
+        "name": "@radix-ui/react-focus-scope",
+        "version": "1.1.16"
+      },
+      {
+        "name": "@radix-ui/react-id",
+        "version": "1.1.4"
+      },
+      {
+        "name": "@radix-ui/react-popper",
+        "version": "1.3.7"
+      },
+      {
+        "name": "@radix-ui/react-portal",
+        "version": "1.1.17"
+      },
+      {
+        "name": "@radix-ui/react-presence",
+        "version": "1.1.10"
+      },
+      {
+        "name": "@radix-ui/react-primitive",
+        "version": "2.1.10"
+      },
+      {
+        "name": "@radix-ui/react-select",
+        "version": "2.3.7"
+      },
+      {
+        "name": "@radix-ui/react-slot",
+        "version": "1.3.3"
+      },
+      {
+        "name": "@radix-ui/react-use-callback-ref",
+        "version": "1.1.4"
+      },
+      {
+        "name": "@radix-ui/react-use-controllable-state",
+        "version": "1.2.6"
+      },
+      {
+        "name": "@radix-ui/react-use-effect-event",
+        "version": "0.0.5"
+      },
+      {
+        "name": "@radix-ui/react-use-layout-effect",
+        "version": "1.1.4"
+      },
+      {
+        "name": "@radix-ui/react-use-previous",
+        "version": "1.1.4"
+      },
+      {
+        "name": "@radix-ui/react-use-size",
+        "version": "1.1.4"
+      },
+      {
+        "name": "@radix-ui/react-visually-hidden",
+        "version": "1.2.11"
+      },
+      {
+        "name": "aria-hidden",
+        "version": "1.2.6"
+      },
+      {
+        "name": "class-variance-authority",
+        "version": "0.7.1"
+      },
+      {
+        "name": "clsx",
+        "version": "2.1.1"
+      },
+      {
+        "name": "get-nonce",
+        "version": "1.0.1"
+      },
+      {
+        "name": "lucide-react",
+        "version": "1.31.0"
+      },
+      {
+        "name": "react-remove-scroll-bar",
+        "version": "2.3.8"
+      },
+      {
+        "name": "react-remove-scroll",
+        "version": "2.7.2"
+      },
+      {
+        "name": "react-style-singleton",
+        "version": "2.2.3"
+      },
+      {
+        "name": "tailwind-merge",
+        "version": "3.6.0"
+      },
+      {
+        "name": "tslib",
+        "version": "2.8.1"
+      },
+      {
+        "name": "use-callback-ref",
+        "version": "1.3.3"
+      },
+      {
+        "name": "use-sidecar",
+        "version": "1.1.3"
+      },
+      {
+        "name": "@radix-ui/react-alert-dialog",
+        "version": "1.1.23"
+      },
+      {
+        "name": "@radix-ui/react-dialog",
+        "version": "1.1.23"
+      },
+      {
+        "name": "@radix-ui/react-label",
+        "version": "2.1.15"
+      },
+      {
+        "name": "@radix-ui/react-roving-focus",
+        "version": "1.1.19"
+      },
+      {
+        "name": "@radix-ui/react-switch",
+        "version": "1.3.7"
+      },
+      {
+        "name": "@radix-ui/react-tabs",
+        "version": "1.1.21"
+      },
+      {
+        "name": "@radix-ui/react-tooltip",
+        "version": "1.2.16"
+      },
+      {
+        "name": "@radix-ui/react-use-is-hydrated",
+        "version": "0.1.3"
+      },
+      {
+        "name": "sonner",
+        "version": "2.0.8"
+      }
+    ]
+  },
+  "counts": {
+    "info": 0,
+    "low": 8,
+    "moderate": 23,
+    "high": 30,
+    "critical": 0
+  },
+  "blocking": [
+    {
+      "id": 1124314,
+      "module": "react-server-dom-webpack",
+      "severity": "high",
+      "vulnerable": ">=19.2.0 <19.2.8",
+      "devOnly": true,
+      "shipped": true,
+      "title": "react-server-dom: Denial of Service in Server Functions"
+    }
+  ],
+  "accepted": [
+    {
+      "id": 1102341,
+      "module": "esbuild",
+      "severity": "moderate",
+      "vulnerable": "<=0.24.2",
+      "devOnly": true,
+      "shipped": false,
+      "title": "esbuild enables any website to send any requests to the development server and read the response",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1119108,
+      "module": "ws",
+      "severity": "moderate",
+      "vulnerable": ">=8.0.0 <8.20.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "ws: Uninitialized memory disclosure",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1120786,
+      "module": "vite",
+      "severity": "moderate",
+      "vulnerable": ">=8.0.0 <=8.0.15",
+      "devOnly": true,
+      "shipped": false,
+      "title": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1121187,
+      "module": "undici",
+      "severity": "high",
+      "vulnerable": ">=7.23.0 <7.28.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to TLS certificate validation bypass via dropped requestTls in SOCKS5 ProxyAgent",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1121241,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.28.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to HTTP header injection via Set-Cookie percent-decoding",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1121244,
+      "module": "undici",
+      "severity": "high",
+      "vulnerable": ">=7.0.0 <7.28.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici WebSocket client vulnerable to denial of service via fragment count bypass",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1121247,
+      "module": "undici",
+      "severity": "high",
+      "vulnerable": ">=7.23.0 <7.28.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to cross-origin request routing via SOCKS5 proxy pool reuse",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1121428,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.28.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to cross-user information disclosure via shared cache whitespace bypass",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1121860,
+      "module": "js-yaml",
+      "severity": "moderate",
+      "vulnerable": ">=4.0.0 <=4.1.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "JS-YAML: Quadratic-complexity DoS in merge key handling via repeated aliases",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1123259,
+      "module": "ws",
+      "severity": "high",
+      "vulnerable": ">=8.0.0 <8.21.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "ws: Memory exhaustion DoS from tiny fragments and data chunks",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1123527,
+      "module": "vite",
+      "severity": "high",
+      "vulnerable": ">=8.0.0 <=8.0.15",
+      "devOnly": true,
+      "shipped": false,
+      "title": "vite: `server.fs.deny` bypass on Windows alternate paths",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1123897,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": "<1.1.16",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1123898,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": ">=3.0.0 <5.0.7",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1123911,
+      "module": "js-yaml",
+      "severity": "high",
+      "vulnerable": ">=4.0.0 <4.3.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "js-yaml: YAML merge-key chains can force quadratic CPU consumption",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130588,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": "<1.1.17",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130591,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": ">=4.0.0 <5.0.8",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130715,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.29.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to downstream response desynchronization via retry interceptor",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130718,
+      "module": "undici",
+      "severity": "high",
+      "vulnerable": ">=7.0.0 <7.29.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to cross-user information disclosure and parse-time crash via degenerate private cache directives",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130726,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.29.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to CRLF Injection via blob-like body 'type' property",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130729,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.29.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to cross-user information disclosure via whitespace around equals in Cache-Control directives",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130731,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.29.0",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to cookie attribute injection via unsanitized domain and unparsed setCookie fields",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130734,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": ">=4.0.0 <5.0.9",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1130737,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": "<1.1.18",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1138115,
+      "module": "js-yaml",
+      "severity": "high",
+      "vulnerable": ">=4.0.0 <4.3.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) — CVE-2026-59870 fix not backported",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1153171,
+      "module": "browserslist",
+      "severity": "high",
+      "vulnerable": "<=4.28.6",
+      "devOnly": false,
+      "shipped": false,
+      "title": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1153172,
+      "module": "browserslist",
+      "severity": "high",
+      "vulnerable": "<=4.28.6",
+      "devOnly": false,
+      "shipped": false,
+      "title": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1164783,
+      "module": "fflate",
+      "severity": "moderate",
+      "vulnerable": ">=0.7.0 <0.7.5",
+      "devOnly": true,
+      "shipped": false,
+      "title": "fflate unzipSync can enter an infinite loop when parsing malformed ZIP64 archives",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1193686,
+      "module": "baseline-browser-mapping",
+      "severity": "moderate",
+      "vulnerable": ">=2.0.0 <2.11.0",
+      "devOnly": false,
+      "shipped": false,
+      "title": "baseline-browser-mapping process termination on invalid input causes denial of service",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1193727,
+      "module": "js-yaml",
+      "severity": "high",
+      "vulnerable": ">=4.0.0 <4.3.2",
+      "devOnly": true,
+      "shipped": false,
+      "title": "js-yaml: maxTotalMergeKeys does not limit CPU use for empty merge sources",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1239765,
+      "module": "image-size",
+      "severity": "high",
+      "vulnerable": ">=1.2.0 <=2.0.2",
+      "devOnly": true,
+      "shipped": false,
+      "title": "image-size: JXL and HEIF parsers allow denial of service through infinite loops",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1239766,
+      "module": "image-size",
+      "severity": "high",
+      "vulnerable": ">=0.6.3 <=2.0.2",
+      "devOnly": true,
+      "shipped": false,
+      "title": "image-size: ICNS parser allows denial of service through an infinite loop",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240036,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.11.0 <7.29.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to Denial of Service via orphaned RetryHandler response body",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240041,
+      "module": "undici",
+      "severity": "high",
+      "vulnerable": ">=7.0.0 <7.29.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to Denial of Service via unrequested WebSocket subprotocol",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240044,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.15.0 <7.29.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to Denial of Service via unbounded decompression of compressed responses",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240046,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.29.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to cross-user cookie disclosure via Set-Cookie caching in shared caches",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240050,
+      "module": "undici",
+      "severity": "high",
+      "vulnerable": ">=7.24.1 <7.29.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to TLS certificate validation bypass via dropped connect options in BalancedPool",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240055,
+      "module": "undici",
+      "severity": "moderate",
+      "vulnerable": ">=7.0.0 <7.29.1",
+      "devOnly": true,
+      "shipped": false,
+      "title": "undici vulnerable to Denial of Service via WebSocketStream unclean close",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240091,
+      "module": "fast-uri",
+      "severity": "moderate",
+      "vulnerable": ">=3.0.0 <3.1.8",
+      "devOnly": false,
+      "shipped": false,
+      "title": "fast-uri vulnerable to inconsistent host case normalization via percent-encoded octets",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240100,
+      "module": "brace-expansion",
+      "severity": "moderate",
+      "vulnerable": "<1.1.21",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240103,
+      "module": "brace-expansion",
+      "severity": "moderate",
+      "vulnerable": ">=4.0.0 <5.0.12",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240104,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": "<1.1.20",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240107,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": ">=4.0.0 <5.0.11",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240108,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": "<1.1.19",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240111,
+      "module": "brace-expansion",
+      "severity": "high",
+      "vulnerable": ">=4.0.0 <5.0.10",
+      "devOnly": true,
+      "shipped": false,
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1240992,
+      "module": "braces",
+      "severity": "high",
+      "vulnerable": "<=3.0.3",
+      "devOnly": true,
+      "shipped": false,
+      "title": "braces vulnerable to stack-exhaustion denial of service through deeply nested patterns",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1241209,
+      "module": "source-map-js",
+      "severity": "high",
+      "vulnerable": ">=1.0.0 <1.2.2",
+      "devOnly": false,
+      "shipped": false,
+      "title": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1241331,
+      "module": "sharp",
+      "severity": "high",
+      "vulnerable": "<0.35.5",
+      "devOnly": false,
+      "shipped": false,
+      "title": "sharp : Vulnerability in librsvg dependency CVE-2026-96889",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1241489,
+      "module": "next",
+      "severity": "moderate",
+      "vulnerable": ">=16.3.0 <16.3.8",
+      "devOnly": false,
+      "shipped": false,
+      "title": "Next.js: Pending `use cache` fill can leak Draft Mode content into regular responses and persisted pages",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1241490,
+      "module": "next",
+      "severity": "moderate",
+      "vulnerable": ">=16.0.0 <16.3.8",
+      "devOnly": false,
+      "shipped": false,
+      "title": "Next.js has cache poisoning of SSG and ISR pages in self-hosted applications",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1241493,
+      "module": "next",
+      "severity": "moderate",
+      "vulnerable": ">=16.0.0 <16.3.8",
+      "devOnly": false,
+      "shipped": false,
+      "title": "Next.js has information disclosure in App Router metadata image routes via dynamicParams bypass",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1241495,
+      "module": "next",
+      "severity": "moderate",
+      "vulnerable": ">=16.0.0 <16.3.8",
+      "devOnly": false,
+      "shipped": false,
+      "title": "Next.js has cache poisoning in SSG/ISR rendering that leads to cross-user content substitution and persistent denial of service",
+      "reason": "dependency absent from compiler module membership"
+    },
+    {
+      "id": 1241496,
+      "module": "next",
+      "severity": "high",
+      "vulnerable": ">=16.0.0 <16.3.8",
+      "devOnly": false,
+      "shipped": false,
+      "title": "Next.js has Server-Side Request Forgery in Image Optimization",
+      "reason": "dependency absent from compiler module membership"
+    }
+  ],
+  "passed": false,
+  "checkedAt": "2026-10-11T15:38:30.076Z"
+}

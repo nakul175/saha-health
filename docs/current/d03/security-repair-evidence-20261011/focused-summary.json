@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-10-11T15:59:12.533Z",
+  "startedAt": "2026-10-11T15:59:00.404Z",
+  "command": "node scripts/test.mjs unit --only unit/security-audit-response-contract,unit/bundle-provenance-contract,unit/bundle-audit-coverage-contract --fast --guard --report tests/reports/security-composed-final-focused-summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 570,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11993,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 570,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 12129
+  },
+  "suites": [
+    {
+      "id": "unit/bundle-audit-coverage-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/bundle-audit-coverage-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 24,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/bundle-audit-coverage-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__bundle-audit-coverage-contract.log"
+    },
+    {
+      "id": "unit/bundle-provenance-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/bundle-provenance-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 90,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/bundle-provenance-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__bundle-provenance-contract.log"
+    },
+    {
+      "id": "unit/security-audit-response-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/security-audit-response-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 499,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11879,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/security-audit-response-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__security-audit-response-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": [
+      "tests/bundle-audit-coverage-contract-result.json",
+      "tests/security-audit-response-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 211,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 159,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 7,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 36,
+    "suites": 997,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}

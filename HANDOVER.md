@@ -1,3 +1,7 @@
+# Current security qualification hold — 11 October 2026
+
+[Composed security repair and actual evidence](docs/current/d03/SECURITY-QUALIFICATION-20261011.md) supersedes earlier release applicability below. Separate review confirmed two P1 false passes despite predecessor71b green CI. New compiler custody/version coverage, strict audit handling and compatibleReact19.2.8 patch pass570 focused assertions and the real registry audit with0blocking findings; complete changed-source CI/NFR/final review remain pending. Frozen story8/10; no new merge/hosting/whole-story Done. Original criteria,385 regression records, failed runs and dated history remain unchanged. Explicit parallel coding window ends22:49:55UTC.
+
 # Current routine-visit qualification — 11 October 2026
 
 Start with [frozen routine specification](docs/current/d03/SPECIFICATION.md), [current qualification and evidence](docs/current/d03/FINAL-QUALIFICATION-20261011.md), then the existing repository rules in AGENTS.md and CLAUDE.md. The isolated candidate is [PR #202](https://github.com/nakul175/saha-health/pull/202), application/test source `918ed1dd76a70bd4949e14cd41af3f81109fd5f0`, based on main `7668a03d97c1ae62174f09e65ccd5a5717120be6`. Later documentation-only commits must identify their own SHA; do not confuse a candidate, synthetic CI checkout, actual main merge or observed hosted commit.

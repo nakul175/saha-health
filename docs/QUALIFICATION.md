@@ -1,3 +1,7 @@
+# Current security qualification hold — 11 October 2026
+
+[Composed security repair and actual evidence](current/d03/SECURITY-QUALIFICATION-20261011.md) supersedes earlier release applicability below. Separate review confirmed two P1 false passes despite predecessor71b green CI. New compiler custody/version coverage, strict audit handling and compatibleReact19.2.8 patch pass570 focused assertions and the real registry audit with0blocking findings; complete changed-source CI/NFR/final review remain pending. Frozen story8/10; no new merge/hosting/whole-story Done. Original criteria,385 regression records, failed runs and dated history remain unchanged. Explicit parallel coding window ends22:49:55UTC.
+
 # Routine visit — current qualification work
 
 See the dated [validation checkpoint](../VALIDATION.md). One active user story, eight of ten delivery criteria supported; current completeCI, final-source NFR, final separate diff/evidence review, qualified merge and observed live synthetic journey remain held. No formal requirement or whole story is promoted by prerequisite checks. Previous assessments below retain their source and dates.
