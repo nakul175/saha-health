@@ -1,0 +1,2100 @@
+{
+  "suite": "Authorisation matrix (non-functional: security)",
+  "layer": "non-functional",
+  "passed": 59,
+  "failed": 1,
+  "skipped": 0,
+  "startedAt": "2026-10-11T09:39:24.281Z",
+  "completedAt": "2026-10-11T09:39:51.710Z",
+  "environment": "local built Worker, local D1, synthetic data",
+  "limits": [
+    "Local built Worker with the Sites dispatcher header model; this proves server-side authorisation of the implemented routes, not the hosted Cloudflare Access sign-in (see identity-hardening).",
+    "Requests are built from the route parameters read from the route readers in lib/saha/*-server.ts; a route reader that adds a parameter must be added to ROUTE_PARAMS here (the suite fails on an unclassified route).",
+    "Seven roles in one organisation: owner (clinician with owner authority), admin, supervisor, two ASHAs, clinician, and a stranger. The provider role, delegation and emergency-access paths are not exercised here.",
+    "A response is judged by status and by searching its text for synthetic patient names and identifiers; a leak of an unnamed derived value (a count, a village) would not be found.",
+    "Commands: a representative set (27 rows in the command table) across patient, organisation, owner-only, import and identity families, not the 211 command names in docs/current/COMMAND-CATALOGUE.csv; the role refusals are asserted; for owner-only commands whose valid input needs configuration this suite does not build, the owner receives a validation or state answer (404, 409 or 422), which is recorded but not judged."
+  ],
+  "measures": [
+    {
+      "label": "ms from suspension acknowledgement to the first denied request (BRD limit 5 minutes)",
+      "value": 15,
+      "unit": "ms",
+      "budget": 300000,
+      "ok": true
+    }
+  ],
+  "checks": [
+    {
+      "label": "route catalogue is fully classified (every GET route in HTTP-ROUTES.csv has documented parameters here)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "grid is complete: 64 requests x 8 principals, every cell has a status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "control: owner gets 2xx on legacy routes and 403 on the ASHA-only Today route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Today list allows both active ASHAs and refuses all other roles; ASHA 2 opens its own record",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "control: for every ASHA-readable route naming a resource of ASHA 2, ASHA 2 gets 200 (so ASHA 1's refusal is a scope refusal, not a malformed request)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "clinical source history permits scoped clinicians and refuses both ASHAs including the assigned ASHA",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "inbound conflict history permits scoped care clinicians and supervisor and refuses ASHAs and administrator",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "frozen figure metadata permits current reporting owner/supervisor and refuses other roles",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(i) no route returns 5xx for any role or anonymously",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(ii) anonymous gets 401 on every GET /api/ route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iii-a) the stranger never gets 2xx for this organisation (every GET route refuses with 403)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iii-b) no response to the stranger (success or error) carries this organisation's id, name, patients, visits, media or members",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iv-a) ASHA 1 asking for ASHA 2's patient, visit or media gets 403 or 404 on every such route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(iv-b) on every route, ASHA 1 never receives ASHA 2's patient names, patient ids, visit ids or media id, and ASHA 2 never receives ASHA 1's",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(v-a) the admin (no patient scope) never receives a patient name on any route",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(v-b) the admin gets 403 or 404 on every route that names a patient, visit or media item",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(vi) no response carries an invitation token or its stored hash (searched by value, for every principal)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(vii) every API response is Cache-Control: no-store",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "work-burden policy requires current care membership for every role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "work-burden report is operations-only for every current role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "availability report is operations-only for every current role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "value range publication report is owner/clinician-only for every current role",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(ii) anonymous gets 401 on every POST and DELETE /api/ route, except signature-authenticated callbacks",
+      "ok": false,
+      "ms": 0,
+      "error": "anonymous non-GET: 1 violation(s)\n  POST /api/reporting-completeness: 503 Your worker restarted mid-request. Please try sending the request again. Only GET or HEAD "
+    },
+    {
+      "label": "(ii) the MIS webhook refuses an unsigned anonymous call (4xx, never 2xx or 5xx)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "(ii) the reminder callback refuses an unsigned anonymous call (4xx, never 2xx or 5xx)",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "POST /api/record-opened: ASHA 2, the owner, the clinician and the supervisor may report opening ASHA 2's patient; ASHA 1, the admin and the stranger are refused",
+      "ok": true,
+      "ms": 109
+    },
+    {
+      "label": "POST /api/patients (name search): each role finds only the patients it may see; the admin and the stranger find none",
+      "ok": true,
+      "ms": 155
+    },
+    {
+      "label": "POST /api/patient-matches: asking with ASHA 2's patient's exact name and locality reveals the match only to roles in scope; ASHA 1, the admin and the stranger learn nothing",
+      "ok": true,
+      "ms": 200
+    },
+    {
+      "label": "POST /api/media and DELETE /api/media/<id> on ASHA 2's draft visit: ASHA 1, the admin and the stranger are refused, and ASHA 2's media survives",
+      "ok": true,
+      "ms": 138
+    },
+    {
+      "label": "command startVisit (patient): refused for 4 role(s); succeeds for asha2, owner, clinician; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command setConsent (patient): refused for 4 role(s); succeeds for asha2, owner, clinician; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command correctIdentity (patient): refused for 4 role(s); succeeds for asha2, owner, clinician; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command createPerson (patient): refused for 3 role(s); succeeds for owner, clinician; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command assignPatient (patient): refused for 5 role(s); succeeds for owner, supervisor; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command createReferral (patient): refused for 4 role(s); succeeds for asha2; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command createTeam (organisation): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command createInvite (organisation): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command revokeInvite (organisation): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command updateMember (organisation): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command renameOrganisation (organisation): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command removeMember (organisation): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command opsRates (owner-only): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command opsMaintenance (owner-only): refused for 6 role(s); succeeds for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command opsBudget (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command opsInvoiceReconcile (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command configureEhr (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command probeEhr (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command activateEhr (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command setEhrLookupPolicy (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command activateMis (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command testMis (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command setAdapterOperations (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command enableAgentContract (owner-only): refused for 6 role(s); not refused for owner; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command patientImportApply (import): refused for 5 role(s); not refused for owner, supervisor; no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command joinOrganisation (unknown token) (identity): refused for 7 role(s); no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "command switchOrganisation (to this organisation) (identity): refused for 1 role(s); no 5xx anywhere",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a stranger cannot reuse the owner's idempotency key to read or repeat the owner's command",
+      "ok": true,
+      "ms": 114
+    },
+    {
+      "label": "a header naming a different organisation never lends this organisation's authority (owner of this organisation, other organisation id)",
+      "ok": true,
+      "ms": 31
+    },
+    {
+      "label": "ms from suspension acknowledgement to the first denied request (BRD limit 5 minutes) within budget",
+      "ok": true
+    },
+    {
+      "label": "(viii) suspending a member stops access on the next request: every GET route and a command are refused for the suspended ASHA, and access returns when reactivated",
+      "ok": true,
+      "ms": 1334
+    }
+  ],
+  "otherRoutes": {
+    "POST /api/record-opened": {
+      "owner": 200,
+      "admin": 404,
+      "supervisor": 200,
+      "asha1": 404,
+      "asha2": 200,
+      "clinician": 200,
+      "stranger": 403
+    },
+    "POST /api/patients {q}": {
+      "owner": 200,
+      "admin": 200,
+      "supervisor": 200,
+      "asha1": 200,
+      "asha2": 200,
+      "clinician": 200,
+      "stranger": 403
+    },
+    "POST /api/patient-matches": {
+      "owner": 200,
+      "admin": 403,
+      "supervisor": 200,
+      "asha1": 200,
+      "asha2": 200,
+      "clinician": 200,
+      "stranger": 403
+    }
+  },
+  "gridHash": "0d3bb4dbddbb8de5",
+  "requests": 512,
+  "principals": [
+    "anonymous",
+    "owner",
+    "admin",
+    "supervisor",
+    "asha1",
+    "asha2",
+    "clinician",
+    "stranger"
+  ],
+  "matrix": [
+    {
+      "route": "/api/abdm",
+      "request": "/api/abdm?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/action-plan",
+      "request": "/api/action-plan?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/aggregate-reports",
+      "request": "/api/aggregate-reports",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/alerts",
+      "request": "/api/alerts",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/anaemia-provider",
+      "request": "/api/anaemia-provider",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/audit/chain",
+      "request": "/api/audit/chain",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/audit",
+      "request": "/api/audit",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/availability",
+      "request": "/api/availability",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/caseload",
+      "request": "/api/caseload",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/clinical-sources",
+      "request": "/api/clinical-sources?entryId=<id>&sha256=e81df59cfbac49abbf90032eaa71e8a8a286626c552527372c3938006b75f82a",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/continuity",
+      "request": "/api/continuity",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/data-exit",
+      "request": "/api/data-exit",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/delegations",
+      "request": "/api/delegations",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/environment",
+      "request": "/api/environment",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/exceptional",
+      "request": "/api/exceptional",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/exceptions",
+      "request": "/api/exceptions",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/expansion",
+      "request": "/api/expansion",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/facility-scope",
+      "request": "/api/facility-scope",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/fhir/[id]",
+      "request": "/api/fhir/<id>?organisationId=<org>",
+      "kind": "visit",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/fixture-migration",
+      "request": "/api/fixture-migration",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/frontline-providers",
+      "request": "/api/frontline-providers",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/governance",
+      "request": "/api/governance",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/governance",
+      "request": "/api/governance?visitId=<id>",
+      "kind": "visit",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/history",
+      "request": "/api/history?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/household",
+      "request": "/api/household?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/identity-cases",
+      "request": "/api/identity-cases?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/imported-evidence",
+      "request": "/api/imported-evidence?personId=<id>",
+      "kind": "clinical-source-person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/inbound-conflicts",
+      "request": "/api/inbound-conflicts?personId=<id>",
+      "kind": "clinical-source-person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/incentive-claims",
+      "request": "/api/incentive-claims",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/indicator-figures",
+      "request": "/api/indicator-figures",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/indicators",
+      "request": "/api/indicators",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/installed-pack-transition",
+      "request": "/api/installed-pack-transition",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/installed-pack-work",
+      "request": "/api/installed-pack-work",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/installed-pack-work",
+      "request": "/api/installed-pack-work?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/media/[id]",
+      "request": "/api/media/<id>?organisationId=<org>",
+      "kind": "media",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/media",
+      "request": "/api/media?visitId=<id>",
+      "kind": "visit",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/notification-channel",
+      "request": "/api/notification-channel",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/operations",
+      "request": "/api/operations",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/outreach",
+      "request": "/api/outreach",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/pack-installations",
+      "request": "/api/pack-installations",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/patients/detail",
+      "request": "/api/patients/detail?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 404,
+        "supervisor": 200,
+        "asha1": 404,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/patients",
+      "request": "/api/patients",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/pilot",
+      "request": "/api/pilot",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/programme-migration",
+      "request": "/api/programme-migration",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/provider-sandbox",
+      "request": "/api/provider-sandbox",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/purpose-scope",
+      "request": "/api/purpose-scope",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/reassignment",
+      "request": "/api/reassignment",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/referral-escalations",
+      "request": "/api/referral-escalations",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/referral-requests",
+      "request": "/api/referral-requests",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/reporting-completeness",
+      "request": "/api/reporting-completeness",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/retention",
+      "request": "/api/retention",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/rights",
+      "request": "/api/rights",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/rights",
+      "request": "/api/rights?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/today",
+      "request": "/api/today",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 403,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/today",
+      "request": "/api/today?personId=<id>",
+      "kind": "person",
+      "status": {
+        "anonymous": 401,
+        "owner": 403,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 404,
+        "asha2": 200,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/trace",
+      "request": "/api/trace?visit=<id>",
+      "kind": "visit",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 404,
+        "supervisor": 200,
+        "asha1": 404,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/value-range-protocols",
+      "request": "/api/value-range-protocols",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/work-burden/attribution",
+      "request": "/api/work-burden/attribution",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/work-burden/policy",
+      "request": "/api/work-burden/policy",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/work-burden",
+      "request": "/api/work-burden",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/work-burden/support",
+      "request": "/api/work-burden/support?visitId=<id>",
+      "kind": "visit",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/worker-activity",
+      "request": "/api/worker-activity",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/worklists",
+      "request": "/api/worklists",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    },
+    {
+      "route": "/api/workspace",
+      "request": "/api/workspace",
+      "kind": "plain",
+      "status": {
+        "anonymous": 401,
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      }
+    }
+  ],
+  "anonymousNonGet": [
+    {
+      "method": "POST",
+      "route": "/api/anaemia-connection-test",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/anaemia-demo-visit",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/anaemia-provider",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/anaemia-screenings",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/availability",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/clinical-sources",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/commands",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/device-work",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/frontline-assessments",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/frontline-connection-test",
+      "status": 401,
+      "error": "{\"error\":\"Connection diagnostic credential rejected.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/frontline-providers",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/identifier-search",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/import-rejections",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/imported-evidence",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/inbound-conflicts",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/indicator-figures",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/indicators",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/installed-pack-transition",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/installed-pack-work",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "DELETE",
+      "route": "/api/media/[id]",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/media",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/mis/callback",
+      "status": 422,
+      "error": "{\"error\":\"Invalid callback contract.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/offline-opens",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/patient-import",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/patient-matches",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/patients",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/reconciliation",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/record-import",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/record-opened",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/reminder-optout/callback",
+      "status": 422,
+      "error": "{\"error\":\"Invalid mock opt-out event.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/reminder-optout",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/reporting-completeness",
+      "status": 503,
+      "error": "Your worker restarted mid-request. Please try sending the request again. Only GET or HEAD "
+    },
+    {
+      "method": "POST",
+      "route": "/api/roster",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/work-burden/attribution",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/work-burden",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/work-burden/support",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    },
+    {
+      "method": "POST",
+      "route": "/api/workforce-import",
+      "status": 401,
+      "error": "{\"error\":\"Sign in to use your workspace.\"}"
+    }
+  ],
+  "commandMatrix": [
+    {
+      "command": "startVisit",
+      "family": "patient",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "A care role is required for this action.",
+        "supervisor": "A care role is required for this action.",
+        "asha1": "This patient is not assigned to this worker.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "setConsent",
+      "family": "patient",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "A care role with access to this patient records permission changes.",
+        "supervisor": "A care role with access to this patient records permission changes.",
+        "asha1": "This patient is not assigned to this worker.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "correctIdentity",
+      "family": "patient",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "A care role is required for this action.",
+        "supervisor": "A care role is required for this action.",
+        "asha1": "This patient is not assigned to this worker.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "createPerson",
+      "family": "patient",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "A care role is required to register a person.",
+        "supervisor": "A care role is required to register a person.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "assignPatient",
+      "family": "patient",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 200,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "An owner with patient access or a team supervisor must manage assignments.",
+        "asha1": "An owner with patient access or a team supervisor must manage assignments.",
+        "asha2": "An owner with patient access or a team supervisor must manage assignments.",
+        "clinician": "An owner with patient access or a team supervisor must manage assignments.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "createReferral",
+      "family": "patient",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Your membership does not permit patient access.",
+        "supervisor": "A care role is required for this action.",
+        "asha1": "This patient is not assigned to this worker.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "createTeam",
+      "family": "organisation",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only organisation owners can manage membership and teams.",
+        "supervisor": "Only organisation owners can manage membership and teams.",
+        "asha1": "Only organisation owners can manage membership and teams.",
+        "asha2": "Only organisation owners can manage membership and teams.",
+        "clinician": "Only organisation owners can manage membership and teams.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "createInvite",
+      "family": "organisation",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only organisation owners can manage membership and teams.",
+        "supervisor": "Only organisation owners can manage membership and teams.",
+        "asha1": "Only organisation owners can manage membership and teams.",
+        "asha2": "Only organisation owners can manage membership and teams.",
+        "clinician": "Only organisation owners can manage membership and teams.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "revokeInvite",
+      "family": "organisation",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only organisation owners can manage membership and teams.",
+        "supervisor": "Only organisation owners can manage membership and teams.",
+        "asha1": "Only organisation owners can manage membership and teams.",
+        "asha2": "Only organisation owners can manage membership and teams.",
+        "clinician": "Only organisation owners can manage membership and teams.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "updateMember",
+      "family": "organisation",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only organisation owners can manage membership and teams.",
+        "supervisor": "Only organisation owners can manage membership and teams.",
+        "asha1": "Only organisation owners can manage membership and teams.",
+        "asha2": "Only organisation owners can manage membership and teams.",
+        "clinician": "Only organisation owners can manage membership and teams.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "renameOrganisation",
+      "family": "organisation",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only organisation owners can manage membership and teams.",
+        "supervisor": "Only organisation owners can manage membership and teams.",
+        "asha1": "Only organisation owners can manage membership and teams.",
+        "asha2": "Only organisation owners can manage membership and teams.",
+        "clinician": "Only organisation owners can manage membership and teams.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "removeMember",
+      "family": "organisation",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only organisation owners can remove members.",
+        "supervisor": "Only organisation owners can remove members.",
+        "asha1": "Only organisation owners can remove members.",
+        "asha2": "Only organisation owners can remove members.",
+        "clinician": "Only organisation owners can remove members.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "opsRates",
+      "family": "owner-only",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an owner can set cost assumptions.",
+        "supervisor": "Operations access required.",
+        "asha1": "Operations access required.",
+        "asha2": "Operations access required.",
+        "clinician": "Operations access required.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "opsMaintenance",
+      "family": "owner-only",
+      "status": {
+        "owner": 200,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an owner can pause or resume the organisation.",
+        "supervisor": "Operations access required.",
+        "asha1": "Operations access required.",
+        "asha2": "Operations access required.",
+        "clinician": "Operations access required.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "opsBudget",
+      "family": "owner-only",
+      "status": {
+        "owner": 404,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an owner can set cost budgets.",
+        "supervisor": "Operations access required.",
+        "asha1": "Operations access required.",
+        "asha2": "Operations access required.",
+        "clinician": "Operations access required.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "opsInvoiceReconcile",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can record an invoice reconciliation.",
+        "supervisor": "Only an organisation owner can record an invoice reconciliation.",
+        "asha1": "Only an organisation owner can record an invoice reconciliation.",
+        "asha2": "Only an organisation owner can record an invoice reconciliation.",
+        "clinician": "Only an organisation owner can record an invoice reconciliation.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "configureEhr",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can configure EHR exchange.",
+        "supervisor": "Only an organisation owner can configure EHR exchange.",
+        "asha1": "Only an organisation owner can configure EHR exchange.",
+        "asha2": "Only an organisation owner can configure EHR exchange.",
+        "clinician": "Only an organisation owner can configure EHR exchange.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "probeEhr",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Owner access required.",
+        "supervisor": "Owner access required.",
+        "asha1": "Owner access required.",
+        "asha2": "Owner access required.",
+        "clinician": "Owner access required.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "activateEhr",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can configure EHR exchange.",
+        "supervisor": "Only an organisation owner can configure EHR exchange.",
+        "asha1": "Only an organisation owner can configure EHR exchange.",
+        "asha2": "Only an organisation owner can configure EHR exchange.",
+        "clinician": "Only an organisation owner can configure EHR exchange.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "setEhrLookupPolicy",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can change how EHR lookups are treated.",
+        "supervisor": "Only an organisation owner can change how EHR lookups are treated.",
+        "asha1": "Only an organisation owner can change how EHR lookups are treated.",
+        "asha2": "Only an organisation owner can change how EHR lookups are treated.",
+        "clinician": "Only an organisation owner can change how EHR lookups are treated.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "activateMis",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can configure programme delivery.",
+        "supervisor": "Only an organisation owner can configure programme delivery.",
+        "asha1": "Only an organisation owner can configure programme delivery.",
+        "asha2": "Only an organisation owner can configure programme delivery.",
+        "clinician": "Only an organisation owner can configure programme delivery.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "testMis",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can test a connection.",
+        "supervisor": "Only an organisation owner can test a connection.",
+        "asha1": "Only an organisation owner can test a connection.",
+        "asha2": "Only an organisation owner can test a connection.",
+        "clinician": "Only an organisation owner can test a connection.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "setAdapterOperations",
+      "family": "owner-only",
+      "status": {
+        "owner": 422,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can change the operations a connection may perform.",
+        "supervisor": "Only an organisation owner can change the operations a connection may perform.",
+        "asha1": "Only an organisation owner can change the operations a connection may perform.",
+        "asha2": "Only an organisation owner can change the operations a connection may perform.",
+        "clinician": "Only an organisation owner can change the operations a connection may perform.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "enableAgentContract",
+      "family": "owner-only",
+      "status": {
+        "owner": 409,
+        "admin": 403,
+        "supervisor": 403,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an organisation owner can set an agent contract.",
+        "supervisor": "Only an organisation owner can set an agent contract.",
+        "asha1": "Only an organisation owner can set an agent contract.",
+        "asha2": "Only an organisation owner can set an agent contract.",
+        "clinician": "Only an organisation owner can set an agent contract.",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "patientImportApply",
+      "family": "import",
+      "status": {
+        "owner": 409,
+        "admin": 403,
+        "supervisor": 409,
+        "asha1": 403,
+        "asha2": 403,
+        "clinician": 403,
+        "stranger": 403
+      },
+      "refusals": {
+        "admin": "Only an owner or supervisor with a clinician or supervisor role can import people, for teams they be",
+        "asha1": "Only an owner or supervisor with a clinician or supervisor role can import people, for teams they be",
+        "asha2": "Only an owner or supervisor with a clinician or supervisor role can import people, for teams they be",
+        "clinician": "Only an owner or supervisor with a clinician or supervisor role can import people, for teams they be",
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    },
+    {
+      "command": "joinOrganisation (unknown token)",
+      "family": "identity",
+      "status": {
+        "owner": 404,
+        "admin": 404,
+        "supervisor": 404,
+        "asha1": 404,
+        "asha2": 404,
+        "clinician": 404,
+        "stranger": 404
+      },
+      "refusals": {}
+    },
+    {
+      "command": "switchOrganisation (to this organisation)",
+      "family": "identity",
+      "status": {
+        "owner": 200,
+        "admin": 200,
+        "supervisor": 200,
+        "asha1": 200,
+        "asha2": 200,
+        "clinician": 200,
+        "stranger": 403
+      },
+      "refusals": {
+        "stranger": "Your organisation membership is inactive or unavailable."
+      }
+    }
+  ],
+  "durationMs": 27427
+}

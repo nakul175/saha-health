@@ -1,0 +1,37 @@
+{
+  "baseCommit": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "triggeringCISource": "24c5992926ba6346a8eabab94ce46c80319c154f",
+  "triggeringRun": 38128030498,
+  "actualBefore": {
+    "passed": 59,
+    "failed": 1,
+    "route": "anonymousPOST /api/reporting-completeness",
+    "status": 503,
+    "required": 401
+  },
+  "driverDiffVerified": "exactly import/launcher/result-path changes, all original executable assertion bodies identical",
+  "minPassedUnchanged": 59,
+  "localHTTPStatus": "pending, exclusive performance benchmark running; no fabricated fixture pass",
+  "setupAttempts": [
+    "unknown --catalogue rejected; corrected --check-catalogue passes",
+    "UAT generator missing local typescript; linked existing pinned installed dependency cache; regeneration passes"
+  ],
+  "authorAdvisory": "source-diff inspection only; independent required approval absent",
+  "files": {
+    "hosted-before-result.json": {
+      "sha256": "22bc79314144f1769b46a3d8f6166f6178af588425d36e5d18216edfa57f54ef",
+      "bytes": 58607
+    },
+    "uat-tooling-summary.json": {
+      "sha256": "5393e765c86099b74557eba37b84341210c75d331726662ee3481e31cde9f3bb",
+      "bytes": 3866
+    }
+  },
+  "localTooling": {
+    "catalogue": "passed",
+    "syntax": "passed",
+    "documentationIntegritySourceFiles": 1782,
+    "UATTooling": "63passed /0failed /0skipped; guarded3; not product UAT acceptance",
+    "original374BaselineRecords": "unchanged"
+  }
+}
