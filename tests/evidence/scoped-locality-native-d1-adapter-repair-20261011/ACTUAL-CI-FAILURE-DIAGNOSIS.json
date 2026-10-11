@@ -1,0 +1,135 @@
+{
+  "observedAt": "2026-10-11T18:08:26.521499+00:00",
+  "head": "711f4fa067c10cc91c3ba0f9e98719fcfaa298db",
+  "run": 38162283972,
+  "job": 114537531206,
+  "ciGeneratedCheckoutCommit": "f86e6d289ca86cecb9660de35778ed0862ea4304",
+  "installerCustody": {
+    "actualInstallerExitCode": 0,
+    "onlyObservedTrackedChangedPath": [
+      "pnpm-workspace.yaml"
+    ],
+    "validatedAllowedChangedKeys": [
+      "storeDir",
+      "cacheDir"
+    ],
+    "allOtherKeysAndSourceProfileLockPreserved": true,
+    "exactOriginalWorkspaceRestored": true,
+    "fullOriginalCleanGuardPassed": true,
+    "beforeAfterCompleteInputObjectsExact": true
+  },
+  "documentationCI": "run38162284036 success",
+  "freshBuildSucceeded": true,
+  "native": {
+    "reportedChecksPassed": 7,
+    "reportedChecksFailed": 3,
+    "skipped": 0,
+    "localityGroupsPassed": [
+      "GEO-01 existing owner references and versioned setup",
+      "GEO-02 enforcement off preserves original team visibility",
+      "GEO-03 effective north locality uses explicit locality before facility fallback"
+    ],
+    "localityGroupsFailed": [
+      "GEO-04 guessed ID and new write refuse without clinical mutation; permitted control works"
+    ],
+    "remainingGroupsUnexecuted": [
+      "GEO-05",
+      "GEO-06",
+      "GEO-07",
+      "GEO-08"
+    ],
+    "refusedWriteSideEffectOracleNotReached": true,
+    "workerDisposed": true,
+    "liveOwnedProcessGroupAfterCleanup": [],
+    "transportErrors": 0
+  },
+  "actualFailure": "database() counts every *.sqlite under /d1/ and asserts one. Artifact has actual application database plus metadata.sqlite; assertion2!==1 fires before denied-write request/side-effect proof. No application authorization failure established.",
+  "databases": [
+    {
+      "relativeFile": "scoped-locality-native-run/fresh-state/v3/d1/miniflare-D1DatabaseObject/metadata.sqlite",
+      "sha256": "4c34b48e33536be849e9810707c97ff2b5625bb5cbf1637dbe384cfffdda3b9d",
+      "schemaTableNames": [
+        "_cf_ALARM"
+      ],
+      "hasAllFourClinicalTables": false
+    },
+    {
+      "relativeFile": "scoped-locality-native-run/fresh-state/v3/d1/miniflare-D1DatabaseObject/faaf2b0445ab934c3aac48ddf0cdfade8f9bac050be98993748742cdd2cb05fb.sqlite",
+      "sha256": "fadb99ac288887dcb3f87583fda83d96997d95fecf25eb4b2506209cbe8ff6ab",
+      "schemaTableNames": [
+        "_cf_METADATA",
+        "abha_review_reservations",
+        "accounts",
+        "ai_results",
+        "alert_notifications",
+        "alert_occurrences",
+        "audit_events",
+        "availability_samples",
+        "caseload_transfers",
+        "clinical_source_documents",
+        "command_receipts",
+        "device_match_copies",
+        "device_registration_grants",
+        "device_registration_receipts",
+        "device_registration_wire_receipts",
+        "device_work_events",
+        "device_work_grants",
+        "expansions",
+        "governance",
+        "households",
+        "identity_cases",
+        "indicator_figure_disclosures",
+        "indicator_figure_events",
+        "indicator_figure_receipts",
+        "indicator_figure_units",
+        "indicator_figures",
+        "installed_pack_transition_events",
+        "installed_pack_work_events",
+        "integrations",
+        "invitations",
+        "legacy_migrations",
+        "media",
+        "media_custody",
+        "memberships",
+        "notification_messages",
+        "offline_open_reports",
+        "offline_open_subjects",
+        "operations",
+        "organisations",
+        "outreach",
+        "patients",
+        "pilot",
+        "plans",
+        "record_revisions",
+        "referrals",
+        "reporting_calendar_events",
+        "reporting_calendars",
+        "reporting_completeness_receipts",
+        "reporting_completeness_snapshots",
+        "reporting_coverage",
+        "request_metrics",
+        "retention",
+        "rights_requests",
+        "scheduled_cursor",
+        "submissions",
+        "team_members",
+        "teams",
+        "visits",
+        "work_burden_samples",
+        "work_support_events",
+        "workspaces"
+      ],
+      "hasAllFourClinicalTables": true
+    }
+  ],
+  "proposedExistingContractRepair": "Use the owned live Miniflare DB binding getD1Database(DB), the actual native D1 backend. Preserve exact SELECT statements/organisation predicates/before-after clinical hashes and original-key receipt-zero oracles and all eight GEO scenario bodies. No filename guessing, cardinality waiver, fake backend, policy or application change.",
+  "nativeEightGroupQualification": false,
+  "formalCasesRun": 0,
+  "newDeliveredStories": 0,
+  "artifacts": {
+    "scoped-locality-install-custody/receipt.json": "4a4677ad58747a968d940cf9ad15879cce1d1168cd18d8f972ec08fbd30cc4e5",
+    "scoped-locality-native-run/runner-receipt.json": "9e68597b266367141031b9520d726f633d5480c039ac953b158c1e33dee94fb6",
+    "scoped-locality-native-run/native/result.json": "bb21e870be0a17b6fee6708ebb1388d4ff13a85676e44dad9cc85bfba0c479d9",
+    "scoped-locality-native-run/actual-build-association.json": "8f17359a7810f0c76cb2ffee9a196b9116e69027a18b50448e87807f679a5a53"
+  }
+}

@@ -8,7 +8,7 @@ import { runOwnedCommand, sourceCheckoutPins, fileTreePins, sha256, validateLoca
 
 export const RELEASE = 'root-scoped-locality-contract-reviewed-native-lane-released';
 export const DEFAULT_RESULT = 'tests/reports/scoped-locality-native-current.json';
-const OWN_FILES = ['scripts/scoped-locality-runner.mjs', 'tests/scoped-locality-native-current.mjs', 'tests/scoped-locality-containment-contract.mjs', 'tests/lib/scoped-locality-containment.mjs', 'tests/lib/scoped-locality-native-runtime.mjs', 'tests/integration/scoped-locality-policy-http.mjs', 'docs/current/saha-011/POLICY-AXIS-MATRIX.json', 'docs/current/saha-011/SPECIFICATION.md', '.github/workflows/scoped-permission-checks.yml'];
+const OWN_FILES = ['scripts/scoped-locality-runner.mjs', 'tests/scoped-locality-native-current.mjs', 'tests/scoped-locality-containment-contract.mjs', 'tests/lib/scoped-locality-containment.mjs', 'tests/lib/scoped-locality-native-runtime.mjs', 'tests/lib/scoped-locality-d1-observation.mjs', 'tests/integration/scoped-locality-policy-http.mjs', 'docs/current/saha-011/POLICY-AXIS-MATRIX.json', 'docs/current/saha-011/SPECIFICATION.md', '.github/workflows/scoped-permission-checks.yml'];
 const write = (file, value) => writeFileSync(file, JSON.stringify(value, null, 2) + '\n', { flag: 'wx' });
 const diff = (a, b) => Object.keys({ ...a, ...b }).filter(file => a[file] !== b[file]);
 
@@ -52,6 +52,7 @@ export async function runScopedLocality() {
     const matrix = JSON.parse(readFileSync(matrixFile, 'utf8'));
     const before = sourceCheckoutPins(OWN_FILES);
     const selected = Object.fromEntries(Object.entries(matrix.sourcePins).map(([file, pin]) => { const actual = sha256(readFileSync(file)); assert.equal(actual, pin.sha256, `Reviewed policy/source changed: ${file}; review and rebind before running.`); return [file, actual]; }));
+    selected['tests/lib/scoped-locality-d1-observation.mjs'] = sha256(readFileSync('tests/lib/scoped-locality-d1-observation.mjs'));
     receipt.checkoutCommit = before.checkoutCommit; receipt.checkoutTree = before.checkoutTree; receipt.policyBaselineCommit = matrix.sourceCommit;
     receipt.installedPackages = installedPackages();
     receipt.build = await runOwnedCommand('npm', ['run', 'build'], {

@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-10-11T18:13:10.456635+00:00",
+  "kind": "Independent source-only finding, not a claimed executed failure",
+  "finding": "New helper pin was added to the native driver but absent from runner association.sourcePins; the driver exact deepEqual predicate would refuse before startup.",
+  "fix": "Measure the new test helper in runner selected source pins/own-file inventory; original31 matrix policy pins stay unchanged.",
+  "reviewer": "/root/saha_backlog_quality/telemetry_review",
+  "beforePins": {
+    "tests/integration/scoped-locality-policy-http.mjs": "1aac36a135e698616c982a8edb4063b48fa17b38d80de0abdbec6130b78ad2e6",
+    "scripts/scoped-locality-runner.mjs": "3fb472afe76381f967e1da56d78e4601a5e0dc181dcdd7f3407e4308e5ec7ee2",
+    "tests/lib/scoped-locality-d1-observation.mjs": "8e18e9d9229200cd87d6f23468ede4dac97b3d0e7cceeaabf020977181bd1462"
+  },
+  "nativeExecuted": false
+}

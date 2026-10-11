@@ -1,0 +1,30 @@
+// Pure result-shape controls only. They do not fake or execute an application/D1 endpoint.
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { nativeRows, nativeCount } from './lib/scoped-locality-d1-observation.mjs';
+import { sha256 } from './lib/scoped-locality-containment.mjs';
+import { suite } from './lib/report.mjs';
+
+const file = resolve(process.env.SAHA_SCOPED_D1_CONTROL_RESULT ?? 'tests/reports/scoped-locality-d1-observation-contract.json');
+assert.equal(existsSync(file), false, 'Never overwrite an earlier result.');
+const INPUTS = ['tests/scoped-locality-d1-observation-contract.mjs', 'tests/lib/scoped-locality-d1-observation.mjs', 'tests/lib/scoped-locality-containment.mjs', 'tests/integration/scoped-locality-policy-http.mjs', 'scripts/scoped-locality-runner.mjs', 'scripts/scoped-locality-install-custody.mjs'];
+const inputHashes = Object.fromEntries(INPUTS.map(path => [path, sha256(readFileSync(path))]));
+const org = 'synthetic-shape-org', rows = [{ id: 'synthetic-shape-record', org_id: org }];
+const r = suite('Scoped locality native D1 observation shape controls (APL-194)', file, { layer: 'unit', environment: 'Pure result-shape fixtures, no D1/Worker/browser/installer/build/network', limits: ['These controls reject malformed results; they do not exercise an actual native binding or qualify eight locality groups.', 'Original actual CI failure and all original SQL/403/clinical-hash/receipt oracles remain separate.'] });
+await r.check('a successful actual-shaped row array is preserved by identity without copying or substitution', () => assert.equal(nativeRows({ success: true, results: rows }, org), rows));
+await r.check('a successful empty array stays empty without fabricated clinical rows', () => { const empty = []; assert.equal(nativeRows({ success: true, results: empty }, org), empty); });
+await r.check('missing false or error-shaped D1 success is refused', () => { for (const value of [undefined, null, {}, { success: false, results: [] }, { error: 'query refused', results: [] }]) assert.throws(() => nativeRows(value, org)); });
+await r.check('missing null scalar or object row collections are refused rather than defaulted to empty', () => { for (const results of [undefined, null, 0, '', {}]) assert.throws(() => nativeRows({ success: true, results }, org)); });
+await r.check('null array or scalar clinical rows are refused', () => { for (const row of [null, [], 0, 'record']) assert.throws(() => nativeRows({ success: true, results: [row] }, org)); });
+await r.check('a different organisation in the result is refused', () => assert.throws(() => nativeRows({ success: true, results: [{ id: 'record', org_id: 'other-org' }] }, org)));
+await r.check('missing null or non-string row IDs are refused', () => { for (const id of [undefined, null, 7]) assert.throws(() => nativeRows({ success: true, results: [{ id, org_id: org }] }, org)); });
+await r.check('an actual integer zero count is retained', () => assert.equal(nativeCount({ n: 0 }), 0));
+await r.check('a nonzero native count remains nonzero for the original zero-receipt oracle to refuse', () => assert.equal(nativeCount({ n: 7 }), 7));
+await r.check('missing null array or scalar count rows are never converted to zero', () => { for (const row of [undefined, null, [], 0, '0']) assert.throws(() => nativeCount(row)); });
+await r.check('missing null string boolean or object count values are refused', () => { for (const n of [undefined, null, '0', false, {}]) assert.throws(() => nativeCount({ n })); });
+await r.check('negative fractional nonfinite or unsafe integer counts are refused', () => { for (const n of [-1, 0.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) assert.throws(() => nativeCount({ n })); });
+const afterHashes = Object.fromEntries(INPUTS.map(path => [path, sha256(readFileSync(path))]));
+await r.check('result-shape controls and actual adapter/HTTP/installer source remain unchanged', () => assert.deepEqual(afterHashes, inputHashes));
+const result = await r.finish({ inputHashes, afterHashes, minimumChecks: 13, actualNativeD1Executed: false, applicationRuntimeStarted: false, formalAcceptanceClaim: false });
+assert.equal(result.checks.length, 13); assert.equal(result.skipped, 0);

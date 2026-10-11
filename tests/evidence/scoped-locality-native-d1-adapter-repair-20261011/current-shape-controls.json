@@ -1,0 +1,102 @@
+{
+  "suite": "Scoped locality native D1 observation shape controls (APL-194)",
+  "layer": "unit",
+  "passed": 13,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-11T18:13:10.555Z",
+  "completedAt": "2026-10-11T18:13:10.559Z",
+  "environment": "Pure result-shape fixtures, no D1/Worker/browser/installer/build/network",
+  "limits": [
+    "These controls reject malformed results; they do not exercise an actual native binding or qualify eight locality groups.",
+    "Original actual CI failure and all original SQL/403/clinical-hash/receipt oracles remain separate."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "a successful actual-shaped row array is preserved by identity without copying or substitution",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a successful empty array stays empty without fabricated clinical rows",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing false or error-shaped D1 success is refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing null scalar or object row collections are refused rather than defaulted to empty",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "null array or scalar clinical rows are refused",
+      "ok": true,
+      "ms": 2
+    },
+    {
+      "label": "a different organisation in the result is refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing null or non-string row IDs are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "an actual integer zero count is retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a nonzero native count remains nonzero for the original zero-receipt oracle to refuse",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing null array or scalar count rows are never converted to zero",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing null string boolean or object count values are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "negative fractional nonfinite or unsafe integer counts are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "result-shape controls and actual adapter/HTTP/installer source remain unchanged",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "inputHashes": {
+    "tests/scoped-locality-d1-observation-contract.mjs": "4b557caf3d53895ae61f8978a748adc1e89180c0f2e7eebf3119179d368b10b0",
+    "tests/lib/scoped-locality-d1-observation.mjs": "8e18e9d9229200cd87d6f23468ede4dac97b3d0e7cceeaabf020977181bd1462",
+    "tests/lib/scoped-locality-containment.mjs": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+    "tests/integration/scoped-locality-policy-http.mjs": "1aac36a135e698616c982a8edb4063b48fa17b38d80de0abdbec6130b78ad2e6",
+    "scripts/scoped-locality-runner.mjs": "30ac5ee93866a2ba26c0c4875a01b741a2a56d031dcced9ad623ad4f2caa6f6d",
+    "scripts/scoped-locality-install-custody.mjs": "44f4896d2b76a28d3ec5c199724a83846a32996f7c2d29765f7ad68274861c53"
+  },
+  "afterHashes": {
+    "tests/scoped-locality-d1-observation-contract.mjs": "4b557caf3d53895ae61f8978a748adc1e89180c0f2e7eebf3119179d368b10b0",
+    "tests/lib/scoped-locality-d1-observation.mjs": "8e18e9d9229200cd87d6f23468ede4dac97b3d0e7cceeaabf020977181bd1462",
+    "tests/lib/scoped-locality-containment.mjs": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+    "tests/integration/scoped-locality-policy-http.mjs": "1aac36a135e698616c982a8edb4063b48fa17b38d80de0abdbec6130b78ad2e6",
+    "scripts/scoped-locality-runner.mjs": "30ac5ee93866a2ba26c0c4875a01b741a2a56d031dcced9ad623ad4f2caa6f6d",
+    "scripts/scoped-locality-install-custody.mjs": "44f4896d2b76a28d3ec5c199724a83846a32996f7c2d29765f7ad68274861c53"
+  },
+  "minimumChecks": 13,
+  "actualNativeD1Executed": false,
+  "applicationRuntimeStarted": false,
+  "formalAcceptanceClaim": false
+}

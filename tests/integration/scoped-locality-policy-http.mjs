@@ -3,12 +3,12 @@
 // policy mirror, public identity override or hosted endpoint is used.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, readdirSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { identity } from '../lib/worker.mjs';
 import { ownedLocalityRuntime } from '../lib/scoped-locality-native-runtime.mjs';
 import { sourceCheckoutPins } from '../lib/scoped-locality-containment.mjs';
+import { nativeDatabase, clinicalSnapshot, receiptCount } from '../lib/scoped-locality-d1-observation.mjs';
 import { suite } from '../lib/report.mjs';
 
 const RELEASE = 'root-scoped-locality-contract-reviewed-native-lane-released';
@@ -99,34 +99,21 @@ async function exactViews(expected) {
   assert.deepEqual(ids(search.json.rows), expected.includes('p_meena') ? ['p_meena'] : []);
   noOutsideNames(search, expected);
 }
-function sqliteFiles(dir) {
-  return readdirSync(dir, { withFileTypes: true }).flatMap(x => x.isDirectory() ? sqliteFiles(join(dir, x.name)) : x.name.endsWith('.sqlite') ? [join(dir, x.name)] : []);
-}
 function filePins(dir) {
   return Object.fromEntries(readdirSync(dir, { withFileTypes: true }).flatMap(x => x.isDirectory() ? Object.entries(filePins(join(dir, x.name))) : [[join(dir, x.name), sha(readFileSync(join(dir, x.name)))]]));
 }
 function recordError(phase, error) { custodyErrors.push({ phase, errorName: error?.name ?? 'Error', message: String(error?.message ?? error), ...(error?.gitObservation ? { gitObservation: error.gitObservation } : {}) }); }
-function database() {
-  const files = sqliteFiles(state).filter(file => file.replaceAll('\\', '/').includes('/d1/'));
-  assert.equal(files.length, 1, 'Use the actual fresh native D1 database, never a mirror.');
-  return new DatabaseSync(files[0], { readOnly: true });
-}
-function clinicalSnapshot(db) {
-  return Object.fromEntries(['patients', 'visits', 'submissions', 'referrals'].map(table => [table, db.prepare(`SELECT * FROM ${table} WHERE org_id=? ORDER BY id`).all(org)]));
-}
 async function deniedWrite(personId) {
-  const db = database(), key = `geo-refused-${crypto.randomUUID()}`;
-  try {
-    const before = sha(JSON.stringify(clinicalSnapshot(db)));
-    assert.equal(db.prepare('SELECT count(*) n FROM command_receipts WHERE actor_id=? AND key=?').get(clinician.id, key).n, 0);
-    const result = await call(clinician, '/api/commands', { method: 'POST', body: { type: 'startVisit', personId }, headers: { 'Idempotency-Key': key } });
-    assert.equal(result.status, 403); assert.equal(result.headers.get('cache-control'), 'no-store');
-    noOutsideNames(result, []);
-    const after = sha(JSON.stringify(clinicalSnapshot(db)));
-    assert.equal(after, before, 'Refused new command does not mutate any clinical row.');
-    assert.equal(db.prepare('SELECT count(*) n FROM command_receipts WHERE actor_id=? AND key=?').get(clinician.id, key).n, 0, 'Refused command creates no receipt.');
-    sideEffectChecks.push({ personId, key, beforeClinicalSha256: before, afterClinicalSha256: after, receiptCount: 0, status: result.status });
-  } finally { db.close(); }
+  const db = await nativeDatabase(worker), key = `geo-refused-${crypto.randomUUID()}`;
+  const before = sha(JSON.stringify(await clinicalSnapshot(db, org)));
+  assert.equal(await receiptCount(db, clinician.id, key), 0);
+  const result = await call(clinician, '/api/commands', { method: 'POST', body: { type: 'startVisit', personId }, headers: { 'Idempotency-Key': key } });
+  assert.equal(result.status, 403); assert.equal(result.headers.get('cache-control'), 'no-store');
+  noOutsideNames(result, []);
+  const after = sha(JSON.stringify(await clinicalSnapshot(db, org)));
+  assert.equal(after, before, 'Refused new command does not mutate any clinical row.');
+  assert.equal(await receiptCount(db, clinician.id, key), 0, 'Refused command creates no receipt.');
+  sideEffectChecks.push({ personId, key, beforeClinicalSha256: before, afterClinicalSha256: after, receiptCount: 0, status: result.status });
 }
 async function deniedDetail(personId) {
   const result = await call(clinician, `/api/patients/detail?personId=${personId}`);
@@ -142,6 +129,7 @@ try {
     assert.equal(sourcePins[file], pin.sha256, `Frozen source changed: ${file}; rebind and review before execution.`);
   }
   sourcePins['tests/integration/scoped-locality-policy-http.mjs'] = sha(readFileSync('tests/integration/scoped-locality-policy-http.mjs'));
+  sourcePins['tests/lib/scoped-locality-d1-observation.mjs'] = sha(readFileSync('tests/lib/scoped-locality-d1-observation.mjs'));
   const buildReceipt = process.env.SAHA_SCOPED_LOCALITY_BUILD_RECEIPT;
   assert.ok(buildReceipt && process.env.SAHA_SCOPED_LOCALITY_BUILD_RECEIPT_SHA256, 'The guarded CLI must retain its observed actual fresh canonical build association.');
   assert.equal(sha(readFileSync(buildReceipt)), process.env.SAHA_SCOPED_LOCALITY_BUILD_RECEIPT_SHA256, 'Reviewed build receipt changed.');

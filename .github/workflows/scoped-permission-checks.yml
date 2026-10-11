@@ -18,6 +18,8 @@ jobs:
         run: node scripts/scoped-locality-install-custody.mjs
       - name: Controlled installer custody positive and refusal tests
         run: node tests/scoped-locality-install-custody-contract.mjs
+      - name: Native D1 observation malformed-result controls
+        run: node tests/scoped-locality-d1-observation-contract.mjs
       - name: Controlled containment failure tests
         run: node tests/scoped-locality-containment-contract.mjs
       - name: Fresh canonical build and contained native locality scenarios
