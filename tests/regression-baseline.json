@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-10",
+  "updatedAt": "2026-10-11",
   "node": "v24.19.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -1707,6 +1707,11 @@
       "layer": "unit",
       "file": "tests/root-verification-current-report-export-contract.mjs",
       "minPassed": 7
+    },
+    "unit/report-source-refusal-contract": {
+      "layer": "unit",
+      "file": "tests/report-source-refusal-contract.mjs",
+      "minPassed": 11
     },
     "unit/reporting-completeness-contract": {
       "layer": "unit",

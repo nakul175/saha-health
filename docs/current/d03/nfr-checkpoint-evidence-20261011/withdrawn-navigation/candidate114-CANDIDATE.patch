@@ -1,0 +1,21 @@
+--- a/app/today/today.tsx
++++ b/app/today/today.tsx
+@@ -1,6 +1,7 @@
+ 'use client';
+ 
+ import { useCallback, useEffect, useRef, useState } from 'react';
++import Link from 'next/link';
+ import type { TodayRecord, TodayRow, TodayResponse } from '@/lib/saha/today';
+ import './today.css';
+ 
+@@ -126,8 +127,8 @@
+             <dd>{record.sex || 'Not recorded'}</dd>
+           </dl>
+           <button onClick={() => void load()}>Back to Today</button>
+-          <a href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
+-            encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</a>
++          <Link prefetch={false} href={'/routine-visit?personId=' + encodeURIComponent(record.id) + '&organisationId=' +
++            encodeURIComponent(view.kind === 'record' ? view.organisationId : '')}>Review routine visit</Link>
+         </>
+       ) : (
+         <>

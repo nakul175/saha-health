@@ -1,0 +1,208 @@
+{
+  "kind": "independent-final-source-only-current-NFR-fixture-cleanup-review",
+  "createdAt": "2026-10-11T01:15:12.813113+00:00",
+  "reviewer": "/root/saha_bundle_audit",
+  "sourceDisposition": "No concrete fixture/oracle/minimum blocker found in reviewed revised intended execution paths. Source-only approval to proceed to root-authorised isolated synthetic qualification; no execution result or acceptance granted.",
+  "proposalReceiptSha256": "8b7140d2d8797e6241a54d6fa005dd855c6089e00cf699fe46c6162759deccb9",
+  "patchSha256": "094c697795b0b264659490d3691c99b63684fcb5b42133c29296393fdce68b45",
+  "priorIndependentReview": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-independent/proposal469771-initial/INITIAL-SOURCE-ONLY-REVIEW.json",
+    "bytes": 10047,
+    "sha256": "4a2822f8092bc5cf6dbe2d41a2d3b09bde5bd0e398e647a56e9d4d8d872d3c48"
+  },
+  "priorAuthorFreezePreserved": true,
+  "changesSincePriorReview": [
+    "Only owned causal trigger/database-handle cleanup in finally and independent cleanup/stop result; no audit/receipt/history rewrite",
+    "Only full load Worker transcript/failure/disposal capture in finally, nonzero on capture/stop/evidence failure, retaining primary failure"
+  ],
+  "previousFindingsDisposition": [
+    {
+      "finding": "Causal trigger cleanup success-only",
+      "status": "Resolved in reviewed source",
+      "evidence": "retained native database handle; DROP TRIGGER IF EXISTS saha_nfr_one_source_drift in finally before Worker stop; originalFailure and cleanup/stop result separately recorded"
+    },
+    {
+      "finding": "Load full transcript success-only",
+      "status": "Resolved in reviewed source",
+      "evidence": "finally retains actual Worker output before stop even after setup/final-state/evidence throw; primaryFailure and cleanupErrors separately recorded/nonzero"
+    }
+  ],
+  "preservedSemanticReview": {
+    "authorisation": "Three explicit Routine selectors across original every-principal grid, exact assignedASHA success, actor/org/person/visit facts and no-store bindings, exact other-role/owner403 and crossASHA404, duplicate/malformed/foreign404 error-only cases. Original generic scope/token/caching/suspension controls include all new rows. Sole original owner control changes exact Today exception to Today/Routine only; all legacy expected statuses intact.",
+    "load": "Original8\u00d750 workload/plan/READS, same write6 key/body behavior, initial audit503 additional4/share\u22645%, minimum40 registrations, exact no-lost/duplicate/phantom/finalcounts/idempotency/Worker-health checks and p95HTTP10000/max30000 remain. All400 slot starts/completions/no failures explicit. Supplemental logical slot duration includes failures/retry/backoff/body parsing/trace.",
+    "refusalClassifier": "Only GET exact/api/operations409 with cache-control exactno-store, exactly one error property and raw JSON bytes matching existing exact string accepted. Generic409, additional fields, duplicate keys, otherpaths/queryformats/methods/status/errors refused. Canonical operation JSON only; no unsafe mutation retry is added.",
+    "attemptEvidence": "Same principal/org/path/key/body per actual call, every request sequence and response/refusal hash/body plus transport failures captured. Exhaustion remains a client failure and additive explicit finding; no substitute slot.",
+    "nativeCausalProbe": "Exact one-shot AFTER INSERT viewAggregate operations event changes only current patient version/data.version in a NEW owned nativeD1 state; unchanged report guard should refuse409/no-data then freshstable200. Current member/visits/receipts and audit prefix/integrity checks are useful. Runtime/all33 migrations unchanged; it does not recover historical absent initial/fresh report basis.",
+    "catalogue": "Two stable IDs/min59/min13 retained with originals explicitmanual/directOnly/source aliases. Newpure classifier source unit naturally classifies; no observed minimum declared. Nativecausal manual/directOnly avoids pretending boundedburst or formalNFR acceptance.",
+    "strictnessNote": "If a report409 retry encounters audit503, the new loop currently stops/fails rather than broadens original allowed audit retry behavior. This is stricter, not an error whitelist, and must remain honestly reported if exercised."
+  },
+  "preservedTextualCalls": {
+    "AUTH-ORIGINAL-TO-CURRENT": {
+      "originalCalls": 35,
+      "currentCalls": 38,
+      "verbatimPreserved": 34,
+      "changedOriginalCalls": [
+        "r.check('control: owner gets 2xx on legacy routes and 403 on the ASHA-only Today route', () => none(violations((c, p) => p === 'owner' && (c.route === '/api/today' ? c.cells[p].status !== 403 : !(c.cells[p].status >= 200 && c.cells[p].status < 300)) ? 'unexpected owner status for declared role contract' : ''), 'owner control'))"
+      ]
+    },
+    "LOAD-ORIGINAL-TO-CURRENT": {
+      "originalCalls": 16,
+      "currentCalls": 18,
+      "verbatimPreserved": 16,
+      "changedOriginalCalls": []
+    }
+  },
+  "allOriginalFiveDriversAndOtherProtectedInputs": [
+    {
+      "path": "tests/nfr/authorisation-matrix.mjs",
+      "equalParent": true,
+      "sha256": "cf8f1a93f3c462747f5731a48274937bfc9384a0867048004fef391b22f2abcf"
+    },
+    {
+      "path": "tests/nfr/load-burst.mjs",
+      "equalParent": true,
+      "sha256": "d76ec6b3480db15222d0046c33cdff1e1babd61ac68f92dd0b4c6eeda78cf6b4"
+    },
+    {
+      "path": "tests/nfr/identity-hardening.mjs",
+      "equalParent": true,
+      "sha256": "5fb3fe3369aed2a9fc8d690192fb7cbaa248cf485ece8b4e6e4e41bc7e332bbc"
+    },
+    {
+      "path": "tests/nfr/memory-growth.mjs",
+      "equalParent": true,
+      "sha256": "cc1d087f320f4d9c93893f8e5ffd03edbe2c1070f23ea03afb88f6aab0ecd946"
+    },
+    {
+      "path": "tests/nfr/performance-budgets.mjs",
+      "equalParent": true,
+      "sha256": "775fe01b82b6df09bcac7bba76ef25213bdba0c441fba9074f961acd25f00402"
+    },
+    {
+      "path": "tests/lib/nfr-world.mjs",
+      "equalParent": true,
+      "sha256": "c8e916d966d59d5297a69c2daef7d33dd71b55a01c02a17e196885f21dea7e52"
+    },
+    {
+      "path": "tests/lib/worker.mjs",
+      "equalParent": true,
+      "sha256": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128"
+    },
+    {
+      "path": "tests/lib/miniflare.mjs",
+      "equalParent": true,
+      "sha256": "b2c96cb687dbca94b26eacede6833ecc1f5a919c7317d84071cba12a937d82f1"
+    },
+    {
+      "path": "tests/regression-baseline.json",
+      "equalParent": true,
+      "sha256": "c5a067e76a457ae405812b711cbae8843380bb790bc4ebc3f20e22d9a384eb6e"
+    },
+    {
+      "path": "lib/saha/operations-server.ts",
+      "equalParent": true,
+      "sha256": "ec6fe8281e69ad38991cfebff897e4ae2c65607446c9126c5019e70af26167d9"
+    },
+    {
+      "path": "lib/saha/access-audit.ts",
+      "equalParent": true,
+      "sha256": "22914361d6e550f58d7fd51e63bd1c244ea26fb922332aba827952ca97b5612a"
+    },
+    {
+      "path": "lib/saha/store.ts",
+      "equalParent": true,
+      "sha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb"
+    },
+    {
+      "path": "docs/current/d03/SPECIFICATION.md",
+      "equalParent": true,
+      "sha256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df"
+    }
+  ],
+  "migrationsCount": 33,
+  "allMigrationsUnchanged": true,
+  "stableMinima": {
+    "nfr/authorisation-matrix": 59,
+    "nfr/load-burst": 13,
+    "writeSameKeyBodyAttempts": 6,
+    "audit503AdditionalRetries": 4,
+    "audit503RefusalShareLimit": 0.05,
+    "minimumAcknowledgedRegistrations": 40,
+    "p95HttpMs": 10000,
+    "maximumHttpMs": 30000
+  },
+  "workload": "Original8clients \u00d750slots =400 logical slots required; strict additional4 report-source safeGET retries record every refusal/attempt/exhaustion and all logical slot durations; no replacement slot/no general status whitelist",
+  "historicalFailure": "Original198/2 remains failed with load12 below13; absent historic private initial/fresh report basis remains absent. New deterministic native source-version trigger cannot establish old scheduling cause.",
+  "noExecutionByThisReviewer": true,
+  "workerOrBrowserStarted": false,
+  "rootFilesModified": false,
+  "countsPending": [
+    "Actual pure classifier source11",
+    "Actual native causal source10",
+    "Current auth/load results and all400 completion",
+    "Current full5 guarded NFR"
+  ],
+  "notQualified": [
+    "Original/fullUI NFR02 numerical success",
+    "Degraded/physical/referenceR1",
+    "Formal acceptance/A9",
+    "Final-head CI/live/main merge"
+  ],
+  "pins": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-nfr-current-fixture-review-20261011/scripts/test-catalogue.mjs",
+      "bytes": 99000,
+      "sha256": "d1f3bacb4233bd341bc0926b4467eae5698b26da1fca78585db67de677fb6212"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-nfr-current-fixture-review-20261011/tests/nfr/authorisation-matrix-current-fixture.mjs",
+      "bytes": 46269,
+      "sha256": "8db2c3fb31781b7913a08e3d94c9bb4bcd2ed372fe905f21d6994e5c31111266"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-nfr-current-fixture-review-20261011/tests/nfr/load-burst-current-fixture.mjs",
+      "bytes": 27136,
+      "sha256": "3734ea65ac1e2231792fde5d2d8f6a89a5ac03428bd363519b3e61fe35bc90d3"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-nfr-current-fixture-review-20261011/tests/lib/report-source-refusal.mjs",
+      "bytes": 1145,
+      "sha256": "02536a08bb9a556a7620cd41521f182b5c63cadbccc78f89a70c82d403848f38"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-nfr-current-fixture-review-20261011/tests/report-source-refusal-contract.mjs",
+      "bytes": 3399,
+      "sha256": "51db5dcda06e774d612b8942e6f3577f98d6a1370fcd26c5a82e2916fb4b7939"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-nfr-current-fixture-review-20261011/tests/integration/report-source-drift-native.mjs",
+      "bytes": 8329,
+      "sha256": "c1d04c3907f95409397763b2e537c734e011813a56ec2cb2b91e181926c84691"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/FROZEN-PROPOSAL-RECEIPT.json",
+      "bytes": 5628,
+      "sha256": "8b7140d2d8797e6241a54d6fa005dd855c6089e00cf699fe46c6162759deccb9"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/CANDIDATE.patch",
+      "bytes": 109249,
+      "sha256": "094c697795b0b264659490d3691c99b63684fcb5b42133c29296393fdce68b45"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/CLEANUP-DELTA-FROM-469.patch",
+      "bytes": 7336,
+      "sha256": "f41853b777d3e3ee1d6e45cc4d8c543d1fc8021911c2f2f01dff1237f2ad293d"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/PATCH-APPLICATION-CHECK.json",
+      "bytes": 1952,
+      "sha256": "06a1183b76988f6e0cf3b5b76682d1c40d6d3b5d285535d4c858f8b6a238f910"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/FROZEN-SOURCE-MANIFEST.json",
+      "bytes": 2359446,
+      "sha256": "e93415a452d1e56994411a118e899865dbac4e9271526b16a8cb6c03ecec4403"
+    }
+  ]
+}

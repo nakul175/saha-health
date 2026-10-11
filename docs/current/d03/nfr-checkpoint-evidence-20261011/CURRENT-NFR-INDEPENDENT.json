@@ -1,0 +1,147 @@
+{
+  "createdAt": "2026-10-11T01:21:40.061870+00:00",
+  "kind": "Independent read-only review of immutable actual execution evidence; no runtime executed by reviewer",
+  "status": "Source refusal privacy behavior observed; load availability/liveness remains FAILED",
+  "reviewedReceiptSha256": "8adf3c87f0f857d191d6ec3c9def44929b4c6c2647f7b28fca312a22cfe0e7b6",
+  "reviewedArtifactManifestSha256": "1112b73a599cc01b22d0a95733decf9fb445723bece1c19a384bbf9e9c5635f3",
+  "artifactHashVerification": {
+    "filesVerified": 25,
+    "mismatches": []
+  },
+  "actualCounts": {
+    "classifier": [
+      11,
+      0
+    ],
+    "nativeCausal": [
+      10,
+      0
+    ],
+    "authorisation": [
+      63,
+      0
+    ],
+    "load": [
+      12,
+      3
+    ],
+    "slotsStarted": 361,
+    "slotsCompleted": 360,
+    "requiredSlots": 400,
+    "httpCalls": 489,
+    "reportRetries": 22,
+    "reportRefusals": 23,
+    "exhaustions": 1
+  },
+  "failedRead": {
+    "client": 0,
+    "slot": 10,
+    "actorId": "t-36becc1a-owner",
+    "organisationId": "org_e8ac24e7a80c6bc5e44ffb71202743de",
+    "actualRequests": 5,
+    "additionalReads": 4,
+    "sameActorOrganisationMethodPath": true,
+    "noWriteKeyOrBody": true,
+    "allExactErrorOnlyNoStore409": true,
+    "protectedProjectionReturned": false,
+    "attempts": [
+      {
+        "sequence": 13,
+        "startMs": 2116.240875,
+        "completedMs": 2329.88,
+        "status": 409,
+        "bodySha256": "a86dafe6e4bf00e2816177a9176cddfd3cea9566c046f1e7006511f86871dfb7",
+        "successfulPostIntervalsOverlapping": 9,
+        "distinctActorKeyPairs": 5,
+        "commandTypes": {
+          "createPerson": 9
+        }
+      },
+      {
+        "sequence": 14,
+        "startMs": 2444.889166,
+        "completedMs": 2469.052583,
+        "status": 409,
+        "bodySha256": "a86dafe6e4bf00e2816177a9176cddfd3cea9566c046f1e7006511f86871dfb7",
+        "successfulPostIntervalsOverlapping": 5,
+        "distinctActorKeyPairs": 5,
+        "commandTypes": {
+          "startVisit": 3,
+          "confirmVisit": 1,
+          "saveVisit": 1
+        }
+      },
+      {
+        "sequence": 15,
+        "startMs": 2578.636375,
+        "completedMs": 2644.181666,
+        "status": 409,
+        "bodySha256": "a86dafe6e4bf00e2816177a9176cddfd3cea9566c046f1e7006511f86871dfb7",
+        "successfulPostIntervalsOverlapping": 6,
+        "distinctActorKeyPairs": 5,
+        "commandTypes": {
+          "createPerson": 3,
+          "startVisit": 1,
+          "saveVisit": 1,
+          "confirmVisit": 1
+        }
+      },
+      {
+        "sequence": 16,
+        "startMs": 2734.221625,
+        "completedMs": 2793.725416,
+        "status": 409,
+        "bodySha256": "a86dafe6e4bf00e2816177a9176cddfd3cea9566c046f1e7006511f86871dfb7",
+        "successfulPostIntervalsOverlapping": 4,
+        "distinctActorKeyPairs": 3,
+        "commandTypes": {
+          "confirmVisit": 1,
+          "createPerson": 3
+        }
+      },
+      {
+        "sequence": 17,
+        "startMs": 2899.35575,
+        "completedMs": 2978.9105,
+        "status": 409,
+        "bodySha256": "a86dafe6e4bf00e2816177a9176cddfd3cea9566c046f1e7006511f86871dfb7",
+        "successfulPostIntervalsOverlapping": 5,
+        "distinctActorKeyPairs": 4,
+        "commandTypes": {
+          "startVisit": 1,
+          "createPerson": 3,
+          "saveVisit": 1
+        }
+      }
+    ]
+  },
+  "observedInterpretation": [
+    "Original400-slot liveness oracle fails: client0 completed10 and attempted11; seven other clients completed50 each. This is an actual availability/regression failure, not an accepted report conflict or a green load gate.",
+    "No transport or timing-budget failure is evidenced. Existing HTTP p95/max guards pass; all-attempt failed logical read lasted862.8325ms, including retries/backoffs/body parsing/evidence instrumentation.",
+    "Every failed report request overlaps successful same-organisation POST intervals. Their acknowledgements contain evolving patient/visit source projections. This supports ongoing source churn as a bounded explanation, but overlapping acknowledgements are not the exact private initial/fresh report basis and duplicate/replay responses are not distinct mutations.",
+    "Unchanged operations-server computes an initial reporting basis over current member, reporting reach, permitted patient/visit versions and report, audits, then checks a fresh basis before disclosure. The exact error is emitted for a mismatch. Safe error-only refusal during a real source change is expected; repeated refusal exhausting bounded refresh is a report liveness/availability failure under this fixture workload.",
+    "Native controlled source drift independently produces stable200\u2192one-shot patient-version change\u2192exact409/no-data\u2192fresh stable200. Actual patient version/data.version each increase once with all other patient data unchanged; owned fixture counter equals1. This demonstrates the source-change guard causal mechanism only in that controlled run."
+  ],
+  "causalNative": {
+    "responseArtifactSha256": "540c07688a7ae2031071b6fc685004cba7cd591d48e283f7b21cdf2f30c6b3b5",
+    "sourcePinsSha256": "096ec3a51b101605419fd4560a035e00d42ab70aa3f42bd05d7e794992fd91c1",
+    "statusSequence": [
+      200,
+      409,
+      200
+    ],
+    "beforePatientVersion": 1,
+    "afterPatientVersion": 2,
+    "onlyControlledPatientVersionFieldsChanged": true,
+    "oneShotCount": 1,
+    "checksPassed": 10,
+    "ownedTriggerDropped": true
+  },
+  "limits": [
+    "Exact historical initial/fresh report basis was not recorded; this review does not reconstruct it or prove which basis field changed in each of the five actual load409s.",
+    "Current controlled cause witness does not prove historical root cause or close original198/2 checkpoint.",
+    "Do not broaden acceptable response classes, add retries, raise timing budgets, drop logical slots, rerun until green, or treat12 passes below original min13 as success.",
+    "Current source16670/dist278 preservation and port disposal are author-recorded and artifact-bound; no Git-head/live/CI/formalA9/physical/R1 acceptance is granted."
+  ],
+  "noWorkerBrowserOrSourceEditsByReviewer": true
+}

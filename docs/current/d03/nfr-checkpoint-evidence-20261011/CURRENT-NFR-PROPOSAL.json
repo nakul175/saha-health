@@ -1,0 +1,101 @@
+{
+  "createdAt": "2026-10-10T20:54:31.405941+00:00",
+  "status": "FROZEN SOURCE-ONLY PROPOSAL; INDEPENDENT REVIEW AND ACTUAL NATIVE QUALIFICATION PENDING",
+  "ownedCheckout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-nfr-current-fixture-review-20261011",
+  "runtimeStarted": false,
+  "parentChanged": false,
+  "applicationChanged": false,
+  "migrationsChanged": false,
+  "baselineChanged": false,
+  "originalNfrDriverBytesUnchanged": true,
+  "files": {
+    "scripts/test-catalogue.mjs": "d1f3bacb4233bd341bc0926b4467eae5698b26da1fca78585db67de677fb6212",
+    "tests/nfr/authorisation-matrix-current-fixture.mjs": "8db2c3fb31781b7913a08e3d94c9bb4bcd2ed372fe905f21d6994e5c31111266",
+    "tests/nfr/load-burst-current-fixture.mjs": "3734ea65ac1e2231792fde5d2d8f6a89a5ac03428bd363519b3e61fe35bc90d3",
+    "tests/lib/report-source-refusal.mjs": "02536a08bb9a556a7620cd41521f182b5c63cadbccc78f89a70c82d403848f38",
+    "tests/report-source-refusal-contract.mjs": "51db5dcda06e774d612b8942e6f3577f98d6a1370fcd26c5a82e2916fb4b7939",
+    "tests/integration/report-source-drift-native.mjs": "c1d04c3907f95409397763b2e537c734e011813a56ec2cb2b91e181926c84691"
+  },
+  "patch": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/CANDIDATE.patch",
+    "sha256": "094c697795b0b264659490d3691c99b63684fcb5b42133c29296393fdce68b45",
+    "newFiles": [
+      "tests/nfr/authorisation-matrix-current-fixture.mjs",
+      "tests/nfr/load-burst-current-fixture.mjs",
+      "tests/lib/report-source-refusal.mjs",
+      "tests/report-source-refusal-contract.mjs",
+      "tests/integration/report-source-drift-native.mjs"
+    ],
+    "modifiedFiles": [
+      "scripts/test-catalogue.mjs"
+    ]
+  },
+  "catalogueMappings": [
+    {
+      "id": "nfr/authorisation-matrix",
+      "file": "tests/nfr/authorisation-matrix-current-fixture.mjs",
+      "stableOriginalMinimum": 59,
+      "originalRetainedFile": "tests/nfr/authorisation-matrix.mjs",
+      "originalClassification": "manual/directOnly"
+    },
+    {
+      "id": "nfr/load-burst",
+      "file": "tests/nfr/load-burst-current-fixture.mjs",
+      "stableOriginalMinimum": 13,
+      "originalRetainedFile": "tests/nfr/load-burst.mjs",
+      "originalClassification": "manual/directOnly"
+    }
+  ],
+  "newCountsNotQualified": {
+    "pureRefusalContractSourceGroups": 11,
+    "nativeCausalProbeSourceGroups": 10,
+    "noNewBaselineEntryAdded": true
+  },
+  "originalRedEvidence": {
+    "checkpoint": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/qualification/nfr-excess-membership-followup/five-nfr/ORIGINAL-FIVE-NFR-CHECKPOINT.json",
+    "sha256": "5a1d1b58eca36f3bcda575506f095f587990e2fa525c3d8ddccf608ed6e20d39",
+    "passed": 198,
+    "failed": 2,
+    "guard": "FAILED; load12 below unchanged13 minimum",
+    "historicalBasisLimitation": "Original capture has no per-request private reporting basis or full native Worker log. Main/current operations code is identical, which supports source diagnosis but does not reproduce historic main scheduling or prove a particular old/new basis."
+  },
+  "originalBudgets": {
+    "clients": 8,
+    "slotsEach": 50,
+    "allLogicalSlots": 400,
+    "writeSameKeyBodyAttempts": 6,
+    "existingAuditReadAdditionalRetries": 4,
+    "auditRefusalShareMaximum": 0.05,
+    "minimumAcknowledgedRegistrations": 40,
+    "httpHeaderP95MaximumMs": 10000,
+    "httpHeaderMaximumMs": 30000,
+    "allOriginalStatePrivacyIdempotencyAssertionsRetained": true
+  },
+  "newReportRefreshPolicy": {
+    "path": "/api/operations",
+    "method": "GET",
+    "status": 409,
+    "additionalRetries": 4,
+    "cacheControl": "no-store",
+    "body": "exact canonical captured JSON bytes with only original error field; all generic409/403/503/other paths/methods/extra protected fields/duplicate keys refused",
+    "exhaustion": "original client throw + added exhaustion check; no replacement slot or acceptance override"
+  },
+  "newEvidence": {
+    "actualHttpAttempts": "Complete actual attempt metadata; request key/body and SHA; refusal body bytes+SHA; successful body SHA; same actor/org/path; transport failures retained",
+    "workerOutput": "Actual full worker.output stored",
+    "logicalReadLatency": "Every attempted logical read slot including failed slots, every retry/backoff, body parse and synchronous trace instrumentation; original HTTP-header ceilings retained separately. Supplemental diagnostic without invented reference R1 target."
+  },
+  "scopeLimits": [
+    "No Worker or browser was started; parser and catalogue discovery only.",
+    "Physical Android/reference-network/R1 envelope, full NFR02 acceptance and formal A9 stay pending.",
+    "Native causal probe uses a new isolated one-shot synthetic SQL trigger; no production schema change; does not reconstruct absent original private report basis.",
+    "No paid CI/provider/cloud action, publication, deploy or merge.",
+    "Actual new assertion counts, native drift response and full400 slot completion not yet observed.",
+    "Exclusive UI full1000 lane20740 still active; all new Worker execution must wait for owner release and independent fixture review."
+  ],
+  "sourceManifest": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/nfr-current-fixture-repair/FROZEN-SOURCE-MANIFEST.json",
+    "sha256": "e93415a452d1e56994411a118e899865dbac4e9271526b16a8cb6c03ecec4403",
+    "count": 16670
+  }
+}

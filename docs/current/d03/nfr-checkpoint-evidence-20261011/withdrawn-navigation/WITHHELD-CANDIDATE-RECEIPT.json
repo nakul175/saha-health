@@ -1,0 +1,169 @@
+{
+  "at": "2026-10-11T01:27:22.808277+00:00",
+  "candidateDisposition": "WITHHELD / withdrawn by integration owner; never imported into parent",
+  "sourcePatchSha256": "1148641dc9f76122b4df22a4d70796edba20a50014f8e0d7b50de6f10cc2ef62",
+  "sourceTodaySha256": "89a5917ed6e9f166166a2803a36d39782aeeb3cba8a096f5286168d74aad2b8a",
+  "buildDistManifestSha256": "079c6be2260e080e3869da9ee0e724641605c779f69adf80ace19b6b40ad78c4",
+  "actualResults": {
+    "unchangedRoutine244": {
+      "passed": 22,
+      "failed": 1,
+      "exitCode": 1,
+      "failure": "30s wait for native Routine GET after selected Today link"
+    },
+    "unchangedToday58": {
+      "passed": 58,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "singleClickDiagnostic": {
+      "clickCount": 1,
+      "pageerror": "TypeError: e is not a function inside Today Link React.startTransition",
+      "urlBeforeAndThrough8000ms": "/today",
+      "routineAPIGetCount": 0,
+      "routineNavigationResponseCount": 0,
+      "appDir": true,
+      "registeredRuntimeNavigate": "function",
+      "clinicalUnchanged": true,
+      "ownedPortFree": true
+    }
+  },
+  "performanceTimingRun": false,
+  "originalFixed1000RoutineRedUnchanged": true,
+  "actor97RunOnCandidate": false,
+  "sourceAndDistUnchangedDuringDiagnostic": true,
+  "parentHeadObserved": "791782c754bb2de4804a2c75cf8566be3abbfee4",
+  "parentTodaySha256Observed": "bdbcaaa8b1d7b3f1cbdedbae83b2cc8a183624f3296265f4c92de1b14b7cfc87",
+  "noRuntimeRepairOrRetry": true,
+  "noCIOrHostedClaims": true,
+  "safety": {
+    "jsonHeaderFieldsExcluded": true,
+    "noActualIdentityHeaders": true,
+    "noPassphraseVaultDBOrSecrets": true,
+    "rawFullHeadersCDPWorkerAndClinicalPayloadsRemainLocalOnly": true,
+    "projectionFilesExplicitlyPinnedToRawOrigins": true,
+    "syntheticNamesIDsOnly": true
+  },
+  "artifactManifest": [
+    {
+      "path": "original-routine244-RESULT.json",
+      "bytes": 2738,
+      "sha256": "8aa72c39c0d6c7667a83d46899d2a43e4fa5bd47f44d625c8cb067999addbeea",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/original-routine244/result.json",
+      "originSha256": "8aa72c39c0d6c7667a83d46899d2a43e4fa5bd47f44d625c8cb067999addbeea"
+    },
+    {
+      "path": "original-routine244.log",
+      "bytes": 1591,
+      "sha256": "4d3bab8a3c34f7795e30515fbc186ae93bf1e264f0e0ff7d158bf291282231c8",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/original-routine244.log",
+      "originSha256": "4d3bab8a3c34f7795e30515fbc186ae93bf1e264f0e0ff7d158bf291282231c8"
+    },
+    {
+      "path": "original-today58-RESULT.json",
+      "bytes": 2517,
+      "sha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a",
+      "mode": "exact-byte copy",
+      "origin": "work/saha-d03-navigation-network-diagnostic-20261011/tests/reports/today/result.json",
+      "originSha256": "efbd96bbef50c4a8f58d59125ccf2e5fd47bb534993156a72adf34694373d80a"
+    },
+    {
+      "path": "original-today58.log",
+      "bytes": 25,
+      "sha256": "019c6fcd57afc7287b294363ae2bd2d959522d7483b6bdfd6e51e39098321ef9",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/original-today58.log",
+      "originSha256": "019c6fcd57afc7287b294363ae2bd2d959522d7483b6bdfd6e51e39098321ef9"
+    },
+    {
+      "path": "failure5989-CONSOLE-PAGEERROR-REQUESTFAILED.json",
+      "bytes": 481,
+      "sha256": "756a78ca165599af02e8f8f1051fb10df21156a51d127a02515389172b900e4f",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/failure-once-5989/CONSOLE-PAGEERROR-REQUESTFAILED.json",
+      "originSha256": "756a78ca165599af02e8f8f1051fb10df21156a51d127a02515389172b900e4f"
+    },
+    {
+      "path": "failure5989-FLAGS.json",
+      "bytes": 112773,
+      "sha256": "2c7940ea996a31537505234b079e67e7903fb36172757335a52b16e305325f73",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/failure-once-5989/FLAGS.json",
+      "originSha256": "2c7940ea996a31537505234b079e67e7903fb36172757335a52b16e305325f73"
+    },
+    {
+      "path": "failure5989-driver.mjs",
+      "bytes": 10365,
+      "sha256": "598961914fc8beef7cd634e478cdeee47b646de3c9c210473ed231e5f02bb515",
+      "mode": "exact-byte copy",
+      "origin": "work/saha-d03-navigation-network-diagnostic-20261011/tests/nfr/d03-navigation-failure-diagnostic.mjs",
+      "originSha256": "598961914fc8beef7cd634e478cdeee47b646de3c9c210473ed231e5f02bb515"
+    },
+    {
+      "path": "candidate114-CANDIDATE.patch",
+      "bytes": 930,
+      "sha256": "1148641dc9f76122b4df22a4d70796edba20a50014f8e0d7b50de6f10cc2ef62",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-qualification/CANDIDATE.patch",
+      "originSha256": "1148641dc9f76122b4df22a4d70796edba20a50014f8e0d7b50de6f10cc2ef62"
+    },
+    {
+      "path": "candidate114-BUILD-TYPES-PINS.json",
+      "bytes": 779,
+      "sha256": "2212d093a79abc25ef39505a7d6edecbf3c073c6caeea74d908089b43afdda5e",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-qualification/BUILD-TYPES-PINS.json",
+      "originSha256": "2212d093a79abc25ef39505a7d6edecbf3c073c6caeea74d908089b43afdda5e"
+    },
+    {
+      "path": "candidate114-DIST-MANIFEST.json",
+      "bytes": 36023,
+      "sha256": "079c6be2260e080e3869da9ee0e724641605c779f69adf80ace19b6b40ad78c4",
+      "mode": "exact-byte copy",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-qualification/BUILT-DIST-MANIFEST.json",
+      "originSha256": "079c6be2260e080e3869da9ee0e724641605c779f69adf80ace19b6b40ad78c4"
+    },
+    {
+      "path": "failure5989-ACTUAL-REQUESTS-no-headers.json",
+      "bytes": 3921,
+      "sha256": "80b36d563ea9105f4c310842883e5b47b5d063dffbdf7dfc9e31719e81af7ac1",
+      "mode": "safe compact projection",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/failure-once-5989/ACTUAL-REQUESTS.json",
+      "originSha256": "dfb9881230c8d18235cf518d89e113c586a06240c72e6d48174aa4959e635dbe"
+    },
+    {
+      "path": "failure5989-ACTUAL-RESPONSES-no-headers.json",
+      "bytes": 3879,
+      "sha256": "8b9a1dd30fde0b5dc5fa2cff10b93c3fc98a63866bc8d796f674b0bd95bca2ad",
+      "mode": "safe compact projection",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/failure-once-5989/ACTUAL-RESPONSES.json",
+      "originSha256": "3212ceede1410a01ecf1386d5cf5159984b785ac6ba222f5d83968f41a6e6e06"
+    },
+    {
+      "path": "failure5989-RESULT-compact.json",
+      "bytes": 724,
+      "sha256": "8c671c37b87dee043c1d38e69bd69e9dd1445af3021494ae6e7add7dece87b99",
+      "mode": "safe compact projection",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/failure-once-5989/RESULT.json",
+      "originSha256": "c8379725206a403e6c1277cdd46d69aed27ee56d692887cd8181343ad5fd230b"
+    },
+    {
+      "path": "failure5989-CLINICAL-DISPOSAL-compact.json",
+      "bytes": 369,
+      "sha256": "f491fa23157ba78e9dad55fbf83d0b98d132a2693e53f44c9dca3a278686dccd",
+      "mode": "safe compact projection",
+      "origin": "outputs/saha-health-overnight-20261011/review/d03-navigation-network-diagnostic/failure-once-5989/UNCHANGED-CLINICAL.json",
+      "originSha256": "f7d924b36f6e63639a3bd0c461204cdcc9a29db0cacfb345d3e7408f0afb72d9"
+    },
+    {
+      "path": "EXACT-SOURCE-PINS-compact.json",
+      "bytes": 2046,
+      "sha256": "2e2e11f7629df50192725c6fc243ce4cec8dfc0562af74a1f12b99b86036e225",
+      "mode": "safe compact projection"
+    }
+  ],
+  "artifactCount": 15,
+  "artifactTotalBytes": 179161
+}

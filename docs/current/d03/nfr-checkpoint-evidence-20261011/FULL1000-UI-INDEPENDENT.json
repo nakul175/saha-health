@@ -1,0 +1,267 @@
+{
+  "kind": "independent-source-only-full004-raw-evidence-recomputation",
+  "createdAt": "2026-10-11T01:16:58.522254+00:00",
+  "reviewer": "/root/saha_bundle_audit",
+  "runtimeTestsWorkerBrowserExecutedByReviewer": false,
+  "sourceOrOriginalOutputEdits": false,
+  "disposition": "Completed fixed-sample local reference-number desktop surrogate remains FAILED on connectedRoutine3000ms. No fullNFR02/A9, physical/R1, CI or live acceptance.",
+  "records": 8000,
+  "rawRecomputedSummaries": [
+    {
+      "path": "autosave",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 28.699951171875,
+      "equalsSummary": true,
+      "ceiling": 500,
+      "overCeiling": 0
+    },
+    {
+      "path": "explicit-save",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 50.300048828125,
+      "equalsSummary": true,
+      "ceiling": 500,
+      "overCeiling": 0
+    },
+    {
+      "path": "cached-patient",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 65.900146484375,
+      "equalsSummary": true,
+      "ceiling": 2000,
+      "overCeiling": 0
+    },
+    {
+      "path": "cached-today",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 49.89990234375,
+      "equalsSummary": true,
+      "ceiling": 2000,
+      "overCeiling": 0
+    },
+    {
+      "path": "connected-today-list",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 2350.504834000021,
+      "equalsSummary": true,
+      "ceiling": 3000,
+      "overCeiling": 0
+    },
+    {
+      "path": "connected-today-detail",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 400.79824999999255,
+      "equalsSummary": true,
+      "ceiling": 3000,
+      "overCeiling": 0
+    },
+    {
+      "path": "connected-routine-entry",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 3132.308874999988,
+      "equalsSummary": true,
+      "ceiling": 3000,
+      "overCeiling": 1000
+    },
+    {
+      "path": "connected-whole-journey",
+      "recordCount": 1000,
+      "uniqueSamples": 1000,
+      "range": [
+        0,
+        999
+      ],
+      "errors": 0,
+      "p95": 5882.834208999993,
+      "equalsSummary": true,
+      "ceiling": null,
+      "overCeiling": 0
+    }
+  ],
+  "sevenCoreFixedSamplesComplete": true,
+  "raw4000DeviceTrustedCommitAckReadbackSignatureGrantChecks": true,
+  "cohortExactNativeAcksAndEmptyQueue": [
+    {
+      "cohort": 0,
+      "queueBefore": 402,
+      "queueAfter": 0,
+      "acceptedEveryBeforeId": true,
+      "allActualResponses200": true,
+      "countEachPath": 200
+    },
+    {
+      "cohort": 1,
+      "queueBefore": 400,
+      "queueAfter": 0,
+      "acceptedEveryBeforeId": true,
+      "allActualResponses200": true,
+      "countEachPath": 200
+    },
+    {
+      "cohort": 2,
+      "queueBefore": 400,
+      "queueAfter": 0,
+      "acceptedEveryBeforeId": true,
+      "allActualResponses200": true,
+      "countEachPath": 200
+    },
+    {
+      "cohort": 3,
+      "queueBefore": 400,
+      "queueAfter": 0,
+      "acceptedEveryBeforeId": true,
+      "allActualResponses200": true,
+      "countEachPath": 200
+    },
+    {
+      "cohort": 4,
+      "queueBefore": 400,
+      "queueAfter": 0,
+      "acceptedEveryBeforeId": true,
+      "allActualResponses200": true,
+      "countEachPath": 200
+    }
+  ],
+  "inputs": {
+    "sourceWalkCount": 2928,
+    "sourceWalkExcludedDirs": [
+      "node_modules",
+      ".git",
+      ".wrangler",
+      "reports",
+      "evidence"
+    ],
+    "buildCount": 278,
+    "sourceManifestMismatches": [],
+    "buildManifestMismatches": [],
+    "scope": "Exact before/after2928-source-walk+278build manifest comparison, not allGit16692 tracked-file claim."
+  },
+  "targetScope": {
+    "routineP95": 3132.308874999988,
+    "routineCeiling": 3000,
+    "routineSamplesOverCeiling": 1000,
+    "routineExecutionErrors": 0,
+    "remainingSixCorePathsNumericalBudgetsMet": true,
+    "compositeJourney3000BudgetInvented": false
+  },
+  "reportedFinalControl": {
+    "measurementsComplete": true,
+    "targetFindings": [
+      {
+        "profile": "reference-number-desktop-surrogate",
+        "path": "connected-routine-entry",
+        "kind": "original500ms-or3s-completion-p95-numerical-exceedance",
+        "actual": 3132.308874999988,
+        "ceiling": 3000
+      },
+      {
+        "profile": "reference-number-desktop-surrogate",
+        "path": "connected-routine-entry",
+        "kind": "engineering-observed-stop-p95-exceeds-numerical-ceiling",
+        "actual": 3132.308874999988,
+        "ceiling": 3000,
+        "note": "Failure stop distribution is not labelled completed-screen performance; no failed attempt was filtered away."
+      }
+    ],
+    "pageErrors": 0,
+    "setupFailures": 0,
+    "externalRequests": 0,
+    "ownedPortReportedFree": true,
+    "finishedAt": "2026-10-10T22:25:56.631Z",
+    "currentHeadCIClaim": false,
+    "formalAcceptanceClaim": false
+  },
+  "limits": [
+    "Valid prepared signed ordinary warm-state seed, not measured prepare UI gesture or coldKDF",
+    "Physical Android3GB/four-core/physical power-loss durability unqualified",
+    "CDP network is declared surrogate, not calibrated reference device or R1 concurrent capacity",
+    "Degraded network repeat not run",
+    "New NextLink candidate has not received this oldsource fixed1000 qualification",
+    "Old001/002/diagnostic003/partial004 and failed originalNFR198/2 remain preserved",
+    "Receipt disposal is source/output-reviewed and reportedfree; reviewer started no process or competing observer"
+  ],
+  "pins": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/RESULT.json",
+      "bytes": 138208,
+      "sha256": "bf66539cfbd111ef653e0c1c4c0e307f4408f030309b1b70366030fd105e437f"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/INPUT-PINS.json",
+      "bytes": 576893,
+      "sha256": "70ceff85871d69c1153674b396070a4c74ad828768cfc340d9787d9221682394"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/FINAL-SOURCE-PINS.json",
+      "bytes": 494660,
+      "sha256": "35b71797801bcce025604c4e9ae00ed710819c180747c15a1d2d5907dfeb0ad8"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/raw-samples.jsonl",
+      "bytes": 6302406,
+      "sha256": "858eca9e57ede030bfe68f94890f63b02f5f5c40f7362ddf8ecbab3542660ce9"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/REAL-COHORT-FLUSHES.json",
+      "bytes": 310899,
+      "sha256": "349bce8d6ed01fd81dc9e9326454dcf45ff337f36e4ada45343a9d88d0648b40"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/ACTUAL-CACHE-DIAGNOSTICS-reference-number-desktop-surrogate.json",
+      "bytes": 255,
+      "sha256": "50c7653d814004566d26630fe4faddf9cd49d1c2cb18673ba3d13606146acf61"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/EXACT-SYNTHETIC-FIXTURE.json",
+      "bytes": 13946,
+      "sha256": "1dda2d3c8462ff1c4c9344b53ae71fa2cc2cf22aec20fa421e51fe58433f0e1c"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-health-overnight-20261011/review/D03-REAL-UI-MEASUREMENTS-20261011/full-b492-a72-reference-004/ACTUAL-WORKER-OUTPUT.json",
+      "bytes": 2701753,
+      "sha256": "599c24ccfc6eefaf5bb3cae73e713cc075cf65b43fb8012b708fee291d80e2eb"
+    }
+  ]
+}

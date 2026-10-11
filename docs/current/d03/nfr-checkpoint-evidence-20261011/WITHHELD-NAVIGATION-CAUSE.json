@@ -1,0 +1,129 @@
+{
+  "createdAt": "2026-10-11T01:27:17.400884+00:00",
+  "kind": "Independent read-only actual trace and exact built/source binding review",
+  "status": "NextLink114 candidate withdrawn/unqualified; bounded cause established before route request",
+  "diagnosticDriver": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-d03-navigation-network-diagnostic-20261011/tests/nfr/d03-navigation-failure-diagnostic.mjs",
+    "sha256": "598961914fc8beef7cd634e478cdeee47b646de3c9c210473ed231e5f02bb515"
+  },
+  "actualEvidence": {
+    "INPUT-PINS.json": "ee19eb01cab80bbdaa87fccafe681e2573aae0314d2b77f8cf243b3087f87003",
+    "RESULT.json": "c8379725206a403e6c1277cdd46d69aed27ee56d692887cd8181343ad5fd230b",
+    "FLAGS.json": "2c7940ea996a31537505234b079e67e7903fb36172757335a52b16e305325f73",
+    "CONSOLE-PAGEERROR-REQUESTFAILED.json": "756a78ca165599af02e8f8f1051fb10df21156a51d127a02515389172b900e4f",
+    "ACTUAL-REQUESTS.json": "dfb9881230c8d18235cf518d89e113c586a06240c72e6d48174aa4959e635dbe",
+    "ACTUAL-RESPONSES.json": "3212ceede1410a01ecf1386d5cf5159984b785ac6ba222f5d83968f41a6e6e06",
+    "ACTUAL-CDP-NETWORK.json": "092be8d89209018600ece3cc47ab4c2b0d30b2c722a35ac45dfa769428ab6c09",
+    "UNCHANGED-CLINICAL.json": "f7d924b36f6e63639a3bd0c461204cdcc9a29db0cacfb345d3e7408f0afb72d9"
+  },
+  "inputPreservation": {
+    "source": {
+      "before": 16995,
+      "after": 16995,
+      "changed": [],
+      "added": []
+    },
+    "dist": {
+      "before": 297,
+      "after": 297,
+      "changed": [],
+      "added": []
+    }
+  },
+  "actualObservation": {
+    "singleClick": true,
+    "pageError": {
+      "at": 1791681939463,
+      "message": "TypeError: e is not a function",
+      "stack": "TypeError: e is not a function\n    at http://127.0.0.1:20744/_next/static/chunks/today-Bv9bbfBm.js:2:11741\n    at e.startTransition (http://127.0.0.1:20744/_next/static/chunks/framework-D_rUT4EX.js:1:6185)\n    at ye (http://127.0.0.1:20744/_next/static/chunks/today-Bv9bbfBm.js:2:11720)"
+    },
+    "urlAndMainRemainTodayAtAllFourSnapshots": true,
+    "actualRoutineAPIRequests": 0,
+    "actualRoutineRSCNavigationResponses": 0,
+    "appDir": true,
+    "runtimeNavigateType": "function",
+    "rscBootstrapType": "undefined",
+    "ownedPortFree": true,
+    "disposalErrors": [],
+    "clinicalReadbackUnchanged": true
+  },
+  "builtBinding": {
+    "todayChunkPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-d03-navigation-network-diagnostic-20261011/dist/client/_next/static/chunks/today-Bv9bbfBm.js",
+    "todayChunkSha256": "50d2de225da41ed4e39803c444bcd4e7dbd7451576587843058ae5891aefa4b9",
+    "indexModulePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-d03-navigation-network-diagnostic-20261011/dist/client/_next/static/chunks/index-DVDtMMj6.js",
+    "indexModuleSha256": "6baf9904aa02d8b6c10f9bf6bb7e9aa6fcc840fc558c699c9b466376a5e3b62d",
+    "stackLocation": {
+      "line": 2,
+      "oneBasedColumn": 11741
+    },
+    "exactCallExcerpt": ",t=!1,n={url:e,preventDefault(){t=!0},get defaultPrevented(){return t}};if(ee(n),n.defaultPrevented)return}catch{}if(null?.resolveHybridClientRouteOwner(i,L),o){let{navigateClientSide:e}=M??await le(),t=J.current;t&&O(t),K(!0),y.startTransition(()=>{e(i,n?`replace`:`push`,a,!1).finally(()=>{q.current&&K(!1),t&&k(t)})});return}else n?window.location.replace(s",
+    "dynamicLoaderExcerpt": "function le(){return N??=g(()=>import(`./index-DVDtMMj6.js`).then(e=>(M=e,e)),...) }",
+    "indexNamedExports": [
+      "C",
+      "S",
+      "T",
+      "_",
+      "a",
+      "b",
+      "c",
+      "d",
+      "f",
+      "g",
+      "h",
+      "i",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y"
+    ],
+    "navigateClientSideNamedExportPresent": false,
+    "indexContainsNavigateClientSideLiteral": false,
+    "actualLoadedResponses": [
+      {
+        "at": 1791681939237,
+        "url": "http://127.0.0.1:20744/_next/static/chunks/today-Bv9bbfBm.js",
+        "status": 200,
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable",
+          "content-encoding": "gzip",
+          "content-type": "text/javascript; charset=utf-8"
+        },
+        "resourceType": "script",
+        "navigation": false
+      },
+      {
+        "at": 1791681939239,
+        "url": "http://127.0.0.1:20744/_next/static/chunks/index-DVDtMMj6.js",
+        "status": 200,
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable",
+          "content-encoding": "gzip",
+          "content-type": "text/javascript; charset=utf-8"
+        },
+        "resourceType": "script",
+        "navigation": false
+      }
+    ]
+  },
+  "causalConclusion": "The real single click enters the registered app navigation branch. Its exact built Today chunk dynamically imports the index module namespace and destructures navigateClientSide as local e. The index module has no export by that name; the actual stack identifies the call of e inside React.startTransition, which throws TypeError before any Routine RSC or API request. This is a built-module namespace/export mismatch on this candidate build, not an observed organisation-selector/current-authorization defect.",
+  "sourceMapping": {
+    "vinextLinkSource": "node_modules/vinext/dist/shims/link.js:707-717 loads navigationModule, destructures navigateClientSide and calls it inside startTransition. Package is installed1.0.0-beta.5; no package/source modification by reviewer.",
+    "locationQueryNotEvaluated": "Routine initial mount/read path was not reached; changing its query validation would not be justified by this trace."
+  },
+  "limits": [
+    "The exact stage responsible for the export-name transformation (bundler/framework packaging configuration) is not independently proven here. Do not generalise to all builds/framework versions or assert a dependency fix.",
+    "Actual index/Today asset filenames/status and immutable built bytes are bound; no separately captured decoded index HTTP body digest is present in this bounded probe.",
+    "Probe exit0 means diagnostic captured its intended failure and disposed; original functional22/1 is still failed. N10 timings not run, original1000 Routine3s breach stays red.",
+    "Current published parent791 source remains unchanged; candidate withdrawn for this checkpoint. No dependency/source patch, provider/CI/live/formalA9/physical/R1 qualification."
+  ],
+  "noWorkerBrowserSourceEditsByReviewer": true
+}
