@@ -1,0 +1,31 @@
+Running unit integration; 7 suite(s).
+
+[unit] 2 suite(s)
+  ok       unit/report-edition-recovery-contract  47 passed  158ms
+  ok       unit/test-runner-contract  27 passed  10.1s
+
+[integration] 5 suite(s)
+build: npm run build ...
+build: ok (4.9s)
+  running  integration/indicator-figures-edition-http ...
+  ok       integration/indicator-figures-edition-http  54 passed  1.5s
+  running  integration/indicator-figures-http ...
+  ok       integration/indicator-figures-http  72 passed  1.4s
+  running  integration/indicator-figures-review-authority ...
+  ok       integration/indicator-figures-review-authority  84 passed  1.5s
+  running  integration/composite-authority-independent-extra-http ...
+  ok       integration/composite-authority-independent-extra-http  95 passed  42.9s
+  running  integration/composite-measures-http ...
+  ok       integration/composite-measures-http  133 passed  3.6s
+
+  layer        status  suites  passed  failed  skipped    time
+  -----------  ------  ------  ------  ------  -------  ------
+  build        passed       1       -       -        -    4.9s
+  unit         passed       2      74       0        0   10.3s
+  integration  passed       5     438       0        0   51.0s
+  total        passed       7     512       0        0  1m 06s
+
+Restored 1 tracked file(s) and deleted 0 untracked result file(s) so the tree matches HEAD.
+
+Regression guard: passed (6 baselined suite(s) checked, 0 excused by quarantine).
+  note     1 suite(s) are not in the baseline yet (unit/report-edition-recovery-contract); add them with --update-baseline.

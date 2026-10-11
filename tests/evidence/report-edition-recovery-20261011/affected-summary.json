@@ -1,0 +1,275 @@
+{
+  "generatedAt": "2026-10-11T09:17:28.586Z",
+  "startedAt": "2026-10-11T09:16:22.210Z",
+  "command": "node scripts/test.mjs integration unit --only integration/composite-measures-http,unit/report-edition-recovery-contract,integration/indicator-figures-http,integration/indicator-figures-edition-http,integration/indicator-figures-review-authority,integration/composite-authority-independent-extra-http,unit/test-runner-contract --guard --report ../../outputs/saha-ten-hour-20261011/report-edition-race/affected-summary.json",
+  "node": "v24.19.0",
+  "layers": [
+    {
+      "layer": "build",
+      "status": "passed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4870,
+      "failedSuites": 0
+    },
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 2,
+      "passed": 74,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10273,
+      "failedSuites": 0
+    },
+    {
+      "layer": "integration",
+      "status": "passed",
+      "suites": 5,
+      "passed": 438,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 50965,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 7,
+    "passed": 512,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 66376
+  },
+  "suites": [
+    {
+      "id": "unit/report-edition-recovery-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/report-edition-recovery-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 158,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/report-edition-recovery-contract.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__report-edition-recovery-contract.log"
+    },
+    {
+      "id": "unit/test-runner-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/test-runner-privacy-registration-current-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 10115,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/privacy-registration-root-integration/runner-current.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__test-runner-contract.log"
+    },
+    {
+      "id": "build",
+      "layer": "build",
+      "kind": "step",
+      "file": "npm run build",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 4870,
+      "exitCode": 0,
+      "log": "tests/reports/logs/build.log"
+    },
+    {
+      "id": "integration/indicator-figures-edition-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/indicator-figures-edition-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1484,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/indicator-figures/cross-edition-http.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/integration__indicator-figures-edition-http.log"
+    },
+    {
+      "id": "integration/indicator-figures-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/indicator-figures-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 72,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1438,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/indicator-figures/http.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/integration__indicator-figures-http.log"
+    },
+    {
+      "id": "integration/indicator-figures-review-authority",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/indicator-figures-review-authority.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 84,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1534,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/indicator-figures-review/authority-http.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/integration__indicator-figures-review-authority.log"
+    },
+    {
+      "id": "integration/composite-authority-independent-extra-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/integration-composite-authority-time-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 95,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 42913,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/evidence/integration-fixture-adapters/composite-time/http.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/integration__composite-authority-independent-extra-http.log"
+    },
+    {
+      "id": "integration/composite-measures-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/report-edition-current-http.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 133,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3596,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/report-edition-current/http.json"
+      ],
+      "requirementsCited": 3,
+      "reason": null,
+      "log": "tests/reports/logs/integration__composite-measures-http.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 6,
+    "newSuites": [
+      "unit/report-edition-recovery-contract"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/privacy-registration-root-integration/runner-current.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 202,
+        "components": 0,
+        "suitesCitingNoRequirement": 62,
+        "requirementsCited": 141
+      },
+      "integration": {
+        "suites": 156,
+        "components": 84,
+        "suitesCitingNoRequirement": 80,
+        "requirementsCited": 123
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 6,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 4
+      },
+      "ui": {
+        "suites": 2,
+        "components": 12,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 593,
+        "components": 0,
+        "suitesCitingNoRequirement": 478,
+        "requirementsCited": 144
+      }
+    },
+    "supportFiles": 33,
+    "suites": 968,
+    "components": 96,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 625,
+    "componentsCitingNoRequirement": 20,
+    "requirementsCitedBySomeTest": 157
+  }
+}
