@@ -1,0 +1,123 @@
+{
+  "observedAtUtc": "2026-10-11T18:20:34.526476+00:00",
+  "kind": "Actual exact-head failed CI artifact diagnosis; no source edit",
+  "pr": 207,
+  "head": "c0a0042a71d4eb7d01260b2dab8636d812ce4864",
+  "ciRun": 38161234419,
+  "regressionJob": 114534405206,
+  "conclusion": "FAILURE",
+  "zip": {
+    "path": "outputs/saha-eight-hour-20261011/tenant-publication/REGRESSION-EVIDENCE-11711450232.zip",
+    "sha256": "2405b00a0718b61e95119615259ecef4967672baddaf56ade5491de68c1f8f01",
+    "bytes": 254455
+  },
+  "rawLog": {
+    "path": "outputs/saha-eight-hour-20261011/tenant-publication/ENGINEERING-CI-38161234419-FAILURE.log",
+    "sha256": "da4fa441669a1039a882f4865267a4d5eca05823be309c34678dd1adf7e04acf"
+  },
+  "totals": {
+    "suites": 148,
+    "passed": 7691,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 1,
+    "durationMs": 1425625
+  },
+  "layers": [
+    {
+      "layer": "integration",
+      "status": "failed",
+      "suites": 144,
+      "passed": 7646,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 1391215,
+      "failedSuites": 1
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 3,
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 21664,
+      "failedSuites": 0
+    },
+    {
+      "layer": "ui",
+      "status": "passed",
+      "suites": 1,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 11629,
+      "failedSuites": 0
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 147,
+    "newSuites": [
+      "integration/tenant-record-isolation-http"
+    ]
+  },
+  "failedSuites": [
+    {
+      "id": "integration/tenant-record-isolation-http",
+      "layer": "integration",
+      "kind": "suite",
+      "file": "tests/tenant-record-isolation-http.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 888,
+      "exitCode": 1,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/tenant-record-isolation-http/result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/integration__tenant-record-isolation-http.log"
+    }
+  ],
+  "tenant": {
+    "status": "failed",
+    "nativeScenariosExecuted": 0,
+    "actualAssertionCalls": 0,
+    "expectedScenarios": 13,
+    "commands": [],
+    "phase": "pre-runtime complete source/build custody",
+    "errors": [
+      {
+        "phase": "pre-runtime complete source/build custody",
+        "code": "ERR_ASSERTION",
+        "signal": null,
+        "commandExitStatus": null,
+        "error": "AssertionError [ERR_ASSERTION]: Tracked source differs from its exact checkout commit.\n+ actual - expected\n\n+ 'pnpm-workspace.yaml\\n' +\n+   'tests/evidence/app-first-frozen-figures-integration/inbound-handoff/withdrawn-reviewer-assignment.json\\n' +\n+   'tests/evidence/app-offline-scope/result.json\\n' +\n+   'tests/evidence/app-offline-scope/withdrawn-membership.png\\n' +\n+   'tests/evidence/asha-guided-capture/conditional-fact/conditional-fact.png\\n' +\n+   'tests/evidence/asha-guided-capture/home-regression/desktop-preview.png\\n' +\n+   'tests/evidence/asha-guided-capture/home-regression/phone-home-hindi.png\\n' +\n+   'tests/evidence/asha-guided-capture/home-regression/phone-home.png\\n' +\n+   'tests/evidence/asha-guided-capture/home-regression/phone-review.png\\n' +\n+   'tests/evidence/asha-guided-capture/home-regression/phone-today.png\\n' +\n+   'tests/evidence/asha-guided-capture/phone/phone-hindi.png\\n' +\n+   'tests/evidence/asha-guided-capture/phone/phone-scope-refusal.png\\n' +\n+   'tests/evidence/asha-guided-capture/phone/phone-temperature.png\\n' +\n+   'tests/evidence/asha-guided-capture/uncertainty/lost-ack.json\\n' +\n+   'tests/evidence/asha-guided-capture/uncertainty/lost-ack.png\\n' +\n+   'tests/evidence/auxiliary-read-audit/http.json\\n' +\n+   'tests/evidence/clinical-source-retrieval/source-phone.png\\n' +\n+   'tests/evidence/clinical-sources/source-phone.png\\n' +\n+   'tests/evidence/composite-measures/phone-builder.png\\n' +\n+   'tests/evidence/composite-measures/phone-clinician-review.png\\n' +\n+   'tests/evidence/composite-measures/phone-reviewed.png\\n' +\n+   'tests/evidence/figure-impact/phone/phone-published-reissue.png\\n' +\n+   'tests/evidence/figure-impact/phone/phone-reviewer.png\\n' +\n+   'tests/evidence/guided-programme-reset/programme-current-read/programme-after-load.json\\n' +\n+   'tests/evidence/guided-programme-reset/programme-current-read/programme-after-load.png\\n' +\n+   'tests/evidence/guided-programme-reset/variants/programme-recovery.png\\n' +\n+   'tests/evidence/guided-programme-reset/variants/result.json\\n' +\n+   'tests/evidence/guided-registration-overflow/overflow-phone.png\\n' +\n+   'tests/evidence/guided-registration-overflow/result.json\\n' +\n+   'tests/evidence/guided-registration-root-review/additional-phone/lost-ack.json\\n' +\n+   'tests/evidence/guided-registration-root-review/additional-phone/phone-hindi.png\\n' +\n+   'tests/evidence/guided-registration-root-review/additional-phone/phone-identity-review.png\\n' +\n+   'tests/evidence/guided-registration-root-review/additional-phone/result.json\\n' +\n+   'tests/evidence/guided-registration/lost-ack.json\\n' +\n+   'tests/evidence/guided-registration/phone-hindi.png\\n' +\n+   'tests/evidence/guided-registration/phone-identity-review.png\\n' +\n+   'tests/evidence/guided-registration/result.json\\n' +\n+   'tests/evidence/guided-repair-independent/probe/programme-recovery.png\\n' +\n+   'tests/evidence/guided-repair-independent/probe/result.json\\n' +\n+   'tests/evidence/household-reschedule-independent/http-phone.json\\n' +\n+   'tests/evidence/household-reschedule/http-phone.json\\n' +\n+   'tests/evidence/import-unit-parity/imported-six-units-phone.png\\n' +\n+   'tests/evidence/imported-evidence/phone-source-review.png\\n' +\n+   'tests/evidence/inbound-conflicts-assignment-repair/intake-phone.png\\n' +\n+   'tests/evidence/inbound-conflicts-assignment-repair/mixed-pressure-provenance-after.json\\n' +\n+   'tests/evidence/inbound-conflicts-assignment-repair/reviewer-phone.png\\n' +\n+   'tests/evidence/inbound-retrieval-service-independent/phone-start-body.txt\\n' +\n+   'tests/evidence/inbound-retrieval-service-independent/phone-start.png\\n' +\n+   'tests/evidence/inbound-retrieval-service-independent/retrieved-intake-phone.png\\n' +\n+   'tests/evidence/inbound-retrieval-service-independent/retrieved-reviewer-phone.png\\n' +\n+   'tests/evidence/inbound-retrieval-service-repair/phone-start-body.txt\\n' +\n+   'tests/evidence/inbound-retrieval-service-repair/phone-start.png\\n' +\n+   'tests/evidence/inbound-retrieval-service-repair/retrieved-intake-phone.png\\n' +\n+   'tests/evidence/inbound-retrieval-service-repair/retrieved-reviewer-phone.png\\n' +\n+   'tests/evidence/indicator-figures/phone-published-reissue.png\\n' +\n+   'tests/evidence/indicator-figures/phone-reviewer.png\\n' +\n+   'tests/evidence/indicator-governance-independent/reporting-clock.json\\n' +\n+   'tests/evidence/indicator-governance/browser.json\\n' +\n+   'tests/evidence/indicator-governance/phone-clinician-review.png\\n' +\n+   'tests/evidence/indicator-governance/phone-reviewed.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/enabled-observed.json\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/observed.json\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/phone/governance-recovered.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/phone/governance.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/phone/independent-work.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/phone/initial-body.txt\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/phone/initial-page.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/primary/phone/owner-work.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/enabled-observed.json\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/native-phone/known-accepted403.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/native-phone/result.json\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/observed.json\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/governance.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/initial-body.txt\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/initial-page.png\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/post-persist409.json\\n' +\n+   'tests/evidence/installed-programme-governance-repair/uncertainty-phone/phone/post-persist409.png\\n' +\n+   'tests/evidence/installed-transition-portability/figure/adversarial-after.json\\n' +\n+   'tests/evidence/installed-transition-portability/figure/verifier.json\\n' +\n+   'tests/evidence/installed-transition-portability/report/verifier.json\\n' +\n+   'tests/evidence/installed-work-repair-independent/additional-http/additional-observations.json\\n' +\n+   'tests/evidence/installed-work-repair-independent/additional-http/enabled-observed.json\\n' +\n+   'tests/evidence/installed-work-repair-independent/additional-http/observations.json\\n' +\n+   'tests/evidence/installed-work-repair-independent/additional-http/observed.json\\n' +\n+   'tests/evidence/integration-fixture-adapters/household/initial.png\\n' +\n+   'tests/evidence/integration-fixture-adapters/household/phone.png\\n' +\n+   'tests/evidence/integration-mapping-review-owned-port/mapping-card-phone.png\\n' +\n+   'tests/evidence/integration-mapping-review-owned-port/owner-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-app-browser/expired-grant.png\\n' +\n+   'tests/evidence/integration-offline-guided-app-browser/offline-patient.png\\n' +\n+   'tests/evidence/integration-offline-guided-app-browser/wrong-account.png\\n' +\n+   'tests/evidence/integration-offline-guided-device-browser/delayed-account-denial-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-device-browser/privacy-purge-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-programme-browser/programme-offline-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-purge-failure-browser/delayed-account-denial-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-purge-failure-browser/privacy-purge-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-range-browser/population-offline-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-range-browser/publication-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-range-browser/stale-context-phone.png\\n' +\n+   'tests/evidence/integration-offline-guided-review-browser/expired-grant.png\\n' +\n+   'tests/evidence/integration-offline-guided-review-browser/offline-patient.png\\n' +\n+   'tests/evidence/integration-offline-guided-review-browser/wrong-account.png\\n' +\n+   'tests/evidence/integration-offline-guided-touch-units-browser/offline-unit-capture.png\\n' +\n+   'tests/evidence/integration-offline-guided-touch-units-browser/online-unit-review.png\\n' +\n+   'tests/evidence/mapping-conformance/failed-example-phone.png\\n' +\n+   'tests/evidence/mapping-conformance/reviewed-contract-phone.png\\n' +\n+   'tests/evidence/mapping-lifecycle/owner-phone.png\\n' +\n+   'tests/evidence/object-media/phone.png\\n' +\n+   'tests/evidence/offline-guided-author/guided-weight-phone.png\\n' +\n+   'tests/evidence/offline-guided-author/guided-weight-viewport.png\\n' +\n+   'tests/evidence/offline-guided-author/layout-before.json\\n' +\n+   'tests/evidence/offline-guided-author/locked-phone.png\\n' +\n+   'tests/evidence/offline-guided-author/patient-phone.png\\n' +\n+   'tests/evidence/offline-guided-author/programme-offline-phone.png\\n' +\n+   'tests/evidence/offline-guided-author/today-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/asha-purged.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/asha-uncertain-guided.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/guided-weight-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/guided-weight-viewport.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/layout-before.json\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/locked-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/patient-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/programme-offline-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/purged-proof.json\\n' +\n+   'tests/evidence/offline-sync-hash-cold/extra-browser/today-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/scope/reset-dom.json\\n' +\n+   'tests/evidence/offline-sync-hash-cold/scope/reset.png\\n' +\n+   'tests/evidence/offline-sync-hash-cold/scope/withdrawn-membership.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/asha-uncertain-guided.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/guided-weight-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/guided-weight-viewport.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/layout-before.json\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/locked-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/patient-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/programme-offline-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/browser/today-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/device/delayed-account-denial-phone.png\\n' +\n+   'tests/evidence/offline-sync-hash-repair/device/privacy-purge-phone.png\\n' +\n+   'tests/evidence/operational-privacy-current/adverse/observed.json\\n' +\n+   'tests/evidence/operational-privacy-current/extra/observed.json\\n' +\n+   'tests/evidence/operational-privacy/observed.json\\n' +\n+   'tests/evidence/operational-privacy/phone/phone-protec'... 2317 more characters\n- ''\n\n    at sourceCheckoutPins (file:///home/runner/work/saha-health/saha-health/tests/lib/tenant-record-containment.mjs:143:10)\n    at file:///home/runner/work/saha-health/saha-health/tests/tenant-record-isolation-http.mjs:52:12\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)"
+      }
+    ],
+    "resultSha256": "99f36c8c6d293c6d91417751cb7dd19e18dc71541ea17310f7d13dad321e9760",
+    "custodyDisposition": "Strict clean-checkout assertion refused before port allocation/owned child/state/migration. No native pass, disposal or hosted acceptance claimed."
+  },
+  "sourceCause": {
+    "file": "tests/lib/tenant-record-containment.mjs",
+    "line": 143,
+    "currentSha256": "6afeacb161874497835f813b9511fae638511dc5ec7a64b9dc59e602374d20cc",
+    "actualFailure": "Whole tracked git diff is nonempty: pnpm-workspace.yaml plus prior suites tests/evidence rewrites.",
+    "runner": "scripts/test.mjs cleans generated tracked evidence after each layer, not after each suite; tenant executes within integration after earlier suite writes. End cleanup restores195 tracked files.",
+    "installer": "scripts/install-pnpm.sh has three project pnpm config set commands; actual earlier independently reviewed711 installer evidence contains the two store/cache path substitutions. This PR207 precondition error did not retain its workspace diff; exact generated bytes are not independently established for207.",
+    "notApplicationDiagnosis": "All147 other selected suites passed here. composite-measures-http133, reminder-optout-http55 and reminder-refresh13 pass; no duplicate report/reminder application repair is proposed."
+  },
+  "skippedRequiredStep": "Smoke, security suites and UAT checks was skipped after failed App-first workflow; no completion credit.",
+  "limits": [
+    "Native0/13 remains",
+    "Formal/fullparent/hosting/current-main security integration remain held",
+    "Zero counted failed assertions is not a successful suite when setup fails and exit1"
+  ]
+}

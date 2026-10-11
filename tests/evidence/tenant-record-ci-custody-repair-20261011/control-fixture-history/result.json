@@ -1,0 +1,168 @@
+{
+  "suite": "Tenant record installer custody controls (APL-763)",
+  "layer": "unit",
+  "passed": 21,
+  "failed": 1,
+  "skipped": 0,
+  "startedAt": "2026-10-11T18:27:58.451Z",
+  "completedAt": "2026-10-11T18:27:58.586Z",
+  "environment": "Existing pinned YAML parser and temporary regular files; no installer, build, Worker, browser, D1 or outbound request",
+  "limits": [
+    "Parsed configuration fixtures do not assert an actual installer run.",
+    "The genuine first existing CI failure is retained; native tenant policy and formal acceptance remain separate."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "the actual original policy parses with the already installed pinned YAML parser",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "only declared project store and cache substitutions are accepted",
+      "ok": false,
+      "ms": 1,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '.sites-runtime/pnpm-store'\n- '${SITES_PNPM_SHARED_STORE:-.sites-runtime/pnpm-store}'\n"
+    },
+    {
+      "label": "an unsuccessful unchanged installer cannot authorize restoration",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing or unsupported installer report is refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "null scalar or array workspace configurations are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "extra and deleted configuration keys are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "every original security or other non-store value is protected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "nested build allowances and override values are protected",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a changed original store policy cannot be silently normalized",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "unexpected generated store or cache paths are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "any additional tracked mutation is refused rather than ignored",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "staged changes and duplicate changed-path observations are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing wrong-manager or wrong-lock installed identities are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "installed runtime identity must use the actual Node and platform",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "the YAML parser refuses duplicate keys and malformed policy syntax",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "actual temporary-file restoration returns exact original bytes including comments",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a concurrent generated-file change is refused and retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "a symlink is refused without replacing it or its target",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing files and directories cannot be treated as restorable workspaces",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "actual missing-HEAD Git setup failure retains full command bounds and stderr before spawning an installer",
+      "ok": true,
+      "ms": 50
+    },
+    {
+      "label": "actual dirty temporary checkout failure retains an initial receipt without restoring or installing anything",
+      "ok": true,
+      "ms": 81
+    },
+    {
+      "label": "installer policy source and control inputs remain unchanged through these controls",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "evidence": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/tenant-publication/dedicated-ci-proposal/generated-workspace-control-reproduction/evidence",
+  "inputHashes": {
+    "scripts/tenant-record-install-custody.mjs": "5ba48891dcf8abcd12e7ff971a95a7d27275feaac30debee6df4c1df00f20d61",
+    "tests/tenant-record-install-custody-contract.mjs": "294ecfa0cb3967dab9cdd489ff7bed00879f3375a2c0306ccfb2c76b978752c8",
+    "tests/lib/tenant-record-containment.mjs": "c8ab94f0c0c3c738a1d49ce5132cb6c9b88ffb094b3f6201f1aaab27dd00c6a1",
+    "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+    "scripts/install-pnpm.sh": "db980d931c7d1fb6d64dfede2fc698227d9bbd3bbb94f50a8966d9eb980bf10c",
+    "scripts/pnpm-install.mjs": "380309d06af721775377f805e90bbba27118e91bf67cd6c87ca59b9ef56453e8",
+    "pnpm-workspace.yaml": "d2dff52a21f6ebf30c3af71a7d2922c99151910918a4b568e015d38d8954821f",
+    "pnpm-lock.yaml": "0041e61a9783811cc34c5261f815bbe6ca7337348e62c9f7f17b43880c5fae71",
+    ".github/workflows/ci.yml": "ee5a69673d97914e322fd36ef867371adc51a206e66b557093910139edd22466"
+  },
+  "afterHashes": {
+    "scripts/tenant-record-install-custody.mjs": "5ba48891dcf8abcd12e7ff971a95a7d27275feaac30debee6df4c1df00f20d61",
+    "tests/tenant-record-install-custody-contract.mjs": "294ecfa0cb3967dab9cdd489ff7bed00879f3375a2c0306ccfb2c76b978752c8",
+    "tests/lib/tenant-record-containment.mjs": "c8ab94f0c0c3c738a1d49ce5132cb6c9b88ffb094b3f6201f1aaab27dd00c6a1",
+    "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+    "scripts/install-pnpm.sh": "db980d931c7d1fb6d64dfede2fc698227d9bbd3bbb94f50a8966d9eb980bf10c",
+    "scripts/pnpm-install.mjs": "380309d06af721775377f805e90bbba27118e91bf67cd6c87ca59b9ef56453e8",
+    "pnpm-workspace.yaml": "d2dff52a21f6ebf30c3af71a7d2922c99151910918a4b568e015d38d8954821f",
+    "pnpm-lock.yaml": "0041e61a9783811cc34c5261f815bbe6ca7337348e62c9f7f17b43880c5fae71",
+    ".github/workflows/ci.yml": "ee5a69673d97914e322fd36ef867371adc51a206e66b557093910139edd22466"
+  },
+  "parser": {
+    "name": "js-yaml",
+    "version": "4.1.1",
+    "packageJsonSha256": "8def73a82a4593800c08ae7f068016804d94ecadadd409a8042f1850cc5ce5a0",
+    "eslintPackageFile": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/eslint@9.39.4_jiti@2.7.0_supports-color@10.2.2/node_modules/eslint/package.json",
+    "eslintPackageJsonSha256": "80a7caf2adf34963e47b32a1e75157de6d6814c3ae5a9d90358ddd9364833fe7",
+    "eslintrcEntry": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/@eslint+eslintrc@3.3.5_supports-color@10.2.2/node_modules/@eslint/eslintrc/dist/eslintrc.cjs",
+    "eslintrcEntrySha256": "fbae17e4d631d7f53288fd0dd7b334c114024181ba9e94e98388360863c7623f",
+    "entry": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/js-yaml@4.1.1/node_modules/js-yaml/index.js",
+    "entrySha256": "7d1ebc0d9929b9124997b439d1a1fd9aff8feb6bb0a1b59e977ea638944f34ba",
+    "packageFile": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/node_modules/.pnpm/js-yaml@4.1.1/node_modules/js-yaml/package.json"
+  },
+  "minimumChecks": 22,
+  "actualInstallerExecuted": false,
+  "applicationRuntimeStarted": false,
+  "nativeScenariosRun": 0,
+  "formalAcceptanceClaim": false
+}

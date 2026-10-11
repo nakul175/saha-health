@@ -136,13 +136,21 @@ export function fileTreePins(directory) {
     return stat.isDirectory() ? Object.entries(fileTreePins(path)) : [[path, sha256(readFileSync(path))]];
   }));
 }
+function observeGit(args) {
+  // Observe every filename without filtering; a large checkout is still bounded.
+  const options = { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, timeout: 20000, killSignal: 'SIGKILL' };
+  try { return execFileSync('git', args, options); }
+  catch (error) {
+    error.gitObservation = { command: ['git', ...args], maxBuffer: options.maxBuffer, timeoutMs: options.timeout, killSignal: options.killSignal, code: error.code ?? null, status: error.status ?? null, signal: error.signal ?? null, message: String(error.message), stdout: error.stdout == null ? null : String(error.stdout), stderr: error.stderr == null ? null : String(error.stderr) };
+    throw error; // Setup/custody fails closed; the caller retains the real observation.
+  }
+}
 export function sourceCheckoutPins(extraFiles = []) {
-  const metadataOptions = { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, timeout: 20000, killSignal: 'SIGKILL' };
-  const commit = execFileSync('git', ['rev-parse', 'HEAD'], metadataOptions).trim();
-  const tree = execFileSync('git', ['rev-parse', 'HEAD^{tree}'], metadataOptions).trim();
-  assert.equal(execFileSync('git', ['diff', '--name-only'], metadataOptions), '', 'Tracked source differs from its exact checkout commit.');
-  assert.equal(execFileSync('git', ['diff', '--cached', '--name-only'], metadataOptions), '', 'Staged source differs from its exact checkout commit.');
-  const files = [...new Set([...execFileSync('git', ['ls-files', '-z'], metadataOptions).split('\0').filter(Boolean), ...extraFiles])].sort();
+  const commit = observeGit(['rev-parse', 'HEAD']).trim();
+  const tree = observeGit(['rev-parse', 'HEAD^{tree}']).trim();
+  assert.equal(observeGit(['diff', '--name-only']), '', 'Tracked source differs from its exact checkout commit.');
+  assert.equal(observeGit(['diff', '--cached', '--name-only']), '', 'Staged source differs from its exact checkout commit.');
+  const files = [...new Set([...observeGit(['ls-files', '-z']).split('\0').filter(Boolean), ...extraFiles])].sort();
   const pins = Object.fromEntries(files.map(file => [file, sha256(readFileSync(resolve(file)))]));
   const profile = '.sites-runtime/execution-profile.json';
   const buildLocalSelection = { executionProfile: readExecutionProfile(), profileFile: profile, profileFilePresent: existsSync(profile), profileFileSha256: existsSync(profile) ? sha256(readFileSync(profile)) : null };

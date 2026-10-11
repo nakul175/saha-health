@@ -1,0 +1,42 @@
+{
+  "kind": "actual isolated CI installer custody",
+  "startedAt": "2026-10-11T18:22:22.446Z",
+  "ownerPid": 33379,
+  "node": "v24.19.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "commands": [],
+  "errors": [
+    {
+      "name": "Error",
+      "message": "Command failed: git rev-parse HEAD\nfatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n",
+      "code": null,
+      "status": 128,
+      "signal": null,
+      "stdout": "HEAD\n",
+      "stderr": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n",
+      "gitObservation": {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "maxBuffer": 16777216,
+        "timeoutMs": 20000,
+        "killSignal": "SIGKILL",
+        "code": null,
+        "status": 128,
+        "signal": null,
+        "message": "Command failed: git rev-parse HEAD\nfatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n",
+        "stdout": "HEAD\n",
+        "stderr": "fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+      }
+    }
+  ],
+  "restored": false,
+  "nativeScenariosRun": 0,
+  "formalAcceptanceClaim": false,
+  "status": "failed; no build or native authorization",
+  "phase": "initial source guard",
+  "completedAt": "2026-10-11T18:22:22.456Z"
+}

@@ -1,0 +1,75 @@
+{
+  "atUtc": "2026-10-11T18:22:04.306645+00:00",
+  "stage": "Source-only exact individual adaptation",
+  "transforms": [
+    {
+      "sourceCommit": "711f4fa067c10cc91c3ba0f9e98719fcfaa298db",
+      "sourcePath": "scripts/scoped-locality-install-custody.mjs",
+      "sourceSha256": "44f4896d2b76a28d3ec5c199724a83846a32996f7c2d29765f7ad68274861c53",
+      "targetPath": "scripts/tenant-record-install-custody.mjs",
+      "targetSha256": "5ba48891dcf8abcd12e7ff971a95a7d27275feaac30debee6df4c1df00f20d61",
+      "literalMappings": [
+        [
+          "scoped-locality",
+          "tenant-record"
+        ],
+        [
+          "SAHA_SCOPED_INSTALL",
+          "SAHA_TENANT_INSTALL"
+        ]
+      ],
+      "behaviorChange": "Only import/input/evidence/environment/title naming adaptation; validation/restoration/control bodies unchanged."
+    },
+    {
+      "sourceCommit": "711f4fa067c10cc91c3ba0f9e98719fcfaa298db",
+      "sourcePath": "tests/scoped-locality-install-custody-contract.mjs",
+      "sourceSha256": "743611e7f2ba1fd37cbcfb2e237ba5119c1aa3d49fc652abafd0c3d33f4219be",
+      "targetPath": "tests/tenant-record-install-custody-contract.mjs",
+      "targetSha256": "294ecfa0cb3967dab9cdd489ff7bed00879f3375a2c0306ccfb2c76b978752c8",
+      "literalMappings": [
+        [
+          "scoped-locality",
+          "tenant-record"
+        ],
+        [
+          "SAHA_SCOPED_INSTALL",
+          "SAHA_TENANT_INSTALL"
+        ],
+        [
+          ".github/workflows/scoped-permission-checks.yml",
+          ".github/workflows/ci.yml"
+        ],
+        [
+          "Scoped locality installer custody controls (APL-194)",
+          "Tenant record installer custody controls (APL-763)"
+        ],
+        [
+          "The genuine first dedicated CI failure is retained; native policy and formal acceptance remain separate.",
+          "The genuine first existing CI failure is retained; native tenant policy and formal acceptance remain separate."
+        ]
+      ],
+      "behaviorChange": "Only import/input/evidence/environment/title naming adaptation; validation/restoration/control bodies unchanged."
+    },
+    {
+      "sourceCommit": "711f4fa067c10cc91c3ba0f9e98719fcfaa298db",
+      "sourcePath": "tests/lib/scoped-locality-containment.mjs",
+      "sourceSha256": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+      "extractedBlockSha256": "546cf6fe5f076d3870162233fc7a535c5238ccccc770eea6dc9cde102238c8e9",
+      "targetPath": "tests/lib/tenant-record-containment.mjs",
+      "beforeSha256": "6afeacb161874497835f813b9511fae638511dc5ec7a64b9dc59e602374d20cc",
+      "afterSha256": "c8ab94f0c0c3c738a1d49ce5132cb6c9b88ffb094b3f6201f1aaab27dd00c6a1",
+      "behaviorChange": "Five same bounded Git observations now retain real error metadata; all clean/staged/full-file/profile predicates and command arguments unchanged."
+    },
+    {
+      "targetPath": ".github/workflows/ci.yml",
+      "beforeSha256": "46fa117e1cefface33c6ab05c96d91ae456dd99e1b4ce9f7b12b8b393b326b56",
+      "afterSha256": "ee5a69673d97914e322fd36ef867371adc51a206e66b557093910139edd22466",
+      "originalExistingWorkflowSha256": "0ee74cd0cdf3e5572dade0e6d370707b56c2e13fb6622c7f1b17f15228f81be5",
+      "originalExistingWorkflowBytesRecoveredExactly": true,
+      "behaviorChange": "Move sole own new native suite selection to fresh dedicated job. Every preexisting workflow byte/selection/guard/timeout remains unchanged."
+    }
+  ],
+  "noOriginalOracleChange": true,
+  "noNativeExecuted": true,
+  "noBuildInstallExecuted": true
+}
