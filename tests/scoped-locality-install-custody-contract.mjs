@@ -13,7 +13,12 @@ assert.equal(existsSync(resultFile), false, 'Retain the prior control report.');
 const INPUTS = ['scripts/scoped-locality-install-custody.mjs', 'tests/scoped-locality-install-custody-contract.mjs', 'tests/lib/scoped-locality-containment.mjs', 'tests/lib/report.mjs', 'scripts/install-pnpm.sh', 'scripts/pnpm-install.mjs', 'pnpm-workspace.yaml', 'pnpm-lock.yaml', '.github/workflows/scoped-permission-checks.yml'];
 const inputHashes = Object.fromEntries(INPUTS.map(file => [file, sha256(readFileSync(file))]));
 const parser = installedYamlParser(process.env.SAHA_SCOPED_INSTALL_PARSER_PROJECT ?? process.cwd());
-const originalBytes = readFileSync(WORKSPACE), beforeConfig = parser.load(originalBytes.toString('utf8'));
+// The original policy fixture comes from the committed source, even when the
+// broad CI installer has generated working store/cache paths. Working bytes
+// still remain in the unchanged before/after input custody maps.
+const originalWorkspaceSource = `HEAD:${WORKSPACE}`;
+const originalBytes = execFileSync('git', ['show', originalWorkspaceSource], { maxBuffer: 16 * 1024 * 1024, timeout: 20000, killSignal: 'SIGKILL' });
+const beforeConfig = parser.load(originalBytes.toString('utf8'));
 const lockSha256 = sha256(readFileSync('pnpm-lock.yaml'));
 const valid = () => ({ beforeConfig: structuredClone(beforeConfig), afterConfig: { ...structuredClone(beforeConfig), storeDir: PROJECT_STORE, cacheDir: `${PROJECT_STORE}/policy-cache` }, report: { version: 1, store_scope: 'project' }, installIdentity: { package_manager: 'pnpm@11.25.0', lockfile_sha256: lockSha256, node: process.version, platform: `${process.platform}-${process.arch}` }, lockSha256, changedPaths: [WORKSPACE], stagedPaths: [], installerOK: true });
 const r = suite('Scoped locality installer custody controls (APL-194)', resultFile, { layer: 'unit', environment: 'Existing pinned YAML parser and temporary regular files; no installer, build, Worker, browser, D1 or outbound request', limits: ['Parsed configuration fixtures do not assert an actual installer run.', 'The genuine first dedicated CI failure is retained; native policy and formal acceptance remain separate.'] });
@@ -65,6 +70,6 @@ await r.check('actual dirty temporary checkout failure retains an initial receip
 });
 const afterHashes = Object.fromEntries(INPUTS.map(file => [file, sha256(readFileSync(file))]));
 await r.check('installer policy source and control inputs remain unchanged through these controls', () => assert.deepEqual(afterHashes, inputHashes));
-writeFileSync(join(evidence, 'input-custody.json'), JSON.stringify({ inputHashes, afterHashes, parser: parser.identity }, null, 2) + '\n');
-const result = await r.finish({ evidence, inputHashes, afterHashes, parser: parser.identity, minimumChecks: 22, actualInstallerExecuted: false, applicationRuntimeStarted: false, nativeScenariosRun: 0, formalAcceptanceClaim: false });
+writeFileSync(join(evidence, 'input-custody.json'), JSON.stringify({ inputHashes, afterHashes, originalWorkspaceSource, originalWorkspaceSha256: sha256(originalBytes), parser: parser.identity }, null, 2) + '\n');
+const result = await r.finish({ evidence, inputHashes, afterHashes, originalWorkspaceSource, originalWorkspaceSha256: sha256(originalBytes), parser: parser.identity, minimumChecks: 22, actualInstallerExecuted: false, applicationRuntimeStarted: false, nativeScenariosRun: 0, formalAcceptanceClaim: false });
 assert.equal(result.checks.length, 22, 'All twenty-two additive custody controls must execute.'); assert.equal(result.skipped, 0, 'Missing or skipped custody controls cannot pass.');
