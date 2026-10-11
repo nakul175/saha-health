@@ -8,15 +8,27 @@ import { reportingScope } from './delegation';
 import { exportCsv, REPORT_DEFINITION } from './report-export';
 import { scope, allowed } from './store';
 import { recordExportAudit, sameCareScope, sameReach } from './export-audit';
-import { digest, fail, uuid } from './core';
+import { AppError, digest, fail, uuid } from './core';
 import { recordAggregateView } from './read-audit';
 import { alertsFor, ALERT_RULES_VERSION } from './alerts';
 import { evaluateIfDue } from './alert-delivery-server';
 import { BUDGET_NOTICE, budgetView } from './ai-budget';
 import { invoiceAlertInputs, invoiceView } from './ai-invoice';
 const currentMonth=()=>new Date().toISOString().slice(0,7);
+const REPORT_SOURCE_CHANGED='Reporting authority or source changed while the report was released. Refresh before viewing it.';
+// Only this private pre-alert marker permits bounded recomputation. Post-alert conflicts remain final refusals.
+class PreAlertReportConflict extends AppError { constructor(){super(409,REPORT_SOURCE_CHANGED);} }
 export async function operationsRead(request:Request){
- const u=await identity(),s=await loadFor(u,request.headers.get('x-saha-organisation')),m=scope(s,u.userId);const reach=reportingScope(s,m);
+ const actor=await identity(),pinned:{organisationId?:string}={};
+ for(let attempt=0;attempt<3;attempt++){
+  const current=await identity();if(current.userId!==actor.userId)fail(403,'Reporting identity changed. Nothing was shown.');
+  try{return await operationsReadAttempt(request,current,pinned);}catch(error){if(!(error instanceof PreAlertReportConflict)||attempt===2)throw error;}
+ }
+ fail(409,REPORT_SOURCE_CHANGED);
+}
+async function operationsReadAttempt(request:Request,u:Awaited<ReturnType<typeof identity>>,pinned:{organisationId?:string}){
+ const s=await loadFor(u,pinned.organisationId??request.headers.get('x-saha-organisation'));if(pinned.organisationId&&s.organisation.id!==pinned.organisationId)fail(403,'Reporting organisation changed. Nothing was shown.');pinned.organisationId=s.organisation.id;
+ const m=scope(s,u.userId);const reach=reportingScope(s,m);
  // Clinical alert delivery is evaluated only after a protected projection and fresh authority check.
  const url=new URL(request.url),days=Number(url.searchParams.get('days')??30);if(![7,30,90].includes(days))fail(422,'Choose 7, 30 or 90 days.');const format=url.searchParams.get('format')??'json';if(!['json','csv','support'].includes(format))fail(422,'Unsupported report format.');
  const at=new Date(),clinical=format!=='support'&&m.role!=='admin';if(clinical)ensurePurpose(m,'reporting');
@@ -33,9 +45,9 @@ export async function operationsRead(request:Request){
  const basis=(x:typeof s,o:typeof m)=>{const r=reportingScope(x,o),ps=x.workspace.people.filter(r.include),ids=new Set(ps.map(p=>p.id));return {member:o,reach:{teams:r.teams,own:r.own,delegations:r.delegations},patients:ps.map(p=>[p.id,p.version]),visits:x.workspace.visits.filter(v=>ids.has(v.personId)).map(v=>[v.id,v.version,v.recordVersion]),report:{...careReport(x,o,days,at,r.include),activeWorkers:null,activeWorkersCoverage:null}};};
  const initialBasis=clinical?await digest(basis(s,m)):null;
  const maybeEvaluate=async()=>{if(!clinical||!(released as import('./operations').ReleasedCareReport|null)?.privacy?.withheld)await evaluateIfDue(s.organisation.id,s);};
- const freshGuard=async()=>{const fresh=await loadFor(u,s.organisation.id),current=scope(fresh,u.userId);if(clinical){ensurePurpose(current,'reporting');if(await digest(basis(fresh,current))!==initialBasis)fail(409,'Reporting authority or source changed while the report was released. Refresh before viewing it.');}else if(format==='support'&&!operator(current))fail(403,'Operations access required.');else if(current.role!==m.role||current.version!==m.version||current.isOwner!==m.isOwner)fail(409,'Operations authority changed. Refresh.');};
+ const freshGuard=async(beforeAlert=false)=>{const fresh=await loadFor(u,s.organisation.id),current=scope(fresh,u.userId);if(clinical){ensurePurpose(current,'reporting');if(await digest(basis(fresh,current))!==initialBasis){if(beforeAlert&&format==='json')throw new PreAlertReportConflict();fail(409,REPORT_SOURCE_CHANGED);}}else if(format==='support'&&!operator(current))fail(403,'Operations access required.');else if(current.role!==m.role||current.version!==m.version||current.isOwner!==m.isOwner)fail(409,'Operations authority changed. Refresh.');};
  // Slice 10h: the JSON view is the preview of the CSV and support exports (which are audited as opsExport); it is an aggregate view and is recorded before it is returned.
- if(format==='json'){await recordAggregateView(db(),s,u,m,'operations and care report',`Operations view read (JSON): ${days}-day window; scoped care report ${report?`included (${reach.teams.length} team${reach.teams.length===1?'':'s'}, ${reach.own?'own':'delegated'} reporting authority; protected projection)`:'not included'}; operator detail ${operator(m)?'included':'not included'}. Aggregate figures only.`);await freshGuard();await maybeEvaluate();await freshGuard();return json(result);}
+ if(format==='json'){await recordAggregateView(db(),s,u,m,'operations and care report',`Operations view read (JSON): ${days}-day window; scoped care report ${report?`included (${reach.teams.length} team${reach.teams.length===1?'':'s'}, ${reach.own?'own':'delegated'} reporting authority; protected projection)`:'not included'}; operator detail ${operator(m)?'included':'not included'}. Aggregate figures only.`);await freshGuard(true);await maybeEvaluate();await freshGuard();return json(result);}
  if(format==='csv'&&!report)fail(403,'Clinical reporting is unavailable to administrators.');if(format==='support'&&!operator(m))fail(403,'Operations access required.');
  // Slice 6k: the CSV carries its definition, identifier, exporter, control totals and a checksum manifest;
  // the audit line records the same identifier and checksum so a received file can be matched to its export.
