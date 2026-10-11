@@ -1,3 +1,7 @@
+# Active reporting qualification prerequisite — 11 October 2026
+
+A clean main-based repair for existing GitHub#185 adds narrowly bounded, fresh-authority protected-report read recovery. See [frozen repair contract and evidence](current/REPORT-EDITION-RECOVERY-20261011.md). Original133 report assertions/privacy minima, source custody, patient/audit/receipt history and formal176/364 pending criteria remain unchanged. No new feature is active. Local controlled candidate evidence does not qualify merge, hosting or the routine-visit story; current CI and independent approval are pending. Historical sections below retain their original scope.
+
 # D02 isolated read-only candidate — 10 October 2026
 
 `/today` adds a separate mobile client and GET-only `/api/today` projection for active synthetic/training ASHAs. Existing server identity, assignment/policy scope and durable access audits remain authoritative. Only ID/name/village and read-only age/sex context are exposed; no visit or clinical write is added. The legacy `/app` is preserved separately. Source implementation and local tests do not establish merge, hosted deployment or formal acceptance. See [frozen D02 specification](current/d02/SPECIFICATION.md) and [validation](../VALIDATION.md). Parent capture, scheduling, offline and localisation remain pending.

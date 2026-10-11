@@ -1,3 +1,7 @@
+# Active reporting qualification prerequisite — 11 October 2026
+
+A clean main-based repair for existing GitHub#185 adds narrowly bounded, fresh-authority protected-report read recovery. See [frozen repair contract and evidence](current/REPORT-EDITION-RECOVERY-20261011.md). Original133 report assertions/privacy minima, source custody, patient/audit/receipt history and formal176/364 pending criteria remain unchanged. No new feature is active. Local controlled candidate evidence does not qualify merge, hosting or the routine-visit story; current CI and independent approval are pending. Historical sections below retain their original scope.
+
 # Active delivery — D02 / #175
 
 Only D02 is active. Its separate `/today` read-only candidate is specified in [revision 1](current/d02/SPECIFICATION.md). Test-only current fixture repair passes201 units10702 and independent targeted QA168; repaired-head CI/final review still gate release; exact deployed SHA and hosted synthetic smoke gate completion. No next story starts before the delivery gate. Old #173/#184/#187 remain draft reference sources. Historical rows below retain their dates and do not control this isolated branch.
