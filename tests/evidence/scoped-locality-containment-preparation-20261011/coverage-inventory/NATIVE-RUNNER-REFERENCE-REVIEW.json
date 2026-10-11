@@ -1,0 +1,621 @@
+{
+  "schema": "saha.scoped-locality.native-runner-reference-review.v1",
+  "recordedAt": "2026-10-11T16:49:30.984840+00:00",
+  "task": "APL-194 bounded owned native-Miniflare CLI reference review",
+  "status": "READ_ONLY_REFERENCE_REVIEW_COMPLETE; OWNED_RUNNER_NOT_REVIEWED_OR_EXECUTED",
+  "scope": {
+    "referencesOnly": true,
+    "appOrSharedHelperMutation": false,
+    "testExecution": false,
+    "nativeRuntimeExecution": false,
+    "buildExecution": false,
+    "browserExecution": false,
+    "dependencyInstall": false,
+    "networkUsed": false,
+    "ownedOutput": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/NATIVE-RUNNER-REFERENCE-REVIEW.json"
+  },
+  "checkouts": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011",
+      "observedHead": "7668a03d97c1ae62174f09e65ccd5a5717120be6"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011",
+      "observedHead": "a8fd8c161fddfb97376b4215da74f53bcc443300"
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/miniflare.mjs",
+      "sha256": "b2c96cb687dbca94b26eacede6833ecc1f5a919c7317d84071cba12a937d82f1",
+      "bytes": 5574
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/worker.mjs",
+      "sha256": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128",
+      "bytes": 5777
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/migrate.mjs",
+      "sha256": "8054c2684e581eb8b9fb230ad1d7643a80ff06bba9572b6e5dddf08d165bf4f9",
+      "bytes": 2060
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/run-framework.mjs",
+      "sha256": "9bf9f41a29314cabe0238b8e9c540ec3f7b5a6adafc7c8fb6c3940722d061dca",
+      "bytes": 993
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/execution-profile.mjs",
+      "sha256": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+      "bytes": 624
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/build-verified.sh",
+      "sha256": "2ae5329ac860076070c9217a43106a15cb5ecf907a0f7baeb9ef903f76b53c68",
+      "bytes": 661
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/install-pnpm.sh",
+      "sha256": "db980d931c7d1fb6d64dfede2fc698227d9bbd3bbb94f50a8966d9eb980bf10c",
+      "bytes": 9024
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/pnpm-install.mjs",
+      "sha256": "380309d06af721775377f805e90bbba27118e91bf67cd6c87ca59b9ef56453e8",
+      "bytes": 10642
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/sites-env.mjs",
+      "sha256": "5de99d6806b01f0ee0b941af3684d75dcf1afbbcff22cb95bfa2e584c5dafa88",
+      "bytes": 906
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/sites-env.sh",
+      "sha256": "df86ebfc27d2f00860036658e933ac0ddd7b5f6879aa5d51218f0863c7e1fb60",
+      "bytes": 1530
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+      "sha256": "d79bac1aa300f167dc9381dd420bfcaea01e5389745e8f1f0690be57d2d4e042",
+      "bytes": 31636
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test-catalogue.mjs",
+      "sha256": "7f67c1328b067246db61c7e3ad8223ea69f9431d517d7fc1e6b7e14717222222",
+      "bytes": 94627
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+      "sha256": "0ee74cd0cdf3e5572dade0e6d370707b56c2e13fb6622c7f1b17f15228f81be5",
+      "bytes": 11282
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/package.json",
+      "sha256": "2764291274d0c219caf71c39c983fa6f60eb57a85da3e371939fb63956babd2d",
+      "bytes": 2992
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/pnpm-lock.yaml",
+      "sha256": "0041e61a9783811cc34c5261f815bbe6ca7337348e62c9f7f17b43880c5fae71",
+      "bytes": 344688
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/vite.config.ts",
+      "sha256": "3d9aef9b7d44fec64c22e2c6eaff105b3c25320c40a971e2889bf608259ec9d2",
+      "bytes": 2539
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/build/sites-vite-plugin.ts",
+      "sha256": "07af20e7097d9ed1d76f7c446d02997550b8fc5ca89668b249e25eabd62c6834",
+      "bytes": 7185
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/regression-baseline.json",
+      "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+      "bytes": 62551
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+      "sha256": "7ffded9bfe55fe143849661cb1ee907124051b37ace0d26eb1742d0428fb234f",
+      "bytes": 19409
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/miniflare.mjs",
+      "sha256": "3ed3643dfcdc07c46d8fe40e8104d3378479e116d7f234220d976f5a0138e3c8",
+      "bytes": 5762
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/native-observed-runtime.mjs",
+      "sha256": "4a220880052d9ea4c28e5526932908a568b3e0e4680b987b53718e68213afe2d",
+      "bytes": 6970
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/process-memory.mjs",
+      "sha256": "be64917117fef6b875bd6482337614f0a24e97adbcea45c11e26ca9f9b50df93",
+      "bytes": 2590
+    }
+  ],
+  "referenceDiscovery": {
+    "requestedNativeObservedPathMissing": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/native-observed-runtime.mjs",
+    "actualReadPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/native-observed-runtime.mjs",
+    "meaning": "Resolved actual support-module location; no invented executable path."
+  },
+  "referenceAssessments": [
+    {
+      "name": "Main direct Miniflare helper",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/miniflare.mjs",
+          "line": 32,
+          "endLine": 50
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/miniflare.mjs",
+          "line": 62,
+          "endLine": 72
+        }
+      ],
+      "usablePattern": "Real generated dist/server ESModules/index ordering, generated compatibility flags/date, native DB binding/database_id, state/v3/d1 persistence, 127.0.0.1 listener and Worker-first static assets. Native mf handle permits direct D1 observation.",
+      "limits": "fresh:true still calls shared unbounded freshDatabase; mf.ready and mf.dispose have no deadline and mf handle is returned only after ready. Importing this helper alone does not repair startup containment."
+    },
+    {
+      "name": "Installed programme single-runtime adapter",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 8,
+          "endLine": 10
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 12,
+          "endLine": 15
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 38
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 57,
+          "endLine": 63
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 84,
+          "endLine": 87
+        }
+      ],
+      "usablePattern": "One outer owner starts one built native runtime; real HTTP and mf.getD1Database DB share actual persisted state; fault injection/cron/phone consume that same handle; one outer disposal. This supports retaining actual D1 no-side-effect locality oracles without a concurrent Wrangler isolate.",
+      "limits": "Browser paths/phone flag/fixed port/assetsFirst:true are adapter-specific and outside locality scope. Start occurs before try, and result writes before finally await stop. Do not copy its success/result or lifecycle structure as containment qualification. Historical assertion-count comment121 is not a current pass or source-run pin."
+    },
+    {
+      "name": "Native observed runtime adapter",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/native-observed-runtime.mjs",
+          "line": 20,
+          "endLine": 34
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/native-observed-runtime.mjs",
+          "line": 49,
+          "endLine": 70
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/native-observed-runtime.mjs",
+          "line": 82,
+          "endLine": 92
+        }
+      ],
+      "usablePattern": "Attach native handleRuntimeStdio and handleStructuredLogs; preserve actual stdout/stderr streams and structured console messages. Labels are adapter metadata, not manufactured transcript bytes. Worker-first remains default; assetsFirst is an explicit browser variation.",
+      "limits": "Channel concatenation does not prove chronological interleaving. In-memory unbounded log strings are avoidable in own CLI by streaming actual bytes to owned files with bounded buffers; neither readiness nor dispose is bounded here."
+    },
+    {
+      "name": "Canonical framework and engineering CI",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/run-framework.mjs",
+          "line": 5,
+          "endLine": 23
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 19,
+          "endLine": 45
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 73,
+          "endLine": 96
+        }
+      ],
+      "usablePattern": "Actual install npm package script, Node22, canonical npm build, guarded suites, separate regression job and always() artifact upload. Clean portable build uses vinext CLI; managed-linux uses the existing bounded build shell.",
+      "limits": "Job timeout is a final CI cap, not evidence that per-attempt owned process cleanup occurred. Explicit --only selection does not discover a new locality suite automatically."
+    },
+    {
+      "name": "Canonical suite process owner",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+          "line": 82,
+          "endLine": 100
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+          "line": 158,
+          "endLine": 167
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+          "line": 240,
+          "endLine": 260
+        }
+      ],
+      "usablePattern": "detached:true child group, own negative-PID TERM then KILL, actual child close/status and report freshness collection.",
+      "limits": "Logs intentionally truncate and --fast accepts preexisting dist. These cannot stand in for complete new source/build/log custody. A receipt with count alone is not a proof of eight complete locality groups."
+    }
+  ],
+  "recommendedCIRecipe": [
+    {
+      "step": 1,
+      "action": "Use the actual CI checkout and record its local Git HEAD/tree before any install or build. Preserve reviewed policyBaselineCommit separately from actual checkoutHead/sourceCommit.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 23,
+          "endLine": 26
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 77,
+          "endLine": 80
+        }
+      ],
+      "validation": "Do not label frozen policy main7668 as the commit built by a changed PR checkout. Compare observed selected policy/helper hashes to the committed reviewed manifest; a changed store requires explicit reviewed rebinding, not silent acceptance."
+    },
+    {
+      "step": 2,
+      "action": "Keep pre-install documentation/catalogue gates and invoke the actual package installer npm run install:ci.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 27,
+          "endLine": 36
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/package.json",
+          "line": 9
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/install-pnpm.sh",
+          "line": 78,
+          "endLine": 82
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/pnpm-install.mjs",
+          "line": 202,
+          "endLine": 206
+        }
+      ],
+      "validation": "Current package command runs install-pnpm.sh, verifies pnpm11.25.0, and performs frozen-lockfile install. Do not replace it with legacy install-ci.mjs/npm-ci or change dependency classification policy. Retain pnpm-lock.yaml/package.json hashes and real tool/platform versions, exit/signal/output and optional installed-tree receipt."
+    },
+    {
+      "step": 3,
+      "action": "Freeze actual source/build inputs immediately before the build: selected reviewed policy/helper bytes plus full app/worker/build/config/migration tree and lockfile. Capture actual portable/managed-linux profile selection and reviewed contract/driver/CLI hashes separately.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/execution-profile.mjs",
+          "line": 3,
+          "endLine": 15
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/vite.config.ts",
+          "line": 14
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/vite.config.ts",
+          "line": 61,
+          "endLine": 68
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/build/sites-vite-plugin.ts",
+          "line": 173,
+          "endLine": 188
+        }
+      ],
+      "validation": "Clean checkout with no ignored .sites-runtime/execution-profile.json defaults to portable; profile presence is an observed input. Record expected installer-local configuration changes without confusing them with reviewed production source. Capture only required nonsecret environment/binding names/values; synthetic providers remain disabled."
+    },
+    {
+      "step": 4,
+      "action": "An owned CI build-custody wrapper runs argv npm,run,build in this same checkout under a bounded owned process group, preserving raw stdout/stderr and actual code/signal/timeout.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 44,
+          "endLine": 45
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/run-framework.mjs",
+          "line": 5,
+          "endLine": 23
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/build-verified.sh",
+          "line": 21,
+          "endLine": 26
+        }
+      ],
+      "validation": "Use canonical package script, not direct vite build. Portable calls vinext/dist/cli.js; managed-linux calls build-verified.sh then bounded vinext executable. No --fast or existing dist existence check establishes source association. A new dedicated CLI job may install/build once using this same recipe; alternatively wrap the existing canonical CI Build step, rather than pretending a second authored pass receipt is evidence."
+    },
+    {
+      "step": 5,
+      "action": "Only actual build exit0/no signal/no timeout permits measuring complete produced dist and emitting an association data receipt; retain failures separately and nonzero.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+          "line": 158,
+          "endLine": 167
+        }
+      ],
+      "validation": "Source/build input hashes must remain equal across the attempt; generated dist/server/wrangler.json, index modules, client assets, dist/.openai hosting and copied migration bytes must be present. Deterministic recipe means deterministic command/input selection and observed byte custody; it is not a claim of bit-for-bit reproducible output across machines or timestamps."
+    },
+    {
+      "step": 6,
+      "action": "Immediately before native startup, recompute source/contract/receipt/dist hashes and require exact equality to the observed build receipt.",
+      "validation": "Separate actual checkoutHead/build invocation from reviewed baseline identity, selected policy source, prepared test/criteria inputs and full generated dist. A hash matching a caller-supplied arbitrary receipt is insufficient. The association is input/output data; it confers neither native pass nor human approval."
+    },
+    {
+      "step": 7,
+      "action": "Allocate one fresh owned loopback port, state directory and attempt evidence directory; run all eight existing GEO groups unchanged against one direct native-Miniflare Worker/D1 state.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/miniflare.mjs",
+          "line": 32,
+          "endLine": 50
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 8
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 38
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 87
+        }
+      ],
+      "validation": "Migration phase must finish successfully before clinical HTTP requests. The same generated DB binding/database_id and state/v3/d1 layout must be used. The parent supervisor owns process containment and failure receipts even when native setup never yields a handle."
+    },
+    {
+      "step": 8,
+      "action": "On every terminal path, bound native dispose, terminate/reap the owned child group and verify no owned live child remains before issuing successful outer status. Retain actual child/result/log/source/dist/contract evidence and fail on custody error or unknown cleanup.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+          "line": 85,
+          "endLine": 100
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/native-observed-runtime.mjs",
+          "line": 20,
+          "endLine": 34
+        }
+      ],
+      "validation": "Do not promote a child passed count if timeout/signal/nonzero/missing result/group omission/source drift/cleanup failure occurred. Require the eight exact GEO group labels to be present once and successful with no skip; ancillary custody/lifecycle checks are not additional unique clinical scenarios."
+    },
+    {
+      "step": 9,
+      "action": "Add explicit canonical catalogue registration/result path and a focused guarded workflow selection for the single counted CLI entry. Keep helper/child modules as support; preserve all original374 suite minima and unchanged broader jobs.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test-catalogue.mjs",
+          "line": 198,
+          "endLine": 213
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test-catalogue.mjs",
+          "line": 362,
+          "endLine": 378
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test-catalogue.mjs",
+          "line": 417,
+          "endLine": 427
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 56,
+          "endLine": 60
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 87,
+          "endLine": 96
+        }
+      ],
+      "validation": "Current catalogue has no generic tests/integration rule, and current regression integration selection is explicit. A prepared file is not scheduled merely by existing on disk. Add new minimum only from actual owned observed results; never replace/decrease an existing guarded row or count both CLI and child as independent successes."
+    },
+    {
+      "step": 10,
+      "action": "Upload owned locality/build/containment evidence even on failure, in the existing always() artifact model; keep full-parent/formal acceptance and unmeasured native containment limitations explicit.",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 61,
+          "endLine": 69
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+          "line": 97,
+          "endLine": 105
+        }
+      ],
+      "validation": "Workflow run/revision/job identify remote evidence. Local source, static lifecycle tests and earlier individually measured adapters do not establish a current CI/native pass."
+    }
+  ],
+  "associationReceiptSchemaRecommendation": {
+    "policyBaselineCommit": "Reviewed contract baseline identity, currently7668; separately preserved.",
+    "sourceCommit": "Actual local git HEAD whose checkout inputs were built, never authored constant unrelated to build.",
+    "checkoutTree": "Actual Git tree identifier; source changes/install-local inputs additionally pinned.",
+    "sourcePins": "Observed selected reviewed production/helper file hashes, equality checked against frozen reviewed manifest.",
+    "buildInputPinsBeforeAfter": "Complete selected build-input file maps before and after canonical command; migrations/hosting/build config/worker/app code included. Scope declared; selected31 source pins are not the whole transitive app input tree.",
+    "contractPins": "SPEC/matrix/driver/owned CLI/native helper and association source data tracked separately from app inputs.",
+    "dependencyPins": "package.json/pnpm-lock.yaml and actual installed pnpm/Miniflare/workerd/Wrangler versions/resolved package selection.",
+    "profile": "Observed portable/managed-linux selection and profile-file hash or explicit absence.",
+    "toolchain": "Actual Node/npm/pnpm/platform values, execution cwd and command argv.",
+    "buildInvocation": "Actual start/end, code, signal, timeout, spawn errors and raw stdout/stderr file hashes/bytes.",
+    "distPins": "Complete measured generated file hash map, not a guessed successful marker or only wrangler.json.",
+    "claimsExcluded": [
+      "passed:true authored in advance",
+      "native scenario pass",
+      "human review approval",
+      "whole dependency classifier approval",
+      "bit-for-bit cross-machine reproducibility",
+      "full parent acceptance"
+    ],
+    "compatibilityNote": "Prepared driver currently equates association.sourceCommit with matrix.sourceCommit. New owned CI CLI should preserve that reviewed baseline while adding actual build checkout identity, or explicitly distinguish sourceCommit/ policyBaselineCommit; silently relabeling PR build as main7668 is inaccurate."
+  },
+  "processContainmentPitfalls": [
+    {
+      "id": "BLOCKED_SUPERVISOR_TIMER",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/migrate.mjs",
+          "line": 14,
+          "endLine": 24
+        }
+      ],
+      "finding": "Synchronous execFileSync migration has no timeout and blocks a same-process JavaScript watchdog. Promise.race around that call does not bound it.",
+      "recommendation": "Put migration in owned child containment or implement awaited async process spawn with its own hard cap and a supervisor outside the blocked child."
+    },
+    {
+      "id": "INHERITED_UNOWNED_STARTUP",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/worker.mjs",
+          "line": 30,
+          "endLine": 46
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/miniflare.mjs",
+          "line": 40,
+          "endLine": 50
+        }
+      ],
+      "finding": "Readiness can reject or hang before caller receives a stop/output handle; mf.ready races alone can leave live workerd.",
+      "recommendation": "Create/store the native mf handle before awaiting ready inside a dedicated owned child; supervisor holds child group from spawn and can terminate/reap it even when setup never returns. Catch ready rejection and attempt bounded dispose, but external group cleanup remains authoritative."
+    },
+    {
+      "id": "ONE_GROUP_AND_ONE_OWNER",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+          "line": 89,
+          "endLine": 100
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/installed-programme-single-runtime-current.mjs",
+          "line": 84,
+          "endLine": 87
+        }
+      ],
+      "finding": "Killing only direct child can leave workerd/migration descendants. Unrelated process-name matches risk killing other lanes; nested detach can escape the top group.",
+      "recommendation": "Own a detached top child POSIX group, keep native/migration descendants in it or explicitly track every separately created owned group, TERM then bounded KILL, reap/check owned survivors including after leader exit. Do not kill by name or the supervisor/shared process group. Fail unsupported group semantics rather than claim cleanup."
+    },
+    {
+      "id": "TERMINAL_STATUS_AND_REAP",
+      "finding": "A child can exit0 with a stale/incomplete success result or leave a grandchild keeping pipes live; graceful dispose can hang; parent cancellation can interrupt result creation.",
+      "recommendation": "Handle spawn error, ready rejection, per-phase/whole timeout, SIGINT/SIGTERM and normal/error exit. Record actual code/signal/timeout and cleanup status; no successful outer receipt before eight exact labels, unchanged pins and proven cleanup. Missing child result means missing/unknown native outcomes, not invented zero failed or success."
+    },
+    {
+      "id": "NO_SETUP_CLINICAL_RETRY",
+      "finding": "Readiness/migration failure or uncertain HTTP is not an authority to repeat clinical requests or silently restart a fresh state and count a later success.",
+      "recommendation": "Keep attempt fresh and preserve original error; fail the attempt, record any separately authorized rerun as a new owned attempt. Keep current eight literals/no-side-effect/refusal oracles unchanged."
+    },
+    {
+      "id": "STATE_AND_MIGRATION_BYTES",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/miniflare.mjs",
+          "line": 33,
+          "endLine": 43
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/migrate.mjs",
+          "line": 14,
+          "endLine": 20
+        }
+      ],
+      "finding": "Shared migrateOnce removes supplied state and applies every sorted drizzle migration in one local CLI call. Wrong DB ID/persist path, reused state, overlapping runtimes or partial migrations can invalidate D1 observations.",
+      "recommendation": "Only operate on exclusively owned fresh state; retain exact ordered migration hashes and concatenated SQL hash; require actual local migration success/no signal/timeout before native startup; bind actual generated DB database_id and state/v3/d1. Preserve failed attempt state/evidence; never remove another run path."
+    },
+    {
+      "id": "DETERMINISTIC_RUNTIME_SELECTION",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/miniflare.mjs",
+          "line": 13,
+          "endLine": 17
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/pnpm-lock.yaml",
+          "line": 9229,
+          "endLine": 9238
+        }
+      ],
+      "finding": "Current helper selects lexicographically last miniflare@ directory. Lock presently contains Wrangler4.92.0 -> Miniflare4.20260515.0 with @types/node22.19.19 peer; workerd1.20260515.1. Multiple installed versions make last-string selection ambiguous.",
+      "recommendation": "Resolve the Miniflare dependency belonging to the pinned Wrangler package or otherwise require exactly the reviewed locked selection, and record actual resolved version/path/package hash. Keep Node22 native sqlite support and actual workerd package/platform selection observable."
+    },
+    {
+      "id": "REAL_OUTPUT_CUSTODY",
+      "source": [
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011/tests/lib/native-observed-runtime.mjs",
+          "line": 20,
+          "endLine": 34
+        },
+        {
+          "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test.mjs",
+          "line": 91,
+          "endLine": 100
+        }
+      ],
+      "finding": "Canonical runner truncates logs; observed adapter concatenates raw streams into memory. Neither should manufacture runtime error text or backend response status.",
+      "recommendation": "Preserve raw stdout/stderr bytes to exclusive owned files and structured events separately; record byte counts/hashes and any write error as fatal custody failure. Bound in-memory buffering, not retained evidence by silent truncation. Keep response hashes and actual errors as current harness does."
+    }
+  ],
+  "controlledLifecycleTestRecommendations": [
+    "A real controlled child and inherited grandchild return success; after cleanup no owned descendant remains.",
+    "Spawn ENOENT/error and nonzero/signal exit preserve actual status and cannot emit reusable native pass.",
+    "Controlled startup rejects or hangs after spawning a grandchild: supervisor still kills/reaps the owned group and retains failure.",
+    "Controlled child ignores TERM: bounded KILL path removes owned child/descendant; no unrelated sentinel process is signalled.",
+    "Leader exits while inherited grandchild and pipes stay live: supervisor finishes only after owned containment succeeds or reports failure within hard cap.",
+    "SIGINT/SIGTERM/whole-attempt deadline exercises cleanup and returns nonzero despite a previously written child success JSON.",
+    "Missing/stale/malformed child result, omitted/duplicate/failed GEO group, source/contract/dist drift and log-write failure refuse success.",
+    "These process tests establish controlled lifecycle cases only; real native-Miniflare startup/dispose witness and unchanged eight GEO outcomes remain for separately allocated runtime."
+  ],
+  "originalBaseline": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/regression-baseline.json",
+    "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+    "bytes": 62551,
+    "suiteEntries": 374,
+    "meaning": "Existing minima retained as reference; no new minimum from unexecuted prepared scenarios or historical adapter comment.",
+    "modified": false
+  },
+  "conclusion": {
+    "finiteReferencesReviewed": 22,
+    "ownedRunnerSourceReviewed": false,
+    "nativeExecuted": false,
+    "buildExecuted": false,
+    "runtimeAllocationApproved": false,
+    "humanApproval": false,
+    "fullParentQualified": false,
+    "formalAcceptanceChanged": false,
+    "meaning": "Direct native single-runtime and real output patterns are suitable references. Existing helpers still do not contain migration/readiness/dispose failures. An own bounded CLI plus CI-observed canonical build association and reviewed lifecycle cases are required before native allocation; no native pass is certified by this source research."
+  },
+  "sourceDriftDuringReceipt": false
+}

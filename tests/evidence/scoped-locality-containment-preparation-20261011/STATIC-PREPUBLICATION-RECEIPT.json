@@ -1,0 +1,129 @@
+{
+  "recordedAt": "2026-10-11T17:06:29.022710+00:00",
+  "freezeSha256": "1da46760db2ad91217de664c988fec4869b3c3fd92271c555a3a2543caf4a821",
+  "commands": [
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/lib/scoped-locality-containment.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/lib/scoped-locality-native-runtime.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "scripts/scoped-locality-runner.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/integration/scoped-locality-policy-http.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/scoped-locality-containment-contract.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/scoped-locality-native-current.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "scripts/test-catalogue.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/test.mjs",
+        "--check-catalogue"
+      ],
+      "exitCode": 0,
+      "stdout": "layer        suites  components  suites citing no requirement  requirement ids cited\nunit            202           0                            62                    141\nintegration     156          84                            80                    123\nresilience        1           0                             0                      2\nsmoke             6           0                             2                      4\nui                2          12                             0                     12\nnfr               5           0                             0                     10\nuat               3           0                             3                      0\nmanual          592           0                           478                    144\n\n967 suites, 96 component modules (run through their entry), 36 support files.\n342 of 967 suites are cited by at least one requirement in requirements/evidence-map.json (625 cite none); 76 of 96 component modules are cited (20 cite none); 157 of 176 requirements cite at least one test file. A citation is evidence context, not acceptance.\n\nCatalogue check passed: every test file is classified and every *-smoke.mjs module is imported by tests/api-smoke.mjs.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "yamlCheck": {
+    "parsed": false,
+    "reason": "No YAML library; syntax remains source-reviewed, not independently parser-certified."
+  },
+  "catalogue": {
+    "nativeEntry": {
+      "id": "manual/scoped-locality-native-current",
+      "file": "tests/scoped-locality-native-current.mjs",
+      "layer": "manual",
+      "tier": "manual",
+      "runner": "node",
+      "needs": [
+        "build"
+      ],
+      "requirementsCited": [],
+      "resultFiles": [
+        "tests/reports/scoped-locality-native-current.json"
+      ],
+      "note": "Run directly in a reviewed fresh isolated checkout through scoped-permission-checks CI or an allocated local lane; all eight groups/counts/source/disposal are mandatory"
+    },
+    "childSupportOnly": true,
+    "oldSourceLinesByteExact": true,
+    "additions": 4,
+    "baseline374ByteExact": true
+  },
+  "sourceUnchangedAfterChecks": true,
+  "mandatoryCheckObservations": {
+    "documentation": "Actual prior exit1: only Changed baseline file scripts/test-catalogue.mjs; baseline update pending root review.",
+    "requirements": "Actual prior exit0:176 originalsource IDs and pendingformal acceptance unchanged."
+  },
+  "runtimeExecution": false,
+  "commitPush": false,
+  "formalAcceptance": false
+}

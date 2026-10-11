@@ -1,0 +1,113 @@
+{
+  "suite": "Scoped locality containment controls (APL-194)",
+  "layer": "unit",
+  "passed": 12,
+  "failed": 5,
+  "skipped": 0,
+  "startedAt": "2026-10-11T16:56:04.638Z",
+  "completedAt": "2026-10-11T16:56:06.337Z",
+  "environment": "Actual short-lived owned Node child processes; no application runtime",
+  "limits": [
+    "These controls qualify launcher failure handling only.",
+    "No eight-group native policy result, parent acceptance or hosted execution is claimed."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "complete structured shape is accepted by the validator only",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing integer counts are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "nonzero failure and skip counts are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "inflated counts and missing or duplicate GEO groups are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing setup, cleanup, source, contract or build custody is refused",
+      "ok": true,
+      "ms": 3
+    },
+    {
+      "label": "transport error and inappropriate formal acceptance claims are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "actual zero exit retains full output and registered own group cleanup",
+      "ok": false,
+      "ms": 26,
+      "error": "Expected values to be strictly equal:\n\nfalse !== true\n"
+    },
+    {
+      "label": "actual nonzero exit is a failure with retained real stderr",
+      "ok": true,
+      "ms": 22
+    },
+    {
+      "label": "actual missing executable yields a recorded failure without an unhandled child error",
+      "ok": true,
+      "ms": 1
+    },
+    {
+      "label": "preexisting exclusive log refuses before spawning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "actual registration callback failure terminates only the new child and records failure",
+      "ok": false,
+      "ms": 1,
+      "error": "Expected values to be strictly deep-equal:\n\nnull !== []\n"
+    },
+    {
+      "label": "actual ignored TERM reaches KILL within a finite deadline",
+      "ok": false,
+      "ms": 308,
+      "error": "Expected values to be strictly deep-equal:\n\nnull !== []\n"
+    },
+    {
+      "label": "actual exited parent orphan is cleaned only within its registered group",
+      "ok": false,
+      "ms": 38,
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(record.groupBeforeCleanup.some(row => row.pid !== record.pid && !row.state.startsWith('Z')))\n"
+    },
+    {
+      "label": "actual independent sentinel group remains alive during timeout cleanup",
+      "ok": false,
+      "ms": 1231,
+      "error": "Expected values to be strictly equal:\n\nfalse !== true\n"
+    },
+    {
+      "label": "direct-child migration records its incomplete descendant scope honestly",
+      "ok": true,
+      "ms": 40
+    },
+    {
+      "label": "pending readiness promises have a finite rejection deadline",
+      "ok": true,
+      "ms": 26
+    },
+    {
+      "label": "initially existing native state is refused without modifying it",
+      "ok": true,
+      "ms": 1
+    }
+  ],
+  "evidence": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf",
+  "actualChildAttempts": 9,
+  "processReceiptsSha256": "fc6143684894b0d95c5c31ee2ecc43272d73d14420440bbcfa147ab5e9b96ba8",
+  "applicationRuntimeStarted": false,
+  "localityScenarioExecutionClaim": false,
+  "formalAcceptanceClaim": false
+}

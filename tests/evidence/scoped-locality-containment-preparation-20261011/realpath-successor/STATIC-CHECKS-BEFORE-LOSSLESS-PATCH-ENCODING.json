@@ -1,0 +1,142 @@
+{
+  "recordedAt": "2026-10-11T17:21:54.657690+00:00",
+  "status": "Actual source-only static checks; no build/native/acceptance",
+  "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "commands": [
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "scripts/check-documentation.py"
+      ],
+      "startedAt": "2026-10-11T17:21:52.064705+00:00",
+      "completedAt": "2026-10-11T17:21:54.294485+00:00",
+      "exitCode": 0,
+      "stdout": "{\n  \"status\": \"passed\",\n  \"scope\": \"Documentation integrity against the current baseline (application-scoped-locality-realpath-preparation-20261011-sha256.json); not product execution or formal acceptance\",\n  \"baselineSourceFiles\": 1787,\n  \"originalFiles\": 91,\n  \"originalArchiveEntries\": 89,\n  \"unchangedOfficeFiles\": 12,\n  \"requirements\": 176,\n  \"preservedTestCases\": 364,\n  \"historicalProductAssertions\": 1284,\n  \"sliceEvidenceAssertions\": 844773,\n  \"currentRelativeLinks\": 893,\n  \"generatedFiles\": 38,\n  \"wordReferences\": 10,\n  \"workbookSheets\": 13,\n  \"workbookFormulas\": 380,\n  \"formalAccepted\": 0,\n  \"testCases\": 364,\n  \"formalCatalogueCasesRun\": 0,\n  \"httpRoutes\": 97,\n  \"commandDiscriminators\": 253,\n  \"applicationTables\": 60,\n  \"sqlColumns\": 475,\n  \"designScreens\": 22,\n  \"currentNavigationEntries\": 14,\n  \"historicalAssertions\": 1284,\n  \"migrationFiles\": 33,\n  \"prototypeScriptPreserved\": true\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/audit-requirements.mjs",
+        "--check"
+      ],
+      "startedAt": "2026-10-11T17:21:54.294494+00:00",
+      "completedAt": "2026-10-11T17:21:54.406720+00:00",
+      "exitCode": 0,
+      "stdout": "176 source IDs, assessments, evidence paths and generated records verified; acceptance remains pending.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/test.mjs",
+        "--check-catalogue"
+      ],
+      "startedAt": "2026-10-11T17:21:54.406729+00:00",
+      "completedAt": "2026-10-11T17:21:54.470898+00:00",
+      "exitCode": 0,
+      "stdout": "layer        suites  components  suites citing no requirement  requirement ids cited\nunit            202           0                            62                    141\nintegration     156          84                            80                    123\nresilience        1           0                             0                      2\nsmoke             6           0                             2                      4\nui                2          12                             0                     12\nnfr               5           0                             0                     10\nuat               3           0                             3                      0\nmanual          592           0                           478                    144\n\n967 suites, 96 component modules (run through their entry), 36 support files.\n342 of 967 suites are cited by at least one requirement in requirements/evidence-map.json (625 cite none); 76 of 96 component modules are cited (20 cite none); 157 of 176 requirements cite at least one test file. A citation is evidence context, not acceptance.\n\nCatalogue check passed: every test file is classified and every *-smoke.mjs module is imported by tests/api-smoke.mjs.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "startedAt": "2026-10-11T17:21:54.470927+00:00",
+      "completedAt": "2026-10-11T17:21:54.494548+00:00",
+      "exitCode": 2,
+      "stdout": "tests/evidence/scoped-locality-containment-preparation-20261011/realpath-successor/REALPATH-ONLY.patch:11: trailing whitespace.\n+ \n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/scoped-locality-containment-contract.mjs"
+      ],
+      "startedAt": "2026-10-11T17:21:54.494571+00:00",
+      "completedAt": "2026-10-11T17:21:54.517364+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/lib/scoped-locality-containment.mjs"
+      ],
+      "startedAt": "2026-10-11T17:21:54.517392+00:00",
+      "completedAt": "2026-10-11T17:21:54.540487+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/lib/scoped-locality-native-runtime.mjs"
+      ],
+      "startedAt": "2026-10-11T17:21:54.540515+00:00",
+      "completedAt": "2026-10-11T17:21:54.563200+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "scripts/scoped-locality-runner.mjs"
+      ],
+      "startedAt": "2026-10-11T17:21:54.563228+00:00",
+      "completedAt": "2026-10-11T17:21:54.586136+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/scoped-locality-native-current.mjs"
+      ],
+      "startedAt": "2026-10-11T17:21:54.586166+00:00",
+      "completedAt": "2026-10-11T17:21:54.610770+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "tests/integration/scoped-locality-policy-http.mjs"
+      ],
+      "startedAt": "2026-10-11T17:21:54.610804+00:00",
+      "completedAt": "2026-10-11T17:21:54.633889+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--check",
+        "scripts/test-catalogue.mjs"
+      ],
+      "startedAt": "2026-10-11T17:21:54.633915+00:00",
+      "completedAt": "2026-10-11T17:21:54.657647+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "allExitZero": false,
+  "nativeExecuted": 0,
+  "newDeliveredStories": 0
+}

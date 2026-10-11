@@ -1,0 +1,162 @@
+{
+  "suite": "Scoped locality containment controls (APL-194)",
+  "layer": "unit",
+  "passed": 24,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-11T17:11:44.186Z",
+  "completedAt": "2026-10-11T17:11:47.152Z",
+  "environment": "Actual short-lived owned Node child processes; no application runtime",
+  "limits": [
+    "These controls qualify launcher failure handling only.",
+    "No eight-group native policy result, parent acceptance or hosted execution is claimed."
+  ],
+  "measures": [],
+  "checks": [
+    {
+      "label": "complete structured shape is accepted by the validator only",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing integer counts are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "nonzero failure and skip counts are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "inflated counts and missing or duplicate GEO groups are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "missing setup, cleanup, source, contract or build custody is refused",
+      "ok": true,
+      "ms": 4
+    },
+    {
+      "label": "transport error and inappropriate formal acceptance claims are refused",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "actual zero exit retains full output and registered own group cleanup",
+      "ok": true,
+      "ms": 77
+    },
+    {
+      "label": "actual nonzero exit is a failure with retained real stderr",
+      "ok": true,
+      "ms": 71
+    },
+    {
+      "label": "actual missing executable yields a recorded failure without an unhandled child error",
+      "ok": true,
+      "ms": 17
+    },
+    {
+      "label": "synchronous invalid spawn setup is recorded without an owned process or open log handles",
+      "ok": true,
+      "ms": 16
+    },
+    {
+      "label": "preexisting exclusive log refuses before spawning",
+      "ok": true,
+      "ms": 17
+    },
+    {
+      "label": "deliberately injected launcher pipe setup fault terminates its actual child and fails",
+      "ok": true,
+      "ms": 48
+    },
+    {
+      "label": "actual registration callback failure terminates only the new child and records failure",
+      "ok": true,
+      "ms": 55
+    },
+    {
+      "label": "actual ignored TERM reaches KILL within a finite deadline",
+      "ok": true,
+      "ms": 377
+    },
+    {
+      "label": "actual AbortSignal cancellation terminates the registered child group and refuses success",
+      "ok": true,
+      "ms": 198
+    },
+    {
+      "label": "actual supervisor TERM cancels and disposes its separately detached registered child",
+      "ok": true,
+      "ms": 527
+    },
+    {
+      "label": "actual exited parent orphan is cleaned only within its registered group",
+      "ok": true,
+      "ms": 115
+    },
+    {
+      "label": "actual independent sentinel group remains alive during timeout cleanup",
+      "ok": true,
+      "ms": 1297
+    },
+    {
+      "label": "direct-child migration records its incomplete descendant scope honestly",
+      "ok": true,
+      "ms": 23
+    },
+    {
+      "label": "actual own-group observation excludes only its separately grouped observer",
+      "ok": true,
+      "ms": 92
+    },
+    {
+      "label": "pending readiness promises have a finite rejection deadline",
+      "ok": true,
+      "ms": 26
+    },
+    {
+      "label": "initially existing native state is refused without modifying it",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "deliberately unavailable journal cannot precede disposal of the unstarted owned fixture",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "control driver helper runner and workflow inputs stay byte-exact through execution",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "evidence": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-prepublication-process-evidence",
+  "inputHashes": {
+    "tests/scoped-locality-containment-contract.mjs": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+    "tests/lib/scoped-locality-containment.mjs": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+    "tests/lib/scoped-locality-native-runtime.mjs": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+    "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+    "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+    "scripts/scoped-locality-runner.mjs": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+    ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+  },
+  "afterHashes": {
+    "tests/scoped-locality-containment-contract.mjs": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+    "tests/lib/scoped-locality-containment.mjs": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+    "tests/lib/scoped-locality-native-runtime.mjs": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+    "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+    "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+    "scripts/scoped-locality-runner.mjs": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+    ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+  },
+  "attemptRecords": 15,
+  "actualPIDRecords": 13,
+  "processReceiptsSha256": "4831e83c04311f9f443f935319e728ebffd7244c4819ce81bbcb8bed11447085",
+  "applicationRuntimeStarted": false,
+  "localityScenarioExecutionClaim": false,
+  "formalAcceptanceClaim": false
+}

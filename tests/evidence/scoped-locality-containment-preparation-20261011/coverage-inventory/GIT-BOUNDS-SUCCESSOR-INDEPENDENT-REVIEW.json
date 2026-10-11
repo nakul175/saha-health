@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T17:30:49.370075+00:00",
+  "reviewer": "Independent telemetry_review subagent",
+  "scope": "Finite read-only review of frozen three-file Git metadata bounds/error-journal delta and retained actual extracted-helper preflight. Static file/hash/local Git object reads only; no reviewer target/module/preflight/test/build/runtime/install/network execution.",
+  "status": "No material defect found in the bounded Git-read wrapper and two diagnostic-only journal additions. Default output-buffer blocker closed for the observed real donor enumeration. Advisory bounded source/metadata review; full clean-checkout/native/CI/human/parent acceptance remains unqualified.",
+  "pins": {
+    "freeze": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/GIT-BOUNDS-SOURCE-FREEZE.json",
+      "sha256": "18878e4b1ffb32c80c39b5897b6aac7b38ec006d72ee7464b031184977730769",
+      "bytes": 1408
+    },
+    "predecessorFreezeSha256": "705a871dfcfd00a610e25ce58f589369d518a60ace9539eb7c67617016e0dec5",
+    "sources": {
+      "tests/lib/scoped-locality-containment.mjs": {
+        "beforeSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+        "afterSha256": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+        "bytes": 14681,
+        "beforeExact705aGitBlob": true,
+        "currentEqualFrozenCopy": true
+      },
+      "scripts/scoped-locality-runner.mjs": {
+        "beforeSha256": "4c48e07ddbec2499762706cd511604cffb767e6ddc33f77362b9d536c8f61529",
+        "afterSha256": "3fb472afe76381f967e1da56d78e4601a5e0dc181dcdd7f3407e4308e5ec7ee2",
+        "bytes": 9689,
+        "beforeExact705aGitBlob": true,
+        "currentEqualFrozenCopy": true
+      },
+      "tests/integration/scoped-locality-policy-http.mjs": {
+        "beforeSha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+        "afterSha256": "40ed7815d92b18fcff4205e33a14069515c52ec25f42c76680b616b12ce3c033",
+        "bytes": 21018,
+        "beforeExact705aGitBlob": true,
+        "currentEqualFrozenCopy": true
+      }
+    },
+    "patch": {
+      "sha256": "1ad5568ba94498944ce04b41ce129e5907d8f53bd08d8b5072091aee06e84fbe",
+      "bytes": 4913,
+      "recomputedByteExact": true
+    },
+    "preflight": {
+      "sha256": "987ecd2e864447862bf105040ce18c2077a8af22c4b0e7d17e473e95b5a79098",
+      "bytes": 2871
+    },
+    "preflightSource": {
+      "sha256": "38073865df27453a4fcbf14a10d01e778d1638b5244d9104681eb58e7dc72307",
+      "bytes": 3849
+    },
+    "historical705aReview": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/STAGED-SUCCESSOR-INDEPENDENT-REVIEW.json",
+      "sha256": "b89c801b70ef6d13504b3e4056f88e8840b982607b5c7c48bb7e5e32855fdd2e"
+    }
+  },
+  "findings": [
+    {
+      "id": "GIT-METADATA-BUFFER-HOLD",
+      "status": "Closed in reviewed successor and actual enumeration scope",
+      "before": "Five sourceCheckoutPins Git reads inherited a1MiB output limit. Actual donor ls-files exceeds it; retained old call fails ENOBUFS with captured stdout/stderr/status/signal.",
+      "after": "All original five argv arrays use one private observeGit wrapper with16MiB maxBuffer,20-second timeout and SIGKILL. It returns the complete actual output, rethrows failures and retains actual command/bounds/error/status/signal/captured stdout/stderr.",
+      "sourceLocations": [
+        {
+          "path": "tests/lib/scoped-locality-containment.mjs",
+          "first": 156,
+          "last": 175
+        },
+        {
+          "path": "scripts/scoped-locality-runner.mjs",
+          "line": 93
+        },
+        {
+          "path": "tests/integration/scoped-locality-policy-http.mjs",
+          "line": 108
+        }
+      ],
+      "materialDefectObserved": false
+    }
+  ],
+  "semantics": {
+    "sameFiveArgumentArrays": [
+      "['rev-parse', 'HEAD']",
+      "['rev-parse', 'HEAD^{tree}']",
+      "['diff', '--name-only']",
+      "['diff', '--cached', '--name-only']",
+      "['ls-files', '-z']"
+    ],
+    "sameFullFilenameSplitSetSortAndHash": "Original NUL split/filterempty/deduplicate/sort plus extra files/readSHA preserved. No filename is selected away to fit the buffer.",
+    "finiteBounds": {
+      "maxBuffer": 16777216,
+      "timeoutMs": 20000,
+      "killSignal": "SIGKILL"
+    },
+    "realFailureStillThrows": true,
+    "errorJournalRetention": "Outer failure journal includes gitObservation before rethrow; native recordError includes it in custodyErrors and final failing result. No success report is manufactured from metadata failure.",
+    "capturedOutputPrecision": "Captured stdout/stderr are actual buffers returned by execFileSync and encoded as text by the wrapper. An overflow failure does not imply the whole command output was captured; the retained old raw buffer accurately preserves what Node supplied.",
+    "unchangedLifecycleAndValidator": "Shared process cleanup/ownership/readiness/result validation remain byte-exact705a outside the new private Git wrapper and its five calls.",
+    "unchangedPolicyAndEightGEOBodiesSha256": "214aff099d25ff3f9a41b759a62b4d9b5f145e8b1b3dd96ae40874fec21c8666",
+    "driverWholeFileChanged": "Only recordError gains actual Git diagnostic field; do not claim the entire driver or the span containing diagnostic helper is byte-unchanged.",
+    "fixedOriginalMinimaAndCriteria": "No scenario labels/expected sets/GEO bodies/baseline374/policy criteria changed in this delta."
+  },
+  "actualPreflight": {
+    "donor": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011",
+    "node": "v24.19.0",
+    "scope": "Exact extracted metadata helper plus genuine read-only Git process; not sourceCheckoutPins clean-checkout qualification or native execution",
+    "exactExtractedHelperLiteralSha256": "546cf6fe5f076d3870162233fc7a535c5238ccccc770eea6dc9cde102238c8e9",
+    "helperLiteralExtractionOffsets": {
+      "beginOffset": 11103,
+      "endOffset": 11873
+    },
+    "oldDefaultOutcome": {
+      "unexpectedlySucceeded": false,
+      "code": "ENOBUFS",
+      "status": null,
+      "signal": "SIGTERM",
+      "message": "spawnSync git ENOBUFS",
+      "capturedStdoutBytes": 1114112,
+      "capturedStdoutSha256": "d91d4458769aebf5fd08234384893ffdc1477a9b66a6adb4f8aef48ba386a9cc",
+      "capturedStderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rawBeforeStdout": {
+      "sha256": "d91d4458769aebf5fd08234384893ffdc1477a9b66a6adb4f8aef48ba386a9cc",
+      "bytes": 1114112
+    },
+    "rawBeforeStderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "after": {
+      "bytes": 1120955,
+      "filenames": 16842,
+      "uniqueFilenames": 16842,
+      "sha256": "4fe0c1dc387989624f742e5b0cecf0499b95809d6ec57e78db2719aad961f93e",
+      "independentRawGitSha256": "4fe0c1dc387989624f742e5b0cecf0499b95809d6ec57e78db2719aad961f93e",
+      "exactFullOutputMatches": true,
+      "noNamesFilteredOrOmitted": true
+    },
+    "rawAfterNames": {
+      "sha256": "4fe0c1dc387989624f742e5b0cecf0499b95809d6ec57e78db2719aad961f93e",
+      "bytes": 1120955,
+      "filenames": 16842,
+      "uniqueFilenames": 16842,
+      "endsWithNUL": true,
+      "oldCapturedStdoutIsPrefixOfCompleteOutput": true
+    },
+    "invalidGitDirectoryFailure": {
+      "command": [
+        "git",
+        "--git-dir=/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir",
+        "rev-parse",
+        "HEAD"
+      ],
+      "maxBuffer": 16777216,
+      "timeoutMs": 20000,
+      "killSignal": "SIGKILL",
+      "code": null,
+      "status": 128,
+      "signal": null,
+      "message": "Command failed: git --git-dir=/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir rev-parse HEAD\nfatal: not a git repository: '/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir'\n",
+      "stdout": "",
+      "stderr": "fatal: not a git repository: '/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-git-bounds-successor/initially-absent-gitdir'\n"
+    },
+    "helperHashBeforeAndAfterStable": true,
+    "producerScriptSemantics": "Verbatim private observeGit literal is extracted by exact offsets/hash and evaluated with genuine execFileSync. Actual donor ls-files output is compared byte-for-byte against a separate raw Git read. A genuinely absent --git-dir returns128 with retained fields. Script does not import sourceCheckoutPins/native/helper module or construct a runtime."
+  },
+  "actualChangedSourceControls": {
+    "resultSha256": "3605a1099ea13044ec5c4f36ced191c9c5c1fd3adf99f9d2adb6f8d780c602f1",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "sourceBefore": {
+      "tests/scoped-locality-containment-contract.mjs": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+      "tests/lib/scoped-locality-containment.mjs": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+      "tests/lib/scoped-locality-native-runtime.mjs": "88bd5f1cf327ad67caa472bfb30610d7224d8cc54b8117738650479fe332a608",
+      "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+      "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+      "scripts/scoped-locality-runner.mjs": "3fb472afe76381f967e1da56d78e4601a5e0dc181dcdd7f3407e4308e5ec7ee2",
+      ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+    },
+    "sourceAfter": {
+      "tests/scoped-locality-containment-contract.mjs": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+      "tests/lib/scoped-locality-containment.mjs": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+      "tests/lib/scoped-locality-native-runtime.mjs": "88bd5f1cf327ad67caa472bfb30610d7224d8cc54b8117738650479fe332a608",
+      "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+      "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+      "scripts/scoped-locality-runner.mjs": "3fb472afe76381f967e1da56d78e4601a5e0dc181dcdd7f3407e4308e5ec7ee2",
+      ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+    },
+    "beforeAfterAndCurrentMatch": true,
+    "attemptRecords": 15,
+    "actualPIDRecords": 13,
+    "rawProcessReceiptsSha256": "ea0ed5c4468e76a27faab606d371137808f01547c7b9411adcb30423e0afa24e",
+    "scope": "Actual short-lived owned Node process controls; no build, Miniflare instance or GEO application scenario. Not a proof that all five metadata failure branches/timeouts/overflow limits were executed."
+  },
+  "limitsAndRemaining": {
+    "preflightScope": "Actual root donor read-only metadata only; dirty donor cannot prove full sourceCheckoutPins clean-checkout association.",
+    "testedBounds": "Actual complete enumeration plus actual invalid-dir128 are shown. Artificial20s timeout or16MiB overflow branches were not executed in this preflight. Source fails closed with retained fields if those future limits are reached.",
+    "donorNodeVsCI": "Nodev24.19 donor metadata does not establish fresh CI Node22 install/build/runtime behavior.",
+    "finalStagedDocsEvidence": "Separate successor staged freeze/review follows; this source result is not held hostage to that larger inventory.",
+    "nativeGroupsQualified": 0,
+    "formalQualified": 0,
+    "fullParentAcceptance": false,
+    "humanApproval": false,
+    "releaseApproval": false,
+    "rootReuse": "The exact bounded metadata wrapper is suitable for the already authorized bounded root reuse, subject to separate clean-source/build/native custody evidence."
+  },
+  "sourceAndIndexModifiedByReviewer": false,
+  "finalSourceStability": {
+    "tests/lib/scoped-locality-containment.mjs": true,
+    "scripts/scoped-locality-runner.mjs": true,
+    "tests/integration/scoped-locality-policy-http.mjs": true
+  }
+}

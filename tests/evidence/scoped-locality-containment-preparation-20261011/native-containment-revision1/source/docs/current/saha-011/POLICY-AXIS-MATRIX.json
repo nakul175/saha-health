@@ -1,0 +1,491 @@
+{
+  "preparedAt": "2026-10-11T16:26:32.797119+00:00",
+  "status": "PREPARED/UNEXECUTED; no full story or formal case acceptance",
+  "sourceCommit": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "task": "APL-194",
+  "parent": "APL-34 / SAHA-011",
+  "originalRequirement": "BR-ID-02",
+  "originalAcceptance": "Negative tests cover each boundary and prove that hidden screens or manipulated requests cannot expand access.",
+  "originalCases": [
+    "TC-BR-ID-02-A",
+    "TC-BR-ID-02-B"
+  ],
+  "additionalRefusalIds": [
+    "CWO-002-NEG01",
+    "CWO-003-NEG02"
+  ],
+  "axes": [
+    {
+      "axis": "tenant",
+      "authority": "Trusted identity plus selected active organisation, current membership and org_id-scoped store queries. A requested organisation is a selection, never identity.",
+      "allow": "Only the actor’s active membership in the selected organisation; existing scoped rows are additionally filtered.",
+      "deny": "Foreign/no/inactive membership; changing query/header/record IDs cannot expand membership.",
+      "sources": [
+        "lib/saha/server.ts:96",
+        "lib/saha/server.ts:117",
+        "lib/saha/store.ts:48",
+        "lib/saha/store.ts:54"
+      ],
+      "coveredBy": [
+        "tests/nfr/authorisation-matrix.mjs",
+        "tests/scoped-read-contract.mjs"
+      ],
+      "allocation": "Tenant collisions/canary and contradictory media org belong to root tenant agent, excluded from this new harness.",
+      "limit": "Hosted backup/index/asynchronous isolation is not established by this preparation."
+    },
+    {
+      "axis": "role",
+      "authority": "Server membership role/status, not hidden UI state; per-action authorization is separate from record visibility.",
+      "allow": "Active clinician/supervisor sees normal in-team scope; ASHA additionally needs direct assignment; clinical mutations use the original care-role controls. Owner retains explicit administrative actions only.",
+      "deny": "Admin/provider has no normal patient scope. Owner does not bypass patient scope. An allowed read does not imply permission to mutate/export/tool-call.",
+      "sources": [
+        "lib/saha/access.ts:20",
+        "lib/saha/store.ts:59",
+        "lib/saha/core.ts:60",
+        "lib/saha/core.ts:62",
+        "lib/saha/agent.ts:47"
+      ],
+      "coveredBy": [
+        "tests/nfr/authorisation-matrix.mjs",
+        "tests/scoped-read-contract.mjs"
+      ],
+      "allocation": "Existing broad role/ASHA/anonymous sweep remains authoritative; no duplicate sweep.",
+      "limit": "No global role-to-all-actions pass inferred from representative actions."
+    },
+    {
+      "axis": "assignment",
+      "authority": "Member teamIds, patient teamId, and ASHA assignedTo; current assignment updates require supported server command, versions and audit.",
+      "allow": "Team match and, for ASHA, exact assignedTo. Non-ASHA ordinary care scope is in-team scope further constrained by policy.",
+      "deny": "Wrong team or another worker’s assigned record; previously permitted IDs must be re-evaluated after actual assignment/membership change.",
+      "sources": [
+        "lib/saha/access.ts:20",
+        "lib/saha/store.ts:64",
+        "lib/saha/platform.ts:173",
+        "lib/saha/platform.ts:175"
+      ],
+      "coveredBy": [
+        "tests/nfr/authorisation-matrix.mjs",
+        "tests/scoped-read-contract.mjs",
+        "tests/access-scope-smoke.mjs"
+      ],
+      "allocation": "Existing assignment/revocation sweeps and current routine tests are not duplicated.",
+      "limit": "Locality-based caseload transfer qualification remains original remaining work."
+    },
+    {
+      "axis": "programme",
+      "authority": "The first active purposeGrants member rule narrows normal record scope to an existing PROGRAMME_NAMES value present in person.programmes.",
+      "allow": "No narrowing rule, or person enrolled in the active rule’s named existing programme, subject to all other boundaries.",
+      "deny": "Active programme rule not present in person.programmes; SQL prefilter and hydrated normal scope must agree.",
+      "sources": [
+        "lib/saha/access.ts:26",
+        "lib/saha/access.ts:29",
+        "lib/saha/access.ts:46",
+        "lib/saha/purpose-scope.ts:60",
+        "lib/saha/purpose-scope.ts:150"
+      ],
+      "coveredBy": [
+        "tests/access-scope-contract.mjs",
+        "tests/purpose-scope-contract.mjs",
+        "tests/access-scope-smoke.mjs"
+      ],
+      "allocation": "Inventory/combined-axis native hydration gap recorded; locality harness does not duplicate programme-only native smoke.",
+      "limit": "Revoking a narrowing grant restores base permission; it is not membership revocation. No grant expiry semantics exist in this type and none is invented."
+    },
+    {
+      "axis": "facility",
+      "authority": "Existing owner-managed accessScope config, versioned commands and audit; enabled facility scope is an additional AND boundary. Member facility set is union of team and member references.",
+      "allow": "Enforcement disabled, or patient facility is in the configured member/team facility set, subject to base scope and other enabled dimensions.",
+      "deny": "Enabled rule with no member facilities, missing patient facility, or mismatched facility. A member-level reference adds to the team set; it does not replace it.",
+      "sources": [
+        "lib/saha/facility-scope.ts:84",
+        "lib/saha/facility-scope.ts:139",
+        "lib/saha/facility-scope.ts:164",
+        "lib/saha/access.ts:56"
+      ],
+      "coveredBy": [
+        "tests/facility-scope-contract.mjs",
+        "tests/access-scope-contract.mjs",
+        "tests/access-scope-smoke.mjs"
+      ],
+      "allocation": "Existing native facility-only checks reused by source inventory; no duplicate initial enforcement suite.",
+      "limit": "These are configured organisation-local references; upstream directory validation and institutional acceptance remain missing."
+    },
+    {
+      "axis": "geography/locality",
+      "authority": "Existing accessScope.enforceLocality; patient explicit locality takes precedence, otherwise locality is derived from patient facility. Member locality set is union of direct/team and facility-derived localities.",
+      "allow": "Enforcement disabled, or effective patient locality belongs to the configured member locality set, subject to every other applicable boundary.",
+      "deny": "Enabled rule with no member locality, patient with neither explicit nor facility-derived locality, or nonmatching effective locality. Explicit out-of-scope locality must not fall back to an in-scope facility.",
+      "sources": [
+        "lib/saha/facility-scope.ts:151",
+        "lib/saha/facility-scope.ts:157",
+        "lib/saha/facility-scope.ts:169",
+        "lib/saha/access.ts:56"
+      ],
+      "coveredBy": [
+        "tests/facility-scope-contract.mjs",
+        "tests/access-scope-contract.mjs"
+      ],
+      "allocation": "Verified missing native enforceLocality:true coverage; prepare new HTTP contract only.",
+      "limit": "No GPS/polygon/address directory or automatic locality-based transfer is present or claimed."
+    },
+    {
+      "axis": "purpose",
+      "authority": "Existing active grant named ACCESS_PURPOSES values checked at actual data-flow checkpoints; purpose-only restriction leaves normal record reads unchanged.",
+      "allow": "No grant, programme-only grant with no purposes, or a flow’s purpose appears in the active list, subject to care scope/action/consent/source versions.",
+      "deny": "New mapped flow of an excluded purpose. Commands not carrying a purpose are not automatically refused.",
+      "sources": [
+        "lib/saha/access.ts:42",
+        "lib/saha/access.ts:52",
+        "lib/saha/purpose-scope.ts:42",
+        "lib/saha/server.ts:178",
+        "lib/saha/service-dispatch.ts:12"
+      ],
+      "coveredBy": [
+        "tests/purpose-scope-contract.mjs",
+        "tests/access-scope-contract.mjs",
+        "tests/access-scope-smoke.mjs"
+      ],
+      "allocation": "Purpose inventory only; no provider/tool invocation in this prepared locality harness.",
+      "limit": "Lookup of a previously started uncertain flow is intentionally not a new send. Generic replay outcomes must not be classified as new purpose-authorized dispatch without examining the actual operation."
+    },
+    {
+      "axis": "action",
+      "authority": "Original command/route schemas, patient/visit resolution, action-specific role/current consent/source/version controls; outbound service dispatch re-reads authority.",
+      "allow": "The exact action’s current server predicates pass. Read, write, search, export and tool are distinct entry points, not a general allow bit.",
+      "deny": "Manipulating a screen/action/body cannot bypass the schema, care scope, role, purpose or version checks. Refused new commands must not create visits or mutation receipts.",
+      "sources": [
+        "lib/saha/server.ts:158",
+        "lib/saha/server.ts:178",
+        "lib/saha/core.ts:60",
+        "lib/saha/core.ts:62",
+        "lib/saha/data-exit-server.ts:25",
+        "lib/saha/agent.ts:48"
+      ],
+      "coveredBy": [
+        "tests/nfr/authorisation-matrix.mjs",
+        "tests/access-scope-smoke.mjs"
+      ],
+      "allocation": "New geography harness checks actual startVisit refusal/positive controls and data-plane reads, not all commands.",
+      "limit": "No all-action acceptance inferred from summary assertions. Export exception excludes emergency access; tool governance/consent/source rules remain separate."
+    },
+    {
+      "axis": "resource sensitivity",
+      "authority": "Task source names sensitivity, but current code has no single generic resource-sensitivity policy input. Specific consent, restriction, normal-vs-exceptional scope, clinical-source and media/export policies remain their existing authorities.",
+      "allow": "Only the exact existing resource/action rule; no new generic policy/classification invented.",
+      "deny": "No presumed universal permission solely because normal record scope passes.",
+      "sources": [
+        "lib/saha/core.ts:60",
+        "lib/saha/agent.ts:47",
+        "lib/saha/data-exit.ts:22"
+      ],
+      "coveredBy": [
+        "tests/nfr/authorisation-matrix.mjs"
+      ],
+      "allocation": "Explicit unsupported generic axis; inventory only.",
+      "limit": "A unified sensitivity classification/policy matrix and source-required named review are not implemented or accepted by this preparation."
+    }
+  ],
+  "surfaces": [
+    {
+      "surface": "read/detail/workspace",
+      "existingDecision": "store.scope binds current facility/locality/programme policy and sets person.assigned; record materialization and read-audit are separate fail-closed boundaries.",
+      "sources": [
+        "lib/saha/store.ts:48",
+        "lib/saha/server.ts:96",
+        "lib/saha/patient-directory-server.ts:37"
+      ],
+      "localityPrepared": true
+    },
+    {
+      "surface": "list/search",
+      "existingDecision": "patientPage uses viewerScope SQL plus record allowed check; search text uses POST body, not query string, and list/search audit precedes response.",
+      "sources": [
+        "lib/saha/patient-directory-server.ts:12",
+        "lib/saha/patient-directory.ts:67"
+      ],
+      "localityPrepared": true
+    },
+    {
+      "surface": "write",
+      "existingDecision": "Commands resolve current actor, org/member and targeted patient; care-role, command authorization, schema/version/audit/persistence apply.",
+      "sources": [
+        "lib/saha/server.ts:178",
+        "lib/saha/core.ts:60",
+        "lib/saha/core.ts:62"
+      ],
+      "localityPrepared": true
+    },
+    {
+      "surface": "export",
+      "existingDecision": "Owner administrative eligibility does not widen normal patient scope; included cohort/media scope is checked again before response. Emergency access does not authorize export.",
+      "sources": [
+        "lib/saha/data-exit.ts:22",
+        "lib/saha/data-exit-server.ts:25",
+        "lib/saha/data-exit-server.ts:29"
+      ],
+      "localityPrepared": false
+    },
+    {
+      "surface": "tool/outbound flow",
+      "existingDecision": "Original care role, consent, source/provider/governance/versions and mapped purpose apply; serviceDispatch reloads authority before and after dispatch audit.",
+      "sources": [
+        "lib/saha/agent.ts:47",
+        "lib/saha/agent.ts:48",
+        "lib/saha/service-dispatch.ts:12"
+      ],
+      "localityPrepared": false
+    }
+  ],
+  "sourcePins": {
+    "lib/saha/access.ts": {
+      "sha256": "26f5fdc7fe7bedd29de9f07773e7d2e4d1ba1249503c8a27773f007219c32789",
+      "bytes": 6285
+    },
+    "lib/saha/facility-scope.ts": {
+      "sha256": "c86e12531afefecd667bff1f85b1f49142094b93902e969e3a06e9f5678c7775",
+      "bytes": 11317
+    },
+    "lib/saha/purpose-scope.ts": {
+      "sha256": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+      "bytes": 11334
+    },
+    "lib/saha/facility-scope-server.ts": {
+      "sha256": "5b95ae2716d568e83d22d2be91a18e51f48a233f367eda38d07a35ecfa178ba4",
+      "bytes": 677
+    },
+    "lib/saha/purpose-scope-server.ts": {
+      "sha256": "5165efe89dae4394054dec4e057ef792aa94dd9d6f56b33c5195cad1bc67ebf1",
+      "bytes": 1853
+    },
+    "lib/saha/store.ts": {
+      "sha256": "a16ec292082b8f73eabb89a01c6e4558dda71620803a1d8aaa58db653b4ff630",
+      "bytes": 50590
+    },
+    "lib/saha/server.ts": {
+      "sha256": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+      "bytes": 45366
+    },
+    "lib/saha/core.ts": {
+      "sha256": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+      "bytes": 26118
+    },
+    "lib/saha/platform.ts": {
+      "sha256": "079c93aa8219fd01ddccb119e55f2e7b8ce3eb4ce72a98212540e026857f6f40",
+      "bytes": 19707
+    },
+    "lib/saha/patient-directory.ts": {
+      "sha256": "c5e6b589f7ff962a2bdfd1b18a358b8de4712a02d4947848c5b0d927e130fc52",
+      "bytes": 7327
+    },
+    "lib/saha/patient-directory-server.ts": {
+      "sha256": "736f0e6d37b0cf46db1c29b0c67b78a45a8e5e9f3b16f38df5ddf78541f38253",
+      "bytes": 3757
+    },
+    "lib/saha/data-exit.ts": {
+      "sha256": "6839e650eb1697c5eb7388f6b8ca8c656b244ea01deb0aac75de02fb56eaad67",
+      "bytes": 49130
+    },
+    "lib/saha/data-exit-server.ts": {
+      "sha256": "36eafde156edbce93084f5008cee2215bbd752d1cdb8ddb94875211a7b2c26c1",
+      "bytes": 5978
+    },
+    "lib/saha/agent.ts": {
+      "sha256": "553aa94c125518ebac4da2551c967eb2030fcfb0546dc65acfac3591df97c060",
+      "bytes": 26795
+    },
+    "lib/saha/agent-execution.ts": {
+      "sha256": "d2122392e5f468f31058d08805e0a0f671019b28f14b6316dc86a9337345837c",
+      "bytes": 5166
+    },
+    "lib/saha/service-dispatch.ts": {
+      "sha256": "e5b56fbc33c47c66d63c1cef3ec59dba28f8b0f027839b5b30a873ca5b9bca75",
+      "bytes": 5519
+    },
+    "lib/saha/identity.ts": {
+      "sha256": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+      "bytes": 9047
+    },
+    "requirements/brd-v1.1.json": {
+      "sha256": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+      "bytes": 102234
+    },
+    "requirements/assessment.tsv": {
+      "sha256": "03b854a7f80c96ea27c656a8f6a19488b06043c553508e87f85936393944a0de",
+      "bytes": 132825
+    },
+    "requirements/evidence-map.json": {
+      "sha256": "5af82e569d9d6a3cf6f623188de6c6c0af42afb9459dbf1e01144e9f166fee10",
+      "bytes": 79002
+    },
+    "docs/current/TEST-CATALOGUE.csv": {
+      "sha256": "06bbbd3d8a56cf820c035c340224a51d3851bb28290e03405faff8ba31e3e38b",
+      "bytes": 451149
+    },
+    "tests/regression-baseline.json": {
+      "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+      "bytes": 62551
+    },
+    "tests/access-scope-contract.mjs": {
+      "sha256": "321dcc92610bd2b55f05a58a2b6abb36b3605aac4e82d60e8a2205c959ce2ab7",
+      "bytes": 13755
+    },
+    "tests/facility-scope-contract.mjs": {
+      "sha256": "ee0b42e553deb44b241a7aa4f8e36de76244db11f6cb1338c763a4b0d49097e0",
+      "bytes": 13375
+    },
+    "tests/purpose-scope-contract.mjs": {
+      "sha256": "ae8674ee872a6486d10a4d8706af441ad326da2ada1180bef8864aa0b458677f",
+      "bytes": 13593
+    },
+    "tests/access-scope-smoke.mjs": {
+      "sha256": "7f344d20bce1d337840986c28f54022227cf8ecc1feb8fbbffd5d5b9c8446f33",
+      "bytes": 10288
+    },
+    "tests/scoped-read-contract.mjs": {
+      "sha256": "ab6c456b3af9b03601c674154f6c214358ad3572f576d73965b06fedb76d41eb",
+      "bytes": 10557
+    },
+    "tests/nfr/authorisation-matrix.mjs": {
+      "sha256": "cf8f1a93f3c462747f5731a48274937bfc9384a0867048004fef391b22f2abcf",
+      "bytes": 43197
+    },
+    "tests/lib/worker.mjs": {
+      "sha256": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128",
+      "bytes": 5777
+    },
+    "tests/lib/migrate.mjs": {
+      "sha256": "8054c2684e581eb8b9fb230ad1d7643a80ff06bba9572b6e5dddf08d165bf4f9",
+      "bytes": 2060
+    },
+    "tests/lib/report.mjs": {
+      "sha256": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+      "bytes": 2721
+    }
+  },
+  "proposedMissingNativeCases": [
+    {
+      "id": "GEO-01",
+      "name": "Existing org-local references and versioned setup",
+      "expected": "Supported owner addLocality/addFacility/setTeamLocation/assignPatient commands establish synthetic north/south records; unsupported references and stale policy versions are refused without policy change.",
+      "kind": "fixture/validation"
+    },
+    {
+      "id": "GEO-02",
+      "name": "No locality enforcement preserves existing permitted team",
+      "expected": "Same current clinician and team sees all existing six seed records; no new normal permission is created by this test.",
+      "kind": "positive control"
+    },
+    {
+      "id": "GEO-03",
+      "name": "North locality via facility fallback and explicit precedence",
+      "expected": "With locality enforcement only, exact permitted set is p_meena and p_farida; p_rajesh explicit south is excluded even at north facility; no-location rows are excluded.",
+      "kind": "read/list/search"
+    },
+    {
+      "id": "GEO-04",
+      "name": "Direct guessed ID and denied new write do not bypass locality",
+      "expected": "Out-of-locality detail returns404 with no record content; startVisit returns403 with no new visit or command receipt; in-locality detail/write positive controls succeed.",
+      "kind": "refusal/side effect"
+    },
+    {
+      "id": "GEO-05",
+      "name": "Fresh request after team locality change uses the new set",
+      "expected": "After supported team reference changes north→south, exact permitted set becomes p_rajesh and p_aarav; formerly permitted IDs are refused, with preserved stored clinical bytes and denied-write receipt/visit cardinality.",
+      "kind": "sequential pre/post decision"
+    },
+    {
+      "id": "GEO-06",
+      "name": "Enabled locality with no assignment fails closed",
+      "expected": "Removing the team locality reference under still-enabled enforcement yields an empty permitted set; direct record detail/write remains refused; config metadata remains owner-only.",
+      "kind": "fail closed"
+    },
+    {
+      "id": "GEO-07",
+      "name": "Member and team locality references form the existing union",
+      "expected": "An existing owner command adds member-level north alongside team-level south, permitting exact union of the four located records, while no-location records stay excluded.",
+      "kind": "supported union"
+    },
+    {
+      "id": "GEO-08",
+      "name": "Turning enforcement off restores base scope without rewriting records",
+      "expected": "Original six-record team visibility returns; no fake directory/transfer or duplicate denied command receipt is created.",
+      "kind": "recovery"
+    }
+  ],
+  "unsupportedAndRemaining": [
+    "Validated external facility/geography directories",
+    "Locality-based caseload transfer qualification",
+    "Persisted simultaneous facility/locality/programme store reads and nonempty dependent-record selectors, recommended by source inventory; locality-only HTTP preparation does not close this gap.",
+    "Generic sensitivity-classification input",
+    "Original named deployment administrator/identity steward/privacy/security reviewer acceptance",
+    "Hosted and actual current-source whole action/read/write/search/export/tool qualification"
+  ],
+  "crossCandidateSourceComparison": {
+    "candidate": "e930ee73235c8be8559b90b592446d538c4cfaa9",
+    "selectedPolicyFilesChanged": [
+      "lib/saha/store.ts"
+    ],
+    "policyHelperFilesUnchanged": true,
+    "meaning": "Future integration/execution must bind changed store source explicitly; main prep cannot qualify unmerged routine/security source."
+  },
+  "runtimeStarted": false,
+  "buildExecuted": false,
+  "dependenciesInstalledOrLinked": false,
+  "criteriaWeakened": false,
+  "sourceApprovalInvented": false,
+  "sourceReferenceLiterals": {
+    "lib/saha/access.ts:20": "export function normallyAllowed(m:Member,p:Person,scope?:AccessScope){const base=m.status==='active'&&m.role!=='admin'&&m.role!=='provider'&&m.teamIds.includes(p.teamId)&&(m.role!=='asha'||p.assignedTo===m.userId);if(!base)return false;return withinPolicy(m,p,scope);}",
+    "lib/saha/access.ts:26": "  return (grants??[]).find(g=>g.memberId===m.userId&&!g.revokedAt);",
+    "lib/saha/access.ts:29": "export function programmeScopeOf(m:Member,grants:readonly PurposeGrant[]|undefined):PurposeGrant['programme']{",
+    "lib/saha/access.ts:42": "export function allowedFor(m:Member,p:Person,grants:readonly PurposeGrant[]|undefined,purpose?:AccessPurpose):boolean{",
+    "lib/saha/access.ts:46": "  if(!programmeAllows(m,p,grants))return false;",
+    "lib/saha/access.ts:52": "export function purposePermits(m:Member,purpose:AccessPurpose,grants?:readonly PurposeGrant[]):boolean{const g=purposeGrantFor(m,grants??POLICY.get(m)?.operations?.purposeGrants);return !g||!g.purposes.length||g.purposes.includes(purpose);}",
+    "lib/saha/access.ts:56": "export function policySql(member:{userId:string;teamIds:string[]},ops:{accessScope?:AccessScope|null;purposeGrants?:PurposeGrant[]|null}|null|undefined):{sql:string;binds:string[]}|null{",
+    "lib/saha/agent.ts:47": "export function eligible(s:OrgState,m:Member,v:Visit,provider:AgentProvider){if(!['asha','clinician'].includes(m.role))fail(403,'A care role is required to use the record assistant.');const p=s.workspace.people.find(p=>p.id===v.personId)!;if(v.voidedAt||v.supersededBy)fail(409,'Use the current patient visit.');if(!p.aiConsent)fail(409,'Current permission for AI assistance is required.');if(!provider.available)fail(409,provider.reason);return p;}",
+    "lib/saha/agent.ts:48": "export function current(s:OrgState,v:Visit,r:AgentRun,m:Member,u:Actor,ps:AgentProvider[]){const live=ps.find(x=>x.id===r.provider.id);if(!live||live.version!==r.provider.version||live.model!==r.provider.model)fail(409,'The provider configuration changed. Prepare a new request.');const p=eligible(s,m,v,live);const governance=checkCapability(s,m,p,live,r.task,r.context??{language:'en',setting:'community',device:'browser'},AGENT_VERSION);if(JSON.stringify(governance)!==JSON.stringify(r.governance??null))fail(409,'Capability review changed. Prepare a fresh request.');if(r.actorId!==u.userId)fail(403,'Only the worker who prepared this request can approve or apply it.');if(v.version!==r.visitVersion||p.version!==r.personVersion||p.consentVersion!==r.consentVersion)fail(409,'The patient, permission or visit changed. Prepare a new request.');if(r.expiresAt<new Date().toISOString())fail(409,'This request expired. Prepare a new request.');return p;}",
+    "lib/saha/core.ts:60": "export function person(w:Workspace,id:string):Person {const p=w.people.find(x=>x.id===id);if(!p)fail(404,'Patient not found.');if(w.role==='admin')fail(403,'Your membership does not permit patient access.');if(!p.assigned)fail(403,'This patient is not assigned to this worker.');return p;}",
+    "lib/saha/core.ts:62": "function care(w:Workspace){if(!['asha','clinician'].includes(w.role))fail(403,'A care role is required for this action.');}",
+    "lib/saha/data-exit-server.ts:25": " const owner=(x:typeof s)=>{const o=scope(x,u.userId);if(!o.isOwner)fail(403,'Only an organisation owner can export the organisation\\'s data.');if(o.role!==m.role||[...o.teamIds].sort().join()!==[...m.teamIds].sort().join())fail(409,'Your care scope changed while the export was prepared. Export again.');if(built.figureCohort.length&&(!(o.role==='supervisor'||o.isOwner)||['admin','provider','asha'].includes(o.role)||!purposePermits(o,'reporting')||built.figureCohort.some(id=>!x.workspace.people.some(p=>p.id===id&&p.assigned&&!p.mergedInto&&normallyAllowed(o,p)))))fail(403,'Original figure cohort or reporting authority changed while preparing the export. Nothing was downloaded.');if(built.calendarTeams.length&&(['admin','provider','asha'].includes(o.role)||!purposePermits(o,'reporting')||!built.calendarTeams.every(id=>o.teamIds.includes(id))||x.workspace.people.some(p=>built.calendarTeams.includes(p.teamId)&&!p.mergedInto&&!normallyAllowed(o,p))))fail(403,'Whole calendar team reporting scope changed. Nothing was downloaded.');return o;};",
+    "lib/saha/data-exit-server.ts:29": " await assertDataExitPatientScope(db(),orgId,owner(await loadFor(u,orgId)),built.exportedPeople);",
+    "lib/saha/data-exit.ts:22": "// Owner authority does not override patient scope: patient-linked rows are exported only for",
+    "lib/saha/facility-scope.ts:139": "  const own = scope.memberAssignments?.[m.userId];",
+    "lib/saha/facility-scope.ts:151": "  if (own?.localityId) out.add(own.localityId);",
+    "lib/saha/facility-scope.ts:157": "export function patientLocality(p: Person, scope: AccessScope): string | undefined {",
+    "lib/saha/facility-scope.ts:164": "export function scopeAllows(m: Member, p: Person, scope: AccessScope): boolean {",
+    "lib/saha/facility-scope.ts:169": "  if (scope.enforceLocality) {",
+    "lib/saha/facility-scope.ts:84": "  if (!parsed.success) return null;",
+    "lib/saha/patient-directory-server.ts:12": "// Slice 6q: GET serves unsearched paging only; search text is sent with POST in a JSON body.",
+    "lib/saha/patient-directory-server.ts:37": "export async function patientDetailRead(request: Request) {",
+    "lib/saha/patient-directory.ts:67": "export async function patientPage(db: D1Database, orgId: string, member: Member, query: ReturnType<typeof pageQuery>, now = new Date().toISOString()): Promise<PatientPage> {",
+    "lib/saha/platform.ts:173": " case 'assignPatient':{const own=m.isOwner||m.role==='supervisor';if(!own&&!heldBy(state,m,'team-supervision',now).length)fail(403,'An owner with patient access or a team supervisor must manage assignments.');const p=person(w,c.personId);if(p.version!==c.version)fail(409,'Patient assignment changed. Refresh before assigning.');if(!m.teamIds.includes(c.teamId)||!state.teams.some(t=>t.id===c.teamId))fail(403,'The destination team is outside your care scope.');",
+    "lib/saha/platform.ts:175": "  if(!own&&!(supervises(state,m,p.teamId,now,false)&&supervises(state,m,c.teamId,now,false)))fail(403,'Your supervision delegation does not cover this patient\\'s team and the destination team.');if(!own){supervises(state,m,p.teamId,now);supervises(state,m,c.teamId,now);}if(c.assignedTo){const target=state.members.find(x=>x.userId===c.assignedTo&&x.status==='active');if(!target||!['asha','clinician'].includes(target.role)||!target.teamIds.includes(c.teamId))fail(422,'Choose an active care worker in the destination team.');if(!withinPolicy(target,{...p,teamId:c.teamId,assignedTo:target.userId,...(c.facilityId!==undefined?{facilityId:c.facilityId??undefined}:{}),...(c.localityId!==undefined?{localityId:c.localityId??undefined}:{})}))fail(422,'This care worker\\'s facility, locality or programme assignment does not cover this patient.');}transferPatientWork(state,p,c,u,now);p.teamId=c.teamId;p.assignedTo=c.assignedTo;if(c.facilityId!==undefined||c.localityId!==undefined){const sc=state.operations?.accessScope;if(c.facilityId&&sc&&!sc.facilities.some(f=>f.id===c.facilityId))fail(422,'Choose a facility in this organisation.');if(c.localityId&&sc&&!sc.localities.some(l=>l.id===c.localityId))fail(422,'Choose a locality in this organisation.');if(c.facilityId!==undefined)p.facilityId=c.facilityId??undefined;if(c.localityId!==undefined)p.localityId=c.localityId??undefined;}p.version++;for(const v of w.visits.filter(v=>v.personId===p.id))if(v.plan&&v.plan.state!=='completed')v.plan.state='blocked';patientId=subject=p.id;detail=`Patient assignment updated. Reason: ${c.reason}`;break;}",
+    "lib/saha/purpose-scope.ts:150": "    if (g.revokedAt) fail(409, 'This grant is already revoked.');",
+    "lib/saha/purpose-scope.ts:42": "  requestDestinationEnrolment: 'programme-delivery', activateDestinationEnrolment: 'programme-delivery',",
+    "lib/saha/purpose-scope.ts:60": "export const PROGRAMME_NAMES = ['Maternal care', 'Chronic care', 'TB screening', 'Child health', 'General care'] as const;",
+    "lib/saha/server.ts:117": "export async function activeOrg(u:Actor,orgId?:string|null){await ensureHome(u);let id=orgId;if(!id){const a=await db().prepare('SELECT active_org_id FROM accounts WHERE user_id=?').bind(u.userId).first<{active_org_id:string}>();id=a?.active_org_id;const active=id?await db().prepare('SELECT user_id FROM memberships WHERE org_id=? AND user_id=? AND status=?').bind(id,u.userId,'active').first():null;if(!active){const fallback=await db().prepare('SELECT org_id FROM memberships WHERE user_id=? AND status=? ORDER BY created_at LIMIT 1').bind(u.userId,'active').first<{org_id:string}>();id=fallback?.org_id;if(id)await db().prepare('UPDATE accounts SET active_org_id=? WHERE user_id=?').bind(id,u.userId).run();}}if(!id)fail(403,'Select an active organisation.');return id!;}",
+    "lib/saha/server.ts:158": " const old=await db().prepare('SELECT org_id,hash,result,person_id FROM command_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;hash:string;result:string;person_id:string|null}>();",
+    "lib/saha/server.ts:178": " const state=await loadFor(u,requested,orgId=>patientTargets(db(),orgId,c as any)),before=structuredClone(state),m=scope(state,u.userId);ensurePurpose(m,COMMAND_PURPOSE[c.type]);authorizeSandbox(state,m,c);ensureOperating(state,c);ensureEnvironment(state,c,rawRuntime());ensurePatientIdentity(state,c);ensureNotMerged(state,c);ensureNotImported(state,c);ensureExceptionalScope(state,m,c);ensureNotRestricted(state,c);const registration=c.type==='createPerson'?await reviewRegistration(state,m,c):null;let result:any;",
+    "lib/saha/server.ts:96": "export async function loadFor(u:Actor,orgId?:string|null,targets?:(orgId:string)=>Promise<string[]|null>,viewerScoped=false,paging?:PagingRequest|null,material:boolean|SnapshotVia=false){const id=await activeOrg(u,orgId);",
+    "lib/saha/service-dispatch.ts:12": "export async function serviceDispatch(db:D1Database,s:OrgState,u:Actor,m:Member,targetId:string,personId:string|null=null,context?:DispatchContext){",
+    "lib/saha/store.ts:48": "export function scope(state:OrgState,userId:string){const m=state.members.find(x=>x.userId===userId&&x.status==='active');if(!m)fail(403,'Your organisation membership is inactive or unavailable.');state.workspace.role=m.role;bindAccessPolicy(state);for(const p of state.workspace.people)p.assigned=allowed(m,p);return m;}",
+    "lib/saha/store.ts:54": "export async function viewerScope(db:D1Database,orgId:string,userId:string,now=new Date().toISOString()):Promise<{sql:string;binds:Value[]}|null>{",
+    "lib/saha/store.ts:59": " if(!member||member.status!=='active'||member.role==='admin'||member.role==='provider')return {sql:'0',binds:[]};",
+    "lib/saha/store.ts:64": " const team=member.role==='asha'?`(p.assigned_to=? AND ${inTeams})`:inTeams,teamBinds:Value[]=member.role==='asha'?[userId,...teams]:[...teams];"
+  },
+  "coverageInventory": {
+    "path": "outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/COVERAGE-INVENTORY.json",
+    "sha256": "793c11c2fdbe2b3a4d76346546896dfee60cffe19391655985cdcf2d4a133672",
+    "method": "Independent read-only inventory of 18 source suites/wrappers and 1094 active .mjs files; encoded assertions, not execution passes.",
+    "inventoriedSourceFiles": 34,
+    "runtimeExecuted": false
+  },
+  "harnessLimits": [
+    "Eight locality-only native HTTP groups are authored but unexecuted.",
+    "Four supported synthetic draft visits make exact scoped visit joins observable.",
+    "Submissions/referrals have no nonempty fixture; their filters are not qualified here.",
+    "No simultaneous facility/programme enforcement, mid-await race, export, tool, physical reference or hosted acceptance.",
+    "Source/build association must be separately retained and reviewed before runtime allocation.",
+    "Execution remains held until root reviews bounded containment for inherited startWorker startup rejection; unseen process cleanup is not claimed.",
+    "Seeded-name disclosure checks do not prove every arbitrary derived value, and durable read-audit failure injection is not covered by this locality harness."
+  ]
+}

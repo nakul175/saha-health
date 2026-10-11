@@ -1,0 +1,827 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-11T17:24:18.215215+00:00",
+  "reviewer": "Independent telemetry_review subagent",
+  "scope": "Finite read-only incremental review of the historical111-file staged9959 freeze, its retained diff, documentation and source-bound lightweight process evidence. No target executable, runtime, build, installation, browser, D1 or network was invoked by this review.",
+  "status": "Historical staged source and evidence reviewed; native dependency-resolution hold identified. This is advisory and not current-source execution, native policy qualification, human approval, release gate or full-parent acceptance.",
+  "inputAssociation": {
+    "freeze": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/STAGED-FINAL-SOURCE-FREEZE.json",
+      "sha256": "9959593ed42b2c645a5981696547eb49e509c3a59d3ecb128f1b2e2fdfd136b6",
+      "bytes": 35466
+    },
+    "patch": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/STAGED-FINAL-DIFF.patch",
+      "sha256": "ed8203b70e48cf310101ff19956842a3f09e5f6559d698f97463fa8426e5d4d4",
+      "bytes": 1295088
+    },
+    "actualStaticCheckReceipt": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/STAGED-PREPUBLICATION-FINAL-CHECKS.json",
+      "sha256": "df5242936b97d81e42164049087da47fbfba0ddc423db704ec725256b963e4ac",
+      "bytes": 6041
+    },
+    "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+    "sourcePhase": "Original index/working bytes/diff were independently observed matching this freeze before the parent changed the two package anchors. Final receipt reads exact retained Git blob objects, not the successor index as9959.",
+    "retainedGitBlobChecks": {
+      "files": 111,
+      "sha256AndByteCountsExact": true,
+      "gitBlobObjectHashesExact": true
+    },
+    "currentCheckoutDifferentFromHistoricalPins": [
+      "HANDOVER.md",
+      "VALIDATION.md",
+      "docs/current/saha-011/SPECIFICATION.md",
+      "docs/verification/current-baseline.json",
+      "scripts/scoped-locality-runner.mjs",
+      "tests/evidence/scoped-locality-containment-preparation-20261011/EVIDENCE.json",
+      "tests/evidence/scoped-locality-containment-preparation-20261011/manifest.json",
+      "tests/lib/scoped-locality-native-runtime.mjs"
+    ],
+    "stagedPins": {
+      ".github/workflows/scoped-permission-checks.yml": {
+        "sha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+        "bytes": 1070,
+        "gitBlob": "7bece6d09c1eec677e6d8d6836546261afd72588"
+      },
+      "HANDOVER.md": {
+        "sha256": "2e6d392939b2d31e40d3aa8ad0b25373bc30bc109266d9c26386229cb4aa174a",
+        "bytes": 45323,
+        "gitBlob": "d3abba3f49ead0078a7f4e21a330c84dd703c6cc"
+      },
+      "VALIDATION.md": {
+        "sha256": "5d054123da4b4f5bac36bf62d40d1cda0a1bcb1b88208b6842d7902980075a9a",
+        "bytes": 440987,
+        "gitBlob": "bc660f34bcb27a2aa54ac0feaa173e4ca22a4b2f"
+      },
+      "docs/current/saha-011/ORIGINAL-CONTRACTS.json": {
+        "sha256": "acb219ca2eb3ebf2ebc2daa8446e155b22dcc0714de1ec29259948122adcfd3d",
+        "bytes": 10048,
+        "gitBlob": "c76b66375d7394abc8d0af53397e50f5d0d99d4a"
+      },
+      "docs/current/saha-011/POLICY-AXIS-MATRIX.json": {
+        "sha256": "65a0301815e24eb0ff1e22d95e9967de3c31e69eecf47f07d7411a13115302f9",
+        "bytes": 33333,
+        "gitBlob": "843abefd8c4d41176d9dfebe4c1994ba373cf016"
+      },
+      "docs/current/saha-011/SPECIFICATION.md": {
+        "sha256": "9db9f4ee785c9b628a884d2dc6ee60bc8fd436e24e05387430f954fb134d5a88",
+        "bytes": 9762,
+        "gitBlob": "12884aadbba4c0dbc00084e3612144035af1447e"
+      },
+      "docs/verification/application-scoped-locality-test-preparation-20261011-sha256.json": {
+        "sha256": "894fcc4eb674d26727c96c9dedb3b3ec6c681d342dd3f4363d7ff6b7bba32417",
+        "bytes": 204386,
+        "gitBlob": "cf0b7f1f635749057b033034f8fca2f6ecf948f1"
+      },
+      "docs/verification/current-baseline.json": {
+        "sha256": "6865d494909b7837aa3b9946556121ad31807fe25c21b9756828ad41a534c8cc",
+        "bytes": 213,
+        "gitBlob": "d4d4490d12ce3738e617b3df09b967f2c6899189"
+      },
+      "scripts/scoped-locality-runner.mjs": {
+        "sha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+        "bytes": 9600,
+        "gitBlob": "cecbedea4dc00f4e551ccad7f3531fe680fd5dcd"
+      },
+      "scripts/test-catalogue.mjs": {
+        "sha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+        "bytes": 95518,
+        "gitBlob": "e65dd7b8033ec112f4e5dfcc862458a3591664a8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/CONTAINMENT-CONTROLS-FINAL-RESULT.json": {
+        "sha256": "4f083d2a32df4e5de7e41637003f4045049b9bca060e33e332b1774e39fb7b36",
+        "bytes": 5799,
+        "gitBlob": "7fdff90da8e78f4e893795404875e986ca34c469"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/CONTAINMENT-CONTROLS-FROZEN-RESULT.json": {
+        "sha256": "3ce214a899d8de964ae817cf773644fbf74b3271056ca82fdf0aea9d9088c4eb",
+        "bytes": 5800,
+        "gitBlob": "5166cf9696cd134ce033bc61616ce29ad1061a9c"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/CONTAINMENT-CONTROLS-INITIAL-RESULT.json": {
+        "sha256": "7fc249fb78766a6ab4eb767a11a2ccaccf4cedf63e54a8292e660e1b72762f33",
+        "bytes": 3508,
+        "gitBlob": "5e6b1f4beff26198bd3e82bb0cadc45c1b1daa39"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/CONTAINMENT-CONTROLS-PREPUBLICATION-RESULT.json": {
+        "sha256": "50424220330c09c5046650e7b668b7e0eca0a5ad8eb2cdcf5e94f16d5d53efec",
+        "bytes": 5829,
+        "gitBlob": "cec298f9c9ee377792b9836ee2e7a3e87c0375c4"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/CONTAINMENT-CONTROLS-REPAIRED-RESULT.json": {
+        "sha256": "8079d31e515d2fa93459681774a64e5a5768ba673100fe8caf2b6920717805c8",
+        "bytes": 3179,
+        "gitBlob": "6b5bbba843768c513af2ad5536ec4f8d98927456"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/CONTAINMENT-CONTROLS-REVISION2-RESULT.json": {
+        "sha256": "b4da09c57d82ce99518a5ff3b476807a10350023161012c35e64d7c442acad46",
+        "bytes": 5803,
+        "gitBlob": "9574042b0f6a6abbb70fb6606f8eb220bda01caa"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/EVIDENCE.json": {
+        "sha256": "300af5ee9a8905a81b2fbdbc81ec9f9b6b3d483f2ee4961515f65a961ceaf73d",
+        "bytes": 2506,
+        "gitBlob": "2b221783bc377d0409148fecbe8919dfe721e089"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/INITIAL-OWNED-ORPHAN-CLEANUP.json": {
+        "sha256": "78e13193dee70a431eaabcd0f6431381eca3998afd1088204e7b4f2e86ba6e57",
+        "bytes": 533,
+        "gitBlob": "243c147e48378c41a802cf4701ba9e34b3a83059"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/INITIAL-OWNED-ORPHAN-OBSERVATION.json": {
+        "sha256": "eaae2d3095ae705ac6556cbe5ebf6f116efb4a1f3f071c3594790975f455e486",
+        "bytes": 455,
+        "gitBlob": "eed4845bef33b0cc041beda46d84c9136516d676"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/NATIVE-CONTAINMENT-FINAL-SUMMARY.json": {
+        "sha256": "091020a2b41d9e79dbe0e0be0856366e60a8c8e1155943e2f7b38fe56ee5e9cd",
+        "bytes": 4603,
+        "gitBlob": "eec45d3c727dd054c0d28f1426c4b91a66e0ddf0"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/NATIVE-CONTAINMENT-REVISION2-SOURCE-FREEZE.json": {
+        "sha256": "242402be97524ded14100984246d90bbb00c7aa5dc7ac4773135fafca85b8239",
+        "bytes": 6332,
+        "gitBlob": "7aa9794fe24c9850770c5924990144879f836a4a"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/NATIVE-CONTAINMENT-SOURCE-FREEZE.json": {
+        "sha256": "1da46760db2ad91217de664c988fec4869b3c3fd92271c555a3a2543caf4a821",
+        "bytes": 5031,
+        "gitBlob": "086d3fc6f603e41c618054cd0b6a6b25471e5433"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/STAGED-PREPUBLICATION-FINAL-CHECKS.json": {
+        "sha256": "df5242936b97d81e42164049087da47fbfba0ddc423db704ec725256b963e4ac",
+        "bytes": 6041,
+        "gitBlob": "6b2fc9c19d1065a65962f56e9b22a0136eec703c"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/STATIC-PREPUBLICATION-RECEIPT.json": {
+        "sha256": "b480462d0f1d37cd51ae2afc3dca2119dd17e96a683e5709ee2616a4b2eaeada",
+        "bytes": 4918,
+        "gitBlob": "70772180d39093549177873ed28897b009dd370a"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/01.stderr.log": {
+        "sha256": "a30ae352b131cc5bd76884bc68384afa5ecfaca034230cc3bb1907eb7319385f",
+        "bytes": 13,
+        "gitBlob": "389b04d92b8745668ef262f85e12a7c9c49f6dd8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/01.stdout.log": {
+        "sha256": "d69e68988157833272305aaf21f453c800346e8a3640db6578e260215542e5d4",
+        "bytes": 100000,
+        "gitBlob": "56e0448612acbb706b96b7e8e46a210f15386a38"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/02.stderr.log": {
+        "sha256": "f0ffbf024556125397863ae977299d31a1257eec6a8e49a426612882d2821937",
+        "bytes": 26,
+        "gitBlob": "77ce6387dc41842646ad608d1f90012c475ddd6f"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/02.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/03.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/03.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/04.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/04.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/05.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/05.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/06.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/06.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/07.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/07.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/08.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/08.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/09.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/09.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/10.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/10.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/11.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/11.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/12.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/12.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/cancelled-supervisor-inner.json": {
+        "sha256": "fd3b48cc8ea975091f7ce5c79495511ccec14fff243c2ac631d7fb7d950041ce",
+        "bytes": 583,
+        "gitBlob": "582561a2e0bf7d0e720d28090206a6cfe8106174"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/existing-state/preserved": {
+        "sha256": "d59c2a5f721ce135ce54628b1ad8ad8b8eb26c8bbe2e2abe1cdca97e2d6ab446",
+        "bytes": 9,
+        "gitBlob": "99b85622199d17f1dd60838404869be4bc3e0867"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/existing.log": {
+        "sha256": "0d8da7dc169a0c12f0a6f121b819ca38b055b6e2440830f3453bb6c17d3c3106",
+        "bytes": 9,
+        "gitBlob": "daf857ea4cb25c2e0cd7465601ef06ac5395148d"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/inner.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/inner.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/invalid.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/invalid.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/missing.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/missing.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/own-group-observation.json": {
+        "sha256": "943915b25590c578767226c684ad7c15188e08af8ea528db10735fe934cc6626",
+        "bytes": 182,
+        "gitBlob": "20d97919187d974ce9a7dbb17f83b4e7266c3578"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/process-receipts.json": {
+        "sha256": "4831e83c04311f9f443f935319e728ebffd7244c4819ce81bbcb8bed11447085",
+        "bytes": 18963,
+        "gitBlob": "52362143ebbb42719b89ff3efd04bdfb8161bf4f"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/containment-prepublication-process-evidence/retained-journal-control/native-lifecycle.json": {
+        "sha256": "2b6a560b275211202266254baa918f02b71920c24172fc80f6db6e80e1562058",
+        "bytes": 465,
+        "gitBlob": "beed6543e02879e1806ae789c16662815ea4d6f6"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/coverage-inventory/NATIVE-CONTAINMENT-FINAL-REVIEW.json": {
+        "sha256": "af64150276b1d3c4080a085c839347b9af0a31eec28411b20a6a904d579cf6f8",
+        "bytes": 118765,
+        "gitBlob": "b3c62eea48a064bc6c818ee9a38de8f0b893aaca"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/coverage-inventory/NATIVE-RUNNER-REFERENCE-REVIEW.json": {
+        "sha256": "b434f16281e54c706e2b533848a355451f14b37ce98eb205a6da3d9cb0e15019",
+        "bytes": 38301,
+        "gitBlob": "d3392ffb58d205ee73becfa891ffee8b90786ecc"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/01.stderr.log": {
+        "sha256": "a30ae352b131cc5bd76884bc68384afa5ecfaca034230cc3bb1907eb7319385f",
+        "bytes": 13,
+        "gitBlob": "389b04d92b8745668ef262f85e12a7c9c49f6dd8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/01.stdout.log": {
+        "sha256": "d69e68988157833272305aaf21f453c800346e8a3640db6578e260215542e5d4",
+        "bytes": 100000,
+        "gitBlob": "56e0448612acbb706b96b7e8e46a210f15386a38"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/02.stderr.log": {
+        "sha256": "f0ffbf024556125397863ae977299d31a1257eec6a8e49a426612882d2821937",
+        "bytes": 26,
+        "gitBlob": "77ce6387dc41842646ad608d1f90012c475ddd6f"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/02.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/03.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/03.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/04.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/04.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/05.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/05.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/06.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/06.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/07.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/07.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/08.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/08.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/existing-state/preserved": {
+        "sha256": "d59c2a5f721ce135ce54628b1ad8ad8b8eb26c8bbe2e2abe1cdca97e2d6ab446",
+        "bytes": 9,
+        "gitBlob": "99b85622199d17f1dd60838404869be4bc3e0867"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/existing.log": {
+        "sha256": "0d8da7dc169a0c12f0a6f121b819ca38b055b6e2440830f3453bb6c17d3c3106",
+        "bytes": 9,
+        "gitBlob": "daf857ea4cb25c2e0cd7465601ef06ac5395148d"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/missing.stderr.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/missing.stdout.log": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/historical-initial-sandbox-process-evidence/process-receipts.json": {
+        "sha256": "fc6143684894b0d95c5c31ee2ecc43272d73d14420440bbcfa147ab5e9b96ba8",
+        "bytes": 8943,
+        "gitBlob": "57f3585140e6079630cb9e348577ee9e59f20241"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/history/initial-prepared-unexecuted-before-native-containment/tests/integration/scoped-locality-policy-http.mjs": {
+        "sha256": "9f6f0871abe739e18af9e6feb21792dfa39f502df235410609f309d6b7e94f28",
+        "bytes": 19967,
+        "gitBlob": "72ef4c939c3fe3669d624331984d47f360745933"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/manifest.json": {
+        "sha256": "f270a5bfc7485b58ac4e1d173568cf2f73c754c682c784300e67ea7957480d23",
+        "bytes": 13210,
+        "gitBlob": "9795828062cff7d7d1fe9357e7170be05cb7a167"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/.github/workflows/scoped-permission-checks.yml": {
+        "sha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+        "bytes": 1070,
+        "gitBlob": "7bece6d09c1eec677e6d8d6836546261afd72588"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/docs/current/saha-011/POLICY-AXIS-MATRIX.json": {
+        "sha256": "65a0301815e24eb0ff1e22d95e9967de3c31e69eecf47f07d7411a13115302f9",
+        "bytes": 33333,
+        "gitBlob": "843abefd8c4d41176d9dfebe4c1994ba373cf016"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/docs/current/saha-011/SPECIFICATION.md": {
+        "sha256": "c0161938358f6ceac329e6d14f8bcfc56709a89e024442272bf33e54dc3fd991",
+        "bytes": 8888,
+        "gitBlob": "602b2f0263cb1fab38c3a749168f03f273e7e190"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/scripts/scoped-locality-runner.mjs": {
+        "sha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+        "bytes": 9600,
+        "gitBlob": "cecbedea4dc00f4e551ccad7f3531fe680fd5dcd"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/scripts/test-catalogue.mjs": {
+        "sha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+        "bytes": 95518,
+        "gitBlob": "e65dd7b8033ec112f4e5dfcc862458a3591664a8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/tests/integration/scoped-locality-policy-http.mjs": {
+        "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+        "bytes": 20942,
+        "gitBlob": "6f5495763147dffc1e54f594d804e1e4083738a8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/tests/lib/scoped-locality-containment.mjs": {
+        "sha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+        "bytes": 14066,
+        "gitBlob": "a16c3507dff8fe92cd37f9182ae726e8c7de71f4"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/tests/lib/scoped-locality-native-runtime.mjs": {
+        "sha256": "4e8e916ba91aefcc8b6965f06459cb90fb0f9c3c78e17407f1424b0e6336a8a1",
+        "bytes": 8259,
+        "gitBlob": "17be355987f9c80d6295197376278e4d75b2469b"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/tests/scoped-locality-containment-contract.mjs": {
+        "sha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+        "bytes": 14512,
+        "gitBlob": "5851c6318616da4552672a0abf25c2800e7f0ec8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision1/source/tests/scoped-locality-native-current.mjs": {
+        "sha256": "85d09c10b94fa525e19466ba577673b718f7cd909d2c503343028b3f1b8fa4d7",
+        "bytes": 189,
+        "gitBlob": "ebd1da4f4ea5175d57983c269a0e83889ae6942b"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/ADDITIVE-OPTIONS.patch": {
+        "sha256": "4933bc45751c58eaa4ad952aea4eb8b139cd934f6d5ee96fba7afb475f3830d5",
+        "bytes": 1865,
+        "gitBlob": "4659a2fd837a52a28389218714899a349e07898c"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/.github/workflows/scoped-permission-checks.yml": {
+        "sha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+        "bytes": 1070,
+        "gitBlob": "7bece6d09c1eec677e6d8d6836546261afd72588"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/docs/current/saha-011/POLICY-AXIS-MATRIX.json": {
+        "sha256": "65a0301815e24eb0ff1e22d95e9967de3c31e69eecf47f07d7411a13115302f9",
+        "bytes": 33333,
+        "gitBlob": "843abefd8c4d41176d9dfebe4c1994ba373cf016"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/docs/current/saha-011/SPECIFICATION.md": {
+        "sha256": "c0161938358f6ceac329e6d14f8bcfc56709a89e024442272bf33e54dc3fd991",
+        "bytes": 8888,
+        "gitBlob": "602b2f0263cb1fab38c3a749168f03f273e7e190"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/scripts/scoped-locality-runner.mjs": {
+        "sha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+        "bytes": 9600,
+        "gitBlob": "cecbedea4dc00f4e551ccad7f3531fe680fd5dcd"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/scripts/test-catalogue.mjs": {
+        "sha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+        "bytes": 95518,
+        "gitBlob": "e65dd7b8033ec112f4e5dfcc862458a3591664a8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/tests/integration/scoped-locality-policy-http.mjs": {
+        "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+        "bytes": 20942,
+        "gitBlob": "6f5495763147dffc1e54f594d804e1e4083738a8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/tests/lib/scoped-locality-containment.mjs": {
+        "sha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+        "bytes": 14066,
+        "gitBlob": "a16c3507dff8fe92cd37f9182ae726e8c7de71f4"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/tests/lib/scoped-locality-native-runtime.mjs": {
+        "sha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+        "bytes": 8358,
+        "gitBlob": "f0870ac47d180c21408e8e681e70acce7a15769e"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/tests/scoped-locality-containment-contract.mjs": {
+        "sha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+        "bytes": 14512,
+        "gitBlob": "5851c6318616da4552672a0abf25c2800e7f0ec8"
+      },
+      "tests/evidence/scoped-locality-containment-preparation-20261011/native-containment-revision2/source/tests/scoped-locality-native-current.mjs": {
+        "sha256": "85d09c10b94fa525e19466ba577673b718f7cd909d2c503343028b3f1b8fa4d7",
+        "bytes": 189,
+        "gitBlob": "ebd1da4f4ea5175d57983c269a0e83889ae6942b"
+      },
+      "tests/integration/scoped-locality-policy-http.mjs": {
+        "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+        "bytes": 20942,
+        "gitBlob": "6f5495763147dffc1e54f594d804e1e4083738a8"
+      },
+      "tests/lib/scoped-locality-containment.mjs": {
+        "sha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+        "bytes": 14066,
+        "gitBlob": "a16c3507dff8fe92cd37f9182ae726e8c7de71f4"
+      },
+      "tests/lib/scoped-locality-native-runtime.mjs": {
+        "sha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+        "bytes": 8358,
+        "gitBlob": "f0870ac47d180c21408e8e681e70acce7a15769e"
+      },
+      "tests/scoped-locality-containment-contract.mjs": {
+        "sha256": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+        "bytes": 14617,
+        "gitBlob": "a1bf3d0b0971a736567632f33a1f3d0c04881b36"
+      },
+      "tests/scoped-locality-native-current.mjs": {
+        "sha256": "85d09c10b94fa525e19466ba577673b718f7cd909d2c503343028b3f1b8fa4d7",
+        "bytes": 189,
+        "gitBlob": "ebd1da4f4ea5175d57983c269a0e83889ae6942b"
+      }
+    }
+  },
+  "findings": [
+    {
+      "id": "STAGED-NATIVE-RESOLUTION-HOLD",
+      "priority": "material",
+      "status": "Historical freeze held; narrow successor reviewed separately",
+      "files": [
+        {
+          "path": "tests/lib/scoped-locality-native-runtime.mjs",
+          "line": 65
+        },
+        {
+          "path": "scripts/scoped-locality-runner.mjs",
+          "line": 18
+        }
+      ],
+      "cause": "createRequire was anchored to the lexical node_modules/wrangler/package.json symlink. In the actual pnpm donor layout, nested miniflare/workerd resolve from the physical Wrangler package directory; the lexical anchor fails with MODULE_NOT_FOUND. These old sources cannot yet support the prepared native execution claim.",
+      "evidence": "../native-containment-realpath-successor/PACKAGE-RESOLUTION-PREFLIGHT.json",
+      "evidenceSha256": "26bc26461f0428a7b27179e8fdd2a921ac1970320a7557a1d60ead26f4bd1fdd",
+      "requiredAction": "Separate review of frozen two-file realpath successor, then root-controlled current-source build/native/CI allocation; old24 launcher controls do not exercise dependency loading."
+    }
+  ],
+  "incrementalExecutableDelta": {
+    "path": "tests/scoped-locality-containment-contract.mjs",
+    "line": 133,
+    "onlyDeltaFromRevision2": "actualChildAttempts changed to attemptRecords plus actualPIDRecords positive integer receipt-PID count; all control bodies/oracles otherwise byte-exact.",
+    "verifiedExactTextReplacement": true,
+    "sha256": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+    "observedCounts": {
+      "attemptRecords": 15,
+      "actualPIDRecords": 13,
+      "distinctPositivePIDRecords": 13,
+      "nonPIDAttemptRecords": 2
+    },
+    "meaning": "15 records include failed attempts and a nested supervisor child. They do not assert that15 children started."
+  },
+  "preservation": {
+    "eightGEOBodies": {
+      "byteExactHistoricalDriver": true,
+      "sha256": "214aff099d25ff3f9a41b759a62b4d9b5f145e8b1b3dd96ae40874fec21c8666",
+      "currentFileSha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+      "historicalFileSha256": "9f6f0871abe739e18af9e6feb21792dfa39f502df235410609f309d6b7e94f28",
+      "lines": {
+        "first": 168,
+        "last": 227
+      }
+    },
+    "allOracleHelpers": {
+      "byteExactHistoricalDriver": true,
+      "sha256": "8d51cadaba25368bcbe821b74a1a687c9e83c633a004b7e4d06b1a196522c4c5"
+    },
+    "originalRegressionSuiteRows": 374,
+    "protectedMainFiles": {
+      "tests/regression-baseline.json": {
+        "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+        "bytes": 62551,
+        "byteExactMain": true
+      },
+      ".github/workflows/ci.yml": {
+        "sha256": "0ee74cd0cdf3e5572dade0e6d370707b56c2e13fb6622c7f1b17f15228f81be5",
+        "bytes": 11282,
+        "byteExactMain": true
+      },
+      "docs/verification/application-d02-ci-fixtures-2026-10-10-sha256.json": {
+        "sha256": "83571988f6691cb017e258cb9543a735c8110a4e5916d8cc3b0b35db5c1133a8",
+        "bytes": 203623,
+        "byteExactMain": true
+      },
+      "scripts/update-baseline.py": {
+        "sha256": "0c0d2b197188b168c85bbab3ef533b0ba516900f0e78f8b94bbb41009b7ad447",
+        "bytes": 1931,
+        "byteExactMain": true
+      },
+      "scripts/check-documentation.py": {
+        "sha256": "ee9650d9f90542c26b23c3387b3875f6a0096e69263580bf8a1d307ceff4d286",
+        "bytes": 17460,
+        "byteExactMain": true
+      }
+    },
+    "selectedPolicySourcePins": "31 matrix source pins were compared to exact main in preceding source review; the historical matrix remains65a030 and is unchanged in this staged slice.",
+    "noAppDependencyRequirementOldCIChangesInStagedPaths": true,
+    "additiveCatalogue": "Exactly four inserted catalogue lines; old text/IDs preserved. Native counted once manual/directOnly; integration HTTP driver remains childsupport.",
+    "oldDocumentPrefixes": {
+      "HANDOVER.md": {
+        "priorBytes": 43951,
+        "appendedBytes": 1372,
+        "oldContiguousPrefixExact": true,
+        "sha256": "2e6d392939b2d31e40d3aa8ad0b25373bc30bc109266d9c26386229cb4aa174a"
+      },
+      "VALIDATION.md": {
+        "priorBytes": 438285,
+        "appendedBytes": 2702,
+        "oldContiguousPrefixExact": true,
+        "sha256": "5d054123da4b4f5bac36bf62d40d1cda0a1bcb1b88208b6842d7902980075a9a"
+      }
+    },
+    "originalContracts": {
+      "records": 2,
+      "IDs": [
+        "APL-34",
+        "APL-194"
+      ],
+      "sha256": "acb219ca2eb3ebf2ebc2daa8446e155b22dcc0714de1ec29259948122adcfd3d",
+      "sourceDescriptionsOwnHashesMatch": true,
+      "formalOriginalAcceptance": "TC-BR-ID-02-A/B remain Not run; full fixed BR-ID-02 criteria are preserved."
+    }
+  },
+  "evidenceAssociation": {
+    "root": "tests/evidence/scoped-locality-containment-preparation-20261011/",
+    "descriptorSha256": "300af5ee9a8905a81b2fbdbc81ec9f9b6b3d483f2ee4961515f65a961ceaf73d",
+    "descriptor": "Explicit8declared/0executed/0qualified,24local launcher checks,15attempt/13PID, no formal/full-parent promotion. Initial12pass/5fail/EPERM and old dates/limitations preserved.",
+    "artifactManifestSha256": "f270a5bfc7485b58ac4e1d173568cf2f73c754c682c784300e67ea7957480d23",
+    "files": 96,
+    "manifestEntries": 95,
+    "allRetainedArtifactHashesMatch": true,
+    "onlyExcludedFile": "Exact manifest.json itself",
+    "losslessProducerCopiesPreviouslyChecked": 73,
+    "producerCopyHashMismatches": 0,
+    "currentReport": {
+      "sha256": "50424220330c09c5046650e7b668b7e0eca0a5ad8eb2cdcf5e94f16d5d53efec",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "checkLabels": [
+        "complete structured shape is accepted by the validator only",
+        "missing integer counts are refused",
+        "nonzero failure and skip counts are refused",
+        "inflated counts and missing or duplicate GEO groups are refused",
+        "missing setup, cleanup, source, contract or build custody is refused",
+        "transport error and inappropriate formal acceptance claims are refused",
+        "actual zero exit retains full output and registered own group cleanup",
+        "actual nonzero exit is a failure with retained real stderr",
+        "actual missing executable yields a recorded failure without an unhandled child error",
+        "synchronous invalid spawn setup is recorded without an owned process or open log handles",
+        "preexisting exclusive log refuses before spawning",
+        "deliberately injected launcher pipe setup fault terminates its actual child and fails",
+        "actual registration callback failure terminates only the new child and records failure",
+        "actual ignored TERM reaches KILL within a finite deadline",
+        "actual AbortSignal cancellation terminates the registered child group and refuses success",
+        "actual supervisor TERM cancels and disposes its separately detached registered child",
+        "actual exited parent orphan is cleaned only within its registered group",
+        "actual independent sentinel group remains alive during timeout cleanup",
+        "direct-child migration records its incomplete descendant scope honestly",
+        "actual own-group observation excludes only its separately grouped observer",
+        "pending readiness promises have a finite rejection deadline",
+        "initially existing native state is refused without modifying it",
+        "deliberately unavailable journal cannot precede disposal of the unstarted owned fixture",
+        "control driver helper runner and workflow inputs stay byte-exact through execution"
+      ],
+      "allActualCheckFlagsTrue": true,
+      "sourceBefore": {
+        "tests/scoped-locality-containment-contract.mjs": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+        "tests/lib/scoped-locality-containment.mjs": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+        "tests/lib/scoped-locality-native-runtime.mjs": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+        "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+        "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+        "scripts/scoped-locality-runner.mjs": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+        ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+      },
+      "sourceAfter": {
+        "tests/scoped-locality-containment-contract.mjs": "cfcaf7f4dc9c66820c03c770ed68d78e3d2274e8a26c21ccd66259484102cb8e",
+        "tests/lib/scoped-locality-containment.mjs": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+        "tests/lib/scoped-locality-native-runtime.mjs": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+        "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+        "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+        "scripts/scoped-locality-runner.mjs": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+        ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+      },
+      "beforeAfterEqual": true,
+      "sourceAssociation": "Matches historical9959 source pins. Package module resolution and eight native GEO bodies were not executed by these controls."
+    },
+    "rawProcessReceipts": {
+      "sha256": "4831e83c04311f9f443f935319e728ebffd7244c4819ce81bbcb8bed11447085",
+      "attemptRecords": 15,
+      "actualPIDRecords": 13,
+      "fullRawRecordsRetained": true
+    },
+    "historicalFailureRawSha256": "fc6143684894b0d95c5c31ee2ecc43272d73d14420440bbcfa147ab5e9b96ba8",
+    "historicalRevision2Summary": "Retained as original prior revision scope; distinct current staged descriptor and actual static checks establish preparation context."
+  },
+  "sourceManifestReview": {
+    "path": "docs/verification/application-scoped-locality-test-preparation-20261011-sha256.json",
+    "sha256": "894fcc4eb674d26727c96c9dedb3b3ec6c681d342dd3f4363d7ff6b7bba32417",
+    "files": 1787,
+    "previousBaseline": "application-d02-ci-fixtures-2026-10-10-sha256.json",
+    "recipe": "Unchanged update-baseline.py. Historical source manifest selection was reconstructed from previous file set plus current tracked source-prefix paths excluding tests/evidence, existing files only. Six newly authored runnable/helper source paths added.",
+    "all1787PathsAndHashesMatchedBeforeSuccessorMutation": true,
+    "currentSourceManifestClaim": false,
+    "sourceManifestVsEvidence": "Executable/source baseline excludes tests/evidence; evidence manifest pins raw reports/history; staged freeze additionally pins criteria/docs and manifests. These have distinct roles.",
+    "priorD02ManifestPreserved": true
+  },
+  "actualStaticResults": {
+    "producerReceiptPinsHistoricalStage": true,
+    "commands": 11,
+    "allRecordedExitZero": true,
+    "commandsByPurpose": [
+      "documentation/source integrity1787files",
+      "requirements evidence176sourceIDs",
+      "catalogue967suites/96components/36support",
+      "staged whitespace integrity",
+      "seven JavaScript syntax-only checks"
+    ],
+    "productExecuted": false,
+    "formalCatalogueCasesRun": 0,
+    "formalAccepted": 0,
+    "reviewerReranCommands": false
+  },
+  "artifactAndPrivacyReview": {
+    "newLocalMarkdownLinksChecked": 6,
+    "unresolvedNewLinks": 0,
+    "credentialPatternScanFiles": 111,
+    "matches": 0,
+    "scope": "Finite pattern scan and actual retained synthetic process/log read. No private key/token pattern observed; local producer file paths remain provenance. This is not a comprehensive privacy certification.",
+    "realPatientPayloadObserved": false
+  },
+  "remaining": {
+    "nativeGroupsExecuted": 0,
+    "nativeGroupQualification": false,
+    "combinedPersistedFacilityLocalityProgrammeCoverage": "Open",
+    "nonemptySubmissionReferralOracles": "Open",
+    "derivedDisclosuresAndDurableReadAuditFaultInjection": "Open",
+    "lateInspectionLoss": "Explicit failed/unverified cleanup; requires fresh safe ownership revalidation. No blind historical group signal.",
+    "abruptSupervisorSIGKILL": "JavaScript cleanup cannot be guaranteed; existing explicit limit.",
+    "rootControlledFreshBuildNativeCI": "Held pending scoped realpath successor review and separate allocation.",
+    "humanApproval": false,
+    "fullParentAcceptance": false,
+    "releaseApproval": false
+  },
+  "writeBoundary": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory",
+  "sourceAndIndexModifiedByReviewer": false
+}

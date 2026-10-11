@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-10-11T17:28:53.855834+00:00",
+  "status": "Metadata bounds/error-retention source-only successor; native unexecuted; independent review pending",
+  "sourcePins": {
+    "tests/lib/scoped-locality-containment.mjs": "8d096c5b9dc691518b7f39207fcb2db1d72cd65bc1264eba2c797dc286b2796b",
+    "scripts/scoped-locality-runner.mjs": "3fb472afe76381f967e1da56d78e4601a5e0dc181dcdd7f3407e4308e5ec7ee2",
+    "tests/integration/scoped-locality-policy-http.mjs": "40ed7815d92b18fcff4205e33a14069515c52ec25f42c76680b616b12ce3c033"
+  },
+  "predecessorFreezeSha256": "705a871dfcfd00a610e25ce58f589369d518a60ace9539eb7c67617016e0dec5",
+  "patchSha256": "1ad5568ba94498944ce04b41ce129e5907d8f53bd08d8b5072091aee06e84fbe",
+  "delta": "One shared Git read wrapper for all5 metadata reads, maxBuffer16MiB/timeout20s/SIGKILL; same full filenames. Outer/native preserve actual Git failure observation. No policy/scenario/oracle/minimum changes.",
+  "preflight": {
+    "file": "GIT-ENUMERATION-PREFLIGHT.json",
+    "sha256": "987ecd2e864447862bf105040ce18c2077a8af22c4b0e7d17e473e95b5a79098",
+    "exactExtractedPrivateHelperOnly": true,
+    "rootFullBytes": 1120955,
+    "rootNames": 16842,
+    "oldDefaultFailureRetained": true,
+    "newFullOutputMatchesNativeGit": true,
+    "scope": "Readonly Git metadata; no sourceCheckoutPins clean-checkout/native/fullparent qualification"
+  },
+  "nativeExecuted": 0
+}

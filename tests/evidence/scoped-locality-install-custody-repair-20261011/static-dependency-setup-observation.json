@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-10-11T17:56:48.072320+00:00",
+  "commands": [
+    "node tests/uat/coverage-map.mjs",
+    "node tests/uat/generate-uat-pack.mjs --check"
+  ],
+  "exitCode": 1,
+  "observedError": "ERR_MODULE_NOT_FOUND: Cannot find package typescript imported from tests/lib/uat-selection.mjs",
+  "resolution": "Borrow only the existing exact locked TypeScript5.9.3 through a private ignored read-only symlink; no installer or dependency bytes changed."
+}

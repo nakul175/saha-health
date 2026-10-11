@@ -1,0 +1,1669 @@
+{
+  "kind": "Independent finite read-only source and retained lightweight-control review",
+  "recordedAt": "2026-10-11T17:10:07.437355+00:00",
+  "revision": 2,
+  "task": "APL-194 / APL-34 / SAHA-011; eight existing locality groups and owned launcher containment only",
+  "reviewer": "/root/saha_backlog_quality/telemetry_review",
+  "conclusion": "No additional material source defect found within the frozen finite scope. Previously reported custody/lifecycle findings are closed or explicitly held below. Native qualification and publication gates remain open.",
+  "approval": {
+    "humanApproval": false,
+    "fullGateCertification": false,
+    "formalAcceptanceClaim": false,
+    "parentStoryAcceptance": false,
+    "executionAuthorizationIssued": false,
+    "nativeScenarioPassClaim": false,
+    "newDeliveredStories": 0
+  },
+  "reviewOperations": {
+    "readOnlyCheckoutAndExistingEvidence": true,
+    "executedTargetSourceOrTests": false,
+    "executedNativeRuntimeBuildInstallBrowserNetwork": false,
+    "processSignalsOrInspectionByReviewer": false,
+    "methods": [
+      "Read source/evidence bytes and exact lines",
+      "Compute SHA-256 and byte comparisons",
+      "Read local Git objects/metadata",
+      "Write this new owned JSON receipt only"
+    ]
+  },
+  "freeze": {
+    "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/NATIVE-CONTAINMENT-REVISION2-SOURCE-FREEZE.json",
+    "sha256": "242402be97524ded14100984246d90bbb00c7aa5dc7ac4773135fafca85b8239",
+    "bytes": 6332
+  },
+  "sourcePins": {
+    "tests/lib/scoped-locality-containment.mjs": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+      "sha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+      "bytes": 14066,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/tests/lib/scoped-locality-containment.mjs",
+        "sha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+        "bytes": 14066
+      },
+      "copyMatchesCurrent": true
+    },
+    "tests/lib/scoped-locality-native-runtime.mjs": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-native-runtime.mjs",
+      "sha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+      "bytes": 8358,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/tests/lib/scoped-locality-native-runtime.mjs",
+        "sha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+        "bytes": 8358
+      },
+      "copyMatchesCurrent": true
+    },
+    "scripts/scoped-locality-runner.mjs": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/scoped-locality-runner.mjs",
+      "sha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+      "bytes": 9600,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/scripts/scoped-locality-runner.mjs",
+        "sha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+        "bytes": 9600
+      },
+      "copyMatchesCurrent": true
+    },
+    "tests/integration/scoped-locality-policy-http.mjs": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/integration/scoped-locality-policy-http.mjs",
+      "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+      "bytes": 20942,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/tests/integration/scoped-locality-policy-http.mjs",
+        "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+        "bytes": 20942
+      },
+      "copyMatchesCurrent": true
+    },
+    "tests/scoped-locality-containment-contract.mjs": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/scoped-locality-containment-contract.mjs",
+      "sha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+      "bytes": 14512,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/tests/scoped-locality-containment-contract.mjs",
+        "sha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+        "bytes": 14512
+      },
+      "copyMatchesCurrent": true
+    },
+    "tests/scoped-locality-native-current.mjs": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/scoped-locality-native-current.mjs",
+      "sha256": "85d09c10b94fa525e19466ba577673b718f7cd909d2c503343028b3f1b8fa4d7",
+      "bytes": 189,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/tests/scoped-locality-native-current.mjs",
+        "sha256": "85d09c10b94fa525e19466ba577673b718f7cd909d2c503343028b3f1b8fa4d7",
+        "bytes": 189
+      },
+      "copyMatchesCurrent": true
+    },
+    "scripts/test-catalogue.mjs": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test-catalogue.mjs",
+      "sha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+      "bytes": 95518,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/scripts/test-catalogue.mjs",
+        "sha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+        "bytes": 95518
+      },
+      "copyMatchesCurrent": true
+    },
+    ".github/workflows/scoped-permission-checks.yml": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/scoped-permission-checks.yml",
+      "sha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+      "bytes": 1070,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/.github/workflows/scoped-permission-checks.yml",
+        "sha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+        "bytes": 1070
+      },
+      "copyMatchesCurrent": true
+    },
+    "docs/current/saha-011/SPECIFICATION.md": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/docs/current/saha-011/SPECIFICATION.md",
+      "sha256": "c0161938358f6ceac329e6d14f8bcfc56709a89e024442272bf33e54dc3fd991",
+      "bytes": 8888,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/docs/current/saha-011/SPECIFICATION.md",
+        "sha256": "c0161938358f6ceac329e6d14f8bcfc56709a89e024442272bf33e54dc3fd991",
+        "bytes": 8888
+      },
+      "copyMatchesCurrent": true
+    },
+    "docs/current/saha-011/POLICY-AXIS-MATRIX.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/docs/current/saha-011/POLICY-AXIS-MATRIX.json",
+      "sha256": "65a0301815e24eb0ff1e22d95e9967de3c31e69eecf47f07d7411a13115302f9",
+      "bytes": 33333,
+      "frozenCopy": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/source/docs/current/saha-011/POLICY-AXIS-MATRIX.json",
+        "sha256": "65a0301815e24eb0ff1e22d95e9967de3c31e69eecf47f07d7411a13115302f9",
+        "bytes": 33333
+      },
+      "copyMatchesCurrent": true
+    }
+  },
+  "sourceStability": {
+    "allTenCurrentFilesMatchDeclaredFreeze": true,
+    "allTenImmutableSourceCopiesMatchCurrent": true,
+    "controlInputBeforeAfterAndCurrentMatch": true,
+    "revision1Preserved": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/NATIVE-CONTAINMENT-SOURCE-FREEZE.json",
+      "sha256": "1da46760db2ad91217de664c988fec4869b3c3fd92271c555a3a2543caf4a821",
+      "bytes": 5031
+    },
+    "earlierUnwrittenFinalizationStoppedOnDetectedSourceDrift": true
+  },
+  "revision2Delta": {
+    "patch": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/native-containment-revision2/ADDITIVE-OPTIONS.patch",
+      "sha256": "4933bc45751c58eaa4ad952aea4eb8b139cd934f6d5ee96fba7afb475f3830d5",
+      "bytes": 1865
+    },
+    "onlyChangedSourceFile": "tests/lib/scoped-locality-native-runtime.mjs",
+    "reconstructedThreeAuthorizedReplacementsMatchExactCurrentBytes": true,
+    "allOtherNineSourceFilesByteExactRevision1": true,
+    "semantics": "Add optional bindings={} and outboundService factory parameters; forward bindings directly and outboundService only when provided to the actual Miniflare constructor. Current GEO caller supplies neither, so its default application configuration and eight oracles remain unchanged. Guarded mf getter still returns only the same ready/live native runtime. No native execution, actual bindings behavior, outbound interception or external request counter result is claimed."
+  },
+  "oraclePreservation": {
+    "historicalDriver": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/history/initial-prepared-unexecuted-before-native-containment/tests/integration/scoped-locality-policy-http.mjs",
+      "sha256": "9f6f0871abe739e18af9e6feb21792dfa39f502df235410609f309d6b7e94f28",
+      "bytes": 19967
+    },
+    "currentDriver": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/integration/scoped-locality-policy-http.mjs",
+      "sha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+      "bytes": 20942
+    },
+    "method": "Byte-compare complete eight source step blocks including literal labels, callbacks and statements; separately compare every oracle helper from call() through the main recorded try.",
+    "eightExactStepBlocks": [
+      {
+        "label": "GEO-01",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          168,
+          198
+        ],
+        "historicalLines": [
+          156,
+          186
+        ],
+        "bytes": 3002,
+        "sha256": "a8c4a4f9ebe9389527a299a8f46e528b45fc30f5fc061c9e01d6ea30c1264907"
+      },
+      {
+        "label": "GEO-02",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          199,
+          199
+        ],
+        "historicalLines": [
+          187,
+          187
+        ],
+        "bytes": 104,
+        "sha256": "d1ce2ea31bff4b4eeeb0abaccaf3dde2c2f543df36c31a90a72fd090f90595ef"
+      },
+      {
+        "label": "GEO-03",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          200,
+          205
+        ],
+        "historicalLines": [
+          188,
+          193
+        ],
+        "bytes": 423,
+        "sha256": "6525ea18ea9b2a1294fa120917e3b224481ca28c1ef631f49c6cbced24c81651"
+      },
+      {
+        "label": "GEO-04",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          206,
+          211
+        ],
+        "historicalLines": [
+          194,
+          199
+        ],
+        "bytes": 593,
+        "sha256": "69386cfefea3145082c831faf8d7b2c8da28c56142719af962f36d46178e9fd2"
+      },
+      {
+        "label": "GEO-05",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          212,
+          215
+        ],
+        "historicalLines": [
+          200,
+          203
+        ],
+        "bytes": 306,
+        "sha256": "8222f5b819e9435ff501c6650e550e0badb46bd8d74492a79dcaaffce61c71e0"
+      },
+      {
+        "label": "GEO-06",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          216,
+          219
+        ],
+        "historicalLines": [
+          204,
+          207
+        ],
+        "bytes": 299,
+        "sha256": "6109de4cc3753b143a281dc0726fd6aa74cecffc1512511cb4673118e55afb90"
+      },
+      {
+        "label": "GEO-07",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          220,
+          224
+        ],
+        "historicalLines": [
+          208,
+          212
+        ],
+        "bytes": 403,
+        "sha256": "d91165aed14cf2927b25411a21cc63d0ae34db08e3bc048bab5239281707dd89"
+      },
+      {
+        "label": "GEO-08",
+        "completeStepBlockByteExact": true,
+        "currentLines": [
+          225,
+          227
+        ],
+        "historicalLines": [
+          213,
+          215
+        ],
+        "bytes": 229,
+        "sha256": "40ac1a8503f612a4a926f84615424b889470a4f31b5a43d654982ad93be2e593"
+      }
+    ],
+    "combinedCompleteStepBlocksSha256": "214aff099d25ff3f9a41b759a62b4d9b5f145e8b1b3dd96ae40874fec21c8666",
+    "matchesFreezeCombinedBodyHash": true,
+    "allOracleHelpersByteExact": true,
+    "oracleHelperSha256": "8d51cadaba25368bcbe821b74a1a687c9e83c633a004b7e4d06b1a196522c4c5",
+    "literalSets": {
+      "ALL": [
+        "p_aarav",
+        "p_farida",
+        "p_kamla",
+        "p_meena",
+        "p_rajesh",
+        "p_sunita"
+      ],
+      "NORTH": [
+        "p_farida",
+        "p_meena"
+      ],
+      "SOUTH": [
+        "p_aarav",
+        "p_rajesh"
+      ],
+      "UNION": [
+        "p_aarav",
+        "p_farida",
+        "p_meena",
+        "p_rajesh"
+      ]
+    },
+    "nativeNoSideEffectOracle": {
+      "reference": {
+        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/integration/scoped-locality-policy-http.mjs",
+        "sourceSha256": "b56efc643902d00f958f2462a7225fe3b8c183a39f3c84cab6035f6a456894c7",
+        "startLine": 109,
+        "endLine": 129,
+        "text": "function database() {\n  const files = sqliteFiles(state).filter(file => file.replaceAll('\\\\', '/').includes('/d1/'));\n  assert.equal(files.length, 1, 'Use the actual fresh native D1 database, never a mirror.');\n  return new DatabaseSync(files[0], { readOnly: true });\n}\nfunction clinicalSnapshot(db) {\n  return Object.fromEntries(['patients', 'visits', 'submissions', 'referrals'].map(table => [table, db.prepare(`SELECT * FROM ${table} WHERE org_id=? ORDER BY id`).all(org)]));\n}\nasync function deniedWrite(personId) {\n  const db = database(), key = `geo-refused-${crypto.randomUUID()}`;\n  try {\n    const before = sha(JSON.stringify(clinicalSnapshot(db)));\n    assert.equal(db.prepare('SELECT count(*) n FROM command_receipts WHERE actor_id=? AND key=?').get(clinician.id, key).n, 0);\n    const result = await call(clinician, '/api/commands', { method: 'POST', body: { type: 'startVisit', personId }, headers: { 'Idempotency-Key': key } });\n    assert.equal(result.status, 403); assert.equal(result.headers.get('cache-control'), 'no-store');\n    noOutsideNames(result, []);\n    const after = sha(JSON.stringify(clinicalSnapshot(db)));\n    assert.equal(after, before, 'Refused new command does not mutate any clinical row.');\n    assert.equal(db.prepare('SELECT count(*) n FROM command_receipts WHERE actor_id=? AND key=?').get(clinician.id, key).n, 0, 'Refused command creates no receipt.');\n    sideEffectChecks.push({ personId, key, beforeClinicalSha256: before, afterClinicalSha256: after, receiptCount: 0, status: result.status });\n  } finally { db.close(); }"
+      },
+      "meaning": "Read the one actual fresh persisted native D1 SQLite database; compare every own-org patients/visits/submissions/referrals row before/after refused new startVisit, HTTP403/no-store and zero new clinician command receipt. Permitted positive control resolves exact existing synthetic draft. No mirror or policy-derived expected set.",
+      "executed": false
+    }
+  },
+  "preservation": {
+    "baseline": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/regression-baseline.json",
+      "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+      "bytes": 62551
+    },
+    "originalBaselineSuites": 374,
+    "wholeBaselineByteExactMain": true,
+    "noNewNativeMinimumPromoted": true,
+    "existingEngineeringWorkflow": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/ci.yml",
+      "sha256": "0ee74cd0cdf3e5572dade0e6d370707b56c2e13fb6622c7f1b17f15228f81be5",
+      "bytes": 11282
+    },
+    "existingEngineeringWorkflowByteExactMain": true,
+    "ciAdditive": true,
+    "originalAcceptanceBlockByteExactHistoricalSpec": true,
+    "originalAcceptanceBlockSha256": "1fa91ed9f34d89e1d200cf699cfc0503894dda7adf1f61045bfce2b9bec3ed9e",
+    "historicalSpecification": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/history/initial-prepared-unexecuted-before-native-containment/docs/current/saha-011/SPECIFICATION.md",
+      "sha256": "490ea002bb6f89adb1e90c7281681406881834386a6aaaee7e0bfac5e66e09a3",
+      "bytes": 5817
+    },
+    "selectedPolicySourcePins": {
+      "lib/saha/access.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/access.ts",
+        "sha256": "26f5fdc7fe7bedd29de9f07773e7d2e4d1ba1249503c8a27773f007219c32789",
+        "bytes": 6285,
+        "byteExactMain": true
+      },
+      "lib/saha/facility-scope.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/facility-scope.ts",
+        "sha256": "c86e12531afefecd667bff1f85b1f49142094b93902e969e3a06e9f5678c7775",
+        "bytes": 11317,
+        "byteExactMain": true
+      },
+      "lib/saha/purpose-scope.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/purpose-scope.ts",
+        "sha256": "b80cdb5d58e19cdd8b285427953bc9437e880194cda0e0908e512005fbda3252",
+        "bytes": 11334,
+        "byteExactMain": true
+      },
+      "lib/saha/facility-scope-server.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/facility-scope-server.ts",
+        "sha256": "5b95ae2716d568e83d22d2be91a18e51f48a233f367eda38d07a35ecfa178ba4",
+        "bytes": 677,
+        "byteExactMain": true
+      },
+      "lib/saha/purpose-scope-server.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/purpose-scope-server.ts",
+        "sha256": "5165efe89dae4394054dec4e057ef792aa94dd9d6f56b33c5195cad1bc67ebf1",
+        "bytes": 1853,
+        "byteExactMain": true
+      },
+      "lib/saha/store.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/store.ts",
+        "sha256": "a16ec292082b8f73eabb89a01c6e4558dda71620803a1d8aaa58db653b4ff630",
+        "bytes": 50590,
+        "byteExactMain": true
+      },
+      "lib/saha/server.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/server.ts",
+        "sha256": "8dcd9d28f2a1df33a9e428e77f20cfa84774797f0c82964d12b25632952f2f52",
+        "bytes": 45366,
+        "byteExactMain": true
+      },
+      "lib/saha/core.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/core.ts",
+        "sha256": "6933084b7a9eb422ad92dc7d865b02fad5b933a33b0149cf766a76d21ed2b3ad",
+        "bytes": 26118,
+        "byteExactMain": true
+      },
+      "lib/saha/platform.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/platform.ts",
+        "sha256": "079c93aa8219fd01ddccb119e55f2e7b8ce3eb4ce72a98212540e026857f6f40",
+        "bytes": 19707,
+        "byteExactMain": true
+      },
+      "lib/saha/patient-directory.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/patient-directory.ts",
+        "sha256": "c5e6b589f7ff962a2bdfd1b18a358b8de4712a02d4947848c5b0d927e130fc52",
+        "bytes": 7327,
+        "byteExactMain": true
+      },
+      "lib/saha/patient-directory-server.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/patient-directory-server.ts",
+        "sha256": "736f0e6d37b0cf46db1c29b0c67b78a45a8e5e9f3b16f38df5ddf78541f38253",
+        "bytes": 3757,
+        "byteExactMain": true
+      },
+      "lib/saha/data-exit.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/data-exit.ts",
+        "sha256": "6839e650eb1697c5eb7388f6b8ca8c656b244ea01deb0aac75de02fb56eaad67",
+        "bytes": 49130,
+        "byteExactMain": true
+      },
+      "lib/saha/data-exit-server.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/data-exit-server.ts",
+        "sha256": "36eafde156edbce93084f5008cee2215bbd752d1cdb8ddb94875211a7b2c26c1",
+        "bytes": 5978,
+        "byteExactMain": true
+      },
+      "lib/saha/agent.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/agent.ts",
+        "sha256": "553aa94c125518ebac4da2551c967eb2030fcfb0546dc65acfac3591df97c060",
+        "bytes": 26795,
+        "byteExactMain": true
+      },
+      "lib/saha/agent-execution.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/agent-execution.ts",
+        "sha256": "d2122392e5f468f31058d08805e0a0f671019b28f14b6316dc86a9337345837c",
+        "bytes": 5166,
+        "byteExactMain": true
+      },
+      "lib/saha/service-dispatch.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/service-dispatch.ts",
+        "sha256": "e5b56fbc33c47c66d63c1cef3ec59dba28f8b0f027839b5b30a873ca5b9bca75",
+        "bytes": 5519,
+        "byteExactMain": true
+      },
+      "lib/saha/identity.ts": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/lib/saha/identity.ts",
+        "sha256": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+        "bytes": 9047,
+        "byteExactMain": true
+      },
+      "requirements/brd-v1.1.json": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/requirements/brd-v1.1.json",
+        "sha256": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+        "bytes": 102234,
+        "byteExactMain": true
+      },
+      "requirements/assessment.tsv": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/requirements/assessment.tsv",
+        "sha256": "03b854a7f80c96ea27c656a8f6a19488b06043c553508e87f85936393944a0de",
+        "bytes": 132825,
+        "byteExactMain": true
+      },
+      "requirements/evidence-map.json": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/requirements/evidence-map.json",
+        "sha256": "5af82e569d9d6a3cf6f623188de6c6c0af42afb9459dbf1e01144e9f166fee10",
+        "bytes": 79002,
+        "byteExactMain": true
+      },
+      "docs/current/TEST-CATALOGUE.csv": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/docs/current/TEST-CATALOGUE.csv",
+        "sha256": "06bbbd3d8a56cf820c035c340224a51d3851bb28290e03405faff8ba31e3e38b",
+        "bytes": 451149,
+        "byteExactMain": true
+      },
+      "tests/regression-baseline.json": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/regression-baseline.json",
+        "sha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+        "bytes": 62551,
+        "byteExactMain": true
+      },
+      "tests/access-scope-contract.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/access-scope-contract.mjs",
+        "sha256": "321dcc92610bd2b55f05a58a2b6abb36b3605aac4e82d60e8a2205c959ce2ab7",
+        "bytes": 13755,
+        "byteExactMain": true
+      },
+      "tests/facility-scope-contract.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/facility-scope-contract.mjs",
+        "sha256": "ee0b42e553deb44b241a7aa4f8e36de76244db11f6cb1338c763a4b0d49097e0",
+        "bytes": 13375,
+        "byteExactMain": true
+      },
+      "tests/purpose-scope-contract.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/purpose-scope-contract.mjs",
+        "sha256": "ae8674ee872a6486d10a4d8706af441ad326da2ada1180bef8864aa0b458677f",
+        "bytes": 13593,
+        "byteExactMain": true
+      },
+      "tests/access-scope-smoke.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/access-scope-smoke.mjs",
+        "sha256": "7f344d20bce1d337840986c28f54022227cf8ecc1feb8fbbffd5d5b9c8446f33",
+        "bytes": 10288,
+        "byteExactMain": true
+      },
+      "tests/scoped-read-contract.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/scoped-read-contract.mjs",
+        "sha256": "ab6c456b3af9b03601c674154f6c214358ad3572f576d73965b06fedb76d41eb",
+        "bytes": 10557,
+        "byteExactMain": true
+      },
+      "tests/nfr/authorisation-matrix.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/nfr/authorisation-matrix.mjs",
+        "sha256": "cf8f1a93f3c462747f5731a48274937bfc9384a0867048004fef391b22f2abcf",
+        "bytes": 43197,
+        "byteExactMain": true
+      },
+      "tests/lib/worker.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/worker.mjs",
+        "sha256": "f649275e5b76b971b293f5de5fa1d33436d24d7e578c5c4c51ad3d10ba299128",
+        "bytes": 5777,
+        "byteExactMain": true
+      },
+      "tests/lib/migrate.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/migrate.mjs",
+        "sha256": "8054c2684e581eb8b9fb230ad1d7643a80ff06bba9572b6e5dddf08d165bf4f9",
+        "bytes": 2060,
+        "byteExactMain": true
+      },
+      "tests/lib/report.mjs": {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/report.mjs",
+        "sha256": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+        "bytes": 2721,
+        "byteExactMain": true
+      }
+    },
+    "all31SelectedSourceFilesByteExactMain": true,
+    "policyBaseline": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+    "catalogueAddedLines": [
+      "  'tests/scoped-locality-native-current.mjs': ['tests/reports/scoped-locality-native-current.json'],",
+      "  'tests/scoped-locality-containment-contract.mjs': ['tests/reports/scoped-locality-containment-contract.json'],",
+      " if(file==='tests/scoped-locality-native-current.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'One counted fresh-checkout locality entry in dedicated CI; generic integration reuses dist and cannot supply this build custody',note:'Run directly in a reviewed fresh isolated checkout through scoped-permission-checks CI or an allocated local lane; all eight groups/counts/source/disposal are mandatory'};",
+      " if(file==='tests/integration/scoped-locality-policy-http.mjs')return {layer:'integration',role:'support',tier:null,reason:'Owned child of scoped-locality-native-current; all eight groups counted once by guarded parent entry'};"
+    ],
+    "catalogueRemovedOrModifiedOldLines": 0,
+    "classificationReferences": [
+      {
+        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test-catalogue.mjs",
+        "sourceSha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+        "startLine": 37,
+        "endLine": 38,
+        "text": "  'tests/scoped-locality-native-current.mjs': ['tests/reports/scoped-locality-native-current.json'],\n  'tests/scoped-locality-containment-contract.mjs': ['tests/reports/scoped-locality-containment-contract.json'],"
+      },
+      {
+        "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/test-catalogue.mjs",
+        "sourceSha256": "c5974f8ecad4536717d793bbe307a64ea7b7f4fddf495fd213d9aebbf47481a0",
+        "startLine": 223,
+        "endLine": 224,
+        "text": " if(file==='tests/scoped-locality-native-current.mjs')return {layer:'manual',role:'suite',tier:'manual',runner:'node',directOnly:true,reason:'One counted fresh-checkout locality entry in dedicated CI; generic integration reuses dist and cannot supply this build custody',note:'Run directly in a reviewed fresh isolated checkout through scoped-permission-checks CI or an allocated local lane; all eight groups/counts/source/disposal are mandatory'};\n if(file==='tests/integration/scoped-locality-policy-http.mjs')return {layer:'integration',role:'support',tier:null,reason:'Owned child of scoped-locality-native-current; all eight groups counted once by guarded parent entry'};"
+      }
+    ]
+  },
+  "architectureReview": [
+    {
+      "topic": "Actual fresh canonical build association",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/scoped-locality-runner.mjs",
+          "sourceSha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+          "startLine": 26,
+          "endLine": 36,
+          "text": "export async function runScopedLocality() {\n  assert.equal(process.env.SAHA_SCOPED_LOCALITY_RELEASE, RELEASE, 'Root-reviewed source and exclusive local allocation (or isolated CI job) are required.');\n  const port = Number(process.env.SAHA_TEST_PORT);\n  assert.ok(Number.isInteger(port) && port > 1024 && port < 65536, 'An explicit allocated loopback port is required.');\n  const output = resolve(process.env.SAHA_SCOPED_LOCALITY_RUN_EVIDENCE ?? 'tests/reports/scoped-locality-native-run');\n  const resultFile = resolve(process.env.SAHA_SCOPED_LOCALITY_RESULT ?? DEFAULT_RESULT);\n  const state = resolve(process.env.SAHA_SCOPED_LOCALITY_STATE ?? join(output, 'fresh-state'));\n  assert.equal(existsSync(output), false, 'Never overwrite an earlier attempt.');\n  assert.equal(existsSync(resultFile), false, 'Never overwrite an earlier result.');\n  assert.equal(existsSync(state), false, 'Never remove or reuse another native database.');\n  assert.equal(existsSync('dist'), false, 'This guarded entry requires a fresh checkout without dist; it does not reuse or delete a build.');"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/scoped-locality-runner.mjs",
+          "sourceSha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+          "startLine": 50,
+          "endLine": 90,
+          "text": "  try {\n    const matrixFile = 'docs/current/saha-011/POLICY-AXIS-MATRIX.json';\n    const matrix = JSON.parse(readFileSync(matrixFile, 'utf8'));\n    const before = sourceCheckoutPins(OWN_FILES);\n    const selected = Object.fromEntries(Object.entries(matrix.sourcePins).map(([file, pin]) => { const actual = sha256(readFileSync(file)); assert.equal(actual, pin.sha256, `Reviewed policy/source changed: ${file}; review and rebind before running.`); return [file, actual]; }));\n    receipt.checkoutCommit = before.checkoutCommit; receipt.checkoutTree = before.checkoutTree; receipt.policyBaselineCommit = matrix.sourceCommit;\n    receipt.installedPackages = installedPackages();\n    receipt.build = await runOwnedCommand('npm', ['run', 'build'], {\n      stdout: join(output, 'build.stdout.log'), stderr: join(output, 'build.stderr.log'), timeoutMs: 240000, graceMs: 5000,\n      env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },\n      abortSignal: cancellation.signal,\n      onSpawn: handle => { receipt.commands.push({ phase: 'fresh canonical build', ...handle }); checkpoint(); },\n    });\n    checkpoint(); assert.equal(receipt.build.ok, true, 'Canonical build must actually exit zero with no signal/timeout/log error/live owned descendants.');\n    const after = sourceCheckoutPins(OWN_FILES);\n    assert.deepEqual(after, before, 'The actual complete checkout inputs changed while building.');\n    assert.deepEqual(installedPackages(), receipt.installedPackages, 'The actual installed runtime package identities changed while building.');\n    assert.ok(existsSync('dist/server/wrangler.json'), 'Canonical build did not produce its native configuration.');\n    const distPins = fileTreePins('dist');\n    const associationFile = join(output, 'actual-build-association.json');\n    const association = { kind: 'observed canonical build association; not approval', recordedAt: new Date().toISOString(), policyBaselineCommit: matrix.sourceCommit, checkoutCommit: before.checkoutCommit, checkoutTree: before.checkoutTree, sourcePins: selected, inputBefore: before, inputAfter: after, installedPackages: receipt.installedPackages, distPins, command: receipt.build, formalAcceptanceClaim: false };\n    write(associationFile, association);\n    receipt.buildAssociation = { file: associationFile, sha256: sha256(readFileSync(associationFile)) };\n    const nativeEvidence = join(output, 'native');\n    receipt.native = await runOwnedCommand(process.execPath, ['tests/integration/scoped-locality-policy-http.mjs'], {\n      stdout: join(output, 'native.stdout.log'), stderr: join(output, 'native.stderr.log'), timeoutMs: 210000, graceMs: 5000,\n      env: { ...process.env, SAHA_TEST_PORT: String(port), SAHA_SCOPED_LOCALITY_STATE: state, SAHA_SCOPED_LOCALITY_EVIDENCE: nativeEvidence, SAHA_SCOPED_LOCALITY_BUILD_RECEIPT: associationFile, SAHA_SCOPED_LOCALITY_BUILD_RECEIPT_SHA256: receipt.buildAssociation.sha256 },\n      abortSignal: cancellation.signal,\n      onSpawn: handle => { receipt.commands.push({ phase: 'contained native locality driver', ...handle }); checkpoint(); },\n    });\n    checkpoint(); assert.equal(receipt.native.ok, true, 'Native driver must actually exit zero and leave no live process in its registered own group.');\n    const actual = JSON.parse(readFileSync(join(nativeEvidence, 'result.json'), 'utf8'));\n    const passed = validateLocalityResult(actual);\n    assert.deepEqual(sourceCheckoutPins(OWN_FILES), before, 'Source inputs changed during native execution.');\n    assert.deepEqual(fileTreePins('dist'), distPins, 'Built application changed during native execution.');\n    assert.deepEqual(installedPackages(), receipt.installedPackages, 'Installed runtime package identities changed during native execution.');\n    assert.equal(sha256(readFileSync(associationFile)), receipt.buildAssociation.sha256, 'Observed build association changed during execution.');\n    assert.equal(cancellation.signal.aborted, false, 'A cancelled supervisor cannot publish a passing report.');\n    receipt.status = 'bounded native test passed'; receipt.completedAt = new Date().toISOString(); checkpoint();\n    mkdirSync(resolve(resultFile, '..'), { recursive: true });\n    write(resultFile, { ...actual, suite: 'Scoped locality native current (APL-194)', passed, runnerReceipt: join(output, 'runner-receipt.json'), runnerReceiptSha256: sha256(readFileSync(join(output, 'runner-receipt.json'))), actualCheckoutCommit: before.checkoutCommit, actualCheckoutTree: before.checkoutTree, policyBaselineCommit: matrix.sourceCommit, scope: 'Eight existing locality groups only; no full-parent, hosted, physical or formal acceptance.' });"
+        }
+      ],
+      "finding": "Requires absent result/evidence/state/dist and actual allocated port/latch. Measures actual clean tracked checkout commit/tree, tracked+owned hashes, selected reviewed source, portable profile hash/absence, installed Wrangler-selected package manifests, actual canonical npm build status/output/ownership and full dist. All before/after and native-end comparisons gate publication. Historical policyBaseline is distinct from actual future clean CI revision. Association is observed command data, not an author-authored pass assertion.",
+      "limit": "No build/association/native execution observed here. Installed manifest identity does not independently verify every dependency binary. Current preparation checkout has intentional catalogue edits and must become an actual clean reviewed committed checkout for this entry."
+    },
+    {
+      "topic": "Owned native factory",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-native-runtime.mjs",
+          "sourceSha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+          "startLine": 13,
+          "endLine": 29,
+          "text": "/** This synchronous factory returns the cleanup handle before migration or readiness.\n * Migration children and workerd inherit the outer CLI's registered detached group.\n * The CLI enforces an additional whole-attempt deadline and proves group disposal. */\nexport function ownedLocalityRuntime({ state, port, evidence, bindings = {}, outboundService }) {\n  state = resolve(state); evidence = resolve(evidence);\n  assert.equal(existsSync(state), false, 'Native D1 state must be initially absent; never delete or reuse a database.');\n  assert.ok(existsSync(evidence), 'The driver must retain an owned evidence directory before startup.');\n  assert.ok(Number.isInteger(port) && port > 1024 && port < 65536);\n  const lifecycle = { state, port, base: `http://127.0.0.1:${port}`, ownerPid: process.pid, ready: false, disposed: false, migration: null, migrationFiles: null, migrationSourcePins: null, migrationHandle: null, phases: [], errors: [] };\n  let mf = null, started = false, stdout = '', stderr = '', structured = '';\n  const save = () => json(join(evidence, 'native-lifecycle.json'), lifecycle);\n  const phase = name => { lifecycle.phases.push({ name, at: new Date().toISOString() }); save(); };\n  save(); // Handles/log destination exist even if construction or readiness fails.\n  return {\n    base: lifecycle.base, lifecycle,\n    get mf() { assert.ok(lifecycle.ready && !lifecycle.disposed, 'Native D1 handle requires the live ready owned runtime.'); return mf; },\n    output: () => `[stdout]\\n${stdout}\\n[stderr]\\n${stderr}\\n[structured]\\n${structured}`,"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-native-runtime.mjs",
+          "sourceSha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+          "startLine": 48,
+          "endLine": 79,
+          "text": "      phase('applying original migrations in one bounded native D1 command');\n      lifecycle.migration = await runOwnedCommand(process.execPath, ['--import', './scripts/sites-env.mjs', './node_modules/wrangler/bin/wrangler.js', 'd1', 'execute', 'DB', '--local', '--config', config, '--persist-to', state, '--file', sqlFile], {\n        stdout: join(evidence, 'migration.stdout.log'), stderr: join(evidence, 'migration.stderr.log'), timeoutMs: 60000, graceMs: 3000, detached: false,\n        env: { ...process.env, WRANGLER_SEND_METRICS: 'false', WRANGLER_LOG_PATH: join(evidence, 'wrangler-native.log'), WRANGLER_REGISTRY_PATH: join(evidence, 'wrangler-registry'), MINIFLARE_REGISTRY_PATH: join(evidence, 'miniflare-registry') },\n        onSpawn: handle => { lifecycle.migrationHandle = handle; phase('native migration handle recorded before waiting'); },\n      });\n      save(); assert.equal(lifecycle.migration.ok, true, 'Actual migration exit/timeout/log errors fail setup.');\n      // The outer CLI starts this driver as a registered detached group leader. A\n      // successful Wrangler parent exit alone cannot prove its workerd child exited.\n      lifecycle.migrationGroupObservation = inspectOwnedGroup(process.pid);\n      const ownRows = lifecycle.migrationGroupObservation.rows.filter(row => !row.state.startsWith('Z'));\n      lifecycle.migrationDriverGroupMatched = ownRows.some(row => row.pid === process.pid && row.pgid === process.pid);\n      lifecycle.migrationDescendantsAfterExit = ownRows.filter(row => row.pid !== process.pid);\n      save(); assert.equal(lifecycle.migrationDriverGroupMatched, true, 'Native driver must be the actual registered group leader.');\n      assert.deepEqual(lifecycle.migrationDescendantsAfterExit, [], 'Do not overlap a surviving native migration child with the application runtime.');\n      const wr = JSON.parse(readFileSync(config, 'utf8'));\n      assert.ok(wr.compatibility_date && wr.d1_databases?.[0]?.database_id, 'Generated native runtime bindings are required.');\n      const Miniflare = createRequire(resolve('node_modules/wrangler/package.json'))('miniflare').Miniflare;\n      const index = 'dist/server/index.js';\n      phase('constructing one owned Miniflare application runtime');\n      mf = new Miniflare({\n        modules: walk('dist/server').filter(file => /\\.m?js$/.test(file)).sort((a, b) => a === index ? -1 : b === index ? 1 : a.localeCompare(b)).map(path => ({ type: 'ESModule', path })), modulesRoot: 'dist/server',\n        compatibilityDate: wr.compatibility_date, compatibilityFlags: wr.compatibility_flags ?? [],\n        d1Databases: { DB: wr.d1_databases[0].database_id }, d1Persist: join(state, 'v3/d1'), host: '127.0.0.1', port, bindings,\n        ...(outboundService ? { outboundService } : {}),\n        assets: { directory: 'dist/client', binding: 'ASSETS', routerConfig: { has_user_worker: true, invoke_user_worker_ahead_of_assets: true } },\n        handleRuntimeStdio: (out, err) => { out.on('data', chunk => { stdout += chunk.toString(); }); err.on('data', chunk => { stderr += chunk.toString(); }); },\n        handleStructuredLogs: event => { structured += `[console:${event.level}] ${event.message}\\n`; },\n      });\n      phase('Miniflare cleanup handle exists before readiness');\n      await deadline('native Worker readiness', () => mf.ready, 30000);\n      lifecycle.ready = true; phase('native Worker ready');"
+        }
+      ],
+      "finding": "Cleanup handle exists before migration/readiness. Unchanged sorted migrations run in one bounded local Wrangler D1 process, in the outer registered driver group. Real group leader/no-descendant observation precedes one Miniflare application with built module/D1/compatibility/assets configuration. Readiness/disposal have finite literal deadlines and outer native child deadline contains remaining activity.",
+      "limit": "Controlled tests never construct the application, Worker or D1; actual migration/readiness/disposal and optional bindings/outbound behavior remain unexecuted."
+    },
+    {
+      "topic": "Guarded counting and additive CI",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 168,
+          "endLine": 189,
+          "text": "export function validateLocalityResult(result) {\n  assert.ok(result && typeof result === 'object' && !Array.isArray(result), 'Native result object is required.');\n  assert.ok(Number.isInteger(result.passed) && Number.isInteger(result.failed) && Number.isInteger(result.skipped), 'Exact integer assertion counts are mandatory.');\n  assert.ok(Array.isArray(result.checks));\n  assert.equal(result.passed, result.checks.filter(c => c.ok === true).length);\n  assert.equal(result.failed, 0); assert.equal(result.skipped, 0);\n  assert.equal(result.checks.length, result.passed);\n  for (const label of [...GEO_LABELS, ...CUSTODY_LABELS]) {\n    const checks = result.checks.filter(check => check.label === label);\n    assert.equal(checks.length, 1, `Missing or duplicate exact check: ${label}`); assert.equal(checks[0].ok, true, label);\n  }\n  assert.equal(result.minimumScenarioChecks, 8);\n  assert.equal(result.workerDisposed, true);\n  assert.equal(result.nativeLifecycle?.ready, true); assert.equal(result.nativeLifecycle?.disposed, true);\n  assert.ok(result.nativeLifecycle?.migration?.ok === true);\n  assert.ok(Number.isInteger(result.nativeLifecycle?.migrationFiles) && result.nativeLifecycle.migrationFiles >= 16);\n  assert.equal(result.nativeLifecycle?.migrationDriverGroupMatched, true);\n  assert.deepEqual(result.nativeLifecycle?.migrationDescendantsAfterExit, []);\n  for (const field of ['sourceChanged', 'contractChanged', 'buildChanged', 'custodyErrors']) assert.deepEqual(result[field], [], `${field} must be observed and empty.`);\n  assert.equal(result.transportErrors, 0);\n  assert.equal(result.formalAcceptanceClaim, false);\n  return result.passed;"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/scoped-permission-checks.yml",
+          "sourceSha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+          "startLine": 13,
+          "endLine": 32,
+          "text": "      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '22'\n      - name: Install existing pinned dependencies\n        run: npm run install:ci\n      - name: Controlled containment failure tests\n        run: node tests/scoped-locality-containment-contract.mjs\n      - name: Fresh canonical build and contained native locality scenarios\n        env:\n          SAHA_TEST_PORT: '9436'\n          SAHA_SCOPED_LOCALITY_RELEASE: root-scoped-locality-contract-reviewed-native-lane-released\n        run: node tests/scoped-locality-native-current.mjs\n      - name: Retain actual build, startup, response and cleanup evidence\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: scoped-locality-native-evidence\n          path: tests/reports/scoped-locality*\n          if-no-files-found: error"
+        }
+      ],
+      "finding": "One manual/direct-only entry owns the fresh build and native guard; its child is support only. Guard requires each exact eight GEO and five custody labels once, integer counts, no failures/skips/transport/source/contract/build/custody error, successful native lifecycle/no-overlap and actual outer command/group checks. Existing canonical baseline guard stays unchanged. Dedicated clean CI invokes this entry and retains full evidence.",
+      "limit": "CI workflow source reviewed only, no CI run or YAML parser certification asserted."
+    }
+  ],
+  "findings": [
+    {
+      "id": "LC-01",
+      "status": "closed in frozen source",
+      "issue": "Unbounded child/pipe/log closure",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 85,
+          "endLine": 91,
+          "text": "  const beginTermination = () => {\n    if (force || pipeDeadline) return; // One bounded shutdown, even after repeated supervisor signals.\n    signalOwned('SIGTERM');\n    force = setTimeout(() => signalOwned('SIGKILL'), graceMs);\n    // A descendant holding a pipe must not make the helper's close wait unbounded.\n    // This is a failed attempt; the outer detached driver still cleans its own group.\n    pipeDeadline = setTimeout(() => { record.cleanupErrors.push('stdio close deadline exceeded'); child.stdout.destroy(); child.stderr.destroy(); complete(); }, graceMs + 2000);"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 129,
+          "endLine": 138,
+          "text": "    await Promise.all(streams.map(stream => new Promise(resolve => {\n      if (stream.closed) return resolve();\n      const limit = setTimeout(() => { record.outputErrors.push('log close deadline exceeded'); stream.destroy(); resolve(); }, 2000);\n      stream.once('close', () => { clearTimeout(limit); resolve(); }); stream.end();\n    })));\n    record.cancelled ||= abortSignal?.aborted ?? false;\n    abortSignal?.removeEventListener('abort', cancellation);\n  }\n  record.completedAt = new Date().toISOString(); record.ms = performance.now() - started;\n  record.ok = record.exitCode === 0 && record.signal === null && !record.timedOut && !record.cancelled && !record.spawnError && !record.outputErrors.length && !record.cleanupErrors.length && (!detached || (Array.isArray(record.liveGroupAfterCleanup) && record.liveGroupAfterCleanup.length === 0));"
+        }
+      ],
+      "resolutionAndLimit": "Failed termination has a finite pipe fallback; log closure has its own deadline; timeout, TERM-ignore/KILL and owned orphan controls retain actual observations. This is not proof against a descendant intentionally escaping the registered group."
+    },
+    {
+      "id": "LC-02",
+      "status": "closed by honest scope and added native source check",
+      "issue": "Direct migration invented empty descendant scope",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 128,
+          "endLine": 128,
+          "text": "    } else record.liveGroupAfterCleanup = null; // Never claim descendant inspection for a direct-child migration command."
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-native-runtime.mjs",
+          "sourceSha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+          "startLine": 55,
+          "endLine": 62,
+          "text": "      // The outer CLI starts this driver as a registered detached group leader. A\n      // successful Wrangler parent exit alone cannot prove its workerd child exited.\n      lifecycle.migrationGroupObservation = inspectOwnedGroup(process.pid);\n      const ownRows = lifecycle.migrationGroupObservation.rows.filter(row => !row.state.startsWith('Z'));\n      lifecycle.migrationDriverGroupMatched = ownRows.some(row => row.pid === process.pid && row.pgid === process.pid);\n      lifecycle.migrationDescendantsAfterExit = ownRows.filter(row => row.pid !== process.pid);\n      save(); assert.equal(lifecycle.migrationDriverGroupMatched, true, 'Native driver must be the actual registered group leader.');\n      assert.deepEqual(lifecycle.migrationDescendantsAfterExit, [], 'Do not overlap a surviving native migration child with the application runtime.');"
+        }
+      ],
+      "resolutionAndLimit": "Direct-child migration leaves liveGroupAfterCleanup=null. Before application construction, the actual registered driver group must contain its leader and no live migration descendant. No real Wrangler migration was executed in these controls."
+    },
+    {
+      "id": "LC-03",
+      "status": "closed",
+      "issue": "Synchronous spawn/log/registration failure lacked cleanup",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 54,
+          "endLine": 84,
+          "text": "  // Exclusive log files must exist before any child can start. Synchronous open failure\n  // cannot leave an unrecorded process running; roll back only our newly opened handle.\n  const descriptors = [];\n  try { for (const file of [stdout, stderr]) descriptors.push(openSync(file, 'wx')); }\n  catch (error) { for (const fd of descriptors) closeSync(fd); throw error; }\n  const startedAt = new Date().toISOString(), started = performance.now();\n  const record = { command, args, startedAt, pid: null, registeredGroup: null, cleanupScope: detached ? 'registered own process group' : 'direct child only; outer registered driver group contains descendants', timeoutMs, graceMs, timedOut: false, cancelled: false, exitCode: null, signal: null, spawnError: null, cleanupErrors: [], signals: [], outputErrors: [], groupBeforeCleanup: [], liveGroupAfterCleanup: null, zombieGroupAfterCleanup: [] };\n  const streams = []; let child;\n  try {\n    for (const fd of descriptors) { const stream = createWriteStream(null, { fd, autoClose: true }); stream.on('error', error => record.outputErrors.push(String(error.message))); streams.push(stream); }\n    child = spawn(command, args, { cwd, env, detached, stdio: ['ignore', 'pipe', 'pipe'] });\n  } catch (error) {\n    record.spawnError = `synchronous ownership setup: ${String(error.message)}`;\n    await Promise.all(streams.map(stream => new Promise(resolve => {\n      if (stream.closed) return resolve();\n      const limit = setTimeout(() => { record.outputErrors.push('setup log close deadline exceeded'); resolve(); }, 2000);\n      stream.once('close', () => { clearTimeout(limit); resolve(); }); stream.destroy();\n    })));\n    for (const fd of descriptors.slice(streams.length)) { try { closeSync(fd); } catch (closeError) { record.cleanupErrors.push(String(closeError.message)); } }\n    record.completedAt = new Date().toISOString(); record.ms = performance.now() - started; record.ok = false;\n    return record;\n  }\n  record.pid = child.pid ?? null; record.registeredGroup = detached ? child.pid ?? null : null;\n  const signalOwned = signal => {\n    if (!child.pid) return;\n    try { process.kill(detached ? -child.pid : child.pid, signal); record.signals.push(signal); }\n    catch (error) { if (error.code !== 'ESRCH') record.cleanupErrors.push(String(error.message)); }\n  };\n  let force, pipeDeadline;\n  let complete;\n  const closed = new Promise(resolve => { complete = resolve; child.once('error', error => { record.spawnError = String(error.message); }); child.once('exit', (code, signal) => { record.exitCode = code; record.signal = signal; }); child.once('close', resolve); });"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 102,
+          "endLine": 106,
+          "text": "    try { child.stdout.pipe(streams[0]); child.stderr.pipe(streams[1]); }\n    catch (error) { record.outputErrors.push(`pipe setup: ${String(error.message)}`); beginTermination(); }\n    try { onSpawn({ pid: child.pid ?? null, registeredGroup: record.registeredGroup }); }\n    catch (error) { record.cleanupErrors.push(`handle registration: ${String(error.message)}`); beginTermination(); }\n    await closed;"
+        }
+      ],
+      "resolutionAndLimit": "Exclusive opens precede spawn; partial/synchronous setup closes owned handles and returns failed record. Immediate child listeners precede registration; callback fault terminates the owned child. Actual missing executable, null spawn and callback controls retained."
+    },
+    {
+      "id": "LC-04",
+      "status": "closed",
+      "issue": "Pipe/readable/writable error escaped ownership",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 93,
+          "endLine": 106,
+          "text": "  const cancellation = () => { record.cancelled = true; if (active) beginTermination(); };\n  const timer = setTimeout(() => { record.timedOut = true; beginTermination(); }, timeoutMs);\n  let active = true;\n  try {\n    const readableError = error => { record.outputErrors.push(`child pipe/log: ${String(error.message)}`); if (active) beginTermination(); };\n    child.stdout.on('error', readableError); child.stderr.on('error', readableError);\n    for (const stream of streams) stream.on('error', readableError);\n    abortSignal?.addEventListener('abort', cancellation, { once: true });\n    if (abortSignal?.aborted) cancellation();\n    try { child.stdout.pipe(streams[0]); child.stderr.pipe(streams[1]); }\n    catch (error) { record.outputErrors.push(`pipe setup: ${String(error.message)}`); beginTermination(); }\n    try { onSpawn({ pid: child.pid ?? null, registeredGroup: record.registeredGroup }); }\n    catch (error) { record.cleanupErrors.push(`handle registration: ${String(error.message)}`); beginTermination(); }\n    await closed;"
+        }
+      ],
+      "resolutionAndLimit": "Readable and writable errors are recorded and terminate while active; pipe setup throw is caught. Injected pipe fault control retained a real child SIGTERM and empty owned group."
+    },
+    {
+      "id": "LC-05",
+      "status": "bounded for configured literal callers",
+      "issue": "Generic promise deadline does not itself cancel an arbitrary operation",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 45,
+          "endLine": 49,
+          "text": "export async function runOwnedCommand(command, args, { cwd = process.cwd(), env = process.env, stdout, stderr, timeoutMs, graceMs = 1000, detached = true, onSpawn = () => {}, abortSignal } = {}) {\n  assert.ok(['darwin', 'linux'].includes(process.platform), 'Owned POSIX process groups require macOS or Linux.');\n  assert.ok(Number.isInteger(timeoutMs) && timeoutMs > 0, 'A finite command deadline is required.');\n  assert.ok(Number.isInteger(graceMs) && graceMs > 0);\n  assert.equal(abortSignal?.aborted ?? false, false, 'Do not spawn after supervisor cancellation.');"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 142,
+          "endLine": 145,
+          "text": "export async function deadline(label, operation, timeoutMs) {\n  let timer;\n  try { return await Promise.race([Promise.resolve().then(operation), new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(`${label} exceeded ${timeoutMs}ms deadline`)), timeoutMs); })]); }\n  finally { clearTimeout(timer); }"
+        }
+      ],
+      "resolutionAndLimit": "RunOwned validates positive integer command/grace values; reviewed runtime calls use finite literals. The external owned native-driver timeout contains startup/disposal after an in-process promise timeout. No universal cancellation guarantee for arbitrary operation is claimed."
+    },
+    {
+      "id": "LC-06",
+      "status": "closed",
+      "issue": "Only one brief post-KILL observation",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 114,
+          "endLine": 127,
+          "text": "        const rows = groupRows(child.pid); record.groupBeforeCleanup = rows;\n        let live = rows.filter(row => !row.state.startsWith('Z'));\n        if (live.length) {\n          signalOwned('SIGTERM');\n          const deadline = performance.now() + graceMs;\n          while (live.length && performance.now() < deadline) { await sleep(25); live = groupRows(child.pid).filter(row => !row.state.startsWith('Z')); }\n          if (live.length) {\n            signalOwned('SIGKILL');\n            const killDeadline = performance.now() + 1000;\n            while (live.length && performance.now() < killDeadline) { await sleep(25); live = groupRows(child.pid).filter(row => !row.state.startsWith('Z')); }\n          }\n        }\n        const final = groupRows(child.pid); record.liveGroupAfterCleanup = final.filter(row => !row.state.startsWith('Z')); record.zombieGroupAfterCleanup = final.filter(row => row.state.startsWith('Z'));\n      } catch (error) { record.cleanupErrors.push(String(error.message)); }"
+        }
+      ],
+      "resolutionAndLimit": "Post-KILL polling observes the registered group for up to one second; actual ignored-TERM control reaches SIGKILL and observed empty live group."
+    },
+    {
+      "id": "SC-CANCEL",
+      "status": "closed within reviewed SIGINT/SIGTERM scope",
+      "issue": "Detached children survived supervisor cancellation or cancelled cleanup published pass",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/scoped-locality-runner.mjs",
+          "sourceSha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+          "startLine": 41,
+          "endLine": 49,
+          "text": "  const cancellation = new AbortController();\n  const cancel = signal => {\n    receipt.cancellationSignals ??= []; receipt.cancellationSignals.push({ signal, at: new Date().toISOString() });\n    try { checkpoint(); } catch (error) { receipt.errors.push({ name: error.name, message: `cancellation journal: ${String(error.message)}` }); }\n    cancellation.abort(new Error(`Supervisor received ${signal}`)); process.exitCode = 1;\n  };\n  const sigterm = () => cancel('SIGTERM'), sigint = () => cancel('SIGINT');\n  // Keep handling repeated signals until registered child-group cleanup has finished.\n  process.on('SIGTERM', sigterm); process.on('SIGINT', sigint);"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 134,
+          "endLine": 138,
+          "text": "    record.cancelled ||= abortSignal?.aborted ?? false;\n    abortSignal?.removeEventListener('abort', cancellation);\n  }\n  record.completedAt = new Date().toISOString(); record.ms = performance.now() - started;\n  record.ok = record.exitCode === 0 && record.signal === null && !record.timedOut && !record.cancelled && !record.spawnError && !record.outputErrors.length && !record.cleanupErrors.length && (!detached || (Array.isArray(record.liveGroupAfterCleanup) && record.liveGroupAfterCleanup.length === 0));"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/scripts/scoped-locality-runner.mjs",
+          "sourceSha256": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+          "startLine": 87,
+          "endLine": 98,
+          "text": "    assert.equal(cancellation.signal.aborted, false, 'A cancelled supervisor cannot publish a passing report.');\n    receipt.status = 'bounded native test passed'; receipt.completedAt = new Date().toISOString(); checkpoint();\n    mkdirSync(resolve(resultFile, '..'), { recursive: true });\n    write(resultFile, { ...actual, suite: 'Scoped locality native current (APL-194)', passed, runnerReceipt: join(output, 'runner-receipt.json'), runnerReceiptSha256: sha256(readFileSync(join(output, 'runner-receipt.json'))), actualCheckoutCommit: before.checkoutCommit, actualCheckoutTree: before.checkoutTree, policyBaselineCommit: matrix.sourceCommit, scope: 'Eight existing locality groups only; no full-parent, hosted, physical or formal acceptance.' });\n    console.log(JSON.stringify({ suite: 'Scoped locality native current (APL-194)', passed, failed: 0, skipped: 0, actualCheckoutCommit: before.checkoutCommit }));\n  } catch (error) {\n    receipt.errors.push({ name: error.name, message: String(error.message) }); receipt.status = 'failed'; receipt.completedAt = new Date().toISOString(); checkpoint();\n    // Preserve any real child result unchanged. A setup/timeout/custody failure is a\n    // launcher failure and cannot be converted into a counted native scenario pass.\n    throw error;\n  } finally {\n    process.removeListener('SIGTERM', sigterm); process.removeListener('SIGINT', sigint);"
+        }
+      ],
+      "resolutionAndLimit": "SIGINT/SIGTERM abort active commands and wait for bounded ownership cleanup; final abort remains part of command ok and runner refuses cancelled publication. The executed nested control uses a short supervisor program and actual helper, not the actual build/native entry."
+    },
+    {
+      "id": "SC-JOURNAL",
+      "status": "closed in source; no-live-runtime control only",
+      "issue": "Evidence failure preceded native disposal",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-native-runtime.mjs",
+          "sourceSha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+          "startLine": 81,
+          "endLine": 95,
+          "text": "    async stop() {\n      // A failed journal write must never prevent disposing the already owned runtime.\n      lifecycle.phases.push({ name: 'attempting bounded native disposal', at: new Date().toISOString() });\n      try {\n        if (mf) await deadline('native Worker disposal', () => mf.dispose(), 10000);\n        lifecycle.disposed = true; lifecycle.phases.push({ name: 'native disposal completed', at: new Date().toISOString() });\n      } catch (error) { lifecycle.errors.push({ phase: 'native disposal', name: error.name, message: String(error.message) }); throw error; }\n      finally {\n        const errors = [];\n        try { writeFileSync(join(evidence, 'worker.log'), `[stdout]\\n${stdout}\\n[stderr]\\n${stderr}\\n[structured]\\n${structured}`); } catch (error) { errors.push(error); }\n        try { save(); } catch (error) { errors.push(error); }\n        if (errors.length) throw new AggregateError(errors, 'Native disposal evidence could not be retained; disposal itself was attempted first.');\n      }\n      // Retain owned fresh state and every attempt's logs for inspection. The outer CLI\n      // separately checks/cleans only its registered process group before claiming success."
+        }
+      ],
+      "resolutionAndLimit": "Disposal is attempted before worker-log and lifecycle journal writes. Controlled unavailable-journal fixture was unstarted and proves ordering without constructing Miniflare; live runtime disposal remains unexecuted."
+    },
+    {
+      "id": "SC-OBSERVER",
+      "status": "closed",
+      "issue": "Observer ps counted itself as migration descendant",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 28,
+          "endLine": 40,
+          "text": "export function inspectOwnedGroup(group) {\n  // The short observer gets its own group, so observing the current driver group\n  // cannot mistake that observer itself for a surviving migration process.\n  const observed = spawnSync('ps', ['-eo', 'pid=,pgid=,ppid=,stat='], { encoding: 'utf8', detached: true, timeout: 2000, killSignal: 'SIGKILL', maxBuffer: 8 << 20 });\n  if (observed.error) throw observed.error;\n  assert.equal(observed.status, 0, 'Owned process observation failed.'); assert.equal(observed.signal, null);\n  const rows = observed.stdout.trim().split('\\n').flatMap(line => {\n    const m = /^\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\S+)/.exec(line);\n    return m && +m[2] === group ? [{ pid: +m[1], pgid: +m[2], ppid: +m[3], state: m[4] }] : [];\n  });\n  return { observerPid: observed.pid, observerDetached: true, exitCode: observed.status, signal: observed.signal, targetGroup: group, rows };\n}\nexport const ownedGroupRows = group => inspectOwnedGroup(group).rows;"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-native-runtime.mjs",
+          "sourceSha256": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+          "startLine": 55,
+          "endLine": 62,
+          "text": "      // The outer CLI starts this driver as a registered detached group leader. A\n      // successful Wrangler parent exit alone cannot prove its workerd child exited.\n      lifecycle.migrationGroupObservation = inspectOwnedGroup(process.pid);\n      const ownRows = lifecycle.migrationGroupObservation.rows.filter(row => !row.state.startsWith('Z'));\n      lifecycle.migrationDriverGroupMatched = ownRows.some(row => row.pid === process.pid && row.pgid === process.pid);\n      lifecycle.migrationDescendantsAfterExit = ownRows.filter(row => row.pid !== process.pid);\n      save(); assert.equal(lifecycle.migrationDriverGroupMatched, true, 'Native driver must be the actual registered group leader.');\n      assert.deepEqual(lifecycle.migrationDescendantsAfterExit, [], 'Do not overlap a surviving native migration child with the application runtime.');"
+        }
+      ],
+      "resolutionAndLimit": "Observer uses a separate detached group with exact PID and successful exit record. Actual own-group control observes only the driver, excluding only its separately grouped observer rather than arbitrary process names."
+    },
+    {
+      "id": "SC-PROFILE",
+      "status": "closed in source",
+      "issue": "Ignored execution profile was absent from build custody",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 156,
+          "endLine": 166,
+          "text": "export function sourceCheckoutPins(extraFiles = []) {\n  const commit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();\n  const tree = execFileSync('git', ['rev-parse', 'HEAD^{tree}'], { encoding: 'utf8' }).trim();\n  assert.equal(execFileSync('git', ['diff', '--name-only'], { encoding: 'utf8' }), '', 'Tracked source differs from its exact checkout commit.');\n  assert.equal(execFileSync('git', ['diff', '--cached', '--name-only'], { encoding: 'utf8' }), '', 'Staged source differs from its exact checkout commit.');\n  const files = [...new Set([...execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' }).split('\\0').filter(Boolean), ...extraFiles])].sort();\n  const pins = Object.fromEntries(files.map(file => [file, sha256(readFileSync(resolve(file)))]));\n  const profile = '.sites-runtime/execution-profile.json';\n  const buildLocalSelection = { executionProfile: readExecutionProfile(), profileFile: profile, profileFilePresent: existsSync(profile), profileFileSha256: existsSync(profile) ? sha256(readFileSync(profile)) : null };\n  assert.equal(buildLocalSelection.executionProfile, 'portable', 'This isolated CI/local fixture qualifies the existing portable profile only.');\n  return { checkoutCommit: commit, checkoutTree: tree, files: pins, buildLocalSelection };"
+        }
+      ],
+      "resolutionAndLimit": "Portable profile hash or explicit absence is recorded and compared alongside tracked+owned source inputs."
+    },
+    {
+      "id": "SC-EVIDENCE",
+      "status": "closed",
+      "issue": "CI temporary process logs lost and historical green unbound to current source",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/scoped-locality-containment-contract.mjs",
+          "sourceSha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+          "startLine": 11,
+          "endLine": 16,
+          "text": "const resultFile = resolve(process.env.SAHA_SCOPED_CONTAINMENT_RESULT ?? 'tests/reports/scoped-locality-containment-contract.json');\nassert.equal(existsSync(resultFile), false, 'Retain the prior result; choose a new explicit output for a new attempt.');\nconst evidence = resolve(process.env.SAHA_SCOPED_CONTAINMENT_EVIDENCE ?? `tests/reports/scoped-locality-containment-attempt-${crypto.randomUUID()}`);\nassert.equal(existsSync(evidence), false, 'Never overwrite a retained lifecycle attempt.'); mkdirSync(evidence, { recursive: true });\nconst INPUTS = ['tests/scoped-locality-containment-contract.mjs', 'tests/lib/scoped-locality-containment.mjs', 'tests/lib/scoped-locality-native-runtime.mjs', 'tests/lib/report.mjs', 'scripts/execution-profile.mjs', 'scripts/scoped-locality-runner.mjs', '.github/workflows/scoped-permission-checks.yml'];\nconst inputHashes = Object.fromEntries(INPUTS.map(file => [file, sha256(readFileSync(file))]));"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/scoped-locality-containment-contract.mjs",
+          "sourceSha256": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+          "startLine": 130,
+          "endLine": 133,
+          "text": "const afterHashes = Object.fromEntries(INPUTS.map(file => [file, sha256(readFileSync(file))]));\nawait r.check('control driver helper runner and workflow inputs stay byte-exact through execution', () => assert.deepEqual(afterHashes, inputHashes));\nwriteFileSync(join(evidence, 'process-receipts.json'), JSON.stringify(receipts, null, 2) + '\\n');\nawait r.finish({ evidence, inputHashes, afterHashes, actualChildAttempts: receipts.length, processReceiptsSha256: sha256(readFileSync(join(evidence, 'process-receipts.json'))), applicationRuntimeStarted: false, localityScenarioExecutionClaim: false, formalAcceptanceClaim: false });"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/.github/workflows/scoped-permission-checks.yml",
+          "sourceSha256": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71",
+          "startLine": 26,
+          "endLine": 32,
+          "text": "      - name: Retain actual build, startup, response and cleanup evidence\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: scoped-locality-native-evidence\n          path: tests/reports/scoped-locality*\n          if-no-files-found: error"
+        }
+      ],
+      "resolutionAndLimit": "Default control evidence is retained under the uploaded report prefix. Final revision2 before/after source hashes match current files and the raw process-receipts hash matches freeze/result. All prior results remain historical."
+    },
+    {
+      "id": "SC-INSPECTION",
+      "status": "known initial startup path prevented; late loss held",
+      "issue": "Unavailable process observation can leave ownership unresolved",
+      "references": [
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 50,
+          "endLine": 53,
+          "text": "  // Refuse before creating any child when this environment cannot verify disposal.\n  // Late inspection loss still fails/unverifies cleanup; it never permits a blind\n  // signal to a stale group or an invented empty-group observation.\n  if (detached) inspectOwnedGroup(-1);"
+        },
+        {
+          "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011/tests/lib/scoped-locality-containment.mjs",
+          "sourceSha256": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+          "startLine": 126,
+          "endLine": 138,
+          "text": "        const final = groupRows(child.pid); record.liveGroupAfterCleanup = final.filter(row => !row.state.startsWith('Z')); record.zombieGroupAfterCleanup = final.filter(row => row.state.startsWith('Z'));\n      } catch (error) { record.cleanupErrors.push(String(error.message)); }\n    } else record.liveGroupAfterCleanup = null; // Never claim descendant inspection for a direct-child migration command.\n    await Promise.all(streams.map(stream => new Promise(resolve => {\n      if (stream.closed) return resolve();\n      const limit = setTimeout(() => { record.outputErrors.push('log close deadline exceeded'); stream.destroy(); resolve(); }, 2000);\n      stream.once('close', () => { clearTimeout(limit); resolve(); }); stream.end();\n    })));\n    record.cancelled ||= abortSignal?.aborted ?? false;\n    abortSignal?.removeEventListener('abort', cancellation);\n  }\n  record.completedAt = new Date().toISOString(); record.ms = performance.now() - started;\n  record.ok = record.exitCode === 0 && record.signal === null && !record.timedOut && !record.cancelled && !record.spawnError && !record.outputErrors.length && !record.cleanupErrors.length && (!detached || (Array.isArray(record.liveGroupAfterCleanup) && record.liveGroupAfterCleanup.length === 0));"
+        }
+      ],
+      "resolutionAndLimit": "Preflight refuses target detached-child creation when inspection is unavailable. Late observation loss remains failed/unverified with retained ownership evidence and separate fresh revalidation; no blind stale-group signal is recommended or authorized."
+    }
+  ],
+  "observedLightweightControls": {
+    "result": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/CONTAINMENT-CONTROLS-REVISION2-RESULT.json",
+      "sha256": "b4da09c57d82ce99518a5ff3b476807a10350023161012c35e64d7c442acad46",
+      "bytes": 5803
+    },
+    "counts": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sourceLabelsAndOrderExact": true,
+    "checks": [
+      {
+        "label": "complete structured shape is accepted by the validator only",
+        "ok": true,
+        "ms": 0
+      },
+      {
+        "label": "missing integer counts are refused",
+        "ok": true,
+        "ms": 0
+      },
+      {
+        "label": "nonzero failure and skip counts are refused",
+        "ok": true,
+        "ms": 0
+      },
+      {
+        "label": "inflated counts and missing or duplicate GEO groups are refused",
+        "ok": true,
+        "ms": 0
+      },
+      {
+        "label": "missing setup, cleanup, source, contract or build custody is refused",
+        "ok": true,
+        "ms": 3
+      },
+      {
+        "label": "transport error and inappropriate formal acceptance claims are refused",
+        "ok": true,
+        "ms": 0
+      },
+      {
+        "label": "actual zero exit retains full output and registered own group cleanup",
+        "ok": true,
+        "ms": 80
+      },
+      {
+        "label": "actual nonzero exit is a failure with retained real stderr",
+        "ok": true,
+        "ms": 74
+      },
+      {
+        "label": "actual missing executable yields a recorded failure without an unhandled child error",
+        "ok": true,
+        "ms": 18
+      },
+      {
+        "label": "synchronous invalid spawn setup is recorded without an owned process or open log handles",
+        "ok": true,
+        "ms": 17
+      },
+      {
+        "label": "preexisting exclusive log refuses before spawning",
+        "ok": true,
+        "ms": 17
+      },
+      {
+        "label": "deliberately injected launcher pipe setup fault terminates its actual child and fails",
+        "ok": true,
+        "ms": 51
+      },
+      {
+        "label": "actual registration callback failure terminates only the new child and records failure",
+        "ok": true,
+        "ms": 51
+      },
+      {
+        "label": "actual ignored TERM reaches KILL within a finite deadline",
+        "ok": true,
+        "ms": 370
+      },
+      {
+        "label": "actual AbortSignal cancellation terminates the registered child group and refuses success",
+        "ok": true,
+        "ms": 195
+      },
+      {
+        "label": "actual supervisor TERM cancels and disposes its separately detached registered child",
+        "ok": true,
+        "ms": 522
+      },
+      {
+        "label": "actual exited parent orphan is cleaned only within its registered group",
+        "ok": true,
+        "ms": 117
+      },
+      {
+        "label": "actual independent sentinel group remains alive during timeout cleanup",
+        "ok": true,
+        "ms": 1299
+      },
+      {
+        "label": "direct-child migration records its incomplete descendant scope honestly",
+        "ok": true,
+        "ms": 23
+      },
+      {
+        "label": "actual own-group observation excludes only its separately grouped observer",
+        "ok": true,
+        "ms": 94
+      },
+      {
+        "label": "pending readiness promises have a finite rejection deadline",
+        "ok": true,
+        "ms": 26
+      },
+      {
+        "label": "initially existing native state is refused without modifying it",
+        "ok": true,
+        "ms": 1
+      },
+      {
+        "label": "deliberately unavailable journal cannot precede disposal of the unstarted owned fixture",
+        "ok": true,
+        "ms": 0
+      },
+      {
+        "label": "control driver helper runner and workflow inputs stay byte-exact through execution",
+        "ok": true,
+        "ms": 0
+      }
+    ],
+    "inputHashes": {
+      "tests/scoped-locality-containment-contract.mjs": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+      "tests/lib/scoped-locality-containment.mjs": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+      "tests/lib/scoped-locality-native-runtime.mjs": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+      "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+      "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+      "scripts/scoped-locality-runner.mjs": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+      ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+    },
+    "afterHashes": {
+      "tests/scoped-locality-containment-contract.mjs": "69113be108273b291578f41d10d076a199dec122372803cef23c021203aeb25c",
+      "tests/lib/scoped-locality-containment.mjs": "a246f53804a44e14ee4c3bfd9794781d1c6a07eea36f9b67d4229e8a83b4517e",
+      "tests/lib/scoped-locality-native-runtime.mjs": "9bab1022e2143126ab99d6bc8298e548d4ed11df7e43b459e0bac43cba4aa16f",
+      "tests/lib/report.mjs": "6576181fee8f9d0e8480330ed772e4c39e9c1cd89a3d0dc41dd4260834b7d0ee",
+      "scripts/execution-profile.mjs": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630",
+      "scripts/scoped-locality-runner.mjs": "7864725ac8efd1438788ccb4d21d9e53d30ab3202b2610ba078dbe3a5bd3586f",
+      ".github/workflows/scoped-permission-checks.yml": "35307648e686ea2356c48cd0a4e4617fcaf8a00a09149e541ccfea725fb80e71"
+    },
+    "currentPinsMatch": true,
+    "processReceipts": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/process-receipts.json",
+      "sha256": "10d7e7517e8fa1552abfc5f9b3d17ab98a80ea26def844b58c46aa6938f0702f",
+      "bytes": 18810
+    },
+    "rawHashMatchesReportAndFreeze": true,
+    "recordedAttemptEntries": 15,
+    "actualChildAttemptsFieldIncludesFailedSetupAndNestedReceiptEntries": true,
+    "actualProcessSummary": [
+      {
+        "receiptIndex": 1,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "e8fd708435fa62d0301e8a8af723c40c0b9e43cb125925b2c547c49d24f57fdb",
+        "pid": 17967,
+        "registeredGroup": 17967,
+        "cleanupScope": "registered own process group",
+        "exitCode": 0,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": true,
+        "signals": [],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 2,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "ff3690c2de13c5abd73090f4e7a6cfc1319083b387d42ec40d675c47999fa2e5",
+        "pid": 17980,
+        "registeredGroup": 17980,
+        "cleanupScope": "registered own process group",
+        "exitCode": 7,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": false,
+        "signals": [],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 3,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/nonexistent-executable",
+        "argvSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "pid": null,
+        "registeredGroup": null,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": false,
+        "signals": [],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": null,
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 4,
+        "kind": "direct launcher attempt",
+        "command": null,
+        "argvSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "pid": null,
+        "registeredGroup": null,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": false,
+        "signals": [],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": null,
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 5,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "90ff2dfcae360dc34a29119a8b02611ecd2c82128ded839927dd160bc0de13a6",
+        "pid": 18006,
+        "registeredGroup": 18006,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": "SIGTERM",
+        "cancelled": false,
+        "timedOut": false,
+        "ok": false,
+        "signals": [
+          "SIGTERM"
+        ],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [
+          "pipe setup: owned-control-pipe-setup-fault"
+        ],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 6,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "1798f037e9ce168b8a7d3d6d76c1c473aad4ecbff79f4587cd96b745ae02cda1",
+        "pid": 18019,
+        "registeredGroup": 18019,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": "SIGTERM",
+        "cancelled": false,
+        "timedOut": false,
+        "ok": false,
+        "signals": [
+          "SIGTERM"
+        ],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": [
+          "handle registration: registration-control-error"
+        ]
+      },
+      {
+        "receiptIndex": 7,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "6ad14ae8ebe877e0cbef797bec13085b3e482b3671dc302686b8fac2c47b2d3f",
+        "pid": 18032,
+        "registeredGroup": 18032,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": "SIGKILL",
+        "cancelled": false,
+        "timedOut": true,
+        "ok": false,
+        "signals": [
+          "SIGTERM",
+          "SIGKILL"
+        ],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 8,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "90ff2dfcae360dc34a29119a8b02611ecd2c82128ded839927dd160bc0de13a6",
+        "pid": 18047,
+        "registeredGroup": 18047,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": "SIGTERM",
+        "cancelled": true,
+        "timedOut": false,
+        "ok": false,
+        "signals": [
+          "SIGTERM"
+        ],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 9,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "6940a03d5ac3a0e6eeaa630c68f6333922997e65444bf03aca2cd066addaa498",
+        "pid": 18060,
+        "registeredGroup": 18060,
+        "cleanupScope": "registered own process group",
+        "exitCode": 1,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": true,
+        "ok": false,
+        "signals": [
+          "SIGTERM"
+        ],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 10,
+        "kind": "nested supervisor child",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "90ff2dfcae360dc34a29119a8b02611ecd2c82128ded839927dd160bc0de13a6",
+        "pid": 18065,
+        "registeredGroup": 18065,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": "SIGTERM",
+        "cancelled": true,
+        "timedOut": false,
+        "ok": false,
+        "signals": [
+          "SIGTERM"
+        ],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 11,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "f3a49fbed1a00fc94f82627939317e6242fc668d097d5f9d3e1e0f21681477a3",
+        "pid": 18086,
+        "registeredGroup": 18086,
+        "cleanupScope": "registered own process group",
+        "exitCode": 0,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": true,
+        "signals": [
+          "SIGTERM"
+        ],
+        "groupBeforeCleanup": [
+          {
+            "pid": 18087,
+            "pgid": 18086,
+            "ppid": 1,
+            "state": "R"
+          }
+        ],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 12,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "90ff2dfcae360dc34a29119a8b02611ecd2c82128ded839927dd160bc0de13a6",
+        "pid": 18110,
+        "registeredGroup": 18110,
+        "cleanupScope": "registered own process group",
+        "exitCode": null,
+        "signal": "SIGTERM",
+        "cancelled": false,
+        "timedOut": true,
+        "ok": false,
+        "signals": [
+          "SIGTERM"
+        ],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 13,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "54b917f34647a8549c10d0600042bbbcc9e1eb723e8a72021b7549e0cc2608a9",
+        "pid": 18104,
+        "registeredGroup": 18104,
+        "cleanupScope": "registered own process group",
+        "exitCode": 0,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": true,
+        "signals": [],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 14,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "7644b7df3d1d97968cc928988a063fafe954b3580a98ad6b641e30f0d0e253ca",
+        "pid": 18132,
+        "registeredGroup": null,
+        "cleanupScope": "direct child only; outer registered driver group contains descendants",
+        "exitCode": 0,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": true,
+        "signals": [],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": null,
+        "outputErrors": [],
+        "cleanupErrors": []
+      },
+      {
+        "receiptIndex": 15,
+        "kind": "direct launcher attempt",
+        "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "argvSha256": "0b73dbb986a5475d0e2630767373d6ef7c4d828573205a6aba54a2b54736b2a1",
+        "pid": 18137,
+        "registeredGroup": 18137,
+        "cleanupScope": "registered own process group",
+        "exitCode": 0,
+        "signal": null,
+        "cancelled": false,
+        "timedOut": false,
+        "ok": true,
+        "signals": [],
+        "groupBeforeCleanup": [],
+        "liveGroupAfterCleanup": [],
+        "outputErrors": [],
+        "cleanupErrors": []
+      }
+    ],
+    "actualStdout100000BytesExact": true,
+    "actualZeroStderrExact": true,
+    "actualExitSevenStderrExact": true,
+    "separateObserverObservation": {
+      "pid": 18137,
+      "observation": {
+        "observerPid": 18141,
+        "observerDetached": true,
+        "exitCode": 0,
+        "signal": null,
+        "targetGroup": 18137,
+        "rows": [
+          {
+            "pid": 18137,
+            "pgid": 18137,
+            "ppid": 17961,
+            "state": "Ss"
+          }
+        ]
+      }
+    },
+    "cancelledNestedChild": {
+      "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "args": [
+        "-e",
+        "setInterval(()=>{},1000)"
+      ],
+      "startedAt": "2026-10-11T17:07:46.679Z",
+      "pid": 18065,
+      "registeredGroup": 18065,
+      "cleanupScope": "registered own process group",
+      "timeoutMs": 5000,
+      "graceMs": 100,
+      "timedOut": false,
+      "cancelled": true,
+      "exitCode": null,
+      "signal": "SIGTERM",
+      "spawnError": null,
+      "cleanupErrors": [],
+      "signals": [
+        "SIGTERM"
+      ],
+      "outputErrors": [],
+      "groupBeforeCleanup": [],
+      "liveGroupAfterCleanup": [],
+      "zombieGroupAfterCleanup": [],
+      "completedAt": "2026-10-11T17:07:47.101Z",
+      "ms": 421.388125,
+      "ok": false
+    },
+    "rawEvidencePins": [
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/01.stderr.log",
+        "sha256": "a30ae352b131cc5bd76884bc68384afa5ecfaca034230cc3bb1907eb7319385f",
+        "bytes": 13
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/01.stdout.log",
+        "sha256": "d69e68988157833272305aaf21f453c800346e8a3640db6578e260215542e5d4",
+        "bytes": 100000
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/02.stderr.log",
+        "sha256": "f0ffbf024556125397863ae977299d31a1257eec6a8e49a426612882d2821937",
+        "bytes": 26
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/02.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/03.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/03.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/04.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/04.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/05.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/05.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/06.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/06.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/07.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/07.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/08.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/08.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/09.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/09.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/10.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/10.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/11.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/11.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/12.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/12.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/cancelled-supervisor-inner.json",
+        "sha256": "a71eb21557b7cb0637b27a5a6ef12da555aaac22185093ea2af93fc3d313d368",
+        "bytes": 585
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/existing-state/preserved",
+        "sha256": "d59c2a5f721ce135ce54628b1ad8ad8b8eb26c8bbe2e2abe1cdca97e2d6ab446",
+        "bytes": 9
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/existing.log",
+        "sha256": "0d8da7dc169a0c12f0a6f121b819ca38b055b6e2440830f3453bb6c17d3c3106",
+        "bytes": 9
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/inner.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/inner.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/invalid.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/invalid.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/missing.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/missing.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/own-group-observation.json",
+        "sha256": "6a7d200b251e831b879651b79f5055ec7371085c057265a522793b2f6f98d9a9",
+        "bytes": 182
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/process-receipts.json",
+        "sha256": "10d7e7517e8fa1552abfc5f9b3d17ab98a80ea26def844b58c46aa6938f0702f",
+        "bytes": 18810
+      },
+      {
+        "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence/retained-journal-control/native-lifecycle.json",
+        "sha256": "ab3f896fe8ac77e6a6e9765461b55887a87dc7bacaa25bebaa613b61253f20ab",
+        "bytes": 460
+      }
+    ],
+    "applicationRuntimeStarted": false,
+    "localityScenarioExecutionClaim": false,
+    "formalAcceptanceClaim": false,
+    "reviewerDidNotExecuteControls": true,
+    "scopePrecision": "The supervisor test runs a short program using the actual containment helper; it is not an execution of the actual canonical-build/native runner. The journal test uses an unstarted fixture; it is not live native disposal. Structured result fixtures qualify refusal logic only."
+  },
+  "historicalEvidence": {
+    "CONTAINMENT-CONTROLS-INITIAL-RESULT.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/CONTAINMENT-CONTROLS-INITIAL-RESULT.json",
+      "sha256": "7fc249fb78766a6ab4eb767a11a2ccaccf4cedf63e54a8292e660e1b72762f33",
+      "bytes": 3508
+    },
+    "CONTAINMENT-CONTROLS-REPAIRED-RESULT.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/CONTAINMENT-CONTROLS-REPAIRED-RESULT.json",
+      "sha256": "8079d31e515d2fa93459681774a64e5a5768ba673100fe8caf2b6920717805c8",
+      "bytes": 3179
+    },
+    "CONTAINMENT-CONTROLS-FINAL-RESULT.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/CONTAINMENT-CONTROLS-FINAL-RESULT.json",
+      "sha256": "4f083d2a32df4e5de7e41637003f4045049b9bca060e33e332b1774e39fb7b36",
+      "bytes": 5799
+    },
+    "CONTAINMENT-CONTROLS-FROZEN-RESULT.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/CONTAINMENT-CONTROLS-FROZEN-RESULT.json",
+      "sha256": "3ce214a899d8de964ae817cf773644fbf74b3271056ca82fdf0aea9d9088c4eb",
+      "bytes": 5800
+    },
+    "INITIAL-OWNED-ORPHAN-OBSERVATION.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/INITIAL-OWNED-ORPHAN-OBSERVATION.json",
+      "sha256": "eaae2d3095ae705ac6556cbe5ebf6f116efb4a1f3f071c3594790975f455e486",
+      "bytes": 455
+    },
+    "INITIAL-OWNED-ORPHAN-CLEANUP.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/INITIAL-OWNED-ORPHAN-CLEANUP.json",
+      "sha256": "78e13193dee70a431eaabcd0f6431381eca3998afd1088204e7b4f2e86ba6e57",
+      "bytes": 533
+    },
+    "STATIC-PREPUBLICATION-RECEIPT.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/STATIC-PREPUBLICATION-RECEIPT.json",
+      "sha256": "b480462d0f1d37cd51ae2afc3dca2119dd17e96a683e5709ee2616a4b2eaeada",
+      "bytes": 4918
+    }
+  },
+  "staticReceiptScope": "STATIC-PREPUBLICATION-RECEIPT names revision1. Its syntax/catalogue/diff observations are historical; revision2 freeze records a separate changed-helper syntax observation. No new static/full gate pass is inferred from historical green.",
+  "earlierAdvisoryReceipts": {
+    "COVERAGE-INVENTORY.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/COVERAGE-INVENTORY.json",
+      "sha256": "793c11c2fdbe2b3a4d76346546896dfee60cffe19391655985cdcf2d4a133672",
+      "bytes": 144524
+    },
+    "PREPARATION-SOURCE-REVIEW.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/PREPARATION-SOURCE-REVIEW.json",
+      "sha256": "1de96880047e189522a3181d4cbf34f4e76a4aecfbb194c8143e7a7f10efc5b2",
+      "bytes": 49430
+    },
+    "NATIVE-RUNNER-REFERENCE-REVIEW.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/NATIVE-RUNNER-REFERENCE-REVIEW.json",
+      "sha256": "b434f16281e54c706e2b533848a355451f14b37ce98eb205a6da3d9cb0e15019",
+      "bytes": 38301
+    },
+    "CONTAINMENT-SOURCE-PRELIMINARY-REVIEW.json": {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/coverage-inventory/CONTAINMENT-SOURCE-PRELIMINARY-REVIEW.json",
+      "sha256": "404725c87272648ae6c4330116b7ad80c0bdeeadfcadcf7db87b216d9c78c428",
+      "bytes": 15088
+    }
+  },
+  "holds": [
+    "Eight native GEO scenarios, canonical build and migration/readiness/disposal remain unexecuted; observed lightweight24 controls do not prove native policy results.",
+    "Late process-inspection loss stays failed/unverified and needs separate safe current ownership revalidation; abrupt supervisor SIGKILL cannot execute JavaScript cleanup.",
+    "No mid-await revocation race, durable read-audit fault injection, all-derived-value disclosure, nonempty submissions/referrals, combined persisted facility/locality/programme, provider/tool/export/hosted/physical/institutional/formal/full-parent acceptance.",
+    "Actual future clean CI checkout commit/tree must be recorded independently from historical policyBaseline; e930 changed store needs independent reviewed source rebind.",
+    "Mandatory documentation source-baseline update for changed catalogue remains pending parent/root review; this advisory does not certify that gate or authorize publication."
+  ]
+}

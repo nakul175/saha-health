@@ -1,0 +1,90 @@
+{
+  "recordedAt": "2026-10-11T17:10:47.087459+00:00",
+  "status": "Source-only preparation ready for root review/reuse decision; no native application qualification",
+  "actualBase": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "branch": "test/scoped-permissions-matrix-20261011",
+  "ownedCheckout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-scoped-permissions-prep-20261011",
+  "revision": 2,
+  "freeze": {
+    "path": "NATIVE-CONTAINMENT-REVISION2-SOURCE-FREEZE.json",
+    "sha256": "242402be97524ded14100984246d90bbb00c7aa5dc7ac4773135fafca85b8239"
+  },
+  "independentReview": {
+    "path": "coverage-inventory/NATIVE-CONTAINMENT-FINAL-REVIEW.json",
+    "sha256": "af64150276b1d3c4080a085c839347b9af0a31eec28411b20a6a904d579cf6f8",
+    "scope": "Finite advisory source/retained-control review; no material unresolved defect in reviewed scope. Not human/full-parent/full-delivery acceptance."
+  },
+  "controls": {
+    "result": "CONTAINMENT-CONTROLS-REVISION2-RESULT.json",
+    "sha256": "b4da09c57d82ce99518a5ff3b476807a10350023161012c35e64d7c442acad46",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "actualChildAttempts": 15,
+    "evidence": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/scoped-permissions-preparation/containment-revision2-process-evidence",
+    "processReceiptsSha256": "10d7e7517e8fa1552abfc5f9b3d17ab98a80ea26def844b58c46aa6938f0702f",
+    "inputsUnchanged": true,
+    "applicationRuntimeStarted": false
+  },
+  "nativeScenarios": {
+    "sourceGroups": 8,
+    "actuallyExecuted": 0,
+    "unqualified": 8
+  },
+  "originalPreserved": {
+    "baselineSuites": 374,
+    "baselineSha256": "10d839b8128bb1f98abfc9ab8fb2407a2e9deee4ebc2dc3ae2a09c37854c992c",
+    "eightGroupBodySha256": "214aff099d25ff3f9a41b759a62b4d9b5f145e8b1b3dd96ae40874fec21c8666",
+    "sourceCriteria": true,
+    "all31PolicySourcePins": true,
+    "existingEngineeringRegressionWorkflows": true
+  },
+  "nativeAPI": {
+    "path": "tests/lib/scoped-locality-native-runtime.mjs",
+    "factory": "ownedLocalityRuntime({state,port,evidence,bindings={},outboundService})",
+    "synchronousReturn": [
+      "base",
+      "lifecycle",
+      "start()",
+      "stop()",
+      "output()",
+      "mf getter after ready before disposal"
+    ],
+    "D1": "after await start(): await fixture.mf.getD1Database('DB'); the actual same Miniflare runtime/database, no mock",
+    "deadlineMs": {
+      "migration": 60000,
+      "readiness": 30000,
+      "disposal": 10000,
+      "canonicalBuild": 240000,
+      "wholeNativeDriver": 210000,
+      "completeHTTPBody": 30000
+    },
+    "groupPrecondition": "Native caller must be launched as its own registered detached process-group leader by the reviewed outer CLI; migration inspects this group before starting Miniflare. No direct uncontained import execution.",
+    "state": "initially absent; retained, never reused/deleted",
+    "disposal": "lifecycle.disposed true only after completed dispose or no constructed runtime; successful qualification also requires ready, migration, no surviving migration child and final outer actual owned-group empty observation",
+    "observer": "separate bounded ps process group, exact observer PID/status retained; no name-based filtering",
+    "optionalBindings": "Forwarded unchanged to actual Miniflare; caller may preserve explicit reviewed SAHA_IDENTITY_PROVIDER=sites-chatgpt, SAHA_ENVIRONMENT=synthetic, SAHA_EXTERNAL_APIS_ENABLED=false; no new provider enabled.",
+    "optionalOutboundService": "Existing Miniflare outboundService option only when supplied; caller-owned actual outbound refusal/counter adapter, not a fake application backend."
+  },
+  "mandatoryDocumentationCheck": "Held until reviewed normal derived source-baseline update for exactly4 additive test-catalogue lines; original manifest remains unchanged. Actual prior failure retained.",
+  "requirementsCheck": "Actual176 source IDs/assessment/evidence paths pass, formalacceptancepending.",
+  "ownedOrphanCleanup": {
+    "path": "INITIAL-OWNED-ORPHAN-CLEANUP.json",
+    "sha256": "78e13193dee70a431eaabcd0f6431381eca3998afd1088204e7b4f2e86ba6e57",
+    "freshIdentityRevalidated": true,
+    "ownedPID": 8172,
+    "recordedGroup": 8171,
+    "signal": "SIGTERM",
+    "observedAfter": null
+  },
+  "notPerformed": [
+    "Build/install",
+    "Worker/browser/native D1",
+    "Native locality scenarios",
+    "Copy into another execution checkout",
+    "Commit/push",
+    "Linear/controller writes",
+    "Merge/deploy"
+  ],
+  "newDeliveredStories": 0
+}

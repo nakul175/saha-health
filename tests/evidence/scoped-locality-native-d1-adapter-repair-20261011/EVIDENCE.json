@@ -1,0 +1,54 @@
+{
+  "scope": "APL-194/SAHA-011 test-only actual native D1 observation adapter repair; not application or full-parent acceptance",
+  "priorPublishedHead": "711f4fa067c10cc91c3ba0f9e98719fcfaa298db",
+  "priorObservedCI": {
+    "run": 38162283972,
+    "job": 114537531206,
+    "installerAndExactRestorationPassed": true,
+    "custodyControlsPassed": 22,
+    "launcherControlsPassed": 24,
+    "freshBuildPassed": true,
+    "nativeChecksPassed": 7,
+    "nativeChecksFailed": 3,
+    "geoGroupsPassed": [
+      "GEO-01",
+      "GEO-02",
+      "GEO-03"
+    ],
+    "geo04AbortedBeforeDeniedWrite": "Two sqlite files included Miniflare metadata.sqlite; original cardinality assertion failed before request/oracle.",
+    "geo05to08Unexecuted": true,
+    "workerDisposed": true,
+    "liveOwnedProcessGroupAfterCleanup": [],
+    "documentationRun38162284036": "success"
+  },
+  "currentProposedRepair": "Use the actual already-owned live Miniflare DB binding; no filename guessing, new database, migration or cardinality exemption. Exact original SQL/org/order/actor/key, before-afterclinical hashes,403/no-store/name privacy/zero-receipt and all eight GEO bodies are preserved. Existing deadline bounds binding and every actual all/first operation; strict result validation refuses null/error/missing rows instead of inventing empty rows/zero. Owner Miniflare disposes the binding.",
+  "currentLocalShapeControls": {
+    "passed": 13,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "Pure result-shape fixtures only; no application endpoint/backend/D1/installer/build execution."
+  },
+  "sourceOnlyReviewFinding": "Initial new helper pin was missing from the runner build association. Fixed by measuring only the new helper in selected and own-file pins; unchanged31 policy matrix pins preserved. No run of the faulty proposal was claimed.",
+  "currentNativeQualified": false,
+  "currentFullParentQualified": false,
+  "formalCasesRun": 0,
+  "newDeliveredStories": 0,
+  "losslessLog": {
+    "file": "ACTUAL-CI-FAILED.log.gz",
+    "rawSha256": "6b9a07fd4266c6c9c4fd7a4187e1dad03aca2b23deb89f93eed3ae5a55782c7f",
+    "rawBytes": 3995
+  },
+  "remainingGates": [
+    "Independent exact staged source review",
+    "Root authorization before successor commit/push",
+    "Actual new CI native eight-group execution",
+    "Current-base integration and full-parent/formal/hosted gates separate"
+  ],
+  "payloadPins": {
+    "source-only-build-association-finding.json": "ba00202300c7e59267afae53bcc71a1d75d6844e27bfe81aeaf614a87a6012c9",
+    "ACTUAL-CI-FAILED.log.gz": "2e6f2518ee6e45da52863cfed2b81a31a2aeeea9784d4039052e30500f3a121b",
+    "current-shape-controls.json": "72768b871681b1e9d36f9c53d8bec312f5e7457c0cf33e5985b58ac347072399",
+    "ACTUAL-CI-FAILURE-DIAGNOSIS.json": "07234343ff2a419ba8942baa54d686395d38a108184cffc6481e25b652037343",
+    "prior-actual-native-result.json": "bb21e870be0a17b6fee6708ebb1388d4ff13a85676e44dad9cc85bfba0c479d9"
+  }
+}

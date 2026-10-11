@@ -1,0 +1,271 @@
+[
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "process.stdout.write('x'.repeat(100000)); process.stderr.write('actual-stderr');"
+    ],
+    "startedAt": "2026-10-11T16:56:04.643Z",
+    "pid": 8147,
+    "registeredGroup": 8147,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 3000,
+    "graceMs": 200,
+    "timedOut": false,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "cleanupErrors": [
+      "spawnSync ps EPERM"
+    ],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:04.668Z",
+    "ms": 24.917167000000003,
+    "ok": false,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/01.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/01.stderr.log"
+  },
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "console.error('native-control-exit-seven'); process.exit(7);"
+    ],
+    "startedAt": "2026-10-11T16:56:04.669Z",
+    "pid": 8152,
+    "registeredGroup": 8152,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 3000,
+    "graceMs": 200,
+    "timedOut": false,
+    "exitCode": 7,
+    "signal": null,
+    "spawnError": null,
+    "cleanupErrors": [
+      "spawnSync ps EPERM"
+    ],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:04.691Z",
+    "ms": 21.841417,
+    "ok": false,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/02.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/02.stderr.log"
+  },
+  {
+    "command": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/nonexistent-executable",
+    "args": [],
+    "startedAt": "2026-10-11T16:56:04.691Z",
+    "pid": null,
+    "registeredGroup": null,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 1000,
+    "graceMs": 100,
+    "timedOut": false,
+    "exitCode": null,
+    "signal": null,
+    "spawnError": "spawn /var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/nonexistent-executable ENOENT",
+    "cleanupErrors": [],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:04.691Z",
+    "ms": 0.3968330000000009,
+    "ok": false
+  },
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "setInterval(()=>{}, 1000)"
+    ],
+    "startedAt": "2026-10-11T16:56:04.692Z",
+    "pid": 8158,
+    "registeredGroup": 8158,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 3000,
+    "graceMs": 200,
+    "timedOut": false,
+    "exitCode": null,
+    "signal": "SIGTERM",
+    "spawnError": null,
+    "cleanupErrors": [
+      "handle registration: registration-control-error",
+      "spawnSync ps EPERM"
+    ],
+    "signals": [
+      "SIGTERM"
+    ],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:04.692Z",
+    "ms": 0.8268749999999869,
+    "ok": false,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/03.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/03.stderr.log"
+  },
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "process.on('SIGTERM',()=>{}); setInterval(()=>{},1000);"
+    ],
+    "startedAt": "2026-10-11T16:56:04.693Z",
+    "pid": 8164,
+    "registeredGroup": 8164,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 200,
+    "graceMs": 100,
+    "timedOut": true,
+    "exitCode": null,
+    "signal": "SIGKILL",
+    "spawnError": null,
+    "cleanupErrors": [
+      "spawnSync ps EPERM"
+    ],
+    "signals": [
+      "SIGTERM",
+      "SIGKILL"
+    ],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:05.000Z",
+    "ms": 307.663833,
+    "ok": false,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/04.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/04.stderr.log"
+  },
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "const {spawn}=require('node:child_process'); spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'ignore'}); process.exit(0);"
+    ],
+    "startedAt": "2026-10-11T16:56:05.001Z",
+    "pid": 8171,
+    "registeredGroup": 8171,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 3000,
+    "graceMs": 200,
+    "timedOut": false,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "cleanupErrors": [
+      "spawnSync ps EPERM"
+    ],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:05.038Z",
+    "ms": 37.05233300000003,
+    "ok": false,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/05.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/05.stderr.log"
+  },
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "setInterval(()=>{},1000)"
+    ],
+    "startedAt": "2026-10-11T16:56:05.040Z",
+    "pid": 8178,
+    "registeredGroup": 8178,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 150,
+    "graceMs": 100,
+    "timedOut": true,
+    "exitCode": null,
+    "signal": "SIGTERM",
+    "spawnError": null,
+    "cleanupErrors": [
+      "spawnSync ps EPERM"
+    ],
+    "signals": [
+      "SIGTERM"
+    ],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:05.194Z",
+    "ms": 154.73954099999997,
+    "ok": false,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/07.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/07.stderr.log"
+  },
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "setTimeout(()=>process.exit(0),1200)"
+    ],
+    "startedAt": "2026-10-11T16:56:05.039Z",
+    "pid": 8177,
+    "registeredGroup": 8177,
+    "cleanupScope": "registered own process group",
+    "timeoutMs": 3000,
+    "graceMs": 200,
+    "timedOut": false,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "cleanupErrors": [
+      "spawnSync ps EPERM"
+    ],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:06.269Z",
+    "ms": 1230.513083,
+    "ok": false,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/06.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/06.stderr.log"
+  },
+  {
+    "command": "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "args": [
+      "-e",
+      "process.exit(0)"
+    ],
+    "startedAt": "2026-10-11T16:56:06.270Z",
+    "pid": 8192,
+    "registeredGroup": null,
+    "cleanupScope": "direct child only; outer registered driver group contains descendants",
+    "timeoutMs": 3000,
+    "graceMs": 200,
+    "timedOut": false,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "cleanupErrors": [],
+    "signals": [],
+    "outputErrors": [],
+    "groupBeforeCleanup": [],
+    "liveGroupAfterCleanup": null,
+    "zombieGroupAfterCleanup": [],
+    "completedAt": "2026-10-11T16:56:06.309Z",
+    "ms": 39.13591599999995,
+    "ok": true,
+    "stdoutFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/08.stdout.log",
+    "stderrFile": "/var/folders/wm/vfx1992n25g3q8n5myd2gy0c0000gn/T/saha-owned-containment-er3Mlf/08.stderr.log"
+  }
+]
