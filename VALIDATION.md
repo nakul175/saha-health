@@ -1785,3 +1785,8 @@ D03 full existing HTTP/D1 gate5020 and encrypted recovery21 pass,5041 total, gua
 ## 2026-10-11 — bounded PRE-alert report source recovery candidate
 
 Whole actual handler60 controlled assertions pass; all original baseline records/minima remain exact. The original12/3 load360/400 failure is retained. New isolated CI job builds exact candidate and runs original400 slots/min13; actual result pending, no retry of post-alert/clinical actions. See docs/current/d03/PRE-ALERT-REPORT-RECOVERY-20261011.md. Original measuredbf73 source unchanged. No new A9/A10/merge or acceptance.
+
+
+## 11 October 2026 — routine CI fixture repair, current source pending
+
+Exact2e18 complete CI38134954151 fails: units208/10895passes/14failures in unchanged runner27 guard; regressions147/7506positive assertions/two no-count aborts (installed121 D1 SQLite_BUSY across runtimes, device64 watcherPOST503). Dedicated12/15/400/63/97 controls remain scoped pass. Current stronger runner adapter28/0/0 passes real guarded command with27minimum unchanged; unqualified older24/3 prototypes retained. New installed121/device64 fixtures preserve exact reverse-transformed assertion bodies and use owned native runtime rather than watcher/shared-state duplicate. Actual remote backend/fullCI pending; no application/migration/provider or request retry. See docs/current/d03/CI-FIXTURE-REPAIR-20261011.md and tests/evidence/routine-ci-fixture-repair-20261011. Story8/10 remains held; current2e18 NFR runs unchanged separately, later-source applicability requires explicit verified runtime/build equality and independent review.

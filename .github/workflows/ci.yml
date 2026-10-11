@@ -159,6 +159,8 @@ jobs:
         run: node scripts/test.mjs nfr --only nfr/authorisation-matrix --fast --guard --report tests/reports/native-authorization-current-summary.json
       - name: Original reporting calendar timing control
         run: node scripts/test.mjs integration --only integration/reporting-completeness-repaired-http --fast --guard --report tests/reports/reporting-calendar-current-summary.json
+      - name: Original installed-programme phone and device privacy controls
+        run: node scripts/test.mjs integration --only integration/installed-programme-execution-browser,integration/device-work-browser --fast --guard --report tests/reports/native-programme-device-current-summary.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
