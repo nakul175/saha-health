@@ -6,7 +6,7 @@
   "base": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
   "branch": "story/saha-128-route-telemetry-20261011",
   "specificationRevision": 2,
-  "gate": "5/6 engineering criteria locally supported; M6 awaits exact published-head CI and final release review. Whole parent story remains partial.",
+  "gate": "5/6 bounded runtime engineering criteria locally supported; M6 HELD by current dependency-security defects plus exact published-head CI/final release review. Whole parent story remains partial.",
   "syntheticOnly": true,
   "scope": "Actual production measured()/identity() component and existing whole synthetic Worker/D1 integration and recovery checks; no hosted telemetry/configuration qualification.",
   "sourceHashes": {
@@ -107,7 +107,8 @@
       },
       "blocking": 0,
       "acceptedDevelopmentOrBuildTimeFindings": 53,
-      "classification": "Unchanged existing gate reports53 inherited high/moderate findings as development/build-time dependencies absent from dist; no dependency changed."
+      "classification": "Historical unchanged gate output classified53 findings as development/build-time non-shipped. Subsequent independent exact-source review found actually bundled react-server-dom-webpack19.2.6/high1124314 falsely classified unshipped, plus error-shaped JSON falsely accepted. This classifier output is unqualified for current release; root handles both separate repairs.",
+      "currentReleaseQualification": "HELD: actual bundled RSC applicability and unavailable-audit fail-open defects"
     },
     "generatedUatConsistency": {
       "suites": 3,
@@ -159,7 +160,7 @@
     {
       "id": "M6",
       "localStatus": "held",
-      "evidence": "Required local checks pass; exact new-head CI, changed-base integration when applicable and final root release review remain separate."
+      "evidence": "Local author checks are retained as observations; current security remains HELD for bundled RSC applicability and unavailable-audit fail-open. Exact new-head CI, changed-base integration when applicable and final root release review remain separate."
     }
   ],
   "history": {
@@ -179,6 +180,7 @@
     "heavyLaneReleased": true
   },
   "openGates": [
+    "Current dependency security HELD: independently observed bundled RSC high1124314 and error-shaped audit fail-open require separately reviewed qualified remedies.",
     "Exact published-head CI and final root review",
     "Changed-base integration checks if main advances beyond7668",
     "Actual hosted path logs/crash/analytics configuration and retention",
@@ -190,5 +192,5 @@
   "wholeStoryDone": false,
   "humanApproval": false,
   "deploymentObserved": false,
-  "dependencyAudit": "Actual authorized registry read and unchanged security gate passed with full metadata. Preserve sandbox incomplete empty-count report as unqualified history; do not infer a no-advisory result from it."
+  "dependencyAudit": "Historical actual registry read and existing gate exit0/full counters retained. Current security qualification is HELD: bundled RSC high1124314 was incorrectly classified unshipped, and unavailable error JSON can be falsely accepted. A complete response alone does not qualify dependency applicability."
 }
