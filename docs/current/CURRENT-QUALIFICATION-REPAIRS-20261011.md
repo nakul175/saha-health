@@ -1,0 +1,25 @@
+# Current-source qualification repairs — 11 October 2026
+
+Current-main branch7668a03d, not a merge of old PRs. Individually selected exact source components address three observed fixture failures plus the actual protected-report release conflict. The selection receipt names each file, its SHA256 and source checkout. Original drivers, reports, source preimages and acceptance minima are retained.
+
+The reporting runtime component is exactly PR198/24c59929: bounded3 attempts only for typed current-edition no-data409, fresh actor/org/authority/projection, all other failures final. Seven local suites512 assertions and exact hosted workflow147/7691 passed there, but its fullCI failed on an anonymous security request receiving a development-watcher restart503. No full current-combination pass is inferred from that earlier source.
+
+The two native browser/optout fixtures and optional assets-first helper are exactly PR199/74ce1279. Original64/55 checks passed locally and in hosted run38128502464,119 total. Its full147 stage failed the existing meaningful-safe-edition report assertion, unchanged133 minimum. The optout fixture retains deliberate stop/start with sameD1 and synthetic binding update; no request replay. API/default helper routing remains Worker-first, browser fixtures explicitly select generated assets first.
+
+The current authorization fixture is exactly PR200/7eafaf99: original assertion bodies/min59 and stable suiteID, direct builtWorker/D1 launcher and owned result path. Its documentation passes; actual native security and fullCI remain pending. The future-edition scheduling fixture is exactly PR197/90121e51: original86 assertions/minimum, future5second window, declared250ms delay and actual effective-time wait. Its own hosted86 passed, but the fullCI failed other reporting/runtime fixtures. No successful check is fabricated or counted as product acceptance.
+
+Actual current-combination unit/runner74 assertions pass. The existing updater adds the new recovery-contract47 minimum from an actual run; all374 original records remain exact, zero raised/lowered/removed. Current combined build, realHTTP, security and exact-head completeCI are pending. The active routine-visit sourcebf73 speed run remains untouched in its own checkout; no heavy local backend qualification runs concurrently. No application clinical policy, patient database, provider, hosting, migration or real person changes.
+
+Required separate review and merge remain open; author inspection is advisory.176 formal criteria and364 formal cases remain pending. One active routine-visit feature story, zero new accepted stories/Done tasks or hosting changes. The source-only repair bundle is a prerequisite, not a delivered product release. Separate bounded pre-alert load repair is not included here and still requires its original400-slot/min13 real qualification.
+
+Current source integrity1787 and generated-UAT tooling63/0/0 pass (guarded3/no quarantine). Combined build/API/native security/fullCI still pending.
+
+## Exact combined source and transport follow-up
+
+Published c88dc8d in run38130462708 built the actual Worker and passed all147 workflow suites with7691 assertions. The subsequent native authorization matrix aborted at22passed/1failed with ECONNRESET during the anonymous POST sequence, then failed its unchanged59 minimum. CompleteCI therefore failed. Earlier preparation status and SELECTION.json are historical receipts, not a current pass.
+
+The next test-only candidate explicitly closes each native authorization HTTP connection. This is a transport hypothesis, not a confirmed root cause. The default client is unchanged; request bodies, idempotency keys, status checks and all original authorization assertions remain. A controlled comparison passes15 checks and proves a rejected fetch is attempted exactly once; it does not prove realHTTP. The independent native-authorization-control CI job builds and exercises the real Worker even if another regression job fails. Actual exact-head results remain required. The original c88 selection and failing result are retained, and new source digests are separately recorded.
+
+## Reporting calendar fixture timing
+
+Observed hosted run38129835258 also aborted the original97-check reporting-completeness suite with legitimate422 “Choose a future UTC effective release time.” The original fixture used600ms and100ms future windows. The current named fixture schedules each of those three releases5seconds ahead, deliberately waits250ms before the owner POST, and still waits until exact effectiveAt before checking the effective policy. Every original assertion/non-scheduling line compares exact after declared edits; original driver/minimum97 and server UTC guard remain unchanged. Exact new-head realHTTP runs independently after authorization and in the full workflow guard. No new acceptance or currentHTTP pass is inferred before actual execution.

@@ -1,3 +1,15 @@
+# Sequential routine-visit qualification — 11 October 2026
+
+One routine review/save user story remains active, with eight of ten declared delivery criteria supported and final qualification/merge/live gates held. No new user story or task is accepted by this checkpoint. Formal176 requirements and364 UAT cases remain pending. Original tests, acceptance clauses, source history and failed runs are preserved.
+
+Combined prerequisite f5dde363 real hosted native authorization passes60/0/0, original minimum59, run38132548322/job114449683873. Earlier c88 source passed147 workflows/7691 assertions but native security aborted22/1 ECONNRESET, wholeCI failed. Current completeCI is still required. Default client is unchanged; explicit synthetic fixture connection close never retries a failed request.
+
+Bounded routine load cf311f7 real build passes60 contracts and original400/400-slot load15/0, unchanged minimum13, run38131008154/job114445157191. CompleteCI failed: routine browser216/244 timed out in vault evaluation and device64 aborted. Current e2460820 named native browser fixture retains every original assertion,1000 encrypted durable transactions and500ms target; observations occur outside timings. Actual new-head browser/completeCI pending. This is not physical-phone, clinical or formal acceptance.
+
+Unchanged bf73 source reference1000/path measurement has zero errors, p95 list701.095/detail384.277/routine766.124ms; degraded fixed1000/path run continues. These desktop-surrogate results do not automatically qualify changed-source candidates. No local competing browser/build is launched during that measurement. Original3132ms failure remains retained.
+
+Fresh authorized GitHub rules read: main branch protection returns404/Branch not protected and effective branch rules[] on11October10:41UTC. PR192 reviews[]; this supplies no human review or independent signoff. Final diff/evidence review must still happen against the final integrated source. No protection is changed or bypassed; current source merge and observed hosted source remain absent.
+
 # D02 CI fixture repair — 10 October 2026
 
 Actual final-head run38018545871 on dee0ae52 failed only the expired historical delegation success fixture and local smoke's blanket owner200 expectation on the ASHA-only Today route. Its complete log is preserved:147 workflow/browser suites7691 and API/recovery5041 passed; types/build/lint/security and the58-check Today journey also passed. The runtime correctly refuses an expired delegation and a non-ASHA owner.
@@ -1722,3 +1734,8 @@ Registration/privacy checkpointc802 has separate198/10574 unit,147/7691 workflow
 ## 6 October 2026 unit-contract repair (availability bound, sixth-review export fixture)
 
 Two unit contracts had never run on the combined source. unit/availability-contract: one scheduled run for one organisation took 187 D1 statements against the unchanged bound of 150, because three committed-state rechecks of the aggregate alert context (checkAggregateAlertContext, one full organisation read of 23 statements each) ran per recipient. The recheck in memberViews was repeated immediately by the identical recheck in evaluateDelivery with nothing using the result between them (removed); the recheck before the out-of-app channel ran even when the channel was disabled or had nothing to send (moved inside evaluateChannel, after its early exits and before any disclosure or send). Every recheck before a write, a disclosure or a send remains. The run now takes 141 statements; the bound is unchanged. unit/sixth-review-fixes-contract: stale fixture, not a product defect. destination-uncertain is a clinical aggregate alert, which the current organisation data exit withholds in full (lib/saha/data-exit.ts clinicalAggregateAlert, migration 0032), so section 6 could not find the exporter's own notification. The new adapter tests/aggregate-export-current-sixth-review-fixes-contract.mjs keeps all 41 original assertions (section 6 on the non-clinical maintenance alert) and adds one assertion that the clinical rows stay out (42). The suite id now runs the adapter through VERIFICATION_SOURCE_ALIASES; the original file and the earlier adapter are untouched; the baseline minimum stays 41. Fourteen other unit suites still fail on a hard-coded transpile module list that lacks aggregate-alert-disclosure (not part of this repair). No formal acceptance changes.
+
+
+## 2026-10-11 — individually selected current qualification repairs
+
+Source-only reporting/application plus native/scheduling test fixtures from independently verified components of197/198/199/200, not PR merges. Actual combined unit/runner74pass; new47 baseline recorded by actual updater, all374 original records exact. Full current build/backend/security/CI and independent approval pending. Routine-visit measured sourcebf73 unchanged. See docs/current/CURRENT-QUALIFICATION-REPAIRS-20261011.md. No new product acceptance or hosting change.

@@ -1,3 +1,7 @@
+# Routine visit — current qualification work
+
+See the dated [validation checkpoint](../VALIDATION.md). One active user story, eight of ten delivery criteria supported; current completeCI, final-source NFR, final separate diff/evidence review, qualified merge and observed live synthetic journey remain held. No formal requirement or whole story is promoted by prerequisite checks. Previous assessments below retain their source and dates.
+
 # D02 isolated read-only candidate — 10 October 2026
 
 `/today` adds a separate mobile client and GET-only `/api/today` projection for active synthetic/training ASHAs. Existing server identity, assignment/policy scope and durable access audits remain authoritative. Only ID/name/village and read-only age/sex context are exposed; no visit or clinical write is added. The legacy `/app` is preserved separately. Source implementation and local tests do not establish merge, hosted deployment or formal acceptance. See [frozen D02 specification](current/d02/SPECIFICATION.md) and [validation](../VALIDATION.md). Parent capture, scheduling, offline and localisation remain pending.
