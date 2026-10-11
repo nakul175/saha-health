@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-06",
+  "updatedAt": "2026-10-11",
   "node": "v24.19.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -838,6 +838,11 @@
       "file": "tests/reminder-optout-refresh-browser.mjs",
       "minPassed": 13
     },
+    "smoke/today-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/today-browser.mjs",
+      "minPassed": 58
+    },
     "uat/check-uat-register": {
       "layer": "uat",
       "file": "tests/uat/check-uat-register.mjs",
@@ -1663,6 +1668,11 @@
       "file": "tests/root-verification-current-replay-soak-contract.mjs",
       "minPassed": 8
     },
+    "unit/report-edition-recovery-contract": {
+      "layer": "unit",
+      "file": "tests/report-edition-recovery-contract.mjs",
+      "minPassed": 47
+    },
     "unit/report-export-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-report-export-contract.mjs",
@@ -1867,11 +1877,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "smoke/today-browser": {
-      "layer": "smoke",
-      "file": "tests/smoke/today-browser.mjs",
-      "minPassed": 58
     }
   },
   "log": [

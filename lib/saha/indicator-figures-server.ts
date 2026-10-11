@@ -2,7 +2,7 @@ import {reportCompleteness,assertCompletenessCurrent,completenessRow,figureCompl
 import {z} from 'zod';
 import {identity,loadFor,json,db} from './server';
 import {scope,guarded,type Row,type Actor} from './store';
-import {digest,fail,uuid} from './core';
+import {AppError,digest,fail,uuid} from './core';
 import {boundedJsonBody} from './request-body';
 import {allowed} from './access';
 import {ensurePurpose} from './purpose-scope';
@@ -77,7 +77,20 @@ async function protectedView(s:OrgState,u:Actor,m:Member,l:Loaded){
  const completeness=await figureCompleteness(s,m,l.f.id,l.d.result.window,l.d.query.ids,at),impact=await impactFor(s,l,await captureFigureMaterial(s,ledgerHash(s.organisation.id),at));await recordDisclosure(s,u,m,l,released,at);await recordAggregateView(db(),s,u,m,l.f.id,`Protected immutable edition read; current impact basis SHA-256 ${impact.basisHash}; no patient identifiers or deltas.`);await audit(s,u,m,l.d.result.results.some(x=>!('refused' in x)&&!released.has(x.id+'@'+x.version))?REFUSAL_SUBJECT:l.f.id);await freshRead(s,u,l);await checkedImpacts(s,u,[l.f.id],[impact]);const current=await loadFor(u,s.organisation.id,undefined,true),cm=scope(current,u.userId);manager(cm);ensurePurpose(cm,'reporting');await assertCompletenessCurrent(current,cm,completeness.current,l.d.query.ids);return json({...metadata(l,impact,completeness),figure:{...l.d.result,results:l.d.result.results.map(x=>'refused' in x||released.has(x.id+'@'+x.version)?x:{...x,rows:[],refused:editionRefused.has(x.id+'@'+x.version)?'edition-differencing':'differencing',message:'Withheld by current viewer and retained edition differencing protection.'})},reproducedFrom:'Immutable original population and pinned definition; current access and differencing protection still apply.'});
 }
 export async function figurePost(r:Request){
- const {u,s,m,org}=await context(r),origin=r.headers.get('origin');if(origin&&origin!==new URL(r.url).origin)fail(403,'Cross-origin requests are not allowed.');if(!r.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON for this request.');const parsed=schema.safeParse(await boundedJsonBody(r,6000));if(!parsed.success)fail(422,'Check the fixed figure request fields.');const c=parsed.data;if(c.type==='view')return protectedView(s,u,m,await readFigure(s,c.figureId));
+ const {u,s,m,org}=await context(r),origin=r.headers.get('origin');if(origin&&origin!==new URL(r.url).origin)fail(403,'Cross-origin requests are not allowed.');if(!r.headers.get('content-type')?.startsWith('application/json'))fail(415,'Use JSON for this request.');const parsed=schema.safeParse(await boundedJsonBody(r,6000));if(!parsed.success)fail(422,'Check the fixed figure request fields.');const c=parsed.data;if(c.type==='view'){
+ // A successful ledger reservation can race an unrelated organisation revision.
+ // Repeat only that exact no-data refusal, with full fresh authority/privacy checks.
+ let selected={u,s,m,org};
+ for(let attempt=0;attempt<3;attempt++){
+  try{return await protectedView(selected.s,selected.u,selected.m,await readFigure(selected.s,c.figureId));}
+  catch(error){
+   if(attempt===2||!(error instanceof AppError)||error.status!==409||error.message!=='Current edition disclosure authority changed. Nothing was shown.')throw error;
+   selected=await context(r);
+   if(selected.org!==org||selected.u.userId!==u.userId)fail(403,'Original report authority changed. Nothing was shown.');
+  }
+ }
+ fail(409,'Current edition disclosure authority changed. Nothing was shown.');
+ }
  const key=r.headers.get('idempotency-key');if(!key||!/^[a-zA-Z0-9_-]{1,200}$/.test(key))fail(422,'Retain a stable request key for this figure action.');const hash=await digest(c),old=await db().prepare('SELECT org_id,body_hash,figure_id,result FROM indicator_figure_receipts WHERE actor_id=? AND key=?').bind(u.userId,key).first<{org_id:string;body_hash:string;figure_id:string;result:string}>();
  let l:Loaded|undefined;
  if(c.type!=='prepare')l=await readFigure(s,c.figureId);
