@@ -1,0 +1,108 @@
+{
+  "reviewedAt": "2026-10-11T16:56:07Z",
+  "reviewer": "/root/routine_final_review",
+  "authority": "Current human explicitly authorized parallel agents; root assigned this separate independent read-only review. Reviewer did not author or modify this repair.",
+  "scope": "Exact one-line guarded request-metric retention deletion applied to current routine branch; source-only review, no future/runtime/release acceptance.",
+  "verdict": "PASS_SCOPED_SOURCE_REVIEW_RELEASE_HELD",
+  "findingCount": 0,
+  "findings": [],
+  "checkout": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-runner-repair-20261011",
+  "actualHead": "a8fd8c161fddfb97376b4215da74f53bcc443300",
+  "baseMain": "7668a03d97c1ae62174f09e65ccd5a5717120be6",
+  "reviewedFile": "lib/saha/monitoring.ts",
+  "reviewedLine": 15,
+  "reviewedFileSha256": "237294a926ef05427cd5568da42c523441e2aab96d0343a659ea8107dc1e4fa6",
+  "beforeFileSha256": "5ef114ac5c2849674ad04c44667efcd1d46a981af4e190a0c62794d85141a3af",
+  "sameBeforeBytesAsMain": true,
+  "exactPatchSha256": "b7adc84da6805d1c135595d862bcabd4f61687af6597d6e5e04b0349b8f32b20",
+  "sourcePins": {
+    "lib/saha/monitoring.ts": {
+      "sha256": "237294a926ef05427cd5568da42c523441e2aab96d0343a659ea8107dc1e4fa6",
+      "bytes": 3535
+    },
+    "lib/saha/identity.ts": {
+      "sha256": "3465582bd580ee3501795a7058ecf7bef6933f171af6b584b259df38243b058a",
+      "bytes": 9047
+    },
+    "lib/saha/store.ts": {
+      "sha256": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+      "bytes": 55236
+    },
+    "db/schema.ts": {
+      "sha256": "494b1b09d2f77657b3599332485e4e1ad1d84fbb9ab444dfeefa1c418e63c2c5",
+      "bytes": 31783
+    },
+    "app/api/today/route.ts": {
+      "sha256": "abd801efb6b600239cc3b5bc5064bb295a19315264c33def4b8850502274ca80",
+      "bytes": 398
+    },
+    "app/api/commands/route.ts": {
+      "sha256": "c18b1a85a7c48e731772de6f1e6688d8ed539eac8b034f643931a30c076ab5c1",
+      "bytes": 269
+    },
+    "app/api/patients/route.ts": {
+      "sha256": "e32a7616698435b9750149bc82ece3b3863572bcc51759ca00d473ac595c1728",
+      "bytes": 518
+    },
+    "docs/current/d03/SPECIFICATION.md": {
+      "sha256": "f390d7c13d7794556115b04caed8982179d1fcfd18a81dda59d70f6f573758df",
+      "bytes": 5347
+    },
+    "requirements/brd-v1.1.json": {
+      "sha256": "42fcf897de33604511fcc385a22670047fba1dad6bb6be0302c421dad8b861a5",
+      "bytes": 102234
+    },
+    "requirements/assessment.tsv": {
+      "sha256": "9cda86677a960bc5aaf7240109b145aafbdad0ec64c64534060d3daf013a8a33",
+      "bytes": 165031
+    }
+  },
+  "independentlyVerified": {
+    "wholeFileExactlySingleLiteralSQLAndBindReplacement": true,
+    "exactAlreadyReviewedPR204PredicateAndBinds": true,
+    "routeUnionAndAllCallersUnchanged": true,
+    "insertCountUpsertStatusDurationUnchanged": true,
+    "existingPrincipalProviderAndOrgSelectionUnchanged": true,
+    "cutoffExactlyOriginal30DaysStrictLessThan": true,
+    "existingBurdenLIKEExemptionUnchanged": true,
+    "actionInvocationResponseDrainingPrivacyHeadersErrorEnvelopeUnchanged": true
+  },
+  "reasoning": [
+    {
+      "concern": "Cross-tenant and inactive actor prune on refused request",
+      "evidence": "Before the addition DELETE only constrained target org/bucket/route, while INSERT already had an active-membership predicate. Handler refusal does not skip measured post-action metrics.",
+      "result": "DELETE now requires active membership in the same selected org for the trusted principal at statement execution. A foreign or suspended actor cannot satisfy that predicate, even if the earlier action returned403."
+    },
+    {
+      "concern": "Actor and tenant binding",
+      "evidence": "Target org bind1 and membership org bind3 are the same resolved org variable; membership actor bind4 is user.userId from unchanged principalFromHeaders+identityConfig. Cutoff remains bind2. Membership schema primary key is org_id,user_id; active status is evaluated by SQL.",
+      "result": "No client-assigned actor, cross-org correlation, new identity provider, owner/role shortcut or string interpolation is introduced."
+    },
+    {
+      "concern": "Retention behavior",
+      "evidence": "Original org_id=?, route NOT LIKE burden:%, bucket< and original Date.now()-30*86400000 ISO expression are byte-identical.",
+      "result": "Eligible own-organisation old non-burden records can still be pruned; recent/burden records remain protected by the unchanged predicates. Active-member pruning on a route refusal remains the pre-existing technical maintenance rule; no new clinical/sensitive diagnostic retention policy is inferred."
+    },
+    {
+      "concern": "Requirement applicability",
+      "evidence": "BR-SEC-06 tenant isolation and BR-SEC-07 safe logs/analytics separate access and retention. PR204 bounded frozen M4 declares same active-membership predicate for insert and prune. Routine A5 requires current server authority; A9 requires fresh built tests/CI and review.",
+      "result": "Narrow tenant-authority repair is applicable to fixed patients/commands wrappers. It does not complete BR-SEC-06/07, operational alert targets, hosted diagnostics/configuration, formal human/domain or the full routine story."
+    }
+  ],
+  "verificationPerformed": [
+    "Read actual before/current diff, monitoring/identity/schema/callers/store and frozen requirements/specification",
+    "Recomputed actual source SHA256 and exact whole-file single-replacement equality",
+    "Compared exact predicate+bind bytes to existing PR204 local source"
+  ],
+  "nativeTestsExecutedByReviewer": 0,
+  "buildsExecutedByReviewer": 0,
+  "sourceOrDependencyEdits": false,
+  "futureTestsApproved": false,
+  "requiredQualificationRemaining": [
+    "Author native current-build controls for foreign/absent/suspended memberships and anonymous/unselected identity, actual status/response/protected-state plus metrics row witnesses",
+    "Positive active own-organisation old30-day prune/recent-row/burden-exemption and storage-failure response preservation controls",
+    "Fresh applicable original regression/build/type/security/docs/final-head CI and independent evidence review",
+    "Current-source performance/build custody: running olde930 remains immutable evidence and is not automatically transferred across this runtime change",
+    "Qualified isolated merge, exact observed deployed source and live synthetic journey; no staging/whole-story claim"
+  ]
+}

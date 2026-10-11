@@ -1,0 +1,350 @@
+{
+  "suite": "Routine telemetry tenant retention guard",
+  "passed": 64,
+  "failed": 0,
+  "skipped": 0,
+  "startedAt": "2026-10-11T17:27:25.113Z",
+  "completedAt": "2026-10-11T17:27:28.687Z",
+  "checks": [
+    {
+      "label": "Fixture has distinct organisations and no ASHA membership in B",
+      "ok": true,
+      "ms": 14
+    },
+    {
+      "label": "foreign-get-query exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-query no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-query no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-query prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-query no authenticated metric insertion/increment/pruning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-query refusal contains no protected person/visit context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-query exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-query no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-query no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-query prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-query no authenticated metric insertion/increment/pruning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-query refusal contains no protected person/visit context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-header exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-header no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-header no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-header prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-header no authenticated metric insertion/increment/pruning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-get-header refusal contains no protected person/visit context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-header exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-header no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-header no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-header prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-header no authenticated metric insertion/increment/pruning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "foreign-post-header refusal contains no protected person/visit context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-get exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-get no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-get no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-get prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-get no authenticated metric insertion/increment/pruning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-get refusal contains no protected person/visit context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-post exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-post no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-post no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-post prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-post no authenticated metric insertion/increment/pruning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "suspended-post refusal contains no protected person/visit context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "anonymous-foreign-get exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "anonymous-foreign-get no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "anonymous-foreign-get no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "anonymous-foreign-get prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "anonymous-foreign-get no authenticated metric insertion/increment/pruning",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "anonymous-foreign-get refusal contains no protected person/visit context",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get authorized own old non-burden metric pruned",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get own old burden and recent metric rows retained exactly",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get all foreign metrics unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get own response counter increments exactly once",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-get real assigned person readback",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid exact real HTTP status",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid no-store and real request correlation headers",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid no clinical/receipt mutation",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid prior immutable audit rows retained",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid authorized own old non-burden metric pruned",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid own old burden and recent metric rows retained exactly",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid all foreign metrics unchanged",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "own-post-invalid own response counter increments exactly once",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Owned native runtime stopped and port released",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "All nine actual native scenarios completed without external requests",
+      "ok": true,
+      "ms": 0
+    },
+    {
+      "label": "Source/build/driver custody remained unchanged",
+      "ok": true,
+      "ms": 385
+    },
+    {
+      "label": "All custody operations retained evidence and membership restoration",
+      "ok": true,
+      "ms": 0
+    }
+  ],
+  "actualBuiltRoutineHttp": true,
+  "actualNativeD1": true,
+  "declaredScenarios": 9,
+  "completedScenarios": 9,
+  "unexpectedOutbound": 0,
+  "custodyErrors": [],
+  "terminalFailure": null,
+  "cleanup": {
+    "miniflareDisposed": true,
+    "ownedStateRetained": true,
+    "portFree": true
+  },
+  "formalAcceptanceClaim": false,
+  "originalResultSHA256": "67c7f6d6778d31823419649e872cb9b64571d0de54fd783989de700f312baa8c",
+  "qualifiedReceiptSHA256": "d3921bab0d3444e03a9df98442b37f030343708f954eb751301328d7a0941aee",
+  "productionMonitoringSHA256": "237294a926ef05427cd5568da42c523441e2aab96d0343a659ea8107dc1e4fa6",
+  "sourceHeadBeforePublication": "a8fd8c161fddfb97376b4215da74f53bcc443300",
+  "countsMeaning": "Named check groups from nine scenarios, not individual assertion calls or stories.",
+  "completeRawWitnessRetained": "Local native-attempt-002; new normal CI will retain fresh final-source raw evidence as its engineering artifact.",
+  "adaptedNormalCINativeExecuted": 0
+}

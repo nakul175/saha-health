@@ -34,6 +34,7 @@ export const SUITE_ARGS = {
 /** Slice 11f: the result file to read when a suite writes several. The hosted smoke's self-test also writes the nested reports of the
  * scenarios it expects to fail; only its own verdict counts. */
 export const SUITE_RESULTS = {
+ 'tests/integration/routine-telemetry-retention-http.mjs':['tests/reports/routine-telemetry-retention-result.json'],
  'tests/test-runner-manual-intake-v2-contract.mjs':['tests/reports/runner-manual-intake-v2-result.json'],
  'tests/installed-programme-single-runtime-current.mjs':['tests/reports/installed-programme-single-runtime-current/result.json'],
  'tests/native-device-privacy-current-browser.mjs':['tests/reports/native-device-privacy-current/browser-result.json'],
@@ -385,6 +386,7 @@ function classifyBase(file) {
   }[file];
   if (adapted) return { id: adapted, layer: adapted.startsWith('smoke/') ? 'smoke' : 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Original guarded ID and all original assertions retained in named current-schema, portable-path, realistic release-margin or guided-stage adapter; historical driver and evidence remain intact' };
   if (['tests/composite-authority-independent-extra-http.mjs','tests/household-completion-browser.mjs','tests/report-portability-http.mjs','tests/smoke/app-back-browser.mjs','tests/media-imported-lineage-before.mjs','tests/media-imported-lineage-repair-http.mjs'].includes(file)) return { layer: 'manual', role: 'suite', tier: 'manual', runner: 'node', directOnly: true, reason: 'Preserved historical fixture or separately pinned imported-lineage diagnostic/repeat; current original assertion minima stay guarded by named adapters or original imported-evidence primary' };
+  if (file === 'tests/integration/routine-telemetry-retention-http.mjs') return { id: 'integration/routine-telemetry-retention-http', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Actual built routine tenant-retention refusals and authorized controls; owned canonical build and native D1 custody, nine scenarios' };
   if (isSupport(file)) return { layer: null, role: 'support', tier: null, reason: 'shared helper, fixture or entry module; not a suite' };
   if (file === 'tests/api-smoke.mjs') return { layer: 'integration', role: 'support', tier: null, reason: 'entry module imported by tests/run-api-smoke.mjs; not run on its own' };
   if (file === 'tests/guided-home-capture-browser.mjs') return { id: 'integration/guided-home-browser', layer: 'integration', role: 'suite', tier: 'pr', runner: 'node', reason: 'Stable guarded Home ID and all original 33 assertions; stage-selection adapter for the current guided visit, original driver/evidence retained' };

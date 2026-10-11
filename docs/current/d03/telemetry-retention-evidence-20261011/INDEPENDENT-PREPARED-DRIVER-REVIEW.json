@@ -1,0 +1,82 @@
+{
+  "reviewedAt": "2026-10-11T17:01:17Z",
+  "reviewer": "/root/routine_final_review",
+  "role": "Independent source reviewer; did not author or modify this driver, did not execute runtime/build.",
+  "authority": "Current human parallel-agent authorization and explicit root read-only priority review.",
+  "scope": "Exact prepared nine-case actual built-routine retention witness; no runtime qualification/future test approval.",
+  "verdict": "BLOCK_PREPARED_HARNESS_LIFECYCLE_AND_FAILURE_CUSTODY",
+  "driverPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/routine-telemetry-applicability/guard-test-preparation/routine-telemetry-retention-native.mjs",
+  "driverSha256": "860d5fff63bc0d23b30515930fd1279cd4908d23c4a5d97cb029deb5494c17f0",
+  "contractSha256": "30c5888ed995b877cab311caedb7143ba00bd06c79f3826ad3534cc44bf4b29d",
+  "freezeSha256": "3655e4828b6d9168e4b0899bc5740243e92a2aaf8091df29e2759d99df55ec54",
+  "rootInputsAllMatch": true,
+  "original388GuardRecordsStillEqual": true,
+  "actualNativeScenariosExecutedByReviewer": 0,
+  "sourceBuildOrDependencyEdits": false,
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P1",
+      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/routine-telemetry-applicability/guard-test-preparation/routine-telemetry-retention-native.mjs",
+      "line": 87,
+      "relatedLines": [
+        185,
+        187
+      ],
+      "title": "Capture native ownership before readiness and bound migration/startup/disposal",
+      "trigger": "Migration hangs, Miniflare.ready rejects/hangs after constructing native instance, or dispose never resolves.",
+      "why": "worker is assigned only after unchanged startMiniflare finishes synchronous migration and mf.ready. Failure before return leaves no handle/PIDs available to finally; the driver then removes the owned state when !worker even though an orphan may still use it. Neither startup/dispose nor socket listening has a driver-owned terminal deadline. The shared helper confirms this boundary, so no new backend reproduction is claimed.",
+      "requiredFix": "Use separately reviewed new owned launcher/supervisor with bounded migration and ready/dispose deadlines; capture exact native handle/process ownership before ready, dispose only owned resources on failed start, preserve failed native state/evidence until disposal is confirmed. Do not edit original helper or kill by process name."
+    },
+    {
+      "id": "R2",
+      "priority": "P1",
+      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/routine-telemetry-applicability/guard-test-preparation/routine-telemetry-retention-native.mjs",
+      "line": 91,
+      "relatedLines": [
+        93,
+        99,
+        102
+      ],
+      "title": "Bound fixture setup transport through body consumption",
+      "trigger": "Any workspace/invite/join/assignment setup fetch or response body stalls.",
+      "why": "The setup client is the unchanged shared client, whose fetch and response.text have no timeout. Direct case raw at73 uses AbortSignal.timeout20000 correctly through74, but that bound does not cover setup; a hang prevents terminal reporting and runtime disposal.",
+      "requiredFix": "Use a new locally owned bounded transport for every setup request and body read, retaining actual status/headers/body or partial failure, no retries/substituted status. Add lightweight header/body-stall controls before reviewed native execution."
+    },
+    {
+      "id": "R3",
+      "priority": "P2",
+      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-eight-hour-20261011/routine-telemetry-applicability/guard-test-preparation/routine-telemetry-retention-native.mjs",
+      "line": 130,
+      "relatedLines": [
+        73,
+        74,
+        132,
+        134,
+        180,
+        187
+      ],
+      "title": "Checkpoint per-case raw custody before a timeout can abort the scenario",
+      "trigger": "HTTP headers arrive and the body aborts, transport throws, or post-response D1 snapshot fails.",
+      "why": "The before snapshot and response are local until both raw and after complete. Observation is appended only afterward, so catch retains only an error stack, losing that case before-state and partial response/status; finally can then delete failed D1 state. This falls short of the prepared contract raw-failure custody.",
+      "requiredFix": "Append/checkpoint a running case with before-state before dispatch, preserve headers and each partial body receipt before parsing/assertions, attach failure and best-available after/final native custody in bounded finally, and retain failed state. Count completed cases only when the declared case reaches a truthful terminal result."
+    }
+  ],
+  "soundScopedDesign": [
+    "Nine literal unique IDs exactly match frozen GET/POST contract:foreign-query400/header403/suspended403/anonymous401/ownGET200/own invalidPOST422.",
+    "Actual current production routineRead/routineWrite and fixed measured patients/commands labels match these expected statuses; query selector rejection is intentionally not a new clinical command.",
+    "Synthetic invitation/assignment setup uses actual existing application commands; isolated expired/recent/burden metric seed and status suspension are direct fixture writes disclosed separately.",
+    "Refused requests require exact full metric-row equality, not only a count; allowed requests preserve every foreign metric row, old burden and recent rows and increment own route/status counter exactly once.",
+    "Clinical patients/visits/receipts whole rows must match, and all prior audit rows remain immutable. Synthetic suspended membership exact original row is restored.",
+    "External APIs are disabled and explicit outboundService counts/refuses unexpected calls. Source/build/driver before-after hashes are observed custody; compiler/source association is correctly left to separate actual build receipt/review.",
+    "No pass count or new regression minimum is predicted from source; all388 prior guard records are equal."
+  ],
+  "countSemanticsLimit": "Existing report.check counts executed named checks/groups; several contain multiple assert calls. Those observed counts may be reported as named checks, not claimed as individual Node assert calls, distinct scenario count or user-story delivery. Nine planned IDs are source-verified; runtime final guard currently only checks observation length9.",
+  "otherLimits": [
+    "Protected-context helper only checks person/context/visit properties and p_meena literal; it is not exhaustive raw scalar/clinical/canary non-disclosure evidence and must not be used to close full privacy/story acceptance.",
+    "Expired2000/current seeds verify basic expired/recent behavior with source-reviewed unchanged30-day expression, not an exact dynamic cutoff-boundary measurement.",
+    "No tests, startup, Worker, backend, browser, build or new network access performed by reviewer.",
+    "Retention production source-only PASS receipt remains scoped and independent; this harness hold does not invalidate that code-review conclusion."
+  ],
+  "requiredNext": "Author bounded lifecycle/transport/partial custody repair; retain this original freeze, independently review exact successor; only then lease/publish/run actual source-bound native evidence under original gates."
+}

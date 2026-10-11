@@ -1,0 +1,86 @@
+{
+  "observedAtUtc": "2026-10-11T16:54:57.527069+00:00",
+  "reviewer": "routine_independent_qa",
+  "headReviewed": "a8fd8c161fddfb97376b4215da74f53bcc443300",
+  "method": "Independent read-only source/dataflow and source-bound saved native evidence assessment.",
+  "verdict": "REQUIRED_SAME_STORY_TENANT_GUARD_PREREQUISITE; CURRENT_NEW_GUARD_QUALIFICATION_PENDING",
+  "knownDefect": {
+    "file": "lib/saha/monitoring.ts",
+    "committedLine": 15,
+    "route": "app/api/routine-visit/route.ts",
+    "routeLines": [
+      7,
+      12
+    ],
+    "conditions": "Genuine configured-provider principal; attacker lacks active membership in selected foreign org; eligible non-burden metrics older than existing30-day cutoff exist there.",
+    "dataflow": [
+      "Routine GET patients and POST commands call measured using fixed literals and convert caught action errors into responses.",
+      "measured then executes telemetry even after refused response.",
+      "Organisation is raw x-saha-organisation header, organisationId query, or account fallback.",
+      "INSERT carries trusted actor/org active-membership check; committed DELETE has none.",
+      "Refused request can delete foreign organisation eligible operational metrics."
+    ],
+    "staticReachabilityExamples": [
+      "GET /api/routine-visit?organisationId=<foreign-org> fails routine selector guard400 before person/context, but monitoring subsequently uses that rejected query value.",
+      "GET valid person selector with foreign organisation header refuses assigned context but same monitoring wrapper still runs.",
+      "POST query selector is rejected400 yet measured still resolves that query organisationId."
+    ],
+    "impact": "Unauthorized old operational telemetry deletion. No claimed patient-body disclosure, clinical mutation, current metric/burden row deletion or identity forgery.",
+    "runtimeLimits": "No mounted routine attack was newly executed. Current writer matches native main-source pin; actual native component wrong-tenant and suspended deletion failures are retained."
+  },
+  "labelFinding": {
+    "fixedRoutineLabels": [
+      "patients",
+      "commands"
+    ],
+    "dynamicLabelExposure": "None demonstrated by this routine caller; no URL, patient ID or payload appears in its route label.",
+    "twoFileScope": "3eb2 two-file repair combines required DELETE membership guard with independent runtime route normalization. Normalization preserves61 fixed labels but is additional defense, not required to repair a demonstrated routine label leak. Root selected only the necessary guard; this review agrees."
+  },
+  "gateApplicability": {
+    "A5": "The routine shared server boundary must retain tenant authority on every downstream mutation, including metadata. Patient scope/audit proof stays independent.",
+    "A9": "Green broadCI does not waive a known reachable shared authorization defect; affected source-bound native test, finalCI and separate review required.",
+    "A10": "No qualified release/merge/live claim while this necessary implementation guard is unqualified.",
+    "AGENTS": "Server authorization and preservation requirements apply; owner identity cannot authorize foreign tenant mutations.",
+    "frozenCriteria": "No A1-A10/target/minimum modified; applicability of existing server-scope/security rules, not a lowered/replaced gate."
+  },
+  "reuseEvidence": {
+    "source": "3eb2ea8978281601989ff736df1f97c9065bcf72",
+    "nativeMain": {
+      "passed": 72,
+      "failed": 13
+    },
+    "same85Fixed": {
+      "passed": 85,
+      "failed": 0
+    },
+    "finalPinnedNative": {
+      "passed": 86,
+      "failed": 0
+    },
+    "all85BeforeAfterAssertionLabelsIdentical": true,
+    "final86ExtraIsInputCustodyOnly": true,
+    "wrongTenantAndSuspendedBeforeFailAfterPass": true,
+    "trustedIdentityUnchanged": true,
+    "scope": "Actual measured/identity native component HTTP/SQLite D1, not mounted routine/hosting/formal story qualification. Original failures and original oracle sources retained."
+  },
+  "smallestRecommendation": {
+    "necessaryChange": "Only monitoring DELETE WHERE membership EXISTS with current org/trusted user; retain original30-day cutoff/burden exemption, INSERT, action/response-once, identity and clinical writers.",
+    "currentAuthorStatus": "Root has applied exact minimum one-line SQL/bind change after reviewer finding; source237294a9\u2026 is uncommitted and pending native/build/CI/final-source review. This reviewer did not edit it.",
+    "qualification": "Prepare one actual built routine GET/POST tenant-refusal native regression with synthetic eligible rows, suspended membership, own-org pruning/burden preservation and complete raw outcome/source/build/cleanup custody. Preserve all388 original root guard objects and criteria.",
+    "performance": "Immutable e930NFR remains untouched and pinned to its old bytes; added SQL authority predicate can affect request timing. New-source applicability/performance is separate; no automatic source promotion of older result.",
+    "wholeStory": "This bounded prerequisite does not complete the parent safe-analytics story, formal/human/domain acceptance or hosting.",
+    "noBulkReuse": "No PR204 bulk merge/cherry-pick or dynamic-label expansion."
+  },
+  "performed": {
+    "sourceEdits": 0,
+    "localRuntimeTests": 0,
+    "buildInstallBackendBrowser": 0,
+    "sharedLinearControllerMutation": false,
+    "mergeDeployment": false
+  },
+  "custody": {
+    "sourcePins": "SOURCE-PINS.json",
+    "nativeEvidence": "NATIVE-EVIDENCE-READBACK.json",
+    "proposal": "MINIMAL-RETENTION-REPAIR.diff"
+  }
+}

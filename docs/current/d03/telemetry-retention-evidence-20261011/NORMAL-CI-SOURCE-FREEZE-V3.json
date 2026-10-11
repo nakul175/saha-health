@@ -1,0 +1,27 @@
+{
+  "preparedAtUtc": "2026-10-11T17:47:10.931088+00:00",
+  "status": "NORMAL_CI_SOURCE_ONLY_PREPARED_NOT_EXECUTED",
+  "head": "a8fd8c161fddfb97376b4215da74f53bcc443300",
+  "files": {
+    "tests/lib/routine-retention/containment.mjs": "513b9413f364e8cc993c5c558ce45c6d62b0590a4e185385a42ce563c770e2b8",
+    "tests/lib/routine-retention/native-runtime.mjs": "ed7338f06316bdfa25b8ffb77516fe8bd4e545e8e685c7e402cb5c05dca55d4d",
+    "tests/lib/routine-retention/transport.mjs": "0cd15ecaffcdf86809257e7d557012fff00dcd92fabc8732dfd4ae03afc794c3",
+    "tests/lib/routine-retention/native-driver.mjs": "7cbf3a7fd430ffca4b1c362337f3b72c8d5c5d2b2502fae0aa9017d173c528f0",
+    "scripts/routine-retention-runner.mjs": "4ceb12f840e6aecd2efe29de1ece00da6568a59a2d3833a273ea90f7c683bec6",
+    "tests/integration/routine-telemetry-retention-http.mjs": "422777144c67c6e11fe0c0be2b1886316e9728504e5b6476e620b0f36ffed316",
+    "scripts/test-catalogue.mjs": "ae7486871cdc65aa536d0e6fff42a079118584321d9b148a352f2fd75ba9a861",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+    ".github/workflows/ci.yml": "9c2dc9b4eede0e4dfe4aa573da45ef19b54ce7ce20bb4ef3889915026cdcf85f",
+    "lib/saha/monitoring.ts": "237294a926ef05427cd5568da42c523441e2aab96d0343a659ea8107dc1e4fa6"
+  },
+  "sourceTransformationSHA256": "9ff07179e3f146c48a9fb4cfe1cea9c6c444eff0774cea454702adc1c24588b5",
+  "originalGuardObjects": 388,
+  "originalGuardObjectsUnchanged": true,
+  "newObservedMinimum": 64,
+  "totalGuardObjects": 389,
+  "nativeScenariosAfterPathTransformation": 0,
+  "priorActualNativeResultSHA256": "67c7f6d6778d31823419649e872cb9b64571d0de54fd783989de700f312baa8c",
+  "priorActualNativeIndependentReviewSHA256": "395a6dce42bdcb8abf1b5741ef00f62f31acbad8218e352a5fc60d85ffcfc290",
+  "predecessorFreezeSHA256": "612a8296b057ad3a09b91d6b1b808b8f6b232a36f597d93731afd1185d4c287a",
+  "delta": "Only native-driver removes three unused imports and changes an unused ternary expression to equivalent if/else for the port ECONNREFUSED control; original nine scenario objects and 64 groups preserved."
+}

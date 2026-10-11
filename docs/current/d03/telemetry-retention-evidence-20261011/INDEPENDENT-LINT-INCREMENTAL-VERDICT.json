@@ -1,0 +1,27 @@
+{
+  "reviewedAtUtc": "2026-10-11T17:47:32.736607+00:00",
+  "reviewer": "/root/routine_final_review",
+  "author": "/root",
+  "scope": "Independent source-only normal CI V2-to-V3 lint successor; no runtime/build rerun",
+  "verdict": "PASS_NARROW_EQUIVALENT_LINT_SOURCE_DELTA",
+  "sourceFreezeSHA256": "bf94f86179f14290cc42946bbb94d1493176490622088b43ea689840e5e1f5e5",
+  "changedCodePaths": [
+    "tests/lib/routine-retention/native-driver.mjs"
+  ],
+  "current10FrozenPinsVerified": true,
+  "previousDriverSHA256": "86f161682b7fe7cd6891d82cfd97afdb2308258e4eecabd8d4dc7fae4c91524c",
+  "currentDriverSHA256": "7cbf3a7fd430ffca4b1c362337f3b72c8d5c5d2b2502fae0aa9017d173c528f0",
+  "actualDriverDeltaSHA256": "2bb6476777ae1b84d9de8b4ec4b6b7b86f99989375cfb8e2e63e47e04ce1e88d",
+  "retainedPatchSHA256": "88bd78a9a06670c79f6e701ff910427e14955ea7d4a7d5aba0873dc7b105b89e",
+  "verifiedSemanticChanges": "Only unused mkdirSync/appendFileSync/inspectOwnedGroup imports removed; error handler retains exact ECONNREFUSED yes(false) branch and otherwise no(error) using if/else. No request/setup/scenario/oracle/status/privacy/whole-row/retention/counter/deadline/disposal/custody/count changes.",
+  "originalNineOracleBytes": 4226,
+  "originalNineOracleSHA256": "904439b4ab0a50f1bc7a6a06b33ac072dd491beeedd659a6b8404ed1e5d4367e",
+  "originalNineOracleExact": true,
+  "other9FrozenFilesUnchanged": true,
+  "original388GuardObjectsAndNew64MinimumUnchanged": true,
+  "nativeExecutionForV3": 0,
+  "previousNormalWitness": "7510329cf08efea748f0cfb1bed3be388485f5ec700f3a508debec95a1f5a33d remains retained scoped to V2 driver, not relabelled as V3 execution.",
+  "findings": [],
+  "requiredNext": "Root fresh normal64 on V3, final staged batch independent review and actualCI/NFR/hosting gates.",
+  "releaseApproved": false
+}

@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-10-11T16:53:31.594946+00:00",
+  "status": "Unpublished one-line production repair; native/static/final source review pending",
+  "editableBase": "a8fd8c161fddfb97376b4215da74f53bcc443300",
+  "sourcePath": "lib/saha/monitoring.ts",
+  "selectedFrom": "PR204 3eb2ea8978281601989ff736df1f97c9065bcf72; exact reviewed retention SQL line only",
+  "repairedSha256": "237294a926ef05427cd5568da42c523441e2aab96d0343a659ea8107dc1e4fa6",
+  "measuredUnchangedSha256": "5ef114ac5c2849674ad04c44667efcd1d46a981af4e190a0c62794d85141a3af",
+  "scenarios": [
+    "Foreign organization selection must not prune foreign metrics",
+    "Suspended membership must not prune metrics",
+    "Permitted active own-org30day non-burden pruning remains",
+    "Burden metric rows remain protected"
+  ],
+  "criteriaChanged": false,
+  "dependenciesChanged": false,
+  "measuredSourceChanged": false,
+  "testsNotExecuted": true,
+  "needsSeparateFinalReview": true
+}

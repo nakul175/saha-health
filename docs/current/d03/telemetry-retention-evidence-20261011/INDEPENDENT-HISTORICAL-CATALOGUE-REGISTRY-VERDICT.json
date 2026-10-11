@@ -1,0 +1,71 @@
+{
+  "reviewedAtUtc": "2026-10-11T17:41:45.230197+00:00",
+  "reviewer": "/root/routine_final_review",
+  "author": "/root",
+  "scope": "Independent read-only documentation source-snapshot registry review; no checker/runtime execution",
+  "verdict": "PASS_NARROW_HISTORICAL_SOURCE_PREIMAGE_REGISTRY",
+  "sourcePins": {
+    "scripts/check-documentation.py": "f01517135de6ab03fcece7ee29042b7532b92fcbdbf45257038fa60475000f91",
+    "docs/verification/evidence-source-snapshots-routine-retention.json": "cba3a2ea5473cb06a89e6e2b6fc695d1aba07b7f31e239486876da19128f0460",
+    "docs/verification/evidence-source-snapshots/3ecab43b149aee94795f3d9f04258c5e1c3605ab87cff6c6fd24c29802ac7f0c.txt": "3ecab43b149aee94795f3d9f04258c5e1c3605ab87cff6c6fd24c29802ac7f0c",
+    "docs/verification/evidence-source-snapshots.json": "6a80f3e96b69724dbe7d6711358b520cedd0f55ec22358ec379a42d4a0172538",
+    "tests/evidence/routine-ci-fixture-repair-20261011/manifest.json": "79b6e8d8c88a4bb192e0fb701af78321c2db92aa0b63414ed264af4ba830b6e9",
+    "docs/verification/application-routine-tenant-retention-ready-20261011-sha256.json": "c63b645187eb184732317bcb8abc06066d962a809025e5ced0bef8e5d6724f5c"
+  },
+  "checkerDelta": "Removing one appended additional registry name recovers whole original Git HEAD checker bytes exactly. No validation/oracle/criteria code altered.",
+  "historicalSnapshot": {
+    "source": "scripts/test-catalogue.mjs",
+    "sha256": "3ecab43b149aee94795f3d9f04258c5e1c3605ab87cff6c6fd24c29802ac7f0c",
+    "bytes": 107051,
+    "GitHEADPreimageWholeBytesExact": true,
+    "correctArchiveContainment": true,
+    "oneSourceOneHashOnly": true
+  },
+  "originalRegistryGitHEADBytesExact": true,
+  "originalRoutineFixtureEvidenceFilesVerifiedExact": [
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/ORACLE-PRESERVATION.json",
+      "sha256": "6fc650c30db21a1db67e86512fa0000f0ab15ca818cf232a697a597f4d9922b0"
+    },
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/first-prototype24-3-failed.log",
+      "sha256": "81e8c3d240f3ca976138d6b7302a4776c2163a4e716a5bdeecee507ea93817de"
+    },
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/manifest.json",
+      "sha256": "79b6e8d8c88a4bb192e0fb701af78321c2db92aa0b63414ed264af4ba830b6e9"
+    },
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/prototype24-3-actual-result.json",
+      "sha256": "4deab0ce71d53674f818a9147e6f0f4a7e58f23e4868e08277214dfc05e87355"
+    },
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/runner28-actual-result.json",
+      "sha256": "85bcc1e3b7f0421396447e14a188717abc5e9c4ccf967ee614196716d21239b7"
+    },
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/runner28-guarded.log",
+      "sha256": "7469271401dc49d6cc3a74b8e86f1c7ea4376ff59f939712bd1701e124e8d773"
+    },
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/second-prototype24-3-failed.log",
+      "sha256": "a7d4a75a4a5d8c0562e32fcd9ce2942e2b1779739cb413606e0193c450723abc"
+    },
+    {
+      "path": "tests/evidence/routine-ci-fixture-repair-20261011/unqualified-prototype.mjs.txt",
+      "sha256": "25aa7e214d26e09d1f7940b783b206cf14df7364ccfa3bb36cb474de69b59390"
+    }
+  ],
+  "originalRoutineFixtureEvidenceChanged": false,
+  "sourceFallbackLimit": "Original unchanged checker permits archive only for changed app/worker/lib/public/db/drizzle/scripts source paths, requires exact hash and size and archive containment. tests/evidence and report paths continue direct validation in place. New registry contains solely scripts/test-catalogue.mjs historical source; no report/evidence fallback added.",
+  "currentBaselineEntriesReadAndRehashed": 1835,
+  "currentRuntimeAndSourceCheckedSeparately": true,
+  "newBaselinePointsToPreservedPreviousManifest": true,
+  "normalCIFrozen10Pins612aUnchanged": true,
+  "findings": [],
+  "releaseApproved": false,
+  "limitations": [
+    "Documentation reconciliation only; no product, CI, NFR, hosting, clinical/domain or formal acceptance.",
+    "Observed exact source snapshot custody is not new independent evidence execution or approval."
+  ]
+}

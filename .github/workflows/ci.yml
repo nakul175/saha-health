@@ -48,7 +48,7 @@ jobs:
           npx playwright install --with-deps chromium
           node scripts/test.mjs smoke --only smoke/today-browser --fast --guard
       - name: D03 routine capture and current-authority regression
-        run: node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser --fast --guard
+        run: node scripts/test.mjs integration smoke --only integration/routine-authority-http,integration/routine-organisation-http,integration/routine-attempt-browser,smoke/routine-visit-browser,integration/routine-telemetry-retention-http --fast --guard
       - name: Supply-chain gate (SBOM and audit)
         run: node scripts/security-gate.mjs
       # Slice 11g (test review M7, H1): every suite runs through scripts/test.mjs. It builds the HTTP suite's local D1 in one
