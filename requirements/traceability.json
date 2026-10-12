@@ -612,7 +612,7 @@
       "sourceTextLine": 190,
       "implementation": "partial",
       "target": "R15",
-      "current": "Scoped connector server bindings and grants separate user sessions from provider keys. Slice 1e: person-to-person delegation has scope, expiry, an accountable grantor, revocation and use audit; service accounts are documented as unsupported by both identity providers. Slice 6p: a provider sandbox import checks the importer's active ownership of the source before reading it and answers one 404 for not found, not a sandbox and not the importer's own. App-first service-authority batch: owner management of exact target-bound, accountable, expiring machine identity; current-state transport gates and initiating-human/service audit, maintenance-safe revocation and rotation by rebinding. Default unbound connections retain legacy behaviour. Independent review corrected effective frontline agreement lookup and repeats domain consent, purpose, maintenance, current visit/sign-off/checkpoint gates before and after the new service audit; receipt-only lookup remains separate from clinical sends.",
+      "current": "Scoped connector server bindings and grants separate user sessions from provider keys. Slice 1e: person-to-person delegation has scope, expiry, an accountable grantor, revocation and use audit; service accounts are documented as unsupported by both identity providers. Slice 6p: a provider sandbox import checks the importer's active ownership of the source before reading it and answers one 404 for not found, not a sandbox and not the importer's own. App-first service-authority batch: owner management of exact target-bound, accountable, expiring machine identity; current-state transport gates and initiating-human/service audit, maintenance-safe revocation and rotation by rebinding. Default unbound connections retain legacy behaviour. Independent review corrected effective frontline agreement lookup and repeats domain consent, purpose, maintenance, current visit/sign-off/checkpoint gates before and after the new service audit; receipt-only lookup remains separate from clinical sends. Bounded12October2026 increment: Review recorded service identities and delegation under current owner authority; see docs/current/next50/SERVICE-AUTHORITY-REVIEW-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.",
       "remaining": "Independent credential issuance/rotation/revocation, default enforcement policy, service-owned unattended work, hosted IAM and live-provider qualification remain pending. Opt-in binding is not autonomous machine sign-in.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -641,7 +641,17 @@
         "docs/current/SERVICE-IDENTITY-MANAGEMENT-VERIFIED.md",
         "tests/ehr-execution.mjs",
         "tests/mis-delivery.mjs",
-        "docs/current/SERVICE-DISPATCH-DOMAIN-CHECKPOINT.md"
+        "docs/current/SERVICE-DISPATCH-DOMAIN-CHECKPOINT.md",
+        "app/organisation.tsx",
+        "app/api/service-authority-review/route.ts",
+        "app/service-authority-review/page.tsx",
+        "app/service-authority-review/service-authority-review.tsx",
+        "app/service-authority-review/service-authority-review.css",
+        "lib/saha/service-authority-review.ts",
+        "lib/saha/service-authority-review-server.ts",
+        "tests/service-authority-review-contract.mjs",
+        "tests/smoke/service-authority-review-browser.mjs",
+        "docs/current/next50/SERVICE-AUTHORITY-REVIEW-20261012.md"
       ],
       "automatedAcceptanceClaim": false
     },

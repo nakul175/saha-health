@@ -1,0 +1,6 @@
+{
+  "encoding": "utf8-lossless",
+  "sha256": "7f2368bdaa1f5e5de28cf771634c0fe751db346f5ed39ee54437dd3baa85b5a8",
+  "bytes": 613,
+  "raw": "Running uat --fast; 3 suite(s).\n\n[uat] 3 suite(s)\n  running  uat/check-uat-register ...\n  ok       uat/check-uat-register  44 passed  164ms\n  running  uat/coverage-map ...\n  ok       uat/coverage-map  9 passed  178ms\n  running  uat/generate-uat-pack ...\n  ok       uat/generate-uat-pack  10 passed  180ms\n\n  layer  status  suites  passed  failed  skipped   time\n  -----  ------  ------  ------  ------  -------  -----\n  uat    passed       3      63       0        0  522ms\n  total  passed       3      63       0        0  667ms\n\nRegression guard: passed (3 baselined suite(s) checked, 0 excused by quarantine).\n"
+}
