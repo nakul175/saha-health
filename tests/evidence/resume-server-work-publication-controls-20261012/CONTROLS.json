@@ -1,0 +1,49 @@
+{
+  "observedAt": "2026-10-12T17:02:34.550381+00:00",
+  "source": "42f7f50ea2b8bcfc0cd3f5392d7334bb69b00e19 plus root metadata",
+  "integrityControls": [
+    {
+      "case": "current-runtime",
+      "actualRejectedExit": 1
+    },
+    {
+      "case": "current-report",
+      "actualRejectedExit": 1
+    },
+    {
+      "case": "original-manifest-pin",
+      "actualRejectedExit": 1
+    }
+  ],
+  "integrityUntamperedBeforeAfter": true,
+  "candidateSourceAndEvidenceUntouched": true,
+  "ciGuardControls": [
+    {
+      "case": "old-minimum",
+      "actualRefused": "Original 389 record contents/minima changed"
+    },
+    {
+      "case": "old-file",
+      "actualRefused": "Original 389 record contents/minima changed"
+    },
+    {
+      "case": "new-minimum",
+      "actualRefused": "Only observed30 intent and31 native resume minima may be added"
+    },
+    {
+      "case": "missing-native",
+      "actualRefused": "Only observed30 intent and31 native resume minima may be added"
+    },
+    {
+      "case": "extra-record",
+      "actualRefused": "Original 389 guarded records must remain"
+    }
+  ],
+  "ciExactRegistered391Pass": true,
+  "limits": [
+    "Author root metadata controls are separate from genuine peer review.",
+    "Hardlinked read-only mirror; each mutated anchor copied to its own private inode before mutation.",
+    "Historical application source archive never substitutes for current runtime, report, old manifest or golden.",
+    "Versioned trust inputs require external review; no guarantee against coordinated authorised checker and manifest rewrite."
+  ]
+}

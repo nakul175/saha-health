@@ -1,6 +1,6 @@
 {
   "description": "Minimum passed-assertion count per suite, from a real run. Changed only by node scripts/test.mjs --update-baseline.",
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-12",
   "node": "v24.21.0",
   "suites": {
     "integration/alert-capture-ledger-http": {
@@ -668,6 +668,11 @@
       "file": "tests/integration/routine-organisation-http.mjs",
       "minPassed": 52
     },
+    "integration/routine-telemetry-retention-http": {
+      "layer": "integration",
+      "file": "tests/integration/routine-telemetry-retention-http.mjs",
+      "minPassed": 64
+    },
     "integration/run-api-smoke": {
       "layer": "integration",
       "file": "tests/run-api-privacy-registration-current.mjs",
@@ -852,6 +857,11 @@
       "layer": "smoke",
       "file": "tests/reminder-optout-refresh-browser.mjs",
       "minPassed": 13
+    },
+    "smoke/resume-work-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/resume-work-browser.mjs",
+      "minPassed": 31
     },
     "smoke/routine-visit-browser": {
       "layer": "smoke",
@@ -1743,6 +1753,11 @@
       "file": "tests/root-verification-current-request-body-transport-contract.mjs",
       "minPassed": 8
     },
+    "unit/resume-work-contract": {
+      "layer": "unit",
+      "file": "tests/resume-work-contract.mjs",
+      "minPassed": 30
+    },
     "unit/retention-contract": {
       "layer": "unit",
       "file": "tests/root-verification-current-retention-contract.mjs",
@@ -1942,11 +1957,6 @@
       "layer": "unit",
       "file": "tests/workspace-metadata-contract.mjs",
       "minPassed": 147
-    },
-    "integration/routine-telemetry-retention-http": {
-      "layer": "integration",
-      "file": "tests/integration/routine-telemetry-retention-http.mjs",
-      "minPassed": 64
     }
   },
   "log": [
