@@ -26,7 +26,15 @@ export function provenanceText(value:unknown){if(!value||typeof value!=='object'
 // A measurement is present when it has a value or a per-measurement entry (for example a missing reason).
 export const AUTHOR_ROLE_LABEL:Record<Role,string>={asha:'ASHA worker',clinician:'Clinician',supervisor:'Supervisor',admin:'Administrator',provider:'Provider (sandbox)'};
 const present=(f:Facts|undefined,m:Measure)=>!!f&&(!!measureValue(f,m)||!!f.provenance?.[m]);
-const fingerprint=(f:Facts|undefined,m:Measure)=>f?JSON.stringify([m==='bloodPressure'?[f.systolic,f.diastolic]:f[m],f.provenance?.[m]??null]):'';
+const fingerprint=(f:Facts|undefined,m:Measure)=>{
+ if(!f)return '';
+ // A recorded measurement may inherit its source or time from the visit. A
+ // correction to that effective provenance changes the measurement even when
+ // its value and optional own entry stay equal. Missing reasons have no
+ // observation time, so unrelated visit edits must not reattribute them.
+ const effective=measureValue(f,m)?factProvenance(f,m):null;
+ return JSON.stringify([m==='bloodPressure'?[f.systolic,f.diastolic]:f[m],f.provenance?.[m]??null,effective?[effective.source,effective.at]:null]);
+};
 // The authors after a change of facts: a measurement whose value or entry changed is credited to the actor (the
 // authenticated server identity); an unchanged one keeps its recorded author, or none for older facts (never guessed);
 // a measurement that is no longer present has no author.
