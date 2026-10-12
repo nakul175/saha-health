@@ -1848,3 +1848,10 @@ Exact2e18 complete CI38134954151 fails: units208/10895passes/14failures in uncha
 11 October2026 — Native-control CI51f90 prerequisite correction: permission63/calendar97 pass, original185 browser assertions not qualified because dedicated job lacked Chromium (installed no count/device32+1failed). Add existing pinned Playwright browser install before unchanged controls; no criterion lowered. FullCI/current-source controls pending.
 
 11 October2026 — ff31 complete engineeringCI38137184201 SUCCESS:208units10910/0/0,147workflow7691/0/0,9finalsmoke/security/UAT497/0/1(inheritedmedia skip). Dedicated63/97/121/64 +12/15/400slot controls pass. Add unchangedoriginal94backendperformance/4no-inspector-memory CI qualification; actual98/newheadfullCI pending. No criteria or originalbaselines changed; slow-profile and independentreview/livegate pending.
+
+
+## 12 October 2026 — Refuse unknown capability age before declared range checks
+
+Untouched predecessor admits5 malformed-age cases; retained failure.24 focused actual gate/preparation function checks pass. Existing declared age ranges and local manual-review exception unchanged; malformed preparation cannot append runs/audits. Synthetic in-memory contract only, no provider call or clinical approval. Original affected regressions/build/types and independent review are recorded separately.
+
+Scope/evidence boundary: [Refuse unknown capability age before declared range checks](docs/current/next50/CAPABILITY-20261012.md). Local results are not exact-head fullCI or full-story acceptance; no merge/deployed version claimed by this increment.

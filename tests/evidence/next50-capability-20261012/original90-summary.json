@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-10-12T09:56:41.403Z",
+  "startedAt": "2026-10-12T09:56:38.897Z",
+  "command": "node scripts/test.mjs unit --only unit/governance-contract,unit/agent-contract,unit/agent-minimisation-contract --fast --guard --report tests/reports/next50-capability-original-regressions-002.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 90,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2132,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 90,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 2506
+  },
+  "suites": [
+    {
+      "id": "unit/agent-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-agent-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 763,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 22,
+      "reason": null,
+      "log": "tests/reports/logs/unit__agent-contract.log"
+    },
+    {
+      "id": "unit/agent-minimisation-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-agent-minimisation-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 670,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__agent-minimisation-contract.log"
+    },
+    {
+      "id": "unit/governance-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-governance-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 699,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 57,
+      "reason": null,
+      "log": "tests/reports/logs/unit__governance-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 3,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/agent-contract/agent-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/agent-minimisation-contract/agent-minimisation-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/governance-contract/governance-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 7,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 999,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 637,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}
