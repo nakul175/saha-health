@@ -21,6 +21,7 @@ try{for(const f of readdirSync('lib/saha').filter(x=>x.endsWith('.ts')))writeFil
  await r.check('Former household member is not selectable',()=>{const f=fixture();f.h.members[1].to='2026-10-11';assert.throws(()=>review(f,'b','care-coordination'));assert.deepEqual(review(f).members.map(x=>x.id),['a']);});
  await r.check('Merged member is not projected',()=>{const f=fixture();f.b.mergedInto='a';assert.deepEqual(review(f).members.map(x=>x.id),['a']);});
  await r.check('Current anchor membership required',()=>{const f=fixture();f.h.members[0].to='2026-10-11';assert.throws(()=>review(f));});
+ await r.check('Recorded dangling household reference is unavailable not known-none and never mutated',()=>{const f=fixture();f.p.householdId='recorded-but-unresolved-household';f.s.households=[];const before=JSON.stringify(f);assert.throws(()=>review(f),/Recorded household reference is unavailable/);assert.equal(JSON.stringify(f),before);});
  await r.check('Missing household is explicit empty with no inferred grant',()=>{const f=fixture();delete f.p.householdId;assert.equal(review(f).household,null);assert.equal(review(f).members.length,0);assert.throws(()=>preview(f));});
  for(const field of ['from','expiresAt'])await r.check('Malformed '+field+' is unavailable not active',()=>{const f=fixture();f.g[field]='not-a-date';assert.throws(()=>preview(f));});
  await r.check('Contradictory interval unavailable',()=>{const f=fixture();f.g.from=f.g.expiresAt;assert.throws(()=>preview(f));});
