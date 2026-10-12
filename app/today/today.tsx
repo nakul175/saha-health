@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TodayRecord, TodayRow, TodayResponse } from '@/lib/saha/today';
+import { TodayGuidance } from './today-guidance';
 import './today.css';
 
 type View =
@@ -112,6 +113,8 @@ export default function Today() {
       <h1 ref={heading} tabIndex={-1}>
         {record ? record.name : 'Today'}
       </h1>
+      {(view.kind === 'list' || view.kind === 'record') &&
+        <TodayGuidance contextKey={view.kind === 'record' ? view.organisationId + ':' + view.record.id : 'assigned-list'} />}
       {record ? (
         <>
           <p>Read-only record context</p>
