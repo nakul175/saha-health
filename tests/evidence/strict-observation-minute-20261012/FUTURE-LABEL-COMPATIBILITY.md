@@ -1,0 +1,3 @@
+# Original warning compatibility
+
+Original unchanged guided browser found an exact-label regression in the author's new generic date message:20/48 completed before failure. Raw original-browser-authority-summary and child logs preserved. The final source distinguishes calendar-invalid/missing input with a new actionable message, while keeping the original valid-future warning and own-valid-future/value warning byte-for-byte. Original test/oracle/minimum is unchanged. Previous guided source preimage is reconstructed and verified against the retained native004 source hash. This message-only repair does not change schema/direct/API clinical behavior.

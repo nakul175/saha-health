@@ -1,0 +1,197 @@
+{
+  "generatedAt": "2026-10-12T16:40:02.083Z",
+  "startedAt": "2026-10-12T16:39:58.766Z",
+  "command": "node scripts/test.mjs unit --only unit/fact-provenance-contract,unit/fact-verification-contract,unit/fact-reuse-contract,unit/value-ranges-context-contract,unit/field-units-client --guard --report ../../outputs/saha-next50-20261012/observation-time/original-units-summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 5,
+      "passed": 139,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 3135,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 5,
+    "passed": 139,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 3317
+  },
+  "suites": [
+    {
+      "id": "unit/field-units-client",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/field-units-client.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 78,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/field-units-client-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__field-units-client.log"
+    },
+    {
+      "id": "unit/fact-provenance-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-fact-provenance-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 808,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__fact-provenance-contract.log"
+    },
+    {
+      "id": "unit/fact-reuse-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-fact-reuse-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 710,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__fact-reuse-contract.log"
+    },
+    {
+      "id": "unit/fact-verification-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-fact-verification-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 774,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__fact-verification-contract.log"
+    },
+    {
+      "id": "unit/value-ranges-context-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-value-ranges-context-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 765,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__value-ranges-context-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 5,
+    "newSuites": []
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-provenance-contract/fact-provenance-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-reuse-contract/fact-reuse-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-verification-contract/fact-verification-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/value-ranges-context-contract/value-ranges-context-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/field-units-client-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

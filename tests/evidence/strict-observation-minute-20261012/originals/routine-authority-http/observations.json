@@ -1,0 +1,1454 @@
+[
+  {
+    "caseId": "CASE-AUTH-MEMBERSHIP-ROUTINE-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "BEFORE",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 1,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 2,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "aecc9b2d-e887-481e-9c3a-2d2e247eeed4",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 1; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-MEMBERSHIP-ROUTINE-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "AFTER",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 3,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 4,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "224cda27-dbfc-4763-a33b-caaae6f5fdab",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 3; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-MEMBERSHIP-TODAY-DETAIL-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 5,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 6,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "bee277cb-87ec-495e-903f-4a34e0744b41",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 5; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-MEMBERSHIP-TODAY-DETAIL-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "AFTER",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 7,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 8,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "ce9cbcbb-c1c6-435e-8be1-ba1883284ee4",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 7; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-MEMBERSHIP-TODAY-LIST-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 9,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 10,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "e0c8fd01-d468-4cc6-bb5a-986bded104b7",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 9; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-MEMBERSHIP-TODAY-LIST-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "AFTER",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 11,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 12,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "29a89134-916b-48b8-b554-2f6810fa2404",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 11; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ASSIGNMENT-ROUTINE-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "assignment",
+    "triggerTiming": "BEFORE",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 2
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-owner",
+      "version": 3
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "11924b78-12b6-4335-8343-a894b4998c89",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ASSIGNMENT-ROUTINE-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "assignment",
+    "triggerTiming": "AFTER",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 4
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-owner",
+      "version": 5
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "4e08ec17-7060-434a-811e-173949d4ffdf",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ASSIGNMENT-TODAY-DETAIL-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "assignment",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 6
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-owner",
+      "version": 7
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "8e9155be-9259-46b5-90a4-8d72d724dd88",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ASSIGNMENT-TODAY-DETAIL-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "assignment",
+    "triggerTiming": "AFTER",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 8
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-owner",
+      "version": 9
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "2d8c32c8-6f49-4e54-b63c-b14d940c8945",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ASSIGNMENT-TODAY-LIST-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "assignment",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 10
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-owner",
+      "version": 11
+    },
+    "actualStatus": 409,
+    "actualBody": {
+      "error": "Your assigned care scope changed. Refresh Today before continuing."
+    },
+    "responseBodySha256": "409633cd00cd39a8005892f1886ae1329160152745cc5213f455d7b89066dc4f",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "41b0d143-6bd8-4633-95ae-90341ff76f9d",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 13; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ASSIGNMENT-TODAY-LIST-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "assignment",
+    "triggerTiming": "AFTER",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 12
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-owner",
+      "version": 13
+    },
+    "actualStatus": 409,
+    "actualBody": {
+      "error": "Your assigned care scope changed. Refresh Today before continuing."
+    },
+    "responseBodySha256": "409633cd00cd39a8005892f1886ae1329160152745cc5213f455d7b89066dc4f",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "6189e6e7-2b9a-4fe9-8f6c-9eef5034eb14",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 13; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-PROGRAMME-PURPOSE-ROUTINE-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "programme-purpose",
+    "triggerTiming": "BEFORE",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "b4145bd0-7850-4c23-a7f6-4e15e7ebba40",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-PROGRAMME-PURPOSE-ROUTINE-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "programme-purpose",
+    "triggerTiming": "AFTER",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "da397d11-a3fb-4313-8d80-faa59e115bc8",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-PROGRAMME-PURPOSE-TODAY-DETAIL-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "programme-purpose",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "08e05560-3b32-4d22-abd3-5057f4144d86",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-PROGRAMME-PURPOSE-TODAY-DETAIL-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "programme-purpose",
+    "triggerTiming": "AFTER",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "bfe4eb4b-f234-47de-8825-656924d57862",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-PROGRAMME-PURPOSE-TODAY-LIST-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "programme-purpose",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 409,
+    "actualBody": {
+      "error": "Your assigned care scope changed. Refresh Today before continuing."
+    },
+    "responseBodySha256": "409633cd00cd39a8005892f1886ae1329160152745cc5213f455d7b89066dc4f",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "93621661-8145-4b53-a368-2fd7feb9e5eb",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 13; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-PROGRAMME-PURPOSE-TODAY-LIST-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "programme-purpose",
+    "triggerTiming": "AFTER",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 409,
+    "actualBody": {
+      "error": "Your assigned care scope changed. Refresh Today before continuing."
+    },
+    "responseBodySha256": "409633cd00cd39a8005892f1886ae1329160152745cc5213f455d7b89066dc4f",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "57b5d980-12e4-4636-92c7-3d5e2314dee6",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 13; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-FACILITY-ROUTINE-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "facility",
+    "triggerTiming": "BEFORE",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "c202805e-7e99-4f59-bedd-b3323a7ffdc6",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-FACILITY-ROUTINE-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "facility",
+    "triggerTiming": "AFTER",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "0e476050-f978-49f1-a62b-e62675f6363f",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-FACILITY-TODAY-DETAIL-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "facility",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "104aa06b-2546-458a-b818-05a94abeed90",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-FACILITY-TODAY-DETAIL-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "facility",
+    "triggerTiming": "AFTER",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 404,
+    "actualBody": {
+      "error": "This record is not in your assigned care scope."
+    },
+    "responseBodySha256": "a2036e8b55f68ed780d4099273b9d08ce1cb1232617dd8ef41588468bad40d6d",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "f84f6f60-d39d-4306-8dbb-3f3e2eb82be7",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-FACILITY-TODAY-LIST-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "facility",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 409,
+    "actualBody": {
+      "error": "Your assigned care scope changed. Refresh Today before continuing."
+    },
+    "responseBodySha256": "409633cd00cd39a8005892f1886ae1329160152745cc5213f455d7b89066dc4f",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "3a0e6335-95c6-47ad-b545-a0ad8ca582f3",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 13; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-FACILITY-TODAY-LIST-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "facility",
+    "triggerTiming": "AFTER",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 409,
+    "actualBody": {
+      "error": "Your assigned care scope changed. Refresh Today before continuing."
+    },
+    "responseBodySha256": "409633cd00cd39a8005892f1886ae1329160152745cc5213f455d7b89066dc4f",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "600756a0-3a89-4bdb-85d0-930d231651dd",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 13; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ROLE-OWNER-ROUTINE-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "role-owner",
+    "triggerTiming": "BEFORE",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 13,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "clinician",
+      "status": "active",
+      "version": 14,
+      "is_owner": 1
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "ad070653-825c-494d-98ff-2c48b6dd9b30",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 13; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ROLE-OWNER-ROUTINE-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "role-owner",
+    "triggerTiming": "AFTER",
+    "route": "/api/routine-visit?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 15,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "clinician",
+      "status": "active",
+      "version": 16,
+      "is_owner": 1
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "ae1e5ee8-2911-46b3-8855-93ddb339e584",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Bounded routine visit context. Authority: role asha, membership version 15; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ROLE-OWNER-TODAY-DETAIL-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "role-owner",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 17,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "clinician",
+      "status": "active",
+      "version": 18,
+      "is_owner": 1
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "4812b025-0448-4a55-b1d4-5b749b052600",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 17; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ROLE-OWNER-TODAY-DETAIL-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "role-owner",
+    "triggerTiming": "AFTER",
+    "route": "/api/today?personId=p_meena",
+    "action": "viewPatientRecord",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 19,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "clinician",
+      "status": "active",
+      "version": 20,
+      "is_owner": 1
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "f4529034-8692-4eb7-999c-ea3d565a95d1",
+        "role": "asha",
+        "action": "viewPatientRecord",
+        "detail": "Read-only identity context opened from Today. Authority: role asha, membership version 19; delegated authority in force: none."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ROLE-OWNER-TODAY-LIST-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "role-owner",
+    "triggerTiming": "BEFORE",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 21,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "clinician",
+      "status": "active",
+      "version": 22,
+      "is_owner": 1
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "b280670d-6e66-4c26-9f22-8f20347c8d77",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 21; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-ROLE-OWNER-TODAY-LIST-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "role-owner",
+    "triggerTiming": "AFTER",
+    "route": "/api/today",
+    "action": "listPatients",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 23,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "clinician",
+      "status": "active",
+      "version": 24,
+      "is_owner": 1
+    },
+    "beforePerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "afterPerson": {
+      "assignedTo": "t-c3dcd25d-asha",
+      "version": 14
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "responseBodySha256": "2117bad6a0db75f1766cb0b43d2e8be5bdd96e3b83bd6e053a65dea272d47fae",
+    "currentAuthorityChanged": true,
+    "newlyInsertedTargetAudits": [
+      {
+        "id": "bab269d8-4bf8-42b8-9019-695ddb6c8cac",
+        "role": "asha",
+        "action": "listPatients",
+        "detail": "Patient list: browse; first page; 1 row returned of 1 matching. Authority: role asha, membership version 23; delegated authority: not consulted for this view (scoped by the viewer's own membership and teams)."
+      }
+    ],
+    "previousAuditRowsBytePreserved": true,
+    "hypothesis": "Before candidate may disclose a precomputed private projection after authority changed during the authorized audit."
+  },
+  {
+    "caseId": "CASE-AUTH-POST-PRE-COMMAND-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "BEFORE",
+    "route": "/api/routine-visit",
+    "action": "viewPatientRecord",
+    "stage": "pre-command",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 25,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 26,
+      "is_owner": 0
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "privatePersonDisclosed": false,
+    "currentAuthorityChanged": true,
+    "receiptPresent": false,
+    "visitVersionBefore": 1,
+    "visitVersionAfter": 1,
+    "originalKey": "663a1fd7-de00-4acf-8b64-058cde6e35cd",
+    "requestBodySha256": "8ff88ad10f0e47cf03fe1feae31d92975ab607e857b1389c3a1df6d7a504ab88",
+    "previousAuditRowsBytePreserved": true
+  },
+  {
+    "caseId": "CASE-AUTH-POST-PRE-COMMAND-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "AFTER",
+    "route": "/api/routine-visit",
+    "action": "viewPatientRecord",
+    "stage": "pre-command",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 27,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 28,
+      "is_owner": 0
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "privatePersonDisclosed": false,
+    "currentAuthorityChanged": true,
+    "receiptPresent": false,
+    "visitVersionBefore": 2,
+    "visitVersionAfter": 2,
+    "originalKey": "b9c2659b-7aa0-4946-a70c-476006167da6",
+    "requestBodySha256": "fe8c95548633cbed2f577b9bdb19623d9fe07053d27029df3f7ac443407dd3cc",
+    "previousAuditRowsBytePreserved": true
+  },
+  {
+    "caseId": "CASE-AUTH-POST-POST-SAVE-CONTEXT-BEFORE",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "BEFORE",
+    "route": "/api/routine-visit",
+    "action": "viewPatientRecord",
+    "stage": "post-save-context",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 29,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 30,
+      "is_owner": 0
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "privatePersonDisclosed": false,
+    "currentAuthorityChanged": true,
+    "receiptPresent": true,
+    "visitVersionBefore": 3,
+    "visitVersionAfter": 4,
+    "originalKey": "c4b2e307-57d9-4774-b440-b3d7780951e5",
+    "requestBodySha256": "677f065968487901116833360a8ac3212701d2fd8569873bc0af8254af34abc7",
+    "previousAuditRowsBytePreserved": true
+  },
+  {
+    "caseId": "CASE-AUTH-POST-POST-SAVE-CONTEXT-AFTER",
+    "mode": "strict-current-authority",
+    "mutation": "membership",
+    "triggerTiming": "AFTER",
+    "route": "/api/routine-visit",
+    "action": "viewPatientRecord",
+    "stage": "post-save-context",
+    "beforeMember": {
+      "role": "asha",
+      "status": "active",
+      "version": 31,
+      "is_owner": 0
+    },
+    "afterMember": {
+      "role": "asha",
+      "status": "suspended",
+      "version": 32,
+      "is_owner": 0
+    },
+    "actualStatus": 403,
+    "actualBody": {
+      "error": "Current organisation membership changed or is unavailable. This response was withheld. If a write was attempted, keep its original reference and check its outcome after access is restored."
+    },
+    "privatePersonDisclosed": false,
+    "currentAuthorityChanged": true,
+    "receiptPresent": true,
+    "visitVersionBefore": 4,
+    "visitVersionAfter": 5,
+    "originalKey": "2e9e5033-a404-42be-bcaf-a8a962e7d0e7",
+    "requestBodySha256": "e4aaae1a1211ff2168e6a9dc1f5a02604c6d6ee0b3f2d43f99d735e9aebc2cef",
+    "previousAuditRowsBytePreserved": true
+  }
+]
