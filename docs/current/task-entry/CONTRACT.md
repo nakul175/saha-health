@@ -1,0 +1,19 @@
+# Deterministic task entry: bounded development contract
+
+Frozen before implementation at 2026-10-12 10:23:35 UTC. Base main22a271033eaa57e124a235fc615744928f1ac106.
+
+Canonical story SAHA-040/APL-63; technical task ENG-BR-AG-01/APL-223; original BR-AG-01/FR-AG-01 and CWO-007-AC01/AC04/NEG03. Related APL-10 and original formal cases TC-BR-AG-01-A/B remain fullscope pending. Native original descriptions saved unchanged in NATIVE-SNAPSHOT.json. Shared SAHA-READY-1.0/SAHA-DONE-1.0 remain applicable; native Backlog is not promoted from a local witness. Explicit human next50 development-only handoff supersedes previous no-next-feature restriction, not release/approval gates. Current routine story9/10/hosting held unchanged.
+
+Reuse inspected: existing /today fetches only server-scoped audited /api/today; explicit record selection fetches same-person record using pinned organisation; Review routine visit supplies the verified record/org to /routine-visit, whose open creates no visit. Existing programme/provider planner and module navigation remain separate. No task-entry route or deterministic shortcut parser exists.
+
+New boundary: unprotected static /task-entry exposes two explicit navigation goals (assigned records; review a routine visit) and optional exact catalogue phrases. Parser accepts only fixed aliases (trimmed/case-insensitive/bounded ASCII input), never substring matching, URLs, record identifiers, instructions or generated actions. Result is a typed navigation proposal with literal /today destination. No patient/org/role is inferred. Opening needs an explicit link action; next step is the unchanged scoped Today selection and existing record/routine controls. No model, provider, patient chatbot, hidden monolith, API call, write, storage, prompt log or automatic navigation in this launcher.
+
+Positive: visual shortcut and exact recognised phrase produce same literal /today proposal; signed-in synthetic ASHA reaches only assigned records, opens same permitted record and follows existing routine read/review flow without starting a visit. Missing information is explicit: sign in, choose assigned person, verify identity; subsequent draft/save requires deliberate action in existing flow.
+
+Refusal: unsupported free text, prescriptions/payments, household patient chat, appended/embedded instructions, URL/javascript, foreign IDs/role overrides, oversized/nontext input yield clear limitation and no proposal/action. Absent/changed/ineligible membership is refused by unchanged Today server boundary, not presumed by launcher. No protected person context appears initially.
+
+Correction/cancel: editing or cancelling removes a previous proposal immediately; no persistent action/receipt/provider call. Refresh loses local proposal and entered phrase. Closed local parser does not interpret ambiguous requests or reuse stale destination context.
+
+Verification: adversarial unit cases on actual parser; fresh canonical build/typecheck; actual owned synthetic backend/Chromium mobile390x844 journey counts launcher API/mutation/external requests, compares complete60 native tables before/after local proposal/cancel/refusal, examines authorised Today/routine path and unsupported-role refusal. Preserve actual failures/skips/minima. No response substitution or hosting/dashboard access. Shared root metadata/minima generated reconciliation and independent review belong to controller before publication.
+
+NFR/safety: two intents, bounded160character input; no new dependency/network/backend/storage, no clinical advice or policy. Existing original p95/accessibility/physical/language/model/domain/live acceptance remains open unless separately measured. English labels and mobile44px controls; no qualified Hindi claim. Source/test/owned docs only; no shared registers/push/merge.

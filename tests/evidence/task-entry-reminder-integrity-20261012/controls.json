@@ -1,0 +1,51 @@
+{
+  "observedAt": "2026-10-12T11:49:22.555105+00:00",
+  "tests": [
+    {
+      "case": "historical-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical reminder fixture preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-task-entry-20261012/docs/verification/evidence-source-snapshots/reminder-fixture-0931d35e1628.mjs"
+    },
+    {
+      "case": "original-manifest-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical reminder fixture manifest"
+    },
+    {
+      "case": "current-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed baseline file: tests/reminder-optout-current-http.mjs\nCurrent reminder fixture is not independently pinned by the current baseline"
+    },
+    {
+      "case": "current-evidence-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-task-entry-20261012/tests/evidence/task-entry-reminder-repair-20261012/CLOSE-CONTROL-004-SUMMARY.json"
+    },
+    {
+      "case": "wrong-current-pin",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Current reminder fixture is not independently pinned by the current baseline"
+    },
+    {
+      "case": "wrong-source-path",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical reminder fixture source pin"
+    },
+    {
+      "case": "outside-archive",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical reminder fixture preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-task-entry-20261012/tests/reminder-optout-current-http.mjs"
+    }
+  ],
+  "untamperedPass": true,
+  "originalManifestSha256": "9c700f935ec08bc8d55766f8e72a6f4190ed54c03abaf190f336abb03149f017",
+  "currentSourceSha256": "5af77a319df1a501f2da22f851e11570ea4b249a420afb2f6cad0954e1601fcb",
+  "limits": "Real checker-negative controls only; no story acceptance. All files restored in finally; reports/oracles/minima unchanged."
+}

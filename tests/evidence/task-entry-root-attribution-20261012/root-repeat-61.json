@@ -1,0 +1,140 @@
+{
+  "generatedAt": "2026-10-12T10:40:51.832Z",
+  "startedAt": "2026-10-12T10:40:48.821Z",
+  "command": "node scripts/test.mjs --update-baseline --fast --only unit/task-entry-contract,smoke/task-entry-browser --reason Actual selected task-entry36 parser and25 owned-browser checks; all original389 minima preserved",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 1,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 139,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "passed",
+      "suites": 1,
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2653,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 2,
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 3011
+  },
+  "suites": [
+    {
+      "id": "unit/task-entry-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/task-entry-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 139,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/reports/task-entry-contract-result.json"
+      ],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__task-entry-contract.log"
+    },
+    {
+      "id": "smoke/task-entry-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/task-entry-browser.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2653,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/smoke__task-entry-browser.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 67,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 17
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 636,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

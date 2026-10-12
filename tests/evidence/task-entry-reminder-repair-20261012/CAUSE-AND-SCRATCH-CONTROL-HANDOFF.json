@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "author": "/root/next50_identity",
+  "diagnosedAt": "2026-10-12T11:45:43.296617+00:00",
+  "sourceSHA": "355a64fbfdf4ba8c563cc75ba7903287f0b07d00",
+  "scratch": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-pr212-reminder-diagnosis-20261012",
+  "publishedSourceChanged": false,
+  "verdict": "CAUSE_IDENTIFIED_AT_TEST_RUNTIME_CONNECTION_LIFECYCLE; ONE_LINE_SCRATCH_CONTROL_QUALIFIED; ROOT_AND_SEPARATE_FINAL_REVIEW_REQUIRED",
+  "observedCause": {
+    "nativeCI": "Original current reminder fixture failed15passed/1failed in job114779916913/run38239988664; UND_ERR_SOCKET other side closed on second staff-refusal POST after Miniflare dispose/start on same port. Original55 guard correctly refused.",
+    "exactLocalReproduction": "Same355 source with fresh canonical build reproduced15passed/1failed, same undici7.24.8 closed socket failure on local21791 using Node24; CI used Node22. No assertion mismatch/application500 is present.",
+    "boundedInference": "The socket error is tied to keepalive reuse across the disposable same-port runtime lifecycle. Existing explicit Connection:close fixture option removes that reuse. This is supported by exact before-failure and two no-reuse controls, not a universal network reliability proof.",
+    "noAutomaticRetry": "Every original command/body/key/expected response remains unchanged. Connection:close suppresses persistent socket reuse; requests are not resent."
+  },
+  "proposedChange": {
+    "file": "tests/reminder-optout-current-http.mjs",
+    "diff": "PROPOSED-ONE-LINE-FIX.diff",
+    "diffSHA256": "928cbf580fd2da784af9567f7219756fad7b77a8549a1dff75fed78436ff51bf",
+    "originalFileSHA256": "0931d35e1628e915b18276ae42b039e5e71936f81fc57b9446976407d083fd2f",
+    "proposedFileSHA256": "5af77a319df1a501f2da22f851e11570ea4b249a420afb2f6cad0954e1601fcb",
+    "allOriginalOraclesBodiesTimeoutsAnd55Minimum": "Byte-identical apart from selecting existing client option",
+    "sharedHelperOrApplicationChanges": 0,
+    "newRequestRetries": 0
+  },
+  "actualRuns": {
+    "CI": {
+      "passed": 15,
+      "failed": 1,
+      "guard": "FAILED unchanged55"
+    },
+    "local001": "Retained0/1 EPERM loopback migration environment limitation, separately classified",
+    "local002ExactSource": {
+      "passed": 15,
+      "failed": 1,
+      "guard": "FAILED unchanged55"
+    },
+    "local003ConnectionCloseControl": {
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "browserPassed": 2,
+      "guard": "PASS evaluated1 no quarantine"
+    },
+    "local004CustodyQualification": {
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "browserPassed": 2,
+      "guard": {
+        "ok": true,
+        "findings": [],
+        "warnings": [],
+        "evaluated": 1,
+        "newSuites": []
+      },
+      "runnerExit": 0,
+      "startedAt": "2026-10-12T11:43:57.439241+00:00",
+      "finishedAt": "2026-10-12T11:44:00.565855+00:00"
+    }
+  },
+  "custody": {
+    "initialSourceFiles": 16991,
+    "onlyTrackedDifferenceFromPublishedSource": [
+      "tests/reminder-optout-current-http.mjs"
+    ],
+    "qualificationSourcePins": 16991,
+    "sourceBeforeAfterEqual": true,
+    "compiledPins": 286,
+    "compiledBeforeAfterEqual": true,
+    "fullBaselineBeforeAfterEqual": true,
+    "ownedPortFree": true,
+    "syntheticFailureAndControlStateRetained": true,
+    "freshCanonicalBuild": "One actual npm run build exit0 before exact-source local001/002 and control003/004; --fast reuses that build. Fixture-only change requires no changed application build.",
+    "fixtureReportDateDisposition": "Native fixture retains inherited static date2026-10-11. Actual12October run times derive from native runner summary and explicit current execution receipt; no fixture date rewritten."
+  },
+  "failurePreservation": {
+    "nativeArtifactMetadata": "../PR212-FAILED-ARTIFACT-VERIFICATION.json",
+    "nativeZIP": "../PR212-FAILED-REGRESSION-EVIDENCE.zip",
+    "rawCI": "../pr212-failed-regression-evidence/tests/reports/logs/integration__reminder-optout-http.log",
+    "localEPERM": "LOCAL-001-EPERM",
+    "localExactSocket": "LOCAL-002-EXACT-REPRO",
+    "firstControl": "LOCAL-003-CLOSE-CONTROL",
+    "qualifiedControl": "LOCAL-004-CUSTODY-QUALIFIED"
+  },
+  "limits": [
+    "This agent authored the diagnostic scratch patch; this receipt is author/cause evidence, not independent approval of its own change. Root must separately review the exact one-line diff, then genuine final source/test/metadata review and exact-head CI remain required.",
+    "Published PR212 source is unchanged; no push, rerun CI, main merge or staging access performed. Complete CI remains failed until an appropriately reviewed successor passes.",
+    "Original55 is one suite, not user-story acceptance or complete391-native-suite qualification. No source criteria/minimum/oracle/quarantine/lint/security/domain waiver.",
+    "All testing is owned local synthetic backend only; no real recipient/provider/hosting/dashboard access."
+  ],
+  "evidencePins": {
+    "FRESH-BUILD.log": "b05329d3bc2c854cfa2eef2614f23b1b8b5ad82215644df143259fb2a8e9329d",
+    "EXACT-355-LOCAL-001-SUMMARY.json": "df92a1454e21b74c008e15898ad95d414dc7a1a38197ed89f9abe297d30d64a4",
+    "EXACT-355-LOCAL-002-SUMMARY.json": "75ace2381b8ecc9b0f37c7178dfbf0eb340cc59215d75e1e8d023992bfc9aa40",
+    "CLOSE-CONTROL-003-SUMMARY.json": "8914f955769b6abc59584d6a2187e6d1864ab06cdde0e441d3916bfc260cbb39",
+    "CLOSE-CONTROL-004-SUMMARY.json": "950dabdd44f9efc5afe861db96884648413e8b48969a99bf85160c8692df7388",
+    "CONTROL-004-BEFORE.json": "1ab105adc812f4cf67f05ace5caf56aafd17d5e0122b716db9091646f0178f9c",
+    "CONTROL-004-AFTER.json": "d3798c72a3f4a08669d961c31b889ba9095d4b844311e860dd974eec5d87aac3",
+    "CONTROL-004-EXECUTION-RECEIPT.json": "5922b354b73db3275a1f0e68b4b7e1b235a04c6c2e45b232e90c06f3f78ea29b",
+    "CONNECTION-LIFECYCLE-CONTROL-FREEZE.json": "4c6500a9f0f10436eef1e479ceff992eefaa73a273fcb048f04fa9f5f2cbf16c",
+    "PROPOSED-ONE-LINE-FIX.diff": "928cbf580fd2da784af9567f7219756fad7b77a8549a1dff75fed78436ff51bf"
+  }
+}
