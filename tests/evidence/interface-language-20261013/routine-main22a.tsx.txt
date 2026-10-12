@@ -1,0 +1,233 @@
+'use client';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { GuidedCapture, CaptureStage, captureProblems, factStep } from '../guided-capture';
+import { ProgrammeQuestions, type ProgrammeDraft } from '../programmes';
+import { MEASURES, FACT_SOURCES, SOURCE_LABEL, VALUE_FIELDS, VALUE_RANGES, measureOf,
+  factProvenance, authorText, alternativeUnit } from '@/lib/saha/fact-provenance';
+import type { Facts, FactSource, Measure, ValueField } from '@/lib/saha/types';
+import type { RoutineContext, RoutineStaleRefusal } from '@/lib/saha/routine-visit';
+import './routine-visit.css';
+
+type Attempt = { key: string; command: Record<string, unknown>; personId: string; organisationId: string; actorId: string;
+  input: { facts: Facts | null; programme: ProgrammeDraft | null } };
+export default function RoutineVisit() {
+  const [context, setContext] = useState<RoutineContext | null>(null);
+  const [facts, setFacts] = useState<Facts | null>(null);
+  const [notice, setNotice] = useState('Loading routine visit…');
+  const [busy, setBusy] = useState(false), [uncertain, setUncertain] = useState(false);
+  const [programmeDirty, setProgrammeDirty] = useState(false), [checked, setChecked] = useState(false);
+  const [latest, setLatest] = useState<RoutineContext | null>(null);
+  const [readChoice, setReadChoice] = useState({ token: 0, kind: 'load' as 'load' | 'merge' });
+  const [programmeRecovery, setProgrammeRecovery] = useState<(ProgrammeDraft & { token: number }) | undefined>();
+  const attempt = useRef<Attempt | null>(null), heading = useRef<HTMLHeadingElement>(null);
+  const boundActor = useRef<string | null>(null);
+  const programmeDraft = useRef<ProgrammeDraft | null>(null);
+  const mounted = useRef(true), inFlight = useRef(false);
+  const visit = context?.visit;
+  const factsDirty = !!facts && !!visit && JSON.stringify(facts) !== JSON.stringify(visit.facts);
+  const dirty = factsDirty || programmeDirty;
+  const onProgrammeDirty = useCallback((value: boolean) => setProgrammeDirty(value), []);
+  const onProgrammeDraft = useCallback((value: ProgrammeDraft) => { programmeDraft.current = structuredClone(value); }, []);
+  const endpoint = (personId: string, visitId?: string) => '/api/routine-visit?personId=' + encodeURIComponent(personId) +
+    (visitId ? '&visitId=' + encodeURIComponent(visitId) : '');
+  const receive = (value: RoutineContext, replaceFacts: boolean) => {
+    setContext(value); if (replaceFacts) setFacts(value.visit?.facts ?? null);
+    setChecked(false); setLatest(null);
+  };
+  const clearProtected = () => {
+    setContext(null); setFacts(null); setLatest(null); setProgrammeDirty(false); setChecked(false);
+    setProgrammeRecovery(undefined); programmeDraft.current = null;
+  };
+  useEffect(() => {
+    mounted.current = true;
+    const controller = new AbortController(), query = new URLSearchParams(window.location.search);
+    if (query.getAll('personId').length !== 1 || query.getAll('organisationId').length !== 1 ||
+        !query.get('organisationId') || [...query.keys()].some(k => !['personId', 'organisationId'].includes(k))) {
+      const frame = requestAnimationFrame(() => setNotice('Choose one existing assigned person from Today.'));
+      return () => { mounted.current = false; cancelAnimationFrame(frame); controller.abort(); };
+    }
+    const selectedPerson = query.get('personId')!, selectedOrganisation = query.get('organisationId')!;
+    void fetch(endpoint(selectedPerson), { cache: 'no-store', credentials: 'same-origin', signal: controller.signal,
+      headers: { 'x-saha-organisation': selectedOrganisation } })
+      .then(async response => {
+        if (!response.ok) throw Error([401,403,404].includes(response.status) ? 'Access refused. Check your active ASHA membership and assignment.' : 'Routine visit unavailable. Try again with a connection.');
+        const value: RoutineContext = await response.json();
+        if (controller.signal.aborted) return;
+        const actorId = response.headers.get('x-saha-operation-actor');
+        if (value.person.id !== selectedPerson || value.organisationId !== selectedOrganisation)
+          throw Error('Selected record could not be matched. Return to Today and choose the person again.');
+        if (!actorId) throw Error('Signed-in account could not be matched. Return to Today and try again.');
+        boundActor.current = actorId;
+        receive(value, true); setNotice(value.visit ? 'Current server draft loaded. Review before saving.' : 'No current draft. Opening this screen creates nothing.');
+        heading.current?.focus();
+      }).catch(cause => { if (!controller.signal.aborted) setNotice(cause.message); });
+    return () => { mounted.current = false; controller.abort(); };
+  }, []);
+  useEffect(() => {
+    const guard = (event: BeforeUnloadEvent) => { if (dirty || uncertain) { event.preventDefault(); event.returnValue = ''; } };
+    window.addEventListener('beforeunload', guard); return () => window.removeEventListener('beforeunload', guard);
+  }, [dirty, uncertain]);
+
+  const send = async (c: Record<string, unknown>, message = 'Server draft saved and read back.', retry = false) => {
+    if (inFlight.current || (!retry && (!context || !boundActor.current || uncertain || attempt.current))) return null;
+    if (!retry && c.type === 'saveProgrammeAnswers' && factsDirty) { setNotice('Save corrected observations before programme evidence. Your answers remain on screen.'); return null; }
+    if (!navigator.onLine) { setNotice('Offline: your entries remain on this screen, unsaved. Reconnect before saving.'); return null; }
+    const current = retry ? attempt.current : context && boundActor.current ? {
+      key: crypto.randomUUID(), command: structuredClone(c), personId: context.person.id,
+      organisationId: context.organisationId, actorId: boundActor.current,
+      input: { facts: facts ? structuredClone(facts) : null,
+        programme: programmeDraft.current ? structuredClone(programmeDraft.current) : null } } : null;
+    if (!current) return null;
+    attempt.current = current; inFlight.current = true; setBusy(true);
+    try {
+      if (retry) {
+        // A scope refusal may follow a committed save. Re-authorise the original
+        // selection/account without changing its key, body or expected version.
+        const selectedVisit = typeof current.command.visitId === 'string' ? current.command.visitId : undefined;
+        const authorised = await fetch(endpoint(current.personId, selectedVisit), {
+          cache: 'no-store', credentials: 'same-origin',
+          headers: { 'x-saha-organisation': current.organisationId } });
+        if (!mounted.current) return null;
+        if ([401,403,404].includes(authorised.status)) {
+          clearProtected(); setUncertain(true); setNotice('Access refused. Protected content cleared.'); return null;
+        }
+        if (!authorised.ok) throw Error('Original attempt remains unresolved.');
+        if (authorised.headers.get('x-saha-operation-actor') !== current.actorId) {
+          clearProtected(); setUncertain(true);
+          setNotice('Sign in with the original account to check this attempt. Protected content cleared.'); return null;
+        }
+        const value: RoutineContext = await authorised.json();
+        if (value.person.id !== current.personId || value.organisationId !== current.organisationId ||
+            (selectedVisit && value.visit?.id !== selectedVisit)) throw Error('Original selection could not be matched.');
+        // Retain still-authorised unsaved edits. After a refusal only freshly
+        // authorised projections may return to the screen; editing stays paused.
+        if (!context) {
+          receive(value, true);
+          if (selectedVisit && value.visit?.id === selectedVisit) {
+            if (current.input.facts) setFacts(structuredClone(current.input.facts));
+            if (current.input.programme?.visitId === selectedVisit)
+              setProgrammeRecovery({ ...structuredClone(current.input.programme), token: 1 });
+          }
+        }
+      }
+      const response = await fetch('/api/routine-visit', { method: 'POST', credentials: 'same-origin', cache: 'no-store',
+        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': current.key,
+          'x-saha-organisation': current.organisationId, 'x-saha-operation-actor': current.actorId },
+        body: JSON.stringify({ personId: current.personId, command: current.command }) });
+      if (!mounted.current) return null;
+      if (!response.ok) {
+        if ([401,403,404].includes(response.status)) {
+          clearProtected(); setUncertain(true); setNotice('Access refused. Protected content cleared.'); return null;
+        }
+        if (response.status >= 500) throw Error('Write outcome is uncertain. Keep this screen and check the exact attempt.');
+        const problem = await response.json() as { error?: string; operation?: Partial<RoutineStaleRefusal> };
+        const refusal = problem.operation;
+        const staleAttempt = response.status === 409 && refusal &&
+          response.headers.get('x-saha-operation-actor') === current.actorId &&
+          refusal.outcome === 'not-applied-stale-version' && refusal.key === current.key &&
+          refusal.organisationId === current.organisationId && refusal.personId === current.personId &&
+          refusal.visitId === current.command.visitId && refusal.expectedVersion === current.command.version &&
+          Number.isSafeInteger(refusal.currentVersion) && typeof refusal.currentVersion === 'number' &&
+          typeof refusal.expectedVersion === 'number' && refusal.currentVersion > refusal.expectedVersion;
+        setNotice((typeof problem.error === 'string' ? problem.error : 'Save refused.') + ' Your entries remain unsaved on this screen.');
+        if (!retry || staleAttempt) { attempt.current = null; setUncertain(false); }
+        if (staleAttempt) { setLatest(null); setChecked(false); }
+        return null;
+      }
+      if (response.headers.get('x-saha-operation-actor') !== current.actorId) {
+        clearProtected(); throw Error('Original account could not be matched.');
+      }
+      const value = await response.json() as { context: RoutineContext; result: unknown };
+      if (!value.context || value.context.person.id !== current.personId ||
+          value.context.organisationId !== current.organisationId ||
+          (current.command.type !== 'startVisit' && value.context.visit?.id !== current.command.visitId))
+        throw Error('Saved result could not be matched. Check the exact attempt.');
+      receive(value.context, ['startVisit','saveVisit'].includes(String(current.command.type)));
+      setProgrammeRecovery(undefined);
+      setReadChoice(previous => ({ token: previous.token + 1, kind: current.command.type === 'saveVisit' ? 'merge' : 'load' }));
+      attempt.current = null; setUncertain(false); setNotice(message);
+      return value;
+    } catch {
+      if (mounted.current) { setUncertain(true); setNotice('Write outcome uncertain. Entries kept; editing is paused. Check the exact attempt with its original key.'); }
+      return null;
+    } finally { inFlight.current = false; if (mounted.current) setBusy(false); }
+  };
+  const compare = async () => {
+    if (!context || busy) return;
+    setBusy(true);
+    try {
+      const response = await fetch(endpoint(context.person.id, visit?.id), { cache: 'no-store', credentials: 'same-origin', headers: { 'x-saha-organisation': context.organisationId } });
+      if ([401,403,404].includes(response.status)) {
+        clearProtected(); setUncertain(Boolean(attempt.current)); setNotice('Access refused. Protected content cleared.'); return;
+      }
+      if (!response.ok) throw Error();
+      if (response.headers.get('x-saha-operation-actor') !== boundActor.current) {
+        clearProtected(); setUncertain(Boolean(attempt.current));
+        setNotice('Sign in with the original account to check this attempt. Protected content cleared.'); return;
+      }
+      const value: RoutineContext = await response.json();
+      if (value.person.id !== context.person.id || value.organisationId !== context.organisationId ||
+          value.visit?.id !== visit?.id) throw Error();
+      setLatest(value); setNotice('Latest saved record loaded for comparison. Your entries have not been replaced.');
+    } catch { setNotice('Saved record unavailable. Your entries remain on screen.'); }
+    finally { setBusy(false); }
+  };
+  const edit = !!visit && visit.state === 'draft' && !visit.voidedAt && !visit.supersededBy && !busy && !uncertain;
+  const setValue = (field: ValueField, value: string) => setFacts(previous => {
+    if (!previous) return previous;
+    const next = structuredClone(previous); next[field] = value;
+    // An explicit edit in the labelled canonical unit replaces this field's old alternative entry.
+    if (next.entered) delete next.entered[field];
+    return next;
+  });
+  const setProvenance = (measure: Measure, source: FactSource, at?: string) => setFacts(previous => !previous ? previous :
+    { ...previous, provenance: { ...previous.provenance, [measure]: { source, ...(at ? { at } : {}) } } });
+  const problems = facts && visit ? captureProblems(facts, visit) : [];
+  return <main className="routine-visit" aria-busy={busy}>
+    <p>Saha · Synthetic / training</p><h1 ref={heading} tabIndex={-1}>Routine visit</h1>
+    <p role="status">{notice}</p>
+    {context && <>
+      <section aria-label="Selected person"><h2>{context.person.name}</h2><p>{context.person.village} · {context.person.id}</p>
+        <p>{context.person.age} years · {context.person.sex} · Person version {context.person.version}</p>
+        {visit && <p>Visit {visit.id} · version {visit.version} · {visit.state === 'confirmed' ? 'Confirmed encounter on server' : 'Server draft; not confirmed'}. Destination: not submitted by this screen.</p>}
+      </section>
+      {!visit ? <button disabled={busy || uncertain} onClick={() => void send({ type: 'startVisit', personId: context.person.id }, 'Server draft started or resumed and read back.')}>Start or resume routine draft</button> : facts &&
+      <GuidedCapture enabled={true} identity={context.person.name + ' · ' + context.person.id} problems={problems}
+        steps={[{id:'time',label:'Observation time'},...MEASURES.map(measure => ({id:factStep(measure),label:measure})),{id:'notes',label:'Visit notes'},{id:'review',label:'Review and save'}]}>
+        <CaptureStage id="time"><label>Visit observation time (UTC)<input type="datetime-local" disabled={!edit} value={facts.date} onChange={event => setFacts({...facts,date:event.target.value})}/></label></CaptureStage>
+        {MEASURES.map(measure => <CaptureStage key={measure} id={factStep(measure)}>
+          {VALUE_FIELDS.filter(field => measureOf(field) === measure).map(field => <label key={field}>{VALUE_RANGES.fields[field].label} ({VALUE_RANGES.fields[field].unit})
+            <input aria-label={VALUE_RANGES.fields[field].label + ' (' + VALUE_RANGES.fields[field].unit + ')'} inputMode="decimal" maxLength={12} disabled={!edit} value={facts[field]} onChange={event => setValue(field,event.target.value)}/>
+            {facts.entered?.[field] && <small>Converted from {facts.entered[field]!.value} {alternativeUnit(field).label}; original entry retained until you explicitly edit this field.</small>}
+            {!facts[field] && <small>Missing; never assumed normal.</small>}
+          </label>)}
+          <label>Source or missing reason: {measure}<select disabled={!edit} value={factProvenance(facts,measure).source} onChange={event => setProvenance(measure,event.target.value as FactSource,facts.provenance?.[measure]?.at)}>
+            {FACT_SOURCES.map(source => <option key={source} value={source}>{SOURCE_LABEL[source]}</option>)}
+          </select></label>
+          <label>Observation time (UTC): {measure}<input type="datetime-local" disabled={!edit} value={facts.provenance?.[measure]?.at ?? facts.date} onChange={event => setProvenance(measure,factProvenance(facts,measure).source,event.target.value)}/></label>
+          <p>Saved author: {authorText(visit.factAuthors?.[measure])}. Current entry is {JSON.stringify(facts) === JSON.stringify(visit.facts) ? 'saved same-visit evidence' : 'under review; corrections are unsaved'}.</p>
+        </CaptureStage>)}
+        <CaptureStage id="notes"><label>Visit notes<textarea maxLength={3000} disabled={!edit} value={facts.notes} onChange={event => setFacts({...facts,notes:event.target.value})}/></label></CaptureStage>
+        <ProgrammeQuestions visit={visit} busy={!edit} command={send} onDirty={onProgrammeDirty} savedReadChoice={readChoice}
+          onDraftChange={onProgrammeDraft} unsavedRecovery={programmeRecovery}/>
+        <CaptureStage id="review"><h2>Review current observations</h2><dl>{VALUE_FIELDS.map(field => <div key={field}><dt>{VALUE_RANGES.fields[field].label}</dt><dd>{facts[field] || 'Missing'} {facts[field] && VALUE_RANGES.fields[field].unit} · {facts[field] || facts.provenance?.[measureOf(field)!] ? factProvenance(facts,measureOf(field)!).source : 'Not recorded'} · {facts[field] ? factProvenance(facts,measureOf(field)!).at + ' UTC' : 'No recorded value'}</dd></div>)}</dl>
+          <p>{facts.notes || 'No visit notes.'}</p><p>Pack versions: {visit.programmeCapture?.packs.map(p => p.pack.name+' v'+p.pack.version).join(' · ') || 'No captured programme pack'}</p>
+          <button disabled={!edit || problems.length > 0} onClick={() => void send({type:'saveVisit',visitId:visit.id,version:visit.version,facts})}>Save observations as server draft</button>
+          {visit.state === 'draft' && <><label><input type="checkbox" disabled={!edit || dirty} checked={checked} onChange={event => setChecked(event.target.checked)}/>I checked {context.person.name} · {context.person.id} for this visit.</label>
+            <button disabled={!edit || dirty || !checked} onClick={() => void send({type:'confirmVisit',visitId:visit.id,version:visit.version,patientCheck:{personId:context.person.id,personVersion:context.person.version,confirmed:true}},'Confirmed encounter saved and read back. Destination remains not submitted.')}>Confirm checked visit</button></>}
+        </CaptureStage>
+      </GuidedCapture>}
+      {visit && <button disabled={busy} onClick={() => void compare()}>Compare latest saved record</button>}
+      {latest && <section aria-label="Saved record comparison"><h2>Saved version {latest.visit?.version}</h2><p>Your version {visit?.version}; unsaved entries remain in the editor.</p><pre>{JSON.stringify(latest.visit?.facts,null,2)}</pre>
+        <button disabled={busy || uncertain} onClick={() => { if (inFlight.current || attempt.current) return;
+          receive(latest,true); setReadChoice(previous => ({token:previous.token+1,kind:'load'}));
+          setProgrammeRecovery(undefined);
+          setNotice('Explicitly replaced entries with the saved record.'); }}>Replace unsaved entries with saved record</button></section>}
+    </>}
+    {uncertain && <section aria-label="Unresolved write attempt">
+      <p>The original attempt remains unresolved. Use the original account and restored access to check it before starting another write. This recovery is kept only while this screen stays open.</p>
+      <button disabled={busy} onClick={() => attempt.current && void send(attempt.current.command,'Exact operation reconciled and read back.',true)}>Check exact write attempt</button>
+    </section>}
+    <a href="/today">Back to Today</a><p>Entries on this screen are not a durable local save. This connected flow needs the server; prepared encrypted offline work is a separate journey.</p>
+  </main>;
+}

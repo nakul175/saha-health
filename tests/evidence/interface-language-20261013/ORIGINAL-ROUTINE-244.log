@@ -1,0 +1,349 @@
+{"event":"saha_request","requestId":"6e7c0b24-e60c-459b-82a4-88c848b48e4e","route":"workspace","status":200,"durationMs":19}
+{"event":"saha_request","requestId":"d9784640-f048-4ff1-bd77-3958db40e34f","route":"workspace","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"f4bfe1de-4715-4a3d-aae1-792e13990625","route":"workspace","status":200,"durationMs":8}
+{"event":"saha_request","requestId":"c1229860-9c12-4529-8bd8-94033a806f69","route":"commands","status":200,"durationMs":17}
+{"event":"saha_request","requestId":"24db050c-099d-450b-9528-3359a2e41ac9","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"a83cd716-7c59-46a2-94c1-94195d7ccf55","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"dae769d1-fc9e-4855-b140-65223fc6eac1","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"ff08babf-189b-41a9-9101-6038a42cbff6","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"f71cd80c-1c1a-4524-b3ba-639b12775233","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"3747554a-7dc3-41a1-9229-24ae56315350","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"231dcc34-8c7a-42dd-bc05-53d5399c5a46","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"0668c1c5-6b83-479a-83a3-74f56f676097","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"35eb91b1-5af4-49eb-bd91-cceebb8ffb8e","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"e548dcc8-d8aa-499b-bd89-b64cc836d172","route":"workspace","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"9bd3519f-5790-4820-b4e1-f37a7b1a5505","route":"commands","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"737e222d-71a7-4e09-ac66-fafb687f6429","route":"patients","status":200,"durationMs":4}
+PASS A1 open creates no draft
+PASS A5 one-person projection only
+{"event":"saha_request","requestId":"5c39c9ae-0f95-4722-ab6a-6d631477a90a","route":"patients","status":401,"durationMs":0}
+PASS A5 refusal anonymous personId=p_meena tenant org_3e657f6e01049ed6f28083e790047539
+{"event":"saha_request","requestId":"71f0174f-3dd7-4b4e-a5a3-db8733ffa216","route":"patients","status":403,"durationMs":2}
+PASS A5 refusal owner personId=p_meena tenant org_3e657f6e01049ed6f28083e790047539
+{"event":"saha_request","requestId":"7438db5f-21c3-4add-97ff-1432ae7746af","route":"patients","status":403,"durationMs":2}
+PASS A5 refusal other personId=p_meena tenant org_3e657f6e01049ed6f28083e790047539
+{"event":"saha_request","requestId":"ef63ceeb-2350-4e12-99d0-84365707ffed","route":"patients","status":404,"durationMs":1}
+PASS A5 refusal asha personId=p_sunita tenant org_3e657f6e01049ed6f28083e790047539
+{"event":"saha_request","requestId":"24999fb2-efa9-42f9-a391-97d063cc1344","route":"patients","status":403,"durationMs":1}
+PASS A5 refusal asha personId=p_meena tenant org_77b6357b740193c2c69d2cb90be52766
+{"event":"saha_request","requestId":"c1962d11-24da-4ced-8ebe-6019592ce1c1","route":"patients","status":400,"durationMs":0}
+PASS A5 refusal asha personId=p_meena&personId=p_farida tenant org_3e657f6e01049ed6f28083e790047539
+{"event":"saha_request","requestId":"0a4c2d89-2274-4e7a-adee-e27f1abd4abf","route":"commands","status":200,"durationMs":13}
+{"event":"saha_request","requestId":"5b1de897-2388-4f5b-896d-a538f22e975c","route":"commands","status":200,"durationMs":10}
+PASS A4 start replay does not duplicate
+{"event":"saha_request","requestId":"365b5704-e7d5-4100-94d9-3cdd81e157cc","route":"commands","status":200,"durationMs":9}
+PASS A4 explicit start resolves existing draft
+PASS A1 exact compatible three-programme fixture pinned
+{"event":"saha_request","requestId":"fb1d8766-9446-412c-b25d-956b214995e1","route":"commands","status":422,"durationMs":3}
+PASS A3 ambiguous value refused without mutation
+{"event":"saha_request","requestId":"dabdad95-219e-42a0-bd01-b74ce600b0d4","route":"commands","status":409,"durationMs":2}
+PASS A3 wrong start person refused
+{"event":"saha_request","requestId":"12c976fa-6019-4d39-b545-c9121c58aa4a","route":"commands","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"69cbde47-6e73-4dfd-a8da-b8490e37cd25","route":"commands","status":404,"durationMs":1}
+PASS A3 wrong-person visit save refused
+{"event":"saha_request","requestId":"d56f60ab-2292-425f-9f63-23e7f92c8517","route":"commands","status":422,"durationMs":0}
+PASS A5 arbitrary command refused
+{"event":"saha_request","requestId":"2a187007-3152-485d-b584-7f2ac8c714b4","route":"commands","status":200,"durationMs":10}
+PASS A2 canonical and entered unit preserved
+PASS A2 trusted author and observation time
+{"event":"saha_request","requestId":"50f018f6-5aab-40c4-ae73-50d07e0c6179","route":"commands","status":200,"durationMs":9}
+PASS A4 saved operation replay retains exact revision
+{"event":"saha_request","requestId":"58780e02-ec98-419d-8c83-7f69f1ed9757","route":"commands","status":409,"durationMs":5}
+PASS A4 same key changed content refused
+{"event":"saha_request","requestId":"bcf28835-9e64-49e6-bff1-0c30111686c7","route":"commands","status":409,"durationMs":10}
+PASS A3 stale version changes nothing
+{"event":"saha_request","requestId":"57d1e6ac-85ca-4450-9d5d-ebfefea8b167","route":"commands","status":409,"durationMs":6}
+PASS A3 wrong checked person changes nothing
+{"event":"saha_request","requestId":"9863e519-4148-477f-b41e-17ac5e5e2924","route":"commands","status":200,"durationMs":7}
+{"event":"saha_request","requestId":"eec90058-6a1b-4d94-a279-b823c784f16e","route":"commands","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"eb41b668-988d-480b-b50e-3699d1ec9d6e","route":"workspace","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"e1d39681-e838-4a30-8abc-fea061804f5b","route":"commands","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"7abbd0a8-05ae-47a9-b2da-7ce886d3c917","route":"commands","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"9ccdb823-63f1-42d7-8adf-f21c93e61df7","route":"patients","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"448515a7-c0ec-4a48-8b78-aa287c487647","route":"patients","status":200,"durationMs":4}
+PASS A5 Today routine link retains the selected organisation
+{"event":"saha_request","requestId":"e9384fbd-aebe-403b-982c-ca0eb8f3a3e4","route":"commands","status":200,"durationMs":6}
+{"event":"saha_request","requestId":"60275333-6cdf-4177-b70d-98d72e63f1ab","route":"patients","status":200,"durationMs":5}
+PASS A5 selected organisation retained after active organisation changes with same person ID
+PASS A2 real Today to exact existing person
+{"event":"saha_request","requestId":"55c63623-4c4b-41e4-b93e-c21577aeb3ac","route":"patients","status":200,"durationMs":4}
+PASS A1 shared weight captured once across three packs
+{"event":"saha_request","requestId":"a7f72b92-4a5d-4cb9-bd88-75f38d30b37f","route":"patients","status":200,"durationMs":2}
+{"event":"saha_request","requestId":"348e546d-c27f-49a6-9754-8e2f0e3fbf72","route":"patients","status":200,"durationMs":5}
+PASS A4 original POST aborted before commit leaves authoritative version unchanged
+{"event":"saha_request","requestId":"f36cf7fe-2ee0-4c9f-a1ab-1c2650005751","route":"patients","status":200,"durationMs":3}
+PASS A4 read comparison/replacement cannot discard unresolved attempt or enable a fresh write
+PASS A6 unresolved original attempt keeps the editor frozen
+{"event":"saha_request","requestId":"ac416a53-a61b-4131-bd0e-af9352043410","route":"patients","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"a475f3d5-d7c6-435c-b036-73f6c77cd31e","route":"commands","status":200,"durationMs":16}
+PASS A4 uncommitted uncertain attempt reconciles exact original key and payload
+{"event":"saha_request","requestId":"4f3bf80a-c1a0-469f-b688-cbc8d3867db4","route":"patients","status":200,"durationMs":3}
+PASS A4 before-commit reconciliation writes once to the exact selected organisation/person
+{"event":"saha_request","requestId":"2927e5f9-f13a-4027-b6ef-cad6dad68191","route":"patients","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"0bd64c53-89b9-448b-a48f-bd056154d50a","route":"commands","status":200,"durationMs":15}
+PASS A6 failed transport retains correction
+{"event":"saha_request","requestId":"4ca3f3c9-c615-4ab7-bd06-436b94e99daa","route":"patients","status":200,"durationMs":3}
+PASS A6 uncertain save permits read-only comparison without replacing input
+{"event":"saha_request","requestId":"a4516de4-1016-4dc7-beec-b6a4ea26810e","route":"patients","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"42e5099d-edf8-4a6c-8d91-5b39b486aad6","route":"commands","status":200,"durationMs":11}
+PASS A4 lost committed acknowledgement uses original exact key
+{"event":"saha_request","requestId":"9571ad2e-3fad-42f1-bc8c-05cc23c931a4","route":"patients","status":200,"durationMs":3}
+PASS A2 UI correction actually read back as server draft with explicit canonical unit
+PASS A4 committed lost-ack replay increments version only once
+PASS A1 distinct maternal question retained
+PASS A6 unsaved programme answer survives observation save/readback
+PASS A1 distinct hypertension question retained
+PASS A8 no horizontal overflow 360
+PASS A8 primary touch target 360
+PASS A8 no horizontal overflow 390
+PASS A8 primary touch target 390
+PASS A8 200% text no horizontal overflow
+PASS A8 keyboard primary control focus
+PASS A8 real keyboard stage navigation retains typed correction
+{"event":"saha_request","requestId":"9f0349ed-6876-43be-88b5-ba8006ebe4e9","route":"commands","status":200,"durationMs":12}
+{"event":"saha_request","requestId":"1c16a9f6-a0a2-4278-a890-9b6ac329882b","route":"patients","status":200,"durationMs":3}
+PASS A8 keyboard-only edit/review/save actually read back on exact record
+PASS A8 all-stage no horizontal overflow 360x640 text100 time
+PASS A8 visible controls labelled 360x640 text100 time
+PASS A8 all visible control targets at least44px 360x640 text100 time []
+PASS A8 all-stage no horizontal overflow 360x640 text100 fact:bloodPressure
+PASS A8 visible controls labelled 360x640 text100 fact:bloodPressure
+PASS A8 all visible control targets at least44px 360x640 text100 fact:bloodPressure []
+PASS A8 all-stage no horizontal overflow 360x640 text100 fact:weight
+PASS A8 visible controls labelled 360x640 text100 fact:weight
+PASS A8 all visible control targets at least44px 360x640 text100 fact:weight []
+PASS A8 all-stage no horizontal overflow 360x640 text100 fact:temperature
+PASS A8 visible controls labelled 360x640 text100 fact:temperature
+PASS A8 all visible control targets at least44px 360x640 text100 fact:temperature []
+PASS A8 all-stage no horizontal overflow 360x640 text100 fact:weeks
+PASS A8 visible controls labelled 360x640 text100 fact:weeks
+PASS A8 all visible control targets at least44px 360x640 text100 fact:weeks []
+PASS A8 all-stage no horizontal overflow 360x640 text100 fact:coughDays
+PASS A8 visible controls labelled 360x640 text100 fact:coughDays
+PASS A8 all visible control targets at least44px 360x640 text100 fact:coughDays []
+PASS A8 all-stage no horizontal overflow 360x640 text100 notes
+PASS A8 visible controls labelled 360x640 text100 notes
+PASS A8 all visible control targets at least44px 360x640 text100 notes []
+PASS A8 all-stage no horizontal overflow 360x640 text100 review
+PASS A8 visible controls labelled 360x640 text100 review
+PASS A8 all visible control targets at least44px 360x640 text100 review []
+PASS A8 all-stage no horizontal overflow 360x640 text100 programme:maternal_contact
+PASS A8 visible controls labelled 360x640 text100 programme:maternal_contact
+PASS A8 all visible control targets at least44px 360x640 text100 programme:maternal_contact []
+PASS A8 all-stage no horizontal overflow 360x640 text100 programme:medication_access
+PASS A8 visible controls labelled 360x640 text100 programme:medication_access
+PASS A8 all visible control targets at least44px 360x640 text100 programme:medication_access []
+PASS A8 all-stage no horizontal overflow 360x640 text100 programme:cough
+PASS A8 visible controls labelled 360x640 text100 programme:cough
+PASS A8 all visible control targets at least44px 360x640 text100 programme:cough []
+PASS A8 all-stage no horizontal overflow 360x640 text100 programme:testing
+PASS A8 visible controls labelled 360x640 text100 programme:testing
+PASS A8 all visible control targets at least44px 360x640 text100 programme:testing []
+PASS A8 all-stage no horizontal overflow 360x640 text100 programme-save
+PASS A8 visible controls labelled 360x640 text100 programme-save
+PASS A8 all visible control targets at least44px 360x640 text100 programme-save []
+{"event":"saha_request","requestId":"f89dfa8b-637f-4572-b831-7b8c2537fa97","route":"patients","status":200,"durationMs":6}
+PASS A8 all-stage no horizontal overflow 360x640 text100 comparison
+PASS A8 visible controls labelled 360x640 text100 comparison
+PASS A8 all visible control targets at least44px 360x640 text100 comparison []
+PASS A8 computed root font doubles at200percent text 360
+PASS A8 all-stage no horizontal overflow 360x640 text200 time
+PASS A8 visible controls labelled 360x640 text200 time
+PASS A8 all visible control targets at least44px 360x640 text200 time []
+PASS A8 all-stage no horizontal overflow 360x640 text200 fact:bloodPressure
+PASS A8 visible controls labelled 360x640 text200 fact:bloodPressure
+PASS A8 all visible control targets at least44px 360x640 text200 fact:bloodPressure []
+PASS A8 all-stage no horizontal overflow 360x640 text200 fact:weight
+PASS A8 visible controls labelled 360x640 text200 fact:weight
+PASS A8 all visible control targets at least44px 360x640 text200 fact:weight []
+PASS A8 all-stage no horizontal overflow 360x640 text200 fact:temperature
+PASS A8 visible controls labelled 360x640 text200 fact:temperature
+PASS A8 all visible control targets at least44px 360x640 text200 fact:temperature []
+PASS A8 all-stage no horizontal overflow 360x640 text200 fact:weeks
+PASS A8 visible controls labelled 360x640 text200 fact:weeks
+PASS A8 all visible control targets at least44px 360x640 text200 fact:weeks []
+PASS A8 all-stage no horizontal overflow 360x640 text200 fact:coughDays
+PASS A8 visible controls labelled 360x640 text200 fact:coughDays
+PASS A8 all visible control targets at least44px 360x640 text200 fact:coughDays []
+PASS A8 all-stage no horizontal overflow 360x640 text200 notes
+PASS A8 visible controls labelled 360x640 text200 notes
+PASS A8 all visible control targets at least44px 360x640 text200 notes []
+PASS A8 all-stage no horizontal overflow 360x640 text200 review
+PASS A8 visible controls labelled 360x640 text200 review
+PASS A8 all visible control targets at least44px 360x640 text200 review []
+PASS A8 all-stage no horizontal overflow 360x640 text200 programme:maternal_contact
+PASS A8 visible controls labelled 360x640 text200 programme:maternal_contact
+PASS A8 all visible control targets at least44px 360x640 text200 programme:maternal_contact []
+PASS A8 all-stage no horizontal overflow 360x640 text200 programme:medication_access
+PASS A8 visible controls labelled 360x640 text200 programme:medication_access
+PASS A8 all visible control targets at least44px 360x640 text200 programme:medication_access []
+PASS A8 all-stage no horizontal overflow 360x640 text200 programme:cough
+PASS A8 visible controls labelled 360x640 text200 programme:cough
+PASS A8 all visible control targets at least44px 360x640 text200 programme:cough []
+PASS A8 all-stage no horizontal overflow 360x640 text200 programme:testing
+PASS A8 visible controls labelled 360x640 text200 programme:testing
+PASS A8 all visible control targets at least44px 360x640 text200 programme:testing []
+PASS A8 all-stage no horizontal overflow 360x640 text200 programme-save
+PASS A8 visible controls labelled 360x640 text200 programme-save
+PASS A8 all visible control targets at least44px 360x640 text200 programme-save []
+PASS A8 all-stage no horizontal overflow 360x640 text200 comparison
+PASS A8 visible controls labelled 360x640 text200 comparison
+PASS A8 all visible control targets at least44px 360x640 text200 comparison []
+{"event":"saha_request","requestId":"bb91e8d9-1eff-4d49-a6dd-b0a5fa77a0c0","route":"patients","status":200,"durationMs":7}
+PASS A8 all-stage no horizontal overflow 390x844 text100 time
+PASS A8 visible controls labelled 390x844 text100 time
+PASS A8 all visible control targets at least44px 390x844 text100 time []
+PASS A8 all-stage no horizontal overflow 390x844 text100 fact:bloodPressure
+PASS A8 visible controls labelled 390x844 text100 fact:bloodPressure
+PASS A8 all visible control targets at least44px 390x844 text100 fact:bloodPressure []
+PASS A8 all-stage no horizontal overflow 390x844 text100 fact:weight
+PASS A8 visible controls labelled 390x844 text100 fact:weight
+PASS A8 all visible control targets at least44px 390x844 text100 fact:weight []
+PASS A8 all-stage no horizontal overflow 390x844 text100 fact:temperature
+PASS A8 visible controls labelled 390x844 text100 fact:temperature
+PASS A8 all visible control targets at least44px 390x844 text100 fact:temperature []
+PASS A8 all-stage no horizontal overflow 390x844 text100 fact:weeks
+PASS A8 visible controls labelled 390x844 text100 fact:weeks
+PASS A8 all visible control targets at least44px 390x844 text100 fact:weeks []
+PASS A8 all-stage no horizontal overflow 390x844 text100 fact:coughDays
+PASS A8 visible controls labelled 390x844 text100 fact:coughDays
+PASS A8 all visible control targets at least44px 390x844 text100 fact:coughDays []
+PASS A8 all-stage no horizontal overflow 390x844 text100 notes
+PASS A8 visible controls labelled 390x844 text100 notes
+PASS A8 all visible control targets at least44px 390x844 text100 notes []
+PASS A8 all-stage no horizontal overflow 390x844 text100 review
+PASS A8 visible controls labelled 390x844 text100 review
+PASS A8 all visible control targets at least44px 390x844 text100 review []
+PASS A8 all-stage no horizontal overflow 390x844 text100 programme:maternal_contact
+PASS A8 visible controls labelled 390x844 text100 programme:maternal_contact
+PASS A8 all visible control targets at least44px 390x844 text100 programme:maternal_contact []
+PASS A8 all-stage no horizontal overflow 390x844 text100 programme:medication_access
+PASS A8 visible controls labelled 390x844 text100 programme:medication_access
+PASS A8 all visible control targets at least44px 390x844 text100 programme:medication_access []
+PASS A8 all-stage no horizontal overflow 390x844 text100 programme:cough
+PASS A8 visible controls labelled 390x844 text100 programme:cough
+PASS A8 all visible control targets at least44px 390x844 text100 programme:cough []
+PASS A8 all-stage no horizontal overflow 390x844 text100 programme:testing
+PASS A8 visible controls labelled 390x844 text100 programme:testing
+PASS A8 all visible control targets at least44px 390x844 text100 programme:testing []
+PASS A8 all-stage no horizontal overflow 390x844 text100 programme-save
+PASS A8 visible controls labelled 390x844 text100 programme-save
+PASS A8 all visible control targets at least44px 390x844 text100 programme-save []
+PASS A8 all-stage no horizontal overflow 390x844 text100 comparison
+PASS A8 visible controls labelled 390x844 text100 comparison
+PASS A8 all visible control targets at least44px 390x844 text100 comparison []
+{"event":"saha_request","requestId":"7d6e4083-d7de-4068-8f93-8c30de3d7ecd","route":"patients","status":200,"durationMs":4}
+PASS A8 computed root font doubles at200percent text 390
+PASS A8 all-stage no horizontal overflow 390x844 text200 time
+PASS A8 visible controls labelled 390x844 text200 time
+PASS A8 all visible control targets at least44px 390x844 text200 time []
+PASS A8 all-stage no horizontal overflow 390x844 text200 fact:bloodPressure
+PASS A8 visible controls labelled 390x844 text200 fact:bloodPressure
+PASS A8 all visible control targets at least44px 390x844 text200 fact:bloodPressure []
+PASS A8 all-stage no horizontal overflow 390x844 text200 fact:weight
+PASS A8 visible controls labelled 390x844 text200 fact:weight
+PASS A8 all visible control targets at least44px 390x844 text200 fact:weight []
+PASS A8 all-stage no horizontal overflow 390x844 text200 fact:temperature
+PASS A8 visible controls labelled 390x844 text200 fact:temperature
+PASS A8 all visible control targets at least44px 390x844 text200 fact:temperature []
+PASS A8 all-stage no horizontal overflow 390x844 text200 fact:weeks
+PASS A8 visible controls labelled 390x844 text200 fact:weeks
+PASS A8 all visible control targets at least44px 390x844 text200 fact:weeks []
+PASS A8 all-stage no horizontal overflow 390x844 text200 fact:coughDays
+PASS A8 visible controls labelled 390x844 text200 fact:coughDays
+PASS A8 all visible control targets at least44px 390x844 text200 fact:coughDays []
+PASS A8 all-stage no horizontal overflow 390x844 text200 notes
+PASS A8 visible controls labelled 390x844 text200 notes
+PASS A8 all visible control targets at least44px 390x844 text200 notes []
+PASS A8 all-stage no horizontal overflow 390x844 text200 review
+PASS A8 visible controls labelled 390x844 text200 review
+PASS A8 all visible control targets at least44px 390x844 text200 review []
+PASS A8 all-stage no horizontal overflow 390x844 text200 programme:maternal_contact
+PASS A8 visible controls labelled 390x844 text200 programme:maternal_contact
+PASS A8 all visible control targets at least44px 390x844 text200 programme:maternal_contact []
+PASS A8 all-stage no horizontal overflow 390x844 text200 programme:medication_access
+PASS A8 visible controls labelled 390x844 text200 programme:medication_access
+PASS A8 all visible control targets at least44px 390x844 text200 programme:medication_access []
+PASS A8 all-stage no horizontal overflow 390x844 text200 programme:cough
+PASS A8 visible controls labelled 390x844 text200 programme:cough
+PASS A8 all visible control targets at least44px 390x844 text200 programme:cough []
+PASS A8 all-stage no horizontal overflow 390x844 text200 programme:testing
+PASS A8 visible controls labelled 390x844 text200 programme:testing
+PASS A8 all visible control targets at least44px 390x844 text200 programme:testing []
+PASS A8 all-stage no horizontal overflow 390x844 text200 programme-save
+PASS A8 visible controls labelled 390x844 text200 programme-save
+PASS A8 all visible control targets at least44px 390x844 text200 programme-save []
+PASS A8 all-stage no horizontal overflow 390x844 text200 comparison
+PASS A8 visible controls labelled 390x844 text200 comparison
+PASS A8 all visible control targets at least44px 390x844 text200 comparison []
+{"event":"saha_request","requestId":"52cbbe71-58c2-4b5e-beaa-681331972cc5","route":"patients","status":200,"durationMs":5}
+VAULT_PROGRESS {"stage":"module-import","completed":0,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"derive-key","completed":0,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":0,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":100,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":200,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":300,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":400,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":500,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":600,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":700,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":800,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":900,"fixedSamples":1000}
+VAULT_PROGRESS {"stage":"transactions","completed":1000,"fixedSamples":1000}
+PASS A9 1000 measured encrypted local component transactions with exact durable readback
+PASS A9 original encrypted local-save p95 <=500ms; 1000 real local component transactions 0.60ms
+PASS A7 manual flow made zero external/model requests
+{"event":"saha_request","requestId":"b80dff66-a1ac-432a-8489-25e65dd0a71e","route":"commands","status":200,"durationMs":23}
+{"event":"saha_request","requestId":"513c0ab3-c9b8-47cb-b71a-ef96eb49db26","route":"patients","status":200,"durationMs":4}
+PASS A2 real UI programme evidence and trusted author readback
+{"event":"saha_request","requestId":"4f534750-8068-46f1-8ee9-10a69764a553","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"91cf0fd7-a2f4-4a9a-87d7-31ed472c9766","route":"commands","status":409,"durationMs":7}
+PASS A4 existing global actor-key receipt in another organisation refuses without stale proof or clinical mutation
+Access audit not recorded Error
+{"event":"saha_request","requestId":"1f54116d-de2b-409c-a89c-c07823bad0de","route":"commands","status":503,"durationMs":8}
+PASS A5 second current-authority proof-read audit failure returns error only without clinical mutation or operation proof
+{"event":"saha_request","requestId":"04fbfad9-5eca-48f2-bee5-4031d54d7e9d","route":"patients","status":200,"durationMs":7}
+PASS A4 generic409 without authoritative exact operation proof retains unknown attempt and has no clinical side effect
+{"event":"saha_request","requestId":"9a88a8d2-b5af-4ee9-8445-53b5dd1d8ae4","route":"patients","status":200,"durationMs":4}
+PASS A6 generic409 and plain saved-record comparison cannot unlock replacement of uncertain input
+{"event":"saha_request","requestId":"42b4dbf1-5771-4c9d-8939-457e121cf263","route":"patients","status":200,"durationMs":5}
+PASS A4 wrong-key409 proof cannot release the original unknown attempt or mutate the clinical record
+{"event":"saha_request","requestId":"f1cb3010-8c33-4a74-a149-4409debbe9bd","route":"patients","status":200,"durationMs":3}
+{"event":"saha_request","requestId":"ce8904b5-b1f2-42e2-ba46-058c35267271","route":"commands","status":409,"durationMs":11}
+PASS A4 exact original retry conclusively refuses the stale version after competing save
+PASS A4 stale refusal proof binds exact key organisation person visit and advanced authoritative version
+PASS A4 stale exact retry preserves original key and payload
+{"event":"saha_request","requestId":"43834cf3-8e89-489f-8264-96d156b4194b","route":"patients","status":200,"durationMs":3}
+PASS A3 refused stale retry leaves the competing authoritative save unchanged
+PASS A6 conclusive stale refusal retains the unsaved correction for review
+{"event":"saha_request","requestId":"0572aaf0-1832-4709-a856-a7c67f125cf4","route":"patients","status":200,"durationMs":4}
+PASS A6 conclusive stale refusal unlocks explicit comparison replacement rather than deadlocking recovery
+PASS A6 explicit stale recovery loads only the authoritative saved correction
+PASS A6 offline save retains unsaved input without saved acknowledgement
+{"event":"saha_request","requestId":"515dfb3a-781b-458f-b34a-169823c9c8e9","route":"commands","status":200,"durationMs":14}
+{"event":"saha_request","requestId":"b152155c-0079-4823-af5d-d53cb3c0682e","route":"commands","status":409,"durationMs":12}
+PASS A6 actual version conflict keeps local correction
+{"event":"saha_request","requestId":"1af01439-1cd2-47cb-b860-b429bd594d53","route":"patients","status":200,"durationMs":4}
+PASS A6 read-only comparison does not overwrite input
+PASS A6 explicit conflict recovery loads exact saved value
+{"event":"saha_request","requestId":"c362da6e-f349-4b48-b8b0-b7ff8919c238","route":"commands","status":200,"durationMs":15}
+{"event":"saha_request","requestId":"c6147307-5f58-41d2-890a-db90e8667955","route":"patients","status":200,"durationMs":3}
+PASS A3 normal existing confirmation succeeds
+{"event":"saha_request","requestId":"2de5365e-0cba-42ea-bdfd-cb8f3242569b","route":"commands","status":409,"durationMs":10}
+PASS A3 confirmed record immutable
+PASS A5 actual durable read/write audit
+Access audit not recorded Error
+{"event":"saha_request","requestId":"29bed68b-c4c4-463f-ac6b-acf5924a1ac4","route":"patients","status":503,"durationMs":3}
+PASS A5 audit outage fails closed without clinical mutation or disclosure
+{"event":"saha_request","requestId":"d6df6f92-19ae-4fa3-8d03-40605152cfba","route":"workspace","status":200,"durationMs":5}
+{"event":"saha_request","requestId":"2263876a-7aa9-4d94-88cc-0e267c068431","route":"commands","status":200,"durationMs":11}
+{"event":"saha_request","requestId":"f39100b2-f2f3-4e23-bfa2-b93468989e7f","route":"patients","status":404,"durationMs":3}
+PASS A5 changed assignment immediately refuses protected context
+{"event":"saha_request","requestId":"9751c3e0-a23a-474b-bc83-6cd28e789516","route":"workspace","status":200,"durationMs":4}
+{"event":"saha_request","requestId":"af755a3e-a399-459b-b286-aa8d54434241","route":"commands","status":200,"durationMs":10}
+{"event":"saha_request","requestId":"d830fb67-bcfe-4eb2-adf2-edea37e23fbd","route":"patients","status":403,"durationMs":2}
+PASS A5 changed role immediately refused
+{"event":"saha_request","requestId":"60b3695f-e9b0-4978-b7ca-fce24ba2962d","route":"patients","status":403,"durationMs":2}
+PASS A6 authoritative refusal clears protected UI
+PASS A5 every browser routine GET POST and readback retains selected organisation
+{"passed":244,"failed":0,"localP95Ms":0.6000000238418579}

@@ -1,0 +1,18 @@
+{
+  "status": 200,
+  "targetRequest": {
+    "requestId": "71745.88",
+    "url": "http://127.0.0.1:52872/api/routine-visit",
+    "method": "POST",
+    "postData": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"saveVisit\",\"visitId\":\"f28336e2-8e2a-4064-9696-010445b029ce\",\"version\":1,\"facts\":{\"date\":\"2026-10-12T21:30\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"57.25\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"\",\"source\":\"measured\",\"provenance\":{\"weight\":{\"source\":\"measured\"}}}}}"
+  },
+  "terminal": {
+    "kind": "loadingFailed",
+    "requestId": "71745.88",
+    "timestamp": 912027.26245,
+    "type": "Fetch",
+    "errorText": "net::ERR_ABORTED",
+    "canceled": true
+  },
+  "observation": "Direct ownedChromium Network protocol, not unfulfilled PlaywrightResponse.finished promise after intentional fetchbody discard."
+}

@@ -1,0 +1,51 @@
+{
+  "frozenAtUtc": "2026-10-12T20:57:25.811327+00:00",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "story": "SAHA005/APL28",
+  "task": "APL188/ENG-BR-UX05",
+  "otherChild": "APL794/NFR15 remains human-language-review hold",
+  "scope": "Functional saved per-member/per-org display-language control on existing assigned-person routine editor. New minimal scoped own-preference projection delegates only original audited/versioned setMyLanguage, never clinicalwriter. Original dictionary/qualified-review status retained. Existing public GuidedCapture navigation may use saved Hindi; clinical fields/units/names/rawnotes stay English/asrecorded and same mounted state. Original Hindi draft/partial notice visible; no approved corpus invented.",
+  "ownedPaths": [
+    "app/api/interface-language/route.ts",
+    "lib/saha/interface-language.ts",
+    "lib/saha/interface-language-server.ts",
+    "lib/saha/interface-language-read-guard.ts",
+    "app/routine-visit/interface-language.tsx",
+    "app/routine-visit/routine-visit.tsx",
+    "tests/interface-language-contract.mjs",
+    "tests/smoke/interface-language-browser.mjs",
+    "tests/lib/interface-language-native-runtime.mjs"
+  ],
+  "interfaces": "GET/POST /api/interface-language?personId= existing selectedID; explicit organisation header and current trusted opaque actor. POST only language en/hi, expected original version, unique original operation key. Strict minimal projection, no patientnames/facts/providerconfig/account codes. Known pre-dispatch refusal carries exact not-applied witness; uncertain post-dispatch/network keeps exact original body/key for explicit reauth/replay, no blind new operation.",
+  "reuse": [
+    "Original languageOf/chooseLanguage/platformSchema setMyLanguage/corecommand/receipt",
+    "Original trustedidentity/store scopes/read-audit/finalassigned proof, directreadState no bootstrap/scheduler",
+    "Individually verified registration-transfer known due/held proof only with named extraction/adaptation receipt",
+    "Original dictionary/i18nProvider/TranslationNotice/GuidedCapture public labels; no new approved clinicaltranslations",
+    "Owned original native lifecycle with actual assets-first test adapter, no response replacements"
+  ],
+  "scenarios": [
+    "SaveHindi preference as self with real audit/receipt; reloadsameorg retains; anothermember/org unchanged",
+    "Enter57.25kg and notes before switching en\u2192hi\u2192en: values/units/name/facts/provenance/currentvisitid and unsavedinput unchanged, no clinicalsave",
+    "OriginalHindi draft notice and Englishclinicalislands; no criticalreview/recognition accuracy claim",
+    "Clientstaleversion refuses beforeapply; userexplicitRefresh beforeanotherchoice",
+    "Original successfulresponse loss then exactkey/body retry, no duplicate or unexpectedvisit; latercurrentpref notrolledback byoldreceipt",
+    "Anon/unknowntrusted/foreignorg/clinicianowner/outscope/suspended/changedactor/purpose/auditafterrevocation refuse; no newaccount/readsideeffects fromnewreader",
+    "Invalid language/body/source/projection/network leaves permitted input unchanged; unavailablecontent never becomes qualifiedtranslation",
+    "Known due/held/malformed transfer failclosed, no read-side scheduler; lastproof clock current, futureclock revokesnewpreference surface",
+    "390px realbuiltWorker/D1/axe/focus/touch44/custody/cleanup; original affected dictionary/platform/routine tests/minima/9goldens intact"
+  ],
+  "limits": "Author software synthetic subset only. Original formalCases/reviewedcriticalversionedcorpus/task-specificlanguagebenchmarks/physical/field/domain/human acceptance remain open. No new provider/model/corpus/clinicalpolicy/DB/migration/secret/hosting. Root owns sharedmetadata/guardregistration/publication/CI/review. SourceAPI/routineUI changes overlap only isolated mainbase; PR224 and every competing branch read-only preserved.",
+  "port": 21951,
+  "sourcePreimages": {
+    "app/routine-visit/routine-visit.tsx": "02fd56320974f1197de7d25d98bbc19b3bf93e72b7af0ed6ad573e3c45ad69f9",
+    "lib/saha/messages.ts": "707a535319b30b13812a9f2a9fac43ef4034af9efbd54deda6c3e0eda9ef6058",
+    "lib/saha/platform.ts": "079c93aa8219fd01ddccb119e55f2e7b8ce3eb4ce72a98212540e026857f6f40",
+    "lib/saha/routine-visit-server.ts": "1c949a1a4a9e325e6a9488a20686af53bbeea8447792b29fe7ca18e94a8aa382",
+    "lib/saha/store.ts": "a46070c226c3ab63079522e99a386d2b57214216d730ebdccbdbf480bb4aaceb",
+    "app/i18n.tsx": "9ab14f77b291320d675e2be0a7694c72e5ad76543ebe7cb47158edd796fe8682",
+    "app/guided-capture.tsx": "c43ae3fabfdc04952ac28b95df1495ebd094f7c34aa0f0857ee6d542a0ae1de3",
+    "tests/regression-baseline.json": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+    ".github/workflows/ci.yml": "c3296908d8f5ac57ca56fb8d63252b5e82734c5e966ba6c657e70b4fadd61570"
+  }
+}
