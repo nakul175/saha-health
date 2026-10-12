@@ -6,6 +6,7 @@ import { MEASURES, FACT_SOURCES, SOURCE_LABEL, VALUE_FIELDS, VALUE_RANGES, measu
   factProvenance, authorText, alternativeUnit } from '@/lib/saha/fact-provenance';
 import type { Facts, FactSource, Measure, ValueField } from '@/lib/saha/types';
 import type { RoutineContext, RoutineStaleRefusal } from '@/lib/saha/routine-visit';
+import { routineSelection, currentServerDraft } from '@/lib/saha/resume-work';
 import './routine-visit.css';
 
 type Attempt = { key: string; command: Record<string, unknown>; personId: string; organisationId: string; actorId: string;
@@ -40,14 +41,13 @@ export default function RoutineVisit() {
   };
   useEffect(() => {
     mounted.current = true;
-    const controller = new AbortController(), query = new URLSearchParams(window.location.search);
-    if (query.getAll('personId').length !== 1 || query.getAll('organisationId').length !== 1 ||
-        !query.get('organisationId') || [...query.keys()].some(k => !['personId', 'organisationId'].includes(k))) {
+    const controller = new AbortController(), selection = routineSelection(new URLSearchParams(window.location.search));
+    if (!selection) {
       const frame = requestAnimationFrame(() => setNotice('Choose one existing assigned person from Today.'));
       return () => { mounted.current = false; cancelAnimationFrame(frame); controller.abort(); };
     }
-    const selectedPerson = query.get('personId')!, selectedOrganisation = query.get('organisationId')!;
-    void fetch(endpoint(selectedPerson), { cache: 'no-store', credentials: 'same-origin', signal: controller.signal,
+    const selectedPerson = selection.personId, selectedOrganisation = selection.organisationId;
+    void fetch(endpoint(selectedPerson, selection.visitId), { cache: 'no-store', credentials: 'same-origin', signal: controller.signal,
       headers: { 'x-saha-organisation': selectedOrganisation } })
       .then(async response => {
         if (!response.ok) throw Error([401,403,404].includes(response.status) ? 'Access refused. Check your active ASHA membership and assignment.' : 'Routine visit unavailable. Try again with a connection.');
@@ -57,6 +57,8 @@ export default function RoutineVisit() {
         if (value.person.id !== selectedPerson || value.organisationId !== selectedOrganisation)
           throw Error('Selected record could not be matched. Return to Today and choose the person again.');
         if (!actorId) throw Error('Signed-in account could not be matched. Return to Today and try again.');
+        if (selection.actorId && actorId !== selection.actorId) throw Error('The signed-in account changed. Return to Resume work with the original account.');
+        if (selection.visitId) currentServerDraft(value, selectedPerson, selectedOrganisation, actorId, selection.visitId);
         boundActor.current = actorId;
         receive(value, true); setNotice(value.visit ? 'Current server draft loaded. Review before saving.' : 'No current draft. Opening this screen creates nothing.');
         heading.current?.focus();
