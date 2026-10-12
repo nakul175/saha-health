@@ -1,0 +1,27 @@
+{
+  "passed": 16,
+  "failed": 0,
+  "skipped": 0,
+  "cases": [
+    "Fallback date correction credits the correcting actor",
+    "Fallback source correction credits the correcting actor",
+    "Fully explicit measurement retains its author when visit provenance changes",
+    "Own source with fallback time depends on the visit date",
+    "Own source shields a measurement from an unrelated fallback source edit",
+    "Explicit missing reason has no observation timestamp and keeps attribution",
+    "Changed missing reason still credits the actor",
+    "Unchanged historical values without authors are never assigned to the saver",
+    "Removing a value removes only its current author",
+    "Copied correction drafts preserve existing attribution",
+    "Repeated server recomputation returns the same correction attribution",
+    "Inputs and previous author records stay unchanged",
+    "Client-provided authors are refused inside facts and stripped from save commands",
+    "Server attribution hook stamps the correction using authenticated identity",
+    "Confirmed predecessor and its review/audit history stay unchanged",
+    "Rehydrated correction repeats the same server attribution without changing prior history"
+  ],
+  "completedAt": "2026-10-12T18:35:31.580Z",
+  "limits": [
+    "Current pure helper and server-attribution/schema execution; no HTTP, clinical, independent acceptance or staging qualification."
+  ]
+}

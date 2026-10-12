@@ -1,0 +1,39 @@
+{
+  "createdAt": "2026-10-12T18:35:14Z",
+  "sourceHead": "779b4e77ef06638cd5dfd2820cca9d57fcf6ca14",
+  "reproduced": "Actual grouped same-value local fallback source/time selection preserves old author incorrectly (before3pass2fail).",
+  "change": "Only individually inspected PR210 nine-line effective fingerprint and byte-exact sixteen-case test; no other production/test/oracle/clinical-policy change.",
+  "upstreamHead": "3d6e7eb955f96ed5a4fbbfa39a8c27d767371982",
+  "paths": {
+    "lib/saha/fact-provenance.ts": {
+      "before": "6d4bc63c8ecc72a80530e611d1a1051e1a11495ed1cc6129c4c138aeb198c3cb",
+      "candidate": "947a2e639374e2182d275f464697a4a0067607a949d89865ff2198ae093e398e",
+      "exactUpstreamBlob": "75b1a6240773c70e85e8930220da549043695c0a"
+    },
+    "tests/fact-author-effective-provenance-contract.mjs": {
+      "candidate": "5e404d979ed5617dd4ab6490682d347799f587d2c2aba195eaad70754e89d3a8",
+      "exactUpstreamBlob": "16f4e96bce65c3c74f2e3fd0a890704f4eeb0569"
+    }
+  },
+  "unchanged": [
+    "all original36 conflict checks",
+    "all original10 browser cases",
+    "baseline389",
+    "sevenCIjobs",
+    "all goldens/min26/2%",
+    "clinical values/tolerances/provider policy/audit/history"
+  ],
+  "qualification": [
+    "repeat exact original composition5 with no oracle change",
+    "upstream16 plus original36/41/34",
+    "fresh canonical build/types/lint",
+    "original10 actual native/mobile cases",
+    "affected original97+245+244",
+    "genuine separate source/evidence review and final-headCI still pending"
+  ],
+  "limits": [
+    "No client-supplied author accepted",
+    "No formal/durableoffline/clinical/hosting/fullstory acceptance",
+    "Root shared publication metadata not edited"
+  ]
+}

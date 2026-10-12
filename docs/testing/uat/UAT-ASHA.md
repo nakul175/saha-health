@@ -655,7 +655,7 @@ Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1
 - **Catalogue:** Functional, fixture FX-DATA-07, catalogue owner "QA with Frontline worker and programme data owner".
 - **Run as:** ASHA worker. Basis: requirement area default (BR-DATA; catalogue owner "QA with Frontline worker and programme data owner").
 - **Default result:** Not run
-- **Start from:** Person page and visit. These are the screens the requirement's own evidence-map entry cites, not a verified click path.
+- **Start from:** Person page and visit, Candidate ASHA routine visit (Today > Review routine visit; deployment pending). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** ASHA worker signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -673,7 +673,7 @@ Append-only revisions, linked amendments, voids and blocked stale plans. Slice 1
 
 <details><summary>What the build does today (assessment, current state of BR-DATA-07)</summary>
 
-Version/CAS conflicts and field comparison preserve both versions. Slice 0a: edits on different patients commit independently; same-patient edits still conflict for comparison. Reviewed local inbound-version queue preserves first source, independent review and current scope; actual retrieval retains changed-response candidates and rechecks service binding after response and before clinical use. Transport and coupled pressure provenance repairs are independently evidenced.
+Version/CAS conflicts and field comparison preserve both versions. Slice 0a: edits on different patients commit independently; same-patient edits still conflict for comparison. Reviewed local inbound-version queue preserves first source, independent review and current scope; actual retrieval retains changed-response candidates and rechecks service binding after response and before clinical use. Transport and coupled pressure provenance repairs are independently evidenced. Bounded12October2026 increment: Explicit grouped routine conflicts without silent overwrite; see docs/current/next50/CONCURRENT-EDITS-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.
 
 </details>
 
