@@ -1,0 +1,639 @@
+{
+  "passed": 45,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actual synthetic confirmed sources have pending plan and separate accepted simulator receipt",
+    "Actual selected assigned source version and immutable facts are read with pending sharing context",
+    "Bounded source read excludes provider payloads and unrelated partitions",
+    "Other role tenant and unassigned reads refuse without protected source",
+    "Other role tenant and unassigned reads refuse without protected source",
+    "Other role tenant and unassigned reads refuse without protected source",
+    "Other role tenant and unassigned reads refuse without protected source",
+    "Invalid amendment selector refuses /api/amendments",
+    "Invalid amendment selector refuses /api/amendments?personId=",
+    "Invalid amendment selector refuses /api/amendments?personId=p_meena&personId=p_rajesh",
+    "Invalid amendment selector refuses /api/amendments?personId=p_meena&mode=all",
+    "Explicit original organisation and trusted account required",
+    "Wrong actor person scope command origin selector or short reason refuses",
+    "Wrong actor person scope command origin selector or short reason refuses",
+    "Wrong actor person scope command origin selector or short reason refuses",
+    "Wrong actor person scope command origin selector or short reason refuses",
+    "Wrong actor person scope command origin selector or short reason refuses",
+    "Wrong actor person scope command origin selector or short reason refuses",
+    "Wrong actor person scope command origin selector or short reason refuses",
+    "Original stale source refuses without any unwanted correction visit",
+    "Actual correction reason has visible44px border and existing measurement labels retain explicit missing values",
+    "Actual source read selection and cancel create no command or visit",
+    "Actual mobile amendment controls44px and no overflow",
+    "All60 tables unchanged during read/cancel except expected audit and metrics",
+    "Exactly one explicit linked unconfirmed correction draft preserves original facts",
+    "Existing pending approval is blocked and its actual invalidation obligation is visible",
+    "Original revisions and receipts unchanged; new amendment revision binds reason actor time and confirmed source",
+    "Exact original-key replay creates no duplicate draft or receipt",
+    "Genuine committed response loss retains uncertain original attempt and clears protected sources",
+    "Actual bounded discovery omits an older source after deliberate newer QA fixture rows",
+    "Explicit recovery sends original exact body/key and preserves visit and receipt rows with zero duplicates",
+    "Accepted simulator submission/receipt remains unchanged and required external correction stays open",
+    "Actual BEFORE amendment audit membership loss refuses protected source",
+    "Actual BEFORE amendment audit assignment loss refuses protected source",
+    "Actual BEFORE amendment audit role-owner loss refuses protected source",
+    "Actual AFTER amendment audit membership loss refuses protected source",
+    "Actual AFTER amendment audit assignment loss refuses protected source",
+    "Actual AFTER amendment audit role-owner loss refuses protected source",
+    "Actual prerequisite POST membership loss creates no draft or receipt",
+    "Actual prerequisite POST assignment loss creates no draft or receipt",
+    "Actual audit failure clears protected facts and correction controls",
+    "Actual offline transition clears protected sources and correction actions",
+    "No actual browser runtime errors or external provider calls",
+    "Actual app lib compiled assets and owned test hashes unchanged throughout native run",
+    "Owned backend disposed and loopback port free"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/amendments",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/amendments",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"amendVisit\",\"visitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"version\":4,\"reason\":\"Synthetic reviewed transcription correction\"}}",
+      "key": "108f6539-ee1f-4025-ac6c-5c5480e02726"
+    },
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/amendments",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/amendments",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"amendVisit\",\"visitId\":\"7ab64b99-3316-407c-b81b-25aa4700b87d\",\"version\":6,\"reason\":\"Synthetic correction with lost committed response\"}}",
+      "key": "551c9ac0-7774-4f5b-8afb-69ef4ada7a97"
+    },
+    {
+      "method": "POST",
+      "path": "/api/amendments",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"amendVisit\",\"visitId\":\"7ab64b99-3316-407c-b81b-25aa4700b87d\",\"version\":6,\"reason\":\"Synthetic correction with lost committed response\"}}",
+      "key": "551c9ac0-7774-4f5b-8afb-69ef4ada7a97"
+    },
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/amendments",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/amendments",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/amendments",
+      "body": null
+    }
+  ],
+  "external": [],
+  "errors": [],
+  "races": [
+    {
+      "timing": "BEFORE",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "assignment",
+      "status": 404
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "role-owner",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "assignment",
+      "status": 404
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "role-owner",
+      "status": 403
+    }
+  ],
+  "beforeTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "6e941cc51af8b22d6832ef492e97b26ffaba6d299e8c18b1e4c528b5c00e766d"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 119,
+      "sha256": "70da12a1621dae42fbcac9da54a2d47b34f7b535dddac0be61b343031b510bcb"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 14,
+      "sha256": "27a978125fb3af6aa9f555a6833d5e45eda5fec82a79dfb94525cbb3cbe41f4a"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "981bf43b2dbe7ce2ec5576e16f6c49cacfda65d6ce99bbb02a4493a6d3060b27"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "2592c5416a1f7c6ad5801bb295fcf80200f1a1b9f3bcb1b0ef12d4688b512374"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "6474bcbddf281674b4f2b76c1c7c795fc0661e3726ce04b5d5c6fae7a079bc2e"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "c76378808389eaef5b9ae774fcca348ee16907c1be9726696697642ad42b98ff"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "f4ad4d467b0401324860454016137a3dd06cf81b2801e57e26589186a7380fc2"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "13e7610acbcd10923b9466352382abd3c82c78b5efd48ea7cbd1edb39a8a0c2f"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 18,
+      "sha256": "13d6199531548a4861f84515dfbcee717f56591e88a48d35df12ffbd5137316f"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 2,
+      "sha256": "be2e78c784e301e1b462d0ada126bb65dc5a282fd92966504f05c8774ef385f6"
+    },
+    "record_revisions": {
+      "rows": 34,
+      "sha256": "584263846e5962866246b8e4d702df911ee40c27945e7b625c3de5625f4772f0"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 10,
+      "sha256": "5d0a323f2eca5e281c480948515389726901a4f4a755c0892390e4fb61049ebf"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 1,
+      "sha256": "5608e5ac7d620d5da2a124e317ce6ae3fcec0f08089a507979931f3b3d21e12b"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "25ed39c0eb6d8e48fb953eab9de58bd287034db0a245458c7693c40cde19d248"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "fbcc8492c46218c3f88be9229211d11f47b3a6c805217e6106ad0d95c8a16f99"
+    },
+    "visits": {
+      "rows": 2,
+      "sha256": "80ee285b7351f3f7634c6cfd8146b6f6a263913bb8ed2f5413a6e6bc3a3e4553"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "afterTables": {
+    "abha_review_reservations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "accounts": {
+      "rows": 9,
+      "sha256": "6e941cc51af8b22d6832ef492e97b26ffaba6d299e8c18b1e4c528b5c00e766d"
+    },
+    "ai_results": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_notifications": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "alert_occurrences": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "audit_events": {
+      "rows": 122,
+      "sha256": "6442dc7ad6a186da26b60e0ee87dd5e4a5cdf4642fcd5eec0608d391ed4d65cb"
+    },
+    "availability_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "caseload_transfers": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "clinical_source_documents": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "command_receipts": {
+      "rows": 14,
+      "sha256": "27a978125fb3af6aa9f555a6833d5e45eda5fec82a79dfb94525cbb3cbe41f4a"
+    },
+    "device_match_copies": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_registration_wire_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "device_work_grants": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "expansions": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "governance": {
+      "rows": 3,
+      "sha256": "981bf43b2dbe7ce2ec5576e16f6c49cacfda65d6ce99bbb02a4493a6d3060b27"
+    },
+    "households": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "identity_cases": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_disclosures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figure_units": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "indicator_figures": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_transition_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "installed_pack_work_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "integrations": {
+      "rows": 18,
+      "sha256": "2592c5416a1f7c6ad5801bb295fcf80200f1a1b9f3bcb1b0ef12d4688b512374"
+    },
+    "invitations": {
+      "rows": 1,
+      "sha256": "6474bcbddf281674b4f2b76c1c7c795fc0661e3726ce04b5d5c6fae7a079bc2e"
+    },
+    "legacy_migrations": {
+      "rows": 3,
+      "sha256": "c76378808389eaef5b9ae774fcca348ee16907c1be9726696697642ad42b98ff"
+    },
+    "media": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_custody": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "memberships": {
+      "rows": 10,
+      "sha256": "f4ad4d467b0401324860454016137a3dd06cf81b2801e57e26589186a7380fc2"
+    },
+    "notification_messages": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_reports": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "offline_open_subjects": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operations": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "organisations": {
+      "rows": 3,
+      "sha256": "13e7610acbcd10923b9466352382abd3c82c78b5efd48ea7cbd1edb39a8a0c2f"
+    },
+    "outreach": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "patients": {
+      "rows": 18,
+      "sha256": "13d6199531548a4861f84515dfbcee717f56591e88a48d35df12ffbd5137316f"
+    },
+    "pilot": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "plans": {
+      "rows": 2,
+      "sha256": "be2e78c784e301e1b462d0ada126bb65dc5a282fd92966504f05c8774ef385f6"
+    },
+    "record_revisions": {
+      "rows": 34,
+      "sha256": "584263846e5962866246b8e4d702df911ee40c27945e7b625c3de5625f4772f0"
+    },
+    "referrals": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendar_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_calendars": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_receipts": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_completeness_snapshots": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "reporting_coverage": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "request_metrics": {
+      "rows": 11,
+      "sha256": "e117708a0dd6084000d13a8066c759943ac0f4a14df73d228c6a11e7bc784dbf"
+    },
+    "retention": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "rights_requests": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "scheduled_cursor": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "submissions": {
+      "rows": 1,
+      "sha256": "5608e5ac7d620d5da2a124e317ce6ae3fcec0f08089a507979931f3b3d21e12b"
+    },
+    "team_members": {
+      "rows": 10,
+      "sha256": "25ed39c0eb6d8e48fb953eab9de58bd287034db0a245458c7693c40cde19d248"
+    },
+    "teams": {
+      "rows": 3,
+      "sha256": "fbcc8492c46218c3f88be9229211d11f47b3a6c805217e6106ad0d95c8a16f99"
+    },
+    "visits": {
+      "rows": 2,
+      "sha256": "80ee285b7351f3f7634c6cfd8146b6f6a263913bb8ed2f5413a6e6bc3a3e4553"
+    },
+    "work_burden_samples": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_support_events": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "workspaces": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "disposed": true,
+  "portFree": true,
+  "completedAt": "2026-10-12T16:58:18.667Z",
+  "limits": "Actual assigned-ASHA synthetic correction-draft increment only. Existing writer/policy unchanged, accepted simulated receipt retained; no external repair/official acceptance, clinical approval, editing/confirming corrected facts, physical/p95/formal/UAT/fullstory/hosting qualification.60table equality only read/cancel segment before explicit corrections and deliberate negative fixtures."
+}

@@ -1,0 +1,250 @@
+{
+  "before": {
+    "success": true,
+    "meta": {
+      "served_by": "miniflare.db",
+      "duration": 0,
+      "changes": 0,
+      "last_row_id": 127,
+      "changed_db": false,
+      "size_after": 1069056,
+      "rows_read": 3,
+      "rows_written": 0
+    },
+    "results": [
+      {
+        "org_id": "org_42d9fc802a1c1aabd71b09e503d41e11",
+        "id": "7ab64b99-3316-407c-b81b-25aa4700b87d",
+        "person_id": "p_meena",
+        "version": 3,
+        "record_version": 6,
+        "state": "confirmed",
+        "data": "{\"id\":\"7ab64b99-3316-407c-b81b-25aa4700b87d\",\"personId\":\"p_meena\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-12T16:57\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"57\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic original confirmed amendment facts\",\"source\":\"measured\"},\"createdAt\":\"2026-10-12T16:58:16.572Z\",\"recordVersion\":6,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.586Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.586Z\"}},\"patientCheck\":{\"personId\":\"p_meena\",\"personVersion\":5,\"by\":\"t-6f1ace9f-asha\",\"at\":\"2026-10-12T16:58:16.602Z\"},\"confirmedAt\":\"2026-10-12T16:58:16.602Z\",\"planId\":\"e16ccea1-70e9-4f91-a107-83ea21e95aef\"}"
+      },
+      {
+        "org_id": "org_42d9fc802a1c1aabd71b09e503d41e11",
+        "id": "7de6d909-0996-409e-88d9-e154860cb944",
+        "person_id": "p_meena",
+        "version": 1,
+        "record_version": 1,
+        "state": "draft",
+        "data": "{\"id\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"personId\":\"p_meena\",\"version\":1,\"recordVersion\":1,\"state\":\"draft\",\"facts\":{\"date\":\"2026-10-12T16:57\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"57\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic original confirmed amendment facts\",\"source\":\"measured\"},\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"amendsVisitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"noteAuthor\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"}}}"
+      },
+      {
+        "org_id": "org_42d9fc802a1c1aabd71b09e503d41e11",
+        "id": "f84aeaf5-f8ec-49ab-8a52-68828a42c1a1",
+        "person_id": "p_meena",
+        "version": 3,
+        "record_version": 5,
+        "state": "confirmed",
+        "data": "{\"id\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"personId\":\"p_meena\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-12T16:57\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"57\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic original confirmed amendment facts\",\"source\":\"measured\"},\"createdAt\":\"2026-10-12T16:58:16.524Z\",\"recordVersion\":5,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"}},\"patientCheck\":{\"personId\":\"p_meena\",\"personVersion\":3,\"by\":\"t-6f1ace9f-asha\",\"at\":\"2026-10-12T16:58:16.556Z\"},\"confirmedAt\":\"2026-10-12T16:58:16.556Z\",\"correctionTasks\":[{\"id\":\"595d246e-ad5d-4be4-8869-e48907a39cf7\",\"visitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"correctionVisitId\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"cause\":\"amend\",\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"createdBy\":\"t-6f1ace9f-asha\",\"ownerId\":\"t-6f1ace9f-asha\",\"state\":\"done\",\"output\":{\"kind\":\"plan\",\"refId\":\"cea01889-f0f3-4213-b600-1f9f05494d99\",\"label\":\"Sharing plan\",\"stateAtCorrection\":\"proposed\"},\"external\":false,\"action\":\"invalidated\",\"instruction\":\"The plan was blocked and cannot be approved or executed.\"},{\"id\":\"55ba7a24-bcfc-4335-8406-a63a96f88d87\",\"visitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"correctionVisitId\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"cause\":\"amend\",\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"createdBy\":\"t-6f1ace9f-asha\",\"ownerId\":\"t-6f1ace9f-asha\",\"state\":\"done\",\"output\":{\"kind\":\"worker-activity\",\"refId\":null,\"label\":\"Worker activity evidence\",\"stateAtCorrection\":\"performed\"},\"external\":false,\"action\":\"recomputed\",\"instruction\":\"Worker activity is computed on each read; this visit now shows as corrected.\"},{\"id\":\"037a7fc7-eb3b-4b76-b71e-7bdadc962ed3\",\"visitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"correctionVisitId\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"cause\":\"amend\",\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"createdBy\":\"t-6f1ace9f-asha\",\"ownerId\":\"t-6f1ace9f-asha\",\"state\":\"done\",\"output\":{\"kind\":\"indicator-releases\",\"refId\":null,\"label\":\"Indicator releases\",\"stateAtCorrection\":\"no release since confirmation\"},\"external\":false,\"action\":\"recomputed\",\"instruction\":\"No indicator release is recorded since confirmation; indicators are recomputed on each read.\"}],\"supersededBy\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"planId\":\"cea01889-f0f3-4213-b600-1f9f05494d99\"}"
+      }
+    ]
+  },
+  "after": {
+    "success": true,
+    "meta": {
+      "served_by": "miniflare.db",
+      "duration": 0,
+      "changes": 0,
+      "last_row_id": 130,
+      "changed_db": false,
+      "size_after": 1069056,
+      "rows_read": 3,
+      "rows_written": 0
+    },
+    "results": [
+      {
+        "org_id": "org_42d9fc802a1c1aabd71b09e503d41e11",
+        "id": "7ab64b99-3316-407c-b81b-25aa4700b87d",
+        "person_id": "p_meena",
+        "version": 3,
+        "record_version": 6,
+        "state": "confirmed",
+        "data": "{\"id\":\"7ab64b99-3316-407c-b81b-25aa4700b87d\",\"personId\":\"p_meena\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-12T16:57\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"57\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic original confirmed amendment facts\",\"source\":\"measured\"},\"createdAt\":\"2026-10-12T16:58:16.572Z\",\"recordVersion\":6,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.586Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.586Z\"}},\"patientCheck\":{\"personId\":\"p_meena\",\"personVersion\":5,\"by\":\"t-6f1ace9f-asha\",\"at\":\"2026-10-12T16:58:16.602Z\"},\"confirmedAt\":\"2026-10-12T16:58:16.602Z\",\"planId\":\"e16ccea1-70e9-4f91-a107-83ea21e95aef\"}"
+      },
+      {
+        "org_id": "org_42d9fc802a1c1aabd71b09e503d41e11",
+        "id": "7de6d909-0996-409e-88d9-e154860cb944",
+        "person_id": "p_meena",
+        "version": 1,
+        "record_version": 1,
+        "state": "draft",
+        "data": "{\"id\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"personId\":\"p_meena\",\"version\":1,\"recordVersion\":1,\"state\":\"draft\",\"facts\":{\"date\":\"2026-10-12T16:57\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"57\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic original confirmed amendment facts\",\"source\":\"measured\"},\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"amendsVisitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"noteAuthor\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"}}}"
+      },
+      {
+        "org_id": "org_42d9fc802a1c1aabd71b09e503d41e11",
+        "id": "f84aeaf5-f8ec-49ab-8a52-68828a42c1a1",
+        "person_id": "p_meena",
+        "version": 3,
+        "record_version": 5,
+        "state": "confirmed",
+        "data": "{\"id\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"personId\":\"p_meena\",\"version\":3,\"state\":\"confirmed\",\"facts\":{\"date\":\"2026-10-12T16:57\",\"systolic\":\"\",\"diastolic\":\"\",\"weight\":\"57\",\"temperature\":\"\",\"weeks\":\"\",\"coughDays\":\"\",\"notes\":\"Synthetic original confirmed amendment facts\",\"source\":\"measured\"},\"createdAt\":\"2026-10-12T16:58:16.524Z\",\"recordVersion\":5,\"programmeCapture\":{\"packs\":[],\"answers\":{},\"absence\":{}},\"noteAuthor\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"},\"factAuthors\":{\"weight\":{\"userId\":\"t-6f1ace9f-asha\",\"name\":\"asha-6f1ace9f@example.invalid\",\"accountCode\":\"5E0926A32361FB35B4B08119\",\"role\":\"asha\",\"at\":\"2026-10-12T16:58:16.538Z\"}},\"patientCheck\":{\"personId\":\"p_meena\",\"personVersion\":3,\"by\":\"t-6f1ace9f-asha\",\"at\":\"2026-10-12T16:58:16.556Z\"},\"confirmedAt\":\"2026-10-12T16:58:16.556Z\",\"correctionTasks\":[{\"id\":\"595d246e-ad5d-4be4-8869-e48907a39cf7\",\"visitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"correctionVisitId\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"cause\":\"amend\",\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"createdBy\":\"t-6f1ace9f-asha\",\"ownerId\":\"t-6f1ace9f-asha\",\"state\":\"done\",\"output\":{\"kind\":\"plan\",\"refId\":\"cea01889-f0f3-4213-b600-1f9f05494d99\",\"label\":\"Sharing plan\",\"stateAtCorrection\":\"proposed\"},\"external\":false,\"action\":\"invalidated\",\"instruction\":\"The plan was blocked and cannot be approved or executed.\"},{\"id\":\"55ba7a24-bcfc-4335-8406-a63a96f88d87\",\"visitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"correctionVisitId\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"cause\":\"amend\",\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"createdBy\":\"t-6f1ace9f-asha\",\"ownerId\":\"t-6f1ace9f-asha\",\"state\":\"done\",\"output\":{\"kind\":\"worker-activity\",\"refId\":null,\"label\":\"Worker activity evidence\",\"stateAtCorrection\":\"performed\"},\"external\":false,\"action\":\"recomputed\",\"instruction\":\"Worker activity is computed on each read; this visit now shows as corrected.\"},{\"id\":\"037a7fc7-eb3b-4b76-b71e-7bdadc962ed3\",\"visitId\":\"f84aeaf5-f8ec-49ab-8a52-68828a42c1a1\",\"correctionVisitId\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"cause\":\"amend\",\"createdAt\":\"2026-10-12T16:58:17.619Z\",\"createdBy\":\"t-6f1ace9f-asha\",\"ownerId\":\"t-6f1ace9f-asha\",\"state\":\"done\",\"output\":{\"kind\":\"indicator-releases\",\"refId\":null,\"label\":\"Indicator releases\",\"stateAtCorrection\":\"no release since confirmation\"},\"external\":false,\"action\":\"recomputed\",\"instruction\":\"No indicator release is recorded since confirmation; indicators are recomputed on each read.\"}],\"supersededBy\":\"7de6d909-0996-409e-88d9-e154860cb944\",\"planId\":\"cea01889-f0f3-4213-b600-1f9f05494d99\"}"
+      }
+    ]
+  },
+  "rowEquality": true,
+  "metadataEquality": false,
+  "replay": {
+    "outcome": "draft-created",
+    "key": "108f6539-ee1f-4025-ac6c-5c5480e02726",
+    "correctionVisitId": "7de6d909-0996-409e-88d9-e154860cb944",
+    "context": {
+      "organisationId": "org_42d9fc802a1c1aabd71b09e503d41e11",
+      "actorId": "t-6f1ace9f-asha",
+      "person": {
+        "id": "p_meena",
+        "name": "Meena Devi",
+        "village": "Rampur"
+      },
+      "truncated": false,
+      "visits": [
+        {
+          "id": "7de6d909-0996-409e-88d9-e154860cb944",
+          "personId": "p_meena",
+          "state": "draft",
+          "recordVersion": 1,
+          "createdAt": "2026-10-12T16:58:17.619Z",
+          "amendsVisitId": "f84aeaf5-f8ec-49ab-8a52-68828a42c1a1",
+          "imported": false,
+          "facts": {
+            "date": "2026-10-12T16:57",
+            "systolic": "",
+            "diastolic": "",
+            "weight": "57",
+            "temperature": "",
+            "weeks": "",
+            "coughDays": "",
+            "notes": "Synthetic original confirmed amendment facts",
+            "source": "measured"
+          },
+          "plan": null,
+          "ai": [],
+          "submissions": [],
+          "tasks": []
+        },
+        {
+          "id": "7ab64b99-3316-407c-b81b-25aa4700b87d",
+          "personId": "p_meena",
+          "state": "confirmed",
+          "recordVersion": 6,
+          "createdAt": "2026-10-12T16:58:16.572Z",
+          "confirmedAt": "2026-10-12T16:58:16.602Z",
+          "imported": false,
+          "facts": {
+            "date": "2026-10-12T16:57",
+            "systolic": "",
+            "diastolic": "",
+            "weight": "57",
+            "temperature": "",
+            "weeks": "",
+            "coughDays": "",
+            "notes": "Synthetic original confirmed amendment facts",
+            "source": "measured"
+          },
+          "plan": {
+            "id": "e16ccea1-70e9-4f91-a107-83ea21e95aef",
+            "state": "completed"
+          },
+          "ai": [],
+          "submissions": [
+            {
+              "id": "3b665cec-0e35-40bd-91de-c4323cb72027",
+              "state": "accepted",
+              "receipt": "SIM-F0E4F5A9"
+            }
+          ],
+          "tasks": []
+        },
+        {
+          "id": "f84aeaf5-f8ec-49ab-8a52-68828a42c1a1",
+          "personId": "p_meena",
+          "state": "confirmed",
+          "recordVersion": 5,
+          "createdAt": "2026-10-12T16:58:16.524Z",
+          "confirmedAt": "2026-10-12T16:58:16.556Z",
+          "supersededBy": "7de6d909-0996-409e-88d9-e154860cb944",
+          "imported": false,
+          "facts": {
+            "date": "2026-10-12T16:57",
+            "systolic": "",
+            "diastolic": "",
+            "weight": "57",
+            "temperature": "",
+            "weeks": "",
+            "coughDays": "",
+            "notes": "Synthetic original confirmed amendment facts",
+            "source": "measured"
+          },
+          "plan": {
+            "id": "cea01889-f0f3-4213-b600-1f9f05494d99",
+            "state": "blocked"
+          },
+          "ai": [],
+          "submissions": [],
+          "tasks": [
+            {
+              "id": "595d246e-ad5d-4be4-8869-e48907a39cf7",
+              "visitId": "f84aeaf5-f8ec-49ab-8a52-68828a42c1a1",
+              "correctionVisitId": "7de6d909-0996-409e-88d9-e154860cb944",
+              "cause": "amend",
+              "createdAt": "2026-10-12T16:58:17.619Z",
+              "createdBy": "t-6f1ace9f-asha",
+              "ownerId": "t-6f1ace9f-asha",
+              "state": "done",
+              "output": {
+                "kind": "plan",
+                "refId": "cea01889-f0f3-4213-b600-1f9f05494d99",
+                "label": "Sharing plan",
+                "stateAtCorrection": "proposed"
+              },
+              "external": false,
+              "action": "invalidated",
+              "instruction": "The plan was blocked and cannot be approved or executed."
+            },
+            {
+              "id": "55ba7a24-bcfc-4335-8406-a63a96f88d87",
+              "visitId": "f84aeaf5-f8ec-49ab-8a52-68828a42c1a1",
+              "correctionVisitId": "7de6d909-0996-409e-88d9-e154860cb944",
+              "cause": "amend",
+              "createdAt": "2026-10-12T16:58:17.619Z",
+              "createdBy": "t-6f1ace9f-asha",
+              "ownerId": "t-6f1ace9f-asha",
+              "state": "done",
+              "output": {
+                "kind": "worker-activity",
+                "refId": null,
+                "label": "Worker activity evidence",
+                "stateAtCorrection": "performed"
+              },
+              "external": false,
+              "action": "recomputed",
+              "instruction": "Worker activity is computed on each read; this visit now shows as corrected."
+            },
+            {
+              "id": "037a7fc7-eb3b-4b76-b71e-7bdadc962ed3",
+              "visitId": "f84aeaf5-f8ec-49ab-8a52-68828a42c1a1",
+              "correctionVisitId": "7de6d909-0996-409e-88d9-e154860cb944",
+              "cause": "amend",
+              "createdAt": "2026-10-12T16:58:17.619Z",
+              "createdBy": "t-6f1ace9f-asha",
+              "ownerId": "t-6f1ace9f-asha",
+              "state": "done",
+              "output": {
+                "kind": "indicator-releases",
+                "refId": null,
+                "label": "Indicator releases",
+                "stateAtCorrection": "no release since confirmation"
+              },
+              "external": false,
+              "action": "recomputed",
+              "instruction": "No indicator release is recorded since confirmation; indicators are recomputed on each read."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "receiptCountBefore": 15,
+  "receiptCountAfter": 15
+}
