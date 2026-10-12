@@ -1,0 +1,31 @@
+{
+  "frozenAtUtc": "2026-10-12T11:25:20.144685+00:00",
+  "parentSource": "096ba2a9435ab6c782e44d748b7543075509d6c3",
+  "parentTree": "36b324b4fc883356f36d7a61b8fd0d9cf67f9e1d",
+  "issue": "Existing server reports visible covers and outsideScopeCovered separately; current UI labels visible subset as total people.",
+  "ownedPaths": [
+    "lib/saha/frontline-followup.ts",
+    "app/follow-ups/follow-ups.tsx",
+    "tests/frontline-followup-contract.mjs",
+    "tests/ui/frontline-followup.spec.mjs"
+  ],
+  "preimagePins": {
+    "lib/saha/frontline-followup.ts": "b57136acf4426cd34308fd6934a0e01e7fd315fb8f3d64486cf2a7b7616c78a9",
+    "app/follow-ups/follow-ups.tsx": "6a5eb5ebd27ca0a86bcf90b9ebf82c54afda709ebc0122b0267973f12d17be3c",
+    "tests/frontline-followup-contract.mjs": "0ee672cf3091a4dfe2b4ed7dd0341448c2ae7502166062fd3542847eaee847a7",
+    "tests/ui/frontline-followup.spec.mjs": "7011a315997ca350f61e5a92f7e429bf3a58cd6c78f8de92bbbe95aaa4bc6921"
+  },
+  "correction": [
+    "Require actual nonnegative integer outsideScopeCovered in the existing server slot shape, collapse to hasOutsideScope boolean; do not expose hidden count precision or identities.",
+    "Label shared count explicitly as people within access, including one visible person when server says other covers are hidden. Only selected record clinical items remain displayed.",
+    "When hidden covers exist state the limitation and unavailability of changing the shared time; preserve authoritative existing canReschedule and server rules.",
+    "Keep all28 prior unit assertions and all6 browser bodies unchanged; append meaningful count-shape units and real partially-visible household browser journey using existing commands only."
+  ],
+  "nativeTestPlan": "Actual owner adds Rajesh and Sunita to existing synthetic household and schedules a home-visit reference shared slot; Rajesh initially assigned to ASHA, Sunita stays owner-only. Verify authoritative two visible covers + outside presence, selected-only UI and no browser POST/clinical mutation. Reassign Rajesh outside and explicitly refresh; verify one visible person still shared/limited, hidden details absent and fresh read does not mutate clinical/receipt tables. No response substitution.",
+  "originalBaselinesSHA256": "0c9bdd1e90dae8e446a2ed56c9936010283e75c23feebe32e4db7b3c7769a9a0",
+  "originalBaselineCount": 389,
+  "originalServerPolicyChanged": false,
+  "realPatientsOrExternalServices": false,
+  "qualifiedBeforeRun": false,
+  "independentReviewPending": true
+}

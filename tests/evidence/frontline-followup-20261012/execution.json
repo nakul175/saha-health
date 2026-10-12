@@ -1,0 +1,117 @@
+{
+  "startedAtUtc": "2026-10-12T11:27:31.326200+00:00",
+  "source": "096ba2a9435ab6c782e44d748b7543075509d6c3",
+  "tree": "36b324b4fc883356f36d7a61b8fd0d9cf67f9e1d",
+  "port": 21451,
+  "installer": false,
+  "sourceEdited": true,
+  "newFrontlineJourneyFixture": "tests/ui/frontline-followup.spec.mjs",
+  "mode": "candidate",
+  "originalGuardID": "ui/playwright.config",
+  "originalMinimum": 26,
+  "fullGuardRun": false,
+  "selectedCaseOnly": false,
+  "selectedFrontlineCasesOnly": true,
+  "canonicalBuildFresh": true,
+  "nativeCasesForecasted": false,
+  "diagnosticFixtureSHA256Before": "70c4e654082979fc971d8d97f8fc07c5298bf6159866a6c90828e4b564832fcf",
+  "command": [
+    "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-followup-20261012/node_modules/@playwright/test/cli.js",
+    "test",
+    "tests/ui/frontline-followup.spec.mjs",
+    "--config",
+    "tests/ui/playwright.config.mjs",
+    "--project",
+    "desktop",
+    "--reporter=list,json,./tests/ui/support/reporter.mjs"
+  ],
+  "environmentStates": {
+    "CI": "true",
+    "SAHA_UI_PORT": "21451",
+    "SAHA_UI_BASE": "unset",
+    "providers": "off",
+    "synthetic": true
+  },
+  "sourceFilesBefore": 16960,
+  "dependencyRegularFilesBefore": 52299,
+  "browserExistingOnly": true,
+  "canonicalBuildCommand": [
+    "/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/Users/athena/.local/node/v24.21.0/lib/node_modules/npm/bin/npm-cli.js",
+    "run",
+    "build"
+  ],
+  "buildPid": 52180,
+  "buildPgid": 52180,
+  "buildExitCode": 0,
+  "pid": 52257,
+  "pgid": 52257,
+  "cleanup": {
+    "atUtc": "2026-10-12T11:28:18.863453+00:00",
+    "groups": [
+      52180,
+      52257,
+      52284
+    ],
+    "knownPids": [
+      52180,
+      52200,
+      52257,
+      52274,
+      52275,
+      52280,
+      52281,
+      52282,
+      52283,
+      52284,
+      52285,
+      52286,
+      52289,
+      52322,
+      52373,
+      52420,
+      52424,
+      52448,
+      52476,
+      52518,
+      52552
+    ],
+    "remainingOwnedProcesses": [],
+    "portFree": true,
+    "statePreserved": true
+  },
+  "custody": {
+    "allTrackedSourceMapsEqual": true,
+    "dependencyFileMapsEqual": true,
+    "browserExecutableMapsEqual": true,
+    "trackedStatusAfter": "M  app/follow-ups/follow-ups.tsx\nM  lib/saha/frontline-followup.ts\nM  tests/frontline-followup-contract.mjs\nM  tests/ui/frontline-followup.spec.mjs\n",
+    "profileAfter": {
+      "present": false,
+      "sha256": null,
+      "effectiveProfile": "portable"
+    },
+    "allFreshCompiledFilesIncludingHiddenViteManifestsUnchanged": true,
+    "diagnosticFixtureSHA256After": "70c4e654082979fc971d8d97f8fc07c5298bf6159866a6c90828e4b564832fcf",
+    "diagnosticFixtureUnchanged": true,
+    "facadeLinksUnchanged": true
+  },
+  "ownedFacadeAfter": {
+    ".vite": {
+      "exists": true,
+      "symlink": false,
+      "files": 0
+    },
+    ".vite-temp": {
+      "exists": true,
+      "symlink": false,
+      "files": 0
+    }
+  },
+  "finishedAtUtc": "2026-10-12T11:28:23.288946+00:00",
+  "runnerExitCode": 0,
+  "executionFailure": null,
+  "cleanupFailure": null,
+  "newRuntimePassClaim": false,
+  "independentAdjudicationPending": true
+}

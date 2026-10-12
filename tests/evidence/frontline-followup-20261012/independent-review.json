@@ -1,0 +1,172 @@
+{
+  "schema": 1,
+  "reviewer": "/root/next50_identity",
+  "reviewedAt": "2026-10-12T11:34:25.641614+00:00",
+  "sourceSHA": "045eb8694cb93a506bc69894caae08673e04b05c",
+  "sourceTree": "14796997e301f1719bafa7f72df31535604352f6",
+  "ancestorSHA": "096ba2a9435ab6c782e44d748b7543075509d6c3",
+  "baseSHA": "22a271033eaa57e124a235fc615744928f1ac106",
+  "canonicalStory": "SAHA-036 / APL-59",
+  "canonicalTask": "ENG-BR-PROG-05 / APL-219",
+  "verdict": "PASS_BOUNDED_CORRECTED_SOURCE_AND_ACTUAL_EVIDENCE; ROOT_FINAL_METADATA_AND_CI_PENDING",
+  "resolvedFinding": {
+    "previousHeldReceipt": "INDEPENDENT-SOURCE-REVIEW-096-HELD.json",
+    "previousSha256": "d183a32c5fb59310c99ca0bb3100dd7ed0d9d70cc862d68d5fdad2a56d54123a",
+    "diagnosis": "INDEPENDENT-COVER-COUNT-DIAGNOSIS.json",
+    "correction": "Required server outsideScopeCovered is validated and reduced to hasOutsideScope. Visible-person count is explicitly described as within access, including one visible person in a partially visible shared slot; boolean limitation names missing access and unchanged reschedule unavailability. No hidden count precision or other person item content is added to local projection/render.",
+    "serverResponseLimit": "Existing native household API still permits outsideScopeCovered counts. This is display projection minimisation only, not a changed network/API privacy policy.",
+    "authoritativeEligibilityUnchanged": true,
+    "frozenBeforeCode": "2026-10-12T11:25:20.144685+00:00"
+  },
+  "unchangedSourceAssessment": {
+    "authority": "Initial Today and final Today guard match URL-selected org/person under current authoritative ASHA assignment. Household read uses the same explicit org and scoped existing API. The projection exposes only selected-person titles/due/open/owner; other persons remain references/versions for the unchanged server command. No fresh actor identity is pinned across the full multi-read chain; each endpoint and command independently authenticates the current actor and final Today rechecks selected-org/person access.",
+    "command": "Explicit proposal makes no request. Cancel restores focus and makes0POST. Confirm constructs only existing householdVisitReschedule with current household/all visible eligible cover versions and unique idempotency key. Server rechecks actor/own-slot/current versions/all covered persons. Existing due dates/owner/completion/referral rules untouched.",
+    "uncertainty": "No automatic POST retry. One real committed200 response discarded after route.fetch(maxRetries0) leads to uncertain UI. Explicit fresh GET reconciles only a planned replacement linked to prior slot with chosen date/window; no second command observed. New outcomes are not inferred from local state.",
+    "recovery": "New loads remove protected content; source invalidates aborted/late read controllers and unmount/hidden state. Offline/pagehide/visibility clear protected plan/proposal. Native browser tests offline, stale write/refused assignment/foreign/anonymous scopes, not all possible races or actor switching."
+  },
+  "sourceDelta": {
+    "productionOnly": [
+      "app/follow-ups/follow-ups.tsx",
+      "lib/saha/frontline-followup.ts"
+    ],
+    "testsAdditive": [
+      "tests/frontline-followup-contract.mjs",
+      "tests/ui/frontline-followup.spec.mjs"
+    ],
+    "sourcePins": {
+      "app/follow-ups/follow-ups.css": {
+        "sha256": "bbddd047488037482f62a58eec3a6bae63e0cafb69f40e8e873dbba090c5e1ac",
+        "bytes": 1593
+      },
+      "app/follow-ups/follow-ups.tsx": {
+        "sha256": "a1eb8274c623d48b05c5c37959626e38765b974d138e20fe6068a4780b6f26f8",
+        "bytes": 10751
+      },
+      "app/follow-ups/page.tsx": {
+        "sha256": "537b5fb820b22e601cf76bd6353c4a4b9558f7e9df1b7e657d3c1895aacda92a",
+        "bytes": 258
+      },
+      "app/today/today.tsx": {
+        "sha256": "22794e60bfb9e502b29bf16f49e6ec14fa1bd5b522662e4273af640e719fb80c",
+        "bytes": 6448
+      },
+      "lib/saha/frontline-followup.ts": {
+        "sha256": "07ba0f5ec4d6908e5e2bd5a5cf3e232f7710aaa9bd9455a72e04af461e45b3b0",
+        "bytes": 5616
+      },
+      "tests/frontline-followup-contract.mjs": {
+        "sha256": "7759f9c6ea290ae09ef7a544bcd85c7e30d307d1dde2e50569220cc6aa025ce2",
+        "bytes": 9186
+      },
+      "tests/ui/frontline-followup.spec.mjs": {
+        "sha256": "70c4e654082979fc971d8d97f8fc07c5298bf6159866a6c90828e4b564832fcf",
+        "bytes": 17959
+      }
+    },
+    "unchangedOtherThreeAuthorPaths": true,
+    "old28UnitBodiesPreserved": "Byte-identical before additive checks, apart from two explicit outsideScopeCovered:0 additions in the authentic old fixture. No assertion weakened.",
+    "oldSixBrowserBodies": "Exact source prefix preserved; only new seventh case appended.",
+    "allOriginal389RecordsMinimaGoldensAndServerPolicy": "Unchanged"
+  },
+  "actualVerification": {
+    "independentImmutableHelperRepeat": {
+      "passed": 33,
+      "failed": 0,
+      "skipped": 0,
+      "resultSha256": "cbe29f71333502dc16f9fd38dcf61e81a806eb2756272c56c5c95974a8950e1c"
+    },
+    "actualAuthorBrowserStats": {
+      "startTime": "2026-10-12T11:27:51.421Z",
+      "duration": 26361.114999999998,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "AXE": {
+      "scans": 8,
+      "violations": 0
+    },
+    "newSeventhCase": {
+      "setup": "Existing real commands create3-person shared slot, then owner explicitly changes one assignment between phases. No mocked API/response substitution.",
+      "firstRead": {
+        "visibleCovers": 2,
+        "outsideCoversFromServer": 1,
+        "canReschedule": false
+      },
+      "secondRead": {
+        "visibleCovers": 1,
+        "outsideCoversFromServer": 2,
+        "canReschedule": false
+      },
+      "browserCommands": 0,
+      "fourTableEqualityWithinFirstRead": true,
+      "fourTableEqualityWithinSecondRead": true,
+      "tables": [
+        "patients",
+        "visits",
+        "households",
+        "command_receipts"
+      ],
+      "interPhaseChangeDeclared": true,
+      "noAllAuditOrAllTableEqualityClaim": true
+    },
+    "previousSixCasesRepeatedInCurrentRun": "Cancel0POST, successful linked atomic reschedule, stale version409, revoked assignment403, anonymous/foreign selector refusal, offline/recovery, and lost committed200 reply followed by GET-only reconciliation retained.",
+    "freshBuildExit": 0,
+    "ownedCleanup": {
+      "atUtc": "2026-10-12T11:28:18.863453+00:00",
+      "groups": [
+        52180,
+        52257,
+        52284
+      ],
+      "knownPids": [
+        52180,
+        52200,
+        52257,
+        52274,
+        52275,
+        52280,
+        52281,
+        52282,
+        52283,
+        52284,
+        52285,
+        52286,
+        52289,
+        52322,
+        52373,
+        52420,
+        52424,
+        52448,
+        52476,
+        52518,
+        52552
+      ],
+      "remainingOwnedProcesses": [],
+      "portFree": true,
+      "statePreserved": true
+    }
+  },
+  "evidenceIntegrity": {
+    "handoffSha256": "94e17d300db1ed4422d944021da50230e2838947255312a2331a93e7219e7860",
+    "currentSealedManifestFilesVerified": 345,
+    "currentSealedManifestSha256": "f8141a92260e17f2428403d1049e8b0d5209ea78e20f28bd2a35e2e51a11cf1e",
+    "allSourceBuildSourceAfterPinsEqual": 16960,
+    "dependencyRegularFileMapsEqual": 52299,
+    "actualCompiledArchivesRehashed": 290,
+    "compiledBeforeAfterEqual": true,
+    "browserExecutableMapsEqual": true,
+    "sourceFreezeSha256": "493d032053de213e8bece82d5f241320f156078a20f2df22774bf30bfe67d07b",
+    "rawBrowserSha256": "89e88c3b02f8f584c1f733bcaadee35899800396b9858ab1cfbd7b2d0d93e167",
+    "partialScopeSQLAttachmentSha256": "8d1bec076d89f6c5d767e8094568828d817d675fccb65c2d5719df60282cfee6",
+    "original096HandoffAndRun004AndFailedRuns": "Still preserved; count finding was corrected prospectively, not retroactively relabeled passed."
+  },
+  "limits": [
+    "Source/evidence review only. Root shared metadata, new observed33 unit guard/classification and full exact-source CI still pending and require separate review.",
+    "The seven selected browser cases are not the full original UI guard; the original ui/playwright aggregate/min26/goldens remain unchanged and full CI must execute original29 plus these7.",
+    "New UI actor authority stays per trusted endpoint/command and final Today org/person check; no new cross-read actor pin is claimed.",
+    "No new server/policy/provider/database/clinical/referral semantics or real patient/recipient use.",
+    "No full canonical TC-BR-PROG-05/TC-J01/domain/physical/clinical timing/privacy/official UAT/NFR/whole-story/human/GitHub approval, source merge or observed hosting acceptance."
+  ]
+}

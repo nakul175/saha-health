@@ -1,3 +1,11 @@
+# Frontline follow-up candidate qualified locally; publication gate pending — 12 October 2026
+
+[Bounded source, evidence and remaining work](frontline-followup-20261012/README.md): SAHA-036/APL59 and ENG-BR-PROG-05/APL219 now expose Today planned follow-ups and explicit existing-slot rescheduling. Corrected source045 has genuine separate scoped review,33 helper groups, existing19+35 canonical checks,7 first-pass native browser cases and8 axe scans with0 violations; build/types/affectedlint pass. Only observed unit33 is appended to389 unchanged guards; originalUI min26/ninegoldens remain. Formal acceptance, full current-head CI, final metadata review/main integration and observed hosting remain pending. Clinical/physical/TC-J01 and original requirements/cases are not promoted. Main base22a is recorded; earlier dated evidence below is preserved unchanged.
+
+| Active technical work | Next delivery gate | Held boundary |
+| --- | --- | --- |
+| APL219 — frontline planned follow-ups/reschedule | Final composed review, normal draft PR and exact-head CI including full originalUI aggregate | Canonical/domain/formal/live acceptance remains open |
+
 # Engineering implementation plan
 
 Continue from R11 / v1.3-readiness and the [next-delivery slice](../NEXT-DELIVERY.md). The original eleven work packages and 176 backlog items remain in the [target plan](../reference/08_Engineering-Implementation-Plan_v1.0.md) and preserved workbook exports. Their original business phases are distinct from engineering releases.
