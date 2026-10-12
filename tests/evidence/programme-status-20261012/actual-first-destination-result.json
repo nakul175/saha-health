@@ -1,0 +1,123 @@
+{
+  "result": {
+    "enrolmentId": "9f9771f0-81d8-4e89-85ac-c60b5b499145",
+    "state": "accepted",
+    "destinationReceipt": "SIM-ENROL-53865432"
+  },
+  "person": {
+    "id": "p_meena",
+    "name": "Meena Devi",
+    "age": 26,
+    "sex": "Female",
+    "village": "Rampur",
+    "programmes": [
+      "Maternal care",
+      "General care",
+      "TB screening",
+      "Chronic care"
+    ],
+    "task": "Antenatal home visit",
+    "due": "Today",
+    "status": "due",
+    "aiConsent": true,
+    "exchangeConsent": false,
+    "consentVersion": 1,
+    "createdAt": "2026-10-12T11:18:27.563Z",
+    "version": 7,
+    "teamId": "default",
+    "assignedTo": "t-7d3a1f31-asha",
+    "synthetic": true,
+    "assignmentHistory": [
+      {
+        "id": "c4218e09-0e99-48bd-8aff-2e8d4ddd475a",
+        "at": "2026-10-12T11:18:27.638Z",
+        "by": "t-7d3a1f31-owner",
+        "fromTeam": "default",
+        "fromOwner": "t-7d3a1f31-owner",
+        "teamId": "default",
+        "ownerId": "t-7d3a1f31-asha",
+        "reason": "Synthetic programme status selection",
+        "openWork": 0
+      }
+    ],
+    "enrolments": [
+      {
+        "id": "9f9771f0-81d8-4e89-85ac-c60b5b499145",
+        "packId": "maternal",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic maternal episode",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:18:27.652Z",
+        "createdBy": "t-7d3a1f31-asha",
+        "registration": "not_submitted",
+        "destinationEnrolment": {
+          "version": 1,
+          "state": "accepted",
+          "destinationId": "mis_maternal",
+          "destinationName": "Maternal & child register",
+          "payloadHash": "ed63f9272b1bdf6c0e35729ad9140beec6bcc88ada099ac505efb049d1b6d3e3",
+          "attempts": 1,
+          "history": [
+            {
+              "at": "2026-10-12T11:18:27.703Z",
+              "from": "requested",
+              "to": "accepted",
+              "by": "t-7d3a1f31-asha",
+              "reason": "Destination accepted the enrolment request."
+            }
+          ],
+          "requestedAt": "2026-10-12T11:18:27.698Z",
+          "requestedBy": "t-7d3a1f31-asha",
+          "delivery": {
+            "key": "9f9771f0-81d8-4e89-85ac-c60b5b499145",
+            "actorId": "t-7d3a1f31-asha",
+            "connectorVersion": 1,
+            "personVersion": 7,
+            "expiresAt": "2026-10-12T11:33:27.698Z",
+            "operationId": "f683e7ef-a17d-440e-a6db-5fbd023252b7",
+            "startedAt": "2026-10-12T11:18:27.698Z",
+            "events": [
+              {
+                "at": "2026-10-12T11:18:27.698Z",
+                "state": "requested",
+                "detail": "Destination enrolment checkpoint saved before the request."
+              },
+              {
+                "at": "2026-10-12T11:18:27.703Z",
+                "state": "accepted",
+                "detail": "Destination Maternal & child register accepted this enrolment request (reference SIM-ENROL-53865432). The episode is not active until a clinician or supervisor activates it."
+              }
+            ]
+          },
+          "destinationReceipt": "SIM-ENROL-53865432",
+          "acceptedAt": "2026-10-12T11:18:27.703Z"
+        }
+      },
+      {
+        "id": "7f5f8933-b00c-45f8-a78f-b1ff78f7301d",
+        "packId": "tb",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic tb episode",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:18:27.665Z",
+        "createdBy": "t-7d3a1f31-asha",
+        "registration": "not_submitted"
+      },
+      {
+        "id": "d44b7734-e38d-4605-9203-445699fadbf8",
+        "packId": "hypertension",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic hypertension episode",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:18:27.676Z",
+        "createdBy": "t-7d3a1f31-asha",
+        "registration": "not_submitted"
+      }
+    ],
+    "followUps": [],
+    "assigned": true
+  }
+}

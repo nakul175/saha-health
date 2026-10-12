@@ -1,0 +1,115 @@
+{
+  "response": {
+    "status": 403,
+    "json": {
+      "error": "Your organisation membership is inactive or unavailable."
+    },
+    "text": "{\"error\":\"Your organisation membership is inactive or unavailable.\"}",
+    "ms": 6.168333999999959,
+    "headers": {}
+  },
+  "current": {
+    "id": "p_meena",
+    "name": "Meena Devi",
+    "age": 26,
+    "sex": "Female",
+    "village": "Rampur",
+    "programmes": [
+      "Maternal care",
+      "General care"
+    ],
+    "task": "Antenatal home visit",
+    "due": "Today",
+    "status": "due",
+    "aiConsent": true,
+    "exchangeConsent": false,
+    "consentVersion": 1,
+    "createdAt": "2026-10-12T11:18:28.226Z",
+    "version": 4,
+    "teamId": "default",
+    "assignedTo": "t-7d3a1f31-asha",
+    "synthetic": true,
+    "assignmentHistory": [
+      {
+        "id": "44de27c0-043f-435d-bb38-e16df4f6c89a",
+        "at": "2026-10-12T11:18:28.258Z",
+        "by": "t-7d3a1f31-steward-membership",
+        "fromTeam": "default",
+        "fromOwner": "t-7d3a1f31-steward-membership",
+        "teamId": "default",
+        "ownerId": "t-7d3a1f31-asha",
+        "reason": "Synthetic checkpoint membership",
+        "openWork": 0
+      }
+    ],
+    "enrolments": [
+      {
+        "id": "f7ba8d1d-ab42-4aef-8bf0-020a878d54a7",
+        "packId": "maternal",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic checkpoint membership",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:18:28.269Z",
+        "createdBy": "t-7d3a1f31-asha",
+        "registration": "not_submitted",
+        "destinationEnrolment": {
+          "version": 0,
+          "state": "requested",
+          "destinationId": "mis_maternal",
+          "destinationName": "Maternal & child register",
+          "payloadHash": "770df2381eb70b8bd184c0085d08483491507ddc893fc6a28ea8878eefdd2fb4",
+          "attempts": 1,
+          "history": [],
+          "requestedAt": "2026-10-12T11:18:28.284Z",
+          "requestedBy": "t-7d3a1f31-asha",
+          "delivery": {
+            "key": "f7ba8d1d-ab42-4aef-8bf0-020a878d54a7",
+            "actorId": "t-7d3a1f31-asha",
+            "connectorVersion": 1,
+            "personVersion": 4,
+            "expiresAt": "2026-10-12T11:33:28.284Z",
+            "operationId": "924553d6-01aa-4b81-bbb7-472331e07baf",
+            "startedAt": "2026-10-12T11:18:28.284Z",
+            "events": [
+              {
+                "at": "2026-10-12T11:18:28.284Z",
+                "state": "requested",
+                "detail": "Destination enrolment checkpoint saved before the request."
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "followUps": [],
+    "assigned": true
+  },
+  "de": {
+    "version": 0,
+    "state": "requested",
+    "destinationId": "mis_maternal",
+    "destinationName": "Maternal & child register",
+    "payloadHash": "770df2381eb70b8bd184c0085d08483491507ddc893fc6a28ea8878eefdd2fb4",
+    "attempts": 1,
+    "history": [],
+    "requestedAt": "2026-10-12T11:18:28.284Z",
+    "requestedBy": "t-7d3a1f31-asha",
+    "delivery": {
+      "key": "f7ba8d1d-ab42-4aef-8bf0-020a878d54a7",
+      "actorId": "t-7d3a1f31-asha",
+      "connectorVersion": 1,
+      "personVersion": 4,
+      "expiresAt": "2026-10-12T11:33:28.284Z",
+      "operationId": "924553d6-01aa-4b81-bbb7-472331e07baf",
+      "startedAt": "2026-10-12T11:18:28.284Z",
+      "events": [
+        {
+          "at": "2026-10-12T11:18:28.284Z",
+          "state": "requested",
+          "detail": "Destination enrolment checkpoint saved before the request."
+        }
+      ]
+    }
+  }
+}

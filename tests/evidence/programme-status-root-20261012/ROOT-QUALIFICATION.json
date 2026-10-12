@@ -1,0 +1,33 @@
+{
+  "observedAt": "2026-10-12T11:38:29.423642+00:00",
+  "runtimeSource": "48804685e1aa1135df1de4d1acf0483d22e893fe",
+  "rootQualifyingMetadataUncommitted": true,
+  "original389Identical": true,
+  "added": {
+    "smoke/programme-status-browser": {
+      "layer": "smoke",
+      "file": "tests/smoke/programme-status-browser.mjs",
+      "minPassed": 55
+    },
+    "unit/programme-status-contract": {
+      "layer": "unit",
+      "file": "tests/programme-status-contract.mjs",
+      "minPassed": 31
+    }
+  },
+  "rootActualNewMinima": {
+    "unit": 31,
+    "native": 55
+  },
+  "originalRouteQualification": {
+    "authorization": 64,
+    "smokePassed": 33,
+    "smokeInheritedSkipped": 1
+  },
+  "limits": [
+    "Root runs use existing current compiled candidate build, not new build execution by --fast.",
+    "All existing regression minima preserved, route inventory now100.",
+    "Formal0/364, whole canonical story and exact-head CI pending.",
+    "No hosting access, external provider or real official registration."
+  ]
+}

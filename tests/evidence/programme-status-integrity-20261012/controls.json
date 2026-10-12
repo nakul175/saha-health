@@ -1,0 +1,51 @@
+{
+  "observedAt": "2026-10-12T11:41:39.592171+00:00",
+  "tests": [
+    {
+      "case": "historical-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical authorization-matrix preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-programme-status-20261012/docs/verification/evidence-source-snapshots/programme-matrix-3779f8a562c1.mjs"
+    },
+    {
+      "case": "original-manifest-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical authorization-matrix manifest"
+    },
+    {
+      "case": "current-source-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed baseline file: tests/nfr/authorisation-matrix-current.mjs\nCurrent authorization matrix is not independently pinned by the current baseline"
+    },
+    {
+      "case": "current-evidence-tamper",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-programme-status-20261012/tests/evidence/programme-status-root-20261012/root-minima-001.json"
+    },
+    {
+      "case": "wrong-current-pin",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Current authorization matrix is not independently pinned by the current baseline"
+    },
+    {
+      "case": "wrong-source-path",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Unbound historical authorization-matrix source pin"
+    },
+    {
+      "case": "outside-archive",
+      "rejected": true,
+      "exitCode": 1,
+      "diagnostic": "Changed historical authorization-matrix preimage\nChanged slice evidence: /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-programme-status-20261012/tests/nfr/authorisation-matrix-current.mjs"
+    }
+  ],
+  "untamperedPass": true,
+  "originalManifestSha256": "9c700f935ec08bc8d55766f8e72a6f4190ed54c03abaf190f336abb03149f017",
+  "currentSourceSha256": "2691deb2eac4976a9284d0059f6d0bb49de8dd16b049ef49d9fe2f666ee5b9ad",
+  "limits": "Real checker-negative controls only; no story acceptance. All files restored in finally; reports/oracles/minima unchanged."
+}

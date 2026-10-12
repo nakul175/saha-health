@@ -1,0 +1,40 @@
+{
+  "source": "7adfc69c135ddbc0ce22df9bebbcafcac096229b",
+  "reviewer": "/root/next50_identity",
+  "observedAt": "2026-10-12T11:16:02.066Z",
+  "criteria": "Original frozen unknown or contradictory stored states show unavailable/unverified status",
+  "findings": [
+    {
+      "state": "requested",
+      "registration": "submitted",
+      "actual": {
+        "status": "Simulation request pending.",
+        "next": "A request is not acceptance. Check its existing workflow; this page sends nothing."
+      },
+      "expected": "Destination evidence unavailable or inconsistent.",
+      "passed": false
+    },
+    {
+      "state": "uncertain",
+      "registration": "submitted",
+      "actual": {
+        "status": "Simulation outcome unresolved.",
+        "next": "The original worker must look up the receipt before any resend. Uncertain is neither rejected nor safe to retry."
+      },
+      "expected": "Destination evidence unavailable or inconsistent.",
+      "passed": false
+    },
+    {
+      "state": "retryable",
+      "registration": "submitted",
+      "actual": {
+        "status": "Simulation lookup recorded no destination entry.",
+        "next": "Review the existing original-key workflow. This page does not retry."
+      },
+      "expected": "Destination evidence unavailable or inconsistent.",
+      "passed": false
+    }
+  ],
+  "passed": 0,
+  "failed": 3
+}

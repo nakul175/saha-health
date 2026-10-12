@@ -1,0 +1,583 @@
+{
+  "response": {
+    "status": 200,
+    "json": {
+      "result": {
+        "enrolmentId": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+        "state": "uncertain"
+      },
+      "snapshot": {
+        "schemaVersion": 1,
+        "revision": 5,
+        "role": "asha",
+        "people": [
+          {
+            "id": "p_meena",
+            "name": "Meena Devi",
+            "age": 26,
+            "sex": "Female",
+            "village": "Rampur",
+            "programmes": [
+              "Maternal care",
+              "General care",
+              "TB screening"
+            ],
+            "task": "Antenatal home visit",
+            "due": "Today",
+            "status": "due",
+            "aiConsent": true,
+            "exchangeConsent": false,
+            "consentVersion": 1,
+            "createdAt": "2026-10-12T11:18:27.887Z",
+            "version": 5,
+            "teamId": "default",
+            "assignedTo": "t-7d3a1f31-asha",
+            "synthetic": true,
+            "assignmentHistory": [
+              {
+                "id": "c15e5299-5b0e-482c-b36e-aa382e5a004c",
+                "at": "2026-10-12T11:18:27.919Z",
+                "by": "t-7d3a1f31-steward-lookup",
+                "fromTeam": "default",
+                "fromOwner": "t-7d3a1f31-steward-lookup",
+                "teamId": "default",
+                "ownerId": "t-7d3a1f31-asha",
+                "reason": "Synthetic checkpoint lookup",
+                "openWork": 0
+              }
+            ],
+            "enrolments": [
+              {
+                "id": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+                "packId": "tb",
+                "packVersion": 1,
+                "state": "active",
+                "episodeLabel": "Synthetic checkpoint lookup",
+                "startDate": null,
+                "createdAt": "2026-10-12T11:18:27.931Z",
+                "createdBy": "t-7d3a1f31-asha",
+                "registration": "not_submitted",
+                "destinationEnrolment": {
+                  "version": 1,
+                  "state": "uncertain",
+                  "destinationId": "mis_community",
+                  "destinationName": "Community health MIS",
+                  "payloadHash": "684f5f3ee165e7c9a06c7bebd5ac341013892d4d904ebc25ebb50e2359e1823c",
+                  "attempts": 1,
+                  "history": [
+                    {
+                      "at": "2026-10-12T11:18:27.945Z",
+                      "from": "requested",
+                      "to": "uncertain",
+                      "by": "t-7d3a1f31-asha",
+                      "reason": "No matching definitive receipt was received. Look up this key before any resend."
+                    }
+                  ],
+                  "requestedAt": "2026-10-12T11:18:27.942Z",
+                  "requestedBy": "t-7d3a1f31-asha",
+                  "delivery": {
+                    "key": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+                    "actorId": "t-7d3a1f31-asha",
+                    "connectorVersion": 1,
+                    "personVersion": 5,
+                    "expiresAt": "2026-10-12T11:33:27.942Z",
+                    "operationId": "b6062873-070a-4b41-9742-3214e2a80819",
+                    "startedAt": "2026-10-12T11:18:27.942Z",
+                    "events": [
+                      {
+                        "at": "2026-10-12T11:18:27.942Z",
+                        "state": "requested",
+                        "detail": "Destination enrolment checkpoint saved before the request."
+                      },
+                      {
+                        "at": "2026-10-12T11:18:27.945Z",
+                        "state": "uncertain",
+                        "detail": "No matching definitive receipt was received. Look up this key before any resend."
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "followUps": [],
+            "assigned": true
+          }
+        ],
+        "visits": [],
+        "integrations": [
+          {
+            "id": "abdm",
+            "name": "ABDM exchange",
+            "kind": "abdm",
+            "mode": "unconfigured",
+            "status": "unconfigured",
+            "version": 1,
+            "description": "ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.",
+            "programmes": []
+          },
+          {
+            "id": "ai_completeness",
+            "name": "Record completeness",
+            "kind": "ai",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.",
+            "programmes": [],
+            "capability": "completeness"
+          },
+          {
+            "id": "ai_summary",
+            "name": "Visit summariser",
+            "kind": "ai",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.",
+            "programmes": [],
+            "capability": "summary"
+          },
+          {
+            "id": "ehr_fhir",
+            "name": "Facility EHR",
+            "kind": "ehr",
+            "mode": "unconfigured",
+            "status": "unconfigured",
+            "version": 1,
+            "description": "FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.",
+            "programmes": []
+          },
+          {
+            "id": "mis_community",
+            "name": "Community health MIS",
+            "kind": "mis",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "A programme simulator that demonstrates a lost response and safe reconciliation.",
+            "programmes": [
+              "General care",
+              "Chronic care",
+              "TB screening"
+            ],
+            "behavior": "uncertain"
+          },
+          {
+            "id": "mis_maternal",
+            "name": "Maternal & child register",
+            "kind": "mis",
+            "mode": "demo",
+            "status": "active",
+            "version": 1,
+            "description": "A programme register simulator. Records acceptance and a distinct receipt.",
+            "programmes": [
+              "Maternal care",
+              "Child health"
+            ],
+            "behavior": "accept"
+          }
+        ],
+        "submissions": [],
+        "referrals": [],
+        "audit": [
+          {
+            "id": "4dc0bc7e-54ba-48fa-bfa8-817a6d9928fc",
+            "at": "2026-10-12T11:18:27.945Z",
+            "actor": "asha-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-asha",
+            "role": "asha",
+            "action": "requestDestinationEnrolmentResult",
+            "subject": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+            "detail": "Destination enrolment uncertain (reference none).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "f9d2eaa9-af47-4bc9-9a99-28fddcad39a8",
+            "at": "2026-10-12T11:18:27.942Z",
+            "actor": "asha-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-asha",
+            "role": "asha",
+            "action": "requestDestinationEnrolment",
+            "subject": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+            "detail": "Destination enrolment requested at Community health MIS for Synthetic checkpoint lookup (tb, programme TB screening). Requested by asha-7d3a1f31@example.invalid; nothing is sent to a real partner (mock adapter).\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"not-tracked\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "8b73f29f-b25a-49ef-bf9f-1cb97c3ba641",
+            "at": "2026-10-12T11:18:27.931Z",
+            "actor": "asha-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-asha",
+            "role": "asha",
+            "action": "enrolProgramme",
+            "subject": "p_meena",
+            "detail": "Local sandbox episode opened: TB screening v1. Official registration not submitted.\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-asha\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"asha\",\"status\":\"active\",\"version\":1,\"isOwner\":false},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          },
+          {
+            "id": "90867a96-ae15-4716-8f0b-8df873ffac33",
+            "at": "2026-10-12T11:18:27.919Z",
+            "actor": "steward-lookup-7d3a1f31@example.invalid",
+            "actorId": "t-7d3a1f31-steward-lookup",
+            "role": "clinician",
+            "action": "assignPatient",
+            "subject": "p_meena",
+            "detail": "Patient assignment updated. Reason: Synthetic checkpoint lookup\nCommand authority: {\"format\":\"saha-command-authority-v1\",\"initiatorId\":\"t-7d3a1f31-steward-lookup\",\"principal\":\"member\",\"membershipSource\":\"pre-mutation\",\"membership\":{\"role\":\"clinician\",\"status\":\"active\",\"version\":1,\"isOwner\":true},\"delegationEvidence\":\"recorded-uses\",\"delegations\":[]}",
+            "personId": "p_meena"
+          }
+        ],
+        "burdenMeasurement": {
+          "enabled": false,
+          "version": 0
+        },
+        "programmePacks": [
+          {
+            "id": "maternal",
+            "version": 1,
+            "name": "Maternal care",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "tb",
+            "version": 1,
+            "name": "TB screening",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "maternal",
+            "version": 2,
+            "name": "Maternal care",
+            "enrollable": true,
+            "installed": false
+          },
+          {
+            "id": "hypertension",
+            "version": 1,
+            "name": "Hypertension follow-up",
+            "enrollable": true,
+            "installed": false
+          }
+        ],
+        "auditCursor": null,
+        "user": {
+          "userId": "t-7d3a1f31-asha",
+          "displayName": "asha-7d3a1f31@example.invalid",
+          "accountCode": "70C9F0A8A32737730243AC91"
+        },
+        "maintenance": {
+          "active": false,
+          "reason": ""
+        },
+        "environment": "synthetic",
+        "environmentLabel": "Synthetic development and demonstration environment",
+        "externalApisEnabled": false,
+        "agentProviders": [
+          {
+            "id": "local",
+            "name": "Local record assistant",
+            "mode": "local",
+            "model": "structured-parser-v2",
+            "version": 2,
+            "available": true,
+            "reason": "Rules only; no language model or external data transfer."
+          },
+          {
+            "id": "openai",
+            "name": "OpenAI extraction & evidence",
+            "mode": "openai",
+            "model": "gpt-4.1-mini-2025-04-14",
+            "version": 1,
+            "available": false,
+            "reason": "Live model unavailable: server API key and external API switch required."
+          }
+        ],
+        "ehrReadiness": [],
+        "misReadiness": [],
+        "organisation": {
+          "id": "org_1ae4bc7e483c678de7273589d83b47b6",
+          "name": "Rampur care organisation",
+          "revision": 5,
+          "createdAt": "2026-10-12T11:18:27.887Z",
+          "patientRevision": 6
+        },
+        "organisations": [
+          {
+            "id": "org_c8507944ceb314431ce9508dada002ee",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          },
+          {
+            "id": "org_bb65b05e8379eb5af42ecaef29df8d5d",
+            "name": "Rampur care organisation",
+            "role": "clinician",
+            "isOwner": true
+          },
+          {
+            "id": "org_f83a61f0958ada5d5826c12661832fa1",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          },
+          {
+            "id": "org_1ae4bc7e483c678de7273589d83b47b6",
+            "name": "Rampur care organisation",
+            "role": "asha",
+            "isOwner": false
+          }
+        ],
+        "membership": {
+          "userId": "t-7d3a1f31-asha",
+          "displayName": "Synthetic checkpoint lookup",
+          "accountCode": "70C9F0A8A32737730243AC91",
+          "role": "asha",
+          "isOwner": false,
+          "status": "active",
+          "version": 1,
+          "createdAt": "2026-10-12T11:18:27.907Z",
+          "teamIds": [
+            "default"
+          ],
+          "accountName": "asha-7d3a1f31@example.invalid",
+          "nameSource": "invitation",
+          "nameVersion": 0,
+          "language": "en",
+          "languageVersion": 0
+        },
+        "members": [
+          {
+            "userId": "fixture:org_1ae4bc7e483c678de7273589d83b47b6:clinician-author",
+            "displayName": "Demonstration clinician — author (synthetic)",
+            "accountCode": "1F78F032993C01916E1922A1",
+            "role": "clinician",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:18:27.887Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Demonstration clinician — author (synthetic)",
+            "nameSource": "account",
+            "nameVersion": 0
+          },
+          {
+            "userId": "fixture:org_1ae4bc7e483c678de7273589d83b47b6:clinician-reviewer",
+            "displayName": "Demonstration clinician — reviewer (synthetic)",
+            "accountCode": "278049260EACB0BFDCA8C7AD",
+            "role": "clinician",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:18:27.887Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "Demonstration clinician — reviewer (synthetic)",
+            "nameSource": "account",
+            "nameVersion": 0
+          },
+          {
+            "userId": "t-7d3a1f31-asha",
+            "displayName": "Synthetic checkpoint lookup",
+            "accountCode": "70C9F0A8A32737730243AC91",
+            "role": "asha",
+            "isOwner": false,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:18:27.907Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "asha-7d3a1f31@example.invalid",
+            "nameSource": "invitation",
+            "nameVersion": 0
+          },
+          {
+            "userId": "t-7d3a1f31-steward-lookup",
+            "displayName": "steward-lookup-7d3a1f31@example.invalid",
+            "accountCode": "0E2E57E93C01DEAB7D7B83EF",
+            "role": "clinician",
+            "isOwner": true,
+            "status": "active",
+            "version": 1,
+            "createdAt": "2026-10-12T11:18:27.887Z",
+            "teamIds": [
+              "default"
+            ],
+            "accountName": "steward-lookup-7d3a1f31@example.invalid",
+            "nameSource": "account",
+            "nameVersion": 0
+          }
+        ],
+        "teams": [
+          {
+            "id": "default",
+            "name": "Rampur care team",
+            "createdAt": "2026-10-12T11:18:27.887Z"
+          }
+        ],
+        "invitations": [],
+        "canManage": false,
+        "speechPolicy": {
+          "cloudAllowed": false,
+          "version": 0
+        },
+        "signOffPolicy": {
+          "required": false,
+          "version": 0
+        },
+        "canAssign": false,
+        "delegatedAuthority": [],
+        "signOutPath": "/signout-with-chatgpt?return_to=%2F",
+        "migration": {
+          "migratedAt": "2026-10-12T11:18:27.887Z",
+          "counts": {
+            "people": 6,
+            "visits": 0,
+            "integrations": 6,
+            "submissions": 0,
+            "referrals": 0,
+            "audit": 22,
+            "receipts": 0
+          }
+        }
+      }
+    },
+    "text": "{\"result\":{\"enrolmentId\":\"17c77b8a-df2c-4829-a0a6-2775775b12cb\",\"state\":\"uncertain\"},\"snapshot\":{\"schemaVersion\":1,\"revision\":5,\"role\":\"asha\",\"people\":[{\"id\":\"p_meena\",\"name\":\"Meena Devi\",\"age\":26,\"sex\":\"Female\",\"village\":\"Rampur\",\"programmes\":[\"Maternal care\",\"General care\",\"TB screening\"],\"task\":\"Antenatal home visit\",\"due\":\"Today\",\"status\":\"due\",\"aiConsent\":true,\"exchangeConsent\":false,\"consentVersion\":1,\"createdAt\":\"2026-10-12T11:18:27.887Z\",\"version\":5,\"teamId\":\"default\",\"assignedTo\":\"t-7d3a1f31-asha\",\"synthetic\":true,\"assignmentHistory\":[{\"id\":\"c15e5299-5b0e-482c-b36e-aa382e5a004c\",\"at\":\"2026-10-12T11:18:27.919Z\",\"by\":\"t-7d3a1f31-steward-lookup\",\"fromTeam\":\"default\",\"fromOwner\":\"t-7d3a1f31-steward-lookup\",\"teamId\":\"default\",\"ownerId\":\"t-7d3a1f31-asha\",\"reason\":\"Synthetic checkpoint lookup\",\"openWork\":0}],\"enrolments\":[{\"id\":\"17c77b8a-df2c-4829-a0a6-2775775b12cb\",\"packId\":\"tb\",\"packVersion\":1,\"state\":\"active\",\"episodeLabel\":\"Synthetic checkpoint lookup\",\"startDate\":null,\"createdAt\":\"2026-10-12T11:18:27.931Z\",\"createdBy\":\"t-7d3a1f31-asha\",\"registration\":\"not_submitted\",\"destinationEnrolment\":{\"version\":1,\"state\":\"uncertain\",\"destinationId\":\"mis_community\",\"destinationName\":\"Community health MIS\",\"payloadHash\":\"684f5f3ee165e7c9a06c7bebd5ac341013892d4d904ebc25ebb50e2359e1823c\",\"attempts\":1,\"history\":[{\"at\":\"2026-10-12T11:18:27.945Z\",\"from\":\"requested\",\"to\":\"uncertain\",\"by\":\"t-7d3a1f31-asha\",\"reason\":\"No matching definitive receipt was received. Look up this key before any resend.\"}],\"requestedAt\":\"2026-10-12T11:18:27.942Z\",\"requestedBy\":\"t-7d3a1f31-asha\",\"delivery\":{\"key\":\"17c77b8a-df2c-4829-a0a6-2775775b12cb\",\"actorId\":\"t-7d3a1f31-asha\",\"connectorVersion\":1,\"personVersion\":5,\"expiresAt\":\"2026-10-12T11:33:27.942Z\",\"operationId\":\"b6062873-070a-4b41-9742-3214e2a80819\",\"startedAt\":\"2026-10-12T11:18:27.942Z\",\"events\":[{\"at\":\"2026-10-12T11:18:27.942Z\",\"state\":\"requested\",\"detail\":\"Destination enrolment checkpoint saved before the request.\"},{\"at\":\"2026-10-12T11:18:27.945Z\",\"state\":\"uncertain\",\"detail\":\"No matching definitive receipt was received. Look up this key before any resend.\"}]}}}],\"followUps\":[],\"assigned\":true}],\"visits\":[],\"integrations\":[{\"id\":\"abdm\",\"name\":\"ABDM exchange\",\"kind\":\"abdm\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"ABHA, HIP and HIU connections require separate onboarding, consent flows and current conformance validation.\",\"programmes\":[]},{\"id\":\"ai_completeness\",\"name\":\"Record completeness\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Checks missing visit fields and provenance. Deterministic demo adapter; no diagnosis.\",\"programmes\":[],\"capability\":\"completeness\"},{\"id\":\"ai_summary\",\"name\":\"Visit summariser\",\"kind\":\"ai\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"Creates a structured summary from confirmed facts. Deterministic demo adapter; no clinical inference.\",\"programmes\":[],\"capability\":\"summary\"},{\"id\":\"ehr_fhir\",\"name\":\"Facility EHR\",\"kind\":\"ehr\",\"mode\":\"unconfigured\",\"status\":\"unconfigured\",\"version\":1,\"description\":\"FHIR R4 example export is available. Live access needs an owner-approved endpoint and resource mapping.\",\"programmes\":[]},{\"id\":\"mis_community\",\"name\":\"Community health MIS\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme simulator that demonstrates a lost response and safe reconciliation.\",\"programmes\":[\"General care\",\"Chronic care\",\"TB screening\"],\"behavior\":\"uncertain\"},{\"id\":\"mis_maternal\",\"name\":\"Maternal & child register\",\"kind\":\"mis\",\"mode\":\"demo\",\"status\":\"active\",\"version\":1,\"description\":\"A programme register simulator. Records acceptance and a distinct receipt.\",\"programmes\":[\"Maternal care\",\"Child health\"],\"behavior\":\"accept\"}],\"submissions\":[],\"referrals\":[],\"audit\":[{\"id\":\"4dc0bc7e-54ba-48fa-bfa8-817a6d9928fc\",\"at\":\"2026-10-12T11:18:27.945Z\",\"actor\":\"asha-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolmentResult\",\"subject\":\"17c77b8a-df2c-4829-a0a6-2775775b12cb\",\"detail\":\"Destination enrolment uncertain (reference none).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"f9d2eaa9-af47-4bc9-9a99-28fddcad39a8\",\"at\":\"2026-10-12T11:18:27.942Z\",\"actor\":\"asha-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-asha\",\"role\":\"asha\",\"action\":\"requestDestinationEnrolment\",\"subject\":\"17c77b8a-df2c-4829-a0a6-2775775b12cb\",\"detail\":\"Destination enrolment requested at Community health MIS for Synthetic checkpoint lookup (tb, programme TB screening). Requested by asha-7d3a1f31@example.invalid; nothing is sent to a real partner (mock adapter).\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"not-tracked\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"8b73f29f-b25a-49ef-bf9f-1cb97c3ba641\",\"at\":\"2026-10-12T11:18:27.931Z\",\"actor\":\"asha-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-asha\",\"role\":\"asha\",\"action\":\"enrolProgramme\",\"subject\":\"p_meena\",\"detail\":\"Local sandbox episode opened: TB screening v1. Official registration not submitted.\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-asha\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"asha\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":false},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"},{\"id\":\"90867a96-ae15-4716-8f0b-8df873ffac33\",\"at\":\"2026-10-12T11:18:27.919Z\",\"actor\":\"steward-lookup-7d3a1f31@example.invalid\",\"actorId\":\"t-7d3a1f31-steward-lookup\",\"role\":\"clinician\",\"action\":\"assignPatient\",\"subject\":\"p_meena\",\"detail\":\"Patient assignment updated. Reason: Synthetic checkpoint lookup\\nCommand authority: {\\\"format\\\":\\\"saha-command-authority-v1\\\",\\\"initiatorId\\\":\\\"t-7d3a1f31-steward-lookup\\\",\\\"principal\\\":\\\"member\\\",\\\"membershipSource\\\":\\\"pre-mutation\\\",\\\"membership\\\":{\\\"role\\\":\\\"clinician\\\",\\\"status\\\":\\\"active\\\",\\\"version\\\":1,\\\"isOwner\\\":true},\\\"delegationEvidence\\\":\\\"recorded-uses\\\",\\\"delegations\\\":[]}\",\"personId\":\"p_meena\"}],\"burdenMeasurement\":{\"enabled\":false,\"version\":0},\"programmePacks\":[{\"id\":\"maternal\",\"version\":1,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"tb\",\"version\":1,\"name\":\"TB screening\",\"enrollable\":true,\"installed\":false},{\"id\":\"maternal\",\"version\":2,\"name\":\"Maternal care\",\"enrollable\":true,\"installed\":false},{\"id\":\"hypertension\",\"version\":1,\"name\":\"Hypertension follow-up\",\"enrollable\":true,\"installed\":false}],\"auditCursor\":null,\"user\":{\"userId\":\"t-7d3a1f31-asha\",\"displayName\":\"asha-7d3a1f31@example.invalid\",\"accountCode\":\"70C9F0A8A32737730243AC91\"},\"maintenance\":{\"active\":false,\"reason\":\"\"},\"environment\":\"synthetic\",\"environmentLabel\":\"Synthetic development and demonstration environment\",\"externalApisEnabled\":false,\"agentProviders\":[{\"id\":\"local\",\"name\":\"Local record assistant\",\"mode\":\"local\",\"model\":\"structured-parser-v2\",\"version\":2,\"available\":true,\"reason\":\"Rules only; no language model or external data transfer.\"},{\"id\":\"openai\",\"name\":\"OpenAI extraction & evidence\",\"mode\":\"openai\",\"model\":\"gpt-4.1-mini-2025-04-14\",\"version\":1,\"available\":false,\"reason\":\"Live model unavailable: server API key and external API switch required.\"}],\"ehrReadiness\":[],\"misReadiness\":[],\"organisation\":{\"id\":\"org_1ae4bc7e483c678de7273589d83b47b6\",\"name\":\"Rampur care organisation\",\"revision\":5,\"createdAt\":\"2026-10-12T11:18:27.887Z\",\"patientRevision\":6},\"organisations\":[{\"id\":\"org_c8507944ceb314431ce9508dada002ee\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_bb65b05e8379eb5af42ecaef29df8d5d\",\"name\":\"Rampur care organisation\",\"role\":\"clinician\",\"isOwner\":true},{\"id\":\"org_f83a61f0958ada5d5826c12661832fa1\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false},{\"id\":\"org_1ae4bc7e483c678de7273589d83b47b6\",\"name\":\"Rampur care organisation\",\"role\":\"asha\",\"isOwner\":false}],\"membership\":{\"userId\":\"t-7d3a1f31-asha\",\"displayName\":\"Synthetic checkpoint lookup\",\"accountCode\":\"70C9F0A8A32737730243AC91\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:27.907Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-7d3a1f31@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0,\"language\":\"en\",\"languageVersion\":0},\"members\":[{\"userId\":\"fixture:org_1ae4bc7e483c678de7273589d83b47b6:clinician-author\",\"displayName\":\"Demonstration clinician — author (synthetic)\",\"accountCode\":\"1F78F032993C01916E1922A1\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:27.887Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — author (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"fixture:org_1ae4bc7e483c678de7273589d83b47b6:clinician-reviewer\",\"displayName\":\"Demonstration clinician — reviewer (synthetic)\",\"accountCode\":\"278049260EACB0BFDCA8C7AD\",\"role\":\"clinician\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:27.887Z\",\"teamIds\":[\"default\"],\"accountName\":\"Demonstration clinician — reviewer (synthetic)\",\"nameSource\":\"account\",\"nameVersion\":0},{\"userId\":\"t-7d3a1f31-asha\",\"displayName\":\"Synthetic checkpoint lookup\",\"accountCode\":\"70C9F0A8A32737730243AC91\",\"role\":\"asha\",\"isOwner\":false,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:27.907Z\",\"teamIds\":[\"default\"],\"accountName\":\"asha-7d3a1f31@example.invalid\",\"nameSource\":\"invitation\",\"nameVersion\":0},{\"userId\":\"t-7d3a1f31-steward-lookup\",\"displayName\":\"steward-lookup-7d3a1f31@example.invalid\",\"accountCode\":\"0E2E57E93C01DEAB7D7B83EF\",\"role\":\"clinician\",\"isOwner\":true,\"status\":\"active\",\"version\":1,\"createdAt\":\"2026-10-12T11:18:27.887Z\",\"teamIds\":[\"default\"],\"accountName\":\"steward-lookup-7d3a1f31@example.invalid\",\"nameSource\":\"account\",\"nameVersion\":0}],\"teams\":[{\"id\":\"default\",\"name\":\"Rampur care team\",\"createdAt\":\"2026-10-12T11:18:27.887Z\"}],\"invitations\":[],\"canManage\":false,\"speechPolicy\":{\"cloudAllowed\":false,\"version\":0},\"signOffPolicy\":{\"required\":false,\"version\":0},\"canAssign\":false,\"delegatedAuthority\":[],\"signOutPath\":\"/signout-with-chatgpt?return_to=%2F\",\"migration\":{\"migratedAt\":\"2026-10-12T11:18:27.887Z\",\"counts\":{\"people\":6,\"visits\":0,\"integrations\":6,\"submissions\":0,\"referrals\":0,\"audit\":22,\"receipts\":0}}}}",
+    "ms": 8.243375000000015,
+    "headers": {}
+  },
+  "current": {
+    "id": "p_meena",
+    "name": "Meena Devi",
+    "age": 26,
+    "sex": "Female",
+    "village": "Rampur",
+    "programmes": [
+      "Maternal care",
+      "General care",
+      "TB screening"
+    ],
+    "task": "Antenatal home visit",
+    "due": "Today",
+    "status": "due",
+    "aiConsent": true,
+    "exchangeConsent": false,
+    "consentVersion": 1,
+    "createdAt": "2026-10-12T11:18:27.887Z",
+    "version": 5,
+    "teamId": "default",
+    "assignedTo": "t-7d3a1f31-asha",
+    "synthetic": true,
+    "assignmentHistory": [
+      {
+        "id": "c15e5299-5b0e-482c-b36e-aa382e5a004c",
+        "at": "2026-10-12T11:18:27.919Z",
+        "by": "t-7d3a1f31-steward-lookup",
+        "fromTeam": "default",
+        "fromOwner": "t-7d3a1f31-steward-lookup",
+        "teamId": "default",
+        "ownerId": "t-7d3a1f31-asha",
+        "reason": "Synthetic checkpoint lookup",
+        "openWork": 0
+      }
+    ],
+    "enrolments": [
+      {
+        "id": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+        "packId": "tb",
+        "packVersion": 1,
+        "state": "active",
+        "episodeLabel": "Synthetic checkpoint lookup",
+        "startDate": null,
+        "createdAt": "2026-10-12T11:18:27.931Z",
+        "createdBy": "t-7d3a1f31-asha",
+        "registration": "not_submitted",
+        "destinationEnrolment": {
+          "version": 1,
+          "state": "uncertain",
+          "destinationId": "mis_community",
+          "destinationName": "Community health MIS",
+          "payloadHash": "684f5f3ee165e7c9a06c7bebd5ac341013892d4d904ebc25ebb50e2359e1823c",
+          "attempts": 1,
+          "history": [
+            {
+              "at": "2026-10-12T11:18:27.945Z",
+              "from": "requested",
+              "to": "uncertain",
+              "by": "t-7d3a1f31-asha",
+              "reason": "No matching definitive receipt was received. Look up this key before any resend."
+            }
+          ],
+          "requestedAt": "2026-10-12T11:18:27.942Z",
+          "requestedBy": "t-7d3a1f31-asha",
+          "delivery": {
+            "key": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+            "actorId": "t-7d3a1f31-asha",
+            "connectorVersion": 1,
+            "personVersion": 5,
+            "expiresAt": "2026-10-12T11:33:27.942Z",
+            "operationId": "b6062873-070a-4b41-9742-3214e2a80819",
+            "startedAt": "2026-10-12T11:18:27.942Z",
+            "events": [
+              {
+                "at": "2026-10-12T11:18:27.942Z",
+                "state": "requested",
+                "detail": "Destination enrolment checkpoint saved before the request."
+              },
+              {
+                "at": "2026-10-12T11:18:27.945Z",
+                "state": "uncertain",
+                "detail": "No matching definitive receipt was received. Look up this key before any resend."
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "followUps": [],
+    "assigned": true
+  },
+  "de": {
+    "version": 1,
+    "state": "uncertain",
+    "destinationId": "mis_community",
+    "destinationName": "Community health MIS",
+    "payloadHash": "684f5f3ee165e7c9a06c7bebd5ac341013892d4d904ebc25ebb50e2359e1823c",
+    "attempts": 1,
+    "history": [
+      {
+        "at": "2026-10-12T11:18:27.945Z",
+        "from": "requested",
+        "to": "uncertain",
+        "by": "t-7d3a1f31-asha",
+        "reason": "No matching definitive receipt was received. Look up this key before any resend."
+      }
+    ],
+    "requestedAt": "2026-10-12T11:18:27.942Z",
+    "requestedBy": "t-7d3a1f31-asha",
+    "delivery": {
+      "key": "17c77b8a-df2c-4829-a0a6-2775775b12cb",
+      "actorId": "t-7d3a1f31-asha",
+      "connectorVersion": 1,
+      "personVersion": 5,
+      "expiresAt": "2026-10-12T11:33:27.942Z",
+      "operationId": "b6062873-070a-4b41-9742-3214e2a80819",
+      "startedAt": "2026-10-12T11:18:27.942Z",
+      "events": [
+        {
+          "at": "2026-10-12T11:18:27.942Z",
+          "state": "requested",
+          "detail": "Destination enrolment checkpoint saved before the request."
+        },
+        {
+          "at": "2026-10-12T11:18:27.945Z",
+          "state": "uncertain",
+          "detail": "No matching definitive receipt was received. Look up this key before any resend."
+        }
+      ]
+    }
+  }
+}

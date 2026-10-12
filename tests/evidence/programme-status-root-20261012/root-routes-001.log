@@ -1,0 +1,18 @@
+Running smoke nfr --fast; 2 suite(s).
+
+[smoke] 1 suite(s)
+build: skipped (--fast, dist/ exists)
+  running  smoke/local-smoke ...
+  ok       smoke/local-smoke  33 passed, 1 skipped  2.2s
+
+[nfr] 1 suite(s)
+  running  nfr/authorisation-matrix ...
+  ok       nfr/authorisation-matrix  64 passed  5.9s
+
+  layer  status  suites  passed  failed  skipped  time
+  -----  ------  ------  ------  ------  -------  ----
+  smoke  passed       1      33       0        1  2.2s
+  nfr    passed       1      64       0        0  5.9s
+  total  passed       2      97       0        1  8.3s
+
+Regression guard: passed (2 baselined suite(s) checked, 0 excused by quarantine).
