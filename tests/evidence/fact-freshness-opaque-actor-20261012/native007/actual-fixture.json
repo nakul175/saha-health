@@ -1,0 +1,481 @@
+{
+  "org": "org_55aeb8a190e556bf0d78ea1cfc729c71",
+  "actor": "auth0|synthetic-worker/opaque/worker-4edcb534",
+  "first": "fe98d418-61ce-4726-a6d8-f03fbd21b366",
+  "visitId": "08453787-cd74-4366-b60b-d664527cdfcf",
+  "today": "2026-10-12T18:23",
+  "old": "2026-10-10T18:23",
+  "sourceId": "c1dd9dc0-deef-430f-b2cb-f22c819073a7",
+  "serviceId": "de71c541-ded8-419c-9e06-bd515790389a",
+  "protocolId": "9720bc83-8917-4f1c-9205-0f70d3f84086",
+  "unknown": {
+    "organisationId": "org_55aeb8a190e556bf0d78ea1cfc729c71",
+    "actorId": "auth0|synthetic-worker/opaque/worker-4edcb534",
+    "evaluatedAt": "2026-10-12T18:23:13.703Z",
+    "person": {
+      "id": "fe98d418-61ce-4726-a6d8-f03fbd21b366",
+      "name": "Synthetic original-time person",
+      "version": 4,
+      "consentVersion": 1
+    },
+    "visits": [
+      {
+        "id": "08453787-cd74-4366-b60b-d664527cdfcf",
+        "version": 3,
+        "state": "confirmed",
+        "date": "2026-10-12T18:23",
+        "imported": false
+      }
+    ],
+    "limited": false,
+    "selected": {
+      "id": "08453787-cd74-4366-b60b-d664527cdfcf",
+      "version": 3,
+      "recordVersion": 3,
+      "state": "confirmed",
+      "visitTime": "2026-10-12T18:23",
+      "receivedAt": "2026-10-12T18:23:13.482Z",
+      "imported": false,
+      "measurements": [
+        {
+          "measure": "bloodPressure",
+          "label": "Blood pressure",
+          "values": {
+            "systolic": "120",
+            "diastolic": "80"
+          },
+          "units": {
+            "systolic": "mmHg",
+            "diastolic": "mmHg"
+          },
+          "entered": null,
+          "source": "reported",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": null,
+          "rules": [
+            {
+              "id": "e4963dc9-8458-468d-a406-12a3e906ecda",
+              "revision": 1,
+              "manifestHash": "81502ef8232adbf2a64f48c5412aad194b97674625015fea4065ce134255a723",
+              "title": "Antenatal blood pressure (demonstration, not clinically approved)",
+              "maxHours": 72,
+              "status": "not-applicable",
+              "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+            }
+          ]
+        },
+        {
+          "measure": "weight",
+          "label": "Weight",
+          "values": {
+            "weight": "58"
+          },
+          "units": {
+            "weight": "kg"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-10T18:23",
+          "origin": "earlier-observation",
+          "sourceRestriction": null,
+          "rules": []
+        },
+        {
+          "measure": "temperature",
+          "label": "Temperature",
+          "values": {
+            "temperature": "36.5"
+          },
+          "units": {
+            "temperature": "°C"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": null,
+          "rules": []
+        },
+        {
+          "measure": "weeks",
+          "label": "Gestational age",
+          "values": {
+            "weeks": ""
+          },
+          "units": {
+            "weeks": "weeks"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": "No measurement recorded. Stored source/time context alone does not establish an observation or a normal finding.",
+          "rules": []
+        },
+        {
+          "measure": "coughDays",
+          "label": "Cough duration",
+          "values": {
+            "coughDays": ""
+          },
+          "units": {
+            "coughDays": "days"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": "No measurement recorded. Stored source/time context alone does not establish an observation or a normal finding.",
+          "rules": [
+            {
+              "id": "721827a1-ede7-4e31-a8f2-84deaaf82a02",
+              "revision": 1,
+              "manifestHash": "aa086c53e8cd9f5e391db6a2286d110a4c5d57f8a1b54438c36d691bb0a20c9a",
+              "title": "Presumptive TB: cough duration (demonstration, not clinically approved)",
+              "maxHours": 72,
+              "status": "not-applicable",
+              "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "result": {
+    "organisationId": "org_55aeb8a190e556bf0d78ea1cfc729c71",
+    "actorId": "auth0|synthetic-worker/opaque/worker-4edcb534",
+    "evaluatedAt": "2026-10-12T18:23:14.319Z",
+    "person": {
+      "id": "fe98d418-61ce-4726-a6d8-f03fbd21b366",
+      "name": "Synthetic original-time person",
+      "version": 4,
+      "consentVersion": 1
+    },
+    "visits": [
+      {
+        "id": "08453787-cd74-4366-b60b-d664527cdfcf",
+        "version": 3,
+        "state": "confirmed",
+        "date": "2026-10-12T18:23",
+        "imported": false
+      }
+    ],
+    "limited": false,
+    "selected": {
+      "id": "08453787-cd74-4366-b60b-d664527cdfcf",
+      "version": 3,
+      "recordVersion": 3,
+      "state": "confirmed",
+      "visitTime": "2026-10-12T18:23",
+      "receivedAt": "2026-10-12T18:23:13.482Z",
+      "imported": false,
+      "measurements": [
+        {
+          "measure": "bloodPressure",
+          "label": "Blood pressure",
+          "values": {
+            "systolic": "120",
+            "diastolic": "80"
+          },
+          "units": {
+            "systolic": "mmHg",
+            "diastolic": "mmHg"
+          },
+          "entered": null,
+          "source": "reported",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": null,
+          "rules": [
+            {
+              "id": "e4963dc9-8458-468d-a406-12a3e906ecda",
+              "revision": 1,
+              "manifestHash": "81502ef8232adbf2a64f48c5412aad194b97674625015fea4065ce134255a723",
+              "title": "Antenatal blood pressure (demonstration, not clinically approved)",
+              "maxHours": 72,
+              "status": "not-applicable",
+              "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+            },
+            {
+              "id": "9720bc83-8917-4f1c-9205-0f70d3f84086",
+              "revision": 1,
+              "manifestHash": "9a2bab024ce08bf42ee01e63bb2a78365c40d6b586f15e5bafd1b73264cf29df",
+              "title": "Existing synthetic24hour rule",
+              "maxHours": 24,
+              "status": "within-configured-age",
+              "reason": "Within this configured age limit at the displayed evaluation time only. This is not reuse or clinical approval."
+            }
+          ]
+        },
+        {
+          "measure": "weight",
+          "label": "Weight",
+          "values": {
+            "weight": "58"
+          },
+          "units": {
+            "weight": "kg"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-10T18:23",
+          "origin": "earlier-observation",
+          "sourceRestriction": null,
+          "rules": [
+            {
+              "id": "9720bc83-8917-4f1c-9205-0f70d3f84086",
+              "revision": 1,
+              "manifestHash": "9a2bab024ce08bf42ee01e63bb2a78365c40d6b586f15e5bafd1b73264cf29df",
+              "title": "Existing synthetic24hour rule",
+              "maxHours": 24,
+              "status": "past-configured-age",
+              "reason": "Past this configured age limit. A new observation is required before this rule can use it."
+            }
+          ]
+        },
+        {
+          "measure": "temperature",
+          "label": "Temperature",
+          "values": {
+            "temperature": "36.5"
+          },
+          "units": {
+            "temperature": "°C"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": null,
+          "rules": []
+        },
+        {
+          "measure": "weeks",
+          "label": "Gestational age",
+          "values": {
+            "weeks": ""
+          },
+          "units": {
+            "weeks": "weeks"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": "No measurement recorded. Stored source/time context alone does not establish an observation or a normal finding.",
+          "rules": []
+        },
+        {
+          "measure": "coughDays",
+          "label": "Cough duration",
+          "values": {
+            "coughDays": ""
+          },
+          "units": {
+            "coughDays": "days"
+          },
+          "entered": null,
+          "source": "measured",
+          "observedAt": "2026-10-12T18:23",
+          "origin": "selected-visit-time",
+          "sourceRestriction": "No measurement recorded. Stored source/time context alone does not establish an observation or a normal finding.",
+          "rules": [
+            {
+              "id": "721827a1-ede7-4e31-a8f2-84deaaf82a02",
+              "revision": 1,
+              "manifestHash": "aa086c53e8cd9f5e391db6a2286d110a4c5d57f8a1b54438c36d691bb0a20c9a",
+              "title": "Presumptive TB: cough duration (demonstration, not clinically approved)",
+              "maxHours": 72,
+              "status": "not-applicable",
+              "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "observed": {
+    "status": 200,
+    "body": {
+      "organisationId": "org_55aeb8a190e556bf0d78ea1cfc729c71",
+      "actorId": "auth0|synthetic-worker/opaque/worker-4edcb534",
+      "evaluatedAt": "2026-10-12T18:23:34.073Z",
+      "person": {
+        "id": "fe98d418-61ce-4726-a6d8-f03fbd21b366",
+        "name": "Synthetic original-time person",
+        "version": 4,
+        "consentVersion": 1
+      },
+      "visits": [
+        {
+          "id": "08453787-cd74-4366-b60b-d664527cdfcf",
+          "version": 3,
+          "state": "confirmed",
+          "date": "2026-10-12T18:23",
+          "imported": false
+        }
+      ],
+      "limited": false,
+      "selected": {
+        "id": "08453787-cd74-4366-b60b-d664527cdfcf",
+        "version": 3,
+        "recordVersion": 3,
+        "state": "confirmed",
+        "visitTime": "2026-10-12T18:23",
+        "receivedAt": "2026-10-12T18:23:13.482Z",
+        "imported": false,
+        "measurements": [
+          {
+            "measure": "bloodPressure",
+            "label": "Blood pressure",
+            "values": {
+              "systolic": "120",
+              "diastolic": "80"
+            },
+            "units": {
+              "systolic": "mmHg",
+              "diastolic": "mmHg"
+            },
+            "entered": null,
+            "source": "reported",
+            "observedAt": "2026-10-12T18:23",
+            "origin": "selected-visit-time",
+            "sourceRestriction": null,
+            "rules": [
+              {
+                "id": "e4963dc9-8458-468d-a406-12a3e906ecda",
+                "revision": 1,
+                "manifestHash": "81502ef8232adbf2a64f48c5412aad194b97674625015fea4065ce134255a723",
+                "title": "Antenatal blood pressure (demonstration, not clinically approved)",
+                "maxHours": 72,
+                "status": "not-applicable",
+                "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+              },
+              {
+                "id": "9720bc83-8917-4f1c-9205-0f70d3f84086",
+                "revision": 1,
+                "manifestHash": "9a2bab024ce08bf42ee01e63bb2a78365c40d6b586f15e5bafd1b73264cf29df",
+                "title": "Existing synthetic24hour rule",
+                "maxHours": 24,
+                "status": "within-configured-age",
+                "reason": "Within this configured age limit at the displayed evaluation time only. This is not reuse or clinical approval."
+              }
+            ]
+          },
+          {
+            "measure": "weight",
+            "label": "Weight",
+            "values": {
+              "weight": "58"
+            },
+            "units": {
+              "weight": "kg"
+            },
+            "entered": null,
+            "source": "measured",
+            "observedAt": "2026-10-10T18:23",
+            "origin": "earlier-observation",
+            "sourceRestriction": null,
+            "rules": [
+              {
+                "id": "9720bc83-8917-4f1c-9205-0f70d3f84086",
+                "revision": 1,
+                "manifestHash": "9a2bab024ce08bf42ee01e63bb2a78365c40d6b586f15e5bafd1b73264cf29df",
+                "title": "Existing synthetic24hour rule",
+                "maxHours": 24,
+                "status": "past-configured-age",
+                "reason": "Past this configured age limit. A new observation is required before this rule can use it."
+              }
+            ]
+          },
+          {
+            "measure": "temperature",
+            "label": "Temperature",
+            "values": {
+              "temperature": "36.5"
+            },
+            "units": {
+              "temperature": "°C"
+            },
+            "entered": null,
+            "source": "measured",
+            "observedAt": "2026-10-12T18:23",
+            "origin": "selected-visit-time",
+            "sourceRestriction": null,
+            "rules": []
+          },
+          {
+            "measure": "weeks",
+            "label": "Gestational age",
+            "values": {
+              "weeks": ""
+            },
+            "units": {
+              "weeks": "weeks"
+            },
+            "entered": null,
+            "source": "measured",
+            "observedAt": "2026-10-12T18:23",
+            "origin": "selected-visit-time",
+            "sourceRestriction": "No measurement recorded. Stored source/time context alone does not establish an observation or a normal finding.",
+            "rules": []
+          },
+          {
+            "measure": "coughDays",
+            "label": "Cough duration",
+            "values": {
+              "coughDays": ""
+            },
+            "units": {
+              "coughDays": "days"
+            },
+            "entered": null,
+            "source": "measured",
+            "observedAt": "2026-10-12T18:23",
+            "origin": "selected-visit-time",
+            "sourceRestriction": "No measurement recorded. Stored source/time context alone does not establish an observation or a normal finding.",
+            "rules": [
+              {
+                "id": "721827a1-ede7-4e31-a8f2-84deaaf82a02",
+                "revision": 1,
+                "manifestHash": "aa086c53e8cd9f5e391db6a2286d110a4c5d57f8a1b54438c36d691bb0a20c9a",
+                "title": "Presumptive TB: cough duration (demonstration, not clinically approved)",
+                "maxHours": 72,
+                "status": "not-applicable",
+                "reason": "This configured rule does not cover the current person, team, programme, age or care role."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "races": [
+    {
+      "name": "assignedowner",
+      "status": 404
+    },
+    {
+      "name": "membershiprole",
+      "status": 403
+    },
+    {
+      "name": "sourceversion",
+      "status": 409
+    },
+    {
+      "name": "rulecontext",
+      "status": 409
+    },
+    {
+      "name": "personcontext",
+      "status": 409
+    },
+    {
+      "name": "visitversion",
+      "status": 409
+    }
+  ],
+  "clinicalApproval": false
+}

@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-12T18:13:18.405302+00:00",
+  "createdAt": "2026-10-12T18:22:52.498056+00:00",
   "files": {
     "ACTUAL-BEFORE-DIAGNOSIS.json": {
       "sha256": "f595870bdd9bec6bb96b712e5976cd7fd6d8761703395a6e48f0c99009bb50a9",
@@ -34,8 +34,12 @@
       "sizeBytes": 1120
     },
     "README.md": {
-      "sha256": "a6fa8383c7c1c737afd25ec4e60e42b5f2835d8450b118498a6f1658822fb3a7",
-      "sizeBytes": 4098
+      "sha256": "83573b8b672a33076d1e4f6c1e49a491c250fbac8f4a43c375537211660b4a06",
+      "sizeBytes": 4572
+    },
+    "SOURCE-PREIMAGE-RELOCATION.json": {
+      "sha256": "e009a386b1d376bdc6a5180f60b118be893f54861446e5a705b3d422a7f0b3db",
+      "sizeBytes": 1040
     },
     "before-diagnosis-002.log": {
       "sha256": "a15493d703b0d89abe42139e64ada318338fce6b5472ba1a11fc4bf468a43498",
@@ -85,6 +89,10 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sizeBytes": 0
     },
+    "manifest-45ff-historical.json": {
+      "sha256": "acb50b554249e6df4f7715c55356731fad58922687d82e815f8eb33c2a9dcb47",
+      "sizeBytes": 10089
+    },
     "missing-display-clarification/FREEZE.json": {
       "sha256": "6af5258653eb290b7608c77b09de47ec2031abd5e3129e9d907e2963e61b7d02",
       "sizeBytes": 862
@@ -97,7 +105,7 @@
       "sha256": "0d1d6135e833dc7db247bab46c8ee5050ca947f218fac846f4b3ef9a30aaaceb",
       "sizeBytes": 10737
     },
-    "missing-display-clarification/fact-freshness.ts": {
+    "missing-display-clarification/fact-freshness.ts.txt": {
       "sha256": "f99b4cf7c37dd4a575cbb5424e49cd207405eed6fc0cff23973426d0b2acefba",
       "sizeBytes": 8395
     },
@@ -225,7 +233,7 @@
       "sha256": "3143b3ef4ca3608f4bc7e83f8816d94db448f9a4598d76c7eb4e3f869cce2409",
       "sizeBytes": 9673
     },
-    "null-provenance-correction/fact-freshness.ts": {
+    "null-provenance-correction/fact-freshness.ts.txt": {
       "sha256": "10a6bb975f1d277aeed41d733d926afd9c1e0deb132f25244ad77d41da24e78e",
       "sizeBytes": 7755
     },
@@ -266,5 +274,5 @@
       "sizeBytes": 159
     }
   },
-  "limits": "Author source/evidence custody, not independent approval or formal acceptance."
+  "limits": "Current byte-pinned author evidence, historical45ff source files relocated withoutbytechanges; originalmanifest historical only, currentcompile check separate."
 }
