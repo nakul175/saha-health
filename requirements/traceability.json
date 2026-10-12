@@ -655,11 +655,20 @@
       "sourceTextLine": 193,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 1d: owners reconcile membership with an institution roster (up to 100 rows per batch): preview, then apply exactly that preview to invite, update roles and teams, and suspend leavers; never removes, never reactivates a local suspension, never suspends an owner.",
+      "current": "Slice 1d: owners reconcile membership with an institution roster (up to 100 rows per batch): preview, then apply exactly that preview to invite, update roles and teams, and suspend leavers; never removes, never reactivates a local suspension, never suspends an owner. Bounded manual existing-member review (13 October2026): explicit original partial preview/hash/apply, original-key recovery and known current owner/audit refusal clear the dedicated screen;35pure55native152original local checks. Federation and upstream session acceptance remain open.",
       "remaining": "Buyer-approved federation or identity-provider sync, automatic upstream removal feed and controlled emergency administration.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
-        "REMAINING-RELEASES.md"
+        "REMAINING-RELEASES.md",
+        "app/organisation.tsx",
+        "app/institution-roster-review/page.tsx",
+        "app/institution-roster-review/institution-roster-review.tsx",
+        "lib/saha/institution-roster-review.ts",
+        "lib/saha/institution-roster-review-server.ts",
+        "tests/institution-roster-review-contract.mjs",
+        "tests/smoke/institution-roster-review-browser.mjs",
+        "docs/current/next50/INSTITUTION-ROSTER-REVIEW-20261013.md",
+        "tests/evidence/institution-roster-preview-refusal-repair-20261013/manifest.json"
       ],
       "automatedAcceptanceClaim": false
     },

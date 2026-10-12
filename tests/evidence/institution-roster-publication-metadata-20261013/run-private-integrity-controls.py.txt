@@ -1,0 +1,25 @@
+from pathlib import Path
+import json,subprocess,hashlib,tarfile,os,datetime
+root=Path('/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-institution-roster-review-20261013');out=Path('/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/institution-roster-review/publication-metadata');mirror=out/'private-integrity-mirror';mirror.mkdir(exist_ok=True);archive=out/'source-head98.tar'
+with archive.open('wb') as f:subprocess.run(['git','archive','HEAD'],cwd=root,stdout=f,check=True)
+with tarfile.open(archive) as t:t.extractall(mirror,filter='data')
+for rel in subprocess.check_output(['git','diff','--cached','--name-only'],cwd=root,text=True).splitlines():
+ p=root/rel
+ if p.is_file():q=mirror/rel;q.parent.mkdir(exist_ok=True,parents=True);q.write_bytes(p.read_bytes())
+(mirror/'node_modules').symlink_to((root/'node_modules').resolve(),target_is_directory=True)
+manifest=mirror/'docs/verification/application-next50-institution-roster-precontrols-20261013-sha256.json';original_manifest=manifest.read_bytes();h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();env=os.environ.copy();env['PATH']='/Users/athena/.local/node/v24.21.0/bin:'+env.get('PATH','')
+def check(label,want):
+ r=subprocess.run(['/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3','scripts/check-documentation.py'],cwd=mirror,env=env,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT);(out/('full-checker-'+label+'.log')).write_text(r.stdout);assert (r.returncode==0)==want,(label,r.returncode,r.stdout[:500]);return {'label':label,'exitCode':r.returncode,'expectedPass':want,'logSha256':hashlib.sha256(r.stdout.encode()).hexdigest()}
+records=[check('positive-before',True)]
+binding='docs/verification/evidence-source-snapshot-institution-roster-native-20261013.json';bind=json.loads((mirror/binding).read_text());archivepath=bind['archivedSource'];oldsource='tests/evidence/institution-roster-review-20261013/manifest.json';currentreport='tests/evidence/institution-roster-preview-refusal-repair-20261013/native-owned002/result.json'
+cases=[('historical-manifest-bound',oldsource,lambda d:{**d,'tamper':'private control'},True),('current-result-byte',currentreport,lambda d:{**d,'passed':0},True),('wrong-current-source-pin',binding,lambda d:{**d,'currentSourceSha256':'0'*64},True),('wrong-native-pin-location',binding,lambda d:{**d,'originalManifestPin':'files.unrelated'},True),('foreign-archive-location',binding,lambda d:{**d,'archivedSource':'README.md'},True),('historical-preimage',archivepath,None,True)]
+for label,rel,mutate,rebind in cases:
+ p=mirror/rel;prior=p.read_bytes()
+ try:
+  if mutate:p.write_text(json.dumps(mutate(json.loads(prior)),indent=2)+'\n')
+  else:p.write_bytes(prior+b'\n// private corrupted original source control\n')
+  if rebind:
+   base=json.loads(original_manifest);base['files'][rel]=h(p);manifest.write_text(json.dumps(base,indent=2)+'\n')
+  records.append(check(label,False))
+ finally:p.write_bytes(prior);manifest.write_bytes(original_manifest)
+records.append(check('positive-after',True));(out/'FULL-CHECKER-INTEGRITY-CONTROLS.json').write_text(json.dumps({'completedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Private mirror only; isolated badfield updated in private current sourcebaseline to prove original evidence/binding predicates rather than only baseline checksum. No actual candidate source/evidence/criteria/minima modified.','mirror':str(mirror),'controls':records,'nativeBinding':bind,'limits':'Author integrity controls, not independent approval/product execution/CI/hosting.'},indent=2)+'\n');print(json.dumps({'positive':2,'genuineFullCheckerRefusals':len(cases)}))

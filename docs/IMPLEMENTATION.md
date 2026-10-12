@@ -261,3 +261,7 @@ ASHA /app now opens a guided prompt with three current-work/person/drafts choice
 ### Reviewed bounded owner calculations — 5 October 2026
 
 Owner expression fixtures and per-person primitive/joint cohort dependencies now share reviewed definitions and frozen edition lineage, preserving original primitive strings and historical editions. Current reporting authority, original visible care scope and exact pinned-time source/definition are rechecked after final live/CSV audit; withdrawal403 and changed data409 disclose no old figures. Original independent failures are preserved; repair7c716b97 has cold review31e398b8. Four primary suites298, independent extra95, full188-unit10102 and API/recovery4791 pass locally;100 workflows4048 and final seven187 pass with one documented media skip; documentation baseline qualification/publication remain. See [bounded calculation contract](current/OWNER-COMPOSITE-MEASURES.md) and [cold authority clearance](current/COMPOSITE-CURRENT-AUTHORITY-INDEPENDENT-AFTER.md). Broader B27/B28/B31, clinical/official reporting and formal acceptance remain pending.
+
+## Existing institution roster review
+
+The dedicated current-owner existing-member partial roster flow is documented in [the bounded contract](current/next50/INSTITUTION-ROSTER-REVIEW-20261013.md). It reuses original roster authority/hash/writer/audit/receipts. Unsuccessful previews clear protected staff metadata; uncertain apply keeps its original key/body. Federation and upstream session acceptance remain open.

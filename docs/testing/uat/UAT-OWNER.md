@@ -154,7 +154,7 @@ Organisation, team, role and direct-worker scope enforced on reads/writes/export
 - **Catalogue:** Functional, fixture FX-ID-10, catalogue owner "QA with Deployment administrator and identity steward".
 - **Run as:** Organisation owner / programme lead. Basis: owners reconcile membership with an institution roster (assessment, slice 1d).
 - **Default result:** **Blocked**
-- **Start from:** No screen is documented for BR-ID-10: the evidence map has no requirement-specific screen, and its area-wide list is too broad to use as a starting point. Use this role's navigation, listed at the top of this script, and look for the screen that matches the requirement.
+- **Start from:** Organisation & team. Not in this role's navigation: Institution roster review (/institution-roster-review; current owner only; deployment pending). These are the screens the requirement's own evidence-map entry cites, not a verified click path.
 - **Preconditions:** Organisation owner / programme lead signed in to hosted staging with synthetic data only. Catalogue precondition (target design): "Synthetic tenant A; verified actor with intended scope; relevant pack and connector test profile active; reset fixture before execution." The step "reset fixture before execution" is not available on hosted staging, because test-reset commands are never run against the hosted site: use records no earlier case has changed, or create new synthetic ones, and note which.
 
 **Tester actions**
@@ -170,7 +170,7 @@ Organisation, team, role and direct-worker scope enforced on reads/writes/export
 
 <details><summary>What the build does today (assessment, current state of BR-ID-10)</summary>
 
-Slice 1d: owners reconcile membership with an institution roster (up to 100 rows per batch): preview, then apply exactly that preview to invite, update roles and teams, and suspend leavers; never removes, never reactivates a local suspension, never suspends an owner.
+Slice 1d: owners reconcile membership with an institution roster (up to 100 rows per batch): preview, then apply exactly that preview to invite, update roles and teams, and suspend leavers; never removes, never reactivates a local suspension, never suspends an owner. Bounded manual existing-member review (13 October2026): explicit original partial preview/hash/apply, original-key recovery and known current owner/audit refusal clear the dedicated screen;35pure55native152original local checks. Federation and upstream session acceptance remain open.
 
 </details>
 

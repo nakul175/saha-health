@@ -1,0 +1,92 @@
+{
+  "completedAt": "2026-10-12T22:44:18.468463+00:00",
+  "scope": "Private mirror only; isolated badfield updated in private current sourcebaseline to prove original evidence/binding predicates rather than only baseline checksum. No actual candidate source/evidence/criteria/minima modified.",
+  "mirror": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/saha-next50-20261012/institution-roster-review/publication-metadata/private-integrity-mirror003",
+  "controls": [
+    {
+      "label": "positive-before",
+      "exitCode": 0,
+      "expectedPass": true,
+      "logSha256": "f11daf8f8923845ea6082d25457bef46c9aface2ed2b9a39619c2f5ddb398a1e"
+    },
+    {
+      "label": "historical-manifest-bound",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "b5d9fc2fe2ebe178b43bd5ba3d45feda77191a30b1f166fc2d96399dcd8663a1"
+    },
+    {
+      "label": "current-result-byte",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "702627e0b344b08d5a38c37a77144d3676704857c31a0b4af7d8f6bd18d3adde"
+    },
+    {
+      "label": "wrong-current-source-pin",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "0c5a6329165db6426c5814ab49f632737020cd31e59d807d27452a5c0a57f6ec"
+    },
+    {
+      "label": "wrong-native-pin-location",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "74f53ed4c1b270ff297b545eb8ccdccd81552c7e76328fb64998fedf529dcc9c"
+    },
+    {
+      "label": "foreign-archive-location",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "bcd9046b362462adddb54801963759bb206b3d5360d7768fe6b04030865b126a"
+    },
+    {
+      "label": "historical-preimage",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "43f6e4d86ff7fed63d5127206e4ee469a9d6a87c15204abdcd9189f3c26a6c0a"
+    },
+    {
+      "label": "artifact-sha-type",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "f28a1e540f9fcc5ba50057349cbcad9f6201cba16eaf7723184627ba3819d6bb"
+    },
+    {
+      "label": "artifact-bytes-type",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "f28a1e540f9fcc5ba50057349cbcad9f6201cba16eaf7723184627ba3819d6bb"
+    },
+    {
+      "label": "empty-artifact-map",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "f28a1e540f9fcc5ba50057349cbcad9f6201cba16eaf7723184627ba3819d6bb"
+    },
+    {
+      "label": "traversal-artifact-path",
+      "exitCode": 1,
+      "expectedPass": false,
+      "logSha256": "f28a1e540f9fcc5ba50057349cbcad9f6201cba16eaf7723184627ba3819d6bb"
+    },
+    {
+      "label": "positive-after",
+      "exitCode": 0,
+      "expectedPass": true,
+      "logSha256": "f11daf8f8923845ea6082d25457bef46c9aface2ed2b9a39619c2f5ddb398a1e"
+    }
+  ],
+  "nativeBinding": {
+    "originalManifest": "tests/evidence/institution-roster-review-20261013/manifest.json",
+    "originalManifestSha256": "647834970dccf0c41d2816dbf271deaa95afb740b660c63f0b6f081eac32eacd",
+    "originalManifestBytes": 16955,
+    "sourcePath": "tests/smoke/institution-roster-review-browser.mjs",
+    "originalManifestPin": "sourcePins.tests/smoke/institution-roster-review-browser.mjs",
+    "originalSourceSha256": "444c665b12e555659bd97d13809d64299bb09be1671189cd18726a4bf8ebba87",
+    "originalSourceBytes": 24918,
+    "currentSourceSha256": "8be8c9bcd9a40c7e76d43f0ed7c2a2a668f01118d3b1e0d95005b28b8aaa12f8",
+    "archivedSource": "docs/verification/evidence-source-snapshots/institution-roster-444c665b12e5.mjs.txt",
+    "scope": "Specific old test-source only; no report substitution or oracle/minimum change"
+  },
+  "limits": "Author integrity controls, not independent approval/product execution/CI/hosting."
+}

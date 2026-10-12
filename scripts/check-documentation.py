@@ -107,7 +107,7 @@ checks['historicalProductAssertions']=total
 # Development-slice evidence: each folder's manifest pins its reports' digests and dates.
 snapshot_index=ROOT/'docs/verification/evidence-source-snapshots.json'
 source_snapshots=read_json('docs/verification/evidence-source-snapshots.json').get('snapshots',{}) if snapshot_index.exists() else {}
-for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json']:
+for additional_name in ['evidence-source-snapshots-conformance-import.json','evidence-source-snapshots-composite-measures.json','evidence-source-snapshots-guided-media-impact.json','evidence-source-snapshots-alert-transition.json','evidence-source-snapshots-routine-retention.json','evidence-source-snapshots-refresh-contrast-20261012.json','evidence-source-snapshots-institution-roster-20261013.json']:
     additional_index=ROOT/'docs/verification'/additional_name
     if additional_index.exists():
         for source_path,versions in json.loads(additional_index.read_text()).get('snapshots',{}).items():
@@ -145,6 +145,18 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
         require(valid,'Invalid explicit evidence digest list: '+str(manifest_path.relative_to(ROOT)))
         require(valid and len({meta['path'] for meta in entries})==len(entries),'Duplicate evidence digest path: '+str(manifest_path.relative_to(ROOT)))
         entries={meta['path']:meta for meta in entries} if valid else {}
+    # Some immutable author packets use a relative artifactFiles map. Validate
+    # its exact paths, digests and byte counts instead of silently ignoring it.
+    artifact_entries=manifest.get('artifactFiles')
+    if artifact_entries is not None:
+        valid=isinstance(artifact_entries,dict) and bool(artifact_entries) and all(isinstance(name,str) and name and not Path(name).is_absolute() and '..' not in Path(name).parts and isinstance(meta,dict) and isinstance(meta.get('sha256'),str) and re.fullmatch(r'[a-f0-9]{64}',meta['sha256']) and isinstance(meta.get('bytes'),int) and not isinstance(meta.get('bytes'),bool) and meta['bytes']>=0 for name,meta in artifact_entries.items())
+        require(valid,'Invalid artifactFiles digest map: '+str(manifest_path.relative_to(ROOT)))
+        if valid:
+            entries=entries if isinstance(entries,dict) else {}
+            for name,meta in artifact_entries.items():
+                prior=entries.get(name)
+                require(prior is None or (prior.get('sha256') if isinstance(prior,dict) else prior)==meta['sha256'],'Conflicting artifactFiles digest: '+name)
+                entries.setdefault(name,meta)
     # These named maps pin application source rather than result reports.
     # Check every source digest, preserving its original layout and source scope.
     for source_key in ['sourceSha256','sourcePins','applicationSourceUnchanged','unchangedProtectedSources','unchangedProtectedSource','originalEvidenceSha256','unchangedOriginals']:
@@ -207,6 +219,21 @@ for manifest_path in sorted((ROOT/'tests/evidence').glob('*/manifest.json')):
             archive=(ROOT/binding['archivedSource']).resolve()
             require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical phone-source preimage')
             path=archive
+        # Exact immutable roster/matrix test-source preimages; never reports or minima.
+        for original_manifest,source_path,binding_file in [
+            ('tests/evidence/routine-current-source-integration-20261011/manifest.json','tests/nfr/authorisation-matrix-current.mjs','evidence-source-snapshot-institution-roster-matrix-20261013.json'),
+            ('tests/evidence/institution-roster-review-20261013/manifest.json','tests/smoke/institution-roster-review-browser.mjs','evidence-source-snapshot-institution-roster-native-20261013.json')]:
+            if str(manifest_path.relative_to(ROOT))==original_manifest and report==source_path and path.is_file() and digest(path)!=expected:
+                binding=read_json('docs/verification/'+binding_file)
+                require(binding['originalManifest']==original_manifest and binding['originalManifestSha256']==digest(manifest_path) and binding['originalManifestBytes']==manifest_path.stat().st_size,'Unbound historical roster source manifest')
+                require(binding['sourcePath']==report and binding['originalSourceSha256']==expected,'Unbound historical roster source pin')
+                if source_path=='tests/smoke/institution-roster-review-browser.mjs':
+                    require(binding['originalManifestPin']=='sourcePins.'+report and manifest.get('sourcePins',{}).get(report)==expected,'Unbound exact native source-pin location')
+                current_pin=read_json('docs/verification/'+current_baseline)['files'].get(report)
+                require(current_pin==digest(path)==binding['currentSourceSha256'],'Current roster test source not independently pinned')
+                archive=(ROOT/binding['archivedSource']).resolve()
+                require(archive.is_relative_to(ROOT/'docs/verification/evidence-source-snapshots') and archive.is_file() and archive.stat().st_size==binding['originalSourceBytes'] and digest(archive)==expected,'Changed historical roster source preimage')
+                path=archive
         # An author can pin shared source before a later independently reviewed feature changes it.
         # Preserve and check the exact earlier bytes; current runtime is still checked above.
         # Report/evidence paths always remain checked in place and cannot use an archive.

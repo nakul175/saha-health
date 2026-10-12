@@ -288,3 +288,7 @@ Combined validation now passes147 unit suites/8,594 checks, fullHTTP/restore/sec
 | B27 frozen reports | Immutable original editions and reviewed corrections; independent cancellation freshness repair | Final independent review complete in isolated source, not yet integrated |
 
 Full41-group residual scope remains in [the dispatch ledger](current/APP-FIRST-REMAINING-WORK.md). B09 inbound conflicts, B13 household completion and hosted transport diagnosis proceed in parallel. SDK licence decision, APK/device and all clinical/external/formal acceptance remain pending.
+
+## Institution roster candidate publication
+
+SAHA019/APL42/APL202: existing manual partial roster source is qualified locally at98e2b2dc. Complete current metadata/API/integrity and independent composed review/exact-head CI before any eligible publication/merge. Full federation/session criteria remain open. No whole-story completion or deployment.

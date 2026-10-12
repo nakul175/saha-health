@@ -1,0 +1,35 @@
+{
+  "verifiedAt": "2026-10-12T22:38:06.652496+00:00",
+  "actualCIHash": "3016bf500a2cf4652135e0ea59534dee8e8d9c3c73f7589204cd832ff5c9e573",
+  "actualGuardCode": "additional = {\"unit/institution-roster-review-contract\":{\"layer\":\"unit\",\"file\":\"tests/institution-roster-review-contract.mjs\",\"minPassed\":35},\"smoke/institution-roster-review-browser\":{\"layer\":\"smoke\",\"file\":\"tests/smoke/institution-roster-review-browser.mjs\",\"minPassed\":55}}\noriginal_suites = {k:v for k,v in baseline['suites'].items() if k not in additional}\nassert len(original_suites) == 389, 'Original389 guarded records must remain'\nassert hashlib.sha256(json.dumps(original_suites,sort_keys=True,separators=(',',':')).encode()).hexdigest() == 'b404c185dfb475b4e4a0e2df28df4fa00e28a4ec50c762e40135eaff377ebc96', 'Original389 objects/minima changed'\nassert len(baseline['suites']) == 391 and all(baseline['suites'].get(k)==v for k,v in additional.items()), 'Only observed35 logic and55 native roster guards added'\n",
+  "positive": true,
+  "fiveNegativeControls": [
+    {
+      "name": "original-removed",
+      "rejected": true,
+      "error": "Original389 guarded records must remain"
+    },
+    {
+      "name": "original-minimum-changed",
+      "rejected": true,
+      "error": "Original389 objects/minima changed"
+    },
+    {
+      "name": "original-source-changed",
+      "rejected": true,
+      "error": "Original389 objects/minima changed"
+    },
+    {
+      "name": "new-native-minimum-lowered",
+      "rejected": true,
+      "error": "Only observed35 logic and55 native roster guards added"
+    },
+    {
+      "name": "extra-record",
+      "rejected": true,
+      "error": "Original389 guarded records must remain"
+    }
+  ],
+  "originalWorkflowByteEqualAfterOnlyAdditionsRemoval": true,
+  "limits": "Author static CIcode controls, not remote CI execution/approval. No candidate catalogue or original criteria mutated."
+}
