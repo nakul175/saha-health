@@ -440,7 +440,7 @@
       "sourceTextLine": 172,
       "implementation": "partial",
       "target": "R15",
-      "current": "Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains the default and a verified Cloudflare Access JWT provider allows an institutional identity provider. Shared application passwords are absent.",
+      "current": "Slice 0c: identity sits behind a provider layer; Sites/ChatGPT sign-in remains the default and a verified Cloudflare Access JWT provider allows an institutional identity provider. Shared application passwords are absent. Bounded12October2026 increment: Strict finite signed-token validity claims; see docs/current/next50/IDENTITY-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.",
       "remaining": "Verified privileged MFA, workforce recovery/device replacement and session revocation acceptance.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -450,7 +450,11 @@
         "CORE-CONTINUITY.md",
         "tests/nfr/identity-hardening.mjs",
         "tests/smoke/hosted-smoke.mjs",
-        "docs/current/SLICE-11D-NON-FUNCTIONAL.md"
+        "docs/current/SLICE-11D-NON-FUNCTIONAL.md",
+        "lib/saha/identity.ts",
+        "tests/identity-numeric-dates-contract.mjs",
+        "tests/nfr/identity-numeric-dates.mjs",
+        "docs/current/next50/IDENTITY-20261012.md"
       ],
       "automatedAcceptanceClaim": false
     },
