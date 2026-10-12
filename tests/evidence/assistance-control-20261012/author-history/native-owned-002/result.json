@@ -1,0 +1,167 @@
+{
+  "passed": 37,
+  "failed": 0,
+  "skipped": 0,
+  "checks": [
+    "Actual assigned read retains recorded5minute2attempt/version3 limits and original15minute6000 defaults",
+    "Actual minimal read excludes source outputs and another actor records",
+    "Missing version-matched budget is unavailable notzero orknownspend",
+    "Wrong role org or assignment refuses protected assistance",
+    "Wrong role org or assignment refuses protected assistance",
+    "Wrong role org or assignment refuses protected assistance",
+    "Wrong role org or assignment refuses protected assistance",
+    "Invalid assistance selector refuses /api/assistance-control",
+    "Invalid assistance selector refuses /api/assistance-control?personId=",
+    "Invalid assistance selector refuses /api/assistance-control?personId=p_meena&personId=p_rajesh",
+    "Invalid assistance selector refuses /api/assistance-control?personId=p_meena&mode=all",
+    "Trusted account and explicit original organisation required",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Completed applied result cannot be cancelled or recalled",
+    "Actual mobile displays capturedlimits and distinct pending/unresolved/review/applied/cancelled states",
+    "Read/select/cancelinput leaveall60tables unchanged exceptauditmetrics andsendno command",
+    "Actual phone controls44px andnohorizontaloverflow",
+    "Exactly reviewedpending request cancelled; completedresult andclinicalfacts remainunchanged",
+    "Exactoriginalkeyreplay preservesrequest/receiptrows withoutduplicatecancellation",
+    "Alloriginalcompleted commandreceipts byteunchanged",
+    "Genuinelycommitted lostcancelresponse staysuncertain andclearsprotectedview",
+    "Explicitlostresponse recovery usesexactoriginalkey/body and0duplicate state",
+    "Actual BEFORE assistance audit membership change refusesprotectedpacket",
+    "Actual BEFORE assistance audit assignment change refusesprotectedpacket",
+    "Actual BEFORE assistance audit role-owner change refusesprotectedpacket",
+    "Actual AFTER assistance audit membership change refusesprotectedpacket",
+    "Actual AFTER assistance audit assignment change refusesprotectedpacket",
+    "Actual AFTER assistance audit role-owner change refusesprotectedpacket",
+    "Actualaudit failureclearsprotectedrequests/actions",
+    "Actualofflinetransition clearsprotectedstatus/stopactions",
+    "Actualmobile has0runtimeerrors/externalprovidercalls",
+    "App/lib/dist/ownedtests allunchangedduringnativeexecution",
+    "Ownedruntime disposedandportfree"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena&visitId=aa197395-7f04-48d6-84ff-fb548c488d18",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:21835/api/assistance-control",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"cancelAgent\",\"visitId\":\"aa197395-7f04-48d6-84ff-fb548c488d18\",\"runId\":\"4af24ea5-3c46-4cf0-9082-3c5932a8889d\"}}",
+      "key": "7b08739b-b7df-45c5-ad03-1145a6ffe36f"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena&visitId=aa197395-7f04-48d6-84ff-fb548c488d18",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:21835/api/assistance-control",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"cancelAgent\",\"visitId\":\"aa197395-7f04-48d6-84ff-fb548c488d18\",\"runId\":\"c0b07aaf-1ff2-40ad-8ff0-4ec2d44fc6bb\"}}",
+      "key": "9c64a51f-2598-4a57-9920-d90862bdc268"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:21835/api/assistance-control",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"cancelAgent\",\"visitId\":\"aa197395-7f04-48d6-84ff-fb548c488d18\",\"runId\":\"c0b07aaf-1ff2-40ad-8ff0-4ec2d44fc6bb\"}}",
+      "key": "9c64a51f-2598-4a57-9920-d90862bdc268"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena&visitId=aa197395-7f04-48d6-84ff-fb548c488d18",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena&visitId=aa197395-7f04-48d6-84ff-fb548c488d18",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena&visitId=aa197395-7f04-48d6-84ff-fb548c488d18",
+      "body": null
+    }
+  ],
+  "external": [],
+  "errors": [],
+  "races": [
+    {
+      "timing": "BEFORE",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "assignment",
+      "status": 404
+    },
+    {
+      "timing": "BEFORE",
+      "mutation": "role-owner",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "membership",
+      "status": 403
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "assignment",
+      "status": 404
+    },
+    {
+      "timing": "AFTER",
+      "mutation": "role-owner",
+      "status": 403
+    }
+  ],
+  "disposed": true,
+  "portFree": true,
+  "completedAt": "2026-10-12T17:42:44.538Z",
+  "limits": "Actualbounded cancellationUI/API; recordedstatus/limits fixturesexplicitlysimulateexistingrecords andnotproviderloop/activation/clinical/governanceapproval. Localrules-onlyprepare/execute/apply solelyfixturebeforeUI, noexternalprovider. No formal/fullstory/device/p95/hostingapproval."
+}

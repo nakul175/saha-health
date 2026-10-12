@@ -1,0 +1,406 @@
+{
+  "status": 200,
+  "body": {
+    "outcome": "cancelled-locally",
+    "key": "7f2681d2-c7f3-46dc-99fc-3d9cd867634d",
+    "result": {
+      "runId": "9b5e1dbd-7a84-4ed4-bbca-ac8fd0065064"
+    },
+    "context": {
+      "organisationId": "org_f4b150ef2c871317111c440eb51f8f56",
+      "actorId": "t-342fef4d-asha",
+      "person": {
+        "id": "p_meena",
+        "name": "Meena Devi",
+        "village": "Rampur"
+      },
+      "visits": [
+        {
+          "id": "32bd5878-720b-4d8f-952e-40b0f2fd1ec2",
+          "state": "draft",
+          "date": "2026-10-12T17:47"
+        }
+      ],
+      "selected": {
+        "id": "32bd5878-720b-4d8f-952e-40b0f2fd1ec2",
+        "version": 2,
+        "recordVersion": 9,
+        "requests": [
+          {
+            "id": "7c94b75f-cd40-49ed-926b-4c9ffbc475be",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "applied",
+            "createdAt": "2026-10-12T17:48:57.023Z",
+            "expiresAt": "2026-10-12T18:03:57.023Z",
+            "startedAt": "2026-10-12T17:48:57.038Z",
+            "finishedAt": "2026-10-12T17:48:57.054Z",
+            "inputHash": "886180919806df61259a0309557c498b42db90976f2df4c2172faa1449351ffd",
+            "visitVersion": 1,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": null,
+            "limits": null,
+            "callCount": 1,
+            "outcome": null,
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "done"
+              },
+              {
+                "name": "Human review",
+                "state": "done"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          },
+          {
+            "id": "6112b048-7f29-450d-a37e-f3df95ddb808",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "cancelled",
+            "createdAt": "2026-10-12T17:48:57.069Z",
+            "expiresAt": "2026-10-12T17:53:57.069Z",
+            "startedAt": null,
+            "finishedAt": "2026-10-12T17:48:58.129Z",
+            "inputHash": "ae8e3a9ddb8d98c8e500e53db874d92b6e912c7cf8d8451c9b223542b771c1bf",
+            "visitVersion": 2,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": {
+              "id": "synthetic-recorded-capability",
+              "version": 3,
+              "manifestHash": "synthetic-recorded-manifest"
+            },
+            "limits": {
+              "timeMinutes": 5,
+              "attempts": 2
+            },
+            "callCount": 0,
+            "outcome": null,
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "blocked"
+              },
+              {
+                "name": "Human review",
+                "state": "blocked"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          },
+          {
+            "id": "9b5e1dbd-7a84-4ed4-bbca-ac8fd0065064",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "cancelled",
+            "createdAt": "2026-10-12T17:48:57.084Z",
+            "expiresAt": "2026-10-12T18:03:57.084Z",
+            "startedAt": null,
+            "finishedAt": "2026-10-12T17:48:58.483Z",
+            "inputHash": "6b5d24782999b40fcaedbf443499393abb08e0a80dfba6413c03c3e2f010c878",
+            "visitVersion": 2,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": null,
+            "limits": null,
+            "callCount": 0,
+            "outcome": null,
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "blocked"
+              },
+              {
+                "name": "Human review",
+                "state": "blocked"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          },
+          {
+            "id": "recorded-running",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "running",
+            "createdAt": "2026-10-12T17:48:57.084Z",
+            "expiresAt": "2026-10-12T18:03:57.084Z",
+            "startedAt": "2026-10-12T17:48:57.084Z",
+            "finishedAt": null,
+            "inputHash": "6b5d24782999b40fcaedbf443499393abb08e0a80dfba6413c03c3e2f010c878",
+            "visitVersion": 2,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": null,
+            "limits": null,
+            "callCount": 1,
+            "outcome": "uncertain",
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "pending"
+              },
+              {
+                "name": "Human review",
+                "state": "pending"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          },
+          {
+            "id": "recorded-review",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "review",
+            "createdAt": "2026-10-12T17:48:57.084Z",
+            "expiresAt": "2026-10-12T18:03:57.084Z",
+            "startedAt": "2026-10-12T17:48:57.084Z",
+            "finishedAt": "2026-10-12T17:48:57.084Z",
+            "inputHash": "6b5d24782999b40fcaedbf443499393abb08e0a80dfba6413c03c3e2f010c878",
+            "visitVersion": 2,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": null,
+            "limits": null,
+            "callCount": 1,
+            "outcome": null,
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "pending"
+              },
+              {
+                "name": "Human review",
+                "state": "pending"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          },
+          {
+            "id": "recorded-failed",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "failed",
+            "createdAt": "2026-10-12T17:48:57.084Z",
+            "expiresAt": "2026-10-12T18:03:57.084Z",
+            "startedAt": "2026-10-12T17:48:57.084Z",
+            "finishedAt": "2026-10-12T17:48:57.084Z",
+            "inputHash": "6b5d24782999b40fcaedbf443499393abb08e0a80dfba6413c03c3e2f010c878",
+            "visitVersion": 2,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": null,
+            "limits": null,
+            "callCount": 1,
+            "outcome": "uncertain",
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "pending"
+              },
+              {
+                "name": "Human review",
+                "state": "pending"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          },
+          {
+            "id": "recorded-blocked",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "blocked",
+            "createdAt": "2026-10-12T17:48:57.084Z",
+            "expiresAt": "2026-10-12T18:03:57.084Z",
+            "startedAt": "2026-10-12T17:48:57.084Z",
+            "finishedAt": "2026-10-12T17:48:57.084Z",
+            "inputHash": "6b5d24782999b40fcaedbf443499393abb08e0a80dfba6413c03c3e2f010c878",
+            "visitVersion": 2,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": null,
+            "limits": null,
+            "callCount": 1,
+            "outcome": null,
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "pending"
+              },
+              {
+                "name": "Human review",
+                "state": "pending"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          },
+          {
+            "id": "recorded-cancelled",
+            "actorId": "t-342fef4d-asha",
+            "task": "extract",
+            "status": "cancelled",
+            "createdAt": "2026-10-12T17:48:57.084Z",
+            "expiresAt": "2026-10-12T18:03:57.084Z",
+            "startedAt": "2026-10-12T17:48:57.084Z",
+            "finishedAt": "2026-10-12T17:48:57.084Z",
+            "inputHash": "6b5d24782999b40fcaedbf443499393abb08e0a80dfba6413c03c3e2f010c878",
+            "visitVersion": 2,
+            "personVersion": 3,
+            "consentVersion": 1,
+            "provider": {
+              "id": "local",
+              "name": "Local record assistant",
+              "mode": "local",
+              "model": "structured-parser-v2",
+              "version": 2
+            },
+            "governance": null,
+            "limits": null,
+            "callCount": 0,
+            "outcome": null,
+            "steps": [
+              {
+                "name": "Check scope and permission",
+                "state": "done"
+              },
+              {
+                "name": "Extract source evidence",
+                "state": "pending"
+              },
+              {
+                "name": "Human review",
+                "state": "pending"
+              }
+            ],
+            "estimate": {
+              "usd": 0,
+              "basis": "none",
+              "ratesAt": null
+            },
+            "monthlyUsd": null
+          }
+        ]
+      },
+      "asOf": "2026-10-12T17:48:58.491Z",
+      "defaultExpiryMinutes": 15,
+      "reservedTokens": 6000,
+      "costConfigurationVersion": 0
+    }
+  },
+  "request": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"cancelAgent\",\"visitId\":\"32bd5878-720b-4d8f-952e-40b0f2fd1ec2\",\"runId\":\"9b5e1dbd-7a84-4ed4-bbca-ac8fd0065064\"}}",
+  "key": "7f2681d2-c7f3-46dc-99fc-3d9cd867634d"
+}
