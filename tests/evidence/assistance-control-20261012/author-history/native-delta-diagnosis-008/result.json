@@ -1,0 +1,62 @@
+{
+  "passed": 24,
+  "failed": 1,
+  "skipped": 0,
+  "checks": [
+    "Actual assigned read retains recorded5minute2attempt/version3 limits and original15minute6000 defaults",
+    "Actual minimal read excludes source outputs and another actor records",
+    "Missing version-matched budget is unavailable notzero orknownspend",
+    "Wrong role org or assignment refuses protected assistance",
+    "Wrong role org or assignment refuses protected assistance",
+    "Wrong role org or assignment refuses protected assistance",
+    "Wrong role org or assignment refuses protected assistance",
+    "Invalid assistance selector refuses /api/assistance-control",
+    "Invalid assistance selector refuses /api/assistance-control?personId=",
+    "Invalid assistance selector refuses /api/assistance-control?personId=p_meena&personId=p_rajesh",
+    "Invalid assistance selector refuses /api/assistance-control?personId=p_meena&mode=all",
+    "Trusted account and explicit original organisation required",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Wrong actor/person/operation/origin/query cancellation refuses",
+    "Completed applied result cannot be cancelled or recalled",
+    "Actual mobile displays capturedlimits and distinct pending/unresolved/review/applied/cancelled states",
+    "Read/select/cancelinput leaveall60tables unchanged exceptauditmetrics andsendno command",
+    "Actual phone controls44px andnohorizontaloverflow",
+    "Actual secondary references initially collapsed with44px summary",
+    "Actual secondary references explicitly open andclose accessibly",
+    "Actual reference collapse restored withoutcommands"
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/today",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena",
+      "body": null
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:21835/api/assistance-control?personId=p_meena&visitId=695b9395-f6c1-466a-abd9-3938aab07a66",
+      "body": null
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:21835/api/assistance-control",
+      "body": "{\"personId\":\"p_meena\",\"command\":{\"type\":\"cancelAgent\",\"visitId\":\"695b9395-f6c1-466a-abd9-3938aab07a66\",\"runId\":\"6b1b1c23-e00e-4581-95a2-f209c23a9951\"}}",
+      "key": "f187668a-aeb6-461d-9cd0-47f42502d9c0"
+    }
+  ],
+  "external": [],
+  "errors": [],
+  "races": [],
+  "failure": "AssertionError [ERR_ASSERTION]: Actual cancellation all60table delta limited to originalrecord/audit/receipt/metrics\n    at check (file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-assistance-control-20261012/tests/smoke/assistance-control-browser.mjs:2:326)\n    at file:///Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/saha-next50-assistance-control-20261012/tests/smoke/assistance-control-browser.mjs:10:823\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "disposed": true,
+  "portFree": true,
+  "completedAt": "2026-10-12T17:50:55.093Z",
+  "limits": "Actualbounded cancellationUI/API; recordedstatus/limits fixturesexplicitlysimulateexistingrecords andnotproviderloop/activation/clinical/governanceapproval. Localrules-onlyprepare/execute/apply solelyfixturebeforeUI, noexternalprovider. No formal/fullstory/device/p95/hostingapproval."
+}

@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-10-12T17:50:55.234Z",
+  "startedAt": "2026-10-12T17:50:48.106Z",
+  "command": "node scripts/test.mjs smoke --only smoke/assistance-control-browser --report ../../outputs/saha-next50-20261012/assistance-control/native-delta-diagnosis-008-summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "build",
+      "status": "passed",
+      "suites": 1,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 4404,
+      "failedSuites": 0
+    },
+    {
+      "layer": "smoke",
+      "status": "failed",
+      "suites": 1,
+      "passed": 24,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 2587,
+      "failedSuites": 1
+    }
+  ],
+  "totals": {
+    "suites": 1,
+    "passed": 24,
+    "failed": 1,
+    "skipped": 0,
+    "failedSuites": 1,
+    "durationMs": 7128
+  },
+  "suites": [
+    {
+      "id": "build",
+      "layer": "build",
+      "kind": "step",
+      "file": "npm run build",
+      "status": "passed",
+      "passed": null,
+      "failed": null,
+      "skipped": null,
+      "durationMs": 4404,
+      "exitCode": 0,
+      "log": "tests/reports/logs/build.log"
+    },
+    {
+      "id": "smoke/assistance-control-browser",
+      "layer": "smoke",
+      "kind": "suite",
+      "file": "tests/smoke/assistance-control-browser.mjs",
+      "tier": "pr",
+      "status": "failed",
+      "passed": 24,
+      "failed": 1,
+      "skipped": 0,
+      "durationMs": 2587,
+      "exitCode": 1,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 0,
+      "reason": "exit code 1",
+      "log": "tests/reports/logs/smoke__assistance-control-browser.log"
+    }
+  ],
+  "guard": null,
+  "cleanup": {
+    "restoredTrackedFiles": [],
+    "deletedUntrackedResultFiles": []
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 8,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 1000,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 638,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}

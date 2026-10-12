@@ -1645,7 +1645,7 @@
       "sourceTextLine": 280,
       "implementation": "partial",
       "target": "R11",
-      "current": "One-call checkpointing, timeout/cancellation, per-capability daily call and reserved-token quotas; no automatic provider substitution. Slice 5a: monthly USD budgets per capability (estimates from recorded rates) checked before preparing and before sending; clinicians and supervisors with care scope can stop another worker's unsent request; sent requests are never reported as recalled. Slice 5e: per-capability task time and attempt limits in the reviewed manifest; unsent requests expire at the limit; a sent request without a result past the limit is shown as timed out with an uncertain outcome, never retried, and closed only by a recorded human decision; attempts beyond the limit refused before preparing and before sending; owner-owned budget alerts at 80% and 100% of estimated use. Slice 5h: owners record a provider invoice summary per provider and month and reconcile it against Saha's recorded estimates per model, with an owner-set threshold flag; records are append-only and audited, later ones supersede earlier ones, and budgets and rates are never changed automatically; owner-owned alerts for flagged variance and providers used without a reconciliation in the previous month.",
+      "current": "One-call checkpointing, timeout/cancellation, per-capability daily call and reserved-token quotas; no automatic provider substitution. Slice 5a: monthly USD budgets per capability (estimates from recorded rates) checked before preparing and before sending; clinicians and supervisors with care scope can stop another worker's unsent request; sent requests are never reported as recalled. Slice 5e: per-capability task time and attempt limits in the reviewed manifest; unsent requests expire at the limit; a sent request without a result past the limit is shown as timed out with an uncertain outcome, never retried, and closed only by a recorded human decision; attempts beyond the limit refused before preparing and before sending; owner-owned budget alerts at 80% and 100% of estimated use. Slice 5h: owners record a provider invoice summary per provider and month and reconcile it against Saha's recorded estimates per model, with an owner-set threshold flag; records are append-only and audited, later ones supersede earlier ones, and budgets and rates are never changed automatically; owner-owned alerts for flagged variance and providers used without a reconciliation in the previous month. Bounded12October2026 increment: Review own recorded assistance status and explicitly cancel future local application; see docs/current/next50/ASSISTANCE-CONTROL-20261012.md. Actual evidence and limits recorded separately; original formal acceptance remains unchanged.",
       "remaining": "A looping-provider stop reporting completed/cancelled/unresolved actions across multi-step tasks, background detection and delivery of timed-out requests, provider billing API reconciliation, delivered alerts and validated provider outage operation.",
       "acceptanceStatus": "pending",
       "evidenceContext": [
@@ -1668,7 +1668,16 @@
         "tests/ai-invoice-contract.mjs",
         "tests/ai-invoice-smoke.mjs",
         "app/ai-invoice-panel.tsx",
-        "docs/current/SLICE-5H-INVOICE-RECONCILIATION.md"
+        "docs/current/SLICE-5H-INVOICE-RECONCILIATION.md",
+        "app/assistance-control/page.tsx",
+        "app/assistance-control/assistance-control.tsx",
+        "app/assistance-control/assistance-control.css",
+        "app/api/assistance-control/route.ts",
+        "lib/saha/assistance-control.ts",
+        "lib/saha/assistance-control-server.ts",
+        "tests/assistance-control-contract.mjs",
+        "tests/smoke/assistance-control-browser.mjs",
+        "docs/current/next50/ASSISTANCE-CONTROL-20261012.md"
       ],
       "automatedAcceptanceClaim": false
     },
