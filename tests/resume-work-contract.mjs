@@ -18,5 +18,6 @@ try{
  for(const patch of [{organisationId:'other'},{person:{id:'other'}}])check('Foreign source identity cannot generate a resume link',()=>assert.throws(()=>currentServerDraft({...value,...patch},'person-a','org-a','actor'),/could not be matched/));
  check('Missing trusted actor cannot generate any resume link',()=>assert.throws(()=>currentServerDraft(value,'person-a','org-a',''),/could not be matched/));
  check('Read-only discovery never mutates draft source',()=>{const before=structuredClone(value);currentServerDraft(value,'person-a','org-a','actor');assert.deepEqual(value,before);});
+ for(const id of [42,true,['visit-a']])check('Non-string source identity cannot be coerced to a resume URL',()=>assert.throws(()=>currentServerDraft({...value,visit:{...value.visit,id}},'person-a','org-a','actor'),/changed or is unavailable/));
  const output=process.env.SAHA_RESUME_WORK_REPORT??'tests/reports/resume-work-contract-result.json';mkdirSync(join(output,'..'),{recursive:true});writeFileSync(output,JSON.stringify({passed:checks.length,failed:0,skipped:0,checks,completedAt:new Date().toISOString(),limits:'Closed exact-source navigation only; no durable device/offline/interrupted write/clinical/formal acceptance.'},null,2));console.log(`${checks.length} resume source/navigation checks passed`);
 }finally{rmSync(dir,{recursive:true,force:true});}

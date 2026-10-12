@@ -1,6 +1,6 @@
 import type { RoutineContext } from './routine-visit';
 type Selection = { personId: string; organisationId: string; visitId?: string; actorId?: string };
-const reference = (value: string | null): value is string => !!value && /^[A-Za-z0-9_:.-]{1,120}$/.test(value);
+const reference = (value: unknown): value is string => typeof value === 'string' && /^[A-Za-z0-9_:.-]{1,120}$/.test(value);
 export function routineSelection(query: URLSearchParams): Selection | null {
   const keys = ['personId', 'organisationId', 'visitId', 'actorId'];
   if ([...query.keys()].some(k => !keys.includes(k)) || query.getAll('personId').length !== 1 || query.getAll('organisationId').length !== 1 || query.getAll('visitId').length > 1 || query.getAll('actorId').length > 1) return null;
