@@ -1,0 +1,350 @@
+{
+  "org": "org_e71399bcea6a756956ed6e996a77eb43",
+  "owner": "auth0|owner/pack-627c774b",
+  "samples": [
+    {
+      "installationId": "9e6c1c57-82c3-424a-abb4-33100e4a8f07",
+      "packId": "review_pack_0",
+      "version": 1,
+      "state": "staged",
+      "manifestHash": "2164e6dd74ec173c800a52e4dd887e9704949ab6d7ab57ee67071aa41e78770d",
+      "status": "staged"
+    },
+    {
+      "installationId": "eecd399b-40e3-4740-8a99-b674d516566a",
+      "packId": "review_pack_1",
+      "version": 1,
+      "state": "staged",
+      "manifestHash": "2923505dd5d685df42aa65df2f004e188941ab184f0e74310bebe1bebcb2cf74",
+      "status": "approved"
+    },
+    {
+      "installationId": "c75fc42c-ad6e-427a-8837-205c38273295",
+      "packId": "review_pack_2",
+      "version": 1,
+      "state": "staged",
+      "manifestHash": "38b8dc6bd587eb03861f760cf148dcaf3c1388a9ee853c8493e15ad972a50a19",
+      "status": "active"
+    },
+    {
+      "installationId": "f7fd0af1-1ce2-4f78-a22c-d8f21790d4e5",
+      "packId": "review_pack_3",
+      "version": 1,
+      "state": "staged",
+      "manifestHash": "2490403054c64fa4543a8252eadc20f5550ec9d9e6ca03ced594f6f225f66aea",
+      "status": "retired"
+    },
+    {
+      "installationId": "7d72ce11-eeb4-4500-a0f3-92ee7ac6a028",
+      "packId": "review_pack_4",
+      "version": 1,
+      "state": "staged",
+      "manifestHash": "2bfe1d96f93a760f99645b5d75d8f90fca6102f8defedfd80e95f558809684d5",
+      "status": "rejected"
+    }
+  ],
+  "packet": {
+    "kind": "configuration",
+    "actorId": "auth0|owner/pack-627c774b",
+    "organisation": {
+      "id": "org_e71399bcea6a756956ed6e996a77eb43",
+      "name": "Rampur care organisation"
+    },
+    "configVersion": 0,
+    "notice": "Installed packs are synthetic configuration. Review and activation here are a governance check of structure and conflicts; they are not clinical approval of the content.",
+    "asOf": "2026-10-12T18:50:22.307Z",
+    "installations": [
+      {
+        "id": "7d72ce11-eeb4-4500-a0f3-92ee7ac6a028",
+        "packId": "review_pack_4",
+        "version": 1,
+        "name": "Synthetic rejected pack",
+        "state": "rejected",
+        "manifestHash": "2bfe1d96f93a760f99645b5d75d8f90fca6102f8defedfd80e95f558809684d5"
+      },
+      {
+        "id": "f7fd0af1-1ce2-4f78-a22c-d8f21790d4e5",
+        "packId": "review_pack_3",
+        "version": 1,
+        "name": "Synthetic retired pack",
+        "state": "retired",
+        "manifestHash": "2490403054c64fa4543a8252eadc20f5550ec9d9e6ca03ced594f6f225f66aea"
+      },
+      {
+        "id": "c75fc42c-ad6e-427a-8837-205c38273295",
+        "packId": "review_pack_2",
+        "version": 1,
+        "name": "Synthetic active pack",
+        "state": "active",
+        "manifestHash": "38b8dc6bd587eb03861f760cf148dcaf3c1388a9ee853c8493e15ad972a50a19"
+      },
+      {
+        "id": "eecd399b-40e3-4740-8a99-b674d516566a",
+        "packId": "review_pack_1",
+        "version": 1,
+        "name": "Synthetic approved pack",
+        "state": "approved",
+        "manifestHash": "2923505dd5d685df42aa65df2f004e188941ab184f0e74310bebe1bebcb2cf74"
+      },
+      {
+        "id": "9e6c1c57-82c3-424a-abb4-33100e4a8f07",
+        "packId": "review_pack_0",
+        "version": 1,
+        "name": "Synthetic staged pack",
+        "state": "staged",
+        "manifestHash": "2164e6dd74ec173c800a52e4dd887e9704949ab6d7ab57ee67071aa41e78770d"
+      }
+    ],
+    "selected": {
+      "id": "f7fd0af1-1ce2-4f78-a22c-d8f21790d4e5",
+      "packId": "review_pack_3",
+      "version": 1,
+      "state": "retired",
+      "manifestHash": "2490403054c64fa4543a8252eadc20f5550ec9d9e6ca03ced594f6f225f66aea",
+      "manifest": {
+        "format": "saha-pack-manifest-1",
+        "id": "review_pack_3",
+        "version": 1,
+        "name": "Synthetic retired pack",
+        "programme": "Child health",
+        "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+        "questions": [
+          {
+            "id": "weight",
+            "label": "Weight",
+            "required": true,
+            "fact": "weight",
+            "unit": "kg"
+          },
+          {
+            "id": "feeding_concern",
+            "label": "Does the carer report a feeding concern?",
+            "required": true,
+            "options": [
+              "Yes",
+              "No"
+            ]
+          }
+        ],
+        "schedule": {
+          "followUpWithinDays": 30
+        },
+        "escalation": [
+          {
+            "id": "feeding-concern",
+            "label": "Reported feeding concern",
+            "condition": {
+              "questionId": "feeding_concern",
+              "operator": "eq",
+              "value": "Yes"
+            },
+            "urgency": "review"
+          }
+        ],
+        "changeNote": "Synthetic illustrative pack from original installation smoke; not clinically approved."
+      },
+      "manifestJson": "{\"format\":\"saha-pack-manifest-1\",\"id\":\"review_pack_3\",\"version\":1,\"name\":\"Synthetic retired pack\",\"programme\":\"Child health\",\"purpose\":\"Record a synthetic child growth check and a reported feeding concern.\",\"questions\":[{\"id\":\"weight\",\"label\":\"Weight\",\"required\":true,\"fact\":\"weight\",\"unit\":\"kg\"},{\"id\":\"feeding_concern\",\"label\":\"Does the carer report a feeding concern?\",\"required\":true,\"options\":[\"Yes\",\"No\"]}],\"schedule\":{\"followUpWithinDays\":30},\"escalation\":[{\"id\":\"feeding-concern\",\"label\":\"Reported feeding concern\",\"condition\":{\"questionId\":\"feeding_concern\",\"operator\":\"eq\",\"value\":\"Yes\"},\"urgency\":\"review\"}],\"changeNote\":\"Synthetic illustrative pack from original installation smoke; not clinically approved.\"}",
+      "stagedBy": "auth0|owner/pack-627c774b",
+      "stagedAt": "2026-10-12T18:50:22.016Z",
+      "reason": "Existing synthetic structure fixture only",
+      "review": {
+        "by": "t-627c774b-clinician",
+        "memberVersion": 1,
+        "at": "2026-10-12T18:50:22.030Z",
+        "decision": "approve",
+        "reason": "Synthetic structural review, not clinical approval"
+      },
+      "activatedAt": "2026-10-12T18:50:22.043Z",
+      "retiredAt": "2026-10-12T18:50:22.057Z",
+      "history": [
+        {
+          "state": "staged",
+          "at": "2026-10-12T18:50:22.016Z",
+          "by": "auth0|owner/pack-627c774b",
+          "reason": "Existing synthetic structure fixture only"
+        },
+        {
+          "state": "approved",
+          "at": "2026-10-12T18:50:22.030Z",
+          "by": "t-627c774b-clinician",
+          "reason": "Synthetic structural review, not clinical approval"
+        },
+        {
+          "state": "active",
+          "at": "2026-10-12T18:50:22.043Z",
+          "by": "auth0|owner/pack-627c774b",
+          "reason": "Synthetic activation fixture, not clinical approval"
+        },
+        {
+          "state": "retired",
+          "at": "2026-10-12T18:50:22.057Z",
+          "by": "auth0|owner/pack-627c774b",
+          "reason": "Synthetic retirement fixture retained"
+        }
+      ]
+    }
+  },
+  "lost": {
+    "status": 200,
+    "body": {
+      "kind": "configuration",
+      "actorId": "auth0|owner/pack-627c774b",
+      "organisation": {
+        "id": "org_e71399bcea6a756956ed6e996a77eb43",
+        "name": "Rampur care organisation"
+      },
+      "configVersion": 0,
+      "notice": "Installed packs are synthetic configuration. Review and activation here are a governance check of structure and conflicts; they are not clinical approval of the content.",
+      "asOf": "2026-10-12T18:50:23.686Z",
+      "installations": [
+        {
+          "id": "7d72ce11-eeb4-4500-a0f3-92ee7ac6a028",
+          "packId": "review_pack_4",
+          "version": 1,
+          "name": "Synthetic rejected pack",
+          "state": "rejected",
+          "manifestHash": "2bfe1d96f93a760f99645b5d75d8f90fca6102f8defedfd80e95f558809684d5"
+        },
+        {
+          "id": "f7fd0af1-1ce2-4f78-a22c-d8f21790d4e5",
+          "packId": "review_pack_3",
+          "version": 1,
+          "name": "Synthetic retired pack",
+          "state": "retired",
+          "manifestHash": "2490403054c64fa4543a8252eadc20f5550ec9d9e6ca03ced594f6f225f66aea"
+        },
+        {
+          "id": "c75fc42c-ad6e-427a-8837-205c38273295",
+          "packId": "review_pack_2",
+          "version": 1,
+          "name": "Synthetic active pack",
+          "state": "active",
+          "manifestHash": "38b8dc6bd587eb03861f760cf148dcaf3c1388a9ee853c8493e15ad972a50a19"
+        },
+        {
+          "id": "eecd399b-40e3-4740-8a99-b674d516566a",
+          "packId": "review_pack_1",
+          "version": 1,
+          "name": "Synthetic approved pack",
+          "state": "approved",
+          "manifestHash": "2923505dd5d685df42aa65df2f004e188941ab184f0e74310bebe1bebcb2cf74"
+        },
+        {
+          "id": "9e6c1c57-82c3-424a-abb4-33100e4a8f07",
+          "packId": "review_pack_0",
+          "version": 1,
+          "name": "Synthetic staged pack",
+          "state": "staged",
+          "manifestHash": "2164e6dd74ec173c800a52e4dd887e9704949ab6d7ab57ee67071aa41e78770d"
+        }
+      ],
+      "selected": {
+        "id": "f7fd0af1-1ce2-4f78-a22c-d8f21790d4e5",
+        "packId": "review_pack_3",
+        "version": 1,
+        "state": "retired",
+        "manifestHash": "2490403054c64fa4543a8252eadc20f5550ec9d9e6ca03ced594f6f225f66aea",
+        "manifest": {
+          "format": "saha-pack-manifest-1",
+          "id": "review_pack_3",
+          "version": 1,
+          "name": "Synthetic retired pack",
+          "programme": "Child health",
+          "purpose": "Record a synthetic child growth check and a reported feeding concern.",
+          "questions": [
+            {
+              "id": "weight",
+              "label": "Weight",
+              "required": true,
+              "fact": "weight",
+              "unit": "kg"
+            },
+            {
+              "id": "feeding_concern",
+              "label": "Does the carer report a feeding concern?",
+              "required": true,
+              "options": [
+                "Yes",
+                "No"
+              ]
+            }
+          ],
+          "schedule": {
+            "followUpWithinDays": 30
+          },
+          "escalation": [
+            {
+              "id": "feeding-concern",
+              "label": "Reported feeding concern",
+              "condition": {
+                "questionId": "feeding_concern",
+                "operator": "eq",
+                "value": "Yes"
+              },
+              "urgency": "review"
+            }
+          ],
+          "changeNote": "Synthetic illustrative pack from original installation smoke; not clinically approved."
+        },
+        "manifestJson": "{\"format\":\"saha-pack-manifest-1\",\"id\":\"review_pack_3\",\"version\":1,\"name\":\"Synthetic retired pack\",\"programme\":\"Child health\",\"purpose\":\"Record a synthetic child growth check and a reported feeding concern.\",\"questions\":[{\"id\":\"weight\",\"label\":\"Weight\",\"required\":true,\"fact\":\"weight\",\"unit\":\"kg\"},{\"id\":\"feeding_concern\",\"label\":\"Does the carer report a feeding concern?\",\"required\":true,\"options\":[\"Yes\",\"No\"]}],\"schedule\":{\"followUpWithinDays\":30},\"escalation\":[{\"id\":\"feeding-concern\",\"label\":\"Reported feeding concern\",\"condition\":{\"questionId\":\"feeding_concern\",\"operator\":\"eq\",\"value\":\"Yes\"},\"urgency\":\"review\"}],\"changeNote\":\"Synthetic illustrative pack from original installation smoke; not clinically approved.\"}",
+        "stagedBy": "auth0|owner/pack-627c774b",
+        "stagedAt": "2026-10-12T18:50:22.016Z",
+        "reason": "Existing synthetic structure fixture only",
+        "review": {
+          "by": "t-627c774b-clinician",
+          "memberVersion": 1,
+          "at": "2026-10-12T18:50:22.030Z",
+          "decision": "approve",
+          "reason": "Synthetic structural review, not clinical approval"
+        },
+        "activatedAt": "2026-10-12T18:50:22.043Z",
+        "retiredAt": "2026-10-12T18:50:22.057Z",
+        "history": [
+          {
+            "state": "staged",
+            "at": "2026-10-12T18:50:22.016Z",
+            "by": "auth0|owner/pack-627c774b",
+            "reason": "Existing synthetic structure fixture only"
+          },
+          {
+            "state": "approved",
+            "at": "2026-10-12T18:50:22.030Z",
+            "by": "t-627c774b-clinician",
+            "reason": "Synthetic structural review, not clinical approval"
+          },
+          {
+            "state": "active",
+            "at": "2026-10-12T18:50:22.043Z",
+            "by": "auth0|owner/pack-627c774b",
+            "reason": "Synthetic activation fixture, not clinical approval"
+          },
+          {
+            "state": "retired",
+            "at": "2026-10-12T18:50:22.057Z",
+            "by": "auth0|owner/pack-627c774b",
+            "reason": "Synthetic retirement fixture retained"
+          }
+        ]
+      }
+    }
+  },
+  "races": [
+    {
+      "name": "membership",
+      "status": 403
+    },
+    {
+      "name": "ownerrole",
+      "status": 403
+    },
+    {
+      "name": "sourcehash",
+      "status": 409
+    },
+    {
+      "name": "configurationversion",
+      "status": 409
+    }
+  ],
+  "clinicalApproval": false
+}
