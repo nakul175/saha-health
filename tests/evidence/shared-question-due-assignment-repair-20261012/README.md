@@ -1,0 +1,9 @@
+# Shared-question assignment guard correction
+
+The unchanged f3d0 reader returned question definitions after an original queued assignment was due. It intentionally avoided the mutating scheduler, so the new safe reader needs to withhold content until original Today processes that work. The actual before diagnostic remains author evidence, not independent approval.
+
+This correction uses individually inspected original dueTransfers semantics and limits. Bounded recorded transfers are checked before/after access audit, in the final consistent current-scope row batch, and synchronously after the last awaited proof. Affected due or held evidence refuses409; corrupt context refuses503. No scheduler or patient writer is called. The earliest relevant future assignment or next UTC day supplies a refresh deadline; expiry clears the protected index and question assembly.
+
+Original40 unit check entries and assertion-body prefix remain byte exact. Original53 native check labels/order remain exact after removing the9 additive controls. Current51 pure,62 actual fresh synthetic D1/mobile and327 original guarded checks pass. The audit-trigger scenario deliberately changes a recorded transfer to due; it does not claim a physical clock-crossing experiment. Real future expiry and later due-read tests separately use the actual clock. Original Today-only application and former-worker404 are a separate mutation witness.
+
+Fresh build001/exact changed uncommitted source was used, with725 before/after source/build/test pins and291 archived compiled files. Historical f3d0 evidence, original389 minima, confirmed records, receipts, scheduler/store/clinical policy and formal status remain unchanged. Shared publication metadata, exact-head CI and genuine separate review remain pending; no merge or actual hosting is claimed.

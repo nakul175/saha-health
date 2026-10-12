@@ -32,6 +32,18 @@ try{for(const f of readdirSync('lib/saha').filter(f=>f.endsWith('.ts')))writeFil
  await r.check('Replyquestion destination mustmatchcapturedexactpacktuple',()=>{const x=projection();x.selected.questions[0].destinations[0].version++;assert.equal(parse.safeParse(x).success,false);});
  await r.check('Replyduplicate question rows refuse',()=>{const x=projection();x.selected.questions.push(structuredClone(x.selected.questions[0]));assert.equal(parse.safeParse(x).success,false);});
  await r.check('Replyduplicate capturedepisode refuses',()=>{const x=projection();x.selected.packs.push(structuredClone(x.selected.packs[0]));assert.equal(parse.safeParse(x).success,false);});
+
+ const {sharedQuestionTransferReadProof:transferProof}=await import(pathToFileURL(join(temp,'shared-question-assignment-read-guard.js')));const clock='2026-10-12T20:00:00.000Z',future='2026-10-12T20:00:01.000Z',transferRow=(changes={})=>{const t={id:'tr',version:1,state:'scheduled',teamId:'default',fromUserId:'old',toUserId:'new',personIds:['p'],effectiveAt:future,createdAt:clock,createdBy:'owner',reason:'Synthetic original transfer proof',...changes};return {id:t.id,version:t.version,state:t.state,team_id:t.teamId,data:JSON.stringify(t)};};
+ await r.check('Originalfuture assignment deadline exact/no source mutation',()=>{const rows=[transferRow()],before=JSON.stringify(rows);assert.equal(transferProof(rows,['p'],clock).refreshAt,future);assert.equal(JSON.stringify(rows),before);});
+ await r.check('Originalexact due-time equality refuses409',()=>assert.throws(()=>transferProof([transferRow()],['p'],future),e=>e.status===409));
+ await r.check('Originalheld affectedassignment refuses409',()=>assert.throws(()=>transferProof([transferRow({state:'held'})],['p'],clock),e=>e.status===409));
+ await r.check('Unrelated due record doesnotgrantorwithdraw selectedperson scope',()=>assert.equal(transferProof([transferRow({personIds:['other']})],['p'],future).refreshAt,null));
+ for(const state of ['applied','cancelled'])await r.check('Originalfinished transfer state doesnotproducefuturedeadline '+state,()=>assert.equal(transferProof([transferRow({state})],['p'],future).refreshAt,null));
+ await r.check('Corrupt recordedtransfer JSON refuses503',()=>assert.throws(()=>transferProof([{...transferRow(),data:'not-json'}],['p'],clock),e=>e.status===503));
+ await r.check('Transfercolumn/data binding mismatch refuses503',()=>assert.throws(()=>transferProof([{...transferRow(),version:2}],['p'],clock),e=>e.status===503));
+ await r.check('Original500 transfer proof bound not extended',()=>assert.throws(()=>transferProof(Array.from({length:501},(_,i)=>transferRow({id:'tr'+i})),['p'],clock),e=>e.status===503));
+ await r.check('Earliest relevant originalfuture transfer bound selected',()=>assert.equal(transferProof([transferRow({id:'later',effectiveAt:'2026-10-12T20:00:03.000Z'}),transferRow()],['p'],clock).refreshAt,future));
+ await r.check('Reply missing refresh deadline isunavailable',()=>{const x=projection();delete x.refreshAt;assert.equal(parse.safeParse(x).success,false);});
 }finally{rmSync(temp,{recursive:true,force:true});}
 
 await r.finish();
