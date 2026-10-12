@@ -34,3 +34,15 @@ evidence citation need root reconciliation before publication.
 Independent review, full final CI, canonical task/case binding, merge and observed
 staging remain separate. No parent story acceptance or clinical/field/external
 qualification is claimed. Formal acceptance and original criteria remain pending.
+
+## Chronology and current qualification
+
+Independent review found that the author's recorded freeze time09:44UTC was
+later than the initial reports. Those earlier reports remain exploratory, and
+the original receipt is retained unchanged. A new actual-clock freeze at09:51:38UTC
+pins the same source and unchanged criteria. Independent qualification002 then
+reran94 checks (16 new,41 provenance,37 verification) after that freeze; both
+original guards pass. This closes chronology prospectively without backdating.
+Canonical technical owner is ENG-BR-DATA-02/APL-204 under SAHA-021/APL-44.
+The native runner subsequently registered the new16-check minimum without
+altering any original389 record. Final-head CI and full-story acceptance remain pending.

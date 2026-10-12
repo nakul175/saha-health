@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "frozenAtUtc": "2026-10-12T09:44:00Z",
+  "base": "22a271033eaa57e124a235fc615744928f1ac106",
+  "story": "SAHA-021 / APL-44",
+  "requirement": "BR-DATA-02",
+  "scope": "Credit a changed measurement's effective source or observation time to the authenticated correcting actor. This is a bounded software correction, not full story or clinical acceptance.",
+  "taskLink": "Canonical native engineering task binding pending root reconciliation; do not invent a task ID or mark story ready.",
+  "originalAcceptancePreserved": "Each destination field can be traced to the confirmed source fact or a documented transformation; missing data is never converted to a negative finding.",
+  "positive": [
+    "Changing fallback observation date restamps present fallback measurements to the server actor.",
+    "Changing fallback source restamps present fallback measurements.",
+    "An own source without an own timestamp still depends on the visit timestamp.",
+    "Fully explicit unchanged measurement provenance retains its author.",
+    "Mixed explicit and fallback measurements are stamped independently."
+  ],
+  "refusalAndNoSideEffects": [
+    "Strict facts schema still refuses client-authored author data.",
+    "Care-role, assigned-person, stale-version and invalid-value refusals remain unchanged in original fact-verification suite.",
+    "No author is invented for unchanged historical measurements without recorded authors.",
+    "Missing reasons with no measurement value are not restamped by an unrelated visit-date/source edit.",
+    "Existing confirmed visit, review/audit history and correction predecessor remain unchanged."
+  ],
+  "errorAndRecovery": [
+    "Removing a measurement removes only its current author.",
+    "Equivalent copied correction-draft values and provenance retain old author.",
+    "After restoring a correction draft with changed fallback source/time, server recomputation produces the same attribution; no new provider retry or exchange is introduced."
+  ],
+  "verification": "Add an additive runtime contract, reproduce predecessor failure, run unchanged original provenance/verification contracts using authentic current module selection, preserve failures and separate counts.",
+  "nfr": "Pure bounded comparison over five existing measurement kinds; no route/database/provider/dependency/migration or clinical policy added.",
+  "deliveryHeld": ["Independent review", "Canonical typed task/case binding", "Fresh full CI", "Merge authority and observed hosting gate"],
+  "forbidden": ["Weaken original criteria/tests/minima", "Claim parent acceptance from unit checks", "New clinical rules", "Real patient data", "Hosting access bypass"]
+}

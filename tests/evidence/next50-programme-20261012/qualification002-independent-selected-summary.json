@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-10-12T09:52:03.043Z",
+  "startedAt": "2026-10-12T09:52:00.791Z",
+  "command": "node scripts/test.mjs unit --guard --only unit/fact-author-effective-provenance-contract,unit/fact-provenance-contract,unit/fact-verification-contract --report ../../outputs/saha-next50-20261012/programme/qualification002/independent-selected-summary.json",
+  "node": "v24.21.0",
+  "layers": [
+    {
+      "layer": "unit",
+      "status": "passed",
+      "suites": 3,
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 2098,
+      "failedSuites": 0
+    }
+  ],
+  "totals": {
+    "suites": 3,
+    "passed": 94,
+    "failed": 0,
+    "skipped": 0,
+    "failedSuites": 0,
+    "durationMs": 2252
+  },
+  "suites": [
+    {
+      "id": "unit/fact-author-effective-provenance-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/fact-author-effective-provenance-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 803,
+      "exitCode": 0,
+      "countSource": "result-file",
+      "resultFiles": [
+        "tests/fact-author-effective-provenance-contract-result.json"
+      ],
+      "requirementsCited": 0,
+      "reason": null,
+      "log": "tests/reports/logs/unit__fact-author-effective-provenance-contract.log"
+    },
+    {
+      "id": "unit/fact-provenance-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-fact-provenance-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 649,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__fact-provenance-contract.log"
+    },
+    {
+      "id": "unit/fact-verification-contract",
+      "layer": "unit",
+      "kind": "suite",
+      "file": "tests/root-verification-current-fact-verification-contract.mjs",
+      "tier": "pr",
+      "status": "passed",
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 646,
+      "exitCode": 0,
+      "countSource": "stdout",
+      "resultFiles": [],
+      "requirementsCited": 1,
+      "reason": null,
+      "log": "tests/reports/logs/unit__fact-verification-contract.log"
+    }
+  ],
+  "guard": {
+    "ok": true,
+    "findings": [],
+    "warnings": [],
+    "evaluated": 2,
+    "newSuites": [
+      "unit/fact-author-effective-provenance-contract"
+    ]
+  },
+  "cleanup": {
+    "restoredTrackedFiles": [
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-provenance-contract/fact-provenance-contract-result.json",
+      "tests/evidence/verification-programme-root-integration/fixtures/fact-verification-contract/fact-verification-contract-result.json"
+    ],
+    "deletedUntrackedResultFiles": [
+      "tests/fact-author-effective-provenance-contract-result.json"
+    ]
+  },
+  "catalogue": {
+    "layers": {
+      "unit": {
+        "suites": 212,
+        "components": 0,
+        "suitesCitingNoRequirement": 68,
+        "requirementsCited": 140
+      },
+      "integration": {
+        "suites": 160,
+        "components": 84,
+        "suitesCitingNoRequirement": 79,
+        "requirementsCited": 124
+      },
+      "resilience": {
+        "suites": 1,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 2
+      },
+      "smoke": {
+        "suites": 7,
+        "components": 0,
+        "suitesCitingNoRequirement": 2,
+        "requirementsCited": 16
+      },
+      "ui": {
+        "suites": 2,
+        "components": 13,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 12
+      },
+      "nfr": {
+        "suites": 5,
+        "components": 0,
+        "suitesCitingNoRequirement": 0,
+        "requirementsCited": 10
+      },
+      "uat": {
+        "suites": 3,
+        "components": 0,
+        "suitesCitingNoRequirement": 3,
+        "requirementsCited": 0
+      },
+      "manual": {
+        "suites": 609,
+        "components": 0,
+        "suitesCitingNoRequirement": 485,
+        "requirementsCited": 147
+      }
+    },
+    "supportFiles": 40,
+    "suites": 999,
+    "components": 97,
+    "requirementsCitedBySomeSuite": 157,
+    "suitesCitingNoRequirement": 637,
+    "componentsCitingNoRequirement": 21,
+    "requirementsCitedBySomeTest": 157
+  }
+}
